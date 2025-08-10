@@ -1,0 +1,147 @@
+% Template for the submission to:
+%   Econometrica   [ecta]
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% In this template, the places where you   %%
+%% need to fill in your information are     %%
+%% indicated by '???'.                      %%
+%%                                          %%
+%% Please do not use \input{...} to include %%
+%% other tex files. Submit your LaTeX       %%
+%% manuscript as one .tex document.         %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% use option [draft] for initial submission
+%            [final] for the prepublication
+\documentclass[ecta,nameyear,draft]{/workspaces/econ-project/tex/paper/econsocart}
+%
+%
+
+\RequirePackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue,pagebackref]{hyperref}
+
+% 日本語対応のためのパッケージ
+\usepackage{luatexja}
+\usepackage{luatexja-fontspec}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{longtable}
+\newcommand{\hiddenlabel}[1]{\refstepcounter{equation}\label{#1}}
+\newcommand{\hiddenfiglabel}[1]{\refstepcounter{figure}\label{#1}}
+\newcommand{\hiddentablabel}[1]{\refstepcounter{table}\label{#1}}
+
+\startlocaldefs
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% Uncomment next line to change            %%
+%% the type of equation numbering           %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\numberwithin{equation}{section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% For Assumption, Axiom, Claim, Corollary, %%
+%% Lemma, Theorem, Proposition, Hypothezis, %%
+%% Fact                                     %%
+%% use \theoremstyle{plain}                 %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\theoremstyle{plain}
+%\newtheorem{???}{???}
+%\newtheorem*{???}{???}
+%\newtheorem{???}{???}[???]
+%\newtheorem{???}[???]{???}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                          %%
+%% For Definition, Example, Remark,         %%
+%% Notation, Property                       %%
+%% use \theoremstyle{remark}                %%
+%%                                          %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\theoremstyle{remark}
+%\newtheorem{???}{???}
+%\newtheorem*{???}{???}
+%\newtheorem{???}{???}[???]
+%\newtheorem{???}[???]{???}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Please put your definitions here:        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\endlocaldefs
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{???}
+\runtitle{???}
+
+\begin{aug}
+% use \particle for den|der|de|van|von (only lc!)
+% [id=?,addressref=?,corref]{\fnms{}~\snm{}\ead[label=e?]{}\thanksref{}}
+%
+%% e-mail is mandatory for each author
+%
+%%% initials in fnms (if any) with spaces
+%
+\author[id=au1,addressref={add1}]{\fnms{Yoshimura}~\snm{Hiroki}\ead[label=e1]{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Addresses                                %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\address[id=add1]{%
+\orgdiv{University of Tokyo}%,
+\orgname{Graduate School of Economics}}
+\end{aug}
+
+\support{Graduate School of Economics, The University of Tokyo}
+
+%% Put support info here.  Reminder: do not thank the handling coeditor anonymously or by name
+%% \support{We thank ???.}
+%
+\begin{abstract}
+???
+\end{abstract}
+
+\begin{keyword}
+\kwd{???}
+\kwd{???}
+\end{keyword}
+
+\end{frontmatter}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Main text entry area:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{???}
+???
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Single Appendix:            %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{appendix}
+%\section*{???} %% if no title is needed, leave empty \section*{}.
+%\end{appendix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Multiple Appendixes:        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{appendix}
+%\section{???}
+%
+%\section{???}
+%\end{appendix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bibliography:                            %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% IMPORTANT: References in the bibliography should be complete,
+%% including the first and last names, and date of publication.
+
+%% If your bibliography is in bibtex format, uncomment commands:
+\bibliographystyle{/workspaces/econ-project/tex/paper/ecta-fullname.bst} % Style BST file
+\bibliography{/workspaces/econ-project/tex/paper/bibliography.bib}  % Bibliography file (usually '*.bib')
+
+
+
+\end{document}

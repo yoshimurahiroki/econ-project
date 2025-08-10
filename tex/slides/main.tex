@@ -1,0 +1,70 @@
+\documentclass[unicode, mathserif, m, 10pt, unknownkeysallowed]{beamer}
+%\includeonlyframes{current}
+
+\usepackage{color}
+\usepackage{luatexja}
+\usepackage{caption}
+\usepackage{comment}
+\usepackage{natbib}
+
+\usepackage[haranoaji,deluxe]{luatexja-preset}
+\usepackage{appendixnumberbeamer}
+\renewcommand{\kanjifamilydefault}{\gtdefault}
+
+\renewcommand{\refname}{}
+\renewcommand{\bibsection}{}
+
+\usetheme[numbering=fraction]{metropolis}
+
+\definecolor{Waseda}{HTML}{922E41}
+\definecolor{Orange}{HTML}{CF4A30}
+\setbeamercolor{alerted text}{fg=Orange}
+\setbeamercolor{frametitle}{bg=Waseda}
+
+\title[Footer title]{TITLE}
+\subtitle{SUBTITLE}
+\author[author]{Yoshimura Hiroki}
+
+\institute
+{
+University of Tokyo, Graduate School of Economics\\
+}
+\date{\today}
+
+%%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\begin{document}
+
+\begin{frame}[plain,b]
+ \titlepage
+\end{frame}
+
+\begin{comment}
+\begin{frame}{目次}
+    \tableofcontents
+\end{frame}
+\end{comment}
+
+
+\begin{frame}{}
+    \textbf{}
+    \begin{itemize}
+        \item
+        \item
+        \item
+    \end{itemize}
+\end{frame}
+
+
+\appendix
+
+
+
+\begin{frame}{References}
+    \scriptsize
+    \bibliographystyle{/workspaces/econ-project/tex/paper/ecta-fullname.bst} % Style BST file
+    \bibliography{/workspaces/econ-project/tex/paper/bibliography.bib}  % Bibliography file (usually '*.bib')
+    \nocite{*}
+\end{frame}
+
+\end{document}
