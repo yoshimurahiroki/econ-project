@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "econ-project"
+version = "0.1.0"
+description = "Econometrics research stack"
+authors = ["Your Name <you@example.com>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "~3.11"
+numpy = "*"
+pandas = "*"
+scipy = "*"
+statsmodels = "*"
+matplotlib = "*"
+seaborn = "*"
+scikit-learn = "*"
+ipykernel = "*"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+mypy = "*"
+ruff = "*"
+pre-commit = "*"
+
+[tool.ruff]
+line-length = 100
+extend-select = ["I","B","C4","SIM","TID","UP"]
+target-version = "py311"
+
+[tool.ruff.lint]
+ignore = ["E203","E266","E501","W503"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.11"
+pretty = true
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+
+[build-system]
+requires = ["poetry-core>=1.8.0"]
+build-backend = "poetry.core.masonry.api"

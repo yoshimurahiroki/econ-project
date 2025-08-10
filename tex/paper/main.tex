@@ -1,0 +1,45 @@
+\documentclass[12pt]{ectaart} % Econometrica
+% --- Draft(日)では LuaLaTeX 使用を想定 ---
+\usepackage{ifluatex}
+\ifluatex
+  \usepackage{luatexja-fontspec}
+  \setmainfont{TeX Gyre Termes}
+  \setsansfont{TeX Gyre Heros}
+  \setmonofont{Inconsolata}
+  \setmainjfont{Noto Serif CJK JP}
+\fi
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{graphicx,booktabs,siunitx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{natbib}
+
+\title{研究タイトル（日本語ドラフト可）}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+\begin{abstract}
+要旨をここに記述します。ドラフト段階では日本語での記述も可能です。
+\end{abstract}
+\maketitle
+
+\section{導入}
+本研究では、経済学における重要な問題について分析を行います。日本語の混在も可能です（ドラフト段階）。
+
+\section{理論モデル}
+理論的フレームワークを記述します。
+
+\begin{equation}
+Y_i = \beta_0 + \beta_1 X_i + \epsilon_i
+\end{equation}
+
+\section{実証分析}
+実証結果を記述します。
+
+\section{結論}
+研究の結果と含意を述べます。
+
+\bibliographystyle{econometrica}
+\bibliography{refs}
+\end{document}

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  econ-dev:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    container_name: econ-research-env
+    volumes:
+      - .:/workspaces
+      - econ_data:/workspaces/data
+      - ~/.ssh:/root/.ssh:ro  # SSH鍵の共有（オプション）
+    ports:
+      - "8888:8888"  # Jupyter Lab
+      - "8787:8787"  # RStudio Server（オプション）
+    environment:
+      - PYTHONPATH=/workspaces
+    working_dir: /workspaces
+    command: sleep infinity
+    networks:
+      - econ-network
+
+networks:
+  econ-network:
+    driver: bridge
+
+volumes:
+  econ_data:
+    driver: local
