@@ -55,11 +55,19 @@ clean:
 
 # LaTeX論文ビルド
 build-paper:
-	cd tex/paper && latexmk -lualatex -shell-escape -interaction=nonstopmode main.tex
+	cd tex/paper \
+	&& lualatex -shell-escape -interaction=nonstopmode main.tex \
+	&& pbibtex main \
+	&& lualatex -shell-escape -interaction=nonstopmode main.tex \
+	&& lualatex -shell-escape -interaction=nonstopmode main.tex
 
-# LaTeXスライドビルド  
+# LaTeXスライドビルド
 build-slides:
-	cd tex/slides && latexmk -lualatex -shell-escape -interaction=nonstopmode talk.tex
+	cd tex/slides \
+	&& lualatex -shell-escape -interaction=nonstopmode talk.tex \
+	&& pbibtex talk \
+	&& lualatex -shell-escape -interaction=nonstopmode talk.tex \
+	&& lualatex -shell-escape -interaction=nonstopmode talk.tex
 
 # Jupyter Lab起動
 jupyter:
@@ -89,7 +97,7 @@ update:
 stats:
 	@echo "=== Project Statistics ==="
 	@echo "Python files: $(shell find src tests -name '*.py' | wc -l)"
-	@echo "R files: $(shell find R notebooks/r -name '*.r' -o -name '*.R' | wc -l)"  
+	@echo "R files: $(shell find R notebooks/r -name '*.r' -o -name '*.R' | wc -l)"
 	@echo "Jupyter notebooks: $(shell find notebooks -name '*.ipynb' | wc -l)"
 	@echo "LaTeX files: $(shell find tex -name '*.tex' | wc -l)"
 	@echo "Total lines of Python code:"
