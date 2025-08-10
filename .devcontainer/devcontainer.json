@@ -8,14 +8,15 @@
       "--network=host"
     ]
   },
-  "remoteUser": "root",
-  "workspaceFolder": "/workspaces",
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspaces/econ-project",
+  "mounts": [
+    "type=volume,source=econ_data,target=/workspaces/econ-project/data"
+  ],
   "runArgs": [
-    "--userns=keep-id",
-    "--mount",
-    "type=bind,source=${localWorkspaceFolder},target=/workspaces",
-    "--mount",
-    "type=volume,source=econ_data,target=/workspaces/data"
+    "--init",
+    "--hostname=econ-dev",
+    "--network=host"
   ],
   "forwardPorts": [
     8888,
@@ -32,10 +33,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "pre-commit install || true",
-  "features": {
-    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
-  },
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/econ-project || true && R -e 'install.packages(\"languageserver\", repos=\"https://cloud.r-project.org\")' && echo 'Container initialized successfully' && pre-commit install || true",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -45,27 +43,62 @@
         "ms-python.python",
         "ms-toolsai.jupyter",
         "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-python.mypy-type-checker",
         "REditorSupport.r",
         "ikuyadeu.r-lsp",
         "James-Yu.latex-workshop",
         "yzhang.markdown-all-in-one",
         "EditorConfig.EditorConfig",
         "eamodio.gitlens",
-        "ms-vscode.vscode-typescript-next",
+        "GitHub.vscode-pull-request-github",
         "Codeium.codeium",
         "Continue.continue",
         "TabNine.tabnine-vscode",
-        "VisualStudioExptTeam.vscodeintellicode"
+        "VisualStudioExptTeam.vscodeintellicode",
+        "oderwat.indent-rainbow",
+        "streetsidesoftware.code-spell-checker",
+        "shardulm94.trailing-spaces"
       ],
       "settings": {
         "editor.formatOnSave": true,
+        "python.formatting.provider": "none",
         "python.analysis.typeCheckingMode": "strict",
-        "python.defaultInterpreterPath": "/opt/conda/envs/dev/bin/python",
+        "python.defaultInterpreterPath": "/home/vscode/miniforge3/envs/econ-env/bin/python",
         "jupyter.notebookFileRoot": "${workspaceFolder}",
         "latex-workshop.latex.recipe.default": "latexmk (lualatex-draft)",
+        "latex-workshop.latex.recipes": [
+          {
+            "name": "latexmk (lualatex-draft)",
+            "tools": [
+              "lualatex-draft"
+            ]
+          }
+        ],
+        "latex-workshop.latex.tools": [
+          {
+            "name": "lualatex-draft",
+            "command": "lualatex",
+            "args": [
+              "-shell-escape",
+              "-interaction=nonstopmode",
+              "-file-line-error",
+              "%DOC%"
+            ]
+          }
+        ],
         "files.exclude": {
-          "**/env": true
-        }
+          "**/env": true,
+          "**/.venv": true,
+          "**/__pycache__": true,
+          "**/*.pyc": true
+        },
+        "ruff.lint.args": [
+          "--config=pyproject.toml"
+        ],
+        "ruff.format.args": [
+          "--config=pyproject.toml"
+        ]
       }
     }
   }
