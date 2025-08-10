@@ -1,0 +1,24 @@
+name: dev
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - r-base>=4.3
+  - r-essentials
+  - r-tidyverse
+  - jupyterlab
+  - nodejs
+  - pandoc
+  - numpy
+  - pandas
+  - scipy
+  - statsmodels
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - ruff
+  - pre-commit
+  - mypy
+  - pytest
+  - ipykernel
+  - pip
