@@ -1,0 +1,36 @@
+# Git関連
+.git/
+.gitignore
+
+# Python関連
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# R関連
+.Rhistory
+.RData
+.Rproj.user/
+
+# ログファイル
+*.log
+logs/
+
+# 一時ファイル
+.tmp/
+tmp/
+.cache/
+
+# VS Code
+.vscode/
+
+# Docker関連
+docker-compose*.yml
+*.sh
+
+# その他
+node_modules/
+.DS_Store
+*.bak

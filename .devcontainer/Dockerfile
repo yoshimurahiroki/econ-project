@@ -1,41 +1,73 @@
-FROM mcr.microsoft.com/devcontainers/base:ubuntu-22.04
+# 経済学研究環境フルスタック - mamba + Poetry + TeX + R + 日本語対応
+FROM ubuntu:22.04
 
-# システム依存パッケージ
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 基本ツールとフル機能パッケージのインストール
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git curl wget make build-essential pkg-config \
     ca-certificates sudo locales tzdata \
+    # TeX（日本語含むフル）
     texlive-full \
+    # R と必要パッケージ
     r-base r-base-dev \
+    # Jupyter & Node (lab extensions用)
     nodejs npm \
+    # 日本語フォント
     fonts-noto-cjk fonts-noto-cjk-extra \
-  && rm -rf /var/lib/apt/lists/*
+    # 追加ツール
+    openssh-client openssl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 日本語ロケール
+# ロケール（日本語も通るように）
 RUN sed -i 's/^# *ja_JP.UTF-8/ja_JP.UTF-8/' /etc/locale.gen && locale-gen
 ENV LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
 
-# Mamba (Mambaforge) インストール
-ENV MAMBA_ROOT_PREFIX=/opt/conda
-SHELL ["/bin/bash", "-lc"]
-RUN curl -L -o mambaforge.sh \
-      https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh \
-    && bash mambaforge.sh -b -p $MAMBA_ROOT_PREFIX \
-    && rm mambaforge.sh \
-    && echo ". $MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" >> /etc/skel/.bashrc
+# vscodeユーザーを作成
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+RUN groupadd --gid $USER_GID $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m -s /bin/bash $USERNAME \
+    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+    && chmod 0440 /etc/sudoers.d/$USERNAME
+
+# vscodeユーザーに切り替え
+USER $USERNAME
+
+# mamba（Miniforge3）インストール
+ENV MAMBA_ROOT_PREFIX=/home/$USERNAME/miniforge3
+SHELL ["/bin/bash", "-c"]
+RUN wget -O /tmp/miniforge.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh \
+    && bash /tmp/miniforge.sh -b -p $MAMBA_ROOT_PREFIX && rm /tmp/miniforge.sh
+
+# Conda の初期化
+RUN $MAMBA_ROOT_PREFIX/bin/conda init bash
 
 # Poetry インストール
 ENV POETRY_VERSION=1.8.3
 RUN curl -sSL https://install.python-poetry.org | python3 - --version $POETRY_VERSION
-ENV PATH="/root/.local/bin:$PATH"
+ENV PATH="/home/$USERNAME/.local/bin:$PATH"
 
-# Conda 環境作成
-COPY environment.yml /tmp/environment.yml
-RUN mamba env create -f /tmp/environment.yml && mamba clean -a -y
-ENV CONDA_DEFAULT_ENV=dev
-ENV PATH=$MAMBA_ROOT_PREFIX/envs/dev/bin:$PATH
+# conda 環境作成（Python/R/カーネル）
+COPY --chown=$USERNAME:$USERNAME environment.yml /tmp/environment.yml
+RUN . $MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh && \
+    mamba env create -f /tmp/environment.yml && \
+    mamba clean -a -y
 
-# Jupyter カーネル登録
-RUN python -m ipykernel install --name dev --display-name "Python (dev)"
-RUN R -q -e "install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')"
+# 環境をアクティブ化するためのパス設定
+ENV CONDA_DEFAULT_ENV=econ-env
+ENV PATH=$MAMBA_ROOT_PREFIX/envs/econ-env/bin:$PATH
 
+# Jupyter カーネル登録（Python, R）
+RUN . $MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh && \
+    conda activate econ-env && \
+    python -m ipykernel install --user --name econ-env --display-name "Python (econ-env)" && \
+    R -q -e "install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')"
+
+# 作業ディレクトリ設定
 WORKDIR /workspaces
+
+# デフォルトシェル
+CMD ["/bin/bash"]
