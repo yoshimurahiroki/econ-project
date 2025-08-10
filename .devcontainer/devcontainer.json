@@ -8,8 +8,8 @@
   "workspaceFolder": "/workspaces",
   "runArgs": [
     "--userns=keep-id",
-    "--mount","type=bind,source=${localWorkspaceFolder},target=/workspaces",
-    "--mount","type=volume,source=econ_data,target=/workspaces/data"
+    "--mount", "type=bind,source=\${localWorkspaceFolder},target=/workspaces",
+    "--mount", "type=volume,source=econ_data,target=/workspaces/data"
   ],
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
@@ -26,7 +26,7 @@
         "ms-python.vscode-pylance",
         "REditorSupport.r",
         "ikuyadeu.r-lsp",
-        "James-Yu.latex-workshop",
+  "James-Yu.latex-workshop",
         "yzhang.markdown-all-in-one",
         "EditorConfig.EditorConfig",
         "eamodio.gitlens",
@@ -39,7 +39,7 @@
         "editor.formatOnSave": true,
         "python.analysis.typeCheckingMode": "strict",
         "python.defaultInterpreterPath": "/opt/conda/envs/dev/bin/python",
-        "jupyter.notebookFileRoot": "${workspaceFolder}",
+        "jupyter.notebookFileRoot": "\${workspaceFolder}",
         "latex-workshop.latex.recipe.default": "latexmk (lualatex-draft)",
         "files.exclude": { "**/env": true }
       }

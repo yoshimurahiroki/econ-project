@@ -1,9 +1,33 @@
+# Python cache
 __pycache__/
 *.py[cod]
+
+# Jupyter
 *.ipynb_checkpoints/
-env/
+
+# Conda / Poetry
+.env
 .venv
+env/
+.poetry-cache/ # Data
 data/
-*.aux *.log *.out *.toc *.synctex.gz
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.xlsx
+*.sav
+*.dta
+*.rds
+*.RData
+
+# VS Code
+.vscode/ # LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz
 _build/
-.vscode/

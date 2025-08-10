@@ -19,6 +19,6 @@ dependencies:
   - ruff
   - pre-commit
   - mypy
-  - pytest
+ - pytest
   - ipykernel
   - pip
