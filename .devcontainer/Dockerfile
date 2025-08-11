@@ -3,34 +3,40 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 基本ツールとフル機能パッケージのインストール
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git curl wget make build-essential pkg-config \
-    ca-certificates sudo locales tzdata \
-    # TeX（日本語含むフル）
-    texlive-full \
-    # R と必要パッケージ
-    r-base r-base-dev \
-    # Jupyter & Node (lab extensions用)
-    nodejs npm \
-    # 日本語フォント
-    fonts-noto-cjk fonts-noto-cjk-extra \
-    # 追加ツール
-    openssh-client openssl \
+
+# 必要なパッケージをインストール
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        git curl wget make build-essential pkg-config \
+        ca-certificates locales tzdata \
+        texlive-full \
+        r-base r-base-dev \
+        fonts-noto-cjk fonts-noto-cjk-extra \
+        openssh-client openssl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# 4. nodejsインストールは元のまま
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
 # ロケール（日本語も通るように）
-RUN sed -i 's/^# *ja_JP.UTF-8/ja_JP.UTF-8/' /etc/locale.gen && locale-gen
+RUN sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
 ENV LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
 
-# vscodeユーザーを作成
 ARG USERNAME=vscode
 ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+ARG USER_GID=1000
 
-RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m -s /bin/bash $USERNAME \
-    && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
+
+
+
+# /etc/sudoers.d が存在しない場合に備えて作成
+RUN mkdir -p /etc/sudoers.d && \
+    groupadd --gid $USER_GID $USERNAME || true \
+    && useradd --uid $USER_UID --gid $USER_GID -m -s /bin/bash $USERNAME || true \
+    && echo "$USERNAME ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
 # vscodeユーザーに切り替え
@@ -47,7 +53,7 @@ RUN $MAMBA_ROOT_PREFIX/bin/conda init bash
 
 # Poetry インストール
 ENV POETRY_VERSION=1.8.3
-RUN curl -sSL https://install.python-poetry.org | python3 - --version $POETRY_VERSION
+RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/home/$USERNAME/.local/bin:$PATH"
 
 # conda 環境作成（Python/R/カーネル）
@@ -66,8 +72,11 @@ RUN . $MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh && \
     python -m ipykernel install --user --name econ-env --display-name "Python (econ-env)" && \
     R -q -e "install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')"
 
+
+
+
 # 作業ディレクトリ設定
-WORKDIR /workspaces
+WORKDIR /workspaces/econ-project
 
 # デフォルトシェル
 CMD ["/bin/bash"]

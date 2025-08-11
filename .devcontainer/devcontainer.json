@@ -2,21 +2,17 @@
   "name": "econ-dev",
   "build": {
     "dockerfile": "Dockerfile",
-    "context": "..",
-    "args": {},
-    "options": [
-      "--network=host"
-    ]
+    "context": ".."
   },
   "remoteUser": "vscode",
   "workspaceFolder": "/workspaces/econ-project",
+  "updateRemoteUserUID": true,
   "mounts": [
-    "type=volume,source=econ_data,target=/workspaces/econ-project/data"
+  "type=volume,source=econ_data,target=/workspaces/econ-project/data"
   ],
   "runArgs": [
     "--init",
-    "--hostname=econ-dev",
-    "--network=host"
+    "--hostname=econ-dev"
   ],
   "forwardPorts": [
     8888,
@@ -33,7 +29,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/econ-project || true && R -e 'install.packages(\"languageserver\", repos=\"https://cloud.r-project.org\")' && echo 'Container initialized successfully' && pre-commit install || true",
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/econ-project /home/vscode || true && R -e 'install.packages(\"languageserver\", repos=\"https://cloud.r-project.org\")' && echo 'Container initialized successfully' && pre-commit install || true",
   "customizations": {
     "vscode": {
       "extensions": [
