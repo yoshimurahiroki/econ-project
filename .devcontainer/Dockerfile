@@ -73,6 +73,8 @@ RUN . $MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh && \
     R -q -e "install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')"
 
 
+# ターミナル起動時にecon-envを自動で有効化
+RUN echo "conda activate econ-env" >> /home/$USERNAME/.bashrc
 
 
 # 作業ディレクトリ設定
