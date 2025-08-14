@@ -247,7 +247,19 @@ async function main() {
   console.log(`Done. Created: ${created}, Updated: ${updated}`);
 }
 
-if (import.meta.main) {
+// Execute when run directly (ESM-compatible main check)
+const isMain = (() => {
+  try {
+    return (
+      process.argv[1] &&
+      path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url))
+    );
+  } catch {
+    return false;
+  }
+})();
+
+if (isMain) {
   main().catch((e) => {
     console.error(e);
     process.exit(1);
