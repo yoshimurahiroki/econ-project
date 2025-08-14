@@ -97,6 +97,9 @@ function firstAuthorLast(authors) {
   const parts = a0.split(/\s+/);
   return parts.length ? parts[parts.length - 1] : a0;
 }
+function firstAuthorFull(authors) {
+  return (authors && authors.length) ? authors[0] : "";
+}
 function buildNameCandidates(entry) {
   const last = normalize(firstAuthorLast(entry.authors));
   const year = entry.year ? String(entry.year) : "";
@@ -180,9 +183,16 @@ function toNotionProps(entry, pdfUrl, dbProps) {
     out["Bib Key"] = { rich_text: rich(entry.key || "") };
   }
 
-  // Authors
+  // Authors / Author
   if (hasProp(dbProps, "Authors", "rich_text")) {
     out["Authors"] = { rich_text: rich(authorsText) };
+  } else if (hasProp(dbProps, "Author", "rich_text")) {
+    out["Author"] = { rich_text: rich(authorsText) };
+  }
+
+  // First Author
+  if (hasProp(dbProps, "First Author", "rich_text")) {
+    out["First Author"] = { rich_text: rich(firstAuthorFull(entry.authors)) };
   }
 
   // Year
@@ -190,13 +200,22 @@ function toNotionProps(entry, pdfUrl, dbProps) {
     out["Year"] = { number: typeof entry.year === "number" ? entry.year : null };
   }
 
-  // Venue: prefer rich_text; fallback select
+  // Venue / Journal: prefer rich_text; fallback select
   if (hasProp(dbProps, "Venue", "rich_text")) {
     out["Venue"] = { rich_text: rich(entry.venue || "") };
   } else if (hasProp(dbProps, "Venue", "select")) {
     const v = (entry.venue || "").trim();
     out["Venue"] = { select: v ? { name: v } : null };
+  } else if (hasProp(dbProps, "Journal", "rich_text")) {
+    out["Journal"] = { rich_text: rich(entry.venue || "") };
   }
+
+  // Volume / Number / Pages / Issue / Type
+  if (hasProp(dbProps, "Volume", "rich_text")) out["Volume"] = { rich_text: rich(entry.volume || "") };
+  if (hasProp(dbProps, "Number", "rich_text")) out["Number"] = { rich_text: rich(entry.number || "") };
+  if (hasProp(dbProps, "Pages", "rich_text")) out["Pages"] = { rich_text: rich(entry.pages || "") };
+  if (hasProp(dbProps, "Issue", "rich_text")) out["Issue"] = { rich_text: rich(entry.issue || "") };
+  if (hasProp(dbProps, "Type", "rich_text")) out["Type"] = { rich_text: rich(entry.type || "") };
 
   // DOI: support url or rich_text
   if (prop(dbProps, "DOI")) {
@@ -215,6 +234,8 @@ function toNotionProps(entry, pdfUrl, dbProps) {
   // Abstract
   if (hasProp(dbProps, "Abstract", "rich_text")) {
     out["Abstract"] = { rich_text: rich(entry.abstract || "") };
+  } else if (hasProp(dbProps, "Abstract Origin", "rich_text")) {
+    out["Abstract Origin"] = { rich_text: rich(entry.abstract || "") };
   }
 
   // Code
@@ -237,9 +258,14 @@ function toNotionProps(entry, pdfUrl, dbProps) {
     out["Updated"] = { date: { start: new Date().toISOString() } };
   }
 
-  // PDF
+  // PDF / File Path
   if (hasProp(dbProps, "PDF", "files")) {
     out["PDF"] = { files: filePropFromUrl(pdfUrl) };
+  }
+  if (prop(dbProps, "File Path")) {
+    const t = prop(dbProps, "File Path").type;
+    if (t === "url") out["File Path"] = { url: pdfUrl || null };
+    else if (t === "rich_text") out["File Path"] = { rich_text: rich(pdfUrl || "") };
   }
 
   return out;

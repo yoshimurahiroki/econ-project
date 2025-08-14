@@ -23,11 +23,17 @@ function parseBibtex(filePath) {
   function mapEntries(entries) {
     return entries.map((e) => {
       const f = e.entryTags || {};
+      const entryType = e.entryType || f.entryType || "";
       const key = e.citationKey || f.key || "";
       const title = (f.title || "").replace(/[{}]/g, "").trim();
       const authors = parseAuthorsBibtex(f.author);
       const year = f.year ? Number(String(f.year).match(/\d{4}/)?.[0]) : undefined;
       const venue = f.journal || f.booktitle || f.publisher || "";
+      const volume = f.volume || "";
+      const number = f.number || "";
+      const pages = f.pages || "";
+      const issue = f.issue || "";
+      const type = f.type || entryType || "";
       const doi = f.doi ? `https://doi.org/${String(f.doi).replace(/^https?:\/\/doi\.org\//, "")}` : "";
       const url = f.url || "";
       const abstract = f.abstract || "";
@@ -35,7 +41,25 @@ function parseBibtex(filePath) {
         .split(/[;,]/)
         .map((s) => s.trim())
         .filter(Boolean);
-      return { key, title, authors, year, venue, doi, url, abstract, keywords, pdf: "", code: "", tags: [] };
+      return {
+        key,
+        title,
+        authors,
+        year,
+        venue,
+        volume,
+        number,
+        pages,
+        issue,
+        type,
+        doi,
+        url,
+        abstract,
+        keywords,
+        pdf: "",
+        code: "",
+        tags: [],
+      };
     });
   }
 
