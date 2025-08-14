@@ -14,7 +14,13 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    concurrency:
+      group: paperpile-to-notion
+      cancel-in-progress: true
     steps:
+      - name: Debounce 60s (wait for last push in a burst)
+        run: sleep 60
+
       - uses: actions/checkout@v4
 
       - name: Setup Node

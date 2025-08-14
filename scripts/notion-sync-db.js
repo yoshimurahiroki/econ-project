@@ -38,6 +38,31 @@ const DEFAULT_TAGS = (process.env.DEFAULT_TAGS || "")
 
 const notion = new NotionClient({ auth: NOTION_TOKEN });
 
+// ---- Notion DB schema helpers ----
+async function getDatabaseSchema(dbId) {
+  const db = await notion.databases.retrieve({ database_id: dbId });
+  // properties: { Name: {id, type, ...}, ... }
+  return db.properties || {};
+}
+
+function findTitlePropName(dbProps) {
+  // find first property typed 'title'
+  for (const [name, def] of Object.entries(dbProps)) {
+    if (def?.type === "title") return name;
+  }
+  return null;
+}
+
+function prop(dbProps, name) {
+  return dbProps[name] || null;
+}
+
+function hasProp(dbProps, name, type) {
+  const p = prop(dbProps, name);
+  if (!p) return false;
+  return type ? p.type === type : true;
+}
+
 // ---- Google Drive helpers ----
 async function listDrivePdfs(folderId) {
   if (!folderId || !GOOGLE_API_KEY) return [];
@@ -139,44 +164,108 @@ function filePropFromUrl(url) {
   ];
 }
 
-function toNotionProps(entry, pdfUrl) {
+function toNotionProps(entry, pdfUrl, dbProps) {
   const authorsText = (entry.authors || []).join("; ");
   const tags = entry.keywords?.length ? entry.keywords : DEFAULT_TAGS;
-  return {
-    "Bib Key": { rich_text: rich(entry.key || "") },
-    Title: { title: titleProp(entry.title || entry.key || "(no title)") },
-    Authors: { rich_text: rich(authorsText) },
-    Year: { number: typeof entry.year === "number" ? entry.year : null },
-    Venue: { rich_text: rich(entry.venue || "") },
-    DOI: { url: entry.doi || null },
-    URL: { url: entry.url || null },
-    Abstract: { rich_text: rich(entry.abstract || "") },
-    Code: { url: entry.code || null },
-    Tags: { multi_select: multiSelect(tags) },
-    Updated: { date: { start: new Date().toISOString() } },
-    PDF: { files: filePropFromUrl(pdfUrl) },
-  };
+  const out = {};
+
+  // Title: use actual title property name
+  const titleName = findTitlePropName(dbProps) || "Title";
+  if (hasProp(dbProps, titleName, "title")) {
+    out[titleName] = { title: titleProp(entry.title || entry.key || "(no title)") };
+  }
+
+  // Bib Key (rich_text)
+  if (hasProp(dbProps, "Bib Key", "rich_text")) {
+    out["Bib Key"] = { rich_text: rich(entry.key || "") };
+  }
+
+  // Authors
+  if (hasProp(dbProps, "Authors", "rich_text")) {
+    out["Authors"] = { rich_text: rich(authorsText) };
+  }
+
+  // Year
+  if (hasProp(dbProps, "Year", "number")) {
+    out["Year"] = { number: typeof entry.year === "number" ? entry.year : null };
+  }
+
+  // Venue: prefer rich_text; fallback select
+  if (hasProp(dbProps, "Venue", "rich_text")) {
+    out["Venue"] = { rich_text: rich(entry.venue || "") };
+  } else if (hasProp(dbProps, "Venue", "select")) {
+    const v = (entry.venue || "").trim();
+    out["Venue"] = { select: v ? { name: v } : null };
+  }
+
+  // DOI: support url or rich_text
+  if (prop(dbProps, "DOI")) {
+    const t = prop(dbProps, "DOI").type;
+    if (t === "url") out["DOI"] = { url: entry.doi || null };
+    else if (t === "rich_text") out["DOI"] = { rich_text: rich(entry.doi || "") };
+  }
+
+  // URL: support url or rich_text
+  if (prop(dbProps, "URL")) {
+    const t = prop(dbProps, "URL").type;
+    if (t === "url") out["URL"] = { url: entry.url || null };
+    else if (t === "rich_text") out["URL"] = { rich_text: rich(entry.url || "") };
+  }
+
+  // Abstract
+  if (hasProp(dbProps, "Abstract", "rich_text")) {
+    out["Abstract"] = { rich_text: rich(entry.abstract || "") };
+  }
+
+  // Code
+  if (prop(dbProps, "Code")) {
+    const t = prop(dbProps, "Code").type;
+    if (t === "url") out["Code"] = { url: entry.code || null };
+    else if (t === "rich_text") out["Code"] = { rich_text: rich(entry.code || "") };
+  }
+
+  // Tags: multi_select or select
+  if (hasProp(dbProps, "Tags", "multi_select")) {
+    out["Tags"] = { multi_select: multiSelect(tags) };
+  } else if (hasProp(dbProps, "Tags", "select")) {
+    const first = (tags || [])[0];
+    out["Tags"] = { select: first ? { name: first } : null };
+  }
+
+  // Updated
+  if (hasProp(dbProps, "Updated", "date")) {
+    out["Updated"] = { date: { start: new Date().toISOString() } };
+  }
+
+  // PDF
+  if (hasProp(dbProps, "PDF", "files")) {
+    out["PDF"] = { files: filePropFromUrl(pdfUrl) };
+  }
+
+  return out;
 }
 
-async function findExistingPage(entry) {
-  // Prefer DOI, then URL, then Bib Key, then Title
-  if (entry.doi) {
-    const r = await notion.databases.query({
-      database_id: NOTION_DB_ID,
-      filter: { property: "DOI", url: { equals: entry.doi } },
-      page_size: 1,
-    });
+async function findExistingPage(entry, dbProps) {
+  // Prefer DOI, then URL, then Bib Key, then Title (type-aware)
+  if (entry.doi && prop(dbProps, "DOI")) {
+    const t = prop(dbProps, "DOI").type;
+    const filter = t === "url"
+      ? { property: "DOI", url: { equals: entry.doi } }
+      : { property: "DOI", rich_text: { equals: entry.doi } };
+    const r = await notion.databases.query({ database_id: NOTION_DB_ID, filter, page_size: 1 });
     if (r.results?.[0]) return r.results[0];
   }
-  if (entry.url) {
-    const r = await notion.databases.query({
-      database_id: NOTION_DB_ID,
-      filter: { property: "URL", url: { equals: entry.url } },
-      page_size: 1,
-    });
+
+  if (entry.url && prop(dbProps, "URL")) {
+    const t = prop(dbProps, "URL").type;
+    const filter = t === "url"
+      ? { property: "URL", url: { equals: entry.url } }
+      : { property: "URL", rich_text: { equals: entry.url } };
+    const r = await notion.databases.query({ database_id: NOTION_DB_ID, filter, page_size: 1 });
     if (r.results?.[0]) return r.results[0];
   }
-  if (entry.key) {
+
+  if (entry.key && hasProp(dbProps, "Bib Key", "rich_text")) {
     const r = await notion.databases.query({
       database_id: NOTION_DB_ID,
       filter: { property: "Bib Key", rich_text: { equals: entry.key } },
@@ -184,10 +273,12 @@ async function findExistingPage(entry) {
     });
     if (r.results?.[0]) return r.results[0];
   }
-  if (entry.title) {
+
+  const titleName = findTitlePropName(dbProps);
+  if (entry.title && titleName) {
     const r = await notion.databases.query({
       database_id: NOTION_DB_ID,
-      filter: { property: "Title", title: { equals: entry.title } },
+      filter: { property: titleName, title: { equals: entry.title } },
       page_size: 1,
     });
     if (r.results?.[0]) return r.results[0];
@@ -195,9 +286,9 @@ async function findExistingPage(entry) {
   return null;
 }
 
-async function upsertEntry(entry, pdfUrl) {
-  const props = toNotionProps(entry, pdfUrl);
-  const existing = await findExistingPage(entry);
+async function upsertEntry(entry, pdfUrl, dbProps) {
+  const props = toNotionProps(entry, pdfUrl, dbProps);
+  const existing = await findExistingPage(entry, dbProps);
   if (existing) {
     await notion.pages.update({ page_id: existing.id, properties: props });
     return { id: existing.id, action: "updated" };
@@ -230,14 +321,17 @@ async function main() {
     console.log("Skipping Drive scan (GOOGLE_API_KEY or DRIVE_FOLDER_ID missing)");
   }
 
-  // 3) Upsert entries to Notion
+  // 3) Load Notion DB schema
+  const dbProps = await getDatabaseSchema(NOTION_DB_ID);
+
+  // 4) Upsert entries to Notion
   let created = 0;
   let updated = 0;
   for (const e of entries) {
     const pdf = driveFiles.length ? matchPdf(e, driveFiles) : null;
     const pdfUrl = pdf?.webViewLink || null;
     try {
-      const res = await upsertEntry(e, pdfUrl);
+      const res = await upsertEntry(e, pdfUrl, dbProps);
       if (res.action === "created") created++;
       else updated++;
     } catch (err) {
