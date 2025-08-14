@@ -35,6 +35,7 @@ const DEFAULT_TAGS = (process.env.DEFAULT_TAGS || "")
   .split(/[,;]+/)
   .map((s) => s.trim())
   .filter(Boolean);
+const SKIP_PDF = /^(1|true|yes)$/i.test(String(process.env.SKIP_PDF || ""));
 
 const notion = new NotionClient({ auth: NOTION_TOKEN });
 
@@ -258,14 +259,16 @@ function toNotionProps(entry, pdfUrl, dbProps) {
     out["Updated"] = { date: { start: new Date().toISOString() } };
   }
 
-  // PDF / File Path
-  if (hasProp(dbProps, "PDF", "files")) {
-    out["PDF"] = { files: filePropFromUrl(pdfUrl) };
-  }
-  if (prop(dbProps, "File Path")) {
-    const t = prop(dbProps, "File Path").type;
-    if (t === "url") out["File Path"] = { url: pdfUrl || null };
-    else if (t === "rich_text") out["File Path"] = { rich_text: rich(pdfUrl || "") };
+  // PDF / File Path (skip if SKIP_PDF)
+  if (!SKIP_PDF) {
+    if (hasProp(dbProps, "PDF", "files")) {
+      out["PDF"] = { files: filePropFromUrl(pdfUrl) };
+    }
+    if (prop(dbProps, "File Path")) {
+      const t = prop(dbProps, "File Path").type;
+      if (t === "url") out["File Path"] = { url: pdfUrl || null };
+      else if (t === "rich_text") out["File Path"] = { rich_text: rich(pdfUrl || "") };
+    }
   }
 
   return out;
@@ -353,9 +356,11 @@ async function main() {
   const entries = parseBibliography(bibPath);
   console.log(`Loaded ${entries.length} entries from ${BIB_SOURCE}`);
 
-  // 2) Optionally list Drive PDFs
+  // 2) Optionally list Drive PDFs (skip if SKIP_PDF)
   let driveFiles = [];
-  if (DRIVE_FOLDER_ID && GOOGLE_API_KEY) {
+  if (SKIP_PDF) {
+    console.log("SKIP_PDF enabled: skipping Drive scan and PDF updates");
+  } else if (DRIVE_FOLDER_ID && GOOGLE_API_KEY) {
     driveFiles = await listDrivePdfs(DRIVE_FOLDER_ID);
     console.log(`Drive PDFs available: ${driveFiles.length}`);
   } else {
@@ -369,8 +374,8 @@ async function main() {
   let created = 0;
   let updated = 0;
   for (const e of entries) {
-    const pdf = driveFiles.length ? matchPdf(e, driveFiles) : null;
-    const pdfUrl = pdf?.webViewLink || null;
+  const pdf = !SKIP_PDF && driveFiles.length ? matchPdf(e, driveFiles) : null;
+  const pdfUrl = !SKIP_PDF ? (pdf?.webViewLink || null) : null;
     try {
       const res = await upsertEntry(e, pdfUrl, dbProps);
       if (res.action === "created") created++;

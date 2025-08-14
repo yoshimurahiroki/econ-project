@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@notionhq/client": "^2.2.14",
+  "@notionhq/client": "^2.2.14",
   "bibtex-parse-js": "^0.0.24",
   "@octokit/rest": "^21.0.2",
   "node-fetch": "^3.3.2",

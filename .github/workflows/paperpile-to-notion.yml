@@ -41,5 +41,7 @@ jobs:
           # Optional: enable Drive PDF matching for public/shared folder
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
+          # Skip PDF processing in main job to reduce runtime
+          SKIP_PDF: true
 
   # Removed deprecated artifacts sync step

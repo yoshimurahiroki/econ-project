@@ -1,0 +1,38 @@
+name: Paperpile PDFs to Notion
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ master, main ]
+    paths:
+      - 'data/papers/**.pdf'
+      - 'tex/**/*.bib' # re-run when bib changes as names may align to new titles/years
+
+jobs:
+  attach-pdfs:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: paperpile-to-notion-pdfs
+      cancel-in-progress: true
+    steps:
+      - name: Debounce 30s (avoid rapid re-triggers)
+        run: sleep 30
+
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install notion tools
+        run: npm --prefix scripts ci
+
+      - name: Attach PDFs to Notion
+        run: node scripts/notion-sync-pdfs.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
+          MATCH_WINDOW: 300

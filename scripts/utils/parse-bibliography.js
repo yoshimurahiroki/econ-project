@@ -4,7 +4,7 @@ import * as bibtexParse from "bibtex-parse-js";
 
 function parseAuthorsBibtex(authorField) {
   if (!authorField) return [];
-  return authorField
+  return String(authorField)
     .split(/\s+and\s+/i)
     .map((s) => s.trim())
     .filter(Boolean)
@@ -17,10 +17,48 @@ function parseAuthorsBibtex(authorField) {
     });
 }
 
+function extractKeyFromBlock(block) {
+  const m = block.match(/@[^{]+\{\s*([^,\s]+)\s*,/);
+  return m ? m[1] : "";
+}
+
+function splitBibtexByBalancedBraces(str) {
+  const entries = [];
+  const re = /@[a-zA-Z]+\s*\{/g;
+  let m;
+  while ((m = re.exec(str)) !== null) {
+    const startAt = m.index;
+    let i = m.index;
+    while (i < str.length && str[i] !== '{') i++;
+    if (i >= str.length) break;
+    let depth = 0;
+    let endAt = -1;
+    for (let j = i; j < str.length; j++) {
+      const ch = str[j];
+      if (ch === '{') depth++;
+      else if (ch === '}') {
+        depth--;
+        if (depth === 0) {
+          endAt = j;
+          break;
+        }
+      }
+    }
+    if (endAt !== -1) {
+      const block = str.slice(startAt, endAt + 1);
+      entries.push(block);
+      re.lastIndex = endAt + 1;
+    } else {
+      break;
+    }
+  }
+  return entries;
+}
+
 function parseBibtex(filePath) {
   const raw = fs.readFileSync(filePath, "utf8");
 
-  function mapEntries(entries) {
+  function mapEntriesFromJSON(entries) {
     return entries.map((e) => {
       const f = e.entryTags || {};
       const entryType = e.entryType || f.entryType || "";
@@ -66,22 +104,23 @@ function parseBibtex(filePath) {
   // First try: parse entire file
   try {
     const entries = bibtexParse.toJSON(raw);
-    return mapEntries(entries);
+    return mapEntriesFromJSON(entries);
   } catch (err) {
-    // Fallback: parse entry-by-entry and skip malformed ones
-    const chunks = raw.split(/(?=@[a-zA-Z]+\s*\{)/g).filter((c) => c.trim().startsWith("@"));
+    // Fallback: split by balanced braces and parse each entry independently
+    const chunks = splitBibtexByBalancedBraces(raw);
     const ok = [];
     for (const chunk of chunks) {
       try {
         const r = bibtexParse.toJSON(chunk);
-        // Filter out non-standard or empty results
         if (Array.isArray(r) && r.length) ok.push(...r);
       } catch (e) {
-        // Skip bad chunk with a lightweight notice to stderr
-        console.warn("Skipping malformed BibTeX entry due to parse error:", (e && e.message) || e);
+        const key = extractKeyFromBlock(chunk) || "";
+        console.warn(
+          `Skipping malformed BibTeX entry due to parse error: ${(e && e.message) || e}\n for key: ${key}`
+        );
       }
     }
-    return mapEntries(ok);
+    return mapEntriesFromJSON(ok);
   }
 }
 
