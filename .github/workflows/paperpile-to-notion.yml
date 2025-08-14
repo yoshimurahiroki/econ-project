@@ -8,6 +8,7 @@ on:
       - 'data/papers/**.json'
       - 'data/papers/**.csljson'
       - 'tex/bibliography.bib'
+      - 'tex/**/*.bib'
   workflow_dispatch: {}
 
 jobs:
@@ -29,6 +30,10 @@ jobs:
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          # Pick the primary bib to watch; can be overridden per-repo
           BIB_SOURCE: tex/bibliography.bib
+          # Optional: enable Drive PDF matching for public/shared folder
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
 
   # Removed deprecated artifacts sync step
