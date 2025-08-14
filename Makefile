@@ -127,4 +127,4 @@ drive-ocr:
 	TESS_EXTRA_ARGS=$${TESS_EXTRA_ARGS} \
 	ENABLE_EMBEDDINGS=$${ENABLE_EMBEDDINGS:-false} \
 	EMBEDDING_MODEL=$${EMBEDDING_MODEL:-Xenova/all-MiniLM-L6-v2} \
-	node drive-ocr-notion.js
+# removed legacy drive OCR script

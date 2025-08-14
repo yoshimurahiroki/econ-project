@@ -373,6 +373,7 @@ async function main() {
   // 4) Upsert entries to Notion
   let created = 0;
   let updated = 0;
+  const touched = [];
   for (const e of entries) {
   const pdf = !SKIP_PDF && driveFiles.length ? matchPdf(e, driveFiles) : null;
   const pdfUrl = !SKIP_PDF ? (pdf?.webViewLink || null) : null;
@@ -380,11 +381,23 @@ async function main() {
       const res = await upsertEntry(e, pdfUrl, dbProps);
       if (res.action === "created") created++;
       else updated++;
+      touched.push({ bibKey: e.key || "", pageId: res.id, action: res.action });
     } catch (err) {
       console.error("Failed to upsert entry:", e.key || e.title, err?.message || err);
     }
   }
   console.log(`Done. Created: ${created}, Updated: ${updated}`);
+
+  // Write out list of touched entries for downstream jobs (e.g., OCR per paper)
+  try {
+    const outDir = path.join(process.cwd(), "scripts", ".out");
+    fs.mkdirSync(outDir, { recursive: true });
+    const outPath = path.join(outDir, "updated.json");
+    fs.writeFileSync(outPath, JSON.stringify(touched, null, 2));
+    console.log(`Wrote ${touched.length} touched entries to ${outPath}`);
+  } catch (e) {
+    console.warn("Failed to write touched entries:", e?.message || e);
+  }
 }
 
 // Execute when run directly (ESM-compatible main check)

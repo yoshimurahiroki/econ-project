@@ -44,4 +44,69 @@ jobs:
           # Skip PDF processing in main job to reduce runtime
           SKIP_PDF: true
 
+      - name: Upload touched entries
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: touched
+          path: scripts/.out/updated.json
+
+  generate-ocr-matrix:
+    needs: sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: touched
+          path: .
+      - name: Build OCR matrix JSON
+        id: build
+        run: |
+          set -euo pipefail
+          if [ ! -f updated.json ]; then echo 'matrix={"include":[]}' >> "$GITHUB_OUTPUT"; exit 0; fi
+          node -e '
+            const fs=require("fs");
+            let items=[]; try{ items=JSON.parse(fs.readFileSync("updated.json","utf8")); }catch{}
+            const seen=new Set();
+            const include=[];
+            for (const it of items) {
+              const k=(it.bibKey||"").trim(); if(!k || seen.has(k)) continue; seen.add(k);
+              include.push({ bib_key: k });
+              if (include.length>=parseInt(process.env.MAX_OCR||"10",10)) break;
+            }
+            const out={ include };
+            process.stdout.write(`matrix=${JSON.stringify(out)}`);
+          ' >> "$GITHUB_OUTPUT"
+        env:
+          MAX_OCR: ${{ vars.MAX_OCR }}
+    outputs:
+      matrix: ${{ steps.build.outputs.matrix }}
+
+  ocr:
+    needs: generate-ocr-matrix
+    runs-on: ubuntu-latest
+    if: ${{ fromJSON(needs.generate-ocr-matrix.outputs.matrix).include[0] != null }}
+    strategy:
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.generate-ocr-matrix.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install OCR deps and scripts deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils tesseract-ocr tesseract-ocr-eng
+          npm --prefix scripts ci
+      - name: OCR and upload to Notion (per paper)
+        run: node scripts/ocr-upload-notion.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          BIB_KEY: ${{ matrix.bib_key }}
+          CHUNK_SIZE: 1500
+
   # Removed deprecated artifacts sync step

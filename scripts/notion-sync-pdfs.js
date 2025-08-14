@@ -93,6 +93,41 @@ function findTitlePropName(dbProps) {
 function hasProp(dbProps, name, type) { const p = dbProps[name]; return p && (!type || p.type === type); }
 function rich(text) { return [{ type: 'text', text: { content: text ?? '' } }]; }
 
+function getExistingPdfUrls(page, dbProps) {
+  const urls = [];
+  if (hasProp(dbProps, 'PDF', 'files')) {
+    const files = page.properties?.['PDF']?.files || [];
+    for (const f of files) {
+      if (f?.type === 'external' && f.external?.url) urls.push(f.external.url);
+      if (f?.type === 'file' && f.file?.url) urls.push(f.file.url); // handle uploaded files just in case
+    }
+  }
+  if (dbProps['File Path']) {
+    const t = dbProps['File Path'].type;
+    if (t === 'url') {
+      const u = page.properties?.['File Path']?.url;
+      if (u) urls.push(u);
+    } else if (t === 'rich_text') {
+      const txt = page.properties?.['File Path']?.rich_text?.[0]?.plain_text;
+      if (txt) urls.push(txt);
+    }
+  }
+  return urls.filter(Boolean);
+}
+
+async function clearPdfProps(pageId, dbProps) {
+  const props = {};
+  if (hasProp(dbProps, 'PDF', 'files')) props['PDF'] = { files: [] };
+  if (dbProps['File Path']) {
+    const t = dbProps['File Path'].type;
+    if (t === 'url') props['File Path'] = { url: null };
+    else if (t === 'rich_text') props['File Path'] = { rich_text: [] };
+  }
+  if (Object.keys(props).length) {
+    await notion.pages.update({ page_id: pageId, properties: props });
+  }
+}
+
 async function queryRecentPages(limit) {
   // Query pages sorted by last edited time desc to cap work per run
   const results = [];
@@ -148,6 +183,19 @@ async function main() {
     const pdf = matchPdf(title, authors, yearVal, files);
     const pdfUrl = pdf?.webViewLink || null;
     if (!pdfUrl) continue;
+
+    // Skip if already set to the same URL
+    const existingUrls = getExistingPdfUrls(page, dbProps);
+    if (existingUrls.includes(pdfUrl)) {
+      continue;
+    }
+
+    // Clear existing PDF-related props to avoid duplicates, then set new URL
+    try {
+      await clearPdfProps(page.id, dbProps);
+    } catch (e) {
+      console.warn('Failed to clear PDF props for page', page.id, e?.message || e);
+    }
 
     const props = {};
     if (hasProp(dbProps, 'PDF', 'files')) {
