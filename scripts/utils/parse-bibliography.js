@@ -19,23 +19,46 @@ function parseAuthorsBibtex(authorField) {
 
 function parseBibtex(filePath) {
   const raw = fs.readFileSync(filePath, "utf8");
-  const entries = bibtexParse.toJSON(raw);
-  return entries.map((e) => {
-    const f = e.entryTags || {};
-    const key = e.citationKey || f.key || "";
-    const title = (f.title || "").replace(/[{}]/g, "").trim();
-    const authors = parseAuthorsBibtex(f.author);
-    const year = f.year ? Number(f.year) : undefined;
-    const venue = f.journal || f.booktitle || f.publisher || "";
-    const doi = f.doi ? `https://doi.org/${f.doi.replace(/^https?:\/\/doi\.org\//, "")}` : "";
-    const url = f.url || "";
-    const abstract = f.abstract || "";
-    const keywords = (f.keywords || "")
-      .split(/[;,]/)
-      .map((s) => s.trim())
-      .filter(Boolean);
-    return { key, title, authors, year, venue, doi, url, abstract, keywords, pdf: "", code: "", tags: [] };
-  });
+
+  function mapEntries(entries) {
+    return entries.map((e) => {
+      const f = e.entryTags || {};
+      const key = e.citationKey || f.key || "";
+      const title = (f.title || "").replace(/[{}]/g, "").trim();
+      const authors = parseAuthorsBibtex(f.author);
+      const year = f.year ? Number(String(f.year).match(/\d{4}/)?.[0]) : undefined;
+      const venue = f.journal || f.booktitle || f.publisher || "";
+      const doi = f.doi ? `https://doi.org/${String(f.doi).replace(/^https?:\/\/doi\.org\//, "")}` : "";
+      const url = f.url || "";
+      const abstract = f.abstract || "";
+      const keywords = String(f.keywords || "")
+        .split(/[;,]/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+      return { key, title, authors, year, venue, doi, url, abstract, keywords, pdf: "", code: "", tags: [] };
+    });
+  }
+
+  // First try: parse entire file
+  try {
+    const entries = bibtexParse.toJSON(raw);
+    return mapEntries(entries);
+  } catch (err) {
+    // Fallback: parse entry-by-entry and skip malformed ones
+    const chunks = raw.split(/(?=@[a-zA-Z]+\s*\{)/g).filter((c) => c.trim().startsWith("@"));
+    const ok = [];
+    for (const chunk of chunks) {
+      try {
+        const r = bibtexParse.toJSON(chunk);
+        // Filter out non-standard or empty results
+        if (Array.isArray(r) && r.length) ok.push(...r);
+      } catch (e) {
+        // Skip bad chunk with a lightweight notice to stderr
+        console.warn("Skipping malformed BibTeX entry due to parse error:", (e && e.message) || e);
+      }
+    }
+    return mapEntries(ok);
+  }
 }
 
 function parseCSLJSON(filePath) {
