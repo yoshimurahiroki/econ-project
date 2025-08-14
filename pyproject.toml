@@ -1,3 +1,4 @@
+# pyproject.toml
 [tool.poetry]
 name = "econ-project"
 version = "0.1.0"
@@ -7,20 +8,12 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "~3.11"
-numpy = "*"
-pandas = "*"
-scipy = "*"
-statsmodels = "*"
-matplotlib = "*"
-seaborn = "*"
-scikit-learn = "*"
-ipykernel = "*"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "*"
-mypy = "*"
-ruff = "*"
-pre-commit = "*"
+pytest = "^8"
+mypy = "^1.10"
+ruff = "^0.5"
+pre-commit = "^3.7"
 
 [tool.ruff]
 line-length = 100

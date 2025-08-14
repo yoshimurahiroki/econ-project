@@ -1,36 +1,48 @@
-# Git関連
-.git/
+# Git
+.git
 .gitignore
 
-# Python関連
+# Python caches
 __pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
 
-# R関連
-.Rhistory
-.RData
-.Rproj.user/
+# Virtual envs
+.env
+.venv
+env/
+.poetry-cache/
 
-# ログファイル
-*.log
-logs/
+# Data / outputs
+data/
+_site/
+_book/
+.quarto/
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.xlsx
+*.sav
+*.dta
+*.rds
+*.RData
 
-# 一時ファイル
-.tmp/
-tmp/
-.cache/
+# Notebooks checkpoints
+*.ipynb_checkpoints/
 
 # VS Code
 .vscode/
 
-# Docker関連
-docker-compose*.yml
-*.sh
-
-# その他
+# Node
 node_modules/
+
+# OS junk
 .DS_Store
 *.bak
+tmp/
+.tmp/
+.cache/

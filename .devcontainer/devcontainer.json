@@ -1,124 +1,128 @@
 {
   "name": "econ-dev",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
-  },
+  "build": { "dockerfile": "Dockerfile", "context": ".." },
   "remoteUser": "vscode",
   "workspaceFolder": "/workspaces/econ-project",
   "updateRemoteUserUID": true,
+
   "mounts": [
-  "type=volume,source=econ_data,target=/workspaces/econ-project/data"
+    "type=volume,source=econ_data,target=/workspaces/econ-project/data"
   ],
+
   "runArgs": [
     "--init",
     "--hostname=econ-dev"
   ],
-  "forwardPorts": [
-    8888,
-    8787,
-    3000
-  ],
-  "portsAttributes": {
-    "8888": {
-      "label": "Jupyter Lab",
-      "onAutoForward": "notify"
-    },
-    "8787": {
-      "label": "R Studio",
-      "onAutoForward": "notify"
-    }
+
+  "hostRequirements": {
+    "gpu": "optional"
   },
-  "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/econ-project /home/vscode || true && R -e 'install.packages(\"languageserver\", repos=\"https://cloud.r-project.org\")' && echo 'Container initialized successfully' && pre-commit install || true",
+
+  "forwardPorts": [8888, 8787, 3000],
+  "portsAttributes": {
+    "8888": { "label": "Jupyter Lab", "onAutoForward": "notify" },
+    "8787": { "label": "RStudio", "onAutoForward": "notify" }
+  },
+
+  "containerEnv": {
+    "JUPYTER_TOKEN": "${localEnv:JUPYTER_TOKEN:devtoken}"
+  },
+
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/econ-project /home/vscode || true && echo 'Container initialized successfully' && pre-commit install || true",
+
   "customizations": {
     "vscode": {
       "extensions": [
-    "ms-vscode-remote.remote-ssh",
-    "ms-vscode-remote.remote-containers",
-    "ms-azuretools.vscode-docker",
-    "ms-python.python",
-    "ms-toolsai.jupyter",
-    "ms-python.vscode-pylance",
-    "charliermarsh.ruff",
-    "ms-python.mypy-type-checker",
-    "REditorSupport.r",
-    "ikuyadeu.r-lsp",
+        "ms-vscode-remote.remote-ssh",
+        "ms-vscode-remote.remote-containers",
+        "ms-azuretools.vscode-docker",
+
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "ms-python.vscode-pylance",
+        "ms-python.mypy-type-checker",
+        "pytest-dev.pytest-vscode",
+
+        "quarto.quarto",                    // ★ Quarto 拡張（無料）
+        "James-Yu.latex-workshop",
+        "tecosaur.latex-utilities",         // ★ LaTeX 補助（無料）
+
+        "REditorSupport.r",
+        "ikuyadeu.r-lsp",
+        "RDebugger.r-debugger",             // ★ Rデバッガ（無料）
+
+        "charliermarsh.ruff",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+
+        "redhat.vscode-yaml",
+        "tamasfe.even-better-toml",         // ★ pyproject.toml 編集（無料）
+        "mikestead.dotenv",                  // ★ .env 補助（無料）
+        "humao.rest-client",                 // ★ API 実験（無料）
+        "ms-vscode.makefile-tools",          // ★ Makefile 補助（無料）
+        "DavidAnson.vscode-markdownlint",    // ★ Markdown Lint（無料）
+
+        "yzhang.markdown-all-in-one",
+        "EditorConfig.EditorConfig",
+        "eamodio.gitlens",
+        "GitHub.vscode-pull-request-github",
+        "ms-azuretools.vscode-docker",
+
+        "Continue.continue",
+        "Codeium.codeium",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "oderwat.indent-rainbow",
+        "streetsidesoftware.code-spell-checker",
+        "shardulm94.trailing-spaces",
+        "esbenp.prettier-vscode",
+        "aaron-bond.better-comments",
+        "vincaslt.highlight-matching-tag",
+        "formulahendry.auto-rename-tag",
+        "christian-kohler.path-intellisense",
+        "donjayamanne.githistory",
+    "quarto.quarto",                    // ★ Quarto 拡張（無料）
     "James-Yu.latex-workshop",
-    "yzhang.markdown-all-in-one",
-    "EditorConfig.EditorConfig",
-    "eamodio.gitlens",
-    "GitHub.vscode-pull-request-github",
-    "Codeium.codeium",
-    "Continue.continue",
-    "TabNine.tabnine-vscode",
-    "VisualStudioExptTeam.vscodeintellicode",
-    "oderwat.indent-rainbow",
-    "streetsidesoftware.code-spell-checker",
-    "shardulm94.trailing-spaces",
-    "esbenp.prettier-vscode",
-    "aaron-bond.better-comments",
-    "vincaslt.highlight-matching-tag",
-    "formulahendry.auto-rename-tag",
-    "christian-kohler.path-intellisense",
-    "donjayamanne.githistory",
-    "mhutchie.git-graph",
-    "formulahendry.code-runner",
-    "njpwerner.autodocstring",
-    "ms-python.autopep8",
-    "ms-python.isort",
-    "Gruntfuggly.todo-tree",
-    "usernamehw.errorlens",
-    "codezombiech.gitignore",
-    "ms-python.flake8",
-    "ms-python.black-formatter",
-    "redhat.vscode-yaml",
-    "pytest-dev.pytest-vscode",
-    "leodevbro.blockman",
-    "wayou.vscode-todo-highlight",
-    "gmlewis.data-wrangler",
-    "mrflick.makefile-conventional-commits",
-    "chrmarti.regex",
-    "ms-python.python-indent"
-  ],
+        "formulahendry.code-runner",
+        "njpwerner.autodocstring",
+        "Gruntfuggly.todo-tree",
+        "usernamehw.errorlens",
+        "codezombiech.gitignore",
+        "leodevbro.blockman",
+        "wayou.vscode-todo-highlight",
+        "gmlewis.data-wrangler",
+        "mrflick.makefile-conventional-commits",
+        "chrmarti.regex",
+        "ms-python.python-indent"
+      ],
       "settings": {
         "editor.formatOnSave": true,
         "python.formatting.provider": "none",
         "python.analysis.typeCheckingMode": "strict",
         "python.defaultInterpreterPath": "/home/vscode/miniforge3/envs/econ-env/bin/python",
         "jupyter.notebookFileRoot": "${workspaceFolder}",
+
         "latex-workshop.latex.recipe.default": "latexmk (lualatex-draft)",
         "latex-workshop.latex.recipes": [
-          {
-            "name": "latexmk (lualatex-draft)",
-            "tools": [
-              "lualatex-draft"
-            ]
-          }
+          { "name": "latexmk (lualatex-draft)", "tools": ["lualatex-draft"] }
         ],
         "latex-workshop.latex.tools": [
           {
             "name": "lualatex-draft",
             "command": "lualatex",
-            "args": [
-              "-shell-escape",
-              "-interaction=nonstopmode",
-              "-file-line-error",
-              "%DOC%"
-            ]
+            "args": ["-shell-escape", "-interaction=nonstopmode", "-file-line-error", "%DOC%"]
           }
         ],
+
         "files.exclude": {
           "**/env": true,
           "**/.venv": true,
           "**/__pycache__": true,
           "**/*.pyc": true
         },
-        "ruff.lint.args": [
-          "--config=pyproject.toml"
-        ],
-        "ruff.format.args": [
-          "--config=pyproject.toml"
-        ]
+
+        "ruff.lint.args": ["--config=pyproject.toml"],
+        "ruff.format.args": ["--config=pyproject.toml"],
+        "r.rterm.linux": "/home/vscode/miniforge3/envs/econ-env/bin/R"
       }
     }
   }

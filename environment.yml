@@ -1,24 +1,37 @@
 name: econ-env
 channels:
   - conda-forge
+  - pytorch
 dependencies:
+  # Python stack
   - python=3.11
-  - r-base>=4.3
+  - numpy=1.26
+  - scipy=1.13
+  - pandas=2.2
+  - statsmodels=0.14
+  - matplotlib=3.8
+  - seaborn=0.13
+  - scikit-learn=1.5
+  - pytorch=2.4.*
+  - contourpy
+  - kiwisolver
+  - pillow
+  - fonttools
+  - jedi
+
+  # Jupyter/Quarto
+  - jupyterlab=4
+  - jupyterlab-language-pack-ja-JP
+  - ipykernel
+  - pandoc
+  - quarto
+
+  # R stack
+  - r-base=4.3.*
   - r-essentials
   - r-tidyverse
-  - jupyterlab
-  - nodejs
-  - pandoc
-  - numpy
-  - pandas
-  - scipy
-  - statsmodels
-  - matplotlib
-  - seaborn
-  - scikit-learn
-  - ruff
-  - pre-commit
-  - mypy
-  - pytest
-  - ipykernel
+  - r-languageserver
+  - libjpeg-turbo=3.0.*
+  - blas=*=openblas
+
   - pip
