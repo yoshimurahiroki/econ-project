@@ -1,15 +1,30 @@
-# Python cache
+# Git
+.git/
+.gitignore
+
+# Python
 __pycache__/
 *.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Poetry / venv
+.env
+.venv
+env/
+.poetry-cache/
 
 # Jupyter
 *.ipynb_checkpoints/
 
-# Conda / Poetry
-.env
-.venv
-env/
-.poetry-cache/ # Data
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Data (adjust per project)
 data/
 *.csv
 *.tsv
@@ -22,7 +37,9 @@ data/
 *.RData
 
 # VS Code
-.vscode/ # LaTeX build artifacts
+.vscode/
+
+# LaTeX
 *.aux
 *.bbl
 *.blg
@@ -30,4 +47,25 @@ data/
 *.out
 *.toc
 *.synctex.gz
-_build/
+
+# Quarto
+_site/
+_book/
+.quarto/
+
+# Node
+# Node
+node_modules/
+scripts/node_modules/
+
+# Misc
+.DS_Store
+*.bak
+tmp/
+.tmp/
+.cache/
+
+# Docker
+docker-compose*.yml
+*.sh
+.env

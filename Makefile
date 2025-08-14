@@ -1,104 +1,130 @@
 # Makefile for Econometrics Research Environment
-# 便利なコマンドを定義
+.PHONY: help install setup-dev check format test clean build-paper build-slides jupyter \
+        r-install r-check quarto-html quarto-pdf quarto-reveal gpu \
+        clean-paper clean-slides clean-all pre-commit update stats notion-sync
+ .PHONY: notion-install notion-sync notion-sync-db
 
-.PHONY: help install setup-dev check format test clean build-paper build-slides jupyter
-
-# デフォルトターゲット
 help:
 	@echo "Available commands:"
-	@echo "  install     - Install dependencies with Poetry"
-	@echo "  setup-dev   - Setup development environment"
-	@echo "  check       - Run all quality checks"
-	@echo "  format      - Format code with ruff"
-	@echo "  test        - Run tests with pytest"
-	@echo "  clean       - Clean build artifacts"
-	@echo "  build-paper - Build LaTeX paper"
-	@echo "  build-slides - Build LaTeX slides"
-	@echo "  jupyter     - Start Jupyter Lab"
+	@echo "  install        - Install dependencies with Poetry"
+	@echo "  setup-dev      - Setup dev env (Poetry + pre-commit)"
+	@echo "  check          - Run ruff + mypy + pytest"
+	@echo "  format         - Format with ruff & fix lint"
+	@echo "  test           - Run pytest with coverage"
+	@echo "  build-paper    - Build LaTeX paper (lualatex + pbibtex)"
+	@echo "  build-slides   - Build LaTeX slides"
+	@echo "  quarto-html    - Render Quarto site/notebook to HTML"
+	@echo "  quarto-pdf     - Render Quarto to PDF"
+	@echo "  quarto-reveal  - Render Quarto slides (Reveal.js)"
+	@echo "  r-install      - Install R deps from R/requirements.R (if exists)"
+	@echo "  r-check        - Run basic R CMD check (quick)"
+	@echo "  jupyter        - Start Jupyter Lab (127.0.0.1)"
+	@echo "  gpu            - Print CUDA & PyTorch availability"
+	@echo "  notion-sync    - Sync artifacts to Notion (official API, Node SDK)"
+	@echo "  clean[-paper|-slides|-all] - Clean artifacts"
+	@echo "  stats          - Project statistics"
+	@echo "  update         - Poetry + conda env update"
+	@echo "  drive-ocr      - Run Drive→OCR→Notion pipeline (Node)"
 
-# 依存関係インストール
 install:
 	poetry install --no-root
 
-# 開発環境セットアップ
 setup-dev:
 	poetry install --no-root
 	pre-commit install
 	@echo "Development environment setup complete!"
 
-# 品質チェック
 check:
 	poetry run ruff check .
+	poetry run ruff format --check .
 	poetry run mypy .
 	poetry run pytest --verbose
 
-# コードフォーマット
 format:
 	poetry run ruff format .
 	poetry run ruff check --fix .
 
-# テスト実行
 test:
-	poetry run pytest --verbose --cov=src
+	poetry run pytest --verbose --cov=src --cov-report=term-missing
 
-# クリーンアップ
 clean:
 	find . -type f -name "*.pyc" -delete
 	find . -type d -name "__pycache__" -delete
 	find . -type f -name "*.log" -delete
-	find . -name "*.aux" -delete
-	find . -name "*.bbl" -delete
-	find . -name "*.blg" -delete
-	find . -name "*.out" -delete
-	find . -name "*.toc" -delete
-	find . -name "*.synctex.gz" -delete
+	find . -name "*.aux" -delete -o -name "*.bbl" -o -name "*.blg" -o -name "*.out" -o -name "*.toc" -o -name "*.synctex.gz" -delete
+	rm -rf _site _book .quarto .pytest_cache .mypy_cache .ruff_cache
 
-# LaTeX論文ビルド
 build-paper:
-	cd tex/paper \
-	&& lualatex -shell-escape -interaction=nonstopmode main.tex \
-	&& pbibtex main \
-	&& lualatex -shell-escape -interaction=nonstopmode main.tex \
-	&& lualatex -shell-escape -interaction=nonstopmode main.tex
+	cd tex/paper && \
+	lualatex -shell-escape -interaction=nonstopmode ecta_template.tex && \
+	pbibtex ecta_template && \
+	lualatex -shell-escape -interaction=nonstopmode ecta_template.tex && \
+	lualatex -shell-escape -interaction=nonstopmode ecta_template.tex
 
-# LaTeXスライドビルド
 build-slides:
-	cd tex/slides \
-	&& lualatex -shell-escape -interaction=nonstopmode talk.tex \
-	&& pbibtex talk \
-	&& lualatex -shell-escape -interaction=nonstopmode talk.tex \
-	&& lualatex -shell-escape -interaction=nonstopmode talk.tex
+	cd tex/slides && \
+	lualatex -shell-escape -interaction=nonstopmode main.tex && \
+	pbibtex main || true && \
+	lualatex -shell-escape -interaction=nonstopmode main.tex && \
+	lualatex -shell-escape -interaction=nonstopmode main.tex
 
-# Jupyter Lab起動
+quarto-html:
+	quarto render . --to html
+
+quarto-pdf:
+	quarto render . --to pdf
+
+quarto-reveal:
+	quarto render . --to revealjs
+
+r-install:
+	@[ -f R/requirements.R ] && Rscript R/requirements.R || echo "No R/requirements.R"
+
+r-check:
+	R -q -e "sessionInfo(); if (requireNamespace('devtools', quietly=TRUE)) devtools::check(document=FALSE, error_on='warning') else message('Install devtools to run full checks')"
+
 jupyter:
-	poetry run jupyter lab --ip=0.0.0.0 --no-browser --allow-root
+	poetry run jupyter lab --ip=127.0.0.1 --no-browser
 
-# 論文クリーンアップ
-clean-paper:
-	cd tex/paper && latexmk -C
+gpu:
+	@python - <<'PY'\nimport torch, sys\nprint('torch.cuda.is_available:', torch.cuda.is_available())\nprint('device:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU')\nPY
 
-# スライドクリーンアップ
-clean-slides:
-	cd tex/slides && latexmk -C
-
-# 全てクリーンアップ
-clean-all: clean clean-paper clean-slides
-
-# プリコミットフックの実行
 pre-commit:
 	poetry run pre-commit run --all-files
 
-# 依存関係の更新
 update:
 	poetry update
 	conda env update -f environment.yml
 
-# プロジェクト統計
 stats:
 	@echo "=== Project Statistics ==="
-	@echo "Python files: $(shell find src tests -name '*.py' | wc -l)"
-	@echo "R files: $(shell find R notebooks/r -name '*.r' -o -name '*.R' | wc -l)"
-	@echo "Jupyter notebooks: $(shell find notebooks -name '*.ipynb' | wc -l)"
-	@echo "LaTeX files: $(shell find tex -name '*.tex' | wc -l)"
-	@echo "Total lines of Python code:"
-	@find src tests -name '*.py' -exec wc -l {} + | tail -1
+	@echo "Python files: $(shell find src tests -name '*.py' 2>/dev/null | wc -l)"
+	@echo "R files: $(shell find R notebooks/r -name '*.r' -o -name '*.R' 2>/dev/null | wc -l)"
+	@echo "Jupyter notebooks: $(shell find notebooks -name '*.ipynb' 2>/dev/null | wc -l)"
+	@echo "LaTeX files: $(shell find tex -name '*.tex' 2>/dev/null | wc -l)"
+
+notion-install:
+	@cd scripts && npm ci
+
+notion-sync-db:
+	@cd scripts && npm ci --silent
+	@NOTION_TOKEN=$${NOTION_TOKEN} NOTION_DB_ID=$${NOTION_DB_ID} BIB_SOURCE=$${BIB_SOURCE:-data/papers/library.bib} node notion-sync-db.js
+
+drive-ocr:
+	@cd scripts && npm ci --silent
+	@DRIVE_FOLDER_ID=$${DRIVE_FOLDER_ID} \
+	GOOGLE_API_KEY=$${GOOGLE_API_KEY} \
+	NOTION_TOKEN=$${NOTION_TOKEN} \
+	NOTION_DB_ID=$${NOTION_DB_ID} \
+	DEFAULT_TAGS=$${DEFAULT_TAGS} \
+	CHUNK_SIZE=$${CHUNK_SIZE:-1000} \
+	ENABLE_SQLITE=$${ENABLE_SQLITE:-false} \
+	VECTOR_DB_PATH=$${VECTOR_DB_PATH:-vector.db} \
+	TESS_LANG=$${TESS_LANG:-eng} \
+	TESS_PSM=$${TESS_PSM:-1} \
+	TESS_OEM=$${TESS_OEM:-1} \
+	TESS_DPI=$${TESS_DPI:-300} \
+	TESS_EXTRA_ARGS=$${TESS_EXTRA_ARGS} \
+	ENABLE_EMBEDDINGS=$${ENABLE_EMBEDDINGS:-false} \
+	EMBEDDING_MODEL=$${EMBEDDING_MODEL:-Xenova/all-MiniLM-L6-v2} \
+	node drive-ocr-notion.js
