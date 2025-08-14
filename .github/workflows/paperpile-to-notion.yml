@@ -7,6 +7,7 @@ on:
       - 'data/papers/**.bib'
       - 'data/papers/**.json'
       - 'data/papers/**.csljson'
+      - 'tex/bibliography.bib'
   workflow_dispatch: {}
 
 jobs:
