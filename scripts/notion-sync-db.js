@@ -13,6 +13,7 @@ import { fileURLToPath } from "url";
 import fetch from "node-fetch";
 import { Client as NotionClient } from "@notionhq/client";
 import { parseBibliography } from "./utils/parse-bibliography.js";
+import fg from "fast-glob";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -330,31 +331,50 @@ async function upsertEntry(entry, pdfUrl, dbProps) {
 }
 
 async function main() {
-  // 1) Read bibliography (local path or URL)
-  let bibPath = BIB_SOURCE;
-  if (/^https?:\/\//i.test(BIB_SOURCE)) {
-    // fetch remote and store to temp file with inferred extension
-    const res = await fetch(BIB_SOURCE);
-    if (!res.ok) {
-      console.error(`Failed to fetch BIB_SOURCE URL: ${BIB_SOURCE} -> ${res.status}`);
-      process.exit(1);
+  // 1) Read bibliography (local path(s) or URL)
+  const sources = BIB_SOURCE.split(/[,\n]+/).map(s => s.trim()).filter(Boolean);
+  const paths = [];
+  for (const src of sources) {
+    if (/^https?:\/\//i.test(src)) {
+      const res = await fetch(src);
+      if (!res.ok) {
+        console.error(`Failed to fetch BIB_SOURCE URL: ${src} -> ${res.status}`);
+        continue;
+      }
+      const raw = await res.text();
+      const ext = src.toLowerCase().endsWith(".json") || src.toLowerCase().endsWith(".csljson") ? ".json" : ".bib";
+      const tmp = path.join(process.cwd(), `.bibsource-${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`);
+      fs.writeFileSync(tmp, raw, "utf8");
+      paths.push(tmp);
+    } else {
+      const isAbs = path.isAbsolute(src) ? src : path.join(process.cwd(), src);
+      const matches = fg.sync(isAbs, { dot: false });
+      if (matches.length === 0) {
+        console.warn(`BIB_SOURCE path not found: ${src}`);
+      }
+      paths.push(...matches);
     }
-    const raw = await res.text();
-    const ext = BIB_SOURCE.toLowerCase().endsWith(".json") || BIB_SOURCE.toLowerCase().endsWith(".csljson")
-      ? ".json"
-      : ".bib";
-    const tmp = path.join(process.cwd(), `.bibsource-${Date.now()}${ext}`);
-    fs.writeFileSync(tmp, raw, "utf8");
-    bibPath = tmp;
-  } else {
-    bibPath = path.isAbsolute(BIB_SOURCE) ? BIB_SOURCE : path.join(process.cwd(), BIB_SOURCE);
   }
-  if (!fs.existsSync(bibPath)) {
-    console.error(`BIB_SOURCE not found: ${bibPath}`);
-    process.exit(1);
+  const all = [];
+  for (const p of paths) {
+    try {
+      const list = parseBibliography(p);
+      all.push(...list);
+      console.log(`Loaded ${list.length} entries from ${p}`);
+    } catch (e) {
+      console.warn(`Failed to parse ${p}:`, e?.message || e);
+    }
   }
-  const entries = parseBibliography(bibPath);
-  console.log(`Loaded ${entries.length} entries from ${BIB_SOURCE}`);
+  // de-duplicate by bib key
+  const seen = new Set();
+  const entries = [];
+  for (const e of all) {
+    const k = (e.key || e.title || '').trim();
+    if (!k || seen.has(k)) continue;
+    seen.add(k);
+    entries.push(e);
+  }
+  console.log(`Total merged entries: ${entries.length} from ${sources.length} source(s)`);
 
   // 2) Optionally list Drive PDFs (skip if SKIP_PDF)
   let driveFiles = [];

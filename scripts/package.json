@@ -7,6 +7,9 @@
   "bibtex-parse-js": "^0.0.24",
   "@octokit/rest": "^21.0.2",
   "node-fetch": "^3.3.2",
-  "sqlite3": "^5.1.7"
+  "sqlite3": "^5.1.7",
+  "fast-glob": "^3.3.2",
+  "@citation-js/core": "^0.6.8",
+  "@citation-js/plugin-bibtex": "^0.6.8"
   }
 }

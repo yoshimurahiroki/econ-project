@@ -226,6 +226,46 @@ async function resolvePdfUrlForPage(page, dbProps) {
   return '';
 }
 
+// ---- Optional Drive matching fallback ----
+function normalize(s) { return String(s || '').toLowerCase(); }
+function slugTitle(s) { return normalize(s).replace(/[^a-z0-9]+/g, "_").replace(/_+/g, "_").replace(/^_+|_+$/g, ""); }
+function compact(s) { return normalize(s).replace(/\W+/g, ""); }
+function firstAuthor(authorsText) { return (authorsText || '').split(';')[0] || (authorsText || '').split(',')[0] || ''; }
+function buildNameCandidates(title, authorsText, year) {
+  const last = normalize(firstAuthor(authorsText)).split(/\s+/).slice(-1)[0] || '';
+  const t = slugTitle(title || '');
+  const y = year ? String(year) : '';
+  return [ `${last}${y}-${t}`, `${last}_${y}-${t}`, `${last}${y}_${t}`, `${last}-${y}-${t}`, `${last}${y}${t}` ].filter(Boolean);
+}
+async function listDrivePdfs(folderId) {
+  if (!folderId || !GOOGLE_API_KEY) return [];
+  const url = new URL('https://www.googleapis.com/drive/v3/files');
+  url.searchParams.set('q', `'${folderId}' in parents and mimeType='application/pdf' and trashed=false`);
+  url.searchParams.set('fields', 'files(id,name,webViewLink,modifiedTime)');
+  url.searchParams.set('key', GOOGLE_API_KEY);
+  const res = await fetch(url.toString());
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.files || [];
+}
+function matchPdf(title, authorsText, year, files) {
+  if (!files?.length) return null;
+  const candidates = buildNameCandidates(title, authorsText, year);
+  const nameMap = new Map();
+  for (const f of files) nameMap.set(normalize(f.name.replace(/\.pdf$/i, '')), f);
+  for (const c of candidates) if (nameMap.has(c)) return nameMap.get(c);
+  const byCompact = new Map();
+  for (const f of files) byCompact.set(compact(f.name), f);
+  for (const c of candidates) { const k = compact(c); if (byCompact.has(k)) return byCompact.get(k); }
+  const titleSlug = slugTitle(title || '');
+  let best = null, bestLen = 0;
+  for (const f of files) {
+    const base = slugTitle(f.name.replace(/\.pdf$/i, ''));
+    if (base.includes(titleSlug) && titleSlug.length > bestLen) { best = f; bestLen = titleSlug.length; }
+  }
+  return best;
+}
+
 async function main() {
   if (!BIB_KEY && !PAGE_ID) {
     console.error('Provide BIB_KEY or PAGE_ID');
@@ -249,8 +289,18 @@ async function main() {
   console.log(`Target page: ${title} (${page.id})`);
 
   let pdfUrl = await resolvePdfUrlForPage(page, dbProps);
+  if (!pdfUrl && DRIVE_FOLDER_ID && GOOGLE_API_KEY) {
+    // Fallback: try to match a Drive PDF by title/author/year
+    const titleText = getPropText(page, titleProp, 'title');
+    const authorsText = hasProp(dbProps, 'Authors', 'rich_text') ? getPropText(page, 'Authors', 'rich_text')
+      : hasProp(dbProps, 'Author', 'rich_text') ? getPropText(page, 'Author', 'rich_text') : '';
+    const yearVal = hasProp(dbProps, 'Year', 'number') ? page.properties['Year']?.number : undefined;
+    const files = await listDrivePdfs(DRIVE_FOLDER_ID);
+    const m = matchPdf(titleText, authorsText, yearVal, files);
+    pdfUrl = m?.webViewLink || '';
+  }
   if (!pdfUrl) {
-    console.error('No PDF URL found on page (File Path or PDF external)');
+    console.error('No PDF URL found on page or Drive');
     process.exit(1);
   }
 
