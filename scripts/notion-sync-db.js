@@ -327,10 +327,25 @@ async function upsertEntry(entry, pdfUrl, dbProps) {
 }
 
 async function main() {
-  // 1) Read bibliography
-  const bibPath = path.isAbsolute(BIB_SOURCE)
-    ? BIB_SOURCE
-    : path.join(process.cwd(), BIB_SOURCE);
+  // 1) Read bibliography (local path or URL)
+  let bibPath = BIB_SOURCE;
+  if (/^https?:\/\//i.test(BIB_SOURCE)) {
+    // fetch remote and store to temp file with inferred extension
+    const res = await fetch(BIB_SOURCE);
+    if (!res.ok) {
+      console.error(`Failed to fetch BIB_SOURCE URL: ${BIB_SOURCE} -> ${res.status}`);
+      process.exit(1);
+    }
+    const raw = await res.text();
+    const ext = BIB_SOURCE.toLowerCase().endsWith(".json") || BIB_SOURCE.toLowerCase().endsWith(".csljson")
+      ? ".json"
+      : ".bib";
+    const tmp = path.join(process.cwd(), `.bibsource-${Date.now()}${ext}`);
+    fs.writeFileSync(tmp, raw, "utf8");
+    bibPath = tmp;
+  } else {
+    bibPath = path.isAbsolute(BIB_SOURCE) ? BIB_SOURCE : path.join(process.cwd(), BIB_SOURCE);
+  }
   if (!fs.existsSync(bibPath)) {
     console.error(`BIB_SOURCE not found: ${bibPath}`);
     process.exit(1);
