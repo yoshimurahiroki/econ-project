@@ -26,7 +26,7 @@ jobs:
           node-version: '20'
 
       - name: Install notion tools
-        run: npm --prefix scripts ci
+        run: npm --prefix scripts ci || npm --prefix scripts install
 
       - name: Attach PDFs to Notion
         run: node scripts/notion-sync-pdfs.js

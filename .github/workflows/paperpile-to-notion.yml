@@ -29,7 +29,7 @@ jobs:
           node-version: '20'
 
       - name: Install notion tools
-        run: npm --prefix scripts ci
+        run: npm --prefix scripts ci || npm --prefix scripts install
 
       - name: Sync Bib to Notion (DB upsert)
         run: node scripts/notion-sync-db.js
@@ -99,7 +99,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y poppler-utils tesseract-ocr tesseract-ocr-eng
-          npm --prefix scripts ci
+          npm --prefix scripts ci || npm --prefix scripts install
       - name: OCR and upload to Notion (per paper)
         run: node scripts/ocr-upload-notion.js
         env:

@@ -28,11 +28,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install deps
+    - name: Install deps
         run: |
           sudo apt-get update
           sudo apt-get install -y poppler-utils tesseract-ocr tesseract-ocr-eng
-          npm --prefix scripts ci
+      npm --prefix scripts ci || npm --prefix scripts install
 
       - name: OCR and upload to Notion (single paper)
         run: node scripts/ocr-upload-notion.js

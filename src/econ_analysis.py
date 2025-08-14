@@ -1,6 +1,7 @@
 """経済分析用のユーティリティ関数集"""
 
-from typing import List, Tuple, Optional, Dict, Any
+from typing import Optional, Any
+
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
@@ -18,7 +19,7 @@ class EconAnalyzer:
             data: 分析対象のデータフレーム
         """
         self.data = data
-        self.models: Dict[str, Any] = {}
+    self.models: dict[str, Any] = {}
     
     def mincer_regression(
         self, 
@@ -60,10 +61,10 @@ class EconAnalyzer:
         return model
     
     def calculate_returns_to_education(
-        self, 
+        self,
         model: sm.regression.linear_model.RegressionResultsWrapper,
-        education_var: str
-    ) -> Dict[str, float]:
+        education_var: str,
+    ) -> dict[str, float]:
         """
         教育収益率を計算
         
@@ -89,8 +90,8 @@ class EconAnalyzer:
         }
     
     def descriptive_stats(
-        self, 
-        variables: Optional[List[str]] = None
+        self,
+        variables: Optional[list[str]] = None,
     ) -> pd.DataFrame:
         """
         記述統計の計算
@@ -122,8 +123,8 @@ class EconAnalyzer:
 
 
 def simulate_wage_data(
-    n_obs: int = 1000, 
-    seed: Optional[int] = None
+    n_obs: int = 1000,
+    seed: int | None = None,
 ) -> pd.DataFrame:
     """
     賃金データのシミュレーション
@@ -165,8 +166,8 @@ def simulate_wage_data(
 
 
 def robust_regression_summary(
-    models: List[sm.regression.linear_model.RegressionResultsWrapper],
-    model_names: List[str]
+    models: list[sm.regression.linear_model.RegressionResultsWrapper],
+    model_names: list[str],
 ) -> pd.DataFrame:
     """
     複数のモデルの結果をまとめて表示
@@ -183,7 +184,7 @@ def robust_regression_summary(
     
     summary_data = {}
     
-    for model, name in zip(models, model_names):
+    for model, name in zip(models, model_names, strict=False):
         summary_data[name] = {
             'R-squared': model.rsquared,
             'Adj R-squared': model.rsquared_adj,
@@ -220,7 +221,7 @@ if __name__ == "__main__":
         experience_var='experience'
     )
     
-    print(f"\nMincer Regression Results:")
+    print("\nMincer Regression Results:")
     print(model.summary())
     
     # 教育収益率

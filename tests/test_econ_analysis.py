@@ -1,12 +1,11 @@
 """econ_analysis.py のテスト"""
 
-import pytest
 import pandas as pd
-import numpy as np
+import pytest
 from src.econ_analysis import (
-    EconAnalyzer, 
-    simulate_wage_data, 
-    robust_regression_summary
+    EconAnalyzer,
+    robust_regression_summary,
+    simulate_wage_data,
 )
 
 
@@ -125,8 +124,8 @@ class TestEconAnalyzer:
             assert key in returns
         
         # 値の妥当性確認
-        assert isinstance(returns['coefficient'], (int, float))
-        assert isinstance(returns['return_percent'], (int, float))
+    assert isinstance(returns['coefficient'], int | float)
+    assert isinstance(returns['return_percent'], int | float)
         assert isinstance(returns['significant_5pct'], bool)
     
     def test_empty_models_dict_initially(self, analyzer):
