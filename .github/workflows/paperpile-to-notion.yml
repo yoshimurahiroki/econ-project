@@ -28,6 +28,6 @@ jobs:
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
-          BIB_SOURCE: data/papers/library.bib
+          BIB_SOURCE: tex/bibliography.bib
 
   # Removed deprecated artifacts sync step
