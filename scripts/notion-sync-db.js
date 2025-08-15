@@ -37,6 +37,9 @@ const DEFAULT_TAGS = (process.env.DEFAULT_TAGS || "")
   .map((s) => s.trim())
   .filter(Boolean);
 const SKIP_PDF = /^(1|true|yes)$/i.test(String(process.env.SKIP_PDF || ""));
+const MAX_UPSERTS = Number(process.env.MAX_UPSERTS || "0"); // 0 = no limit
+const ABSTRACT_MAX = Number(process.env.ABSTRACT_MAX || "2000");
+const SYNC_OFFSET = Number(process.env.SYNC_OFFSET || "0");
 
 const notion = new NotionClient({ auth: NOTION_TOKEN });
 
@@ -169,6 +172,17 @@ function filePropFromUrl(url) {
   ];
 }
 
+// Build rich_text array, ensuring each text fragment is <= 2000 chars (Notion API limit per object)
+function richChunks(text, max = 2000) {
+  const s = String(text || "");
+  if (!s) return [{ type: "text", text: { content: "" } }];
+  const out = [];
+  for (let i = 0; i < s.length; i += max) {
+    out.push({ type: "text", text: { content: s.slice(i, i + max) } });
+  }
+  return out;
+}
+
 function toNotionProps(entry, pdfUrl, dbProps) {
   const authorsText = (entry.authors || []).join("; ");
   const tags = entry.keywords?.length ? entry.keywords : DEFAULT_TAGS;
@@ -233,11 +247,15 @@ function toNotionProps(entry, pdfUrl, dbProps) {
     else if (t === "rich_text") out["URL"] = { rich_text: rich(entry.url || "") };
   }
 
-  // Abstract
+  // Abstract (from bib): cut to the first 2000 chars as Notion rich_text limit
   if (hasProp(dbProps, "Abstract", "rich_text")) {
-    out["Abstract"] = { rich_text: rich(entry.abstract || "") };
+    const s = String(entry.abstract || "");
+    const cut = s.slice(0, ABSTRACT_MAX);
+    out["Abstract"] = { rich_text: rich(cut) };
   } else if (hasProp(dbProps, "Abstract Origin", "rich_text")) {
-    out["Abstract Origin"] = { rich_text: rich(entry.abstract || "") };
+    const s = String(entry.abstract || "");
+    const cut = s.slice(0, ABSTRACT_MAX);
+    out["Abstract Origin"] = { rich_text: rich(cut) };
   }
 
   // Code
@@ -390,11 +408,18 @@ async function main() {
   // 3) Load Notion DB schema
   const dbProps = await getDatabaseSchema(NOTION_DB_ID);
 
-  // 4) Upsert entries to Notion
+  // 4) Apply offset window before upsert
+  const startIndex = Math.max(0, SYNC_OFFSET);
+  const remainingTotal = entries.length - startIndex;
+  const window = remainingTotal > 0 ? entries.slice(startIndex) : [];
+
+  // 5) Upsert entries to Notion
   let created = 0;
   let updated = 0;
   const touched = [];
-  for (const e of entries) {
+  let processed = 0;
+  for (const e of window) {
+    if (MAX_UPSERTS > 0 && processed >= MAX_UPSERTS) break;
   const pdf = !SKIP_PDF && driveFiles.length ? matchPdf(e, driveFiles) : null;
   const pdfUrl = !SKIP_PDF ? (pdf?.webViewLink || null) : null;
     try {
@@ -402,11 +427,12 @@ async function main() {
       if (res.action === "created") created++;
       else updated++;
       touched.push({ bibKey: e.key || "", pageId: res.id, action: res.action });
+      processed++;
     } catch (err) {
       console.error("Failed to upsert entry:", e.key || e.title, err?.message || err);
     }
   }
-  console.log(`Done. Created: ${created}, Updated: ${updated}`);
+  console.log(`Done. Created: ${created}, Updated: ${updated}. Processed batch: ${processed} (offset ${startIndex}) of total ${entries.length}${MAX_UPSERTS>0?` (cap ${MAX_UPSERTS})`:''}`);
 
   // Write out list of touched entries for downstream jobs (e.g., OCR per paper)
   try {
@@ -415,6 +441,19 @@ async function main() {
     const outPath = path.join(outDir, "updated.json");
     fs.writeFileSync(outPath, JSON.stringify(touched, null, 2));
     console.log(`Wrote ${touched.length} touched entries to ${outPath}`);
+
+    // Write sync-state for workflow continuation
+    const state = {
+      totalEntries: entries.length,
+      offset: startIndex,
+      processed,
+      nextOffset: startIndex + processed,
+      remaining: Math.max(0, entries.length - (startIndex + processed)),
+      maxUpserts: MAX_UPSERTS,
+    };
+    const statePath = path.join(outDir, "sync-state.json");
+    fs.writeFileSync(statePath, JSON.stringify(state, null, 2));
+    console.log(`Wrote sync state to ${statePath}`);
   } catch (e) {
     console.warn("Failed to write touched entries:", e?.message || e);
   }

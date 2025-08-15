@@ -24,10 +24,22 @@ const ref = getEnv("REF", true, "master");
 
 const octokit = new Octokit({ auth: token });
 
+function collectInputsFromEnv() {
+  // Gather WORKFLOW_INPUT_* into an inputs object for workflow_dispatch
+  const inputs = {};
+  for (const [k, v] of Object.entries(process.env)) {
+    if (!k.startsWith('WORKFLOW_INPUT_')) continue;
+    const name = k.replace(/^WORKFLOW_INPUT_/, '');
+    if (v != null) inputs[name] = String(v);
+  }
+  return inputs;
+}
+
 async function triggerWorkflow() {
   try {
-    const res = await octokit.rest.actions.createWorkflowDispatch({ owner, repo, workflow_id, ref });
-    console.log("Workflow dispatched:", { status: res.status, workflow_id, ref, repo: `${owner}/${repo}` });
+    const inputs = collectInputsFromEnv();
+    const res = await octokit.rest.actions.createWorkflowDispatch({ owner, repo, workflow_id, ref, inputs });
+    console.log("Workflow dispatched:", { status: res.status, workflow_id, ref, repo: `${owner}/${repo}`, inputs });
   } catch (err) {
     console.error("Failed to dispatch workflow:", err?.response?.data || err.message || err);
     process.exit(1);

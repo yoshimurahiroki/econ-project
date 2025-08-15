@@ -47,6 +47,15 @@ function findTitlePropName(dbProps) {
 }
 function hasProp(dbProps, name, type) { const p = dbProps[name]; return p && (!type || p.type === type); }
 function rich(text) { return [{ type: 'text', text: { content: text ?? '' } }]; }
+function richChunks(text, max = 2000) {
+  const s = String(text || '');
+  if (!s) return [{ type: 'text', text: { content: '' } }];
+  const out = [];
+  for (let i = 0; i < s.length; i += max) {
+    out.push({ type: 'text', text: { content: s.slice(i, i + max) } });
+  }
+  return out;
+}
 
 async function getDbProps() {
   const db = await notion.databases.retrieve({ database_id: NOTION_DB_ID });
@@ -106,6 +115,21 @@ async function downloadPdfFromUrl(url, outPath) {
 }
 
 function ocrPdfToText(pdfPath) {
+  // Fast path: if pdf has a text layer, extract it directly
+  if (hasCommand('pdftotext')) {
+    try {
+      const tmpTxt = pdfPath.replace(/\.pdf$/i, '.txt');
+      const ext = spawnSync('pdftotext', ['-layout', '-nopgbrk', pdfPath, tmpTxt], { encoding: 'utf8' });
+      if (ext.status === 0 && fs.existsSync(tmpTxt)) {
+        const raw = fs.readFileSync(tmpTxt, 'utf8').trim();
+        if (raw && raw.replace(/\s+/g, ' ').length > 50) {
+          return raw;
+        }
+      }
+    } catch {}
+  }
+
+  // Fallback to OCR if no text layer or extraction failed
   if (!hasCommand('pdftoppm') || !hasCommand('tesseract')) {
     throw new Error("Missing OCR deps. Install 'poppler-utils' and 'tesseract-ocr'.");
   }
@@ -183,7 +207,7 @@ async function clearExistingOcr(pageId) {
 
 async function appendOcrBlocks(pageId, text) {
   const chunks = chunkText(text, CHUNK_SIZE);
-  const children = chunks.map(c => ({ type: 'paragraph', paragraph: { rich_text: rich(c) } }));
+  const children = chunks.map(c => ({ type: 'paragraph', paragraph: { rich_text: richChunks(c, 2000) } }));
   // Wrap into a single toggle
   const parent = {
     type: 'toggle',

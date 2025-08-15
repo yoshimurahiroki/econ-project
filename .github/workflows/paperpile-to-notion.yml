@@ -9,7 +9,16 @@ on:
       - 'data/papers/**.csljson'
       - 'tex/bibliography.bib'
       - 'tex/**/*.bib'
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      sync_offset:
+        description: Start index for upsert window
+        required: false
+        default: '0'
+      max_upserts:
+        description: Max entries to upsert this run (0 = unlimited)
+        required: false
+        default: ''
 
 jobs:
   sync:
@@ -43,6 +52,10 @@ jobs:
           DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
           # Skip PDF processing in main job to reduce runtime
           SKIP_PDF: true
+          # Bound work per run to avoid hitting 6h limits (set in repo variables)
+          MAX_UPSERTS: ${{ github.event.inputs.max_upserts || vars.MAX_UPSERTS }}
+          # Continue across runs (offset from previous state)
+          SYNC_OFFSET: ${{ github.event.inputs.sync_offset || '0' }}
 
       - name: Upload touched entries
         if: always()
@@ -51,6 +64,13 @@ jobs:
           name: touched
           path: scripts/.out/updated.json
 
+      - name: Upload sync state
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sync-state
+          path: scripts/.out/sync-state.json
+
   generate-ocr-matrix:
     needs: sync
     runs-on: ubuntu-latest
@@ -58,6 +78,10 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: touched
+          path: .
+      - uses: actions/download-artifact@v4
+        with:
+          name: sync-state
           path: .
       - name: Build OCR matrix JSON
         id: build
@@ -82,11 +106,49 @@ jobs:
     outputs:
       matrix: ${{ steps.build.outputs.matrix }}
 
+  # Self-dispatch if there is more work remaining (continue runs until done)
+  continue-or-finish:
+    needs: [sync, generate-ocr-matrix]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: sync-state
+          path: .
+      - name: Compute next offset
+        id: next
+        run: |
+          set -euo pipefail
+          if [ ! -f sync-state.json ]; then echo "next_offset=0" >> "$GITHUB_OUTPUT"; echo "remaining=0" >> "$GITHUB_OUTPUT"; exit 0; fi
+          node -e '
+            const fs=require("fs");
+            const s=JSON.parse(fs.readFileSync("sync-state.json","utf8"));
+            const next=Math.max(0, Number(s.nextOffset||0));
+            const remaining=Math.max(0, Number(s.remaining||0));
+            process.stdout.write(`next_offset=${next}\nremaining=${remaining}`);
+          ' >> "$GITHUB_OUTPUT"
+      - name: Dispatch next batch if remaining
+        if: ${{ steps.next.outputs.remaining != '0' }}
+        run: |
+          echo "Dispatching follow-up run from offset ${{ steps.next.outputs.next_offset }}"
+          node scripts/trigger-workflow.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+          WORKFLOW_ID: paperpile-to-notion.yml
+          REF: ${{ github.ref_name || 'master' }}
+
+          # Encode inputs for workflow_dispatch using environment variables read by trigger script (see below change)
+          WORKFLOW_INPUT_sync_offset: ${{ steps.next.outputs.next_offset }}
+          WORKFLOW_INPUT_max_upserts: ${{ vars.MAX_UPSERTS }}
+
   ocr:
     needs: generate-ocr-matrix
     runs-on: ubuntu-latest
     if: ${{ fromJSON(needs.generate-ocr-matrix.outputs.matrix).include[0] != null }}
     strategy:
+  fail-fast: false
       max-parallel: 2
       matrix: ${{ fromJSON(needs.generate-ocr-matrix.outputs.matrix) }}
     steps:
