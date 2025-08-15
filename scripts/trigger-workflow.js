@@ -30,7 +30,7 @@ function collectInputsFromEnv() {
   for (const [k, v] of Object.entries(process.env)) {
     if (!k.startsWith('WORKFLOW_INPUT_')) continue;
     const name = k.replace(/^WORKFLOW_INPUT_/, '');
-    if (v != null) inputs[name] = String(v);
+    if (v !== null && v !== undefined && v !== '') inputs[name] = String(v);
   }
   return inputs;
 }

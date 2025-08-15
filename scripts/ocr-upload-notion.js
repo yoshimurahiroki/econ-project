@@ -114,6 +114,8 @@ async function downloadPdfFromUrl(url, outPath) {
   return outPath;
 }
 
+const MIN_TEXT_LENGTH = Number(process.env.MIN_TEXT_LENGTH || '50');
+
 function ocrPdfToText(pdfPath) {
   // Fast path: if pdf has a text layer, extract it directly
   if (hasCommand('pdftotext')) {
@@ -122,7 +124,7 @@ function ocrPdfToText(pdfPath) {
       const ext = spawnSync('pdftotext', ['-layout', '-nopgbrk', pdfPath, tmpTxt], { encoding: 'utf8' });
       if (ext.status === 0 && fs.existsSync(tmpTxt)) {
         const raw = fs.readFileSync(tmpTxt, 'utf8').trim();
-        if (raw && raw.replace(/\s+/g, ' ').length > 50) {
+        if (raw && raw.replace(/\s+/g, ' ').length > MIN_TEXT_LENGTH) {
           return raw;
         }
       }
