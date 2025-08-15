@@ -156,8 +156,8 @@ jobs:
     if: ${{ fromJSON(needs.generate-ocr-matrix.outputs.matrix).include[0] != null }}
     strategy:
   fail-fast: false
-      max-parallel: 2
-      matrix: ${{ fromJSON(needs.generate-ocr-matrix.outputs.matrix) }}
+  max-parallel: 2
+  matrix: ${{ fromJSON(needs.generate-ocr-matrix.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node
