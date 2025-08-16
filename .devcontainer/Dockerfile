@@ -11,12 +11,17 @@ RUN apt-get update && \
     git git-lfs make build-essential pkg-config \
     python3 \
     locales tzdata \
-    texlive-full \
+    # Minimal TeX for academic papers + Japanese support (much smaller than texlive-full)
+    texlive-latex-recommended \
+    texlive-latex-extra \
+    texlive-xetex \
+    texlive-fonts-recommended \
+    texlive-lang-japanese \
+    latexmk \
     fonts-noto-cjk fonts-noto-cjk-extra \
     openssh-client openssl \
     poppler-utils tesseract-ocr tesseract-ocr-jpn \
     sudo \
-    gdebi-core \
     supervisor procps \
     && rm -rf /var/lib/apt/lists/*
 
@@ -92,34 +97,31 @@ RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && conda activate econ-env && 
     poetry install --only dev --no-interaction --no-ansi --no-root
 WORKDIR /workspaces/econ-project
 
-
-
-# ========= 8) Jupyter/R カーネル登録 =========
+# === Cleanup caches to keep image small ===
 RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && conda activate econ-env && \
-    python -m ipykernel install --user --name econ-env --display-name "Python (econ-env)" && \
-    R -q -e "if (!requireNamespace('IRkernel', quietly=TRUE)) install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')"
+    # clean conda/mamba caches
+    conda clean -afy || true && mamba clean -a -y || true && \
+    # clean pip/poetry/npm caches
+    rm -rf /home/$USERNAME/.cache/pip /home/$USERNAME/.cache/pypoetry /home/$USERNAME/.npm /root/.npm || true && \
+    npm cache clean --force || true && \
+    # remove temporary files and apt lists
+    rm -rf /tmp/* /var/tmp/* /tmp/.X11-unix || true && apt-get clean || true && rm -rf /var/lib/apt/lists/* || true
 
-# ========= 9) RStudio Server =========
+
+
+# ========= 8) Jupyter カーネル登録 (Python + R) =========
+RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && conda activate econ-env && \
+        python -m ipykernel install --user --name econ-env --display-name "Python (econ-env)" && \
+        # Register R kernel if R is present in the conda env
+        if command -v R >/dev/null 2>&1; then \
+            R -q -e "if (!requireNamespace('IRkernel', quietly=TRUE)) install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')" || true; \
+        fi
+
+# ========= 9) supervisor（Jupyter の自動起動） =========
 USER root
-RUN wget -O /tmp/rstudio.deb https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2024.04.2-764-amd64.deb && \
-    apt-get update && apt-get install -y --no-install-recommends libssl3 psmisc && \
-    gdebi -n /tmp/rstudio.deb && rm -f /tmp/rstudio.deb && \
-    rm -rf /var/lib/apt/lists/*
-USER $USERNAME
+RUN mkdir -p /etc/supervisor/conf.d /var/log/supervisor
 
-# ========= 10) supervisor（127.0.0.1バインド & トークン付） =========
-USER root
-RUN mkdir -p /etc/supervisor/conf.d /etc/rstudio /var/log/supervisor
-
-# RStudio: localhost のみ／認証は SSH 前提で off（必要時は on に調整）
-
-RUN cat >/etc/rstudio/rserver.conf <<-'EOF'
-www-address=127.0.0.1
-www-port=8787
-auth-none=1
-EOF
-
-# Jupyter
+# Jupyter: localhost only, token-protected (JUPYTER_TOKEN)
 RUN cat >/etc/supervisor/conf.d/jupyter.conf <<'EOF'
 [program:jupyter]
 command=/bin/bash -lc 'exec /home/vscode/miniforge3/envs/econ-env/bin/jupyter lab --no-browser --ip=127.0.0.1 --port=8888 --ServerApp.token=${JUPYTER_TOKEN:-devtoken}'
@@ -132,26 +134,12 @@ user=vscode
 stopsignal=TERM
 EOF
 
-
-# RStudio
-RUN cat >/etc/supervisor/conf.d/rstudio.conf <<'EOF'
-[program:rstudio]
-command=/usr/lib/rstudio-server/bin/rserver --server-user=vscode --server-daemonize=0 --server-data-dir=/var/run/rstudio-server
-autostart=true
-autorestart=true
-stdout_logfile=/var/log/supervisor/rstudio.stdout.log
-stderr_logfile=/var/log/supervisor/rstudio.stderr.log
-user=root
-stopsignal=TERM
-EOF
-
-
 USER $USERNAME
 
-# ========= 11) 自動 activate =========
+# ========= 10) 自動 activate =========
 RUN echo "conda activate econ-env" >> /home/$USERNAME/.bashrc
 
-# ========= 12) 前景で supervisor =========
+# ========= 11) 前景で supervisor =========
 USER root
-# SSH 前提なら EXPOSE は不要（VS Code が SSH 越しにフォワード）
+# Keep supervisord in foreground so container stays alive; VS Code will forward ports as needed
 CMD ["/usr/bin/supervisord", "-n"]

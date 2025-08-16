@@ -1,11 +1,10 @@
 # 経済学研究フルスタック開発環境（WSL2 + Docker + VS Code Dev Containers）
 
-無料で“最高の”Python / R / TeX 体験を得るための開発環境です。Windows 上の WSL2(Ubuntu) + Docker コンテナ + VS Code Dev Containers を前提に、以下をワンストップで提供します。
+無料で“最高の”Python + TeX 体験を得るための開発環境です（R/RStudio は削除して軽量化）。Windows 上の WSL2(Ubuntu) + Docker コンテナ + VS Code Dev Containers を前提に、以下をワンストップで提供します。
 
 - Python: conda/mamba + Poetry 管理、型チェック(mypy)、Linter/Formatter(ruff)、pytest
-- R: r-base + tidyverse、IRkernel（Jupyter から R 実行）、languageserver
-- TeX: texlive-full（LuaLaTeX ベース）、VS Code LaTeX Workshop
-- Jupyter: Python/R カーネル登録済み、127.0.0.1 バインドで安全
+- TeX: 軽量な TeX Live セット（日本語対応） + VS Code LaTeX Workshop
+- Jupyter: Python カーネル登録済み、127.0.0.1 バインドで安全
 - Notion 連携: 公式 JS SDK（@notionhq/client）で成果物メモと文献DBの同期（CI連携可）
 - Quarto: VS Code 拡張による編集体験（CLI は任意）
 
@@ -26,7 +25,7 @@
 コンテナは `.devcontainer/Dockerfile` により以下を自動構築します。
 - Miniforge(mamba) + conda 環境 `econ-env` を `environment.yml` から作成
 - Poetry を導入、Python インタプリタは conda 環境を既定に設定
-- Jupyter カーネル登録（Python econ-env, R IRkernel）
+- Jupyter カーネル登録（Python econ-env）
 - VS Code 拡張（Python/R/LaTeX/Quarto など）を自動インストール
 
 データディレクトリは Docker ボリューム `econ_data` として `/workspaces/econ-project/data` にマウントされ、ホストに依存せずに永続化されます。
@@ -52,9 +51,7 @@
 	- conda/mamba（environment.yml）で一括管理・再現性確保
 - Python プロジェクト依存（アプリ/ライブラリ）
 	- Poetry（pyproject.toml）で厳密管理（dev 依存は group dev）
-- R パッケージ
-	- conda 経由で入るものは environment.yml に記載
-	- 足りなければ R 内で install.packages() を使用（必要に応じて固定）
+不要: R is removed from the default container. If you need R later, add it to `environment.yml` and re-enable IRkernel in the Dockerfile.
 - Jupyter 内での `!pip install`/`install.packages()` は極力避け、定義ファイルに反映
 
 ## Notion 連携（無料・公式 SDK）
@@ -93,21 +90,47 @@ Node（scripts ディレクトリ限定）で公式 SDK を使用します。
 	- LaTeX: LaTeX Workshop, LaTeX Utilities
 	- Quarto: Quarto 拡張（編集体験向上）
 	- そのほか: YAML/TOML、dotenv、Makefile ツール等
-- Jupyter: 127.0.0.1 バインドでローカルフォワード前提の安全運用
-- TeX: texlive-full 同梱でローカル追加インストール不要
+-- Jupyter: 127.0.0.1 バインドでローカルフォワード前提の安全運用
+-- TeX: 軽量な TeX Live セット（日本語対応）を採用してコンテナサイズを大幅に削減
 
 ## トラブルシュート
 - コンテナが重い/ビルドが長い: texlive-full は大型です。必要に応じて軽量化可。
 - Jupyter に R カーネルが出ない: コンテナ再作成（IRkernel 登録は Dockerfile で実施）。
 - Notion API 429（レート制限）: 再試行まで待機、バッチサイズ調整を検討。
 
+## Docker 資源のクリーンアップ
+コンテナやイメージ、ボリューム、ビルドキャッシュの不要資源を自動的に削除するスクリプトを追加しました。
+
+- パス: `.devcontainer/cleanup/`
+	- `docker-prune-old.sh` : Bash (Linux/macOS)
+	- `docker-prune-old.ps1` : PowerShell (Windows)
+	- `README.md` : 実行・スケジューリング手順
+
+使い方 (まず DRY で確認してください):
+```bash
+# dry run
+DAYS=30 DRY=true bash .devcontainer/cleanup/docker-prune-old.sh
+
+# 実行
+DAYS=30 bash .devcontainer/cleanup/docker-prune-old.sh
+```
+
+Windows PowerShell:
+```powershell
+# dry run
+.\.devcontainer\cleanup\docker-prune-old.ps1 -Days 30 -DryRun
+
+# 実行
+.\.devcontainer\cleanup\docker-prune-old.ps1 -Days 30
+```
+
+自動化: systemd タイマーや Windows Task Scheduler に登録できます（管理者権限が必要）。詳細は `.devcontainer/cleanup/README.md` を参照してください。
+
 ## 付録：主要ファイル
-- .devcontainer/Dockerfile: 基盤（Ubuntu + mamba + Poetry + TeX + R）
-- environment.yml: conda 環境（Python/R/Jupyter/ツール）
+- .devcontainer/Dockerfile: 基盤（Ubuntu + mamba + Poetry + 軽量 TeX、R は除外）
+- environment.yml: conda 環境（Python/Jupyter/ツール）
 - pyproject.toml: Poetry（Python 依存/ツール）
-- Makefile: よく使うコマンド
-- scripts/: Notion 連携ツール（Node 依存をここに隔離）
-- notebooks/: 分析ノート（Python/R）
+- notebooks/: 分析ノート（Python）
 - tex/: 論文・スライド（LuaLaTeX）
 
 ---

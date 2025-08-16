@@ -18,10 +18,10 @@
     "gpu": "optional"
   },
 
-  "forwardPorts": [8888, 8787, 3000],
+  "forwardPorts": [8888, 3000],
   "portsAttributes": {
     "8888": { "label": "Jupyter Lab", "onAutoForward": "notify" },
-    "8787": { "label": "RStudio", "onAutoForward": "notify" }
+    "3000": { "label": "App port", "onAutoForward": "notify" }
   },
 
   "containerEnv": {
@@ -33,7 +33,6 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-vscode-remote.remote-ssh",
         "ms-vscode-remote.remote-containers",
         "ms-azuretools.vscode-docker",
 
@@ -43,30 +42,30 @@
         "ms-python.mypy-type-checker",
         "pytest-dev.pytest-vscode",
 
-        "quarto.quarto",                    // ★ Quarto 拡張（無料）
+        "quarto.quarto",
         "James-Yu.latex-workshop",
-        "tecosaur.latex-utilities",         // ★ LaTeX 補助（無料）
+        "tecosaur.latex-utilities",
 
+        // R support (R language, LSP, debugger) - R is available but RStudio server is not installed
         "REditorSupport.r",
         "ikuyadeu.r-lsp",
-        "RDebugger.r-debugger",             // ★ Rデバッガ（無料）
+        "RDebugger.r-debugger",
 
         "charliermarsh.ruff",
         "ms-python.black-formatter",
         "ms-python.isort",
 
         "redhat.vscode-yaml",
-        "tamasfe.even-better-toml",         // ★ pyproject.toml 編集（無料）
-        "mikestead.dotenv",                  // ★ .env 補助（無料）
-        "humao.rest-client",                 // ★ API 実験（無料）
-        "ms-vscode.makefile-tools",          // ★ Makefile 補助（無料）
-        "DavidAnson.vscode-markdownlint",    // ★ Markdown Lint（無料）
+        "tamasfe.even-better-toml",
+        "mikestead.dotenv",
+        "humao.rest-client",
+        "ms-vscode.makefile-tools",
+        "DavidAnson.vscode-markdownlint",
 
         "yzhang.markdown-all-in-one",
         "EditorConfig.EditorConfig",
         "eamodio.gitlens",
         "GitHub.vscode-pull-request-github",
-        "ms-azuretools.vscode-docker",
 
         "Continue.continue",
         "Codeium.codeium",
@@ -80,8 +79,6 @@
         "formulahendry.auto-rename-tag",
         "christian-kohler.path-intellisense",
         "donjayamanne.githistory",
-    "quarto.quarto",                    // ★ Quarto 拡張（無料）
-    "James-Yu.latex-workshop",
         "formulahendry.code-runner",
         "njpwerner.autodocstring",
         "Gruntfuggly.todo-tree",
@@ -113,16 +110,15 @@
           }
         ],
 
-        "files.exclude": {
+  "files.exclude": {
           "**/env": true,
           "**/.venv": true,
           "**/__pycache__": true,
           "**/*.pyc": true
         },
-
-        "ruff.lint.args": ["--config=pyproject.toml"],
-        "ruff.format.args": ["--config=pyproject.toml"],
-        "r.rterm.linux": "/home/vscode/miniforge3/envs/econ-env/bin/R"
+  "ruff.lint.args": ["--config=pyproject.toml"],
+  "ruff.format.args": ["--config=pyproject.toml"],
+  "r.rterm.linux": "/home/vscode/miniforge3/envs/econ-env/bin/R"
       }
     }
   }
