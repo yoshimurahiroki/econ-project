@@ -30,10 +30,10 @@ jobs:
     concurrency:
       group: paperpile-to-notion
       cancel-in-progress: true
-  timeout-minutes: 60
+    timeout-minutes: 60
     steps:
       - name: Debounce 60s (wait for last push in a burst)
-    run: sleep 20
+        run: sleep 20
 
       - uses: actions/checkout@v4
 
