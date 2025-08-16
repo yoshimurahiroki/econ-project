@@ -20,15 +20,20 @@ on:
         required: false
         default: ''
 
+permissions:
+  contents: read
+  actions: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
     concurrency:
       group: paperpile-to-notion
       cancel-in-progress: true
+  timeout-minutes: 60
     steps:
       - name: Debounce 60s (wait for last push in a burst)
-        run: sleep 60
+    run: sleep 20
 
       - uses: actions/checkout@v4
 
@@ -53,10 +58,9 @@ jobs:
           # Skip PDF processing in main job to reduce runtime
           SKIP_PDF: true
           # Bound work per run to avoid hitting 6h limits (set in repo variables)
-          MAX_UPSERTS: ${{ github.event.inputs.max_upserts || vars.MAX_UPSERTS }}
+          MAX_UPSERTS: ${{ github.event.inputs.max_upserts || vars.MAX_UPSERTS || '300' }}
           # Continue across runs (offset from previous state)
           SYNC_OFFSET: ${{ github.event.inputs.sync_offset || '0' }}
-
       - name: Upload touched entries
         if: always()
         uses: actions/upload-artifact@v4
@@ -74,7 +78,13 @@ jobs:
   generate-ocr-matrix:
     needs: sync
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
       - uses: actions/download-artifact@v4
         with:
           name: touched
@@ -110,6 +120,7 @@ jobs:
   continue-or-finish:
     needs: [sync, generate-ocr-matrix]
     runs-on: ubuntu-latest
+  timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node

@@ -183,6 +183,19 @@ function richChunks(text, max = 2000) {
   return out;
 }
 
+// Clip helpers for bib properties (send only the first 2000 chars)
+const CLIP_MAX = 2000;
+function clip(text, max = CLIP_MAX) {
+  const s = String(text || "");
+  return s.length > max ? s.slice(0, max) : s;
+}
+function richClipped(text, max = CLIP_MAX) {
+  return [{ type: "text", text: { content: clip(text, max) } }];
+}
+function titleClipped(text, max = CLIP_MAX) {
+  return [{ type: "text", text: { content: clip(text, max) } }];
+}
+
 function toNotionProps(entry, pdfUrl, dbProps) {
   const authorsText = (entry.authors || []).join("; ");
   const tags = entry.keywords?.length ? entry.keywords : DEFAULT_TAGS;
@@ -191,7 +204,7 @@ function toNotionProps(entry, pdfUrl, dbProps) {
   // Title: use actual title property name
   const titleName = findTitlePropName(dbProps) || "Title";
   if (hasProp(dbProps, titleName, "title")) {
-    out[titleName] = { title: titleProp(entry.title || entry.key || "(no title)") };
+  out[titleName] = { title: titleClipped(entry.title || entry.key || "(no title)") };
   }
 
   // Bib Key (rich_text)
@@ -201,9 +214,9 @@ function toNotionProps(entry, pdfUrl, dbProps) {
 
   // Authors / Author
   if (hasProp(dbProps, "Authors", "rich_text")) {
-    out["Authors"] = { rich_text: rich(authorsText) };
+  out["Authors"] = { rich_text: richClipped(authorsText) };
   } else if (hasProp(dbProps, "Author", "rich_text")) {
-    out["Author"] = { rich_text: rich(authorsText) };
+  out["Author"] = { rich_text: richClipped(authorsText) };
   }
 
   // First Author
@@ -218,51 +231,51 @@ function toNotionProps(entry, pdfUrl, dbProps) {
 
   // Venue / Journal: prefer rich_text; fallback select
   if (hasProp(dbProps, "Venue", "rich_text")) {
-    out["Venue"] = { rich_text: rich(entry.venue || "") };
+  out["Venue"] = { rich_text: richClipped(entry.venue || "") };
   } else if (hasProp(dbProps, "Venue", "select")) {
     const v = (entry.venue || "").trim();
     out["Venue"] = { select: v ? { name: v } : null };
   } else if (hasProp(dbProps, "Journal", "rich_text")) {
-    out["Journal"] = { rich_text: rich(entry.venue || "") };
+  out["Journal"] = { rich_text: richClipped(entry.venue || "") };
   }
 
   // Volume / Number / Pages / Issue / Type
-  if (hasProp(dbProps, "Volume", "rich_text")) out["Volume"] = { rich_text: rich(entry.volume || "") };
-  if (hasProp(dbProps, "Number", "rich_text")) out["Number"] = { rich_text: rich(entry.number || "") };
-  if (hasProp(dbProps, "Pages", "rich_text")) out["Pages"] = { rich_text: rich(entry.pages || "") };
-  if (hasProp(dbProps, "Issue", "rich_text")) out["Issue"] = { rich_text: rich(entry.issue || "") };
-  if (hasProp(dbProps, "Type", "rich_text")) out["Type"] = { rich_text: rich(entry.type || "") };
+  if (hasProp(dbProps, "Volume", "rich_text")) out["Volume"] = { rich_text: richClipped(entry.volume || "") };
+  if (hasProp(dbProps, "Number", "rich_text")) out["Number"] = { rich_text: richClipped(entry.number || "") };
+  if (hasProp(dbProps, "Pages", "rich_text")) out["Pages"] = { rich_text: richClipped(entry.pages || "") };
+  if (hasProp(dbProps, "Issue", "rich_text")) out["Issue"] = { rich_text: richClipped(entry.issue || "") };
+  if (hasProp(dbProps, "Type", "rich_text")) out["Type"] = { rich_text: richClipped(entry.type || "") };
 
   // DOI: support url or rich_text
   if (prop(dbProps, "DOI")) {
     const t = prop(dbProps, "DOI").type;
     if (t === "url") out["DOI"] = { url: entry.doi || null };
-    else if (t === "rich_text") out["DOI"] = { rich_text: rich(entry.doi || "") };
+  else if (t === "rich_text") out["DOI"] = { rich_text: richClipped(entry.doi || "") };
   }
 
   // URL: support url or rich_text
   if (prop(dbProps, "URL")) {
     const t = prop(dbProps, "URL").type;
     if (t === "url") out["URL"] = { url: entry.url || null };
-    else if (t === "rich_text") out["URL"] = { rich_text: rich(entry.url || "") };
+  else if (t === "rich_text") out["URL"] = { rich_text: richClipped(entry.url || "") };
   }
 
   // Abstract (from bib): cut to the first 2000 chars as Notion rich_text limit
   if (hasProp(dbProps, "Abstract", "rich_text")) {
     const s = String(entry.abstract || "");
     const cut = s.slice(0, ABSTRACT_MAX);
-    out["Abstract"] = { rich_text: rich(cut) };
+    out["Abstract"] = { rich_text: richClipped(cut) };
   } else if (hasProp(dbProps, "Abstract Origin", "rich_text")) {
     const s = String(entry.abstract || "");
     const cut = s.slice(0, ABSTRACT_MAX);
-    out["Abstract Origin"] = { rich_text: rich(cut) };
+    out["Abstract Origin"] = { rich_text: richClipped(cut) };
   }
 
   // Code
   if (prop(dbProps, "Code")) {
     const t = prop(dbProps, "Code").type;
     if (t === "url") out["Code"] = { url: entry.code || null };
-    else if (t === "rich_text") out["Code"] = { rich_text: rich(entry.code || "") };
+  else if (t === "rich_text") out["Code"] = { rich_text: richClipped(entry.code || "") };
   }
 
   // Tags: multi_select or select
@@ -286,7 +299,7 @@ function toNotionProps(entry, pdfUrl, dbProps) {
     if (prop(dbProps, "File Path")) {
       const t = prop(dbProps, "File Path").type;
       if (t === "url") out["File Path"] = { url: pdfUrl || null };
-      else if (t === "rich_text") out["File Path"] = { rich_text: rich(pdfUrl || "") };
+  else if (t === "rich_text") out["File Path"] = { rich_text: richClipped(pdfUrl || "") };
     }
   }
 
@@ -439,7 +452,7 @@ async function main() {
     const outDir = path.join(process.cwd(), "scripts", ".out");
     fs.mkdirSync(outDir, { recursive: true });
     const outPath = path.join(outDir, "updated.json");
-    fs.writeFileSync(outPath, JSON.stringify(touched, null, 2));
+  fs.writeFileSync(outPath, JSON.stringify(touched, null, 2));
     console.log(`Wrote ${touched.length} touched entries to ${outPath}`);
 
     // Write sync-state for workflow continuation
@@ -452,7 +465,7 @@ async function main() {
       maxUpserts: MAX_UPSERTS,
     };
     const statePath = path.join(outDir, "sync-state.json");
-    fs.writeFileSync(statePath, JSON.stringify(state, null, 2));
+  fs.writeFileSync(statePath, JSON.stringify(state, null, 2));
     console.log(`Wrote sync state to ${statePath}`);
   } catch (e) {
     console.warn("Failed to write touched entries:", e?.message || e);
