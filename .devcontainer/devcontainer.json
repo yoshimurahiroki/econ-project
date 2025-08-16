@@ -3,6 +3,7 @@
   "build": { "dockerfile": "Dockerfile", "context": ".." },
   "remoteUser": "vscode",
   "workspaceFolder": "/workspaces/econ-project",
+  "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached",
   "updateRemoteUserUID": true,
 
   "mounts": [
