@@ -6,30 +6,33 @@ SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
 # ========= 1) OS 基本 =========
 RUN echo 'Acquire::Retries "10";' > /etc/apt/apt.conf.d/99-retries && \
-        echo 'Acquire::http::Timeout "120";' >> /etc/apt/apt.conf.d/99-retries && \
-        echo 'Acquire::https::Timeout "120";' >> /etc/apt/apt.conf.d/99-retries && \
-        bash -lc 'set -e; for i in {1..5}; do \
-            apt-get update && \
-            apt-get install -y --no-install-recommends \
-                ca-certificates curl wget gnupg \
-                git git-lfs make build-essential pkg-config \
-                python3 \
-                locales tzdata \
-                # minimal TeX + Japanese support (smaller than full texlive)
-                texlive-latex-recommended \
-                texlive-latex-extra \
-                texlive-xetex \
-                texlive-fonts-recommended \
-                texlive-lang-japanese \
-                latexmk \
-                fonts-noto-cjk fonts-noto-cjk-extra \
-                openssh-client openssl \
-                poppler-utils tesseract-ocr tesseract-ocr-jpn \
-                sudo \
-                supervisor procps \
-            && break || (echo "apt failed, retry $i"; apt-get -o Acquire::Retries=3 update; sleep $((i*15))); \
-        done' && \
-        rm -rf /var/lib/apt/lists/*
+    echo 'Acquire::http::Timeout "120";' >> /etc/apt/apt.conf.d/99-retries && \
+    echo 'Acquire::https::Timeout "120";' >> /etc/apt/apt.conf.d/99-retries && \
+    bash -lc 'set -e; for i in {1..5}; do \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    ca-certificates curl wget gnupg \
+    git git-lfs make build-essential pkg-config \
+    python3 \
+    locales tzdata \
+    # minimal TeX + Japanese support (smaller than full texlive)
+    texlive-luatex \
+    texlive-latex-recommended \
+    texlive-latex-extra \
+    texlive-xetex \
+    texlive-fonts-recommended \
+    texlive-lang-japanese \
+    texlive-bibtex-extra \
+    ptex-bin \
+    latexmk \
+    fonts-noto-cjk fonts-noto-cjk-extra \
+    openssh-client openssl \
+    poppler-utils tesseract-ocr tesseract-ocr-jpn \
+    sudo \
+    supervisor procps \
+    && break || (echo "apt failed, retry $i"; apt-get -o Acquire::Retries=3 update; sleep $((i*15))); \
+    done' && \
+    rm -rf /var/lib/apt/lists/*
 
 # Node.js LTS
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
@@ -117,11 +120,11 @@ RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && conda activate econ-env && 
 
 # ========= 8) Jupyter カーネル登録 (Python + R) =========
 RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && conda activate econ-env && \
-        python -m ipykernel install --user --name econ-env --display-name "Python (econ-env)" && \
-        # Register R kernel if R is present in the conda env
-        if command -v R >/dev/null 2>&1; then \
-            R -q -e "if (!requireNamespace('IRkernel', quietly=TRUE)) install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')" || true; \
-        fi
+    python -m ipykernel install --user --name econ-env --display-name "Python (econ-env)" && \
+    # Register R kernel if R is present in the conda env
+    if command -v R >/dev/null 2>&1; then \
+    R -q -e "if (!requireNamespace('IRkernel', quietly=TRUE)) install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')" || true; \
+    fi
 
 # ========= 9) supervisor（Jupyter の自動起動） =========
 USER root
