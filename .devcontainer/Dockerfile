@@ -5,49 +5,31 @@ ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
 # ========= 1) OS 基本 =========
-<<<<<<< HEAD
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    ca-certificates curl wget gnupg \
-    git git-lfs make build-essential pkg-config \
-    python3 \
-    locales tzdata \
-    # Minimal TeX for academic papers + Japanese support (much smaller than texlive-full)
-    texlive-latex-recommended \
-    texlive-latex-extra \
-    texlive-xetex \
-    texlive-fonts-recommended \
-    texlive-lang-japanese \
-    latexmk \
-    fonts-noto-cjk fonts-noto-cjk-extra \
-    openssh-client openssl \
-    poppler-utils tesseract-ocr tesseract-ocr-jpn \
-    sudo \
-    supervisor procps \
-    && rm -rf /var/lib/apt/lists/*
-=======
-# ========= 1) OS 基本 =========
 RUN echo 'Acquire::Retries "10";' > /etc/apt/apt.conf.d/99-retries && \
-    echo 'Acquire::http::Timeout "120";' >> /etc/apt/apt.conf.d/99-retries && \
-    echo 'Acquire::https::Timeout "120";' >> /etc/apt/apt.conf.d/99-retries && \
-    bash -lc 'set -e; for i in {1..5}; do \
-      apt-get update && \
-      apt-get install -y --no-install-recommends \
-        ca-certificates curl wget gnupg \
-        git git-lfs make build-essential pkg-config \
-        python3 \
-        locales tzdata \
-        texlive-full \
-        fonts-noto-cjk fonts-noto-cjk-extra \
-        openssh-client openssl \
-        poppler-utils tesseract-ocr tesseract-ocr-jpn \
-        sudo \
-        gdebi-core \
-        supervisor procps \
-      && break || (echo \"apt failed, retry $i\"; apt-get -o Acquire::Retries=3 update; sleep $((i*15))); \
-    done' && \
-    rm -rf /var/lib/apt/lists/*
->>>>>>> e4d22bd96371cbd487b5fbdaa60a1587f8d94d9c
+        echo 'Acquire::http::Timeout "120";' >> /etc/apt/apt.conf.d/99-retries && \
+        echo 'Acquire::https::Timeout "120";' >> /etc/apt/apt.conf.d/99-retries && \
+        bash -lc 'set -e; for i in {1..5}; do \
+            apt-get update && \
+            apt-get install -y --no-install-recommends \
+                ca-certificates curl wget gnupg \
+                git git-lfs make build-essential pkg-config \
+                python3 \
+                locales tzdata \
+                # minimal TeX + Japanese support (smaller than full texlive)
+                texlive-latex-recommended \
+                texlive-latex-extra \
+                texlive-xetex \
+                texlive-fonts-recommended \
+                texlive-lang-japanese \
+                latexmk \
+                fonts-noto-cjk fonts-noto-cjk-extra \
+                openssh-client openssl \
+                poppler-utils tesseract-ocr tesseract-ocr-jpn \
+                sudo \
+                supervisor procps \
+            && break || (echo "apt failed, retry $i"; apt-get -o Acquire::Retries=3 update; sleep $((i*15))); \
+        done' && \
+        rm -rf /var/lib/apt/lists/*
 
 # Node.js LTS
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \

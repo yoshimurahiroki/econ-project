@@ -1,6 +1,6 @@
 # Makefile for Econometrics Research Environment
 .PHONY: help install setup-dev check format test clean build-paper build-slides jupyter \
-	# r-install/r-check removed (no R) quarto-html quarto-pdf quarto-reveal gpu \
+	r-install r-check quarto-html quarto-pdf quarto-reveal gpu \
         clean-paper clean-slides clean-all pre-commit update stats notion-sync
  .PHONY: notion-install notion-sync notion-sync-db
 

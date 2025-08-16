@@ -47,7 +47,7 @@
         "James-Yu.latex-workshop",
         "tecosaur.latex-utilities",
 
-        // R support (R language, LSP, debugger) - R is available but RStudio server is not installed
+  // R support (R language, LSP, debugger) - R is available; RStudio server is not installed in this container
         "REditorSupport.r",
         "ikuyadeu.r-lsp",
         "RDebugger.r-debugger",

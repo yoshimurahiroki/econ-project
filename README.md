@@ -1,6 +1,6 @@
 # 経済学研究フルスタック開発環境（WSL2 + Docker + VS Code Dev Containers）
 
-無料で“最高の”Python + TeX 体験を得るための開発環境です（R/RStudio は削除して軽量化）。Windows 上の WSL2(Ubuntu) + Docker コンテナ + VS Code Dev Containers を前提に、以下をワンストップで提供します。
+無料で“最高の”Python + TeX 体験を得るための開発環境です（R 本体は残し、RStudio Server はコンテナに入れないことで軽量化）。Windows 上の WSL2(Ubuntu) + Docker コンテナ + VS Code Dev Containers を前提に、以下をワンストップで提供します。
 
 - Python: conda/mamba + Poetry 管理、型チェック(mypy)、Linter/Formatter(ruff)、pytest
 - TeX: 軽量な TeX Live セット（日本語対応） + VS Code LaTeX Workshop
@@ -51,7 +51,7 @@
 	- conda/mamba（environment.yml）で一括管理・再現性確保
 - Python プロジェクト依存（アプリ/ライブラリ）
 	- Poetry（pyproject.toml）で厳密管理（dev 依存は group dev）
-不要: R is removed from the default container. If you need R later, add it to `environment.yml` and re-enable IRkernel in the Dockerfile.
+R 本体は conda 環境内に残します。RStudio Server はコンテナにインストールしていません。必要ならホスト側に RStudio を用意するか、別途フルイメージを用意してください。
 - Jupyter 内での `!pip install`/`install.packages()` は極力避け、定義ファイルに反映
 
 ## Notion 連携（無料・公式 SDK）
@@ -127,7 +127,7 @@ Windows PowerShell:
 自動化: systemd タイマーや Windows Task Scheduler に登録できます（管理者権限が必要）。詳細は `.devcontainer/cleanup/README.md` を参照してください。
 
 ## 付録：主要ファイル
-- .devcontainer/Dockerfile: 基盤（Ubuntu + mamba + Poetry + 軽量 TeX、R は除外）
+- .devcontainer/Dockerfile: 基盤（Ubuntu + mamba + Poetry + 軽量 TeX、日本語対応。R 本体は conda 環境に含むが RStudio Server はインストールしない）
 - environment.yml: conda 環境（Python/Jupyter/ツール）
 - pyproject.toml: Poetry（Python 依存/ツール）
 - notebooks/: 分析ノート（Python）
