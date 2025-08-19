@@ -1,8 +1,18 @@
-# 経済学研究フルスタック（SSH/localhost前提・GPU/Quarto/RStudio 常駐）
+# 経済学研究フルスタック（SSH/localhost前提・GPU/Quarto常駐）
 FROM ubuntu:22.04
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates wget && rm -rf /var/lib/apt/lists/*
+
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl ca-certificates locales tzdata && \
+    sed -i 's/^# *\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen || true && \
+    sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen || true && \
+    locale-gen en_US.UTF-8 ja_JP.UTF-8 && \
+    update-locale LANG=ja_JP.UTF-8 && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
@@ -42,9 +52,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
     apt-get update && apt-get install -y --no-install-recommends nodejs && \
     rm -rf /var/lib/apt/lists/*
 
-# 日本語ロケール
-RUN sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
-ENV LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
+
 
 # ========= 2) ユーザー =========
 ARG USERNAME=vscode
