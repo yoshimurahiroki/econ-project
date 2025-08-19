@@ -1,4 +1,4 @@
-# 経済学研究フルスタック（SSH/localhost前提・GPU/Quarto/RStudio 常駐）
+# 経済学研究フルスタック（SSH/localhost前提・GPU/Quarto常駐）
 FROM ubuntu:22.04
 
 RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*
@@ -43,7 +43,10 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
     rm -rf /var/lib/apt/lists/*
 
 # 日本語ロケール
-RUN sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
+RUN apt-get update && apt-get install -y --no-install-recommends locales && \
+    sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen || true && \
+    locale-gen ja_JP.UTF-8 && \
+    update-locale LANG=ja_JP.UTF-8
 ENV LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
 
 # ========= 2) ユーザー =========
