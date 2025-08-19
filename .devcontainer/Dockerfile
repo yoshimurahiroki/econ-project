@@ -1,6 +1,9 @@
 # 経済学研究フルスタック（SSH/localhost前提・GPU/Quarto/RStudio 常駐）
 FROM ubuntu:22.04
 
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*
+
+
 ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
