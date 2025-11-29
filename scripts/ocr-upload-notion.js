@@ -1,12 +1,22 @@
-// OCR a single paper's PDF and upload text chunks to its Notion page
+// Notion PDF OCR uploader
+// -----------------------
+// This script provides two modes:
+//   1) Single page mode: identify one Notion page by PAGE_ID or BIB_KEY
+//      and OCR its associated PDF into a toggle block.
+//   2) Recent pages mode: when OCR_RECENT_LIMIT is set, scan the most
+//      recently edited pages in the database and OCR each one that has
+//      an associated PDF URL.
+//
 // Env:
 // - NOTION_TOKEN (required)
 // - NOTION_DB_ID (required)
-// - BIB_KEY (required unless PAGE_ID is provided)
-// - PAGE_ID (optional alternative to BIB_KEY)
-// - GOOGLE_API_KEY (optional, required to download from Drive webViewLink)
-// - DRIVE_FOLDER_ID (optional, for fallback matching)
+// - PAGE_ID (optional, single-page mode)
+// - BIB_KEY (optional, single-page mode fallback)
+// - OCR_RECENT_LIMIT (optional, switch to batch mode when set)
+// - GOOGLE_API_KEY (optional, for Google Drive downloads)
+// - DRIVE_FOLDER_ID (optional, for Drive name-based matching)
 // - CHUNK_SIZE (optional, default 1500)
+// - MIN_TEXT_LENGTH (optional, default 50)
 // - TESS_LANG (default 'eng') e.g., 'eng+jpn'
 // - TESS_PSM (default '1'), TESS_OEM (default '1'), TESS_DPI (default '300'), TESS_EXTRA_ARGS
 
@@ -28,11 +38,13 @@ function env(name, optional = false) {
 
 const NOTION_TOKEN = env('NOTION_TOKEN');
 const NOTION_DB_ID = env('NOTION_DB_ID');
-const BIB_KEY = process.env.BIB_KEY || '';
 const PAGE_ID = process.env.PAGE_ID || '';
+const BIB_KEY = process.env.BIB_KEY || '';
+const OCR_RECENT_LIMIT = Number(process.env.OCR_RECENT_LIMIT || '0');
 const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || '';
 const DRIVE_FOLDER_ID = process.env.DRIVE_FOLDER_ID || '';
 const CHUNK_SIZE = Number(process.env.CHUNK_SIZE || '1500');
+const MIN_TEXT_LENGTH = Number(process.env.MIN_TEXT_LENGTH || '50');
 
 const notion = new NotionClient({ auth: NOTION_TOKEN });
 
@@ -42,11 +54,21 @@ function hasCommand(cmd) {
 }
 
 function findTitlePropName(dbProps) {
-  for (const [name, def] of Object.entries(dbProps)) if (def?.type === 'title') return name;
+  for (const [name, def] of Object.entries(dbProps)) {
+    if (def?.type === 'title') return name;
+  }
   return null;
 }
-function hasProp(dbProps, name, type) { const p = dbProps[name]; return p && (!type || p.type === type); }
-function rich(text) { return [{ type: 'text', text: { content: text ?? '' } }]; }
+
+function hasProp(dbProps, name, type) {
+  const p = dbProps[name];
+  return p && (!type || p.type === type);
+}
+
+function rich(text) {
+  return [{ type: 'text', text: { content: text ?? '' } }];
+}
+
 function richChunks(text, max = 2000) {
   const s = String(text || '');
   if (!s) return [{ type: 'text', text: { content: '' } }];
@@ -106,7 +128,6 @@ async function downloadPdfFromUrl(url, outPath) {
     fs.writeFileSync(outPath, buf);
     return outPath;
   }
-  // direct URL fetch
   const res = await fetch(url);
   if (!res.ok) throw new Error(`PDF download failed: ${res.status}`);
   const buf = Buffer.from(await res.arrayBuffer());
@@ -114,10 +135,7 @@ async function downloadPdfFromUrl(url, outPath) {
   return outPath;
 }
 
-const MIN_TEXT_LENGTH = Number(process.env.MIN_TEXT_LENGTH || '50');
-
 function ocrPdfToText(pdfPath) {
-  // Fast path: if pdf has a text layer, extract it directly
   if (hasCommand('pdftotext')) {
     try {
       const tmpTxt = pdfPath.replace(/\.pdf$/i, '.txt');
@@ -128,10 +146,11 @@ function ocrPdfToText(pdfPath) {
           return raw;
         }
       }
-    } catch {}
+    } catch {
+      // fall through to OCR
+    }
   }
 
-  // Fallback to OCR if no text layer or extraction failed
   if (!hasCommand('pdftoppm') || !hasCommand('tesseract')) {
     throw new Error("Missing OCR deps. Install 'poppler-utils' and 'tesseract-ocr'.");
   }
@@ -143,22 +162,29 @@ function ocrPdfToText(pdfPath) {
 
   const base = pdfPath.replace(/\.pdf$/i, '');
   const conv = spawnSync('pdftoppm', ['-png', '-r', tessDpi, pdfPath, base], { encoding: 'utf8' });
-  if (conv.status !== 0) throw new Error(`pdftoppm failed: ${conv.status} ${conv.stderr || conv.stdout || ''}`);
+  if (conv.status !== 0) {
+    throw new Error(`pdftoppm failed: ${conv.status} ${conv.stderr || conv.stdout || ''}`);
+  }
 
   const dir = path.dirname(base);
   const bn = path.basename(base);
-  const imgs = fs.readdirSync(dir).filter(f => f.startsWith(bn + '-') && f.endsWith('.png')).sort((a,b) => {
-    const ai = Number(a.replace(/^.*-(\d+)\.png$/, '$1'));
-    const bi = Number(b.replace(/^.*-(\d+)\.png$/, '$1'));
-    return ai - bi;
-  });
+  const imgs = fs
+    .readdirSync(dir)
+    .filter((f) => f.startsWith(bn + '-') && f.endsWith('.png'))
+    .sort((a, b) => {
+      const ai = Number(a.replace(/^.*-(\d+)\.png$/, '$1'));
+      const bi = Number(b.replace(/^.*-(\d+)\.png$/, '$1'));
+      return ai - bi;
+    });
 
   let full = '';
   for (const img of imgs) {
     const imgPath = path.join(dir, img);
     const args = [imgPath, 'stdout', '--psm', tessPsm, '--oem', tessOem, '-l', tessLang, ...tessExtra];
     const ocr = spawnSync('tesseract', args, { encoding: 'utf8' });
-    if (ocr.status === 0) full += (ocr.stdout || '') + '\n\n';
+    if (ocr.status === 0) {
+      full += (ocr.stdout || '') + '\n\n';
+    }
   }
   return full.trim();
 }
@@ -209,8 +235,8 @@ async function clearExistingOcr(pageId) {
 
 async function appendOcrBlocks(pageId, text) {
   const chunks = chunkText(text, CHUNK_SIZE);
-  const children = chunks.map(c => ({ type: 'paragraph', paragraph: { rich_text: richChunks(c, 2000) } }));
-  // Wrap into a single toggle
+  const children = chunks.map((c) => ({ type: 'paragraph', paragraph: { rich_text: richChunks(c, 2000) } }));
+
   const parent = {
     type: 'toggle',
     toggle: {
@@ -219,8 +245,6 @@ async function appendOcrBlocks(pageId, text) {
     },
   };
 
-  // Append in batches under the toggle
-  // First create the toggle
   const res = await notion.blocks.children.append({ block_id: pageId, children: [parent] });
   const toggleId = res.results?.[0]?.id;
   if (!toggleId) throw new Error('Failed to create OCR toggle block');
@@ -232,7 +256,6 @@ async function appendOcrBlocks(pageId, text) {
 }
 
 async function resolvePdfUrlForPage(page, dbProps) {
-  // Prefer File Path url, then PDF files external url
   if (dbProps['File Path']) {
     const t = dbProps['File Path'].type;
     if (t === 'url') {
@@ -253,16 +276,32 @@ async function resolvePdfUrlForPage(page, dbProps) {
 }
 
 // ---- Optional Drive matching fallback ----
-function normalize(s) { return String(s || '').toLowerCase(); }
-function slugTitle(s) { return normalize(s).replace(/[^a-z0-9]+/g, "_").replace(/_+/g, "_").replace(/^_+|_+$/g, ""); }
-function compact(s) { return normalize(s).replace(/\W+/g, ""); }
-function firstAuthor(authorsText) { return (authorsText || '').split(';')[0] || (authorsText || '').split(',')[0] || ''; }
+function normalize(s) {
+  return String(s || '').toLowerCase();
+}
+
+function slugTitle(s) {
+  return normalize(s)
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+function compact(s) {
+  return normalize(s).replace(/\W+/g, '');
+}
+
+function firstAuthor(authorsText) {
+  return (authorsText || '').split(';')[0] || (authorsText || '').split(',')[0] || '';
+}
+
 function buildNameCandidates(title, authorsText, year) {
   const last = normalize(firstAuthor(authorsText)).split(/\s+/).slice(-1)[0] || '';
   const t = slugTitle(title || '');
   const y = year ? String(year) : '';
-  return [ `${last}${y}-${t}`, `${last}_${y}-${t}`, `${last}${y}_${t}`, `${last}-${y}-${t}`, `${last}${y}${t}` ].filter(Boolean);
+  return [`${last}${y}-${t}`, `${last}_${y}-${t}`, `${last}${y}_${t}`, `${last}-${y}-${t}`, `${last}${y}${t}`].filter(Boolean);
 }
+
 async function listDrivePdfs(folderId) {
   if (!folderId || !GOOGLE_API_KEY) return [];
   const url = new URL('https://www.googleapis.com/drive/v3/files');
@@ -274,6 +313,7 @@ async function listDrivePdfs(folderId) {
   const data = await res.json();
   return data.files || [];
 }
+
 function matchPdf(title, authorsText, year, files) {
   if (!files?.length) return null;
   const candidates = buildNameCandidates(title, authorsText, year);
@@ -282,23 +322,108 @@ function matchPdf(title, authorsText, year, files) {
   for (const c of candidates) if (nameMap.has(c)) return nameMap.get(c);
   const byCompact = new Map();
   for (const f of files) byCompact.set(compact(f.name), f);
-  for (const c of candidates) { const k = compact(c); if (byCompact.has(k)) return byCompact.get(k); }
+  for (const c of candidates) {
+    const k = compact(c);
+    if (byCompact.has(k)) return byCompact.get(k);
+  }
   const titleSlug = slugTitle(title || '');
-  let best = null, bestLen = 0;
+  let best = null;
+  let bestLen = 0;
   for (const f of files) {
     const base = slugTitle(f.name.replace(/\.pdf$/i, ''));
-    if (base.includes(titleSlug) && titleSlug.length > bestLen) { best = f; bestLen = titleSlug.length; }
+    if (base.includes(titleSlug) && titleSlug.length > bestLen) {
+      best = f;
+      bestLen = titleSlug.length;
+    }
   }
   return best;
 }
 
+async function resolvePdfUrlWithFallback(page, dbProps) {
+  let url = await resolvePdfUrlForPage(page, dbProps);
+  if (url) return url;
+  if (!DRIVE_FOLDER_ID || !GOOGLE_API_KEY) return '';
+
+  const titleProp = findTitlePropName(dbProps) || 'Title';
+  const titleText = getPropText(page, titleProp, 'title');
+  const authorsText = hasProp(dbProps, 'Authors', 'rich_text')
+    ? getPropText(page, 'Authors', 'rich_text')
+    : hasProp(dbProps, 'Author', 'rich_text')
+    ? getPropText(page, 'Author', 'rich_text')
+    : '';
+  const yearVal = hasProp(dbProps, 'Year', 'number') ? page.properties['Year']?.number : undefined;
+  const files = await listDrivePdfs(DRIVE_FOLDER_ID);
+  const m = matchPdf(titleText, authorsText, yearVal, files);
+  return m?.webViewLink || '';
+}
+
+async function ocrPage(page, dbProps) {
+  const titleProp = findTitlePropName(dbProps) || 'Title';
+  const title = getPropText(page, titleProp, 'title');
+  console.log(`Processing page: ${title || '(untitled)'} (${page.id})`);
+
+  const pdfUrl = await resolvePdfUrlWithFallback(page, dbProps);
+  if (!pdfUrl) {
+    console.warn('  Skipping: no PDF URL found');
+    return false;
+  }
+
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ocr-'));
+  const pdfPath = path.join(tmpDir, 'doc.pdf');
+  await downloadPdfFromUrl(pdfUrl, pdfPath);
+
+  const text = ocrPdfToText(pdfPath);
+  if (!text) {
+    console.warn('  Skipping: OCR produced empty text');
+    return false;
+  }
+
+  await clearExistingOcr(page.id);
+  await appendOcrBlocks(page.id, text);
+  console.log('  OCR text uploaded.');
+  return true;
+}
+
+async function queryRecentPages(limit) {
+  const results = [];
+  let cursor = undefined;
+  while (results.length < limit) {
+    const r = await notion.databases.query({
+      database_id: NOTION_DB_ID,
+      sorts: [{ timestamp: 'last_edited_time', direction: 'descending' }],
+      page_size: Math.min(100, limit - results.length),
+      start_cursor: cursor,
+    });
+    results.push(...r.results);
+    if (!r.has_more) break;
+    cursor = r.next_cursor;
+  }
+  return results;
+}
+
 async function main() {
-  if (!BIB_KEY && !PAGE_ID) {
-    console.error('Provide BIB_KEY or PAGE_ID');
+  const dbProps = await getDbProps();
+
+  if (OCR_RECENT_LIMIT > 0) {
+    const pages = await queryRecentPages(OCR_RECENT_LIMIT);
+    console.log(`Running batch OCR on ${pages.length} recent pages (limit=${OCR_RECENT_LIMIT})`);
+    let ok = 0;
+    for (const page of pages) {
+      try {
+        const done = await ocrPage(page, dbProps);
+        if (done) ok += 1;
+      } catch (e) {
+        console.warn('Error OCR-ing page', page.id, e?.message || e);
+      }
+    }
+    console.log(`Batch OCR complete. Updated pages: ${ok}`);
+    return;
+  }
+
+  if (!PAGE_ID && !BIB_KEY) {
+    console.error('Provide PAGE_ID or BIB_KEY for single-page OCR, or set OCR_RECENT_LIMIT for batch mode.');
     process.exit(1);
   }
-  const dbProps = await getDbProps();
-  const titleProp = findTitlePropName(dbProps) || 'Title';
 
   let page = null;
   if (PAGE_ID) {
@@ -311,38 +436,13 @@ async function main() {
     process.exit(1);
   }
 
-  const title = getPropText(page, titleProp, 'title');
-  console.log(`Target page: ${title} (${page.id})`);
-
-  let pdfUrl = await resolvePdfUrlForPage(page, dbProps);
-  if (!pdfUrl && DRIVE_FOLDER_ID && GOOGLE_API_KEY) {
-    // Fallback: try to match a Drive PDF by title/author/year
-    const titleText = getPropText(page, titleProp, 'title');
-    const authorsText = hasProp(dbProps, 'Authors', 'rich_text') ? getPropText(page, 'Authors', 'rich_text')
-      : hasProp(dbProps, 'Author', 'rich_text') ? getPropText(page, 'Author', 'rich_text') : '';
-    const yearVal = hasProp(dbProps, 'Year', 'number') ? page.properties['Year']?.number : undefined;
-    const files = await listDrivePdfs(DRIVE_FOLDER_ID);
-    const m = matchPdf(titleText, authorsText, yearVal, files);
-    pdfUrl = m?.webViewLink || '';
-  }
-  if (!pdfUrl) {
-    console.error('No PDF URL found on page or Drive');
+  const ok = await ocrPage(page, dbProps);
+  if (!ok) {
     process.exit(1);
   }
-
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ocr-one-'));
-  const pdfPath = path.join(tmpDir, 'doc.pdf');
-  await downloadPdfFromUrl(pdfUrl, pdfPath);
-
-  const text = ocrPdfToText(pdfPath);
-  if (!text) {
-    console.error('OCR produced empty text');
-    process.exit(1);
-  }
-
-  await clearExistingOcr(page.id);
-  await appendOcrBlocks(page.id, text);
-  console.log('OCR text uploaded successfully.');
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
