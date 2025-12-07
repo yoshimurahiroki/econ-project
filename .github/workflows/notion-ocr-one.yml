@@ -1,0 +1,41 @@
+name: Notion OCR (single)
+
+on:
+  workflow_dispatch:
+    inputs:
+      page_id:
+        description: 'Target Notion page ID (optional)'
+        required: false
+        default: ''
+      bib_key:
+        description: 'BibTeX key to look up page (optional)'
+        required: false
+        default: ''
+
+jobs:
+  ocr-one:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: notion-ocr-one
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install script dependencies
+        run: npm --prefix scripts ci || npm --prefix scripts install
+
+      - name: OCR a single Notion page
+        run: node scripts/ocr-upload-notion.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB_ID: ${{ secrets.NOTION_DB_ID }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
+          CHUNK_SIZE: 1500
+          BIB_KEY: ${{ github.event.inputs.bib_key || '' }}
+          PAGE_ID: ${{ github.event.inputs.page_id || '' }}

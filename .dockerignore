@@ -1,8 +1,8 @@
-# Git
+# --- Git ---
 .git
 .gitignore
 
-# Python caches
+# --- Python caches ---
 __pycache__/
 *.pyc
 *.pyo
@@ -10,13 +10,18 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
-# Virtual envs
+# --- Conda / Mamba / Miniforge ---
+miniforge3/
+.mamba/
+.conda/
+
+# --- Virtual envs / Poetry cache ---
 .env
 .venv
 env/
 .poetry-cache/
 
-# Data / outputs
+# --- Data / outputs (exclude large files from context) ---
 data/
 _site/
 _book/
@@ -31,18 +36,44 @@ _book/
 *.rds
 *.RData
 
-# Notebooks checkpoints
+# --- Notebooks checkpoints ---
 *.ipynb_checkpoints/
 
-# VS Code
+# --- VS Code ---
 .vscode/
+.devcontainer/local-history/
 
-# Node
+# --- Node ---
 node_modules/
 
-# OS junk
+# --- OS / temp ---
 .DS_Store
 *.bak
 tmp/
 .tmp/
 .cache/
+
+# --- TeX build artifacts ---
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+_build/
+latexmkrc
+
+# --- Quarto build cache ---
+.qmd-cache/
+.quarto/
+
+# --- Keep essential build files (safety) ---
+!Dockerfile
+!environment.yml
+!pyproject.toml
+!.devcontainer/**

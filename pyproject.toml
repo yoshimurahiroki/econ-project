@@ -3,11 +3,32 @@
 name = "econ-project"
 version = "0.1.0"
 description = "Econometrics research stack"
-authors = ["Your Name <you@example.com>"]
+authors = ["yoshimurahiroki <yoshimurahiroki@akane.waseda.jp>"]
 package-mode = false
 
 [tool.poetry.dependencies]
 python = "~3.11"
+linearmodels = "^6.1"
+pyfixest = "^0.30.2"
+spreg = "^1.8.3"
+rpy2 = "^3.6.2"
+scikit-learn = "^1.0.0"
+csdid = "*"
+rdrobust = "*"
+scpi-pkg = "*"
+DoubleML = "*"
+EconML = "*"
+PyBLP = "*"
+biogeme = "*"
+xlogit = "*"
+statsmodels = "*"
+nixtla = "*"
+statsforecast = "*"
+plotnine = "*"
+polars = "*"
+scrapy = "*"
+playwright = "*"
+lineareg = {git = "https://github.com/yoshimurahiroki/lineareg.git"}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8"
@@ -20,8 +41,28 @@ line-length = 100
 target-version = "py311"
 
 [tool.ruff.lint]
-ignore = ["E203","E266","E501"]
-extend-select = ["I","B","C4","SIM","TID","UP"]
+ignore = [
+    "E203",
+    "E266",
+    "E501",
+    "BLE",
+    "TRY",
+    "PLR",
+    "S",
+    "SIM",
+    "B",
+    "B028",
+    "B904",
+    "RUF059",
+]
+extend-select = ["I","TID","UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"*test*.py" = ["T201", "F401", "I001"]
+"test_*.py" = ["T201", "F401", "I001"]
+"libs/**/*test*.py" = ["T201", "F401", "I001"]
+"Notebook/**/*.ipynb" = ["E402", "I001", "F401", "F541"]
+"tmp_sc_check.py" = ["E402", "I001", "F401"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -33,6 +74,38 @@ pretty = true
 strict = true
 warn_unused_ignores = true
 warn_redundant_casts = true
+incremental = true
+sqlite_cache = true
+cache_dir = ".mypy_cache"
+
+[[tool.mypy.overrides]]
+module = [
+	"pandas",
+	"pandas.*",
+	"patsy",
+	"patsy.*",
+	"scipy",
+	"scipy.*",
+	"joblib",
+	"joblib.*",
+	"sparse",
+	"sparse.*",
+	"sparseqr",
+	"sksparse",
+	"sksparse.*",
+	"tabulate",
+	"tabulate.*",
+]
+ignore_missing_imports = true
+
+# Temporarily suppress mypy errors in the complex sparse routing layer; we'll
+# tighten this after adding precise types for ArrayLike/sparse branches.
+[[tool.mypy.overrides]]
+module = [
+	"lineareg.core.linalg",
+]
+ignore_errors = true
+
 
 [build-system]
 requires = ["poetry-core>=1.8.0"]

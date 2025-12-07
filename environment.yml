@@ -3,35 +3,50 @@ channels:
   - conda-forge
   - pytorch
 dependencies:
-  # Python stack
   - python=3.11
   - numpy=1.26
   - scipy=1.13
   - pandas=2.2
+  - polars
   - statsmodels=0.14
   - matplotlib=3.8
   - seaborn=0.13
   - scikit-learn=1.5
+  - xgboost
+  - lightgbm
   - pytorch=2.4.*
   - contourpy
   - kiwisolver
   - pillow
   - fonttools
-  - jedi
 
-  # Jupyter/Quarto
-  - jupyterlab=4
-  - jupyterlab-language-pack-ja-JP
   - ipykernel
   - pandoc
   - quarto
 
-  # R stack
   - r-base=4.3.*
   - r-essentials
   - r-tidyverse
+  - r-data.table
+  - r-fixest
+  - r-did
+  - r-bacondecomp
+  - r-rdrobust
+  - r-matchit
+  - r-cobalt
+  - r-synthdid
+  - r-doublemL
+  - r-grf
+  - r-tidymodels
+  - r-apollo
+  - r-mlogit
+  - r-fable
+  - r-vars
+  - r-urca
+  - r-prophet
+  - r-modelsummary
+  - r-ggplot2
+  - r-rvest
   - r-languageserver
-  - libjpeg-turbo=3.0.*
-  - blas=*=openblas
 
   - pip

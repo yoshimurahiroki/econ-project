@@ -1,137 +1,171 @@
-# 経済学研究フルスタック開発環境（WSL2 + Docker + VS Code Dev Containers）
+# lineareg — Econometric Estimators with Bootstrap Inference
 
-無料で“最高の”Python + TeX 体験を得るための開発環境です（R 本体は残し、RStudio Server はコンテナに入れないことで軽量化）。Windows 上の WSL2(Ubuntu) + Docker コンテナ + VS Code Dev Containers を前提に、以下をワンストップで提供します。
+This repository hosts the Python package `lineareg`, providing a suite of econometric estimators designed for performance, flexibility, and robust inference. It features OLS, IV/GMM, GLS, Quantile Regression, and various panel and spatial models, all equipped with modern bootstrap methods for standard error estimation.
 
-- Python: conda/mamba + Poetry 管理、型チェック(mypy)、Linter/Formatter(ruff)、pytest
-- TeX: 軽量な TeX Live セット（日本語対応） + VS Code LaTeX Workshop
-- Jupyter: Python カーネル登録済み、127.0.0.1 バインドで安全
-- Notion 連携: 公式 JS SDK（@notionhq/client）で成果物メモと文献DBの同期（CI連携可）
-- Quarto: VS Code 拡張による編集体験（CLI は任意）
+The library is built around a high-performance linear algebra core that leverages `numpy.einsum` and supports sparse matrices, making it suitable for high-dimensional problems.
 
-## 前提条件（Windows 無料ツール）
-1. Windows 10/11 + WSL2（Ubuntu 22.04 推奨）
-2. Docker Desktop（WSL2 連携を有効化）
-3. Visual Studio Code + Dev Containers 拡張
+## Features
 
-## はじめかた（VS Code から）
-1. 本リポジトリをクローン
-2. VS Code で「Reopen in Container」を実行（.devcontainer が自動でビルド）
-3. 初回セットアップ後、以下を実行
-	 - 開発セットアップ（プリコミットなど）
-		 - make setup-dev
-	 - テスト/型/Lint の一括チェック
-		 - make check
+- **Estimators**: OLS, IV (2SLS), GMM (One-step, Two-step), GLS, Quantile Regression, Spatial SAR (2SLS).
+- **Panel Models**: Advanced estimators for modern causal inference, including Event Study (Sun & Abraham, Callaway & Sant'Anna), Synthetic Control, and Synthetic DID.
+- **High-Dimensional Fixed Effects**: Efficiently absorb multiple fixed effects using alternating projections (within-transformations) without creating dummy variables.
+- **Robust Bootstrap SEs**: A comprehensive suite of bootstrap schemes:
+    - Wild (Rademacher, Mammen, Webb)
+    - Cluster Wild (multi-way, with WCR/WCU recentering)
+    - Dependent Wild Bootstrap (DWB) for time-series
+    - Spatial Dependent Wild Bootstrap (SDWB) for spatial data
+- **Formula Interface**: A user-friendly formula system inspired by Stata and R, supporting terms like `FE(firm)`, time lags `L(var, p)`, and spatial lags `SL(y)`.
+- **Performance**: A sparse-aware linear algebra backend that avoids explicit matrix inversion, optimized for speed and memory efficiency.
 
-コンテナは `.devcontainer/Dockerfile` により以下を自動構築します。
-- Miniforge(mamba) + conda 環境 `econ-env` を `environment.yml` から作成
-- Poetry を導入、Python インタプリタは conda 環境を既定に設定
-- Jupyter カーネル登録（Python econ-env）
-- VS Code 拡張（Python/R/LaTeX/Quarto など）を自動インストール
+## Installation
 
-データディレクトリは Docker ボリューム `econ_data` として `/workspaces/econ-project/data` にマウントされ、ホストに依存せずに永続化されます。
+For a reproducible environment, using the provided devcontainer is recommended (requires VS Code and Docker).
 
-## コマンド一覧（Makefile）
-- 品質管理
-	- make check      # ruff + mypy + pytest
-	- make format     # ruff format & fix
-	- make test       # pytest（カバレッジ付）
-- Jupyter
-	- make jupyter    # Jupyter Lab（127.0.0.1 バインド）
-- LaTeX（LuaLaTeX + BibTeX）
-	- make build-paper   # tex/paper/ecta_template.tex をビルド
-	- make build-slides  # tex/slides/main.tex をビルド
-	- make clean[-paper|-slides|-all]  # 生成物削除
-- Notion（JS SDK）
-	- make notion-install   # scripts の Node 依存インストール
-	- make notion-sync      # 成果物状況（PDF等）を Notion ページに追記
-	- make notion-sync-db   # Bib/CSL-JSON を Notion DB にアップサート
+Alternatively, you can install the dependencies listed in `libs/lineareg/pyproject.toml` in your local Python environment. The package source code is located in the `libs/lineareg` directory.
 
-## パッケージ管理の原則
-- システム/基盤（Python/R/Jupyter/TeX/Nodeなど）
-	- conda/mamba（environment.yml）で一括管理・再現性確保
-- Python プロジェクト依存（アプリ/ライブラリ）
-	- Poetry（pyproject.toml）で厳密管理（dev 依存は group dev）
-R 本体は conda 環境内に残します。RStudio Server はコンテナにインストールしていません。必要ならホスト側に RStudio を用意するか、別途フルイメージを用意してください。
-- Jupyter 内での `!pip install`/`install.packages()` は極力避け、定義ファイルに反映
+## Quick Start
 
-## Notion 連携（無料・公式 SDK）
-Node（scripts ディレクトリ限定）で公式 SDK を使用します。
+Here is a quick demonstration of how to use `lineareg` with a few key estimators.
 
-1) 成果物ステータスのメモ追記
-- スクリプト: scripts/notion-sync.js
-- 使い方:
-	- export NOTION_TOKEN=...  # Notion Integration のシークレット
-	- export NOTION_PAGE_ID=...  # 追記先ページ（またはブロック）ID（URL末尾 32桁）
-	- make notion-install
-	- make notion-sync
+```python
+import numpy as np
+import pandas as pd
+from lineareg import OLS, IV2SLS
+from lineareg.estimators import EventStudyCS
+from lineareg.output import model_summary_table
 
-2) 論文メタデータ（Paperpile エクスポート）→ Notion DB 同期
-- スクリプト: scripts/notion-sync-db.js
-- 入力: data/papers/library.bib（または CSL-JSON）
-- Notion DB プロパティ例: Title, Authors, Year, Venue, Tags, DOI(url), URL(url), Abstract, Code(url), PDF(files), Updated(date)
-- 照合順序: DOI → URL → Key（差分がある場合のみ更新）
-- 使い方:
-	- export NOTION_TOKEN=...
-	- export NOTION_DB_ID=...
-	- make notion-install
-	- make notion-sync-db
+# --- Generate Sample Data ---
+N, T = 100, 10
+df = pd.DataFrame({
+    'y': np.random.randn(N * T),
+    'x1': np.random.randn(N * T),
+    'x2': np.random.randn(N * T),
+    'id': np.repeat(np.arange(N), T),
+    'time': np.tile(np.arange(T), N),
+    'cluster_id': np.repeat(np.arange(N // 5), T * 5),
+})
+# Generate an instrument for x1
+df['z1'] = df['x1'] + np.random.randn(len(df)) * 0.2
+# Generate a treatment cohort for event study
+df['cohort'] = df.groupby('id')['time'].transform(
+    lambda x: np.random.choice(range(5, 8)) if np.random.rand() > 0.5 else -1
+)
 
-3) CI 連携（GitHub Actions）
-- .github/workflows/paperpile-to-notion.yml
-- data/papers/*.bib|*.json|*.csljson の変更をトリガに DB 同期
-- リポジトリ Secrets に NOTION_TOKEN / NOTION_DB_ID を設定
+# --- 1. OLS with Fixed Effects and Cluster Bootstrap ---
+# Model: y ~ x1 + FE(id)
+ols = OLS()
+res_ols = ols.fit(
+    formula='y ~ x1 + FE(id)',
+    data=df,
+    bootstrap={
+        'scheme': 'webb',
+        'n_boot': 499,
+        'clusters': [df['cluster_id']],
+    }
+)
 
-セキュリティ注意: `.env.example` を参照し、`.env` にシークレットを保存しないでください（.gitignore 済）。VS Code タスク/Make へ渡す場合は端末で `export` して実行してください。
+# --- 2. IV/2SLS with Two-Way Clustering ---
+# Model: y ~ x1 (endog) | z1 (instr) + x2 (exog)
+iv = IV2SLS()
+res_iv = iv.fit(
+    formula='y ~ x1 + x2 | z1 + x2',
+    data=df,
+    bootstrap={
+        'scheme': 'mammen',
+        'n_boot': 499,
+        'clusters': [df['id'], df['time']],
+    }
+)
 
-## 開発体験のポイント（無料）
-- VS Code 拡張（自動導入）
-	- Python: Pylance, Black/Isort, Ruff, pytest、Mypy
-	- R: R extension, R LSP, R Debugger、languageserver（postCreate で自動導入）
-	- LaTeX: LaTeX Workshop, LaTeX Utilities
-	- Quarto: Quarto 拡張（編集体験向上）
-	- そのほか: YAML/TOML、dotenv、Makefile ツール等
--- Jupyter: 127.0.0.1 バインドでローカルフォワード前提の安全運用
--- TeX: 軽量な TeX Live セット（日本語対応）を採用してコンテナサイズを大幅に削減
+# --- 3. Event Study (Sun & Abraham, 2021) ---
+# Model: y ~ event_time | FE(id) + FE(time)
+event_study = EventStudyCS()
+res_es = event_study.fit(
+    data=df,
+    y_var='y',
+    unit_var='id',
+    time_var='time',
+    cohort_var='cohort',
+    # Control variables can be added via `covariates_formula`
+    bootstrap={
+        'scheme': 'webb',
+        'n_boot': 499,
+        'clusters': [df['cluster_id']],
+    }
+)
 
-## トラブルシュート
-- コンテナが重い/ビルドが長い: texlive-full は大型です。必要に応じて軽量化可。
-- Jupyter に R カーネルが出ない: コンテナ再作成（IRkernel 登録は Dockerfile で実施）。
-- Notion API 429（レート制限）: 再試行まで待機、バッチサイズ調整を検討。
+# --- 4. Display Results in a Summary Table ---
+table = model_summary_table(
+    [res_ols, res_iv],
+    model_names=['OLS+FE', 'IV-2SLS']
+)
+print(table)
 
-## Docker 資源のクリーンアップ
-コンテナやイメージ、ボリューム、ビルドキャッシュの不要資源を自動的に削除するスクリプトを追加しました。
-
-- パス: `.devcontainer/cleanup/`
-	- `docker-prune-old.sh` : Bash (Linux/macOS)
-	- `docker-prune-old.ps1` : PowerShell (Windows)
-	- `README.md` : 実行・スケジューリング手順
-
-使い方 (まず DRY で確認してください):
-```bash
-# dry run
-DAYS=30 DRY=true bash .devcontainer/cleanup/docker-prune-old.sh
-
-# 実行
-DAYS=30 bash .devcontainer/cleanup/docker-prune-old.sh
+# Event study results can be plotted
+res_es.plot()
 ```
 
-Windows PowerShell:
-```powershell
-# dry run
-.\.devcontainer\cleanup\docker-prune-old.ps1 -Days 30 -DryRun
+## Estimator Guides
 
-# 実行
-.\.devcontainer\cleanup\docker-prune-old.ps1 -Days 30
+### OLS with Fixed Effects and Bootstrap
+- **Formula**: `y ~ x1 + x2 + FE(firm) + FE(year)`. Fixed effects are absorbed via alternating projections (an iterative demeaning process).
+- **Bootstrap SEs**: Supports wild (Mammen/Webb), cluster wild (multi-way WCR/WCU), DWB (time), and SDWB (spatial) schemes. Leverage corrections (HC2/HC3) are based on the QR decomposition of the design matrix.
+- **Few Clusters**: For a small number of clusters, the Webb six-point distribution (`scheme='webb'`) is recommended for better finite-sample properties.
+
+### IV / 2SLS
+- **Formula**: `y ~ x1_endog + x2_exog | z1_instr + z2_instr + x2_exog`. Note that exogenous regressors must be included on both sides of the `|`.
+- **Diagnostics**: Weak identification diagnostics (Kleibergen-Paap rk, Cragg-Donald min eigenvalue, Stock-Wright score statistic) are reported in `result.stats`.
+- **Bootstrap SEs**: The same schemes as OLS are available. Leverage is calculated based on the IV projection space.
+
+### GMM (One-step / Two-step)
+- **One-step GMM**: Uses a user-provided weighting matrix `W` or defaults to `W = I`.
+- **Two-step GMM**: Constructs an efficient weighting matrix from the residuals of a first-step estimation.
+- **Bootstrap**: The option `refit_weight_in_boot=True` re-estimates the optimal weighting matrix within each bootstrap replication to account for its sampling variation.
+
+```python
+from lineareg.estimators import OneStepGMM, TwoStepGMM
+
+# One-step GMM with identity weight
+gmm1 = OneStepGMM()
+res1 = gmm1.fit(formula='y ~ x1 | z1', data=df, bootstrap={'n_boot': 399})
+
+# Efficient Two-step GMM
+gmm2 = TwoStepGMM()
+res2 = gmm2.fit(formula='y ~ x1 | z1', data=df, bootstrap={'n_boot': 399})
 ```
 
-自動化: systemd タイマーや Windows Task Scheduler に登録できます（管理者権限が必要）。詳細は `.devcontainer/cleanup/README.md` を参照してください。
+### GLS / Feasible GLS
+- **Whitening**: Transforms the data via `(X_tilde, y_tilde) = (C @ X, C @ y)`, where `C.T @ C = Σ**(-1)`. OLS is then performed on the transformed data.
+- **Bootstrap**: The option `refit_sigma_in_boot=True` implements a feasible GLS-style bootstrap. Within each replication, it reconstructs `y*` in the original scale, re-estimates `Σ*` from OLS residuals, and whitens the data again before estimation.
 
-## 付録：主要ファイル
-- .devcontainer/Dockerfile: 基盤（Ubuntu + mamba + Poetry + 軽量 TeX、日本語対応。R 本体は conda 環境に含むが RStudio Server はインストールしない）
-- environment.yml: conda 環境（Python/Jupyter/ツール）
-- pyproject.toml: Poetry（Python 依存/ツール）
-- notebooks/: 分析ノート（Python）
-- tex/: 論文・スライド（LuaLaTeX）
+### Quantile Regression (WGB)
+- Implements the Wild Gradient Bootstrap (Feng, He & Hu, 2011) for inference.
+- The quantile of interest is specified as a constructor argument: `QuantileRegression(quantile=0.5)`.
 
----
-この構成で、WSL2 上でも Docker コンテナ内で再現性と快適さを両立できます。必要になれば、Quarto CLI の追加、R パッケージの固定化、CIの拡張（テスト/静的解析/Notion 同期）もすぐ拡張可能です。
+### Spatial SAR (Kelejian–Prucha 2SLS)
+- **Formula**: When a spatial weight matrix `W` is provided via the `W_spatial` argument, spatial lag (`SL`) and spatial Durbin (`WX`) terms can be included in the formula.
+- **Endogeneity**: The spatial lag of the dependent variable, `SL(y)`, is automatically treated as endogenous. Instruments are formed from spatial lags of the exogenous regressors (e.g., `WX`, `W**2 X`), with collinear instruments automatically removed.
+
+## Bootstrap Schemes and Options
+
+- **`scheme`**: `'mammen'` (two-point), `'webb'` (six-point, recommended for few clusters), `'rademacher'` (two-point), `'dwb'` (for time dependence), `'sdwb'` (for spatial dependence).
+- **Clustering**: Pass a single series or a list of series to the `clusters=` argument for one-way or multi-way clustering.
+- **Multi-way Options**: `multiway_mode` (`'wcr'`/`'wcu'`) controls re-centering, and `multiway_combine` (`'product'`/`'sum'`) controls how perturbations are combined across clustering dimensions.
+- **Leverage Correction**: Apply HC2/HC3 style corrections via `leverage_correction='hc2'` or `'hc3'`.
+
+## Monte Carlo & Demo
+
+- **Demo**: Run `python -m lineareg.demo` to execute all estimators on synthetic data and generate a summary table.
+- **Monte Carlo**: The `lineareg.sim.montecarlo` module provides a small suite for validation and performance testing.
+
+## References
+
+- Correia, S. (2017). "Linear Models with High-Dimensional Fixed Effects: An Efficient and Feasible Estimator."
+- Davidson, R., & Flachaire, E. (2008). "The Wild Bootstrap, Tamed at Last." *Journal of Econometrics*.
+- Feng, X., He, X., & Hu, J. (2011). "Wild Gradient Bootstrap for Quantile Regression."
+- Guimarães, P., & Portugal, P. (2010). "A Simple Feasible Procedure to Fit Models with High-Dimensional Fixed Effects." *The Stata Journal*.
+- MacKinnon, J. G., & Webb, M. D. (2017). "The Wild Cluster Bootstrap for Few (Treated) Clusters."
+- Mammen, E. (1993). "Bootstrap and Wild Bootstrap for High Dimensional Linear Models." *The Annals of Statistics*.
+- Shao, J. (2010). "The Dependent Wild Bootstrap." *Journal of the American Statistical Association*.
+- Sun, L., & Abraham, S. (2021). "Estimating Dynamic Treatment Effects in Event Studies with Staggered Adoption." *Journal of Econometrics*.
+- Webb, M. D. (2014). "Reworking Wild Bootstrap Based Inference for Clustered Errors."

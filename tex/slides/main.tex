@@ -10,7 +10,6 @@
 \usepackage[haranoaji,deluxe]{luatexja-preset}
 \usepackage{appendixnumberbeamer}
 \renewcommand{\kanjifamilydefault}{\gtdefault}
-
 \renewcommand{\refname}{}
 \renewcommand{\bibsection}{}
 
@@ -21,7 +20,7 @@
 \setbeamercolor{alerted text}{fg=Orange}
 \setbeamercolor{frametitle}{bg=Waseda}
 
-	itle[Footer title]{TITLE}
+\title[Footer title]{TITLE}
 \subtitle{SUBTITLE}
 \author{Author}
 \institute{}
@@ -52,6 +51,7 @@
 \end{frame}
 
 
+
 \appendix
 
 
@@ -59,7 +59,7 @@
 \begin{frame}{References}
     \scriptsize
     \bibliographystyle{/workspaces/econ-project/tex/paper/ecta-fullname.bst} % Style BST file
-    \bibliography{/workspaces/econ-project/tex/paper/bibliography.bib}  % Bibliography file (usually '*.bib')
+
     \nocite{*}
 \end{frame}
 

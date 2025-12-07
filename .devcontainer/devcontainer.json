@@ -3,7 +3,6 @@
   "build": { "dockerfile": "Dockerfile", "context": ".." },
   "remoteUser": "vscode",
   "workspaceFolder": "/workspaces/econ-project",
-  "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached",
   "updateRemoteUserUID": true,
 
   "mounts": [
@@ -19,21 +18,17 @@
     "gpu": "optional"
   },
 
-  "forwardPorts": [8888, 3000],
-  "portsAttributes": {
-    "8888": { "label": "Jupyter Lab", "onAutoForward": "notify" },
-    "3000": { "label": "App port", "onAutoForward": "notify" }
-  },
+  "forwardPorts": [],
+  "portsAttributes": {},
 
-  "containerEnv": {
-    "JUPYTER_TOKEN": "${localEnv:JUPYTER_TOKEN:devtoken}"
-  },
+  "containerEnv": {},
 
   "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/econ-project /home/vscode || true && echo 'Container initialized successfully' && pre-commit install || true",
 
   "customizations": {
     "vscode": {
       "extensions": [
+        "ms-vscode-remote.remote-ssh",
         "ms-vscode-remote.remote-containers",
         "ms-azuretools.vscode-docker",
 
@@ -47,7 +42,6 @@
         "James-Yu.latex-workshop",
         "tecosaur.latex-utilities",
 
-  // R support (R language, LSP, debugger) - R is available; RStudio server is not installed in this container
         "REditorSupport.r",
         "ikuyadeu.r-lsp",
         "RDebugger.r-debugger",
@@ -111,15 +105,16 @@
           }
         ],
 
-  "files.exclude": {
+        "files.exclude": {
           "**/env": true,
           "**/.venv": true,
           "**/__pycache__": true,
           "**/*.pyc": true
         },
-  "ruff.lint.args": ["--config=pyproject.toml"],
-  "ruff.format.args": ["--config=pyproject.toml"],
-  "r.rterm.linux": "/home/vscode/miniforge3/envs/econ-env/bin/R"
+
+        "ruff.lint.args": ["--config=pyproject.toml"],
+        "ruff.format.args": ["--config=pyproject.toml"],
+        "r.rterm.linux": "/home/vscode/miniforge3/envs/econ-env/bin/R"
       }
     }
   }

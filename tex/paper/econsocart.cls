@@ -1016,8 +1016,6 @@
                 {\rightmark}%
             \hfill\llap{\pagenumber@size\thepage@prefix\thepage}%
             }%
-        \def\@oddfoot{\hfill\pagenumber@size\thepage\hfill} % ここを追加
-        \def\@evenfoot{\hfill\pagenumber@size\thepage\hfill} % ここを追加
         }%
 \else
     \def\ps@headings{%
@@ -1031,38 +1029,18 @@
                 \if@supplement@onlineonly
                     \@runjournal
                 \else
-                    \rightmark
+                    \@journal\ \sprintf@with@nines{2}{\@volume}\ (\the\@pubyear)%
                 \fi
+                \enskip\enskip\@runtitle
+                \enskip\enskip\pagenumber@size\sprintf@four@nines{\thepage}%
                 }%
+                {\the\hsize}%
+                {\thepage}%
+                {\rightmark}%
+            \enskip\enskip{\pagenumber@size\thepage}%
             }%
-        \def\@oddfoot{\hfill\pagenumber@size\thepage\hfill} % ここを追加
-        \def\@evenfoot{\hfill\pagenumber@size\thepage\hfill} % ここを追加
         }%
 \fi
-% \else
-%     \def\ps@headings{%
-%         \let\@oddfoot\@empty
-%         \let\@evenfoot\@empty
-%         \def\@evenhead{\runninghead@size{\pagenumber@size\thepage}\enskip\enskip\leftmark}%
-%         \def\@oddhead{%
-%             \runninghead@size
-%             \limited@wd@runtitle{%
-%                 \runninghead@size
-%                 \if@supplement@onlineonly
-%                     \@runjournal
-%                 \else
-%                     \@journal\ \sprintf@with@nines{2}{\@volume}\ (\the\@pubyear)%
-%                 \fi
-%                 \enskip\enskip\@runtitle
-%                 \enskip\enskip\pagenumber@size\sprintf@four@nines{\thepage}%
-%                 }%
-%                 {\the\hsize}%
-%                 {\thepage}%
-%                 {\rightmark}%
-%             \enskip\enskip{\pagenumber@size\thepage}%
-%             }%
-%         }%
-% \fi
 \def\ps@empty{%
     \let\@mkboth\@gobbletwo
     \let\@oddhead\@empty
@@ -1075,10 +1053,9 @@
     \let\@oddhead\@empty
     \let\@oddfoot\@empty
     \let\@evenhead\@oddhead
-    % \def\@oddfoot{%
-    %     \hfill\pagenumber@plainsize\thepage\hfill
-    %     }%
-    \def\@oddfoot{\hfill\pagenumber@size\thepage\hfill} % ここを追加
+    \def\@oddfoot{%
+        \hfill\pagenumber@plainsize\thepage\hfill
+        }%
     \let\@evenfoot\@oddfoot
     }
 % First page RH

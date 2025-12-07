@@ -1,51 +1,23 @@
-# 経済学研究フルスタック（SSH/localhost前提・GPU/Quarto常駐）
+
+# Economics Research Full Stack (SSH/localhost, GPU/Quarto/RStudio ready)
 FROM ubuntu:22.04
-
-RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates wget && rm -rf /var/lib/apt/lists/*
-
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl ca-certificates locales tzdata && \
-    sed -i 's/^# *\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen || true && \
-    sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen || true && \
-    locale-gen en_US.UTF-8 ja_JP.UTF-8 && \
-    update-locale LANG=ja_JP.UTF-8 && \
-    rm -rf /var/lib/apt/lists/*
 
 ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
-# ========= 1) OS 基本 =========
-RUN echo 'Acquire::Retries "10";' > /etc/apt/apt.conf.d/99-retries && \
-    echo 'Acquire::http::Timeout "120";' >> /etc/apt/apt.conf.d/99-retries && \
-    echo 'Acquire::https::Timeout "120";' >> /etc/apt/apt.conf.d/99-retries && \
-    bash -lc 'set -e; for i in {1..5}; do \
-    apt-get update && \
+# ========= 1) OS Base =========
+RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     ca-certificates curl wget gnupg \
     git git-lfs make build-essential pkg-config \
     python3 \
     locales tzdata \
-    # minimal TeX + Japanese support (smaller than full texlive)
-    texlive-luatex \
-    texlive-latex-recommended \
-    texlive-latex-extra \
-    texlive-xetex \
-    texlive-fonts-recommended \
-    texlive-lang-japanese \
-    texlive-bibtex-extra \
-    ptex-bin \
-    latexmk \
+    texlive-full \
     fonts-noto-cjk fonts-noto-cjk-extra \
     openssh-client openssl \
     poppler-utils tesseract-ocr tesseract-ocr-jpn \
-    sudo \
-    supervisor procps \
-    && break || (echo "apt failed, retry $i"; apt-get -o Acquire::Retries=3 update; sleep $((i*15))); \
-    done' && \
-    rm -rf /var/lib/apt/lists/*
+    sudo procps \
+    && rm -rf /var/lib/apt/lists/*
 
 # Node.js LTS
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
@@ -54,7 +26,14 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
 
 
 
-# ========= 2) ユーザー =========
+RUN sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
+ENV LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
+
+# Japanese locale
+RUN sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
+ENV LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
+
+# ========= 2) User Setup =========
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -95,13 +74,13 @@ RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH="/home/$USERNAME/.local/bin:$PATH"
 RUN poetry config virtualenvs.create false
 
-# ========= 5) 依存メタ（キャッシュ最適化） =========
+# ========= 5) Dependency Metadata (cache optimization) =========
 COPY --chown=$USERNAME:$USERNAME environment.yml /tmp/environment.yml
-# poetry.lock が無い環境でもビルドが落ちないように、pyproject.toml のみ確実にコピー
+# Copy only pyproject.toml to ensure build succeeds even without poetry.lock
 RUN mkdir -p /tmp/poetry
 COPY --chown=$USERNAME:$USERNAME pyproject.toml /tmp/poetry/
 
-# ========= 6) conda 環境作成 =========
+# ========= 6) Conda Environment Creation =========
 RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && \
     mamba env create -f /tmp/environment.yml && \
     mamba clean -a -y
@@ -111,55 +90,22 @@ RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && \
 ENV CONDA_DEFAULT_ENV=econ-env
 ENV PATH=$MAMBA_ROOT_PREFIX/envs/econ-env/bin:$PATH
 
-# ========= 7) Poetry 差分インストール =========
+# ========= 7) Poetry Differential Install =========
 WORKDIR /tmp/poetry
 RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && conda activate econ-env && \
     poetry install --only dev --no-interaction --no-ansi --no-root
 WORKDIR /workspaces/econ-project
 
-# === Cleanup caches to keep image small ===
-RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && conda activate econ-env && \
-    # clean conda/mamba caches
-    conda clean -afy || true && mamba clean -a -y || true && \
-    # clean pip/poetry/npm caches
-    rm -rf /home/$USERNAME/.cache/pip /home/$USERNAME/.cache/pypoetry /home/$USERNAME/.npm /root/.npm || true && \
-    npm cache clean --force || true && \
-    # remove temporary files and apt lists
-    rm -rf /tmp/* /var/tmp/* /tmp/.X11-unix || true && apt-get clean || true && rm -rf /var/lib/apt/lists/* || true
 
 
-
-# ========= 8) Jupyter カーネル登録 (Python + R) =========
+# ========= 8) Jupyter/R Kernel Registration =========
 RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && conda activate econ-env && \
     python -m ipykernel install --user --name econ-env --display-name "Python (econ-env)" && \
-    # Register R kernel if R is present in the conda env
-    if command -v R >/dev/null 2>&1; then \
-    R -q -e "if (!requireNamespace('IRkernel', quietly=TRUE)) install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')" || true; \
-    fi
+    R -q -e "if (!requireNamespace('IRkernel', quietly=TRUE)) install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')"
 
-# ========= 9) supervisor（Jupyter の自動起動） =========
-USER root
-RUN mkdir -p /etc/supervisor/conf.d /var/log/supervisor
-
-# Jupyter: localhost only, token-protected (JUPYTER_TOKEN)
-RUN cat >/etc/supervisor/conf.d/jupyter.conf <<'EOF'
-[program:jupyter]
-command=/bin/bash -lc 'exec /home/vscode/miniforge3/envs/econ-env/bin/jupyter lab --no-browser --ip=127.0.0.1 --port=8888 --ServerApp.token=${JUPYTER_TOKEN:-devtoken}'
-directory=/workspaces/econ-project
-autostart=true
-autorestart=true
-stdout_logfile=/var/log/supervisor/jupyter.stdout.log
-stderr_logfile=/var/log/supervisor/jupyter.stderr.log
-user=vscode
-stopsignal=TERM
-EOF
-
-USER $USERNAME
-
-# ========= 10) 自動 activate =========
+# ========= 9) Auto Activate =========
 RUN echo "conda activate econ-env" >> /home/$USERNAME/.bashrc
 
-# ========= 11) 前景で supervisor =========
+# ========= 10) Default Command =========
 USER root
-# Keep supervisord in foreground so container stays alive; VS Code will forward ports as needed
-CMD ["/usr/bin/supervisord", "-n"]
+CMD ["/bin/bash"]
