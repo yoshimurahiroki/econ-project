@@ -1,171 +1,239 @@
-# lineareg — Econometric Estimators with Bootstrap Inference
+# econ-project — 計量経済学研究環境 / Econometrics Research Environment
 
-This repository hosts the Python package `lineareg`, providing a suite of econometric estimators designed for performance, flexibility, and robust inference. It features OLS, IV/GMM, GLS, Quantile Regression, and various panel and spatial models, all equipped with modern bootstrap methods for standard error estimation.
+このリポジトリは、計量経済学の実証研究のための統合開発環境です。Python、R、LaTeX、Quartoを組み合わせた再現可能な研究ワークフローを提供します。
 
-The library is built around a high-performance linear algebra core that leverages `numpy.einsum` and supports sparse matrices, making it suitable for high-dimensional problems.
+This repository provides an integrated development environment for empirical research in econometrics. It offers a reproducible research workflow combining Python, R, LaTeX, and Quarto.
 
-## Features
+## 主な機能 / Features
 
-- **Estimators**: OLS, IV (2SLS), GMM (One-step, Two-step), GLS, Quantile Regression, Spatial SAR (2SLS).
-- **Panel Models**: Advanced estimators for modern causal inference, including Event Study (Sun & Abraham, Callaway & Sant'Anna), Synthetic Control, and Synthetic DID.
-- **High-Dimensional Fixed Effects**: Efficiently absorb multiple fixed effects using alternating projections (within-transformations) without creating dummy variables.
-- **Robust Bootstrap SEs**: A comprehensive suite of bootstrap schemes:
-    - Wild (Rademacher, Mammen, Webb)
-    - Cluster Wild (multi-way, with WCR/WCU recentering)
-    - Dependent Wild Bootstrap (DWB) for time-series
-    - Spatial Dependent Wild Bootstrap (SDWB) for spatial data
-- **Formula Interface**: A user-friendly formula system inspired by Stata and R, supporting terms like `FE(firm)`, time lags `L(var, p)`, and spatial lags `SL(y)`.
-- **Performance**: A sparse-aware linear algebra backend that avoids explicit matrix inversion, optimized for speed and memory efficiency.
+- **計量経済学パッケージ / Econometric Packages**: 
+  - Python: linearmodels, pyfixest, DoubleML, EconML, PyBLP, statsmodels, csdid, rdrobust など
+  - R: tidyverse, data.table, fixest, その他R-essentials
+- **データ分析 / Data Analysis**: pandas, polars, scikit-learn, PyTorch対応
+- **可視化 / Visualization**: matplotlib, seaborn, plotnine（ggplot2スタイル）
+- **文書作成 / Documentation**: 
+  - LaTeX（日本語対応：LuaLaTeX + pBibTeX）
+  - Quarto（HTML、PDF、Reveal.jsスライド）
+- **開発ツール / Development Tools**: 
+  - pre-commit、ruff、mypy、pytest
+  - GitHub Actions（CI/CD、Notion連携）
+- **Webスクレイピング / Web Scraping**: Scrapy、Playwright
+- **時系列予測 / Time Series Forecasting**: nixtla、statsforecast
 
-## Installation
+## セットアップ / Setup
 
-For a reproducible environment, using the provided devcontainer is recommended (requires VS Code and Docker).
+### 推奨方法：Dev Container（VS Code + Docker）
 
-Alternatively, you can install the dependencies listed in `libs/lineareg/pyproject.toml` in your local Python environment. The package source code is located in the `libs/lineareg` directory.
+再現可能な環境を簡単に構築できます：
 
-## Quick Start
+1. VS CodeとDockerをインストール
+2. このリポジトリをクローン
+3. VS Codeで開き、"Reopen in Container"を選択
 
-Here is a quick demonstration of how to use `lineareg` with a few key estimators.
+For a reproducible environment:
+
+1. Install VS Code and Docker
+2. Clone this repository
+3. Open in VS Code and select "Reopen in Container"
+
+### ローカルインストール / Local Installation
+
+```bash
+# Conda環境の作成
+conda env create -f environment.yml
+conda activate econ-env
+
+# Poetryで依存関係をインストール
+make install
+
+# 開発環境のセットアップ（pre-commitフックを含む）
+make setup-dev
+```
+
+## 使い方 / Usage
+
+### Makefileコマンド / Makefile Commands
+
+プロジェクトには便利なMakefileコマンドが用意されています：
+
+```bash
+make help          # 利用可能なコマンド一覧を表示
+make install       # Poetryで依存関係をインストール
+make setup-dev     # 開発環境をセットアップ（pre-commit含む）
+make check         # コードチェック（ruff、mypy、pytest）
+make format        # コードフォーマット
+make test          # テスト実行（カバレッジ付き）
+make build-paper   # LaTeX論文をビルド（tex/paper/）
+make build-slides  # LaTeXスライドをビルド（tex/slides/）
+make jupyter       # Jupyter Notebookを起動
+make clean         # 一時ファイルを削除
+```
+
+### プロジェクト構成 / Project Structure
+
+```
+econ-project/
+├── data/              # データファイル（.gitignoreで除外推奨）
+├── Notebook/          # Jupyter Notebooks
+├── scripts/           # Node.jsスクリプト（Notion連携など）
+├── tex/
+│   ├── paper/        # 論文用LaTeXファイル
+│   └── slides/       # スライド用LaTeXファイル
+├── pyproject.toml    # Python依存関係（Poetry）
+├── environment.yml   # Conda環境定義
+├── Makefile          # ビルド・テストコマンド
+└── .devcontainer/    # Dev Container設定
+```
+
+### Python環境の使用例 / Python Usage Examples
+
+#### 1. パネルデータ分析 / Panel Data Analysis
 
 ```python
-import numpy as np
 import pandas as pd
-from lineareg import OLS, IV2SLS
-from lineareg.estimators import EventStudyCS
-from lineareg.output import model_summary_table
+from linearmodels import PanelOLS
+from pyfixest.estimation import feols
 
-# --- Generate Sample Data ---
-N, T = 100, 10
-df = pd.DataFrame({
-    'y': np.random.randn(N * T),
-    'x1': np.random.randn(N * T),
-    'x2': np.random.randn(N * T),
-    'id': np.repeat(np.arange(N), T),
-    'time': np.tile(np.arange(T), N),
-    'cluster_id': np.repeat(np.arange(N // 5), T * 5),
-})
-# Generate an instrument for x1
-df['z1'] = df['x1'] + np.random.randn(len(df)) * 0.2
-# Generate a treatment cohort for event study
-df['cohort'] = df.groupby('id')['time'].transform(
-    lambda x: np.random.choice(range(5, 8)) if np.random.rand() > 0.5 else -1
-)
-
-# --- 1. OLS with Fixed Effects and Cluster Bootstrap ---
-# Model: y ~ x1 + FE(id)
-ols = OLS()
-res_ols = ols.fit(
-    formula='y ~ x1 + FE(id)',
-    data=df,
-    bootstrap={
-        'scheme': 'webb',
-        'n_boot': 499,
-        'clusters': [df['cluster_id']],
-    }
-)
-
-# --- 2. IV/2SLS with Two-Way Clustering ---
-# Model: y ~ x1 (endog) | z1 (instr) + x2 (exog)
-iv = IV2SLS()
-res_iv = iv.fit(
-    formula='y ~ x1 + x2 | z1 + x2',
-    data=df,
-    bootstrap={
-        'scheme': 'mammen',
-        'n_boot': 499,
-        'clusters': [df['id'], df['time']],
-    }
-)
-
-# --- 3. Event Study (Sun & Abraham, 2021) ---
-# Model: y ~ event_time | FE(id) + FE(time)
-event_study = EventStudyCS()
-res_es = event_study.fit(
-    data=df,
-    y_var='y',
-    unit_var='id',
-    time_var='time',
-    cohort_var='cohort',
-    # Control variables can be added via `covariates_formula`
-    bootstrap={
-        'scheme': 'webb',
-        'n_boot': 499,
-        'clusters': [df['cluster_id']],
-    }
-)
-
-# --- 4. Display Results in a Summary Table ---
-table = model_summary_table(
-    [res_ols, res_iv],
-    model_names=['OLS+FE', 'IV-2SLS']
-)
-print(table)
-
-# Event study results can be plotted
-res_es.plot()
+# pyfixestで固定効果推定
+df = pd.read_csv('data/panel_data.csv')
+result = feols('y ~ x1 + x2 | firm + year', data=df, vcov='cluster')
+print(result.summary())
 ```
 
-## Estimator Guides
-
-### OLS with Fixed Effects and Bootstrap
-- **Formula**: `y ~ x1 + x2 + FE(firm) + FE(year)`. Fixed effects are absorbed via alternating projections (an iterative demeaning process).
-- **Bootstrap SEs**: Supports wild (Mammen/Webb), cluster wild (multi-way WCR/WCU), DWB (time), and SDWB (spatial) schemes. Leverage corrections (HC2/HC3) are based on the QR decomposition of the design matrix.
-- **Few Clusters**: For a small number of clusters, the Webb six-point distribution (`scheme='webb'`) is recommended for better finite-sample properties.
-
-### IV / 2SLS
-- **Formula**: `y ~ x1_endog + x2_exog | z1_instr + z2_instr + x2_exog`. Note that exogenous regressors must be included on both sides of the `|`.
-- **Diagnostics**: Weak identification diagnostics (Kleibergen-Paap rk, Cragg-Donald min eigenvalue, Stock-Wright score statistic) are reported in `result.stats`.
-- **Bootstrap SEs**: The same schemes as OLS are available. Leverage is calculated based on the IV projection space.
-
-### GMM (One-step / Two-step)
-- **One-step GMM**: Uses a user-provided weighting matrix `W` or defaults to `W = I`.
-- **Two-step GMM**: Constructs an efficient weighting matrix from the residuals of a first-step estimation.
-- **Bootstrap**: The option `refit_weight_in_boot=True` re-estimates the optimal weighting matrix within each bootstrap replication to account for its sampling variation.
+#### 2. 因果推論 / Causal Inference
 
 ```python
-from lineareg.estimators import OneStepGMM, TwoStepGMM
+from econml.dml import DML
+from sklearn.ensemble import RandomForestRegressor
 
-# One-step GMM with identity weight
-gmm1 = OneStepGMM()
-res1 = gmm1.fit(formula='y ~ x1 | z1', data=df, bootstrap={'n_boot': 399})
-
-# Efficient Two-step GMM
-gmm2 = TwoStepGMM()
-res2 = gmm2.fit(formula='y ~ x1 | z1', data=df, bootstrap={'n_boot': 399})
+# Double Machine Learning
+dml = DML(model_y=RandomForestRegressor(), model_t=RandomForestRegressor())
+dml.fit(Y, T, X=X, W=W)
+treatment_effects = dml.effect(X)
 ```
 
-### GLS / Feasible GLS
-- **Whitening**: Transforms the data via `(X_tilde, y_tilde) = (C @ X, C @ y)`, where `C.T @ C = Σ**(-1)`. OLS is then performed on the transformed data.
-- **Bootstrap**: The option `refit_sigma_in_boot=True` implements a feasible GLS-style bootstrap. Within each replication, it reconstructs `y*` in the original scale, re-estimates `Σ*` from OLS residuals, and whitens the data again before estimation.
+#### 3. RDデザイン / Regression Discontinuity
 
-### Quantile Regression (WGB)
-- Implements the Wild Gradient Bootstrap (Feng, He & Hu, 2011) for inference.
-- The quantile of interest is specified as a constructor argument: `QuantileRegression(quantile=0.5)`.
+```python
+import rdrobust
 
-### Spatial SAR (Kelejian–Prucha 2SLS)
-- **Formula**: When a spatial weight matrix `W` is provided via the `W_spatial` argument, spatial lag (`SL`) and spatial Durbin (`WX`) terms can be included in the formula.
-- **Endogeneity**: The spatial lag of the dependent variable, `SL(y)`, is automatically treated as endogenous. Instruments are formed from spatial lags of the exogenous regressors (e.g., `WX`, `W**2 X`), with collinear instruments automatically removed.
+# RD推定
+rd = rdrobust.rdrobust(y, x, c=0)
+print(rd.summary())
+```
 
-## Bootstrap Schemes and Options
+### LaTeX文書のビルド / Building LaTeX Documents
 
-- **`scheme`**: `'mammen'` (two-point), `'webb'` (six-point, recommended for few clusters), `'rademacher'` (two-point), `'dwb'` (for time dependence), `'sdwb'` (for spatial dependence).
-- **Clustering**: Pass a single series or a list of series to the `clusters=` argument for one-way or multi-way clustering.
-- **Multi-way Options**: `multiway_mode` (`'wcr'`/`'wcu'`) controls re-centering, and `multiway_combine` (`'product'`/`'sum'`) controls how perturbations are combined across clustering dimensions.
-- **Leverage Correction**: Apply HC2/HC3 style corrections via `leverage_correction='hc2'` or `'hc3'`.
+#### 論文 / Paper
 
-## Monte Carlo & Demo
+```bash
+make build-paper
+# 出力: tex/paper/ecta_template.pdf
+```
 
-- **Demo**: Run `python -m lineareg.demo` to execute all estimators on synthetic data and generate a summary table.
-- **Monte Carlo**: The `lineareg.sim.montecarlo` module provides a small suite for validation and performance testing.
+論文テンプレートは日本語対応（LuaLaTeX + LuaTeX-ja）で、Econometrica形式をベースにしています。
 
-## References
+The paper template supports Japanese (LuaLaTeX + LuaTeX-ja) and is based on the Econometrica format.
 
-- Correia, S. (2017). "Linear Models with High-Dimensional Fixed Effects: An Efficient and Feasible Estimator."
-- Davidson, R., & Flachaire, E. (2008). "The Wild Bootstrap, Tamed at Last." *Journal of Econometrics*.
-- Feng, X., He, X., & Hu, J. (2011). "Wild Gradient Bootstrap for Quantile Regression."
-- Guimarães, P., & Portugal, P. (2010). "A Simple Feasible Procedure to Fit Models with High-Dimensional Fixed Effects." *The Stata Journal*.
-- MacKinnon, J. G., & Webb, M. D. (2017). "The Wild Cluster Bootstrap for Few (Treated) Clusters."
-- Mammen, E. (1993). "Bootstrap and Wild Bootstrap for High Dimensional Linear Models." *The Annals of Statistics*.
-- Shao, J. (2010). "The Dependent Wild Bootstrap." *Journal of the American Statistical Association*.
-- Sun, L., & Abraham, S. (2021). "Estimating Dynamic Treatment Effects in Event Studies with Staggered Adoption." *Journal of Econometrics*.
-- Webb, M. D. (2014). "Reworking Wild Bootstrap Based Inference for Clustered Errors."
+#### スライド / Slides
+
+```bash
+make build-slides
+# 出力: tex/slides/main.pdf
+```
+
+Beamerのmetropolisテーマを使用したスライドテンプレートです。
+
+Slides template using Beamer's metropolis theme.
+
+### Quarto文書の作成 / Creating Quarto Documents
+
+```bash
+make quarto-html     # HTML出力
+make quarto-pdf      # PDF出力
+make quarto-reveal   # Reveal.jsスライド
+```
+
+Quartoは、コード・分析結果・説明文を統合した動的文書を作成できます。
+
+Quarto enables you to create dynamic documents integrating code, results, and narrative.
+
+## GitHub Actions連携 / GitHub Actions Integration
+
+このプロジェクトには以下のワークフローが含まれています：
+
+- **CI/CD** (`.github/workflows/ci.yml`): 自動テスト・リント
+- **Notion連携** (`.github/workflows/notion-*.yml`): 
+  - 文献データベースの同期
+  - PDFのOCR処理
+  - Paperpileからの文献インポート
+
+These workflows are included:
+
+- **CI/CD**: Automated testing and linting
+- **Notion Integration**: Bibliography sync, PDF OCR, Paperpile import
+
+## 主要パッケージ / Key Packages
+
+### Python計量経済学 / Python Econometrics
+
+- **linearmodels**: パネルデータ、IV推定
+- **pyfixest**: 高速固定効果推定（Stata風構文）
+- **DoubleML**: Double Machine Learning
+- **EconML**: 機械学習ベース因果推論
+- **PyBLP**: BLPモデル推定
+- **statsmodels**: 統計モデル全般
+- **csdid**: Callaway-Sant'Anna DID推定
+- **rdrobust**: RDデザインのロバスト推定
+- **scpi-pkg**: Synthetic Control
+
+### データ処理 / Data Processing
+
+- **pandas**: データフレーム操作
+- **polars**: 高速データフレームライブラリ
+- **scikit-learn**: 機械学習
+- **PyTorch**: 深層学習
+
+### 可視化 / Visualization
+
+- **matplotlib**: 基本的なプロット
+- **seaborn**: 統計的可視化
+- **plotnine**: ggplot2スタイル（Pythonで）
+
+## 開発ガイドライン / Development Guidelines
+
+### コード品質 / Code Quality
+
+- **ruff**: 高速なPythonリンター・フォーマッター
+- **mypy**: 型チェック
+- **pre-commit**: コミット前の自動チェック
+
+```bash
+make format  # コードを自動フォーマット
+make check   # リント・型チェック・テスト実行
+```
+
+### テスト / Testing
+
+```bash
+make test    # テスト実行（カバレッジ付き）
+```
+
+## トラブルシューティング / Troubleshooting
+
+### GPU利用の確認 / GPU Availability
+
+```bash
+make gpu
+```
+
+CUDA・PyTorchのGPU利用可能性を確認できます。
+
+Check CUDA and PyTorch GPU availability.
+
+### クリーンビルド / Clean Build
+
+```bash
+make clean       # 一時ファイル削除
+make clean-all   # すべてのビルド成果物を削除
+```
