@@ -1,4 +1,3 @@
-
 # Economics Research Full Stack (SSH/localhost, GPU/Quarto/RStudio ready)
 FROM ubuntu:22.04
 
@@ -10,7 +9,7 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
     ca-certificates curl wget gnupg \
     git git-lfs make build-essential pkg-config \
-    python3 \
+    python3 python3-venv python3-pip python3-dev \
     locales tzdata \
     texlive-full \
     fonts-noto-cjk fonts-noto-cjk-extra \
@@ -24,12 +23,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
     apt-get update && apt-get install -y --no-install-recommends nodejs && \
     rm -rf /var/lib/apt/lists/*
 
-
-
-RUN sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
-ENV LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
-
-# Japanese locale
 RUN sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
 ENV LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
 
@@ -85,27 +78,23 @@ RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && \
     mamba env create -f /tmp/environment.yml && \
     mamba clean -a -y
 
-
-
 ENV CONDA_DEFAULT_ENV=econ-env
 ENV PATH=$MAMBA_ROOT_PREFIX/envs/econ-env/bin:$PATH
 
-# ========= 7) Poetry Differential Install =========
+# ========= 8) Poetry Differential Install =========
 WORKDIR /tmp/poetry
 RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && conda activate econ-env && \
     poetry install --only dev --no-interaction --no-ansi --no-root
 WORKDIR /workspaces/econ-project
 
-
-
-# ========= 8) Jupyter/R Kernel Registration =========
+# ========= 9) Jupyter/R Kernel Registration =========
 RUN . "$MAMBA_ROOT_PREFIX/etc/profile.d/conda.sh" && conda activate econ-env && \
     python -m ipykernel install --user --name econ-env --display-name "Python (econ-env)" && \
     R -q -e "if (!requireNamespace('IRkernel', quietly=TRUE)) install.packages('IRkernel', repos='https://cloud.r-project.org'); IRkernel::installspec(name='ir', displayname='R (IRkernel)')"
 
-# ========= 9) Auto Activate =========
+# ========= 10) Auto Activate =========
 RUN echo "conda activate econ-env" >> /home/$USERNAME/.bashrc
 
-# ========= 10) Default Command =========
+# ========= 11) Default Command =========
 USER root
 CMD ["/bin/bash"]
