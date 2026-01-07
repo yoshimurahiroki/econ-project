@@ -23,8 +23,7 @@
 
   "containerEnv": {},
 
-  "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/econ-project /home/vscode || true && echo 'Container initialized successfully' && pre-commit install || true",
-
+  "postCreateCommand": "sudo chown -R vscode:vscode /workspaces/econ-project /home/vscode || true && echo 'Container initialized successfully' && pre-commit install || true && Rscript -e \"install.packages(c('apollo', 'rdrobust', 'DoubleML', 'synthdid'), repos='http://cran.rstudio.com/')\"",
   "customizations": {
     "vscode": {
       "extensions": [
