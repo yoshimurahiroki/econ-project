@@ -151,6 +151,29 @@ function matchPdf(entry, files) {
   return best;
 }
 
+async function getAllNotionBibKeys(dbId, keyPropName) {
+  const map = new Map();
+  let cursor = undefined;
+  console.log("Fetching all existing pages from Notion to check for orphans...");
+  while (true) {
+    const res = await notion.databases.query({
+      database_id: dbId,
+      start_cursor: cursor,
+      filter: {
+        property: keyPropName,
+        rich_text: { is_not_empty: true },
+      },
+    });
+    for (const p of res.results) {
+      const k = p.properties?.[keyPropName]?.rich_text?.[0]?.plain_text;
+      if (k) map.set(k, p.id);
+    }
+    if (!res.has_more) break;
+    cursor = res.next_cursor;
+  }
+  return map;
+}
+
 // ---- Notion helpers ----
 function rich(text) {
   return [{ type: "text", text: { content: text ?? "" } }];
@@ -420,6 +443,31 @@ async function main() {
 
   // 3) Load Notion DB schema
   const dbProps = await getDatabaseSchema(NOTION_DB_ID);
+
+  if (entries.length > 0) {
+    if (hasProp(dbProps, "Bib Key", "rich_text")) {
+      const validKeys = new Set(entries.map((e) => e.key).filter(Boolean));
+      const notionPages = await getAllNotionBibKeys(NOTION_DB_ID, "Bib Key");
+      let deletedCount = 0;
+      for (const [nKey, nId] of notionPages) {
+        if (!validKeys.has(nKey)) {
+          console.log(`Pruning orphan page: ${nKey} (${nId})`);
+          try {
+            await notion.pages.update({ page_id: nId, archived: true });
+            deletedCount++;
+          } catch (e) {
+            console.error(`Failed to archive page ${nKey}:`, e?.message || e);
+          }
+        }
+      }
+      if (deletedCount > 0) console.log(`Pruned ${deletedCount} orphan pages.`);
+      else console.log("No orphan pages found.");
+    } else {
+      console.warn("Skipping prune: 'Bib Key' property not found in Notion DB.");
+    }
+  } else if (entries.length === 0) {
+    console.warn("Skipping prune: Source bibliography is empty. Safety abort.");
+  }
 
   // 4) Apply offset window before upsert
   const startIndex = Math.max(0, SYNC_OFFSET);
