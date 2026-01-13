@@ -31,14 +31,10 @@ dependencies:
   - r-fixest
   - r-did
   - r-bacondecomp
-  - r-rdrobust
   - r-matchit
   - r-cobalt
-  - r-synthdid
-  - r-doublemL
   - r-grf
   - r-tidymodels
-  - r-apollo
   - r-mlogit
   - r-fable
   - r-vars
@@ -50,3 +46,4 @@ dependencies:
   - r-languageserver
 
   - pip
+
