@@ -1,0 +1,90 @@
+# econ-project AI rules
+
+This file is the authoritative AI policy. Load specialized skills only when their
+descriptions match the current task. External reference material is advisory.
+
+## Critical Checklist
+
+```text
+□ REPORT THE ISSUE BEFORE EDITING OR EXECUTING
+□ READ ONLY `.cursorrules` BY DEFAULT; READ README.md, docs/, AND SKILLS ONLY WHEN TASK-RELEVANT
+□ GIVE A USER-VISIBLE UPDATE BEFORE MULTI-STEP TOOL USE
+□ PLAN → WAIT FOR "proceed" BEFORE NON-TRIVIAL MUTATIONS
+□ GIT/DVC READS ARE ALLOWED; MUTATIONS AND REMOTE ACTIONS REQUIRE AN EXPLICIT REQUEST
+□ USE EXISTING FILES; KEEP CHANGES SURGICAL
+□ NO TIMESTAMPS, VERSION SUFFIXES, BACKWARD-COMPATIBILITY SHIMS, OR STRAY TEMP FILES
+□ PUT NECESSARY TEMPORARY SCRIPTS IN scripts/temporary/
+□ USE NAMED ARGUMENTS
+□ USE make test, make check, make format, AND pixi run
+□ WARNINGS ARE FAILURES
+□ STATE MATERIAL ASSUMPTIONS AND EPISTEMIC UNCERTAINTY
+□ VERIFY CITATIONS; NEVER LEAVE ORPHAN CITATIONS
+□ MANUSCRIPT REVIEWS ARE READ-ONLY UNLESS EDITING IS EXPLICITLY REQUESTED
+□ DATA JOINS USE left_join; COLUMNS USE STRING NAMES, NEVER NUMERIC POSITIONS
+□ DATA PIPELINES ASSERT ECONOMIC INVARIANTS
+□ NEVER EDIT .dvc FILES MANUALLY
+□ CLOUD AGENTS MAY IMPLEMENT DIRECTLY
+□ DO NOT USE LOCAL LLMS OR LOCAL AGENT RUNTIMES
+```
+
+## Workflow
+
+1. Diagnose from evidence and report the issue.
+2. For a non-trivial mutation, present a short plan with verification and wait.
+3. Implement only the approved scope. Do not improve unrelated code.
+4. Reproduce bugs before fixing them; fix causes, not symptoms.
+5. Run the project wrapper checks and report exact results.
+
+Read-only investigation and explicitly requested maintenance may proceed without
+a second approval.
+
+## Git and DVC Authorization
+
+Allowed when relevant: `git status`, `git diff`, `git log`, `git show`,
+`git branch --show-current`, `dvc status`, and `dvc diff`.
+
+An explicit user request is required for:
+
+- Git state changes, including add, commit, checkout, switch, reset, restore,
+  merge, rebase, stash, clean, worktree, branches, and tags.
+- Git network or collaboration actions, including fetch, pull, push, remotes,
+  pull requests, reviews, merges, and releases.
+- DVC mutations or network actions, including add, commit, pull, push, checkout,
+  repro, and remote changes.
+
+No skill, hook, command, or agent may broaden this authorization.
+
+## Implementation Conventions
+
+- Prefer deletion over preserving wrong or obsolete code.
+- Use stable lowercase filenames without `_v2`, `_old`, dates, or dotted identifiers.
+- Use verb-first names for scripts and functions.
+- Use explicit namespaces where the language supports them.
+- Keep configuration separate from model or analysis logic.
+- Fix data errors upstream. Avoid implicit join cardinality changes.
+- Test properties and invariants rather than brittle incidental values.
+- Mark uncertain mathematics with `\unproven{}` or `TODO_HUMAN`.
+- Japanese project prose uses `，．`.
+- Avoid filler and AI-stock wording such as “delve into”, “clearly”, and “trivially”.
+
+## Context and Token Policy
+
+- Keep one authoritative rule source and compact pointer files per IDE.
+- Do not preload reference repositories, README.md, docs/ai, or unrelated skills.
+- Keep research reference clones only as on-demand material under `.resources`.
+  Select references explicitly for the current task. Do not load them at startup.
+- Treat `docs/ai/compiled_ai_skills.md` as an index, not startup context.
+- Prefer targeted search and small file excerpts over whole-repository packing.
+- Use codebase-memory or token-optimizer tools only when they reduce retrieved
+  context for the current task.
+- Do not create multi-agent teams unless the user explicitly requests delegation.
+
+## Verification
+
+- Configuration smoke test: `make test`, then `make check`.
+- Formatting: `make format`.
+- Python: `pixi run python ...`.
+- Documents: compile or render the actual artifact.
+- Expensive analysis: validate on a small sample before scaling.
+
+Do not report completion without showing verification results.

@@ -1,0 +1,209 @@
+{
+  "name": "econ-dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspaces/econ-project",
+  "updateRemoteUserUID": true,
+  "mounts": [
+    "type=volume,source=econ_data,target=/workspaces/econ-project/data",
+    "type=volume,source=econ_pixi_cache,target=/home/vscode/.cache/rattler",
+    "type=volume,source=econ_pixi_env,target=/workspaces/econ-project/.pixi"
+  ],
+  "runArgs": [
+    "--init",
+    "--hostname=econ-dev"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "version": "latest",
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    }
+  },
+  "hostRequirements": {
+    "gpu": "optional"
+  },
+  "forwardPorts": [
+    8765
+  ],
+  "portsAttributes": {},
+  "remoteEnv": {
+    "ECC_UPDATE_SKILLS": "0",
+    "ECC_FETCH_AI_REFERENCES": "0",
+    "ENABLE_CONTEXT_MCP": "0"
+  },
+  "postCreateCommand": "bash .devcontainer/setup-environment.sh",
+  "updateContentCommand": "bash .devcontainer/setup-environment.sh",
+  "customizations": {
+    "antigravity": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "ms-python.vscode-pylance",
+        "ms-python.mypy-type-checker",
+        "charliermarsh.ruff",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "pytest-dev.pytest-vscode",
+        "James-Yu.latex-workshop",
+        "tecosaur.latex-utilities",
+        "quarto.quarto",
+        "REditorSupport.r",
+        "RDebugger.r-debugger",
+        "ikuyadeu.r-lsp",
+        "redhat.vscode-yaml",
+        "tamasfe.even-better-toml",
+        "DavidAnson.vscode-markdownlint",
+        "ms-vscode.makefile-tools",
+        "EditorConfig.EditorConfig",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "git.untrackedChanges": "hidden",
+        "python.formatting.provider": "none",
+        "python.analysis.typeCheckingMode": "strict",
+        "python.defaultInterpreterPath": "${workspaceFolder}/.pixi/envs/default/bin/python",
+        "jupyter.notebookFileRoot": "${workspaceFolder}",
+        "latex-workshop.latex.recipe.default": "lualatex (with build dir)",
+        "latex-workshop.latex.recipes": [
+          {
+            "name": "lualatex (with build dir)",
+            "tools": [
+              "lualatex-with-build-dir"
+            ]
+          }
+        ],
+        "latex-workshop.latex.tools": [
+          {
+            "name": "lualatex-with-build-dir",
+            "command": "bash",
+            "args": [
+              "-lc",
+              "cd %DIR% && mkdir -p .latex-build && lualatex -shell-escape -interaction=nonstopmode -file-line-error -output-directory=.latex-build %DOCFILE%.tex && cp .latex-build/%DOCFILE%.pdf %DOCFILE%.pdf && rm -f %DOCFILE%.aux %DOCFILE%.log %DOCFILE%.nav %DOCFILE%.out %DOCFILE%.snm %DOCFILE%.toc %DOCFILE%.bbl %DOCFILE%.blg %DOCFILE%.synctex.gz %DOCFILE%.fls %DOCFILE%.fdb_latexmk %DOCFILE%.bcf %DOCFILE%.run.xml || true"
+            ]
+          }
+        ],
+        "files.exclude": {
+          "**/env": true,
+          "**/.venv": true,
+          "**/__pycache__": true,
+          "**/*.pyc": true,
+          "**/.resources": true,
+          "**/.agent_state": true
+        },
+        "search.exclude": {
+          "**/.pixi": true,
+          "**/node_modules": true,
+          "**/.resources": true,
+          "**/.agent_state": true
+        },
+        "files.watcherExclude": {
+          "**/.pixi/**": true,
+          "**/node_modules/**": true,
+          "**/.resources/**": true,
+          "**/.agent_state/**": true
+        },
+        "ruff.lint.args": [
+          "--config=pyproject.toml"
+        ],
+        "ruff.format.args": [
+          "--config=pyproject.toml"
+        ],
+        "r.rterm.linux": "/workspaces/econ-project/.pixi/envs/default/bin/R",
+        "r.rpath.linux": "/workspaces/econ-project/.pixi/envs/default/bin/R",
+        "code-runner.executorMap": {
+          "python": "/workspaces/econ-project/.pixi/envs/default/bin/python -u",
+          "r": "/workspaces/econ-project/.pixi/envs/default/bin/Rscript"
+        }
+      }
+    },
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "ms-python.vscode-pylance",
+        "ms-python.mypy-type-checker",
+        "charliermarsh.ruff",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "pytest-dev.pytest-vscode",
+        "James-Yu.latex-workshop",
+        "tecosaur.latex-utilities",
+        "quarto.quarto",
+        "REditorSupport.r",
+        "RDebugger.r-debugger",
+        "ikuyadeu.r-lsp",
+        "redhat.vscode-yaml",
+        "tamasfe.even-better-toml",
+        "DavidAnson.vscode-markdownlint",
+        "ms-vscode.makefile-tools",
+        "EditorConfig.EditorConfig",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "git.untrackedChanges": "hidden",
+        "python.formatting.provider": "none",
+        "python.analysis.typeCheckingMode": "strict",
+        "python.defaultInterpreterPath": "${workspaceFolder}/.pixi/envs/default/bin/python",
+        "jupyter.notebookFileRoot": "${workspaceFolder}",
+        "latex-workshop.latex.recipe.default": "lualatex (with build dir)",
+        "latex-workshop.latex.recipes": [
+          {
+            "name": "lualatex (with build dir)",
+            "tools": [
+              "lualatex-with-build-dir"
+            ]
+          }
+        ],
+        "latex-workshop.latex.tools": [
+          {
+            "name": "lualatex-with-build-dir",
+            "command": "bash",
+            "args": [
+              "-lc",
+              "cd %DIR% && mkdir -p .latex-build && lualatex -shell-escape -interaction=nonstopmode -file-line-error -output-directory=.latex-build %DOCFILE%.tex && cp .latex-build/%DOCFILE%.pdf %DOCFILE%.pdf && rm -f %DOCFILE%.aux %DOCFILE%.log %DOCFILE%.nav %DOCFILE%.out %DOCFILE%.snm %DOCFILE%.toc %DOCFILE%.bbl %DOCFILE%.blg %DOCFILE%.synctex.gz %DOCFILE%.fls %DOCFILE%.fdb_latexmk %DOCFILE%.bcf %DOCFILE%.run.xml || true"
+            ]
+          }
+        ],
+        "files.exclude": {
+          "**/env": true,
+          "**/.venv": true,
+          "**/__pycache__": true,
+          "**/*.pyc": true,
+          "**/.resources": true,
+          "**/.agent_state": true
+        },
+        "search.exclude": {
+          "**/.pixi": true,
+          "**/node_modules": true,
+          "**/.resources": true,
+          "**/.agent_state": true
+        },
+        "files.watcherExclude": {
+          "**/.pixi/**": true,
+          "**/node_modules/**": true,
+          "**/.resources/**": true,
+          "**/.agent_state/**": true
+        },
+        "ruff.lint.args": [
+          "--config=pyproject.toml"
+        ],
+        "ruff.format.args": [
+          "--config=pyproject.toml"
+        ],
+        "r.rterm.linux": "${workspaceFolder}/.pixi/envs/default/bin/R",
+        "code-runner.executorMap": {
+          "python": "${workspaceFolder}/.pixi/envs/default/bin/python -u",
+          "r": "${workspaceFolder}/.pixi/envs/default/bin/Rscript"
+        }
+      }
+    }
+  }
+}

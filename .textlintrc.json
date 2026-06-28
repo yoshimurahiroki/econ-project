@@ -1,0 +1,16 @@
+{
+  "plugins": {
+    "latex2e": true
+  },
+  "rules": {
+    "preset-ja-technical-writing": {
+      "ja-no-mixed-period": false
+    },
+    "ja-no-mixed-period": {
+      "periodMark": "．"
+    },
+    "ja-no-mixed-comma": {
+      "commaMark": "，"
+    }
+  }
+}

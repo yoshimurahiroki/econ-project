@@ -1,0 +1,7 @@
+---
+description: econ-project policy pointer
+globs: *
+---
+
+Read and follow `.cursorrules`; it is the single authoritative policy.
+Do not duplicate or extend its rules in Cursor rules.

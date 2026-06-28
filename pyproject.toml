@@ -1,0 +1,512 @@
+[project]
+name = "econ-project"
+version = "0.1.0"
+description = "Econometrics research stack"
+requires-python = ">=3.11,<3.13"
+authors = [{ name = "yoshimurahiroki", email = "yoshimurahiroki@akane.waseda.jp" }]
+dependencies = [
+	"biogeme",
+	"bidict",
+	"boto3",
+	"chardet",
+	"contourpy",
+	"csdid",
+	"drdid",
+	"doubleml",
+	"econml",
+	"fire",
+	"fonttools",
+	"ipython",
+	"japanize-matplotlib",
+	"jsonlines",
+	"kiwisolver",
+	"lightgbm",
+	"lightning-lite",
+	"linearmodels",
+	"matplotlib",
+	"mlflow",
+	"mplsoccer",
+	"nixtla",
+	"numpy",
+	"pandas",
+	"pillow",
+	"playwright",
+	"plotnine",
+	"polars",
+	"pyblp",
+	"pydantic",
+	"pyfixest",
+	"pytorch-lightning",
+	"quantecon",
+	"rdrobust",
+	"scikit-learn",
+	"scpi-pkg",
+	"scipy",
+	"scrapy",
+	"seaborn",
+	"spreg",
+	"statsforecast",
+	"statsmodels",
+	"tensorboard",
+	"torch",
+	"torchmetrics",
+	"tqdm",
+	"xgboost",
+	"xlogit",
+	"pyyaml",
+	"rddensity",
+	"causaldata",
+	"scikit-uplift",
+	"pyieoe",
+	"pingouin",
+	"diff-diff",
+	"differences",
+	"pysyncon",
+	"neuralforecast",
+	"axelrod",
+	"nashpy",
+	"econpizza",
+	"optimagic",
+	"asreview",
+	"sdv",
+	"synthcity",
+	"finvader",
+	"docling",
+	"olmocr",
+	"surya-ocr",
+	"paddleocr",
+	"pix2text",
+	"openbb",
+	"duckduckgo-search",
+	"dvc",
+]
+
+[dependency-groups]
+dev = [
+	"black>=24,<25",
+	"flake8>=7,<8",
+	"ipywidgets>=8.1,<9",
+	"isort>=5.13,<6",
+	"mypy>=1.10,<2",
+	"pre-commit>=3.7,<4",
+	"pylint>=3.2,<4",
+	"pytest>=8,<9",
+	"pytest-cov>=5,<6",
+	"pytest-mock>=3.8,<4",
+	"pytest-mypy>=0.10,<1",
+	"ruff>=0.5,<1",
+	"jupyterlab-code-formatter>=2.2",
+	"colorama",
+	"cycler",
+	"iniconfig",
+	"librt",
+	"mccabe",
+	"mypy-extensions",
+	"packaging",
+	"pathspec",
+	"platformdirs",
+	"pluggy",
+	"pycodestyle",
+	"pyflakes",
+	"python-dateutil",
+	"pytokens",
+	"six",
+	"typing-extensions",
+	"mcp",
+]
+domain_default = [
+	"ananke-causal",
+	"appelpy",
+	"arch",
+	"auto-sklearn; python_version < '3.11'",
+	"catboost",
+	"causalimpact",
+	"causal-learn",
+	"causallib",
+	"causalml",
+	"causal-playground",
+	"CausalPy",
+	"causaltensor",
+	"complexipy",
+	"dask",
+	"dowhy",
+	"duckreg",
+	"fastapi",
+	"uvicorn[standard]",
+	"pydantic-settings",
+	"fastai",
+	"fastapi-guard",
+	"fastopenapi",
+	"FixedEffectModel",
+	"folium",
+	"functioneer",
+	"gcastle",
+	"gEconpy",
+	"geopandas",
+	"gitingest",
+	"jax",
+	"keras",
+	"kreuzberg",
+	"macroframe-forecast",
+	"modshim",
+	"nltk",
+	"opencv-python",
+	"openpyxl",
+	"osmnx",
+	"plotly",
+	"pmdarima",
+	"pycinc",
+	"pydtr",
+	"pyeconomics",
+	"pyleebounds",
+	"pyregadj",
+	"pysal",
+	"rasterio",
+	"ray[rllib]",
+	"rdd",
+	"skylos",
+	"solvex",
+	"SQLAlchemy",
+	"stable-baselines3",
+	"StatsPAI",
+	"tensorflow",
+	"throttled-py",
+	"tigramite",
+	"TPOT",
+	"transformers",
+	"ty",
+	"langchain",
+	"langchain-chroma",
+	"langchain-community",
+	"langchain-openai",
+	"chromadb",
+	"nest-asyncio",
+]
+
+# ── Pixi configuration ──────────────────────────────────────────
+[tool.pixi.workspace]
+name = "econ-project"
+channels = ["https://prefix.dev/conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.dependencies]
+python = "3.12.*"
+numpy = ">=2.4.6,<2.5"
+pip = ">=26.1.2,<27"
+setuptools = ">=82.0.1,<83"
+more-itertools = ">=11.1.0,<12"
+rich = ">=13.9.4,<14"
+pandoc = ">=3.8.3,<4"
+quarto = ">=1.9.38,<2"
+click = ">=8.4.1,<9"
+cmake = ">=4.3.4,<5"
+pkg-config = ">=0.29.2,<1"
+udunits2 = ">=2.2.28,<3"
+# ── R base & core ──
+r-base = ">=4.5.3,<5"
+r-irkernel = ">=1.3.2,<2"
+rpy2 = ">=3.6.7,<4"
+pygraphviz = ">=1.14,<2"
+pyzmq = ">=27.1.0,<28"
+ipykernel = ">=7.3.0,<8"
+jupyterlab = ">=4.6.0,<5"
+r-languageserver = ">=0.3.18,<1"
+r-yaml = ">=2.3.12,<3"
+r-rmarkdown = ">=2.31,<3"
+cairo = ">=1.18.4,<2"
+fontconfig = ">=2.18.1,<3"
+freetype = ">=2.14.3,<3"
+fribidi = ">=1.0.16,<2"
+gmp = ">=6.3.0,<7"
+gsl = ">=2.7,<3"
+harfbuzz = ">=14.2.1,<15"
+imagemagick = ">=7.1.2_26,<8"
+libpng = ">=1.6.58,<2"
+libxml2 = ">=2.15.3,<3"
+libssh = ">=0.12.0,<1"
+mpfr = ">=4.2.2,<5"
+zeromq = ">=4.3.5,<5"
+zlib = ">=1.3.2,<2"
+librsvg = ">=2.62.3,<3"
+gdk-pixbuf = ">=2.44.7,<3"
+glib = ">=2.88.2,<3"
+expat = ">=2.8.1,<3"
+libxml2-devel = ">=2.15.3,<3"
+openjdk = ">=25.0.2,<26"
+xz = ">=5.8.3,<6"
+glpk = ">=5.0,<6"
+gdal = ">=3.13.1,<4"
+proj = ">=9.8.1,<10"
+geos = ">=3.14.1,<4"
+[tool.pixi.pypi-dependencies]
+# ── core dependencies ──
+biogeme = "==3.3.2"
+bidict = ">=0.23.1,<1"
+boto3 = ">=1.43.36,<2"
+chardet = ">=7.4.3,<8"
+contourpy = ">=1.3.3,<2"
+csdid = ">=0.2.9,<1"
+drdid = ">=1.1.6,<2"
+doubleml = ">=0.11.3,<1"
+econml = ">=0.16.0,<1"
+fire = ">=0.7.1,<1"
+fonttools = ">=4.63.0,<5"
+ipython = ">=9.15.0,<10"
+japanize-matplotlib = ">=1.1.3,<2"
+jsonlines = ">=4.0.0,<5"
+kiwisolver = ">=1.5.0,<2"
+lightgbm = ">=4.6.0,<5"
+lightning-lite = ">=1.8.6,<2"
+linearmodels = ">=7.0,<8"
+matplotlib = ">=3.11.0,<4"
+mlflow = ">=3.14.0,<4"
+mplsoccer = ">=1.6.1,<2"
+nixtla = ">=0.7.4,<1"
+numpy = ">=2.4.6,<2.5"
+pandas = ">=2.3.3,<3"
+pillow = ">=10.4.0,<11"
+playwright = ">=1.60.0,<2"
+plotnine = ">=0.15.7,<1"
+polars = ">=1.42.0,<2"
+pyblp = ">=1.2.0,<2"
+pydantic = ">=2.13.4,<3"
+pyfixest = ">=0.60.0,<1"
+pytorch-lightning = ">=2.6.5,<3"
+quantecon = ">=0.11.2,<1"
+rdrobust = ">=2.0.0,<3"
+scikit-learn = ">=1.6.1,<2"
+scpi-pkg = ">=4.0.0,<5"
+scipy = ">=1.18.0,<2"
+scrapy = ">=2.16.0,<3"
+seaborn = ">=0.13.2,<1"
+spreg = ">=1.9.0,<2"
+statsforecast = ">=2.0.1,<3"
+statsmodels = ">=0.14.6,<1"
+tensorboard = ">=2.20.0,<3"
+torch = ">=2.10.0,<3"
+torchmetrics = ">=1.9.0,<2"
+tqdm = ">=4.68.3,<5"
+xgboost = ">=3.3.0,<4"
+xlogit = ">=0.2.7,<1"
+pyyaml = ">=6.0.3,<7"
+rddensity = ">=3.0,<4"
+causaldata = ">=0.1.5,<1"
+scikit-uplift = ">=0.5.1,<1"
+pyieoe = ">=0.1.1,<1"
+pingouin = ">=0.6.1,<1"
+marimo = ">=0.23.4,<1"
+diff-diff = ">=3.5.3,<4"
+differences = ">=0.3.0,<1"
+pysyncon = ">=1.5.2,<2"
+neuralforecast = ">=3.1.7,<4"
+axelrod = ">=4.14.0,<5"
+nashpy = ">=0.0.43,<1"
+econpizza = ">=0.6.10,<1"
+optimagic = ">=0.5.3,<1"
+asreview = ">=3.0.8,<4"
+sdv = ">=1.37.2,<2"
+synthcity = ">=0.0.1,<1"
+finvader = ">=1.0.4,<2"
+docling = ">=2.107.0,<3"
+olmocr = ">=0.4.27,<1"
+surya-ocr = ">=0.17.1,<1"
+paddleocr = ">=2.10.0,<3"
+pix2text = ">=1.1.6,<2"
+openbb = ">=4.7.2,<5"
+duckduckgo-search = ">=8.1.1,<9"
+dvc = ">=3.67.1,<4"
+# ── dev dependencies ──
+black = ">=26.5.1,<27"
+flake8 = ">=7.3.0,<8"
+ipywidgets = ">=8.1.8,<9"
+isort = ">=8.0.1,<9"
+mypy = ">=2.1.0,<3"
+pre-commit = ">=4.6.0,<5"
+pylint = ">=4.0.6,<5"
+pytest = ">=9.1.1,<10"
+pytest-cov = ">=7.1.0,<8"
+pytest-mock = ">=3.15.1,<4"
+pytest-mypy = ">=1.0.1,<2"
+ruff = ">=0.15.20,<1"
+jupyterlab-code-formatter = ">=3.0.3,<4"
+mcp = ">=1.28.1,<2"
+colorama = ">=0.4.6,<1"
+cycler = ">=0.12.1,<1"
+iniconfig = ">=2.3.0,<3"
+librt = ">=0.11.0,<1"
+mccabe = ">=0.7.0,<1"
+mypy-extensions = ">=1.1.0,<2"
+packaging = ">=26.2,<27"
+pathspec = ">=1.1.1,<2"
+platformdirs = ">=4.10.0,<5"
+pluggy = ">=1.6.0,<2"
+pycodestyle = ">=2.14.0,<3"
+pyflakes = ">=3.4.0,<4"
+python-dateutil = ">=2.9.0.post0,<3"
+pytokens = ">=0.4.1,<1"
+six = ">=1.17.0,<2"
+typing-extensions = ">=4.15.0,<5"
+# ── domain_default dependencies ──
+ananke-causal = ">=0.2.1,<1"
+appelpy = ">=0.4.2,<1"
+arch = ">=8.0.0,<9"
+catboost = ">=1.2.10,<2"
+causalimpact = ">=0.2.6,<1"
+causal-learn = ">=0.1.4.7,<1"
+causallib = ">=0.10.0,<1"
+causalml = ">=0.16.0,<1"
+causal-playground = ">=0.1.2,<1"
+CausalPy = ">=0.7.0,<1"
+causaltensor = ">=0.1.8,<1"
+complexipy = ">=6.0.0,<7"
+dask = ">=2026.6.0,<2027"
+dowhy = ">=0.12,<1"
+duckreg = ">=0.4.1,<1"
+fastapi = ">=0.136.3,<1"
+uvicorn = { version = ">=0.40.0,<1", extras = ["standard"] }
+pydantic-settings = ">=2.14.2,<3"
+fastai = ">=2.8.7,<3"
+fastapi-guard = ">=7.2.0,<8"
+fastopenapi = ">=0.7.0,<1"
+FixedEffectModel = ">=0.0.5,<1"
+folium = ">=0.20.0,<1"
+functioneer = ">=0.6.0,<1"
+gcastle = ">=1.0.4,<2"
+gEconpy = ">=2.1.0,<3"
+geopandas = ">=1.1.4,<2"
+gitingest = ">=0.3.1,<1"
+jax = ">=0.10.2,<1"
+keras = ">=3.15.0,<4"
+kreuzberg = ">=4.9.9,<5"
+macroframe-forecast = ">=0.1.6,<1"
+modshim = ">=0.5.1,<1"
+nltk = ">=3.6.2,<4"
+opencv-python = ">=4.13.0.92,<5"
+openpyxl = ">=3.1.5,<4"
+osmnx = ">=2.1.0,<3"
+plotly = ">=6.8.0,<7"
+pmdarima = ">=2.1.1,<3"
+pycinc = ">=0.2.0,<1"
+pydtr = ">=0.0.2,<1"
+pyeconomics = ">=0.1.0,<1"
+pyleebounds = ">=0.3.0,<1"
+pyregadj = ">=0.1.0,<1"
+pysal = ">=26.1,<27"
+rasterio = ">=1.5.0,<2"
+rdd = ">=0.0.3,<1"
+skylos = ">=2.4.0,<3"
+solvex = ">=1.0.3,<2"
+SQLAlchemy = ">=2.0.51,<3"
+stable-baselines3 = ">=2.9.0,<3"
+StatsPAI = ">=1.20.0,<2"
+tensorflow = ">=2.20.0,<3"
+throttled-py = ">=3.4.0,<4"
+tigramite = ">=5.2.10.1,<6"
+TPOT = ">=1.1.0,<2"
+transformers = ">=5.12.1,<6"
+ty = ">=0.0.55,<1"
+langchain = ">=1.3.11,<2"
+langchain-chroma = ">=1.1.0,<2"
+langchain-community = ">=0.4.2,<1"
+langchain-openai = ">=1.3.3,<2"
+chromadb = ">=1.5.9,<2"
+nest-asyncio = ">=1.6.0,<2"
+[tool.pixi.tasks]
+test = "PYTHONDONTWRITEBYTECODE=1 python scripts/sync_rules.py && if find tests -name 'test_*.py' -o -name '*_test.py' 2>/dev/null | grep -q .; then pytest -q; else echo 'No pytest tests found; existing tests are reset.'; fi"
+check = "ruff check . && ruff format --check . && mypy scripts/sync_rules.py && pixi run test"
+format = "ruff format . && ruff check --fix ."
+lint = "ruff check ."
+pre-commit = "pre-commit run --all-files"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = [
+	".agent_state",
+	".agents",
+	".claude",
+	".cursor",
+	".github/skills",
+	".pixi",
+	".resources",
+	".ruff_cache",
+	".venv",
+	"node_modules",
+]
+
+[tool.ruff.lint]
+ignore = [
+	"E203",
+	"E266",
+	"E501",
+	"BLE",
+	"TRY",
+	"PLR",
+	"S",
+	"SIM",
+	"B",
+	"B028",
+	"B904",
+]
+extend-select = ["I", "TID", "UP"]
+
+[tool.ruff.lint.per-file-ignores]
+"*test*.py" = ["T201", "F401", "I001"]
+"test_*.py" = ["T201", "F401", "I001"]
+"libs/**/*test*.py" = ["T201", "F401", "I001"]
+"Notebook/**/*.ipynb" = ["E402", "I001", "F401", "F541"]
+"tmp_sc_check.py" = ["E402", "I001", "F401"]
+".claude/**/*.py" = ["E741", "F841", "E402", "F401"]
+".cursor/**/*.py" = ["E741", "F841", "E402", "F401"]
+".github/**/*.py" = ["E741", "F841", "E402", "F401"]
+".agents/**/*.py" = ["E741", "F841", "E402", "F401"]
+"scripts/**/*.py" = ["E741", "F841", "E402", "F401"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.12"
+pretty = true
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+incremental = true
+sqlite_cache = true
+cache_dir = ".mypy_cache"
+exclude = [
+    "^\\.pixi/",
+    "^\\.venv/"
+]
+
+[[tool.mypy.overrides]]
+module = [
+    "numpy",
+    "numpy.*",
+    "google.genai",
+    "google.genai.*",
+	"pandas",
+	"pandas.*",
+	"patsy",
+	"patsy.*",
+	"scipy",
+	"scipy.*",
+	"joblib",
+	"joblib.*",
+	"sparse",
+	"sparse.*",
+	"sparseqr",
+	"sksparse",
+	"sksparse.*",
+	"tabulate",
+	"tabulate.*",
+]
+ignore_missing_imports = true
+
+
+
+
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"

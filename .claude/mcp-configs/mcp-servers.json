@@ -1,0 +1,4 @@
+{
+  "__TEMPLATE_WARNING__": "This is a template file for reference only. DO NOT add secrets here. Use setup_ide_mcp.sh to regenerate active configs.",
+  "mcpServers": {}
+}
