@@ -1,0 +1,23 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-toolsai.jupyter",
+    "ms-python.vscode-pylance",
+    "ms-python.mypy-type-checker",
+    "charliermarsh.ruff",
+    "ms-python.black-formatter",
+    "ms-python.isort",
+    "pytest-dev.pytest-vscode",
+    "James-Yu.latex-workshop",
+    "tecosaur.latex-utilities",
+    "quarto.quarto",
+    "REditorSupport.r",
+    "RDebugger.r-debugger",
+    "ikuyadeu.r-lsp",
+    "redhat.vscode-yaml",
+    "tamasfe.even-better-toml",
+    "DavidAnson.vscode-markdownlint",
+    "ms-vscode.makefile-tools",
+    "EditorConfig.EditorConfig"
+  ]
+}

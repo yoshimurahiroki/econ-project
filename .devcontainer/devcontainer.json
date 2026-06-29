@@ -33,7 +33,17 @@
   "remoteEnv": {
     "ECC_UPDATE_SKILLS": "0",
     "ECC_FETCH_AI_REFERENCES": "0",
-    "ENABLE_CONTEXT_MCP": "0"
+    "ENABLE_CONTEXT_MCP": "0",
+    "PATH": "/usr/local/bin:/workspaces/econ-project/.pixi/envs/default/bin:${containerEnv:PATH}",
+    "QUARTO_PYTHON": "/workspaces/econ-project/.pixi/envs/default/bin/python",
+    "QUARTO_SHARE_PATH": "/workspaces/econ-project/.pixi/envs/default/share/quarto",
+    "QUARTO_DENO": "/workspaces/econ-project/.pixi/envs/default/bin/deno",
+    "QUARTO_DENO_DOM": "/workspaces/econ-project/.pixi/envs/default/lib/deno_dom.so",
+    "QUARTO_PANDOC": "/workspaces/econ-project/.pixi/envs/default/bin/pandoc",
+    "QUARTO_ESBUILD": "/workspaces/econ-project/.pixi/envs/default/bin/esbuild",
+    "QUARTO_TYPST": "/workspaces/econ-project/.pixi/envs/default/bin/typst",
+    "QUARTO_DART_SASS": "/workspaces/econ-project/.pixi/envs/default/bin/sass",
+    "QUARTO_CONDA_PREFIX": "/workspaces/econ-project/.pixi/envs/default"
   },
   "postCreateCommand": "bash .devcontainer/setup-environment.sh",
   "updateContentCommand": "bash .devcontainer/setup-environment.sh",
@@ -58,16 +68,23 @@
         "tamasfe.even-better-toml",
         "DavidAnson.vscode-markdownlint",
         "ms-vscode.makefile-tools",
-        "EditorConfig.EditorConfig",
-        "GitHub.copilot",
-        "GitHub.copilot-chat"
+        "EditorConfig.EditorConfig"
       ],
       "settings": {
         "editor.formatOnSave": true,
+        "remote.extensionKind": {
+          "openai.chatgpt": [
+            "ui"
+          ]
+        },
         "git.untrackedChanges": "hidden",
         "python.formatting.provider": "none",
         "python.analysis.typeCheckingMode": "strict",
         "python.defaultInterpreterPath": "${workspaceFolder}/.pixi/envs/default/bin/python",
+        "python-envs.workspaceSearchPaths": [],
+        "python.terminal.activateEnvironment": false,
+        "python.terminal.activateEnvInCurrentTerminal": false,
+        "quarto.path": "/usr/local/bin/quarto",
         "jupyter.notebookFileRoot": "${workspaceFolder}",
         "latex-workshop.latex.recipe.default": "lualatex (with build dir)",
         "latex-workshop.latex.recipes": [
@@ -142,16 +159,23 @@
         "tamasfe.even-better-toml",
         "DavidAnson.vscode-markdownlint",
         "ms-vscode.makefile-tools",
-        "EditorConfig.EditorConfig",
-        "GitHub.copilot",
-        "GitHub.copilot-chat"
+        "EditorConfig.EditorConfig"
       ],
       "settings": {
         "editor.formatOnSave": true,
+        "remote.extensionKind": {
+          "openai.chatgpt": [
+            "ui"
+          ]
+        },
         "git.untrackedChanges": "hidden",
         "python.formatting.provider": "none",
         "python.analysis.typeCheckingMode": "strict",
         "python.defaultInterpreterPath": "${workspaceFolder}/.pixi/envs/default/bin/python",
+        "python-envs.workspaceSearchPaths": [],
+        "python.terminal.activateEnvironment": false,
+        "python.terminal.activateEnvInCurrentTerminal": false,
+        "quarto.path": "/usr/local/bin/quarto",
         "jupyter.notebookFileRoot": "${workspaceFolder}",
         "latex-workshop.latex.recipe.default": "lualatex (with build dir)",
         "latex-workshop.latex.recipes": [

@@ -1,0 +1,59 @@
+{
+  "python.analysis.exclude": [
+    "**/.pixi",
+    "**/.resources",
+    "**/.agent_state",
+    "**/.git",
+    "**/.pm2",
+    "**/node_modules"
+  ],
+  "files.exclude": {
+    "**/.pixi": true,
+    "**/.resources": true,
+    "**/.agent_state": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/.pixi": true,
+    "**/.resources": true,
+    "**/.agent_state": true,
+    "**/node_modules": true
+  },
+  "files.watcherExclude": {
+    "**/.pixi/**": true,
+    "**/.resources/**": true,
+    "**/.agent_state/**": true,
+    "**/node_modules/**": true
+  },
+  "python.defaultInterpreterPath": "/workspaces/econ-project/.pixi/envs/default/bin/python",
+  "python-envs.workspaceSearchPaths": [],
+  "python.terminal.activateEnvironment": false,
+  "python.terminal.activateEnvInCurrentTerminal": false,
+  "quarto.path": "/usr/local/bin/quarto",
+  "latex-workshop.latex.recipe.default": "lualatex (with build dir)",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "lualatex (with build dir)",
+      "tools": [
+        "lualatex-with-build-dir"
+      ]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "lualatex-with-build-dir",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "cd %DIR% && mkdir -p .latex-build && lualatex -shell-escape -interaction=nonstopmode -file-line-error -output-directory=.latex-build %DOCFILE%.tex && cp .latex-build/%DOCFILE%.pdf %DOCFILE%.pdf && rm -f %DOCFILE%.aux %DOCFILE%.log %DOCFILE%.nav %DOCFILE%.out %DOCFILE%.snm %DOCFILE%.toc %DOCFILE%.bbl %DOCFILE%.blg %DOCFILE%.synctex.gz %DOCFILE%.fls %DOCFILE%.fdb_latexmk %DOCFILE%.bcf %DOCFILE%.run.xml || true"
+      ]
+    }
+  ],
+  "code-runner.executorMap": {
+    "python": "/workspaces/econ-project/.pixi/envs/default/bin/python -u",
+    "r": "/workspaces/econ-project/.pixi/envs/default/bin/Rscript"
+  },
+  "r.rterm.linux": "/workspaces/econ-project/.pixi/envs/default/bin/R",
+  "r.rpath.linux": "/workspaces/econ-project/.pixi/envs/default/bin/R",
+  "mcpServers": {}
+}

@@ -147,10 +147,10 @@ build-slides:
 	lualatex -shell-escape -interaction=nonstopmode main.tex
 
 quarto-html:
-	quarto render . --to html
+	$(PIXI_RUN) quarto render . --to html
 
 quarto-pdf:
-	quarto render . --to pdf
+	$(PIXI_RUN) quarto render . --to pdf
 
 quarto-reveal:
-	quarto render . --to revealjs
+	$(PIXI_RUN) quarto render . --to revealjs
