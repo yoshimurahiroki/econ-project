@@ -1,0 +1,123 @@
+# OS and editor noise
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+env/
+secrets/
+.webui_secret_key
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Pixi, R, and local package libraries
+.pixi/
+rv/
+scripts/temporary/
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Jupyter and notebooks
+.ipynb_checkpoints/
+
+# Node and frontend tooling
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Data, models, and generated research outputs
+data/
+outputs/
+artifacts/
+models/
+mlruns/
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.xlsx
+*.xls
+*.sav
+*.dta
+*.rds
+*.RData
+*.sqlite
+*.sqlite3
+*.db
+
+# Quarto and document builds
+_site/
+_book/
+.quarto/
+.qmd-cache/
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+_minted-*/
+
+# Local caches and temporary files
+.cache/
+tmp/
+.tmp/
+*.bak
+*.tmp
+*.temp
+repomix.txt
+
+# Local AI and reference state
+.agent_state/
+.agents/state/
+.codex/
+.claude/
+.cursor/
+.gemini/
+.windsurf/
+.resources/
+
+# IDE-local workspace state
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.devcontainer/local-history/
