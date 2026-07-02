@@ -4,6 +4,7 @@ r_version = "4.5"
 
 repositories = [
   { alias = "CRAN", url = "https://cran.r-project.org/" },
+  { alias = "rpolars", url = "https://rpolars.r-universe.dev" },
   { alias = "BioCsoft", url = "https://bioconductor.org/packages/3.22/bioc", force_source = true },
   { alias = "BioCann", url = "https://bioconductor.org/packages/3.22/data/annotation", force_source = true },
   { alias = "BioCexp", url = "https://bioconductor.org/packages/3.22/data/experiment", force_source = true },
@@ -46,6 +47,7 @@ dependencies = [
   "crch",
   "decompr",
   "did",
+  "DIDmultiplegtDYN",
   "did2s",
   "dlsem",
   "DoubleML",
@@ -418,6 +420,7 @@ dependencies = [
   "pkgconfig",
   "pkgdown",
   "pkgload",
+  "polars",
   "praise",
   "prettyunits",
   "processx",
@@ -448,6 +451,7 @@ dependencies = [
   "testthat",
   "textshaping",
   "tibble",
+  "tidyr",
   "tidyselect",
   "tinytex",
   "urlchecker",

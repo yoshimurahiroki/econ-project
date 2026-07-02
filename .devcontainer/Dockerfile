@@ -20,7 +20,7 @@ RUN apt-get update && \
     graphviz libgraphviz-dev \
     libblas-dev liblapack-dev \
     python3 python3-venv python3-pip python3-dev python3.12 python3.12-venv python3.12-dev pipx \
-    locales tzdata jq golang-go libfuse2 libgtk-3-0 file \
+    locales tzdata jq golang-go bubblewrap libfuse2 libgtk-3-0 file \
     texlive-full pandoc-citeproc \
     fonts-noto-cjk fonts-noto-cjk-extra \
     openssh-client openssl \
