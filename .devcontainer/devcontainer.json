@@ -68,15 +68,11 @@
         "tamasfe.even-better-toml",
         "DavidAnson.vscode-markdownlint",
         "ms-vscode.makefile-tools",
-        "EditorConfig.EditorConfig"
+        "EditorConfig.EditorConfig",
+        "openai.chatgpt"
       ],
       "settings": {
         "editor.formatOnSave": true,
-        "remote.extensionKind": {
-          "openai.chatgpt": [
-            "ui"
-          ]
-        },
         "git.untrackedChanges": "hidden",
         "python.formatting.provider": "none",
         "python.analysis.typeCheckingMode": "strict",
@@ -159,15 +155,11 @@
         "tamasfe.even-better-toml",
         "DavidAnson.vscode-markdownlint",
         "ms-vscode.makefile-tools",
-        "EditorConfig.EditorConfig"
+        "EditorConfig.EditorConfig",
+        "openai.chatgpt"
       ],
       "settings": {
         "editor.formatOnSave": true,
-        "remote.extensionKind": {
-          "openai.chatgpt": [
-            "ui"
-          ]
-        },
         "git.untrackedChanges": "hidden",
         "python.formatting.provider": "none",
         "python.analysis.typeCheckingMode": "strict",
