@@ -49,7 +49,6 @@
     "mtxr.sqltools-driver-mssql",
     "Evidence.sqltools-duckdb-driver",
     "ms-mssql.mssql",
-    "julialang.language-julia",
     "kylebarron.stata-enhanced",
     "lakeFS.lakefs-dvc",
     "yzhang.markdown-all-in-one",
