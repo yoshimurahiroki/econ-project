@@ -1,0 +1,5 @@
+interface:
+  display_name: "Direct economics prose"
+  short_description: "Direct drafting and mandatory post-draft necessity audit"
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,1 @@
+Use ECON_ASSERTIVE.md by default for direct drafting and the mandatory post-draft detection, necessity, deletion and revision pass. Its content gate replaces general caveat permissions. R00-R08 retain methods. Read REPO_CONTEXT.md for repository work and RESEARCH_WORKFLOW.md for descriptive-model linkage. Reuse evidence and recheck changed passages.

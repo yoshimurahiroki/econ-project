@@ -1,6 +1,6 @@
 ---
 description: econ-project policy pointer
-globs: *
+globs: "*"
 ---
 
 Read and follow `.cursorrules`; it is the single authoritative policy.
