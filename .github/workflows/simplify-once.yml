@@ -1,0 +1,24 @@
+name: Simplify project once
+on:
+  push:
+    branches: ['agent/simple-project']
+    paths: ['.github/workflows/simplify-once.yml']
+permissions:
+  contents: write
+  actions: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Apply the shared general configuration and repository-specific cleanup
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHARED_COMMIT: b2e301d30bf8b90a9c9e0ab3be95b2dfdf631cdd
+        run: |
+          git fetch --depth=1 https://github.com/yoshimurahiroki/econ-project-mini.git "$SHARED_COMMIT"
+          git show "$SHARED_COMMIT:scripts/_simplify_once.py" > /tmp/econ-simplify.py
+          python3 /tmp/econ-simplify.py
