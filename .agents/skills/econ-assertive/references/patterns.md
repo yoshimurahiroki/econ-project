@@ -1,6 +1,6 @@
 # Post-draft decision examples
 
-The examples are authored fixtures, not empirical findings.
+The examples illustrate editing decisions.
 
 ## Generic measurement warning
 
@@ -33,11 +33,6 @@ Delete a following generic sentence about interpreting estimates cautiously.
 "The theorem requires rank Q = k."
 "The model has no equilibrium at these parameter values."
 These are direct claims about distinct scientific objects. Keep their meanings.
-
-## Internal decision record
-
-For each detected span record, internally: location; proposition; requested relevance or exact false claim; case-specific evidence; DELETE / REWRITE / KEEP; revised text.
-A retained item must have the required justification. A clean phrase scan does not establish necessity. Read the draft for paraphrases and unnecessary standalone scope sentences too. Save this record only for a requested audit or a real handoff.
 
 ## Efficiency
 

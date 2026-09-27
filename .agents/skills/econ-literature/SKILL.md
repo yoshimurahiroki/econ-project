@@ -3,7 +3,7 @@ name: econ-literature
 description: Find literature, assess novelty, verify citations and institutions, and maintain research indexes.
 ---
 
-Use `econ-assertive` by default for generated prose: direct drafting, then mandatory post-draft detection, necessity assessment and revision.
+Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
 
 # Sources and literature
 

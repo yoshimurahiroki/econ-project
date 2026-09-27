@@ -3,7 +3,7 @@ name: econ-design
 description: Develop research questions, economic models, identification strategies, estimators and inference.
 ---
 
-Use `econ-assertive` by default for generated prose: direct drafting, then mandatory post-draft detection, necessity assessment and revision.
+Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
 
 # Research design
 

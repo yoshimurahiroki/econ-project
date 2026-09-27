@@ -1,18 +1,16 @@
 # Research task index
 
-Policy: `.cursorrules`. Read `.agents/skills/<name>/SKILL.md` for the task. Use econ-assertive with every research-prose task. Its two stages are mandatory. Reuse the loaded text and read reference sections for a concrete dependency.
+Read one matching skill and econ-assertive for prose. Apply repository simplicity and minimum-verification rules to their outputs.
 
-| Skill | Task |
-| --- | --- |
-| econ-workflow | Research sequence and continuation |
-| econ-paper | Paper explanation and seminar |
-| econ-design | Question, theory, identification and inference |
-| econ-data | Measurement, code and replication |
-| econ-literature | Sources, novelty and institutions |
-| econ-writing | Papers, notes, plain slides and exhibits |
-| econ-review | Results, referee review and consistency |
-| econ-handoff | Chat, Work and repository transfer |
-| econ-edit | Requested wording revision |
-| econ-assertive | Direct drafting and post-draft necessity audit |
+- `econ-assertive`: Default direct economics prose with a single post-draft necessity review.
+- `econ-data`: Acquire and link data, implement concise research code and reproduce requested results.
+- `econ-design`: Develop research questions, economic models, identification strategies, estimators and inference.
+- `econ-edit`: Revise specified text or the previous answer when the user requests EDIT or expression changes.
+- `econ-handoff`: Transfer a task between Chat, Work and repository agents using revision and execution records.
+- `econ-literature`: Find literature, assess novelty, verify citations and institutions, and maintain research indexes.
+- `econ-paper`: Explain a paper or specified passage and prepare a source-grounded paper seminar.
+- `econ-review`: Review research claims, results, code-paper consistency and referee responses against evidence.
+- `econ-workflow`: Organize or resume economic research with evidence-linked stage outputs and efficient context reuse.
+- `econ-writing`: Create research prose, QMD/LaTeX, plain Beamer slides and evidence-bearing exhibits.
 
-Use docs/ai/integration.md for exports and docs/ai/sources.md for the source review. Core methods work without fetching reference clones. Configuration checks use `python scripts/ai_tools.py check`. Prose detection uses `python scripts/style_guard.py PATH`.
+[Integration](integration.md) supplies Project exports. [Sources](sources.md) records methodological references.

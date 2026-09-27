@@ -86,9 +86,7 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   pixi run bash -lc "pre-commit install"
 fi
 
-bash scripts/setup_ai_skills.sh > /tmp/setup_ai_skills.log 2>&1 || true
-bash scripts/setup_ide_mcp.sh > /tmp/setup_ide_mcp.log 2>&1 || true
-pixi run python scripts/sync_rules.py > /tmp/sync_rules.log 2>&1 || true
+bash scripts/setup_ide_mcp.sh
 
 sed -i '/\/workspaces\/econ-project\/\.pixi\/envs\/default\/bin:\$PATH/d' ~/.bashrc
 grep -q "usr/local/bin:.*\.pixi/envs/default/bin" ~/.bashrc || \

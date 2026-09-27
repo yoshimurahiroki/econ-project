@@ -3,7 +3,7 @@ name: econ-review
 description: Review research claims, results, code-paper consistency and referee responses against evidence.
 ---
 
-Use `econ-assertive` by default for generated prose: direct drafting, then mandatory post-draft detection, necessity assessment and revision.
+Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
 
 # Review and results
 
@@ -16,3 +16,5 @@ Interpret results through parameter, comparison, population, period, units and b
 For descriptive-model work, trace observed variation, model features, added assumptions and the final economic object. Distinguish fit to estimation moments from independent validation. Check dimensions, signs, domains, timing, indexes, normalizations and derivations. Reconcile code, exhibits and prose.
 
 Address each requested referee comment with a direct response, actual change, evidence and location. Distinguish proposed analysis from executed analysis. Keep review read-only until editing is requested. A style-only audit detects and judges expressions without rewriting the source; ordinary writing performs the post-draft revision automatically. Preserve scientific negative findings as facts.
+
+Use source inspection and existing results first. Execute a new check only to settle a specific consequential issue in the requested review. Omit checklist-driven tests and reports of passing checks.

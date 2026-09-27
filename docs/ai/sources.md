@@ -15,7 +15,7 @@ Primary repositories:
 - https://github.com/Silas1929/econ-writing
 - https://github.com/justairr/defensive-writing-checker
 
-The new two-stage gate is an implementation of the current user's instructions. The detector supplies candidates. Necessity judgment uses the current claim and source evidence. Post-draft review is mandatory even after a phrase-clean scan. The audit record is internal by default.
+Direct drafting is followed by one meaning-based necessity review using the current claim and source evidence.
 
 ## Economics skill catalog
 
@@ -56,24 +56,16 @@ The supplied R00-R08 modules contribute the five-section paper explanation, actu
 
 Mahoney (2022), DOI 10.1257/jep.36.3.211, supplies the five principles linking descriptive and model-based research (pp. 215-218), alternatives for research ordering (pp. 219-220) and the assumptions-to-results framework (Figure 1, p. 220). The supplied 12-page paper is the source. The dedicated reference labels this configuration's operational translation separately.
 
-## Product and performance evidence
-
-Official integration sources are recorded in integration.md. Names and descriptions support task-triggered loading; skill bodies and references are read for the task. Configuration tests check structure, budgets, default wiring, exports, phrase detection and safe application. No live model-response adherence or billing reduction is estimated.
-
-The base policies were read from mini commit 24383fdfd4fe63c0a2f711f1e31fbdcffd6cec8f and full commit 69460c417f7cfd065fb5b26810867e617171ab6b. GitHub reports 7,347 and 4,313 UTF-8 bytes for those policies. The budget command measures the final files and separately includes the default prose skill.
-
 ## Second review: reproducible project settings
 
-Rechecked 2026-09-27. Each source below was read at its README or official-documentation level. The adopted procedures are locally implemented and tested; external runtimes are not installed.
+Rechecked 2026-09-27. Each source below was read at its README or official-documentation level. These sources supply workflow choices for the actual research task.
 
 | Primary source | Observed design | Local decision |
 | --- | --- | --- |
-| https://github.com/OpenSourceEconomics/econ-project-templates | Pixi and a dependency-driven data-to-paper pipeline | Preserve the existing runner and use input-dependent reruns; keep full release reproduction. |
+| https://github.com/OpenSourceEconomics/econ-project-templates | Pixi and a dependency-driven data-to-paper pipeline | Preserve the runner and rerun affected outputs; reproduce fully when requested. |
 | https://github.com/rhstanton/project_template | Traceable data, code and publication exhibits; selectable languages | Keep a minimal claim-to-code map and the repository's chosen languages. |
 | https://github.com/maxwell2732/codex-stata-for-economists/blob/main/README.en.md | Numerical claims tied to logs and output tables | Carry run evidence with each reportable result. |
 | https://github.com/pedrohcgs/claude-code-my-workflow | Replication checks, claim provenance and handoffs | Use targeted checks and existing task records; retain the single-agent default. |
-| https://github.com/tsdfs930514/econ-research-workflow | Lifecycle skills and cross-validation | Keep task routing and cheap fixtures; cross-language replication follows a specific need. |
+| https://github.com/tsdfs930514/econ-research-workflow | Lifecycle skills and cross-validation | Keep task routing; additional execution follows a concrete research need. |
 | https://developers.openai.com/blog/skills-agents-sdk | Short repository policy, task metadata, selected bodies and deterministic scripts | Keep one policy, bounded discovery and no default external-repository loading. |
 | https://learn.chatgpt.com/docs/agent-configuration/agents-md | Repository-level instruction discovery | Retain compact host pointers to the existing policy owner. |
-
-This revision also tests quoted generated prose, oversized skill names, source-contained export destinations and small configuration-only test fixtures. The GitHub workflow executes the standard-library checks on relevant configuration changes. File sizes measure context inputs; task accuracy and billed tokens require observed task runs.

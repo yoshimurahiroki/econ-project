@@ -94,7 +94,7 @@ ENV PATH="/home/$USERNAME/.local/bin:/home/$USERNAME/go/bin:$PATH"
 WORKDIR /workspaces/econ-project
 
 # ========= 7) On-demand AI References =========
-# setup_ai_skills.sh can fetch optional reference repositories after creation.
+# Optional reference files are read only for a specific task.
 RUN sudo mkdir -p /workspaces/econ-project/.resources && \
     sudo chown -R $USERNAME:$USERNAME /workspaces/econ-project/.resources
 

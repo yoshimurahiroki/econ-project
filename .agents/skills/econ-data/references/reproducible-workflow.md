@@ -1,13 +1,9 @@
 # Reproducible execution
 
-Read this for a multi-step analysis, replication, or execution handoff.
+Use the existing runner and analysis entry point. Recompute only the outputs affected by changed data, code or parameters. Reuse unchanged results from their recorded source version; avoid routine checksum sweeps and cache frameworks.
 
-Keep the existing entry point and dependency manager. Describe the dependency graph from raw inputs through transformations, estimates and exhibits. Use the existing Make, targets, pytask or script pipeline; add a runner only for demonstrated dependency complexity. Match reruns to the changed inputs and dependent outputs. Release checks execute the complete requested pipeline in a clean process.
+Keep reportable numbers connected to the generating command, sample, specification and source object in the existing analysis. Preserve dependency versions and seeds. Add an execution record only when it is needed to reproduce or transfer the requested result.
 
-Record each reportable number's source object, sample, specification and generating command. Keep the minimal claim-to-exhibit-to-code map in the existing analysis record or replication README. Store commands, package/lock versions, seed, input fingerprints and observed outputs together. Compare reproduced numbers using declared tolerances. Keep confirmed choices dated and label subsequent exploration in the working record.
+Use existing output or one representative execution to settle a concrete risk. Add a separate fixture, benchmark or cross-language comparison only when that risk requires it. Skip repeated tests of built-in or library behavior. Full clean execution belongs to an explicit reproduction/release request or a result that requires the complete pipeline.
 
-Use a small deterministic fixture to test schema, joins, transformations and estimator calls. Benchmark time and memory before full-scale work. Check scientific invariants from the actual data contract. Cross-language replication follows a requested verification need; use the established primary language for routine work.
-
-Cache reuse requires matching data version or hash, relevant code, parameters and environment. A change invalidates its dependent results. Carry stable source IDs and run evidence into a handoff instead of copying datasets, terminal histories or full transcripts.
-
-These are local procedures informed by the source comparisons in docs/ai/sources.md. A successful command proves execution; numerical agreement requires comparison with the specified reference output.
+A replication compares the requested results against their source with a meaningful tolerance. Routine code work stops after the changed behavior is established. Keep essential scientific evidence; omit passing-check logs, scorecards and duplicate reports.

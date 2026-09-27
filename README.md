@@ -1,97 +1,42 @@
 # econ-project
 
-Economics research workspace for Python, R, LaTeX, Quarto, and cloud IDE
-agents. The project is designed to be ready when the Dev Container starts while
-keeping AI context small.
+General economics research with Python, R, Quarto and LaTeX. Open the repository in the Dev Container. Full and mini retain their separate package environments.
 
-## Environment
+## Working rules
 
-Open the repository in the Dev Container. The container provides:
+`.cursorrules` owns common policy. [Research skills](docs/ai/compiled_ai_skills.md) supply task methods. Use direct code, concise prose and plain templates. Reuse existing results and add only what the current task needs.
 
-- Python through `pixi`
-- R packages through `rv`
-- LaTeX and Quarto tooling
-- Jupyter kernel registration
-- Compact AI rules and MCP configuration for supported IDEs
-
-The default container does not install local LLM runtimes or broad agent
-orchestration systems.
+Mechanical checks are off by default. A concrete risk in a changed result justifies the smallest relevant execution. Writing includes one meaning-based post-draft review. Routine scanners, configuration suites and passing-check reports are removed.
 
 ## Dependencies
 
-The environment is synchronized automatically on container creation. Manual
-commands:
-
-```bash
+```sh
 make sync
 make r-install
+pixi add PACKAGE
+rv add PACKAGE
 ```
 
-Use `pixi run` for Python commands:
+Run research code with the existing Pixi/R environment. Full keeps its broad research stack; mini adds analysis packages as needed.
 
-```bash
-pixi run python scripts/sync_rules.py
-```
+## Documents and explicit operations
 
-## AI Surface
-
-`.cursorrules` is the single authoritative policy. Other IDE files are compact
-pointers or generated MCP configs.
-
-Project skills live in `.agents/skills` and are lightweight indexes only. Heavy
-reference repositories live under `.resources` and are read only when a matching
-task requires them.
-
-Current skill indexes:
-
-- `academic-research-resources`
-- `causal-inference-resources`
-- `ecc-resources`
-- `econ-ai-resources`
-- `econ-research-feedback`
-- `econ-writing`
-
-On-demand reference clones:
-
-- `.resources/econ-ai/AI-research-feedback`
-- `.resources/econ-ai/awesome-ai-for-economists`
-- `.resources/econ-ai/awesome-causal-inference`
-- `.resources/econ-ai/awesome-econ-ai-stuff`
-- `.resources/econ-ai/econ-writing-skill`
-- `.resources/research-ai/ECC`
-- `.resources/research-ai/academic-research-skills`
-
-## Commands
-
-```bash
-make test      # agent/MCP/rule smoke validation
-               # plus pytest when tests exist
-make check     # ruff, format check, mypy, and tests/smoke validation
-make format    # ruff format and autofix
-make r-install # sync R dependencies with rv
-```
-
-LaTeX and Quarto:
-
-```bash
+```sh
 make build-paper
 make build-slides
-make quarto-html
-make quarto-pdf
+make test TEST=tests/example.py::test_result
+make lint FILE=scripts/example.py
+make format FILE=scripts/example.py
 ```
 
-## Cleanup
+Tests, lint and formatting run only for the explicitly named target. Commit hooks retain only private-key detection. Editor test discovery, routine lint and automatic formatting are disabled.
 
-Generated caches and reports are not source:
+## Chat and Work
 
-- `.agent_state`
-- `.pytest_cache`, `.mypy_cache`, `.ruff_cache`
-- `__pycache__`
-- `.coverage`
-- TeX and Quarto build artifacts
+[Project integration](docs/ai/integration.md) describes the existing-Project bridge and standalone export.
 
-Use:
-
-```bash
-make clean
+```sh
+python scripts/export_project.py --profile bridge --output /tmp/econ-bridge
 ```
+
+Code and templates stay in Git. Raw data, papers and credentials retain their existing storage and access rules. Source assets and unrelated work are preserved.
