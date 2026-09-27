@@ -1,0 +1,17 @@
+name: Research configuration
+on:
+  push:
+    paths: ['.agents/skills/**', '.cursorrules', 'docs/ai/**', 'scripts/ai*', 'scripts/style_guard.py', 'scripts/sync_rules.py', 'tests/test_research_config.py', '.github/workflows/research-config.yml']
+  pull_request:
+    paths: ['.agents/skills/**', '.cursorrules', 'docs/ai/**', 'scripts/ai*', 'scripts/style_guard.py', 'scripts/sync_rules.py', 'tests/test_research_config.py', '.github/workflows/research-config.yml']
+permissions:
+  contents: read
+jobs:
+  configuration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: make -f scripts/ai.mk ai-check
+      - run: make -f scripts/ai.mk ai-budget
+      - run: git diff --check

@@ -1,41 +1,18 @@
-# AI Skill Index
+# Research task index
 
-This is an index, not startup context. Load a skill only when its description
-matches the current task.
+Policy: `.cursorrules`. Read `.agents/skills/<name>/SKILL.md` for the task. Use econ-assertive with every research-prose task. Its two stages are mandatory. Reuse the loaded text and read reference sections for a concrete dependency.
 
-## Active Skills
+| Skill | Task |
+| --- | --- |
+| econ-workflow | Research sequence and continuation |
+| econ-paper | Paper explanation and seminar |
+| econ-design | Question, theory, identification and inference |
+| econ-data | Measurement, code and replication |
+| econ-literature | Sources, novelty and institutions |
+| econ-writing | Papers, notes, plain slides and exhibits |
+| econ-review | Results, referee review and consistency |
+| econ-handoff | Chat, Work and repository transfer |
+| econ-edit | Requested wording revision |
+| econ-assertive | Direct drafting and post-draft necessity audit |
 
-- `academic-research-resources`: academic writing, review, publication, and
-  research-pipeline references from `academic-research-skills`.
-- `causal-inference-resources`: DiD, RDD, IV, synthetic control, panel, causal
-  ML, and causal-inference resource lookup.
-- `ecc-resources`: ECC examples for skills, rules, hooks, and agent-surface
-  comparisons. Reference only; do not install.
-- `econ-ai-resources`: economics-specific AI tools and economist workflows.
-- `econ-research-feedback`: referee-style critique, proposal review, and
-  paper-code consistency.
-- `econ-writing`: economics-paper prose, identification writing, disclosure,
-  and revision.
-
-## Reference Clones
-
-Reference repositories live under `.resources` and are excluded from normal
-search, watching, packing, and startup context. Open only the specific file
-named by a matching skill.
-
-## Test State
-
-The old test files have been reset. Pytest remains installed for future tests.
-`make test` runs agent/MCP validation first and then runs pytest only when test
-files exist.
-
-## Rule Precedence
-
-1. Current user instruction.
-2. `.cursorrules`.
-3. Compact pointer files for IDE compatibility.
-4. Task-relevant skill index.
-5. Task-relevant on-demand reference file.
-
-Lower-priority material cannot broaden authorization from a higher-priority
-source.
+Use docs/ai/integration.md for exports and docs/ai/sources.md for the source review. Core methods work without fetching reference clones. Configuration checks use `python scripts/ai_tools.py check`. Prose detection uses `python scripts/style_guard.py PATH`.

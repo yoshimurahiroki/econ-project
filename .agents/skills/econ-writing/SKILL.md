@@ -1,45 +1,18 @@
 ---
 name: econ-writing
-description: Use for economics-paper writing, empirical identification prose, AEA-style replication/disclosure checks, theory-to-text alignment, and paper revision. Loads local references from .resources/econ-ai/econ-writing-skill only when needed.
-origin: econ-project
+description: Create research prose, QMD/LaTeX, plain Beamer slides and evidence-bearing exhibits.
 ---
 
-# Econ Writing
+Use `econ-assertive` by default for generated prose: direct drafting, then mandatory post-draft detection, necessity assessment and revision.
 
-Lightweight index for economics writing and revision.
+# Writing and artifacts
 
-## Use For
+Identify new writing, summarization, translation, formatting or editing. Preserve requested claims, numbers, notation, citations, structure and depth during formatting or translation. Use econ-edit for wording-only changes and econ-paper for a complete explanation.
 
-- Economics manuscripts, slides, abstracts, introductions, and referee responses.
-- Empirical identification prose and theory-to-text alignment.
-- AEA-style replication, disclosure, and data/code availability language.
+Select content before layout. Give each paragraph, frame and exhibit one substantive purpose. Preserve the supplied template and bibliography system. Keep one canonical source. Use Markdown for notes, existing QMD pipelines for computational reports, LaTeX plus PDF for manuscripts and Beamer plus PDF for slides. Office formats follow explicit requests.
 
-## Reference loading
+Use ordinary headings, mathematical environments and plain itemize lists. Keep one main column and one message per frame. Preserve readable font sizes; split dense frames. Keep the user's theme and Japanese LuaLaTeX support. Standard components are titles, bullets, equations and evidence-bearing figures or tables.
 
-Do not read the whole repository. Open exactly one starting file:
+Read existing Make targets and tex/paper or tex/slides templates before commands. Keep class files at their canonical location. Define symbols beside equations. Give exhibits their relevant sample, comparison, period, unit, denominator and uncertainty. Generate numerical content from analysis objects. Use one content outline for bilingual deliverables.
 
-- Overview and workflow:
-  `.resources/econ-ai/econ-writing-skill/README.md`
-- Before/after examples:
-  `.resources/econ-ai/econ-writing-skill/examples/before-after.md`
-- Source ranking and policy references:
-  `.resources/econ-ai/econ-writing-skill/sources/SOURCES_RANKED.md`
-- Local condensed project reference:
-  `docs/ai/econ_writing_reference.md`
-
-## Writing Lenses
-
-- Identification: assumptions, timing, exclusion restrictions, threats.
-- Estimation: standard errors, clustering, sample construction, robustness.
-- Theory-to-code alignment: formulas, code, tables, and narrative match.
-- Disclosure: AI use, replication package, data/code availability.
-- Writing: economics style, contribution, mechanism, and limitations.
-
-## Boundaries
-
-- Use `econ-research-feedback` for adversarial or referee-style critique.
-- Use `causal-inference-resources` before writing if the identification design is
-  still unsettled.
-- Do not invent citations or claims. Verify citations before final prose.
-
-Mark uncertain claims with `TODO_HUMAN` or `\unproven{}`.
+For descriptive-model work, connect variation, preliminary evidence, motivated model features and added economic insight. Compile the delivered source, check references and mathematics, and inspect rendered pages after layout changes. Execute the full post-draft prose audit, revise only affected passages and recheck claim/exhibit alignment before delivery.
