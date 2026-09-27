@@ -1,35 +1,19 @@
 {
-  "python.analysis.exclude": [
-    "**/.pixi",
-    "**/.resources",
-    "**/.agent_state",
-    "**/.git",
-    "**/.pm2",
-    "**/node_modules"
-  ],
-  "files.exclude": {
-    "**/.pixi": true,
-    "**/.resources": true,
-    "**/.agent_state": true,
-    "**/node_modules": true
+  "editor.formatOnSave": false,
+  "remote.extensionKind": {
+    "openai.chatgpt": [
+      "ui"
+    ]
   },
-  "search.exclude": {
-    "**/.pixi": true,
-    "**/.resources": true,
-    "**/.agent_state": true,
-    "**/node_modules": true
-  },
-  "files.watcherExclude": {
-    "**/.pixi/**": true,
-    "**/.resources/**": true,
-    "**/.agent_state/**": true,
-    "**/node_modules/**": true
-  },
+  "git.untrackedChanges": "hidden",
+  "python.formatting.provider": "none",
+  "python.analysis.typeCheckingMode": "off",
   "python.defaultInterpreterPath": "/workspaces/econ-project/.pixi/envs/default/bin/python",
   "python-envs.workspaceSearchPaths": [],
   "python.terminal.activateEnvironment": false,
   "python.terminal.activateEnvInCurrentTerminal": false,
   "quarto.path": "/usr/local/bin/quarto",
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
   "latex-workshop.latex.recipe.default": "lualatex (with build dir)",
   "latex-workshop.latex.recipes": [
     {
@@ -49,11 +33,81 @@
       ]
     }
   ],
+  "files.exclude": {
+    "**/.pixi": true,
+    "**/.resources": true,
+    "**/.agent_state": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/.pixi": true,
+    "**/.resources": true,
+    "**/.agent_state": true,
+    "**/node_modules": true
+  },
+  "files.watcherExclude": {
+    "**/.pixi/**": true,
+    "**/.resources/**": true,
+    "**/.agent_state/**": true,
+    "**/node_modules/**": true
+  },
+  "ruff.lint.args": [
+    "--config=pyproject.toml"
+  ],
+  "ruff.format.args": [
+    "--config=pyproject.toml"
+  ],
+  "r.rterm.linux": "/workspaces/econ-project/.pixi/envs/default/bin/R",
   "code-runner.executorMap": {
     "python": "/workspaces/econ-project/.pixi/envs/default/bin/python -u",
     "r": "/workspaces/econ-project/.pixi/envs/default/bin/Rscript"
   },
-  "r.rterm.linux": "/workspaces/econ-project/.pixi/envs/default/bin/R",
+  "notebook.formatOnSave.enabled": false,
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": false,
+  "python.testing.cwd": "${workspaceFolder}",
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "sqltools.useNodeRuntime": true,
+  "sqltools.disableNodeDetectNotifications": true,
+  "markdown.extension.toc.updateOnSave": false,
+  "ltex.language": "en-US",
+  "files.associations": {
+    "*.qmd": "quarto",
+    "*.do": "stata",
+    "*.ado": "stata",
+    "*.Rmd": "rmd",
+    "*.R": "r",
+    "*.ipynb": "jupyter-notebook",
+    "*.parquet": "parquet",
+    "*.duckdb": "duckdb",
+    "*.db": "sqlite",
+    "*.sqlite": "sqlite"
+  },
+  "python.analysis.exclude": [
+    "**/.pixi",
+    "**/.resources",
+    "**/.agent_state",
+    "**/.git",
+    "**/.pm2",
+    "**/node_modules"
+  ],
   "r.rpath.linux": "/workspaces/econ-project/.pixi/envs/default/bin/R",
-  "mcpServers": {}
+  "mcpServers": {},
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "never",
+    "source.organizeImports": "never"
+  },
+  "python.testing.autoTestDiscoverOnSaveEnabled": false,
+  "python.testing.promptToConfigure": false,
+  "ruff.lint.enable": false,
+  "mypy-type-checker.enabled": false,
+  "pylint.enabled": false,
+  "flake8.enabled": false,
+  "ltex.enabled": false,
+  "markdownlint.enable": false,
+  "cSpell.enabled": false,
+  "r.lsp.diagnostics": false,
+  "latex-workshop.latex.autoBuild.run": "never",
+  "latex-workshop.linting.chktex.enabled": false,
+  "latex-workshop.linting.lacheck.enabled": false
 }

@@ -1,16 +1,18 @@
-# Implementation checks
+# Implementation notes
+
+Use only the section needed for the task. Repository minimum-verification rules apply throughout.
 
 ## Acquisition
-Verify endpoints and authentication. Use environment variables for secrets, timeouts, bounded retries, pagination and rate limits. Record query, date, version, schema and source checksums when needed. Separate downloads from transforms. Inspect records before asserting coverage.
+Use the official endpoint, required pagination, a timeout and appropriate rate handling. Keep credentials in environment variables. Preserve the source version and query needed to reproduce the data. Inspect relevant records before making coverage claims. Separate acquisition from transformations when that permits reuse.
 
 ## Computation
-Use existing rv and Pixi conventions. Check indexes, factor baselines, weights, clustering and units. Choose package APIs from the identified design and current official documentation. Use column projection, chunking or database execution when data size warrants it. Preserve locks during deliberate dependency changes.
+Use existing package APIs and dependency managers. Keep sample selection, column names and estimation options explicit. Check only the changed operation's consequential failure risk. Use projection, chunking or database execution when the actual data requires it.
 
 ## Prediction
-Record target, prediction time, labels and information available then. Split at the person, cluster or time level required by deployment. Fit preprocessing within training folds. Check leakage, imbalance, calibration, benchmarks and decision loss. Intervention effects require intervention evidence.
+Align the target, available information and split with the prediction setting. Fit preprocessing in training data. Evaluate the metric needed for the intended decision; inspect leakage or calibration when it determines validity. Avoid automatic metric and benchmark inventories.
 
 ## Numerical methods
-Specify the data-generating process, target truth, parameter grid, replications, seeds and convergence criteria. Report Monte Carlo uncertainty for simulation summaries. Check analytic special cases and numerical residuals. Separate numerical error from sampling uncertainty.
+Define the target, parameter choices, seeds and convergence criterion. Inspect numerical residuals or an analytic special case when needed to distinguish numerical error from the claimed result. Simulation studies report uncertainty from the simulation.
 
 ## Replication
-Map each exhibit to inputs, entry point and command. Record software versions, seeds, path configuration, access instructions and expected outputs. Run from a clean process. Compare reproduced values with their sources using documented tolerances. Preserve data-use conditions. Verify journal requirements when the submission task invokes them.
+Trace each requested exhibit to data, code and the execution command. Preserve access instructions, versions and seeds. Compare the requested reproduced values using the relevant tolerance. Check journal requirements for an actual submission task.

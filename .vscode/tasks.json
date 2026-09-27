@@ -2,23 +2,16 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run Tests",
+      "label": "Build paper",
       "type": "shell",
-      "command": "make test",
-      "group": {
-        "kind": "test",
-        "isDefault": true
-      },
+      "command": "make build-paper",
+      "group": "build",
       "problemMatcher": []
     },
     {
-      "label": "Check Project",
+      "label": "Build slides",
       "type": "shell",
-      "command": "make check",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
+      "command": "make build-slides",
       "problemMatcher": []
     }
   ]

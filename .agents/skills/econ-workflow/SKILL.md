@@ -3,11 +3,11 @@ name: econ-workflow
 description: Organize or resume economic research with evidence-linked stage outputs and efficient context reuse.
 ---
 
-Use `econ-assertive` by default for generated prose: direct drafting, then mandatory post-draft detection, necessity assessment and revision.
+Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
 
 # Research workflow
 
-Enter at the requested stage. Read the existing task record, source version and completed outputs. Resolve the object, deliverable, access conditions and permissions. Keep one canonical task record. Select the next step by the decision it resolves and its evidence requirement. Resume completed stages from their source and output fingerprints.
+Enter at the requested stage. Read the existing task record, source version and completed outputs. Resolve the object, deliverable, access conditions and permissions. Reuse an existing task record when continuation requires it. Select the next step by the decision it resolves and its evidence requirement. Resume completed stages from existing sources and results.
 
 1. Question: define the economic object, mechanism, population and outcome; judge its value independently of the result sign. Use econ-design.
 2. Literature: read the closest papers fully and identify the economic increment. Use econ-literature.
@@ -19,4 +19,4 @@ Enter at the requested stage. Read the existing task record, source version and 
 
 Choose data-first or model-first through which step resolves the relevant uncertainty. Descriptive or causal-effect work can itself answer the question. A model receives an explicit economic purpose. Scientific validity comes from evidence and assumptions, not checklist completion.
 
-Use one method owner and the default prose skill. Load supporting sections for actual dependencies. Use scripts for counts, joins, arithmetic and checks. Run cheap deterministic tests before expensive execution. Reuse verified outputs while data, code, parameters and environment stay fixed. Invalidate dependent outputs after a change. A release runs the complete requested pipeline. For a transfer, use econ-handoff with revision, evidence paths, decisions, checks and next authorized action.
+Use one method owner and the default prose skill. Load supporting sections for actual dependencies. Use direct computation for the requested result. Default to no separate mechanical check; use one targeted execution only for a concrete unresolved risk. Reuse unchanged outputs and rerun affected steps. Full clean execution follows an actual reproduction or release need. For a transfer, use econ-handoff with revision, evidence paths, decisions, checks and next authorized action.

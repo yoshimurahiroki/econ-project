@@ -3,7 +3,7 @@ name: econ-edit
 description: Revise specified text or the previous answer when the user requests EDIT or expression changes.
 ---
 
-Use `econ-assertive` by default for generated prose: direct drafting, then mandatory post-draft detection, necessity assessment and revision.
+Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
 
 # Wording-only edit
 

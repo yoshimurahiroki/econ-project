@@ -3,7 +3,7 @@ name: econ-paper
 description: Explain a paper or specified passage and prepare a source-grounded paper seminar.
 ---
 
-Use `econ-assertive` by default for generated prose: direct drafting, then mandatory post-draft detection, necessity assessment and revision.
+Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
 
 # Paper explanation
 

@@ -1,18 +1,18 @@
 ---
 name: econ-data
-description: Acquire, validate and link data; implement research code and reproduce analysis results.
+description: Acquire and link data, implement concise research code and reproduce requested results.
 ---
 
-Use `econ-assertive` by default for generated prose: direct drafting, then mandatory post-draft detection, necessity assessment and revision.
+Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
 
-# Data and reproducibility
+# Data and code
 
-Read inputs, provider documentation, code and environment. Map economic objects to records, fields and transformations. Record source version, retrieval, unit, population, period, geography and units. Distinguish observation frequency from release frequency. Verify actual fee, registration, application, review and use terms when access matters.
+Read the relevant input, documentation and entry point. Map the economic object to records, fields and transformations. Preserve source version, unit, population, period and units needed for interpretation. Verify access terms when access is part of the task. Choose joins from the intended population; preserve the meanings of zero, suppression, censoring and missingness.
 
-Check key definitions, uniqueness, join cardinality, crosswalk timing and match counts with denominators. Choose the join from the intended population. Keep zero, suppression, censoring, missingness and ineligibility as distinct recording states. Check sample selection, coverage changes, treatment timing and comparison support.
+Use direct code in the existing language and environment. Keep one canonical QMD or analysis entry point. Extract a helper only for actual reuse or substantial complexity. Avoid generic frameworks, wrapper-only functions, speculative options, duplicate analysis paths and validation layers. Use project-relative paths, explicit seeds and analysis objects for numerical prose and exhibits. Protect raw inputs and credentials. Manage Python with Pixi and R with rv; preserve the full/mini distinction.
 
-Use the established language and dependency conventions. Keep analysis choices separate from infrastructure. Use project-relative paths and authorized environment variables. Protect raw files and credentials. Keep one canonical QMD or established entry point. Extract reused computation into scripts. Set seeds; generate numerical prose, tables and figures from analysis objects.
+Inspection and existing results come first. Run the smallest changed analysis unit only when a consequential uncertainty remains. Check a key, merge, sample, weight, formula or estimator setting when that operation can silently change the requested result. Place the check once at the relevant boundary. Rely on existing library errors for conditions they already enforce. Skip separate parse/import/smoke checks after a relevant successful execution.
 
-Use official documentation for current package behavior. Manage R through rv and Python through Pixi. Use existing licensed Stata or configured Julia when requested. Record versions and commands. Read [implementation checks](references/implementation.md) for acquisition, prediction, simulation or replication.
+Add a persistent test only for a demonstrated bug or consequential reusable calculation with a plausible regression. One-off scripts, straightforward calls and static settings need no test suite. No routine synthetic fixtures, benchmark runs, coverage targets, repeated data scans or whole-pipeline reruns. Stop when the changed result is established.
 
-Use [reproducible execution](references/reproducible-workflow.md) for pipelines, replication and cache invalidation. Test required columns, dates, units, keys, merge expansion, finite values and economic invariants from the actual input contract. Test affected code and a small numerical example before expensive execution. Reconcile sample, treatment, weights and inference with the design. Separate inspection, execution, numerical agreement and deployment through their observed records. Deliver the requested code, data, result or feasibility assessment with definitions and run evidence.
+Read [implementation notes](references/implementation.md) or [reproducible execution](references/reproducible-workflow.md) for the requested dependency. Deliver the requested code, data or result with the definitions and execution evidence needed to use it.

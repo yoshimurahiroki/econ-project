@@ -412,11 +412,9 @@ langchain-openai = ">=1.3.3,<2"
 chromadb = ">=1.5.9,<2"
 nest-asyncio = ">=1.6.0,<2"
 [tool.pixi.tasks]
-test = "PYTHONDONTWRITEBYTECODE=1 python scripts/sync_rules.py && if find tests -name 'test_*.py' -o -name '*_test.py' 2>/dev/null | grep -q .; then pytest -q; else echo 'No pytest tests found; existing tests are reset.'; fi"
-check = "ruff check . && ruff format --check . && mypy scripts/sync_rules.py && pixi run test"
-format = "ruff format . && ruff check --fix ."
-lint = "ruff check ."
-pre-commit = "pre-commit run --all-files"
+test = "make test"
+lint = "make lint"
+format = "make format"
 
 [tool.ruff]
 line-length = 100
@@ -465,47 +463,6 @@ extend-select = ["I", "TID", "UP"]
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
-
-[tool.mypy]
-python_version = "3.12"
-pretty = true
-strict = true
-warn_unused_ignores = true
-warn_redundant_casts = true
-incremental = true
-sqlite_cache = true
-cache_dir = ".mypy_cache"
-exclude = [
-    "^\\.pixi/",
-    "^\\.venv/"
-]
-
-[[tool.mypy.overrides]]
-module = [
-    "numpy",
-    "numpy.*",
-    "google.genai",
-    "google.genai.*",
-	"pandas",
-	"pandas.*",
-	"patsy",
-	"patsy.*",
-	"scipy",
-	"scipy.*",
-	"joblib",
-	"joblib.*",
-	"sparse",
-	"sparse.*",
-	"sparseqr",
-	"sksparse",
-	"sksparse.*",
-	"tabulate",
-	"tabulate.*",
-]
-ignore_missing_imports = true
-
-
-
 
 [build-system]
 requires = ["hatchling>=1.25.0"]
