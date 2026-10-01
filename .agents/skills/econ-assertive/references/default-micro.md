@@ -1,0 +1,65 @@
+# Default empirical-micro exemplars
+
+Profile: `default-micro`. Language: English and Japanese.
+
+Use this profile for research prose unless the user explicitly selects custom exemplars. Read it once and reuse it within the task. Select the paragraph function that matches the requested text; short answers need no manuscript structure. Use the English example for English syntax and the Japanese example for Japanese syntax.
+
+## Question and empirical comparison
+
+Transfer: State the object, observation unit and actual comparison together. Put the design before general claims of importance.
+
+## Exposure and identification
+
+Transfer: Name both comparison dimensions before introducing the estimator. Give fixed effects their literal statistical role.
+
+## Literature and linked data
+
+Transfer: Connect the specific earlier question to the present object and the data that make it observable. Use the actual closest studies in a new manuscript.
+
+## Results and baseline
+
+Transfer: Put the estimate, treatment scale, outcome age and unit in the result. Place the baseline next to it. End the paragraph when the result has been stated.
+
+## Applying the profile
+
+Keep the paragraph's substantive sequence; adapt its length to the actual argument. Use ordinary copulas and direct result verbs. In Japanese, retain literal nonhuman subjects and replace figurative predicates with the event or comparison. Preserve the requested genre, authorial voice, headings and substantive coverage. Use econ-assertive for the single internal wording pass. Every profile uses the same zero default for hedges, concessions, qualifications, rhetorical contrasts and emphasis. Examples do not add caution sections or stock conclusions.
+
+## Complete constructed example
+
+The English Introduction and Japanese counterpart below describe an entirely fictional study. The setting, design, findings, quantities, and reference labels F1–F3 are invented. No data were collected or analyzed, and F1–F3 do not refer to real scholarship. The example illustrates a connected economic argument; its paragraph count and order are not a template for other research.
+
+### English
+
+Electricity prices that rise during busy hours give firms a reason to move production to quieter parts of the day. A firm's ability to make that move, however, may depend on when its trading partners produce. A food processor can have room to start a batch later and still be unable to do so without missing a handoff to another plant. Physical flexibility therefore need not translate into a response to prices when production schedules are linked. We study whether firms can use more of their existing flexibility when interdependent changes take effect together. In a randomized experiment across food-processing estates, joint activation of recommended schedules reduces the shared electricity peak by 18 percent, compared with 5 percent when firms activate their recommendations separately. The difference arises under the same electricity tariff and planning rule, without replacing equipment or reducing the quantities firms have agreed to supply.
+
+The estates provide a setting in which the distinction between an individually movable batch and an implementable production schedule matters. Each estate has a common electricity feeder. Plants wash, cook, or chill food in batches, and some transfer intermediate products to other plants within the estate. All face a tariff that charges more from 7 a.m. to 10 a.m., when many batches begin. Some batch starts can move by 30 to 90 minutes, but a feasible change must preserve process order, staffing availability, product-holding limits, and dispatch windows. Moving one stage without its trading partners can break a handoff even when every plant's proposed change would be feasible if implemented together. The relevant choice is thus not simply whether a plant can afford to run at a different hour. It is whether it can change hours while the other stages of production remain compatible.
+
+We randomly assign 90 estates, containing 2,160 plants, to three groups for 18 weeks after an eight-week baseline period. One group continues under the existing tariff without scheduling recommendations. The other two receive recommendations produced by the same rule, which minimizes the estate's highest aggregate 15-minute load subject to its production constraints. Both receive the same planning information and staff contact. Under private activation, a plant's acceptance activates its own schedule without assuring that its partners will make the linked changes. Under joint activation, an interdependent set of changes takes effect only if all the plants needed for it agree; otherwise, those plants retain their previous schedules. Firms can reject either offer, and joint activation involves no tariff discount or transfer between firms. We randomize whole estates because electricity loads and production decisions affect other plants on the same feeder. The analysis compares assigned groups, whether or not individual firms accept their recommendations.
+
+Daily peak demand averages 10 megawatts in the control group. Private activation reduces it by 0.5 megawatts, while joint activation reduces it by 1.8 megawatts. The additional reduction from joint activation is 1.3 megawatts, with a 95 percent confidence interval of 0.85 to 1.75. This outcome is the maximum of the plants' combined load at any one time, not the sum of their separate maxima. Meter readings over the entire day show that the load removed from the morning peak moves to adjacent, cheaper hours. Joint activation changes total daily electricity use by an estimated 0.3 percent, with a confidence interval from −0.8 to 1.4 percent, while reducing electricity bills by 5.2 percent.
+
+The implementation records help explain why joint activation makes more of the proposed flexibility usable. Among plants with time-sensitive links identified in pre-intervention records, 34 percent of recommended weekly changes are carried out under private activation, compared with 76 percent under joint activation. Among plants without such links, the corresponding shares are 79 and 81 percent. Firms in both planning groups already know which linked changes their own recommendations require. The additional procedure gives them assurance that an accepted change will take effect only alongside the other necessary changes. The pattern is consistent with a coordination mechanism: assurance about partners' changes makes a plant's own adjustment more workable.
+
+Delivery and output records show how retiming production affects firms' ability to complete orders. Under private activation, the share of within-estate deliveries that miss their agreed windows rises by 3.6 percentage points from a control mean of 7 percent. Under joint activation, the estimated increase is 0.1 percentage point, with a confidence interval from −0.7 to 0.9. Joint activation also changes saleable output, valued at fixed pre-intervention product prices, by an estimated 0.2 percent; its confidence interval runs from −1.1 to 1.5 percent. Joint activation therefore produces a substantial reduction in the shared peak alongside small estimated changes in late deliveries and saleable output. Preserving the sequence of handoffs allows linked plants to move electricity-intensive stages together.
+
+Previous research addresses the separate elements of this problem. Plant-level evidence on time-of-use prices shows that isolated plants can shift electricity-intensive work away from expensive hours (F1). Observational work on production networks documents that suppliers' delivery delays precede production delays at buyers, even when the buyers' machines are available (F2). Engineering analyses construct flatter load profiles under process and delivery constraints, conditional on full implementation of the proposed schedules (F3). Our experiment connects these questions by holding prices and planning information fixed while varying the rule under which mutually dependent changes take effect. It tests whether technically feasible flexibility can be implemented voluntarily, and measures the consequences for the shared peak, deliveries, and output together.
+
+The economic implication is that a plant's response to a price incentive can depend on an arrangement among firms, even when its own technical options have not changed. Making linked adjustments conditional on one another helps turn a feasible joint schedule into an actual change in production timing. This mechanism requires batches that can move within compatible delivery windows. Within those windows, demand-response programs have a margin beyond changing the tariff or purchasing new equipment: they can change how firms commit to using the flexibility they already have.
+
+### 日本語
+
+電力需要が集中する時間帯の料金を高くすると、企業は生産を別の時間帯に移す誘因を持つ。ただし、実際に時間を変えられるかどうかは、取引先の生産時刻にも左右される。ある食品加工工場で製造開始を遅らせる余地があっても、次の工程を担う工場への引き渡しに間に合わなくなるなら、その変更は難しい。生産日程が結び付いている場合、設備上の余裕が、そのまま価格への反応につながるとは限らない。本稿では、互いに依存する日程変更を一緒に実施する仕組みによって、企業が既存の設備で利用できる時間調整の余地が広がるかを検証する。食品加工団地で行う無作為化実験では、関連する変更を一括して実施すると、団地全体の最大電力需要が18％低下する。一方、各工場が個別に変更を実施する場合の低下幅は5％である。料金体系と日程の作成方法は共通であり、設備の更新や、受注済みの供給量の削減による違いではない。
+
+この加工団地では、一つの製造工程の時刻を動かせることと、生産全体の日程を実際に変更できることの違いが重要になる。各団地には共通の配電線があり、工場は食品の洗浄、加熱、冷却をロット単位で行う。一部の工場は、加工途中の食品を団地内の別の工場に引き渡す。電力料金は全工場に共通で、多くの製造が始まる午前7時から10時までが割高である。製造開始を30〜90分早めたり遅らせたりできる工程もあるが、工程の順序、人員を確保できる時間、食品を保管できる時間の上限、出荷時刻を守らなければならない。関係する工場がそろって変更すれば実行可能な日程でも、一つの工程だけが時刻を変えると、引き渡しが予定どおり進まなくなる。企業が判断するのは、単に別の時間帯に稼働できるかどうかではなく、前後の工程とのつながりを保ったまま稼働時刻を変えられるかどうかである。
+
+実験では、計2,160工場を含む90団地を無作為に三つの群に分け、8週間の事前観測に続いて18週間の介入を行う。対照群には日程変更を提案せず、既存の料金体系を維持する。残る二つの群には、生産上の制約を満たしながら、15分ごとに測った団地全体の電力需要の最大値を最小にする日程を提案する。日程の作成方法、提供する情報、担当者との接触時間は、両群で共通である。個別実施群では、ある工場が提案を受け入れると、その工場の日程だけが変更され、取引先も関連する変更を行う保証はない。一括実施群では、互いに依存する変更に必要な工場がすべて同意した場合に限って、その組合せを実施する。同意がそろわなければ、関係する工場は従来の日程を維持する。どちらの群でも提案を断ることができ、一括実施に料金割引や工場間の金銭移転は伴わない。電力使用と生産の変更は同じ団地の他工場にも影響するため、割当ては団地単位で行う。分析では、各工場が提案を受け入れたかどうかによらず、割り当てられた群の間で成果を比較する。
+
+対照群では、1日の最大電力需要は平均10メガワットである。個別実施による低下幅は0.5メガワット、一括実施では1.8メガワットとなる。一括実施による追加的な低下幅は1.3メガワットで、95％信頼区間は0.85〜1.75メガワットである。ここで測るのは、同じ時刻に団地全体で使われる電力の最大値であり、各工場が別々の時刻に記録した最大値の合計ではない。終日の計測記録では、朝のピーク時に減った電力使用が、その前後の割安な時間帯に移っている。一括実施による1日の総電力使用量の変化は0.3％と推定され、信頼区間は−0.8〜1.4％である。一方、電気料金の支払額は5.2％減少する。
+
+提案した変更がどこで実行されたかを見ると、一括実施が時間調整を可能にする理由が分かる。介入前の取引記録で工場を分けると、団地内の取引先と引き渡し時刻を合わせる必要がある工場では、週ごとに提案した変更の実施率は、個別実施群で34％、一括実施群で76％である。そのようなつながりのない工場では、それぞれ79％と81％となる。どちらの群でも、工場には自分の日程を変えるために必要な取引先の変更が伝えられている。一括実施で加わるのは、自らが受け入れた変更が、他の必要な変更とそろって初めて実施されるという確約である。このパターンは、取引先も必要な変更を行うことが確約されると、自らも日程を変えやすくなるという説明と整合的である。
+
+引き渡しと生産量の記録から、生産時刻の変更が受注への対応にどう影響するかを調べる。個別実施群では、団地内の引き渡しが約束した時間に間に合わない割合が、対照群の7％に対して3.6パーセントポイント上昇する。一括実施群での上昇幅は0.1パーセントポイントで、信頼区間は−0.7〜0.9パーセントポイントである。また、介入前の製品価格で評価した出荷可能な生産量は、一括実施によって0.2％増加すると推定される。その信頼区間は−1.1〜1.5％である。一括実施群では、ピークが大きく下がる一方、引き渡しと生産量の変化は小さいと推定される。前後の引き渡しを保った日程にすることで、関係する工場が、電力を多く使う工程を一緒に別の時間帯に移せる。
+
+先行研究は、この問題を構成する各要素を扱ってきた。時間帯別料金の研究は、工程上のつながりがない工場の電力使用を追跡し、割高な時間帯から他の時間帯に作業が移ることを示している（F1）。生産ネットワークの研究では、観察記録を用いて、買い手の設備が使える場合でも、供給元の納入遅延に続いて買い手の生産が遅れることを示している（F2）。工学的な日程計画の分析は、提案どおりの日程がすべて実施されることを条件に、工程と納入の制約を満たしながら電力需要を平準化できることを示している（F3）。本稿は、料金と日程に関する情報を共通にしたまま、互いに依存する変更が実施に移される条件を変えることで、これらの論点を結び付ける。技術的に可能な変更を企業が自発的に実施できるかを検証し、団地全体のピーク、引き渡し、生産量への影響を同時に捉える。
+
+以上の結果は、企業自身の技術的な選択肢が変わらなくても、企業間の取り決めによって価格への反応が変わりうることを示している。関連する変更を互いの同意を条件として実施すれば、共同では可能だった変更を、実際の生産時刻の変更につなげられる。この仕組みが有効なのは、引き渡しの条件を守れる範囲で工程の時刻を動かせる場合である。その範囲では、電力需要の調整策には、料金を変えたり設備を新しくしたりする以外にも選択肢がある。企業がすでに持つ時間調整の余地を使うために、関連する変更の実施を互いに確約できる仕組みを整えることである。

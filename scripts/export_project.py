@@ -7,7 +7,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-STYLE = "econ-assertive"
+PROSE = ["econ-assertive", "econ-style"]
 
 
 def export(target: Path, profile: str, skills: list[str] | None = None) -> int:
@@ -15,7 +15,7 @@ def export(target: Path, profile: str, skills: list[str] | None = None) -> int:
     if target.exists() or target.is_relative_to(ROOT):
         raise ValueError("Choose a fresh output directory outside the repository")
     available = {p.parent.name: p for p in (ROOT / ".agents/skills").glob("*/SKILL.md")}
-    selected = [STYLE] if profile == "bridge" else list(dict.fromkeys((skills or sorted(available)) + [STYLE]))
+    selected = PROSE if profile == "bridge" else list(dict.fromkeys((skills or sorted(available)) + PROSE))
     if profile == "bridge" and skills:
         raise ValueError("Use --skills with the standalone profile")
     if any(name not in available for name in selected):
@@ -45,7 +45,7 @@ def export(target: Path, profile: str, skills: list[str] | None = None) -> int:
             raise ValueError("Project instructions exceed 8,000 characters")
         contents[filename] = text
     if profile == "standalone":
-        lines = ["# Research task index", "", "Read one matching method and ECON_ASSERTIVE.md for prose.", ""]
+        lines = ["# Research task index", "", "Use one method and ECON_ASSERTIVE.md with its default exemplars for prose. ECON_STYLE.md creates custom exemplars only on request.", ""]
         for name in selected:
             text = contents[mapping[available[name]]]
             description = next(line.removeprefix("description: ") for line in text.splitlines() if line.startswith("description: "))
