@@ -1,20 +1,34 @@
 ---
 name: econ-assertive
-description: Default direct economics prose with a single post-draft necessity review.
+description: Write and edit Japanese or English economics research prose as direct claims; remove AI-style padding, hedges, concessions and emphasis. Use for papers, literature explanations, notes, slides and requests to remove AI tone.
 ---
 
-# Direct research prose
+# Direct economics prose
 
-Apply to papers, explanations, notes, slides, captions and research responses. EDIT repeats the wording operation.
+Apply within the selected research task. This is the sole prose rule set for Japanese and English. Reuse it when already loaded. EDIT requests the same operation on existing text. Use the relevant [patterns](references/patterns.md) only for a difficult wording decision.
 
-## Draft
-Select the answer, evidence and required reasoning before writing. Default rhetorical hedges, concessions and scope disclaimers: zero. Use concrete subjects, direct verbs, one main claim per sentence and one topic per paragraph.
+## Select and write
 
-Delete textbook cautions, generic measurement warnings, hypothetical objections and repeated boundaries. A caution earns no space merely by being true. Do not recycle deleted content as a positive scope sentence, parenthesis, footnote, appendix or closing reminder. Preserve scientific meaning, numbers, signs, equations and attribution.
+Write for an economist reading the requested object. Keep the answer, the reasoning and evidence that establish it, and explicitly requested content. Give each paragraph an economic claim or a necessary step in the argument. Explain the agent, choice, incentive, comparison, parameter or result. Replace a generic claim of importance with its economic content; delete it when it has none.
+
+Default hedges, concessions, qualifications, rhetorical contrasts and emphasis: zero. Delete the underlying defensive proposition, including true but unrequested textbook cautions, hypothetical objections and peripheral limits. Do not move it to a positive scope statement, parenthesis, footnote, appendix or closing reminder. Do not add caveat sections to sound academic or balanced. A necessary condition belongs beside its claim, once.
+
+Use concrete subjects and direct verbs. Keep subject and predicate close. Use one main claim per sentence and one topic per paragraph. Sentence length follows the argument. Keep defined economic terms stable across sentences, exhibits and languages. Ordinary technical subjects such as prices, firms, estimates and models are valid. Use the user's academic sample for syntax and register, not for importing facts.
+
+## Japanese
+
+Use natural academic Japanese and direct endings such as 「である」「増える」「推定する」. Replace vague 「これ」「この点」 with the economic object when the referent is unclear. Cut empty 「といえる」「という側面がある」「重要な示唆を与える」 and translated nominalization chains. Prefer the stated change to 「効く」「刺さる」「射程」「解像度を上げる」 used as decoration. Keep conventional economic terminology and ordinary nonhuman subjects. Do not impose character, comma or sentence-ending quotas.
+
+## English
+
+Use ordinary academic verbs: estimate, compare, increase, reduce, imply. Cut stock lead-ins, nominalization chains, inflated significance, vague attribution and trailing participles that merely praise a result. Replace empty "sheds light on", "underscores the importance of" and "offers a nuanced perspective" with the actual finding or delete them. Remove decorative uses of delve, pivotal, tapestry and landscape. Keep technical uses such as robust standard errors and financial leverage. Use active voice when the actor matters; retain passive voice when it names the relevant research object clearly.
+
+## Shape
+
+Delete staged openings, forced three-part lists, decorative oppositions, repeated mini-conclusions, dramatic fragments and mechanical transitions. Let the argument determine paragraph lengths. Use headings, bullets, tables and punctuation for their actual function. Keep the requested five-section paper explanation and readable slide bullets. Remove decorative bold labels, emoji and dramatic dashes. Preserve minus signs, ranges, hyphens, citations and LaTeX syntax. Add no personality, anecdotes, invented specifics, casual voice or intentional errors.
 
 ## Review once
-Read the completed draft, including headings, bullets and notes. Identify hedges, concessions, defensive qualifications and their semantic paraphrases. For each candidate, delete the proposition by default. Retain it only when the user requests that exact issue, or when a specific claim would otherwise be wrong, case-specific evidence establishes the error, and a short factual repair is necessary. Generic appeals to accuracy or transparency do not qualify.
 
-Rewrite essential content directly. Preserve indispensable technical expressions and exact quotations. Recheck changed passages and affected claim/citation links. Keep the review within drafting; do not create an audit file, decision table, score, mechanical scan or repeated review loop. For an expressly requested audit, return the requested findings.
+Read the completed text, including headings and notes. Delete unnecessary propositions first. Rewrite the retained argument instead of swapping flagged words for synonyms. A boundary remains only if explicitly requested or if deleting it makes a retained claim false; identify that exact claim and make the shortest factual repair. General appeals to caution, transparency or completeness earn no extra prose.
 
-Use existing source evidence. Return the requested text or artifact without a compliance report. See [patterns](references/patterns.md) only for a difficult wording decision.
+Keep substantive findings, comparisons, assumptions, numbers, units, equations, citations and attribution intact. State estimates as estimates and model predictions as model predictions. Recheck changed passages and claim-source links using the existing evidence. Return the requested text or artifact. Keep the review internal; do not create detector scores, scanners, word bans, audit files, extra drafts or review loops. An explicit audit request receives the requested findings.
