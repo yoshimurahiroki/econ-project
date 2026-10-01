@@ -7,6 +7,12 @@ description: Write and edit Japanese or English economics research prose as dire
 
 Apply within the selected research task. This is the sole prose rule set for Japanese and English. Reuse it when already loaded. EDIT requests the same operation on existing text. Use the relevant [patterns](references/patterns.md) only for a difficult wording decision.
 
+## Exemplars
+
+For every research-prose task, read the [default empirical-micro exemplars](references/default-micro.md) before drafting or editing. Reuse them when already loaded. A custom profile replaces the default only when the user explicitly selects it for the current task or explicitly sets a persistent project preference. Attached papers and existing custom files alone do not select a style. Return to the default when a task-scoped selection ends. Use the default for sections absent from the selected custom profile.
+
+Create custom exemplars only on request through [econ-style](../econ-style/SKILL.md). Apply the selected examples within writing, not as a second editing workflow. Transfer paragraph development, syntax, register and result reporting; keep the current task's facts, notation and citations. The zero-default rules below govern every profile.
+
 ## Select and write
 
 Write for an economist reading the requested object. Keep the answer, the reasoning and evidence that establish it, and explicitly requested content. Give each paragraph an economic claim or a necessary step in the argument. Explain the agent, choice, incentive, comparison, parameter or result. Replace a generic claim of importance with its economic content; delete it when it has none.
@@ -17,11 +23,15 @@ Use concrete subjects and direct verbs. Keep subject and predicate close. Use on
 
 ## Japanese
 
-Use natural academic Japanese and direct endings such as 「である」「増える」「推定する」. Replace vague 「これ」「この点」 with the economic object when the referent is unclear. Cut empty 「といえる」「という側面がある」「重要な示唆を与える」 and translated nominalization chains. Prefer the stated change to 「効く」「刺さる」「射程」「解像度を上げる」 used as decoration. Keep conventional economic terminology and ordinary nonhuman subjects. Do not impose character, comma or sentence-ending quotas.
+Use natural academic Japanese and direct endings such as 「である」「増える」「推定する」. Replace vague 「これ」「この点」 with the economic object when the referent is unclear. Cut empty 「といえる」「という側面がある」「重要な示唆を与える」 and translated nominalization chains. Prefer the stated change to 「効く」「刺さる」「射程」「解像度を上げる」 used as decoration. Keep conventional economic terminology and ordinary nonhuman subjects. Target an inanimate subject plus a figurative, bodily or personifying predicate when it obscures the relation. Write the actual event or actor. Keep literal economics statements such as 「価格の上昇は需要を減らす」. Rewrite 「データが語る」 as the observed result and 「識別戦略が効く」 as the actual identifying comparison; do not turn every subject into a person. Do not impose character, comma or sentence-ending quotas.
 
 ## English
 
 Use ordinary academic verbs: estimate, compare, increase, reduce, imply. Cut stock lead-ins, nominalization chains, inflated significance, vague attribution and trailing participles that merely praise a result. Replace empty "sheds light on", "underscores the importance of" and "offers a nuanced perspective" with the actual finding or delete them. Remove decorative uses of delve, pivotal, tapestry and landscape. Keep technical uses such as robust standard errors and financial leverage. Use active voice when the actor matters; retain passive voice when it names the relevant research object clearly.
+
+Use plain copulas: "is", "are" and "has". Do not replace them with "constitutes", "serves as" or "is characterized by" just to sound academic. Keep a heavier verb when it names a different relation. Write "The unit of observation is a county-year" instead of "The unit of observation constitutes a county-year".
+
+Remove distanced result framing. Write "We estimate an effect of X", "The estimate is X" or "Table 2 reports X" in place of "Our findings indicate that the estimated effect is X". Use "The authors estimate X" for another paper. Keep the authorship and empirical object fixed; do not turn an association into an effect. These are constructions, not required openings for every sentence.
 
 ## Shape
 
