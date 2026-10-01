@@ -1,57 +1,131 @@
 # Default empirical-micro exemplars
 
-Profile: `default-micro`. Language: English and Japanese. Reviewed: 2026-10-01.
+Profile: `default-micro`. Languages: English and Japanese. Updated: 2026-10-01.
+Corpus: ten empirical articles published in 2021-2025; six in Top 5 journals and four in leading field journals. Every inspected version is dated 2020 or later.
 
-Use this profile for research prose unless the user explicitly selects custom exemplars. Read it once and reuse it within the task. Select the paragraph function that matches the requested text; short answers need no manuscript structure. Use the English example for English syntax and the Japanese example for Japanese syntax.
+## Selection and use
 
-The paragraphs are original, source-based adaptations of the papers below, not quotations. They retain source-study facts to make the writing moves concrete. Transfer the sentence relations and paragraph development to the current task; use that task's evidence, numbers, names and citations. The source list is provenance for this profile, not a bibliography to add to the user's manuscript.
+Use this profile for research prose unless the user explicitly selects a custom profile for the task or explicitly sets a persistent project preference. Read it before drafting or editing and reuse it when loaded. A task-scoped selection ends with that task. Use this default for functions absent from the selected custom profile. Attached papers and existing custom files do not select a style. Create custom exemplars only on request through `econ-style`.
 
-## Question and empirical comparison
+Apply the paragraph function needed by the requested text. A short answer needs no manuscript outline. Preserve the user's genre, authorial voice, headings and substantive coverage. The examples guide sentence relations and paragraph development; their facts, numbers, methods and citations belong to their source studies.
 
-Source: Card and Krueger (1994), published article p. 772, abstract and introduction.
+## Basis of the profile
 
-English: We study employment responses to New Jersey's 1992 minimum-wage increase. Our survey follows 410 fast-food restaurants in New Jersey and eastern Pennsylvania. We compare employment changes across the two states before and after the increase.
+The review compared introduction, identification, main-results and literature-positioning passages in each of the ten source versions recorded below. The common core consists of writing moves found across both journal groups and different empirical designs. A study-specific estimator, institutional detail or rhetorical habit does not become a default.
 
-Japanese: ニュージャージー州の1992年の最低賃金引上げに対する雇用の反応を分析する。同州とペンシルベニア州東部のファストフード店410店舗を追跡調査した。引上げ前後の雇用変化を両州で比較する。
+The four bilingual examples are original adaptations of source-study passages. Each illustrates a move supported by several papers; it is not a quotation or a reconstruction of one author's distinctive voice. Japanese examples are adaptations written for this profile, not excerpts from Japanese journal articles. The source records document the profile and are not references to insert into a new manuscript.
 
-Transfer: State the object, observation unit and actual comparison together. Put the design before general claims of importance.
+## Introduction
 
-## Exposure and identification
+Common move: introduce the economic object and connect the question to the setting's usable comparison or measurement. Present the approach and central finding early. Develop the mechanism or economic implication through the facts that establish it.
 
-Source: Duflo (2001), MIT-hosted manuscript p. 2, identification paragraph.
+This sequence appears in different forms in Bessone et al. (work and sleep treatments), Egger et al. (local exposure and economic activity), Kline et al. (repeated applications within employers), Baron (two types of spending approval), and Gershenson et al. (teacher assignment and later attainment). The shared element is the connection between question and evidence, not a fixed opening sentence or paragraph count.
 
-English: Exposure to Indonesia's school-building program varies with birthplace and birth cohort. I compare schooling differences between younger and older cohorts across regions with different construction intensities. Region and cohort effects remove additive differences along those dimensions. The identifying variation is their interaction.
+English adaptation, Egger et al. (2022):
 
-Japanese: インドネシアの学校建設事業への曝露は出生地域と出生コホートによって異なる。建設強度の異なる地域間で、若いコホートと年長コホートの就学年数の差を比較する。地域効果とコホート効果は各次元の加法的な差を除く。識別に用いる変動は両者の交互作用である。
+> We estimate how cash transfers affect local economic activity in rural Kenya. Randomized village treatment and transfer saturation vary the amount of cash reaching nearby households. We combine household spending, business activity and market prices to measure the local response. The expenditure-based estimate of the local transfer multiplier is 2.6.
 
-Transfer: Name both comparison dimensions before introducing the estimator. Give fixed effects their literal statistical role.
+Japanese adaptation:
 
-## Literature and linked data
+> ケニア農村部で現金給付が地域の経済活動に与える影響を推定する。村の処置割当と地域内の給付対象村の割合を無作為化し、周辺世帯への給付総額を異ならせる。家計支出、企業活動、市場価格のデータを組み合わせて地域の反応を測る。支出から推定した地域内の給付乗数は2.6である。
 
-Source: Chetty, Friedman and Rockoff (2014), author-hosted manuscript p. 2, opening paragraph and reference to the companion paper.
+Transfer: connect the actual research object, source of variation, measurement and finding. Select their order and paragraph length for the argument. Add no generic importance preface, required roadmap or stock closing claim.
 
-English: The companion paper evaluates bias in teachers' test-score value-added. This paper studies their students' adult outcomes. We link school records to tax records to observe earnings and college attendance after students leave school.
+## Identification
 
-Japanese: 関連論文では、教師の付加価値推定値のバイアスを検討した。本論文では、教師が生徒の成人後のアウトカムに与える影響を推定する。学校記録と税務記録を結合し、成人後の所得と大学進学を把握する。
+Common move: describe assignment, exposure and the actual comparison in ordinary words. Connect the variation to the parameter and then explain how the estimator uses it. Name the relevant unit and timing. Place an indispensable identifying condition beside the claim it supports.
 
-Transfer: Connect the specific earlier question to the present object and the data that make it observable. Use the actual closest studies in a new manuscript.
+Rose and Shem-Tov explain sentencing-grid comparisons; Agan et al. explain prosecutor assignment and leniency; Dahl et al. explain a birth-date cutoff and comparison population; Baron explains close votes and subsequent referenda; Rivera explains lottery assignment within exam periods. The transferable feature is the explicit comparison-to-parameter link. Their estimators and assumptions remain design-specific.
 
-## Results and baseline
+English adaptation, Baron (2022):
 
-Source: Chetty, Friedman and Rockoff (2014), author-hosted manuscript p. 2, first-design results paragraph.
+> I estimate the effects of approving operating and capital referenda in Wisconsin school districts. The comparison is between districts just above and just below the approval threshold. A dynamic regression-discontinuity model accounts for the sequence of both referendum types. Its coefficients measure the effect of an approval at each horizon, holding subsequent approvals fixed.
 
-English: In the classroom-comparison design, we estimate that a one-standard-deviation increase in teacher value-added for one grade raises college attendance at age 20 by 0.82 percentage points. The sample mean is 37%.
+Japanese adaptation:
 
-Japanese: 学級間比較による推定では、1学年の教師の付加価値が1標準偏差高まると、20歳時の大学進学率は0.82パーセントポイント上昇する。標本平均は37%である。
+> ウィスコンシン州の学区で、運営費と資本支出の住民投票が可決される効果を推定する。可決基準の直上と直下にある学区を比較する。動学的回帰不連続モデルで両種類の投票の実施順序を扱う。各係数は、その後の可決状況を固定したときの、当該可決による各時点の効果を表す。
 
-Transfer: Put the estimate, treatment scale, outcome age and unit in the result. Place the baseline next to it. End the paragraph when the result has been stated.
+Transfer: explain what creates the comparison before presenting a method label. Give fixed effects and instruments their actual statistical roles. Keep assignment effects, treatment effects and model parameters distinct through direct definitions. Do not transfer this example's dynamic specification to another design.
 
-## Applying the profile
+## Results
 
-Keep the paragraph's substantive sequence; adapt its length to the actual argument. Use ordinary copulas and direct result verbs. In Japanese, retain literal nonhuman subjects and replace figurative predicates with the event or comparison. Preserve the requested genre, authorial voice, headings and substantive coverage. Use econ-assertive for the single internal wording pass. Every profile uses the same zero default for hedges, concessions, qualifications, rhetorical contrasts and emphasis. Examples do not add caution sections or stock conclusions.
+Common move: state the estimate through the measured object. Give the treatment scale, outcome unit and horizon, then connect the estimate to a named baseline or other relevant quantity. Use the table or figure as evidence for the substantive claim. Explain a mechanism through the result that bears on it.
+
+Bessone et al. relate treatments to work outcomes; Rose and Shem-Tov translate sentence duration into reoffending differences; Kline et al. report contact-probability differences; Gershenson et al. relate enrollment effects to the sample mean; Rivera scales peer composition and arrests. These are distinct outcomes with the same estimate-to-economic-magnitude relation.
+
+English adaptation, Gershenson et al. (2022), Table 2:
+
+> For Black students, the instrumental-variables estimate of the effect of having at least one Black teacher in grades K-3 on college enrollment is 5.9 percentage points. The standard error is 2.7 percentage points. Mean enrollment in this sample is 31.3%, so the estimate is about 19% of the mean.
+
+Japanese adaptation:
+
+> 操作変数推定では、黒人の生徒が幼稚園から小学3年生までに黒人の教師に1度以上教わると、大学進学率が5.9パーセントポイント上昇する。標準誤差は2.7パーセントポイントである。この標本の平均進学率は31.3%であり、推定値は平均の約19%に相当する。
+
+Transfer: keep the estimate and its denominator together. Report the numerical information required by the actual result. Use `We estimate`, `The estimate is`, or the relevant direct construction. In explanations of another paper, keep attribution to its authors. Avoid column-by-column narration, repeated result announcements and a generic interpretation warning.
+
+## Literature positioning
+
+Common move: identify what the closest work established or estimated, state the present paper's additional object, and explain the comparison, measurement or mechanism separation that makes it answerable. Attach citations to those specific relationships.
+
+Rose and Shem-Tov locate the dose-response question within incarceration research; Kline et al. connect employer-level measurement to correspondence studies; Agan et al. locate prosecution within research on criminal-justice decisions; Dahl and Forbes separate doctor attachment within insurance-choice inertia; Rivera moves from officer characteristics to peer composition. The common move is a concrete economic relationship to earlier work.
+
+English adaptation, Dahl and Forbes (2023), introduction and literature discussion:
+
+> Research on health-plan inertia separates inattention from switching costs. We estimate the cost of changing an existing doctor. The setting holds other benefits fixed while varying premiums and the availability of the current doctor across plans. The choice model uses these differences to separate doctor attachment from inattention.
+
+Japanese adaptation:
+
+> 医療保険プランの選択に関する研究は、不注意と切替費用を分けて分析してきた。本研究では、現在の医師を変更する費用を推定する。分析対象では、他の給付内容を固定したまま、保険料と現在の医師を利用できるかどうかがプラン間で異なる。選択モデルでこの差を用い、同じ医師を継続利用する価値と不注意を分離して推定する。
+
+Transfer: use the actual closest studies and verified contribution of the current paper. Replace generic `fills a gap`, `new lens` and chronological name lists with the specific relationship. A citation to a source study does not authorize importing its findings into the target research.
+
+## Shared language rules
+
+`econ-assertive` remains the sole wording layer. Default hedges, concessions, qualifications, rhetorical contrasts and emphasis: zero. Delete unnecessary defensive propositions. Preserve necessary scientific content as direct statements. Do not learn caution sections, stock transitions, inflated novelty claims or repeated summaries from the source papers.
+
+Keep defined economic terms stable. Use ordinary copulas and literal verbs: `is`, `are`, `has`, `estimate`, `compare`, `show`. Remove distanced result frames that merely announce a finding. Preserve the actual author, empirical object and meaning of the claim.
+
+In Japanese, retain ordinary nonhuman subjects. Replace an inanimate subject plus a figurative, bodily or personifying predicate when it obscures the relation. State the event, comparison or actual actor. Keep literal economic relations intact.
+
+Sentence and paragraph length follow the argument. Keep closely related comparisons, numbers and reasoning together. A new paragraph marks a change in the argument. Do not engineer short sentences, irregular rhythm, a fixed number of claims, or varied synonyms to imitate a person.
+
+Apply the selected examples during writing and perform the existing single internal wording review. No detector, scoring system, prose scanner, separate audit, mandatory extra section or second editing workflow is added.
+
+## Reading map
+
+I = introduction; D = identification/design; R = main-results discussion; L = literature positioning. Locations refer to the inspected version, not a different edition. Printed page numbers are used unless `PDF` is specified. PDF numbers start at 1 and include covers.
+
+| Source | I | D | R | L |
+| --- | --- | --- | --- | --- |
+| Bessone et al. (2021) | 1889-1891 | 1901-1903; 1912 | 1929-1930 | 1892-1893 |
+| Rose and Shem-Tov (2021) | PDF 2-4 | PDF 13-14 | PDF 21-22 | PDF 5-6 |
+| Egger et al. (2022) | 2604-2605 | 2608; 2610-2611 | 2625-2626; multiplier also in introduction | 2604; 2606 |
+| Kline et al. (2022), advance pagination | 2-3 | 10-12 | 18 | 2-3; 7 |
+| Dahl et al. (2022), 2020 discussion paper | 1-3 | 11-12 | 16-17 | 4-5 |
+| Agan et al. (2023), 2021 discussion paper | PDF 4-5 | PDF 15-18 | PDF 22-24 | PDF 9 |
+| Baron (2022) | 1-3 | 13-16 | 18-19 | 2-3 |
+| Gershenson et al. (2022) | 300-302 | 313-315 | 315-316; Table 2 | 303-304 |
+| Dahl and Forbes (2023), February manuscript | 1-3 | 6-10 | 10-12 | 4 |
+| Rivera (2025) | 127-130 | 137-142 | 142-147 | 130-131 |
 
 ## Source records
 
-- Card, David, and Alan B. Krueger. 1994. "Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania." American Economic Review 84(4): 772-793. Author-hosted published PDF, p. 772: https://davidcard.berkeley.edu/papers/njmin-aer.pdf
-- Duflo, Esther. 2001. "Schooling and Labor Market Consequences of School Construction in Indonesia: Evidence from an Unusual Policy Experiment." American Economic Review 91(4): 795-813. DOI: 10.1257/aer.91.4.795. The inspected version is the 60-page MIT-hosted manuscript; page numbers above refer to that file: https://economics.mit.edu/sites/default/files/2022-08/Schooling%20and%20Labor%20Market%20Consequences%20of%20School.pdf
-- Chetty, Raj, John N. Friedman, and Jonah E. Rockoff. 2014. "Measuring the Impacts of Teachers II: Teacher Value-Added and Student Outcomes in Adulthood." American Economic Review 104(9): 2633-2679. DOI: 10.1257/aer.104.9.2633. The inspected version is the 77-page author-hosted manuscript; page numbers above refer to that file: https://opportunityinsights.org/wp-content/uploads/2018/03/teachers2.pdf
+1. Bessone, Pedro, Gautam Rao, Frank Schilbach, Heather Schofield, and Mattie Toma. 2021. "The Economic Consequences of Increasing Sleep Among the Urban Poor." *Quarterly Journal of Economics* 136(3): 1887-1941. [Publication](https://doi.org/10.1093/qje/qjab013). Inspected: published article, [MIT PDF](https://economics.mit.edu/sites/default/files/2022-09/economic-sleep-qje.pdf).
+
+2. Rose, Evan K., and Yotam Shem-Tov. 2021. "How Does Incarceration Affect Reoffending? Estimating the Dose-Response Function." *Journal of Political Economy* 129(12): 3302-3356. [Publication](https://doi.org/10.1086/716561). Inspected: October 2021 publisher proof, [author PDF](https://ekrose.github.io/files/Rose_Shemtov_2021_Manuscript.pdf). The proof uses placeholder printed pagination; the reading map uses PDF pages.
+
+3. Egger, Dennis, Johannes Haushofer, Edward Miguel, Paul Niehaus, and Michael Walker. 2022. "General Equilibrium Effects of Cash Transfers: Experimental Evidence From Kenya." *Econometrica* 90(6): 2603-2643. [Publication](https://doi.org/10.3982/ECTA17945). Inspected: published 2022 article, [author PDF](https://emiguel.econ.berkeley.edu/wordpress/wp-content/uploads/2019/11/ecta200500.pdf).
+
+4. Kline, Patrick, Evan K. Rose, and Christopher R. Walters. 2022. "Systemic Discrimination Among Large U.S. Employers." *Quarterly Journal of Economics* 137(4): 1963-2036. [Publication](https://doi.org/10.1093/qje/qjac024). Inspected: June 2022 advance-access article, [author PDF](https://ekrose.github.io/files/randres.pdf), with article pagination 1-74 and appended materials. The reading map uses that advance pagination.
+
+5. Dahl, Gordon B., Christina Felfe, Paul Frijters, and Helmut Rainer. 2022. "Caught between Cultures: Unintended Consequences of Improving Opportunity for Immigrant Girls." *Review of Economic Studies* 89(5): 2491-2528. [Publication](https://doi.org/10.1093/restud/rdab089). Inspected: 2020 IZA Discussion Paper 13507, [PDF](https://docs.iza.org/dp13507.pdf). The reading map refers to the discussion paper.
+
+6. Agan, Amanda Y., Jennifer L. Doleac, and Anna Harvey. 2023. "Misdemeanor Prosecution." *Quarterly Journal of Economics* 138(3): 1453-1505. [Publication](https://doi.org/10.1093/qje/qjad005). Inspected: March 2021 IZA Discussion Paper 14234, [PDF](https://docs.iza.org/dp14234.pdf). Its passages supply writing moves; numerical estimates from this version are not substituted for published estimates.
+
+7. Baron, E. Jason. 2022. "School Spending and Student Outcomes: Evidence from Revenue Limit Elections in Wisconsin." *American Economic Journal: Economic Policy* 14(1): 1-39. [Publication](https://doi.org/10.1257/pol.20200226). Inspected: published article, [ERIC PDF](https://files.eric.ed.gov/fulltext/ED625889.pdf). The PDF has an ERIC cover before article page 1.
+
+8. Gershenson, Seth, Cassandra M. D. Hart, Joshua Hyman, Constance A. Lindsay, and Nicholas W. Papageorge. 2022. "The Long-Run Impacts of Same-Race Teachers." *American Economic Journal: Economic Policy* 14(4): 300-342. [Publication](https://doi.org/10.1257/pol.20190573). Inspected: published article, [author PDF](https://public.websites.umich.edu/~jmhyman/Race_match_AEJ_final.pdf). Table 2 supplies the result and baseline in the adaptation.
+
+9. Dahl, Gordon B., and William Forbes. 2023. "Doctor Switching Costs." *Journal of Public Economics* 221: 104858. [Publication](https://doi.org/10.1016/j.jpubeco.2023.104858). Inspected: February 2023 author manuscript, [PDF](https://econweb.ucsd.edu/~gdahl/papers/doctor-switching-costs.pdf). Printed page 1 is PDF page 2.
+
+10. Rivera, Roman. 2025. "Do Peers Matter in the Police Academy?" *American Economic Journal: Applied Economics* 17(2): 127-164. [Publication and source record](https://doi.org/10.1257/app.20220348). Inspected: published 38-page PDF in the supplied research collection; page 1 is printed page 127.
