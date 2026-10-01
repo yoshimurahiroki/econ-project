@@ -1,28 +1,48 @@
 # Default empirical-micro exemplars
 
-Profile: `default-micro`. Language: English and Japanese.
+Profile: `default-micro`. Languages: English and Japanese.
 
-Use this profile for research prose unless the user explicitly selects custom exemplars. Read it once and reuse it within the task. Select the paragraph function that matches the requested text; short answers need no manuscript structure. Use the English example for English syntax and the Japanese example for Japanese syntax.
+## Selection and use
 
-## Question and empirical comparison
+Use this profile for research prose unless the user explicitly selects a custom profile for the task or explicitly sets a persistent project preference. Read it before drafting or editing and reuse it when loaded. A task-scoped selection ends with that task. Use this default for functions absent from the selected custom profile. Attached papers and existing custom files do not select a style. Create custom exemplars only on request through `econ-style`.
 
-Transfer: State the object, observation unit and actual comparison together. Put the design before general claims of importance.
+Apply the paragraph function needed by the requested text. A short answer needs no manuscript outline. Preserve the user's genre, authorial voice, headings and substantive coverage. The examples guide sentence relations and paragraph development; their fictional facts and quantities are not evidence for the target study.
 
-## Exposure and identification
+## Introduction
 
-Transfer: Name both comparison dimensions before introducing the estimator. Give fixed effects their literal statistical role.
+Common move: introduce the economic object and connect the question to the setting's usable comparison or measurement. Present the approach and central finding early. Develop the mechanism or economic implication through the facts that establish it.
 
-## Literature and linked data
+Transfer: connect the actual research object, source of variation, measurement and finding. Select their order and paragraph length for the argument. Add no generic importance preface, required roadmap or stock closing claim.
 
-Transfer: Connect the specific earlier question to the present object and the data that make it observable. Use the actual closest studies in a new manuscript.
+## Identification
 
-## Results and baseline
+Common move: describe assignment, exposure and the actual comparison in ordinary words. Connect the variation to the parameter and then explain how the estimator uses it. Name the relevant unit and timing. Place an indispensable identifying condition beside the claim it supports.
 
-Transfer: Put the estimate, treatment scale, outcome age and unit in the result. Place the baseline next to it. End the paragraph when the result has been stated.
+Transfer: explain what creates the comparison before presenting a method label. Give fixed effects and instruments their actual statistical roles. Keep assignment effects, treatment effects and model parameters distinct through direct definitions. Use the target design's adopted specification.
 
-## Applying the profile
+## Results
 
-Keep the paragraph's substantive sequence; adapt its length to the actual argument. Use ordinary copulas and direct result verbs. In Japanese, retain literal nonhuman subjects and replace figurative predicates with the event or comparison. Preserve the requested genre, authorial voice, headings and substantive coverage. Use econ-assertive for the single internal wording pass. Every profile uses the same zero default for hedges, concessions, qualifications, rhetorical contrasts and emphasis. Examples do not add caution sections or stock conclusions.
+Common move: state the estimate through the measured object. Give the treatment scale, outcome unit and horizon, then connect the estimate to a named baseline or other relevant quantity. Use the table or figure as evidence for the substantive claim. Explain a mechanism through the result that bears on it.
+
+Transfer: keep the estimate and its denominator together. Report the numerical information required by the actual result. Use `We estimate`, `The estimate is`, or the relevant direct construction. In explanations of another paper, keep attribution to its authors. Avoid column-by-column narration, repeated result announcements and a generic interpretation warning.
+
+## Literature positioning
+
+Common move: identify what the closest work established or estimated, state the present paper's additional object, and explain the comparison, measurement or mechanism separation that makes it answerable. Attach citations to those specific relationships.
+
+Transfer: use the actual closest studies and verified contribution of the current paper. Replace generic `fills a gap`, `new lens` and chronological name lists with the specific relationship. A citation to a source study does not authorize importing its findings into the target research.
+
+## Shared language rules
+
+`econ-assertive` remains the sole wording layer. Default hedges, concessions, qualifications, rhetorical contrasts and emphasis: zero. Delete unnecessary defensive propositions. Preserve necessary scientific content as direct statements. Do not learn caution sections, stock transitions, inflated novelty claims or repeated summaries from the source papers.
+
+Keep defined economic terms stable. Use ordinary copulas and literal verbs: `is`, `are`, `has`, `estimate`, `compare`, `show`. Remove distanced result frames that merely announce a finding. Preserve the actual author, empirical object and meaning of the claim.
+
+In Japanese, retain ordinary nonhuman subjects. Replace an inanimate subject plus a figurative, bodily or personifying predicate when it obscures the relation. State the event, comparison or actual actor. Keep literal economic relations intact.
+
+Sentence and paragraph length follow the argument. Keep closely related comparisons, numbers and reasoning together. A new paragraph marks a change in the argument. Do not engineer short sentences, irregular rhythm, a fixed number of claims, or varied synonyms to imitate a person.
+
+Apply the selected examples during writing and perform the existing single internal wording review. No detector, scoring system, prose scanner, separate audit, mandatory extra section or second editing workflow is added.
 
 ## Complete constructed example
 
