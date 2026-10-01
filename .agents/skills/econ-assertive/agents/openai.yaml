@@ -1,5 +1,5 @@
 interface:
   display_name: "Direct economics prose"
-  short_description: "Direct drafting and mandatory post-draft necessity audit"
+  short_description: "Japanese and English economics prose without AI-style padding"
 policy:
   allow_implicit_invocation: true
