@@ -9,9 +9,9 @@
   "workspaceFolder": "/workspaces/econ-project",
   "updateRemoteUserUID": true,
   "mounts": [
-    "type=volume,source=econ_data,target=/workspaces/econ-project/data",
+    "type=volume,source=econ_data_${devcontainerId},target=/workspaces/econ-project/data",
     "type=volume,source=econ_pixi_cache,target=/home/vscode/.cache/rattler",
-    "type=volume,source=econ_pixi_env,target=/workspaces/econ-project/.pixi"
+    "type=volume,source=econ_pixi_env_${devcontainerId},target=/workspaces/econ-project/.pixi"
   ],
   "runArgs": [
     "--init",
