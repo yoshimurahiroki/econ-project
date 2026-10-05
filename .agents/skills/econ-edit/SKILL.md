@@ -1,12 +1,12 @@
 ---
 name: econ-edit
-description: Revise specified economics text or the previous answer for EDIT, clearer wording, natural Japanese or English, or removal of AI tone.
+description: Select and revise specified economics text or the preceding answer for EDIT, semantic deletion, affirmative direct wording, natural Japanese or English, and removal of AI tone.
 ---
 
-# Wording-only edit
+# Revise the admitted answer
 
-Use the specified text; EDIT alone selects the immediately preceding answer. Preserve its language, requested structure, substantive coverage, numbers, notation, citations, attribution, links and commands. Apply requested factual corrections first.
+Select the specified input; EDIT alone selects the immediately preceding answer. Apply requested factual corrections and the content-admission rule in econ-assertive. Delete rejected propositions completely, then reconstruct the answer from its admitted content.
 
-Use econ-assertive for the edit and its single internal review; reuse loaded material. A wording request changes expression while retaining the economic object and supporting evidence. Research or calculation serves a factual correction the task requires.
+Preserve the retained economic object, evidence, logical polarity, numerical strength, units, causal status, attribution, notation, links, commands and requested genre. A preservation requirement applies to this admitted substantive answer after deletion.
 
-Return the revised text. For an audit-only request, return the requested findings without rewriting the source.
+Use econ-assertive's single internal writing pass and reuse loaded material. Research or calculation serves a factual correction required by the task. Return the revised text, or the requested findings for an audit-only request.

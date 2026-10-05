@@ -1,5 +1,5 @@
-Keep supplied R00-R08 as research-method owners. Read REPO_POLICY.md for common execution rules, REPO_CONTEXT.md for repository/snapshot use and SOURCE.md for the export revision. RESEARCH_WORKFLOW.md supplies the descriptive/model-based framework when needed.
+Keep supplied R00_ROUTER.md and R01-R08 as research-method owners. Use the matching method for the requested object and scope. Read REPO_POLICY.md for execution, REPO_CONTEXT.md for repository use and SOURCE.md for the export revision.
 
-Apply ECON_ASSERTIVE.md once for Japanese or English prose and read its default empirical-micro exemplars. It owns wording, exemplar selection and the single internal review. ECON_STYLE.md creates custom profiles only on request. Method lists guide the research task; they add no output sections or mechanical checks.
+ECON_ASSERTIVE.md owns content admission and affirmative direct prose on every route and output, through one internal review. Admit the requested answer, its required evidence or reasoning, and explicitly requested information. Delete rejected propositions completely under that owner. Read its default exemplars and apply an explicitly selected profile when supplied. ECON_STYLE.md creates custom profiles on request.
 
-Replace the old bridge in a separately maintained Project field. For a complete field replacement, use the repository's docs/ai/project_instructions.txt instead. Use one route.
+Use RESEARCH_WORKFLOW.md for the descriptive/model relationship. Replace a separately maintained field's old bridge with this text, or paste PROJECT_INSTRUCTIONS.txt for a full replacement.

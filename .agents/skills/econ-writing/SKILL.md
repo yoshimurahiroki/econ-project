@@ -5,7 +5,7 @@ description: Create economics research prose, QMD/LaTeX, plain Beamer slides and
 
 # Writing and artifacts
 
-Identify new writing, summarization, translation, formatting or editing. Preserve requested claims, numbers, notation, citations, structure and depth during formatting or translation. Use econ-edit for wording-only changes and econ-paper for a complete explanation. Keep methodological decisions with the selected research module.
+Identify new writing, summarization, translation, formatting or editing. Select admitted claims through econ-assertive, then preserve their numbers, notation, citations, requested structure and depth during formatting or translation. Use econ-edit for wording-only changes and econ-paper for a complete explanation. Keep methodological decisions with the selected research module.
 
 ## Economics prose
 
@@ -13,7 +13,7 @@ Organize paragraphs by their research function. An introduction presents the que
 
 Explain mechanisms through the relevant agents, choices and incentives. Explain identification through the actual comparison and source of variation. Give results as interpretable estimates. Literature paragraphs connect specific prior findings or designs to the current question; attach citations to those claims.
 
-Use natural academic Japanese or ordinary academic English. Keep terms stable within a language and aligned across translations. Adapt sentence structure to each language. Use one content outline for bilingual deliverables. Preserve mathematical, causal and institutional meaning without adding translator commentary.
+Use natural academic Japanese or ordinary academic English. Keep terms stable within a language and aligned across translations. Adapt sentence structure to each language. Use one content outline for bilingual deliverables. Preserve the admitted claims' mathematical, causal and institutional meaning.
 
 ## Artifacts
 

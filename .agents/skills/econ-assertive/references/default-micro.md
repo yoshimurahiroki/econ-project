@@ -4,7 +4,7 @@ Profile: `default-micro`. Languages: English and Japanese.
 
 ## Use
 
-econ-assertive owns profile selection and wording. Apply the paragraph function needed by the requested text while preserving its genre, authorial voice, headings and substantive coverage. The examples supply sentence relations and paragraph development; example-specific facts remain in their examples.
+econ-assertive owns content admission, profile selection and wording. Apply the paragraph function needed by the requested text to its admitted claims, preserving their genre, authorial voice and requested structure. The examples supply sentence relations and paragraph development; example-specific facts remain in their examples.
 
 ## Introduction
 

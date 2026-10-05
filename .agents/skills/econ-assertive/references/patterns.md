@@ -1,31 +1,27 @@
-# Economics wording decisions
+# Content selection examples
 
-The situations below illustrate editing choices only. They provide no empirical evidence for another study. Work from the supplied research and select only the guidance relevant to the requested change.
+Fictional fixture from [default-micro](default-micro.md): joint activation reduces peak demand by an additional 1.3 megawatts relative to private activation; its 95 percent confidence interval is 0.85 to 1.75 megawatts. Control-group peak demand is 10 megawatts.
 
-## Keep the research object intact
+## Delete the rejected sentence
 
-Preserve what is being stated: a prediction, an interpretation attributed to an author, a conditional statistical association, or a theorem and its required conditions. A negative finding remains a negative finding. Editing must not change these into different substantive claims or weaken adjacent claims. Do not create an additional limitations discussion.
+Draft: 「架空の研究では、生産日程を共同で変更すると、個別に変更する場合よりピーク需要が1.3メガワット減少する。95％信頼区間は0.85〜1.75メガワットである。この結果はあらゆる省エネルギー政策の効果を保証しない。」
 
-Use stable names and units for measured quantities. Hours worked, participation and employment are different objects; a percentage change differs from a change in percentage points. Keep technical meanings intact, including robust standard errors, financial leverage and mathematical notation. Economic relationships can have nonhuman subjects: a price increase can reduce demand when the research supports that statement.
+Answer: 「架空の研究では、生産日程を共同で変更すると、個別に変更する場合よりピーク需要が1.3メガワット減少する。95％信頼区間は0.85〜1.75メガワットである。」
 
-## Answer the particular question
+The final proposition answers an unasked objection. Delete its entire content.
 
-For a result, report the supplied estimate directly, including its interval when that belongs in the requested result. For example, a constructed estimate can be stated as “The estimated change in take-up is 0.8 percentage points” or 「利用率の推定変化は0.8パーセントポイントである。」 These invented quantities must never enter the user's findings. Omit praise, redundant uncertainty expressions and an appended general warning.
+## Delete the affirmative disclaimer
 
-For a variable-definition request, give the operative definition. If a count measures applications received, write “The variable counts applications received” or 「この変数は受理した申請の件数である。」 A second statement about unobserved applications does not answer that request: remove it rather than relocate it to a footnote, a limitations paragraph or a positive-sounding scope statement. When the definition is already established and the task concerns a coefficient, omit the repeated definition as well.
+Draft: "The fictional study compares joint and private activation of production schedules. The additional reduction in peak demand is 1.3 megawatts, with a 95 percent confidence interval of 0.85 to 1.75 megawatts. This explanation focuses on the reported result within the study's setting."
 
-An identification audit has a different information need. If the intervention changes an eligibility cutoff from C to D, state that change directly: “The intervention changes the eligibility cutoff from C to D” or 「介入によって適格性の基準がCからDに変わる。」 The audit fact needs no introductory warning. These are constructed descriptions, not claims about the user's design.
+Answer: "The fictional study compares joint and private activation of production schedules. The additional reduction in peak demand is 1.3 megawatts, with a 95 percent confidence interval of 0.85 to 1.75 megawatts."
 
-## Describe the economic work
+The final sentence declares explanatory coverage. Its affirmative grammar preserves the rejected commentary.
 
-Name the question, mechanism or distinction that the evidence actually establishes. A model of adoption costs can be described as “The model connects adoption costs with technology use” or 「このモデルは導入費用と技術利用の関係を表す。」 Novelty requires supporting literature evidence, rather than an announcement of importance.
+## Replace the rhetorical contrast with the result
 
-Similarly, when records distinguish business openings from closures, describe that distinction instead of presenting the records as a transformative new perspective. Delete promotional opposition; retain comparisons between treated and comparison groups and between competing economic hypotheses.
+Draft: 「これは単なるピーク需要の変化ではなく、電力利用を根本的に変える成果である。」
 
-Describe what an adjustment does in the analysis. For a constructed specification that removes time-invariant establishment differences, write “Establishment fixed effects remove differences across establishments that are constant over time” or 「事業所固定効果は事業所間で時間を通じて変わらない差を除く。」 Do not replace this operation with a metaphor, or claim additional identification strength that the evidence does not supply.
+Answer: 「架空の研究では、生産日程を共同で変更すると、個別に変更する場合よりピーク需要が1.3メガワット減少する。95％信頼区間は0.85〜1.75メガワットである。」
 
-## Build the requested argument
-
-Organize paragraphs around the economic claim and the evidence for it. Combine fragments that jointly develop one argument; separate sentences that make distinct claims. Retain useful lists and the requested structure. Manufactured rhythm, forced groups of three, repeated generic closing sentences and arbitrary synonym changes add nothing to the argument.
-
-For related literature, state the connection to the nearest work in terms of its question, mechanism, comparison, measurement or parameter, and place the citation with the supported statement. Remove chronological author catalogues and generic gap-filling announcements. Bring the paper's question, approach and findings forward in an introduction. When explaining a paper, retain the required five-section format.
+The answer states the measured result and its numerical uncertainty, with the fictional comparison and outcome.

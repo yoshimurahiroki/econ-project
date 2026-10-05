@@ -10,7 +10,7 @@ python scripts/export_project.py --profile bridge --output /tmp/econ-bridge
 
 Keep existing R00-R08 method attachments. Replace the prose attachment with ECON_ASSERTIVE.md and its exported references, including ECON_ASSERTIVE__DEFAULT_MICRO.md. Attach ECON_STYLE.md and the other exported files for profile creation, repository execution and the descriptive/model framework.
 
-For a complete instruction-field replacement, paste docs/ai/project_instructions.txt. For a separately maintained field, replace its old bridge with BRIDGE_INSTRUCTIONS.txt. Use one route and attach the corresponding policy and method files.
+For a complete instruction-field replacement, paste the exported PROJECT_INSTRUCTIONS.txt. For a separately maintained field, replace its old bridge with BRIDGE_INSTRUCTIONS.txt. Use one route and attach the corresponding policy and method files.
 
 ## Standalone Project
 
@@ -18,13 +18,13 @@ For a complete instruction-field replacement, paste docs/ai/project_instructions
 python scripts/export_project.py --output /tmp/econ-project
 ```
 
-Paste PROJECT_INSTRUCTIONS.txt into the field and attach the remaining files. To select methods, add `--skills econ-paper econ-design econ-writing econ-edit`. Both profiles include econ-assertive, its default exemplars and econ-style. ECON_INDEX.md lists the selected standalone methods.
+Paste PROJECT_INSTRUCTIONS.txt into the field and attach the remaining files. To select methods, add `--skills econ-paper econ-design econ-writing econ-edit`. Both profiles include the complete Project field, repository context, source records, econ-assertive, its default exemplars and econ-style. A study entry point is included when the repository supplies master-project-addendum.txt. ECON_INDEX.md lists the selected local methods in each export.
 
-Use a fresh output directory outside the repository. The exporter writes the selected snapshot and checks the instruction-field limit during export. Regenerate it when the selected instructions change. Repository publication does not replace Project attachments automatically.
+Use a fresh output directory outside the repository. The exporter writes the selected snapshot and checks the instruction-field limit during export. Regenerate it when the selected instructions change.
 
 ## Custom exemplars
 
-econ-assertive owns default and custom profile selection. To create and apply a task profile, ask: "Use econ-style to create custom exemplars from these papers for the results section, then use them for this draft."
+econ-assertive owns content admission and default/custom profile selection across methods and outputs. To create and apply a task profile, ask: "Use econ-style to create custom exemplars from these papers for the results section, then use them for this draft."
 
 Name a destination to save it; a repository-save request without a path uses docs/ai/custom-style.md. Select a saved profile by path and attach or retrieve it for a Project task. Set a persistent project choice explicitly. "Use the default" restores default-micro.
 

@@ -5,7 +5,7 @@ description: Review research claims, results, code-paper consistency and referee
 
 # Review and results
 
-Read the requested scope and the evidence behind central claims. Reconstruct the question and argument before judging it. A full review covers main text and claim-bearing appendices. A local review addresses the named object. Correct text when correction is requested.
+Read the requested scope and the evidence behind central claims. Reconstruct the question and argument before judging it. Apply econ-assertive to the final answer at the requested review scope. A full review covers main text and claim-bearing appendices. A local review addresses the named object. Correct text when correction is requested.
 
 For each material issue, record conclusion, location, evidence, consequence and concrete repair. Check the paper's strongest relevant response before retaining criticism. Judge severity through the impact on contribution, estimand, identification, measurement or inference. Use econ-design for the relevant methodological check.
 
