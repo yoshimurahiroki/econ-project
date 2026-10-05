@@ -77,7 +77,7 @@ import os
 
 payload = json.loads(os.environ["GENERATED_MCP_JSON"])
 payload = {
-    "__TEMPLATE_WARNING__": "Regenerate MCP configurations with scripts/setup_ide_mcp.sh. Servers read credentials from their launch environment.",
+    "__TEMPLATE_WARNING__": "Regenerate MCP configurations with scripts/setup_ide_mcp.sh.",
     **payload,
 }
 print(json.dumps(payload, indent=2))

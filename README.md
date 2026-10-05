@@ -53,4 +53,4 @@ python scripts/export_project.py --profile bridge --output /tmp/econ-bridge
 
 exportは選択した指示とsource revisionを新しい外部folderへ保存する。全文contextが必要な作業では `bash scripts/pack_context.sh /tmp/econ-context.txt` を使う。導入済みRepomixがGitのignoreと既存configに従って出力する。出力先を省略すると一時folderへ新しいファイルを作る。
 
-MCPは必要なserverの実行ファイルと環境変数を用意してから `bash scripts/setup_ide_mcp.sh --write` で設定する。[IDEを同じ環境から起動する](https://prod.cursor.com/help/customization/mcp)。接続資格情報はserver起動時に環境から渡す。Codexには [変数名のallowlist](https://learn.chatgpt.com/docs/config-file/config-reference) を生成する。
+MCPは必要なserverの実行ファイルと環境変数を用意してから `bash scripts/setup_ide_mcp.sh --write` で設定する。[IDEを同じ環境から起動する](https://prod.cursor.com/help/customization/mcp)。API keyとdatabase接続情報はserver起動時に環境から渡す。Google Driveの資格情報は `secrets/credentials.json` に置く。Codexには [変数名のallowlist](https://learn.chatgpt.com/docs/config-file/config-reference) を生成する。
