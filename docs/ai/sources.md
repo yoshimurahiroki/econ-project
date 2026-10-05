@@ -69,3 +69,18 @@ Rechecked 2026-09-27. Each source below was read at its README or official-docum
 | https://github.com/tsdfs930514/econ-research-workflow | Lifecycle skills and cross-validation | Keep task routing; additional execution follows a concrete research need. |
 | https://developers.openai.com/blog/skills-agents-sdk | Short repository policy, task metadata, selected bodies and deterministic scripts | Keep one policy, bounded discovery and no default external-repository loading. |
 | https://learn.chatgpt.com/docs/agent-configuration/agents-md | Repository-level instruction discovery | Retain compact host pointers to the existing policy owner. |
+
+
+## Semantic content selection (2026-10-06)
+
+The current user instruction establishes semantic admission and affirmative direct prose. The local adaptation uses one writing pass in econ-assertive: select the requested answer and its supporting claims, delete rejected propositions completely, and reconstruct the paragraph from admitted content. Methods retain the evidence required by their requested research object.
+
+| Actual skill and inspected revision | Sections read | Local adaptation |
+| --- | --- | --- |
+| [Kiterlin/anti-defensive-writing](https://github.com/Kiterlin/anti-defensive-writing/blob/c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46/skill/anti-defensive-writing/SKILL.md), commit c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46 | Core Rule; Preserve Necessary Precision; Rewrite Procedure; Writing Principles; Examples; Final Pass; Additional Rules | Claim-first organization, full deletion and paragraph reconstruction; the user admission rule decides retained content before wording. |
+| [nanaism/yomiyasu](https://github.com/nanaism/yomiyasu/blob/986da6ffc89316a90e509d007c1efe1fc59057e6/SKILL.md), commit 986da6ffc89316a90e509d007c1efe1fc59057e6 | §1 meaning, register, paragraph relations, subject/object alignment, literal verbs and information; §2-3 execution/output | Preserve the admitted claim's factual function, numerical strength, attribution and causal status; align subjects and predicates in the requested register. |
+| [makotofalcon/humanizer-ja](https://github.com/makotofalcon/humanizer-ja/blob/4cc01cdd5aff4102888e9396c3ba16da99828f78/SKILL.md), commit 4cc01cdd5aff4102888e9396c3ba16da99828f78 | §§11, 11b, 12, 14, 15, 16 and 22-25; process and output sections | Delete inflated significance, appended evaluation, decorative contrasts and stock framing; retain stable economic terms. |
+
+These are original local rules and examples adapted from the identified operations. The inspected repositories license their files under MIT: [Kiterlin, copyright 2026](https://github.com/Kiterlin/anti-defensive-writing/blob/c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46/LICENSE), [nanaism, copyright 2026](https://github.com/nanaism/yomiyasu/blob/986da6ffc89316a90e509d007c1efe1fc59057e6/LICENSE), and [humanizer-ja, copyright 2025](https://github.com/makotofalcon/humanizer-ja/blob/4cc01cdd5aff4102888e9396c3ba16da99828f78/LICENSE).
+
+Earlier wording references recorded in patterns.md on 2026-10-01 remain attributable to [blader/humanizer](https://github.com/blader/humanizer/blob/main/SKILL.md), [softaworks/writing-clearly-and-concisely](https://github.com/softaworks/agent-toolkit/blob/main/skills/writing-clearly-and-concisely/SKILL.md), [Keizai Seminar's introduction article](https://note.com/keisemi/n/n6442eac8af25), and [Cochrane's Writing Tips](https://www.fma.org/assets/docs/membercontent/writing_cochrane.pdf). Their recorded operations concern paragraph development, literal subjects and direct contributions. The default-micro corpus, its inspected-version records and its source locators remain in their existing reference.

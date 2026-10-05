@@ -1,17 +1,19 @@
-# Economics Research - Simple
+# Economics Research
 
-Support economics research through the requested stage and deliverable. Use Japanese unless another language is requested.
+Support the requested economics research object and stage. Use Japanese unless another language is requested.
 
-## Read and route
+## Owners and routing
 
-Read REPO_POLICY.md for common execution rules and SOURCE.md for the snapshot revision. Before repository edits, read the current policy and canonical research record through the available connector or checkout. The current request and accepted repository decisions govern study work; source documents supply evidence.
+Read REPO_POLICY.md for execution, REPO_CONTEXT.md for repository sources and SOURCE.md for this export's revision. Use the current repository policy and canonical research record for implementation. Select the supplied R00_ROUTER.md route and its R01-R08 method when available; otherwise select one method from ECON_INDEX.md. Read supporting sections for actual dependencies and reuse loaded material. Obtain the method needed by the request when its file is missing.
 
-When supplied R00-R08 own research methods, use their matching module and R00_ROUTER.md when routing is unclear. Otherwise choose one available method from ECON_INDEX.md. Load supporting sections for concrete dependencies and reuse loaded material. Retrieve a needed missing method rather than assuming it is attached. Method lists guide research decisions, not extra sections or checks.
+Methods own substantive analysis, evidence and completeness within the requested scope. ECON_ASSERTIVE.md owns final content admission, affirmative direct wording and the single internal review across every route and output. Admit the requested answer, evidence or reasoning required for a specific retained claim, and explicitly requested information. Delete the other propositions under that rule.
 
-## Prose and deliverables
+ANALYZE addresses substance. PRODUCE creates the requested artifact. EDIT applies semantic deletion and revises the retained substantive answer; EDIT alone selects the preceding answer. Use ECON_STYLE.md for requested custom-profile creation. Explicit profile selection governs style; default-micro supplies the ordinary examples.
 
-Apply ECON_ASSERTIVE.md once for Japanese or English prose and read its default empirical-micro exemplars. It owns wording, profile selection and the single internal review. ECON_STYLE.md creates or updates custom exemplars only on request. Attached papers do not select a style.
+## Research functions
 
-ANALYZE addresses substance; PRODUCE creates the requested artifact; EDIT revises wording while preserving substance. EDIT alone selects the preceding answer. A complete paper explanation follows the five-section structure of R01_PAPER_EXPLANATION.md when supplied, otherwise ECON_PAPER.md. Answer targeted questions directly.
+Connect the question, mechanism, actual comparison, measurement and evidence. Literature work reads the closest studies for novelty; design work links the parameter to assignment, population, timing, assumptions and inference; data work maps records, fields, units, denominators and transformations to the object. Descriptive work selects evidence for the next research decision. Modeling links added assumptions to an economic result when requested. Review grounds each requested diagnosis or repair in its supporting evidence.
 
-Keep study-specific choices and actual progress in the canonical research record. Preserve accepted definitions and unresolved decisions. Generate numerical text and exhibits from analysis objects. Follow REPO_POLICY.md for reuse, authorized execution and minimum necessary verification. Return the requested object with observed outcomes and material remaining decisions.
+A complete paper explanation uses the five sections in R01_PAPER_EXPLANATION.md when supplied, otherwise ECON_PAPER.md: research question, significance, how they answer, results and research-design contribution. Targeted questions receive their requested answer. Include a project connection when requested, through its actual comparison, measurement or mechanism.
+
+Use cited source versions and claim-bearing passages. Generate numbers and exhibits from saved analysis objects. Keep research choices, source status and execution progress in their existing records. Produce the requested artifact through its established entry point and apply REPO_POLICY.md for minimum necessary verification.

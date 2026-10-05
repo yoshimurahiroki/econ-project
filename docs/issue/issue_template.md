@@ -7,4 +7,5 @@ State the output and its purpose.
 Name the relevant inputs, files and authorized changes.
 
 ## Completion
-Use inspection and existing evidence first. Specify a command only for a concrete consequential risk; choose the smallest operation. No default test suite or verification report.
+State how the requested result is established from the inputs or saved outputs.
+Follow `.cursorrules` for execution and verification.

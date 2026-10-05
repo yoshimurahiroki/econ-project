@@ -1,42 +1,42 @@
 ---
 name: econ-assertive
-description: Write and edit Japanese or English economics research prose as direct claims; remove AI-style padding, hedges, concessions and emphasis. Use for papers, literature explanations, notes, slides and requests to remove AI tone.
+description: Select answer-bearing content and write affirmative direct economics prose in drafts and revisions across responses, manuscripts, paper explanations, instructions, comments, exhibits and UI text in Japanese or English.
 ---
 
-# Direct economics prose
+# Select claims and write directly
 
-Apply this wording layer within the selected research task. Read the [default empirical-micro exemplars](references/default-micro.md) before drafting or editing and reuse loaded material. Use [patterns](references/patterns.md) for a difficult wording decision. EDIT applies the same operation to existing text.
+Apply this rule within every research method and reader-facing output, including chat, manuscripts, explanations, instructions, code comments, generated text, figure notes, tables, UI and completion reports. Use the current request to select content before choosing words.
 
-## Select exemplars
+## Admit content
 
-Use default-micro unless the user explicitly selects a custom profile for this task or sets a persistent project preference. A task selection takes priority and expires with that task. Attached papers and a custom file's presence do not select a style. Use the default for functions absent from a selected profile. Create or update custom profiles only on request through [econ-style](../econ-style/SKILL.md).
+Admit a proposition because it:
 
-Transfer paragraph development, syntax, register and result reporting to the current evidence. Keep task facts, notation and citations. Apply examples during writing, within the same drafting and review pass.
+1. answers the actual request;
+2. supplies evidence or reasoning required for a specific admitted claim; or
+3. provides explicitly requested information.
 
-## Select the argument
+Delete every other proposition. Reject rhetorical hedging, concession, qualifying commentary, disclaiming, generic warnings, replies to unasked objections, anticipatory corrections, declarations of excluded coverage, expectation management, reassurance, self-evaluation, promotion, rhetorical contrasts and ornamental emphasis as a rule.
 
-Write for an economist reading the requested object. Keep the answer, the reasoning and evidence that establish it, and explicitly requested content. Give each paragraph an economic claim or a necessary step: an agent, choice, incentive, comparison, parameter or result. Replace a generic importance claim with its economic content; delete it when it has none.
+Deletion follows meaning across grammatical and presentational forms. Erase the rejected proposition from affirmative scope sentences and definitions, inverse or comparative contrasts, conditional clauses, parentheses, footnotes, captions, tables, openings and closings. Rebuild the paragraph from admitted claims. Removing a connective or changing a negative sentence into a positive disclaimer preserves the rejected proposition; delete that content completely.
 
-Default hedges, concessions, qualifications, rhetorical contrasts and emphasis: zero, under every profile. Delete unnecessary defensive propositions, including true but unrequested textbook cautions, hypothetical objections and peripheral limits. Do not relocate them to scope statements, parentheses, footnotes, appendices or closing reminders. State a condition once beside the claim that needs it.
+## Define the admitted claim
 
-Use concrete subjects and direct verbs. Keep subject and predicate close, one main claim per sentence and one topic per paragraph. Sentence and paragraph length follow the argument. Keep defined economic terms stable across sentences, exhibits and languages.
+Write the actual object, action, mechanism, comparison or result as an affirmative direct statement. Default negative constructions: zero. Preserve an admitted finding's logical polarity, mathematical negation, legal holding or exact quotation. A requested comparison or diagnosis supplies the answer itself.
 
-## Japanese
+Make each claim accurate in its own definition. Retain its answer-bearing population, period, denominator, assumptions, numerical uncertainty, causal status and attribution. Replace an overbroad claim with the accurately specified one. Keep economic terms, quantities and notation stable. Program operators, data codes and interface syntax retain their function.
 
-Use natural academic syntax and direct endings such as 「である」「増える」「推定する」. Replace vague 「これ」「この点」 when the economic object is unclear. Cut empty 「といえる」「という側面がある」「重要な示唆を与える」 and translated nominalization chains.
+Operational constraints govern actions. Put them in reader-facing prose when the request concerns those actions or their actual results. Keep source status in existing source records and give the version or passage that identifies a cited result.
 
-State the event, comparison or actual actor behind figurative phrases such as 「データが語る」「識別戦略が効く」「解像度を上げる」. Keep ordinary technical subjects and literal relations such as 「価格の上昇は需要を減らす」. Impose no character, comma or sentence-ending quotas.
+## Write the argument
 
-## English
+Give each paragraph one claim or a necessary step in its reasoning. Use concrete subjects, literal verbs and aligned subjects and predicates. Match register to the requested genre and audience. Sentence and paragraph length follow the argument.
 
-Use ordinary academic verbs and copulas: estimate, compare, increase, reduce, imply, is, are and has. Keep a heavier verb when it names a different relation. Use active voice when the actor matters and passive voice when it clearly names the research object. Cut stock lead-ins, inflated significance, vague attribution, nominalization chains and participles that merely praise a result. Replace empty "sheds light on" or "offers a nuanced perspective" with the finding or delete them. Keep technical uses such as robust standard errors and financial leverage.
+In Japanese, state the actor, object and action in natural academic syntax. Keep literal relations such as 「価格の上昇は需要を減らす」 and replace figurative subjects or verbs with the actual event. In English, use ordinary verbs and copulas such as estimate, compare, increase, reduce, is, are and has. State results through their measured object and attribution: "The estimate is X" or "The authors estimate X".
 
-Write the result through its object: "We estimate an effect of X", "The estimate is X", "Table 2 reports X" or "The authors estimate X". Remove frames such as "Our findings indicate that the estimated effect is X". These are examples, not required openings. Preserve authorship and the empirical object; keep associations, effects and model predictions distinct.
+Use headings, lists, tables and punctuation for the argument. Preserve requested structures, equations, citations and readable slides. Build paragraphs from their admitted facts and reasoning.
 
-## Shape and review
+## Exemplars and review
 
-Delete staged openings, forced triads, decorative oppositions, repeated conclusions, dramatic fragments and mechanical transitions. Use headings, bullets, tables and punctuation for their actual function. Remove decorative bold labels, emoji and dramatic dashes. Preserve requested structures, readable slide bullets, mathematical signs, ranges, hyphens, citations and LaTeX syntax. Add no anecdotes, invented details, casual voice or intentional errors.
+Read the [default empirical-micro exemplars](references/default-micro.md) before drafting or editing and reuse loaded material. An explicit task selection takes priority over an explicit persistent project preference; otherwise use default-micro. Use default examples for functions absent from a selected profile. Create or update custom profiles on request through [econ-style](../econ-style/SKILL.md). Transfer sentence relations and register to the current admitted claims.
 
-Read the completed text once, including headings and notes. Delete unnecessary propositions before rewriting the retained argument. A boundary remains when requested or when deleting it makes a retained claim false; make the shortest factual repair beside that claim. Keep substantive findings, comparisons, assumptions, numbers, units, equations, citations and attribution intact. Recheck changed passages against the existing evidence.
-
-Return the requested text or artifact. Keep the review internal. Add no detector, scanner, score, word ban, audit file, extra draft or review loop. An explicit audit request receives its requested findings.
+Review the completed text once for content admission, direct expression and claim-source relationships. Recheck changed claims for their definition, polarity, numerical strength and attribution. Return the requested object through this single internal pass. [Examples](references/patterns.md) show the operation; [source records](../../../docs/ai/sources.md) identify the adaptations.

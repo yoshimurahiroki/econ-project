@@ -7,7 +7,7 @@ description: Explain a paper or specified passage and prepare a source-grounded 
 
 Read the specified version at the scope needed for the request. A complete explanation covers the main text and claim-bearing appendices, figures, tables and notes; a targeted question uses the relevant passages. Preserve terminology, population, period, numerical uncertainty and attribution, with source pages or exhibits.
 
-A complete explanation uses five top-level sections, translated into Japanese for Japanese output:
+Use econ-assertive to select the final content at the requested scope. A complete explanation uses five top-level sections, translated into Japanese for Japanese output:
 
 1. Research question: one interrogative sentence identifying the economic object, population or market, exposure or choice, and outcome.
 2. Significance: explain the incentives, information, constraints, interaction, allocation or equilibrium. Explain why the context supplies useful variation, measurement or economic stakes.
@@ -17,4 +17,4 @@ A complete explanation uses five top-level sections, translated into Japanese fo
 
 For theory, explain primitives, equilibrium, propositions and proof arguments. For structural work, connect variation, moments, parameters, fit and counterfactual assumptions. For prediction, cover the target, information time, labels, leakage controls, validation population, calibration and decision loss. Match intervention claims to intervention evidence.
 
-Use econ-design for a specific identifying dependency and the Mahoney reference for descriptive-model linkage. Preserve the source's framing. A detailed explanation deepens the five objects. A standard explanation selects the one or two interpretation-changing design issues; a full audit covers its requested set. Keep quantities and citations tied to the inspected source.
+Use econ-design for a specific identifying dependency and the Mahoney reference for descriptive-model linkage. Represent the source's admitted economic claims and evidence accurately. A detailed explanation deepens the five objects. A standard explanation develops the design issues that determine the reported interpretation; a full audit covers its requested set. Keep quantities and citations tied to the inspected source.

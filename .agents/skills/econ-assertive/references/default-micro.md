@@ -5,7 +5,7 @@ Corpus: ten empirical articles published in 2021-2025; six in Top 5 journals and
 
 ## Use
 
-econ-assertive owns profile selection and wording. Apply the paragraph function needed by the requested text while preserving its genre, authorial voice, headings and substantive coverage. The examples supply sentence relations and paragraph development; source-study facts remain with their sources.
+econ-assertive owns content admission, profile selection and wording. Apply the paragraph function needed by the requested text to its admitted claims, preserving their genre, authorial voice and requested structure. The examples supply sentence relations and paragraph development; source-study facts remain with their sources.
 
 ## Basis of the profile
 

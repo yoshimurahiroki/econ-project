@@ -1,11 +1,11 @@
 # Research task index
 
-Select the method that owns the requested research object. `.cursorrules` owns common execution rules; econ-assertive owns Japanese and English wording, exemplar selection and one internal review. Load supporting sections for concrete dependencies and reuse loaded material.
+Select the method that owns the requested research object. `.cursorrules` owns common execution rules; econ-assertive owns semantic content admission, affirmative direct prose, exemplar selection and one internal review across every route and output. Load supporting sections for concrete dependencies and reuse loaded material.
 
-- `econ-assertive`: Write direct Japanese and English economics prose with default or explicitly selected exemplars; remove hedges, concessions, emphasis and AI-style padding.
+- `econ-assertive`: Select answer-bearing claims and write affirmative direct economics prose across reader-facing outputs, using default or explicitly selected exemplars.
 - `econ-data`: Acquire and link data, implement concise research code and reproduce requested results.
 - `econ-design`: Develop research questions, economic models, identification strategies, estimators and inference.
-- `econ-edit`: Revise specified text or the previous answer for EDIT, natural wording or removal of AI tone.
+- `econ-edit`: Select specified text or the preceding answer for EDIT, delete rejected propositions and revise the retained substantive answer.
 - `econ-handoff`: Transfer a task between Chat, Work and repository agents using revision and execution records.
 - `econ-literature`: Find literature, assess novelty, verify citations and institutions, and maintain research indexes.
 - `econ-paper`: Explain a paper or specified passage and prepare a source-grounded paper seminar.

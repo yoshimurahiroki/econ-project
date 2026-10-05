@@ -11,7 +11,7 @@ Create or update a profile only on request. [econ-assertive](../econ-assertive/S
 
 Use the requested papers, language, section and scope. Retrieve exact files through the available Project-file tool or connector. Read complete relevant sections and the passages supporting each writing move; inspect images when text is garbled. Use inspected passages rather than abstracts or imagined prose. If asked to select references, choose a small relevant set from the available collection and primary sources.
 
-Extract paragraph function, order of claims and evidence, syntax, register, literature positioning and result reporting. Select the moves useful to the requested section and resolve differing styles by that purpose and the user's preference. The profile inherits econ-assertive.
+Select source claims under econ-assertive, then extract paragraph function, order of claims and evidence, syntax, register, literature positioning and result reporting. Select the moves useful to the requested section and resolve differing styles by that purpose and the user's preference. The profile inherits econ-assertive.
 
 Produce one Markdown profile with its name, language and scope; exact source/version/URL/page records; a few source-based paragraph adaptations; and transfer directions. Label adaptations and provide requested languages. Source-study facts stay inside source-study examples; target examples use target evidence or explicit placeholders. Write original adaptations within quotation limits.
 
@@ -21,7 +21,7 @@ Return the profile. Save to the requested path when asked; a repository-save req
 
 A request to create a profile alone does not select it. A request to create and use it applies it to that task. Read an explicitly selected profile before using it; retrieve a missing file instead of claiming to have applied it. Use default examples for functions it does not cover.
 
-Transfer syntax, paragraph development and register to the current evidence. Preserve target facts, comparisons, notation, citations, authorship and genre. The selected research module owns substance. Return the requested profile or revised text through the existing writing pass.
+Transfer syntax, paragraph development and register to the current evidence. Preserve admitted target facts, comparisons, notation, citations, authorship and genre. The selected research module owns substance. Return the requested profile or revised text through the existing writing pass.
 
 ## Adaptation source
 

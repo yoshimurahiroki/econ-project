@@ -20,15 +20,20 @@ def export(target: Path, profile: str, skills: list[str] | None = None) -> int:
         raise ValueError("Use --skills with the standalone profile")
     if any(name not in available for name in selected):
         raise ValueError("Select an installed skill")
-    mapping = {ROOT / ".cursorrules": "REPO_POLICY.md"}
+    mapping = {
+        ROOT / ".cursorrules": "REPO_POLICY.md",
+        ROOT / "docs/ai/project_instructions.txt": "PROJECT_INSTRUCTIONS.txt",
+        ROOT / "docs/ai/repo_context.md": "REPO_CONTEXT.md",
+        ROOT / "docs/ai/sources.md": "METHOD_SOURCES.md",
+    }
+    study_entry = ROOT / "docs/research/master-project-addendum.txt"
+    if study_entry.exists():
+        mapping[study_entry] = "STUDY_ENTRY_POINT.txt"
     if profile == "bridge":
         mapping.update({
             ROOT / "docs/ai/project_bridge.txt": "BRIDGE_INSTRUCTIONS.txt",
-            ROOT / "docs/ai/repo_context.md": "REPO_CONTEXT.md",
             ROOT / ".agents/skills/econ-workflow/references/descriptive-model.md": "RESEARCH_WORKFLOW.md",
         })
-    else:
-        mapping[ROOT / "docs/ai/project_instructions.txt"] = "PROJECT_INSTRUCTIONS.txt"
     for name in selected:
         prefix = name.upper().replace("-", "_")
         mapping[available[name]] = f"{prefix}.md"
@@ -44,13 +49,12 @@ def export(target: Path, profile: str, skills: list[str] | None = None) -> int:
         if filename.endswith("INSTRUCTIONS.txt") and len(text.replace("\n", "\r\n")) > 8000:
             raise ValueError("Project instructions exceed 8,000 characters")
         contents[filename] = text
-    if profile == "standalone":
-        lines = ["# Research task index", "", "Use one method and ECON_ASSERTIVE.md with its default exemplars for prose. ECON_STYLE.md creates custom exemplars only on request.", ""]
-        for name in selected:
-            text = contents[mapping[available[name]]]
-            description = next(line.removeprefix("description: ") for line in text.splitlines() if line.startswith("description: "))
-            lines.append(f"- [{name}]({mapping[available[name]]}): {description}")
-        contents["ECON_INDEX.md"] = "\n".join(lines) + "\n"
+    lines = ["# Research task index", "", "Select the method for the requested object. ECON_ASSERTIVE.md owns content admission and affirmative direct prose across every route and output, using its default or explicitly selected exemplars. ECON_STYLE.md creates custom profiles on request.", ""]
+    for name in selected:
+        text = contents[mapping[available[name]]]
+        description = next(line.removeprefix("description: ") for line in text.splitlines() if line.startswith("description: "))
+        lines.append(f"- [{name}]({mapping[available[name]]}): {description}")
+    contents["ECON_INDEX.md"] = "\n".join(lines) + "\n"
     revision = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
     contents["SOURCE.md"] = "# Export source\n\n" + (
         f"Base commit: `{revision.stdout.strip()}`. Export includes the current working files.\n"

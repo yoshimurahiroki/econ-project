@@ -10,7 +10,7 @@ GitHubの「Use this template」で研究用のリポジトリを作り、VS Cod
 
 ## 環境と保存領域
 
-各研究の `data/` と `.pixi/` は `econ_data_${devcontainerId}`、`econ_pixi_env_${devcontainerId}` に保存する。[Dev Container識別子](https://github.com/devcontainers/spec/blob/main/docs/specs/devcontainer-id-variable.md) は再作成後も安定し、同じDocker host上の独立した研究を分離する。ダウンロードcache `econ_pixi_cache` は共有する。setupは保存領域のrootを設定し、既存データと環境ファイルの全件走査を行わない。
+各研究の `data/` と `.pixi/` は `econ_data_${devcontainerId}`、`econ_pixi_env_${devcontainerId}` に保存する。[Dev Container識別子](https://github.com/devcontainers/spec/blob/main/docs/specs/devcontainer-id-variable.md) は再作成後も安定し、同じDocker host上の独立した研究を分離する。ダウンロードcache `econ_pixi_cache` は共有する。setupは保存領域のrootを設定する。
 
 既存containerを再作成する前に、`docker inspect CONTAINER --format '{{json .Mounts}}'` で現在のvolume名を確認する。継続利用する場合は `.devcontainer/devcontainer.json` の該当 `source=` をその名前に固定する。従来の既定名なら次の2行を使う。
 
