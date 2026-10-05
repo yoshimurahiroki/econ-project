@@ -1,7 +1,9 @@
-# Repository bridge
+# Repository and snapshot context
 
-R00-R08 own substantive research methods. ECON_ASSERTIVE.md owns direct drafting and one post-draft necessity review. RESEARCH_WORKFLOW.md supplies the descriptive-model framework. Read REPO_POLICY.md and the current repository policy before code changes. SOURCE.md identifies this export's source revision.
+SOURCE.md identifies this export's revision. Attachments remain snapshots; connectors and checkouts expose the current repository. Read its current policy and canonical research record before implementation. The task's specified version and accepted decisions govern the work.
 
-Use the simplest sufficient implementation for every generated artifact. Default to no separate mechanical checks. Inspect relevant inputs and existing outputs first. Run the smallest changed operation only for a concrete risk. Preserve checks essential to the actual scientific result or protection of user data. Stop after the result is established. Apply these rules to research code, scripts, documents and configuration.
+R00-R08 own methods in a bridged Project. ECON_ASSERTIVE.md owns wording and exemplar selection. REPO_POLICY.md owns common execution rules. RESEARCH_WORKFLOW.md explains how descriptive evidence informs research choices. Load only the material needed for the active task.
 
-Keep code and configuration in Git and research assets in their approved storage. Carry relevant source IDs, decisions, permitted edits and output paths in the existing task record. Full and mini retain their distinct environments. Project exports contain ordinary instruction files and a source revision; they run no validation code.
+Keep code, specifications and reviewable outputs in Git, and research assets in approved storage. Carry relevant source IDs, adopted/open decisions, authorized edits, commands and output locations in the existing task record. Full and mini retain their distinct environments.
+
+Repository changes, Project-field edits, attachment replacement and deployment are separate operations. State which actually occurred. Regenerate affected snapshots from the published source when their instructions change.

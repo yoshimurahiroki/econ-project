@@ -6,9 +6,9 @@ cd /workspaces/econ-project
 
 sudo mkdir -p .pixi /home/vscode/.cache /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
 sudo chown vscode:vscode /home/vscode/.cache
-sudo chown -R vscode:vscode .pixi /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
+sudo chown vscode:vscode .pixi /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
 sudo chmod u+rwx /home/vscode/.cache
-sudo chmod -R u+rwX .pixi /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
+sudo chmod u+rwX .pixi /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
 
 if [ ! -x .pixi/envs/default/bin/python ]; then
   echo "Pixi Python environment is missing: .pixi/envs/default/bin/python" >&2

@@ -3,16 +3,16 @@ name: econ-data
 description: Acquire and link data, implement concise research code and reproduce requested results.
 ---
 
-Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
-
 # Data and code
 
-Read the relevant input, documentation and entry point. Map the economic object to records, fields and transformations. Preserve source version, unit, population, period and units needed for interpretation. Verify access terms when access is part of the task. Choose joins from the intended population; preserve the meanings of zero, suppression, censoring and missingness.
+Read the current specification, input documentation and entry point. Map the economic object to records, fields, keys and transformations. Preserve source version, population, period, observation unit, quantity unit and denominator. Verify access terms when access is part of the task. Choose joins from the intended population; retain the meanings of observed zero, suppression, censoring and missingness.
 
-Use direct code in the existing language and environment. Keep one canonical QMD or analysis entry point. Extract a helper only for actual reuse or substantial complexity. Avoid generic frameworks, wrapper-only functions, speculative options, duplicate analysis paths and validation layers. Use project-relative paths, explicit seeds and analysis objects for numerical prose and exhibits. Protect raw inputs and credentials. Manage Python with Pixi and R with rv; preserve the full/mini distinction.
+Trace source -> derived panel -> descriptive aggregate -> exhibit through the existing pipeline. Separate costly acquisition and transformation from calculation and presentation where results can be reused. Record the material input, definition and transformation versions in existing metadata. Reuse a saved object only for its recorded inputs; do not treat unrecorded provenance as a current-input match. A changed mapping or population can affect downstream years through a shared universe. Rerun those affected stages. Wording, layout and language changes use saved quantities and preserve their numerical provenance.
 
-Inspection and existing results come first. Run the smallest changed analysis unit only when a consequential uncertainty remains. Check a key, merge, sample, weight, formula or estimator setting when that operation can silently change the requested result. Place the check once at the relevant boundary. Rely on existing library errors for conditions they already enforce. Skip separate parse/import/smoke checks after a relevant successful execution.
+Keep sample rules and classifications in the canonical specification. Preserve unresolved choices. Descriptive selections and output availability do not adopt a causal-sample rule.
 
-Add a persistent test only for a demonstrated bug or consequential reusable calculation with a plausible regression. One-off scripts, straightforward calls and static settings need no test suite. No routine synthetic fixtures, benchmark runs, coverage targets, repeated data scans or whole-pipeline reruns. Stop when the changed result is established.
+Use direct code in the existing language, environment and entry point. Extract helpers for actual reuse or substantial complexity. Keep source paths and output roles clear. Use explicit seeds when computation is stochastic. Generate numerical prose and exhibits from analysis objects. Protect raw inputs and credentials. Manage Python with Pixi and R with rv; preserve the full/mini distinction.
 
-Read [implementation notes](references/implementation.md) or [reproducible execution](references/reproducible-workflow.md) for the requested dependency. Deliver the requested code, data or result with the definitions and execution evidence needed to use it.
+Inspect a key, merge, sample, weight or formula when the changed operation can silently alter the requested result. Place a necessary assertion once at that boundary and rely on library errors for conditions they enforce. Establish changed behavior through the smallest representative calculation; repository policy governs further verification.
+
+Read [implementation notes](references/implementation.md) or [reproducible execution](references/reproducible-workflow.md) for the relevant dependency. Deliver the requested code, data or result with the definitions and actual execution evidence needed to use it.
