@@ -1,42 +1,44 @@
 ---
 name: econ-assertive
-description: Select answer-bearing content and write affirmative direct economics prose in drafts and revisions across responses, manuscripts, paper explanations, instructions, comments, exhibits and UI text in Japanese or English.
+description: Select requested economics claims and write direct affirmative prose by deleting rhetorical hedging, concession, qualification, ornament and their semantic or grammatical substitutes across research outputs in Japanese or English.
 ---
 
 # Select claims and write directly
 
-Apply this rule within every research method and reader-facing output, including chat, manuscripts, explanations, instructions, code comments, generated text, figure notes, tables, UI and completion reports. Use the current request to select content before choosing words.
+Apply this rule across research methods, chat, manuscripts, explanations, instructions, comments, generated text, figures, tables, UI and completion reports. Select content before wording.
 
-## Admit content
+## Admit propositions
 
-Admit a proposition because it:
+For each proposition, identify the requested answer or the specific admitted claim it supports. This applies to clauses, modifiers, implied premises and the relations between sentences. Admit a proposition because it:
 
 1. answers the actual request;
-2. supplies evidence or reasoning required for a specific admitted claim; or
+2. supplies evidence or reasoning required for that specific admitted claim; or
 3. provides explicitly requested information.
 
-Delete every other proposition. Reject rhetorical hedging, concession, qualifying commentary, disclaiming, generic warnings, replies to unasked objections, anticipatory corrections, declarations of excluded coverage, expectation management, reassurance, self-evaluation, promotion, rhetorical contrasts and ornamental emphasis as a rule.
+Delete every other proposition. Rhetorical hedging, concession, qualifying commentary, disclaimers, generic warnings, unasked rebuttals, anticipatory correction, excluded-coverage declarations, expectation management, reassurance, self-evaluation, promotion, rhetorical contrasts and ornament are prohibited as a rule. Courtesy, academic convention, reader protection and claims of usefulness pass through the same admission rule.
 
-Deletion follows meaning across grammatical and presentational forms. Erase the rejected proposition from affirmative scope sentences and definitions, inverse or comparative contrasts, conditional clauses, parentheses, footnotes, captions, tables, openings and closings. Rebuild the paragraph from admitted claims. Removing a connective or changing a negative sentence into a positive disclaimer preserves the rejected proposition; delete that content completely.
+## Delete the rejected meaning
 
-## Define the admitted claim
+Split mixed sentences into their claims and framing. Delete each rejected proposition, including its qualifying clause, implied premise or evaluative modifier. Reconstruct the paragraph from admitted content.
 
-Write the actual object, action, mechanism, comparison or result as an affirmative direct statement. Default negative constructions: zero. Preserve an admitted finding's logical polarity, mathematical negation, legal holding or exact quotation. A requested comparison or diagnosis supplies the answer itself.
+Apply the same rule across synonyms, modal or evidential shells, attributed opinions, imagined readers and objections, questions, conditionals, concessions, inverse contrasts, comparisons, appositions, definitions and affirmative scope statements. It applies to headings, parentheses, notes, captions, tables, openings and closings. Paraphrasing, quoting a hypothetical speaker, relocating a sentence or using a device once leaves its rejected meaning prohibited. Delete that meaning completely.
 
-Make each claim accurate in its own definition. Retain its answer-bearing population, period, denominator, assumptions, numerical uncertainty, causal status and attribution. Replace an overbroad claim with the accurately specified one. Keep economic terms, quantities and notation stable. Program operators, data codes and interface syntax retain their function.
+## Express the admitted claim
 
-Operational constraints govern actions. Put them in reader-facing prose when the request concerns those actions or their actual results. Keep source status in existing source records and give the version or passage that identifies a cited result.
+State the actual actor, object, action, mechanism, comparison or result affirmatively and directly. Default negative constructions: zero. Preserve an admitted finding's logical polarity, mathematical negation, legal holding or requested quotation. A requested comparison or diagnosis carries its actual answer.
 
-## Write the argument
+Define the claim through its population, period, denominator, assumptions, numerical uncertainty and attribution. Express empirical status as the source-supported association, model prediction or identified effect. Replace an overbroad claim with the supported claim; withdraw an unsupported one. Retain findings that determine the claim's strength or interpretation. Economic terms, quantities, notation, operators, data codes and interface syntax retain their meaning and function.
 
-Give each paragraph one claim or a necessary step in its reasoning. Use concrete subjects, literal verbs and aligned subjects and predicates. Match register to the requested genre and audience. Sentence and paragraph length follow the argument.
+Operational constraints govern actions and enter prose through a request about those actions or their actual results. Source status belongs in existing source records; a citation identifies the version or passage supporting the stated result.
 
-In Japanese, state the actor, object and action in natural academic syntax. Keep literal relations such as 「価格の上昇は需要を減らす」 and replace figurative subjects or verbs with the actual event. In English, use ordinary verbs and copulas such as estimate, compare, increase, reduce, is, are and has. State results through their measured object and attribution: "The estimate is X" or "The authors estimate X".
+## Develop the argument
 
-Use headings, lists, tables and punctuation for the argument. Preserve requested structures, equations, citations and readable slides. Build paragraphs from their admitted facts and reasoning.
+Give each paragraph one claim or a step required for its reasoning. Use concrete subjects, literal verbs and aligned subjects and predicates. Match register to the requested genre and audience. Use headings, lists, equations and citations to present the argument.
 
-## Exemplars and review
+In Japanese, name the actor and object in natural academic syntax. Write literal relations such as 「価格の上昇は需要を減らす」. In English, use ordinary verbs such as estimate, compare, increase, reduce, is, are and has. State an attributed result through its measured object: "The estimate is X" or "The authors estimate X".
 
-Read the [default empirical-micro exemplars](references/default-micro.md) before drafting or editing and reuse loaded material. An explicit task selection takes priority over an explicit persistent project preference; otherwise use default-micro. Use default examples for functions absent from a selected profile. Create or update custom profiles on request through [econ-style](../econ-style/SKILL.md). Transfer sentence relations and register to the current admitted claims.
+## Exemplars and one writing pass
 
-Review the completed text once for content admission, direct expression and claim-source relationships. Recheck changed claims for their definition, polarity, numerical strength and attribution. Return the requested object through this single internal pass. [Examples](references/patterns.md) show the operation; [source records](../../../docs/ai/sources.md) identify the adaptations.
+Select the explicit task profile first, then the persistent project preference, then [default-micro](references/default-micro.md). Read the selected profile before drafting or editing and reuse loaded material. Use default-micro for functions absent from the selected profile. Create or update profiles on request through [econ-style](../econ-style/SKILL.md). Transfer sentence relations and register to the admitted claims.
+
+Review once within writing for admission, expression and claim-source relationships, including definition, polarity, numerical strength and attribution. Deliver the requested object through that pass. [Examples](references/patterns.md) illustrate deletion; [source records](../../../docs/ai/sources.md) identify the adaptations. Execution follows the repository's minimum-verification owner.

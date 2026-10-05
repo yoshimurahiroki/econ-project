@@ -13,4 +13,4 @@ Interpret results through parameter, comparison, population, period, units and b
 
 For descriptive-model work, trace observed variation, model features, added assumptions and the final economic object. Distinguish fit to estimation moments from independent validation. Resolve a consequential inconsistency in units, domains, timing, normalization or derivation from the generating object. Reconcile code, exhibits and prose for the reviewed claim.
 
-Address each requested referee comment with a direct response, actual change, evidence and location. Distinguish proposed analysis from executed analysis. Keep review read-only until editing is requested. Use econ-edit for wording-only work or econ-assertive for a requested prose audit. Preserve scientific negative findings as facts.
+Address each requested referee comment with a direct response, actual change, evidence and location. Distinguish proposed analysis from executed analysis. Keep review read-only until editing is requested. Use econ-edit for wording-only work or econ-assertive for a requested prose audit. Retain admitted findings with their logical polarity.

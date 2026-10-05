@@ -5,7 +5,7 @@ description: Select and revise specified economics text or the preceding answer 
 
 # Revise the admitted answer
 
-Select the specified input; EDIT alone selects the immediately preceding answer. Apply requested factual corrections and the content-admission rule in econ-assertive. Delete rejected propositions completely, then reconstruct the answer from its admitted content.
+Select the specified input; EDIT alone selects the immediately preceding answer. Apply requested factual corrections and [econ-assertive](../econ-assertive/SKILL.md). Delete rejected propositions from sentences, clauses, modifiers and implied premises, then reconstruct the answer from admitted content.
 
 Preserve the retained economic object, evidence, logical polarity, numerical strength, units, causal status, attribution, notation, links, commands and requested genre. A preservation requirement applies to this admitted substantive answer after deletion.
 

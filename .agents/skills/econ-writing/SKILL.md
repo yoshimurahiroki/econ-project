@@ -9,7 +9,7 @@ Identify new writing, summarization, translation, formatting or editing. Select 
 
 ## Economics prose
 
-Organize paragraphs by their research function. An introduction presents the question, approach and findings early, explains the economic motivation and connects the contribution to the closest literature. State what the paper estimates, explains or measures. Give the fact behind a claim of contribution. Use a roadmap only when it helps navigate the actual paper or is required. These functions do not mandate six headings or a fixed paragraph count.
+Organize paragraphs by their research function. An introduction presents the question, approach and findings early, explains the economic motivation and connects the contribution to the closest literature. State what the paper estimates, explains or measures. Give the fact behind a claim of contribution.
 
 Explain mechanisms through the relevant agents, choices and incentives. Explain identification through the actual comparison and source of variation. Give results as interpretable estimates. Literature paragraphs connect specific prior findings or designs to the current question; attach citations to those claims.
 
