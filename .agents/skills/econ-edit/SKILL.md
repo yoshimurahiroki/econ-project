@@ -1,12 +1,15 @@
 ---
 name: econ-edit
-description: Select and revise specified economics text or the preceding answer for EDIT, semantic deletion, affirmative direct wording, natural Japanese or English, and removal of AI tone.
+description: Select and revise specified economics text or the preceding answer for EDIT, semantic deletion and direct Japanese or English.
 ---
 
 # Revise the admitted answer
 
-Select the specified input; EDIT alone selects the immediately preceding answer. Apply requested factual corrections and [econ-assertive](../econ-assertive/SKILL.md). Delete rejected propositions from sentences, clauses, modifiers and implied premises, then reconstruct the answer from admitted content.
+1. Identify the requested answer and content set. EDIT alone selects the immediately preceding answer.
+2. Apply explicit requested deletions and factual corrections.
+3. Apply [econ-assertive](../econ-assertive/SKILL.md) to the remaining propositions, including clauses, modifiers and implied premises.
+4. Preserve the admitted claims' factual content, economic object, logical polarity, numbers, units, causal status, attribution, notation, links, commands and requested genre.
+5. Reconstruct the answer from those claims in direct prose using econ-assertive's single internal writing pass.
+6. Return the revised text, or the requested findings for an audit-only request.
 
-Preserve the retained economic object, evidence, logical polarity, numerical strength, units, causal status, attribution, notation, links, commands and requested genre. A preservation requirement applies to this admitted substantive answer after deletion.
-
-Use econ-assertive's single internal writing pass and reuse loaded material. Research or calculation serves a factual correction required by the task. Return the revised text, or the requested findings for an audit-only request.
+Preservation follows rhetorical deletion. Reuse loaded material; research or calculation serves a factual correction required by the task.

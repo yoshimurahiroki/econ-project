@@ -7,9 +7,9 @@ description: Acquire and link data, implement concise research code and reproduc
 
 Read the current specification, input documentation and entry point. Map the economic object to records, fields, keys and transformations. Preserve source version, population, period, observation unit, quantity unit and denominator. Verify access terms when access is part of the task. Choose joins from the intended population; retain the meanings of observed zero, suppression, censoring and missingness.
 
-Trace source -> derived data -> analysis object -> exhibit through the existing pipeline. Separate costly acquisition and transformation from calculation and presentation where results can be reused. Record the material input, definition and transformation versions in existing metadata. Reuse a saved object only for its recorded inputs; do not treat unrecorded provenance as a current-input match. A changed mapping or population can affect downstream years through a shared universe. Rerun those affected stages. Wording, layout and language changes use saved quantities and preserve their numerical provenance.
+Trace source -> derived data -> analysis object -> exhibit through the existing pipeline. Separate costly acquisition and transformation from calculation and presentation where results can be reused. Record the material input, definition and transformation versions in existing metadata. Reuse a saved object for matching recorded inputs. An object with unrecorded provenance has an unverified input version. A changed mapping or population can affect downstream years through a shared universe. Rerun those affected stages. Wording, layout and language changes use saved quantities and preserve their numerical provenance.
 
-Keep sample rules and classifications in the canonical specification. Preserve unresolved choices. Descriptive selections and output availability do not adopt a causal-sample rule.
+Keep sample rules and classifications in the canonical specification. Preserve unresolved choices.
 
 Use direct code in the existing language, environment and entry point. Extract helpers for actual reuse or substantial complexity. Keep source paths and output roles clear. Use explicit seeds when computation is stochastic. Generate numerical prose and exhibits from analysis objects.
 

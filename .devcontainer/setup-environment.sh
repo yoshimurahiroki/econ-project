@@ -44,8 +44,7 @@ exec /workspaces/econ-project/.pixi/envs/default/bin/quarto "$@"
 EOF
 sudo chmod 0755 /usr/local/bin/quarto
 
-# Register the Python kernel immediately after Pixi succeeds so it is available
-# even if the much larger R package sync fails later.
+# Register workspace kernels after Pixi installation.
 bash .devcontainer/register-kernels.sh
 
 if [ "${INSTALL_R_PACKAGES:-1}" = "1" ]; then

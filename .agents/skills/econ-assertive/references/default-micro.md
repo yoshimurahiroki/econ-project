@@ -10,25 +10,25 @@ econ-assertive owns content admission, profile selection and wording. Apply the 
 
 Common move: introduce the economic object and connect the question to the setting's usable comparison or measurement. Present the approach and central finding early. Develop the mechanism or economic implication through the facts that establish it.
 
-Transfer: connect the actual research object, source of variation, measurement and finding. Select their order and paragraph length for the argument. Add no generic importance preface, required roadmap or stock closing claim.
+Transfer: connect the actual research object, source of variation, measurement and finding. Select their order and paragraph length for the argument. Apply content admission before transferring a writing move.
 
 ## Identification
 
 Common move: describe assignment, exposure and the actual comparison in ordinary words. Connect the variation to the parameter and then explain how the estimator uses it. Name the relevant unit and timing. Place an indispensable identifying condition beside the claim it supports.
 
-Transfer: explain what creates the comparison before presenting a method label. Give fixed effects and instruments their actual statistical roles. Keep assignment effects, treatment effects and model parameters distinct through direct definitions. Use the target design's adopted specification.
+Transfer: explain what creates the comparison before presenting a method label. Give fixed effects and instruments their actual statistical roles. Keep assignment effects, treatment effects and model parameters distinct through direct definitions. Use the target design’s adopted specification.
 
 ## Results
 
 Common move: state the estimate through the measured object. Give the treatment scale, outcome unit and horizon, then connect the estimate to a named baseline or other relevant quantity. Use the table or figure as evidence for the substantive claim. Explain a mechanism through the result that bears on it.
 
-Transfer: keep the estimate and its denominator together. Report the numerical information required by the actual result. Use `We estimate`, `The estimate is`, or the relevant direct construction. In explanations of another paper, keep attribution to its authors. Avoid column-by-column narration, repeated result announcements and a generic interpretation warning.
+Transfer: keep the estimate and its denominator together. Report the numerical information required by the actual result. Use `We estimate`, `The estimate is`, or the relevant direct construction. In explanations of another paper, keep attribution to its authors. End the paragraph when the estimate and its requested interpretation are established.
 
 ## Literature positioning
 
 Common move: identify what the closest work established or estimated, state the present paper's additional object, and explain the comparison, measurement or mechanism separation that makes it answerable. Attach citations to those specific relationships.
 
-Transfer: use the actual closest studies and verified contribution of the current paper. Replace generic `fills a gap`, `new lens` and chronological name lists with the specific relationship. A citation to a source study does not authorize importing its findings into the target research.
+Transfer: use the actual closest studies and verified contribution of the current paper. Replace generic `fills a gap`, `new lens` and chronological name lists with the specific relationship. Attribute the source study’s findings to that study.
 
 ## Complete constructed example
 
