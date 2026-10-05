@@ -1,4 +1,4 @@
-# Explicit project operations; no automatic verification chain.
+# Explicit project operations.
 .PHONY: help prepare-pixi sync install setup-dev setup-extensions register-kernels setup-r-kernel format lint test clean r-install r-plan build-paper build-slides quarto-html quarto-pdf quarto-reveal
 
 PIXI ?= pixi

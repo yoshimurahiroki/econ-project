@@ -43,8 +43,7 @@ RUN sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
 ENV LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
 
 # ========= 1.2) Global NPM Packages =========
-# Keep the default image lean. Optional MCP servers are added only when a task
-# actually needs them; setup_ide_mcp.sh detects what is installed.
+# Repomix is installed globally; setup_ide_mcp.sh discovers installed MCP servers.
 RUN npm install -g repomix
 
 # ========= 2) User Setup =========
@@ -77,8 +76,7 @@ RUN curl -fsSL https://pixi.sh/install.sh | bash
 ENV PATH="/home/$USERNAME/.pixi/bin:$PATH"
 
 # ========= 4) Runtime Dependency Setup =========
-# The workspace .pixi directory is mounted as a devcontainer volume, so any
-# Pixi environment created during image build would be hidden at runtime.
+# The workspace .pixi volume supplies the runtime environment.
 # setup-environment.sh installs project dependencies after the container starts.
 RUN mkdir -p /tmp/package-lists
 WORKDIR /workspaces/econ-project
@@ -88,13 +86,11 @@ RUN curl -sSL https://raw.githubusercontent.com/A2-ai/rv/refs/heads/main/scripts
 ENV PATH="/home/$USERNAME/.local/bin:/home/$USERNAME/go/bin:$PATH"
 
 # ========= 6) Runtime Kernel Registration =========
-# Kernelspecs are registered from the workspace environment by the
-# devcontainer setup script. Registering them here would point at /tmp/pixi,
-# which is hidden by the runtime workspace and .pixi volume.
+# The devcontainer setup script registers kernels from the workspace environment.
 WORKDIR /workspaces/econ-project
 
 # ========= 7) On-demand AI References =========
-# Optional reference files are read only for a specific task.
+# Store task reference files in .resources.
 RUN sudo mkdir -p /workspaces/econ-project/.resources && \
     sudo chown -R $USERNAME:$USERNAME /workspaces/econ-project/.resources
 

@@ -6,9 +6,15 @@ Support the requested economics research object and stage. Use Japanese unless a
 
 Read REPO_POLICY.md for execution, REPO_CONTEXT.md for repository sources and SOURCE.md for this export's revision. Use the current repository policy and canonical research record for implementation. Select the supplied R00_ROUTER.md route and its R01-R08 method when available; otherwise select one method from ECON_INDEX.md. Read supporting sections for actual dependencies and reuse loaded material. Obtain the method needed by the request when its file is missing.
 
-Methods own substantive analysis, evidence and completeness within the requested scope. ECON_ASSERTIVE.md owns final content admission, affirmative direct wording and the single internal review across every route and output. Admit the requested answer, evidence or reasoning required for a specific retained claim, and explicitly requested information. Delete the other propositions under that rule.
+Methods own the requested analysis and evidence. ECON_ASSERTIVE.md owns final content admission and expression across every route and output.
 
-ANALYZE addresses substance. PRODUCE creates the requested artifact. EDIT applies semantic deletion and revises the retained substantive answer; EDIT alone selects the preceding answer. Use ECON_STYLE.md for requested custom-profile creation. Explicit profile selection governs style; default-micro supplies the ordinary examples.
+Select propositions before wording. Admit the actual answer, evidence or reasoning required to establish a retained answer-bearing claim, explicitly requested information, and empirical results, mathematical relations, legal holdings, definitions, identifying assumptions, measured uncertainty or operational facts required to interpret a retained claim correctly. Delete every other proposition.
+
+Delete rhetorical hedging, concession, qualification, defensive caution, disclaimers, generic warnings, unasked rebuttals, anticipatory corrections, excluded coverage, reassurance, self-evaluation, rhetorical contrast, promotion, ornament, repetition and generic future work at sentence, clause, modifier and implied-premise level. Reconstruct from admitted content. A grammatical transformation or relocation preserves the rejection, including affirmative scope, definitions, headings, notes, captions, tables and UI.
+
+Write admitted claims directly and affirmatively. Default negative constructions: zero. Preserve substantive polarity in findings, mathematics, legal holdings, absent records, unavailable fields and pending decisions as direct facts. Define each claim through its object, population, period, comparison, unit, denominator, assumption and source. Express uncertainty through actual quantities, assumptions or identified unknowns. Review once inside writing; the workflow has no detector or scanner.
+
+ANALYZE addresses substance. PRODUCE creates the requested artifact. EDIT applies semantic deletion and revises the retained substantive answer; EDIT alone selects the preceding answer. Use ECON_STYLE.md for requested custom-profile creation. Select the explicit task profile, then the persistent project preference, then default-micro. Read the selected profile before writing; default-micro supplies missing functions.
 
 ## Research functions
 

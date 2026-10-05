@@ -1,6 +1,6 @@
 # Design-specific decisions
 
-Read the section for the requested design. Select diagnostics for a concrete identifying question; this reference is not an execution checklist.
+Read the section for the requested design. Select diagnostics for a concrete identifying question.
 
 ## Common design record
 

@@ -49,7 +49,7 @@ def export(target: Path, profile: str, skills: list[str] | None = None) -> int:
         if filename.endswith("INSTRUCTIONS.txt") and len(text.replace("\n", "\r\n")) > 8000:
             raise ValueError("Project instructions exceed 8,000 characters")
         contents[filename] = text
-    lines = ["# Research task index", "", "Select the method for the requested object. ECON_ASSERTIVE.md owns content admission and affirmative direct prose across every route and output, using its default or explicitly selected exemplars. ECON_STYLE.md creates custom profiles on request.", ""]
+    lines = ["# Research task index", "", "Select the method for the requested object. ECON_ASSERTIVE.md owns content admission and affirmative direct prose across every route and output, using the explicit task profile, persistent project preference or default-micro. ECON_STYLE.md creates custom profiles on request.", ""]
     for name in selected:
         text = contents[mapping[available[name]]]
         description = next(line.removeprefix("description: ") for line in text.splitlines() if line.startswith("description: "))

@@ -24,17 +24,17 @@ export PATH="/workspaces/econ-project/.pixi/envs/default/bin:$PATH"
   --display-name "Python (econ-env)"
 
 if [ ! -x .pixi/envs/default/bin/Rscript ]; then
-  echo "Pixi R environment is not available yet; skipped R kernel registration." >&2
+  echo "R kernel registration skipped: Pixi Rscript is missing." >&2
   exit 0
 fi
 
 if ! command -v jupyter >/dev/null 2>&1; then
-  echo "Jupyter command is not available yet; skipped R kernel registration." >&2
+  echo "R kernel registration skipped: Jupyter command is missing." >&2
   exit 0
 fi
 
 if ! .pixi/envs/default/bin/Rscript -e "stopifnot(requireNamespace('IRkernel', quietly = TRUE))"; then
-  echo "IRkernel is not available yet; skipped R kernel registration." >&2
+  echo "R kernel registration skipped: IRkernel is missing." >&2
   exit 0
 fi
 

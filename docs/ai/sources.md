@@ -97,3 +97,9 @@ The user requires categorical deletion of hedging, concession, qualifying commen
 | [Silas1929/econ-writing](https://github.com/Silas1929/econ-writing/blob/ba636f282fc80b12dbed623752b76c1513cd73ea/SKILL.md), ba636f282fc80b12dbed623752b76c1513cd73ea | Complete SKILL: core principles, quick reference, four modes and general guidelines | State results first with plain verbs. Apply categorical deletion to hedge allowances, one-off usage, alternate contrast forms and routine conclusion caveats. |
 
 These compact rules and examples are original adaptations. The existing econ-assertive owner handles content and wording; related methods preserve admitted economic claims, evidence and logical polarity.
+
+## Proposition-first reconstruction (2026-10-06)
+
+Read the current [root SKILL.md](https://github.com/Kiterlin/anti-defensive-writing/blob/c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46/SKILL.md), commit `c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46`: core and additional rules, functional diagnosis, rewrite procedure, paragraph construction and examples. The adaptation uses claim-forward organization, deletion of defensive propositions and preemptive rebuttals, reconstruction around the substantive claim, measured uncertainty and removal of apology-like and self-undermining framing. The previously recorded yomiyasu and humanizer-ja operations supply concrete subjects, aligned predicates, literal verbs, stable terminology and deletion of appended evaluation and stock phrasing.
+
+The current user rule admits the actual answer, its required evidence or reasoning, explicitly requested information, and substantive facts required to interpret a retained claim. Selection precedes wording. Rejected meaning is deleted across grammatical forms and output locations. Findings, mathematics, legal holdings, publication states and pending decisions retain their substantive polarity. econ-assertive owns the rule and one internal writing review across all methods.

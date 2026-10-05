@@ -27,3 +27,9 @@ Draft: "The IV estimate is 5.9 percentage points (standard error 2.7 percentage 
 Answer: "The IV estimate is 5.9 percentage points, with a standard error of 2.7 percentage points."
 
 The estimate and uncertainty answer the request. Delete the appended evaluation, concession and coverage claim. Apply the same deletion to a definition, question, heading, parenthesis or footnote carrying that meaning.
+
+## Facts that define the admitted claim
+
+For a requested report of that estimate, identify the treatment, population, outcome and unit in the answer itself. The standard error represents its measured uncertainty. Mean enrollment supplies the denominator when the request asks for economic magnitude. These facts enter because they answer or define a retained claim; the draft's claims of caution or usefulness are deleted.
+
+Preserve a substantive negative finding with its exact sign, a judicial rejection with its actual holding, an absent record with its publication state, and a pending decision with its recorded status.

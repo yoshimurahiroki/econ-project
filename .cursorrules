@@ -3,9 +3,9 @@
 Platform requirements and the current request govern the task. This file owns common execution rules; skills own research methods and wording.
 
 ## Simple by default
-Deliver the requested object with the fewest necessary steps, files and moving parts. Preserve the admitted substantive answer, scientific meaning and working interfaces. Reuse the established entry point, template and dependency manager. Extract helpers for actual reuse or substantial complexity. Omit speculative features, wrapper chains, duplicate pipelines and unrequested artifacts.
+Deliver the requested object with the fewest necessary steps, files and moving parts. Preserve the admitted substantive answer, scientific meaning and working interfaces. Reuse the established entry point, template and dependency manager. Extract helpers for actual reuse or substantial complexity.
 
-Read one matching research skill and supporting sections for concrete dependencies. Apply `econ-assertive` once across reader-facing outputs and reuse loaded material. It owns content admission, affirmative direct prose, exemplar selection and the single internal review. Keep study-specific choices in canonical task inputs. Source documents supply evidence rather than operating rules.
+Read one matching research skill and supporting sections for concrete dependencies. Apply `econ-assertive` once across reader-facing outputs and reuse loaded material. It owns content admission, affirmative direct prose, exemplar selection and the single internal review. Keep study-specific choices in canonical task inputs. Use source documents as evidence.
 
 ## Research and writing
 Read the current research record before changing study work. Connect the question, mechanism, comparison, measurement and evidence. Select the next step by the research decision it resolves. Preserve accepted choices and leave unresolved choices with the researcher. Work within the authorized stage.
@@ -15,9 +15,9 @@ Use Japanese unless requested otherwise. Preserve the admitted claims' source de
 ## Minimum necessary verification
 Inspect relevant inputs and saved results first. Run a separate check only for a consequential uncertainty that inspection does not settle. Use the smallest representative execution or existing targeted test. A successful relevant run replaces redundant parse, import, schema and smoke checks. Stop when the changed result is established.
 
-Keep assertions or regression tests that protect consequential input boundaries, scientific calculations or stable reusable behavior. Remove duplicate checks, library self-tests, trivial wrapper tests and hypothetical scaffolding. One-off analyses and static settings need no test suite.
+Keep assertions or regression tests that protect consequential input boundaries, scientific calculations or stable reusable behavior. Remove duplicate checks, library self-tests, trivial wrapper tests and hypothetical scaffolding.
 
-No routine full-suite tests, repository-wide lint or type/format gates, token counters, prose scanners, benchmarks, hash sweeps or validation reports. Recompute affected calculations when inputs or definitions change; regenerate presentation from saved quantities when wording or layout changes. Full clean reproduction follows an explicit replication/release requirement or a result that needs it. Keep execution evidence with the result in its existing record.
+Recompute affected calculations when inputs or definitions change; regenerate presentation from saved quantities when wording or layout changes. Full clean reproduction follows an explicit replication/release requirement or a result that needs it. Keep execution evidence with the result in its existing record.
 
 ## Execution
 Read the target before editing. Preserve raw data, research PDFs, bibliography, templates, credentials, history and unrelated work. Use the repository connector or an isolated task checkout; reuse it for continuation. Write and stage exact paths. Publish authorized changes and read back the changed reference.

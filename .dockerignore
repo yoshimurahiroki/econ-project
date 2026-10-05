@@ -21,7 +21,7 @@ miniforge3/
 env/
 .pixi/
 
-# --- Data / outputs (exclude large files from context) ---
+# --- Data / outputs ---
 data/
 .resources/
 .agent_state/
@@ -80,7 +80,7 @@ latexmkrc
 .qmd-cache/
 .quarto/
 
-# --- Keep essential build files (safety) ---
+# --- Build configuration ---
 !Dockerfile
 !environment.yml
 !pyproject.toml

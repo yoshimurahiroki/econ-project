@@ -9,15 +9,15 @@ econ-assertive owns content admission, profile selection and wording. Apply the 
 
 ## Basis of the profile
 
-The review compared introduction, identification, main-results and literature-positioning passages in each of the ten source versions recorded below. The common core consists of writing moves found across both journal groups and different empirical designs. A study-specific estimator, institutional detail or rhetorical habit does not become a default.
+The review compared introduction, identification, main-results and literature-positioning passages in each of the ten source versions recorded below. The common core consists of writing moves found across both journal groups and different empirical designs. Transfer the sentence relations to the target study’s own estimator, institutions and admitted claims.
 
-The four bilingual examples are original adaptations of source-study passages. Each illustrates a move supported by several papers; it is not a quotation or a reconstruction of one author's distinctive voice. Japanese examples are adaptations written for this profile, not excerpts from Japanese journal articles. The source records document the profile and are not references to insert into a new manuscript.
+The four bilingual examples are original adaptations of source-study passages. Each illustrates a move supported by several papers. The Japanese paragraphs were written for this profile. The reading map and source records document their provenance.
 
 ## Introduction
 
 Common move: introduce the economic object and connect the question to the setting's usable comparison or measurement. Present the approach and central finding early. Develop the mechanism or economic implication through the facts that establish it.
 
-This sequence appears in different forms in Bessone et al. (work and sleep treatments), Egger et al. (local exposure and economic activity), Kline et al. (repeated applications within employers), Baron (two types of spending approval), and Gershenson et al. (teacher assignment and later attainment). The shared element is the connection between question and evidence, not a fixed opening sentence or paragraph count.
+This sequence appears in different forms in Bessone et al. (work and sleep treatments), Egger et al. (local exposure and economic activity), Kline et al. (repeated applications within employers), Baron (two types of spending approval), and Gershenson et al. (teacher assignment and later attainment). The shared element is the connection between question and evidence.
 
 English adaptation, Egger et al. (2022):
 
@@ -27,7 +27,7 @@ Japanese adaptation:
 
 > ケニア農村部で現金給付が地域の経済活動に与える影響を推定する。村の処置割当と地域内の給付対象村の割合を無作為化し、周辺世帯への給付総額を異ならせる。家計支出、企業活動、市場価格のデータを組み合わせて地域の反応を測る。支出から推定した地域内の給付乗数は2.6である。
 
-Transfer: connect the actual research object, source of variation, measurement and finding. Select their order and paragraph length for the argument. Add no generic importance preface, required roadmap or stock closing claim.
+Transfer: connect the actual research object, source of variation, measurement and finding. Select their order and paragraph length for the argument. Apply content admission before transferring a writing move.
 
 ## Identification
 
@@ -43,7 +43,7 @@ Japanese adaptation:
 
 > ウィスコンシン州の学区で、運営費と資本支出の住民投票が可決される効果を推定する。可決基準の直上と直下にある学区を比較する。動学的回帰不連続モデルで両種類の投票の実施順序を扱う。各係数は、その後の可決状況を固定したときの、当該可決による各時点の効果を表す。
 
-Transfer: explain what creates the comparison before presenting a method label. Give fixed effects and instruments their actual statistical roles. Keep assignment effects, treatment effects and model parameters distinct through direct definitions. Do not transfer this example's dynamic specification to another design.
+Transfer: explain what creates the comparison before presenting a method label. Give fixed effects and instruments their actual statistical roles. Keep assignment effects, treatment effects and model parameters distinct through direct definitions. Use the target design’s adopted specification.
 
 ## Results
 
@@ -59,7 +59,7 @@ Japanese adaptation:
 
 > 操作変数推定では、黒人の生徒が幼稚園から小学3年生までに黒人の教師に1度以上教わると、大学進学率が5.9パーセントポイント上昇する。標準誤差は2.7パーセントポイントである。この標本の平均進学率は31.3%であり、推定値は平均の約19%に相当する。
 
-Transfer: keep the estimate and its denominator together. Report the numerical information required by the actual result. Use `We estimate`, `The estimate is`, or the relevant direct construction. In explanations of another paper, keep attribution to its authors. Avoid column-by-column narration, repeated result announcements and a generic interpretation warning.
+Transfer: keep the estimate and its denominator together. Report the numerical information required by the actual result. Use `We estimate`, `The estimate is`, or the relevant direct construction. In explanations of another paper, keep attribution to its authors. End the paragraph when the estimate and its requested interpretation are established.
 
 ## Literature positioning
 
@@ -75,11 +75,11 @@ Japanese adaptation:
 
 > 医療保険プランの選択に関する研究は、不注意と切替費用を分けて分析してきた。本研究では、現在の医師を変更する費用を推定する。分析対象では、他の給付内容を固定したまま、保険料と現在の医師を利用できるかどうかがプラン間で異なる。選択モデルでこの差を用い、同じ医師を継続利用する価値と不注意を分離して推定する。
 
-Transfer: use the actual closest studies and verified contribution of the current paper. Replace generic `fills a gap`, `new lens` and chronological name lists with the specific relationship. A citation to a source study does not authorize importing its findings into the target research.
+Transfer: use the actual closest studies and verified contribution of the current paper. Replace generic `fills a gap`, `new lens` and chronological name lists with the specific relationship. Attribute the source study’s findings to that study.
 
 ## Reading map
 
-I = introduction; D = identification/design; R = main-results discussion; L = literature positioning. Locations refer to the inspected version, not a different edition. Printed page numbers are used unless `PDF` is specified. PDF numbers start at 1 and include covers.
+I = introduction; D = identification/design; R = main-results discussion; L = literature positioning. Locations refer to the inspected version. Printed page numbers are used unless `PDF` is specified. PDF numbers start at 1 and include covers.
 
 | Source | I | D | R | L |
 | --- | --- | --- | --- | --- |
@@ -106,7 +106,7 @@ I = introduction; D = identification/design; R = main-results discussion; L = li
 
 5. Dahl, Gordon B., Christina Felfe, Paul Frijters, and Helmut Rainer. 2022. "Caught between Cultures: Unintended Consequences of Improving Opportunity for Immigrant Girls." *Review of Economic Studies* 89(5): 2491-2528. [Publication](https://doi.org/10.1093/restud/rdab089). Inspected: 2020 IZA Discussion Paper 13507, [PDF](https://docs.iza.org/dp13507.pdf). The reading map refers to the discussion paper.
 
-6. Agan, Amanda Y., Jennifer L. Doleac, and Anna Harvey. 2023. "Misdemeanor Prosecution." *Quarterly Journal of Economics* 138(3): 1453-1505. [Publication](https://doi.org/10.1093/qje/qjad005). Inspected: March 2021 IZA Discussion Paper 14234, [PDF](https://docs.iza.org/dp14234.pdf). Its passages supply writing moves; numerical estimates from this version are not substituted for published estimates.
+6. Agan, Amanda Y., Jennifer L. Doleac, and Anna Harvey. 2023. "Misdemeanor Prosecution." *Quarterly Journal of Economics* 138(3): 1453-1505. [Publication](https://doi.org/10.1093/qje/qjad005). Inspected: March 2021 IZA Discussion Paper 14234, [PDF](https://docs.iza.org/dp14234.pdf). Its passages supply writing moves; numerical claims use the cited version’s estimates.
 
 7. Baron, E. Jason. 2022. "School Spending and Student Outcomes: Evidence from Revenue Limit Elections in Wisconsin." *American Economic Journal: Economic Policy* 14(1): 1-39. [Publication](https://doi.org/10.1257/pol.20200226). Inspected: published article, [ERIC PDF](https://files.eric.ed.gov/fulltext/ED625889.pdf). The PDF has an ERIC cover before article page 1.
 

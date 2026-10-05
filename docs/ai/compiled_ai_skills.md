@@ -2,7 +2,7 @@
 
 Select the method that owns the requested research object. `.cursorrules` owns common execution rules; econ-assertive owns semantic content admission, affirmative direct prose, exemplar selection and one internal review across every route and output. Load supporting sections for concrete dependencies and reuse loaded material.
 
-- `econ-assertive`: Select answer-bearing claims and write affirmative direct economics prose across reader-facing outputs, using default or explicitly selected exemplars.
+- `econ-assertive`: Select answer-bearing economics propositions, delete rhetorical meaning and write directly, using the selected profile.
 - `econ-data`: Acquire and link data, implement concise research code and reproduce requested results.
 - `econ-design`: Develop research questions, economic models, identification strategies, estimators and inference.
 - `econ-edit`: Select specified text or the preceding answer for EDIT, delete rejected propositions and revise the retained substantive answer.
