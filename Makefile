@@ -31,10 +31,9 @@ setup-dev: sync
 	$(PIXI_RUN) pre-commit install
 setup-extensions:
 	bash scripts/setup_extensions.sh
-register-kernels: sync
+register-kernels:
 	bash .devcontainer/register-kernels.sh
-setup-r-kernel: sync r-install
-	bash .devcontainer/register-kernels.sh
+setup-r-kernel: register-kernels
 
 format:
 	@test -n "$(FILE)" || { echo "Specify FILE=path" >&2; exit 2; }
@@ -48,7 +47,8 @@ test:
 
 r-install: RV_ACTION = sync
 r-plan: RV_ACTION = plan
-r-install r-plan: prepare-pixi
+r-install: prepare-pixi
+r-install r-plan:
 	$(PIXI_RUN) bash -lc ' \
 		set -euo pipefail; \
 		export PKG_CONFIG="$$CONDA_PREFIX/bin/pkg-config"; \
@@ -63,10 +63,12 @@ r-install r-plan: prepare-pixi
 		export JAVA_HOME="$$(dirname "$$(dirname "$$(readlink -f "$$JAVA_BIN")")")"; \
 		export PATH="$$JAVA_HOME/bin:$$PATH"; \
 		export LD_LIBRARY_PATH="$$JAVA_HOME/lib/server:$$JAVA_HOME/lib:$$LD_LIBRARY_PATH"; \
-		ln -sf libxml2.so.16 "$$CONDA_PREFIX/lib/libxml2.so" 2>/dev/null || true; \
-		R CMD javareconf; \
-		if [ "$(RV_ACTION)" = sync ] && pgrep -u "$$(id -u)" -x rv >/dev/null; then \
-			echo "Another rv process is running." >&2; exit 1; \
+		if [ "$(RV_ACTION)" = sync ]; then \
+			if pgrep -u "$$(id -u)" -x rv >/dev/null; then \
+				echo "Another rv process is running." >&2; exit 1; \
+			fi; \
+			ln -sf libxml2.so.16 "$$CONDA_PREFIX/lib/libxml2.so" 2>/dev/null || true; \
+			R CMD javareconf; \
 		fi; \
 		rv $(RV_ACTION) \
 	'

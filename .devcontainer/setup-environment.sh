@@ -49,9 +49,7 @@ sudo chmod 0755 /usr/local/bin/quarto
 bash .devcontainer/register-kernels.sh
 
 if [ "${INSTALL_R_PACKAGES:-1}" = "1" ]; then
-  if make r-install; then
-    bash .devcontainer/register-kernels.sh
-  else
+  if ! make r-install; then
     echo "R package installation failed; Python kernel remains registered." >&2
   fi
 fi
@@ -63,8 +61,6 @@ fi
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   pixi run bash -lc "pre-commit install"
 fi
-
-bash scripts/setup_ide_mcp.sh
 
 sed -i '/\/workspaces\/econ-project\/\.pixi\/envs\/default\/bin:\$PATH/d' ~/.bashrc
 grep -q "usr/local/bin:.*\.pixi/envs/default/bin" ~/.bashrc || \

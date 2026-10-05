@@ -25,6 +25,7 @@ GitHubの「Use this template」で研究用のリポジトリを作り、VS Cod
 | --- | --- |
 | `make sync` | Pixi依存環境を更新 |
 | `make r-install` / `make r-plan` | rv依存環境を更新／変更計画を表示 |
+| `make register-kernels` / `make setup-r-kernel` | 導入済みPixi環境のPython・R kernelを登録 |
 | `pixi add PACKAGE` / `rv add PACKAGE` | 研究で使う依存パッケージを追加 |
 | `pixi run python scripts/NAME.py` | 既存環境で研究コードを実行 |
 

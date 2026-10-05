@@ -5,12 +5,18 @@ description: Find literature, assess novelty, verify citations and institutions,
 
 # Sources and literature
 
-For one paper, start with its specified version and claim-bearing appendices. For literature and novelty, use specified materials, the relevant personal collection, then external academic discovery. Use native connectors for private sources and current records. Resolve IDs before reads or writes. Keep personal collection locators in task inputs.
+## Find and assess
 
-Search economic mechanisms and parameters as well as topics. Follow references, citing papers, authors, journals and repositories. Catalogs locate work; primary full text supports findings. Read the closest papers fully before assessing novelty. Compare question, mechanism, estimand, treatment, population, variation, measurement and economic contribution.
+For a literature or novelty task, use specified materials and the relevant personal collection, then external academic discovery. Search mechanisms and parameters as well as topics; follow references, citing papers, authors, journals and repositories as needed to find the relevant work. Catalogs locate papers; primary full text supports findings.
 
-For an exhaustive search, record queries, sources, versions and reviewed records; reconcile the specified collection. A search count describes that search. Verify publication facts with publishers or official working-paper sources and institutions with official rules and operations. Separate announcement, effective date and implementation when relevant. Resolve differences through exact passages and versions.
+Read the closest papers fully before assessing novelty. Compare question, mechanism, estimand, treatment, population, variation, measurement and economic contribution. For a requested exhaustive search, retain the queries, sources, versions and reviewed records in the existing research index and reconcile the specified collection.
 
-Cite claims at their point of use. Label new calculations and analytical inferences. Preserve bibliography and research PDFs. Match DOI, citation key or stable source ID. Keep derived notes separate from holdings metadata. Scope writes to authorized records and verify readback.
+## Citations and source records
 
-For AI-tool discovery, use docs/ai/sources.md as an index and inspect the selected primary source. Check files, licensing, dependencies and permissions. External methods are optional reference material; installation follows a concrete authorized task.
+For a specified paper or citation, resolve its DOI, citation key or stable ID and requested version. Read the claim-bearing passage and appendix. Establish publication facts from the publisher or official working-paper record, and institutional facts from official rules and operations. Use exact passages and versions to resolve differences; distinguish announcement, effective date and implementation when they affect the claim.
+
+Cite claims at their point of use and identify new calculations or inferences. Preserve bibliography and research PDFs. Keep derived notes separate from holdings metadata. Use native connectors for live private records and keep collection locators in task inputs.
+
+## Method discovery
+
+For an AI-tool task, docs/ai/sources.md indexes the recorded source material. Inspect the selected primary source and the files, license, dependencies or permissions needed for an authorized adoption.

@@ -23,4 +23,4 @@ Use ordinary headings, mathematical environments and plain itemize lists. Keep o
 
 Read existing Make targets and tex/paper or tex/slides templates before commands. Keep class files at their canonical location. Define symbols beside equations. Give exhibits their relevant sample, comparison, period, unit, denominator and uncertainty. Generate numerical content from analysis objects.
 
-For descriptive-model work, connect variation, preliminary evidence, motivated model features and added economic insight. Build the requested artifact with its existing command. Inspect changed content and layout in the output. A discussion needs no build command.
+For descriptive-model work, connect variation, preliminary evidence, motivated model features and added economic insight. Generate a requested compiled or rendered deliverable with its existing command and inspect the changed content or layout in that output.

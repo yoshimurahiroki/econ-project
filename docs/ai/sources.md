@@ -1,6 +1,6 @@
 # Source review and design decisions
 
-Review date: 2026-09-27. This record distinguishes source procedures from this configuration's own implementation. The local skills are newly written; no upstream installer, agent loop, MCP server or implementation is activated.
+Review date: 2026-09-27. This record identifies the source material read and the local adaptations made from it.
 
 ## Writing skills: full-text comparison
 
@@ -22,7 +22,7 @@ Direct drafting is followed by one meaning-based necessity review using the curr
 Starting article: https://velikov-mihail.github.io/ai-econ-wiki/summaries/awesome-econ-ai/
 Primary catalog: https://github.com/meleantonio/awesome-econ-ai-stuff
 
-The following 17 entries are the task coverage map used in this request. It is a routing/adoption comparison, not an execution benchmark of upstream sample code.
+The following 17 entries map the reviewed catalog methods to their local owners.
 
 | Catalog entry | Local owner |
 | --- | --- |
@@ -48,11 +48,11 @@ The following 17 entries are the task coverage map used in this request. It is a
 
 The prior repository configuration listed seven optional collections: hanlulong/econ-writing-skill, claesbackman/AI-research-feedback, matteocourthoud/awesome-causal-inference, meleantonio/awesome-econ-ai-stuff, hanlulong/awesome-ai-for-economists, Imbad0202/academic-research-skills and affaan-m/ECC. Their installed local pointer skills were inspected during this request. The final configuration uses self-contained task methods and retrieves external references for a specific dependency.
 
-Additional comparison in the request covered repository workflow overviews including pedrohcgs/claude-code-my-workflow, tsdfs930514/econ-research-workflow and economics paper-review/slide collections. These overviews are discovery material, not empirical evidence of performance.
+The review also read workflow overviews from pedrohcgs/claude-code-my-workflow, tsdfs930514/econ-research-workflow and economics paper-review/slide collections.
 
 ## Supplied research standards
 
-The supplied R00-R08 modules contribute the five-section paper explanation, actual-assignment identification checks, measurement and reproduction standards, source routing, plain LaTeX/Beamer artifacts and evidence-linked review. The new configuration keeps these substantive responsibilities separate from the default prose gate. General repository files contain no private collection IDs, study-specific treatments, research-candidate verdicts or dataset choices.
+The supplied R00-R08 modules contribute the five-section paper explanation, actual-assignment identification checks, measurement and reproduction standards, source routing, plain LaTeX/Beamer artifacts and evidence-linked review. The local configuration separates these substantive responsibilities from the prose method and keeps study-specific choices in task inputs.
 
 Mahoney (2022), DOI 10.1257/jep.36.3.211, supplies the five principles linking descriptive and model-based research (pp. 215-218), alternatives for research ordering (pp. 219-220) and the assumptions-to-results framework (Figure 1, p. 220). The supplied 12-page paper is the source. The dedicated reference labels this configuration's operational translation separately.
 
