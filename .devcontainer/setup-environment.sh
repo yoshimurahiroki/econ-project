@@ -4,8 +4,8 @@ set -euo pipefail
 cd /workspaces/econ-project
 
 sudo mkdir -p .pixi data /home/vscode/.cache/rattler /home/vscode/.cache/rv
-sudo chown -R vscode:vscode .pixi data /home/vscode/.cache/rattler /home/vscode/.cache/rv
-sudo chmod -R u+rwX .pixi data /home/vscode/.cache/rattler /home/vscode/.cache/rv
+sudo chown vscode:vscode .pixi data /home/vscode/.cache/rattler /home/vscode/.cache/rv
+sudo chmod u+rwX .pixi data /home/vscode/.cache/rattler /home/vscode/.cache/rv
 
 pixi install
 
@@ -23,7 +23,6 @@ fi
 
 tee .pixi/envs/default/bin/quarto >/dev/null <<'EOF'
 #!/usr/bin/env bash
-cd /workspaces/econ-project
 export PATH="/workspaces/econ-project/.pixi/envs/default/bin:$PATH"
 export QUARTO_PYTHON="/workspaces/econ-project/.pixi/envs/default/bin/python"
 export QUARTO_SHARE_PATH="/workspaces/econ-project/.pixi/envs/default/share/quarto"
@@ -34,27 +33,6 @@ export QUARTO_ESBUILD="/workspaces/econ-project/.pixi/envs/default/bin/esbuild"
 export QUARTO_TYPST="/workspaces/econ-project/.pixi/envs/default/bin/typst"
 export QUARTO_DART_SASS="/workspaces/econ-project/.pixi/envs/default/bin/sass"
 export QUARTO_CONDA_PREFIX="/workspaces/econ-project/.pixi/envs/default"
-
-if [ "${1:-}" = "render" ]; then
-  has_format=0
-  for arg in "$@"; do
-    case "$arg" in
-      --to|--to=*|-t|-t=*) has_format=1 ;;
-    esac
-  done
-
-  if [ "$has_format" -eq 0 ]; then
-    for arg in "$@"; do
-      case "$arg" in
-        *.qmd)
-          if grep -Eq '^[[:space:]]*pdf:[[:space:]]*$|^[[:space:]]*format:[[:space:]]*pdf[[:space:]]*$' "$arg"; then
-            exec /workspaces/econ-project/.pixi/envs/default/bin/quarto-cli-real "$@" --to pdf
-          fi
-          ;;
-      esac
-    done
-  fi
-fi
 
 exec /workspaces/econ-project/.pixi/envs/default/bin/quarto-cli-real "$@"
 EOF

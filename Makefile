@@ -20,9 +20,9 @@ help:
 prepare-pixi:
 	sudo mkdir -p .pixi /home/vscode/.cache /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
 	sudo chown vscode:vscode /home/vscode/.cache
-	sudo chown -R vscode:vscode .pixi /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
+	sudo chown vscode:vscode .pixi /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
 	sudo chmod u+rwx /home/vscode/.cache
-	sudo chmod -R u+rwX .pixi /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
+	sudo chmod u+rwX .pixi /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
 
 sync: prepare-pixi
 	$(PIXI) install

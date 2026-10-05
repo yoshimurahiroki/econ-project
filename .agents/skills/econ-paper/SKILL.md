@@ -3,8 +3,6 @@ name: econ-paper
 description: Explain a paper or specified passage and prepare a source-grounded paper seminar.
 ---
 
-Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
-
 # Paper explanation
 
 Read the specified version's main text and claim-bearing appendices, figures, tables and notes. Preserve terminology, population, period, numerical uncertainty and attribution. Record source pages or exhibits. A targeted question receives its requested answer.
@@ -19,4 +17,4 @@ A complete explanation uses five top-level sections, translated into Japanese fo
 
 For theory, explain primitives, equilibrium, propositions and proof arguments. For structural work, connect variation, moments, parameters, fit and counterfactual assumptions. For prediction, cover the target, information time, labels, leakage controls, validation population, calibration and decision loss. Match intervention claims to intervention evidence.
 
-Use econ-design for a specific identifying dependency and the Mahoney reference for descriptive-model linkage. Preserve the source's framing. A detailed explanation deepens the five objects. A standard explanation selects the one or two interpretation-changing design issues; a full audit covers its requested set. Check quantities and citations, then execute the post-draft prose audit.
+Use econ-design for a specific identifying dependency and the Mahoney reference for descriptive-model linkage. Preserve the source's framing. A detailed explanation deepens the five objects. A standard explanation selects the one or two interpretation-changing design issues; a full audit covers its requested set. Keep quantities and citations tied to the inspected source.

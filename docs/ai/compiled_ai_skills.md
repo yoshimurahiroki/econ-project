@@ -1,6 +1,6 @@
 # Research task index
 
-Select one primary research method. For Japanese or English prose, apply econ-assertive once within that method and reuse it when loaded. It loads the default empirical-micro exemplars for every prose task. Custom exemplars require explicit user selection; econ-style creates them only on request. Attached papers alone do not select a style. Wording references do not change research decisions. Read other supporting material only for a concrete dependency. Apply repository simplicity and minimum-verification rules.
+Select the method that owns the requested research object. `.cursorrules` owns common execution rules; econ-assertive owns Japanese and English wording, exemplar selection and one internal review. Load supporting sections for concrete dependencies and reuse loaded material.
 
 - `econ-assertive`: Write direct Japanese and English economics prose with default or explicitly selected exemplars; remove hedges, concessions, emphasis and AI-style padding.
 - `econ-data`: Acquire and link data, implement concise research code and reproduce requested results.
@@ -14,6 +14,6 @@ Select one primary research method. For Japanese or English prose, apply econ-as
 - `econ-workflow`: Organize or resume economic research with evidence-linked stage outputs and efficient context reuse.
 - `econ-writing`: Create economics research prose, QMD/LaTeX, plain Beamer slides and evidence-bearing exhibits.
 
-Route wording-only requests to econ-edit. A request for clear or natural prose within a substantive task keeps that task's method and selected exemplars. Do not stack general humanizers. Supplied R00-R08 retain method ownership in bridged Projects. The same prose rules apply there without a second workflow.
+Route wording-only requests to econ-edit. Clearer prose within a substantive task keeps that method. Supplied R00-R08 retain method ownership in bridged Projects.
 
 [Integration](integration.md) supplies Project exports. [Sources](sources.md) records methodological references. The [wording examples](../../.agents/skills/econ-assertive/references/patterns.md) document language-specific edits. The [default exemplars](../../.agents/skills/econ-assertive/references/default-micro.md) record the source papers and adaptations.

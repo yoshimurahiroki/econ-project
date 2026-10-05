@@ -1,9 +1,9 @@
 # Reproducible execution
 
-Use the existing runner and analysis entry point. Recompute only the outputs affected by changed data, code or parameters. Reuse unchanged results from their recorded source version; avoid routine checksum sweeps and cache frameworks.
+Use the existing runner. Trace a requested table, figure or numerical claim to its saved input, sample, specification, code and command. Keep the source and calculation revision distinct from the presentation revision when saved quantities are re-exported. Preserve dependency versions and stochastic seeds.
 
-Keep reportable numbers connected to the generating command, sample, specification and source object in the existing analysis. Preserve dependency versions and seeds. Add an execution record only when it is needed to reproduce or transfer the requested result.
+Determine what changed before rerunning. Input or definition changes invalidate their affected calculations and descendants. A shared mapping or sample universe can spread that dependency across years. Display changes reuse saved aggregates. Unknown provenance remains unknown; retain the saved object as a snapshot rather than certifying it against current inputs.
 
-Use existing output or one representative execution to settle a concrete risk. Add a separate fixture, benchmark or cross-language comparison only when that risk requires it. Skip repeated tests of built-in or library behavior. Full clean execution belongs to an explicit reproduction/release request or a result that requires the complete pipeline.
+For a replication, execute the requested path and compare its result with the source using a meaningful tolerance. Full clean execution belongs to the requested reproduction or a result that requires the entire pipeline. For ordinary changes, inspection or one representative execution establishes the affected behavior under repository policy.
 
-A replication compares the requested results against their source with a meaningful tolerance. Routine code work stops after the changed behavior is established. Keep essential scientific evidence; omit passing-check logs, scorecards and duplicate reports.
+Keep the command, source objects, actual result and remaining work in the existing analysis or task record when needed for reuse or transfer.

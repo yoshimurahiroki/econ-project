@@ -3,14 +3,12 @@ name: econ-handoff
 description: Transfer a task between Chat, Work and repository agents using revision and execution records.
 ---
 
-Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
-
 # Research handoff
 
-Resolve the active surface, repository or storage location, revision, tools, permissions and task. Read canonical files through the native connector or checkout. Compare the source revision with attached Project snapshots. Use the version specified for the task.
+Read the canonical task and source through the available connector or checkout. Identify the current repository, branch, revision and authorized stage. Attached Project exports are snapshots; compare their SOURCE revision with the current repository before using them for implementation. Use the version specified by the task.
 
-Repository skills are files in a coding environment. Exports are snapshots. Connector access, filesystem access, runtimes and deployed writes have separate evidence. Use the capabilities actually exposed. docs/ai/integration.md supplies verified product behavior and commands.
+Reuse the existing task record. Carry the object, deliverable, base commit, stable source IDs and paths, adopted and open decisions, authorized edits, environment, generating commands, observed results, output locations and next action. Use [the handoff fields](references/handoff.md) for the information needed to resume.
 
-Reuse the existing task record. For a requested handoff, carry object, deliverable, stable sources, base commit, relevant paths, decisions, evidence, permitted edits, commands, results and next action. Use [the template](references/handoff.md). Carry relevant paths and source IDs rather than whole private records.
+Git stores code, configuration, specifications and reviewable outputs. Approved research storage holds raw data, private papers and credentials. Carry locators instead of copying private records; preserve sharing settings.
 
-Git stores code, configuration and templates. Approved research storage holds papers and data. Preserve sharing settings. The execution agent checks the checkout and permissions, returns exact changed paths and observed checks, and reads back writes. Regenerate Project snapshots explicitly after a source change. Carry post-draft decisions only when needed to resume an interrupted edit.
+Repository edits, Project attachments and deployed outputs are separate writes. State which were actually changed. Regenerate the relevant snapshot after changing its source instructions. The repository's `docs/ai/integration.md` describes the existing export entry point.

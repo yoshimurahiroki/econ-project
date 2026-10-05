@@ -3,8 +3,6 @@ name: econ-literature
 description: Find literature, assess novelty, verify citations and institutions, and maintain research indexes.
 ---
 
-Use `econ-assertive` for prose. Apply the repository simplicity and minimum-verification rules to every generated artifact.
-
 # Sources and literature
 
 For one paper, start with its specified version and claim-bearing appendices. For literature and novelty, use specified materials, the relevant personal collection, then external academic discovery. Use native connectors for private sources and current records. Resolve IDs before reads or writes. Keep personal collection locators in task inputs.

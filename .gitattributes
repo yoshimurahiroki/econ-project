@@ -1,0 +1,2 @@
+# Dev Container executes these files from the host bind mount.
+*.sh text eol=lf

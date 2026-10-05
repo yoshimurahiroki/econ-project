@@ -3,11 +3,9 @@
 Profile: `default-micro`. Languages: English and Japanese. Updated: 2026-10-01.
 Corpus: ten empirical articles published in 2021-2025; six in Top 5 journals and four in leading field journals. Every inspected version is dated 2020 or later.
 
-## Selection and use
+## Use
 
-Use this profile for research prose unless the user explicitly selects a custom profile for the task or explicitly sets a persistent project preference. Read it before drafting or editing and reuse it when loaded. A task-scoped selection ends with that task. Use this default for functions absent from the selected custom profile. Attached papers and existing custom files do not select a style. Create custom exemplars only on request through `econ-style`.
-
-Apply the paragraph function needed by the requested text. A short answer needs no manuscript outline. Preserve the user's genre, authorial voice, headings and substantive coverage. The examples guide sentence relations and paragraph development; their facts, numbers, methods and citations belong to their source studies.
+econ-assertive owns profile selection and wording. Apply the paragraph function needed by the requested text while preserving its genre, authorial voice, headings and substantive coverage. The examples supply sentence relations and paragraph development; source-study facts remain with their sources.
 
 ## Basis of the profile
 
@@ -78,18 +76,6 @@ Japanese adaptation:
 > 医療保険プランの選択に関する研究は、不注意と切替費用を分けて分析してきた。本研究では、現在の医師を変更する費用を推定する。分析対象では、他の給付内容を固定したまま、保険料と現在の医師を利用できるかどうかがプラン間で異なる。選択モデルでこの差を用い、同じ医師を継続利用する価値と不注意を分離して推定する。
 
 Transfer: use the actual closest studies and verified contribution of the current paper. Replace generic `fills a gap`, `new lens` and chronological name lists with the specific relationship. A citation to a source study does not authorize importing its findings into the target research.
-
-## Shared language rules
-
-`econ-assertive` remains the sole wording layer. Default hedges, concessions, qualifications, rhetorical contrasts and emphasis: zero. Delete unnecessary defensive propositions. Preserve necessary scientific content as direct statements. Do not learn caution sections, stock transitions, inflated novelty claims or repeated summaries from the source papers.
-
-Keep defined economic terms stable. Use ordinary copulas and literal verbs: `is`, `are`, `has`, `estimate`, `compare`, `show`. Remove distanced result frames that merely announce a finding. Preserve the actual author, empirical object and meaning of the claim.
-
-In Japanese, retain ordinary nonhuman subjects. Replace an inanimate subject plus a figurative, bodily or personifying predicate when it obscures the relation. State the event, comparison or actual actor. Keep literal economic relations intact.
-
-Sentence and paragraph length follow the argument. Keep closely related comparisons, numbers and reasoning together. A new paragraph marks a change in the argument. Do not engineer short sentences, irregular rhythm, a fixed number of claims, or varied synonyms to imitate a person.
-
-Apply the selected examples during writing and perform the existing single internal wording review. No detector, scoring system, prose scanner, separate audit, mandatory extra section or second editing workflow is added.
 
 ## Reading map
 
