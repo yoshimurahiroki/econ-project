@@ -1,18 +1,18 @@
 ---
 name: econ-data
-description: Acquire and link data, implement concise research code and reproduce requested results.
+description: Acquire and link data, implement research code and reproduce requested results.
 ---
 
 # Data and code
 
-Read the current specification, input documentation and entry point. Map the economic object to records, fields, keys and transformations. Preserve source version, population, period, observation unit, quantity unit and denominator. Verify access terms when access is part of the task. Choose joins from the intended population; retain the meanings of observed zero, suppression, censoring and missingness.
+Implement the requested acquisition, transformation, calculation or reproduction through the existing entry point. Read its specification, input documentation and saved results. Map the requested economic object to records, fields, keys and transformations. Preserve source version, population, period, observation unit, quantity unit and denominator. Choose joins from the intended population. Preserve observed zero, suppression, censoring and missingness.
 
-Trace source -> derived data -> analysis object -> exhibit through the existing pipeline. Separate costly acquisition and transformation from calculation and presentation where results can be reused. Record the material input, definition and transformation versions in existing metadata. Reuse a saved object for matching recorded inputs. An object with unrecorded provenance has an unverified input version. A changed mapping or population can affect downstream years through a shared universe. Rerun those affected stages. Wording, layout and language changes use saved quantities and preserve their numerical provenance.
+For a requested data design, inspect the source fields needed for the proposed measures. Distinguish sample eligibility, measurement support, scale, case mix, behavior and heterogeneity when those distinctions determine the design. Define requested metrics by population, numerator, denominator, timing, aggregation and missingness. Use pre-treatment information for requested pre-treatment groups and fix their membership across the comparison period.
 
-Keep sample rules and classifications in the canonical specification. Preserve unresolved choices.
+Trace the affected result through source, derived data, analysis object and exhibit. Reuse saved objects with the required inputs and definitions. Record changed input, definition and transformation versions in existing metadata. Recompute affected stages when a mapping or population changes. Wording, layout and language changes use saved quantities and preserve their numerical provenance.
 
-Use direct code in the existing language, environment and entry point. Extract helpers for actual reuse or substantial complexity. Keep source paths and output roles clear. Use explicit seeds when computation is stochastic. Generate numerical prose and exhibits from analysis objects.
+Keep adopted sample rules and classifications in the canonical specification. Preserve the researcher's unresolved choices. Use explicit seeds for stochastic computation.
 
-Inspect a key, merge, sample, weight or formula when the changed operation can silently alter the requested result. Place a necessary assertion once at that boundary and rely on library errors for conditions they enforce. Establish changed behavior through the smallest representative calculation; repository policy governs further verification.
+Establish changed keys, joins, samples, weights or formulas through the existing relevant checks and boundary assertions.
 
-Read [implementation notes](references/implementation.md) or [reproducible execution](references/reproducible-workflow.md) for the relevant dependency. Deliver the requested code, data or result with the definitions and actual execution evidence needed to use it.
+Read [implementation notes](references/implementation.md) or [reproducible execution](references/reproducible-workflow.md) for the operation being performed.

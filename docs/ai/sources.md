@@ -6,16 +6,16 @@ Review date: 2026-09-27. This record identifies the source material read and the
 
 | Source | Evidence read | Local decision |
 | --- | --- | --- |
-| Kiterlin/anti-defensive-writing | Full SKILL.md, Git blob 2a5f19a08d5bb310338a7c46867e7234089a4438 | Use detection, function classification and rewriting. Replace the broad limitation allowance and automatic conversion to positive scope with the user's strict necessity gate. |
-| Silas1929/econ-writing | Full SKILL.md, Git blob 4faeb37074b196e1db0a4a2e282dce2f5f91c963 | Use plain words and proactive drafting plus review. Replace one-hedge-per-claim and routine conclusion caveats with the zero-default policy. |
-| justairr/defensive-writing-checker | Full SKILL.md, Git blob 9c5c904e6faa0cfc74552e66aba6101b815dfc91 | Compare its explicit-review workflow. The local skill runs by default and retains scientific findings independently of whether they favor the argument. Selective reporting rules are not imported. |
+| Kiterlin/anti-defensive-writing | Full SKILL.md, Git blob 2a5f19a08d5bb310338a7c46867e7234089a4438 | Claim-first reconstruction of requested text, with defensive propositions removed under the local policy. |
+| Silas1929/econ-writing | Full SKILL.md, Git blob 4faeb37074b196e1db0a4a2e282dce2f5f91c963 | Plain words and result-first drafting; local policy replaces hedge allowances and routine conclusion caveats. |
+| justairr/defensive-writing-checker | Full SKILL.md, Git blob 9c5c904e6faa0cfc74552e66aba6101b815dfc91 | An explicit-review workflow used for comparison. The local adaptation preserves requested scientific findings and uses one final prose pass. |
 
 Primary repositories:
 - https://github.com/Kiterlin/anti-defensive-writing
 - https://github.com/Silas1929/econ-writing
 - https://github.com/justairr/defensive-writing-checker
 
-Direct drafting is followed by one meaning-based necessity review using the current claim and source evidence.
+Current scope and execution rules belong to [.cursorrules](../../.cursorrules). Task methods supply requested procedures; econ-assertive supplies the final deletion and expression pass. Source records document adaptations.
 
 ## Economics skill catalog
 
@@ -63,43 +63,29 @@ Rechecked 2026-09-27. Each source below was read at its README or official-docum
 | Primary source | Observed design | Local decision |
 | --- | --- | --- |
 | https://github.com/OpenSourceEconomics/econ-project-templates | Pixi and a dependency-driven data-to-paper pipeline | Preserve the runner and rerun affected outputs; reproduce fully when requested. |
-| https://github.com/rhstanton/project_template | Traceable data, code and publication exhibits; selectable languages | Keep a minimal claim-to-code map and the repository's chosen languages. |
+| https://github.com/rhstanton/project_template | Traceable data, code and publication exhibits; selectable languages | Preserve existing links between claims, code and outputs, and the repository's chosen languages. |
 | https://github.com/maxwell2732/codex-stata-for-economists/blob/main/README.en.md | Numerical claims tied to logs and output tables | Carry run evidence with each reportable result. |
-| https://github.com/pedrohcgs/claude-code-my-workflow | Replication checks, claim provenance and handoffs | Use targeted checks and existing task records; retain the single-agent default. |
+| https://github.com/pedrohcgs/claude-code-my-workflow | Replication checks, claim provenance and handoffs | Use result-relevant checks and existing task records for requested transfers. |
 | https://github.com/tsdfs930514/econ-research-workflow | Lifecycle skills and cross-validation | Keep task routing; additional execution follows a concrete research need. |
 | https://developers.openai.com/blog/skills-agents-sdk | Short repository policy, task metadata, selected bodies and deterministic scripts | Keep one policy, bounded discovery and no default external-repository loading. |
 | https://learn.chatgpt.com/docs/agent-configuration/agents-md | Repository-level instruction discovery | Retain compact host pointers to the existing policy owner. |
 
 
-## Semantic content selection (2026-10-06)
+## Semantic writing adaptations (2026-10-06)
 
-The current user instruction establishes semantic admission and affirmative direct prose. The local adaptation uses one writing pass in econ-assertive: select the requested answer and its supporting claims, delete rejected propositions completely, and reconstruct the paragraph from admitted content. Methods retain the evidence required by their requested research object.
+The review read the sources and sections below. Local adaptations retain requested facts, quantities, attribution and causal relations while removing defensive propositions and stock framing. The policy and selected skill contain the current operating rules.
 
-| Actual skill and inspected revision | Sections read | Local adaptation |
+| Current source and inspected revision | Read material | Local operation |
 | --- | --- | --- |
-| [Kiterlin/anti-defensive-writing](https://github.com/Kiterlin/anti-defensive-writing/blob/c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46/skill/anti-defensive-writing/SKILL.md), commit c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46 | Core Rule; Preserve Necessary Precision; Rewrite Procedure; Writing Principles; Examples; Final Pass; Additional Rules | Claim-first organization, full deletion and paragraph reconstruction; the user admission rule decides retained content before wording. |
-| [nanaism/yomiyasu](https://github.com/nanaism/yomiyasu/blob/986da6ffc89316a90e509d007c1efe1fc59057e6/SKILL.md), commit 986da6ffc89316a90e509d007c1efe1fc59057e6 | §1 meaning, register, paragraph relations, subject/object alignment, literal verbs and information; §2-3 execution/output | Preserve the admitted claim's factual function, numerical strength, attribution and causal status; align subjects and predicates in the requested register. |
-| [makotofalcon/humanizer-ja](https://github.com/makotofalcon/humanizer-ja/blob/4cc01cdd5aff4102888e9396c3ba16da99828f78/SKILL.md), commit 4cc01cdd5aff4102888e9396c3ba16da99828f78 | §§11, 11b, 12, 14, 15, 16 and 22-25; process and output sections | Delete inflated significance, appended evaluation, decorative contrasts and stock framing; retain stable economic terms. |
+| [Kiterlin/anti-defensive-writing](https://github.com/Kiterlin/anti-defensive-writing/blob/c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46/skill/anti-defensive-writing/SKILL.md), c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46 | Core and additional rules, Preserve Necessary Precision, rewrite procedure, final pass, patterns, examples and English/Chinese sections | Organize around the claim and rebuild paragraphs. Apply semantic admission to positive scope conversions, limitation allowances, hedges and reviewer framing. |
+| [nanaism/yomiyasu](https://github.com/nanaism/yomiyasu/blob/986da6ffc89316a90e509d007c1efe1fc59057e6/SKILL.md), 986da6ffc89316a90e509d007c1efe1fc59057e6 | §1 meaning, register, paragraph relations, subject/object alignment, literal verbs and information; §2 procedure; §3 output | Preserve admitted factual relations and align actor, object and predicate. Apply deletion to evaluations, metaphorical implications and corrective contrasts. |
+| [makotofalcon/humanizer-ja](https://github.com/makotofalcon/humanizer-ja/blob/4cc01cdd5aff4102888e9396c3ba16da99828f78/SKILL.md), 4cc01cdd5aff4102888e9396c3ba16da99828f78 | Principles, human voice, patterns 1–25 and 11b, process and output | Delete appended significance, vague authority, promotion and stock conclusions. Use the admission rule for residual hedges, personal voice and digressions. |
+| [Silas1929/econ-writing](https://github.com/Silas1929/econ-writing/blob/ba636f282fc80b12dbed623752b76c1513cd73ea/SKILL.md), ba636f282fc80b12dbed623752b76c1513cd73ea | Complete SKILL: core principles, quick reference, four modes and general guidelines | State results first with plain verbs. Apply categorical deletion to hedge allowances, one-off usage, alternate contrast forms and routine conclusion caveats. |
 
 These are original local rules and examples adapted from the identified operations. The inspected repositories license their files under MIT: [Kiterlin, copyright 2026](https://github.com/Kiterlin/anti-defensive-writing/blob/c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46/LICENSE), [nanaism, copyright 2026](https://github.com/nanaism/yomiyasu/blob/986da6ffc89316a90e509d007c1efe1fc59057e6/LICENSE), and [humanizer-ja, copyright 2025](https://github.com/makotofalcon/humanizer-ja/blob/4cc01cdd5aff4102888e9396c3ba16da99828f78/LICENSE).
 
 Earlier wording references recorded in patterns.md on 2026-10-01 remain attributable to [blader/humanizer](https://github.com/blader/humanizer/blob/main/SKILL.md), [softaworks/writing-clearly-and-concisely](https://github.com/softaworks/agent-toolkit/blob/main/skills/writing-clearly-and-concisely/SKILL.md), [Keizai Seminar's introduction article](https://note.com/keisemi/n/n6442eac8af25), and [Cochrane's Writing Tips](https://www.fma.org/assets/docs/membercontent/writing_cochrane.pdf). Their recorded operations concern paragraph development, literal subjects and direct contributions. The default-micro corpus, its inspected-version records and its source locators remain in their existing reference.
 
-## Semantic admission and expression (2026-10-06 refinement)
-
-The user requires categorical deletion of hedging, concession, qualifying commentary, ornament and their substitutes. Each retained proposition binds to the requested answer or a specific admitted claim. The adaptation deletes rejected meanings at sentence, clause, modifier and implied-premise level, then composes the answer from admitted claims. Existing source/version records and one internal writing pass supply provenance and review.
-
-| Current source and inspected revision | Read material | Local operation |
-| --- | --- | --- |
-| [Kiterlin/anti-defensive-writing](https://github.com/Kiterlin/anti-defensive-writing/blob/c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46/skill/anti-defensive-writing/SKILL.md), c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46 | Core and additional rules, rewrite procedure, patterns, examples and English/Chinese sections | Organize around the claim and rebuild paragraphs. Apply semantic admission to positive scope conversions, limitation allowances, hedges and reviewer framing. |
-| [nanaism/yomiyasu](https://github.com/nanaism/yomiyasu/blob/986da6ffc89316a90e509d007c1efe1fc59057e6/SKILL.md), 986da6ffc89316a90e509d007c1efe1fc59057e6 | §1 and its subsections, §2 procedure, §3 output | Preserve admitted factual relations and align actor, object and predicate. Apply deletion to evaluations, metaphorical implications and corrective contrasts. |
-| [makotofalcon/humanizer-ja](https://github.com/makotofalcon/humanizer-ja/blob/4cc01cdd5aff4102888e9396c3ba16da99828f78/SKILL.md), 4cc01cdd5aff4102888e9396c3ba16da99828f78 | Principles, human voice, patterns 1–25 and 11b, process and output | Delete appended significance, vague authority, promotion and stock conclusions. Use the admission rule for residual hedges, personal voice and digressions. |
-| [Silas1929/econ-writing](https://github.com/Silas1929/econ-writing/blob/ba636f282fc80b12dbed623752b76c1513cd73ea/SKILL.md), ba636f282fc80b12dbed623752b76c1513cd73ea | Complete SKILL: core principles, quick reference, four modes and general guidelines | State results first with plain verbs. Apply categorical deletion to hedge allowances, one-off usage, alternate contrast forms and routine conclusion caveats. |
-
-These compact rules and examples are original adaptations. The existing econ-assertive owner handles content and wording; related methods preserve admitted economic claims, evidence and logical polarity.
-
 ## Proposition-first reconstruction (2026-10-06)
 
-Read the current [root SKILL.md](https://github.com/Kiterlin/anti-defensive-writing/blob/c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46/SKILL.md), commit `c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46`: core and additional rules, functional diagnosis, rewrite procedure, paragraph construction and examples. The adaptation uses claim-forward organization, deletion of defensive propositions and preemptive rebuttals, reconstruction around the substantive claim, measured uncertainty and removal of apology-like and self-undermining framing. The previously recorded yomiyasu and humanizer-ja operations supply concrete subjects, aligned predicates, literal verbs, stable terminology and deletion of appended evaluation and stock phrasing.
-
-The current user rule admits the actual answer, its required evidence or reasoning, explicitly requested information, and substantive facts required to interpret a retained claim. Selection precedes wording. Rejected meaning is deleted across grammatical forms and output locations. Findings, mathematics, legal holdings, publication states and pending decisions retain their substantive polarity. econ-assertive owns the rule and one internal writing review across all methods.
+The review read [root SKILL.md](https://github.com/Kiterlin/anti-defensive-writing/blob/c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46/SKILL.md), commit `c7edf8fc91ae9c4f7e58345bd12934bb4cf41c46`: core and additional rules, functional diagnosis, rewrite procedure, paragraph construction and examples. Its claim-forward procedure reconstructs paragraphs around substantive claims and removes defensive propositions, preemptive rebuttals and apology-like framing. The previously recorded yomiyasu and humanizer-ja operations supply concrete subjects, aligned predicates, literal verbs, stable terminology and deletion of appended evaluation and stock phrasing.

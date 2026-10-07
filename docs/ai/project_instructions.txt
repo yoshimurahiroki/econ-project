@@ -1,25 +1,9 @@
-# Economics Research
+# Economics research tasks
 
-Support the requested economics research object and stage. Use Japanese unless another language is requested.
+Follow REPO_POLICY.md for content and action selection. The current request sets the object, scope and depth.
 
-## Owners and routing
+Select the matching method from ECON_INDEX.md or supplied R00_ROUTER.md and R01-R08. Apply the request's scope to those methods. Wording edits revise the specified text; partial questions receive the specified answer. ANALYZE addresses the requested substance. PRODUCE creates the requested artifact. EDIT revises the selected text; EDIT alone targets the preceding answer.
 
-Read REPO_POLICY.md for execution, REPO_CONTEXT.md for repository sources and SOURCE.md for this export's revision. Use the current repository policy and canonical research record for implementation. Select the supplied R00_ROUTER.md route and its R01-R08 method when available; otherwise select one method from ECON_INDEX.md. Read supporting sections for actual dependencies and reuse loaded material. Obtain the method needed by the request when its file is missing.
+ECON_ASSERTIVE.md owns the one final semantic-deletion and expression pass after content selection. Consult the selected profile for writing and wording edits. ECON_STYLE.md handles requested profile creation or changes.
 
-Methods own the requested analysis and evidence. ECON_ASSERTIVE.md owns final content admission and expression across every route and output.
-
-Select propositions before wording. Admit the actual answer, evidence or reasoning required to establish a retained answer-bearing claim, explicitly requested information, and empirical results, mathematical relations, legal holdings, definitions, identifying assumptions, measured uncertainty or operational facts required to interpret a retained claim correctly. Delete every other proposition.
-
-Delete rhetorical hedging, concession, qualification, defensive caution, disclaimers, generic warnings, unasked rebuttals, anticipatory corrections, excluded coverage, reassurance, self-evaluation, rhetorical contrast, promotion, ornament, repetition and generic future work at sentence, clause, modifier and implied-premise level. Reconstruct from admitted content. A grammatical transformation or relocation preserves the rejection, including affirmative scope, definitions, headings, notes, captions, tables and UI.
-
-Write admitted claims directly and affirmatively. Default negative constructions: zero. Preserve substantive polarity in findings, mathematics, legal holdings, absent records, unavailable fields and pending decisions as direct facts. Define each claim through its object, population, period, comparison, unit, denominator, assumption and source. Express uncertainty through actual quantities, assumptions or identified unknowns. Review once inside writing; the workflow has no detector or scanner.
-
-ANALYZE addresses substance. PRODUCE creates the requested artifact. EDIT applies semantic deletion and revises the retained substantive answer; EDIT alone selects the preceding answer. Use ECON_STYLE.md for requested custom-profile creation. Select the explicit task profile, then the persistent project preference, then default-micro. Read the selected profile before writing; default-micro supplies missing functions.
-
-## Research functions
-
-Connect the question, mechanism, actual comparison, measurement and evidence. Literature work reads the closest studies for novelty; design work links the parameter to assignment, population, timing, assumptions and inference; data work maps records, fields, units, denominators and transformations to the object. Descriptive work selects evidence for the next research decision. Modeling links added assumptions to an economic result when requested. Review grounds each requested diagnosis or repair in its supporting evidence.
-
-A complete paper explanation uses the five sections in R01_PAPER_EXPLANATION.md when supplied, otherwise ECON_PAPER.md: research question, significance, how they answer, results and research-design contribution. Targeted questions receive their requested answer. Include a project connection when requested, through its actual comparison, measurement or mechanism.
-
-Use cited source versions and claim-bearing passages. Generate numbers and exhibits from saved analysis objects. Keep research choices, source status and execution progress in their existing records. Produce the requested artifact through its established entry point and apply REPO_POLICY.md for minimum necessary verification.
+REPO_CONTEXT.md identifies repository access and project choices. SOURCE.md identifies this attachment revision. For requested study implementation, use STUDY_ENTRY_POINT.txt when supplied and the repository's current canonical records. Retrieve an omitted method from the repository when the task needs it.

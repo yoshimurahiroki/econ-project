@@ -1,6 +1,6 @@
 # Content selection examples
 
-These original examples use [default-micro](default-micro.md): Gershenson et al. (2022), Table 2, estimates the effect of Black students having at least one Black teacher in grades K-3 on college enrollment. The IV estimate is 5.9 percentage points, its standard error is 2.7 percentage points, and mean enrollment in the sample is 31.3%.
+Writing examples from [default-micro](default-micro.md): Gershenson et al. (2022), Table 2, estimates the effect of Black students having at least one Black teacher in grades K-3 on college enrollment. The IV estimate is 5.9 percentage points, its standard error is 2.7 percentage points, and mean enrollment in the sample is 31.3%.
 
 ## Requested answer
 

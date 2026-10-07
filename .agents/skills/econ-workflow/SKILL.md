@@ -1,22 +1,23 @@
 ---
 name: econ-workflow
-description: Organize or resume economic research with evidence-linked stage outputs and efficient context reuse.
+description: Organize or resume requested economic research using accepted decisions and existing results.
 ---
 
 # Research workflow
 
-Enter at the requested stage. Read the canonical task record, accepted decisions, source version and completed outputs. Methods supply the analysis and evidence required by the requested object; econ-assertive selects the reader-facing content. Select the next step by the unresolved decision it can inform. Reuse valid sources and results. Keep unresolved research choices pending until the researcher adopts them.
+Enter at the requested stage. Read the relevant canonical task, accepted decisions, input versions and completed outputs. Reuse the existing evidence and results that establish the requested answer. Apply the method for the specified operation. Keep the researcher's unresolved choices in the existing research record.
 
-For descriptive work, connect the unresolved decision -> necessary comparison or summary -> saved input/version, observation unit and denominator -> output -> remaining decision. Compute the needed quantities once and generate numerical text, tables, figures and language variants from them. Change calculation when inputs or definitions change; change presentation when wording or layout changes. Read [the Mahoney framework](references/descriptive-model.md) when choosing the evidence or connecting it to later modeling.
+For requested descriptive work, connect the question or decision to the necessary comparison, saved input, observation unit and denominator. Compute the needed quantities once. Generate requested text, tables, figures and language variants from those quantities. Change calculation when inputs or definitions change; change presentation when wording or layout changes. Read [the Mahoney framework](references/descriptive-model.md) when selecting evidence for requested descriptive or model-based work.
 
-Use the stage that advances the current object:
+Use the matching stage:
 
-- Question: define the economic object, mechanism, population and outcome; judge its value independently of result sign. Use econ-design.
-- Literature: read the closest papers fully and identify the economic increment. Use econ-literature.
-- Design and measurement: connect the comparison and actual assignment to documented fields and inspected records. Iterate feasibility and design together.
-- Descriptive evidence: show the comparison, support or distribution needed for the next decision. A model, when requested, receives features motivated by these facts and assumptions tied to an additional economic result.
-- Analysis decisions: record adopted samples, treatment, outcomes, transforms, estimator, weights and inference. Preserve the timing of confirmatory choices and exploratory changes.
-- Implementation and interpretation: run the affected canonical path and reconcile code, exhibits and claims. Use econ-data or econ-review.
-- Writing: produce the requested argument or artifact under econ-assertive. Use econ-writing.
+- Question: develop or assess the specified economic object, mechanism, population and outcome. Use econ-design.
+- Literature: find or assess the specified work and contribution. Use econ-literature.
+- Design and measurement: connect the requested comparison and assignment to documented fields and records needed for feasibility.
+- Descriptive evidence: produce the requested comparison, support measure or distribution.
+- Analysis decisions: record adopted samples, treatment, outcomes, transforms, estimator, weights and inference when the task changes those choices. Preserve the timing of confirmatory and exploratory choices.
+- Implementation and interpretation: run the affected existing path or interpret its saved result. Use econ-data or econ-review.
+- Writing: produce the requested argument or artifact. Use econ-writing. Apply econ-assertive once for final semantic deletion and direct expression.
+- Transfer: carry the current task through econ-handoff when a handoff is requested.
 
-Choose data-first or model-first by which resolves the relevant uncertainty. Descriptive or causal-effect work can finish at its requested result. For transfer, use econ-handoff with the revision, evidence paths, adopted and open decisions, actual execution and next authorized action.
+For requested research planning, choose data-first or model-first by the uncertainty the next step resolves. Finish descriptive, causal-effect or model work at the requested result.

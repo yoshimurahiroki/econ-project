@@ -1,3 +1,3 @@
-# econ-project AI rules
+# Repository instructions
 
-Read and follow `.cursorrules`; it is the single authoritative policy.
+Follow [the repository policy](../.cursorrules).

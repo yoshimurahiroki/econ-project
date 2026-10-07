@@ -1,8 +1,5 @@
-# Issue Notes
+# Task records
 
-Keep durable task notes here. Work from the current request and its evidence;
-use `issue_template.md` or `task_template.md` when a written plan supports the
-task. Use stable lowercase filenames and Git history for versions. Delete
-resolved scratch notes.
+Use an existing record for a requested written plan or handoff. Keep the fields needed to complete or resume that task. Use stable lowercase filenames and Git history for versions. The existing `issue_template.md` and `task_template.md` supply plan headings.
 
-`.cursorrules` owns execution, authorization and verification.
+Follow [the repository policy](../../.cursorrules) for content, execution and verification.

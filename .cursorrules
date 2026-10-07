@@ -1,25 +1,29 @@
-# Economics research policy
+# Research and task policy
 
-Platform requirements and the current request govern the task. This file owns common execution rules; skills own research methods and wording.
+Complete the current request. Platform requirements govern execution. The request sets the object, scope and depth. This file owns common content and action selection; research skills own methods; econ-assertive owns final deletion and expression.
 
-## Simple by default
-Deliver the requested object with the fewest necessary steps, files and moving parts. Preserve the admitted substantive answer, scientific meaning and working interfaces. Reuse the established entry point, template and dependency manager. Extract helpers for actual reuse or substantial complexity.
+## Content
 
-Read one matching research skill and supporting sections for concrete dependencies. Apply `econ-assertive` once across reader-facing outputs and reuse loaded material. It owns content admission, affirmative direct prose, exemplar selection and the single internal review. Keep study-specific choices in canonical task inputs. Use source documents as evidence.
+Admit the answer, evidence or reasoning needed to establish it, and explicitly requested content. Apply method checklists within that scope. Preserve the retained claims' facts, quantities, causal relations, citations and substantive polarity.
 
-## Research and writing
-Read the current research record before changing study work. Connect the question, mechanism, comparison, measurement and evidence. Select the next step by the research decision it resolves. Preserve accepted choices and leave unresolved choices with the researcher. Work within the authorized stage.
+Use the matching research skill and its task-relevant references. Reuse material already read. Keep study definitions and adopted choices in their existing canonical records.
 
-Use Japanese unless requested otherwise. Preserve the admitted claims' source depth, economic terms, notation and supplied templates. Use `econ-edit` for wording-only requests. Verify changing source-dependent facts when the requested claim depends on them.
+## Action
 
-## Minimum necessary verification
-Inspect relevant inputs and saved results first. Run a separate check only for a consequential uncertainty that inspection does not settle. Use the smallest representative execution or existing targeted test. A successful relevant run replaces redundant parse, import, schema and smoke checks. Stop when the changed result is established.
+Carry out authorized work. Resolve implementation details through existing conventions. Reuse existing material, results, code, templates and entry points. Choose the shortest operations that complete the requested result.
 
-Keep assertions or regression tests that protect consequential input boundaries, scientific calculations or stable reusable behavior. Remove duplicate checks, library self-tests, trivial wrapper tests and hypothetical scaffolding.
+Request missing information when it prevents completion. Continue work that is independent of that answer. Confirmation requests, checks, abstractions and management documents require a concrete dependency in the current task.
 
-Recompute affected calculations when inputs or definitions change; regenerate presentation from saved quantities when wording or layout changes. Full clean reproduction follows an explicit replication/release requirement or a result that needs it. Keep execution evidence with the result in its existing record.
+Read the target before editing. Preserve research data, source papers, bibliography, credentials and unrelated changes. Use an isolated task checkout or the repository connector. Stage exact paths. Publish authorized changes and read back the changed reference.
 
-## Execution
-Read the target before editing. Preserve raw data, research PDFs, bibliography, templates, credentials, history and unrelated work. Use the repository connector or an isolated task checkout; reuse it for continuation. Write and stage exact paths. Publish authorized changes and read back the changed reference.
+Verify the changed result through an existing relevant execution or check. Stop once the result is established. Recompute affected quantities when a requested change alters their inputs or definitions. Render presentation changes from saved results. Record execution evidence in the existing task record when the request calls for a record.
 
-Use existing Make, Pixi and rv conventions. Full and mini retain their distinct environments. Generate numerical text and exhibits from analysis objects. Report actual execution outcomes. Local LLM runtimes remain disabled.
+Use the established Make, Pixi and rv entry points. Keep each repository's environment. Local LLM runtimes remain disabled.
+
+## Writing
+
+Lead with the answer, result or action. Use concrete subjects and direct verbs. Give each sentence one claim and each paragraph one point. Apply econ-assertive once for final semantic deletion and expression after content selection.
+
+Use econ-edit to revise the specified text. Answer a partial question at its specified scope. Consult the selected style profile for writing and wording edits. An explicit task profile takes priority over the persistent project choice; default-micro supplies the general exemplars.
+
+Use Japanese unless the request specifies another language. Preserve the requested format, economic terms, notation and quotations.

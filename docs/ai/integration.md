@@ -1,6 +1,6 @@
 # Project integration
 
-Repository skills run in the coding environment. Project attachments are explicit snapshots with a revision in SOURCE.md. Connectors or checkouts provide current files; read the current policy and research record before repository changes.
+Repository skills run in the coding environment. Project attachments are snapshots identified in SOURCE.md. A repository task uses the current policy and the files relevant to the request.
 
 ## Existing R00-R08 Project
 
@@ -8,26 +8,24 @@ Repository skills run in the coding environment. Project attachments are explici
 python scripts/export_project.py --profile bridge --output /tmp/econ-bridge
 ```
 
-Keep existing R00-R08 method attachments. Replace the prose attachment with ECON_ASSERTIVE.md and its exported references, including ECON_ASSERTIVE__DEFAULT_MICRO.md. Attach ECON_STYLE.md and the other exported files for profile creation, repository execution and the descriptive/model framework.
-
-For a complete instruction-field replacement, paste the exported PROJECT_INSTRUCTIONS.txt. For a separately maintained field, replace its old bridge with BRIDGE_INSTRUCTIONS.txt. Use one route and attach the corresponding policy and method files.
+Keep the existing R00-R08 method attachments. For a complete instruction-field replacement, paste PROJECT_INSTRUCTIONS.txt. To update a separately maintained field, replace its bridge with BRIDGE_INSTRUCTIONS.txt. Attach the exported policy, context and prose files. ECON_INDEX.md lists their roles; method steps and the research framework apply to the requested object.
 
 ## Standalone Project
 
 ```sh
-python scripts/export_project.py --output /tmp/econ-project
+python scripts/export_project.py --profile standalone --output /tmp/econ-project
 ```
 
-Paste PROJECT_INSTRUCTIONS.txt into the field and attach the remaining files. To select methods, add `--skills econ-paper econ-design econ-writing econ-edit`. Both profiles include the complete Project field, repository context, source records, econ-assertive, its default exemplars and econ-style. A study entry point is included when the repository supplies master-project-addendum.txt. ECON_INDEX.md lists the selected local methods in each export.
+Paste PROJECT_INSTRUCTIONS.txt into the field and attach the other files. Select methods with `--skills econ-paper econ-design econ-writing econ-edit`. Both profiles include the repository policy, context, source records, econ-assertive, its default exemplars and econ-style. A study entry point is included when the repository supplies master-project-addendum.txt.
 
-Use a fresh output directory outside the repository. The exporter writes the selected snapshot and checks the instruction-field limit during export. Regenerate it when the selected instructions change.
+Use a fresh output directory outside the repository. The exporter enforces the 8,000-character instruction-field limit. Included references use exported filenames; references to other repository files use the recorded GitHub revision. Regenerate the selected snapshot when its source instructions change.
 
 ## Custom exemplars
 
-econ-assertive owns content admission and default/custom profile selection across methods and outputs. To create and apply a task profile, ask: "Use econ-style to create custom exemplars from these papers for the results section, then use them for this draft."
+For writing or wording edits, consult the profile selected by the policy. To create a profile, request econ-style with the source papers, language and target section.
 
-Name a destination to save it; a repository-save request without a path uses docs/ai/custom-style.md. Select a saved profile by path and attach or retrieve it for a Project task. Set a persistent project choice explicitly. "Use the default" restores default-micro.
+Name a destination to save the profile; a repository-save request without a path uses docs/ai/custom-style.md. Select a saved profile by path and attach or retrieve it for a Project task. Set a persistent project choice explicitly. "Use the default" restores default-micro.
 
 ## Handoff
 
-Use the existing task record for the revision, source IDs, adopted/open decisions, authorized edits, commands, results, output locations and next action. Keep private data and credentials in approved storage. State repository, Project and deployment writes separately.
+A requested handoff uses the existing task record for the revision, evidence, authorized work, results and next action relevant to the transfer. Keep private data and credentials in their existing storage.

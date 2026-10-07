@@ -1,12 +1,13 @@
-# Task handoff
+# Handoff fields
 
-- Object and deliverable:
-- Repository, branch and base commit:
-- Source paths or stable IDs:
-- Decisions and evidence:
-- Authorized edits and remote operations:
-- Environment and commands:
-- Executed commands, actual results and output paths:
-- Next authorized action:
+Carry the fields needed for the requested transfer in the existing record:
 
-Use the existing record. Carry only the information needed to resume. Keep private data and credentials in approved storage.
+- Requested object and next authorized action
+- Repository, branch and required revision
+- Relevant source and output locators
+- Adopted decisions and unresolved choices governing the action
+- Authorized edits and remote operations
+- Environment and commands needed to resume
+- Executed commands and actual results needed to continue
+
+Keep private assets and credentials in approved storage.

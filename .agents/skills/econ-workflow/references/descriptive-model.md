@@ -4,16 +4,16 @@ Source: Neale Mahoney (2022), Journal of Economic Perspectives 36(3), 211-222, D
 
 His five principles connect identifying variation, preliminary evidence, model choices, added economic insight and data-informed parameters or counterfactuals (pp. 215-218). Figure 1 connects added research-design and model assumptions to the results they support (p. 220).
 
-Operational translation for this configuration:
+Apply the relevant principle to the requested descriptive analysis, model or research plan:
 
-1. Show where the identifying variation comes from and the evidence supporting its use.
-2. Present descriptive findings relevant to the main conclusion.
-3. Let observed patterns guide the model's features and simplifications.
-4. Pair each important added assumption with its additional economic deliverable.
-5. Choose parameters and counterfactuals linked to the available variation while planning the design.
+1. Establish the variation supporting the requested parameter.
+2. Present descriptive findings supporting the requested conclusion.
+3. Use observed patterns to choose features and simplifications for a requested model.
+4. Connect each model assumption to the economic result it supports.
+5. Link requested parameters and counterfactuals to the available variation.
 
-Mahoney describes model-first ordering for guiding collection, nonstandard-data measurement or a new conceptual mechanism, and data-first ordering for guiding model choices (pp. 219-220). He recommends leading with the analysis that efficiently narrows the relevant research choices (p. 220).
+Mahoney describes model-first ordering for collection, nonstandard-data measurement or a new conceptual mechanism, and data-first ordering for model choices (pp. 219-220). He recommends starting with the analysis that efficiently narrows the relevant research choices (p. 220).
 
-Use the existing record to connect: unresolved decision -> necessary descriptive evidence -> saved input/version, unit and denominator -> output -> remaining decision. For example, a sample-coverage decision needs counts by period and group with the eligible population as denominator; the output shows coverage and leaves the adoption rule to the researcher. Reuse existing summaries when they answer the decision. Store a new summary through the current pipeline only when its calculation is needed. Generate captions, numerical text and language variants from the same saved quantities and definitions.
+Use existing summaries that answer the requested question. For a sample-coverage question, give counts by the requested periods and groups with the eligible population as denominator. Calculate a new summary through the existing pipeline when that answer requires it. Generate requested captions, numerical text and language variants from the same quantities and definitions.
 
-When the requested stage needs a model, extend that chain through the added assumption, model feature and economic parameter or counterfactual it supports. Distinguish internally estimated, externally calibrated and imposed quantities. A descriptive or causal-effect analysis may finish at its requested result. Added modeling receives its actual economic purpose. In paper explanations, represent the admitted economic claims and evidence accurately within the five-section structure.
+For a requested model, connect added assumptions and features to its economic parameter or counterfactual. Distinguish internally estimated, externally calibrated and imposed quantities. Descriptive and causal-effect tasks finish at their requested results.

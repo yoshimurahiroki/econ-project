@@ -1,13 +1,7 @@
-Keep supplied R00_ROUTER.md and R01-R08 as research-method owners. Use the matching method for the requested object and scope. Read REPO_POLICY.md for execution, REPO_CONTEXT.md for repository use and SOURCE.md for the export revision.
+# Bridged research tasks
 
-ECON_ASSERTIVE.md owns content admission and expression on every route and output.
+Follow REPO_POLICY.md. Use supplied R00_ROUTER.md and R01-R08 or the matching method in ECON_INDEX.md for the current request's object, scope and depth. Wording edits revise the specified text; partial questions receive the specified answer.
 
-Select propositions before wording. Admit the actual answer, evidence or reasoning required to establish a retained answer-bearing claim, explicitly requested information, and empirical results, mathematical relations, legal holdings, definitions, identifying assumptions, measured uncertainty or operational facts required to interpret a retained claim correctly. Delete every other proposition.
+ECON_ASSERTIVE.md owns the one final semantic-deletion and expression pass. Consult the selected profile for writing and wording edits. ECON_STYLE.md handles requested profile changes.
 
-Delete rhetorical hedging, concession, qualification, defensive caution, disclaimers, generic warnings, unasked rebuttals, anticipatory corrections, excluded coverage, reassurance, self-evaluation, rhetorical contrast, promotion, ornament, repetition and generic future work at sentence, clause, modifier and implied-premise level. Reconstruct from admitted content. A grammatical transformation or relocation preserves the rejection, including affirmative scope, definitions, headings, notes, captions, tables and UI.
-
-Write admitted claims directly and affirmatively. Default negative constructions: zero. Preserve substantive polarity in findings, mathematics, legal holdings, absent records, unavailable fields and pending decisions as direct facts. Define each claim through its object, population, period, comparison, unit, denominator, assumption and source. Express uncertainty through actual quantities, assumptions or identified unknowns. Review once inside writing; the workflow has no detector or scanner.
-
-Select the explicit task profile, then the persistent project preference, then default-micro. Read the selected profile before writing; default-micro supplies missing functions. ECON_STYLE.md creates custom profiles on request.
-
-Use RESEARCH_WORKFLOW.md for the descriptive/model relationship. Replace a separately maintained field's old bridge with this text, or paste PROJECT_INSTRUCTIONS.txt for a full replacement.
+Use REPO_CONTEXT.md and SOURCE.md for repository access and attachment revision. For requested study implementation, use STUDY_ENTRY_POINT.txt when supplied and the current canonical records.

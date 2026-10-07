@@ -1,21 +1,17 @@
 # Default empirical-micro exemplars
 
-Profile: `default-micro`. Languages: English and Japanese. Updated: 2026-10-01.
+Profile: `default-micro`. Languages: English and Japanese.
 Corpus: ten empirical articles published in 2021-2025; six in Top 5 journals and four in leading field journals. Every inspected version is dated 2020 or later.
 
 ## Use
 
-econ-assertive owns content admission, profile selection and wording. Apply the paragraph function needed by the requested text to its admitted claims, preserving their genre, authorial voice and requested structure. The examples supply sentence relations and paragraph development; source-study facts remain with their sources.
+For a writing or wording edit, select the paragraph function required by the requested text and transfer its sentence relations to retained target claims. Preserve genre, authorial voice and the requested structure. [econ-assertive](../SKILL.md) owns final semantic deletion and expression. Source-study facts remain in the examples.
 
-## Basis of the profile
-
-The review compared introduction, identification, main-results and literature-positioning passages in each of the ten source versions recorded below. The common core consists of writing moves found across both journal groups and different empirical designs. Transfer the sentence relations to the target study’s own estimator, institutions and admitted claims.
-
-The four bilingual examples are original adaptations of source-study passages. Each illustrates a move supported by several papers. The Japanese paragraphs were written for this profile. The reading map and source records document their provenance.
+The bilingual examples are original adaptations of the source studies.
 
 ## Introduction
 
-Common move: introduce the economic object and connect the question to the setting's usable comparison or measurement. Present the approach and central finding early. Develop the mechanism or economic implication through the facts that establish it.
+An introduction connects the economic object and question to the setting's comparison or measurement. The approach and central finding lead to the mechanism or economic implication supported by the facts.
 
 This sequence appears in different forms in Bessone et al. (work and sleep treatments), Egger et al. (local exposure and economic activity), Kline et al. (repeated applications within employers), Baron (two types of spending approval), and Gershenson et al. (teacher assignment and later attainment). The shared element is the connection between question and evidence.
 
@@ -27,11 +23,10 @@ Japanese adaptation:
 
 > ケニア農村部で現金給付が地域の経済活動に与える影響を推定する。村の処置割当と地域内の給付対象村の割合を無作為化し、周辺世帯への給付総額を異ならせる。家計支出、企業活動、市場価格のデータを組み合わせて地域の反応を測る。支出から推定した地域内の給付乗数は2.6である。
 
-Transfer: connect the actual research object, source of variation, measurement and finding. Select their order and paragraph length for the argument. Apply content admission before transferring a writing move.
 
 ## Identification
 
-Common move: describe assignment, exposure and the actual comparison in ordinary words. Connect the variation to the parameter and then explain how the estimator uses it. Name the relevant unit and timing. Place an indispensable identifying condition beside the claim it supports.
+An identification paragraph connects assignment, exposure and the actual comparison to the parameter and estimator. The unit, timing and identifying condition define the supported claim.
 
 Rose and Shem-Tov explain sentencing-grid comparisons; Agan et al. explain prosecutor assignment and leniency; Dahl et al. explain a birth-date cutoff and comparison population; Baron explains close votes and subsequent referenda; Rivera explains lottery assignment within exam periods. The transferable feature is the explicit comparison-to-parameter link. Their estimators and assumptions remain design-specific.
 
@@ -43,11 +38,10 @@ Japanese adaptation:
 
 > ウィスコンシン州の学区で、運営費と資本支出の住民投票が可決される効果を推定する。可決基準の直上と直下にある学区を比較する。動学的回帰不連続モデルで両種類の投票の実施順序を扱う。各係数は、その後の可決状況を固定したときの、当該可決による各時点の効果を表す。
 
-Transfer: explain what creates the comparison before presenting a method label. Give fixed effects and instruments their actual statistical roles. Keep assignment effects, treatment effects and model parameters distinct through direct definitions. Use the target design’s adopted specification.
 
 ## Results
 
-Common move: state the estimate through the measured object. Give the treatment scale, outcome unit and horizon, then connect the estimate to a named baseline or other relevant quantity. Use the table or figure as evidence for the substantive claim. Explain a mechanism through the result that bears on it.
+A result paragraph connects the estimate to its measured object, treatment scale, outcome unit, horizon and baseline. Tables and figures establish the substantive result; a mechanism interpretation uses the finding that bears on it.
 
 Bessone et al. relate treatments to work outcomes; Rose and Shem-Tov translate sentence duration into reoffending differences; Kline et al. report contact-probability differences; Gershenson et al. relate enrollment effects to the sample mean; Rivera scales peer composition and arrests. These are distinct outcomes with the same estimate-to-economic-magnitude relation.
 
@@ -59,11 +53,10 @@ Japanese adaptation:
 
 > 操作変数推定では、黒人の生徒が幼稚園から小学3年生までに黒人の教師に1度以上教わると、大学進学率が5.9パーセントポイント上昇する。標準誤差は2.7パーセントポイントである。この標本の平均進学率は31.3%であり、推定値は平均の約19%に相当する。
 
-Transfer: keep the estimate and its denominator together. Report the numerical information required by the actual result. Use `We estimate`, `The estimate is`, or the relevant direct construction. In explanations of another paper, keep attribution to its authors. End the paragraph when the estimate and its requested interpretation are established.
 
 ## Literature positioning
 
-Common move: identify what the closest work established or estimated, state the present paper's additional object, and explain the comparison, measurement or mechanism separation that makes it answerable. Attach citations to those specific relationships.
+Literature positioning connects prior knowledge to the present paper's additional object and the comparison, measurement or mechanism separation that makes it answerable. Citations establish those relationships.
 
 Rose and Shem-Tov locate the dose-response question within incarceration research; Kline et al. connect employer-level measurement to correspondence studies; Agan et al. locate prosecution within research on criminal-justice decisions; Dahl and Forbes separate doctor attachment within insurance-choice inertia; Rivera moves from officer characteristics to peer composition. The common move is a concrete economic relationship to earlier work.
 
@@ -75,7 +68,6 @@ Japanese adaptation:
 
 > 医療保険プランの選択に関する研究は、不注意と切替費用を分けて分析してきた。本研究では、現在の医師を変更する費用を推定する。分析対象では、他の給付内容を固定したまま、保険料と現在の医師を利用できるかどうかがプラン間で異なる。選択モデルでこの差を用い、同じ医師を継続利用する価値と不注意を分離して推定する。
 
-Transfer: use the actual closest studies and verified contribution of the current paper. Replace generic `fills a gap`, `new lens` and chronological name lists with the specific relationship. Attribute the source study’s findings to that study.
 
 ## Reading map
 

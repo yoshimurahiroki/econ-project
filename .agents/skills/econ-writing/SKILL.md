@@ -1,26 +1,24 @@
 ---
 name: econ-writing
-description: Create economics research prose, QMD/LaTeX, plain Beamer slides and evidence-bearing exhibits in Japanese or English.
+description: Draft, translate or format requested economics prose, QMD/LaTeX, Beamer slides and exhibits.
 ---
 
 # Writing and artifacts
 
-Identify new writing, summarization, translation, formatting or editing. Select admitted claims through econ-assertive, then preserve their numbers, notation, citations, requested structure and depth during formatting or translation. Use econ-edit for wording-only changes and econ-paper for a complete explanation. Keep methodological decisions with the selected research module.
+Use the requested object, audience, depth and format. [econ-edit](../econ-edit/SKILL.md) handles wording edits; [econ-paper](../econ-paper/SKILL.md) handles paper explanations. Use the matching research method for substantive work and [econ-assertive](../econ-assertive/SKILL.md) once for final semantic deletion and expression.
 
 ## Economics prose
 
-Organize paragraphs by their research function. An introduction presents the question, approach and findings early, explains the economic motivation and connects the contribution to the closest literature. State what the paper estimates, explains or measures. Give the fact behind a claim of contribution.
+Choose the paragraph function required by the text. An introduction connects the question, economic motivation, approach, findings and closest prior knowledge. A mechanism paragraph explains agents, choices and incentives. An identification paragraph connects the actual comparison and variation to the estimand. A result paragraph reports interpretable quantities and their uncertainty. Literature positioning relates specific prior findings or designs to the current question, with citations attached to those relationships.
 
-Explain mechanisms through the relevant agents, choices and incentives. Explain identification through the actual comparison and source of variation. Give results as interpretable estimates. Literature paragraphs connect specific prior findings or designs to the current question; attach citations to those claims.
-
-Use natural academic Japanese or ordinary academic English. Keep terms stable within a language and aligned across translations. Adapt sentence structure to each language. Use one content outline for bilingual deliverables. Preserve the admitted claims' mathematical, causal and institutional meaning.
+Use natural academic Japanese or ordinary academic English. Keep economic terms stable within a language and aligned across translations. For bilingual deliverables, use one substantive outline and adapt syntax to each language. Preserve facts, numbers, notation, attribution, causal relations and the requested structure.
 
 ## Artifacts
 
-Use the smallest structure that carries the argument. Select content before layout. Give each paragraph, frame and exhibit one substantive purpose. Preserve the supplied template and bibliography system. Keep one canonical source. Use Markdown for notes, existing QMD pipelines for computational reports, LaTeX plus PDF for manuscripts and Beamer plus PDF for slides. Office formats follow explicit requests.
+Preserve the supplied template, bibliography system and canonical source. Use the existing Markdown, QMD, LaTeX or Beamer entry point for the requested format. Each paragraph, frame and exhibit carries one substantive point.
 
-Use ordinary headings, mathematical environments and plain itemize lists. Keep one main column and one message per frame. Preserve readable font sizes; split dense frames. Keep the user's theme and Japanese LuaLaTeX support. Standard components are titles, bullets, equations and evidence-bearing figures or tables.
+For Beamer, keep the user's theme, Japanese LuaLaTeX support, readable fonts and plain titles, lists, equations and exhibits. Split dense frames while preserving the argument.
 
-Read existing Make targets and tex/paper or tex/slides templates before commands. Keep class files at their canonical location. Define symbols beside equations. Give exhibits their relevant sample, comparison, period, unit, denominator and uncertainty. Generate numerical content from analysis objects.
+Define symbols beside equations. Give an exhibit the sample, comparison, period, unit, denominator and uncertainty needed to read it. Use saved analysis objects for numerical content.
 
-For descriptive-model work, connect variation, preliminary evidence, motivated model features and added economic insight. Generate a requested compiled or rendered deliverable with its existing command and inspect the changed content or layout in that output.
+For a requested compiled or rendered artifact, read the relevant Make target and template, generate it through that entry point, and inspect the changed content or layout. For descriptive-model prose, connect observed variation and evidence to the model features and economic insight requested.

@@ -1,20 +1,20 @@
 ---
 name: econ-paper
-description: Explain a paper or specified passage and prepare a source-grounded paper seminar.
+description: Answer questions about a paper or passage and prepare a requested paper explanation or seminar.
 ---
 
 # Paper explanation
 
-Read the specified version at the scope needed for the request. A complete explanation covers the main text and claim-bearing appendices, figures, tables and notes; a targeted question uses the relevant passages. Preserve admitted claims' terminology, population, period, numerical uncertainty and attribution, with source pages or exhibits.
+Read the specified version at the scope and depth of the current request. A targeted question uses the passages and context needed to answer that part. A requested complete explanation reads the main text and the appendices, figures, tables and notes supporting the paper's central claims. Obtain required material through approved holdings, publishers, authors or institutions. Keep exact editions and locators in existing evidence metadata.
 
-Use econ-assertive to select the final content at the requested scope. A complete explanation uses five top-level sections, translated into Japanese for Japanese output:
+For a complete explanation, use the requested structure or these five sections: 研究質問、なぜ重要か、どう答えるか、結果、この論文の貢献 in Japanese; Research question, Significance, How they answer, Results and Contribution in English.
 
-1. Research question: one interrogative sentence identifying the economic object, population or market, exposure or choice, and outcome.
-2. Significance: explain the incentives, information, constraints, interaction, allocation or equilibrium. Explain how the context supplies variation, measurement or economic stakes.
-3. How they answer: integrate theory, data, identification and estimation. Cover source, acquisition, observation unit, population, period, linkage and main variables. Define the estimand, actual comparison, assignment timing and maintained assumption. Explain the main identifying issue and the authors' response with its evidence. State the implemented estimator, controls or fixed effects, weights and inference.
-4. Results: give the substantive findings. Report interpretable magnitudes, named baselines, relevant numerical uncertainty and authors' interpretation. Put supported implications here.
-5. Research-design contribution: identify the publication/version from its primary record. Explain the concrete design feature and economic knowledge it permits. End here.
+1. Research question: identify the economic object, population or market, exposure or choice, and outcome.
+2. Significance: explain the incentives, information, constraints, interaction, allocation or equilibrium that make the question consequential.
+3. How they answer: connect theory, data, identification and estimation. Explain the observation unit, sample, period, linkage, variables, estimand, comparison, assignment timing, assumptions, estimator, weights and inference that establish the findings. Present the authors' identifying argument and its evidence.
+4. Results: give interpretable magnitudes, named baselines, numerical uncertainty and the authors' supported interpretation.
+5. Contribution: state the new economic knowledge, the nearest established knowledge, and the evidence or reasoning that makes the new conclusion possible.
 
-For theory, explain primitives, equilibrium, propositions and proof arguments. For structural work, connect variation, moments, parameters, fit and counterfactual assumptions. For prediction, cover the target, information time, labels, leakage controls, validation population, calibration and decision loss. Match intervention claims to intervention evidence.
+Select technical detail for the requested explanation. Theory uses primitives, equilibrium, propositions and proof arguments. Structural work connects variation, moments, parameters, fit and counterfactual assumptions. Prediction explains its target, information time, labels, leakage controls, evaluation population, calibration and decision loss. Use [econ-design](../econ-design/SKILL.md) for a specific identifying dependency and the [descriptive-model reference](../econ-workflow/references/descriptive-model.md) for a requested model–evidence connection.
 
-Use econ-design for a specific identifying dependency and the Mahoney reference for descriptive-model linkage. Represent the source's admitted economic claims and evidence accurately. A detailed explanation deepens the five objects. A standard explanation develops the design issues that determine the reported interpretation; a full audit covers its requested set. Keep quantities and citations tied to the inspected source.
+Follow the requested citation format. A standalone note begins with authors, year, title, journal/volume and published DOI; an unpublished paper uses its formal manuscript citation and author or institution link. Explain necessary terms for the reader. Preserve terminology, population, period, units, causal status, uncertainty and attribution. Apply [econ-assertive](../econ-assertive/SKILL.md) once for final semantic deletion and expression.
