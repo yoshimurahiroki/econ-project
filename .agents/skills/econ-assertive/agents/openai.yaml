@@ -1,5 +1,5 @@
 interface:
   display_name: "Direct economics prose"
-  short_description: "Select relevant claims and write affirmative direct economics prose"
+  short_description: "Delete rhetorical meaning and write direct economics prose"
 policy:
   allow_implicit_invocation: true

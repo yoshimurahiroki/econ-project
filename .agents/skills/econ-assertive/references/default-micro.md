@@ -4,31 +4,23 @@ Profile: `default-micro`. Languages: English and Japanese.
 
 ## Use
 
-econ-assertive owns content admission, profile selection and wording. Apply the paragraph function needed by the requested text to its admitted claims, preserving their genre, authorial voice and requested structure. The examples supply sentence relations and paragraph development; example-specific facts remain in their examples.
+For a writing or wording edit, select the paragraph function required by the requested text and transfer its sentence relations to retained target claims. Preserve genre, authorial voice and the requested structure. [econ-assertive](../SKILL.md) owns final semantic deletion and expression. Example-specific facts remain in the examples.
 
 ## Introduction
 
-Common move: introduce the economic object and connect the question to the setting's usable comparison or measurement. Present the approach and central finding early. Develop the mechanism or economic implication through the facts that establish it.
-
-Transfer: connect the actual research object, source of variation, measurement and finding. Select their order and paragraph length for the argument. Apply content admission before transferring a writing move.
+An introduction connects the economic object and question to the setting's comparison or measurement. The approach and central finding lead to the mechanism or economic implication supported by the facts.
 
 ## Identification
 
-Common move: describe assignment, exposure and the actual comparison in ordinary words. Connect the variation to the parameter and then explain how the estimator uses it. Name the relevant unit and timing. Place an indispensable identifying condition beside the claim it supports.
-
-Transfer: explain what creates the comparison before presenting a method label. Give fixed effects and instruments their actual statistical roles. Keep assignment effects, treatment effects and model parameters distinct through direct definitions. Use the target design’s adopted specification.
+An identification paragraph connects assignment, exposure and the actual comparison to the parameter and estimator. The unit, timing and identifying condition define the supported claim.
 
 ## Results
 
-Common move: state the estimate through the measured object. Give the treatment scale, outcome unit and horizon, then connect the estimate to a named baseline or other relevant quantity. Use the table or figure as evidence for the substantive claim. Explain a mechanism through the result that bears on it.
-
-Transfer: keep the estimate and its denominator together. Report the numerical information required by the actual result. Use `We estimate`, `The estimate is`, or the relevant direct construction. In explanations of another paper, keep attribution to its authors. End the paragraph when the estimate and its requested interpretation are established.
+A result paragraph connects the estimate to its measured object, treatment scale, outcome unit, horizon and baseline. Tables and figures establish the substantive result; a mechanism interpretation uses the finding that bears on it.
 
 ## Literature positioning
 
-Common move: identify what the closest work established or estimated, state the present paper's additional object, and explain the comparison, measurement or mechanism separation that makes it answerable. Attach citations to those specific relationships.
-
-Transfer: use the actual closest studies and verified contribution of the current paper. Replace generic `fills a gap`, `new lens` and chronological name lists with the specific relationship. Attribute the source study’s findings to that study.
+Literature positioning connects prior knowledge to the present paper's additional object and the comparison, measurement or mechanism separation that makes it answerable. Citations establish those relationships.
 
 ## Complete constructed example
 

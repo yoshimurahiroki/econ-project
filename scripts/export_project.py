@@ -5,6 +5,7 @@ import argparse
 import re
 import subprocess
 from pathlib import Path
+from urllib.parse import quote, unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 PROSE = ["econ-assertive", "econ-style"]
@@ -39,23 +40,35 @@ def export(target: Path, profile: str, skills: list[str] | None = None) -> int:
         mapping[available[name]] = f"{prefix}.md"
         for ref in sorted((available[name].parent / "references").glob("*.md")):
             mapping[ref] = f"{prefix}__{ref.stem.upper().replace('-', '_')}.md"
+    revision = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
+    origin = subprocess.run(["git", "-C", str(ROOT), "config", "--get", "remote.origin.url"], capture_output=True, text=True, check=False)
+    remote = re.search(r"github\.com[:/]([^/]+/[^/?#]+?)(?:\.git)?$", origin.stdout.strip())
+    source_url = f"https://github.com/{remote.group(1)}/blob/{revision.stdout.strip()}/" if remote and revision.returncode == 0 else None
     contents = {}
     for source, filename in mapping.items():
         text = source.read_text(encoding="utf-8")
-        for link in re.findall(r"\]\(([^)]+)\)", text):
-            linked = (source.parent / link).resolve()
+        def rewrite(match):
+            link = match.group(1)
+            parts = urlsplit(link)
+            if parts.scheme or link.startswith("//") or not parts.path:
+                return match.group(0)
+            linked = (ROOT / unquote(parts.path).lstrip("/") if parts.path.startswith("/") else source.parent / unquote(parts.path)).resolve()
+            fragment = "#" + parts.fragment if parts.fragment else ""
             if linked in mapping:
-                text = text.replace(f"]({link})", f"]({mapping[linked]})")
+                return f"]({mapping[linked]}{fragment})"
+            if source_url and linked.is_relative_to(ROOT) and linked.is_file():
+                return f"]({source_url}{quote(linked.relative_to(ROOT).as_posix())}{fragment})"
+            return match.group(0)
+        text = re.sub(r"\]\(([^)]+)\)", rewrite, text)
         if filename.endswith("INSTRUCTIONS.txt") and len(text.replace("\n", "\r\n")) > 8000:
             raise ValueError("Project instructions exceed 8,000 characters")
         contents[filename] = text
-    lines = ["# Research task index", "", "Select the method for the requested object. ECON_ASSERTIVE.md owns content admission and affirmative direct prose across every route and output, using the explicit task profile, persistent project preference or default-micro. ECON_STYLE.md creates custom profiles on request.", ""]
+    lines = ["# Research task index", "", "Match the current request to the relevant method. Its steps and references apply to that request. REPO_POLICY.md owns content scope and execution; ECON_ASSERTIVE.md owns the final deletion and expression pass. Consult style profiles for writing or wording edits. ECON_STYLE.md creates profiles on request.", ""]
     for name in selected:
         text = contents[mapping[available[name]]]
         description = next(line.removeprefix("description: ") for line in text.splitlines() if line.startswith("description: "))
         lines.append(f"- [{name}]({mapping[available[name]]}): {description}")
     contents["ECON_INDEX.md"] = "\n".join(lines) + "\n"
-    revision = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], capture_output=True, text=True, check=False)
     contents["SOURCE.md"] = "# Export source\n\n" + (
         f"Base commit: `{revision.stdout.strip()}`. Export includes the current working files.\n"
         if revision.returncode == 0 else "Source: the instruction files supplied to this export.\n"

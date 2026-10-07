@@ -1,24 +1,16 @@
 ---
 name: econ-style
-description: Create or update custom economics style exemplars from user-selected papers on explicit request. Ordinary drafting uses the profile selected by econ-assertive.
+description: Create or revise an economics writing profile from user-selected source passages when requested.
 ---
 
-# Economics profile task
+# Economics writing profiles
 
-## Authority and application
+Use the requested papers, language, writing functions and destination. Profile selection for writing and wording edits belongs to [econ-assertive](../econ-assertive/SKILL.md); persistent preferences belong to repository policy.
 
-Work on a custom profile only when the user requests its creation, revision or learning. A request to create or revise a profile leaves persistent selection unchanged. Use the selection made through [econ-assertive](../econ-assertive/SKILL.md), which also controls content admission and wording. [default-micro](../econ-assertive/references/default-micro.md) supplies functions absent from that selection.
+Build the requested profile from the specified files and enough surrounding text to understand the requested writing functions. Obtain those files from available holdings or connectors, and inspect page images if extraction obscures the expression. Select references only when asked, using relevant material from the available collection and primary sources.
 
-Read the chosen profile before applying it; retrieve the file if it is missing. Do not imply that an unread profile has been applied. For any function it lacks, use the matching default example. Carry expression choices into the current research without substituting source-study facts, assumptions or institutional circumstances. Preserve the admitted target facts and numbers, comparisons, notation, citations, authorship and requested genre. A change of language or section must respect the requested structure. The active research module remains responsible for substance; use the existing writing pass.
+Describe what the paragraphs accomplish, how claims use evidence, how sentences connect, and which syntactic and register choices serve the requested text. Where examples differ, follow the task's purpose and the user's preference. Apply these expression choices to the target's own evidence; retain its facts, comparisons, notation, citations and authorial voice.
 
-## Requested deliverable
+Deliver the profile with a name and a statement of language and scope. Identify the exact editions, URLs and pages supporting it. Include original adapted paragraphs and instructions for their use in the requested languages, within quotation limits. An example about a source study may use that study's facts; a target-study example must use supplied target facts or expressly marked placeholders.
 
-Return the requested profile or revision. A profile is one Markdown document identifying its name, language and scope, the exact source editions and URLs/pages, a few original paragraph adaptations, and directions for applying them. Identify examples as adaptations and use the requested language or languages, including English and Japanese when requested. Source-study facts belong only in examples about that source study. For examples about the target, use its supplied evidence or explicitly marked placeholders. Respect quotation limits and avoid reproducing distinctive source prose.
-
-Save only when asked. Use the requested path; for a requested repository save with no path, first read `docs/ai/custom-style.md`, then update that file. A revision updates the existing profile. Preserve default-micro as its complementary reference. Store original PDFs and private excerpts only in approved storage.
-
-## Evidence for expression choices
-
-Start from the requested papers, target section, language and scope. Obtain the exact files through an available Project-file tool or connector. Inspect complete relevant sections and the passages that justify each selected expression choice; use page images when extraction is garbled. Use inspected passages. When reference selection is requested, choose a small relevant set from the available collection and primary sources.
-
-Choose which source claims are admissible under econ-assertive before deriving expression guidance. Identify how each paragraph advances the argument and relates evidence to claims. Examine syntax, register, literature relationships and presentation of results. Keep only choices useful for the requested section. Resolve disagreements among the examples using that section's purpose and the user's preferences. All expression choices remain subject to econ-assertive.
+Save at the requested destination when a file write is requested. A repository save without a specified path updates `docs/ai/custom-style.md` after reading it. Profile creation or revision retains the current persistent selection. Apply econ-assertive once for final semantic deletion and expression.
