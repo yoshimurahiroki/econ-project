@@ -6,7 +6,7 @@ Repository skills run in the coding environment. Project attachments are snapsho
 
 [econ-project-mini](https://github.com/yoshimurahiroki/econ-project-mini) is the editing source for the common policy, skills, references, host pointers, indexes, Project templates and exporter. The explicit `COMMON_PATHS` allowlist in [sync_common_core.py](../../scripts/sync_common_core.py) defines the same relative paths copied to econ-project and Ruan. Project context, integration prose, source history, study records, environments and execution recipes remain project-owned.
 
-Compare and apply when preparing publication of a common-core change. Use the actual destination HEADs for `--expect-head`; this example uses the refactor's recorded baselines.
+Compare and apply when preparing publication of a common-core change. Read the current destination HEADs for `--expect-head` immediately before applying.
 
 ```sh
 cd /tmp/econ-project-mini-instructions-20261008
@@ -17,8 +17,8 @@ python scripts/sync_common_core.py --source . \
 python scripts/sync_common_core.py --source . \
   --target /tmp/econ-project-instructions-20261008 \
   --target /tmp/ruan-literature-20261005 --apply \
-  --expect-head econ-project=91aad0bb9c15583d8ca2efce9303642043cfc7a5 \
-  --expect-head Ruan=af5a07cfcc0ac00a9a0e556520623fc2673f97bf
+  --expect-head econ-project="$(git -C /tmp/econ-project-instructions-20261008 rev-parse HEAD)" \
+  --expect-head Ruan="$(git -C /tmp/ruan-literature-20261005 rev-parse HEAD)"
 ```
 
 Comparison is read-only. The script records copied source bytes in the destinations' managed common-core receipt; the receipt is the only synchronized part of this document. Exit codes are 0 for equality or successful application, 1 for comparison differences and 2 for a refused or invalid operation. Ordinary task startup and environment setup run neither synchronization nor export.
@@ -71,8 +71,8 @@ A requested handoff uses the existing task record for the revision, evidence, au
 ```json
 {
   "source_repository": "yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "22f658321ece40b20b54dddb38d18a41027ee3e4",
-  "common_content_id": "84cb754dfe67c5823751500f75ffcf3ec149eca6ac6792f5e456b395ca2caab1",
+  "source_base_commit": "db8368f47b681396f2e967ea3884a6699cdcf6bb",
+  "common_content_id": "1c42037caf988c220a458b912bb65cdde8a8b7ca7838d02892a53d3e246ce9b0",
   "source_state": "committed",
   "paths": [
     {
@@ -82,23 +82,23 @@ A requested handoff uses the existing task record for the revision, evidence, au
     },
     {
       "path": ".agents/skills/econ-assertive/SKILL.md",
-      "git_blob": "9c1fd38e03d612c5ed49101b58bb9336cbef34e9",
-      "sha256": "793e0891cd6b9383f8d168be2b29ce2fec9b0b200561140715948731187dc8b4"
+      "git_blob": "f2facdb4aae82a011456e4d902af4d59a2751499",
+      "sha256": "25090b5aadae09d748d62d812e248e30683b9164c27ffa77993d2364754abfa1"
     },
     {
       "path": ".agents/skills/econ-assertive/agents/openai.yaml",
-      "git_blob": "4fa559402be06cfc396c30638b154b8b5c5cb321",
-      "sha256": "915fa6ed9271039a32cb2814d9907034e8e5bce426e9be12581e6c11d5cc7442"
+      "git_blob": "dee094ccea339ad98679240513fca09c75056bab",
+      "sha256": "d4733c0ce7c612b920d155207500ef8d9f2097bac1b308cf2d919422cc106e67"
     },
     {
       "path": ".agents/skills/econ-assertive/references/default-micro.md",
-      "git_blob": "13dcd3b2a5f876f1b3e2d1a22a7530189ac41b86",
-      "sha256": "87d677fb103977d62f6e5252f3bcd33b69d2174ca0d18d922c677c1217506558"
+      "git_blob": "e8b0bfa73578b32311f6a72990d6d7f700dc01f3",
+      "sha256": "08dfab29c18d55c7d83c9b709d462a29eb13f384438cb192293ace4b2738c0bc"
     },
     {
       "path": ".agents/skills/econ-assertive/references/patterns.md",
-      "git_blob": "7a704d5fb70513df03f351aaebd973a1350f0f1b",
-      "sha256": "c26ee36e2699c0b434ac1e091d0ce9ee2b9709f357687e044f3d31e0d88ce764"
+      "git_blob": "89a3d5d7ce31839b5307d716b8dccce34d558293",
+      "sha256": "7829a155ca59ba93f8b2870f0dcd007c1b15b8e000a5c9d8404e1d526e170057"
     },
     {
       "path": ".agents/skills/econ-data/SKILL.md",
@@ -127,8 +127,8 @@ A requested handoff uses the existing task record for the revision, evidence, au
     },
     {
       "path": ".agents/skills/econ-edit/SKILL.md",
-      "git_blob": "e094b8c2d9237ef75423c47f0f217bccd5539ca4",
-      "sha256": "5ba21c0e8d58bc39535c1377dbb8e9b997625a106ba91f7e9163648fb291553f"
+      "git_blob": "f5389269edf446eece7a4ae2f9389fd9e92a2a6d",
+      "sha256": "37ddcd11de4a1efc51e94d404909e79085e2c8b2cc61c5ffcb633eba099dcd79"
     },
     {
       "path": ".agents/skills/econ-handoff/SKILL.md",
@@ -157,8 +157,8 @@ A requested handoff uses the existing task record for the revision, evidence, au
     },
     {
       "path": ".agents/skills/econ-style/SKILL.md",
-      "git_blob": "8483ff8432534d4aa49239591878e2136ec40914",
-      "sha256": "329488be0f7f4652852e091f186d286b5cd97cd6dabdc034ded13062b9b33065"
+      "git_blob": "d0499762d942a18fc987d2f16bf54cb35cc2df25",
+      "sha256": "2385d7331db66bb894be3f47de9104886b8d2dbb435e34de5294aaa1fbbdd67d"
     },
     {
       "path": ".agents/skills/econ-workflow/SKILL.md",
@@ -172,8 +172,8 @@ A requested handoff uses the existing task record for the revision, evidence, au
     },
     {
       "path": ".agents/skills/econ-writing/SKILL.md",
-      "git_blob": "ab69f87f7e28804b0411aa7d57ef0ac0716cecff",
-      "sha256": "77e6804d5efeb072acd93b1b23cb24f11a52ceeca3f31b42d5c1874aa82f7fe3"
+      "git_blob": "2fab762cf074546a3ddfc5b5ceaa2cde67dc08a1",
+      "sha256": "c226a19ff182190d39077d106e52673bc4985c805e6a42b931a2e191d32b6967"
     },
     {
       "path": ".claude/AGENTS.md",

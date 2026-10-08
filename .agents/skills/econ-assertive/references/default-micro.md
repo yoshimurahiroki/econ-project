@@ -5,9 +5,24 @@ Corpus: ten empirical articles published in 2021-2025; six in Top 5 journals and
 
 ## Use
 
-For a writing or wording edit, select the paragraph function required by the requested text and transfer its sentence relations to retained target claims. Preserve genre, authorial voice and the requested structure. Source-study facts remain in the examples.
+For a writing or wording edit, select the function needed by the text and read its source relations. Transfer the argument and information placement to retained target claims. Preserve genre, authorial voice and the requested structure. Source-study facts remain in their examples.
+
+For each paragraph, identify the reader's question, the object already established and the new relation it adds. Introduce the comparison or institutional term before the inference uses it. Develop the important fact through its evidence, mechanism or quantity. Use the number and length of sentences the explanation needs; source examples supply relations, not sentence molds. Compose Japanese from those relations with natural predicates and referents.
 
 The bilingual examples are original adaptations of the source studies.
+
+| Function | Reader's question | Information progression and source operation |
+| --- | --- | --- |
+| Introduction | What economic question can this evidence answer? | Egger pp.2604–2606 connects the aggregate question to randomized local exposure, the observations tracing its consequences and the multiplier. The target sequence follows its own question and evidence. |
+| Identification | Which comparison defines the coefficient? | Baron's threshold comparison precedes the dynamic referendum sequence and the interpretation holding later approvals fixed. Define the intervention and unit before the coefficient's meaning. |
+| Results | What does the estimate mean economically? | Gershenson Table 2 connects the treatment and enrollment outcome to uncertainty and the sample mean. Put a quantity beside its unit and use the named baseline to interpret its magnitude. |
+| Literature positioning | What additional relationship becomes answerable? | Dahl–Forbes connects existing inertia mechanisms to doctor attachment and the variation separating it from inattention. Use prior findings to establish the present object. |
+
+## Descriptive evidence
+
+A descriptive paragraph explains an observed pattern and the research judgment it informs. Define its population, period, measured quantity and denominator at the point needed to read the comparison. Connect the pattern to the mechanism, scale or design choice it bears on. Keep proposed choices at their recorded adoption state.
+
+Egger pp.2605–2606 connects household expenditure, enterprise revenue and wages through the transaction chain before aggregate interpretation. Transfer this pattern-to-economic-relation move using the target's observed quantities. The target's identification conditions and causal status come from its research method.
 
 ## Introduction
 
@@ -17,11 +32,11 @@ This sequence appears in different forms in Bessone et al. (work and sleep treat
 
 English adaptation, Egger et al. (2022):
 
-> We estimate how cash transfers affect local economic activity in rural Kenya. Randomized village treatment and transfer saturation vary the amount of cash reaching nearby households. We combine household spending, business activity and market prices to measure the local response. The expenditure-based estimate of the local transfer multiplier is 2.6.
+> We estimate how cash transfers affect local economic activity in rural Kenya. Randomized village treatment and transfer saturation vary the cash reaching nearby households. We trace this variation through household spending, business activity and market prices. The expenditure-based estimate of the local transfer multiplier is 2.6.
 
 Japanese adaptation:
 
-> ケニア農村部で現金給付が地域の経済活動に与える影響を推定する。村の処置割当と地域内の給付対象村の割合を無作為化し、周辺世帯への給付総額を異ならせる。家計支出、企業活動、市場価格のデータを組み合わせて地域の反応を測る。支出から推定した地域内の給付乗数は2.6である。
+> ケニア農村部で現金給付が地域の経済活動に与える影響を推定する。村の処置割当と地域内の給付対象村の割合を無作為化し、周辺世帯への給付総額を異ならせる。この給付額の違いに対する反応を、家計支出、企業活動、市場価格で捉える。支出から推定した地域内の給付乗数は2.6である。
 
 
 ## Identification
@@ -47,7 +62,7 @@ Bessone et al. relate treatments to work outcomes; Rose and Shem-Tov translate s
 
 English adaptation, Gershenson et al. (2022), Table 2:
 
-> For Black students, the instrumental-variables estimate of the effect of having at least one Black teacher in grades K-3 on college enrollment is 5.9 percentage points. The standard error is 2.7 percentage points. Mean enrollment in this sample is 31.3%, so the estimate is about 19% of the mean.
+> For Black students, having at least one Black teacher in grades K-3 raises college enrollment by an estimated 5.9 percentage points. This instrumental-variables estimate has a standard error of 2.7 percentage points. Mean enrollment in the sample is 31.3%, so the estimate is about 19% of that mean.
 
 Japanese adaptation:
 
