@@ -71,8 +71,8 @@ A requested handoff uses the existing task record for the revision, evidence, au
 ```json
 {
   "source_repository": "yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "f1309e4fe53093586bfb92440eda8a564fb5ce0e",
-  "common_content_id": "c9c89960c3808bf69470c40f80ecf1d4e8cce36ae4a37ab04a9271878d62c256",
+  "source_base_commit": "7bbcb7cfa1af9ff001d208d1b81d275bb7b97bad",
+  "common_content_id": "6a62c9c7adbe0ea42891e3df536da0773a2d738d60b4f04f3d598eee25803d59",
   "source_state": "committed",
   "paths": [
     {
@@ -82,8 +82,8 @@ A requested handoff uses the existing task record for the revision, evidence, au
     },
     {
       "path": ".agents/skills/econ-assertive/SKILL.md",
-      "git_blob": "e675374fcbf226f1c152c9f52cd99133d40b0749",
-      "sha256": "a039bb5e1e1f4563817b4ffb004900b0903e0ed66bb1633a89fec63ff3210923"
+      "git_blob": "a8d77b6baa59e17ca5b62e3b864e3e8b320aeb6d",
+      "sha256": "3860340f312eeafeec0d69c824dda6a23e98278bbc5a9a67ee740bd8d3c9197c"
     },
     {
       "path": ".agents/skills/econ-assertive/agents/openai.yaml",
@@ -92,8 +92,8 @@ A requested handoff uses the existing task record for the revision, evidence, au
     },
     {
       "path": ".agents/skills/econ-assertive/references/default-micro.md",
-      "git_blob": "b8f1ab7897aa61c789ef12179b165bc8a643b849",
-      "sha256": "07bb77e56ebca9744ae91cc2a3c6767bd3edcaefe2bc3f5f28091ed548caf712"
+      "git_blob": "cb911a8243ca331205070e7bf9290a5c03d16483",
+      "sha256": "61a391b41dd9e2995d60eb472f74bf3819581e292cc11710ac4cce4d03624c47"
     },
     {
       "path": ".agents/skills/econ-assertive/references/patterns.md",
@@ -157,8 +157,8 @@ A requested handoff uses the existing task record for the revision, evidence, au
     },
     {
       "path": ".agents/skills/econ-style/SKILL.md",
-      "git_blob": "cfcacba0f0f30a02d7b561018a244ddaacd8ea65",
-      "sha256": "d32821e3205c7a854f5972ed09d0647a8bce52bf55cc735517a4b45e8a001453"
+      "git_blob": "3f5e4c9cbc31555e96fa2149f35c079963085505",
+      "sha256": "6c3b19d3b71fab771f0c0e7ed22dc218e88f273d4e27506ed55ad7399b2f71ec"
     },
     {
       "path": ".agents/skills/econ-workflow/SKILL.md",
@@ -172,8 +172,8 @@ A requested handoff uses the existing task record for the revision, evidence, au
     },
     {
       "path": ".agents/skills/econ-writing/SKILL.md",
-      "git_blob": "2fab762cf074546a3ddfc5b5ceaa2cde67dc08a1",
-      "sha256": "c226a19ff182190d39077d106e52673bc4985c805e6a42b931a2e191d32b6967"
+      "git_blob": "21c4824a8762545a595cb32b5604f4bc88f4f2ed",
+      "sha256": "6dae6b9a9a1b6fbba77b9d07aa301a0f6376fe5356aabba1e3988fbf31c5e807"
     },
     {
       "path": ".claude/AGENTS.md",

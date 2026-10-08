@@ -10,7 +10,7 @@ For each paragraph, identify the reader's question, the object already establish
 
 ## Descriptive evidence
 
-A descriptive paragraph explains an observed pattern and the research judgment it informs. Define its population, period, measured quantity and denominator at the point needed to read the comparison. Connect the pattern to the mechanism, scale or design choice it bears on. Keep proposed choices at their recorded adoption state.
+A descriptive paragraph explains an observed pattern and the research judgment it informs. Define its population, period, measured quantity and denominator at the point needed to read the comparison. Explain the relation from the observed pattern to the premise of the mechanism, scale or design choice. Naming a pattern and saying that it informs a decision leaves that relation unstated. Keep proposed choices at their recorded adoption state.
 
 Transfer the observed pattern to its economic relation using the target's observed quantities. The target's identification conditions and causal status come from its research method.
 
@@ -24,7 +24,7 @@ An identification paragraph connects assignment, exposure and the actual compari
 
 ## Results
 
-A result paragraph connects the estimate to its measured object, treatment scale, outcome unit, horizon and baseline. Tables and figures establish the substantive result; a mechanism interpretation uses the finding that bears on it.
+Build each result paragraph around one estimated economic relation. Combine outcome estimates when the text explains their mechanism, comparison or aggregate relationship; sharing a treatment does not make a results inventory one claim. Connect the estimate to its measured object, treatment scale, outcome unit, horizon and baseline. Bind a duration to the activity it dates: the study, baseline, treatment or outcome window. Distinguish a reported failure to detect change, an approximate comparison and an exact zero effect or equality. Transfer the source evidence's actual conclusion with its reported uncertainty. Tables and figures establish the substantive result; a mechanism interpretation uses the finding that bears on it.
 
 ## Literature positioning
 
