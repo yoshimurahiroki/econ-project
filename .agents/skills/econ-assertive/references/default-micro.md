@@ -20,7 +20,7 @@ The bilingual examples are original adaptations of the source studies.
 
 ## Descriptive evidence
 
-A descriptive paragraph explains an observed pattern and the research judgment it informs. Define its population, period, measured quantity and denominator at the point needed to read the comparison. Connect the pattern to the mechanism, scale or design choice it bears on. Keep proposed choices at their recorded adoption state.
+A descriptive paragraph explains an observed pattern and the research judgment it informs. Define its population, period, measured quantity and denominator at the point needed to read the comparison. Explain the relation from the observed pattern to the premise of the mechanism, scale or design choice. Naming a pattern and saying that it informs a decision leaves that relation unstated. Keep proposed choices at their recorded adoption state.
 
 Egger pp.2605–2606 connects household expenditure, enterprise revenue and wages through the transaction chain before aggregate interpretation. Transfer this pattern-to-economic-relation move using the target's observed quantities. The target's identification conditions and causal status come from its research method.
 
@@ -56,7 +56,7 @@ Japanese adaptation:
 
 ## Results
 
-A result paragraph connects the estimate to its measured object, treatment scale, outcome unit, horizon and baseline. Tables and figures establish the substantive result; a mechanism interpretation uses the finding that bears on it.
+Build each result paragraph around one estimated economic relation. Combine outcome estimates when the text explains their mechanism, comparison or aggregate relationship; sharing a treatment does not make a results inventory one claim. Connect the estimate to its measured object, treatment scale, outcome unit, horizon and baseline. Bind a duration to the activity it dates: the study, baseline, treatment or outcome window. Distinguish a reported failure to detect change, an approximate comparison and an exact zero effect or equality. Transfer the source evidence's actual conclusion with its reported uncertainty. Tables and figures establish the substantive result; a mechanism interpretation uses the finding that bears on it.
 
 Bessone et al. relate treatments to work outcomes; Rose and Shem-Tov translate sentence duration into reoffending differences; Kline et al. report contact-probability differences; Gershenson et al. relate enrollment effects to the sample mean; Rivera scales peer composition and arrests. These are distinct outcomes with the same estimate-to-economic-magnitude relation.
 
