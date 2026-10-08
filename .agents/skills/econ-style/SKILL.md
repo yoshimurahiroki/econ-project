@@ -1,16 +1,20 @@
 ---
 name: econ-style
-description: Create or revise an economics writing profile from user-selected source passages when the profile itself is requested.
+description: Create or revise a requested economics writing profile by learning argument structure and information placement from source passages.
 ---
 
 # Economics writing profiles
 
-Use the requested papers, language, writing functions and destination. econ-assertive owns profile selection for writing and wording edits. Persistent selection is the writing_profile value in docs/ai/repo_context.md.
+Use the requested papers, language, writing functions and destination. econ-assertive owns profile selection for writing and wording edits. Persistent selection is the writing_profile value in [project context](../../../docs/ai/repo_context.md).
 
-Build the requested profile from the specified files and enough surrounding text to understand the requested writing functions. Obtain those files from available holdings or connectors, and inspect page images if extraction obscures the expression. Select references only when asked, using relevant material from the available collection and primary sources.
+Read the source passages and surrounding argument needed for those functions. Retrieve the specified files through available holdings or connectors. Inspect a passage's image when extraction obscures paragraph boundaries or the writing move. When reference selection is requested, choose a relevant set from the available collection and primary sources.
 
-Describe what the paragraphs accomplish, how claims use evidence, how sentences connect, and which syntactic and register choices serve the requested text. Where examples differ, follow the task's purpose and the user's preference. Apply these expression choices to the target's own evidence; retain its facts, comparisons, notation, citations and authorial voice.
+For each useful function, identify the reader's question, the paragraph's role, what the reader already knows, the next concept introduced and the relation between claims and evidence. Record how the source moves from a fact or estimate to its explanation or interpretation. Identify where institutions, technical details, comparisons, notation and quantities become necessary. Learn sentence variety from these jobs rather than fixed word counts or copied openings.
 
-Deliver the profile with a name and a statement of language and scope. Identify the exact editions, URLs and pages supporting it. Include original adapted paragraphs and instructions for their use in the requested languages, within quotation limits. An example about a source study may use that study's facts; a target-study example must use supplied target facts or expressly marked placeholders.
+Resolve source differences by the target text's purpose and the user's preference. Transfer argument and information placement to target evidence. Compose natural syntax separately for each language and preserve the target's authorial voice. Source facts, findings, citations and distinctive phrasing remain in source-study examples.
+
+Prepare the profile with its name, languages, scope and exact source/version/URL/page records. For the selected functions, give transfer directions and original paragraph adaptations that show their actual reasoning. Treat claim, evidence, explanation and interpretation as available relations; include the stages needed by the paragraph. Apply the shared content rules when selecting source features, so rhetorical hedges and defensive moves do not enter the profile.
+
+Verify representative target passages using the profile and retained target evidence. Inspect the resulting order, sentence relations and scientific meaning, then repair a transfer direction responsible for a failure. Keep the examples within the requested research stage.
 
 Save at the requested destination when a file write is requested. A repository save without a specified path updates `docs/ai/custom-style.md` after reading it. Profile creation or revision retains the current persistent selection.

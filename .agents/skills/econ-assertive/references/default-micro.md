@@ -4,7 +4,15 @@ Profile: `default-micro`. Languages: English and Japanese.
 
 ## Use
 
-For a writing or wording edit, select the paragraph function required by the requested text and transfer its sentence relations to retained target claims. Preserve genre, authorial voice and the requested structure. Example-specific facts remain in the examples.
+For a writing or wording edit, select the function needed by the text and read its source relations. Transfer the argument and information placement to retained target claims. Preserve genre, authorial voice and the requested structure. Example-specific facts remain in their examples.
+
+For each paragraph, identify the reader's question, the object already established and the new relation it adds. Introduce the comparison or institutional term before the inference uses it. Develop the important fact through its evidence, mechanism or quantity. Use the number and length of sentences the explanation needs; source examples supply relations, not sentence molds. Compose Japanese from those relations with natural predicates and referents.
+
+## Descriptive evidence
+
+A descriptive paragraph explains an observed pattern and the research judgment it informs. Define its population, period, measured quantity and denominator at the point needed to read the comparison. Connect the pattern to the mechanism, scale or design choice it bears on. Keep proposed choices at their recorded adoption state.
+
+Transfer the observed pattern to its economic relation using the target's observed quantities. The target's identification conditions and causal status come from its research method.
 
 ## Introduction
 
