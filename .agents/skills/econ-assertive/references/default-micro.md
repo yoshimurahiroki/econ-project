@@ -5,7 +5,7 @@ Corpus: ten empirical articles published in 2021-2025; six in Top 5 journals and
 
 ## Use
 
-For a writing or wording edit, select the paragraph function required by the requested text and transfer its sentence relations to retained target claims. Preserve genre, authorial voice and the requested structure. [econ-assertive](../SKILL.md) owns final semantic deletion and expression. Source-study facts remain in the examples.
+For a writing or wording edit, select the paragraph function required by the requested text and transfer its sentence relations to retained target claims. Preserve genre, authorial voice and the requested structure. Source-study facts remain in the examples.
 
 The bilingual examples are original adaptations of the source studies.
 

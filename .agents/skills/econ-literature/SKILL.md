@@ -1,6 +1,6 @@
 ---
 name: econ-literature
-description: Find requested literature, assess novelty, verify citations and institutions, and maintain requested research indexes.
+description: Find literature, assess novelty, verify citations or institutions, and update a requested research source index.
 ---
 
 # Sources and literature

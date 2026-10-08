@@ -45,10 +45,14 @@ Quartoの `QMD` を省略するとプロジェクト全体をrenderする。出�
 
 ## ProjectとIDEの接続
 
-[Project連携](docs/ai/integration.md) に既存Projectのbridgeとstandalone exportの使い方がある。
+[Project連携](docs/ai/integration.md) に既存Projectのbridge、全方式・選択方式のstandalone、task別exportと共通指示の同期入口がある。[econ-project-mini](https://github.com/yoshimurahiroki/econ-project-mini)を共通指示の編集正本とし、研究固有の選択は[project context](docs/ai/repo_context.md)に置く。
 
 ```sh
 python scripts/export_project.py --profile bridge --output /tmp/econ-bridge
+python scripts/export_project.py --profile standalone --output /tmp/econ-all-new
+python scripts/export_project.py --profile standalone --task econ-paper \
+  --references .agents/skills/econ-workflow/references/descriptive-model.md \
+  --output /tmp/econ-paper-new
 ```
 
 exportは選択した指示とsource revisionを新しい外部folderへ保存する。全文contextが必要な作業では `bash scripts/pack_context.sh /tmp/econ-context.txt` を使う。導入済みRepomixがGitのignoreと既存configに従って出力する。出力先を省略すると一時folderへ新しいファイルを作る。

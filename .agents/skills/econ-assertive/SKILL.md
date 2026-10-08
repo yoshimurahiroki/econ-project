@@ -1,44 +1,28 @@
 ---
 name: econ-assertive
-description: Finalize requested text through purpose-based semantic deletion and direct Japanese or English expression.
+description: Apply the shared content-admission and expression rules to a requested economics answer or prose deliverable.
 ---
 
-# Select propositions and write directly
+# Content admission and expression
 
-Apply [.cursorrules](../../../.cursorrules) to the task's object, scope and depth. This skill owns final semantic deletion and the single expression pass.
+Apply the following four paragraphs as a sentence-by-sentence edit of the complete draft.
 
-## Select propositions
+Retain the requested answer, result or action; the evidence or reasoning establishing it; explicit user requirements; and the definitions, quantities, comparisons, conditions, assumptions, causal status and statistical uncertainty that determine its meaning. Develop each retained claim through the reasoning needed to establish it.
 
-Retain the requested answer, the evidence and reasoning that establish it, and explicit requirements. A definition, assumption, operational fact or measured uncertainty enters through the retained claim it explains. Apply admission to sentences, clauses, modifiers and implied premises. Delete rejected meaning before choosing wording.
+Delete all other content. Remove hedging, concessions, rhetorical qualification, ornament, routine caution, generic disclaimers, process narration and repetition by meaning. Apply this deletion across prose, headings, notes, tables and examples. Do not restore deleted meaning through affirmative rewording, attribution or hypothetical objections.
 
-## Delete rhetorical meaning
+State claims at the logical status and strength established by their evidence. Place a defining condition once beside its claim. Express numerical uncertainty through the available estimate, standard error, interval, test or probability. State a required unknown as the exact unresolved value.
 
-Delete propositions serving hedging, concession, rhetorical qualification, defensive caution, generic warning, disclaimer, preemptive rebuttal, unasked objection, excluded coverage, expectation management, reassurance, self-evaluation, ritual modesty, balance for appearance, scope protection, staged opposition, rhetorical contrast, promotion, praise, ornament, repeated conclusions or stock openings, transitions and closings.
+Lead with the answer. Use concrete subjects, direct verbs and stable terminology. Give each sentence one substantive claim and each paragraph one purpose. Preserve the requested depth and complete the reasoning. End when the requested object is complete.
 
-Separate admitted claims from rhetorical framing in mixed sentences. Delete the framing and reconstruct the paragraph from retained claims. Rejection follows meaning through affirmative rewording, attribution, questions, conditionals, comparisons, definitions, headings, parentheses, footnotes, captions, tables, UI and appendices. Courtesy and convention pass through the same admission rule.
+## Writing profiles
 
-## Define retained claims
+Profile loading is triggered by selected econ-writing or econ-edit work, the bridge's corresponding writing or wording-edit method, or an explicit task profile. Saving a research answer as text does not change its method or trigger a writing profile.
 
-State the object, population, period, comparison, unit, denominator, assumption and source needed to interpret the claim. Match its empirical status to the evidence: association, model prediction or identified effect. Express uncertainty through actual estimates, standard errors, intervals, probabilities or identified unknowns. State the supported claim precisely.
+For that triggered work, select the explicitly named task profile. Otherwise read the export-project:v1 block of [project context](../../../docs/ai/repo_context.md) and select its writing_profile value; use [default-micro](references/default-micro.md) when that persistent selection is absent.
 
-## Write directly
+Read the profile functions required by the requested text and reuse loaded material. Default-micro supplies a required function absent from the selected profile. Preserve the requested language, format, citation system and notation.
 
-Lead with the answer, result or action. Use concrete subjects and literal verbs. Give each sentence one claim and each paragraph one point. Delete preambles, repetition, self-explanation, evaluation and closing suggestions. Default negative constructions: zero.
+[econ-style](../econ-style/SKILL.md) owns requested profile creation or revision. Creating or revising a profile preserves the persistent selection. Change writing_profile only for an explicit request to adopt or switch that selection.
 
-For writing or wording-editing requests, select the explicit task profile, then the persistent preference in repository policy, then [default-micro](references/default-micro.md). Read the selected profile's relevant functions and reuse loaded material. Default-micro supplies a required function absent from that profile. [econ-style](../econ-style/SKILL.md) handles requested profile creation or revision.
-
-## Preserve substantive meaning
-
-Keep the facts, numbers, units, causal relations, attribution and logical polarity of retained claims exact. Preserve actual negative findings, mathematical conditions, legal rejections, absent observations and pending decisions. Keep literal quotations, source titles, identifiers, code, equations, field names, URLs and raw values unchanged.
-
-## Japanese
-
-Align the actor, action and object in natural academic syntax. State literal economic relations, such as 「価格の上昇は需要を減らす」. Keep economic terms and notation stable and match causal and numerical strength to the source.
-
-## English
-
-Use ordinary academic verbs such as estimate, compare, increase, reduce, is, are and has. State results and attribution directly: “The estimate is X” or “The authors estimate X.” Match the requested genre and preserve meaning across translations.
-
-## One expression pass
-
-After semantic deletion, make one expression pass over the retained text. Align claims with evidence, definitions, polarity, quantities and attribution while making the prose direct. Deliver the requested text or answer. [Examples](references/patterns.md) illustrate deletion; [source records](../../../docs/ai/sources.md) identify adaptations. Result verification follows .cursorrules.
+Read [the content-selection example](references/patterns.md) when an example is needed to resolve a mixed factual and rhetorical passage. [Source records](../../../docs/ai/sources.md) retain inspected versions and adaptations.

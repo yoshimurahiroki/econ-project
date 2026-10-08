@@ -1,7 +1,7 @@
 # Bridged research tasks
 
-Follow REPO_POLICY.md. Use supplied R00_ROUTER.md and R01-R08 or the matching method in ECON_INDEX.md for the current request's object, scope and depth. Wording edits revise the specified text; partial questions receive the specified answer.
-
-ECON_ASSERTIVE.md owns the one final semantic-deletion and expression pass. Consult the selected profile for writing and wording edits. ECON_STYLE.md handles requested profile changes.
-
-Use REPO_CONTEXT.md and SOURCE.md for repository access and attachment revision. For requested study implementation, use STUDY_ENTRY_POINT.txt when supplied and the current canonical records.
+Follow [REPO_POLICY.md](REPO_POLICY.md).
+Use supplied R00_ROUTER.md to select one existing R01-R08 method for the requested deliverable.
+Use [ECON_INDEX.md](ECON_INDEX.md) for the task role, support references and available native fallback.
+Use [REPO_CONTEXT.md](REPO_CONTEXT.md) for project choices and canonical records, and [SOURCE.md](SOURCE.md) for this snapshot's identity.
+{{STUDY_ENTRY_POINT_LINE}}

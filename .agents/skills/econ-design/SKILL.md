@@ -1,6 +1,6 @@
 ---
 name: econ-design
-description: Develop or assess requested research questions, models, identification strategies, estimators and inference.
+description: Develop or assess a requested economics question, model, identification problem, estimator or inference choice.
 ---
 
 # Research design
@@ -13,4 +13,4 @@ Read the relevant section of [design-specific decisions](references/designs.md).
 
 For theory, use the agents, timing, information, actions, objectives, constraints and equilibrium needed for the requested derivation. Derive the specified proposition or comparative static and preserve its domains and equilibrium conditions. For numerical solutions, use the convergence criterion that establishes the result. Connect a requested model's predictions to measurements and mechanism-separating evidence. Use the Mahoney reference in econ-workflow when facts guide the requested model or counterfactual.
 
-For plans, map required inputs to documented fields and inspect records needed to establish feasibility. Apply the task's cost and access conditions. For assessments, judge the specified candidates from evidence and preserve their IDs and scope. Distinguish a demonstrated defect from an unresolved evidence requirement. Use econ-literature for the requested novelty judgment and econ-data for the requested measurement work.
+For plans, map required inputs to documented fields and inspect records needed to establish feasibility. Apply the task's cost and access conditions. For assessments, judge the specified candidates from evidence and preserve their IDs and scope. Distinguish a demonstrated defect from an unresolved evidence requirement. Read econ-literature for the closest-paper comparison needed for a requested novelty judgment. Read econ-data for the source fields or record linkage needed to establish measurement feasibility.

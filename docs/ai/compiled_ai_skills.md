@@ -1,16 +1,16 @@
 # Research skills
 
-Match the current request to the relevant method. Its steps and references apply to that request. [.cursorrules](../../.cursorrules) owns content scope and execution; [econ-assertive](../../.agents/skills/econ-assertive/SKILL.md) supplies the final deletion and expression pass. Consult a style profile for writing or wording edits.
+Select the primary method for the requested deliverable. Read support and reference sections for a dependency identified by that method.
 
-| Task | Method |
+| Deliverable | Native primary |
 | --- | --- |
-| Data and code | [econ-data](../../.agents/skills/econ-data/SKILL.md) |
-| Question, model and identification | [econ-design](../../.agents/skills/econ-design/SKILL.md) |
-| Text revision | [econ-edit](../../.agents/skills/econ-edit/SKILL.md) |
-| Task transfer | [econ-handoff](../../.agents/skills/econ-handoff/SKILL.md) |
-| Literature and sources | [econ-literature](../../.agents/skills/econ-literature/SKILL.md) |
-| Paper explanation | [econ-paper](../../.agents/skills/econ-paper/SKILL.md) |
-| Research review | [econ-review](../../.agents/skills/econ-review/SKILL.md) |
-| Custom exemplars | [econ-style](../../.agents/skills/econ-style/SKILL.md) |
-| Research sequence | [econ-workflow](../../.agents/skills/econ-workflow/SKILL.md) |
-| Writing and exhibits | [econ-writing](../../.agents/skills/econ-writing/SKILL.md) |
+| Source fields, acquisition, linkage, code/data change, calculation/reproduction | [econ-data](../../.agents/skills/econ-data/SKILL.md) |
+| Question/model development or specified identification/estimator/inference judgment | [econ-design](../../.agents/skills/econ-design/SKILL.md) |
+| Specified wording revision, including EDIT alone | [econ-edit](../../.agents/skills/econ-edit/SKILL.md) |
+| Requested transfer | [econ-handoff](../../.agents/skills/econ-handoff/SKILL.md) |
+| Literature search, novelty/citation/institution judgment or source-index update | [econ-literature](../../.agents/skills/econ-literature/SKILL.md) |
+| Paper/passage explanation, complete explanation or paper seminar | [econ-paper](../../.agents/skills/econ-paper/SKILL.md) |
+| Research critique, results/code reconciliation or referee response | [econ-review](../../.agents/skills/econ-review/SKILL.md) |
+| Profile creation/revision | [econ-style](../../.agents/skills/econ-style/SKILL.md) |
+| Planning, organization or resumption as requested output | [econ-workflow](../../.agents/skills/econ-workflow/SKILL.md) |
+| New draft, translation, formatting or exhibit production | [econ-writing](../../.agents/skills/econ-writing/SKILL.md) |

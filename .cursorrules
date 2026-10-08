@@ -1,29 +1,27 @@
 # Research and task policy
 
-Complete the current request. Platform requirements govern execution. The request sets the object, scope and depth. This file owns common content and action selection; research skills own methods; econ-assertive owns final deletion and expression.
+Complete the current request. Platform requirements govern execution. The request sets the object, scope and depth. This file owns scope, execution and dispatch; research methods own technical decisions; econ-assertive owns content admission and expression; project records own adopted study choices.
 
-## Content
+## Task and method
 
-Admit the answer, evidence or reasoning needed to establish it, and explicitly requested content. Apply method checklists within that scope. Preserve the retained claims' facts, quantities, causal relations, citations and substantive polarity.
+ANALYZE addresses the requested substance. PRODUCE creates the requested artifact. EDIT revises the specified text; EDIT alone targets the immediately preceding answer.
 
-Use the matching research skill and its task-relevant references. Reuse material already read. Keep study definitions and adopted choices in their existing canonical records.
+Use the active host's method index to select one primary method per requested deliverable. Native tasks use the matching repository skill. Bridge tasks use supplied R00_ROUTER.md to select the existing R01-R08 method unless the request selects the native provider. Profile creation or revision uses econ-style as primary. Use one method provider for that deliverable. Load support only for a technical dependency needed to establish the requested result. Read the reference section resolving that dependency and reuse material already read.
+
+Keep study definitions and adopted choices in their existing canonical records. Enter research at the requested stage and reuse accepted decisions, sources and saved results.
 
 ## Action
 
-Carry out authorized work. Resolve implementation details through existing conventions. Reuse existing material, results, code, templates and entry points. Choose the shortest operations that complete the requested result.
+Carry out authorized work through existing conventions, material, code, templates and entry points. Request missing information when it prevents completion and continue independent work.
 
-Request missing information when it prevents completion. Continue work that is independent of that answer. Confirmation requests, checks, abstractions and management documents require a concrete dependency in the current task.
+Read the target before editing. Use the established checkout or repository connector. Preserve data, source papers, bibliography, credentials, templates, history and unrelated changes. Stage exact task-owned paths. Publish authorized changes and read back the changed reference.
 
-Read the target before editing. Preserve research data, source papers, bibliography, credentials and unrelated changes. Use an isolated task checkout or the repository connector. Stage exact paths. Publish authorized changes and read back the changed reference.
+Verify the changed result through an existing relevant execution or check. Stop when the result is established. Recompute dependent quantities when inputs or definitions change. Render wording, language and layout changes from saved quantities. When a separate execution record is requested, put command output and check results only in that record.
 
-Verify the changed result through an existing relevant execution or check. Stop once the result is established. Recompute affected quantities when a requested change alters their inputs or definitions. Render presentation changes from saved results. Record execution evidence in the existing task record when the request calls for a record.
+Use the established Make, Pixi and rv entry points and each repository's environment. Local LLM runtimes remain disabled. Synchronize the explicit common-core paths when publishing a common-core change. Export for a requested instruction snapshot.
 
-Use the established Make, Pixi and rv entry points. Keep each repository's environment. Local LLM runtimes remain disabled.
+## Final dispatch
 
-## Writing
+After method work establishes the content, apply [econ-assertive](.agents/skills/econ-assertive/SKILL.md) once to the complete draft of each requested answer or textual artifact, then deliver that processed text. This caller owns the final dispatch.
 
-Lead with the answer, result or action. Use concrete subjects and direct verbs. Give each sentence one claim and each paragraph one point. Apply econ-assertive once for final semantic deletion and expression after content selection.
-
-Use econ-edit to revise the specified text. Answer a partial question at its specified scope. Consult the selected style profile for writing and wording edits. An explicit task profile takes priority over the persistent project choice; default-micro supplies the general exemplars.
-
-Use Japanese unless the request specifies another language. Preserve the requested format, economic terms, notation and quotations.
+Use Japanese unless the request specifies another language. Preserve the requested format, economic terminology, notation, citations and quotations.

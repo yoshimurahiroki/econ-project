@@ -1,6 +1,6 @@
 ---
 name: econ-paper
-description: Answer questions about a paper or passage and prepare a requested paper explanation or seminar.
+description: Explain a specified paper or passage, or prepare a requested complete paper explanation or seminar.
 ---
 
 # Paper explanation
@@ -15,6 +15,6 @@ For a complete explanation, use the requested structure or these five sections: 
 4. Results: give interpretable magnitudes, named baselines, numerical uncertainty and the authors' supported interpretation.
 5. Contribution: state the new economic knowledge, the nearest established knowledge, and the evidence or reasoning that makes the new conclusion possible.
 
-Select technical detail for the requested explanation. Theory uses primitives, equilibrium, propositions and proof arguments. Structural work connects variation, moments, parameters, fit and counterfactual assumptions. Prediction explains its target, information time, labels, leakage controls, evaluation population, calibration and decision loss. Use [econ-design](../econ-design/SKILL.md) for a specific identifying dependency and the [descriptive-model reference](../econ-workflow/references/descriptive-model.md) for a requested model–evidence connection.
+Select technical detail for the requested explanation. Theory uses primitives, equilibrium, propositions and proof arguments. Structural work connects variation, moments, parameters, fit and counterfactual assumptions. Prediction explains its target, information time, labels, leakage controls, evaluation population, calibration and decision loss. Read the relevant econ-design section when a specific identifying, estimation or inference dependency is needed to explain the requested claim. Read [econ-workflow/references/descriptive-model.md](../econ-workflow/references/descriptive-model.md) when the requested explanation connects observed evidence to model features or counterfactual assumptions.
 
-Follow the requested citation format. A standalone note begins with authors, year, title, journal/volume and published DOI; an unpublished paper uses its formal manuscript citation and author or institution link. Explain necessary terms for the reader. Preserve terminology, population, period, units, causal status, uncertainty and attribution. Apply [econ-assertive](../econ-assertive/SKILL.md) once for final semantic deletion and expression.
+Follow the requested citation format. A standalone note begins with authors, year, title, journal/volume and published DOI; an unpublished paper uses its formal manuscript citation and author or institution link. Explain necessary terms for the reader. Preserve terminology, population, period, units, causal status, uncertainty and attribution.
