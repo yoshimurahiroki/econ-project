@@ -4,7 +4,7 @@ Profile: `default-micro`. Languages: English and Japanese.
 
 ## Use
 
-For a writing or wording edit, select the paragraph function required by the requested text and transfer its sentence relations to retained target claims. Preserve genre, authorial voice and the requested structure. [econ-assertive](../SKILL.md) owns final semantic deletion and expression. Example-specific facts remain in the examples.
+For a writing or wording edit, select the paragraph function required by the requested text and transfer its sentence relations to retained target claims. Preserve genre, authorial voice and the requested structure. Example-specific facts remain in the examples.
 
 ## Introduction
 

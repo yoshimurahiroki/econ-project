@@ -1,6 +1,6 @@
 ---
 name: econ-data
-description: Acquire and link data, implement research code and reproduce requested results.
+description: Map or link research data, change research code or data, and reproduce requested numerical results through existing execution paths.
 ---
 
 # Data and code

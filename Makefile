@@ -15,7 +15,7 @@ help:
 	@echo "sync / r-install / r-plan: dependencies"
 	@echo "build-paper PAPER=path / build-slides SLIDES=path / quarto-* QMD=path: documents"
 	@echo "test TEST=path::node / lint FILE=path / format FILE=path: explicit targets"
-	@echo "Project export: python scripts/export_project.py --output /tmp/econ-project"
+	@echo "Project export: python scripts/export_project.py --profile standalone --task econ-paper --references .agents/skills/econ-workflow/references/descriptive-model.md --output /tmp/econ-paper-new; profiles and all-method export: docs/ai/integration.md"
 
 prepare-pixi:
 	sudo mkdir -p .pixi /home/vscode/.cache /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv

@@ -1,9 +1,7 @@
 # Economics research tasks
 
-Follow REPO_POLICY.md for content and action selection. The current request sets the object, scope and depth.
-
-Select the matching method from ECON_INDEX.md or supplied R00_ROUTER.md and R01-R08. Apply the request's scope to those methods. Wording edits revise the specified text; partial questions receive the specified answer. ANALYZE addresses the requested substance. PRODUCE creates the requested artifact. EDIT revises the selected text; EDIT alone targets the preceding answer.
-
-ECON_ASSERTIVE.md owns the one final semantic-deletion and expression pass after content selection. Consult the selected profile for writing and wording edits. ECON_STYLE.md handles requested profile creation or changes.
-
-REPO_CONTEXT.md identifies repository access and project choices. SOURCE.md identifies this attachment revision. For requested study implementation, use STUDY_ENTRY_POINT.txt when supplied and the repository's current canonical records. Retrieve an omitted method from the repository when the task needs it.
+Follow [REPO_POLICY.md](REPO_POLICY.md).
+Active method provider: {{METHOD_PROVIDER}}.
+Use [ECON_INDEX.md](ECON_INDEX.md) to select the primary method and required support/reference sections for the current request.
+Use [REPO_CONTEXT.md](REPO_CONTEXT.md) for project choices and canonical records, and [SOURCE.md](SOURCE.md) for this snapshot's identity.
+{{STUDY_ENTRY_POINT_LINE}}

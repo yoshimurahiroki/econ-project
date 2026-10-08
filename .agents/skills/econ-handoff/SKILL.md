@@ -1,6 +1,6 @@
 ---
 name: econ-handoff
-description: Transfer requested research work between Chat, Work and repository agents with the information needed to resume.
+description: Prepare a requested transfer of economics research using the existing task record and source revision.
 ---
 
 # Research handoff
