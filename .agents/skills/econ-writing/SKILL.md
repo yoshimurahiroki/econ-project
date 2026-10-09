@@ -1,11 +1,11 @@
 ---
 name: econ-writing
-description: Compose, translate or format economics prose, papers, talks, research sites and exhibits from established content.
+description: Plan an economics artifact’s argument, or compose, translate and format its prose, talk, site or exhibits.
 ---
 
 # Writing and artifacts
 
-Compose the requested artifact itself for its reader, purpose, language and medium using the established research content. Use [econ-assertive](../econ-assertive/SKILL.md) and its selected examples to guide the prose. Choose the explanation, evidence and amount of detail that make this particular artifact useful.
+Produce the requested argument plan or artifact for its reader, purpose, language and medium using the supplied research content. Use [econ-assertive](../econ-assertive/SKILL.md) and its selected examples to guide the prose. Choose the explanation, evidence and amount of detail that make this particular artifact useful.
 
 Use econ-edit for wording revision and econ-paper for explaining a source paper. Use the relevant research method for a requested substantive question; a writing or wording task selects how to present the supplied content.
 
