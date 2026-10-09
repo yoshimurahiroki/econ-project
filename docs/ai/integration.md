@@ -41,7 +41,7 @@ For these upstream templates, maintainers edit common functionality in econ-proj
 python scripts/export_project.py --profile bridge --output /tmp/econ-bridge-new
 ```
 
-Keep the unchanged existing R00-R08 method attachments. For a complete instruction-field replacement, paste PROJECT_INSTRUCTIONS.txt. To update a separately maintained field, replace its bridge block with BRIDGE_INSTRUCTIONS.txt and remove conflicting inherited common-policy, profile and final-dispatch text. Attach the exported files. ECON_INDEX.md records their roles; supplied R00_ROUTER.md resolves the existing research method for the requested deliverable. An explicit native-provider request uses the exported native fallback for that deliverable.
+Keep the original R00-R08 attachments unchanged. For a complete instruction-field replacement, paste PROJECT_INSTRUCTIONS.txt. To update a separately maintained field, replace its bridge block with BRIDGE_INSTRUCTIONS.txt and remove conflicting inherited common-policy and writing instructions. Attach the exported files. ECON_INDEX.md gives native econ-paper, econ-writing, econ-edit and econ-style priority for paper explanation, writing, wording revision and profile work. Scientific research uses the original R02-R05 or R07 under the supplied R00 router. References to R01, R06 and R08 resolve to the corresponding native methods. An explicit native-provider request uses the exported native fallback for a research deliverable.
 
 ## Standalone Project
 
@@ -63,7 +63,7 @@ python scripts/export_project.py --profile standalone --task econ-edit \
   --style-profile default-micro --output /tmp/econ-edit-new
 ```
 
-`--task` selects the deliverable's method role; `--support` names a dependency method and `--references` names an exact repository-relative reference file. Both options are repeatable and require `--task`. `--task` and `--skills` are exclusive. Bridge task snapshots keep the supplied R00-R08 provider and include the selected native body as its available fallback. A requested profile operation selects econ-style.
+`--task` selects the deliverable's method role; `--support` names a dependency method and `--references` names an exact repository-relative reference file. Both options are repeatable and require `--task`. `--task` and `--skills` are exclusive. Bridge task snapshots use the selected native primary for paper explanation, writing, wording revision or profile work. A bridge workflow snapshot uses native econ-workflow as coordinator, with a separate supplied R00 primary for each substantive research deliverable. Other research snapshots retain the supplied R02-R05/R07 provider and include the selected native research body as its available fallback.
 
 Task snapshots include the selected bodies, explicit references and applicable writing-profile resources. Inclusion makes a resource available; the current task determines whether it is read. ECON_INDEX.md lists the selected roles and files. Project additions come from the `export-project:v1` block in [repo_context.md](repo_context.md).
 
@@ -71,7 +71,7 @@ Use a fresh output directory outside the repository. The exporter enforces the 8
 
 ## Custom exemplars
 
-[econ-assertive](../../.agents/skills/econ-assertive/SKILL.md) owns writing-profile selection. The `writing_profile` value in [project context](repo_context.md) records the persistent choice. `--style-profile` selects a snapshot's task profile without changing that value. Writing or wording tasks include the selected profile and default-micro for a needed function absent from it.
+[econ-assertive](../../.agents/skills/econ-assertive/SKILL.md) selects source examples for writing. The `writing_profile` value in [project context](repo_context.md) records the persistent choice. `--style-profile` selects a snapshot's task profile without changing that value. Writing or wording tasks include the selected profile; default-micro remains available as a source of examples.
 
 To create or revise a profile, request econ-style with the source papers, language and target section. Name a destination to save it; a repository-save request without a path uses docs/ai/custom-style.md. Creation and saving preserve the persistent choice. Change the project-context value only for an explicit request to adopt or switch the profile.
 
@@ -79,14 +79,22 @@ To create or revise a profile, request econ-style with the source papers, langua
 
 A requested handoff uses the existing task record for the revision, evidence, authorized work, results and next action relevant to the transfer. Keep private data and credentials in their existing storage.
 
+## Coordinated research execution
+
+A broad research assignment uses econ-workflow as coordinator and the existing specialist for each deliverable. Read its team-execution reference only for delegation, operational state, tool selection or team evaluation. Econ-review's oversight reference provides separate Inspector, Adjudicator, scientific-referee and editorial entry points. Use actual independent workers for independent review.
+
+Existing research task records remain the canonical assignment and scientific-decision source. If no operational store exists, the portable stdlib helper at `.agents/skills/econ-workflow/scripts/team_state.py` saves task state in the already ignored `.agents/state/` directory. Its `--help` lists creation, transitions, usage import and active inspection. It neither launches inference nor modifies platform permissions. Keep the store and Codex JSONL transcripts local. Record output and passed-verification evidence before completion, and inspect saved input/output hashes before resumption.
+
+Codex execution uses the user's verified installed CLI and normal ChatGPT login. Confirm version, authentication and available tools at setup; keep user model and permission settings. Native delegation and existing execution records precede external orchestrator adoption. Free package licensing does not establish free inference. The templates do not enable local LLMs, paid API fallback or credit purchases.
+
 <!-- common-core-receipt:v2 -->
 ```json
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c",
+  "source_base_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94",
   "source_state": "committed",
-  "common_content_id": "20bb70dc53ccefc0b232552108f3cbbd73cc3a77a862e0accca4f1df163a50a7",
+  "common_content_id": "ab5793d39bbaaebda6d1076953deb890c1231f1ac00a68bfb2530ef7476700e0",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -101,11 +109,11 @@ A requested handoff uses the existing task record for the revision, evidence, au
     {
       "path": ".agents/skills/econ-assertive/SKILL.md",
       "state": "present",
-      "sha256": "88cf8924f4a4b2d48e66412f9c02a9297392d28071cfd6b914dca6af734f4c4d",
-      "git_blob": "1a0b5c0e170295bd1c01938b6e1da8fccaf5e777",
+      "sha256": "e2995238410a44e96ed5c7fe0e00afcbd29f24358a7a98218e9da3d026c6fc0e",
+      "git_blob": "0e344c8b6cd7ac47cabbce9d7322b5e9756eff08",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".agents/skills/econ-assertive/agents/openai.yaml",
@@ -119,20 +127,20 @@ A requested handoff uses the existing task record for the revision, evidence, au
     {
       "path": ".agents/skills/econ-assertive/references/default-micro.md",
       "state": "present",
-      "sha256": "61a391b41dd9e2995d60eb472f74bf3819581e292cc11710ac4cce4d03624c47",
-      "git_blob": "cb911a8243ca331205070e7bf9290a5c03d16483",
+      "sha256": "207f6a70f2b5cf138f34ad1e6dc6f82d0b81a023ffd08aae5ed6fc9d61c71ac6",
+      "git_blob": "cf1f588c5f701d2da3bbbf2bf58976811011087b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".agents/skills/econ-assertive/references/patterns.md",
       "state": "present",
-      "sha256": "f3090d66e769625320406580acc6701a364b2095d83193c5266772f94798d102",
-      "git_blob": "5d11cb92861aa5da67265a19a4ce21cdb37b695b",
+      "sha256": "47a03ed30cb0ed7644ed308d30f8488fd3099d99112f26ee1f7a95fb3b327b3b",
+      "git_blob": "17cf13913dcd13e19ed900023f32042bb95785ed",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".agents/skills/econ-data/SKILL.md",
@@ -164,11 +172,11 @@ A requested handoff uses the existing task record for the revision, evidence, au
     {
       "path": ".agents/skills/econ-design/SKILL.md",
       "state": "present",
-      "sha256": "3149035d2888b6c60c0403d569a671cd7f4f9d93a6308ffb2b22b3d5246c677b",
-      "git_blob": "45b03543cf4affeaeb01ccf2137363ff18bedbe3",
+      "sha256": "66489bc920d5edb7e121d205f20762f71dbac1a42a094b06ee11a94697aba7fd",
+      "git_blob": "7a493c404c3ad6a6825358a95967ee6cd5694702",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".agents/skills/econ-design/references/designs.md",
@@ -182,11 +190,11 @@ A requested handoff uses the existing task record for the revision, evidence, au
     {
       "path": ".agents/skills/econ-edit/SKILL.md",
       "state": "present",
-      "sha256": "a28f49742b609f1f78468d863b1eb3cc1e439caf4cdeb1dd2027adf4eaaf873f",
-      "git_blob": "6ab02a0ddeb06fb6e68e2351eb62bb8c95932676",
+      "sha256": "5b246b8b19d12e15dbaa453be55cecf024ff5660692e882ffcad183e6397d0bd",
+      "git_blob": "80a1211e0cccb1cdf2b3cfbc18ce40473d493010",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".agents/skills/econ-handoff/SKILL.md",
@@ -218,38 +226,38 @@ A requested handoff uses the existing task record for the revision, evidence, au
     {
       "path": ".agents/skills/econ-paper/SKILL.md",
       "state": "present",
-      "sha256": "baafc8a120acac17eeb65462991a6f9f8eba12b195e0c4ee11553f16dade0887",
-      "git_blob": "8e0f828583fea376c864499325696c020e8a28a2",
+      "sha256": "8e0d2b59200604ae404bc114f2befff25f3b50edccb4ebd1a6472388e554ae9c",
+      "git_blob": "48a061d75f183b7c49c31982acee1f74d907ad35",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".agents/skills/econ-review/SKILL.md",
       "state": "present",
-      "sha256": "c251b7891b0c0a48ec852839cc2f9946ba9267413fe23e437c5059360abab486",
-      "git_blob": "0d9fecb3540bd98abb79c72afcd59cff17bafde6",
+      "sha256": "6d2dacc1ac8145fa26fe7b59a787db352b5a96aeb8d8261859c3ca8e798590e8",
+      "git_blob": "bbf790d8b0ff9103468345716490a655f7aac4ba",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".agents/skills/econ-review/references/oversight.md",
       "state": "present",
-      "sha256": "81f9a2b0d43247e215f614e4629c54db9618861ce450698f969e6eb7e390e74f",
-      "git_blob": "f5736f5cfb7835ef958e5392f0e040ccf980d0be",
+      "sha256": "7e24a77f084c47b8bc846686ff46e77ca69dd7c58b80d5e406807844c3adb108",
+      "git_blob": "00aa90bef647029d8d13d3ec27a8561aa8f2cfcd",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".agents/skills/econ-style/SKILL.md",
       "state": "present",
-      "sha256": "52e629d83c37e6ea211c8c27b573fb907061d679967c19a7460f29a2d7472682",
-      "git_blob": "fb15e1a65adb48ce6940d3d56745505e131e16a4",
+      "sha256": "c598d8712a48cadac38e0c1fc3dc2c449f2677b05e4ccc81e557a3a524c01b0a",
+      "git_blob": "e1c1c66e49d3f38884126b5034efe75035ae0edc",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".agents/skills/econ-workflow/SKILL.md",
@@ -299,11 +307,11 @@ A requested handoff uses the existing task record for the revision, evidence, au
     {
       "path": ".agents/skills/econ-writing/SKILL.md",
       "state": "present",
-      "sha256": "a60beb8a08b6674e3bc6a493c43a5d35e1885059493e1851b7ef22ce4f341e97",
-      "git_blob": "b933866b20238fc9fc79a1efba80cea53ca0ffef",
+      "sha256": "6e245cb34488f015e3d119008bd4d40758206a693428eaa6939a296dc4f122b5",
+      "git_blob": "eb11cc7baa2603e29c454277677fe76e040f3c0b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".claude/AGENTS.md",
@@ -326,11 +334,11 @@ A requested handoff uses the existing task record for the revision, evidence, au
     {
       "path": ".cursorrules",
       "state": "present",
-      "sha256": "ccc798e821ce9988d686b5f8e7f80d4e57513d5bbe8ec3fdd603231de658ff5b",
-      "git_blob": "3e26f346af323cfe6dbff601568a3840645656d3",
+      "sha256": "ad3aded720c77cc153acb273e7f9f6ff78ed3a3e74a37076d860acab627711e6",
+      "git_blob": "6d53e383357a0e6ab14c3d63d98611caeaf37fc0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": ".gemini/GEMINI.md",
@@ -380,11 +388,11 @@ A requested handoff uses the existing task record for the revision, evidence, au
     {
       "path": "docs/ai/compiled_ai_skills.md",
       "state": "present",
-      "sha256": "b03d31fa10e3043638e145a78947c71d94c9b2694ea9fc46e97a95ae4d49a89a",
-      "git_blob": "6edc0c5e53ba8b5485eac71af3c6bec5bc336cc5",
+      "sha256": "45e88d63ef5ace2f6c532ecd969ed510072fbc20b9e354c9da75b0d26c07b4b6",
+      "git_blob": "c63b5bb1b8b8595e220773761fcfe6d974bf6ca5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": "docs/ai/config-templates/README.md",
@@ -425,11 +433,11 @@ A requested handoff uses the existing task record for the revision, evidence, au
     {
       "path": "docs/ai/project_bridge.txt",
       "state": "present",
-      "sha256": "fe4c2abcd08c5675579b86eecaeaf5760646f10bf8b09e4f66f13979896be76e",
-      "git_blob": "4e1a6b417812b4bdb2bde417c00b380d398f95b5",
+      "sha256": "beea22932a7ee0cd39a5de9ead42a5abc14aada6d6e580301c76b3d55965e54e",
+      "git_blob": "aecb0b1191730ce4da09a3e7ce7015f17071bf3b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": "docs/ai/project_instructions.txt",
@@ -443,11 +451,11 @@ A requested handoff uses the existing task record for the revision, evidence, au
     {
       "path": "scripts/export_project.py",
       "state": "present",
-      "sha256": "84743d8b1678f00573201cb4443a85adb112f3d14e2a2afc9396efb76f310715",
-      "git_blob": "815c0861d18a2b4314e3ed193943aee97acec5bd",
+      "sha256": "70022ff50b27d360951ffbd307b62ad91ce8ccd9318d85bfa488abd9322996ec",
+      "git_blob": "37addfa2b2425a46b0602c9c18d84c71ce5f3267",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "94a0776459f170c3baf0f5fb8a27bf58c54f652c"
+      "source_commit": "f6037b2455ad26d3b979a88e0de9f9dd4a9bdc94"
     },
     {
       "path": "scripts/pack_context.sh",

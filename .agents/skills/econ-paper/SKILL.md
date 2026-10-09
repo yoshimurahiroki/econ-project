@@ -7,14 +7,8 @@ description: Explain a specified paper or passage, or prepare a requested comple
 
 Read the specified version at the scope and depth of the current request. A targeted question uses the passages and context needed to answer that part. A requested complete explanation reads the main text and the appendices, figures, tables and notes supporting the paper's central claims. Obtain required material through approved holdings, publishers, authors or institutions. Keep exact editions and locators in existing evidence metadata.
 
-For a complete explanation, use the requested structure or these five sections: 研究質問、なぜ重要か、どう答えるか、結果、この論文の貢献 in Japanese; Research question, Significance, How they answer, Results and Contribution in English.
+Explain the paper for the requested reader and purpose, following its argument and evidence. Choose the structure and technical detail that help the reader understand the paper at the requested depth. Use [econ-assertive](../econ-assertive/SKILL.md) for prose and econ-writing for a seminar's medium and production entry point.
 
-1. Research question: identify the economic object, population or market, exposure or choice, and outcome.
-2. Significance: explain the incentives, information, constraints, interaction, allocation or equilibrium that make the question consequential.
-3. How they answer: connect theory, data, identification and estimation. Explain the observation unit, sample, period, linkage, variables, estimand, comparison, assignment timing, assumptions, estimator, weights and inference that establish the findings. Present the authors' identifying argument and its evidence.
-4. Results: give interpretable magnitudes, named baselines, numerical uncertainty and the authors' supported interpretation.
-5. Contribution: state the new economic knowledge, the nearest established knowledge, and the evidence or reasoning that makes the new conclusion possible.
+Read the relevant econ-design section when a specific methodological dependency needs resolving. Read [econ-workflow/references/descriptive-model.md](../econ-workflow/references/descriptive-model.md) when the requested explanation connects observed evidence to model features or counterfactual assumptions.
 
-Select technical detail for the requested explanation by the central argument it establishes. For a paper seminar, use the talk function in econ-writing for the requested audience and time; carry the source's claim, comparison and evidence into that presentation. Theory uses primitives, equilibrium, propositions and proof arguments. Structural work connects variation, moments, parameters, fit and counterfactual assumptions. Prediction explains its target, information time, labels, leakage controls, evaluation population, calibration and decision loss. Read the relevant econ-design section when a specific identifying, estimation or inference dependency is needed to explain the requested claim. Read [econ-workflow/references/descriptive-model.md](../econ-workflow/references/descriptive-model.md) when the requested explanation connects observed evidence to model features or counterfactual assumptions.
-
-Follow the requested citation format. A standalone note begins with authors, year, title, journal/volume and published DOI; an unpublished paper uses its formal manuscript citation and author or institution link. Explain necessary terms for the reader. Preserve terminology, population, period, units, causal status, uncertainty and attribution.
+Preserve the source's substantive meaning and follow the requested citation format.
