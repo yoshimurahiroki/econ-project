@@ -11,6 +11,7 @@ import subprocess
 import sys
 
 STATES = {'queued', 'running', 'evaluating', 'completed', 'interrupted', 'failed'}
+TOKEN_FIELDS = ('input_tokens', 'cached_input_tokens', 'cache_write_input_tokens', 'output_tokens', 'reasoning_output_tokens')
 
 def now():
     return datetime.now(timezone.utc).isoformat()
@@ -125,14 +126,60 @@ def inspect(root, state, stale_seconds):
     return findings, dependent_ids(state['tasks'], stale)
 
 def report_usage(state):
-    runs = [run for task in state['tasks'].values() for run in task['usage']]
-    fields = ('input_tokens', 'cached_input_tokens', 'output_tokens', 'reasoning_output_tokens', 'elapsed_seconds')
-    totals = {field: (sum(run[field] for run in runs) if runs and all(run.get(field) is not None for run in runs) else None) for field in fields}
-    totals['total_tokens'] = (totals['input_tokens'] + totals['output_tokens']
-                              if totals['input_tokens'] is not None and totals['output_tokens'] is not None else None)
-    return {'runs': len(runs), 'totals': totals, 'attempts': sum(t['attempts'] for t in state['tasks'].values()),
+    groups, problems, intervals = {}, [], []
+    runs = [(key, run) for key, task in state['tasks'].items() for run in task['usage']]
+    for task_id, run in runs:
+        if run.get('usage_contract') != 2:
+            problems.append({'hash': run['hash'], 'kind': 'legacy-counter-semantics-unclassified'})
+            continue
+        observations = run['observations']
+        if not observations:
+            problems.append({'hash': run['hash'], 'kind': 'completed-counter-unavailable'})
+        for observation in observations:
+            sid, epoch, sequence = observation['session_id'], run['epoch'], run['sequence']
+            if not sid or epoch is None or sequence is None:
+                problems.append({'hash': run['hash'], 'kind': 'unknown-session-epoch-or-order'})
+                continue
+            groups.setdefault((sid, epoch), []).append((sequence, observation['index'], observation['counter'], task_id, run['hash']))
+    epoch_totals = []
+    for (sid, epoch), observations in groups.items():
+        positions = {}
+        invalid = False
+        for sequence, index, counter, task_id, fingerprint in observations:
+            previous = positions.get((sequence, index))
+            if previous and previous[0] != counter:
+                problems.append({'session_id': sid, 'epoch': epoch, 'kind': 'conflicting-observation-position'})
+                invalid = True
+            else:
+                positions[(sequence, index)] = (counter, task_id, fingerprint)
+        ordered = sorted(positions.items())
+        if not ordered or ordered[0][0] != (0, 0):
+            problems.append({'session_id': sid, 'epoch': epoch, 'kind': 'initial-counter-baseline-unknown'})
+            invalid = True
+        prior = {field: 0 for field in TOKEN_FIELDS} if not invalid else {field: None for field in TOKEN_FIELDS}
+        confirmed = prior
+        for (sequence, index), (counter, task_id, fingerprint) in ordered:
+            zero_or_default = all(counter.get(field) in (None, 0) for field in TOKEN_FIELDS)
+            if not zero_or_default and any(counter.get(field) is not None and confirmed.get(field) is not None and counter[field] < confirmed[field] for field in TOKEN_FIELDS):
+                problems.append({'session_id': sid, 'epoch': epoch, 'sequence': sequence, 'kind': 'counter-decreased-within-declared-epoch'})
+                invalid = True
+            delta = {field: counter[field] - prior[field] if not zero_or_default and counter.get(field) is not None and prior.get(field) is not None and counter[field] >= prior[field] else None for field in TOKEN_FIELDS}
+            intervals.append({'session_id': sid, 'epoch': epoch, 'sequence': sequence, 'index': index,
+                              'task': task_id, 'hash': fingerprint, 'counter_information': 'unknown-zero-or-default' if zero_or_default else 'reported-nonzero',
+                              'increment_since_previous_observation': delta})
+            prior = {field: None for field in TOKEN_FIELDS} if zero_or_default else counter
+            if not zero_or_default:
+                confirmed = counter
+        if ordered and all(ordered[-1][1][0].get(field) in (None, 0) for field in TOKEN_FIELDS):
+            problems.append({'session_id': sid, 'epoch': epoch, 'kind': 'final-zero-or-default-counter-unverified'})
+        epoch_totals.append({field: None if invalid else prior.get(field) for field in TOKEN_FIELDS})
+    totals = {field: (sum(row[field] for row in epoch_totals) if epoch_totals and not problems and all(row[field] is not None for row in epoch_totals) else None) for field in TOKEN_FIELDS}
+    totals['elapsed_seconds'] = sum(run['elapsed_seconds'] for _, run in runs) if runs and all(run.get('elapsed_seconds') is not None for _, run in runs) else None
+    totals['total_tokens'] = totals['input_tokens'] + totals['output_tokens'] if totals['input_tokens'] is not None and totals['output_tokens'] is not None else None
+    return {'runs': len(runs), 'counter_epochs': len(groups), 'totals': totals, 'problems': problems,
+            'intervals': intervals, 'attempts': sum(t['attempts'] for t in state['tasks'].values()),
             'human_corrections': sum(t['human_corrections'] for t in state['tasks'].values()),
-            'meaning': 'cached input is included in input; reasoning output is a reported breakdown, not added; unknown is null'}
+            'meaning': 'CLI counters are cumulative within a declared session epoch. Sequence zero declares the captured epoch start. Import order does not set chronology. Cached input and reasoning output are included breakdowns; unknown is null. Interval increments cover the gap since the preceding recorded observation.'}
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -167,6 +214,9 @@ def main():
             cli.add_argument('--reviewer', required=True)
         elif command == 'usage':
             cli.add_argument('--jsonl', type=Path, required=True)
+            cli.add_argument('--epoch', help='Explicit cumulative-counter epoch; retain it across resume')
+            cli.add_argument('--sequence', type=int, help='Chronological observation ordinal; 0 declares the epoch start')
+            cli.add_argument('--session-id', help='Verified session ID when the event stream has no thread.started')
             cli.add_argument('--elapsed-seconds', type=float)
             cli.add_argument('--human-corrections', type=int, default=0)
         elif command == 'transition':
@@ -285,22 +335,33 @@ def main():
             elif args.command == 'usage':
                 if args.human_corrections < 0 or (args.elapsed_seconds is not None and args.elapsed_seconds < 0):
                     raise ValueError('Usage measures must be nonnegative')
+                if args.sequence is not None and args.sequence < 0 or args.epoch is not None and not args.epoch.strip():
+                    raise ValueError('Counter epoch must be nonempty and sequence nonnegative')
                 run_hash = digest(args.jsonl)
-                if any(run['hash'] == run_hash for t in tasks.values() for run in t['usage']):
-                    raise ValueError('Usage events already imported')
                 events = [json.loads(line) for line in args.jsonl.read_text(encoding='utf-8-sig').splitlines() if line.strip()]
-                usages = [event['usage'] for event in events if event.get('type') == 'turn.completed' and 'usage' in event]
-                values = {}
-                for field in ['input_tokens', 'cached_input_tokens', 'output_tokens', 'reasoning_output_tokens']:
-                    known = [u[field] for u in usages if field in u and u[field] is not None]
-                    if any(not isinstance(v, int) or isinstance(v, bool) or v < 0 for v in known):
-                        raise ValueError('Invalid token count')
-                    values[field] = sum(known) if usages and len(known) == len(usages) else None
-                values.update(hash=run_hash, elapsed_seconds=args.elapsed_seconds,
-                    session_ids=[e['thread_id'] for e in events if e.get('type') == 'thread.started'],
-                    completed_turns=len(usages), imported=now())
-                task['usage'].append(values)
-                task['human_corrections'] += args.human_corrections
+                observations, session_id = [], args.session_id
+                for event in events:
+                    if event.get('type') == 'thread.started':
+                        event_id = event['thread_id']
+                        if args.session_id and args.session_id != event_id:
+                            raise ValueError('Declared session ID differs from the event stream')
+                        session_id = event_id
+                    if event.get('type') == 'turn.completed' and 'usage' in event:
+                        counter = {field: event['usage'].get(field) for field in TOKEN_FIELDS}
+                        if any(value is not None and (not isinstance(value, int) or isinstance(value, bool) or value < 0) for value in counter.values()):
+                            raise ValueError('Invalid token counter')
+                        if counter['cached_input_tokens'] is not None and counter['input_tokens'] is not None and counter['cached_input_tokens'] > counter['input_tokens']:
+                            raise ValueError('Cached input exceeds input counter')
+                        if counter['reasoning_output_tokens'] is not None and counter['output_tokens'] is not None and counter['reasoning_output_tokens'] > counter['output_tokens']:
+                            raise ValueError('Reasoning output exceeds output counter')
+                        index = sum(row['session_id'] == session_id for row in observations)
+                        observations.append({'session_id': session_id, 'index': index, 'counter': counter})
+                identity = {'epoch': args.epoch, 'sequence': args.sequence, 'session_id': session_id, 'observations': observations}
+                repeated = any(run.get('usage_contract') == 2 and {key: run[key] for key in identity} == identity and (observations or run['hash'] == run_hash) for t in tasks.values() for run in t['usage'])
+                if not repeated:
+                    task['usage'].append({'usage_contract': 2, 'hash': run_hash, **identity,
+                        'elapsed_seconds': args.elapsed_seconds, 'imported': now()})
+                    task['human_corrections'] += args.human_corrections
         if args.command == 'inspect':
             findings, stale = inspect(root, state, args.stale_seconds)
             if args.invalidate:
