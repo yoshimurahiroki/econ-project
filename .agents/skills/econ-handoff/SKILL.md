@@ -1,14 +1,12 @@
 ---
 name: econ-handoff
-description: Prepare a requested transfer of economics research using the existing task record and source revision.
+description: Transfer a requested economics task with the information needed to continue its authorized work.
 ---
 
 # Research handoff
 
-Use the canonical task and specified source version. For current repository implementation, identify the authorized branch and revision. Project exports contain snapshots; use their SOURCE revision to identify the supplied version.
+Make the next useful action resumable. Use the existing canonical task and the specified repository or attachment revision. Carry the current conclusion, the relevant saved result and what remains to be resolved, with the sources and execution context needed to continue. Keep scientific choices in their canonical record and numerical provenance in generating metadata.
 
-Reuse the existing task record. Carry the information needed to resume through [handoff fields](references/handoff.md). Keep decisions in the canonical research record and scientific provenance in generating metadata. Carry locators for private assets in approved storage.
+Use [handoff notes](references/handoff.md) when assembling the transfer. For a coordinated task, link its existing operational record and check the saved artifacts; use [team execution](../econ-workflow/references/team-execution.md) only for a state or usage operation the transfer requires. Private assets and credentials remain in approved storage.
 
-State the actual repository, attachment or deployment changes relevant to the transfer. For a requested Project export, use the existing exporter described in docs/ai/integration.md.
-
-For an active coordinated task, use the existing local operational record or econ-workflow's [team execution](../econ-workflow/references/team-execution.md) to carry task IDs, input/output hashes, actual state, verification evidence and next authorized operation. Inspect saved artifacts on resumption; an interrupted task remains interrupted until its required result is verified.
+State actual repository or deployment changes when they matter to the transfer. A requested instruction snapshot uses the existing exporter described in docs/ai/integration.md.

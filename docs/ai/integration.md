@@ -81,7 +81,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
 
 ## Coordinated research execution
 
-A broad research assignment uses econ-workflow as coordinator and the existing specialist for each deliverable. Read its team-execution reference only for delegation, operational state, tool selection or team evaluation. Econ-review's oversight reference provides separate Inspector, Adjudicator, scientific-referee and editorial entry points. Use actual independent workers for independent review.
+Econ-workflow coordinates interdependent research work and owns its integrated result. Bounded tasks use their relevant specialist directly. Read team-execution for concurrent write ownership, state resumption or requested usage accounting. Econ-review assesses the requested claim or artifact; its oversight notes support an independent assessment or a contested execution finding. Independent review uses a different worker or session.
 
 Existing research task records remain the canonical assignment and scientific-decision source. If no operational store exists, the portable stdlib helper at `.agents/skills/econ-workflow/scripts/team_state.py` saves task state in the already ignored `.agents/state/` directory. Its `--help` lists creation, transitions, usage import and active inspection. It neither launches inference nor modifies platform permissions. Keep the store and Codex JSONL transcripts local. Record output and passed-verification evidence before completion, and inspect saved input/output hashes before resumption.
 
@@ -92,9 +92,9 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "19f8e11312a8d3400984c41b0a35a926f31b3e8a",
+  "source_base_commit": "f9e0e8e28c7055c271cde89790e653f5fa0d04e9",
   "source_state": "committed",
-  "common_content_id": "b5478e94d81df6661c67d00a8053b66709957b5672e62072a384231540ef2310",
+  "common_content_id": "620da73536b8b0a1152ca8c7833f0b309fd7a9d4c3fa0335aa9fa4865c84c01b",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -199,20 +199,20 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": ".agents/skills/econ-handoff/SKILL.md",
       "state": "present",
-      "sha256": "67d218bb78d06c45676904d532559df97a7ed97c0ece9315a45b325bac2722cf",
-      "git_blob": "2309285f27927e16c5115f89cc013e3305b99f4a",
+      "sha256": "dff27f196bf3ec4c872d1c972cda0f905bf82c4b33861ea34d67eea04d28af8c",
+      "git_blob": "956366395daa04091809d73d48b9b80ad9f2a7fc",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
+      "source_commit": "f9e0e8e28c7055c271cde89790e653f5fa0d04e9"
     },
     {
       "path": ".agents/skills/econ-handoff/references/handoff.md",
       "state": "present",
-      "sha256": "a2cb46b36ad4bb4ce90d06559d8f4055817789ae8a44cfdc23460cc4672a0d1b",
-      "git_blob": "88de79983187c941e4fab55dbcc1d1e161ef72e9",
+      "sha256": "2b853325770da0c9838cc44388faee09eb5aa99eb782cc70ebb2ba7be98b37d5",
+      "git_blob": "cfe7d4ac3949acaa5e3a27b0f20258e4dd189238",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
+      "source_commit": "f9e0e8e28c7055c271cde89790e653f5fa0d04e9"
     },
     {
       "path": ".agents/skills/econ-literature/SKILL.md",
@@ -235,20 +235,20 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": ".agents/skills/econ-review/SKILL.md",
       "state": "present",
-      "sha256": "6d2dacc1ac8145fa26fe7b59a787db352b5a96aeb8d8261859c3ca8e798590e8",
-      "git_blob": "bbf790d8b0ff9103468345716490a655f7aac4ba",
+      "sha256": "720ed7e1d8e8033c302494d5c9a9c9df4eb57b0093eb36f556f0609b2af58dbd",
+      "git_blob": "041a3f453ff297310b48a0c5dcd262bed4f61d17",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "19f8e11312a8d3400984c41b0a35a926f31b3e8a"
+      "source_commit": "f9e0e8e28c7055c271cde89790e653f5fa0d04e9"
     },
     {
       "path": ".agents/skills/econ-review/references/oversight.md",
       "state": "present",
-      "sha256": "7e24a77f084c47b8bc846686ff46e77ca69dd7c58b80d5e406807844c3adb108",
-      "git_blob": "00aa90bef647029d8d13d3ec27a8561aa8f2cfcd",
+      "sha256": "647b797da3348ad21e1c2fcab083742125d25a89225b1e43f28be04c1697d6e4",
+      "git_blob": "f020082ff9dc14a6168877a5f431b8826c1a40a1",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "19f8e11312a8d3400984c41b0a35a926f31b3e8a"
+      "source_commit": "f9e0e8e28c7055c271cde89790e653f5fa0d04e9"
     },
     {
       "path": ".agents/skills/econ-style/SKILL.md",
@@ -262,11 +262,11 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": ".agents/skills/econ-workflow/SKILL.md",
       "state": "present",
-      "sha256": "0a5c7c8f60e010da76c83a48f0d392d5aa9dcd9b204b344eac8ba258ea596042",
-      "git_blob": "c8115620371f6d138cbbd12d425709c59918df96",
+      "sha256": "94bd51c9cafb433bea4c2aec39a5526e957ee9d68fa6fe6e69ff0cfbfa5bb1ed",
+      "git_blob": "08062c65400cac4b06f2a465db2424cdcaa62b16",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
+      "source_commit": "f9e0e8e28c7055c271cde89790e653f5fa0d04e9"
     },
     {
       "path": ".agents/skills/econ-workflow/references/descriptive-model.md",
@@ -280,11 +280,11 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": ".agents/skills/econ-workflow/references/team-execution.md",
       "state": "present",
-      "sha256": "9a4045b3d07c8f3aa31da08c6ca687e346e73501dc17bc9b84d729ccbccea67e",
-      "git_blob": "bcb8b35f5e8cf7a53309cb0321ee0a8be54529d0",
+      "sha256": "ec8622bff2ac49d07982f19af4cde204d5fc7f486640151a2ebf463f38c5fbe1",
+      "git_blob": "1678fa6cf496830e26bf8c78d0b0252d3d0f6b6d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
+      "source_commit": "f9e0e8e28c7055c271cde89790e653f5fa0d04e9"
     },
     {
       "path": ".agents/skills/econ-workflow/scripts/team_state.py",
@@ -334,11 +334,11 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": ".cursorrules",
       "state": "present",
-      "sha256": "ad3aded720c77cc153acb273e7f9f6ff78ed3a3e74a37076d860acab627711e6",
-      "git_blob": "6d53e383357a0e6ab14c3d63d98611caeaf37fc0",
+      "sha256": "44b8a220252d7705ed25dc21684e3e59de568342860c1eeebf1ebf7b75bbe2cb",
+      "git_blob": "e24933285dac21a5799deaf9699e1e4845a3a1ad",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "19f8e11312a8d3400984c41b0a35a926f31b3e8a"
+      "source_commit": "f9e0e8e28c7055c271cde89790e653f5fa0d04e9"
     },
     {
       "path": ".gemini/GEMINI.md",
@@ -388,11 +388,11 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": "docs/ai/compiled_ai_skills.md",
       "state": "present",
-      "sha256": "45e88d63ef5ace2f6c532ecd969ed510072fbc20b9e354c9da75b0d26c07b4b6",
-      "git_blob": "c63b5bb1b8b8595e220773761fcfe6d974bf6ca5",
+      "sha256": "acfd97ea5b9ab6048d85bcb15a03e80f0b6f037b3a55cb58ef7fc2e2805fe998",
+      "git_blob": "f99b524285a8f7921a375b0c2bc5655d1acd1b67",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "19f8e11312a8d3400984c41b0a35a926f31b3e8a"
+      "source_commit": "f9e0e8e28c7055c271cde89790e653f5fa0d04e9"
     },
     {
       "path": "docs/ai/config-templates/README.md",

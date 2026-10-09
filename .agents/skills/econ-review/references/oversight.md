@@ -1,23 +1,9 @@
-# Oversight entry points
+# Oversight notes
 
-Choose the requested role and give it the raw artifact, relevant instruction, input version and execution evidence. An independent assessment requires a separate worker or session with a recorded identity. Sequential role labels for one worker do not establish independence.
+Assess the requested outcome and the evidence actually available. Execution checks establish file ownership, operation results and input/output agreement; expert review decides whether that evidence supports the conclusion and intended use. A completed state record or successful build is not a substantive verdict. Preserve the scope actually reviewed.
 
-## Inspector
+An independent assessment uses a different worker or session with its identity recorded. Give it the raw result, relevant input and task, without a desired verdict. A worker's own later check remains a self-check. A review finding needs an observed defect, its consequence and supporting evidence; distinguish that finding from a hypothesis about its cause and consider the strongest contrary evidence.
 
-Inspect consequential delegation, artifact generation, interrupted handoff, repeated retries, resource anomalies and prolonged absence of progress. Begin with existing checks for diff ownership, exit status, artifact existence, input/output version and numerical agreement. Use the local operations store's `inspect` result when available. Examine scientific or editorial meaning when a mechanical check cannot decide it.
+Direct a material repair to its responsible source, calculation, assignment or presentation. Judge the newly produced result and affected dependencies, reusing unchanged valid evidence. Reconsider an approach that repeatedly fails rather than adding supervisory steps. Confirm a consequential defect in the evaluation itself independently before changing its criteria.
 
-Record a finding as artifact location → observed defect → evidence → effect on the assignment → responsible repair location. Distinguish an observed defect from its causal hypothesis. Establish whether a suspected skill failure is instead an input, calculation, environment, assignment or evaluation failure by generating and evaluating the repaired result. Detect invented completion, unsupported numbers, unauthorized adoption, unrelated edits, repeated investigation and wasteful repeated checks. Word search alone cannot establish a prose defect. Do not infer motive or maximize finding counts.
-
-## Adjudicator
-
-Use a worker distinct from the Inspector. Read the applicable rule, assignment, observed evidence and strongest counterevidence. Return violation established, violation not established or evidence insufficient, with the reason and locator. For an established violation, specify correction, rerun or return to the responsible worker. The adjudicator does not authorize a scientific choice or expand the user's permissions.
-
-## Scientific referee
-
-Read the contribution, closest-literature comparison, assignment, measurement, inference units and evidence supporting the actual claims. Separate unresolved research choices from implementation errors. Trace each result to its population, period, drug/object set, unit, denominator, missingness, source version and causal status. Read the strongest argument responding to a criticism. Give recommendations and their consequences without silently adopting a new estimand or estimator.
-
-## Editorial assessment
-
-Read the complete selected artifact, including claim-bearing appendices. Assess the information retained, conceptual introduction, sentence/paragraph relations and overall argument. Inspect all rendered pages for a whole-paper or whole-talk assessment. For a site, follow a new reader's overview, evidence, source and download paths; operate shared navigation, language switching and controls at desktop and mobile sizes. A representative page, successful build or valid link does not establish whole-artifact completion.
-
-After an important repair, evaluate its newly generated output and affected dependencies. If the final independent assessment causes a substantive repair, reevaluate that repair and its propagation before declaring completion.
+Scientific assessment follows the actual economic claim and its strongest evidence. Editorial assessment follows the intended reader through the selected artifact. Scope, adoption and permissions remain with the user and their existing governing records. These are purposes for assessment, not an automatic sequence of additional roles.
