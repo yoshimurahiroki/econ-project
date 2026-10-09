@@ -1,22 +1,14 @@
 ---
 name: econ-style
-description: Create or revise a requested economics writing profile by learning argument structure and information placement from source passages.
+description: Create or revise an economics writing profile from requested source papers and passages.
 ---
 
 # Source-based writing profiles
 
-Use the requested papers, language, writing functions and destination. econ-assertive owns profile selection for writing and wording edits. Persistent selection is the writing_profile value in [project context](../../../docs/ai/repo_context.md).
+Read the requested source passages and enough surrounding text to understand their argument. Inspect the page image when extraction obscures the prose. Choose relevant papers from available holdings or primary sources when selection is requested.
 
-Read the source passages and surrounding argument needed for those functions. Retrieve the specified files through available holdings or connectors. Inspect a passage's image when extraction obscures paragraph boundaries or the writing move. When reference selection is requested, choose a relevant set from the available collection and primary sources.
+Learn how good papers select and connect content for their reader. Describe the useful writing choices in a short profile, with a brief original adaptation when it helps. Let the source and target task guide what to learn; avoid turning the profile into a universal template. Record the exact sources, versions and passage locations. Source-study facts remain examples of those studies.
 
-For each useful function, identify the reader's question, the paragraph's role, what the reader already knows, the next concept introduced and the relation between claims and evidence. Record how the source moves from a fact or estimate to its explanation or interpretation. Identify where institutions, technical details, comparisons, notation and quantities become necessary. Learn sentence variety from these jobs rather than fixed word counts or copied openings.
+Try the profile on representative target prose using the target's established content, and revise it for a demonstrated problem in the resulting writing.
 
-For a whole-artifact function, inspect the complete argument and its supporting exhibits and appendix links. Identify the central question and answer, each section's job, prerequisites between sections, where the main evidence enters, and why supporting material is placed in detail. Trace how the same economic object connects those units. When supplied talks or sites are relevant, learn how time or reader routes change the evidence selection and placement. Transfer those relations rather than a table of contents or a sequence of miniature summaries.
-
-Resolve source differences by the target text's purpose and the user's preference. Transfer argument and information placement to target evidence. Compose natural syntax separately for each language and preserve the target's authorial voice. Source facts, findings, citations and distinctive phrasing remain in source-study examples.
-
-Prepare the profile with its name, languages, scope and exact source/version/URL/page records. For the selected functions, give transfer directions and original paragraph adaptations that show their actual reasoning. Use placeholders for unsupplied values; write out the relation connecting evidence to interpretation. Check that examples enact the directions, including first-use definitions and causal links. Treat claim, evidence, explanation and interpretation as available relations; include the stages needed by the paragraph. Apply the shared content rules when selecting source features, so rhetorical hedges and defensive moves do not enter the profile.
-
-Verify representative target passages using the profile and retained target evidence. Inspect the resulting order, sentence relations and scientific meaning, then repair a transfer direction responsible for a failure. Keep the examples within the requested research stage.
-
-Save at the requested destination when a file write is requested. A repository save without a specified path updates `docs/ai/custom-style.md` after reading it. Profile creation or revision retains the current persistent selection.
+Save at the requested destination. A repository-save request without a path updates docs/ai/custom-style.md after reading it. [econ-assertive](../econ-assertive/SKILL.md) owns profile selection. Profile creation or revision preserves the writing_profile in [project context](../../../docs/ai/repo_context.md); change it only when the user asks to adopt or switch the profile.

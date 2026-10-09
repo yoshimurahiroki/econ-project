@@ -1,7 +1,6 @@
 # Bridged research tasks
 
 Follow [REPO_POLICY.md](REPO_POLICY.md).
-Use supplied R00_ROUTER.md to select one existing R01-R08 method for the requested deliverable.
-Use [ECON_INDEX.md](ECON_INDEX.md) for the task role, support references and available native fallback.
+Use [ECON_INDEX.md](ECON_INDEX.md) to select one primary for the requested deliverable. Paper explanation, writing, wording revision and profile work use the native methods supplied in this snapshot. A workflow task uses native econ-workflow for coordination; substantive research deliverables use supplied R00_ROUTER.md to select R02-R05 or R07. References to R01, R06 and R08 resolve to econ-paper, econ-writing and econ-edit.
 Use [REPO_CONTEXT.md](REPO_CONTEXT.md) for project choices and canonical records, and [SOURCE.md](SOURCE.md) for this snapshot's identity.
 {{STUDY_ENTRY_POINT_LINE}}
