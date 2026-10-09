@@ -220,3 +220,18 @@ The revision concentrates on useful outcomes, consequential dependencies and rea
 | UK Cabinet Office, [The Consultancy Playbook](https://www.gov.uk/government/publications/the-consultancy-playbook), v1.1, September 2022 | Printed p.10 and pp.20–23; reuse existing knowledge, address a specific capability gap and compare outcomes without prescribing every input. |
 
 Author and corporate sources were paraphrased without importing text, branded templates, numerical performance claims or a reuse license. The UK PDF states Crown copyright and OGL v3.0 except third-party material. Repository licensing is unchanged. The September 11 Astra and October 2 GPT-6 source records above were reused.
+
+## Argument prediction and bounded harness adaptation — sources read 2026-10-10
+
+The private comparison predicts content roles from a title/abstract and preceding discussion before opening the target text. It treats a coherent alternative architecture as valid and excludes unknowable original-only facts. This is an inference-time evaluation of instructions; model weights were not updated.
+
+| Source and inspected edition | Reading and use |
+| --- | --- |
+| Xu et al., [Unfolding Scientific Papers into Multi-Turn Generation Trajectories for Continued Pre-Training](https://arxiv.org/abs/2608.25826), v2, 2026-09-07 | Abstract, §§3.2–3.4, §5 and Appendix A. Reconstructed writing trajectories motivate checking argument roles, but are not observed author deliberation. Its CPT/SFT results concern weight training and do not establish local harness gains. CC BY 4.0. |
+| Xu, [Self-Evolving Harness on Multiple Tasks with the Agent as Its Own Optimizer](https://arxiv.org/abs/2609.38372), v1, 2026-09-29 | §§1.2–1.3, 3.1–3.3, 4.1, 5.1, 5.7 and 6. Its frozen-model experiment reports gains and side-effect regressions; engineering runnability alone does not validate an update. CC BY 4.0. |
+| Ke et al., [EvoHarnessBench](https://arxiv.org/abs/2609.04280), v3, 2026-09-26 | §§3.3–3.4, 4.1–4.3 and Appendices J.2/K. Retention, adaptation and cost are distinct. Routing/coverage proxies do not establish completed-task quality, and richer capability pools have mixed effects. CC BY-SA 4.0. |
+| Garrette, Phelps and Sibony, [Cracked It!](https://link.springer.com/book/10.1007/978-3-319-89375-4), first edition, 2018 | Publisher overview and author opening: distinguish the problem from premature solution advocacy. No book framework or text was imported. |
+| Roger Martin, [The Opposable Mind and integrative thinking](https://rogerlmartin.com/thought-pillars/integrative-thinking), 2007 | Author overview: consider tensions between plausible interpretations. No fixed integrative-thinking procedure was imported. |
+| Wesley Pasfield, [Build an Agent Improvement Loop with Traces, Evals, and Codex](https://developers.openai.com/cookbook/examples/agents_sdk/agent_improvement_loop), 2026-05-12 | Reverified official introduction, feedback/evaluation and handoff discussion. Its synthetic demonstration is not evidence of this project's improvement. Paid API notebook calls and its runtime were not adopted. |
+
+Existing Rumelt, Minto, Maister, Duarte, consultancy, Cochrane, Bellemare, Mahoney, Astra and Sadallah readings were reused. New paper-role comparisons used Heath, Hidrobo and Roy, [JDE 143:102410](https://doi.org/10.1016/j.jdeveco.2019.102410), and a separately reserved Finkelstein–Hendren study, [JEP 34(4):146–167](https://doi.org/10.1257/jep.34.4.146). Source text and evaluation records remain outside the distributed harness. These are original attributed summaries; no paper text, training corpus, branded procedure, weights or software was vendored, and repository licensing is unchanged.

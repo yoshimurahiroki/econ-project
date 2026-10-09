@@ -13,6 +13,6 @@ Select the primary method for the requested deliverable. Read support and refere
 | Research critique of claims, whole artifacts or workflows; results/code reconciliation or referee response | [econ-review](../../.agents/skills/econ-review/SKILL.md) |
 | Profile creation/revision | [econ-style](../../.agents/skills/econ-style/SKILL.md) |
 | Broad research question/project advancement; planning, coordination or resumption | [econ-workflow](../../.agents/skills/econ-workflow/SKILL.md) |
-| New prose or complete paper, talk or research site; translation, formatting or exhibit production | [econ-writing](../../.agents/skills/econ-writing/SKILL.md) |
+| Paper, talk, site or exhibit argument planning/composition; translation and formatting | [econ-writing](../../.agents/skills/econ-writing/SKILL.md) |
 
 Econ-workflow owns the integrated outcome of multi-step research and selects methods for its real dependencies. Econ-review assesses the requested claim or artifact; its oversight reference supports an independent assessment or a contested execution finding. Econ-assertive guides economics prose alongside the selected research method. In a bridge, paper explanation, writing, wording revision and profile work use these native primaries; research methods remain R02-R05 or R07 under the supplied R00 router. References to R01, R06 and R08 resolve to the corresponding native methods.
