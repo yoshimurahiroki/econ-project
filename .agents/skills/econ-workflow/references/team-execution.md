@@ -10,6 +10,8 @@ The coordinator checks existing authorization before changing an estimand, treat
 
 Pass the question to resolve, canonical input paths and versions, required artifact, owned write range, dependencies, resource limits and completion evidence. Give exact source sections instead of conversation history. Share data references and use separate output paths. A specialist returns the conclusion, evidence locators, actual changed paths, execution result and next scientific decision.
 
+Before extending a generator, identify its existing write domains and the owners of shared outputs and identifiers. Declare added output paths and identifier owners in the prospective assignment, and align its write range and completion evidence with that declaration. Check shared identifiers against existing definitions before introducing or reusing them.
+
 Keep one coordinator as the researcher's contact. Start specialists only for independent work whose benefit exceeds coordination cost. Theory, identification, measurement, literature, code and exhibits use their existing skills. Scientific referee and editor assess the scientific claim and reader understanding. Inspector and Adjudicator are separate assignments. A worker's later self-check remains a self-check.
 
 ## Local state and resumption

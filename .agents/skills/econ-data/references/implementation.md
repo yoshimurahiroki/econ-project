@@ -8,7 +8,7 @@ Use the official endpoint, required pagination, timeout and rate handling. Keep 
 
 ## Computation
 
-Use existing package APIs, dependency managers and entry points. Keep sample selection, column names and estimation options explicit. Use projection, chunking or database execution for the actual data size.
+Keep bulk joins, filters, aggregations and transfers in the existing query or vectorized engine, using paths such as `INSERT … SELECT` with sample selection, columns and options explicit. Transfer the small result sets and selected fields needed by the next operation. Use chunking or streaming when the operation requires sequential access, including file hashing.
 
 ## Prediction
 
