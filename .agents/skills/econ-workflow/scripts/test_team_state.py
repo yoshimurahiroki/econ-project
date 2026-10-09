@@ -136,11 +136,14 @@ class TaskStateTests(unittest.TestCase):
         self.add()
         events = self.root / 'usage.jsonl'
         events.write_text(json.dumps({'type': 'thread.started', 'thread_id': 'fixture-thread'}) + '\n' + json.dumps({'type': 'turn.completed', 'usage': {'input_tokens': 100, 'cached_input_tokens': 80, 'output_tokens': 20, 'reasoning_output_tokens': 10}}) + '\n')
-        self.run_cli('usage', 'a', '--jsonl', str(events), '--elapsed-seconds', '3.5')
+        self.run_cli('usage', 'a', '--jsonl', str(events), '--epoch', 'rollout-1', '--sequence', '0', '--elapsed-seconds', '3.5')
         totals = self.run_cli('summary')['totals']
         self.assertEqual(totals['total_tokens'], 120)
         self.assertEqual(totals['elapsed_seconds'], 3.5)
-        self.run_cli('usage', 'a', '--jsonl', str(events), fail=True)
+        before = (self.root / '.agents/state/team.json').read_bytes()
+        self.run_cli('usage', 'a', '--jsonl', str(events), '--epoch', 'rollout-1', '--sequence', '0', '--elapsed-seconds', '3.5')
+        self.assertEqual((self.root / '.agents/state/team.json').read_bytes(), before)
+        self.assertEqual(self.run_cli('summary')['totals']['total_tokens'], 120)
 
     def test_unknown_usage_is_not_zero(self):
         self.add()
@@ -194,6 +197,93 @@ class TaskStateTests(unittest.TestCase):
         self.assertEqual(self.run_cli('show')['tasks']['a']['input_paths'], ['request.md'])
         (self.root / 'request.md').write_text('Changed explicit record input\n')
         self.assertEqual(self.run_cli('inspect')['affected_tasks'], ['a'])
+
+    def usage_file(self, name, session, counters):
+        path = self.root / (name + '.jsonl')
+        rows = [{'type': 'thread.started', 'thread_id': session}]
+        for amount in counters:
+            rows.append({'type': 'turn.completed', 'usage': {
+                'input_tokens': amount, 'cached_input_tokens': amount // 2,
+                'cache_write_input_tokens': 0, 'output_tokens': amount // 10,
+                'reasoning_output_tokens': amount // 20}})
+        path.write_text('\n'.join(json.dumps(row) for row in rows) + '\n')
+        return str(path)
+
+    def test_cumulative_turns_and_resume_count_thread_once(self):
+        self.add()
+        original = self.usage_file('original', 's1', [100, 150])
+        resumed = self.usage_file('resumed', 's1', [200])
+        self.run_cli('usage', 'a', '--jsonl', original, '--epoch', 'e1', '--sequence', '0')
+        self.run_cli('usage', 'a', '--jsonl', resumed, '--epoch', 'e1', '--sequence', '1')
+        result = self.run_cli('summary')
+        self.assertEqual(result['totals']['input_tokens'], 200)
+        self.assertEqual(result['totals']['total_tokens'], 220)
+        self.assertEqual([row['increment_since_previous_observation']['input_tokens'] for row in result['intervals']], [100, 50, 50])
+
+    def test_reverse_import_uses_declared_order_not_import_order(self):
+        self.add()
+        earlier = self.usage_file('earlier', 's1', [100])
+        later = self.usage_file('later', 's1', [180])
+        self.run_cli('usage', 'a', '--jsonl', later, '--epoch', 'e1', '--sequence', '1')
+        self.assertIsNone(self.run_cli('summary')['totals']['total_tokens'])
+        self.run_cli('usage', 'a', '--jsonl', earlier, '--epoch', 'e1', '--sequence', '0')
+        self.assertEqual(self.run_cli('summary')['totals']['total_tokens'], 198)
+
+    def test_distinct_threads_add_without_cache_reasoning_double_count(self):
+        self.add()
+        for sid, amount in [('s1', 100), ('s2', 200)]:
+            path = self.usage_file(sid, sid, [amount])
+            self.run_cli('usage', 'a', '--jsonl', path, '--epoch', 'e1', '--sequence', '0')
+        total = self.run_cli('summary')['totals']
+        self.assertEqual(total['input_tokens'], 300)
+        self.assertEqual(total['cached_input_tokens'], 150)
+        self.assertEqual(total['reasoning_output_tokens'], 15)
+        self.assertEqual(total['total_tokens'], 330)
+
+    def test_counter_reset_in_one_epoch_is_unknown_not_new_zero(self):
+        self.add()
+        first = self.usage_file('first', 's1', [100])
+        reset = self.usage_file('reset', 's1', [20])
+        self.run_cli('usage', 'a', '--jsonl', first, '--epoch', 'e1', '--sequence', '0')
+        self.run_cli('usage', 'a', '--jsonl', reset, '--epoch', 'e1', '--sequence', '1')
+        result = self.run_cli('summary')
+        self.assertIsNone(result['totals']['total_tokens'])
+        self.assertIn('counter-decreased-within-declared-epoch', [x['kind'] for x in result['problems']])
+
+    def test_explicit_new_epoch_makes_confirmed_reset_additive(self):
+        self.add()
+        for epoch, amount in [('e1', 100), ('e2', 20)]:
+            path = self.usage_file(epoch, 's1', [amount])
+            self.run_cli('usage', 'a', '--jsonl', path, '--epoch', epoch, '--sequence', '0')
+        self.assertEqual(self.run_cli('summary')['totals']['total_tokens'], 132)
+
+    def test_unknown_epoch_or_order_retains_raw_and_reports_null(self):
+        self.add()
+        raw = self.usage_file('raw', 's1', [100])
+        self.run_cli('usage', 'a', '--jsonl', raw)
+        state = self.run_cli('show')
+        self.assertEqual(state['tasks']['a']['usage'][0]['observations'][0]['counter']['input_tokens'], 100)
+        self.assertIsNone(self.run_cli('summary')['totals']['total_tokens'])
+
+    def test_zero_or_default_counter_keeps_raw_zero_and_normalizes_unknown(self):
+        self.add()
+        raw = self.usage_file('zero', 's1', [0])
+        self.run_cli('usage', 'a', '--jsonl', raw, '--epoch', 'e1', '--sequence', '0')
+        state = self.run_cli('show')
+        self.assertEqual(state['tasks']['a']['usage'][0]['observations'][0]['counter']['input_tokens'], 0)
+        report = self.run_cli('summary')
+        self.assertIsNone(report['totals']['total_tokens'])
+        self.assertIsNone(report['intervals'][0]['increment_since_previous_observation']['input_tokens'])
+
+    def test_later_nonzero_counter_recovers_total_but_not_unknown_interval(self):
+        self.add()
+        for sequence, amount in [(0, 0), (1, 100), (2, 120)]:
+            raw = self.usage_file('value-' + str(sequence), 's1', [amount])
+            self.run_cli('usage', 'a', '--jsonl', raw, '--epoch', 'e1', '--sequence', str(sequence))
+        report = self.run_cli('summary')
+        self.assertEqual(report['totals']['total_tokens'], 132)
+        self.assertEqual([row['increment_since_previous_observation']['input_tokens'] for row in report['intervals']], [None, None, 20])
+        self.assertEqual(report['totals']['cache_write_input_tokens'], 0)
 
 if __name__ == '__main__':
     unittest.main()
