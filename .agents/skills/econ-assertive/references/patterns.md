@@ -1,17 +1,11 @@
-# A revision example
+# Selecting an explanation
 
-This constructed example concerns a national reform whose effect on local rules differs across regions. No effect estimate is supplied.
+These constructed alternatives use the same source material: a national reform, regional differences in prior rules, fixed comparison groups and detailed regression settings.
 
-Draft:
+An account of the comparison:
 
-> The rule changes nationally. Regions differ. We compare regions. We fix the classification before the change. This is important for identification.
+> We compare changes in drug supply across regions where the national reform changed prior liability rules by different amounts.
 
-Possible revision:
+> 全国的な改革による責任ルールの変更幅が地域によって異なることを利用し、医薬品供給の変化を比較する。
 
-> We compare supply changes across regions with different rules before the national reform, which changes those rules by different amounts. Classifying regions before the reform keeps later supply changes from determining group membership.
-
-Japanese:
-
-> 全国的な改革によって地域の規則が変わる幅は、改革前の規則によって異なるため、その違いを用いて供給の変化を比較する。地域の分類は改革前の規則で固定し、改革後の供給変化が比較対象を決めないようにする。
-
-The revision connects the ideas in natural prose. Its form is one option for this passage.
+The fixed classification and regression settings belong in the research specification. A short explanation needs the variation and comparison; repeating every available methodological fact obscures them. The target reader's question determines which facts matter.
