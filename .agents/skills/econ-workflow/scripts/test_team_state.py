@@ -46,6 +46,47 @@ class TaskStateTests(unittest.TestCase):
         self.run_cli('transition', 'a', 'evaluating')
         self.run_cli('transition', 'a', 'completed', fail=True)
 
+    def test_empty_scope_can_be_saved_but_start_preserves_queued_state(self):
+        self.run_cli('add', 'unassigned', '--owner', 'worker', '--record', 'request.md', '--input', 'request.md', '--next', 'Await an output assignment')
+        path = self.root / '.agents/state/team.json'
+        before = path.read_bytes()
+        self.run_cli('start', 'unassigned', fail=True)
+        self.assertEqual(path.read_bytes(), before)
+        task = self.run_cli('show')['tasks']['unassigned']
+        self.assertEqual(task['status'], 'queued')
+        self.assertEqual(task['attempts'], 0)
+        self.assertEqual(task['scope'], [])
+
+    def test_scoped_assignment_registers_output_beside_saved_empty_scope(self):
+        self.run_cli('add', 'unassigned', '--owner', 'worker', '--record', 'request.md', '--next', 'Await an output assignment')
+        self.add('owned')
+        self.run_cli('start', 'owned')
+        output = self.root / 'outputs/owned/result.md'
+        output.parent.mkdir(parents=True)
+        output.write_text('Saved descriptive quantity: 10.\n')
+        self.run_cli('output', 'owned', 'outputs/owned/result.md')
+        tasks = self.run_cli('show')['tasks']
+        self.assertEqual(list(tasks['owned']['outputs']), ['outputs/owned/result.md'])
+        self.assertEqual(tasks['unassigned']['status'], 'queued')
+        self.assertEqual(tasks['unassigned']['attempts'], 0)
+
+    def test_show_selected_task_preserves_full_view_and_store_bytes(self):
+        self.add('a')
+        self.add('b')
+        path = self.root / '.agents/state/team.json'
+        before = path.read_bytes()
+        full = self.run_cli('show')
+        self.assertEqual(self.run_cli('show', 'a'), full['tasks']['a'])
+        self.assertEqual(self.run_cli('show'), full)
+        self.assertEqual(path.read_bytes(), before)
+
+    def test_show_unknown_task_refuses_without_writing(self):
+        self.add('a')
+        path = self.root / '.agents/state/team.json'
+        before = path.read_bytes()
+        self.run_cli('show', 'unknown-task', fail=True)
+        self.assertEqual(path.read_bytes(), before)
+
     def test_success_records_current_evidence(self):
         self.add('a', '--independent-review')
         self.complete()

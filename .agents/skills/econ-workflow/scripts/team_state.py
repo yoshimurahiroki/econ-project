@@ -225,7 +225,8 @@ def main():
     view = sub.add_parser('inspect')
     view.add_argument('--stale-seconds', type=int, default=1800)
     view.add_argument('--invalidate', action='store_true')
-    sub.add_parser('show')
+    show = sub.add_parser('show')
+    show.add_argument('task_id', nargs='?')
     sub.add_parser('summary')
     args = parser.parse_args()
     root = args.root.resolve()
@@ -274,6 +275,8 @@ def main():
             if args.command == 'start':
                 if task['status'] != 'queued':
                     raise ValueError('Start requires queued state')
+                if not task['scope']:
+                    raise ValueError('Start requires an assigned output scope; preserve this record and create a new scoped assignment')
                 if task['attempts'] >= state['limits']['max_attempts']:
                     raise ValueError('Attempt limit: revise the assignment before another run')
                 if changed(root, task['inputs']):
@@ -371,8 +374,12 @@ def main():
             output = {'findings': findings, 'affected_tasks': sorted(stale)}
         elif args.command == 'summary':
             output = report_usage(state)
+        elif args.command == 'show':
+            if args.task_id is not None and args.task_id not in tasks:
+                raise ValueError(f'Unknown task ID: {args.task_id}')
+            output = tasks[args.task_id] if args.task_id is not None else state
         else:
-            output = state if args.command == 'show' else {'command': args.command, 'tasks': len(tasks)}
+            output = {'command': args.command, 'tasks': len(tasks)}
         if mutate:
             save(path, state)
         print(json.dumps(output, ensure_ascii=False, indent=2))
