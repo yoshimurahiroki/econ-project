@@ -4,9 +4,9 @@ Python・R・Quarto・LaTeXを使う経済学研究のテンプレートであ�
 
 ## 研究を始める
 
-GitHubの「Use this template」で研究用のリポジトリを作り、VS CodeのDev Containerで開く。依存環境は初回のcontainer作成時に導入される。研究課題と受け入れた判断は [docs/issue](docs/issue/README.md) の既存形式で記録する。原データと加工データは `data/` に置き、コードと定義から必要な表・図・文書を生成する。
+GitHubの「Use this template」で研究用のリポジトリを作り、VS CodeのDev Containerで開く。依存環境は初回のcontainer作成時に導入される。研究課題と採用した判断は [docs/issue](docs/issue/README.md) の既存形式で記録する。原データと加工データは `data/` に置き、コードと定義から必要な表・図・文書を生成する。
 
-[.cursorrules](.cursorrules) が共通方針、[研究skills](docs/ai/compiled_ai_skills.md) が作業方法を定める。作業では保存済みの入力と成果物を再利用し、変更が影響する入口を実行する。
+[.cursorrules](.cursorrules) が共通方針、[研究skills](docs/ai/compiled_ai_skills.md) が作業方法を定める。作業では保存済みの入力と成果物を再利用し、変更に対応する生成・実行コマンドを使う。
 
 ## 環境と保存領域
 
@@ -43,7 +43,7 @@ fullの保存済みR依存関係はRust 1.96.1でビルドする。Dockerfileと
 
 Quartoの `QMD` を省略するとプロジェクト全体をrenderする。出力先と既定formatは文書・project設定に従う。LaTeXの既定文書には研究の文献ファイル `tex/bibliography.bib` を用意する。LaTeXのエラーはbuildを停止し、`.aux` に文献指定がある場合に実行するBibTeXの失敗も伝播する。
 
-具体的な変更リスクを確認する入口は `make test TEST=path::node`、`make lint FILE=path`、`make format FILE=path` である。対象は明示したファイル・testに限る。commit hookはprivate key検出を行う。
+コードを確認するコマンドは `make test TEST=path::node`、`make lint FILE=path`、`make format FILE=path` である。対象は明示したファイル・testに限る。commit hookはprivate key検出を行う。
 
 ## Gitと共通機能の管理
 
