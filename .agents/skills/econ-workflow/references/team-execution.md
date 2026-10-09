@@ -18,7 +18,11 @@ Reuse an existing operations store when it provides tasks, dependencies, version
 
 Save the existing task-record locator and its content hash/revision as assignment provenance. Only files explicitly named with --input are computation dependencies. Name the task record with --input when its definitions or adopted choices are inputs to the result. Append-only progress in a locator-only ledger preserves scientific outputs. Save parent/dependency IDs, owner, scope, declared input content hashes and repository revision. Distinguish queued, running, evaluating, completed, interrupted and failed. Completion requires an existing output plus a passed verification record whose evidence file exists. These records establish what was checked; scientific and editorial review establish its adequacy.
 
+Assign an output write range before starting a task. An empty-scope record can remain queued, but it cannot start. Preserve an earlier task's scope and history; create a new scoped assignment for subsequent work instead of adding ownership after execution. A read-only assessment still needs an owned location for its saved result.
+
 On resumption, inspect outputs and run `inspect` before continuing. Changed input or output hashes invalidate only the tasks depending on them and their downstream tasks. Use `requeue` to capture the new inputs and preserve the preceding attempt in history. Legacy tasks that mixed the record into dependencies require an explicit `requeue --input PATH` list or `--no-inputs`; keep a record explicitly declared as input in that list. The helper does not silently migrate those tasks. Keep the next authorized operation with an interrupted or failed task. Resume the saved CLI session by its exact verified session ID when it is useful; do not infer a session from a stale log or use `--last` across unrelated jobs.
+
+Use `show TASK_ID` to read the saved record for one assignment. `show` without an ID retains the whole-store view.
 
 ```sh
 python .agents/skills/econ-workflow/scripts/team_state.py --root . init --max-active 3 --max-depth 2 --max-attempts 3
