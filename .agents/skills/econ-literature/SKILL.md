@@ -20,3 +20,5 @@ Render citations in the artifact's requested format. Keep reading editions, clai
 ## Method discovery
 
 For a requested AI-method adoption, use [recorded method sources](../../../docs/ai/sources.md). Inspect the selected primary source, license, files and dependencies needed to implement that adoption.
+
+For coordinated research, return how the nearest literature changes the question, comparison or measurement. Locate the supporting passages and versions; an author list or journal rank does not establish contribution.

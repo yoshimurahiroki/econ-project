@@ -11,4 +11,6 @@ Establish the retained claims and the evidence, definitions, quantities, units, 
 
 Use the profile selected under [econ-assertive](../econ-assertive/SKILL.md) for relevant paragraph functions. Reorder retained material so each claim has the concepts and evidence needed to understand it. Merge duplicated explanations, develop compressed essential reasoning from the supplied content, and turn disconnected sentences into a connected paragraph.
 
+For a requested whole-artifact revision, revise section roles, dependencies, exhibit placement and main/detail allocation at that scope. Use the relevant medium function in econ-writing to realize a paper, talk or site. Move retained support with its source links and keep defining conditions beside the claim they determine.
+
 Compare the revision with the original substantive content. Verify the meaning of each retained quantity, condition and comparison, and that each citation still supports its associated claim. Return the revised text. For a review-only request, return the requested findings.

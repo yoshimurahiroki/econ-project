@@ -1,0 +1,2 @@
+# Local Codex settings are generated with scripts/setup_ide_mcp.sh.
+# Keep model, agent and permission choices in .codex/config.toml.

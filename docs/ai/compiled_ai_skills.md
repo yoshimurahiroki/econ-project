@@ -10,7 +10,9 @@ Select the primary method for the requested deliverable. Read support and refere
 | Requested transfer | [econ-handoff](../../.agents/skills/econ-handoff/SKILL.md) |
 | Literature search, novelty/citation/institution judgment or source-index update | [econ-literature](../../.agents/skills/econ-literature/SKILL.md) |
 | Paper/passage explanation, complete explanation or paper seminar | [econ-paper](../../.agents/skills/econ-paper/SKILL.md) |
-| Research critique, results/code reconciliation or referee response | [econ-review](../../.agents/skills/econ-review/SKILL.md) |
+| Research critique of claims, whole artifacts or workflows; results/code reconciliation or referee response | [econ-review](../../.agents/skills/econ-review/SKILL.md) |
 | Profile creation/revision | [econ-style](../../.agents/skills/econ-style/SKILL.md) |
-| Planning, organization or resumption as requested output | [econ-workflow](../../.agents/skills/econ-workflow/SKILL.md) |
-| New draft, translation, formatting or exhibit production | [econ-writing](../../.agents/skills/econ-writing/SKILL.md) |
+| Broad research question/project advancement; planning, coordination or resumption | [econ-workflow](../../.agents/skills/econ-workflow/SKILL.md) |
+| New prose or complete paper, talk or research site; translation, formatting or exhibit production | [econ-writing](../../.agents/skills/econ-writing/SKILL.md) |
+
+Econ-workflow coordinates multi-step research and assigns the relevant primary method to each deliverable. Econ-review exposes separate Inspector, Adjudicator, scientific-referee and editorial entry points through its oversight reference. The policy caller applies econ-assertive once after established method content.
