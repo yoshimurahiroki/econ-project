@@ -84,9 +84,9 @@ A requested handoff uses the existing task record for the revision, evidence, au
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c",
+  "source_base_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e",
   "source_state": "committed",
-  "common_content_id": "4d248acbe5e979ee7419926bef674083a5a9734829dab700ee98e99007449c8f",
+  "common_content_id": "36b2cfabab1b20c420c52b42c35607b482971170fc7d099db9662386d5f4a02f",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -96,7 +96,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "a699a9e3b9521f612a0c2bd26261b65c38f6a970",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-assertive/SKILL.md",
@@ -105,7 +105,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "e1ac06d9ff28ae447d6cba648f57f5c922af3aa1",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-assertive/agents/openai.yaml",
@@ -114,7 +114,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "dee094ccea339ad98679240513fca09c75056bab",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-assertive/references/default-micro.md",
@@ -123,7 +123,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "84208cd9491ff63940b3c01eee81a8c3d54e4491",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-assertive/references/patterns.md",
@@ -132,7 +132,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "89a3d5d7ce31839b5307d716b8dccce34d558293",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-data/SKILL.md",
@@ -141,16 +141,16 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "0d2a0c1bb220da577900854e18748dca9fffbee0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-data/references/implementation.md",
       "state": "present",
-      "sha256": "f474c414ca2a0f7f69ece93b29609e50397364b95ed2fb14dfb5b81533f3c9c2",
-      "git_blob": "9bddc44671d7cca14ba5d12c6b2c8a087579d621",
+      "sha256": "40f8779e0a4b317c165a9eaff6b812b048b8a8b77a01fedc2d63714734af3af7",
+      "git_blob": "fc8754dde914621e093c73b241206aa7ead85f61",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-data/references/reproducible-workflow.md",
@@ -159,7 +159,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "d5562fbbf0d565633de2d506f4bfc463dcb313b8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-design/SKILL.md",
@@ -168,7 +168,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "0c55e6388b4eee28c573d299d9ee8ee33d306b4f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-design/references/designs.md",
@@ -177,7 +177,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "b19a7fd3f510b8ea15fba9647b859d21c9a86fe0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-edit/SKILL.md",
@@ -186,7 +186,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "6ab02a0ddeb06fb6e68e2351eb62bb8c95932676",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-handoff/SKILL.md",
@@ -195,7 +195,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "2309285f27927e16c5115f89cc013e3305b99f4a",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-handoff/references/handoff.md",
@@ -204,7 +204,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "88de79983187c941e4fab55dbcc1d1e161ef72e9",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-literature/SKILL.md",
@@ -213,7 +213,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "5f5bec251ad998872cf4e5ba95b0d90cd3456bc8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-paper/SKILL.md",
@@ -222,7 +222,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "8e0f828583fea376c864499325696c020e8a28a2",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-review/SKILL.md",
@@ -231,7 +231,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "0d9fecb3540bd98abb79c72afcd59cff17bafde6",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-review/references/oversight.md",
@@ -240,7 +240,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "f5736f5cfb7835ef958e5392f0e040ccf980d0be",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-style/SKILL.md",
@@ -249,16 +249,16 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "0a8b6d2f1b7cad21a0efabe19622993d375e8e27",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-workflow/SKILL.md",
       "state": "present",
-      "sha256": "20fe89b13ad46e7334f516e9fe5628ce0f89b4de8ba497cd85e81d15c4762645",
-      "git_blob": "e2d7607e7795fd31e66c70382bfa6ff5dc5e67ea",
+      "sha256": "0a5c7c8f60e010da76c83a48f0d392d5aa9dcd9b204b344eac8ba258ea596042",
+      "git_blob": "c8115620371f6d138cbbd12d425709c59918df96",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-workflow/references/descriptive-model.md",
@@ -267,16 +267,16 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "119fbe91deae9fc9084b3b4e9a8ff8d0ab1db1a8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-workflow/references/team-execution.md",
       "state": "present",
-      "sha256": "1e0e3e2dac1235842180b0c673e11efd08e47e32b94a93fc6ad49b17c3a44c7c",
-      "git_blob": "81f53e4d039135a951f89dfca2cfce77e829c897",
+      "sha256": "9a4045b3d07c8f3aa31da08c6ca687e346e73501dc17bc9b84d729ccbccea67e",
+      "git_blob": "bcb8b35f5e8cf7a53309cb0321ee0a8be54529d0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-workflow/scripts/team_state.py",
@@ -285,7 +285,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "33a3607581c44ffb2d3f413388d8151066ba573e",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-workflow/scripts/test_team_state.py",
@@ -294,7 +294,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "63e590ee4cc45fc74833a1e90bb214c9a9e32583",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".agents/skills/econ-writing/SKILL.md",
@@ -303,7 +303,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "b933866b20238fc9fc79a1efba80cea53ca0ffef",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".claude/AGENTS.md",
@@ -312,7 +312,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "a699a9e3b9521f612a0c2bd26261b65c38f6a970",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".cursor/rules/01_project_policy.mdc",
@@ -321,7 +321,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "cbc8df4bedae7b9b0a2871bea951f6a60be18d23",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".cursorrules",
@@ -330,7 +330,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "3e26f346af323cfe6dbff601568a3840645656d3",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".gemini/GEMINI.md",
@@ -339,7 +339,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "9396740efa914c5e999800240480e35ba6181b94",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": ".github/copilot-instructions.md",
@@ -348,7 +348,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "2c6d60bcd43d4df21d8da6317bfec0faca5258a8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "AGENTS.md",
@@ -357,7 +357,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "d283e0711272480eae374ee496b78e543136214b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "CLAUDE.md",
@@ -366,7 +366,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "d283e0711272480eae374ee496b78e543136214b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "CODEX.md",
@@ -375,7 +375,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "d283e0711272480eae374ee496b78e543136214b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "docs/ai/compiled_ai_skills.md",
@@ -384,7 +384,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "6edc0c5e53ba8b5485eac71af3c6bec5bc336cc5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "docs/ai/config-templates/README.md",
@@ -393,7 +393,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "24040bc1ed19e9919b9e88e93a4989e4072c8df3",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "docs/ai/config-templates/claude-mcp.example.json",
@@ -402,7 +402,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "e29ee95ea2e7cdc213561f0a75252c43d28d51de",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "docs/ai/config-templates/codex.example.toml",
@@ -411,7 +411,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "be298aabfb36b8954160f39686750a294dad8527",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "docs/ai/config-templates/mcp.example.json",
@@ -420,7 +420,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "da39e4ffafe816be90259a3f68b763a3f71b93ed",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "docs/ai/project_bridge.txt",
@@ -429,7 +429,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "4e1a6b417812b4bdb2bde417c00b380d398f95b5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "docs/ai/project_instructions.txt",
@@ -438,7 +438,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "092068c0a841a84a3e94c4bca6ca2fb182fee38c",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "scripts/export_project.py",
@@ -447,7 +447,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "7435dfb4af79129767ffba285991dae5b5315d0d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "scripts/pack_context.sh",
@@ -456,7 +456,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "7174135411df6697c22589b25f0fdb9f50784e7a",
       "mode": "100755",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "scripts/setup_ide_mcp.sh",
@@ -465,7 +465,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "db03ad944ff24607af333e421c6a80c280932440",
       "mode": "100755",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "scripts/sync_common_core.py",
@@ -474,7 +474,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "8a08ced8cd8e680d164db310aebaeda16a540f1a",
       "mode": "100755",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "scripts/test_setup_ide_mcp.py",
@@ -483,7 +483,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "0ded4f6348a1264581bb68ccbf4d897033cfbdc7",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     },
     {
       "path": "scripts/test_sync_common_core.py",
@@ -492,7 +492,7 @@ A requested handoff uses the existing task record for the revision, evidence, au
       "git_blob": "c795517bd8c3a9dc46e189311bc5835fb8cfbda5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "888110a69fbe2a77fd0fa991226c706e92026b6c"
+      "source_commit": "9f456635f06bbb5fbe607407db0120d6bd05875e"
     }
   ],
   "released_paths": [
