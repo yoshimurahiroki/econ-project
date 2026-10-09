@@ -56,6 +56,7 @@ r-install r-plan:
 		export LIBRARY_PATH="$$CONDA_PREFIX/lib:$${LIBRARY_PATH:-}"; \
 		export LD_LIBRARY_PATH="$$CONDA_PREFIX/lib:$${LD_LIBRARY_PATH:-}"; \
 		export R_MAKEVARS_USER="$(R_MAKEVARS_USER)"; \
+		export RUSTUP_TOOLCHAIN="$${RUSTUP_TOOLCHAIN:-1.96.1}"; \
 		export XML_CONFIG="$$CONDA_PREFIX/bin/xml2-config"; \
 		export NANONEXT_LIBS=1; \
 		unset NANONEXT_TLS CMAKE_PREFIX_PATH; \

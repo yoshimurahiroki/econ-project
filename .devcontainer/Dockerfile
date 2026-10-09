@@ -60,16 +60,13 @@ USER $USERNAME
 WORKDIR /workspaces/econ-project
 ENV PATH="/home/$USERNAME/.cargo/bin:/home/$USERNAME/.local/bin:/home/$USERNAME/go/bin:$PATH"
 
-# Rust is required by Rust-backed R packages such as ciflyr and clarabel.
+# Rust 1.96 supports the locked Polars MSRV (1.95) and ethnum 1.5.2.
+# Rust >=1.97 changes TryFromIntError layout; update this pin with rv.lock.
+# https://github.com/rust-lang/rust/issues/157363
 RUN curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | \
-    sh -s -- -y --profile minimal --default-toolchain stable
+    sh -s -- -y --profile minimal --default-toolchain 1.96.1
 
-# ========= Git Identity =========
-ARG GIT_USER_NAME=yoshimurahiroki
-ARG GIT_USER_EMAIL=yoshimurahiroki@akane.waseda.jp
-RUN command -v git >/dev/null 2>&1 && \
-    git config --global user.name "$GIT_USER_NAME" && \
-    git config --global user.email "$GIT_USER_EMAIL"
+# Commit identity comes from the user's Git configuration or credential sharing.
 
 # ========= 3) Pixi =========
 RUN curl -fsSL https://pixi.sh/install.sh | bash
