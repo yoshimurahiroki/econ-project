@@ -1,22 +1,16 @@
 ---
 name: econ-review
-description: Assess economics claims, results, complete research artifacts or workflows for evidence, logic, information priority, readability and consistency.
+description: Judge a requested economics claim or artifact by its evidence, reasoning and usefulness to its intended reader.
 ---
 
-# Review and results
+# Review and interpretation
 
-Review the named object at the requested scale: passage, exhibit, section, complete paper, talk, site or connected research workflow. Read the whole selected object and the evidence establishing its central claims. A full paper review includes claim-bearing appendices. A local review addresses the specified passage, result or operation. Correct the target when correction is requested.
+Review the named object at the requested scope. Read the evidence and the strongest argument supporting its actual claim. A full paper review includes claim-bearing appendices; a local review addresses the selected passage, result or operation. Correct the target when correction is requested.
 
-Judge whether the central question and answer are intelligible, the necessary information is present, and each section, page or frame advances a specific part of the argument. Trace the dependency from definitions and comparison to evidence and interpretation. Locate missing links, misplaced or duplicated explanation, irrelevant detail and exhibits that leave their important relation unexplained. For a talk, follow the audience's understanding within the speaking time; for a site, follow a new reader's overview, evidence and source/download paths, including navigation and search. Compare each actual destination with the reader purpose promised by its link and page role.
+Decide whether the conclusion is supported and whether the intended reader can understand or use it. Locate consequential missing reasoning, misleading interpretation or selection, and important inconsistencies. Assess issues by their effect on the economic question, contribution or use of the artifact. Report demonstrated defects with their evidence and a practical repair, retaining the strongest counterevidence rather than maximizing the issue count.
 
-For connected artifacts, trace each central claim to the same source object and version. Compare population, period, quantity, denominator, scientific conditions, uncertainty, citation and research stage across prose, exhibits and outputs. Judge media-specific selection without requiring identical wording or density. Inspect the rendered PDF and HTML at the requested scope. A successful build or working link does not establish that a reader understands the claim. Identify the broken relationship and the responsible source, construction, layout or instruction when a repair is needed.
+For a scientific result, interpret its actual parameter and comparison and check the quantities, units, baseline and uncertainty governing that interpretation. Use a direct contrast for subgroup differences. Judge mechanism, causal or welfare interpretations by the analysis that supports them. For models, distinguish fitted moments from independent validation and check a consequential derivation or normalization through its generating object. Read the relevant design or data method for the specific technical dependency.
 
-Establish each retained issue through its location, evidence and consequence. Use the strongest relevant response in the paper to judge the criticism. Assess severity by its effect on the contribution, estimand, identification, measurement or inference. Give a concrete repair when requested.
+For connected artifacts, check that their claims retain the meaning of the underlying evidence while allowing different information selection across media. Inspect the actual rendered result at the requested scope. A talk must work within its speaking time, and a website's routes or controls must perform the purpose being assessed. Identify the responsible source, calculation or presentation when a defect needs repair.
 
-Interpret the specified result through its parameter, comparison, population, period, units and baseline. Preserve numerical uncertainty. Compute relative changes from a named denominator. Use direct contrasts for subgroup differences. Preserve event windows and composition. Assess mechanism or welfare claims against the evidence and inputs they require.
-
-For a descriptive-model review, connect the observed variation, model features, assumptions and economic object relevant to the claim. Distinguish fit to estimation moments from independent validation. Resolve consequential inconsistencies in units, domains, timing, normalization or derivation through the generating object. Reconcile code, exhibits and prose for the reviewed claim.
-
-For requested referee responses, answer each specified comment with the response, actual change, evidence and location. Distinguish proposed analysis from executed analysis. Edit within the authorized review scope. Read the relevant econ-design section for the methodological dependency determining the specified criticism. Use econ-edit as primary when the requested deliverable is wording revision.
-
-For instruction compliance or proactive project oversight, select the relevant [oversight entry point](references/oversight.md). Keep Inspector evidence, Adjudicator decisions, scientific judgment and editorial assessment distinct.
+A requested referee response addresses the comment with the actual response, change and supporting location. Keep proposed analysis distinct from executed work. Use econ-edit when the task is wording revision. Read [oversight notes](references/oversight.md) for independent assessment or a contested execution finding; a review does not change the researcher's scientific or permission decisions.
