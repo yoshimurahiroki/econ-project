@@ -85,3 +85,26 @@ latexmkrc
 !environment.yml
 !pyproject.toml
 !.devcontainer/**
+
+# Credentials and local operational state
+secrets/
+.env.*
+!.env.example
+.ssh/
+.config/gh/
+.config/gcloud/
+.aws/
+.azure/
+.netrc
+.git-credentials
+*credentials.json
+*token.json
+.agents/state/
+*.sqlite
+*.sqlite3
+*.db
+
+# Root MCP runtime settings remain local
+.agents/mcp.json
+.mcp.json
+mcp.json

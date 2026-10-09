@@ -121,3 +121,8 @@ repomix.txt
 !.vscode/tasks.json
 !.vscode/launch.json
 .devcontainer/local-history/
+
+# Generated local MCP runtime configurations
+.agents/mcp.json
+.mcp.json
+mcp.json
