@@ -1,6 +1,6 @@
 # Research skills
 
-Select the primary method for the requested deliverable. Read support and reference sections for a dependency identified by that method.
+Select the primary method for the requested deliverable. Read support and reference sections for a dependency identified by that method. For explanation and writing, native prose methods select content by the economic question and contribution; specialist knowledge supports understanding and verification. An editorial review addresses information selection and expression; scientific design, estimation and inference review follows a request for that assessment.
 
 | Deliverable | Native primary |
 | --- | --- |
@@ -10,7 +10,7 @@ Select the primary method for the requested deliverable. Read support and refere
 | Requested transfer | [econ-handoff](../../.agents/skills/econ-handoff/SKILL.md) |
 | Literature search, novelty/citation/institution judgment or source-index update | [econ-literature](../../.agents/skills/econ-literature/SKILL.md) |
 | Paper/passage explanation, complete explanation or paper seminar | [econ-paper](../../.agents/skills/econ-paper/SKILL.md) |
-| Research critique of claims, whole artifacts or workflows; results/code reconciliation or referee response | [econ-review](../../.agents/skills/econ-review/SKILL.md) |
+| Editorial review; requested scientific assessment, results/code reconciliation or referee response | [econ-review](../../.agents/skills/econ-review/SKILL.md) |
 | Profile creation/revision | [econ-style](../../.agents/skills/econ-style/SKILL.md) |
 | Broad research question/project advancement; planning, coordination or resumption | [econ-workflow](../../.agents/skills/econ-workflow/SKILL.md) |
 | Paper, talk, site or exhibit argument planning/composition; translation and formatting | [econ-writing](../../.agents/skills/econ-writing/SKILL.md) |

@@ -9,7 +9,7 @@ description: Find literature, assess novelty, verify citations or institutions, 
 
 Use specified materials and relevant existing source records first. For a requested search, use the personal collection and academic discovery needed to cover its scope. Search mechanisms and parameters as well as topics. Follow references, citing papers, authors, journals or repositories when they identify relevant work. Catalogs locate papers; primary text supports findings.
 
-Use econ-paper for a requested paper explanation. For novelty, read the closest papers needed to establish the judgment. Compare the relevant question, mechanism, estimand, treatment, population, variation, measurement and economic contribution. For a requested exhaustive search, retain queries, sources, versions and reviewed records in the existing research index and reconcile the specified collection.
+Use econ-paper for a requested paper explanation; its question and contribution govern the content selected from these source records. For novelty, read the closest papers needed to establish the judgment. Compare the relevant question, mechanism, estimand, treatment, population, variation, measurement and economic contribution. For a requested exhaustive search, retain queries, sources, versions and reviewed records in the existing research index and reconcile the specified collection.
 
 ## Citations and source records
 

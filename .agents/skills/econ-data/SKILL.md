@@ -15,4 +15,6 @@ Keep adopted sample rules and classifications in the canonical specification. Pr
 
 Establish changed keys, joins, samples, weights or formulas through the existing relevant checks and boundary assertions.
 
+These procedures serve requested data work. For exposition, use econ-paper or econ-writing to select what the data measure and why they answer the economic question; the technical record remains available for verification.
+
 Read [implementation notes](references/implementation.md) or [reproducible execution](references/reproducible-workflow.md) for the operation being performed.

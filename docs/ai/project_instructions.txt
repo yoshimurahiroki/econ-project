@@ -3,5 +3,6 @@
 Follow [REPO_POLICY.md](REPO_POLICY.md).
 Active method provider: {{METHOD_PROVIDER}}.
 Use [ECON_INDEX.md](ECON_INDEX.md) to select the primary method and required support/reference sections for the current request.
+For exposition, native prose methods select content by the economic question and contribution; scientific methods supply needed understanding and verification. Detailed scientific assessment follows a request for it.
 Use [REPO_CONTEXT.md](REPO_CONTEXT.md) for project choices and canonical records, and [SOURCE.md](SOURCE.md) for this snapshot's identity.
 {{STUDY_ENTRY_POINT_LINE}}
