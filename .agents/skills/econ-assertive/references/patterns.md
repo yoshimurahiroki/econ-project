@@ -8,4 +8,4 @@ An account of the comparison:
 
 > 定員を超える応募者の中から受講者を抽選で選ぶ制度を利用し、当選者と落選者のその後の就業を比較する。これにより、職業訓練を受ける機会を得ることが有給の仕事への就業に与える影響を調べる。
 
-The fixed classification and regression settings belong in the research specification. A short explanation needs the variation and comparison; repeating every available methodological fact obscures them. The target reader's question determines which facts matter.
+This passage explains the comparison in a short research overview. A full paper explanation also selects the mechanism, consequential design choices, main magnitudes and scholarly evaluation. A classification or methodological detail belongs in that explanation when it does essential work in the argument; the technical record itself does not determine what to include.
