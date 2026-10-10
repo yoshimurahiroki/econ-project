@@ -5,7 +5,7 @@ description: Explain and evaluate the economic substance of a paper or passage, 
 
 # Understanding and evaluating a paper
 
-Read the specified version and the evidence supporting its main argument. Keep editions and passage locations in existing source metadata. A complete explanation uses the following five questions to understand and evaluate the research, rather than to fill five short summary boxes. Select the substance each paper needs; let theory, empirical work and reviews answer them in their own way.
+Read the specified version and the evidence supporting its main argument. Keep editions and passage locations in existing source metadata. A complete explanation uses the following five questions to understand and evaluate the research, rather than to fill five short summary boxes. Select the substance each paper needs; let theory, empirical work and reviews answer them in their own way. Across these questions, use the Abstract–Introduction benchmark in econ-assertive for content and explanatory density, while consulting the full source to establish the facts and make an independent assessment.
 
 1. **What is the research question?** State the economic question, normally as one interrogative sentence. Identify what the author wants to explain, rather than naming the policy or institution.
 

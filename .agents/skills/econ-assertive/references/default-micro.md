@@ -1,6 +1,18 @@
-# Default empirical-micro exemplars
+# Default economics writing profile
 
 Profile: default-micro. Languages: English and Japanese.
+
+Use complete connected arguments to guide the amount and choice of content, reasoning, sentences and vocabulary for the requested product. A compact summary selects the central answer; a developed opening explains the economic reasoning needed to understand it. These functions apply across writing tasks without imposing an Introduction format on every task. Full research records and appendices establish facts and citations. Identification, results, proofs and other specialist sections supply prose models only while composing the corresponding section through econ-writing. An explicitly selected project profile can supply additional examples for a particularly relevant economic argument.
+
+## Principles
+
+Choose the information that lets the intended reader understand the economically important question, answer, and reasoning for the requested purpose and medium. A detail earns its place when it changes that understanding. The relevant amount of information follows from the argument, not a target length or a list of items to include.
+
+Connect institutions, data, methods and findings through their economic role. Explain why a setting or comparison can answer the question and what the result means. Relate an actor's incentives and feasible choices to the measured outcome. Explain competing predictions through the economic forces that generate them; select the evidence that distinguishes those predictions.
+
+Keep the distinctions needed to interpret a claim. A comparison group, treatment margin, condition, magnitude, or uncertainty can be central to the result rather than an added qualification. An activity's return can depend on what it replaces. A decision rule can depend on the information available when the choice is made. State those distinctions where they help the reader follow the argument, without importing every technical detail from the research record.
+
+Use concrete economic subjects, actions, and referents, with sentences whose connections carry the reasoning. Reuse a term when the economic object stays the same; explain a new concept through the setting when that makes it easier to understand. Remove repetition, ornamental explanation, ritual hedging, and management language that add no meaning. These principles guide judgment, not a fixed sequence of paragraphs or permitted words.
 
 ## Complete constructed example
 
