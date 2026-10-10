@@ -92,9 +92,9 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7",
+  "source_base_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f",
   "source_state": "committed",
-  "common_content_id": "8bec21b78c156138140cbf21d85db0fc5c802d1b7915c7c40f612071e8277e43",
+  "common_content_id": "0e07a7f3ce53b53f8661852cda66cb0c7187c452183467c702afa00ead598c7c",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -104,16 +104,16 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "a699a9e3b9521f612a0c2bd26261b65c38f6a970",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-assertive/SKILL.md",
       "state": "present",
-      "sha256": "a1eb0fa266e8394ca8db021d2cc6d184ee201954bfd6fbb053d68ab03d96484f",
-      "git_blob": "3f548ec0dfd76f20097a8c078299eb7881301ab0",
+      "sha256": "2565596614c7c46b30d008b8d273f451b794683a94ecf3b7ed02557e563cea9e",
+      "git_blob": "e5dbc2c120389a2e90d6266ed2154012632ef6d3",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-assertive/agents/openai.yaml",
@@ -122,16 +122,16 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "dee094ccea339ad98679240513fca09c75056bab",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-assertive/references/default-micro.md",
       "state": "present",
-      "sha256": "eb32954701cc034cc5409bcafe30acf7ef6e99cedb6e1885973b1873db1c5fe0",
-      "git_blob": "0edc25df458f0b2a53c820e4479bf1fd865ba1e7",
+      "sha256": "18caf16f6a51db5497c2f95be4bdc7adc778eb0e76e0a209a9b15676b621dcf7",
+      "git_blob": "555b6e950ab5a75922365271e8c3932442aeb53f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-assertive/references/patterns.md",
@@ -140,7 +140,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "ecf04b262a355468cf54bc0cd24495489026af19",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-data/SKILL.md",
@@ -149,7 +149,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "031f74f64e90e95a3ec3aa772baa100458984433",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-data/references/implementation.md",
@@ -158,7 +158,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "fc8754dde914621e093c73b241206aa7ead85f61",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-data/references/reproducible-workflow.md",
@@ -167,7 +167,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "d5562fbbf0d565633de2d506f4bfc463dcb313b8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-design/SKILL.md",
@@ -176,7 +176,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "b1572c904bd48ac63ee680770214f72deca543bf",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-design/references/designs.md",
@@ -185,16 +185,16 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "7f526e342d079bdfdd6bcff5da40c554c43d84bc",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-edit/SKILL.md",
       "state": "present",
-      "sha256": "cb8510e03ee23a7ba69fe20b3afea1b911308b64db04ee69e3a4e3e81853e702",
-      "git_blob": "87b79dafab99102532efe872e5314ea7c04ee656",
+      "sha256": "9f4c8bf4f7d59f542c80aa72ab02b4c7421f5e12cb76c4c46abc382e5cceaf68",
+      "git_blob": "893d3fb7e21e69b18f66b9d9020e9e1896bb3ecd",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-handoff/SKILL.md",
@@ -203,7 +203,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "956366395daa04091809d73d48b9b80ad9f2a7fc",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-handoff/references/handoff.md",
@@ -212,7 +212,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "cfe7d4ac3949acaa5e3a27b0f20258e4dd189238",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-literature/SKILL.md",
@@ -221,25 +221,25 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "be4a25cd2bfd75c578f9b768d79f9c4c6e64a81a",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-paper/SKILL.md",
       "state": "present",
-      "sha256": "9b33302d96216369fb66421364bf893249ab2d75b2172cacb495e6dcd52cf130",
-      "git_blob": "107e064023caf0ed65631c6b553f9320b3ddc68f",
+      "sha256": "b9d151850fbb3e8adaa0b10233a363cd75e1e59aeedafd43709df13831c67d71",
+      "git_blob": "719f40ce4c6093bd25b631d358a45513e995510b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-review/SKILL.md",
       "state": "present",
-      "sha256": "f7c472bee6c35fcb5e757e500dfa9721233c66f87e78c25f7152f64478f93d67",
-      "git_blob": "f1c93878775ff7354eb47ff5f10290e4f3af4472",
+      "sha256": "3dbb24ac7471f06657d530c18062ec1790536a1800df5872a96a1e0859a0dad8",
+      "git_blob": "6c8d7e42f49de71d51da701613b8dd1860db0bfc",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-review/references/oversight.md",
@@ -248,25 +248,25 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "f020082ff9dc14a6168877a5f431b8826c1a40a1",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-style/SKILL.md",
       "state": "present",
-      "sha256": "07200f21e868560e5e449efbabb08e3f38c22e13aded34c1b88a37f9f1582a33",
-      "git_blob": "1a5248b29181efee8dc978c6c75247be380fe3f7",
+      "sha256": "cfb2e53e661e13562a2e1f7d0c02a3cede75a60287cf4c19d3223f7203e26486",
+      "git_blob": "bb937991eafef17dbd0341fc285cf6956d6c0052",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-workflow/SKILL.md",
       "state": "present",
-      "sha256": "86a5effe8ac7b95a2e96882699882c206d039e642f4f6567f50fbf0e932297ae",
-      "git_blob": "d2cc695c09010a2f1f6b47330e1773c8ff211df5",
+      "sha256": "c0e431aaa089df4df070b6ed1e4c7a6e6f3ba0706d2e67a505a7839c0cea8edd",
+      "git_blob": "2a1fec6ede742feae667be9fbc6814130337eeec",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-workflow/references/descriptive-model.md",
@@ -275,7 +275,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "58bdf968ca3f374a59f11d3aa47c0a5dbb05548f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-workflow/references/team-execution.md",
@@ -284,7 +284,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "14b37da5f2b42d0da9a2bc2f0fc554d089f253a1",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-workflow/scripts/team_state.py",
@@ -293,7 +293,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "33a3607581c44ffb2d3f413388d8151066ba573e",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-workflow/scripts/test_team_state.py",
@@ -302,16 +302,25 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "63e590ee4cc45fc74833a1e90bb214c9a9e32583",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".agents/skills/econ-writing/SKILL.md",
       "state": "present",
-      "sha256": "c50cbd130d3a021e799e8c4f5077471913ec6ee700601924c5b2c082f0fede3d",
-      "git_blob": "7f08f8e0d0083ff6733506f261430d8b81f55ada",
+      "sha256": "938b8f1a25d770b366eacaa526c9d65cd4323395a69c97477b3ecfc9ef5c9e29",
+      "git_blob": "b71bcd0a6f037c851f08ae59d315a22468b8e2a3",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
+    },
+    {
+      "path": ".agents/skills/econ-writing/references/paper-workflow.md",
+      "state": "present",
+      "sha256": "514f91f27f9e74eca70a5a3a4cfc268f6eaccddbe473bed230e79eac395babc0",
+      "git_blob": "6246141c105949593306c9ebad818aa4f2c6387e",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".claude/AGENTS.md",
@@ -320,7 +329,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "a699a9e3b9521f612a0c2bd26261b65c38f6a970",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".cursor/rules/01_project_policy.mdc",
@@ -329,7 +338,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "cbc8df4bedae7b9b0a2871bea951f6a60be18d23",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".cursorrules",
@@ -338,7 +347,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "16203099ac172488e73b7912c5bb3fb6cfb8159d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".gemini/GEMINI.md",
@@ -347,7 +356,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "9396740efa914c5e999800240480e35ba6181b94",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": ".github/copilot-instructions.md",
@@ -356,7 +365,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "2c6d60bcd43d4df21d8da6317bfec0faca5258a8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "AGENTS.md",
@@ -365,7 +374,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "d283e0711272480eae374ee496b78e543136214b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "CLAUDE.md",
@@ -374,7 +383,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "d283e0711272480eae374ee496b78e543136214b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "CODEX.md",
@@ -383,16 +392,16 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "d283e0711272480eae374ee496b78e543136214b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "docs/ai/compiled_ai_skills.md",
       "state": "present",
-      "sha256": "48d316d1ac94a59a143b0ae464d6b251fb7b441b7cbcf38eabaabb915bbe09b2",
-      "git_blob": "54e255126fcf7dd80f48dbd026df190c0ecde726",
+      "sha256": "28451576091f75470126e491cac3596a05f84129471237e5f38c34da20e09c62",
+      "git_blob": "a119a6c7668956b654b7a4dd32d8d791356241a3",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "docs/ai/config-templates/README.md",
@@ -401,7 +410,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "24040bc1ed19e9919b9e88e93a4989e4072c8df3",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "docs/ai/config-templates/claude-mcp.example.json",
@@ -410,7 +419,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "e29ee95ea2e7cdc213561f0a75252c43d28d51de",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "docs/ai/config-templates/codex.example.toml",
@@ -419,7 +428,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "be298aabfb36b8954160f39686750a294dad8527",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "docs/ai/config-templates/mcp.example.json",
@@ -428,16 +437,16 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "da39e4ffafe816be90259a3f68b763a3f71b93ed",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "docs/ai/project_bridge.txt",
       "state": "present",
-      "sha256": "44879162073a056098b78804a2134fbe96988dad6cf5da581ea51f513935737c",
-      "git_blob": "cda4001d8e532b244ac29c01f72a333072b9376d",
+      "sha256": "716c6f4cd9c2781e7d46db21627d23ab92bd834615e3da9f963027b79e5374da",
+      "git_blob": "b38584a53ff79b85fe344a725dee4adfb20884c0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "docs/ai/project_instructions.txt",
@@ -446,16 +455,16 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "a38f911b50d0d6efe5de27d2034d6361afbd8ccd",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "scripts/export_project.py",
       "state": "present",
-      "sha256": "70022ff50b27d360951ffbd307b62ad91ce8ccd9318d85bfa488abd9322996ec",
-      "git_blob": "37addfa2b2425a46b0602c9c18d84c71ce5f3267",
+      "sha256": "43f1c7ca44fbe576b97b0b9bcb7e6fc3246f8ccca492e6a2cbc37e04b1259b79",
+      "git_blob": "0b600d395c87e254c7f809013a3d601d469e6cab",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "scripts/pack_context.sh",
@@ -464,7 +473,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "7174135411df6697c22589b25f0fdb9f50784e7a",
       "mode": "100755",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "scripts/setup_ide_mcp.sh",
@@ -473,16 +482,16 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "db03ad944ff24607af333e421c6a80c280932440",
       "mode": "100755",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "scripts/sync_common_core.py",
       "state": "present",
-      "sha256": "02e7f4dc0fdea8147295a7d05fb6e90d11caf7d20ecf0e38c3bc245fc30c73fc",
-      "git_blob": "8a08ced8cd8e680d164db310aebaeda16a540f1a",
+      "sha256": "d680d674af094ef43eddb205092011a8c9e15ed9bb569a077916b3e9ef28f5c7",
+      "git_blob": "d09aaceb34f730d4e5c093dae79ee506f6f7e453",
       "mode": "100755",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "scripts/test_setup_ide_mcp.py",
@@ -491,7 +500,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "0ded4f6348a1264581bb68ccbf4d897033cfbdc7",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     },
     {
       "path": "scripts/test_sync_common_core.py",
@@ -500,7 +509,7 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
       "git_blob": "c795517bd8c3a9dc46e189311bc5835fb8cfbda5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "2d43d279d574e51197c5db638d5f98a904ef28f7"
+      "source_commit": "2d4e293fee73f48c05c1dd5b8aa29fd39a5cd90f"
     }
   ],
   "released_paths": [
