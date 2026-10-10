@@ -40,6 +40,7 @@ COMMON_PATHS = (
     ".agents/skills/econ-workflow/SKILL.md",
     ".agents/skills/econ-workflow/references/descriptive-model.md",
     ".agents/skills/econ-writing/SKILL.md",
+    ".agents/skills/econ-writing/references/paper-workflow.md",
     "docs/ai/compiled_ai_skills.md",
     "docs/ai/project_instructions.txt",
     "docs/ai/project_bridge.txt",
