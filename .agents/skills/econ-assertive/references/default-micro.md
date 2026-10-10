@@ -6,7 +6,7 @@ Use complete connected arguments to guide the amount and choice of content, reas
 
 ## Principles
 
-Choose the information that lets the intended reader understand the economically important question, answer, and reasoning for the requested purpose and medium. A detail earns its place when it changes that understanding. The relevant amount of information follows from the argument, not a target length or a list of items to include.
+Choose the information that lets the intended reader understand the economically important question, answer, and reasoning for the requested purpose and medium. Establish the central insight and what it changes relative to the relevant comparison or benchmark. A supporting result earns its place when it advances that understanding, not because it is another correct statement of the same conclusion. The relevant amount of information follows from the argument, not a target length or a list of items to include.
 
 Connect institutions, data, methods and findings through their economic role. Explain why a setting or comparison can answer the question and what the result means. Relate an actor's incentives and feasible choices to the measured outcome. Explain competing predictions through the economic forces that generate them; select the evidence that distinguishes those predictions.
 
