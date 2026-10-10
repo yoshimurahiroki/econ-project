@@ -1,7 +1,7 @@
 # Bridged research tasks
 
 Follow [REPO_POLICY.md](REPO_POLICY.md).
-Use [ECON_INDEX.md](ECON_INDEX.md) to select one primary for the requested deliverable. Paper explanation, writing, wording revision and profile work use the native methods supplied in this snapshot. A workflow task uses native econ-workflow for coordination; substantive research deliverables use supplied R00_ROUTER.md to select R02-R05 or R07. References to R01, R06 and R08 resolve to econ-paper, econ-writing and econ-edit.
+Use [ECON_INDEX.md](ECON_INDEX.md) to select one primary for the requested deliverable. Paper explanation, writing, wording revision, profile work and editorial review use the native methods supplied in this snapshot. A workflow task uses native econ-workflow for coordination; substantive research deliverables use supplied R00_ROUTER.md to select R02-R05 or R07. References to R01, R06 and R08 resolve to econ-paper, econ-writing and econ-edit; their original prose instructions and the content rules in PAPER_NOTE.md and STYLE_EDIT_PROMPT.txt are superseded. For editorial review, R07 resolves to native econ-review; requested scientific assessment continues to use supplied R07.
 For exposition, native prose methods select content by the economic question and contribution; scientific methods supply needed understanding and verification. Detailed scientific assessment follows a request for it.
 Use [REPO_CONTEXT.md](REPO_CONTEXT.md) for project choices and canonical records, and [SOURCE.md](SOURCE.md) for this snapshot's identity.
 {{STUDY_ENTRY_POINT_LINE}}
