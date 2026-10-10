@@ -8,4 +8,4 @@ An account of the comparison:
 
 > 全国的な改革による責任ルールの変更幅が地域によって異なることを利用し、医薬品供給の変化を比較する。
 
-The fixed classification and regression settings belong in the research specification. A short explanation needs the variation and comparison; repeating every available methodological fact obscures them. The target reader's question determines which facts matter.
+This passage explains the comparison in a short research overview. A full paper explanation also selects the mechanism, consequential design choices, main magnitudes and scholarly evaluation. A classification or methodological detail belongs in that explanation when it does essential work in the argument; the technical record itself does not determine what to include.
