@@ -653,7 +653,10 @@ def main() -> None:
     selection = parser.add_mutually_exclusive_group()
     selection.add_argument("--skills", nargs="+")
     selection.add_argument("--task")
-    parser.add_argument("--support", action="append", default=[])
+    parser.add_argument(
+        "--support", action="append", default=[],
+        help="Dependency method; for whole-paper writing: --profile standalone --task econ-writing --support econ-paper.",
+    )
     parser.add_argument("--references", action="append", default=[])
     parser.add_argument("--style-profile")
     args = parser.parse_args()
