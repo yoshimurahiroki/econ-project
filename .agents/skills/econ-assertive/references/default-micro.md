@@ -6,7 +6,7 @@ For general writing, the exemplars are the complete Abstracts and Introductions 
 
 ## Principles
 
-Choose the information that lets the intended reader understand the economically important question, answer, and reasoning for the requested purpose and medium. A detail earns its place when it changes that understanding. The relevant amount of information follows from the argument, not a target length or a list of items to include.
+Choose the information that lets the intended reader understand the economically important question, answer, and reasoning for the requested purpose and medium. Establish the central insight and what it changes relative to the relevant comparison or benchmark. A supporting result earns its place when it advances that understanding, not because it is another correct statement of the same conclusion. The relevant amount of information follows from the argument, not a target length or a list of items to include.
 
 Connect institutions, data, methods, and findings through their economic role. Explain why a setting or comparison can answer the question and what the result means. The introduction to Kline et al. connects firm-level discrimination to workers' outside options and regulatory investigations before explaining the repeated applications that reveal company-wide patterns. Gruber et al. explains provider incentives and substitute care because they create competing predictions about spending.
 
