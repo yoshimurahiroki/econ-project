@@ -6,11 +6,11 @@ For general writing, the exemplars are the complete Abstracts and Introductions 
 
 ## Principles
 
-Choose the information that lets the intended reader understand the economically important question, answer, and reasoning for the requested purpose and medium. Establish the central insight and what it changes relative to the relevant comparison or benchmark. A supporting result earns its place when it advances that understanding, not because it is another correct statement of the same conclusion. The relevant amount of information follows from the argument, not a target length or a list of items to include.
+Before drafting, choose information by its contribution to the economically important question, answer and reasoning for the requested purpose and medium. Omit low-value technical propositions even when they are correct. Establish the central insight and what it changes relative to the relevant comparison or benchmark. A supporting result earns its place when it advances that understanding, not because it is another correct statement of the same conclusion. The relevant amount of information follows from the argument, not a target length or a list of items to include.
 
 Connect institutions, data, methods, and findings through their economic role. Explain why a setting or comparison can answer the question and what the result means. The introduction to Kline et al. connects firm-level discrimination to workers' outside options and regulatory investigations before explaining the repeated applications that reveal company-wide patterns. Gruber et al. explains provider incentives and substitute care because they create competing predictions about spending.
 
-Keep the distinctions needed to interpret a claim. A comparison group, treatment margin, condition, magnitude, or uncertainty can be central to the result rather than an added qualification. Bessone et al.'s earnings result changes with what naps replace. Akbarpour, Li, and Oveis Gharan's timing result changes with what the planner knows about departures. State those distinctions where they help the reader follow the argument, without importing every technical detail from the paper.
+Keep a distinction when the central economic result depends on it. Give the comparison or condition its economic role within that result rather than adding general qualifications after it. Bessone et al.'s earnings result changes with what naps replace. Akbarpour, Li, and Oveis Gharan's timing result changes with what the planner knows about departures. State those distinctions where they help the reader follow the argument, without importing every technical detail from the paper.
 
 Use concrete economic subjects, actions, and referents, with sentences whose connections carry the reasoning. Reuse a term when the economic object stays the same; explain a new concept through the setting when that makes it easier to understand. Remove repetition, ornamental explanation, ritual hedging, and management language that add no meaning. These principles guide judgment, not a fixed sequence of paragraphs or permitted words.
 
@@ -24,11 +24,11 @@ The following passages illustrate a few choices in context. Their facts belong t
 
 > ケニア農村部で現金給付を受けた世帯が支出を増やすと、周辺企業の売上も伸び、賃金支払いや利益の増加を通じて、給付を受けなかった世帯にも所得が回った。Eggerらは、無作為化した給付と家計・企業・価格の調査を用いて、この取引の広がりを捉えている。支出ベースの地域内乗数は2.6と推定され、地域で増えた支出は給付額を上回った。
 
-**Choosing the relevant comparison — Bessone et al. (2021).** The work-time trade-off explains why better productivity need not raise earnings.
+**Choosing the relevant comparison — Bessone et al. (2021).** The earnings comparison connects productivity to the use of work time.
 
-> Naps improved productivity among participants in a Chennai data-entry experiment, but their effect on earnings depended on what they replaced. Earnings rose relative to taking a break and fell relative to working during the same period. Better performance after sleep and the work time spent sleeping pull earnings in different directions.
+> Naps improved productivity among participants in a Chennai data-entry experiment. Their effect on earnings depended on what they replaced. Earnings rose relative to taking a break and fell relative to working during the same period. Better performance after sleep and the work time spent sleeping pull earnings in different directions.
 
-> チェンナイのデータ入力実験では、昼寝によって生産性が高まったものの、収入の変化は比較相手によって異なった。同じ時間を休憩に使う場合より収入は増え、働く場合よりは減った。休息後の作業効率が改善する一方、昼寝に充てた時間は働けないため、効率の改善がそのまま収入の増加になるわけではない。
+> チェンナイのデータ入力実験では、昼寝によって生産性が高まった。収入は、同じ時間を休憩に使う場合より増え、働く場合より減った。睡眠後の作業効率と、睡眠に充てた作業時間が、収入へ逆方向に作用する。
 
 **Making a theoretical condition meaningful — Akbarpour, Li, and Oveis Gharan (2020).** The explanation connects the information assumption to the planner's choice.
 

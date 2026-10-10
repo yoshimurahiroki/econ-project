@@ -1,6 +1,6 @@
 # Design-specific decisions
 
-Use the section for the specified comparison, parameter or derivation. Select diagnostics for the identifying question being assessed.
+Use the section for a requested design, estimation or inference task. Select diagnostics for the identifying question being assessed. A general paper explanation selects its core comparison through econ-paper; these details supply understanding and verification.
 
 ## Design elements
 
