@@ -3,7 +3,6 @@ name = "econ-project"
 version = "0.1.0"
 description = "Econometrics research stack"
 requires-python = ">=3.11,<3.13"
-authors = [{ name = "yoshimurahiroki", email = "yoshimurahiroki@akane.waseda.jp" }]
 dependencies = [
 	"biogeme",
 	"bidict",

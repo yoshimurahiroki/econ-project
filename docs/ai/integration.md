@@ -103,9 +103,9 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "84ff10ee471a5f9cf87eb27c658fedd4b901246e",
+  "source_base_commit": "231ac2d5eb20a45415eaa6f10a6e83b51e82b9d7",
   "source_state": "committed",
-  "common_content_id": "bf4cdc3091a4233158dd64fc2431063a643997383dd774be689fc384e54220ac",
+  "common_content_id": "4720c7a55cc4fea7b8890ebc83f8f1c2adf4b66d0a55a90b341b16f0998e416e",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -489,11 +489,11 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": "scripts/export_project.py",
       "state": "present",
-      "sha256": "e3e542e9523b6fc8358fd40f62e581c68058d9a0c596ee5e99bfec8cb063df90",
-      "git_blob": "74f1fad0b5beea1a5b7c56473321d5bcd3af399e",
+      "sha256": "02046b60870224b6d575cea311fd95f213f8dffa085138bbddcb47e27802e8b2",
+      "git_blob": "2732fc63927a5a3a893ca3582bd77313b8dcdea7",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "84ff10ee471a5f9cf87eb27c658fedd4b901246e"
+      "source_commit": "231ac2d5eb20a45415eaa6f10a6e83b51e82b9d7"
     },
     {
       "path": "scripts/pack_context.sh",
