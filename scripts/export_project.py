@@ -14,7 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PROFILE = ".agents/skills/econ-assertive/references/default-micro.md"
 WORKFLOW_REFERENCE = ".agents/skills/econ-workflow/references/descriptive-model.md"
 PROJECT_MARKER = "<!-- export-project:v1 -->"
-RECEIPT_MARKER = "<!-- common-core-receipt:v1 -->"
+RECEIPT_MARKER = "<!-- common-core-receipt:v2 -->"
+LEGACY_RECEIPT_MARKER = "<!-- common-core-receipt:v1 -->"
 GENERATED = {"ECON_INDEX.md", "SOURCE.md"}
 NATIVE_PROSE_METHODS = {"econ-paper", "econ-writing", "econ-edit", "econ-style"}
 
@@ -328,6 +329,24 @@ class Snapshot:
         return self.omitted_locator(linked, suffix)
 
 
+def common_core_owner(repository, receipt):
+    """Use recorded provenance, or this checkout's identity when unsynchronized."""
+    if receipt is None:
+        return repository
+    if not isinstance(receipt, dict):
+        raise ValueError("Common-core receipt must be an object")
+    source = receipt.get("source_repository")
+    if not isinstance(source, str):
+        raise ValueError("Common-core receipt requires source_repository")
+    # v1 used owner/repository; v2 records the host as well. Preserve the
+    # established GitHub owner/repository form without discarding other hosts.
+    source = source.removeprefix("github.com/")
+    parts = source.split("/")
+    if len(parts) < 2 or any(part in {"", ".", ".."} for part in parts) or any(char.isspace() for char in source):
+        raise ValueError("Common-core receipt requires a repository identity")
+    return source
+
+
 def project_config(snapshot, context_text, available):
     supplied, span = marked_json(context_text, PROJECT_MARKER)
     config = {"version": 1, "writing_profile": "default-micro", "bridge_skills": [], "files": []}
@@ -480,7 +499,17 @@ def export(
     receipt = None
     integration = root / "docs/ai/integration.md"
     if integration.is_file():
-        receipt, _ = marked_json(snapshot.text(integration), RECEIPT_MARKER)
+        integration_text = snapshot.text(integration)
+        receipts = []
+        for marker in (RECEIPT_MARKER, LEGACY_RECEIPT_MARKER):
+            value, span = marked_json(integration_text, marker)
+            if span is not None:
+                if value is None:
+                    raise ValueError("Common-core receipt must be an object")
+                receipts.append(value)
+        if len(receipts) > 1:
+            raise ValueError("Multiple common-core receipts")
+        receipt = receipts[0] if receipts else None
     if config_span and config["writing_profile"] != "default-micro":
         exported_config = dict(config)
         preference_path = snapshot.inside(config["writing_profile"])
@@ -610,7 +639,7 @@ def export(
             "path": "docs/ai/repo_context.md", "parsed": config,
             "sha256": snapshot.input(context_path)["sha256"],
         },
-        "common_core": {"owner": "yoshimurahiroki/econ-project-mini", "receipt": receipt},
+        "common_core": {"owner": common_core_owner(snapshot.repository, receipt), "receipt": receipt},
         "inputs": inputs,
         "files": files,
         "omitted": [snapshot.omitted[path] for path in sorted(snapshot.omitted)],
