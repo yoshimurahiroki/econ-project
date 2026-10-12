@@ -19,7 +19,6 @@ RECEIPT_MARKER = "<!-- common-core-receipt:v2 -->"
 LEGACY_RECEIPT_MARKER = "<!-- common-core-receipt:v1 -->"
 GENERATED = {"ECON_INDEX.md", "SOURCE.md"}
 NATIVE_PROSE_METHODS = {"econ-paper", "econ-writing", "econ-edit", "econ-style"}
-BRIDGE_NATIVE_METHODS = NATIVE_PROSE_METHODS | {"econ-review"}
 
 
 def canonical(value):
@@ -351,7 +350,7 @@ def common_core_owner(repository, receipt):
 
 def project_config(snapshot, context_text, available):
     supplied, span = marked_json(context_text, PROJECT_MARKER)
-    config = {"version": 1, "writing_profile": "default-micro", "bridge_skills": [], "files": []}
+    config = {"version": 1, "writing_profile": "default-micro", "files": []}
     if span is None:
         legacy = snapshot.root / "docs/research/master-project-addendum.txt"
         if legacy.is_file():
@@ -367,11 +366,6 @@ def project_config(snapshot, context_text, available):
         raise ValueError("writing_profile must be default-micro or a repository-relative path")
     if preference != "default-micro":
         snapshot.text(snapshot.inside(preference))
-    bridges = config["bridge_skills"]
-    if not isinstance(bridges, list) or any(not isinstance(name, str) or name not in available for name in bridges):
-        raise ValueError("bridge_skills must name installed methods")
-    if len(bridges) != len(set(bridges)):
-        raise ValueError("Duplicate bridge_skills entry")
     files = config["files"]
     if not isinstance(files, list):
         raise TypeError("Project files must be a list")
@@ -384,10 +378,7 @@ def project_config(snapshot, context_text, available):
     return config, span
 
 
-def reference_alias(path, root, profile):
-    relative = path.relative_to(root).as_posix()
-    if profile == "bridge" and relative == WORKFLOW_REFERENCE:
-        return "RESEARCH_WORKFLOW.md"
+def reference_alias(path, root):
     pieces = path.relative_to(root).parts
     prefix = pieces[2].upper().replace("-", "_")
     reference = "__".join(pieces[4:])
@@ -407,12 +398,10 @@ def export(
     target = requested_target.resolve()
     if requested_target.exists() or requested_target.is_symlink() or target.exists() or target.is_relative_to(root):
         raise ValueError("Choose a fresh output directory outside the repository")
-    if profile not in {"bridge", "standalone"}:
-        raise ValueError("Select bridge or standalone")
+    if profile != "standalone":
+        raise ValueError("Select standalone; legacy bridge exports are no longer supported")
     if task is not None and skills is not None:
         raise ValueError("Use either --task or --skills")
-    if profile == "bridge" and skills is not None:
-        raise ValueError("Use --skills with the standalone profile")
     if task is None and (support or references):
         raise ValueError("--support and --references require --task")
     available = {path.parent.name: path.resolve() for path in (root / ".agents/skills").glob("*/SKILL.md")}
@@ -434,10 +423,6 @@ def export(
     config, config_span = project_config(snapshot, context_text, available)
     if task is not None:
         selected = {task, "econ-assertive", *supports}
-        if profile == "bridge":
-            selected.update(BRIDGE_NATIVE_METHODS)
-    elif profile == "bridge":
-        selected = {"econ-assertive", *BRIDGE_NATIVE_METHODS, *config["bridge_skills"]}
     else:
         selected = set(skills if skills is not None else available)
         selected.add("econ-assertive")
@@ -451,8 +436,6 @@ def export(
         "docs/ai/resources.md": "RESOURCE_MAP.md",
         "THIRD_PARTY_NOTICES.md": "THIRD_PARTY_NOTICES.md",
     }
-    if profile == "bridge":
-        core["docs/ai/project_bridge.txt"] = "BRIDGE_INSTRUCTIONS.txt"
     for source, filename in core.items():
         snapshot.add(root / source, filename)
     for name in selected:
@@ -461,8 +444,6 @@ def export(
     if task is None:
         for name in selected:
             ref_paths.update(path.resolve() for path in (available[name].parent / "references").glob("*.md"))
-        if profile == "bridge":
-            ref_paths.add((root / WORKFLOW_REFERENCE).resolve())
     if task == "econ-writing" or "econ-writing" in supports:
         ref_paths.add((root / PAPER_WORKFLOW_REFERENCE).resolve())
     for value in references:
@@ -474,10 +455,10 @@ def export(
     for path in sorted(ref_paths):
         if not path.is_relative_to(root):
             raise ValueError(f"Reference escapes repository: {path}")
-        snapshot.add(path, reference_alias(path, root, profile))
+        snapshot.add(path, reference_alias(path, root))
     for item in config["files"]:
         snapshot.add(snapshot.inside(item["path"]), item["output"])
-    general = task is None and (profile == "bridge" or skills is None)
+    general = task is None and skills is None
     needs_profile = general or bool(set(selected) & {"econ-paper", "econ-writing", "econ-edit"}) or style_profile is not None
     resolved_profile = None
     profile_path = None
@@ -525,14 +506,7 @@ def export(
         start, end = config_span
         context_text = context_text[:start] + json.dumps(exported_config, ensure_ascii=False, sort_keys=True, indent=2) + context_text[end:]
     native_primary = task in NATIVE_PROSE_METHODS or task == "econ-workflow"
-    bridge_review = profile == "bridge" and task == "econ-review"
-    method_provider = (
-        "native ECON_REVIEW for editorial review; supplied R07 for requested scientific assessment" if bridge_review
-        else task.upper().replace("-", "_") if native_primary
-        else "native ECON methods" if profile == "standalone"
-        else "supplied R02–R05/R07 research methods" if task is not None
-        else "native prose/editorial methods and supplied R02–R05/R07 research methods"
-    )
+    method_provider = task.upper().replace("-", "_") if native_primary else "native ECON methods"
     study_line = (
         "Use [STUDY_ENTRY_POINT.txt](STUDY_ENTRY_POINT.txt) for requested study implementation."
         if "study_entry_point.txt" in snapshot.aliases else ""
@@ -540,7 +514,7 @@ def export(
     contents = {}
     for source, filename in sorted(snapshot.mapping.items(), key=lambda item: item[1]):
         text = context_text if source == context_path.resolve() else snapshot.text(source)
-        if filename in {"PROJECT_INSTRUCTIONS.txt", "BRIDGE_INSTRUCTIONS.txt"}:
+        if filename == "PROJECT_INSTRUCTIONS.txt":
             text = text.replace("{{METHOD_PROVIDER}}", method_provider).replace("{{STUDY_ENTRY_POINT_LINE}}", study_line)
             if re.search(r"\{\{[^{}]+\}\}", text):
                 raise ValueError(f"Unresolved instruction template placeholder: {filename}")
@@ -558,18 +532,6 @@ def export(
         f"Task semantic selector: {task or 'select the method for the current request'}.",
         f"Active method provider: {method_provider}.", "",
     ]
-    if profile == "bridge":
-        lines.extend([
-            "Paper explanation, writing, wording revision, profile work and editorial review use native econ-paper, econ-writing, econ-edit, econ-style and econ-review respectively.",
-            "Scientific research uses supplied R00_ROUTER.md to select one existing R02–R05 or R07 primary. Read the original module to establish its exact filename.",
-            "References to R01, R06 and R08 resolve to the corresponding native paper, writing and edit methods; their original prose instructions and the content rules in PAPER_NOTE.md and STYLE_EDIT_PROMPT.txt are superseded.",
-            "For editorial review, R07 resolves to native econ-review. Requested scientific assessment continues to use supplied R07.",
-            "An explicit native-provider request activates the included native fallback for a research deliverable.", "",
-        ])
-    if profile == "bridge" and task == "econ-workflow":
-        lines.extend([
-            "Native econ-workflow coordinates this task; each substantive research deliverable selects its own supplied R02–R05/R07 primary through R00_ROUTER.md.", "",
-        ])
     if profile_path is not None:
         alias = snapshot.mapping[profile_path]
         label = "Task profile override" if style_profile is not None else "Available writing profile" if general else "Selected writing profile"
@@ -590,16 +552,10 @@ def export(
             role = "prose guidance"
         elif name in supports:
             role = "support"
-        elif profile == "bridge" and name == "econ-review":
-            role = "editorial primary; native scientific fallback" if task == name else "available editorial primary; native scientific fallback"
         elif task == name:
-            role = "native fallback" if profile == "bridge" and not native_primary else "primary"
+            role = "primary"
         else:
-            role = (
-                "available primary" if profile == "bridge" and name in NATIVE_PROSE_METHODS
-                else "available native fallback" if profile == "bridge"
-                else "available method"
-            )
+            role = "available method"
         lines.append(f"- [{name}]({snapshot.mapping[available[name]]}) — {role}: {description.group(1).strip()}")
     if ref_paths:
         lines.extend(["", "Included task/reference resources:"])
@@ -653,12 +609,7 @@ def export(
         "inputs": inputs,
         "files": files,
         "omitted": [snapshot.omitted[path] for path in sorted(snapshot.omitted)],
-        "external_provider": (
-            {"resolver": "R00_ROUTER.md",
-             "methods": "existing R07 attachment for requested scientific assessment" if bridge_review else "existing R02–R05/R07 attachments",
-             "input_identity": "Supplied original attachments are outside this export's input hashes."}
-            if profile == "bridge" and not native_primary else None
-        ),
+        "external_provider": None,
     }
     contents["SOURCE.md"] = "# Export source\n\n```json\n" + json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2) + "\n```\n"
     # Every input, alias, omitted locator, placeholder and field length has
@@ -672,7 +623,7 @@ def export(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--profile", choices=["bridge", "standalone"], default="standalone")
+    parser.add_argument("--profile", choices=["standalone"], default="standalone")
     parser.add_argument("--output", type=Path, required=True)
     selection = parser.add_mutually_exclusive_group()
     selection.add_argument("--skills", nargs="+")

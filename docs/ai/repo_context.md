@@ -6,5 +6,5 @@ Keep this repository's environment and existing entry points.
 
 <!-- export-project:v1 -->
 ~~~json
-{"version":1,"writing_profile":"default-micro","bridge_skills":[],"files":[]}
+{"version":1,"writing_profile":"default-micro","files":[]}
 ~~~

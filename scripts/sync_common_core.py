@@ -45,7 +45,6 @@ COMMON_PATHS = (
     "docs/ai/resources.md",
     "THIRD_PARTY_NOTICES.md",
     "docs/ai/project_instructions.txt",
-    "docs/ai/project_bridge.txt",
     "scripts/export_project.py",
     "scripts/pack_context.sh",
     "scripts/sync_common_core.py",

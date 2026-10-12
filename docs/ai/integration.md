@@ -35,14 +35,6 @@ Git `core.filemode=false` supports content updates and replay at the existing tr
 
 For these upstream templates, maintainers edit common functionality in econ-project-mini and explicitly synchronize tested changes to econ-project and selected research projects. This maintenance arrangement adds no default destination or owner restriction to a user's copy.
 
-## Existing R00-R08 Project
-
-```sh
-python scripts/export_project.py --profile bridge --output /tmp/econ-bridge-new
-```
-
-Keep the original R00-R08 attachments unchanged. For a complete instruction-field replacement, paste PROJECT_INSTRUCTIONS.txt. To update a separately maintained field, replace its bridge block with BRIDGE_INSTRUCTIONS.txt and remove conflicting inherited common-policy and writing instructions. Attach the exported files. ECON_INDEX.md gives native econ-paper, econ-writing, econ-edit and econ-style priority for paper explanation, writing, wording revision and profile work. Scientific research uses the original R02-R05 or R07 under the supplied R00 router. References to R01, R06 and R08 resolve to the corresponding native methods. An explicit native-provider request uses the exported native fallback for a research deliverable.
-
 ## Standalone Project
 
 ```sh
@@ -74,7 +66,7 @@ python scripts/export_project.py --profile standalone --task econ-edit \
   --style-profile default-micro --output /tmp/econ-edit-new
 ```
 
-`--task` selects the deliverable's method role; `--support` names a dependency method and `--references` names an exact repository-relative reference file. Both options are repeatable and require `--task`. `--task` and `--skills` are exclusive. Bridge task snapshots use the selected native primary for paper explanation, writing, wording revision or profile work. A bridge workflow snapshot uses native econ-workflow as coordinator, with a separate supplied R00 primary for each substantive research deliverable. Other research snapshots retain the supplied R02-R05/R07 provider and include the selected native research body as its available fallback.
+`--task` selects the deliverable's method role; `--support` names a dependency method and `--references` names an exact repository-relative reference file. Both options are repeatable and require `--task`. `--task` and `--skills` are exclusive.
 
 Task snapshots include the selected bodies, explicit references and applicable writing-profile resources. Inclusion makes a resource available; the current task determines whether it is read. ECON_INDEX.md lists the selected roles and files. Project additions come from the `export-project:v1` block in [repo_context.md](repo_context.md).
 
@@ -103,9 +95,9 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "c7f3f4ddf48a324bdf67b7c4ff70a26dabef6573",
+  "source_base_commit": "fd9af45e1aa67a2ec9d01757a2a358abdf98c0f4",
   "source_state": "committed",
-  "common_content_id": "9e31ef6f1e65f655109b634cef928fb5082070b7d9d01bf2523b3afa2060ebf1",
+  "common_content_id": "5bca19f03adf467464f3af9dc00521f73e49f9908eb0c9d207d56457a4654a9b",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -354,11 +346,11 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": ".cursorrules",
       "state": "present",
-      "sha256": "9749ca80c22f0ae0d378890cff1e279a74cfc765da3c0d15a2529258a915b102",
-      "git_blob": "822cf0bb9cc5007f6920d0f20932dd353490fd33",
+      "sha256": "7c249936161ac6bf443f0d3c42782ae50b0a71727393ae7ab39c8d4529d53af9",
+      "git_blob": "f95a702d2ec9b97e5ed82757e312e6a0ea5a7330",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "c7f3f4ddf48a324bdf67b7c4ff70a26dabef6573"
+      "source_commit": "fd9af45e1aa67a2ec9d01757a2a358abdf98c0f4"
     },
     {
       "path": ".gemini/GEMINI.md",
@@ -417,11 +409,11 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": "docs/ai/compiled_ai_skills.md",
       "state": "present",
-      "sha256": "28451576091f75470126e491cac3596a05f84129471237e5f38c34da20e09c62",
-      "git_blob": "a119a6c7668956b654b7a4dd32d8d791356241a3",
+      "sha256": "db82b12eda26fd00a1b2c612d60d78c4810061e05c4948f2c220992c572cebf6",
+      "git_blob": "07b0cec0a5b158e6a7cbb333ef2c3c7728100a1d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "c7f3f4ddf48a324bdf67b7c4ff70a26dabef6573"
+      "source_commit": "fd9af45e1aa67a2ec9d01757a2a358abdf98c0f4"
     },
     {
       "path": "docs/ai/config-templates/README.md",
@@ -461,12 +453,12 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     },
     {
       "path": "docs/ai/project_bridge.txt",
-      "state": "present",
-      "sha256": "716c6f4cd9c2781e7d46db21627d23ab92bd834615e3da9f963027b79e5374da",
-      "git_blob": "b38584a53ff79b85fe344a725dee4adfb20884c0",
-      "mode": "100644",
+      "state": "deleted",
+      "sha256": null,
+      "git_blob": null,
+      "mode": null,
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "c7f3f4ddf48a324bdf67b7c4ff70a26dabef6573"
+      "source_commit": "fd9af45e1aa67a2ec9d01757a2a358abdf98c0f4"
     },
     {
       "path": "docs/ai/project_instructions.txt",
@@ -489,11 +481,11 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": "scripts/export_project.py",
       "state": "present",
-      "sha256": "02046b60870224b6d575cea311fd95f213f8dffa085138bbddcb47e27802e8b2",
-      "git_blob": "2732fc63927a5a3a893ca3582bd77313b8dcdea7",
+      "sha256": "1c9581a0c8c91f26baa2612dfe29603e90e503f98d7d5e5ef78c37b5fac9372f",
+      "git_blob": "e3f08418c7301d3d6ca712f3226b2f7b77736a6e",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "c7f3f4ddf48a324bdf67b7c4ff70a26dabef6573"
+      "source_commit": "fd9af45e1aa67a2ec9d01757a2a358abdf98c0f4"
     },
     {
       "path": "scripts/pack_context.sh",
@@ -516,11 +508,11 @@ Codex execution uses the user's verified installed CLI and normal ChatGPT login.
     {
       "path": "scripts/sync_common_core.py",
       "state": "present",
-      "sha256": "7270304df78795a1df9a42c07b22e8fd2bcd9a4f179470689019182612792d36",
-      "git_blob": "8cc652815cf02ff17f04c581913fa4306d466736",
+      "sha256": "29ef4ef561e31b8ec755fe7a3768b65a155be101f78d7b1e5ae34a1789c76dcc",
+      "git_blob": "859ca38082f08003b49683305525481c58c11ffb",
       "mode": "100755",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "c7f3f4ddf48a324bdf67b7c4ff70a26dabef6573"
+      "source_commit": "fd9af45e1aa67a2ec9d01757a2a358abdf98c0f4"
     },
     {
       "path": "scripts/test_setup_ide_mcp.py",
