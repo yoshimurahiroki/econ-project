@@ -70,6 +70,10 @@ mlruns/
 *.sqlite3
 *.db
 
+# Research definition tables
+!/docs/research/*.csv
+!/docs/research/*.tsv
+
 # Quarto and document builds
 _site/
 _book/
