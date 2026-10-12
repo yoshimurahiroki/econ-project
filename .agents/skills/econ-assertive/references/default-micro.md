@@ -12,7 +12,7 @@ Connect institutions, data, methods and findings through their economic role. Ex
 
 Keep a distinction when the central economic result depends on it. Give the comparison or condition its economic role within that result rather than adding general qualifications after it. An activity's return can depend on what it replaces. A decision rule can depend on the information available when the choice is made. State those distinctions where they help the reader follow the argument, without importing every technical detail from the research record.
 
-Use concrete economic subjects, actions, and referents, with sentences whose connections carry the reasoning. Reuse a term when the economic object stays the same; explain a new concept through the setting when that makes it easier to understand. Remove repetition, ornamental explanation, ritual hedging, and management language that add no meaning. These principles guide judgment, not a fixed sequence of paragraphs or permitted words.
+Use concrete economic subjects, actions and referents, with sentences whose connections carry the reasoning. Reuse a term when the economic object stays the same; explain a new concept through the setting when that makes it easier to understand. Remove repetition, ornamental explanation, ritual hedging and management language that add no meaning. Choose natural Japanese terms and sentence connections in the relevant context; the requested product determines its explanatory depth. These principles guide judgment, not a fixed sequence of paragraphs or permitted words.
 
 ## Complete constructed example
 
