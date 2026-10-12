@@ -430,7 +430,8 @@ def export(
         ".cursorrules": "REPO_POLICY.md",
         "docs/ai/project_instructions.txt": "PROJECT_INSTRUCTIONS.txt",
         "docs/ai/repo_context.md": "REPO_CONTEXT.md",
-        "docs/ai/resources.md": "TASK_RESOURCES.md",
+        "docs/ai/resources.md": "RESOURCE_MAP.md",
+        "THIRD_PARTY_NOTICES.md": "THIRD_PARTY_NOTICES.md",
     }
     if profile == "bridge":
         core["docs/ai/project_bridge.txt"] = "BRIDGE_INSTRUCTIONS.txt"
@@ -556,7 +557,7 @@ def export(
             lines.append("[default-micro](ECON_ASSERTIVE__DEFAULT_MICRO.md) is also available as a source of examples.")
         lines.append("")
     if task == "econ-style":
-        lines.extend(["The profile operation uses the requested source passages. A saved project profile is a writing preference rather than an automatically selected source corpus.", ""])
+        lines.extend(["The profile operation uses the requested complete passages. Creating or revising a profile preserves the existing writing preference until the user adopts it.", ""])
     for name in selected:
         text = snapshot.text(available[name])
         description = re.search(r"^description:[ \t]*(.+)$", text, re.MULTILINE)
@@ -581,7 +582,7 @@ def export(
         lines.extend(["", "Included task/reference resources:"])
         for path in sorted(ref_paths):
             lines.append(f"- [{path.relative_to(root).as_posix()}]({snapshot.mapping[path]})")
-    lines.extend(["", "Read support and reference sections for the dependency identified by the primary method. TASK_RESOURCES.md supplies task-specific resource routing.", ""])
+    lines.extend(["", "Read support and reference sections for the dependency identified by the primary method. RESOURCE_MAP.md identifies task resources.", ""])
     contents["ECON_INDEX.md"] = "\n".join(lines)
     selection = {
         "profile": profile, "task": task,

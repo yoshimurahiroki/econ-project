@@ -1,7 +1,14 @@
 # Task resources
 
-Use the installed task index or the supplied ECON_INDEX.md to select a method. Load a method only for a concrete dependency of the requested result. Use the project records, original research sources and saved results needed by that task.
+Use the installed task methods through [the method index](compiled_ai_skills.md) and the selected profile in [project context](repo_context.md). Load support for a concrete dependency of the requested result.
 
-For a requested external resource, identify the needed function, select the specific resource and check its permissions and license. Use only the relevant file. Existing project policy remains authoritative; external resources do not authorize importing hooks, MCP servers, Git or worktree automation, or multi-agent execution.
+- Questions, incentives, models and empirical comparisons: econ-design.
+- Literature, institutions, novelty and citation verification: econ-literature; econ-paper supplies a requested substantive paper explanation.
+- Data acquisition, measurement, code and reproducible numerical outputs: econ-data.
+- Papers, plans, presentations, translations and exhibits: econ-writing, with econ-assertive for prose and econ-edit for a requested revision.
+- Independent assessment: econ-review. Requested writing-profile changes: econ-style.
+- Interdependent work and resumable integration: econ-workflow. Requested transfer of work: econ-handoff.
 
-Optional reference fetching, where supported by this revision, requires explicit AI_REFERENCE_REPOSITORIES input: one whitespace-separated group, owner/repository and local-name triple per line; group is econ or research. ECC_FETCH_AI_REFERENCES=1 enables fetching and ECC_UPDATE_SKILLS=1 enables updates. No repository is selected by default.
+Use the existing project records, original sources and saved results that the task requires. For a requested external-method adoption, inspect the selected implementation, its permission and license terms, the files that supply the needed function, and its actual dependencies. Establish the required behavior in the authorized environment before adopting it. Software licensing does not establish access to a model or permission to incur charges.
+
+Keep detailed implementation comparisons, private collection records and operational history outside published artifacts. Preserve source identities and claim locators in the project's evidence records. [Third-party notices](../../THIRD_PARTY_NOTICES.md) accompany distributed material where required.

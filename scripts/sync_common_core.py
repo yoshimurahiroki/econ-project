@@ -42,6 +42,8 @@ COMMON_PATHS = (
     ".agents/skills/econ-writing/SKILL.md",
     ".agents/skills/econ-writing/references/paper-workflow.md",
     "docs/ai/compiled_ai_skills.md",
+    "docs/ai/resources.md",
+    "THIRD_PARTY_NOTICES.md",
     "docs/ai/project_instructions.txt",
     "docs/ai/project_bridge.txt",
     "scripts/export_project.py",
