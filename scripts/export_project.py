@@ -13,12 +13,15 @@ from urllib.parse import quote, unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PROFILE = ".agents/skills/econ-assertive/references/default-micro.md"
 WORKFLOW_REFERENCE = ".agents/skills/econ-workflow/references/descriptive-model.md"
+TEAM_EXECUTION_REFERENCE = ".agents/skills/econ-workflow/references/team-execution.md"
+TEAM_STATE_HELPER = ".agents/skills/econ-workflow/scripts/team_state.py"
 PAPER_WORKFLOW_REFERENCE = ".agents/skills/econ-writing/references/paper-workflow.md"
 PROJECT_MARKER = "<!-- export-project:v1 -->"
 RECEIPT_MARKER = "<!-- common-core-receipt:v2 -->"
 LEGACY_RECEIPT_MARKER = "<!-- common-core-receipt:v1 -->"
 GENERATED = {"ECON_INDEX.md", "SOURCE.md"}
-NATIVE_PROSE_METHODS = {"econ-paper", "econ-writing", "econ-edit", "econ-style"}
+COMMON_ENTRY = "econ-workflow"
+PROSE_OWNER = "econ-assertive"
 
 
 def canonical(value):
@@ -239,7 +242,7 @@ class Snapshot:
             if not path.is_file():
                 raise ValueError(f"Missing source file: {path}")
             raw = path.read_bytes()
-            logical = path.relative_to(self.root).as_posix() if path.is_relative_to(self.root) else "external-profile:" + path.name
+            logical = path.relative_to(self.root).as_posix() if path.is_relative_to(self.root) else "external-profile:CUSTOM_STYLE.md"
             base_blob, _ = self.committed(path)
             current_blob = hashlib.new(self.object_format, b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
             self.cache[path] = {
@@ -405,16 +408,16 @@ def export(
     if task is None and (support or references):
         raise ValueError("--support and --references require --task")
     available = {path.parent.name: path.resolve() for path in (root / ".agents/skills").glob("*/SKILL.md")}
-    if "econ-assertive" not in available:
-        raise ValueError("Missing installed econ-assertive")
+    for required in (COMMON_ENTRY, PROSE_OWNER):
+        if required not in available:
+            raise ValueError(f"Missing installed {required}")
     if any(not path.is_relative_to(root) for path in available.values()):
         raise ValueError("Installed skill source escapes repository")
-    methods = set(available) - {"econ-assertive"}
-    supports = sorted(set(support))
-    if task is not None and task not in methods:
-        raise ValueError(f"Select an installed primary method: {task}")
-    if any(name not in methods or name == task for name in supports):
-        raise ValueError("Support must be an installed method distinct from primary/assertive")
+    supports = sorted(set(support) - {COMMON_ENTRY})
+    if task is not None and task not in available:
+        raise ValueError(f"Select an installed executor: {task}")
+    if any(name not in available or name in {task, PROSE_OWNER} for name in supports):
+        raise ValueError("Support must be an installed method distinct from executor/assertive")
     if skills is not None and (not skills or any(name not in available for name in skills)):
         raise ValueError("Select installed skills with --skills")
     snapshot = Snapshot(root)
@@ -422,10 +425,10 @@ def export(
     context_text = snapshot.text(context_path)
     config, config_span = project_config(snapshot, context_text, available)
     if task is not None:
-        selected = {task, "econ-assertive", *supports}
+        selected = {task, COMMON_ENTRY, PROSE_OWNER, *supports}
     else:
         selected = set(skills if skills is not None else available)
-        selected.add("econ-assertive")
+        selected.update({COMMON_ENTRY, PROSE_OWNER})
     if any(name not in available for name in selected):
         raise ValueError("Select installed skills")
     selected = sorted(selected)
@@ -434,6 +437,7 @@ def export(
         "docs/ai/project_instructions.txt": "PROJECT_INSTRUCTIONS.txt",
         "docs/ai/repo_context.md": "REPO_CONTEXT.md",
         "docs/ai/resources.md": "RESOURCE_MAP.md",
+        "docs/ai/compiled_ai_skills.md": "NATIVE_METHOD_INDEX.md",
         "THIRD_PARTY_NOTICES.md": "THIRD_PARTY_NOTICES.md",
     }
     for source, filename in core.items():
@@ -442,7 +446,11 @@ def export(
         snapshot.add(available[name], name.upper().replace("-", "_") + ".md")
     ref_paths = set()
     if task is None:
-        for name in selected:
+        # Preserve subset reference scope: the implicit entry body alone does
+        # not add its optional coordination references. An explicitly selected
+        # workflow (or a full export) retains the existing reference behavior.
+        reference_methods = set(skills if skills is not None else available) | {PROSE_OWNER}
+        for name in sorted(reference_methods):
             ref_paths.update(path.resolve() for path in (available[name].parent / "references").glob("*.md"))
     if task == "econ-writing" or "econ-writing" in supports:
         ref_paths.add((root / PAPER_WORKFLOW_REFERENCE).resolve())
@@ -456,6 +464,10 @@ def export(
         if not path.is_relative_to(root):
             raise ValueError(f"Reference escapes repository: {path}")
         snapshot.add(path, reference_alias(path, root))
+    if (root / TEAM_EXECUTION_REFERENCE).resolve() in ref_paths:
+        # Package the implementation used by this included operational reference.
+        # Common entry alone does not activate or package the state helper.
+        snapshot.add(root / TEAM_STATE_HELPER, "WORKFLOW_TEAM_STATE.py")
     for item in config["files"]:
         snapshot.add(snapshot.inside(item["path"]), item["output"])
     general = task is None and skills is None
@@ -505,8 +517,7 @@ def export(
         )
         start, end = config_span
         context_text = context_text[:start] + json.dumps(exported_config, ensure_ascii=False, sort_keys=True, indent=2) + context_text[end:]
-    native_primary = task in NATIVE_PROSE_METHODS or task == "econ-workflow"
-    method_provider = task.upper().replace("-", "_") if native_primary else "native ECON methods"
+    method_provider = task.upper().replace("-", "_") if task else "native ECON methods"
     study_line = (
         "Use [STUDY_ENTRY_POINT.txt](STUDY_ENTRY_POINT.txt) for requested study implementation."
         if "study_entry_point.txt" in snapshot.aliases else ""
@@ -531,6 +542,7 @@ def export(
         "# Research task index", "", f"Mode: {profile}.",
         f"Task semantic selector: {task or 'select the method for the current request'}.",
         f"Active method provider: {method_provider}.", "",
+        "Read [econ-workflow](ECON_WORKFLOW.md) once for a new economics task, then use the requested specialist as executor. Support calls and reference reads continue the current task without repeating entry. Econ-workflow owns entry and interdependent integration; econ-assertive owns common prose. The presence of optional support or reference resources alone does not require reading or executing them.", "",
     ]
     if profile_path is not None:
         alias = snapshot.mapping[profile_path]
@@ -542,39 +554,44 @@ def export(
             lines.append("[default-micro](ECON_ASSERTIVE__DEFAULT_MICRO.md) is also available as a source of examples.")
         lines.append("")
     if task == "econ-style":
-        lines.extend(["The profile operation uses the requested complete passages. Creating or revising a profile preserves the existing writing preference until the user adopts it.", ""])
+        lines.extend(["Read the requested complete passages for the profile operation. Preserve the existing writing preference. Change it only when the user explicitly requests adoption or switching.", ""])
     for name in selected:
         text = snapshot.text(available[name])
         description = re.search(r"^description:[ \t]*(.+)$", text, re.MULTILINE)
         if description is None:
             raise ValueError(f"Missing skill description: {name}")
-        if name == "econ-assertive":
-            role = "prose guidance"
+        roles = []
+        if name == COMMON_ENTRY:
+            roles.append("entry")
+        if name == PROSE_OWNER:
+            roles.append("prose owner")
+        if task == name:
+            roles.append("executor")
         elif name in supports:
-            role = "support"
-        elif task == name:
-            role = "primary"
-        else:
-            role = "available method"
+            roles.append("support")
+        if not roles:
+            roles.append("available executor")
+        role = "; ".join(roles)
         lines.append(f"- [{name}]({snapshot.mapping[available[name]]}) — {role}: {description.group(1).strip()}")
     if ref_paths:
         lines.extend(["", "Included task/reference resources:"])
         for path in sorted(ref_paths):
             lines.append(f"- [{path.relative_to(root).as_posix()}]({snapshot.mapping[path]})")
-    lines.extend(["", "Read support and reference sections for the dependency identified by the primary method. RESOURCE_MAP.md identifies task resources.", ""])
+    lines.extend(["", "Read support and reference sections only when they establish the requested executor's dependencies; do not restart entry. RESOURCE_MAP.md identifies task resources. Apply the common prose rule to research artifacts. Keep operational records outside research artifacts.", ""])
     contents["ECON_INDEX.md"] = "\n".join(lines)
     selection = {
         "profile": profile, "task": task,
+        "entry": COMMON_ENTRY, "executor": task, "prose_owner": PROSE_OWNER,
         "skills": sorted(set(skills)) if skills is not None else None,
         "supports": supports,
         "references": sorted(path.relative_to(root).as_posix() for path in ref_paths),
-        "requested_style_profile": style_profile,
+        "requested_style_profile": resolved_profile if style_profile is not None and Path(style_profile).is_absolute() else style_profile,
         "resolved_style_profile": resolved_profile,
         "profile_output": snapshot.mapping[profile_path] if profile_path is not None else None,
     }
     inputs = []
     for value in snapshot.cache.values():
-        inputs.append({key: item for key, item in value.items() if key != "raw"})
+        inputs.append({key: item for key, item in value.items() if key not in {"raw", "actual_path"}})
     inputs.sort(key=lambda item: item["path"])
     source_mapping = sorted(
         [[snapshot.input(source)["path"], filename] for source, filename in snapshot.mapping.items()],

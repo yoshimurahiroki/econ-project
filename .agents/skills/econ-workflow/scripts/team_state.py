@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local task state and evidence checks; no agent, API or credential access."""
+"""Record local task state and check evidence. Do not launch agents, call APIs or access credentials."""
 import argparse
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -179,7 +179,7 @@ def report_usage(state):
     return {'runs': len(runs), 'counter_epochs': len(groups), 'totals': totals, 'problems': problems,
             'intervals': intervals, 'attempts': sum(t['attempts'] for t in state['tasks'].values()),
             'human_corrections': sum(t['human_corrections'] for t in state['tasks'].values()),
-            'meaning': 'CLI counters are cumulative within a declared session epoch. Sequence zero declares the captured epoch start. Import order does not set chronology. Cached input and reasoning output are included breakdowns; unknown is null. Interval increments cover the gap since the preceding recorded observation.'}
+            'meaning': 'CLI counters accumulate within each declared session epoch. Sequence zero identifies the captured epoch start. The declared sequence sets chronology. Input includes cached input; output includes reasoning output. Unknown values are null. Each interval increment measures the change since the preceding recorded observation.'}
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -214,9 +214,9 @@ def main():
             cli.add_argument('--reviewer', required=True)
         elif command == 'usage':
             cli.add_argument('--jsonl', type=Path, required=True)
-            cli.add_argument('--epoch', help='Explicit cumulative-counter epoch; retain it across resume')
-            cli.add_argument('--sequence', type=int, help='Chronological observation ordinal; 0 declares the epoch start')
-            cli.add_argument('--session-id', help='Verified session ID when the event stream has no thread.started')
+            cli.add_argument('--epoch', help='Declare the cumulative-counter epoch and retain it when resuming')
+            cli.add_argument('--sequence', type=int, help='Declare the chronological observation ordinal; 0 identifies the epoch start')
+            cli.add_argument('--session-id', help='Supply the verified session ID when the event stream has no thread.started')
             cli.add_argument('--elapsed-seconds', type=float)
             cli.add_argument('--human-corrections', type=int, default=0)
         elif command == 'transition':

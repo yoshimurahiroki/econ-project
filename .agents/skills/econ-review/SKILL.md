@@ -5,12 +5,38 @@ description: Judge a requested economics claim or artifact by its evidence, reas
 
 # Review and interpretation
 
-Distinguish an editorial review from a requested scientific assessment. Review the named object at that scope and read the evidence needed to judge its actual claims. An editorial review improves information selection, argument and natural expression. A scientific paper review includes the claim-bearing appendices needed for its assessment; a local review addresses the selected passage, result or operation. Correct the target when correction is requested.
+## Purpose and input
 
-Decide whether the conclusion is supported and whether the intended reader can understand or use it. Locate consequential missing reasoning, misleading interpretation or selection, and important inconsistencies. Assess issues by their effect on the economic question, contribution or use of the artifact. For exposition, use econ-assertive’s Abstract–Introduction benchmark to judge what the text selects and how its argument develops. Correct but unnecessary technical supplements are important editorial defects: delete them rather than adding or substituting qualifications. Additional detail, length or completed checks do not establish quality. Report demonstrated defects with their evidence and a practical repair.
+For a new economics task, complete the brief [workflow entry](../econ-workflow/SKILL.md#task-entry) once, then continue here. Support calls within an existing task do not restart entry.
 
-For a requested scientific assessment of design, estimation or inference, interpret the actual parameter and comparison, retain relevant counterevidence, and check the quantities, units, baseline and uncertainty governing that judgment. Use a direct contrast for subgroup differences. Judge mechanism, causal or welfare interpretations by the analysis that supports them. For models, distinguish fitted moments from independent validation and check a consequential derivation or normalization through its generating object. Read the relevant design or data method for the specific technical dependency.
+Judge a requested economics claim or artifact by its evidence, reasoning and usefulness to its intended reader.
 
-For connected artifacts, check that their claims retain the meaning of the underlying evidence while allowing different information selection across media. Inspect the actual rendered result at the requested scope. A talk must work within its speaking time, and a website's routes or controls must perform the purpose being assessed. Identify the responsible source, calculation or presentation when a defect needs repair.
+Input: Named claim or artifact, requested review scope, intended reader and supporting evidence.
 
-A requested referee response addresses the comment with the actual response, change and supporting location. Keep proposed analysis distinct from executed work. Use econ-edit when the task is wording revision. Read [oversight notes](references/oversight.md) for independent assessment or a contested execution finding; a review does not change the researcher's scientific or permission decisions.
+Apply [the common prose rule](../econ-assertive/SKILL.md#common-prose-rule) to every output from this task.
+
+## Procedure
+
+### Choose editorial or scientific review
+
+Identify whether the request calls for editorial review or scientific assessment. Review the named object within the requested scope and read the evidence supporting its claims. An editorial review assesses information selection, argument and natural expression. A scientific paper review examines the claim-bearing appendices. A local review examines the selected passage, result or operation. Correct the target when the user requests correction.
+
+### Establish demonstrated defects
+
+Judge whether the evidence supports the conclusion and whether the intended reader can understand and use it. Identify missing reasoning, misleading interpretation or selection, and inconsistencies that affect the economic question, contribution or use of the artifact. Use econ-assertive's Abstract–Introduction benchmark to assess expository selection and argument. Treat violations of the common prose rule as editorial defects and delete the excluded propositions. Do not infer quality from additional detail, length or completed checks. Report each demonstrated defect with its evidence and repair.
+
+### State the scientific assessment accurately
+
+State the assessment as a conclusion about the economic object and comparison. Name observed associations, estimated effects and model results accurately. Preserve the quantities, units, baselines and uncertainty measures that define the conclusion. Assess subgroup differences through their direct contrast. Trace a model result through its generating equations and computed comparison. Read econ-design or econ-data for the technical operation being assessed.
+
+### Inspect connected artifacts and their medium
+
+Compare connected artifacts with their underlying evidence to establish that their claims retain the same meaning. Select each artifact's information for its medium. Inspect the rendered result within the requested scope. Verify that a talk fits its speaking time and that a website's routes and controls perform their stated functions. Trace a defect to its source, calculation or presentation.
+
+### For a referee response, revision or independent assessment
+
+A referee response gives the scientific answer to each comment and points to the supporting passage or result. Keep proposed analyses, execution status and revision history in operational records outside research artifacts. Use econ-edit for wording revision. Read [oversight notes](references/oversight.md) for independent assessment or a contested execution finding. Do not change the researcher's scientific choices or permissions through a review.
+
+## Output
+
+The requested assessment, with evidence and repairs for demonstrated defects; correct the target when requested.

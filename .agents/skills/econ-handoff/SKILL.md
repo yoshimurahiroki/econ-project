@@ -5,8 +5,30 @@ description: Transfer a requested economics task with the information needed to 
 
 # Research handoff
 
-Make the next useful action resumable. Use the existing canonical task and the specified repository or attachment revision. Carry the current conclusion, the relevant saved result and what remains to be resolved, with the sources and execution context needed to continue. Keep scientific choices in their canonical record and numerical provenance in generating metadata.
+## Purpose and input
 
-Use [handoff notes](references/handoff.md) when assembling the transfer. For a coordinated task, link its existing operational record and check the saved artifacts; use [team execution](../econ-workflow/references/team-execution.md) only for a state or usage operation the transfer requires. Private assets and credentials remain in approved storage.
+For a new economics task, complete the brief [workflow entry](../econ-workflow/SKILL.md#task-entry) once, then continue here. Support calls within an existing task do not restart entry.
 
-State actual repository or deployment changes when they matter to the transfer. A requested instruction snapshot uses the existing exporter described in docs/ai/integration.md.
+Transfer a requested economics task with the information needed to continue its authorized work.
+
+Input: Canonical task, specified revision, saved sources and outputs, and existing operational record.
+
+Apply [the common prose rule](../econ-assertive/SKILL.md#common-prose-rule) to every output from this task.
+
+## Procedure
+
+### Assemble resumption inputs
+
+Prepare the next worker to continue the authorized task. Use the canonical task and specified repository or attachment revision. Transfer the current conclusion, saved result, unresolved question, sources and execution context. Keep scientific choices in their canonical record and numerical provenance in generating metadata.
+
+### Keep the operational transfer separate
+
+A task handoff is an operational document. Keep its plans, progress, stages, decision or adoption status and future user decisions outside research deliverables. Do not insert that information into research prose through explanations, annotations or paraphrases. Transfer research text and the operational record separately. Report a request that requires operational content inside a research deliverable as a conflict before drafting.
+
+### Use the existing transfer and execution records
+
+Use [handoff notes](references/handoff.md) to assemble the transfer. For coordinated work, link the existing operational record and inspect saved artifacts. Use [team execution](../econ-workflow/references/team-execution.md) for a state or usage operation required by the transfer. Keep private assets and credentials in approved storage.
+
+### Output and requested snapshot
+
+Record repository or deployment changes that affect resumption in the operational handoff. Generate a requested instruction snapshot through the existing exporter described in docs/ai/integration.md.

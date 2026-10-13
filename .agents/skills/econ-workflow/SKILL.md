@@ -1,14 +1,42 @@
 ---
 name: econ-workflow
-description: Coordinate interdependent economics research work and deliver its integrated result.
+description: Select the execution method for an economics task and coordinate interdependent research work through its integrated result.
 ---
 
 # Research workflow
 
-Own the requested outcome from the unresolved research question to the delivered result. Begin from the canonical task, accepted decisions and useful saved evidence. Identify what prevents a defensible answer or decision, and choose the work most likely to resolve it. A research plan should make the next consequential choice intelligible; an artifact should let its reader understand or use the research.
+## Purpose and input
 
-Select the relevant design, literature, data, review or writing method for a real dependency. Frame a comparison or analysis by what it can establish and how that matters for the economic question. When the requested research question compares interpretations or alternatives, weigh their evidence and recommend the next useful action. Give explanatory work enough room to reach its conclusion, using econ-assertive’s prose benchmark to select information for each requested medium. Research methods supply understanding and evidence. For writing or explanation, the writing method selects reader-facing content by the economic question and contribution before drafting; technical findings are not automatically added to the text. Keep proposed scientific choices distinct from adoption in the existing research record.
+Select the execution method for an economics task and coordinate interdependent research work through its integrated result.
 
-Delegate independent work when its value exceeds coordination cost. Give each worker the result to produce, relevant sources and a clear write range; select returned evidence for the integrated argument and resolve contradictions. Admit each worker's technical supplement only when the requested argument needs it. The coordinator remains responsible for the whole result. Use [team execution](references/team-execution.md) for concurrent write ownership, state resumption or requested usage accounting, reading the section needed for that operation.
+Input: Canonical task, recorded scientific choices, saved evidence and dependencies of the requested result.
 
-Reuse valid saved quantities for prose, exhibits and translations. Read [the descriptive-model reference](references/descriptive-model.md) when a substantive judgment depends on how observed evidence informs a model or comparison. Use econ-review for requested independent assessment or an important unresolved question about the result. After a material repair, inspect its new output and affected dependencies; complete the requested work when its result is useful and supported.
+Apply [the common prose rule](../econ-assertive/SKILL.md#common-prose-rule) to every output from this task.
+
+## Task entry
+
+At the start of each economics task, briefly establish the requested result, scope and authority, available evidence and unresolved dependencies. Reuse context already established. Select the specialist that owns the requested execution and artifact; a bounded task can finish there. This entry does not require a separate plan, record, model, delegation or review.
+
+Complete entry once for the task. Calls to support skills and references continue that task without restarting intake or method selection. Reconsider the affected work only when the objective changes or an unresolved dependency requires it. Use the coordination procedure below when the requested result depends on interdependent research work.
+
+## Coordination procedure
+
+### Identify the question and its dependencies
+
+Coordinate the requested work through delivery. Read the canonical task, recorded scientific choices and saved evidence. Identify the unresolved economic question and the work that answers it. Use the design, literature, data, review or writing method that addresses each dependency. Define what a comparison establishes and connect that finding to the economic question. Compare competing interpretations through their evidence.
+
+### Compose research content from evidence
+
+For research prose, read and apply [econ-assertive's content-selection and prose principles](../econ-assertive/SKILL.md#procedure). Use the selected specialist to compose the requested explanation or artifact. Reuse valid saved quantities in prose, exhibits and translations. Read [the descriptive-model reference](references/descriptive-model.md) when the requested result requires connecting observed evidence to a model or economic comparison; ordinary wording or format changes do not require it.
+
+### Keep operational records separate
+
+Keep project plans, progress, stages, decision or adoption status and future user decisions outside research deliverables. Do not insert them through explanations, annotations or paraphrases. Update the existing canonical research or operational record when the requested work changes scientific choices or execution state, or requires continuation information. Preserve scientific choices and adoption status in the former, and execution facts and next authorized actions in the latter. Do not create new records for an ordinary bounded task merely because it passed through entry. Deliver an explicitly requested work plan or task transfer as an operational document separate from research text. Report a request that requires operational content inside a research deliverable as a conflict before drafting.
+
+### Delegate when the benefit exceeds coordination cost
+
+Delegate independent work when its value exceeds coordination cost. Give each worker the result to produce, relevant sources and a separate write range. Integrate its findings, check the evidence for retained claims and resolve contradictions. The coordinator owns the integrated result. Use [team execution](references/team-execution.md) for concurrent write ownership, state resumption or requested usage accounting.
+
+### Review affected results and deliver
+
+Use econ-review for a requested independent assessment or an unresolved question that affects the result. After a repair changes a result, inspect the new output and affected dependencies. Deliver the requested result with its supporting evidence.

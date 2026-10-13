@@ -5,16 +5,34 @@ description: Explain and evaluate the economic substance of a paper or passage, 
 
 # Understanding and evaluating a paper
 
-Read the specified version and the evidence supporting its main argument. Keep editions and passage locations in existing source metadata. A complete explanation uses the following five questions to understand and evaluate the research, rather than to fill five short summary boxes. Select content by the paper's question and contribution before drafting; let theory, empirical work and reviews answer them in their own way. These questions organize economic understanding, not technical coverage. After work on a specialist section, select the explanation anew from the paper's economic argument rather than condensing that section and carrying its diagnostics into the five answers. Across these questions, use the Abstract–Introduction benchmark in econ-assertive for content and explanatory density, while consulting the full source to establish the facts and make an independent assessment.
+## Purpose and input
 
-1. **What is the research question?** State the economic question, normally as one interrogative sentence. Identify what the author wants to explain, rather than naming the policy or institution.
+For a new economics task, complete the brief [workflow entry](../econ-workflow/SKILL.md#task-entry) once, then continue here. Support calls within an existing task do not restart entry.
 
-2. **Why important? — Significance of the paper.** Explain the economic behavior, incentives, mechanism or theoretical problem that makes the question matter, and why the chosen setting helps answer it. Distinguish that economic significance from the urgency or popularity of a policy.
+Explain and evaluate the economic substance of a paper or passage, or prepare its complete explanation or seminar.
 
-3. **How do they answer the question?** Explain the theory or mechanism, what the important data measure and why they answer the question, and the core comparison or model. In empirical work, identify the outcomes, treatment or explanatory variation, method and comparison. Retain the author’s distinctive solution to a consequential identification or measurement problem. In theory, explain the assumptions and reasoning central to the economic result. These are content-selection perspectives, not mandatory subheadings. Select the design’s core; omit routine specifications, controls, inference settings and robustness inventories unless they do essential work in this paper’s argument.
+Input: Specified paper or passage version, its main argument and supporting evidence, and requested format.
 
-4. **Results.** Give the findings that answer the question, important economic magnitudes and their interpretation. Explain the economic behavior or theoretical insight they reveal and a policy implication when it is central to the finding. Compression should remove secondary estimates, not the size or meaning of the main finding.
+Apply [the common prose rule](../econ-assertive/SKILL.md#common-prose-rule) to the research explanation or evaluation. Carry out source verification and task coordination outside the artifact.
 
-5. **Why was this paper published in a top journal? — Scholarly evaluation.** Explain the addition to economic knowledge relative to the closest research. Connect the distinctive economic reasoning, measurement or comparison to the main discovery, and show why that discovery changes understanding of the question. Develop this scholarly contribution from the paper’s evidence and argument, regardless of its publication label.
+## Procedure
 
-Use [econ-assertive](../econ-assertive/SKILL.md) for natural prose and econ-writing for a seminar’s medium and production entry point. Use econ-design or econ-review when the requested deliverable separately includes specialist design analysis or a scientific assessment; the fifth explanatory item remains the scholarly contribution. Follow the requested citation format.
+### Read sources and select the economic content
+
+Read the specified version and the evidence for its main argument. Record editions and passage locations in existing source metadata. Use the five questions below to develop a complete economic explanation. Select content by the paper's question and contribution; use its theoretical reasoning, empirical evidence or review argument to answer the questions. Do not turn the questions into short summary boxes or a technical-coverage checklist. After specialist-section work, select content afresh from the paper's economic argument. Do not transfer section diagnostics into the explanation. Apply [econ-assertive's content-selection principles](../econ-assertive/SKILL.md#select-the-economic-argument) to the explanation's content and density. Consult the full source to establish facts and assess the argument independently.
+
+### Develop the connected explanation
+
+1. **What is the research question?** State the economic question. Identify the behavior, outcome or relationship the author seeks to explain. Do not substitute the name of a policy or institution for the question.
+
+2. **Why important? Significance of the paper.** Explain the behavior, incentives, mechanism or theoretical problem that gives the question economic significance. Show how the chosen setting helps answer the question. Do not substitute a policy's urgency or popularity for its economic significance.
+
+3. **How do they answer the question?** Explain the central mechanism and the comparison or model that answers the question. In empirical work, define the outcomes, treatment or explanatory variation, data, method and comparison through their roles in the argument. Explain the author's distinctive solution to a consequential identification or measurement problem. In theory, define the assumptions and reasoning that establish the result. Select the design's core comparison and explain its connection to the main result. Do not turn these selection criteria into mandatory subheadings.
+
+4. **Results.** State the findings that answer the question, their economic magnitudes and their meaning. Explain the behavior or theoretical insight established by the findings. Include a policy implication that forms part of the central result. Compress secondary estimates; preserve the size and meaning of the main finding.
+
+5. **What does the paper add to economic knowledge? Scholarly contribution.** Explain the addition to economic knowledge relative to the closest research. Connect the distinctive reasoning, measurement or comparison to the main discovery. Show how that discovery changes understanding of the economic question. Establish the contribution from the paper's evidence and argument; do not infer it from the publication label.
+
+### Output and task-specific support
+
+Use [econ-assertive](../econ-assertive/SKILL.md) for natural prose and econ-writing for a seminar's medium and production entry point. Use econ-design or econ-review for separately requested specialist design analysis or scientific assessment. Keep the fifth explanatory item focused on scholarly contribution. Reuse an established, source-supported comparison with the closest research; use econ-literature when missing comparative evidence is needed for that explanation. Follow the requested citation format.

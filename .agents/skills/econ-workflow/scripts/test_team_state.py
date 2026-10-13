@@ -1,4 +1,4 @@
-"""Disposable repositories verify task completion, resumption and resource evidence."""
+"""These tests use disposable repositories to verify task completion, resumption and usage evidence."""
 import json
 from pathlib import Path
 import subprocess

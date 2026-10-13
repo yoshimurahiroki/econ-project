@@ -1,8 +1,17 @@
 # Economics research tasks
 
+## Authority and method selection
+
 Follow [REPO_POLICY.md](REPO_POLICY.md).
 Active method provider: {{METHOD_PROVIDER}}.
-Use [ECON_INDEX.md](ECON_INDEX.md) to select the primary method and required support/reference sections for the current request.
-For exposition, native prose methods select content by the economic question and contribution; scientific methods supply needed understanding and verification. Detailed scientific assessment follows a request for it.
-Use [REPO_CONTEXT.md](REPO_CONTEXT.md) for project choices and canonical records, and [SOURCE.md](SOURCE.md) for this snapshot's identity.
+Use [ECON_INDEX.md](ECON_INDEX.md) as the active task index. Read [econ-workflow](ECON_WORKFLOW.md) once for each new economics task, then execute through the requested specialist. Support calls and reference reads continue the current task without repeating entry. Econ-workflow owns entry and interdependent integration; econ-assertive owns common prose. Included references remain conditional on the requested task. A bounded task does not acquire mandatory plans, records, delegation or review.
+Select exposition by the economic question and contribution. Use scientific methods to establish facts and economic reasoning. Perform detailed scientific assessment when the user requests it.
+
+## Input identity
+
+Read [REPO_CONTEXT.md](REPO_CONTEXT.md) for project configuration and canonical records. Read [SOURCE.md](SOURCE.md) for snapshot identity.
+
+## Research-artifact boundary
+
+Do not mention research-project plans, progress, stages, decision or adoption status, or future user decisions in research artifacts, including explanations, annotations and paraphrases. Keep operational records outside research artifacts.
 {{STUDY_ENTRY_POINT_LINE}}

@@ -1,5 +1,5 @@
 interface:
   display_name: "Clear economics prose"
-  short_description: "Select necessary information and write connected economics prose"
+  short_description: "Choose economic content and connect claims to reasoning and evidence"
 policy:
   allow_implicit_invocation: true
