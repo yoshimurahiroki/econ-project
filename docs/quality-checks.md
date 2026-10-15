@@ -32,7 +32,7 @@ ShellCheck の info には正しい single quote に対する SC2016 なども�
 
 ## check と fix
 
-`quality`、`typecheck`、`lint`、`lint-r`、`format-check` と commit / CI はソースを変更しない。`make format FILE=path.py` と `make format-r FILE=path.R` だけが指定ファイルを整形する。整形が必要な変更範囲でのみ使い、差分を確認して check を再実行する。R は `styler::style_text(scope="spaces")` とし、token 変更を避ける。`.Rprofile` は `style_file()` の対象拡張子ではないため、指定した一ファイルを `style_text()` で整形する。Ruff `--unsafe-fixes` や意味を変える自動 fix はこの入口に含めない。
+`quality`、`typecheck`、`lint`、`lint-r`、`format-check` と commit / CI はソースを変更しない。`make format FILE=path.py` と `make format-r FILE=path.R` だけが指定ファイルを整形する。整形が必要な変更範囲でのみ使い、差分を確認して check を再実行する。R は `styler::style_text(scope="spaces")` とし、token 変更を避ける。`.Rprofile` は `style_file()` の対象拡張子ではないため、指定した一ファイルを `style_text()` で整形する。styler の cache はこの R プロセスの一時領域に置き、home の書き込み権限や利用者の永続設定に依存させない。Ruff `--unsafe-fixes` や意味を変える自動 fix はこの入口に含めない。
 
 ## 導入する場合・しない場合
 

@@ -67,7 +67,7 @@ lint-r:
 	QUALITY_R_FILE="$(FILE)" $(PIXI_RUN) Rscript --vanilla -e 'f <- Sys.getenv("QUALITY_R_FILE"); invisible(parse(file = f)); x <- lintr::lint(f, linters = list(lintr::equals_na_linter(), lintr::seq_linter(), lintr::vector_logic_linter()), cache = FALSE); print(x); if (length(x)) quit(status = 1)'
 format-r:
 	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-R-file" >&2; exit 2; }
-	QUALITY_R_FILE="$(FILE)" $(PIXI_RUN) Rscript --vanilla -e 'f <- Sys.getenv("QUALITY_R_FILE"); x <- readLines(f, warn = FALSE, encoding = "UTF-8"); y <- as.character(styler::style_text(x, scope = "spaces")); if (!identical(x, y)) writeLines(y, f, useBytes = TRUE)'
+	QUALITY_R_FILE="$(FILE)" $(PIXI_RUN) Rscript --vanilla -e 'Sys.setenv(R_CACHE_ROOTPATH = tempdir()); f <- Sys.getenv("QUALITY_R_FILE"); x <- readLines(f, warn = FALSE, encoding = "UTF-8"); y <- as.character(styler::style_text(x, scope = "spaces")); if (!identical(x, y)) writeLines(y, f, useBytes = TRUE)'
 test:
 	@test -n "$(TEST)" || { echo "Specify TEST=path::node" >&2; exit 2; }
 	$(THREAD_ENV) $(PIXI_RUN) pytest -q -p no:cacheprovider -- "$(TEST)"
