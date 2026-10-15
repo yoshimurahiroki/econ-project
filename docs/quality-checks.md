@@ -11,6 +11,10 @@ AI がコードを作成・変更したら、変更言語・入出力境界・�
 - PR: CI は実際の PR HEAD を checkout し、base との merge-base からの変更ファイルに同じ hook を実行する。hook・manifest・lock・Make・CI を変えた場合は代表 Python/Shell ファイルも確認する。
 - `make quality-changed BASE=ref` は ref と HEAD の committed 差分だけを扱う。分岐後に base が進んだ場合は `BASE=$(git merge-base ref HEAD)` を指定する。作業中差分と未追跡ファイルは上の `--files` を使う。
 
+`FILE` は既存の単一ファイルに限定し、空指定・不存在・ディレクトリを検査開始前に拒否する。空白・引用符・backtick・先頭 dash を含むパスも一つの値として渡し、ファイル名中の式やコマンドを評価しない。`TEST` と `BASE` も値として渡す。R 整形で構文エラー、NA、非空入力に対する空結果が生じた場合は失敗し、元ファイルを保持する。
+
+GitHub 側で Actions が有効であることが CI 実行の前提となる。run が作成されていない状態を成功と扱わず、対象 HEAD と repository 設定を確認する。
+
 保存時自動修正、全ツリー一括整形、重い分析は起動しない。文書だけの変更ではコード checker は発火しない。秘密鍵検出は既存どおり各変更ファイルに発火する。
 
 ## 発火条件と失敗の扱い

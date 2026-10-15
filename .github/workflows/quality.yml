@@ -38,8 +38,8 @@ jobs:
             BASE=$(git merge-base HEAD origin/main)
           fi
           BASE=$(git merge-base "$BASE" HEAD)
-          if git diff --name-only "$BASE" HEAD -- scripts/sync_common_core.py scripts/test_sync_common_core.py scripts/setup_ide_mcp.sh scripts/test_setup_ide_mcp.py scripts/export_project.py .github/workflows/quality.yml | grep -q .; then
-            pixi run --locked -e quality pytest -q -p no:cacheprovider scripts/test_sync_common_core.py scripts/test_setup_ide_mcp.py
+          if git diff --name-only "$BASE" HEAD -- scripts/sync_common_core.py scripts/test_sync_common_core.py scripts/setup_ide_mcp.sh scripts/test_setup_ide_mcp.py scripts/export_project.py scripts/test_quality_make.py Makefile .pre-commit-config.yaml pyproject.toml pixi.lock .github/workflows/quality.yml | grep -q .; then
+            pixi run --locked -e quality pytest -q -p no:cacheprovider scripts/test_sync_common_core.py scripts/test_setup_ide_mcp.py scripts/test_quality_make.py
           fi
           if git diff --name-only "$BASE" HEAD -- scripts/export_project.py .cursorrules docs/quality-checks.md .github/workflows/quality.yml | grep -q .; then
             pixi run --locked -e quality python scripts/export_project.py --profile standalone --task econ-data --output "$RUNNER_TEMP/export-smoke-$GITHUB_RUN_ID"

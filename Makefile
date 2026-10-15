@@ -9,6 +9,12 @@ R_MAKEVARS_USER ?= $(CURDIR)/scripts/r-makevars
 FILE ?=
 TEST ?=
 BASE ?=
+# Keep caller-supplied selectors as data, never as shell or Make source.
+unexport FILE TEST BASE
+export QUALITY_FILE := $(value FILE)
+export QUALITY_TEST := $(value TEST)
+export QUALITY_BASE := $(value BASE)
+CHECK_FILE = test -n "$$QUALITY_FILE" && test -f "$$QUALITY_FILE" || { echo "Specify FILE=one-existing-file" >&2; exit 2; }; case "$$QUALITY_FILE" in /*) ;; *) QUALITY_FILE="./$$QUALITY_FILE";; esac
 QMD ?=
 PAPER ?= tex/paper/ecta_template.tex
 SLIDES ?= tex/slides/main.tex
@@ -40,37 +46,37 @@ register-kernels:
 setup-r-kernel: register-kernels
 
 format:
-	@test -n "$(FILE)" || { echo "Specify FILE=path" >&2; exit 2; }
-	$(QUALITY_RUN) ruff format -- "$(FILE)"
+	@$(CHECK_FILE); \
+	$(QUALITY_RUN) ruff format -- "$$QUALITY_FILE"
 lint:
-	@test -n "$(FILE)" || { echo "Specify FILE=path" >&2; exit 2; }
-	$(QUALITY_RUN) ruff check -- "$(FILE)"
+	@$(CHECK_FILE); \
+	$(QUALITY_RUN) ruff check -- "$$QUALITY_FILE"
 setup-quality:
 	$(PIXI) install --locked -e quality
 	$(QUALITY_RUN) pre-commit install
 quality:
-	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-file" >&2; exit 2; }
-	$(QUALITY_RUN) pre-commit run --files "$(FILE)"
+	@$(CHECK_FILE); \
+	$(QUALITY_RUN) pre-commit run --files "$$QUALITY_FILE"
 quality-staged:
 	$(QUALITY_RUN) pre-commit run
 quality-changed:
-	@test -n "$(BASE)" || { echo "Specify BASE=base-commit-or-ref" >&2; exit 2; }
-	$(QUALITY_RUN) pre-commit run --from-ref "$(BASE)" --to-ref HEAD
+	@test -n "$$QUALITY_BASE" || { echo "Specify BASE=base-commit-or-ref" >&2; exit 2; }; \
+	$(QUALITY_RUN) pre-commit run --from-ref "$$QUALITY_BASE" --to-ref HEAD
 typecheck:
-	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-Python-file" >&2; exit 2; }
-	$(QUALITY_RUN) mypy -- "$(FILE)"
+	@$(CHECK_FILE); \
+	$(QUALITY_RUN) mypy -- "$$QUALITY_FILE"
 format-check:
-	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-Python-file" >&2; exit 2; }
-	$(QUALITY_RUN) ruff format --check -- "$(FILE)"
+	@$(CHECK_FILE); \
+	$(QUALITY_RUN) ruff format --check -- "$$QUALITY_FILE"
 lint-r:
-	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-R-file" >&2; exit 2; }
-	QUALITY_R_FILE="$(FILE)" $(PIXI_RUN) Rscript --vanilla -e 'f <- Sys.getenv("QUALITY_R_FILE"); invisible(parse(file = f)); x <- lintr::lint(f, linters = list(lintr::equals_na_linter(), lintr::seq_linter(), lintr::vector_logic_linter()), cache = FALSE); print(x); if (length(x)) quit(status = 1)'
+	@$(CHECK_FILE); \
+	$(PIXI_RUN) Rscript --vanilla -e 'f <- Sys.getenv("QUALITY_FILE"); invisible(parse(file = f)); x <- lintr::lint(f, linters = list(lintr::equals_na_linter(), lintr::seq_linter(), lintr::vector_logic_linter()), cache = FALSE); print(x); if (length(x)) quit(status = 1)'
 format-r:
-	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-R-file" >&2; exit 2; }
-	QUALITY_R_FILE="$(FILE)" $(PIXI_RUN) Rscript --vanilla -e 'Sys.setenv(R_CACHE_ROOTPATH = tempdir()); f <- Sys.getenv("QUALITY_R_FILE"); x <- readLines(f, warn = FALSE, encoding = "UTF-8"); y <- as.character(styler::style_text(x, scope = "spaces")); if (!identical(x, y)) writeLines(y, f, useBytes = TRUE)'
+	@$(CHECK_FILE); \
+	$(PIXI_RUN) Rscript --vanilla -e 'Sys.setenv(R_CACHE_ROOTPATH = tempdir()); f <- Sys.getenv("QUALITY_FILE"); x <- readLines(f, warn = FALSE, encoding = "UTF-8"); y <- as.character(styler::style_text(x, scope = "spaces")); if (anyNA(y) || (length(x) > 0L && length(y) == 0L)) stop("Formatter returned no valid source"); invisible(parse(text = y)); if (!identical(x, y)) writeLines(y, f, useBytes = TRUE)'
 test:
-	@test -n "$(TEST)" || { echo "Specify TEST=path::node" >&2; exit 2; }
-	$(THREAD_ENV) $(PIXI_RUN) pytest -q -p no:cacheprovider -- "$(TEST)"
+	@test -n "$$QUALITY_TEST" || { echo "Specify TEST=path::node" >&2; exit 2; }; \
+	$(THREAD_ENV) $(PIXI_RUN) pytest -q -p no:cacheprovider -- "$$QUALITY_TEST"
 
 r-install: RV_ACTION = sync
 r-plan: RV_ACTION = plan
