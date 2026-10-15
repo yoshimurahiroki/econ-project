@@ -43,7 +43,7 @@ fullの保存済みR依存関係はRust 1.96.1でビルドする。Dockerfileと
 
 Quartoの `QMD` を省略するとプロジェクト全体をrenderする。出力先と既定formatは文書・project設定に従う。LaTeXの既定文書には研究の文献ファイル `tex/bibliography.bib` を用意する。LaTeXのエラーはbuildを停止し、`.aux` に文献指定がある場合に実行するBibTeXの失敗も伝播する。
 
-コードを確認するコマンドは `make test TEST=path::node`、`make lint FILE=path`、`make format FILE=path` である。対象は明示したファイル・testに限る。commit hookはprivate key検出を行う。
+コード変更では AI が [変更対象の品質検査](docs/quality-checks.md) に従って検査を選び、修正後に再検査する。`make setup-quality` で軽量の検査環境と commit hook を準備する。`make quality FILE=path` は指定ファイル、`make quality-staged` は staged ファイル、`make quality-changed BASE=ref` は指定 ref と HEAD の差分を検査する。保存時の自動修正は行わない。研究上の条件確認には引き続き `make test TEST=path::node` を使う。
 
 ## Gitと共通機能の管理
 

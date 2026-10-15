@@ -415,6 +415,28 @@ test = "make test"
 lint = "make lint"
 format = "make format"
 
+# Small, separate environment: checks must not install the research stack.
+[tool.pixi.feature.quality]
+channels = ["https://conda.anaconda.org/conda-forge"]
+
+[tool.pixi.feature.quality.dependencies]
+python = "3.12.*"
+shellcheck = "0.11.*"
+
+ruff = "0.15.20.*"
+mypy = "2.1.0.*"
+pytest = "9.1.1.*"
+pre-commit = "4.6.0.*"
+
+[tool.pixi.environments]
+quality = { features = ["quality"], no-default-feature = true }
+
+[tool.mypy]
+python_version = "3.12"
+disallow_incomplete_defs = true
+warn_unused_ignores = true
+show_error_codes = true
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"
@@ -432,6 +454,7 @@ exclude = [
 ]
 
 [tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
 ignore = [
 	"E203",
 	"E266",

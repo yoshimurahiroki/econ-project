@@ -1,12 +1,14 @@
 # Explicit project operations.
-.PHONY: help prepare-pixi sync install setup-dev setup-extensions register-kernels setup-r-kernel format lint test clean r-install r-plan build-paper build-slides quarto-html quarto-pdf quarto-reveal
+.PHONY: help prepare-pixi sync install setup-dev setup-extensions register-kernels setup-r-kernel format lint test clean r-install r-plan build-paper build-slides quarto-html quarto-pdf quarto-reveal quality quality-staged quality-changed typecheck format-check lint-r format-r setup-quality
 
 PIXI ?= pixi
 PIXI_RUN = $(PIXI) run
+QUALITY_RUN = $(PIXI) run --locked -e quality
 THREAD_ENV = OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
 R_MAKEVARS_USER ?= $(CURDIR)/scripts/r-makevars
 FILE ?=
 TEST ?=
+BASE ?=
 QMD ?=
 PAPER ?= tex/paper/ecta_template.tex
 SLIDES ?= tex/slides/main.tex
@@ -15,6 +17,8 @@ help:
 	@echo "sync / r-install / r-plan: dependencies"
 	@echo "build-paper PAPER=path / build-slides SLIDES=path / quarto-* QMD=path: documents"
 	@echo "test TEST=path::node / lint FILE=path / format FILE=path: explicit targets"
+	@echo "quality FILE=path / quality-staged / quality-changed BASE=ref: non-mutating changed-file checks"
+	@echo "setup-quality / typecheck FILE=path / format-check FILE=path / lint-r FILE=path / format-r FILE=path"
 	@echo "Project export: python scripts/export_project.py --profile standalone --task econ-paper --references .agents/skills/econ-workflow/references/descriptive-model.md --output /tmp/econ-paper-new; profiles and all-method export: docs/ai/integration.md"
 
 prepare-pixi:
@@ -37,10 +41,33 @@ setup-r-kernel: register-kernels
 
 format:
 	@test -n "$(FILE)" || { echo "Specify FILE=path" >&2; exit 2; }
-	$(PIXI_RUN) ruff format -- "$(FILE)"
+	$(QUALITY_RUN) ruff format -- "$(FILE)"
 lint:
 	@test -n "$(FILE)" || { echo "Specify FILE=path" >&2; exit 2; }
-	$(PIXI_RUN) ruff check -- "$(FILE)"
+	$(QUALITY_RUN) ruff check -- "$(FILE)"
+setup-quality:
+	$(PIXI) install --locked -e quality
+	$(QUALITY_RUN) pre-commit install
+quality:
+	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-file" >&2; exit 2; }
+	$(QUALITY_RUN) pre-commit run --files "$(FILE)"
+quality-staged:
+	$(QUALITY_RUN) pre-commit run
+quality-changed:
+	@test -n "$(BASE)" || { echo "Specify BASE=base-commit-or-ref" >&2; exit 2; }
+	$(QUALITY_RUN) pre-commit run --from-ref "$(BASE)" --to-ref HEAD
+typecheck:
+	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-Python-file" >&2; exit 2; }
+	$(QUALITY_RUN) mypy -- "$(FILE)"
+format-check:
+	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-Python-file" >&2; exit 2; }
+	$(QUALITY_RUN) ruff format --check -- "$(FILE)"
+lint-r:
+	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-R-file" >&2; exit 2; }
+	QUALITY_R_FILE="$(FILE)" $(PIXI_RUN) Rscript --vanilla -e 'f <- Sys.getenv("QUALITY_R_FILE"); invisible(parse(file = f)); x <- lintr::lint(f, linters = list(lintr::equals_na_linter(), lintr::seq_linter(), lintr::vector_logic_linter()), cache = FALSE); print(x); if (length(x)) quit(status = 1)'
+format-r:
+	@test -f "$(FILE)" || { echo "Specify FILE=one-existing-R-file" >&2; exit 2; }
+	QUALITY_R_FILE="$(FILE)" $(PIXI_RUN) Rscript --vanilla -e 'f <- Sys.getenv("QUALITY_R_FILE"); x <- readLines(f, warn = FALSE, encoding = "UTF-8"); y <- as.character(styler::style_text(x, scope = "spaces")); if (!identical(x, y)) writeLines(y, f, useBytes = TRUE)'
 test:
 	@test -n "$(TEST)" || { echo "Specify TEST=path::node" >&2; exit 2; }
 	$(THREAD_ENV) $(PIXI_RUN) pytest -q -p no:cacheprovider -- "$(TEST)"

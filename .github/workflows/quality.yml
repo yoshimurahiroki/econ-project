@@ -1,0 +1,46 @@
+name: Targeted quality checks
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: prefix-dev/setup-pixi@a0af7a228712d6121d37aba47adf55c1332c9c2e # v0.9.4
+        with:
+          pixi-version: v0.82.0
+          environments: quality
+          locked: true
+      - name: Check changed files; smoke-check configuration changes
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        shell: bash
+        run: |
+          if [[ -z "$BASE" || "$BASE" =~ ^0+$ ]]; then
+            BASE=$(git merge-base HEAD origin/main)
+          fi
+          BASE=$(git merge-base "$BASE" HEAD)
+          make quality-changed BASE="$BASE"
+          if git diff --name-only "$BASE" HEAD -- pyproject.toml pixi.lock .pre-commit-config.yaml Makefile .github/workflows/quality.yml | grep -q .; then
+            pixi run --locked -e quality pre-commit run --files scripts/export_project.py scripts/pack_context.sh
+          fi
+      - name: Lightweight tests for changed repository helpers
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        shell: bash
+        run: |
+          if [[ -z "$BASE" || "$BASE" =~ ^0+$ ]]; then
+            BASE=$(git merge-base HEAD origin/main)
+          fi
+          BASE=$(git merge-base "$BASE" HEAD)
+          if git diff --name-only "$BASE" HEAD -- scripts/sync_common_core.py scripts/test_sync_common_core.py scripts/setup_ide_mcp.sh scripts/test_setup_ide_mcp.py scripts/export_project.py .github/workflows/quality.yml | grep -q .; then
+            pixi run --locked -e quality pytest -q -p no:cacheprovider scripts/test_sync_common_core.py scripts/test_setup_ide_mcp.py
+          fi
+          if git diff --name-only "$BASE" HEAD -- scripts/export_project.py .cursorrules docs/quality-checks.md .github/workflows/quality.yml | grep -q .; then
+            pixi run --locked -e quality python scripts/export_project.py --profile standalone --task econ-data --output "$RUNNER_TEMP/export-smoke-$GITHUB_RUN_ID"
+          fi

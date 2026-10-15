@@ -18,4 +18,6 @@ Preserve the user's scope, authorization, adopted study choices, original data a
 
 ## Operational delivery
 
+When creating or changing code, follow [the targeted quality checks](docs/quality-checks.md): select checks from the changed language, input/output boundaries and affected behavior, assess each finding, repair valid issues and rerun the affected checks before delivery. Do not wait for the user to choose checkers. These are repository operations; do not edit research skills to maintain them.
+
 Keep operational state and authenticated settings local. Use the existing explicit synchronizer for common-core distribution and exporter for requested instruction snapshots. Stage task-owned paths and read back authorized remote writes. Use Japanese unless requested otherwise.

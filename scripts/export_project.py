@@ -28,7 +28,7 @@ def canonical(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
-def sha256(raw):
+def sha256(raw: bytes) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
@@ -61,7 +61,7 @@ def marked_json(text, marker):
     return value, (start + match.start("body"), start + match.end("body"))
 
 
-def flat_filename(name):
+def flat_filename(name: object) -> bool:
     return (
         isinstance(name, str)
         and bool(name.strip())
@@ -431,7 +431,7 @@ def export(
         selected.update({COMMON_ENTRY, PROSE_OWNER})
     if any(name not in available for name in selected):
         raise ValueError("Select installed skills")
-    selected = sorted(selected)
+    selected_names = sorted(selected)
     core = {
         ".cursorrules": "REPO_POLICY.md",
         "docs/ai/project_instructions.txt": "PROJECT_INSTRUCTIONS.txt",
@@ -442,9 +442,9 @@ def export(
     }
     for source, filename in core.items():
         snapshot.add(root / source, filename)
-    for name in selected:
+    for name in selected_names:
         snapshot.add(available[name], name.upper().replace("-", "_") + ".md")
-    ref_paths = set()
+    ref_paths: set[Path] = set()
     if task is None:
         # Preserve subset reference scope: the implicit entry body alone does
         # not add its optional coordination references. An explicitly selected
@@ -555,7 +555,7 @@ def export(
         lines.append("")
     if task == "econ-style":
         lines.extend(["Read the requested complete passages for the profile operation. Preserve the existing writing preference. Change it only when the user explicitly requests adoption or switching.", ""])
-    for name in selected:
+    for name in selected_names:
         text = snapshot.text(available[name])
         description = re.search(r"^description:[ \t]*(.+)$", text, re.MULTILINE)
         if description is None:
