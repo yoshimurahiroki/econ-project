@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-toolsai.jupyter",
+    "REditorSupport.r",
+    "quarto.quarto",
+    "James-Yu.latex-workshop",
+    "charliermarsh.ruff"
+  ]
+}

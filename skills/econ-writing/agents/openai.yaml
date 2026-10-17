@@ -1,0 +1,6 @@
+interface:
+  display_name: "Economics Writing"
+  short_description: "Write, explain and profile economics prose"
+  default_prompt: "Use $econ-writing for the requested economics text in compose, revise, translate, convert, guidance, explain, profile mode."
+policy:
+  allow_implicit_invocation: true

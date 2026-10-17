@@ -1,0 +1,472 @@
+{
+  "schema_version": 2,
+  "resources": {
+    "core": {
+      "resource_id": "core",
+      "deployment_path": ".agents/runtime/CORE.md",
+      "export_alias": "CORE.md"
+    },
+    "prose": {
+      "resource_id": "prose",
+      "deployment_path": ".agents/runtime/PROSE.md",
+      "export_alias": "PROSE.md"
+    },
+    "research": {
+      "resource_id": "research",
+      "deployment_path": ".agents/runtime/DECIDE.md",
+      "export_alias": "DECIDE.md"
+    },
+    "execution": {
+      "resource_id": "execution",
+      "deployment_path": ".agents/runtime/EXECUTION.md",
+      "export_alias": "EXECUTION.md"
+    },
+    "team": {
+      "resource_id": "team",
+      "deployment_path": ".agents/runtime/TEAM.md",
+      "export_alias": "TEAM.md"
+    },
+    "econ-design": {
+      "resource_id": "econ-design",
+      "deployment_path": ".agents/skills/econ-design/SKILL.md",
+      "export_alias": "ECON_DESIGN.md"
+    },
+    "econ-data": {
+      "resource_id": "econ-data",
+      "deployment_path": ".agents/skills/econ-data/SKILL.md",
+      "export_alias": "ECON_DATA.md"
+    },
+    "econ-literature": {
+      "resource_id": "econ-literature",
+      "deployment_path": ".agents/skills/econ-literature/SKILL.md",
+      "export_alias": "ECON_LITERATURE.md"
+    },
+    "econ-writing": {
+      "resource_id": "econ-writing",
+      "deployment_path": ".agents/skills/econ-writing/SKILL.md",
+      "export_alias": "ECON_WRITING.md"
+    },
+    "econ-review": {
+      "resource_id": "econ-review",
+      "deployment_path": ".agents/skills/econ-review/SKILL.md",
+      "export_alias": "ECON_REVIEW.md"
+    },
+    "design-methods": {
+      "resource_id": "design-methods",
+      "deployment_path": ".agents/skills/econ-design/references/designs.md",
+      "export_alias": "DESIGN_METHODS.md"
+    },
+    "data-implementation": {
+      "resource_id": "data-implementation",
+      "deployment_path": ".agents/skills/econ-data/references/implementation.md",
+      "export_alias": "DATA_IMPLEMENTATION.md"
+    },
+    "data-results": {
+      "resource_id": "data-results",
+      "deployment_path": ".agents/skills/econ-data/references/reproducible-workflow.md",
+      "export_alias": "DATA_RESULTS.md"
+    },
+    "paper-workflow": {
+      "resource_id": "paper-workflow",
+      "deployment_path": ".agents/skills/econ-writing/references/paper-workflow.md",
+      "export_alias": "PAPER_WORKFLOW.md"
+    },
+    "review-methods": {
+      "resource_id": "review-methods",
+      "deployment_path": ".agents/skills/econ-review/references/oversight.md",
+      "export_alias": "REVIEW_METHODS.md"
+    },
+    "default-micro": {
+      "resource_id": "default-micro",
+      "deployment_path": ".agents/profiles/default-micro/PROFILE.md",
+      "export_alias": "DEFAULT_MICRO.md"
+    },
+    "examples-en": {
+      "resource_id": "examples-en",
+      "deployment_path": ".agents/profiles/default-micro/short-examples-en.md",
+      "export_alias": "EXAMPLES_EN.md"
+    },
+    "examples-ja": {
+      "resource_id": "examples-ja",
+      "deployment_path": ".agents/profiles/default-micro/short-examples-ja.md",
+      "export_alias": "EXAMPLES_JA.md"
+    },
+    "extended-en": {
+      "resource_id": "extended-en",
+      "deployment_path": ".agents/profiles/default-micro/extended-introduction-en.md",
+      "export_alias": "EXTENDED_EN.md"
+    },
+    "extended-ja": {
+      "resource_id": "extended-ja",
+      "deployment_path": ".agents/profiles/default-micro/extended-introduction-ja.md",
+      "export_alias": "EXTENDED_JA.md"
+    },
+    "repository-policy": {
+      "resource_id": "repository-policy",
+      "deployment_path": ".cursorrules",
+      "export_alias": "REPOSITORY_POLICY.md"
+    },
+    "integration": {
+      "resource_id": "integration",
+      "deployment_path": "docs/ai/integration.md",
+      "export_alias": "INTEGRATION.md"
+    },
+    "resource-guide": {
+      "resource_id": "resource-guide",
+      "deployment_path": "docs/ai/resources.md",
+      "export_alias": "RESOURCES.md"
+    },
+    "team-state-helper": {
+      "resource_id": "team-state-helper",
+      "deployment_path": ".agents/harness/state.py",
+      "export_alias": "state.py"
+    },
+    "project-instructions": {
+      "resource_id": "project-instructions",
+      "deployment_path": "docs/ai/project_instructions.txt",
+      "export_alias": "PROJECT_INSTRUCTIONS.txt"
+    },
+    "native-index": {
+      "resource_id": "native-index",
+      "deployment_path": "docs/ai/compiled_ai_skills.md",
+      "export_alias": "NATIVE_INDEX.md"
+    },
+    "project-context": {
+      "resource_id": "project-context",
+      "deployment_path": "docs/ai/repo_context.md",
+      "export_alias": "REPO_CONTEXT.md"
+    },
+    "tool-export-project-py": {
+      "resource_id": "tool-export-project-py",
+      "deployment_path": "scripts/export_project.py",
+      "export_alias": "TOOL_export_project.py"
+    },
+    "tool-route-registry-py": {
+      "resource_id": "tool-route-registry-py",
+      "deployment_path": "scripts/route_registry.py",
+      "export_alias": "TOOL_route_registry.py"
+    },
+    "tool-sync-common-core-py": {
+      "resource_id": "tool-sync-common-core-py",
+      "deployment_path": "scripts/sync_common_core.py",
+      "export_alias": "TOOL_sync_common_core.py"
+    },
+    "tool-test-sync-common-core-py": {
+      "resource_id": "tool-test-sync-common-core-py",
+      "deployment_path": "scripts/test_sync_common_core.py",
+      "export_alias": "TOOL_test_sync_common_core.py"
+    },
+    "tool-test-export-project-py": {
+      "resource_id": "tool-test-export-project-py",
+      "deployment_path": "scripts/test_export_project.py",
+      "export_alias": "TOOL_test_export_project.py"
+    },
+    "tool-setup-ide-mcp-sh": {
+      "resource_id": "tool-setup-ide-mcp-sh",
+      "deployment_path": "scripts/setup_ide_mcp.sh",
+      "export_alias": "TOOL_setup_ide_mcp.sh"
+    },
+    "tool-test-setup-ide-mcp-py": {
+      "resource_id": "tool-test-setup-ide-mcp-py",
+      "deployment_path": "scripts/test_setup_ide_mcp.py",
+      "export_alias": "TOOL_test_setup_ide_mcp.py"
+    },
+    "tool-setup-extensions-sh": {
+      "resource_id": "tool-setup-extensions-sh",
+      "deployment_path": "scripts/setup_extensions.sh",
+      "export_alias": "TOOL_setup_extensions.sh"
+    },
+    "tool-pack-context-sh": {
+      "resource_id": "tool-pack-context-sh",
+      "deployment_path": "scripts/pack_context.sh",
+      "export_alias": "TOOL_pack_context.sh"
+    },
+    "policy-agentsmd": {
+      "resource_id": "policy-agentsmd",
+      "deployment_path": "AGENTS.md",
+      "export_alias": "POINTER_AGENTS_md.md"
+    },
+    "policy-codexmd": {
+      "resource_id": "policy-codexmd",
+      "deployment_path": "CODEX.md",
+      "export_alias": "POINTER_CODEX_md.md"
+    },
+    "policy-claudemd": {
+      "resource_id": "policy-claudemd",
+      "deployment_path": "CLAUDE.md",
+      "export_alias": "POINTER_CLAUDE_md.md"
+    },
+    "policy-clinerules": {
+      "resource_id": "policy-clinerules",
+      "deployment_path": ".clinerules",
+      "export_alias": "POINTER__clinerules.md"
+    },
+    "policy-windsurfrules": {
+      "resource_id": "policy-windsurfrules",
+      "deployment_path": ".windsurfrules",
+      "export_alias": "POINTER__windsurfrules.md"
+    },
+    "policy-antigravityrules": {
+      "resource_id": "policy-antigravityrules",
+      "deployment_path": ".antigravityrules",
+      "export_alias": "POINTER__antigravityrules.md"
+    },
+    "config-template-readme-md": {
+      "resource_id": "config-template-readme-md",
+      "deployment_path": "docs/ai/config-templates/README.md",
+      "export_alias": "CONFIG_README.md"
+    },
+    "config-template-claude-mcp-example-json": {
+      "resource_id": "config-template-claude-mcp-example-json",
+      "deployment_path": "docs/ai/config-templates/claude-mcp.example.json",
+      "export_alias": "CONFIG_claude-mcp.example.json"
+    },
+    "config-template-codex-example-toml": {
+      "resource_id": "config-template-codex-example-toml",
+      "deployment_path": "docs/ai/config-templates/codex.example.toml",
+      "export_alias": "CONFIG_codex.example.toml"
+    },
+    "config-template-mcp-example-json": {
+      "resource_id": "config-template-mcp-example-json",
+      "deployment_path": "docs/ai/config-templates/mcp.example.json",
+      "export_alias": "CONFIG_mcp.example.json"
+    },
+    "tool-test-configuration-tools-py": {
+      "resource_id": "tool-test-configuration-tools-py",
+      "deployment_path": "scripts/test_configuration_tools.py",
+      "export_alias": "TOOL_test_configuration_tools.py"
+    },
+    "policy-agents-agentsmd": {
+      "resource_id": "policy-agents-agentsmd",
+      "deployment_path": ".agents/AGENTS.md",
+      "export_alias": "POINTER__agents_AGENTS_md.md"
+    },
+    "policy-claude-agentsmd": {
+      "resource_id": "policy-claude-agentsmd",
+      "deployment_path": ".claude/AGENTS.md",
+      "export_alias": "POINTER__claude_AGENTS_md.md"
+    },
+    "policy-cursor-rules-01_project_policymdc": {
+      "resource_id": "policy-cursor-rules-01_project_policymdc",
+      "deployment_path": ".cursor/rules/01_project_policy.mdc",
+      "export_alias": "POINTER__cursor_rules_01_project_policy_mdc.md"
+    },
+    "policy-gemini-geminimd": {
+      "resource_id": "policy-gemini-geminimd",
+      "deployment_path": ".gemini/GEMINI.md",
+      "export_alias": "POINTER__gemini_GEMINI_md.md"
+    },
+    "policy-github-copilot-instructionsmd": {
+      "resource_id": "policy-github-copilot-instructionsmd",
+      "deployment_path": ".github/copilot-instructions.md",
+      "export_alias": "POINTER__github_copilot-instructions_md.md"
+    },
+    "writing-ui": {
+      "resource_id": "writing-ui",
+      "deployment_path": ".agents/skills/econ-writing/agents/openai.yaml",
+      "export_alias": "WRITING_UI.yaml"
+    },
+    "state-contract": {
+      "resource_id": "state-contract",
+      "deployment_path": ".agents/harness/state.md",
+      "export_alias": "STATE.md"
+    },
+    "publication": {
+      "resource_id": "publication",
+      "deployment_path": ".agents/harness/publication.md",
+      "export_alias": "PUBLICATION.md"
+    },
+    "state-tests": {
+      "resource_id": "state-tests",
+      "deployment_path": ".agents/harness/test_state.py",
+      "export_alias": "test_state.py"
+    },
+    "tool-init": {
+      "resource_id": "tool-init",
+      "deployment_path": "scripts/__init__.py",
+      "export_alias": "scripts_init.py"
+    },
+    "registry-operations": {
+      "resource_id": "registry-operations",
+      "deployment_path": ".agents/registry/operations.json",
+      "export_alias": "OPERATIONS.json"
+    },
+    "registry-resources": {
+      "resource_id": "registry-resources",
+      "deployment_path": ".agents/registry/resources.json",
+      "export_alias": "RESOURCES.json"
+    },
+    "registry-placements": {
+      "resource_id": "registry-placements",
+      "deployment_path": ".agents/registry/placements.json",
+      "export_alias": "PLACEMENTS.json"
+    }
+  },
+  "source": {
+    "skills_root": "skills",
+    "runtime_root": "runtime",
+    "profiles_root": "profiles",
+    "policy_root": "references/repository-policy"
+  },
+  "deployed": {
+    "skills_root": ".agents/skills",
+    "runtime_root": ".agents/runtime",
+    "profiles_root": ".agents/profiles",
+    "policy_root": "."
+  },
+  "project": {
+    "layout": "flat",
+    "path_field": "export_alias",
+    "mandatory_reference_policy": "resolve_within_selected_package",
+    "omitted_optional_policy": "request_additional_input_if_activated",
+    "remote_fallback": false
+  },
+  "configuration": {
+    "clients": [
+      "cursor",
+      "cline",
+      "roo",
+      "windsurf",
+      "gemini",
+      "claude",
+      "codex",
+      "vscode",
+      "devcontainer",
+      "project",
+      "agents"
+    ],
+    "default_mode": "diff",
+    "write_requires": "explicit_client_selection",
+    "ownership": "previous_generated_current_proposed_content",
+    "relative_path_base": "declared_project_root",
+    "configuration_clients": {
+      "cursor": [
+        {
+          "path": ".cursor/mcp.json",
+          "format": "json"
+        }
+      ],
+      "cline": [
+        {
+          "path": ".vscode/cline_mcp_settings.json",
+          "format": "json"
+        }
+      ],
+      "roo": [
+        {
+          "path": ".vscode/roo_cline_mcp_settings.json",
+          "format": "json"
+        }
+      ],
+      "windsurf": [
+        {
+          "path": ".windsurf/mcp.json",
+          "format": "json"
+        }
+      ],
+      "gemini": [
+        {
+          "path": ".gemini/mcp.json",
+          "format": "json"
+        },
+        {
+          "path": ".gemini/mcp-configs/mcp-servers.json",
+          "format": "json"
+        }
+      ],
+      "claude": [
+        {
+          "path": ".mcp.json",
+          "format": "json"
+        },
+        {
+          "path": ".claude/mcp-configs/mcp-servers.json",
+          "format": "json"
+        }
+      ],
+      "codex": [
+        {
+          "path": ".codex/config.toml",
+          "format": "toml"
+        }
+      ],
+      "vscode": [
+        {
+          "path": ".vscode/settings.json",
+          "format": "json"
+        }
+      ],
+      "devcontainer": [
+        {
+          "path": ".devcontainer/devcontainer.json",
+          "format": "devcontainer"
+        }
+      ],
+      "project": [
+        {
+          "path": "mcp.json",
+          "format": "json"
+        }
+      ],
+      "agents": [
+        {
+          "path": ".agents/mcp.json",
+          "format": "json"
+        }
+      ]
+    }
+  },
+  "policy_pointers": [
+    {
+      "resource_id": "repository-policy",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-agentsmd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-codexmd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-claudemd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-clinerules",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-windsurfrules",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-antigravityrules",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-agents-agentsmd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-claude-agentsmd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-cursor-rules-01_project_policymdc",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-gemini-geminimd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-github-copilot-instructionsmd",
+      "template_id": "economics-task-entry"
+    }
+  ],
+  "pointer_templates": {
+    "economics-task-entry": "# Economics task entry\n\nRead [common rules]({core}) once, then choose the final operation from [operation index]({index}). Support inherits this task and returns to its owner.\n"
+  }
+}

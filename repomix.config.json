@@ -1,0 +1,34 @@
+{
+  "output": {
+    "filePath": "repomix.txt",
+    "style": "markdown",
+    "parsableStyle": true
+  },
+  "ignore": {
+    "useGitignore": true,
+    "customPatterns": [
+      "data/**/*",
+      "output/**/*",
+      ".pixi/**/*",
+      ".dvc/**/*",
+      ".venv/**/*",
+      "__pycache__/**/*",
+      "*.pdf",
+      "*.csv",
+      "*.rda",
+      "*.rds",
+      "*.rdata",
+      "*.pkl",
+      "*.joblib",
+      "*.png",
+      "*.jpg",
+      "*.jpeg",
+      ".resources/**/*",
+      "pixi.lock",
+      "repomix.txt"
+    ]
+  },
+  "security": {
+    "enableSecurityCheck": true
+  }
+}

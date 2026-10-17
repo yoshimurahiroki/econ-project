@@ -1,0 +1,1 @@
+Read runtime/CORE.md once, then select the requested final operation in docs/ai/compiled_ai_skills.md. Inherit settled scope and authority; load required rules and activated conditions from registry/operations.json.

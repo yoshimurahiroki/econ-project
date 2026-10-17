@@ -1,0 +1,110 @@
+# --- Git ---
+.git
+.gitignore
+
+# --- Python caches ---
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Conda / Mamba / Miniforge ---
+miniforge3/
+.mamba/
+.conda/
+
+# --- Python environments ---
+.env
+.venv
+env/
+.pixi/
+
+# --- Data / outputs ---
+data/
+.resources/
+.agent_state/
+rv/
+_site/
+_book/
+.quarto/
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.xlsx
+*.sav
+*.dta
+*.rds
+*.RData
+
+# --- Notebooks checkpoints ---
+*.ipynb_checkpoints/
+
+# --- VS Code ---
+.vscode/
+.cursor/
+.claude/
+.gemini/
+.windsurf/
+.codex/
+.devcontainer/local-history/
+
+# --- Node ---
+node_modules/
+
+# --- OS / temp ---
+.DS_Store
+*.bak
+tmp/
+.tmp/
+.cache/
+
+# --- TeX build artifacts ---
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+_build/
+latexmkrc
+
+# --- Quarto build cache ---
+.qmd-cache/
+.quarto/
+
+# --- Build configuration ---
+!Dockerfile
+!environment.yml
+!pyproject.toml
+!.devcontainer/**
+
+# Credentials and local operational state
+secrets/
+.env.*
+!.env.example
+.ssh/
+.config/gh/
+.config/gcloud/
+.aws/
+.azure/
+.netrc
+.git-credentials
+*credentials.json
+*token.json
+.agents/state/
+*.sqlite
+*.sqlite3
+*.db
+
+# Root MCP runtime settings remain local
+.agents/mcp.json
+.mcp.json
+mcp.json
