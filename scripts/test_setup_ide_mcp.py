@@ -34,10 +34,79 @@ class ConfigurationTests(unittest.TestCase):
         self.codex.write_text(self.user)
         (self.root / ".cursor").mkdir()
         (self.root / ".cursor/mcp.json").write_text(json.dumps({"privatePreference": "keep", "mcpServers": {}}))
-        self.env = {key: value for key, value in os.environ.items() if key not in {"BRAVE_API_KEY", "EXA_API_KEY", "GITHUB_PERSONAL_ACCESS_TOKEN", "DATABASE_URL", "ENABLE_GOOGLE_DRIVE_MCP", "ENABLE_CONTEXT_MCP"}}
+        self.env = {key: value for key, value in os.environ.items() if key not in {"BRAVE_API_KEY", "EXA_API_KEY", "GITHUB_PERSONAL_ACCESS_TOKEN", "DATABASE_URL", "ENABLE_GOOGLE_DRIVE_MCP", "ENABLE_CONTEXT_MCP", "ENABLE_ECONOMICS_CHECKED_MCP", "ECONOMICS_CHECKED_MCP_URL"}}
 
     def tearDown(self):
         self.temp.cleanup()
+
+    def checked_command(self, *args):
+        return subprocess.run(['bash', str(self.root / 'scripts/setup_ide_mcp.sh'), *args],
+                              env=self.env, capture_output=True, text=True)
+
+    def test_checked_disabled_has_no_destination_or_network_request(self):
+        import contextlib
+        import io
+        import sys
+        script = (self.root / 'scripts/setup_ide_mcp.sh').read_text()
+        body = script.split("<<'PY'\n", 1)[1].rsplit('\nPY', 1)[0]
+        namespace = {'__name__': 'configuration_fixture'}
+        with patch.dict(os.environ, {**self.env, 'PROJECT_ROOT': str(self.root)}, clear=True):
+            exec(compile(body, 'configuration_fixture', 'exec'), namespace)
+            for values in ({}, {'ECONOMICS_CHECKED_MCP_URL': 'https://checker.example.invalid/mcp'}):
+                with patch.dict(os.environ, values), patch.object(sys, 'argv', ['config', '--print']), \
+                        patch('socket.socket', side_effect=AssertionError('network request')), \
+                        contextlib.redirect_stdout(io.StringIO()) as output:
+                    self.assertEqual(0, namespace['main']())
+                    self.assertEqual({}, json.loads(output.getvalue())['mcpServers'])
+
+    def test_checked_endpoint_requires_opt_in_and_is_resolved_by_generator(self):
+        self.env['ENABLE_ECONOMICS_CHECKED_MCP'] = '1'
+        self.env['ECONOMICS_CHECKED_MCP_URL'] = 'https://checker.example.invalid/mcp'
+        result = self.checked_command('--write', '--client', 'codex', '--client', 'cursor')
+        self.assertEqual(0, result.returncode, result.stderr)
+        server = json.loads((self.root / '.cursor/mcp.json').read_text())['mcpServers']['economics-checked-artifacts']
+        self.assertEqual({'type': 'http', 'url': self.env['ECONOMICS_CHECKED_MCP_URL']}, server)
+        self.assertIn('url = "https://checker.example.invalid/mcp"', self.codex.read_text())
+        self.assertNotIn('${ECONOMICS_CHECKED_MCP_URL}', self.codex.read_text())
+        self.env.pop('ENABLE_ECONOMICS_CHECKED_MCP')
+        result = self.checked_command('--write', '--client', 'codex', '--client', 'cursor')
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertNotIn('economics-checked-artifacts', self.codex.read_text())
+
+    def test_checked_bad_endpoints_and_shared_targets_prevent_writes(self):
+        self.env['ENABLE_ECONOMICS_CHECKED_MCP'] = '1'
+        before = self.codex.read_bytes()
+        for endpoint in ('', 'http://checker.example.invalid/mcp',
+                         'https://user:secret@checker.example.invalid/mcp',
+                         'https://checker.example.invalid/mcp?token=secret',
+                         'https://checker.example.invalid/mcp#fragment'):
+            with self.subTest(endpoint=endpoint):
+                self.env['ECONOMICS_CHECKED_MCP_URL'] = endpoint
+                self.assertNotEqual(0, self.checked_command('--write', '--client', 'codex').returncode)
+                self.assertEqual(before, self.codex.read_bytes())
+        self.env['ECONOMICS_CHECKED_MCP_URL'] = 'https://checker.example.invalid/mcp'
+        self.assertNotEqual(0, self.checked_command('--write', '--client', 'vscode').returncode)
+
+    def test_checked_manual_endpoint_is_preserved(self):
+        self.env.update(ENABLE_ECONOMICS_CHECKED_MCP='1',
+                        ECONOMICS_CHECKED_MCP_URL='https://checker.example.invalid/mcp')
+        manual = {'economics-checked-artifacts': {'type': 'http', 'url': 'https://manual.example.invalid/mcp'}}
+        path = self.root / '.cursor/mcp.json'
+        path.write_text(json.dumps({'mcpServers': manual}))
+        self.assertEqual(0, self.checked_command('--write', '--client', 'cursor').returncode)
+        self.assertEqual(manual, json.loads(path.read_text())['mcpServers'])
+
+    def test_checked_destinations_are_ignored_and_tracked_destination_is_rejected(self):
+        source = Path(__file__).parents[1]
+        shutil.copyfile(source / '.gitignore', self.root / '.gitignore')
+        subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
+        for relative in ('.codex/config.toml', '.mcp.json', '.cursor/mcp.json', '.agents/state/mcp-generated.json'):
+            self.assertEqual(0, subprocess.run(['git', '-C', str(self.root), 'check-ignore', '--no-index', '-q', relative]).returncode)
+        self.env.update(ENABLE_ECONOMICS_CHECKED_MCP='1',
+                        ECONOMICS_CHECKED_MCP_URL='https://checker.example.invalid/mcp')
+        self.assertEqual(0, self.checked_command('--write', '--client', 'codex').returncode)
+        subprocess.run(['git', '-C', str(self.root), 'add', '-f', '.codex/config.toml'], check=True)
+        self.assertNotEqual(0, self.checked_command('--write', '--client', 'codex').returncode)
 
     def run_script(self, flag):
         subprocess.run(["bash", str(self.root / "scripts/setup_ide_mcp.sh"), flag, "--client", "cursor", "--client", "codex", "--client", "vscode", "--client", "devcontainer"], env=self.env,

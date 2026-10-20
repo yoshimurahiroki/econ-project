@@ -15,6 +15,8 @@ import shutil
 import sys
 import tempfile
 import tomllib
+import subprocess
+from urllib.parse import urlsplit
 
 ROOT = Path(os.environ['PROJECT_ROOT'])
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -145,6 +147,27 @@ def main():
         selected = [name for name, specs in clients.items()
                     if all(spec['format'] != 'devcontainer' or (ROOT / spec['path']).exists() for spec in specs)]
     servers = json.loads((ROOT / 'docs/ai/config-templates/mcp.example.json').read_text())['mcpServers']
+    if os.environ.get('ENABLE_ECONOMICS_CHECKED_MCP') == '1':
+        endpoint = os.environ.get('ECONOMICS_CHECKED_MCP_URL', '').strip()
+        parsed = urlsplit(endpoint)
+        parsed.port  # Validate a supplied port before writing any settings.
+        if (parsed.scheme != 'https' or not parsed.hostname or parsed.username
+                or parsed.password or parsed.query or parsed.fragment
+                or any(char.isspace() or ord(char) < 32 for char in endpoint)):
+            raise ValueError('Enabled Economics Checked MCP requires an HTTPS endpoint without credentials, query or fragment')
+        if any(client in ('vscode', 'devcontainer') for client in selected):
+            raise ValueError('Personal Economics Checked MCP requires a Git-ignored local client configuration')
+        if shutil.which('git'):
+            repo = subprocess.run(['git', '-C', str(ROOT), 'rev-parse', '--show-toplevel'], capture_output=True, text=True)
+            if repo.returncode == 0:
+                for client in selected:
+                    for spec in clients[client]:
+                        relative = spec['path']
+                        tracked = subprocess.run(['git', '-C', str(ROOT), 'ls-files', '--error-unmatch', '--', relative], capture_output=True)
+                        ignored = subprocess.run(['git', '-C', str(ROOT), 'check-ignore', '--no-index', '-q', '--', relative], capture_output=True)
+                        if tracked.returncode == 0 or ignored.returncode != 0:
+                            raise ValueError('Personal Economics Checked MCP destination must be untracked and Git-ignored: ' + relative)
+        servers['economics-checked-artifacts'] = {'type': 'http', 'url': endpoint}
     environment = {'brave-search': 'BRAVE_API_KEY', 'exa': 'EXA_API_KEY', 'github': 'GITHUB_PERSONAL_ACCESS_TOKEN', 'postgres': 'DATABASE_URL'}
     definitions = {
         'brave-search': {'command': 'mcp-server-brave-search', 'args': []},

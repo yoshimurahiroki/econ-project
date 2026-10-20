@@ -7,7 +7,7 @@ Generated from registry/operations.json. Read runtime/CORE.md once; select the f
 - econ-literature / investigate: Find and select source information that resolves a research question or citation task.
 - econ-writing / compose: Compose the requested prose from authorized materials.
 - econ-writing / revise: Revise supplied prose within the authorized content-change scope.
-- econ-writing / translate: Translate while preserving propositions and paragraph functions.
+- econ-writing / translate: Translate the requested passage into the target language.
 - econ-writing / convert: Convert settled content into the requested medium and format.
 - econ-writing / guidance: Answer questions about prose principles and examples.
 - econ-writing / explain: Explain a specified source's economic claims, theory, methods or results.

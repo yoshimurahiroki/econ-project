@@ -2,6 +2,10 @@
 
 Use only for requested file moves, joint output publication, staging or commits. Inherit [CORE](../runtime/CORE.md) authority and the ordinary [execution contract](../runtime/EXECUTION.md). Examples establish no additional authority.
 
+Plugin-owned final files and response bodies require the common `native_check.assert_release_predicates` gate. Only strict mode with the strict-reviewed plan, complete original-request coverage, all required artifacts and actual actions, the pinned policy, every dictionary occurrence resolved, all 22 full-text verdicts from both independent quality workers, and compliance on the exact candidate may proceed. Authenticated host observations must independently match the request and real worker/operation events. A self-written pass record, hash or worker string establishes no publication authority.
+
+`native_run` uses this same predicate for release-check, before atomic publication, after staging and in verify-only. Missing host capability or unresolved checks returns `blocked-unapproved` and concrete next actions. Provisional snapshots remain under their run directory; they never become final outputs or downloadable results. Draft/direct/focused/full diagnosis and retries cannot bypass the gate. Preserve recoverable candidates and prior valid outputs without reporting the new result as approved. Chat message transmission remains a host operation beyond a plugin-owned file gate.
+
 ## Complete-generation boundary
 
 Write an output completely before exposing it to downstream stages. Where interrupted writes can be mistaken for reusable results, write to a temporary destination, establish that all required records and fields were written and replace the final artifact. For a multi-file result, use the project's publication boundary: write a separate generation and publish its manifest or pointer only after all required files succeed. A consumer must resolve that generation once and read all its files from it; replacing files one by one behind an old completion marker can expose mixed versions. If consumers require fixed paths, stop their reads during replacement and resume only after the complete set satisfies its output contracts; use the existing runner's stage barrier when it provides that guarantee. A failed replacement leaves those reads blocked until the complete old set is restored or the new set succeeds. Preserve the prior valid result until its replacement is ready, but do not label it as the new run's output. Give parallel writers separate destinations or one designated producer.
@@ -78,5 +82,3 @@ git status --short
 3. Inspect the resulting commit's paths and patch, then the staged and unstaged diffs. The commit contains only the two requested corrections; `notes/review.md` retains its original staged change, and other working-tree edits remain unchanged. If the commit fails, inspect the reported cause and current index before retrying rather than assuming success or restaging everything.
 
 **Decision criterion:** this path-limited method does not isolate hunks. If `src/labels.R` also has an unrelated working-tree hunk, do not execute step 2: ask how the overlapping work should be isolated. Selecting one hunk into the normal index would not make `commit --only` use just that hunk. Preserve the original staged state while resolving that scope question.
-
-

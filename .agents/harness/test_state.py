@@ -30,6 +30,17 @@ class TeamStateTests(unittest.TestCase):
     def state(self):
         return json.loads((self.root / '.agents/state/team.json').read_text())
 
+    def release(self, task, *args):
+        """Supply explicit synthetic user evidence in this offline fixture."""
+        hold = args[args.index('--hold-id') + 1]
+        evidence = self.root / ('release-' + hold.replace(':', '-') + '.json')
+        evidence.write_text(json.dumps({
+            'source': 'user', 'message_id': 'fixture-release-' + hold,
+            'text': 'Release the named hold for this test fixture.',
+            'source_task_id': task, 'hold_id': hold,
+        }))
+        return self.cli('release-hold', task, *args, '--user-release', evidence.name)
+
     def task(self, key='T'):
         return self.state()['tasks'][key]
 
@@ -48,7 +59,14 @@ class TeamStateTests(unittest.TestCase):
         return json.dumps(row)
 
     def prepared(self, *args, name='T'):
-        self.add('--scope', 'artifact', '--scope', 'extra', '--input', 'input', '--required-check', 'check', *args, name=name)
+        args = list(args)
+        checks = ['--required-check', json.dumps({'id': 'check', 'targets': ['artifact']})]
+        if 'other' in args:
+            at = args.index('other')
+            args[at] = json.dumps({'id': 'other', 'targets': ['extra']})
+            args += ['--required-output', json.dumps({'role': 'final', 'kind': 'file', 'target': 'artifact'}),
+                     '--required-output', json.dumps({'role': 'extra', 'kind': 'file', 'target': 'extra'})]
+        self.add('--scope', 'artifact', '--scope', 'extra', '--input', 'input', *checks, *args, name=name)
         self.cli('start', name)
         self.cli('output', name, 'artifact')
 
@@ -119,6 +137,8 @@ class TeamStateTests(unittest.TestCase):
         t['status'] = 'completed'
         t['verification'] = {'result': 'passed', 'evidence': h.snapshot(self.root, ['check'])}
         state['version'] = 1
+        t.pop('contract_revisions', None)
+        t.pop('check_targets', None)
         state['limits']['max_attempts'] = 3
         (self.root / '.agents/state/team.json').write_text(json.dumps(state))
         old_version = h.digest(self.root / 'artifact')
@@ -187,8 +207,8 @@ class TeamStateTests(unittest.TestCase):
         self.prepared()
         with self.assertRaises(ValueError): self.cli('output', 'T', 'input')
         lock = self.root / '.agents/state/team.lock'
-        lock.write_text('busy')
-        with self.assertRaises(ValueError): self.verify()
+        with h.locked(self.root / '.agents/state/team.json'):
+            with self.assertRaises(ValueError): self.verify()
         self.assertTrue(lock.exists())
 
     def test_overlap_rejected(self):
@@ -220,22 +240,28 @@ class TeamStateTests(unittest.TestCase):
     def test_record_provenance_not_computation_input(self):
         self.prepared('--record', 'record'); self.verify()
         (self.root / 'record').write_text('changed display')
+        self.rejects_completion()
+        (self.root / 'record').write_text('record')
         self.completed()
 
     def test_non_git_explicit_root_and_cwd_default(self):
         self.assertIsNone(h.revision(self.root))
         with patch('sys.argv', ['team_state', 'show']), patch.object(Path, 'cwd', return_value=self.root), contextlib.redirect_stdout(io.StringIO()) as out:
             h.main()
-        self.assertEqual(4, json.loads(out.getvalue())['version'])
+        self.assertEqual(5, json.loads(out.getvalue())['version'])
 
     def test_permission_hold_needs_recorded_release(self):
         self.add(kind='answer'); self.cli('start', 'T')
         self.cli('transition', 'T', 'blocked', '--reason', 'permission', '--hold-id', 'approval', '--next', 'Await approval')
         with self.assertRaises(ValueError): self.cli('resume', 'T')
         with self.assertRaises(ValueError): self.cli('requeue', 'T')
-        self.cli('release-hold', 'T', '--hold-id', 'approval', '--authority', 'user-message:approved', '--next', 'Continue approved work')
+        with self.assertRaisesRegex(ValueError, 'requires --user-release'):
+            self.cli('release-hold', 'T', '--hold-id', 'approval',
+                     '--authority', 'user-message:approved', '--next', 'Continue')
+        self.release( 'T', '--hold-id', 'approval', '--authority', 'user-message:approved', '--next', 'Continue approved work')
         self.cli('resume', 'T')
-        self.assertEqual('user-message:approved', self.task()['authority'])
+        self.assertEqual('user-message:approved', self.task()['hold_releases'][-1]['authority'])
+        self.assertEqual('fixture-release-approval', self.task()['hold_releases'][-1]['message']['message_id'])
 
     def test_recomputed_upstream_current_bytes_still_invalidate_old_consumer(self):
         self.prepared(name='P'); self.verify(name='P'); self.completed('P')
@@ -329,11 +355,11 @@ class TeamStateTests(unittest.TestCase):
         self.add('--hold', 'one', '--hold', 'two', kind='answer')
         self.cli('transition', 'T', 'blocked', '--next', 'Await authorization')
         with self.assertRaises(ValueError):
-            self.cli('release-hold', 'T', '--hold-id', 'unknown', '--authority', 'user:yes', '--next', 'Continue')
-        self.cli('release-hold', 'T', '--hold-id', 'one', '--authority', 'user:yes', '--next', 'Await two')
+            self.release( 'T', '--hold-id', 'unknown', '--authority', 'user:yes', '--next', 'Continue')
+        self.release( 'T', '--hold-id', 'one', '--authority', 'user:yes', '--next', 'Await two')
         self.assertEqual(['two'], self.task()['holds'])
         with self.assertRaises(ValueError): self.cli('resume', 'T')
-        self.cli('release-hold', 'T', '--hold-id', 'two', '--authority', 'user:yes2', '--next', 'Continue')
+        self.release( 'T', '--hold-id', 'two', '--authority', 'user:yes2', '--next', 'Continue')
         self.cli('resume', 'T')
         self.assertEqual(['one','two'], [r['hold_id'] for r in self.task()['hold_releases']])
 
@@ -364,13 +390,17 @@ class TeamStateTests(unittest.TestCase):
         self.prepared(); self.verify(); self.completed()
         state = self.state(); task = state['tasks']['T']
         task['holds'] = ['hold-a', 'hold-b']; state['version'] = 2
+        task.pop('contract_revisions', None)
+        task.pop('check_targets', None)
         for key in ['completion_contract','required_outputs','required_actions','action_results','external_targets']:
             task.pop(key)
         before = json.loads(json.dumps(task))
         (self.root / '.agents/state/team.json').write_text(json.dumps(state))
         shown = self.cli('show','T')
         self.assertEqual(before['outputs'], shown['outputs'])
-        self.assertEqual(before['check_receipts'], shown['check_receipts'])
+        # Reconstructed legacy contracts have a different context binding.
+        # Preserve the outputs and obtain fresh checks after fixing that contract.
+        self.assertEqual({}, shown['check_receipts'])
         self.assertEqual(before['holds'], shown['holds'])
         self.assertEqual('blocked', shown['status'])
         self.assertIsNone(shown['completion_contract'])
@@ -379,9 +409,9 @@ class TeamStateTests(unittest.TestCase):
         self.assertEqual(state['limits'], self.state()['limits'])
         self.assertEqual(state['limit_sources'], self.state()['limit_sources'])
         for hold in ['hold-a','hold-b']:
-            self.cli('release-hold','T','--hold-id',hold,'--authority','user:approved','--next','Continue')
-        self.cli('resume','T'); self.completed()
-        self.assertEqual(before['check_receipts'], self.task()['check_receipts'])
+            self.release('T','--hold-id',hold,'--authority','user:approved','--next','Continue')
+        self.cli('resume','T'); self.verify(); self.completed()
+        self.assertTrue(h.completion_current(self.root, self.state()['tasks'], 'T'))
 
     def test_add_requires_explicit_deliverable_contract(self):
         with self.assertRaises(ValueError):
@@ -408,7 +438,7 @@ class TeamStateTests(unittest.TestCase):
         (self.root / '.agents/state/team.json').write_text(json.dumps(state))
         self.assertEqual(['legacy:permission'],self.cli('show','T')['holds'])
         with self.assertRaises(ValueError): self.cli('resume','T')
-        self.cli('release-hold','T','--hold-id','legacy:permission','--authority','user:yes','--next','Continue')
+        self.release('T','--hold-id','legacy:permission','--authority','user:yes','--next','Continue')
         self.cli('resume','T'); self.rejects_completion()
 
     def test_external_file_scope_does_not_authorize_object_target(self):
@@ -498,7 +528,10 @@ class TeamStateTests(unittest.TestCase):
     def test_definition_change_invalidates_only_consuming_output(self):
         self.parent_pair()
         self.add('--consumes', self.consume('P', 'artifact'), '--consumes', self.consume('P', 'extra'),
-                 '--required-check', 'check', '--required-check', 'other', kind='answer')
+                 '--required-check', json.dumps({'id': 'check', 'targets': ['message:1']}),
+                 '--required-check', json.dumps({'id': 'other', 'targets': ['message:2']}),
+                 '--required-output', json.dumps({'role': 'final', 'kind': 'message', 'target': 'message:1'}),
+                 '--required-output', json.dumps({'role': 'extra', 'kind': 'message', 'target': 'message:2'}), kind='answer')
         self.cli('start', 'T')
         self.cli('output', 'T', 'message:1', '--kind', 'message', '--value', 'a', '--dependency', ' ["P", "artifact"] ', '--producer-id', 'analysis')
         self.cli('output', 'T', 'message:2', '--kind', 'message', '--value', 'b', '--dependency', '["P","extra"]', '--producer-id', 'display')
@@ -546,6 +579,8 @@ class TeamStateTests(unittest.TestCase):
         state = self.state(); state['version'] = 3
         for task in state['tasks'].values():
             task.pop('consumes'); task.pop('compatibility_dependencies')
+            task.pop('contract_revisions', None)
+            task.pop('check_targets', None)
             for row in task['outputs'].values():
                 for key in ('dependency_ids', 'definition_versions', 'producer_id'):
                     row.pop(key, None)
@@ -561,20 +596,22 @@ class TeamStateTests(unittest.TestCase):
         old = self.legacy_v3_store(True)
         migrated = self.cli('show')
         task = migrated['tasks']['T']
-        self.assertEqual(4, migrated['version'])
+        self.assertEqual(5, migrated['version'])
         self.assertEqual(['artifact'], [r['output_id'] for r in task['consumes']])
         self.assertEqual([], task['compatibility_dependencies'])
         for key in ('outputs', 'authority', 'holds', 'attempts', 'usage', 'human_corrections', 'status'):
             self.assertEqual(old['tasks']['T'][key], task[key])
-        self.assertTrue(h.completion_current(self.root, migrated['tasks'], 'T'))
+        # This legacy fixture changes authority and check-target context after
+        # the saved receipts. Migration cannot authorize those stale checks.
+        self.assertFalse(h.completion_current(self.root, migrated['tasks'], 'T'))
         (self.root / 'extra').write_text('unused')
-        self.assertTrue(h.completion_current(self.root, migrated['tasks'], 'T'))
+        self.assertFalse(h.completion_current(self.root, migrated['tasks'], 'T'))
 
     def test_v3_unknown_dependency_keeps_compatibility_group_until_recontract(self):
         self.legacy_v3_store(False)
         migrated = self.cli('show')
         self.assertEqual(['P'], migrated['tasks']['T']['compatibility_dependencies'])
-        self.assertTrue(h.completion_current(self.root, migrated['tasks'], 'T'))
+        self.assertFalse(h.completion_current(self.root, migrated['tasks'], 'T'))
         self.cli('requeue', 'T', '--consumes', self.consume('P', 'artifact'))
         self.assertEqual([], self.task()['compatibility_dependencies'])
 

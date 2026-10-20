@@ -20,6 +20,8 @@ Before application, the helper rechecks every selected file and ownership state,
 
 Runtime configuration and ownership state stay local and ignored. Generated credentials remain environment or secret-store references. Optional integrations are enabled by `BRAVE_API_KEY`, `EXA_API_KEY`, `GITHUB_PERSONAL_ACCESS_TOKEN`, `DATABASE_URL`, `ENABLE_GOOGLE_DRIVE_MCP=1`, or `ENABLE_CONTEXT_MCP=1`. Google Drive requires the existing `secrets/credentials.json`; context integrations require both local executables. Secret values are never copied from the environment into generated files. Do not place private endpoints or secrets in public examples.
 
+Economics Checked Artifacts has no default server. Enable it only with both `ENABLE_ECONOMICS_CHECKED_MCP=1` and `ECONOMICS_CHECKED_MCP_URL`, selecting Git-ignored local clients. See [private endpoint setup](../plugin-integration.md#checked-artifacts-connection). The generator performs no authentication or data submission.
+
 ## Extensions and scoped context
 
 `bash scripts/setup_extensions.sh --client code` previews extensions. Add `--write` to install for that selected CLI. Supported clients are `code`, `cursor`, `code-insiders`, `agy-ide`, and `antigravity-ide`. The helper reads this project's devcontainer, skips installed IDs, aggregates failed IDs, and returns nonzero if a required listing, parse, or installation fails. It does not silently fall back to a different installed IDE.

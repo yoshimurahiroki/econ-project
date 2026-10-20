@@ -114,7 +114,7 @@ Define the treated unit, donors, pre-treatment support and counterfactual struct
 
 Choose standard errors, clustering, randomization inference or another justified procedure from the design's sampling and assignment variation. Map effective assignment units, dependence and small-sample corrections to that procedure. Preserve prespecified outcome families and multiple-testing adjustments. Use direct contrasts for subgroup differences. For a sensitivity analysis, choose departures from the identifying assumption that represent the suspected economic confounder, find the departure that changes the conclusion, and express it in the outcome's units over the period being evaluated.
 
-Report the defined parameter and its numerical uncertainty directly. Assess the named design through its comparison, estimand and assignment mechanism; state the conclusion from the selected facts with its identifying conditions in the economic object. For a requested repair, define the resulting comparison and estimand and identify the assignment mechanism and reported comparison. Explain the design features that establish the requested paper claim. Keep repair history and execution status in operational records outside research artifacts.
+Report the defined parameter and its numerical uncertainty directly. Assess the named design through its comparison, estimand and assignment mechanism. For a requested repair, define the resulting comparison and estimand and identify the assignment mechanism and reported comparison. Explain the design features that establish the requested paper claim. Keep repair history and execution status in operational records outside research artifacts.
 
 ## Connect observed choices and outcomes to the model and interventions
 
@@ -138,7 +138,7 @@ Use the branch matching the supplied choices, budgets or equilibrium observation
 
 ## Select the economic object
 
-For a descriptive question, select observed patterns and comparisons that answer it. For a parameter, counterfactual or welfare question, specify the economic structure using the matching [model-construction operations](#model-construction). Explain how the retained assumptions determine the result.
+For a descriptive question, select observed patterns and comparisons that answer it. For a causal parameter, specify the identifying design and assumptions under [Design elements](#design-elements). For a structural parameter, model counterfactual or welfare question requiring behavioral structure, use the matching [model-construction operations](#model-construction). Use an identified reduced-form comparison when it suffices for the requested object. Explain how the retained assumptions determine the result.
 
 When models fit the same observed choices, compare their predictions for the requested counterfactual or action. Seek further identification when those predictions change the answer or action ranking. If choice occasions have different available sets, retain the availability information that distinguishes model restrictions before aggregating alternatives. To transfer a result, map the new case's choices, information, incentives and constraints to the original relationship and derive the result under the new conditions.
 

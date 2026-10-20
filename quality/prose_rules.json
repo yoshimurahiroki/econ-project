@@ -1,0 +1,2083 @@
+{
+  "version": "1.7",
+  "rules": [
+    {
+      "id": "ja-001",
+      "language": "ja",
+      "category": "rhetorical_preface",
+      "pattern": "言うまでもなく",
+      "action": "block",
+      "explanation": "Candidate occurrence of rhetorical_preface. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "言うまでもなく、費用は増加した。",
+      "negative_example": "費用は前年より3%増加した。"
+    },
+    {
+      "id": "ja-002",
+      "language": "ja",
+      "category": "rhetorical_preface",
+      "pattern": "改めて言うまでも(?:ない|なく)",
+      "action": "block",
+      "explanation": "Candidate occurrence of rhetorical_preface. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "改めて言うまでもないが、費用は増加した。",
+      "negative_example": "再推定すると係数は0.2だった。"
+    },
+    {
+      "id": "ja-003",
+      "language": "ja",
+      "category": "rhetorical_preface",
+      "pattern": "ここで(?:強調|指摘)しておきたいのは",
+      "action": "block",
+      "explanation": "Candidate occurrence of rhetorical_preface. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "ここで強調しておきたいのは、需要が増えた点である。",
+      "negative_example": "需要は供給を上回った。"
+    },
+    {
+      "id": "ja-004",
+      "language": "ja",
+      "category": "rhetorical_preface",
+      "pattern": "興味深いことに",
+      "action": "block",
+      "explanation": "Candidate occurrence of rhetorical_preface. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "興味深いことに、平均値は一致した。",
+      "negative_example": "二群の平均値は一致した。"
+    },
+    {
+      "id": "ja-005",
+      "language": "ja",
+      "category": "concession",
+      "pattern": "もちろん",
+      "action": "block",
+      "explanation": "Candidate occurrence of concession. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "もちろん、費用も考慮する必要がある。",
+      "negative_example": "制約式に費用を含める。"
+    },
+    {
+      "id": "ja-006",
+      "language": "ja",
+      "category": "concession",
+      "pattern": "確かに",
+      "action": "block",
+      "explanation": "Candidate occurrence of concession. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "確かに、短期の費用は高い。",
+      "negative_example": "短期費用は100万円である。"
+    },
+    {
+      "id": "ja-007",
+      "language": "ja",
+      "category": "concession",
+      "pattern": "とはいえ",
+      "action": "block",
+      "explanation": "Candidate occurrence of concession. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "需要は増えた。とはいえ、利益は変わらない。",
+      "negative_example": "原価も増えたため利益は変わらない。"
+    },
+    {
+      "id": "ja-008",
+      "language": "ja",
+      "category": "concession",
+      "pattern": "しかし(?:ながら)?",
+      "action": "block",
+      "explanation": "Candidate occurrence of concession. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "しかしながら、追加分析も重要である。",
+      "negative_example": "追加分析は識別仮定を検証する。"
+    },
+    {
+      "id": "ja-009",
+      "language": "ja",
+      "category": "vague_caution",
+      "pattern": "注意が必要(?:である|です|だった|でした)?",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "結果の解釈には注意が必要である。",
+      "negative_example": "この推定値は対象県の就業者に限る。"
+    },
+    {
+      "id": "ja-010",
+      "language": "ja",
+      "category": "vague_caution",
+      "pattern": "慎重(?:に(?:解釈|検討|扱|判断|考)|な(?:判断|解釈|検討|対応|姿勢|見方)|(?:だ|です|である|だった|でした|であった))",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "係数は慎重に解釈する必要がある。",
+      "negative_example": "95%信頼区間は−0.2から0.5である。"
+    },
+    {
+      "id": "ja-011",
+      "language": "ja",
+      "category": "vague_caution",
+      "pattern": "留意(?:する|すべき|しなければ|しておく|します|した|しました)",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "標本数に留意すべきである。",
+      "negative_example": "標本は12自治体である。"
+    },
+    {
+      "id": "ja-012",
+      "language": "ja",
+      "category": "vague_caution",
+      "pattern": "一概に(?:は)?言え(?:ない|ません|なかった|ませんでした)",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "効果があるとは一概に言えない。",
+      "negative_example": "効果の符号は所得群によって異なる。"
+    },
+    {
+      "id": "ja-013",
+      "language": "ja",
+      "category": "defensive_disclaimer",
+      "pattern": "誤解を恐れずに(?:言えば|言うと|申し上げると)",
+      "action": "block",
+      "explanation": "Candidate occurrence of defensive_disclaimer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "誤解を恐れずに言えば、制度は失敗した。",
+      "negative_example": "制度は登録率の目標を達成しなかった。"
+    },
+    {
+      "id": "ja-014",
+      "language": "ja",
+      "category": "defensive_disclaimer",
+      "pattern": "あえて(?:言えば|言うなら)",
+      "action": "block",
+      "explanation": "Candidate occurrence of defensive_disclaimer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "あえて言えば、改善の余地がある。",
+      "negative_example": "処理時間を短縮できる。"
+    },
+    {
+      "id": "ja-015",
+      "language": "ja",
+      "category": "defensive_disclaimer",
+      "pattern": "個人的な(?:意見|見解)(?:ですが|としては)",
+      "action": "block",
+      "explanation": "Candidate occurrence of defensive_disclaimer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "個人的な意見ですが、再推定が必要です。",
+      "negative_example": "識別仮定を確認するため再推定する。"
+    },
+    {
+      "id": "ja-016",
+      "language": "ja",
+      "category": "defensive_disclaimer",
+      "pattern": "断定(?:する|している|した|していた)わけでは(?:ない|ありません|なかった|ありませんでした)",
+      "action": "block",
+      "explanation": "Candidate occurrence of defensive_disclaimer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "因果関係を断定しているわけではない。",
+      "negative_example": "この推定値は相関を表す。"
+    },
+    {
+      "id": "ja-017",
+      "language": "ja",
+      "category": "irrelevant_contrast",
+      "pattern": "(?:ではなく|でなく|じゃなく)",
+      "action": "block",
+      "explanation": "Candidate occurrence of irrelevant_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "単なる数字ではなく、重要な示唆である。",
+      "negative_example": "推定値は0.4である。"
+    },
+    {
+      "id": "ja-018",
+      "language": "ja",
+      "category": "irrelevant_contrast",
+      "pattern": "というより(?:も)?",
+      "action": "block",
+      "explanation": "Candidate occurrence of irrelevant_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "これは結論というより出発点である。",
+      "negative_example": "この結果から次の仮説を得る。"
+    },
+    {
+      "id": "ja-019",
+      "language": "ja",
+      "category": "irrelevant_contrast",
+      "pattern": "にとどまらず",
+      "action": "block",
+      "explanation": "Candidate occurrence of irrelevant_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "本研究は記述にとどまらず、深い洞察を与える。",
+      "negative_example": "本研究は地域差とその制度的要因を推定する。"
+    },
+    {
+      "id": "ja-020",
+      "language": "ja",
+      "category": "irrelevant_contrast",
+      "pattern": "単に[^。!?\\n]{1,80}(?:だけではない|のみではない)",
+      "action": "block",
+      "explanation": "Candidate occurrence of irrelevant_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "単に平均値を示すだけではない。",
+      "negative_example": "平均値と分位点を示す。"
+    },
+    {
+      "id": "ja-021",
+      "language": "ja",
+      "category": "embellishment",
+      "pattern": "極めて重要",
+      "action": "block",
+      "explanation": "Candidate occurrence of embellishment. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "これは極めて重要な知見である。",
+      "negative_example": "この知見は補助対象の選定を変える。"
+    },
+    {
+      "id": "ja-022",
+      "language": "ja",
+      "category": "embellishment",
+      "pattern": "画期的",
+      "action": "block",
+      "explanation": "Candidate occurrence of embellishment. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "画期的な分析を行った。",
+      "negative_example": "従来の県別推定を市町村別に分解した。"
+    },
+    {
+      "id": "ja-023",
+      "language": "ja",
+      "category": "embellishment",
+      "pattern": "飛躍的",
+      "action": "block",
+      "explanation": "Candidate occurrence of embellishment. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "精度が飛躍的に向上した。",
+      "negative_example": "誤分類率は8%から5%に下がった。"
+    },
+    {
+      "id": "ja-024",
+      "language": "ja",
+      "category": "embellishment",
+      "pattern": "示唆に富む",
+      "action": "block",
+      "explanation": "Candidate occurrence of embellishment. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "示唆に富む結果となった。",
+      "negative_example": "結果は情報提供の時期を変更する根拠になる。"
+    },
+    {
+      "id": "ja-025",
+      "language": "ja",
+      "category": "vague_qualification",
+      "pattern": "可能性[がもは](?:ある|あります|あり(?!ません)|あった|ございました|ございます|高(?:い|く|かった)|低(?:い|く|かった))",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_qualification. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "需要が増える可能性がある。",
+      "negative_example": "需要予測の区間は100から130である。"
+    },
+    {
+      "id": "ja-026",
+      "language": "ja",
+      "category": "vague_qualification",
+      "pattern": "かも(?:し|知)れ(?:ない|ません|なかった|ませんでした|ず|ぬ)",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_qualification. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "供給制約が影響したのかもしれない。",
+      "negative_example": "供給制約の寄与は未推定である。"
+    },
+    {
+      "id": "ja-027",
+      "language": "ja",
+      "category": "vague_qualification",
+      "pattern": "必ずしも",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_qualification. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "所得増は必ずしも消費増を伴わない。",
+      "negative_example": "所得増と消費増の関係は世帯群によって異なる。"
+    },
+    {
+      "id": "ja-028",
+      "language": "ja",
+      "category": "vague_qualification",
+      "pattern": "ある程度",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_qualification. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "政策はある程度有効だった。",
+      "negative_example": "利用率は4ポイント上昇した。"
+    },
+    {
+      "id": "ja-029",
+      "language": "ja",
+      "category": "indirect_assertion",
+      "pattern": "と(?:言|い)え(?:る|ます)(?:でしょう|だろう|と考えられる)?",
+      "action": "block",
+      "explanation": "Candidate occurrence of indirect_assertion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "この結果は改善と言えるでしょう。",
+      "negative_example": "処理時間は10%短縮した。"
+    },
+    {
+      "id": "ja-030",
+      "language": "ja",
+      "category": "indirect_assertion",
+      "pattern": "と考えられ(?:る|ます|た|ました)",
+      "action": "block",
+      "explanation": "Candidate occurrence of indirect_assertion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "費用低下が要因と考えられる。",
+      "negative_example": "費用低下を機序の仮説として検証する。"
+    },
+    {
+      "id": "ja-031",
+      "language": "ja",
+      "category": "indirect_assertion",
+      "pattern": "では(?:ないだろうか|ないでしょうか|なかろうか)",
+      "action": "block",
+      "explanation": "Candidate occurrence of indirect_assertion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "再推定すべきではないだろうか。",
+      "negative_example": "標準誤差の計算方法を変更して再推定する。"
+    },
+    {
+      "id": "ja-032",
+      "language": "ja",
+      "category": "indirect_assertion",
+      "pattern": "ように思われ(?:る|ます|た|ました)",
+      "action": "block",
+      "explanation": "Candidate occurrence of indirect_assertion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "改善したように思われる。",
+      "negative_example": "観測期間では離職率が低下した。"
+    },
+    {
+      "id": "ja-033",
+      "language": "ja",
+      "category": "redundancy",
+      "pattern": "基本的には",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundancy. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "基本的には同じ推定法を使う。",
+      "negative_example": "全期間に同じ推定法を使う。"
+    },
+    {
+      "id": "ja-034",
+      "language": "ja",
+      "category": "redundancy",
+      "pattern": "いわば",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundancy. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "この制度はいわば橋渡しである。",
+      "negative_example": "この制度は訓練と採用を接続する。"
+    },
+    {
+      "id": "ja-035",
+      "language": "ja",
+      "category": "redundancy",
+      "pattern": "ある意味(?:では|で)",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundancy. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "ある意味では成功した。",
+      "negative_example": "登録件数の目標を達成した。"
+    },
+    {
+      "id": "ja-036",
+      "language": "ja",
+      "category": "redundancy",
+      "pattern": "多かれ少なかれ",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundancy. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "全地域が多かれ少なかれ影響を受けた。",
+      "negative_example": "影響は地域別に推定する。"
+    },
+    {
+      "id": "ja-037",
+      "language": "ja",
+      "category": "reader_management",
+      "pattern": "読者の皆様には",
+      "action": "block",
+      "explanation": "Candidate occurrence of reader_management. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "読者の皆様には、この点を理解していただきたい。",
+      "negative_example": "この仮定は識別に必要である。"
+    },
+    {
+      "id": "ja-038",
+      "language": "ja",
+      "category": "reader_management",
+      "pattern": "念のため(?:申し添える|付け加える|述べておく)",
+      "action": "block",
+      "explanation": "Candidate occurrence of reader_management. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "念のため付け加えると、数値は暫定値である。",
+      "negative_example": "2025年の数値は暫定値である。"
+    },
+    {
+      "id": "ja-039",
+      "language": "ja",
+      "category": "reader_management",
+      "pattern": "ご理解いただきたい",
+      "action": "block",
+      "explanation": "Candidate occurrence of reader_management. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "制約をご理解いただきたい。",
+      "negative_example": "公開データでは個人を追跡できない。"
+    },
+    {
+      "id": "ja-040",
+      "language": "ja",
+      "category": "reader_management",
+      "pattern": "言い過ぎ(?:ではない|でない)",
+      "action": "block",
+      "explanation": "Candidate occurrence of reader_management. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "最重要だと言っても言い過ぎではない。",
+      "negative_example": "この制約が実行可能な選択肢を決める。"
+    },
+    {
+      "id": "en-001",
+      "language": "en",
+      "category": "rhetorical_preface",
+      "pattern": "\\bneedless to say\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of rhetorical_preface. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Needless to say, costs rose.",
+      "negative_example": "Costs rose by 3%."
+    },
+    {
+      "id": "en-002",
+      "language": "en",
+      "category": "rhetorical_preface",
+      "pattern": "\\bit goes without saying\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of rhetorical_preface. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "It goes without saying that costs rose.",
+      "negative_example": "Costs rose during the period."
+    },
+    {
+      "id": "en-003",
+      "language": "en",
+      "category": "rhetorical_preface",
+      "pattern": "\\bit is (?:important|worthwhile|worth) (?:to note|noting)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of rhetorical_preface. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "It is important to note that participation fell.",
+      "negative_example": "Participation fell by two percentage points."
+    },
+    {
+      "id": "en-004",
+      "language": "en",
+      "category": "rhetorical_preface",
+      "pattern": "\\binterestingly\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of rhetorical_preface. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Interestingly, the means were equal.",
+      "negative_example": "The two means were equal."
+    },
+    {
+      "id": "en-005",
+      "language": "en",
+      "category": "concession",
+      "pattern": "\\bof course\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of concession. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Of course, costs also matter.",
+      "negative_example": "Costs enter the constraint."
+    },
+    {
+      "id": "en-006",
+      "language": "en",
+      "category": "concession",
+      "pattern": "\\badmittedly\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of concession. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Admittedly, the sample is small.",
+      "negative_example": "The sample contains 12 municipalities."
+    },
+    {
+      "id": "en-007",
+      "language": "en",
+      "category": "concession",
+      "pattern": "\\b(?:that|this) (?:being )?said\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of concession. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "That being said, profits were unchanged.",
+      "negative_example": "Higher input costs offset the revenue gain."
+    },
+    {
+      "id": "en-008",
+      "language": "en",
+      "category": "concession",
+      "pattern": "\\bhowever\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of concession. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "However, more analysis is important.",
+      "negative_example": "The second analysis tests the exclusion restriction."
+    },
+    {
+      "id": "en-009",
+      "language": "en",
+      "category": "vague_caution",
+      "pattern": "\\b(?:interpret|interpreted|interpretation)[^.?!\\n]{0,60}\\b(?:caution|cautiously)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The estimate should be interpreted with caution.",
+      "negative_example": "The estimate applies to employed residents in the sampled counties."
+    },
+    {
+      "id": "en-010",
+      "language": "en",
+      "category": "vague_caution",
+      "pattern": "\\ba (?:grain|pinch) of salt\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Take this estimate with a grain of salt.",
+      "negative_example": "The estimate uses self-reported income."
+    },
+    {
+      "id": "en-011",
+      "language": "en",
+      "category": "vague_caution",
+      "pattern": "\\b(?:bear|keep) in mind\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Keep in mind that the data are provisional.",
+      "negative_example": "The 2025 observations are provisional."
+    },
+    {
+      "id": "en-012",
+      "language": "en",
+      "category": "vague_caution",
+      "pattern": "\\bfurther research is needed\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Further research is needed to clarify the issue.",
+      "negative_example": "The available data do not identify effects after year three."
+    },
+    {
+      "id": "en-013",
+      "language": "en",
+      "category": "defensive_disclaimer",
+      "pattern": "\\b(?:with (?:all )?due respect|no offen[cs]e intended)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of defensive_disclaimer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "With all due respect, this estimate is incorrect.",
+      "negative_example": "The estimate uses the wrong denominator."
+    },
+    {
+      "id": "en-014",
+      "language": "en",
+      "category": "defensive_disclaimer",
+      "pattern": "\\bin my (?:humble )?opinion\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of defensive_disclaimer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "In my humble opinion, the model needs revision.",
+      "negative_example": "The model omits the capacity constraint."
+    },
+    {
+      "id": "en-015",
+      "language": "en",
+      "category": "defensive_disclaimer",
+      "pattern": "\\b(?:not|never) (?:claiming|suggesting|arguing) that\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of defensive_disclaimer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "We are not claiming that the effect is causal.",
+      "negative_example": "The coefficient describes an association."
+    },
+    {
+      "id": "en-016",
+      "language": "en",
+      "category": "defensive_disclaimer",
+      "pattern": "\\bto (?:avoid|prevent) (?:any )?misunderstanding\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of defensive_disclaimer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "To avoid any misunderstanding, the measure is annual.",
+      "negative_example": "The measure is annual."
+    },
+    {
+      "id": "en-017",
+      "language": "en",
+      "category": "irrelevant_contrast",
+      "pattern": "\\bnot\\b[^.!?\\n]{1,100}\\bbut\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of irrelevant_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "This is not merely a number but a profound insight.",
+      "negative_example": "The estimate changes the eligible population."
+    },
+    {
+      "id": "en-018",
+      "language": "en",
+      "category": "irrelevant_contrast",
+      "pattern": "\\brather than\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of irrelevant_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "This is a starting point rather than an endpoint.",
+      "negative_example": "This result yields a testable hypothesis."
+    },
+    {
+      "id": "en-019",
+      "language": "en",
+      "category": "irrelevant_contrast",
+      "pattern": "\\bmore than (?:just|merely)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of irrelevant_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "This is more than just a descriptive exercise.",
+      "negative_example": "The analysis estimates the mechanism as well as the mean."
+    },
+    {
+      "id": "en-020",
+      "language": "en",
+      "category": "irrelevant_contrast",
+      "pattern": "\\bbeyond (?:a |the )?(?:mere |simple )?description\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of irrelevant_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The analysis goes beyond a simple description.",
+      "negative_example": "The analysis decomposes the regional gap by institution."
+    },
+    {
+      "id": "en-021",
+      "language": "en",
+      "category": "embellishment",
+      "pattern": "\\b(?:ground[-‐‑– ]?breaking|game[-‐‑– ]?changing)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of embellishment. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "This is a groundbreaking result.",
+      "negative_example": "The design identifies a previously unmeasured response."
+    },
+    {
+      "id": "en-022",
+      "language": "en",
+      "category": "embellishment",
+      "pattern": "\\b(?:remarkably|strikingly)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of embellishment. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The method is remarkably impressive.",
+      "negative_example": "The error rate fell from 8% to 5%."
+    },
+    {
+      "id": "en-023",
+      "language": "en",
+      "category": "embellishment",
+      "pattern": "\\b(?:profound|invaluable) (?:insights?|implications?|contributions?)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of embellishment. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The estimates provide profound insights.",
+      "negative_example": "The estimates change which households qualify."
+    },
+    {
+      "id": "en-024",
+      "language": "en",
+      "category": "embellishment",
+      "pattern": "\\b(?:crucial|vital|pivotal)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of embellishment. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "This is a pivotal finding.",
+      "negative_example": "This constraint determines the feasible allocation.",
+      "technical_terms": [
+        {
+          "term_id": "vital-signs",
+          "forms": [
+            "vital signs"
+          ],
+          "domain": "medicine",
+          "definition_id": "vital-signs-v1",
+          "definition": "Measurements of core physiological functions, including pulse, respiration, temperature, and blood pressure."
+        },
+        {
+          "term_id": "vital-capacity",
+          "forms": [
+            "vital capacity"
+          ],
+          "domain": "medicine",
+          "definition_id": "vital-capacity-v1",
+          "definition": "Maximum volume of air exhaled after a maximal inhalation."
+        },
+        {
+          "term_id": "vital-statistics",
+          "forms": [
+            "vital statistics"
+          ],
+          "domain": "demography",
+          "definition_id": "vital-statistics-v1",
+          "definition": "Population statistics concerning births, deaths, and related vital events."
+        },
+        {
+          "term_id": "pivotal-quantity",
+          "forms": [
+            "pivotal quantity",
+            "pivotal quantities"
+          ],
+          "domain": "statistics",
+          "definition_id": "pivotal-quantity-v1",
+          "definition": "A function of observations and parameters whose probability distribution does not depend on unknown parameters."
+        },
+        {
+          "term_id": "pivotal-statistic",
+          "forms": [
+            "pivotal statistic",
+            "pivotal statistics"
+          ],
+          "domain": "statistics",
+          "definition_id": "pivotal-statistic-v1",
+          "definition": "A statistic used as a pivot with a parameter-independent reference distribution."
+        }
+      ]
+    },
+    {
+      "id": "en-025",
+      "language": "en",
+      "category": "vague_qualification",
+      "pattern": "\\bmay\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_qualification. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Demand may increase.",
+      "negative_example": "The forecast interval is 100 to 130 units."
+    },
+    {
+      "id": "en-026",
+      "language": "en",
+      "category": "vague_qualification",
+      "pattern": "\\b(?:might|could)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_qualification. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The capacity constraint could explain the decline.",
+      "negative_example": "The capacity mechanism remains untested."
+    },
+    {
+      "id": "en-027",
+      "language": "en",
+      "category": "vague_qualification",
+      "pattern": "\\bnot necessarily\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_qualification. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Higher income does not necessarily raise spending.",
+      "negative_example": "Spending responses differ by household group."
+    },
+    {
+      "id": "en-028",
+      "language": "en",
+      "category": "vague_qualification",
+      "pattern": "\\b(?:to some extent|somewhat|arguably)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_qualification. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Participation increased somewhat.",
+      "negative_example": "Participation increased by four percentage points."
+    },
+    {
+      "id": "en-029",
+      "language": "en",
+      "category": "indirect_assertion",
+      "pattern": "\\bit (?:can|could) be (?:said|argued) that\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of indirect_assertion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "It can be said that the policy improved access.",
+      "negative_example": "Access increased in the treated municipalities."
+    },
+    {
+      "id": "en-030",
+      "language": "en",
+      "category": "indirect_assertion",
+      "pattern": "\\b(?:seem(?:s|ed|ing)?|appear(?:s|ed|ing)?) to\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of indirect_assertion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The policy seems to reduce turnover.",
+      "negative_example": "Turnover fell during the observation period."
+    },
+    {
+      "id": "en-031",
+      "language": "en",
+      "category": "indirect_assertion",
+      "pattern": "\\b(?:we|i) (?:believ(?:e|ed)|feel|felt|think|thought)(?: that)?\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of indirect_assertion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "We believe that the estimate is informative.",
+      "negative_example": "The estimate identifies the short-run response."
+    },
+    {
+      "id": "en-032",
+      "language": "en",
+      "category": "indirect_assertion",
+      "pattern": "\\bwould it not be\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of indirect_assertion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Would it not be useful to re-estimate the model?",
+      "negative_example": "Re-estimate the model with clustered standard errors."
+    },
+    {
+      "id": "en-033",
+      "language": "en",
+      "category": "redundancy",
+      "pattern": "\\bbasically\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundancy. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The methods are basically identical.",
+      "negative_example": "The methods use the same estimator."
+    },
+    {
+      "id": "en-034",
+      "language": "en",
+      "category": "redundancy",
+      "pattern": "\\bin a sense\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundancy. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The program succeeded in a sense.",
+      "negative_example": "Enrollment reached its target."
+    },
+    {
+      "id": "en-035",
+      "language": "en",
+      "category": "redundancy",
+      "pattern": "\\bso to speak\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundancy. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The program is a bridge, so to speak.",
+      "negative_example": "The program connects training to recruitment."
+    },
+    {
+      "id": "en-036",
+      "language": "en",
+      "category": "redundancy",
+      "pattern": "\\bmore or less\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundancy. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The estimates are more or less equal.",
+      "negative_example": "The estimates differ by 0.02."
+    },
+    {
+      "id": "en-037",
+      "language": "en",
+      "category": "reader_management",
+      "pattern": "\\bthe reader should (?:note|remember|bear in mind)\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of reader_management. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The reader should note that these data are provisional.",
+      "negative_example": "These data are provisional."
+    },
+    {
+      "id": "en-038",
+      "language": "en",
+      "category": "reader_management",
+      "pattern": "\\bfor the avoidance of doubt\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of reader_management. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "For the avoidance of doubt, the estimate is annual.",
+      "negative_example": "The estimate is annual."
+    },
+    {
+      "id": "en-039",
+      "language": "en",
+      "category": "reader_management",
+      "pattern": "\\bit should be (?:emphasized|stressed) that\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of reader_management. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "It should be emphasized that the sample is restricted.",
+      "negative_example": "The sample contains employed adults only."
+    },
+    {
+      "id": "en-040",
+      "language": "en",
+      "category": "reader_management",
+      "pattern": "\\b(?:no|not an?) exaggeration to say\\b",
+      "action": "block",
+      "explanation": "Candidate occurrence of reader_management. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "It is no exaggeration to say that this changes the decision.",
+      "negative_example": "The estimate reverses the ranking of the two options."
+    },
+    {
+      "id": "ja-041",
+      "language": "ja",
+      "category": "rhetorical_preface",
+      "pattern": "(?:(?:言わずもがな|(?:当然ながら|無論|自明のことながら|周知のとおり)|(?:ご存じのとおり|誰もが知るように|言うに及ばず)|(?:まず押さえておきたいのは|ここで強調したいのは)|(?:ここで重要なのは|ここで注目したいのは)|(?:最初に断っておくと|前置きしておくと)|(?:結論から申し上げると|端的に言えば|簡単に言うと)|(?:あえて最初に述べるなら|改めて確認すると)))|(?:(?:補足|注釈|追記)(?:として|すると|します|しておく|すれば|ですが)|(?:^|[\\n。！？])\\s*(?:補足|注釈|追記)\\s*[:：]|念のため(?:に)?(?:付け加え|補足|申し添え))",
+      "action": "block",
+      "explanation": "Candidate occurrence of rhetorical_preface. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "言わずもがな。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-041",
+      "language": "en",
+      "category": "rhetorical_preface",
+      "pattern": "(?:(?:(?:(?<!\\w)obviously(?!\\w)|(?<!\\w)clearly(?!\\w)|(?<!\\w)evidently(?!\\w))|(?:(?<!\\w)as\\ everyone\\ knows(?!\\w)|(?<!\\w)as\\ is\\ well\\ known(?!\\w))|(?<!\\w)it\\ should\\ be\\ noted\\ that(?!\\w)|(?:(?<!\\w)importantly(?!\\w)|(?<!\\w)notably(?!\\w))|(?:(?<!\\w)let\\ me\\ start\\ by\\ saying(?!\\w)|(?<!\\w)first\\ and\\ foremost(?!\\w))|(?:(?<!\\w)before\\ we\\ begin(?!\\w)|(?<!\\w)to\\ begin\\ with(?!\\w))|(?<!\\w)the\\ key\\ thing\\ to\\ remember\\ is(?!\\w)))|(?:(?<!\\w)(?:as (?:a|an) (?:side note|aside|addendum)|on a side note|for (?:the sake of )?completeness|a word of caution)(?!\\w)|(?:^|[\\n.!?])\\s*(?:note|side note|addendum|postscript)\\s*:)",
+      "action": "block",
+      "explanation": "Candidate occurrence of rhetorical_preface. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Obviously.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-042",
+      "language": "ja",
+      "category": "self_reference",
+      "pattern": "(?:(?:正直に言うと|正直なところ|正直な話)|(?:率直に言えば|率直に申し上げると)|(?:はっきり言って|本音を言えば|ぶっちゃけ)|(?:私としては|個人的には|私見では)|あくまで私の見解(?:だ|です|である|だった|でした)が|(?:私が言いたいのは|お伝えしたいのは)|(?:敢えて言うなら|強いて言えば)|(?:私の理解では|私の認識では)|ここではっきりさせたいのは|あえて厳しく言えば)",
+      "action": "block",
+      "explanation": "Candidate occurrence of self_reference. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "正直に言うと。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-042",
+      "language": "en",
+      "category": "self_reference",
+      "pattern": "(?:(?:(?<!\\w)honestly(?!\\w)|(?<!\\w)frankly(?!\\w)|(?<!\\w)to\\ be\\ honest(?!\\w))|(?:(?<!\\w)to\\ be\\ frank(?!\\w)|(?<!\\w)truthfully(?!\\w)|(?<!\\w)in\\ all\\ honesty(?!\\w))|(?:(?<!\\w)personally\\ speaking(?!\\w)|(?<!\\w)my\\ personal\\ take\\ is(?!\\w))|(?:(?<!\\w)i\\ would\\ say\\ that(?!\\w)|(?<!\\w)i\\ would\\ argue\\ that(?!\\w))|(?:(?<!\\w)i\\ want\\ to\\ emphasize\\ that(?!\\w)|(?<!\\w)let\\ me\\ be\\ clear(?!\\w))|(?:(?<!\\w)if\\ i['’ʼ]m\\ being\\ honest(?!\\w)|(?<!\\w)to\\ put\\ it\\ bluntly(?!\\w))|(?<!\\w)from\\ my\\ perspective(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of self_reference. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Honestly.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-043",
+      "language": "ja",
+      "category": "preemptive_defense",
+      "pattern": "(?:誤解を招くかもしれ(?:ません|ませんでした)が|誤解しないでいただきたいの(?:だ|です|である|だった|でした)が|(?:批判を承知で言えば|反論を覚悟で言えば)|言い過ぎかもしれ(?:ません|ませんでした)が|断定するつもりはあり(?:ません|ませんでした)が|決して否定する意図はあり(?:ません|ませんでした)|決して批判しているわけでは(?:ない|なかった|ありません|ありませんでした)|不快に思われるかもしれ(?:ません|ませんでした)が|お気を悪くされたら申し訳あり(?:ません|ませんでした)が|偉そうに聞こえるかもしれ(?:ません|ませんでした)が|上から目線に聞こえるかもしれ(?:ません|ませんでした)が|私を弁護するわけでは(?:ない|なかった|ありません|ありませんでした)が|言い訳に聞こえるかもしれ(?:ません|ませんでした)が)",
+      "action": "block",
+      "explanation": "Candidate occurrence of preemptive_defense. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "誤解を招くかもしれませんが。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-043",
+      "language": "en",
+      "category": "preemptive_defense",
+      "pattern": "(?:(?<!\\w)no\\ offense,\\ but(?!\\w)|(?<!\\w)i\\ don['’ʼ]t\\ mean\\ to\\ offend(?!\\w)|(?<!\\w)i\\ don['’ʼ]t\\ want\\ to\\ sound\\ harsh(?!\\w)|(?<!\\w)i\\ don['’ʼ]t\\ mean\\ to\\ be\\ critical(?!\\w)|(?<!\\w)i\\ hope\\ this\\ doesn['’ʼ]t\\ come\\ across\\ as(?!\\w)|(?<!\\w)at\\ the\\ risk\\ of\\ sounding(?!\\w)|(?<!\\w)don['’ʼ]t\\ get\\ me\\ wrong(?!\\w)|(?<!\\w)i['’ʼ]m\\ not\\ trying\\ to\\ suggest\\ that(?!\\w)|(?<!\\w)i\\ don['’ʼ]t\\ mean\\ to\\ imply\\ that(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of preemptive_defense. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "No offense, but.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-044",
+      "language": "ja",
+      "category": "concession",
+      "pattern": "(?:おっしゃるとおり(?:だ|です|である|だった|でした)が|それはそうなの(?:だ|です|である|だった|でした)が|(?:一理(?:ある|あります|あった|ありました)が|一面では正し(?:い(?:です)?|かった(?:です)?)が)|(?:そうは言っても|とはいうものの)|ただ一方で|(?:もっとも|それでもなお)|それ自体は間違ってい(?:ません|ませんでした)が|そう考えることもできますが|その点は理解できますが|一定の妥当性は(?:ある|あります|あった|ありました)が|完全に否定するものでは(?:ない|なかった|ありません|ありませんでした)が)",
+      "action": "block",
+      "explanation": "Candidate occurrence of concession. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "おっしゃるとおりですが。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-044",
+      "language": "en",
+      "category": "concession",
+      "pattern": "(?:(?<!\\w)certainly(?!\\w)|(?:(?<!\\w)granted(?!\\w)|(?<!\\w)to\\ be\\ fair(?!\\w))|(?<!\\w)having\\ said\\ that(?!\\w)|(?:(?<!\\w)nonetheless(?!\\w)|(?<!\\w)nevertheless(?!\\w))|(?<!\\w)even\\ so(?!\\w)|(?<!\\w)while\\ this\\ is\\ true(?!\\w)|(?<!\\w)you\\ make\\ a\\ fair\\ point,\\ but(?!\\w)|(?<!\\w)i\\ see\\ your\\ point,\\ but(?!\\w)|(?<!\\w)there\\ is\\ some\\ merit\\ to\\ that\\ view(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of concession. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Certainly.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-045",
+      "language": "ja",
+      "category": "vague_caution",
+      "pattern": "(?:(?:注意しておくべき(?:だ|です|である|だった|でした)|注意すべき点が(?:ある|あります|あった|ありました))|慎重に考える必要が(?:ある|あります|あった|ありました)|慎重な検討が求められ(?:る|ます|た|ました)|念頭に置く必要が(?:ある|あります|あった|ありました)|頭に入れておくべき(?:だ|です|である|だった|でした)|軽視すべきでは(?:ない|なかった|ありません|ありませんでした)|安易に判断すべきでは(?:ない|なかった|ありません|ありませんでした)|拙速な判断は避けるべき(?:だ|です|である|だった|でした)|十分な検討が不可欠(?:だ|です|である|だった|でした)|過度な一般化は避けるべき(?:だ|です|である|だった|でした)|鵜呑みにすべきでは(?:ない|なかった|ありません|ありませんでした))|(?:慎重|保守的)な(?:姿勢|見方|対応|判断|解釈)|(?:断言|断定)(?:を)?(?:避け|控え|差し控え)|(?:慎重さ|保守的に)|(?:慎重|保守的)な(?:立場|態度|方針)",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "注意しておくべきです。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-045",
+      "language": "en",
+      "category": "vague_caution",
+      "pattern": "(?:(?:(?<!\\w)exercise\\ caution(?!\\w)|(?<!\\w)proceed\\ with\\ caution(?!\\w))|(?<!\\w)care\\ should\\ be\\ taken(?!\\w)|(?<!\\w)it\\ is\\ important\\ to\\ be\\ careful(?!\\w)|(?<!\\w)caution\\ is\\ warranted(?!\\w)|(?<!\\w)it\\ is\\ important\\ to\\ remember(?!\\w)|(?<!\\w)one\\ should\\ be\\ mindful\\ of(?!\\w)|(?<!\\w)should\\ not\\ be\\ taken\\ at\\ face\\ value(?!\\w)|(?<!\\w)it\\ would\\ be\\ prudent\\ to(?!\\w)|(?<!\\w)further\\ consideration\\ is\\ warranted(?!\\w))|(?<!\\w)(?:(?:exercis(?:e|es|ed|ing)|counsel(?:s|ed|ing|led|ling)?|urg(?:e|es|ed|ing)) caution|(?:cautious|conservative) (?:stance|posture|interpretation|assessment|view|approach))(?!\\w)|(?<!\\w)(?:remain(?:s|ed|ing)?|stay(?:s|ed|ing)?|be|is|are|was|were) cautious(?!\\w)|(?<!\\w)(?:cautious|conservative) (?:position|attitude|policy)(?!\\w)",
+      "action": "block",
+      "explanation": "Candidate occurrence of vague_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Exercise caution.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-046",
+      "language": "ja",
+      "category": "generic_disclaimer",
+      "pattern": "(?:(?:一般的な情報提供を目的として(?:いる|います|いた|いました)|参考情報としてご覧ください|あくまで参考程度に|最終的な判断はご自身でお願い(?:する|します|した|しました)|ご自身の責任で判断してください|専門家に相談することをお勧め(?:する|します|した|しました)|正確性を保証するものでは(?:ない|なかった|ありません|ありませんでした)|完全性を保証するものでは(?:ない|なかった|ありません|ありませんでした)|結果を保証するものでは(?:ない|なかった|ありません|ありませんでした)|すべてのケースに当てはまるわけでは(?:ない|なかった|ありません|ありませんでした)|個別事情によって異なります|この回答は唯一の正解では(?:ない|なかった|ありません|ありませんでした)|あくまで一つの考え方(?:だ|です|である|だった|でした)|私の回答を過信しないでください|断言することは避けたいと思(?:う|います|った|いました))|参考までに|ご判断はお任せ(?:する|します|した|しました))|(?:責任(?:を|は)?(?:一切)?(?:負(?:い|え)ません|負わ(?:ない|ぬ)|取りません|取れません)|(?:判断|決定|利用|使用)(?:の|に関する)?(?:最終的な)?責任(?:は|を)(?:利用者|ユーザー|読者|あなた|ご自身|各自)|(?:正確性|正しさ|精度|完全性|結果)(?:を|は)?保証(?:できません|しません|しかねます))",
+      "action": "block",
+      "explanation": "Candidate occurrence of generic_disclaimer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "一般的な情報提供を目的としています。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-046",
+      "language": "en",
+      "category": "generic_disclaimer",
+      "pattern": "(?:(?<!\\w)for\\ informational\\ purposes\\ only(?!\\w)|(?<!\\w)this\\ is\\ not\\ professional\\ advice(?!\\w)|(?<!\\w)this\\ is\\ not\\ legal\\ advice(?!\\w)|(?<!\\w)this\\ is\\ not\\ financial\\ advice(?!\\w)|(?<!\\w)consult\\ a\\ qualified\\ professional(?!\\w)|(?<!\\w)use\\ at\\ your\\ own\\ risk(?!\\w)|(?<!\\w)no\\ guarantees\\ are\\ made(?!\\w)|(?<!\\w)this\\ is\\ only\\ one\\ perspective(?!\\w)|(?<!\\w)this\\ should\\ not\\ be\\ relied\\ upon(?!\\w)|(?<!\\w)ultimately,\\ the\\ decision\\ is\\ yours(?!\\w)|(?<!\\w)i\\ cannot\\ guarantee\\ accuracy(?!\\w))|(?<!\\w)(?:(?:accept|assume|take)\\s+no\\s+(?:liability|responsibility)|(?:am|are|is)\\s+not\\s+(?:liable|responsible)\\s+for|(?:the\\s+)?responsibility\\s+(?:for\\s+(?:the\\s+)?(?:decision|use|judg(?:e)?ment)\\s+)?(?:lies|rests)\\s+with\\s+(?:you|the\\s+user)|(?:the\\s+)?(?:decision|responsibility)\\s+is\\s+(?:(?:entirely|solely)\\s+)?yours)(?!\\w)",
+      "action": "block",
+      "explanation": "Candidate occurrence of generic_disclaimer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "For informational purposes only.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-047",
+      "language": "ja",
+      "category": "unsupported_hedging",
+      "pattern": "(?:(?:(?:何とも言え(?:ない|なかった|ません|ませんでした)|一概には言え(?:ない|なかった|ません|ませんでした))|言い切れ(?:ない|なかった|ません|ませんでした)|一概に判断することは難し(?:い(?:です)?|かった(?:です)?)|(?:断定は難し(?:い(?:です)?|かった(?:です)?)|断言はでき(?:ない|なかった|ません|ませんでした))|何らかの影響があると考えられ(?:る|ます|た|ました)|一定の影響があると思われ(?:る|ます|た|ました)|一定の効果が期待され(?:る|ます|た|ました)|多少の違いがあるかもしれ(?:ません|ませんでした)|それなりの効果があるでしょう|比較的有効と考えられ(?:る|ます|た|ました)|おおむね妥当だと思われ(?:る|ます|た|ました)|判断が分かれるところ(?:だ|です|である|だった|でした))|可能性は否定でき(?:ない|なかった|ません|ませんでした))",
+      "action": "block",
+      "explanation": "Candidate occurrence of unsupported_hedging. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "何とも言えません。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-047",
+      "language": "en",
+      "category": "unsupported_hedging",
+      "pattern": "(?:(?:(?<!\\w)it\\ is\\ hard\\ to\\ say(?!\\w)|(?<!\\w)it\\ is\\ difficult\\ to\\ determine(?!\\w)|(?<!\\w)it\\ is\\ not\\ entirely\\ clear(?!\\w)|(?<!\\w)one\\ cannot\\ say\\ for\\ certain(?!\\w)|(?:(?<!\\w)conceivably(?!\\w)|(?<!\\w)potentially(?!\\w))|(?<!\\w)in\\ some\\ sense(?!\\w)|(?:(?<!\\w)relatively(?!\\w)|(?<!\\w)fairly(?!\\w))|(?<!\\w)generally\\ speaking(?!\\w)|(?<!\\w)it\\ is\\ perhaps\\ reasonable\\ to\\ suggest(?!\\w))|(?<!\\w)(?:cannot|can't|can’t)\\s+rule\\s+out(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of unsupported_hedging. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "It is hard to say.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024.",
+      "technical_terms": [
+        {
+          "term_id": "relatively-prime",
+          "forms": [
+            "relatively prime"
+          ],
+          "domain": "mathematics",
+          "definition_id": "relatively-prime-v1",
+          "definition": "Integers whose greatest common divisor is one."
+        }
+      ]
+    },
+    {
+      "id": "ja-048",
+      "language": "ja",
+      "category": "indirect_assertion",
+      "pattern": "(?:[^。.!?\\n]{1,80}と言ってよいでしょう|[^。.!?\\n]{1,80}と考えられ(?:る|ます|た|ました)|(?:[^。.!?\\n]{1,80}と思われ(?:る|ます|た|ました)|[^。.!?\\n]{1,80}のように思われ(?:る|ます|た|ました))|(?:[^。.!?\\n]{1,80}と推察され(?:る|ます|た|ました)|[^。.!?\\n]{1,80}と推測され(?:る|ます|た|ました))|[^。.!?\\n]{1,80}ではないでしょうか|[^。.!?\\n]{1,80}ではないかと思(?:う|います|った|いました)|[^。.!?\\n]{1,80}のような気が(?:する|します|した|しました)|[^。.!?\\n]{1,80}と見ることもできるでしょう|[^。.!?\\n]{1,80}と解釈することも可能でしょう|[^。.!?\\n]{1,80}という見方もできるかもしれ(?:ません|ませんでした)|[^。.!?\\n]{1,80}と言っても差し支えないでしょう|[^。.!?\\n]{1,80}と捉えることができると思(?:う|います|った|いました))",
+      "action": "block",
+      "explanation": "Candidate occurrence of indirect_assertion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "推定値と言ってよいでしょう。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-048",
+      "language": "en",
+      "category": "indirect_assertion",
+      "pattern": "(?:(?<!\\w)it\\ would\\ seem\\ that(?!\\w)|(?<!\\w)it\\ appears\\ that(?!\\w)|(?<!\\w)it\\ seems\\ reasonable\\ to\\ suggest(?!\\w)|(?<!\\w)i\\ would\\ tend\\ to\\ think\\ that(?!\\w)|(?<!\\w)it\\ is\\ perhaps\\ fair\\ to\\ say(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of indirect_assertion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "It would seem that.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-049",
+      "language": "ja",
+      "category": "embellishment",
+      "pattern": "(?:(?:非常に重要|きわめて本質的)|(?:革新的|革命的)|(?:驚くべき|驚異的|衝撃的)|(?:注目に値する|特筆すべき)|実に興味深い|多くの示唆を与える|深い洞察を提供する|大きな意義を持つ|(?:決定的に重要|非常に有益)|(?:劇的|圧倒的)|本質的な変革をもたらす|新たな地平を切り開く|新しい可能性を拓く|パラダイムシフトを引き起こす|歴史的な転換点となる)",
+      "action": "block",
+      "explanation": "Candidate occurrence of embellishment. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "非常に重要。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-049",
+      "language": "en",
+      "category": "embellishment",
+      "pattern": "(?:(?<!\\w)revolutionary(?!\\w)|(?<!\\w)transformative(?!\\w)|(?:(?<!\\w)remarkable(?!\\w)|(?<!\\w)extraordinary(?!\\w))|(?:(?<!\\w)astonishing(?!\\w)|(?<!\\w)fascinating(?!\\w))|(?:(?<!\\w)highly\\ significant(?!\\w)|(?<!\\w)extremely\\ important(?!\\w))|(?:(?<!\\w)unprecedented(?!\\w)|(?<!\\w)paradigm[-‐‑– ]shifting(?!\\w))|(?<!\\w)a\\ major\\ breakthrough(?!\\w)|(?<!\\w)opens\\ new\\ horizons(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of embellishment. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Revolutionary.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-050",
+      "language": "ja",
+      "category": "irrelevant_contrast",
+      "pattern": "(?:[^。.!?\\n]{1,80}だけでは(?:ない|なかった|ありません|ありませんでした)|[^。.!?\\n]{1,80}にとどまり(?:ません|ませんでした)|[^。.!?\\n]{1,80}のみならず|[^。.!?\\n]{1,80}を超えて|[^。.!?\\n]{1,80}以上のもの(?:だ|です|である|だった|でした)|重要なのは[^。.!?\\n]{1,80}では(?:ない|なかった|ありません|ありませんでした)|問題は[^。.!?\\n]{1,80}では(?:ない|なかった|ありません|ありませんでした)|本質は[^。.!?\\n]{1,80}では(?:ない|なかった|ありません|ありませんでした)|本当に重要なのは|単に[^。.!?\\n]{1,80}するだけでは不十分(?:だ|です|である|だった|でした)|[^。.!?\\n]{1,80}と捉えるべきでは(?:ない|なかった|ありません|ありませんでした))",
+      "action": "block",
+      "explanation": "Candidate occurrence of irrelevant_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "推定値だけではありません。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-050",
+      "language": "en",
+      "category": "irrelevant_contrast",
+      "pattern": "(?:(?<!\\w)it\\ is\\ not\\ simply\\ about(?!\\w)|(?<!\\w)the\\ real\\ issue\\ is\\ not(?!\\w)|(?<!\\w)this\\ goes\\ beyond(?!\\w)|(?<!\\w)it\\ is\\ much\\ more\\ than(?!\\w)|(?<!\\w)at\\ its\\ core,\\ this\\ is\\ not\\ about(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of irrelevant_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "It is not simply about.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-051",
+      "language": "ja",
+      "category": "redundancy",
+      "pattern": "(?:(?:原則として|一般的には)|(?:いわゆる|言ってみれば)|どちらかと言えば|多少なりとも|(?:何となく|どことなく)|(?:とりあえず|ひとまず)|(?:ある種の|一種の)|それなりに|(?:少なからず|相応に)|(?:ある側面では|一面では)|(?:広い意味では|狭い意味では)|(?:ざっくり言えば|大まかに言えば))",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundancy. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "原則として。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-051",
+      "language": "en",
+      "category": "redundancy",
+      "pattern": "(?:(?:(?<!\\w)essentially(?!\\w)|(?<!\\w)fundamentally(?!\\w))|(?<!\\w)as\\ it\\ were(?!\\w)|(?:(?<!\\w)kind\\ of(?!\\w)|(?<!\\w)sort\\ of(?!\\w))|(?:(?<!\\w)generally(?!\\w)|(?<!\\w)broadly\\ speaking(?!\\w))|(?:(?<!\\w)roughly\\ speaking(?!\\w)|(?<!\\w)loosely\\ speaking(?!\\w))|(?<!\\w)to\\ a\\ degree(?!\\w)|(?:(?<!\\w)in\\ a\\ way(?!\\w)|(?<!\\w)in\\ some\\ respects(?!\\w))|(?<!\\w)for\\ the\\ most\\ part(?!\\w)|(?<!\\w)by\\ and\\ large(?!\\w)|(?<!\\w)all\\ things\\ considered(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundancy. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Essentially.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024.",
+      "technical_terms": [
+        {
+          "term_id": "essentially-bounded",
+          "forms": [
+            "essentially bounded"
+          ],
+          "domain": "mathematics",
+          "definition_id": "essentially-bounded-v1",
+          "definition": "A measurable function bounded outside a set of measure zero."
+        },
+        {
+          "term_id": "essentially-surjective",
+          "forms": [
+            "essentially surjective"
+          ],
+          "domain": "mathematics",
+          "definition_id": "essentially-surjective-v1",
+          "definition": "A functor for which every target object is isomorphic to an image object."
+        },
+        {
+          "term_id": "essentially-self-adjoint",
+          "forms": [
+            "essentially self-adjoint"
+          ],
+          "domain": "mathematics",
+          "definition_id": "essentially-self-adjoint-v1",
+          "definition": "A densely defined symmetric operator whose closure is self-adjoint."
+        }
+      ]
+    },
+    {
+      "id": "ja-052",
+      "language": "ja",
+      "category": "reader_management",
+      "pattern": "(?:ご承知おきください|覚えておいてください|忘れてはならないのは|ここで注意してほしいのは|ぜひ知っていただきたいのは|特に意識していただきたいのは|強調しておきたいの(?:だ|です|である|だった|でした)が|念のため申し添えます|念押ししておきますが|何度も言いますが|くれぐれも注意してください|誤解のないように|ここを見落とさないでください|この点は強調してもしすぎることはあり(?:ません|ませんでした))",
+      "action": "block",
+      "explanation": "Candidate occurrence of reader_management. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "ご承知おきください。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-052",
+      "language": "en",
+      "category": "reader_management",
+      "pattern": "(?:(?:(?<!\\w)please\\ note\\ that(?!\\w)|(?<!\\w)kindly\\ note\\ that(?!\\w))|(?<!\\w)don['’ʼ]t\\ forget\\ that(?!\\w)|(?<!\\w)it\\ bears\\ repeating\\ that(?!\\w)|(?<!\\w)let\\ me\\ reiterate(?!\\w)|(?<!\\w)let\\ me\\ stress\\ again(?!\\w)|(?<!\\w)make\\ no\\ mistake(?!\\w)|(?<!\\w)it\\ cannot\\ be\\ emphasized\\ enough(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of reader_management. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Please note that.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-053",
+      "language": "ja",
+      "category": "excessive_agreement",
+      "pattern": "(?:(?:素晴らしい質問(?:だ|です|である|だった|でした)|非常に良い質問(?:だ|です|である|だった|でした))|(?:鋭いご指摘(?:だ|です|である|だった|でした)|的確なご指摘(?:だ|です|である|だった|でした))|(?:おっしゃるとおり(?:だ|です|である|だった|でした)|まさにそのとおり(?:だ|です|である|だった|でした))|(?:完全に同意(?:する|します|した|しました)|全面的に賛成(?:だ|です|である|だった|でした))|(?:本質を突いています|核心を突いています)|(?:さすが(?:だ|です|である|だった|でした)|その発想は素晴らし(?:い(?:です)?|かった(?:です)?))|非常に深い洞察(?:だ|です|である|だった|でした)|良いところに気づきましたね|その理解で完璧(?:だ|です|である|だった|でした)|まさにそこがポイント(?:だ|です|である|だった|でした)|ご指摘のとおり、私の説明が不十分(?:だった|でした))",
+      "action": "block",
+      "explanation": "Candidate occurrence of excessive_agreement. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "素晴らしい質問です。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-053",
+      "language": "en",
+      "category": "excessive_agreement",
+      "pattern": "(?:(?:(?<!\\w)great\\ question(?!\\w)|(?<!\\w)excellent\\ question(?!\\w))|(?<!\\w)that['’ʼ]s\\ a\\ fantastic\\ point(?!\\w)|(?<!\\w)you['’ʼ]re\\ absolutely\\ right(?!\\w)|(?<!\\w)i\\ completely\\ agree(?!\\w)|(?<!\\w)that['’ʼ]s\\ a\\ very\\ insightful\\ observation(?!\\w)|(?<!\\w)you\\ hit\\ the\\ nail\\ on\\ the\\ head(?!\\w)|(?<!\\w)that['’ʼ]s\\ exactly\\ the\\ right\\ way\\ to\\ think\\ about\\ it(?!\\w)|(?<!\\w)brilliant\\ insight(?!\\w)|(?<!\\w)you['’ʼ]ve\\ identified\\ the\\ key\\ issue(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of excessive_agreement. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Great question.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-054",
+      "language": "ja",
+      "category": "emotional_buffer",
+      "pattern": "(?:お気持ちはよく分か(?:る|ります|った|りました)|それは大変(?:だった|でした)ね|つらいお気持ち、お察し(?:する|します|した|しました)|ご不安になるのも無理はあり(?:ません|ませんでした)|ご安心ください|まずは落ち着きましょう|一度深呼吸しましょう|自分を責める必要はあり(?:ません|ませんでした)|あなたが悪いわけでは(?:ない|なかった|ありません|ありませんでした)|そのように感じるのは自然(?:だ|です|である|だった|でした)|お気持ちに寄り添いながら|大切なのは前向きに考えること(?:だ|です|である|だった|でした))",
+      "action": "block",
+      "explanation": "Candidate occurrence of emotional_buffer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "お気持ちはよく分かります。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-054",
+      "language": "en",
+      "category": "emotional_buffer",
+      "pattern": "(?:(?<!\\w)i\\ completely\\ understand\\ how\\ you\\ feel(?!\\w)|(?<!\\w)your\\ feelings\\ are\\ valid(?!\\w)|(?<!\\w)that\\ must\\ be\\ frustrating(?!\\w)|(?<!\\w)it['’ʼ]s\\ understandable\\ to\\ feel\\ that\\ way(?!\\w)|(?<!\\w)rest\\ assured(?!\\w)|(?<!\\w)let['’ʼ]s\\ take\\ a\\ deep\\ breath(?!\\w)|(?<!\\w)let['’ʼ]s\\ take\\ a\\ step\\ back(?!\\w)|(?<!\\w)don['’ʼ]t\\ be\\ too\\ hard\\ on\\ yourself(?!\\w)|(?<!\\w)you['’ʼ]re\\ not\\ alone(?!\\w)|(?<!\\w)it['’ʼ]s\\ perfectly\\ natural\\ to\\ feel\\ this\\ way(?!\\w)|(?<!\\w)i\\ hear\\ you(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of emotional_buffer. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "I completely understand how you feel.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-055",
+      "language": "ja",
+      "category": "self_justification",
+      "pattern": "(?:決して意図的では(?:ない|なかった|ありません|ありませんでした)|悪意があったわけでは(?:ない|なかった|ありません|ありませんでした)|あくまで善意からの回答(?:だった|でした)|誤解を招く表現だったかもしれ(?:ません|ませんでした)|私の説明が伝わりにくかったよう(?:だ|です|である|だった|でした)|そのように受け取られたのであれば|結果としてご期待に沿え(?:ない|なかった|ません|ませんでした)|私なりに最善を尽く(?:した|しました|している|しています)|技術的な制約もあり|複雑な要因が重なった結果|完璧では(?:ない|なかった|ありません|ありませんでした)が|今後は改善に努めます|真摯に受け止めます|貴重なフィードバックをありがとうございます)",
+      "action": "block",
+      "explanation": "Candidate occurrence of self_justification. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "決して意図的ではありません。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-055",
+      "language": "en",
+      "category": "self_justification",
+      "pattern": "(?:(?<!\\w)that\\ was\\ not\\ my\\ intention(?!\\w)|(?<!\\w)i\\ never\\ intended\\ to(?!\\w)|(?<!\\w)i\\ was\\ only\\ trying\\ to\\ help(?!\\w)|(?<!\\w)i\\ apologize\\ if\\ it\\ came\\ across\\ that\\ way(?!\\w)|(?<!\\w)if\\ my\\ wording\\ caused\\ confusion(?!\\w)|(?<!\\w)i\\ did\\ my\\ best(?!\\w)|(?<!\\w)due\\ to\\ various\\ technical\\ limitations(?!\\w)|(?<!\\w)a\\ combination\\ of\\ complex\\ factors(?!\\w)|(?<!\\w)i\\ acknowledge\\ your\\ feedback(?!\\w)|(?<!\\w)i\\ will\\ strive\\ to\\ do\\ better(?!\\w)|(?<!\\w)thank\\ you\\ for\\ bringing\\ this\\ to\\ my\\ attention(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of self_justification. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "That was not my intention.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-056",
+      "language": "ja",
+      "category": "ritual_apology",
+      "pattern": "(?:申し訳あり(?:ません|ませんでした)が|恐れ入りますが|残念ながら|大変恐縮(?:だ|です|である|だった|でした)が|ご期待に添えず申し訳あり(?:ません|ませんでした)|お力になれず申し訳あり(?:ません|ませんでした)|ご不便をおかけ(?:する|します|した|しました)が|何卒ご了承ください|ご容赦いただければ幸い(?:だ|です|である|だった|でした)|お手数をおかけ(?:する|します|した|しました)が|差し支えなければ|失礼を承知で申し上げます|お許しいただきたいの(?:だ|です|である|だった|でした)が)",
+      "action": "block",
+      "explanation": "Candidate occurrence of ritual_apology. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "申し訳ありませんが。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-056",
+      "language": "en",
+      "category": "ritual_apology",
+      "pattern": "(?:(?<!\\w)i['’ʼ]m\\ sorry,\\ but(?!\\w)|(?<!\\w)unfortunately(?!\\w)|(?<!\\w)regrettably(?!\\w)|(?<!\\w)i\\ regret\\ to\\ inform\\ you(?!\\w)|(?<!\\w)i\\ apologize\\ for\\ the\\ inconvenience(?!\\w)|(?<!\\w)please\\ understand\\ that(?!\\w)|(?<!\\w)i\\ hope\\ you\\ can\\ appreciate(?!\\w)|(?<!\\w)i\\ sincerely\\ apologize(?!\\w)|(?<!\\w)with\\ your\\ permission(?!\\w)|(?<!\\w)if\\ you\\ don['’ʼ]t\\ mind(?!\\w)|(?<!\\w)i\\ beg\\ your\\ pardon(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of ritual_apology. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "I'm sorry, but.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-057",
+      "language": "ja",
+      "category": "execution_deferral",
+      "pattern": "(?:まずは整理してみましょう|一緒に考えていきましょう|順を追って考えてみましょう|少し立ち止まって考えましょう|まず全体像を把握しましょう|いくつか確認させてください|もう少し情報があると正確に回答できます|詳細を教えていただければ|よろしければ対応できます|ご希望(?:だった|でした)ら作成できます|必要であれば調査(?:する|します|した|しました)|次のステップとして検討しましょう|これから確認していきます|段階的に進めるのがよいでしょう|まずは小さく始めましょう|いったんここまでにしましょう)",
+      "action": "block",
+      "explanation": "Candidate occurrence of execution_deferral. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "まずは整理してみましょう。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-057",
+      "language": "en",
+      "category": "execution_deferral",
+      "pattern": "(?:(?<!\\w)let['’ʼ]s\\ break\\ this\\ down(?!\\w)|(?<!\\w)let['’ʼ]s\\ think\\ this\\ through(?!\\w)|(?<!\\w)let['’ʼ]s\\ explore\\ this\\ together(?!\\w)|(?<!\\w)first,\\ let['’ʼ]s\\ establish\\ the\\ basics(?!\\w)|(?<!\\w)more\\ information\\ would\\ be\\ helpful(?!\\w)|(?<!\\w)if\\ you['’ʼ]d\\ like,\\ i\\ can(?!\\w)|(?<!\\w)i\\ would\\ be\\ happy\\ to\\ help(?!\\w)|(?<!\\w)we\\ can\\ explore\\ this\\ further(?!\\w)|(?<!\\w)let['’ʼ]s\\ start\\ with\\ a\\ high[-‐‑– ]level\\ overview(?!\\w)|(?<!\\w)the\\ next\\ step\\ would\\ be\\ to(?!\\w)|(?<!\\w)let['’ʼ]s\\ begin\\ by\\ considering(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of execution_deferral. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Let's break this down.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-058",
+      "language": "ja",
+      "category": "empty_generalization",
+      "pattern": "(?:ケースバイケース(?:だ|です|である|だった|でした)|(?:状況によります|場合によります)|さまざまな要因が関係(?:する|します|した|しました)|複数の要因が複雑に絡み合っています|一概に正解はあり(?:ません|ませんでした)|唯一の正解は存在し(?:ません|ませんでした)|万能な解決策はあり(?:ません|ませんでした)|それぞれにメリットとデメリットが(?:ある|あります|あった|ありました)|目的や状況によって最適解が異なります|総合的に判断する必要が(?:ある|あります|あった|ありました)|個別具体的な検討が必要(?:だ|です|である|だった|でした)|バランスが重要(?:だ|です|である|だった|でした)|適切な対応が求められ(?:る|ます|た|ました)|多角的な視点が必要(?:だ|です|である|だった|でした)|柔軟に対応することが重要(?:だ|です|である|だった|でした)|状況に応じた判断が不可欠(?:だ|です|である|だった|でした)|複雑な問題なので単純化でき(?:ない|なかった|ません|ませんでした))",
+      "action": "block",
+      "explanation": "Candidate occurrence of empty_generalization. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "ケースバイケースです。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-058",
+      "language": "en",
+      "category": "empty_generalization",
+      "pattern": "(?:(?<!\\w)it\\ depends(?!\\w)|(?<!\\w)there\\ is\\ no\\ one[-‐‑– ]size[-‐‑– ]fits[-‐‑– ]all\\ solution(?!\\w)|(?<!\\w)there\\ is\\ no\\ single\\ right\\ answer(?!\\w)|(?<!\\w)various\\ factors\\ come\\ into\\ play(?!\\w)|(?<!\\w)many\\ factors\\ are\\ intertwined(?!\\w)|(?<!\\w)it\\ is\\ a\\ complex\\ issue(?!\\w)|(?<!\\w)context\\ matters(?!\\w)|(?<!\\w)a\\ balanced\\ approach\\ is\\ needed(?!\\w)|(?<!\\w)each\\ option\\ has\\ pros\\ and\\ cons(?!\\w)|(?<!\\w)a\\ holistic\\ approach\\ is\\ essential(?!\\w)|(?<!\\w)a\\ nuanced\\ understanding\\ is\\ required(?!\\w)|(?<!\\w)the\\ best\\ approach\\ depends\\ on\\ the\\ circumstances(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of empty_generalization. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "It depends.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-059",
+      "language": "ja",
+      "category": "false_neutrality",
+      "pattern": "(?:どちらの立場にも一理(?:ある|あります|あった|ありました)|双方の意見を尊重することが重要(?:だ|です|である|だった|でした)|賛否両論が(?:ある|あります|あった|ありました)|さまざまな意見が(?:ある|あります|あった|ありました)|見方によって評価が分かれ(?:る|ます|た|ました)|どちらも正しい側面が(?:ある|あります|あった|ありました)|一概に優劣はつけられ(?:ません|ませんでした)|中立的な視点を維持することが重要(?:だ|です|である|だった|でした)|両方の観点を考慮する必要が(?:ある|あります|あった|ありました)|それぞれの価値観によります|最終的には個人の判断(?:だ|です|である|だった|でした)|多様な視点を尊重すべき(?:だ|です|である|だった|でした)|両者のバランスを取ることが望まし(?:い(?:です)?|かった(?:です)?))",
+      "action": "block",
+      "explanation": "Candidate occurrence of false_neutrality. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "どちらの立場にも一理あります。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-059",
+      "language": "en",
+      "category": "false_neutrality",
+      "pattern": "(?:(?<!\\w)both\\ sides\\ have\\ valid\\ points(?!\\w)|(?<!\\w)there\\ are\\ arguments\\ on\\ both\\ sides(?!\\w)|(?<!\\w)opinions\\ differ(?!\\w)|(?<!\\w)both\\ perspectives\\ deserve\\ consideration(?!\\w)|(?<!\\w)it\\ is\\ a\\ matter\\ of\\ perspective(?!\\w)|(?<!\\w)different\\ people\\ see\\ it\\ differently(?!\\w)|(?<!\\w)there\\ is\\ no\\ universally\\ correct\\ answer(?!\\w)|(?<!\\w)we\\ should\\ respect\\ all\\ viewpoints(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of false_neutrality. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Both sides have valid points.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-060",
+      "language": "ja",
+      "category": "abstraction_evasion",
+      "pattern": "(?:本質的な問題は別に(?:ある|あります|あった|ありました)|真に問うべきなのは|より根本的な問題が(?:ある|あります|あった|ありました)|問題の核心はもっと深いところに(?:ある|あります|あった|ありました)|背景にある構造的な問題を考える必要が(?:ある|あります|あった|ありました)|まず前提を問い直す必要が(?:ある|あります|あった|ありました)|議論の枠組みを変えるべき(?:だ|です|である|だった|でした)|より広い文脈で捉える必要が(?:ある|あります|あった|ありました)|その問い自体を再考すべき(?:だ|です|である|だった|でした)|真の課題は別のところに(?:ある|あります|あった|ありました))",
+      "action": "block",
+      "explanation": "Candidate occurrence of abstraction_evasion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "本質的な問題は別にあります。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-060",
+      "language": "en",
+      "category": "abstraction_evasion",
+      "pattern": "(?:(?<!\\w)the\\ real\\ issue\\ is\\ deeper(?!\\w)|(?<!\\w)the\\ fundamental\\ question\\ is(?!\\w)|(?<!\\w)we\\ need\\ to\\ rethink\\ the\\ premise(?!\\w)|(?<!\\w)we\\ should\\ look\\ at\\ the\\ bigger\\ picture(?!\\w)|(?<!\\w)the\\ real\\ challenge\\ lies\\ elsewhere(?!\\w)|(?<!\\w)we\\ need\\ to\\ reframe\\ the\\ question(?!\\w)|(?<!\\w)what\\ truly\\ matters\\ is(?!\\w)|(?<!\\w)this\\ goes\\ to\\ the\\ heart\\ of(?!\\w)|(?<!\\w)the\\ issue\\ is\\ more\\ fundamental\\ than\\ that(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of abstraction_evasion. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "The real issue is deeper.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-061",
+      "language": "ja",
+      "category": "redundant_closing",
+      "pattern": "(?:以上を踏まえると|ここまでをまとめると|最後にまとめると|要するに、重要なのは|結局のところ|いずれにしても|こうした点を総合すると|今後の展開が注目され(?:る|ます|た|ました)|今後も継続的な検討が必要(?:だ|です|である|だった|でした)|今後の議論が期待され(?:る|ます|た|ました)|さらなる発展が期待され(?:る|ます|た|ました)|引き続き注視していく必要が(?:ある|あります|あった|ありました)|最も大切なのは適切な判断(?:だ|です|である|だった|でした)|ぜひ参考にしてください|少しでもお役に立てれば幸い(?:だ|です|である|だった|でした)|何かあればお気軽にご相談ください)",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundant_closing. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "以上を踏まえると。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-061",
+      "language": "en",
+      "category": "redundant_closing",
+      "pattern": "(?:(?<!\\w)in\\ conclusion(?!\\w)|(?<!\\w)to\\ summarize(?!\\w)|(?<!\\w)at\\ the\\ end\\ of\\ the\\ day(?!\\w)|(?<!\\w)ultimately,\\ what\\ matters\\ is(?!\\w)|(?<!\\w)moving\\ forward(?!\\w)|(?<!\\w)looking\\ ahead(?!\\w)|(?<!\\w)time\\ will\\ tell(?!\\w)|(?<!\\w)further\\ discussion\\ is\\ warranted(?!\\w)|(?<!\\w)it\\ remains\\ to\\ be\\ seen(?!\\w)|(?<!\\w)i\\ hope\\ this\\ helps(?!\\w)|(?<!\\w)feel\\ free\\ to\\ reach\\ out(?!\\w)|(?<!\\w)let\\ me\\ know\\ if\\ you\\ have\\ any\\ questions(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of redundant_closing. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "In conclusion.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-062",
+      "language": "ja",
+      "category": "unsupported_self_evaluation",
+      "pattern": "(?:網羅的に調査(?:した|しました|している|しています)|徹底的に検証(?:した|しました|している|しています)|完璧に対応(?:した|しました|している|しています)|品質を保証(?:する|します|した|しました)|すべての要件を満たして(?:いる|います|いた|いました)|十分に検討した結果|あらゆる可能性を考慮(?:した|しました|している|しています)|最高品質の回答(?:だ|です|である|だった|でした)|最適な解決策を提示(?:した|しました|している|しています)|すべての問題を解決(?:した|しました|している|しています)|確実に改善され(?:る|ます|た|ました)|完全に遵守して(?:いる|います|いた|いました)|独立した監査を実施(?:した|しました|している|しています)|問題はあり(?:ません|ませんでした)|検証済み(?:だ|です|である|だった|でした))",
+      "action": "block",
+      "explanation": "Candidate occurrence of unsupported_self_evaluation. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "網羅的に調査しました。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-062",
+      "language": "en",
+      "category": "unsupported_self_evaluation",
+      "pattern": "(?:(?<!\\w)i\\ thoroughly\\ researched(?!\\w)|(?<!\\w)i\\ comprehensively\\ reviewed(?!\\w)|(?<!\\w)fully\\ verified(?!\\w)|(?<!\\w)completely\\ compliant(?!\\w)|(?<!\\w)guaranteed\\ to\\ work(?!\\w)|(?<!\\w)all\\ requirements\\ have\\ been\\ satisfied(?!\\w)|(?<!\\w)this\\ is\\ the\\ optimal\\ solution(?!\\w)|(?<!\\w)i\\ carefully\\ considered\\ every\\ possibility(?!\\w)|(?<!\\w)all\\ issues\\ have\\ been\\ resolved(?!\\w)|(?<!\\w)independently\\ verified(?!\\w)|(?<!\\w)fully\\ validated(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of unsupported_self_evaluation. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "I thoroughly researched.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-063",
+      "language": "ja",
+      "category": "unsolicited_extension",
+      "pattern": "(?:必要であればさらに詳しく説明できます|ご希望なら別の案も提示できます|ほかにもさまざまな方法が(?:ある|あります|あった|ありました)|追加で調査することも可能(?:だ|です|である|だった|でした)|このテーマはさらに深掘りできます|次に取り組むべきことは|さらに理解を深めたい場合は|ご興味があれば|より詳細な分析も可能(?:だ|です|である|だった|でした)|別の観点からも検討できます|続けて作業しましょうか|他にお手伝いできることは(?:ある|あります|あった|ありました)か)",
+      "action": "block",
+      "explanation": "Candidate occurrence of unsolicited_extension. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "必要であればさらに詳しく説明できます。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-063",
+      "language": "en",
+      "category": "unsolicited_extension",
+      "pattern": "(?:(?<!\\w)if\\ you\\ want,\\ i\\ can\\ also(?!\\w)|(?<!\\w)i\\ can\\ provide\\ more\\ details(?!\\w)|(?<!\\w)there\\ are\\ many\\ other\\ approaches(?!\\w)|(?<!\\w)would\\ you\\ like\\ me\\ to\\ continue\\?(?!\\w)|(?<!\\w)let\\ me\\ know\\ if\\ you['’ʼ]d\\ like(?!\\w)|(?<!\\w)if\\ you['’ʼ]re\\ interested(?!\\w)|(?<!\\w)we\\ can\\ dive\\ deeper(?!\\w)|(?<!\\w)i\\ can\\ expand\\ on\\ this(?!\\w)|(?<!\\w)there\\ is\\ more\\ to\\ explore(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of unsolicited_extension. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "If you want, I can also.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-064",
+      "language": "ja",
+      "category": "promotional_metaphor",
+      "pattern": "(?:まさにゲームチェンジャー(?:だ|です|である|だった|でした)|魔法のような解決策(?:だ|です|である|だった|でした)|鍵を握るのは|成功への第一歩(?:だ|です|である|だった|でした)|新時代の幕開け(?:だ|です|である|だった|でした)|本質を映し出す鏡(?:だ|です|である|だった|でした)|全体像を鮮やかに描き出(?:す|します|した|しました)|真価が問われ(?:る|ます|た|ました)|大きな武器となります|強力なツールとなります|無限の可能性を秘めています|未来を切り拓きます|大きな飛躍への足がかり(?:だ|です|である|だった|でした)|課題解決の羅針盤となります)",
+      "action": "block",
+      "explanation": "Candidate occurrence of promotional_metaphor. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "まさにゲームチェンジャーです。",
+      "negative_example": "対象県の平均費用は2024年に3%増加した。"
+    },
+    {
+      "id": "en-064",
+      "language": "en",
+      "category": "promotional_metaphor",
+      "pattern": "(?:(?<!\\w)a\\ game\\ changer(?!\\w)|(?<!\\w)a\\ silver\\ bullet(?!\\w)|(?<!\\w)the\\ key\\ to\\ unlocking(?!\\w)|(?<!\\w)a\\ powerful\\ weapon(?!\\w)|(?<!\\w)a\\ new\\ era\\ begins(?!\\w)|(?<!\\w)a\\ paradigm\\ shift(?!\\w)|(?<!\\w)the\\ cornerstone\\ of\\ success(?!\\w)|(?<!\\w)unlocks\\ limitless\\ potential(?!\\w)|(?<!\\w)paves\\ the\\ way\\ for(?!\\w)|(?<!\\w)the\\ holy\\ grail\\ of(?!\\w)|(?<!\\w)a\\ beacon\\ of\\ hope(?!\\w))",
+      "action": "block",
+      "explanation": "Candidate occurrence of promotional_metaphor. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "A game changer.",
+      "negative_example": "Average costs in the sampled counties rose by 3% in 2024."
+    },
+    {
+      "id": "ja-065",
+      "language": "ja",
+      "category": "uncertainty",
+      "pattern": "(?:恐れが(?:ある|あります|あった|ありました)|推測され(?:る|ます|た|ました)|と思われ(?:る|ます|た|ました)|おそらく|恐らく|たぶん|多分)",
+      "action": "block",
+      "explanation": "Candidate occurrence of uncertainty. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "恐れがある。",
+      "negative_example": "測定値は12である。"
+    },
+    {
+      "id": "en-065",
+      "language": "en",
+      "category": "uncertainty",
+      "pattern": "(?<!\\w)(?:possibly|perhaps|presumably|likely|probab(?:ly|le)|maybe)(?!\\w)",
+      "action": "block",
+      "explanation": "Candidate occurrence of uncertainty. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "possibly.",
+      "negative_example": "The measured value equals twelve."
+    },
+    {
+      "id": "ja-066",
+      "language": "ja",
+      "category": "conditions_scope",
+      "pattern": "(?:場合によっては|一定の条件下では|通常は)",
+      "action": "block",
+      "explanation": "Candidate occurrence of conditions_scope. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "場合によっては。",
+      "negative_example": "測定値は12である。"
+    },
+    {
+      "id": "en-066",
+      "language": "en",
+      "category": "conditions_scope",
+      "pattern": "(?<!\\w)(?:under\\ certain\\ conditions|in\\ general|typically|subject\\ to)(?!\\w)",
+      "action": "block",
+      "explanation": "Candidate occurrence of conditions_scope. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "under certain conditions.",
+      "negative_example": "The measured value equals twelve."
+    },
+    {
+      "id": "ja-067",
+      "language": "ja",
+      "category": "approximation_quantity",
+      "pattern": "(?:おおむね|程度|約|ほぼ|一定程度|かなり|多少|比較的|少なくとも)",
+      "action": "block",
+      "explanation": "Candidate occurrence of approximation_quantity. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "おおむね。",
+      "negative_example": "測定値は12である。"
+    },
+    {
+      "id": "en-067",
+      "language": "en",
+      "category": "approximation_quantity",
+      "pattern": "(?<!\\w)(?:approximately|roughly|nearly|at\\ least)(?!\\w)",
+      "action": "block",
+      "explanation": "Candidate occurrence of approximation_quantity. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "approximately.",
+      "negative_example": "The measured value equals twelve."
+    },
+    {
+      "id": "ja-068",
+      "language": "ja",
+      "category": "negation_contrast",
+      "pattern": "(?:だけではない|とは限らない|他方|一方)",
+      "action": "block",
+      "explanation": "Candidate occurrence of negation_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "だけではない。",
+      "negative_example": "測定値は12である。"
+    },
+    {
+      "id": "en-068",
+      "language": "en",
+      "category": "negation_contrast",
+      "pattern": "(?<!\\w)(?:not|whereas|although|but)(?!\\w)",
+      "action": "block",
+      "explanation": "Candidate occurrence of negation_contrast. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "not.",
+      "negative_example": "The measured value equals twelve.",
+      "technical_terms": [
+        {
+          "term_id": "not-gate",
+          "forms": [
+            "NOT gate",
+            "NOT gates"
+          ],
+          "domain": "electronics",
+          "definition_id": "not-gate-v1",
+          "definition": "A logic circuit, used as a noun phrase, whose binary output is the complement of its input."
+        }
+      ]
+    },
+    {
+      "id": "ja-069",
+      "language": "ja",
+      "category": "exceptions_exclusions",
+      "pattern": "(?:(?:ただし|但し)|例外として|特段の事情がない限り|これを除く|に限る)",
+      "action": "block",
+      "explanation": "Candidate occurrence of exceptions_exclusions. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "ただし。",
+      "negative_example": "測定値は12である。"
+    },
+    {
+      "id": "en-069",
+      "language": "en",
+      "category": "exceptions_exclusions",
+      "pattern": "(?<!\\w)(?:except|unless|provided\\ that|only\\ if|excluding)(?!\\w)",
+      "action": "block",
+      "explanation": "Candidate occurrence of exceptions_exclusions. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "except.",
+      "negative_example": "The measured value equals twelve.",
+      "technical_terms": [
+        {
+          "term_id": "if-and-only-if",
+          "forms": [
+            "if and only if"
+          ],
+          "domain": "logic",
+          "definition_id": "if-and-only-if-v1",
+          "definition": "Logical equivalence asserting both implications between propositions."
+        }
+      ]
+    },
+    {
+      "id": "ja-070",
+      "language": "ja",
+      "category": "inference_attribution",
+      "pattern": "(?:示唆(?:する|します|した|しました|される|されます)|推察(?:する|します|した|しました|される|されます)|考えられ(?:る|ます|た|ました)|によれば|とされ(?:る|ます|た|ました)|見解が(?:ある|あります|あった|ありました))",
+      "action": "block",
+      "explanation": "Candidate occurrence of inference_attribution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "示唆する。",
+      "negative_example": "測定値は12である。"
+    },
+    {
+      "id": "en-070",
+      "language": "en",
+      "category": "inference_attribution",
+      "pattern": "(?<!\\w)(?:suggest(?:s|ed|ing)?|impl(?:y|ies|ied|ying)|according to|(?:is|are|was|were) reported to|(?:is|are|was|were) assumed)(?!\\w)",
+      "action": "block",
+      "explanation": "Candidate occurrence of inference_attribution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "suggests.",
+      "negative_example": "The measured value equals twelve."
+    },
+    {
+      "id": "ja-071",
+      "language": "ja",
+      "category": "domain_caution",
+      "pattern": "(?:科学的には断言を避けるべきです|推定誤差があるので慎重な判断が必要です|信頼区間には十分な注意を払うべきです|法律上の問題には慎重な対応が求められます|権限の問題なのでコメントは差し控えます)",
+      "action": "block",
+      "explanation": "Candidate occurrence of domain_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "信頼区間には十分な注意を払うべきです。",
+      "negative_example": "95%信頼区間は[-0.02, 0.08]である。"
+    },
+    {
+      "id": "en-071",
+      "language": "en",
+      "category": "domain_caution",
+      "pattern": "(?<!\\w)(?:scientific uncertainty calls for caution|confidence intervals should be treated with caution|identification requires a cautious interpretation|jurisdictional issues warrant caution)(?!\\w)",
+      "action": "block",
+      "explanation": "Candidate occurrence of domain_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
+      "positive_example": "Confidence intervals should be treated with caution.",
+      "negative_example": "The confidence interval is [-0.02, 0.08]."
+    }
+  ],
+  "source_categories": [
+    {
+      "number": 1,
+      "name": "Unnecessary prefaces and emphasis on the obvious",
+      "category": "rhetorical_preface"
+    },
+    {
+      "number": 2,
+      "name": "Self-reference and declarations of speaking stance",
+      "category": "self_reference"
+    },
+    {
+      "number": 3,
+      "name": "Self-defense and preemptive justification",
+      "category": "preemptive_defense"
+    },
+    {
+      "number": 4,
+      "name": "Ritual concessions and unnecessary adversatives",
+      "category": "concession"
+    },
+    {
+      "number": 5,
+      "name": "Vague warnings and cautionary stances",
+      "category": "vague_caution"
+    },
+    {
+      "number": 6,
+      "name": "Disclaimers, avoidance of responsibility, and generic qualifications",
+      "category": "generic_disclaimer"
+    },
+    {
+      "number": 7,
+      "name": "Unsupported hedging and weak assertions",
+      "category": "unsupported_hedging"
+    },
+    {
+      "number": 8,
+      "name": "Indirect assertions and unnecessary speculation",
+      "category": "indirect_assertion"
+    },
+    {
+      "number": 9,
+      "name": "Embellishment and excessive valuation",
+      "category": "embellishment"
+    },
+    {
+      "number": 10,
+      "name": "Unnecessary negative contrasts and artificial emphasis",
+      "category": "irrelevant_contrast"
+    },
+    {
+      "number": 11,
+      "name": "Low-content buffers and filler",
+      "category": "redundancy"
+    },
+    {
+      "number": 12,
+      "name": "Reader instructions, reminders, and persuasive prefaces",
+      "category": "reader_management"
+    },
+    {
+      "number": 13,
+      "name": "Excessive agreement, praise, and ingratiation",
+      "category": "excessive_agreement"
+    },
+    {
+      "number": 14,
+      "name": "Excessive empathy and emotional buffering",
+      "category": "emotional_buffer"
+    },
+    {
+      "number": 15,
+      "name": "Self-justification and evasive explanations of failure",
+      "category": "self_justification"
+    },
+    {
+      "number": 16,
+      "name": "Unnecessary apologies and ritual refusals",
+      "category": "ritual_apology"
+    },
+    {
+      "number": 17,
+      "name": "Answer deferral, unnecessary clarification, and execution avoidance",
+      "category": "execution_deferral"
+    },
+    {
+      "number": 18,
+      "name": "Empty generalizations and explanations lacking specifics",
+      "category": "empty_generalization"
+    },
+    {
+      "number": 19,
+      "name": "False neutrality and purposeless presentation of both sides",
+      "category": "false_neutrality"
+    },
+    {
+      "number": 20,
+      "name": "Answer avoidance through abstraction",
+      "category": "abstraction_evasion"
+    },
+    {
+      "number": 21,
+      "name": "Redundant summaries and closings",
+      "category": "redundant_closing"
+    },
+    {
+      "number": 22,
+      "name": "Unsupported self-evaluation and exaggerated results",
+      "category": "unsupported_self_evaluation"
+    },
+    {
+      "number": 23,
+      "name": "Unnecessary additional suggestions and conversation extension",
+      "category": "unsolicited_extension"
+    },
+    {
+      "number": 24,
+      "name": "Excessive metaphors, promotional language, and theatrical wording",
+      "category": "promotional_metaphor"
+    }
+  ],
+  "semantic_checks": [
+    {
+      "id": "B25",
+      "category": "uncertainty",
+      "name": "Uncertainty",
+      "ja_candidates": [
+        "可能性がある",
+        "かもしれない",
+        "恐れがある",
+        "推測される",
+        "と思われる",
+        "おそらく",
+        "恐らく",
+        "たぶん"
+      ],
+      "en_candidates": [
+        "may",
+        "might",
+        "could",
+        "possibly",
+        "perhaps",
+        "presumably",
+        "likely"
+      ],
+      "criterion": "Prohibit reservations, hedging, and weak wording justified by uncertainty. Describe observations, forecasts, probabilities, and hypotheses directly. Inspect the entire text, including quotations and bibliography. Do not retain prohibited functions. Review sense, syntax, target proposition, and the role of the wording.",
+      "rhetorical_example": "効果があるかもしれないという気がします。",
+      "substantive_example": "効果の有無は未確定である。",
+      "action": "semantic_review"
+    },
+    {
+      "id": "B26",
+      "category": "conditions_scope",
+      "name": "Conditions and scope",
+      "ja_candidates": [
+        "場合によっては",
+        "一定の条件下では",
+        "原則として",
+        "基本的には",
+        "一般的には",
+        "通常は",
+        "必ずしも"
+      ],
+      "en_candidates": [
+        "under certain conditions",
+        "in general",
+        "typically",
+        "not necessarily",
+        "subject to"
+      ],
+      "criterion": "Prohibit reservations, qualifications, and buffers justified by conditions or scope. State the target set and applicable conditions directly. Inspect the entire text, including quotations and bibliography. Do not retain prohibited functions. Review sense, syntax, target proposition, and the role of the wording.",
+      "rhetorical_example": "一般的にはよいといえるでしょう。",
+      "substantive_example": "対象者が100人未満ならAの費用が低い。",
+      "action": "semantic_review"
+    },
+    {
+      "id": "B27",
+      "category": "approximation_quantity",
+      "name": "Approximation and quantity",
+      "ja_candidates": [
+        "おおむね",
+        "程度",
+        "約",
+        "ほぼ",
+        "一定程度",
+        "かなり",
+        "多少",
+        "比較的",
+        "少なくとも"
+      ],
+      "en_candidates": [
+        "approximately",
+        "roughly",
+        "nearly",
+        "somewhat",
+        "relatively",
+        "at least"
+      ],
+      "criterion": "Prohibit vague wording justified by approximation or quantity. State rounding rules, bounds, and comparison criteria directly. Inspect the entire text, including quotations and bibliography. Do not retain prohibited functions. Review sense, syntax, target proposition, and the role of the wording.",
+      "rhetorical_example": "かなりよい結果といえます。",
+      "substantive_example": "標本平均の整数丸め値は12である。",
+      "action": "semantic_review"
+    },
+    {
+      "id": "B28",
+      "category": "negation_contrast",
+      "name": "Negation and contrast",
+      "ja_candidates": [
+        "ではなく",
+        "だけではない",
+        "とは限らない",
+        "というより",
+        "他方",
+        "一方",
+        "しかし"
+      ],
+      "en_candidates": [
+        "not",
+        "rather than",
+        "however",
+        "whereas",
+        "although",
+        "but"
+      ],
+      "criterion": "Prohibit concessions, reservations, and ornamentation justified by negation or contrast. State truth conditions, competing hypotheses, and choices directly. Inspect the entire text, including quotations and bibliography. Do not retain prohibited functions. Review sense, syntax, target proposition, and the role of the wording.",
+      "rhetorical_example": "単なる数字ではなく未来への鍵です。",
+      "substantive_example": "係数は相関を表す。因果関係は未確定である。",
+      "action": "semantic_review"
+    },
+    {
+      "id": "B29",
+      "category": "exceptions_exclusions",
+      "name": "Exceptions and exclusions",
+      "ja_candidates": [
+        "ただし",
+        "例外として",
+        "特段の事情がない限り",
+        "これを除く",
+        "に限る"
+      ],
+      "en_candidates": [
+        "except",
+        "unless",
+        "provided that",
+        "only if",
+        "excluding"
+      ],
+      "criterion": "Prohibit reservations justified by exceptions or exclusions. Define the target set and necessary and sufficient conditions directly. Inspect the entire text, including quotations and bibliography. Do not retain prohibited functions. Review sense, syntax, target proposition, and the role of the wording.",
+      "rhetorical_example": "ただし慎重な姿勢も必要です。",
+      "substantive_example": "対象集合は18歳以上の居住者である。",
+      "action": "semantic_review"
+    },
+    {
+      "id": "B30",
+      "category": "inference_attribution",
+      "name": "Inference and attribution",
+      "ja_candidates": [
+        "示唆する",
+        "推察する",
+        "考えられる",
+        "によれば",
+        "とされる",
+        "見解がある"
+      ],
+      "en_candidates": [
+        "suggests",
+        "implies",
+        "according to",
+        "is reported to",
+        "is assumed"
+      ],
+      "criterion": "Prohibit indirect and weak wording justified by inference or attribution. State the reporting party, assumptions, and inferential relationships directly. Inspect the entire text, including quotations and bibliography. Do not retain prohibited functions. Review sense, syntax, target proposition, and the role of the wording.",
+      "rhetorical_example": "重要と考えられるように思われます。",
+      "substantive_example": "報告書は人口減少を推計している。",
+      "action": "semantic_review"
+    },
+    {
+      "id": "B31",
+      "category": "domain_caution",
+      "name": "Domain-based qualification",
+      "ja_candidates": [
+        "識別できない",
+        "推定誤差",
+        "信頼区間",
+        "適用対象",
+        "因果効果とはいえない",
+        "権限がない"
+      ],
+      "en_candidates": [
+        "confidence interval",
+        "identification",
+        "uncertainty",
+        "jurisdiction",
+        "not a causal effect"
+      ],
+      "criterion": "Prohibit disclaimers, cautionary or conservative stances, and qualifications justified by a specialized domain. State assumptions, measurement precision, estimation ranges, rights, and obligations directly. Inspect the entire text, including quotations and bibliography. Do not retain prohibited functions. Review sense, syntax, target proposition, and the role of the wording. Do not infer a prohibited function solely from the presence of a technical term. Review concrete statements of confidence intervals, estimation errors, identification conditions, applicable subjects, and authority as content; distinguish them from rhetorical disclaimers and cautionary stances. Apply the same functional, semantic, and syntactic review to occurrences of other rules.",
+      "rhetorical_example": "専門的な話なので何とも言えません。",
+      "substantive_example": "推定値の95%信頼区間は−0.02から0.08である。",
+      "action": "semantic_review"
+    }
+  ],
+  "functional_checks": [
+    {
+      "id": "C01",
+      "function": "Rhetorical reservations",
+      "criterion": "Wrap a claim in reservations, qualifications, or a cautionary stance. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action. Do not move reservations or qualifications into supplements, annotations, postscripts, or parentheses.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C02",
+      "function": "Ritual concessions",
+      "criterion": "Add concession structures or a concessive stance. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C03",
+      "function": "Preemptive disclaimers",
+      "criterion": "Add framing that disclaims or avoids responsibility. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C04",
+      "function": "Unnecessary negative contrasts",
+      "criterion": "Compare the propositions in the sentence and the overall request. Remove negative contrasts that add ornamentation or emphasis. Do not retain prohibited functions.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C05",
+      "function": "Empty warnings",
+      "criterion": "State a cautionary stance instead of concrete subjects or actions. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C06",
+      "function": "Self-defense",
+      "criterion": "Defend the respondent’s good intentions, intent, effort, or legitimacy. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C07",
+      "function": "Issue avoidance",
+      "criterion": "Replace a concrete request with generalities, methodology, or problem statements. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action. For decision requests, connect the requested choice, adopted objective and binding constraints, comparison criteria, selected result, and next execution step to the original request. For prose revision, address the target proposition and defects in expression.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C08",
+      "function": "Unsupported presentation of both sides",
+      "criterion": "Obscure the answer by presenting both sides without a judgment. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action. For decision requests, connect the requested choice, adopted objective and binding constraints, comparison criteria, selected result, and next execution step to the original request. For prose revision, address the target proposition and defects in expression.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C09",
+      "function": "Vague degree expressions",
+      "criterion": "Wrap quantities or comparisons in vague degree expressions. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C10",
+      "function": "Unsupported self-evaluation",
+      "criterion": "Wrap execution results in self-evaluation or exaggeration. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C11",
+      "function": "Unnecessary conversation extension",
+      "criterion": "Append unrequested conversation extensions to a completed answer. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C12",
+      "function": "Supplements, annotations, and redundant self-contained explanations",
+      "criterion": "Append explanations outside the claim as supplements, annotations, or postscripts. Delete sentences that do not contribute to the judgment. Remove repeated definitions, background, and premises. Do not use quotations, bibliography, technical terminology, or necessity as reasons for retention.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C13",
+      "function": "Meaningless emphasis",
+      "criterion": "Wrap a claim in embellishment or theatrical emphasis. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C14",
+      "function": "Indirect assertions",
+      "criterion": "Wrap a claim in indirect assertions or weak wording. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    },
+    {
+      "id": "C15",
+      "function": "Unrequested safety explanations",
+      "criterion": "Emphasize a safe, cautious, or conservative stance instead of concrete hazards and required actions. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
+    }
+  ],
+  "audit_policy": {
+    "rhetorical_exceptions": false,
+    "candidate_match_is_verdict": false,
+    "scope": "Apply all 142 rules and 22 checks to body text, headings, tables, figures, footnotes, parentheses, supplements, annotations, postscripts, translations, delegated results, progress and status reports, quotations, and bibliography.",
+    "exemptions": "There are no exceptions for prohibited functions. Review every match through occurrence_judgments bound to the candidate hash, actual constituent characters, sense, syntax, target proposition, and source correspondence. Quotation, code, or technical-term labels alone do not clear a match. Do not select quotations as substitutes for self-defense or reservations.",
+    "roles": "Quality reviewers selected by review_plans in the registry consult matched rules and technical-term definitions, and audit the 22 checks and source correspondence across the entire text. Reading the whole dictionary again is not required. Role 3 checks execution results and alignment with the request.",
+    "technical_terms": "Definition reference material, not an allowlist. Validate and convert existing technical_usages through legacy-format reading. New returns use general occurrence_judgments; technical terms and distinct words undergo the same functional and source-correspondence review.",
+    "match_resolution": "block-until-occurrence-reviewed",
+    "disclaimer_action": "Delete every disclaimer without exception."
+  }
+}

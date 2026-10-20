@@ -30,13 +30,8 @@ Generated from the resource and placement registries. Use this catalog only for 
 - native-index: docs/ai/compiled_ai_skills.md
 - project-context: docs/ai/repo_context.md
 - tool-export-project-py: scripts/export_project.py (complete source distribution only)
-- tool-route-registry-py: scripts/route_registry.py (complete source distribution only)
+- tool-route-registry-py: scripts/route_registry.py
 - tool-sync-common-core-py: scripts/sync_common_core.py (complete source distribution only)
-- tool-test-sync-common-core-py: scripts/test_sync_common_core.py (complete source distribution only)
-- tool-test-export-project-py: scripts/test_export_project.py (complete source distribution only)
-- tool-setup-ide-mcp-sh: scripts/setup_ide_mcp.sh (complete source distribution only)
-- tool-test-setup-ide-mcp-py: scripts/test_setup_ide_mcp.py (complete source distribution only)
-- tool-setup-extensions-sh: scripts/setup_extensions.sh (complete source distribution only)
 - tool-pack-context-sh: scripts/pack_context.sh (complete source distribution only)
 - policy-agentsmd: references/repository-policy/AGENTS.md
 - policy-codexmd: references/repository-policy/CODEX.md
@@ -44,11 +39,6 @@ Generated from the resource and placement registries. Use this catalog only for 
 - policy-clinerules: references/repository-policy/.clinerules
 - policy-windsurfrules: references/repository-policy/.windsurfrules
 - policy-antigravityrules: references/repository-policy/.antigravityrules
-- config-template-readme-md: docs/ai/config-templates/README.md
-- config-template-claude-mcp-example-json: docs/ai/config-templates/claude-mcp.example.json
-- config-template-codex-example-toml: docs/ai/config-templates/codex.example.toml
-- config-template-mcp-example-json: docs/ai/config-templates/mcp.example.json
-- tool-test-configuration-tools-py: scripts/test_configuration_tools.py (complete source distribution only)
 - policy-agents-agentsmd: references/repository-policy/.agents/AGENTS.md
 - policy-claude-agentsmd: references/repository-policy/.claude/AGENTS.md
 - policy-cursor-rules-01_project_policymdc: references/repository-policy/.cursor/rules/01_project_policy.mdc
@@ -57,8 +47,21 @@ Generated from the resource and placement registries. Use this catalog only for 
 - writing-ui: skills/econ-writing/agents/openai.yaml
 - state-contract: harness/state.md
 - publication: harness/publication.md
-- state-tests: harness/test_state.py (complete source distribution only)
 - tool-init: scripts/__init__.py (complete source distribution only)
-- registry-operations: registry/operations.json (complete source distribution only)
-- registry-resources: registry/resources.json (complete source distribution only)
-- registry-placements: registry/placements.json (complete source distribution only)
+- registry-operations: registry/operations.json
+- registry-resources: registry/resources.json
+- registry-placements: registry/placements.json
+- control: runtime/CONTROL.md
+- prose-check-guide: quality/prose_rules.md
+- prose-check-rules: quality/prose_rules.json
+- local-checks: harness/local_checks.py
+- local-checks-guide: harness/local_checks.md
+- requirements-check: harness/requirements_check.py
+- requirements-check-guide: harness/requirements_check.md
+- native-check: harness/native_check.py
+- native-check-guide: harness/native_check.md
+- native-run: harness/native_run.py
+- native-run-guide: harness/native_run.md
+- policy-assets: harness/policy_assets.py
+- policy-manifest: quality/policy_manifest.json
+- codex-hooks: harness/codex_hooks.py

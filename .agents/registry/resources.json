@@ -5,73 +5,73 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "70.3"
     },
     "prose": {
       "resource_id": "prose",
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "76.0"
     },
     "research": {
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "66.4"
     },
     "execution": {
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "76.0"
     },
     "team": {
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "76.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
       "source_path": "skills/econ-design/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "72.2"
     },
     "econ-data": {
       "resource_id": "econ-data",
       "source_path": "skills/econ-data/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "72.1"
     },
     "econ-literature": {
       "resource_id": "econ-literature",
       "source_path": "skills/econ-literature/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "72.2"
     },
     "econ-writing": {
       "resource_id": "econ-writing",
       "source_path": "skills/econ-writing/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "75.0"
     },
     "econ-review": {
       "resource_id": "econ-review",
       "source_path": "skills/econ-review/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "75.0"
     },
     "design-methods": {
       "resource_id": "design-methods",
       "source_path": "skills/econ-design/references/designs.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "66.2"
     },
     "data-implementation": {
       "resource_id": "data-implementation",
       "source_path": "skills/econ-data/references/implementation.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "66.2"
     },
     "data-results": {
       "resource_id": "data-results",
@@ -83,7 +83,7 @@
       "resource_id": "paper-workflow",
       "source_path": "skills/econ-writing/references/paper-workflow.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "75.0"
     },
     "review-methods": {
       "resource_id": "review-methods",
@@ -95,7 +95,7 @@
       "resource_id": "default-micro",
       "source_path": "profiles/default-micro/PROFILE.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "66.2"
     },
     "examples-en": {
       "resource_id": "examples-en",
@@ -113,13 +113,13 @@
       "resource_id": "extended-en",
       "source_path": "profiles/default-micro/extended-introduction-en.md",
       "resource_kind": "example",
-      "content_version": "66.1"
+      "content_version": "76.0"
     },
     "extended-ja": {
       "resource_id": "extended-ja",
       "source_path": "profiles/default-micro/extended-introduction-ja.md",
       "resource_kind": "example",
-      "content_version": "66.1"
+      "content_version": "76.0"
     },
     "repository-policy": {
       "resource_id": "repository-policy",
@@ -131,20 +131,20 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "66.1",
+      "content_version": "76.0",
       "sync": false
     },
     "resource-guide": {
       "resource_id": "resource-guide",
       "source_path": "docs/ai/resources.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "74.0"
     },
     "team-state-helper": {
       "resource_id": "team-state-helper",
       "source_path": "harness/state.py",
       "resource_kind": "support",
-      "content_version": "66.1"
+      "content_version": "76.0"
     },
     "project-instructions": {
       "resource_id": "project-instructions",
@@ -169,63 +169,27 @@
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "66.1",
+      "content_version": "73.2",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "66.1",
-      "source_distribution_only": true
+      "content_version": "76.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
       "source_path": "scripts/sync_common_core.py",
       "resource_kind": "support",
-      "content_version": "66.1",
-      "source_distribution_only": true
-    },
-    "tool-test-sync-common-core-py": {
-      "resource_id": "tool-test-sync-common-core-py",
-      "source_path": "scripts/test_sync_common_core.py",
-      "resource_kind": "support",
-      "content_version": "66.1",
-      "source_distribution_only": true
-    },
-    "tool-test-export-project-py": {
-      "resource_id": "tool-test-export-project-py",
-      "source_path": "scripts/test_export_project.py",
-      "resource_kind": "support",
-      "content_version": "66.1",
-      "source_distribution_only": true
-    },
-    "tool-setup-ide-mcp-sh": {
-      "resource_id": "tool-setup-ide-mcp-sh",
-      "source_path": "scripts/setup_ide_mcp.sh",
-      "resource_kind": "support",
-      "content_version": "66.1",
-      "source_distribution_only": true
-    },
-    "tool-test-setup-ide-mcp-py": {
-      "resource_id": "tool-test-setup-ide-mcp-py",
-      "source_path": "scripts/test_setup_ide_mcp.py",
-      "resource_kind": "support",
-      "content_version": "66.1",
-      "source_distribution_only": true
-    },
-    "tool-setup-extensions-sh": {
-      "resource_id": "tool-setup-extensions-sh",
-      "source_path": "scripts/setup_extensions.sh",
-      "resource_kind": "support",
-      "content_version": "66.1",
+      "content_version": "76.0",
       "source_distribution_only": true
     },
     "tool-pack-context-sh": {
       "resource_id": "tool-pack-context-sh",
       "source_path": "scripts/pack_context.sh",
       "resource_kind": "support",
-      "content_version": "66.1",
+      "content_version": "72.0",
       "source_distribution_only": true
     },
     "policy-agentsmd": {
@@ -263,37 +227,6 @@
       "source_path": "references/repository-policy/.antigravityrules",
       "resource_kind": "support",
       "content_version": "66.1"
-    },
-    "config-template-readme-md": {
-      "resource_id": "config-template-readme-md",
-      "source_path": "docs/ai/config-templates/README.md",
-      "resource_kind": "rule",
-      "content_version": "66.1"
-    },
-    "config-template-claude-mcp-example-json": {
-      "resource_id": "config-template-claude-mcp-example-json",
-      "source_path": "docs/ai/config-templates/claude-mcp.example.json",
-      "resource_kind": "support",
-      "content_version": "66.1"
-    },
-    "config-template-codex-example-toml": {
-      "resource_id": "config-template-codex-example-toml",
-      "source_path": "docs/ai/config-templates/codex.example.toml",
-      "resource_kind": "support",
-      "content_version": "66.1"
-    },
-    "config-template-mcp-example-json": {
-      "resource_id": "config-template-mcp-example-json",
-      "source_path": "docs/ai/config-templates/mcp.example.json",
-      "resource_kind": "support",
-      "content_version": "66.1"
-    },
-    "tool-test-configuration-tools-py": {
-      "resource_id": "tool-test-configuration-tools-py",
-      "source_path": "scripts/test_configuration_tools.py",
-      "resource_kind": "support",
-      "content_version": "66.1",
-      "source_distribution_only": true
     },
     "policy-agents-agentsmd": {
       "resource_id": "policy-agents-agentsmd",
@@ -335,20 +268,13 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "76.0"
     },
     "publication": {
       "resource_id": "publication",
       "source_path": "harness/publication.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
-    },
-    "state-tests": {
-      "resource_id": "state-tests",
-      "source_path": "harness/test_state.py",
-      "resource_kind": "maintenance",
-      "content_version": "66.1",
-      "source_distribution_only": true
+      "content_version": "74.0"
     },
     "tool-init": {
       "resource_id": "tool-init",
@@ -361,21 +287,202 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "66.1",
-      "source_distribution_only": true
+      "content_version": "75.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "66.1",
-      "source_distribution_only": true
+      "content_version": "76.1"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
       "source_path": "registry/placements.json",
       "resource_kind": "registry",
+      "content_version": "74.0"
+    },
+    "control": {
+      "resource_id": "control",
+      "source_path": "runtime/CONTROL.md",
+      "resource_kind": "rule",
+      "content_version": "76.0"
+    },
+    "prose-check-guide": {
+      "resource_id": "prose-check-guide",
+      "source_path": "quality/prose_rules.md",
+      "resource_kind": "rule",
+      "content_version": "74.1"
+    },
+    "prose-check-rules": {
+      "resource_id": "prose-check-rules",
+      "source_path": "quality/prose_rules.json",
+      "resource_kind": "support",
+      "content_version": "76.0"
+    },
+    "local-checks": {
+      "resource_id": "local-checks",
+      "source_path": "harness/local_checks.py",
+      "resource_kind": "support",
+      "content_version": "76.0"
+    },
+    "local-checks-guide": {
+      "resource_id": "local-checks-guide",
+      "source_path": "harness/local_checks.md",
+      "resource_kind": "rule",
+      "content_version": "76.0"
+    },
+    "requirements-check": {
+      "resource_id": "requirements-check",
+      "source_path": "harness/requirements_check.py",
+      "resource_kind": "support",
+      "content_version": "76.0"
+    },
+    "requirements-check-guide": {
+      "resource_id": "requirements-check-guide",
+      "source_path": "harness/requirements_check.md",
+      "resource_kind": "rule",
+      "content_version": "76.0"
+    },
+    "native-check": {
+      "resource_id": "native-check",
+      "source_path": "harness/native_check.py",
+      "resource_kind": "support",
+      "content_version": "76.0"
+    },
+    "native-check-guide": {
+      "resource_id": "native-check-guide",
+      "source_path": "harness/native_check.md",
+      "resource_kind": "rule",
+      "content_version": "76.0"
+    },
+    "native-run": {
+      "resource_id": "native-run",
+      "source_path": "harness/native_run.py",
+      "resource_kind": "support",
+      "content_version": "76.1"
+    },
+    "native-run-guide": {
+      "resource_id": "native-run-guide",
+      "source_path": "harness/native_run.md",
+      "resource_kind": "rule",
+      "content_version": "76.0"
+    },
+    "policy-assets": {
+      "resource_id": "policy-assets",
+      "source_path": "harness/policy_assets.py",
+      "resource_kind": "support",
+      "content_version": "76.0"
+    },
+    "policy-manifest": {
+      "resource_id": "policy-manifest",
+      "source_path": "quality/policy_manifest.json",
+      "resource_kind": "support",
+      "content_version": "76.0"
+    },
+    "codex-hooks": {
+      "resource_id": "codex-hooks",
+      "source_path": "harness/codex_hooks.py",
+      "resource_kind": "support",
+      "content_version": "76.0"
+    },
+    "tool-test-sync-common-core-py": {
+      "resource_id": "tool-test-sync-common-core-py",
+      "source_path": "scripts/test_sync_common_core.py",
+      "resource_kind": "support",
       "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "tool-test-export-project-py": {
+      "resource_id": "tool-test-export-project-py",
+      "source_path": "scripts/test_export_project.py",
+      "resource_kind": "support",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "tool-setup-ide-mcp-sh": {
+      "resource_id": "tool-setup-ide-mcp-sh",
+      "source_path": "scripts/setup_ide_mcp.sh",
+      "resource_kind": "support",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "tool-test-setup-ide-mcp-py": {
+      "resource_id": "tool-test-setup-ide-mcp-py",
+      "source_path": "scripts/test_setup_ide_mcp.py",
+      "resource_kind": "support",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "tool-setup-extensions-sh": {
+      "resource_id": "tool-setup-extensions-sh",
+      "source_path": "scripts/setup_extensions.sh",
+      "resource_kind": "support",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "config-template-readme-md": {
+      "resource_id": "config-template-readme-md",
+      "source_path": "docs/ai/config-templates/README.md",
+      "resource_kind": "rule",
+      "content_version": "66.1"
+    },
+    "config-template-claude-mcp-example-json": {
+      "resource_id": "config-template-claude-mcp-example-json",
+      "source_path": "docs/ai/config-templates/claude-mcp.example.json",
+      "resource_kind": "support",
+      "content_version": "66.1"
+    },
+    "config-template-codex-example-toml": {
+      "resource_id": "config-template-codex-example-toml",
+      "source_path": "docs/ai/config-templates/codex.example.toml",
+      "resource_kind": "support",
+      "content_version": "66.1"
+    },
+    "config-template-mcp-example-json": {
+      "resource_id": "config-template-mcp-example-json",
+      "source_path": "docs/ai/config-templates/mcp.example.json",
+      "resource_kind": "support",
+      "content_version": "66.1"
+    },
+    "tool-test-configuration-tools-py": {
+      "resource_id": "tool-test-configuration-tools-py",
+      "source_path": "scripts/test_configuration_tools.py",
+      "resource_kind": "support",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "state-tests": {
+      "resource_id": "state-tests",
+      "source_path": "harness/test_state.py",
+      "resource_kind": "maintenance",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "checked-artifacts-instructions": {
+      "resource_id": "checked-artifacts-instructions",
+      "source_path": "skills/economics-checked-instructions/SKILL.md",
+      "resource_kind": "rule",
+      "content_version": "1.0.1"
+    },
+    "plugin-integration-guide": {
+      "resource_id": "plugin-integration-guide",
+      "source_path": "docs/ai/plugin-integration.md",
+      "resource_kind": "support",
+      "content_version": "0.3.34",
+      "source_distribution_only": true
+    },
+    "tool-check-instruction-links-py": {
+      "resource_id": "tool-check-instruction-links-py",
+      "source_path": "scripts/check_instruction_links.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.3.34",
+      "source_distribution_only": true
+    },
+    "tool-test-instruction-links-py": {
+      "resource_id": "tool-test-instruction-links-py",
+      "source_path": "scripts/test_instruction_links.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.3.34",
       "source_distribution_only": true
     }
   },
@@ -393,8 +500,8 @@
       "authority-and-preserved-inputs": {
         "heading": "Authority and preserved inputs"
       },
-      "proposition-and-execution-truth": {
-        "heading": "Proposition and execution truth"
+      "execution-records": {
+        "heading": "Execution records"
       },
       "direct-expression": {
         "heading": "Direct expression"
@@ -413,17 +520,20 @@
       "select-the-economic-argument": {
         "heading": "Select the economic argument"
       },
-      "establish-facts-and-connect-the-explanation": {
-        "heading": "Establish facts and connect the explanation"
+      "connect-the-explanation": {
+        "heading": "Connect the explanation"
       },
       "select-the-profile": {
         "heading": "Select the profile"
       },
-      "preserve-meaning-across-languages": {
-        "heading": "Preserve meaning across languages"
+      "revise-for-the-requested-language": {
+        "heading": "Revise for the requested language"
       },
       "finish-the-passage": {
         "heading": "Finish the passage"
+      },
+      "common-full-candidate-record": {
+        "heading": "Common full-candidate record"
       }
     },
     "research": {
@@ -447,6 +557,9 @@
       },
       "operational-plans": {
         "heading": "Operational plans"
+      },
+      "investigate-source-claims": {
+        "heading": "Investigate source claims"
       }
     },
     "execution": {
@@ -1012,7 +1125,7 @@
         "heading": "Execution and handoff"
       },
       "distribution-and-settings-contract": {
-        "heading": "Distribution and settings contract"
+        "heading": "Distribution contract"
       },
       "state-migration": {
         "heading": "State migration"
@@ -1058,31 +1171,6 @@
         "whole_resource": true
       }
     },
-    "tool-test-sync-common-core-py": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "tool-test-export-project-py": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "tool-setup-ide-mcp-sh": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "tool-test-setup-ide-mcp-py": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "tool-setup-extensions-sh": {
-      "all": {
-        "whole_resource": true
-      }
-    },
     "tool-pack-context-sh": {
       "all": {
         "whole_resource": true
@@ -1114,40 +1202,6 @@
       }
     },
     "policy-antigravityrules": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "config-template-readme-md": {
-      "all": {
-        "whole_resource": true
-      },
-      "preview-and-selected-application": {
-        "heading": "Preview and selected application"
-      },
-      "ownership-recovery-and-credentials": {
-        "heading": "Ownership, recovery, and credentials"
-      },
-      "extensions-and-scoped-context": {
-        "heading": "Extensions and scoped context"
-      }
-    },
-    "config-template-claude-mcp-example-json": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "config-template-codex-example-toml": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "config-template-mcp-example-json": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "tool-test-configuration-tools-py": {
       "all": {
         "whole_resource": true
       }
@@ -1216,11 +1270,6 @@
         "heading": "Example: commit requested files with unrelated work staged"
       }
     },
-    "state-tests": {
-      "all": {
-        "whole_resource": true
-      }
-    },
     "tool-init": {
       "all": {
         "whole_resource": true
@@ -1240,6 +1289,251 @@
       "all": {
         "whole_resource": true
       }
+    },
+    "control": {
+      "all": {
+        "whole_resource": true
+      },
+      "task-proportional-review-plan": {
+        "heading": "Task-proportional review plan"
+      },
+      "run-and-capability-contract": {
+        "heading": "Run and capability contract"
+      },
+      "original-request-and-contract": {
+        "heading": "Original request and contract"
+      },
+      "worker-roles-and-identities": {
+        "heading": "Worker roles and identities"
+      },
+      "role-specific-work": {
+        "heading": "Role-specific work"
+      },
+      "full-candidate-prose-records": {
+        "heading": "Full-candidate prose records"
+      },
+      "original-returns-and-correction": {
+        "heading": "Original returns and correction"
+      },
+      "finalization-and-delivery": {
+        "heading": "Finalization and delivery"
+      },
+      "commands-and-result-meanings": {
+        "heading": "Commands and result meanings"
+      },
+      "registered-review-plans": {
+        "heading": "Registered review plans"
+      }
+    },
+    "prose-check-guide": {
+      "all": {
+        "whole_resource": true
+      },
+      "目的と適用": {
+        "heading": "Purpose and scope"
+      },
+      "機能と出現の同一性": {
+        "heading": "Function and occurrence identity"
+      },
+      "出現記録と旧形式": {
+        "heading": "Occurrence records and legacy formats"
+      },
+      "機械検出と全文審査": {
+        "heading": "Machine detection and whole-text review"
+      },
+      "共通台帳と全文審査": {
+        "heading": "Shared ledger and whole-text review"
+      },
+      "分類と収録数": {
+        "heading": "Categories and counts"
+      },
+      "a24分類の索引": {
+        "heading": "A: Index of 24 categories"
+      },
+      "b7つの意味判定": {
+        "heading": "B: Seven semantic judgments"
+      },
+      "c辞書外の言い換えも対象とする15機能": {
+        "heading": "C: Fifteen functions covering unmatched paraphrases"
+      }
+    },
+    "prose-check-rules": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "local-checks": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "local-checks-guide": {
+      "all": {
+        "whole_resource": true
+      },
+      "本文走査": {
+        "heading": "Text scanning"
+      },
+      "入力と保存": {
+        "heading": "Input and storage"
+      },
+      "送信文と字句用法判定": {
+        "heading": "Outgoing text and lexical/use judgments"
+      }
+    },
+    "requirements-check": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "requirements-check-guide": {
+      "all": {
+        "whole_resource": true
+      },
+      "register-and-freeze-the-requirements": {
+        "heading": "Register and freeze the requirements"
+      },
+      "artifact-and-action-predicates": {
+        "heading": "Artifact and action predicates"
+      },
+      "content-prohibition-and-evidence-predicates": {
+        "heading": "Content, prohibition, and evidence predicates"
+      },
+      "evidence-files-and-ids": {
+        "heading": "Evidence files and IDs"
+      },
+      "structured-review-returns": {
+        "heading": "Structured review returns"
+      },
+      "run-the-check": {
+        "heading": "Run the check"
+      },
+      "python-integration": {
+        "heading": "Python integration"
+      }
+    },
+    "native-check": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "native-check-guide": {
+      "all": {
+        "whole_resource": true
+      },
+      "prepare-and-inspect": {
+        "heading": "Prepare and inspect"
+      },
+      "returned-role-records": {
+        "heading": "Returned role records"
+      },
+      "individual-full-candidate-prose-records": {
+        "heading": "Individual full-candidate prose records"
+      },
+      "prohibition-and-technical-use": {
+        "heading": "Prohibition and technical use"
+      },
+      "output-and-final-checks": {
+        "heading": "Output and final checks"
+      },
+      "実行単位の照合": {
+        "heading": "Run-level verification"
+      },
+      "selected-review-plan": {
+        "heading": "Selected review plan"
+      },
+      "verbatim-correspondence-and-derived-operation-state": {
+        "heading": "Verbatim correspondence and derived operation state"
+      },
+      "artifact-text-classification": {
+        "heading": "Artifact text classification"
+      },
+      "selected-acquisition-and-internal-views": {
+        "heading": "Selected acquisition and internal views"
+      }
+    },
+    "native-run": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "native-run-guide": {
+      "all": {
+        "whole_resource": true
+      },
+      "select-the-review-plan": {
+        "heading": "Select the review plan"
+      },
+      "begin-and-fix-original-request-coverage": {
+        "heading": "Begin and fix original-request coverage"
+      },
+      "submit-and-review-a-snapshot": {
+        "heading": "Submit and review a snapshot"
+      },
+      "finalize-the-same-bytes": {
+        "heading": "Finalize the same bytes"
+      },
+      "explicit-provisional-selection": {
+        "heading": "Explicit provisional selection"
+      },
+      "optional-existing-task-state-binding": {
+        "heading": "Optional existing task-state binding"
+      },
+      "regenerate-and-verify-policy-assets": {
+        "heading": "Regenerate and verify policy assets"
+      },
+      "原資料の固定と表現一致の処理": {
+        "heading": "Fixing sources and handling expression matches"
+      },
+      "file-and-inspection-budgets": {
+        "heading": "File and inspection budgets"
+      },
+      "concurrent-run-operations": {
+        "heading": "Concurrent run operations"
+      },
+      "trusted-codex-hook-association": {
+        "heading": "Trusted Codex hook association"
+      }
+    },
+    "policy-assets": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-manifest": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "codex-hooks": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "config-template-readme-md": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "config-template-claude-mcp-example-json": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "config-template-codex-example-toml": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "config-template-mcp-example-json": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "checked-artifacts-instructions": {
+      "all": {
+        "whole_resource": true
+      }
     }
   },
   "rules": {
@@ -1247,7 +1541,15 @@
       "rule_id": "core.all",
       "resource_id": "core",
       "section_id": "all",
-      "requires": [],
+      "requires": [
+        "core.task-entry",
+        "core.economist-role",
+        "core.authority-and-preserved-inputs",
+        "core.execution-records",
+        "core.direct-expression",
+        "core.read-for-the-pending-decision",
+        "core.completion-and-reporting"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -1275,10 +1577,10 @@
       "conditional_requires": [],
       "optional_examples": []
     },
-    "core.proposition-and-execution-truth": {
-      "rule_id": "core.proposition-and-execution-truth",
+    "core.execution-records": {
+      "rule_id": "core.execution-records",
       "resource_id": "core",
-      "section_id": "proposition-and-execution-truth",
+      "section_id": "execution-records",
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []
@@ -1323,10 +1625,10 @@
       "conditional_requires": [],
       "optional_examples": []
     },
-    "prose.establish-facts-and-connect-the-explanation": {
-      "rule_id": "prose.establish-facts-and-connect-the-explanation",
+    "prose.connect-the-explanation": {
+      "rule_id": "prose.connect-the-explanation",
       "resource_id": "prose",
-      "section_id": "establish-facts-and-connect-the-explanation",
+      "section_id": "connect-the-explanation",
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []
@@ -1356,10 +1658,10 @@
         "default-micro.ja.assignment"
       ]
     },
-    "prose.preserve-meaning-across-languages": {
-      "rule_id": "prose.preserve-meaning-across-languages",
+    "prose.revise-for-the-requested-language": {
+      "rule_id": "prose.revise-for-the-requested-language",
       "resource_id": "prose",
-      "section_id": "preserve-meaning-across-languages",
+      "section_id": "revise-for-the-requested-language",
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []
@@ -1817,7 +2119,7 @@
       "resource_id": "econ-writing",
       "section_id": "revise",
       "requires": [
-        "prose.preserve-meaning-across-languages"
+        "prose.revise-for-the-requested-language"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -1827,7 +2129,7 @@
       "resource_id": "econ-writing",
       "section_id": "translate",
       "requires": [
-        "prose.preserve-meaning-across-languages"
+        "prose.revise-for-the-requested-language"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -1837,7 +2139,7 @@
       "resource_id": "econ-writing",
       "section_id": "convert",
       "requires": [
-        "prose.preserve-meaning-across-languages"
+        "prose.revise-for-the-requested-language"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -2757,7 +3059,8 @@
         "state-contract.state-and-version-contract",
         "state-contract.local-state-helper",
         "team.shared-work",
-        "team.resumption"
+        "team.resumption",
+        "local-checks.all"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -2805,46 +3108,6 @@
     "tool-sync-common-core-py.all": {
       "rule_id": "tool-sync-common-core-py.all",
       "resource_id": "tool-sync-common-core-py",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "tool-test-sync-common-core-py.all": {
-      "rule_id": "tool-test-sync-common-core-py.all",
-      "resource_id": "tool-test-sync-common-core-py",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "tool-test-export-project-py.all": {
-      "rule_id": "tool-test-export-project-py.all",
-      "resource_id": "tool-test-export-project-py",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "tool-setup-ide-mcp-sh.all": {
-      "rule_id": "tool-setup-ide-mcp-sh.all",
-      "resource_id": "tool-setup-ide-mcp-sh",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "tool-test-setup-ide-mcp-py.all": {
-      "rule_id": "tool-test-setup-ide-mcp-py.all",
-      "resource_id": "tool-test-setup-ide-mcp-py",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "tool-setup-extensions-sh.all": {
-      "rule_id": "tool-setup-extensions-sh.all",
-      "resource_id": "tool-setup-extensions-sh",
       "section_id": "all",
       "requires": [],
       "conditional_requires": [],
@@ -2901,70 +3164,6 @@
     "policy-antigravityrules.all": {
       "rule_id": "policy-antigravityrules.all",
       "resource_id": "policy-antigravityrules",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "config-template-readme-md.all": {
-      "rule_id": "config-template-readme-md.all",
-      "resource_id": "config-template-readme-md",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "config-template-readme-md.preview-and-selected-application": {
-      "rule_id": "config-template-readme-md.preview-and-selected-application",
-      "resource_id": "config-template-readme-md",
-      "section_id": "preview-and-selected-application",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "config-template-readme-md.ownership-recovery-and-credentials": {
-      "rule_id": "config-template-readme-md.ownership-recovery-and-credentials",
-      "resource_id": "config-template-readme-md",
-      "section_id": "ownership-recovery-and-credentials",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "config-template-readme-md.extensions-and-scoped-context": {
-      "rule_id": "config-template-readme-md.extensions-and-scoped-context",
-      "resource_id": "config-template-readme-md",
-      "section_id": "extensions-and-scoped-context",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "config-template-claude-mcp-example-json.all": {
-      "rule_id": "config-template-claude-mcp-example-json.all",
-      "resource_id": "config-template-claude-mcp-example-json",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "config-template-codex-example-toml.all": {
-      "rule_id": "config-template-codex-example-toml.all",
-      "resource_id": "config-template-codex-example-toml",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "config-template-mcp-example-json.all": {
-      "rule_id": "config-template-mcp-example-json.all",
-      "resource_id": "config-template-mcp-example-json",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "tool-test-configuration-tools-py.all": {
-      "rule_id": "tool-test-configuration-tools-py.all",
-      "resource_id": "tool-test-configuration-tools-py",
       "section_id": "all",
       "requires": [],
       "conditional_requires": [],
@@ -3034,14 +3233,6 @@
       "conditional_requires": [],
       "optional_examples": []
     },
-    "state-tests.all": {
-      "rule_id": "state-tests.all",
-      "resource_id": "state-tests",
-      "section_id": "all",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
     "tool-init.all": {
       "rule_id": "tool-init.all",
       "resource_id": "tool-init",
@@ -3079,7 +3270,7 @@
       "resource_id": "econ-writing",
       "section_id": "explain",
       "requires": [
-        "prose.preserve-meaning-across-languages"
+        "prose.revise-for-the-requested-language"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -3267,6 +3458,617 @@
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []
+    },
+    "control.all": {
+      "rule_id": "control.all",
+      "resource_id": "control",
+      "section_id": "all",
+      "requires": [
+        "prose-check-guide.all",
+        "requirements-check-guide.all",
+        "native-check-guide.all",
+        "native-run-guide.all",
+        "team.shared-work"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.all": {
+      "rule_id": "prose-check-guide.all",
+      "resource_id": "prose-check-guide",
+      "section_id": "all",
+      "requires": [
+        "prose-check-rules.all",
+        "prose.select-the-economic-argument",
+        "prose.revise-for-the-requested-language",
+        "local-checks.all",
+        "local-checks-guide.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-rules.all": {
+      "rule_id": "prose-check-rules.all",
+      "resource_id": "prose-check-rules",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "local-checks.all": {
+      "rule_id": "local-checks.all",
+      "resource_id": "local-checks",
+      "section_id": "all",
+      "requires": [
+        "requirements-check.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "local-checks-guide.all": {
+      "rule_id": "local-checks-guide.all",
+      "resource_id": "local-checks-guide",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check.all": {
+      "rule_id": "requirements-check.all",
+      "resource_id": "requirements-check",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.all": {
+      "rule_id": "requirements-check-guide.all",
+      "resource_id": "requirements-check-guide",
+      "section_id": "all",
+      "requires": [
+        "requirements-check.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check.all": {
+      "rule_id": "native-check.all",
+      "resource_id": "native-check",
+      "section_id": "all",
+      "requires": [
+        "requirements-check.all",
+        "local-checks.all",
+        "prose-check-rules.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.all": {
+      "rule_id": "native-check-guide.all",
+      "resource_id": "native-check-guide",
+      "section_id": "all",
+      "requires": [
+        "native-check.all",
+        "requirements-check-guide.all",
+        "prose-check-guide.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run.all": {
+      "rule_id": "native-run.all",
+      "resource_id": "native-run",
+      "section_id": "all",
+      "requires": [
+        "codex-hooks.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.all": {
+      "rule_id": "native-run-guide.all",
+      "resource_id": "native-run-guide",
+      "section_id": "all",
+      "requires": [
+        "native-run.all",
+        "policy-assets.all",
+        "policy-manifest.all",
+        "native-check-guide.all",
+        "core.all",
+        "prose-check-rules.all",
+        "local-checks.all",
+        "requirements-check.all",
+        "native-check.all",
+        "registry-operations.all",
+        "registry-resources.all",
+        "registry-placements.all",
+        "tool-route-registry-py.all",
+        "prose-check-guide.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-assets.all": {
+      "rule_id": "policy-assets.all",
+      "resource_id": "policy-assets",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-manifest.all": {
+      "rule_id": "policy-manifest.all",
+      "resource_id": "policy-manifest",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research.investigate-source-claims": {
+      "rule_id": "research.investigate-source-claims",
+      "resource_id": "research",
+      "section_id": "investigate-source-claims",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "codex-hooks.all": {
+      "rule_id": "codex-hooks.all",
+      "resource_id": "codex-hooks",
+      "section_id": "all",
+      "requires": [
+        "local-checks.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.task-proportional-review-plan": {
+      "rule_id": "control.task-proportional-review-plan",
+      "resource_id": "control",
+      "section_id": "task-proportional-review-plan",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.run-and-capability-contract": {
+      "rule_id": "control.run-and-capability-contract",
+      "resource_id": "control",
+      "section_id": "run-and-capability-contract",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.original-request-and-contract": {
+      "rule_id": "control.original-request-and-contract",
+      "resource_id": "control",
+      "section_id": "original-request-and-contract",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.worker-roles-and-identities": {
+      "rule_id": "control.worker-roles-and-identities",
+      "resource_id": "control",
+      "section_id": "worker-roles-and-identities",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.role-specific-work": {
+      "rule_id": "control.role-specific-work",
+      "resource_id": "control",
+      "section_id": "role-specific-work",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.full-candidate-prose-records": {
+      "rule_id": "control.full-candidate-prose-records",
+      "resource_id": "control",
+      "section_id": "full-candidate-prose-records",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.original-returns-and-correction": {
+      "rule_id": "control.original-returns-and-correction",
+      "resource_id": "control",
+      "section_id": "original-returns-and-correction",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.finalization-and-delivery": {
+      "rule_id": "control.finalization-and-delivery",
+      "resource_id": "control",
+      "section_id": "finalization-and-delivery",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.commands-and-result-meanings": {
+      "rule_id": "control.commands-and-result-meanings",
+      "resource_id": "control",
+      "section_id": "commands-and-result-meanings",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.registered-review-plans": {
+      "rule_id": "control.registered-review-plans",
+      "resource_id": "control",
+      "section_id": "registered-review-plans",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose.common-full-candidate-record": {
+      "rule_id": "prose.common-full-candidate-record",
+      "resource_id": "prose",
+      "section_id": "common-full-candidate-record",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.目的と適用": {
+      "rule_id": "prose-check-guide.目的と適用",
+      "resource_id": "prose-check-guide",
+      "section_id": "目的と適用",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.機能と出現の同一性": {
+      "rule_id": "prose-check-guide.機能と出現の同一性",
+      "resource_id": "prose-check-guide",
+      "section_id": "機能と出現の同一性",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.出現記録と旧形式": {
+      "rule_id": "prose-check-guide.出現記録と旧形式",
+      "resource_id": "prose-check-guide",
+      "section_id": "出現記録と旧形式",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.機械検出と全文審査": {
+      "rule_id": "prose-check-guide.機械検出と全文審査",
+      "resource_id": "prose-check-guide",
+      "section_id": "機械検出と全文審査",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.共通台帳と全文審査": {
+      "rule_id": "prose-check-guide.共通台帳と全文審査",
+      "resource_id": "prose-check-guide",
+      "section_id": "共通台帳と全文審査",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.分類と収録数": {
+      "rule_id": "prose-check-guide.分類と収録数",
+      "resource_id": "prose-check-guide",
+      "section_id": "分類と収録数",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.a24分類の索引": {
+      "rule_id": "prose-check-guide.a24分類の索引",
+      "resource_id": "prose-check-guide",
+      "section_id": "a24分類の索引",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.b7つの意味判定": {
+      "rule_id": "prose-check-guide.b7つの意味判定",
+      "resource_id": "prose-check-guide",
+      "section_id": "b7つの意味判定",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.c辞書外の言い換えも対象とする15機能": {
+      "rule_id": "prose-check-guide.c辞書外の言い換えも対象とする15機能",
+      "resource_id": "prose-check-guide",
+      "section_id": "c辞書外の言い換えも対象とする15機能",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.register-and-freeze-the-requirements": {
+      "rule_id": "requirements-check-guide.register-and-freeze-the-requirements",
+      "resource_id": "requirements-check-guide",
+      "section_id": "register-and-freeze-the-requirements",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.artifact-and-action-predicates": {
+      "rule_id": "requirements-check-guide.artifact-and-action-predicates",
+      "resource_id": "requirements-check-guide",
+      "section_id": "artifact-and-action-predicates",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.content-prohibition-and-evidence-predicates": {
+      "rule_id": "requirements-check-guide.content-prohibition-and-evidence-predicates",
+      "resource_id": "requirements-check-guide",
+      "section_id": "content-prohibition-and-evidence-predicates",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.evidence-files-and-ids": {
+      "rule_id": "requirements-check-guide.evidence-files-and-ids",
+      "resource_id": "requirements-check-guide",
+      "section_id": "evidence-files-and-ids",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.structured-review-returns": {
+      "rule_id": "requirements-check-guide.structured-review-returns",
+      "resource_id": "requirements-check-guide",
+      "section_id": "structured-review-returns",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.run-the-check": {
+      "rule_id": "requirements-check-guide.run-the-check",
+      "resource_id": "requirements-check-guide",
+      "section_id": "run-the-check",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.python-integration": {
+      "rule_id": "requirements-check-guide.python-integration",
+      "resource_id": "requirements-check-guide",
+      "section_id": "python-integration",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.prepare-and-inspect": {
+      "rule_id": "native-check-guide.prepare-and-inspect",
+      "resource_id": "native-check-guide",
+      "section_id": "prepare-and-inspect",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.returned-role-records": {
+      "rule_id": "native-check-guide.returned-role-records",
+      "resource_id": "native-check-guide",
+      "section_id": "returned-role-records",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.individual-full-candidate-prose-records": {
+      "rule_id": "native-check-guide.individual-full-candidate-prose-records",
+      "resource_id": "native-check-guide",
+      "section_id": "individual-full-candidate-prose-records",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.prohibition-and-technical-use": {
+      "rule_id": "native-check-guide.prohibition-and-technical-use",
+      "resource_id": "native-check-guide",
+      "section_id": "prohibition-and-technical-use",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.output-and-final-checks": {
+      "rule_id": "native-check-guide.output-and-final-checks",
+      "resource_id": "native-check-guide",
+      "section_id": "output-and-final-checks",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.実行単位の照合": {
+      "rule_id": "native-check-guide.実行単位の照合",
+      "resource_id": "native-check-guide",
+      "section_id": "実行単位の照合",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.selected-review-plan": {
+      "rule_id": "native-check-guide.selected-review-plan",
+      "resource_id": "native-check-guide",
+      "section_id": "selected-review-plan",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.verbatim-correspondence-and-derived-operation-state": {
+      "rule_id": "native-check-guide.verbatim-correspondence-and-derived-operation-state",
+      "resource_id": "native-check-guide",
+      "section_id": "verbatim-correspondence-and-derived-operation-state",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.artifact-text-classification": {
+      "rule_id": "native-check-guide.artifact-text-classification",
+      "resource_id": "native-check-guide",
+      "section_id": "artifact-text-classification",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.selected-acquisition-and-internal-views": {
+      "rule_id": "native-check-guide.selected-acquisition-and-internal-views",
+      "resource_id": "native-check-guide",
+      "section_id": "selected-acquisition-and-internal-views",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.select-the-review-plan": {
+      "rule_id": "native-run-guide.select-the-review-plan",
+      "resource_id": "native-run-guide",
+      "section_id": "select-the-review-plan",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.begin-and-fix-original-request-coverage": {
+      "rule_id": "native-run-guide.begin-and-fix-original-request-coverage",
+      "resource_id": "native-run-guide",
+      "section_id": "begin-and-fix-original-request-coverage",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.submit-and-review-a-snapshot": {
+      "rule_id": "native-run-guide.submit-and-review-a-snapshot",
+      "resource_id": "native-run-guide",
+      "section_id": "submit-and-review-a-snapshot",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.finalize-the-same-bytes": {
+      "rule_id": "native-run-guide.finalize-the-same-bytes",
+      "resource_id": "native-run-guide",
+      "section_id": "finalize-the-same-bytes",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.explicit-provisional-selection": {
+      "rule_id": "native-run-guide.explicit-provisional-selection",
+      "resource_id": "native-run-guide",
+      "section_id": "explicit-provisional-selection",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.optional-existing-task-state-binding": {
+      "rule_id": "native-run-guide.optional-existing-task-state-binding",
+      "resource_id": "native-run-guide",
+      "section_id": "optional-existing-task-state-binding",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.regenerate-and-verify-policy-assets": {
+      "rule_id": "native-run-guide.regenerate-and-verify-policy-assets",
+      "resource_id": "native-run-guide",
+      "section_id": "regenerate-and-verify-policy-assets",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.原資料の固定と表現一致の処理": {
+      "rule_id": "native-run-guide.原資料の固定と表現一致の処理",
+      "resource_id": "native-run-guide",
+      "section_id": "原資料の固定と表現一致の処理",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.file-and-inspection-budgets": {
+      "rule_id": "native-run-guide.file-and-inspection-budgets",
+      "resource_id": "native-run-guide",
+      "section_id": "file-and-inspection-budgets",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.concurrent-run-operations": {
+      "rule_id": "native-run-guide.concurrent-run-operations",
+      "resource_id": "native-run-guide",
+      "section_id": "concurrent-run-operations",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.trusted-codex-hook-association": {
+      "rule_id": "native-run-guide.trusted-codex-hook-association",
+      "resource_id": "native-run-guide",
+      "section_id": "trusted-codex-hook-association",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "local-checks-guide.本文走査": {
+      "rule_id": "local-checks-guide.本文走査",
+      "resource_id": "local-checks-guide",
+      "section_id": "本文走査",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "local-checks-guide.入力と保存": {
+      "rule_id": "local-checks-guide.入力と保存",
+      "resource_id": "local-checks-guide",
+      "section_id": "入力と保存",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "local-checks-guide.送信文と字句用法判定": {
+      "rule_id": "local-checks-guide.送信文と字句用法判定",
+      "resource_id": "local-checks-guide",
+      "section_id": "送信文と字句用法判定",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "config-template-readme-md.all": {
+      "rule_id": "config-template-readme-md.all",
+      "resource_id": "config-template-readme-md",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "config-template-claude-mcp-example-json.all": {
+      "rule_id": "config-template-claude-mcp-example-json.all",
+      "resource_id": "config-template-claude-mcp-example-json",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "config-template-codex-example-toml.all": {
+      "rule_id": "config-template-codex-example-toml.all",
+      "resource_id": "config-template-codex-example-toml",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "config-template-mcp-example-json.all": {
+      "rule_id": "config-template-mcp-example-json.all",
+      "resource_id": "config-template-mcp-example-json",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "checked-artifacts-instructions.all": {
+      "rule_id": "checked-artifacts-instructions.all",
+      "resource_id": "checked-artifacts-instructions",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
     }
   },
   "examples": {
@@ -3397,6 +4199,119 @@
       "language": "ja",
       "function": "assignment",
       "extended": false
+    }
+  },
+  "reading_stages": {
+    "entry": {
+      "core": [
+        "task-entry",
+        "authority-and-preserved-inputs",
+        "direct-expression"
+      ],
+      "control": [
+        "task-proportional-review-plan",
+        "worker-roles-and-identities"
+      ],
+      "team": [
+        "shared-work"
+      ]
+    },
+    "contract": {
+      "core": [
+        "authority-and-preserved-inputs"
+      ],
+      "control": [
+        "original-request-and-contract"
+      ],
+      "requirements-check-guide": [
+        "register-and-freeze-the-requirements"
+      ]
+    },
+    "compose": {
+      "core": [
+        "execution-records",
+        "direct-expression"
+      ],
+      "control": [
+        "run-and-capability-contract"
+      ]
+    },
+    "review": {
+      "core": [
+        "direct-expression"
+      ],
+      "control": [
+        "role-specific-work",
+        "full-candidate-prose-records",
+        "original-returns-and-correction"
+      ],
+      "prose-check-guide": [
+        "機能と出現の同一性",
+        "機械検出と全文審査"
+      ],
+      "native-check-guide": [
+        "returned-role-records",
+        "individual-full-candidate-prose-records"
+      ],
+      "local-checks-guide": [
+        "本文走査",
+        "送信文と字句用法判定"
+      ]
+    },
+    "finalize": {
+      "core": [
+        "completion-and-reporting"
+      ],
+      "control": [
+        "finalization-and-delivery"
+      ],
+      "native-run-guide": [
+        "finalize-the-same-bytes"
+      ],
+      "local-checks-guide": [
+        "入力と保存"
+      ]
+    }
+  },
+  "reading_roles": {
+    "requirements-coverage": {
+      "contract": {
+        "requirements-check-guide": [
+          "content-prohibition-and-evidence-predicates"
+        ],
+        "control": [
+          "original-request-and-contract"
+        ]
+      }
+    },
+    "quality-a": {
+      "review": {
+        "prose": [
+          "common-full-candidate-record"
+        ],
+        "native-check-guide": [
+          "prohibition-and-technical-use"
+        ]
+      }
+    },
+    "quality-b": {
+      "review": {
+        "requirements-check-guide": [
+          "structured-review-returns"
+        ],
+        "prose": [
+          "revise-for-the-requested-language"
+        ]
+      }
+    },
+    "compliance": {
+      "review": {
+        "control": [
+          "worker-roles-and-identities",
+          "commands-and-result-meanings",
+          "finalization-and-delivery"
+        ]
+      }
     }
   }
 }

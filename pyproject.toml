@@ -433,6 +433,8 @@ quality = { features = ["quality"], no-default-feature = true }
 
 [tool.mypy]
 python_version = "3.12"
+mypy_path = "$MYPY_CONFIG_FILE_DIR/scripts"
+explicit_package_bases = true
 disallow_incomplete_defs = true
 warn_unused_ignores = true
 show_error_codes = true

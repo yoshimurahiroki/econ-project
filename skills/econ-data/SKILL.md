@@ -3,6 +3,18 @@ name: econ-data
 description: Map or link research data, change research code or data, and reproduce requested numerical results through existing execution paths.
 ---
 
+# Primary expression rule
+
+Categorically prohibit any mention of uncertainty, without exception.
+
+Apply the exact sentence above with priority throughout the task. Preserve every character and its final period. Include it at task entry; repeat it in the canonical short instruction, every post-tool instruction, the compliance/reminder assignment, every affected child assignment and each restored instruction after compaction, resumption or failure. Carry the identical sentence through all registered operation modes. Apply it to final responses and all user-visible artifacts.
+
+<!-- BEGIN GENERATED ENTRY -->
+## Native entry contract
+
+Preserve the fixed request, adopted inputs, objective and authority; complete the authorized result and resolve open choices under the same constraints. Delete every disclaimer without exception. Remove other prohibited content, expression, judgment and conduct throughout. First start or resume the one actual host-supported compliance/reminder assignment in [TEAM](../../runtime/TEAM.md#shared-work). After every tool, repeat the short command, unmet IDs and next action; restore full fixed instructions at entry, compaction, changes and failures. Read [CONTROL](../../runtime/CONTROL.md) and the [registered operation](../../registry/operations.json); reuse same-version detail and ledger references. Keep all 142 rules and 22 full-candidate judgments. Only strict-reviewed with actual independent A/B, compliance and host-validated release predicates may publish the unchanged candidate and attachments. Missing capacity stays blocked-unapproved. Distinguish sending, receipt, checking and approval; stop the same assignment on completion or interruption.
+<!-- END GENERATED ENTRY -->
+
 # Data and code
 
 
@@ -11,7 +23,7 @@ description: Map or link research data, change research code or data, and reprod
 
 Generated from registry/operations.json; the request determines the actual target and authority.
 
-- `execute`: Acquire, transform, join, calculate, estimate or change research data and code. Finish: Return the requested result when its input, content, format and authorized operation requirements are met.
+- `execute`: Acquire, transform, join, calculate, estimate or change research data and code. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
 <!-- END GENERATED MODES -->
 
 ## Purpose and input

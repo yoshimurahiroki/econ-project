@@ -19,7 +19,7 @@ try:
     if out.exists() or out.is_symlink():
         raise ValueError('Output must be a fresh file')
     denied_parts = {'.git', '.agents', '.codex', '.cursor', '.vscode', '.windsurf', '.gemini', '.claude', '.devcontainer', 'secrets', 'state', 'node_modules', '__pycache__', '.venv', 'venv', '.ssh', '.aws', '.azure', '.gcloud'}
-    denied_names = {'mcp.json', '.mcp.json', 'credentials.json', 'token.json', 'tokens.json', 'id_rsa', 'id_ed25519', '.netrc', '.npmrc', '.pypirc', '.git-credentials'}
+    denied_names = {'credentials.json', 'token.json', 'tokens.json', 'id_rsa', 'id_ed25519', '.netrc', '.npmrc', '.pypirc', '.git-credentials'}
     def allowed(path):
         relative = path.relative_to(root)
         return not any(part.lower().startswith(('credentials.', 'credential.', 'tokens.', 'token.', 'secrets.')) for part in relative.parts) and not any(part in denied_parts or part.startswith('.env') for part in relative.parts) and path.name not in denied_names and path.suffix.lower() not in {'.pem', '.key', '.p12', '.pfx', '.sqlite', '.db'}

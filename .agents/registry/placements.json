@@ -143,38 +143,13 @@
     },
     "tool-route-registry-py": {
       "resource_id": "tool-route-registry-py",
-      "deployment_path": "scripts/route_registry.py",
+      "deployment_path": ".agents/scripts/route_registry.py",
       "export_alias": "TOOL_route_registry.py"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
       "deployment_path": "scripts/sync_common_core.py",
       "export_alias": "TOOL_sync_common_core.py"
-    },
-    "tool-test-sync-common-core-py": {
-      "resource_id": "tool-test-sync-common-core-py",
-      "deployment_path": "scripts/test_sync_common_core.py",
-      "export_alias": "TOOL_test_sync_common_core.py"
-    },
-    "tool-test-export-project-py": {
-      "resource_id": "tool-test-export-project-py",
-      "deployment_path": "scripts/test_export_project.py",
-      "export_alias": "TOOL_test_export_project.py"
-    },
-    "tool-setup-ide-mcp-sh": {
-      "resource_id": "tool-setup-ide-mcp-sh",
-      "deployment_path": "scripts/setup_ide_mcp.sh",
-      "export_alias": "TOOL_setup_ide_mcp.sh"
-    },
-    "tool-test-setup-ide-mcp-py": {
-      "resource_id": "tool-test-setup-ide-mcp-py",
-      "deployment_path": "scripts/test_setup_ide_mcp.py",
-      "export_alias": "TOOL_test_setup_ide_mcp.py"
-    },
-    "tool-setup-extensions-sh": {
-      "resource_id": "tool-setup-extensions-sh",
-      "deployment_path": "scripts/setup_extensions.sh",
-      "export_alias": "TOOL_setup_extensions.sh"
     },
     "tool-pack-context-sh": {
       "resource_id": "tool-pack-context-sh",
@@ -210,31 +185,6 @@
       "resource_id": "policy-antigravityrules",
       "deployment_path": ".antigravityrules",
       "export_alias": "POINTER__antigravityrules.md"
-    },
-    "config-template-readme-md": {
-      "resource_id": "config-template-readme-md",
-      "deployment_path": "docs/ai/config-templates/README.md",
-      "export_alias": "CONFIG_README.md"
-    },
-    "config-template-claude-mcp-example-json": {
-      "resource_id": "config-template-claude-mcp-example-json",
-      "deployment_path": "docs/ai/config-templates/claude-mcp.example.json",
-      "export_alias": "CONFIG_claude-mcp.example.json"
-    },
-    "config-template-codex-example-toml": {
-      "resource_id": "config-template-codex-example-toml",
-      "deployment_path": "docs/ai/config-templates/codex.example.toml",
-      "export_alias": "CONFIG_codex.example.toml"
-    },
-    "config-template-mcp-example-json": {
-      "resource_id": "config-template-mcp-example-json",
-      "deployment_path": "docs/ai/config-templates/mcp.example.json",
-      "export_alias": "CONFIG_mcp.example.json"
-    },
-    "tool-test-configuration-tools-py": {
-      "resource_id": "tool-test-configuration-tools-py",
-      "deployment_path": "scripts/test_configuration_tools.py",
-      "export_alias": "TOOL_test_configuration_tools.py"
     },
     "policy-agents-agentsmd": {
       "resource_id": "policy-agents-agentsmd",
@@ -276,11 +226,6 @@
       "deployment_path": ".agents/harness/publication.md",
       "export_alias": "PUBLICATION.md"
     },
-    "state-tests": {
-      "resource_id": "state-tests",
-      "deployment_path": ".agents/harness/test_state.py",
-      "export_alias": "test_state.py"
-    },
     "tool-init": {
       "resource_id": "tool-init",
       "deployment_path": "scripts/__init__.py",
@@ -300,6 +245,151 @@
       "resource_id": "registry-placements",
       "deployment_path": ".agents/registry/placements.json",
       "export_alias": "PLACEMENTS.json"
+    },
+    "control": {
+      "resource_id": "control",
+      "deployment_path": ".agents/runtime/CONTROL.md",
+      "export_alias": "CONTROL.md"
+    },
+    "prose-check-guide": {
+      "resource_id": "prose-check-guide",
+      "deployment_path": ".agents/quality/prose_rules.md",
+      "export_alias": "PROSE_CHECK_GUIDE.md"
+    },
+    "prose-check-rules": {
+      "resource_id": "prose-check-rules",
+      "deployment_path": ".agents/quality/prose_rules.json",
+      "export_alias": "PROSE_CHECK_RULES.json"
+    },
+    "local-checks": {
+      "resource_id": "local-checks",
+      "deployment_path": ".agents/harness/local_checks.py",
+      "export_alias": "LOCAL_CHECKS.py"
+    },
+    "local-checks-guide": {
+      "resource_id": "local-checks-guide",
+      "deployment_path": ".agents/harness/local_checks.md",
+      "export_alias": "LOCAL_CHECKS_GUIDE.md"
+    },
+    "requirements-check": {
+      "resource_id": "requirements-check",
+      "deployment_path": ".agents/harness/requirements_check.py",
+      "export_alias": "requirements_check.py"
+    },
+    "requirements-check-guide": {
+      "resource_id": "requirements-check-guide",
+      "deployment_path": ".agents/harness/requirements_check.md",
+      "export_alias": "REQUIREMENTS_CHECK_GUIDE.md"
+    },
+    "native-check": {
+      "resource_id": "native-check",
+      "deployment_path": ".agents/harness/native_check.py",
+      "export_alias": "native_check.py"
+    },
+    "native-check-guide": {
+      "resource_id": "native-check-guide",
+      "deployment_path": ".agents/harness/native_check.md",
+      "export_alias": "NATIVE_CHECK_GUIDE.md"
+    },
+    "native-run": {
+      "resource_id": "native-run",
+      "deployment_path": ".agents/harness/native_run.py",
+      "export_alias": "native_run.py"
+    },
+    "native-run-guide": {
+      "resource_id": "native-run-guide",
+      "deployment_path": ".agents/harness/native_run.md",
+      "export_alias": "NATIVE_RUN_GUIDE.md"
+    },
+    "policy-assets": {
+      "resource_id": "policy-assets",
+      "deployment_path": ".agents/harness/policy_assets.py",
+      "export_alias": "policy_assets.py"
+    },
+    "policy-manifest": {
+      "resource_id": "policy-manifest",
+      "deployment_path": ".agents/quality/policy_manifest.json",
+      "export_alias": "policy_manifest.json"
+    },
+    "codex-hooks": {
+      "resource_id": "codex-hooks",
+      "deployment_path": ".agents/harness/codex_hooks.py",
+      "export_alias": "codex_hooks.py"
+    },
+    "tool-test-sync-common-core-py": {
+      "resource_id": "tool-test-sync-common-core-py",
+      "deployment_path": "scripts/test_sync_common_core.py",
+      "export_alias": "TOOL_test_sync_common_core.py"
+    },
+    "tool-test-export-project-py": {
+      "resource_id": "tool-test-export-project-py",
+      "deployment_path": "scripts/test_export_project.py",
+      "export_alias": "TOOL_test_export_project.py"
+    },
+    "tool-setup-ide-mcp-sh": {
+      "resource_id": "tool-setup-ide-mcp-sh",
+      "deployment_path": "scripts/setup_ide_mcp.sh",
+      "export_alias": "TOOL_setup_ide_mcp.sh"
+    },
+    "tool-test-setup-ide-mcp-py": {
+      "resource_id": "tool-test-setup-ide-mcp-py",
+      "deployment_path": "scripts/test_setup_ide_mcp.py",
+      "export_alias": "TOOL_test_setup_ide_mcp.py"
+    },
+    "tool-setup-extensions-sh": {
+      "resource_id": "tool-setup-extensions-sh",
+      "deployment_path": "scripts/setup_extensions.sh",
+      "export_alias": "TOOL_setup_extensions.sh"
+    },
+    "config-template-readme-md": {
+      "resource_id": "config-template-readme-md",
+      "deployment_path": "docs/ai/config-templates/README.md",
+      "export_alias": "CONFIG_README.md"
+    },
+    "config-template-claude-mcp-example-json": {
+      "resource_id": "config-template-claude-mcp-example-json",
+      "deployment_path": "docs/ai/config-templates/claude-mcp.example.json",
+      "export_alias": "CONFIG_claude-mcp.example.json"
+    },
+    "config-template-codex-example-toml": {
+      "resource_id": "config-template-codex-example-toml",
+      "deployment_path": "docs/ai/config-templates/codex.example.toml",
+      "export_alias": "CONFIG_codex.example.toml"
+    },
+    "config-template-mcp-example-json": {
+      "resource_id": "config-template-mcp-example-json",
+      "deployment_path": "docs/ai/config-templates/mcp.example.json",
+      "export_alias": "CONFIG_mcp.example.json"
+    },
+    "tool-test-configuration-tools-py": {
+      "resource_id": "tool-test-configuration-tools-py",
+      "deployment_path": "scripts/test_configuration_tools.py",
+      "export_alias": "TOOL_test_configuration_tools.py"
+    },
+    "state-tests": {
+      "resource_id": "state-tests",
+      "deployment_path": ".agents/harness/test_state.py",
+      "export_alias": "test_state.py"
+    },
+    "checked-artifacts-instructions": {
+      "resource_id": "checked-artifacts-instructions",
+      "deployment_path": ".agents/skills/economics-checked-instructions/SKILL.md",
+      "export_alias": "CHECKED_ARTIFACTS.md"
+    },
+    "plugin-integration-guide": {
+      "resource_id": "plugin-integration-guide",
+      "deployment_path": "docs/ai/plugin-integration.md",
+      "export_alias": "PLUGIN_INTEGRATION.md"
+    },
+    "tool-check-instruction-links-py": {
+      "resource_id": "tool-check-instruction-links-py",
+      "deployment_path": "scripts/check_instruction_links.py",
+      "export_alias": "TOOL_check_instruction_links.py"
+    },
+    "tool-test-instruction-links-py": {
+      "resource_id": "tool-test-instruction-links-py",
+      "deployment_path": "scripts/test_instruction_links.py",
+      "export_alias": "TOOL_test_instruction_links.py"
     }
   },
   "source": {
@@ -320,6 +410,59 @@
     "mandatory_reference_policy": "resolve_within_selected_package",
     "omitted_optional_policy": "request_additional_input_if_activated",
     "remote_fallback": false
+  },
+  "policy_pointers": [
+    {
+      "resource_id": "repository-policy",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-agentsmd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-codexmd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-claudemd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-clinerules",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-windsurfrules",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-antigravityrules",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-agents-agentsmd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-claude-agentsmd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-cursor-rules-01_project_policymdc",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-gemini-geminimd",
+      "template_id": "economics-task-entry"
+    },
+    {
+      "resource_id": "policy-github-copilot-instructionsmd",
+      "template_id": "economics-task-entry"
+    }
+  ],
+  "pointer_templates": {
+    "economics-task-entry": "# Economics task entry\n\nRead [common rules]({core}) once, then choose the final operation from [operation index]({index}). Support inherits this task and returns to its owner.\n"
   },
   "configuration": {
     "clients": [
@@ -415,58 +558,5 @@
         }
       ]
     }
-  },
-  "policy_pointers": [
-    {
-      "resource_id": "repository-policy",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-agentsmd",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-codexmd",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-claudemd",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-clinerules",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-windsurfrules",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-antigravityrules",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-agents-agentsmd",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-claude-agentsmd",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-cursor-rules-01_project_policymdc",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-gemini-geminimd",
-      "template_id": "economics-task-entry"
-    },
-    {
-      "resource_id": "policy-github-copilot-instructionsmd",
-      "template_id": "economics-task-entry"
-    }
-  ],
-  "pointer_templates": {
-    "economics-task-entry": "# Economics task entry\n\nRead [common rules]({core}) once, then choose the final operation from [operation index]({index}). Support inherits this task and returns to its owner.\n"
   }
 }

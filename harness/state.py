@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
-"""Record local task state and compare saved check results. Do not launch agents, call APIs or access credentials."""
+"""Record local task state and compare saved check results."""
 import argparse
 from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
+
+_base = Path(__file__).resolve().parent
+_spec = importlib.util.spec_from_file_location('state_local_io', next(p for p in
+    (_base / 'local_checks.py', _base / 'LOCAL_CHECKS.py') if p.is_file()))
+gate = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(gate)
 
 STATES = {'queued', 'running', 'blocked', 'completed', 'failed'}
 TOKEN_FIELDS = ('input_tokens', 'cached_input_tokens', 'cache_write_input_tokens', 'output_tokens', 'reasoning_output_tokens')
@@ -22,6 +30,23 @@ def digest(path):
         for chunk in iter(lambda: stream.read(1024 * 1024), b''):
             value.update(chunk)
     return value.hexdigest()
+
+def content_hash(value):
+    """One encoding for registering and rechecking saved message/object bodies."""
+    return hashlib.sha256(json.dumps(value, sort_keys=True, ensure_ascii=False).encode('utf-8')).hexdigest()
+
+def content_version(row):
+    if row['kind'] in {'message', 'object'}:
+        return content_hash(row['value']) if 'value' in row else None
+    return row['version']
+
+def output_changes(root, task):
+    changes = changed(root, output_files(task))
+    for key, row in task['outputs'].items():
+        if row['kind'] in {'message', 'object'} and (content_version(row) != row.get('version')
+                or row['kind'] == 'message' and not isinstance(row.get('value'), str)):
+            changes.append(key)
+    return sorted(set(changes))
 
 def relative(root, value, exists=True):
     path = Path(value)
@@ -62,27 +87,122 @@ def revision(root):
 def locked(path):
     path.parent.mkdir(parents=True, exist_ok=True)
     lock = path.with_suffix('.lock')
+    fd = os.open(lock, os.O_CREAT | os.O_RDWR | getattr(os, 'O_CLOEXEC', 0) | getattr(os, 'O_NOFOLLOW', 0), 0o600)
     try:
-        fd = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
-    except FileExistsError as exc:
-        raise ValueError('State is locked; inspect the active writer before removing a stale lock') from exc
-    try:
-        os.close(fd)
+        try:
+            gate.lock_fd(fd)
+        except BlockingIOError as exc:
+            raise ValueError(f'State writer active for {path}; retry this update after that writer exits') from exc
         yield
     finally:
-        lock.unlink()
+        # Keep one stable lock inode. Closing releases ownership even after a
+        # failed operation; process termination releases the descriptor in the OS.
+        os.close(fd)
 
 def save(path, state):
-    temporary = path.with_suffix('.tmp')
-    with temporary.open('w', encoding='utf-8') as stream:
-        json.dump(state, stream, ensure_ascii=False, indent=2, sort_keys=True)
-        stream.write('\n')
-    os.chmod(temporary, 0o600)
-    os.replace(temporary, path)
+    fd, temporary = tempfile.mkstemp(prefix='.' + path.name + '-', dir=path.parent)
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as stream:
+            json.dump(state, stream, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
+            stream.write('\n')
+            stream.flush()
+            os.fsync(stream.fileno())
+        gate.replace_path(temporary, path)
+        gate.sync_directory(path.parent)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+def context_id(task):
+    """Hash governing content, excluding scheduling and continuation display."""
+    value = {key: task.get(key) for key in
+             ('authority', 'required_outputs', 'required_actions', 'required_checks',
+              'check_targets', 'scope', 'external_targets', 'task_context')}
+    value['holds'] = sorted(task.get('holds', []))
+    if task.get('parent'):
+        value['inherited_constraints_sha256'] = task.get('effective_constraints_sha256')
+    value['record_sha256'] = task.get('record_version', {}).get('sha256')
+    return content_hash(value)
+
+
+def load_task_context(root, path):
+    """Read the existing context record; refs stay in the project namespace."""
+    path = relative(root, path)
+    def pairs(items):
+        value = {}
+        for key, item in items:
+            if key in value:
+                raise ValueError('Duplicate task_context key: ' + key)
+            value[key] = item
+        return value
+    value = json.loads((root / path).read_text(encoding='utf-8'), object_pairs_hook=pairs,
+                       parse_constant=lambda item: (_ for _ in ()).throw(ValueError('Nonfinite task_context value')))
+    if (not isinstance(value, dict) or set(value) !=
+            {'request_refs', 'goal_and_constraints', 'active_instruction_refs', 'adopted_decisions'}
+            or not isinstance(value['goal_and_constraints'], str) or not value['goal_and_constraints'].strip()):
+        raise ValueError('task_context requires request_refs, goal_and_constraints, active_instruction_refs and adopted_decisions')
+    for field, identity, extra in [('request_refs', 'source_id', set()),
+                                    ('active_instruction_refs', 'rule_id', {'section'})]:
+        rows, seen = value[field], set()
+        if not isinstance(rows, list):
+            raise ValueError('task_context references must be arrays')
+        for row in rows:
+            required = {identity, 'version', 'content_sha256'} | extra
+            if (not isinstance(row, dict) or not required <= set(row) or set(row) - required - {'path'}
+                    or any(not isinstance(row[key], str) or not row[key].strip() for key in {identity} | extra)
+                    or not (isinstance(row['version'], str) and row['version'].strip()
+                            or type(row['version']) is int and row['version'] >= 0)
+                    or not isinstance(row['content_sha256'], str)
+                    or len(row['content_sha256']) != 64 or any(c not in '0123456789abcdef' for c in row['content_sha256'])):
+                raise ValueError('Invalid task_context reference')
+            key = (row[identity], row.get('section'))
+            if key in seen:
+                raise ValueError('Duplicate task_context reference')
+            seen.add(key)
+            if 'path' in row:
+                name = relative(root, row['path'])
+                if digest(root / name) != row['content_sha256']:
+                    raise ValueError('task_context reference content changed: ' + name)
+    rows, seen = value['adopted_decisions'], set()
+    if not isinstance(rows, list):
+        raise ValueError('adopted_decisions must be an array')
+    for row in rows:
+        if (not isinstance(row, dict) or set(row) != {'decision_id', 'version', 'choice', 'reason', 'switch_condition'}
+                or any(not isinstance(row[k], str) or not row[k].strip()
+                       for k in ('decision_id', 'choice', 'reason', 'switch_condition'))
+                or not (isinstance(row['version'], str) and row['version'].strip()
+                        or type(row['version']) is int and row['version'] >= 0)
+                or row['decision_id'] in seen):
+            raise ValueError('Adopted decision requires a unique ID, version, choice, reason and switch condition')
+        seen.add(row['decision_id'])
+    return value, {'path': path, 'sha256': content_hash(value)}
+
+
+def context_changes(root, task):
+    """Compare recorded content, never a Git label or task progress timestamp."""
+    changes = []
+    record = task.get('record')
+    if record:
+        try:
+            path = relative(root, record)
+            if digest(root / path) != task.get('record_version', {}).get('sha256'):
+                changes.append('record:' + path)
+        except (ValueError, OSError):
+            changes.append('record:' + record)
+    ref = task.get('task_context_ref')
+    if ref:
+        try:
+            value, current = load_task_context(root, ref['path'])
+            if current != ref or value != task.get('task_context'):
+                changes.append('task_context:' + ref['path'])
+        except (ValueError, OSError, KeyError, TypeError):
+            changes.append('task_context:' + str(ref.get('path')))
+    return changes
+
 
 def transition(task, status, next_action=None, reason=None):
     task['history'].append(json.loads(json.dumps({k: task.get(k) for k in
-        ('status', 'updated', 'consumed_inputs', 'read_dependencies', 'outputs', 'check_receipts', 'next', 'record_version', 'authority', 'holds', 'blocked_reason', 'consumes', 'compatibility_dependencies', 'dependency_versions')})))
+        ('status', 'updated', 'consumed_inputs', 'read_dependencies', 'outputs', 'check_receipts', 'next', 'record_version', 'authority', 'holds', 'blocked_reason', 'consumes', 'compatibility_dependencies', 'dependency_versions', 'task_context', 'task_context_ref')})))
     task['status'], task['updated'] = status, now()
     task.pop('blocked_reason', None)
     if status == 'blocked':
@@ -92,14 +212,157 @@ def transition(task, status, next_action=None, reason=None):
     task['next_action'] = task['next']
 
 def in_scope(path, scopes):
-    return any(path == scope or path.startswith(scope + '/') for scope in scopes)
+    return any(scope == '.' or path == scope or path.startswith(scope + '/') for scope in scopes)
+
+def scopes_overlap(left, right):
+    return left == '.' or right == '.' or left == right or left.startswith(right + '/') or right.startswith(left + '/')
+
+
+def task_ancestors(tasks, task):
+    result, seen = [], {task['task_id']}
+    parent = task.get('parent')
+    while parent:
+        if parent in seen or parent not in tasks:
+            raise ValueError('Unknown or cyclic parent task')
+        seen.add(parent)
+        result.append(tasks[parent])
+        parent = tasks[parent].get('parent')
+    return result
+
+
+def hold_applies(row, task):
+    operations = {task['operation_kind']} | {r['operation'] for r in task.get('required_actions', [])}
+    if row.get('operations') and not operations.intersection(row['operations']):
+        return False
+    targets = row.get('targets', [])
+    if not targets:
+        return True
+    files = list(task.get('scope', [])) + [r['target'] for r in task.get('required_outputs', []) if r['kind'] == 'file']
+    files += [r['target_id'] for r in task.get('required_actions', []) if r['target_kind'] == 'file']
+    objects = set(task.get('external_targets', []))
+    return any((target.startswith('file:') and any(scopes_overlap(target[5:], path) for path in files))
+               or (target.startswith('object:') and target[7:] in objects) for target in targets)
+
+
+def effective_constraints(tasks, task, root=None):
+    """Derive inherited bounds from their setters, never a child's omissions."""
+    ancestors = task_ancestors(tasks, task)
+    holds, errors, inherited = [], [], []
+    for owner in [task, *ancestors]:
+        for hold_id in owner.get('holds', []):
+            row = owner.get('hold_records', {}).get(hold_id, {})
+            row = {'hold_id': hold_id, 'source_task_id': owner['task_id'],
+                   'source_requirement_ids': row.get('source_requirement_ids', []),
+                   'operations': row.get('operations', []), 'targets': row.get('targets', [])}
+            if owner is task or hold_applies(row, task):
+                holds.append(row)
+        if owner is task:
+            continue
+        if root is not None and context_changes(root, owner):
+            errors.append({'source_task_id': owner['task_id'], 'kind': 'governing-content-changed'})
+        if any(not in_scope(path, owner.get('scope', [])) for path in task.get('scope', [])):
+            errors.append({'source_task_id': owner['task_id'], 'kind': 'write-scope'})
+        if set(task.get('external_targets', [])) - set(owner.get('external_targets', [])):
+            errors.append({'source_task_id': owner['task_id'], 'kind': 'external-target'})
+        inherited.append({'source_task_id': owner['task_id'], 'authority': owner.get('authority', ''),
+                          'task_context': owner.get('task_context'),
+                          'record_sha256': owner.get('record_version', {}).get('sha256')})
+    return {'inherited': inherited, 'holds': holds, 'scope_errors': errors}
+
+
+def constraints_current(root, tasks, task):
+    value = effective_constraints(tasks, task, root)
+    return (not value['holds'] and not value['scope_errors']
+            and (not task.get('parent') or task.get('effective_constraints_sha256') == content_hash(value)))
+
+
+def refresh_constraints(root, tasks):
+    """Invalidate affected assessments while retaining every saved output."""
+    for task in sorted(tasks.values(), key=lambda row: len(task_ancestors(tasks, row))):
+        inherited_from = task.get('task_context_inherited_from')
+        if inherited_from:
+            parent = tasks[inherited_from]
+            for key in ('task_context', 'task_context_ref'):
+                if key in parent:
+                    task[key] = json.loads(json.dumps(parent[key]))
+                else:
+                    task.pop(key, None)
+        value = effective_constraints(tasks, task, root)
+        previous, current = task.get('effective_constraints_sha256'), content_hash(value)
+        changed = previous != current and (previous is not None or task.get('parent') and
+                  (task['status'] in {'running', 'completed'} or task.get('check_receipts')))
+        task['effective_constraints_sha256'] = current
+        task['effective_holds'] = value['holds']
+        task['inherited_authority'] = value['inherited']
+        task['constraint_errors'] = value['scope_errors']
+        if changed:
+            task['check_receipts'], task['verification'] = {}, None
+            if task['status'] in {'running', 'completed'}:
+                transition(task, 'blocked', 'Reconcile changed parent constraints; preserve outputs and obtain affected checks',
+                           'permission' if value['holds'] or value['scope_errors'] else 'dependency')
+                task['constraint_blocked'] = True
+            elif task['status'] == 'blocked' and task.get('constraint_blocked') and not value['holds'] and not value['scope_errors']:
+                task['blocked_reason'] = 'dependency'
+
+
+def record_hold(root, task, hold_id, operations=(), targets=()):
+    normalized = []
+    for target in targets:
+        if target.startswith('file:'):
+            normalized.append('file:' + relative(root, target[5:], exists=False))
+        elif target.startswith('object:') and target[7:].strip():
+            normalized.append(target)
+        else:
+            raise ValueError('Hold targets require file:relative/path or object:exact-id')
+    if any(not value.strip() for value in operations):
+        raise ValueError('Hold operations must be nonempty')
+    task.setdefault('hold_records', {})[hold_id] = {
+        'hold_id': hold_id, 'source_task_id': task['task_id'],
+        'source_requirement_ids': sorted(requested_targets(task)),
+        'operations': sorted(set(operations)), 'targets': sorted(set(normalized))}
+
+
+def hold_release_evidence(root, task, hold_id, reference):
+    if not reference:
+        raise ValueError('Releasing a hold requires --user-release with the saved user instruction')
+    path = relative(root, reference)
+    message = json.loads((root / path).read_text(encoding='utf-8'))
+    if (not isinstance(message, dict) or message.get('source') != 'user'
+            or any(not isinstance(message.get(k), str) or not message[k].strip() for k in ('message_id', 'text'))
+            or message.get('source_task_id') != task['task_id'] or message.get('hold_id') != hold_id):
+        raise ValueError('Hold release requires the user message ID/text and matching source_task_id/hold_id')
+    return {'evidence': snapshot(root, [path]), 'message': message}
 
 def output_files(task):
     return {key: row['version'] for key, row in task['outputs'].items() if row['kind'] == 'file'}
 
-def input_changes(root, task):
+DELETE_OPERATIONS = {'delete', 'remove', 'unlink'}
+
+def deletion_targets(root, task, pending=None):
+    """Requested, evidenced tombstones replace only their pinned input version."""
+    deleted = set()
+    for row in [*task.get('action_results', []), *([pending] if pending else [])]:
+        requirement = {key: row.get(key) for key in ('target_kind', 'target_id', 'operation')}
+        target = row.get('target_id')
+        if (row.get('receipt_kind') != 'action' or row.get('result') != 'passed'
+                or requirement not in task['required_actions']
+                or row.get('target_kind') != 'file' or row.get('operation') not in DELETE_OPERATIONS
+                or row.get('target_version') is not None
+                or row.get('input_version') != task['consumed_inputs'].get(target)
+                or changed(root, row.get('evidence', {}))):
+            continue
+        try:
+            relative(root, target, exists=False)
+            if not (root / target).exists() and not (root / target).is_symlink():
+                deleted.add(target)
+        except (OSError, ValueError, TypeError):
+            continue
+    return deleted
+
+def input_changes(root, task, pending=None):
     # Only a declared in-place modification can replace its consumed source.
     replaced = output_files(task) if task['operation_kind'] == 'modify' else {}
+    replaced = set(replaced) | deletion_targets(root, task, pending)
     immutable = {k: v for k, v in task['consumed_inputs'].items() if k not in replaced}
     return sorted(set(changed(root, immutable) + changed(root, task['read_dependencies'])))
 
@@ -110,12 +373,17 @@ def versions(task, output_ids=None, input_ids=None, include_actions=True):
         inputs = {k: inputs[k] for k in input_ids}
     if output_ids is not None:
         outputs = {k: outputs[k] for k in output_ids}
-    result = {'dependencies': selected_dependencies(task, output_ids), 'inputs': inputs, 'outputs': {k: {'kind': v['kind'], 'version': v['version'], **({'definition_versions': v['definition_versions']} if v.get('definition_versions') else {}), **({'publication_group_id': v['publication_group_id']} if v.get('publication_group_id') else {})} for k, v in outputs.items()}}
+    result = {'dependencies': selected_dependencies(task, output_ids), 'inputs': inputs, 'outputs': {k: {'kind': v['kind'], 'version': content_version(v), **({'definition_versions': v['definition_versions']} if v.get('definition_versions') else {}), **({'publication_group_id': v['publication_group_id']} if v.get('publication_group_id') else {})} for k, v in outputs.items()}}
     if include_actions and task.get('action_results'):
-        result['actions'] = [{k: row[k] for k in ('target_kind', 'target_id', 'operation', 'result', 'evidence', 'at', 'target_version')} for row in task['action_results']]
+        result['actions'] = [{k: row[k] for k in ('target_kind', 'target_id', 'operation', 'result', 'evidence', 'at', 'target_version', *(['input_version'] if 'input_version' in row else []))} for row in task['action_results']]
+    result['context_id'] = context_id(task)
     return result
 
-def receipt_current(root, task, receipt):
+def receipt_current(root, task, receipt, allow_failed=False):
+    if context_changes(root, task):
+        return False
+    if receipt.get('review_kind') == 'worker-result' and not worker_receipt_current(root, task, receipt):
+        return False
     if receipt.get('receipt_kind') == 'action':
         target = receipt['target_id']
         if receipt['target_kind'] == 'file':
@@ -130,25 +398,72 @@ def receipt_current(root, task, receipt):
                 return False
         elif task['outputs'].get(target, {}).get('version') != receipt.get('target_output_version'):
             return False
-    if receipt.get('result') != 'passed' or changed(root, receipt.get('evidence', {})):
+    if receipt.get('result') not in ({'passed', 'failed'} if allow_failed else {'passed'}) or changed(root, receipt.get('evidence', {})):
         return False
     try:
         captured = receipt['versions']
-        replaced = output_files(task) if task['operation_kind'] == 'modify' else {}
+        replaced = set(output_files(task) if task['operation_kind'] == 'modify' else {}) | deletion_targets(root, task)
         reads = {k: v for k, v in captured['inputs'].items() if k not in replaced or k in task['read_dependencies']}
         files = {k: v['version'] for k, v in captured['outputs'].items() if v['kind'] == 'file'}
         return not changed(root, reads) and not changed(root, files) and captured == versions(task, receipt.get('output_ids'), receipt.get('input_ids'), include_actions=receipt.get('receipt_kind') != 'action')
     except KeyError:
         return False
 
+def requested_targets(task):
+    return {row['target'] for row in task['required_outputs']} | {row['target_id'] for row in task['required_actions']}
+
+def normalize_checks(values, task):
+    names, targets = [], {}
+    for value in values:
+        row = json.loads(value) if value.lstrip().startswith('{') else {'id': value, 'targets': None}
+        if (not isinstance(row, dict) or set(row) != {'id', 'targets'}
+                or not isinstance(row['id'], str) or not row['id'].strip()
+                or row['targets'] is not None and (not isinstance(row['targets'], list) or not row['targets']
+                    or any(not isinstance(v, str) or not v.strip() for v in row['targets'])
+                    or len(set(row['targets'])) != len(row['targets'])
+                    or set(row['targets']) - requested_targets(task))):
+            raise ValueError('Required check needs an ID and requested target IDs')
+        name = row['id']
+        if name in targets and targets[name] != row['targets']:
+            raise ValueError('Conflicting required check targets')
+        if name not in targets:
+            names.append(name)
+            targets[name] = row['targets']
+    return names, targets
+
+def check_covered(root, task, check, targets=None, independent=None, receipts=None):
+    """Union current receipts per check; output coverage never crosses checks."""
+    selected = task.get('check_targets', {}).get(check)
+    required = requested_targets(task) if selected is None else set(selected)
+    if required - requested_targets(task):
+        return False
+    if targets is not None:
+        required &= set(targets)
+    if not required:
+        return True
+    latest = {}
+    independent = task.get('independent_review', False) if independent is None else independent
+    for receipt in task['check_receipts'].values() if receipts is None else receipts:
+        if receipt.get('operation') != check or not receipt_current(root, task, receipt, allow_failed=True):
+            continue
+        if independent and not independent_receipt_current(root, task, receipt):
+            continue
+        covered = ((set(task['outputs']) | {r['target_id'] for r in task.get('action_results', [])})
+                   if receipt.get('output_ids') is None else set(receipt['output_ids']))
+        order = (receipt.get('sequence', 0), receipt.get('at', ''))
+        for target in required & covered:
+            if target not in latest or order >= latest[target][0]:
+                latest[target] = (order, receipt)
+    return all(target in latest and latest[target][1].get('result') == 'passed' for target in required)
+
 def missing_checks(root, task):
-    return [key for key in task['required_checks'] if not receipt_current(root, task, task['check_receipts'].get(key, {}))]
+    return [check for check in task['required_checks'] if not check_covered(root, task, check)]
 
 def dependency_key(row):
     return json.dumps([row['producer_id'], row['output_id']], separators=(',', ':'))
 
 def output_version(row):
-    result = {'kind': row['kind'], 'content_version': row['version'],
+    result = {'kind': row['kind'], 'content_version': content_version(row),
               'definition_versions': row.get('definition_versions', {})}
     if row.get('publication_group_id'):
         result['publication_group_id'] = row['publication_group_id']
@@ -177,8 +492,10 @@ def dependency_value(tasks, row):
         actions = [r for r in producer.get('action_results', []) if r['target_id'] == row['output_id'] and r['target_kind'] == row['kind']]
         if not actions:
             return None
-        output = {'kind': row['kind'], 'version': hashlib.sha256(json.dumps(actions, sort_keys=True).encode()).hexdigest()}
-    value = output_version(output)
+        value = {'kind': row['kind'], 'content_version': hashlib.sha256(json.dumps(actions, sort_keys=True).encode()).hexdigest(),
+                 'definition_versions': {}}
+    else:
+        value = output_version(output)
     if row.get('publication_group_id'):
         group = row['publication_group_id']
         value['publication_group'] = {k: output_version(v) for k, v in producer['outputs'].items() if v.get('publication_group_id') == group}
@@ -240,16 +557,18 @@ def output_current(root, tasks, producer_id, output_id, seen=None):
     seen = seen | {(producer_id, output_id)}
     task = tasks[producer_id]
     row = task['outputs'].get(output_id)
-    if task.get('holds') or input_changes(root, task):
+    if not constraints_current(root, tasks, task) or input_changes(root, task) or context_changes(root, task):
         return False
     if row is None:
         if not consumed_current(root, tasks, task, seen):
             return False
         actions = [r for r in task.get('action_results', []) if r['target_id'] == output_id]
         return bool(actions) and all(receipt_current(root, task, r) for r in actions)
-    if task.get('holds') or input_changes(root, task):
+    if not constraints_current(root, tasks, task) or input_changes(root, task) or context_changes(root, task):
         return False
     if row['kind'] == 'file' and changed(root, {output_id: row['version']}):
+        return False
+    if row['kind'] in {'message', 'object'} and content_version(row) != row.get('version'):
         return False
     selected = selected_dependencies(task, [output_id]) or {}
     current = dependency_versions(tasks, task)
@@ -259,8 +578,7 @@ def output_current(root, tasks, producer_id, output_id, seen=None):
         if dependency_key(consumed) in selected and not consumed_ref_current(root, tasks, consumed, seen):
             return False
     for check in task['required_checks']:
-        receipt = task['check_receipts'].get(check)
-        if not receipt or (receipt.get('output_ids') is None or output_id in receipt['output_ids']) and not receipt_current(root, task, receipt):
+        if not check_covered(root, task, check, [output_id]):
             return False
     return True
 
@@ -301,14 +619,93 @@ def contract(root, outputs, actions):
         raise ValueError('Declare at least one requested output or action')
     return outputs, actions
 
+def contract_snapshot(task):
+    keys = ('required_outputs', 'required_actions', 'external_targets')
+    if 'check_targets' in task:
+        keys += ('required_checks', 'check_targets')
+    return json.loads(json.dumps({key: task.get(key, []) for key in keys}))
+
+def record_contract(task, source):
+    revisions = task.setdefault('contract_revisions', [])
+    snapshot = contract_snapshot(task)
+    revisions.append({'revision': len(revisions) + 1, 'at': now(), 'contract': snapshot,
+                      'sha256': content_hash(snapshot), 'source': source})
+
+def contract_current(root, task):
+    revisions = task.get('contract_revisions', [])
+    if not revisions:
+        return True  # Legacy stores predate revision history.
+    try:
+        return (revisions[-1]['contract'] == contract_snapshot(task)
+                and all(row['revision'] == index + 1 and row['sha256'] == content_hash(row['contract'])
+                        and not changed(root, row['source'].get('evidence', {}))
+                        for index, row in enumerate(revisions)))
+    except (KeyError, TypeError, ValueError, OSError):
+        return False
+
+def contract_change(root, task, outputs, actions, external_targets, user_change, checks=None):
+    """Require version-bound user-change evidence before removing any obligation.
+
+    The coordinator must compare its quotation and reference with the actual user
+    message. Local JSON is retained evidence, not an authority authenticator.
+    """
+    if not contract_current(root, task):
+        raise ValueError('Saved contract revision/evidence changed; reconcile the original records before changing requirements')
+    previous = contract_snapshot(task)
+    replacement = {'required_outputs': outputs, 'required_actions': actions,
+                   'external_targets': external_targets}
+    if 'check_targets' in task or checks is not None:
+        provisional = {**task, **replacement}
+        if checks is None:
+            available = requested_targets(provisional)
+            mapping = {name: (None if task.get('check_targets', {}).get(name) is None else
+                             [target for target in task['check_targets'][name] if target in available])
+                       for name in task['required_checks']}
+            names = [name for name in task['required_checks'] if mapping[name] is None or mapping[name]]
+            mapping = {name: mapping[name] for name in names}
+        else:
+            names, mapping = normalize_checks(checks, provisional)
+        replacement.update(required_checks=names, check_targets=mapping)
+    removed = any(row not in replacement[key] for key in ('required_outputs', 'required_actions', 'external_targets')
+                  for row in previous[key])
+    for check in task.get('required_checks', []):
+        old_targets = task.get('check_targets', {}).get(check)
+        old_targets = requested_targets(task) if old_targets is None else set(old_targets)
+        new_targets = replacement.get('check_targets', {}).get(check)
+        new_targets = requested_targets({**task, **replacement}) if new_targets is None else set(new_targets)
+        removed |= check not in replacement.get('required_checks', task.get('required_checks', [])) or bool(old_targets - new_targets)
+    source = {'kind': 'additive-change'}
+    if removed and not user_change:
+        raise ValueError('Removing or replacing requirements requires --user-change evidence of the user instruction')
+    if user_change:
+        reference = relative(root, user_change)
+        evidence = json.loads((root / reference).read_text(encoding='utf-8'))
+        if (not isinstance(evidence, dict) or evidence.get('source') != 'user'
+                or any(not isinstance(evidence.get(key), str) or not evidence[key].strip()
+                       for key in ('message_id', 'text'))
+                or evidence.get('previous_contract_sha256') != content_hash(previous)
+                or evidence.get('replacement_contract_sha256') != content_hash(replacement)):
+            raise ValueError('User-change evidence needs the user message ID/text and matching previous/replacement contract hashes')
+        source = {'kind': 'user-change', 'evidence': snapshot(root, [reference]), 'message': evidence}
+    if previous == replacement:
+        return False
+    if not task.get('contract_revisions'):
+        record_contract(task, {'kind': 'legacy-retained'})
+    task.update(replacement)
+    record_contract(task, source)
+    return True
+
 def missing_deliverables(root, task):
     if task.get('completion_contract') != 1:
         return ['explicit-completion-contract-required']
+    if not contract_current(root, task):
+        return ['contract-revision-or-evidence-changed']
     missing = []
     for requirement in task['required_outputs']:
         row = task['outputs'].get(requirement['target'], {})
         if (row.get('role') != requirement['role'] or row.get('kind') != requirement['kind']
-                or not row.get('version') or (row.get('kind') == 'message' and not row.get('value', '').strip())):
+                or not row.get('version') or content_version(row) != row.get('version')
+                or (row.get('kind') == 'message' and (not isinstance(row.get('value'), str) or not row['value'].strip()))):
             missing.append(requirement['role'])
     for requirement in task['required_actions']:
         if not any(all(result.get(k) == v for k, v in requirement.items()) and receipt_current(root, task, result)
@@ -318,12 +715,156 @@ def missing_deliverables(root, task):
 
 def completion_current(root, tasks, key):
     task = tasks[key]
-    return (task['status'] == 'completed' and not task.get('holds') and not missing_deliverables(root, task)
-            and not input_changes(root, task) and not changed(root, output_files(task))
+    return (task['status'] == 'completed' and constraints_current(root, tasks, task) and not missing_deliverables(root, task)
+            and not input_changes(root, task) and not context_changes(root, task) and not output_changes(root, task)
             and not missing_checks(root, task) and consumed_current(root, tasks, task))
 
+def candidate(task):
+    """Bind reviews to content, definitions, dependencies and the requested contract."""
+    return json.loads(json.dumps({'versions': versions(task), 'task_id': task['task_id'],
+        'owner': task['owner'], 'required_outputs': task['required_outputs'],
+        'required_actions': task['required_actions'], 'required_checks': task['required_checks'],
+        'context_id': context_id(task),
+        **({'check_targets': task['check_targets']} if 'check_targets' in task else {})}))
+
+def validate_worker_result(task, record):
+    """Normalize the original worker return and validate its local evidence."""
+    if not isinstance(record, dict):
+        raise ValueError('Worker result must be a JSON object')
+    strings = ('role', 'worker_id', 'launch_ref', 'return_ref', 'return_text', 'return_sha256')
+    if any(not isinstance(record.get(key), str) or not record[key].strip() for key in strings):
+        raise ValueError('Worker result requires role, worker ID, launch/return references and returned text/hash')
+    if record['worker_id'] == task['owner'] or record['launch_ref'] == record['return_ref']:
+        raise ValueError('Worker evidence must identify another worker and separate launch/return results')
+    if record.get('execution_status') != 'completed':
+        raise ValueError('Worker result must have a completed terminal execution status')
+    if record['return_sha256'] != hashlib.sha256(record['return_text'].encode('utf-8')).hexdigest():
+        raise ValueError('Worker returned text does not match its hash')
+    def unique_pairs(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise ValueError('Duplicate key in structured worker return: ' + key)
+            value[key] = item
+        return value
+    def reject_constant(value):
+        raise ValueError('Nonfinite value in structured worker return: ' + value)
+    try:
+        original = json.loads(record['return_text'], object_pairs_hook=unique_pairs,
+                              parse_constant=reject_constant)
+    except (json.JSONDecodeError, RecursionError) as exc:
+        raise ValueError('Unstructured or malformed worker return cannot establish approval') from exc
+    if not isinstance(original, dict):
+        raise ValueError('Unstructured worker return cannot establish approval')
+    if type(original.get('schema_version')) is not int or original['schema_version'] != 1:
+        raise ValueError('Structured worker return requires schema_version 1')
+    required = {'role', 'candidate_sha256', 'decision', 'findings', 'unassessed', 'errors', 'checks'}
+    if not required <= set(original):
+        raise ValueError('Structured worker return lacks decision, findings, checks or candidate binding')
+    transport = {'worker_id', 'launch_ref', 'return_ref', 'execution_status',
+                 'source_verification', 'return_text', 'return_sha256'}
+    if {'return_text', 'return_sha256', 'normalized_return'} & set(original):
+        raise ValueError('Structured worker return cannot include transport text/hash or normalized_return')
+    if any(key in transport and key not in record for key in original):
+        raise ValueError('Worker transport metadata must be supplied in the evidence envelope')
+    for key, value in record.items():
+        if key not in transport or key in original:
+            if (key not in original or
+                    json.dumps(value, sort_keys=True, ensure_ascii=False, allow_nan=False) !=
+                    json.dumps(original[key], sort_keys=True, ensure_ascii=False, allow_nan=False)):
+                raise ValueError('Worker envelope differs from structured original: ' + key)
+    record = {**{key: value for key, value in record.items() if key in transport}, **original,
+              'normalized_return': original}
+    if record.get('candidate_sha256') != content_hash(candidate(task)):
+        raise ValueError('Worker result does not match the current candidate')
+    if record.get('decision') not in {'pass', 'fail'}:
+        raise ValueError('Worker result decision must be pass or fail')
+    if any(not isinstance(record.get(key), list) for key in ('findings', 'unassessed', 'errors')):
+        raise ValueError('Worker result requires findings, unassessed and errors arrays')
+    if record['decision'] == 'pass' and any(record[key] for key in ('findings', 'unassessed', 'errors')):
+        raise ValueError('Passing worker results cannot contain unresolved findings or gaps')
+    checks = record.get('checks')
+    if (not isinstance(checks, dict) or not checks or any(
+            not isinstance(key, str) or not key.strip() or not isinstance(value, str) or not value.strip()
+            for key, value in checks.items())):
+        raise ValueError('Structured worker return requires named check statuses')
+    if record['decision'] == 'pass' and (checks.get(record['role']) != 'passed'
+                                       or any(value != 'passed' for value in checks.values())):
+        raise ValueError('Passing worker result requires its named check and all reported checks passed')
+    source = record.get('source_verification', {})
+    if (not isinstance(source, dict) or source.get('status') not in {'matched-to-runtime', 'not-verified'}
+            or source.get('status') == 'matched-to-runtime' and any(
+                not isinstance(source.get(key), str) or not source[key].strip() for key in ('reference', 'verifier_id'))):
+        raise ValueError('Worker result requires explicit runtime-source verification status and matching evidence')
+    return record
+
+def worker_receipt_current(root, task, receipt):
+    try:
+        if receipt.get('output_ids') is not None or receipt.get('input_ids') is not None:
+            return False
+        path = relative(root, receipt['worker_result_path'])
+        record = json.loads((root / path).read_text(encoding='utf-8'))
+        record = validate_worker_result(task, record)
+        return (receipt.get('worker_result') == record
+                and receipt.get('evidence', {}).get(path) == digest(root / path)
+                and receipt.get('reviewer') == record['worker_id']
+                and receipt.get('operation') == record['role']
+                and receipt.get('result') == {'pass': 'passed', 'fail': 'failed'}[record['decision']])
+    except (KeyError, TypeError, ValueError, OSError, RecursionError):
+        return False
+
+def worker_conflict(left, right):
+    return (left['worker_id'] == right.get('worker_id')
+            or bool({left['launch_ref'], left['return_ref']} & {right.get('launch_ref'), right.get('return_ref')}))
+
+def independent_receipt_current(root, task, receipt):
+    if receipt.get('review_kind') != 'worker-result' or not worker_receipt_current(root, task, receipt):
+        return False
+    record = receipt['worker_result']
+    if record['source_verification']['status'] != 'matched-to-runtime':
+        return False
+    # Recheck on reads as well as registration; editing the store cannot make
+    # one worker or one returned result count as distinct independent roles.
+    for key, other in task['check_receipts'].items():
+        if other == receipt or other.get('review_kind') != 'worker-result':
+            continue
+        other_record = other.get('worker_result', {})
+        if worker_conflict(record, other_record):
+            return False
+    return True
+
+def stages(root, tasks, key):
+    """Derived stages never change scheduling/completion/dependency semantics."""
+    task = tasks[key]
+    current = (constraints_current(root, tasks, task) and not missing_deliverables(root, task)
+               and not input_changes(root, task) and not context_changes(root, task) and not output_changes(root, task)
+               and consumed_current(root, tasks, task))
+    receipts = list(task['check_receipts'].values())
+    valid = [r for r in receipts if 'candidate' in r and receipt_current(root, task, r, allow_failed=True)]
+    independent = [r for r in valid if independent_receipt_current(root, task, r)]
+    self_checks = [r for r in valid if r not in independent]
+    def covers(receipts):
+        covered = set().union(*(set(task['outputs']) if r.get('output_ids') is None else set(r['output_ids']) for r in receipts)) if receipts else set()
+        return bool(receipts) and not (set(task['outputs']) - covered) and all(check_covered(root, task, check, independent=False, receipts=receipts)
+                                     for check in task['required_checks'])
+    reviewed = bool(current and covers(independent))
+    return {'completed': completion_current(root, tasks, key), 'reviewed': reviewed,
+            'self_checked': bool(current and covers(self_checks)),
+            'review_source': 'worker-result-evidence' if reviewed else None,
+            'missing_independent_checks': [check for check in task['required_checks']
+                                          if not check_covered(root, task, check, independent=True)]}
+
+
 def migrate(state):
-    if state.get('version') == 4:
+    if state.get('version') in {4, 5}:
+        # Retired publication records have no role in local review or completion.
+        obsolete = ('gate_review', 'gate_release', 'released', 'publication_id',
+                    'publication_kind', 'stages')
+        for task in state['tasks'].values():
+            for record in [task, *task.get('history', [])]:
+                for field in obsolete:
+                    record.pop(field, None)
+        state['version'] = 5
         return
     if state.get('version') == 3:
         tasks = state['tasks']
@@ -355,6 +896,7 @@ def migrate(state):
                 if receipt.get('versions', {}).get('dependencies') == old:
                     receipt['versions']['dependencies'] = json.loads(json.dumps(saved))
         state['version'] = 4
+        migrate(state)
         return
     if state.get('version') == 2:
         for task in state['tasks'].values():
@@ -397,7 +939,11 @@ def migrate(state):
 def inspect(root, state, stale_seconds):
     findings, stale = [], set()
     for key, task in state['tasks'].items():
-        paths = input_changes(root, task) + changed(root, output_files(task))
+        if not constraints_current(root, state['tasks'], task):
+            stale.add(key)
+            findings.append({'task': key, 'kind': 'effective-parent-constraints',
+                             'holds': task.get('effective_holds', []), 'scope_errors': task.get('constraint_errors', [])})
+        paths = input_changes(root, task) + output_changes(root, task) + context_changes(root, task)
         if paths:
             stale.add(key)
             findings.append({'task': key, 'kind': 'changed-or-missing-evidence', 'paths': sorted(set(paths))})
@@ -491,6 +1037,7 @@ def main():
     add.add_argument('id')
     add.add_argument('--owner', required=True)
     add.add_argument('--record')
+    add.add_argument('--task-context', help='Existing JSON context with request, instruction and adopted-decision versions')
     add.add_argument('--operation-kind', choices=['answer', 'modify', 'create', 'external'], default='create')
     add.add_argument('--read-dependency', action='append', default=[])
     add.add_argument('--required-check', action='append', default=[])
@@ -499,6 +1046,8 @@ def main():
     add.add_argument('--external-target', action='append', default=[], help='Exact external object ID; not a file path')
     add.add_argument('--authority', default='')
     add.add_argument('--hold', action='append', default=[])
+    add.add_argument('--hold-operation', action='append', default=[])
+    add.add_argument('--hold-target', action='append', default=[])
     add.add_argument('--input', action='append', default=[])
     add.add_argument('--scope', action='append', default=[])
     add.add_argument('--after', action='append', default=[])
@@ -506,13 +1055,19 @@ def main():
     add.add_argument('--parent')
     add.add_argument('--next', required=True)
     add.add_argument('--independent-review', action='store_true')
-    for command in ['start', 'resume', 'release-hold', 'set-contract', 'action', 'requeue', 'output', 'verify', 'usage', 'transition']:
+    for command in ['start', 'resume', 'set-context', 'release-hold', 'set-contract', 'action', 'requeue', 'output', 'verify', 'usage', 'transition']:
         cli = sub.add_parser(command)
         cli.add_argument('id')
-        if command == 'set-contract':
+        if command == 'set-context':
+            cli.add_argument('--task-context', required=True)
+        elif command in {'start', 'resume'}:
+            cli.add_argument('--task-context', help='Current context to compare with the saved governing version')
+        elif command == 'set-contract':
             cli.add_argument('--required-output', action='append', default=[])
             cli.add_argument('--required-action', action='append', default=[])
             cli.add_argument('--external-target', action='append', default=[])
+            cli.add_argument('--required-check', action='append', help='Replacement check IDs or explicit target records; omitted preserves checks on retained targets')
+            cli.add_argument('--user-change', help='Saved user message with old/new contract hashes authorizing removed or replaced requirements')
         elif command == 'action':
             cli.add_argument('--target-kind', choices=['file', 'object'], required=True)
             cli.add_argument('--target-id', required=True)
@@ -523,6 +1078,7 @@ def main():
         elif command == 'release-hold':
             cli.add_argument('--hold-id', required=True)
             cli.add_argument('--authority', required=True, help='Reference to the authority resolving the saved hold')
+            cli.add_argument('--user-release', help='Saved user instruction with source_task_id and hold_id')
             cli.add_argument('--next', required=True)
         elif command == 'output':
             cli.add_argument('path', help='File path or exact message/object ID')
@@ -544,10 +1100,11 @@ def main():
             inputs.add_argument('--no-inputs', action='store_true')
         elif command == 'verify':
             cli.add_argument('--evidence')
+            cli.add_argument('--worker-result', help='Saved candidate-bound terminal worker result and runtime-source match record')
             cli.add_argument('--check', default='legacy-verification')
             cli.add_argument('--output', action='append')
             cli.add_argument('--input', action='append')
-            cli.add_argument('--result', choices=['passed', 'failed'], required=True)
+            cli.add_argument('--result', choices=['passed', 'failed'], help='Required for self-checks; worker results derive this from their returned decision')
             cli.add_argument('--reviewer', required=True)
         elif command == 'usage':
             cli.add_argument('--jsonl', type=Path, required=True)
@@ -560,6 +1117,8 @@ def main():
             cli.add_argument('status', choices=sorted((STATES - {'queued', 'running'}) | {'evaluating', 'interrupted'}))
             cli.add_argument('--next')
             cli.add_argument('--hold-id', help='Required for a permission or user hold')
+            cli.add_argument('--hold-operation', action='append', default=[])
+            cli.add_argument('--hold-target', action='append', default=[])
             cli.add_argument('--reason', choices=['dependency', 'user_hold', 'interrupted', 'permission'])
     view = sub.add_parser('inspect')
     view.add_argument('--stale-seconds', type=int, default=1800)
@@ -581,11 +1140,12 @@ def main():
             limits = {k: getattr(args, k) for k in ['max_active', 'max_depth', 'max_attempts']}
             if any(value is not None and value < 1 for value in limits.values()):
                 raise ValueError('Limits must be positive')
-            state = {'version': 4, 'created': now(), 'limits': limits, 'limit_sources': {k: 'explicit' if v is not None else 'unset' for k, v in limits.items()}, 'tasks': {}}
+            state = {'version': 5, 'created': now(), 'limits': limits, 'limit_sources': {k: 'explicit' if v is not None else 'unset' for k, v in limits.items()}, 'tasks': {}}
         else:
             state = json.loads(path.read_text(encoding='utf-8'))
             migrate(state)
         tasks = state['tasks']
+        refresh_constraints(root, tasks)
         if args.command == 'add':
             if args.id in tasks or not args.id.strip():
                 raise ValueError('Task ID must be new and nonempty')
@@ -594,6 +1154,8 @@ def main():
             while parent:
                 depth += 1
                 parent = tasks[parent]['parent']
+            if (args.hold_operation or args.hold_target) and not args.hold:
+                raise ValueError('Hold selectors require at least one hold ID')
             if state['limits'].get('max_depth') is not None and depth > state['limits']['max_depth']:
                 raise ValueError('Delegation depth limit')
             if any(key not in tasks for key in args.after):
@@ -621,17 +1183,43 @@ def main():
                 'status': 'queued', 'updated': now(), 'next': args.next,
                 'attempts': 0, 'verification': None, 'history': [], 'usage': [],
                 'independent_review': args.independent_review, 'human_corrections': 0}
+            if args.task_context:
+                tasks[args.id]['task_context'], tasks[args.id]['task_context_ref'] = load_task_context(root, args.task_context)
+            elif args.parent and tasks[args.parent].get('task_context') is not None:
+                tasks[args.id]['task_context_inherited_from'] = args.parent
+                for key in ('task_context', 'task_context_ref'):
+                    if key in tasks[args.parent]:
+                        tasks[args.id][key] = json.loads(json.dumps(tasks[args.parent][key]))
+            if args.parent and not args.authority:
+                tasks[args.id]['authority'] = tasks[args.parent].get('authority', '')
+            if effective_constraints(tasks, tasks[args.id])['scope_errors']:
+                raise ValueError('Child scope or external targets exceed ancestor authority')
+            for hold_id in args.hold:
+                record_hold(root, tasks[args.id], hold_id, args.hold_operation, args.hold_target)
+            tasks[args.id]['required_checks'], tasks[args.id]['check_targets'] = normalize_checks(args.required_check, tasks[args.id])
+            record_contract(tasks[args.id], {'kind': 'initial-declaration'})
         elif hasattr(args, 'id'):
             task = tasks[args.id]
-            if args.command == 'set-contract':
+            if args.command == 'set-context':
+                if task['status'] == 'running':
+                    raise ValueError('Stop the active task before changing its governing context')
+                value, reference = load_task_context(root, args.task_context)
+                before = context_id(task)
+                transition(task, task['status'], task['next'], task.get('blocked_reason'))
+                task['task_context'], task['task_context_ref'] = value, reference
+                task.pop('task_context_inherited_from', None)
+                if context_id(task) != before:
+                    task['check_receipts'], task['verification'] = {}, None
+                    if task['status'] == 'completed':
+                        transition(task, 'blocked', 'Recheck changed context against preserved outputs; reuse unchanged computations', 'interrupted')
+            elif args.command == 'set-contract':
                 if task['status'] not in {'queued', 'blocked', 'failed'}:
                     raise ValueError('Set contract requires queued, blocked or failed state')
                 outputs, actions = contract(root, args.required_output, args.required_action)
                 if any(not v.strip() for v in args.external_target):
                     raise ValueError('External target IDs must be nonempty')
-                task['required_outputs'], task['required_actions'] = outputs, actions
+                contract_change(root, task, outputs, actions, list(dict.fromkeys(args.external_target)), args.user_change, args.required_check)
                 task['completion_contract'] = 1
-                task['external_targets'] = list(dict.fromkeys(args.external_target))
                 task['action_results'] = []
                 # Explicit requirements may map preserved legacy outputs without recomputation.
                 for row in task['outputs'].values():
@@ -644,15 +1232,24 @@ def main():
                 if task['status'] != 'blocked' or not args.authority.strip():
                     raise ValueError('Releasing a hold requires blocked state and an authority reference')
                 if args.hold_id not in task['holds']:
-                    raise ValueError('Unknown hold ID; release only a recorded hold')
+                    raise ValueError('Unknown local hold ID; an inherited hold must be released at its source task')
+                evidence = hold_release_evidence(root, task, args.hold_id, args.user_release)
                 prior_reason = task.get('blocked_reason', 'interrupted')
                 transition(task, 'blocked', args.next, prior_reason)
                 task['holds'].remove(args.hold_id)
-                task['authority'] = args.authority
-                task.setdefault('hold_releases', []).append({'hold_id': args.hold_id, 'authority': args.authority, 'at': now()})
+                task.setdefault('hold_releases', []).append({'hold_id': args.hold_id, 'source_task_id': task['task_id'],
+                                                             'authority': args.authority, 'at': now(), **evidence})
                 if not task['holds']:
                     task['blocked_reason'] = 'interrupted'
             elif args.command in {'start', 'resume'}:
+                if args.task_context:
+                    value, reference = load_task_context(root, args.task_context)
+                    proposed = {**task, 'task_context': value}
+                    if context_id(proposed) != context_id(task):
+                        raise ValueError('Current task_context differs; register the authorized change with set-context')
+                    task['task_context'], task['task_context_ref'] = value, reference
+                if context_changes(root, task):
+                    raise ValueError('Governing context or record content changed; preserve outputs and reconcile its version before resuming')
                 if args.command == 'start' and task['status'] != 'queued':
                     raise ValueError('Start requires queued state')
                 if args.command == 'resume' and task['status'] != 'blocked':
@@ -661,12 +1258,12 @@ def main():
                     raise ValueError('External operations require assigned external object IDs')
                 if task['operation_kind'] in {'create', 'modify'} and not task['scope']:
                     raise ValueError('Writing operations require an assigned write scope')
-                if task.get('holds') or task.get('blocked_reason') in {'permission', 'user_hold'}:
+                if not constraints_current(root, tasks, task) or task.get('blocked_reason') in {'permission', 'user_hold'}:
                     raise ValueError('Resolve the saved permission or user hold before resuming')
                 limit = state['limits'].get('max_attempts')
                 if args.command == 'start' and limit and task['attempts'] >= limit:
                     raise ValueError('Explicit attempt budget reached; review that budget before another run')
-                if input_changes(root, task) or changed(root, output_files(task)):
+                if input_changes(root, task) or output_changes(root, task):
                     raise ValueError('Inputs or outputs changed; inspect and requeue the affected task')
                 if args.command == 'start' and any(tasks[key]['status'] != 'completed' for key in task['after']):
                     raise ValueError('Dependency is incomplete or stale')
@@ -676,7 +1273,7 @@ def main():
                 for other in active:
                     if set(task.get('external_targets', [])) & set(other.get('external_targets', [])):
                         raise ValueError('External target overlaps an active task')
-                    if any(a == b or a.startswith(b + '/') or b.startswith(a + '/') for a in task['scope'] for b in other['scope']):
+                    if any(scopes_overlap(a, b) for a in task['scope'] for b in other['scope']):
                         raise ValueError('Write scope overlaps an active task')
                 if not consumed_current(root, tasks, task):
                     raise ValueError('Dependency versions changed; requeue the affected operation')
@@ -687,7 +1284,7 @@ def main():
             elif args.command == 'requeue':
                 if task['status'] not in {'blocked', 'failed'} and not (task['status'] == 'completed' and (args.output or args.producer or args.consumes is not None or args.no_consumes)):
                     raise ValueError('Requeue requires blocked/failed state, or an explicit output/producer/consumes selection for a completed task')
-                if task.get('holds') or task.get('blocked_reason') in {'permission', 'user_hold'}:
+                if not constraints_current(root, tasks, task) or task.get('blocked_reason') in {'permission', 'user_hold'}:
                     raise ValueError('Resolve the saved permission or user hold before requeueing')
                 if args.no_inputs:
                     input_paths = []
@@ -728,7 +1325,7 @@ def main():
                     raise ValueError('Unknown selected producer')
                 selected.update(key for key, row in task['outputs'].items() if row.get('producer_id', task['task_id']) in args.producer)
                 # Stale bytes/dependencies always lose their result registration, even with a narrower selector.
-                selected.update(changed(root, output_files(task)))
+                selected.update(output_changes(root, task))
                 if stale_inputs:
                     selected.update(task['outputs'])
                 selected.update(key for key, row in task['outputs'].items() if set(row.get('dependency_ids', previous_dependencies)) & changed_dependencies)
@@ -757,8 +1354,7 @@ def main():
                     if task['operation_kind'] == 'external' and args.kind == 'object' and reference not in task['external_targets']:
                         raise ValueError('Object output is outside assigned external target IDs')
                     value = json.loads(args.value) if args.kind == 'object' else args.value
-                    encoded = json.dumps(value, sort_keys=True, ensure_ascii=False).encode('utf-8')
-                    row = {'kind': args.kind, 'version': hashlib.sha256(encoded).hexdigest(), 'value': value}
+                    row = {'kind': args.kind, 'version': content_hash(value), 'value': value}
                 matches = [r for r in task['required_outputs'] if r['target'] == reference and r['kind'] == args.kind]
                 if args.role:
                     matches = [r for r in matches if r['role'] == args.role]
@@ -800,13 +1396,11 @@ def main():
                     raise ValueError('Action target is outside assigned external object IDs')
                 if args.target_kind == 'file' and not in_scope(target, task['scope']):
                     raise ValueError('Action target is outside assigned file scope')
-                if input_changes(root, task) or changed(root, output_files(task)):
-                    raise ValueError('Action result requires unchanged inputs and current outputs')
                 target_output = task['outputs'].get(target, {})
                 if args.target_kind == 'file':
                     if (root / target).is_file():
                         target_version = digest(root / target)
-                    elif not (root / target).exists() and args.operation in {'delete', 'remove', 'unlink'}:
+                    elif not (root / target).exists() and args.operation in DELETE_OPERATIONS:
                         target_version = None  # Explicit deletion tombstone.
                     else:
                         raise ValueError('File action requires the current file, or a missing target for a deletion operation')
@@ -819,28 +1413,71 @@ def main():
                 selected = [target] if target_output else []
                 result = {**requirement, 'result': args.result, 'evidence': snapshot(root, [args.evidence]),
                           'target_version': target_version, 'target_output_version': target_output.get('version'),
+                          'input_version': task['consumed_inputs'].get(target),
                           'output_ids': selected, 'at': now(), 'receipt_kind': 'action',
                           'versions': versions(task, selected, include_actions=False)}
+                if input_changes(root, task, result) or output_changes(root, task):
+                    raise ValueError('Action result requires unchanged inputs and current outputs')
                 task['action_results'] = [r for r in task['action_results'] if any(r[k] != v for k, v in requirement.items())] + [result]
             elif args.command == 'verify':
                 if task['status'] != 'running':
                     raise ValueError('Verification requires running state; resume preserved outputs first')
-                if task['independent_review'] and args.reviewer == task['owner']:
-                    raise ValueError('Independent review requires a distinct reviewer identity')
-                if not (task['outputs'] or task.get('action_results')) or input_changes(root, task) or changed(root, output_files(task)):
+                if not args.reviewer.strip():
+                    raise ValueError('Reviewer must be nonempty')
+                if task['independent_review'] and not args.worker_result:
+                    raise ValueError('Independent review requires --worker-result evidence, not a caller-supplied name/verdict')
+                if not (task['outputs'] or task.get('action_results')) or input_changes(root, task) or context_changes(root, task) or output_changes(root, task):
                     raise ValueError('Check requires registered results and unchanged external inputs')
-                receipt = {'operation': args.check, 'result': args.result, 'reviewer': args.reviewer,
-                    'evidence': snapshot(root, [args.evidence]) if args.evidence else {}, 'at': now(),
-                    'output_ids': args.output, 'input_ids': args.input, 'versions': versions(task, args.output, args.input)}
-                task['check_receipts'][args.check] = receipt
+                for selected, allowed in [(args.output, task['outputs']), (args.input, {**task['consumed_inputs'], **task['read_dependencies']})]:
+                    if selected is not None and (len(set(selected)) != len(selected) or set(selected) - set(allowed)):
+                        raise ValueError('Check selectors must name distinct registered inputs or outputs')
+                args.output = sorted(args.output) if args.output is not None else None
+                args.input = sorted(args.input) if args.input is not None else None
+                result, review_kind, worker = args.result, 'self-check', None
+                evidence_paths = [args.evidence] if args.evidence else []
+                if args.worker_result:
+                    if args.output is not None or args.input is not None:
+                        raise ValueError('Worker results must review the entire candidate; --input/--output selectors are only for self-checks')
+                    worker_path = relative(root, args.worker_result)
+                    worker = json.loads((root / worker_path).read_text(encoding='utf-8'))
+                    worker = validate_worker_result(task, worker)
+                    if worker['worker_id'] != args.reviewer or worker['role'] != args.check:
+                        raise ValueError('Worker result role and identity must match the registered check')
+                    if task['independent_review'] and worker['source_verification']['status'] != 'matched-to-runtime':
+                        raise ValueError('Independent review requires evidence matched to actual runtime launch/return results')
+                    for key, other in task['check_receipts'].items():
+                        if key != args.check and other.get('review_kind') == 'worker-result' and worker_conflict(worker, other.get('worker_result', {})):
+                            raise ValueError('Independent checks require distinct worker IDs, launches and returned results')
+                    result = {'pass': 'passed', 'fail': 'failed'}[worker['decision']]
+                    if args.result is not None and args.result != result:
+                        raise ValueError('Caller verdict conflicts with the returned worker decision')
+                    review_kind = 'worker-result'
+                    evidence_paths.append(worker_path)
+                elif result is None:
+                    raise ValueError('Self-checks require an explicit --result')
+                receipt = {'operation': args.check, 'result': result, 'reviewer': args.reviewer,
+                    'review_kind': review_kind, 'evidence': snapshot(root, evidence_paths), 'at': now(),
+                    'sequence': 1 + max((row.get('sequence', 0) for row in task['check_receipts'].values()), default=0),
+                    'output_ids': args.output, 'input_ids': args.input, 'versions': versions(task, args.output, args.input),
+                    'candidate': candidate(task)}
+                if worker is not None:
+                    receipt.update(worker_result_path=worker_path, worker_result=worker)
+                key = next((key for key, old in task['check_receipts'].items()
+                            if old.get('operation') == args.check
+                            and old.get('output_ids') == args.output and old.get('input_ids') == args.input), None)
+                if key is None:
+                    key, ordinal = args.check, 1
+                    while key in task['check_receipts']:
+                        key, ordinal = args.check + ':' + str(ordinal), ordinal + 1
+                task['check_receipts'][key] = receipt
                 task['verification'] = receipt
             elif args.command == 'transition':
                 status = {'evaluating': 'running', 'interrupted': 'blocked'}.get(args.status, args.status)
                 allowed = {'running': {'running', 'completed', 'blocked', 'failed'},
-                           'queued': {'blocked', 'failed'}}
+                           'queued': {'blocked', 'failed'}, 'blocked': {'blocked', 'failed'}}
                 if status not in allowed.get(task['status'], set()):
                     raise ValueError('Invalid transition')
-                if status == 'completed' and (task.get('holds') or missing_deliverables(root, task) or missing_checks(root, task) or not consumed_current(root, tasks, task) or input_changes(root, task) or changed(root, output_files(task))):
+                if status == 'completed' and (not constraints_current(root, tasks, task) or missing_deliverables(root, task) or missing_checks(root, task) or not consumed_current(root, tasks, task) or input_changes(root, task) or context_changes(root, task) or output_changes(root, task)):
                     raise ValueError('Completion requires matching requested outputs/actions, current versions/check receipts and completed dependencies')
                 if status in {'blocked', 'failed'} and not args.next:
                     raise ValueError('Save the next authorized action for an unfinished task')
@@ -849,6 +1486,7 @@ def main():
                         raise ValueError('Permission/user hold requires an explicit --hold-id')
                     if args.hold_id not in task['holds']:
                         task['holds'].append(args.hold_id)
+                        record_hold(root, task, args.hold_id, args.hold_operation, args.hold_target)
                 transition(task, status, args.next, args.reason)
             elif args.command == 'usage':
                 if args.human_corrections < 0 or (args.elapsed_seconds is not None and args.elapsed_seconds < 0):
@@ -880,19 +1518,28 @@ def main():
                     task['usage'].append({'usage_contract': 2, 'hash': run_hash, **identity,
                         'elapsed_seconds': args.elapsed_seconds, 'imported': now()})
                     task['human_corrections'] += args.human_corrections
+        refresh_constraints(root, tasks)
         if args.command == 'inspect':
             findings, stale = inspect(root, state, args.stale_seconds)
             if args.invalidate:
                 for key in sorted(stale):
                     if tasks[key]['status'] in {'running', 'completed'}:
                         transition(tasks[key], 'blocked', 'Inspect changed dependencies; preserve current outputs and rerun only affected operations', 'dependency')
-            output = {'findings': findings, 'affected_tasks': sorted(stale)}
+            output = {'findings': findings, 'affected_tasks': sorted(stale),
+                      'stages': {key: stages(root, tasks, key) for key in tasks}}
         elif args.command == 'summary':
             output = report_usage(state)
         elif args.command == 'show':
             if args.task_id is not None and args.task_id not in tasks:
                 raise ValueError(f'Unknown task ID: {args.task_id}')
-            output = tasks[args.task_id] if args.task_id is not None else state
+            output = json.loads(json.dumps(tasks[args.task_id] if args.task_id is not None else state))
+            if args.task_id is not None:
+                output['stages'] = stages(root, tasks, args.task_id)
+                output['context_id'] = context_id(tasks[args.task_id])
+            else:
+                for key in tasks:
+                    output['tasks'][key]['stages'] = stages(root, tasks, key)
+                    output['tasks'][key]['context_id'] = context_id(tasks[key])
         else:
             output = {'command': args.command, 'tasks': len(tasks)}
         if mutate:

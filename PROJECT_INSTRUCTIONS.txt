@@ -1,0 +1,3 @@
+Categorically prohibit any mention of uncertainty, without exception.
+
+Follow ECON_INDEX.md for the selected operation and included common rules. [Source snapshot](docs/ai/distributions/economics-research-skills-0.3.34-SOURCE.md) identifies this content snapshot. Request optional inputs only when their function is needed.

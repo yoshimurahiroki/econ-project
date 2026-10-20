@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Export a route-selected, content-addressed standalone instruction package."""
 import argparse
+import ast
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -12,8 +14,53 @@ import sys
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from route_registry import load_routes, resource_path, resolve_operation, native_index, relative, merge_selection, rule_selection, required_closure, generate_entries
+from route_registry import load_routes, resource_path, resolve_operation, native_index, relative, merge_selection, rule_selection, required_closure, generate_entries, validate_rule_bodies, markdown_sections, heading_id, transform_entry_references, inline_code_mask
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def validate_package_versions(root, *, required=False):
+    """Reject mixed source releases before any generated file is changed."""
+    root = Path(root)
+    paths = [root / 'plugin.json', root / '.codex-plugin/plugin.json']
+    if not required and not any(path.exists() for path in paths):
+        return None  # Standalone deployed instruction trees have no plugin manifests.
+    if not all(path.is_file() for path in paths):
+        raise ValueError('Both root and Codex plugin manifests are required')
+    def unique(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError('Duplicate plugin manifest field: ' + key)
+            result[key] = value
+        return result
+    versions = [json.loads(path.read_text(encoding='utf-8'), object_pairs_hook=unique).get('version') for path in paths]
+    tree = ast.parse((root / 'harness/policy_assets.py').read_text(encoding='utf-8'))
+    policies = [ast.literal_eval(node.value) for node in tree.body
+                if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == 'POLICY_ID' for t in node.targets)]
+    if (not all(isinstance(v, str) and re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', v) for v in versions)
+            or len(set(versions)) != 1 or policies != ['economics-native-' + versions[0]]):
+        raise ValueError('Root plugin, Codex plugin and policy versions must match')
+    return versions[0]
+
+
+def prose_resource(resource):
+    """Executable modules and machine-readable assets are not Markdown."""
+    return Path(resource['source_path']).suffix.lower() in ('', '.md', '.txt', '.mdc')
+
+
+def rewrite_code_paths(text, replacements):
+    """Relocate registered paths in documentation examples, not program bytes.
+
+    Code examples run from the exported package root. Markdown links elsewhere
+    still use paths relative to the containing document.
+    """
+    mask = inline_code_mask(text)
+    if not replacements:
+        return text
+    names = '|'.join(re.escape(name) for name in sorted(replacements, key=len, reverse=True))
+    pattern = re.compile(r'(?<![\w./-])(' + names + r')(?![\w./-])')
+    return pattern.sub(lambda match: replacements[match.group()]
+                       if all(mask[match.start():match.end()]) else match.group(), text)
 
 
 def sha256(raw):
@@ -24,36 +71,10 @@ def canonical(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
-def inline_code_mask(text):
-    """Mark matched backtick spans without changing their bytes or offsets."""
-    mask = bytearray(len(text))
-    position = 0
-    while position < len(text):
-        if text[position] != "`" or (position and text[position - 1] == "\\"):
-            position += 1
-            continue
-        end = position
-        while end < len(text) and text[end] == "`":
-            end += 1
-        length = end - position
-        closing = end
-        while closing < len(text):
-            candidate = text.find("`", closing)
-            if candidate < 0:
-                break
-            stop = candidate
-            while stop < len(text) and text[stop] == "`":
-                stop += 1
-            if stop - candidate == length:
-                mask[position:stop] = b"\x01" * (stop - position)
-                position = stop
-                break
-            closing = stop
-        else:
-            candidate = -1
-        if candidate < 0 or closing >= len(text):
-            position = end
-    return mask
+def publish_directory(staging, target):
+    from sync_common_core import runtime_io
+    runtime_io().atomic_publish(staging, target)
+
 
 
 def destination_span(text, start):
@@ -155,39 +176,6 @@ def rewrite_markdown(text, rewrite):
     return "".join(output)
 
 
-def heading_id(text):
-    text = re.sub(r'\s+#+\s*$', '', text).strip()
-    return re.sub(r'[^\w\- ]', '', text.lower()).replace(' ', '-')
-
-
-def markdown_sections(text):
-    """ATX and setext headings outside fences, with stable GitHub-style IDs."""
-    lines = text.splitlines(keepends=True)
-    headings, counts, fence = [], {}, None
-    for index, line in enumerate(lines):
-        marker = re.match(r'^ {0,3}(`{3,}|~{3,})', line)
-        if fence:
-            if re.match(r'^ {0,3}' + re.escape(fence[0]) + '{' + str(len(fence)) + r',}\s*$', line):
-                fence = None
-            continue
-        if marker:
-            fence = marker.group(1)
-            continue
-        match = re.match(r'^ {0,3}(#{1,6})\s+(.+?)\s*$', line)
-        if match:
-            level, title, start = len(match.group(1)), re.sub(r'\s+#+$', '', match.group(2)), index
-        elif index and re.match(r'^ {0,3}(=+|-+)\s*$', line) and lines[index - 1].strip() and not (index == 1 and lines[0].strip() == '---'):
-            level, title, start = (1 if line.lstrip().startswith('=') else 2), lines[index - 1].strip(), index - 1
-        else:
-            continue
-        slug = heading_id(title)
-        count = counts.get(slug, 0); counts[slug] = count + 1
-        headings.append({'title': title, 'id': slug + (f'-{count}' if count else ''), 'level': level, 'start': start})
-    for i, heading in enumerate(headings):
-        heading['end'] = next((h['start'] for h in headings[i + 1:] if h['level'] <= heading['level']), len(lines))
-    return lines, headings
-
-
 def extract_sections(text, selection, resource):
     if selection.get('whole_resource'):
         return text
@@ -205,9 +193,58 @@ def extract_sections(text, selection, resource):
     return ''.join(line for i, line in enumerate(lines) if i in included)
 
 
+def validate_required_bodies(routes, operations, selections, read_resource):
+    """Check registered rule bodies against the exact selected package text."""
+    resources = routes['resources']
+    required_selections = {}
+    for operation in operations:
+        validate_rule_bodies(routes, operation.get('active_rules', []), read_resource,
+                             origin=operation['canonical_operation'])
+        for rule_id in operation.get('active_rules', []):
+            for rid, rule_scope in rule_selection(routes, rule_id, operation['canonical_operation']).items():
+                merge_selection(required_selections, {rid: rule_scope})
+                try:
+                    source_text = read_resource(rid)
+                    if isinstance(source_text, bytes):
+                        source_text = source_text.decode('utf-8')
+                    extract_sections(source_text, rule_scope, resources[rid]['source_path'])
+                    if rid not in selections or (rule_scope.get('whole_resource') and not selections[rid].get('whole_resource')):
+                        raise ValueError('required body is absent from the selected snapshot')
+                    if not selections[rid].get('whole_resource') and not set(rule_scope.get('sections', [])) <= set(selections[rid].get('sections', [])):
+                        raise ValueError('required section is absent from the selected snapshot')
+                except (OSError, ValueError) as error:
+                    raise ValueError(f'Missing required rule {rule_id}; operation {operation["canonical_operation"]}; source {resources[rid]["source_path"]}: {error}') from error
+    return required_selections
+
+
+def validate_internal_links(contents, contexts=None):
+    """Check local file and anchor targets without rewriting or optionalizing them."""
+    contexts = contexts or {}
+    for name, text in contents.items():
+        if name == 'SOURCE.md' or name.endswith(('.py', '.sh', '.json', '.yaml')):
+            continue
+        def validate_link(link):
+            parts = urlsplit(link)
+            if parts.scheme or link.startswith('//'):
+                return link
+            destination_name = os.path.normpath(str(Path(name).parent / unquote(parts.path))) if parts.path else name
+            destination_name = destination_name.replace(os.sep, '/')
+            if destination_name not in contents:
+                raise ValueError(f'Missing packaged reference in {name}: {link}; {contexts.get(name, "generated package")}')
+            if parts.fragment:
+                anchors = {h['id'] for h in markdown_sections(contents[destination_name])[1]}
+                if unquote(parts.fragment) not in anchors:
+                    raise ValueError(f'Missing packaged section in {name}: {link}; {contexts.get(name, "generated package")}')
+            return link
+        rewrite_markdown(text, validate_link)
+
+
 def export(target, profile='standalone', skills=None, *, task=None, support=(), references=(), style_profile=None, mode=None, conditions=(), layout='source', output_format='flat'):
     root = ROOT.resolve()
+    validate_package_versions(root)
     target = Path(target).absolute()
+    if any(parent.is_symlink() for parent in target.parents):
+        raise ValueError('Refuse symlink output ancestor')
     if target.exists() or target.is_symlink() or target.resolve().is_relative_to(root):
         raise ValueError('Choose a fresh output directory outside the source tree')
     if profile != 'standalone' or (task and skills):
@@ -244,6 +281,7 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
         selector, separator, support_mode = item.partition(':')
         selectors.append((selector, support_mode if separator else None))
     operations = [resolve_operation(routes, selector, selected_mode, user_profile=style_profile, project_profile=config['writing_profile'], conditions=conditions) for selector, selected_mode in selectors]
+    final_operations = [op for op in operations if not op.get('runtime_action')]
     selections = {}
     for op in operations:
         merge_selection(selections, op['resource_sections'])
@@ -267,17 +305,46 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
                 merge_selection(selections, res.get('section_dependencies', {}).get(section, {}))
         if before == canonical(selections):
             break
+    # Catalog availability is distinct from each run's adopted dependency closure.
+    if final_operations and 'policy-manifest' in selections and 'team-state-helper' in resources:
+        merge_selection(selections, {'team-state-helper': {'whole_resource': True}})
     selected = set(selections)
     unsupported = sorted(rid for rid in selected if resources[rid].get('snapshot') == 'source_distribution_only')
     if unsupported:
         raise ValueError('Use complete source distribution for maintenance tools; cannot publish an executable flat/deployed snapshot for: ' + ', '.join(unsupported))
     output_paths = {rid: res['export_alias' if output_format == 'flat' else 'deployment_path'] for rid, res in resources.items()}
+    if 'policy-manifest' in selected and final_operations:
+        # A manifest is rooted at the common containing directory of all its
+        # assets. Repository documents and policy pointers may sit above .agents.
+        containing = Path(os.path.commonpath([str(Path(output_paths[rid]).parent)
+                          for rid in selected if rid != 'policy-manifest']))
+        previous = Path(output_paths['policy-manifest'])
+        output_paths['policy-manifest'] = (containing / previous.parent.name / previous.name).as_posix()
     # Both physical layouts use the exact same resolved selections.
     # All logical paths resolve through this registry in either physical layout.
     path_ids = {}
+    def register_path(path, rid):
+        # Do not let a symlink in an unused bundle alias register an outside path.
+        previous = path_ids.setdefault(path.absolute(), rid)
+        if previous != rid:
+            raise ValueError(f'Ambiguous registered resource path: {path}')
+
     for rid, res in resources.items():
         for key in ('source_path', 'deployment_path'):
-            path_ids[(root / res[key]).resolve()] = rid
+            register_path(root / res[key], rid)
+    # Public plugin entrypoints retain package-relative links when exported from
+    # either a source distribution or an installed tree. Bind only exact aliases
+    # of registered resources; never strip an arbitrary bundle prefix from links.
+    entrypoints = [res for res in resources.values()
+                   if re.fullmatch(r'skills/[^/]+/SKILL\.md', res['source_path'])]
+    for entry in entrypoints:
+        for key in ('source_path', 'deployment_path'):
+            bundle = (root / entry[key]).parent / 'references/bundle'
+            for rid, res in resources.items():
+                bundled_path = Path(res['source_path'])
+                if re.fullmatch(r'skills/[^/]+/SKILL\.md', res['source_path']):
+                    bundled_path = bundled_path.with_name('REFERENCE.md')
+                register_path(bundle / bundled_path, rid)
     generated = {'ECON_INDEX.md', 'SOURCE.md', 'OPTIONAL_INPUTS.md', 'PROJECT_INSTRUCTIONS.txt'}
     aliases = {output_paths[rid]: rid for rid in selected}
     if {name.casefold() for name in aliases} & {name.casefold() for name in generated}:
@@ -287,16 +354,9 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             raise ValueError('Reserved generated aliases: ' + ', '.join(collisions))
     if custom and 'CUSTOM_STYLE.md' in aliases:
         raise ValueError('Custom profile alias collision')
-    # Validate each selected required rule before any optional-link conversion or publication.
-    # Errors identify the stable rule and originating operation, including missing files/headings.
-    for operation in operations + reference_required:
-        for rule_id in operation.get('active_rules', []):
-            for rid, rule_scope in rule_selection(routes, rule_id, operation['canonical_operation']).items():
-                try:
-                    source_text = resource_path(root, resources[rid], layout).read_text(encoding='utf-8')
-                    extract_sections(source_text, rule_scope, rid)
-                except (OSError, ValueError) as error:
-                    raise ValueError(f'Missing required rule {rule_id}; operation {operation["canonical_operation"]}: {error}') from error
+    required_selections = validate_required_bodies(
+        routes, operations + reference_required, selections,
+        lambda rid: resource_path(root, resources[rid], layout).read_text(encoding='utf-8'))
     raw = {rid: resource_path(root, resources[rid], layout).read_bytes() for rid in sorted(selected)}
     active_anchors = {rid: {h['id'] for h in markdown_sections(extract_sections(raw[rid].decode('utf-8'), selections[rid], rid))[1]} for rid in selected}
     project_aliases = {}
@@ -308,6 +368,11 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             raise ValueError('Project file output collision or non-flat alias')
         project_aliases[(root / relative(entry['path'])).resolve()] = name
     omitted = set()
+    generated_sources = {(root / name).absolute(): name for name in generated
+                         if (root / name).is_file() and not (root / name).is_symlink()}
+    optional_source = root / 'OPTIONAL_INPUTS.md'
+    previous_optional = ({h['id']: h['title'] for h in markdown_sections(optional_source.read_text(encoding='utf-8'))[1]}
+                         if optional_source.absolute() in generated_sources else {})
     def destination(source, link, output='ECON_INDEX.md'):
         def local(path):
             return os.path.relpath(path, str(Path(output).parent)).replace(os.sep, '/')
@@ -316,12 +381,25 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             return link
         clean = unquote(parts.path)
         suffix = '#' + parts.fragment if parts.fragment else ''
-        if clean in aliases or clean in generated or (custom and clean == 'CUSTOM_STYLE.md'):
+        if clean in generated or (custom and clean == 'CUSTOM_STYLE.md'):
             return local(clean) + suffix
         path = ((root / clean.lstrip('/') if clean.startswith('/') else source.parent / clean) if clean else source).resolve()
+        if path in generated_sources:
+            name = generated_sources[path]
+            if name == 'OPTIONAL_INPUTS.md' and parts.fragment:
+                title = previous_optional.get(unquote(parts.fragment))
+                owners = [rid for rid in resources if title == rid or isinstance(title, str) and title.startswith(rid + '--')]
+                if len(owners) != 1:
+                    raise ValueError('Unregistered generated optional reference: ' + link)
+                rid = owners[0]
+                section = title[len(rid) + 2:] if title != rid else None
+                if rid in selected and (section is None or section in active_anchors[rid]):
+                    return local(output_paths[rid]) + ('#' + section if section else '')
+                omitted.add(title)
+            return local(name) + suffix
         if path in project_aliases:
             return local(project_aliases[path]) + suffix
-        rid = path_ids.get(path)
+        rid = aliases.get(clean, path_ids.get(path))
         if rid is None and layout == 'installed':
             source_id = path_ids.get(source.resolve())
             if source_id is not None:
@@ -332,6 +410,11 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             return local('ECON_INDEX.md')
         if rid in selected:
             if parts.fragment and unquote(parts.fragment) not in active_anchors[rid]:
+                if required_selections.get(rid, {}).get('whole_resource'):
+                    raise ValueError(f'Missing section in required resource {rid}: {link}; source {source}')
+                if unquote(parts.fragment) not in {h['id'] for h in markdown_sections(raw[rid].decode('utf-8'))[1]}:
+                    raise ValueError(f'Missing source section in {source}: {link}; operations ' +
+                                     ', '.join(op['canonical_operation'] for op in operations))
                 optional_section = rid + '--' + unquote(parts.fragment)
                 omitted.add(optional_section)
                 return local('OPTIONAL_INPUTS.md') + '#' + heading_id(optional_section)
@@ -340,24 +423,49 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             omitted.add(rid)
             return local('OPTIONAL_INPUTS.md') + '#' + heading_id(rid)
         raise ValueError(f'Unregistered local reference in {source.name}: {link}')
+    # Commands in documentation use package-root paths. Include unambiguous
+    # basenames because guides often name a sibling executable or dictionary.
+    code_paths = {}
+    basenames = {}
+    for other, item in resources.items():
+        basenames.setdefault(Path(item['source_path']).name, set()).add(other)
+        if other in selected:
+            for key in ('source_path', 'deployment_path'):
+                code_paths[item[key]] = output_paths[other]
+    for name, ids in basenames.items():
+        if len(ids) == 1:
+            other = next(iter(ids))
+            if other in selected:
+                code_paths.setdefault(name, output_paths[other])
     contents = {}
     records = []
     for rid in sorted(selected):
         res = resources[rid]
         source = resource_path(root, res, layout)
-        text = extract_sections(raw[rid].decode('utf-8').replace('\r\n', '\n'), selections[rid], rid)
+        text = raw[rid].decode('utf-8')
+        if not prose_resource(res):
+            if not selections[rid].get('whole_resource'):
+                raise ValueError(f'Executable/data resource must be selected whole: {rid}')
+            # Do not rewrite regexes, code comments, JSON strings or import
+            # names as if they were prose links or instruction templates.
+            contents[output_paths[rid]] = text
+            records.append({'logical_id': rid, 'source': res['source_path'], 'resolved_path': res['source_path' if layout == 'source' else 'deployment_path'], 'output': output_paths[rid], 'selection': selections[rid], 'source_sha256': sha256(raw[rid]), 'export_sha256': sha256(raw[rid])})
+            continue
+        text = extract_sections(text.replace('\r\n', '\n'), selections[rid], rid)
         if res['source_path'] == 'docs/ai/compiled_ai_skills.md':
             text = '# Selected operations\n\n' + '\n'.join(f"- {op['canonical_operation']}" for op in operations) + '\n'
         text = rewrite_markdown(text, lambda link: destination(source, link, output_paths[rid]))
-        # Inline physical references become included aliases or explicit optional inputs.
+        text = rewrite_code_paths(text, code_paths)
+        # Inactive inline physical references remain explicit optional inputs.
+        # Selected paths were relocated above, including multiword commands.
         for other, item in sorted(resources.items(), key=lambda pair: -len(pair[1]['source_path'])):
+            if other in selected:
+                continue
             for key in ('source_path', 'deployment_path'):
                 token = '`' + item[key] + '`'
                 if token in text:
-                    replacement = os.path.relpath(output_paths[other], str(Path(output_paths[rid]).parent)).replace(os.sep, '/') if other in selected else 'optional input: ' + other
-                    text = text.replace(token, '`' + replacement + '`')
-                    if other not in selected:
-                        omitted.add(other)
+                    text = text.replace(token, '`optional input: ' + other + '`')
+                    omitted.add(other)
         text = text.replace('{{METHOD_PROVIDER}}', ', '.join(op['skill_id'] + ':' + op['mode'] for op in operations))
         text = text.replace('{{STUDY_ENTRY_POINT_LINE}}', '')
         if re.search(r'\{\{[^{}]+\}\}', text):
@@ -377,16 +485,23 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
         text = rewrite_markdown(data.decode(), lambda link: destination(source, link))
         contents[filename] = text
         records.append({'logical_id': 'project:' + entry['path'], 'source': entry['path'], 'output': filename, 'source_sha256': sha256(data), 'export_sha256': sha256(text.encode())})
+    custom_output = ('.agents/profiles/CUSTOM_STYLE.md'
+                     if custom and 'policy-manifest' in selected and output_format == 'deployed'
+                     else 'CUSTOM_STYLE.md')
     if custom:
         data = custom.read_bytes()
-        text = rewrite_markdown(data.decode(), lambda link: destination(custom, link))
-        contents['CUSTOM_STYLE.md'] = text
-        records.append({'logical_id': 'profile.custom', 'source': 'external-profile', 'output': 'CUSTOM_STYLE.md', 'source_sha256': sha256(data), 'export_sha256': sha256(text.encode())})
-    lines = ['# Selected task operations', '', 'Read the included common rules once. Support inherits this task and returns to its owner.', '']
+        text = rewrite_markdown(data.decode(), lambda link: destination(custom, link, custom_output))
+        contents[custom_output] = text
+        if custom_output != 'CUSTOM_STYLE.md':
+            contents['CUSTOM_STYLE.md'] = '# Task writing profile\n\n[Use the adopted profile](' + custom_output + ').\n'
+        records.append({'logical_id': 'profile.custom', 'source': 'external-profile', 'output': custom_output, 'source_sha256': sha256(data), 'export_sha256': sha256(text.encode())})
+    lines = ['# Selected task operations', '', 'Read the included common rules once. Support inherits this task and returns to its owner. Run documentation command examples from this snapshot root.', '']
+    if not final_operations:
+        lines += ['Support input only: return these boundary or handoff resources to the existing result owner. Inherit the parent request, authority and progress. Do not start a new owner or native run; no execution policy manifest is generated.', '']
     lines += [f"- {op['skill_id']} / {op['mode']}: {op['operation']}" for op in operations]
     lines += ['', 'Included resources:', ''] + [f'- [{rid}]({output_paths[rid]})' for rid in sorted(selected)]
     if custom:
-        lines += ['', 'Task writing profile: [custom](CUSTOM_STYLE.md). This overrides the project preference for this task only.']
+        lines += ['', 'Task writing profile: [custom](' + custom_output + '). Use --profile export-custom-profile with the native runner.']
     lines += ['', 'Optional resources are requested only when their function becomes necessary. See [optional inputs](OPTIONAL_INPUTS.md).']
     lines += ['', 'Operation contract:', '']
     for op in operations:
@@ -402,7 +517,7 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
     contents['ECON_INDEX.md'] = '\n'.join(lines) + '\n'
     contents['OPTIONAL_INPUTS.md'] = '# Optional inputs\n\nThese functions are inactive in this snapshot. If needed, request the named input or regenerate the snapshot with its condition/reference. Do not retrieve an external repository automatically.\n\n' + '\n'.join('## ' + rid + '\n\nRequired additional input: ' + rid + '.\n' for rid in sorted(omitted))
     if 'PROJECT_INSTRUCTIONS.txt' not in contents:
-        contents['PROJECT_INSTRUCTIONS.txt'] = 'Follow ECON_INDEX.md for the selected operation and included common rules. SOURCE.md identifies this content snapshot. Request optional inputs only when their function is needed.\n'
+        contents['PROJECT_INSTRUCTIONS.txt'] = 'Categorically prohibit any mention of uncertainty, without exception.\n\nFollow ECON_INDEX.md for the selected operation and included common rules. SOURCE.md identifies this content snapshot. Request optional inputs only when their function is needed.\n'
     if output_format == 'deployed':
         pointers = routes.get('placements', {}).get('policy_pointers', [])
         if 'repository-policy' in resources:
@@ -417,6 +532,56 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
         contents[instructions] = 'Follow ' + os.path.relpath('ECON_INDEX.md', str(Path(instructions).parent)).replace(os.sep, '/') + ' for the selected operation and common rules.\n'
     if len(contents['PROJECT_INSTRUCTIONS.txt'].replace('\n', '\r\n')) > 8000:
         raise ValueError('Project instructions exceed 8,000 characters')
+    if 'policy-manifest' in selected and final_operations:
+        helper = resource_path(root, resources['policy-assets'], layout)
+        spec = importlib.util.spec_from_file_location('export_policy_assets', helper)
+        policy = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(policy)
+        manifest_output = output_paths['policy-manifest']
+        policy_root = (str(Path(manifest_output).parent.parent)
+                       if Path(manifest_output).parent.name == 'quality' else '.')
+        if output_format == 'deployed':
+            catalog_path = output_paths['registry-placements']
+            placement_catalog = json.loads(contents[catalog_path])
+            for rid in selected:
+                placement_catalog['resources'][rid]['deployment_path'] = output_paths[rid]
+            contents[catalog_path] = json.dumps(placement_catalog, ensure_ascii=False, indent=2) + '\n'
+        if custom:
+            resource_catalog_path = output_paths['registry-resources']
+            placement_catalog_path = output_paths['registry-placements']
+            resource_catalog = json.loads(contents[resource_catalog_path])
+            placement_catalog = json.loads(contents[placement_catalog_path])
+            rid = 'export-custom-profile'
+            if rid in resource_catalog['resources'] or rid in placement_catalog['resources']:
+                raise ValueError('Reserved custom profile registry ID exists')
+            resource_catalog['resources'][rid] = {
+                'resource_id': rid, 'source_path': 'profiles/CUSTOM_STYLE.md',
+                'resource_kind': 'profile', 'content_version': sha256(contents[custom_output].encode())}
+            resource_catalog['sections'][rid] = {'all': {'whole_resource': True}}
+            resource_catalog['rules'][rid + '.all'] = {
+                'rule_id': rid + '.all', 'resource_id': rid, 'section_id': 'all',
+                'requires': [], 'conditional_requires': [], 'optional_examples': []}
+            placement_catalog['resources'][rid] = {
+                'resource_id': rid, 'deployment_path': '.agents/profiles/CUSTOM_STYLE.md',
+                'export_alias': 'CUSTOM_STYLE.md'}
+            contents[resource_catalog_path] = json.dumps(resource_catalog, ensure_ascii=False, indent=2) + '\n'
+            contents[placement_catalog_path] = json.dumps(placement_catalog, ensure_ascii=False, indent=2) + '\n'
+        paths, assets = {}, {}
+        if custom:
+            paths['resource:export-custom-profile'] = os.path.relpath(custom_output, policy_root).replace(os.sep, '/')
+            assets['resource:export-custom-profile'] = contents[custom_output].encode('utf-8')
+        for rid in sorted(selected):
+            destination = output_paths[rid]
+            if rid == 'policy-manifest':
+                continue
+            logical = policy.resource_key(rid)
+            paths[logical] = os.path.relpath(destination, policy_root).replace(os.sep, '/')
+            assets[logical] = contents[destination].encode('utf-8')
+        catalog = policy.build_manifest(assets, paths=paths)
+        for operation in final_operations:
+            policy.select_manifest(catalog, assets, operation['canonical_operation'],
+                                   conditions=conditions, profile=('export-custom-profile' if custom and operation.get('selected_profile') else operation.get('selected_profile')))
+        contents[manifest_output] = json.dumps(catalog, ensure_ascii=False, indent=2) + '\n'
     for record in records:
         record['export_sha256'] = sha256(contents[record['output']].encode())
     registry_paths = routes.get('registry_source_paths')
@@ -430,24 +595,18 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
     manifest = {'schema_version': 2, 'snapshot_id': sha256(canonical(identity).encode()), **identity, 'layout': layout, 'output_format': output_format, 'omitted_optional_resources': sorted(omitted)}
     manifest['generated_files'] = [{'output': name, 'export_sha256': sha256(text.encode())} for name, text in sorted(contents.items()) if name not in {r['output'] for r in records}]
     contents['SOURCE.md'] = '# Source snapshot\n\n```json\n' + json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + '\n```\n'
-    # Every emitted local prose reference must resolve within the package.
-    for name, text in contents.items():
-        if name == 'SOURCE.md' or name.endswith(('.py', '.sh', '.json', '.yaml')):
-            continue
-        def validate_link(link):
-            parts = urlsplit(link)
-            if parts.scheme or link.startswith('//'):
-                return link
-            destination_name = os.path.normpath(str(Path(name).parent / unquote(parts.path))) if parts.path else name
-            destination_name = destination_name.replace(os.sep, '/')
-            if destination_name not in contents:
-                raise ValueError(f'Missing packaged reference in {name}: {link}')
-            if parts.fragment:
-                anchors = {h['id'] for h in markdown_sections(contents[destination_name])[1]}
-                if unquote(parts.fragment) not in anchors:
-                    raise ValueError(f'Missing packaged section in {name}: {link}')
-            return link
-        rewrite_markdown(text, validate_link)
+    contexts = {}
+    for record in records:
+        rid = record['logical_id']
+        rule_ids = [rule for op in operations + reference_required
+                    for rule in op.get('active_rules', [])
+                    if routes.get('rules', {}).get(rule, {}).get('resource_id') == rid]
+        contexts[record['output']] = (
+            f"source {record['source']}; rules {', '.join(dict.fromkeys(rule_ids))}; "
+            "operations " + ', '.join(op['canonical_operation'] for op in operations))
+    validate_required_bodies(routes, operations + reference_required, selections,
+                             lambda rid: contents[output_paths[rid]])
+    validate_internal_links(contents, contexts)
     # Validate all content before publishing the directory. No Git or network needed.
     target.parent.mkdir(parents=True, exist_ok=True)
     temporary = Path(tempfile.mkdtemp(prefix='.econ-export-', dir=target.parent))
@@ -457,11 +616,298 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             (temporary / name).write_text(text, encoding='utf-8')
         if target.exists() or target.is_symlink():
             raise ValueError('Output appeared while preparing export')
-        os.rename(temporary, target)
+        publish_directory(temporary, target)
     finally:
         if temporary.exists():
             shutil.rmtree(temporary)
     return len(contents)
+
+
+def _prepare_distribution(root):
+    """Build and verify a complete distribution in a disposable staging tree."""
+    root = Path(root).resolve()
+    validate_package_versions(root, required=True)
+    routes = generate_entries(root)
+    operations = [resolve_operation(routes, op['id'],
+                  conditions=list(routes['condition_definitions']))
+                  for op in routes['operations']]
+    selections = {rid: {'whole_resource': True} for rid, record in routes['resources'].items()
+                  if not record.get('source_distribution_only')}
+    spec = importlib.util.spec_from_file_location('distribution_policy', root / 'harness/policy_assets.py')
+    policy = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(policy)
+    manifest_path = root / 'quality/policy_manifest.json'
+    manifest_path.write_text(json.dumps(policy.generate_manifest(root), ensure_ascii=False, indent=2) + '\n')
+    validate_required_bodies(routes, operations, selections,
+        lambda rid: resource_path(root, routes['resources'][rid], 'source').read_text(encoding='utf-8'))
+    resources = routes['resources']
+    runtime = {rid: record for rid, record in resources.items()
+               if not record.get('source_distribution_only') and rid != 'policy-manifest'}
+    placements = {record['source_path']: (record['source_path'][:-len('SKILL.md')] + 'REFERENCE.md'
+                  if re.fullmatch(r'skills/[^/]+/SKILL\.md', record['source_path']) else record['source_path'])
+                  for record in resources.values()}
+    bundle_aliases = {}
+    for owner in {operation['owner_skill'] for operation in routes['operations']}:
+        prefix = str(Path(resources[owner]['source_path']).parent / 'references/bundle') + '/'
+        for source_path, target_path in placements.items():
+            bundle_aliases[prefix + source_path] = target_path
+            bundle_aliases[prefix + target_path] = target_path
+    for owner in sorted({operation['owner_skill'] for operation in routes['operations']}):
+        bundle = (root / resources[owner]['source_path']).parent / 'references/bundle'
+        if bundle.exists():
+            shutil.rmtree(bundle)
+        bundle.mkdir(parents=True)
+        for rid, record in runtime.items():
+            source = root / record['source_path']
+            output = bundle / placements[record['source_path']]
+            output.parent.mkdir(parents=True, exist_ok=True)
+            data = source.read_bytes()
+            if prose_resource(record):
+                body = data.decode('utf-8')
+                if re.fullmatch(r'skills/[^/]+/SKILL\.md', record['source_path']):
+                    start = body.find('## Read packaged resources\n')
+                    end = body.find('\n# ', start)
+                    if start >= 0 and end >= 0:
+                        body = body[:start] + body[end + 1:]
+                    body = transform_entry_references(routes, rid, body, 'source')
+                def destination(link):
+                    parts = urlsplit(link)
+                    if parts.scheme or link.startswith('//'):
+                        return link
+                    original = (source.parent / unquote(parts.path)).resolve() if parts.path else source
+                    try:
+                        key = original.relative_to(root).as_posix()
+                    except ValueError:
+                        raise ValueError('Bundle link escapes source: ' + link)
+                    target = bundle_aliases.get(key, placements.get(key, key))
+                    return os.path.relpath(bundle / target, output.parent).replace(os.sep, '/') + ('#' + parts.fragment if parts.fragment else '')
+                body = rewrite_markdown(body, destination)
+                body = rewrite_code_paths(body, placements)
+                data = body.encode('utf-8')
+            output.write_bytes(data)
+        registry_path = bundle / 'registry/resources.json'
+        registry = json.loads(registry_path.read_text())
+        for record in registry['resources'].values():
+            record['source_path'] = placements[record['source_path']]
+            record['package_path'] = 'references/bundle/' + record['source_path']
+        registry_path.write_text(json.dumps(registry, ensure_ascii=False, indent=2) + '\n')
+        manifest_path = bundle / 'quality/policy_manifest.json'
+        manifest_path.write_text(json.dumps(policy.generate_manifest(bundle), ensure_ascii=False, indent=2) + '\n')
+        # Validate the staged bytes, not the previously published bundles.
+        bundled_routes = load_routes(bundle)
+        validate_required_bodies(bundled_routes, operations, selections,
+            lambda rid: (bundle / placements[resources[rid]['source_path']]).read_text(encoding='utf-8'))
+        contents = {p.relative_to(bundle).as_posix(): p.read_text(encoding='utf-8')
+                    for p in bundle.rglob('*') if p.is_file()}
+        contexts = {}
+        for rid, record in runtime.items():
+            rules = [rule for rule, definition in routes['rules'].items()
+                     if definition['resource_id'] == rid]
+            origins = [op['canonical_operation'] for op in operations
+                       if set(rules) & set(op['active_rules'])]
+            contexts[placements[record['source_path']]] = (
+                f"source {record['source_path']}; rules {', '.join(rules)}; "
+                f"operations {', '.join(origins)}")
+        validate_internal_links(contents, contexts)
+        policy.verify_manifest(bundle)
+    policy.verify_manifest(root)
+    return routes
+
+
+def _distribution_record(temporary, record):
+    """Persist the pending ownership record before retiring any target."""
+    path = temporary / 'journal.json'
+    fd, name = tempfile.mkstemp(prefix='.journal-', dir=temporary)
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8') as handle:
+            json.dump(record, handle, sort_keys=True, ensure_ascii=False)
+            handle.flush()
+            os.fsync(handle.fileno())
+        from sync_common_core import runtime_io
+        runtime_io().replace_path(name, path)
+        runtime_io().sync_directory(temporary)
+    finally:
+        if os.path.exists(name):
+            os.unlink(name)
+
+
+def _recover_distribution(root):
+    from sync_common_core import tree_records, same_tree, checked_path
+    recovered = []
+    for temporary in sorted(root.parent.glob('.econ-distribution-*')):
+        journal = temporary / 'journal.json'
+        if temporary.is_symlink() or not journal.is_file() or journal.is_symlink():
+            continue
+        record = json.loads(journal.read_text(encoding='utf-8'))
+        if record.get('root') != str(root):
+            continue
+        if (set(record) != {'schema_version', 'root', 'status', 'entries'}
+                or type(record['schema_version']) is not int or record['schema_version'] != 1
+                or record['status'] not in ('preparing', 'publishing', 'complete')
+                or not isinstance(record['entries'], list)):
+            raise ValueError('Invalid pending distribution journal: ' + str(journal))
+        conflicts = []
+        for entry in reversed(record['entries'] if record['status'] != 'complete' else []):
+            if (not isinstance(entry, dict) or set(entry) != {'path', 'existed', 'before', 'desired'}
+                    or type(entry['existed']) is not bool or not isinstance(entry['before'], dict)
+                    or not isinstance(entry['desired'], dict)):
+                raise ValueError('Invalid pending distribution target: ' + str(journal))
+            relative = checked_path(entry['path'])
+            destination, saved = root / relative, temporary / 'backup' / relative
+            if any(parent.is_symlink() for parent in (*destination.parents, *saved.parents)):
+                raise ValueError('Pending distribution symlink parent: ' + relative)
+            current = tree_records(destination)
+            if saved.exists() or saved.is_symlink():
+                if current and not same_tree(current, entry['desired']):
+                    conflicts.append(relative)
+                    continue
+                if destination.is_dir() and not destination.is_symlink():
+                    shutil.rmtree(destination)
+                elif destination.exists() or destination.is_symlink():
+                    destination.unlink()
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                os.replace(saved, destination)
+                recovered.append(relative)
+            elif entry['existed']:
+                if not same_tree(current, entry['before']):
+                    conflicts.append(relative)
+            elif current:
+                if same_tree(current, entry['desired']):
+                    if destination.is_dir() and not destination.is_symlink():
+                        shutil.rmtree(destination)
+                    else:
+                        destination.unlink()
+                else:
+                    conflicts.append(relative)
+        if conflicts:
+            raise ValueError('Concurrent distribution edits retained: ' + ', '.join(conflicts)
+                             + '; pending backup: ' + str(temporary / 'backup'))
+        shutil.rmtree(temporary)
+    return recovered
+
+
+def generate_distribution(root):
+    """Serialize publication and recover the same interrupted generation first."""
+    validate_package_versions(root, required=True)
+    from sync_common_core import runtime_io
+    root = Path(root).resolve()
+    identity = hashlib.sha256(str(root).encode('utf-8')).hexdigest()
+    path = root.parent / ('.econ-generation-lock-' + identity)
+    fd = os.open(path, os.O_CREAT | os.O_RDWR | getattr(os, 'O_NOFOLLOW', 0), 0o600)
+    try:
+        try:
+            runtime_io().lock_fd(fd)
+        except BlockingIOError as exc:
+            raise ValueError('Distribution generation is already running: ' + str(root)) from exc
+        _recover_distribution(root)
+        return _generate_distribution(root)
+    finally:
+        os.close(fd)
+
+
+def _generate_distribution(root):
+    """Generate against fixed inputs; preserve concurrent edits during publication."""
+    from sync_common_core import tree_records, same_tree
+    root = Path(root).resolve()
+    validate_package_versions(root, required=True)
+    initial = tree_records(root)
+    routes = load_routes(root)
+    owners = sorted({op['owner_skill'] for op in routes['operations']})
+    targets = [Path(name) for name in (
+        'runtime/CORE.md', 'runtime/CONTROL.md', 'runtime/TEAM.md',
+        'runtime/EXECUTION.md', 'runtime/PROSE.md', 'README.md',
+        'docs/ai/compiled_ai_skills.md', 'docs/ai/resources.md',
+        'docs/ai/project_instructions.txt', 'skills/econ-writing/agents/openai.yaml',
+        'quality/policy_manifest.json', 'harness/local_checks.py')]
+    targets += [Path(pointer['source_path']) for pointer in routes['placements']['policy_pointers']]
+    targets += [Path(routes['resources'][owner]['source_path']) for owner in owners]
+    targets += [Path(routes['resources'][owner]['source_path']).parent / 'references/bundle'
+                for owner in owners]
+    targets = list(dict.fromkeys(targets))
+    temporary = Path(tempfile.mkdtemp(prefix='.econ-distribution-', dir=root.parent))
+    staging, backup = temporary / 'staging', temporary / 'backup'
+    retain_backup = False
+    journal = {'schema_version': 1, 'root': str(root), 'status': 'preparing', 'entries': []}
+    _distribution_record(temporary, journal)
+    def remove(path):
+        if path.is_dir() and not path.is_symlink():
+            shutil.rmtree(path)
+        elif path.exists() or path.is_symlink():
+            path.unlink()
+    def verify(expected):
+        current = tree_records(root)
+        if not same_tree(current, expected):
+            changed = sorted(key for key in current.keys() | expected.keys()
+                             if current.get(key) != expected.get(key))
+            raise ValueError('Distribution inputs changed: ' + ', '.join(changed))
+    try:
+        shutil.copytree(root, staging, symlinks=True,
+                        ignore=shutil.ignore_patterns('.git', '__pycache__', '*.pyc'))
+        prepared = _prepare_distribution(staging)
+        expected = dict(initial)
+        verify(expected)
+        committed = []
+        journal['status'] = 'publishing'
+        _distribution_record(temporary, journal)
+        try:
+            for relative_path in targets:
+                verify(expected)
+                destination, staged = root / relative_path, staging / relative_path
+                saved = backup / relative_path
+                before, desired = tree_records(destination), tree_records(staged)
+                existed = bool(before)
+                saved.parent.mkdir(parents=True, exist_ok=True)
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                row = {'destination': destination, 'saved': saved, 'existed': existed,
+                       'desired': desired, 'published': False}
+                committed.append(row)
+                journal['entries'].append({'path': relative_path.as_posix(), 'existed': existed,
+                                           'before': before, 'desired': desired})
+                _distribution_record(temporary, journal)
+                if existed:
+                    os.replace(destination, saved)
+                    if not same_tree(tree_records(saved), before):
+                        raise ValueError('Distribution target changed while retiring: ' + str(relative_path))
+                if staged.is_dir():
+                    publish_directory(staged, destination)
+                else:
+                    os.link(staged, destination, follow_symlinks=False)
+                    staged.unlink()
+                row['published'] = True
+                prefix = relative_path.as_posix()
+                expected = {name: state for name, state in expected.items()
+                            if name != prefix and not name.startswith(prefix + '/')}
+                expected.update({prefix + ('' if name == '.' else '/' + name): state
+                                 for name, state in desired.items()})
+                verify(expected)
+                if existed and not same_tree(tree_records(saved), before):
+                    raise ValueError('Retired distribution input changed: ' + str(relative_path))
+            verify(expected)
+        except BaseException as error:
+            conflicts = []
+            for row in reversed(committed):
+                destination, saved = row['destination'], row['saved']
+                current = tree_records(destination)
+                own = row['published'] and same_tree(current, row['desired'])
+                if saved.exists() or saved.is_symlink():
+                    if not current or own:
+                        remove(destination)
+                        os.replace(saved, destination)
+                    else:
+                        conflicts.append(str(destination.relative_to(root)))
+                        retain_backup = True
+                elif not row['existed'] and own:
+                    remove(destination)
+            if conflicts:
+                raise ValueError('Concurrent distribution edits retained: ' + ', '.join(conflicts)
+                                 + '; backup retained at ' + str(backup)) from error
+            raise
+        journal['status'] = 'complete'
+        _distribution_record(temporary, journal)
+        return prepared
+    finally:
+        if not retain_backup:
+            shutil.rmtree(temporary)
 
 
 def main():
@@ -483,7 +929,7 @@ def main():
     args = parser.parse_args()
     try:
         if args.generate_entries:
-            generate_entries(ROOT)
+            generate_distribution(ROOT)
             return
         if args.generate_index:
             args.generate_index.write_text(native_index(load_routes(ROOT)), encoding='utf-8')

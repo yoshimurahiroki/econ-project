@@ -334,13 +334,13 @@ class RealRegistryTests(unittest.TestCase):
                         for pointer in self.routes['placements']['policy_pointers']:
                             self.assertTrue((out / pointer['deployment_path']).is_file())
 
-    def test_revise_required_meaning_rule_never_optional(self):
+    def test_revise_required_language_rule_never_optional(self):
         for fmt in ('flat', 'deployed'):
             out = self.output(fmt, task='econ-writing:revise', output_format=fmt)
             res = self.routes['resources']['prose']
             path = res['export_alias' if fmt == 'flat' else 'deployment_path']
-            self.assertIn('## Preserve meaning across languages', (out / path).read_text())
-            self.assertNotIn('prose--preserve-meaning-across-languages', (out / 'OPTIONAL_INPUTS.md').read_text())
+            self.assertIn('## Revise for the requested language', (out / path).read_text())
+            self.assertNotIn('prose--revise-for-the-requested-language', (out / 'OPTIONAL_INPUTS.md').read_text())
             self.assertFalse(any(r['logical_id'] in ('execution', 'state-contract', 'publication', 'integration') for r in self.manifest(out)['files']))
 
     def test_whole_paper_argument_and_structure_required(self):
@@ -398,10 +398,10 @@ class RealRegistryTests(unittest.TestCase):
     def test_missing_required_body_fails_with_rule_and_operation_before_publish(self):
         root = self.copied_source()
         path = root / 'runtime/PROSE.md'
-        path.write_text(path.read_text().replace('## Preserve meaning across languages', '## Removed meaning rule'))
+        path.write_text(path.read_text().replace('## Revise for the requested language', '## Removed meaning rule'))
         with patch.object(exporter, 'ROOT', root):
             for fmt in ('flat', 'deployed'):
-                with self.assertRaisesRegex(ValueError, 'Missing required rule prose.preserve-meaning-across-languages; operation econ-writing:revise'):
+                with self.assertRaisesRegex(ValueError, 'Missing required rule prose.revise-for-the-requested-language; required section Revise for the requested language; operation econ-writing:revise'):
                     self.output(fmt, task='econ-writing:revise', output_format=fmt)
                 self.assertFalse((self.base / fmt).exists())
 
@@ -409,33 +409,36 @@ class RealRegistryTests(unittest.TestCase):
         root = self.copied_source()
         path = root / 'registry/resources.json'
         data = json.loads(path.read_text())
-        del data['rules']['prose.preserve-meaning-across-languages']
+        del data['rules']['prose.revise-for-the-requested-language']
         path.write_text(json.dumps(data))
         with patch.object(exporter, 'ROOT', root):
-            with self.assertRaisesRegex(ValueError, 'Missing required rule prose.preserve-meaning-across-languages; operation econ-writing:'):
+            with self.assertRaisesRegex(ValueError, 'Missing required rule prose.revise-for-the-requested-language; operation econ-design:design'):
                 self.output('missing', task='econ-writing:revise')
         self.assertFalse((self.base / 'missing').exists())
 
     def test_stable_rule_id_survives_heading_rename(self):
         root = self.copied_source()
         path = root / 'runtime/PROSE.md'
-        path.write_text(path.read_text().replace('## Preserve meaning across languages', '## Preserve source propositions'))
+        path.write_text(path.read_text().replace('## Revise for the requested language', '## Preserve source propositions'))
         registry = root / 'registry/resources.json'
         data = json.loads(registry.read_text())
-        data['sections']['prose']['preserve-meaning-across-languages']['heading'] = 'Preserve source propositions'
+        data['sections']['prose']['revise-for-the-requested-language']['heading'] = 'Preserve source propositions'
         registry.write_text(json.dumps(data))
         # A moved public heading must also update its source links; the stable rule ID does not change.
         for path in root.rglob('*.md'):
-            path.write_text(path.read_text().replace('#preserve-meaning-across-languages', '#preserve-source-propositions'))
+            path.write_text(path.read_text().replace('#revise-for-the-requested-language', '#preserve-source-propositions'))
         with patch.object(exporter, 'ROOT', root):
             out = self.output('renamed', task='econ-writing:revise')
         self.assertIn('## Preserve source propositions', (out / 'PROSE.md').read_text())
-        self.assertIn('prose.preserve-meaning-across-languages', self.manifest(out)['operations'][0]['active_rules'])
+        self.assertIn('prose.revise-for-the-requested-language', self.manifest(out)['operations'][0]['active_rules'])
 
     def test_generated_entries_are_repeatable_and_registry_owned(self):
         from route_registry import generate_entries
         root = self.copied_source()
         generate_entries(root)
+        rule = 'Categorically prohibit any mention of uncertainty, without exception.'
+        self.assertIn(rule, (root / 'docs/ai/project_instructions.txt').read_text())
+        self.assertIn(rule, (root / 'skills/econ-writing/agents/openai.yaml').read_text())
         files = [root / 'docs/ai/compiled_ai_skills.md'] + list((root / 'references/repository-policy').rglob('*')) + list((root / 'skills').glob('*/SKILL.md'))
         before = {str(p): p.read_bytes() for p in files if p.is_file()}
         generate_entries(root)
@@ -454,7 +457,7 @@ class RealRegistryTests(unittest.TestCase):
                 target.write_bytes(source.read_bytes())
         with patch.object(exporter, 'ROOT', root):
             out = self.output('installed-out', task='econ-writing:revise', layout='installed', output_format='deployed')
-        self.assertIn('## Preserve meaning across languages', (out / '.agents/runtime/PROSE.md').read_text())
+        self.assertIn('## Revise for the requested language', (out / '.agents/runtime/PROSE.md').read_text())
 
     def test_explicit_state_helper_remains_self_contained_in_both_formats(self):
         import subprocess
