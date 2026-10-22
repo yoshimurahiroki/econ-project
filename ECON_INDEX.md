@@ -17,6 +17,8 @@ Read the included common rules once. Support inherits this task and returns to i
 
 Included resources:
 
+- [argument-engine](.agents/harness/argument.py)
+- [argument-schema](.agents/harness/argument.schema.json)
 - [checked-artifacts-instructions](.agents/skills/economics-checked-instructions/SKILL.md)
 - [codex-hooks](.agents/harness/codex_hooks.py)
 - [control](.agents/runtime/CONTROL.md)
@@ -42,6 +44,10 @@ Included resources:
 - [native-run](.agents/harness/native_run.py)
 - [native-run-guide](.agents/harness/native_run.md)
 - [paper-workflow](.agents/skills/econ-writing/references/paper-workflow.md)
+- [paragraph-engine](.agents/harness/paragraph.py)
+- [paragraph-schema](.agents/harness/paragraph.schema.json)
+- [paragraph-workflow](.agents/skills/econ-writing/references/paragraph-workflow.md)
+- [policy-agents-agentsmd](.agents/AGENTS.md)
 - [policy-assets](.agents/harness/policy_assets.py)
 - [policy-manifest](.agents/quality/policy_manifest.json)
 - [prose](.agents/runtime/PROSE.md)
@@ -78,29 +84,29 @@ Operation contract:
 - Result: {"kind":"as_requested","meaning":"Find and select source information that resolves a research question or citation task.","role":"requested_result","target":"from_request"}
 - Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
 - Selector: econ-writing:compose; owner: econ-writing; canonical operation: econ-writing:compose.
-- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds. Adopt the source-bound argument graph, versioned blueprint and one specification per paragraph; preserve original inputs and authorized editable paragraph IDs.
 - Result: {"kind":"as_requested","meaning":"Compose the requested prose from authorized materials.","role":"requested_result","target":"from_request"}
-- Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
+- Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.
 - Selector: econ-writing:revise; owner: econ-writing; canonical operation: econ-writing:revise.
-- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds. Adopt the source-bound argument graph, versioned blueprint and one specification per paragraph; preserve original inputs and authorized editable paragraph IDs.
 - Result: {"kind":"as_requested","meaning":"Revise supplied prose within the authorized content-change scope.","role":"requested_result","target":"from_request"}
-- Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
+- Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.
 - Selector: econ-writing:translate; owner: econ-writing; canonical operation: econ-writing:translate.
-- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds. Adopt the source-bound argument graph, versioned blueprint and one specification per paragraph; preserve original inputs and authorized editable paragraph IDs.
 - Result: {"kind":"as_requested","meaning":"Translate the requested passage into the target language.","role":"requested_result","target":"from_request"}
-- Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
+- Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.
 - Selector: econ-writing:convert; owner: econ-writing; canonical operation: econ-writing:convert.
-- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds. Adopt the source-bound argument graph, versioned blueprint and one specification per paragraph; preserve original inputs and authorized editable paragraph IDs.
 - Result: {"kind":"as_requested","meaning":"Convert settled content into the requested medium and format.","role":"requested_result","target":"from_request"}
-- Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
+- Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.
 - Selector: econ-writing:guidance; owner: econ-writing; canonical operation: econ-writing:guidance.
 - Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
 - Result: {"kind":"as_requested","meaning":"Answer questions about prose principles and examples.","role":"requested_result","target":"from_request"}
 - Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
 - Selector: econ-writing:explain; owner: econ-writing; canonical operation: econ-writing:explain.
-- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds. Adopt the source-bound argument graph, versioned blueprint and one specification per paragraph; preserve original inputs and authorized editable paragraph IDs.
 - Result: {"kind":"as_requested","meaning":"Explain a specified source's economic claims, theory, methods or results.","role":"requested_result","target":"from_request"}
-- Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
+- Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.
 - Selector: econ-writing:profile; owner: econ-writing; canonical operation: econ-writing:profile.
 - Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
 - Result: {"kind":"as_requested","meaning":"Create or revise a reusable prose profile and functional fictional examples.","role":"requested_result","target":"from_request"}

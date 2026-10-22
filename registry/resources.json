@@ -5,13 +5,13 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "70.3"
+      "content_version": "0.4.0"
     },
     "prose": {
       "resource_id": "prose",
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "76.0"
+      "content_version": "0.4.0"
     },
     "research": {
       "resource_id": "research",
@@ -23,13 +23,13 @@
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "76.0"
+      "content_version": "0.4.0"
     },
     "team": {
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "76.0"
+      "content_version": "0.4.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
@@ -53,7 +53,7 @@
       "resource_id": "econ-writing",
       "source_path": "skills/econ-writing/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "75.0"
+      "content_version": "0.4.0"
     },
     "econ-review": {
       "resource_id": "econ-review",
@@ -83,7 +83,7 @@
       "resource_id": "paper-workflow",
       "source_path": "skills/econ-writing/references/paper-workflow.md",
       "resource_kind": "rule",
-      "content_version": "75.0"
+      "content_version": "0.4.0"
     },
     "review-methods": {
       "resource_id": "review-methods",
@@ -144,7 +144,7 @@
       "resource_id": "team-state-helper",
       "source_path": "harness/state.py",
       "resource_kind": "support",
-      "content_version": "76.0"
+      "content_version": "0.4.0"
     },
     "project-instructions": {
       "resource_id": "project-instructions",
@@ -169,14 +169,14 @@
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "73.2",
+      "content_version": "0.4.0",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "76.0"
+      "content_version": "0.4.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
@@ -189,7 +189,7 @@
       "resource_id": "tool-pack-context-sh",
       "source_path": "scripts/pack_context.sh",
       "resource_kind": "support",
-      "content_version": "72.0",
+      "content_version": "0.4.0",
       "source_distribution_only": true
     },
     "policy-agentsmd": {
@@ -268,7 +268,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "76.0"
+      "content_version": "0.4.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -305,19 +305,19 @@
       "resource_id": "control",
       "source_path": "runtime/CONTROL.md",
       "resource_kind": "rule",
-      "content_version": "76.0"
+      "content_version": "0.4.0"
     },
     "prose-check-guide": {
       "resource_id": "prose-check-guide",
       "source_path": "quality/prose_rules.md",
       "resource_kind": "rule",
-      "content_version": "74.1"
+      "content_version": "0.4.0"
     },
     "prose-check-rules": {
       "resource_id": "prose-check-rules",
       "source_path": "quality/prose_rules.json",
       "resource_kind": "support",
-      "content_version": "76.0"
+      "content_version": "0.4.0"
     },
     "local-checks": {
       "resource_id": "local-checks",
@@ -347,7 +347,7 @@
       "resource_id": "native-check",
       "source_path": "harness/native_check.py",
       "resource_kind": "support",
-      "content_version": "76.0"
+      "content_version": "0.4.0"
     },
     "native-check-guide": {
       "resource_id": "native-check-guide",
@@ -359,19 +359,19 @@
       "resource_id": "native-run",
       "source_path": "harness/native_run.py",
       "resource_kind": "support",
-      "content_version": "76.1"
+      "content_version": "0.4.0"
     },
     "native-run-guide": {
       "resource_id": "native-run-guide",
       "source_path": "harness/native_run.md",
       "resource_kind": "rule",
-      "content_version": "76.0"
+      "content_version": "0.4.0"
     },
     "policy-assets": {
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "76.0"
+      "content_version": "0.4.1"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -462,14 +462,13 @@
       "resource_id": "checked-artifacts-instructions",
       "source_path": "skills/economics-checked-instructions/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "1.0.1"
+      "content_version": "1.1.1"
     },
     "plugin-integration-guide": {
       "resource_id": "plugin-integration-guide",
       "source_path": "docs/ai/plugin-integration.md",
       "resource_kind": "support",
-      "content_version": "0.3.34",
-      "source_distribution_only": true
+      "content_version": "0.4.1"
     },
     "tool-check-instruction-links-py": {
       "resource_id": "tool-check-instruction-links-py",
@@ -483,6 +482,71 @@
       "source_path": "scripts/test_instruction_links.py",
       "resource_kind": "maintenance",
       "content_version": "0.3.34",
+      "source_distribution_only": true
+    },
+    "paragraph-workflow": {
+      "resource_id": "paragraph-workflow",
+      "source_path": "skills/econ-writing/references/paragraph-workflow.md",
+      "resource_kind": "rule",
+      "content_version": "0.4.1"
+    },
+    "paragraph-engine": {
+      "resource_id": "paragraph-engine",
+      "source_path": "harness/paragraph.py",
+      "resource_kind": "support",
+      "content_version": "0.4.1"
+    },
+    "argument-engine": {
+      "resource_id": "argument-engine",
+      "source_path": "harness/argument.py",
+      "resource_kind": "support",
+      "content_version": "0.4.1"
+    },
+    "paragraph-schema": {
+      "resource_id": "paragraph-schema",
+      "source_path": "harness/paragraph.schema.json",
+      "resource_kind": "support",
+      "content_version": "0.4.1"
+    },
+    "argument-schema": {
+      "resource_id": "argument-schema",
+      "source_path": "harness/argument.schema.json",
+      "resource_kind": "support",
+      "content_version": "0.4.0"
+    },
+    "paragraph-tests": {
+      "resource_id": "paragraph-tests",
+      "source_path": "harness/test_paragraph.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.4.1",
+      "source_distribution_only": true
+    },
+    "argument-tests": {
+      "resource_id": "argument-tests",
+      "source_path": "harness/test_argument.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.4.1",
+      "source_distribution_only": true
+    },
+    "writing-integration-tests": {
+      "resource_id": "writing-integration-tests",
+      "source_path": "harness/test_writing_integration.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.4.0",
+      "source_distribution_only": true
+    },
+    "argument-regression-tests": {
+      "resource_id": "argument-regression-tests",
+      "source_path": "harness/test_argument_regressions.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.4.1",
+      "source_distribution_only": true
+    },
+    "paragraph-regression-tests": {
+      "resource_id": "paragraph-regression-tests",
+      "source_path": "harness/test_paragraph_regressions.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.4.1",
       "source_distribution_only": true
     }
   },
@@ -511,6 +575,9 @@
       },
       "completion-and-reporting": {
         "heading": "Completion and reporting"
+      },
+      "paragraph-writing-contract": {
+        "heading": "Paragraph writing contract"
       }
     },
     "prose": {
@@ -534,6 +601,9 @@
       },
       "common-full-candidate-record": {
         "heading": "Common full-candidate record"
+      },
+      "hierarchical-argument-and-paragraph-composition": {
+        "heading": "Hierarchical argument and paragraph composition"
       }
     },
     "research": {
@@ -589,6 +659,9 @@
       },
       "record-and-artifact-boundaries": {
         "heading": "Record and artifact boundaries"
+      },
+      "writing-dependency-execution": {
+        "heading": "Writing dependency execution"
       }
     },
     "team": {
@@ -615,6 +688,9 @@
       },
       "review-findings-and-independence": {
         "heading": "Review findings and independence"
+      },
+      "paragraph-assignments": {
+        "heading": "Paragraph assignments"
       }
     },
     "econ-design": {
@@ -776,6 +852,9 @@
       },
       "render-the-requested-artifact": {
         "heading": "Render the requested artifact"
+      },
+      "execute-paragraph-and-argument-contracts": {
+        "heading": "Execute paragraph and argument contracts"
       }
     },
     "econ-review": {
@@ -1008,6 +1087,9 @@
       },
       "revise-the-integrated-manuscript": {
         "heading": "Revise the integrated manuscript"
+      },
+      "execute-the-paragraph-architecture": {
+        "heading": "Execute the paragraph architecture"
       }
     },
     "review-methods": {
@@ -1248,6 +1330,9 @@
       },
       "resumption-and-migration": {
         "heading": "Resumption and migration"
+      },
+      "paragraph-state-binding": {
+        "heading": "Paragraph state binding"
       }
     },
     "publication": {
@@ -1323,6 +1408,9 @@
       },
       "registered-review-plans": {
         "heading": "Registered review plans"
+      },
+      "writing-execution-prerequisite": {
+        "heading": "Writing execution prerequisite"
       }
     },
     "prose-check-guide": {
@@ -1493,6 +1581,9 @@
       },
       "trusted-codex-hook-association": {
         "heading": "Trusted Codex hook association"
+      },
+      "paragraph-writing-submissions": {
+        "heading": "Paragraph writing submissions"
       }
     },
     "policy-assets": {
@@ -1531,6 +1622,51 @@
       }
     },
     "checked-artifacts-instructions": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "plugin-integration-guide": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "paragraph-workflow": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "paragraph-engine": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "argument-engine": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "paragraph-schema": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "argument-schema": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "paragraph-tests": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "argument-tests": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "writing-integration-tests": {
       "all": {
         "whole_resource": true
       }
@@ -3060,7 +3196,8 @@
         "state-contract.local-state-helper",
         "team.shared-work",
         "team.resumption",
-        "local-checks.all"
+        "local-checks.all",
+        "paragraph-engine.all"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -3538,7 +3675,10 @@
       "requires": [
         "requirements-check.all",
         "local-checks.all",
-        "prose-check-rules.all"
+        "prose-check-rules.all",
+        "policy-assets.all",
+        "paragraph-engine.all",
+        "argument-engine.all"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -4067,6 +4207,177 @@
       "resource_id": "checked-artifacts-instructions",
       "section_id": "all",
       "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "plugin-integration-guide.all": {
+      "rule_id": "plugin-integration-guide.all",
+      "resource_id": "plugin-integration-guide",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paragraph-workflow.all": {
+      "rule_id": "paragraph-workflow.all",
+      "resource_id": "paragraph-workflow",
+      "section_id": "all",
+      "requires": [
+        "paragraph-engine.all",
+        "argument-engine.all",
+        "paragraph-schema.all",
+        "argument-schema.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paragraph-engine.all": {
+      "rule_id": "paragraph-engine.all",
+      "resource_id": "paragraph-engine",
+      "section_id": "all",
+      "requires": [
+        "argument-engine.all",
+        "local-checks.all",
+        "prose-check-rules.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "argument-engine.all": {
+      "rule_id": "argument-engine.all",
+      "resource_id": "argument-engine",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paragraph-schema.all": {
+      "rule_id": "paragraph-schema.all",
+      "resource_id": "paragraph-schema",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "argument-schema.all": {
+      "rule_id": "argument-schema.all",
+      "resource_id": "argument-schema",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paragraph-tests.all": {
+      "rule_id": "paragraph-tests.all",
+      "resource_id": "paragraph-tests",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "argument-tests.all": {
+      "rule_id": "argument-tests.all",
+      "resource_id": "argument-tests",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "writing-integration-tests.all": {
+      "rule_id": "writing-integration-tests.all",
+      "resource_id": "writing-integration-tests",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "core.paragraph-writing-contract": {
+      "rule_id": "core.paragraph-writing-contract",
+      "resource_id": "core",
+      "section_id": "paragraph-writing-contract",
+      "requires": [
+        "paragraph-workflow.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose.hierarchical-argument-and-paragraph-composition": {
+      "rule_id": "prose.hierarchical-argument-and-paragraph-composition",
+      "resource_id": "prose",
+      "section_id": "hierarchical-argument-and-paragraph-composition",
+      "requires": [
+        "paragraph-workflow.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team.paragraph-assignments": {
+      "rule_id": "team.paragraph-assignments",
+      "resource_id": "team",
+      "section_id": "paragraph-assignments",
+      "requires": [
+        "paragraph-workflow.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "execution.writing-dependency-execution": {
+      "rule_id": "execution.writing-dependency-execution",
+      "resource_id": "execution",
+      "section_id": "writing-dependency-execution",
+      "requires": [
+        "paragraph-workflow.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.writing-execution-prerequisite": {
+      "rule_id": "control.writing-execution-prerequisite",
+      "resource_id": "control",
+      "section_id": "writing-execution-prerequisite",
+      "requires": [
+        "paragraph-workflow.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paper-workflow.execute-the-paragraph-architecture": {
+      "rule_id": "paper-workflow.execute-the-paragraph-architecture",
+      "resource_id": "paper-workflow",
+      "section_id": "execute-the-paragraph-architecture",
+      "requires": [
+        "paragraph-workflow.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.execute-paragraph-and-argument-contracts": {
+      "rule_id": "econ-writing.execute-paragraph-and-argument-contracts",
+      "resource_id": "econ-writing",
+      "section_id": "execute-paragraph-and-argument-contracts",
+      "requires": [
+        "paragraph-workflow.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.paragraph-state-binding": {
+      "rule_id": "state-contract.paragraph-state-binding",
+      "resource_id": "state-contract",
+      "section_id": "paragraph-state-binding",
+      "requires": [
+        "paragraph-engine.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.paragraph-writing-submissions": {
+      "rule_id": "native-run-guide.paragraph-writing-submissions",
+      "resource_id": "native-run-guide",
+      "section_id": "paragraph-writing-submissions",
+      "requires": [
+        "paragraph-engine.all"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     }

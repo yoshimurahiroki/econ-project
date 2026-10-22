@@ -1,3 +1,4 @@
 Categorically prohibit any mention of uncertainty, without exception.
+留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。
 
-Follow ECON_INDEX.md for the selected operation and included common rules. [Source snapshot](docs/ai/distributions/economics-research-skills-0.3.34-SOURCE.md) identifies this content snapshot. Request optional inputs only when their function is needed.
+Follow ECON_INDEX.md for the selected operation and included common rules. SOURCE.md identifies this content snapshot. Request optional inputs only when their function is needed.

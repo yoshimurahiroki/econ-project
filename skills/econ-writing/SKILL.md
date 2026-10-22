@@ -6,11 +6,14 @@ description: Compose, revise, translate, convert or explain economics content, g
 # Primary expression rule
 
 Categorically prohibit any mention of uncertainty, without exception.
+留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。
 
 Apply the exact sentence above with priority throughout the task. Preserve every character and its final period. Include it at task entry; repeat it in the canonical short instruction, every post-tool instruction, the compliance/reminder assignment, every affected child assignment and each restored instruction after compaction, resumption or failure. Carry the identical sentence through all registered operation modes. Apply it to final responses and all user-visible artifacts.
 
 <!-- BEGIN GENERATED ENTRY -->
 ## Native entry contract
+
+Categorically prohibit any mention of uncertainty, without exception. 留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。
 
 Preserve the fixed request, adopted inputs, objective and authority; complete the authorized result and resolve open choices under the same constraints. Delete every disclaimer without exception. Remove other prohibited content, expression, judgment and conduct throughout. First start or resume the one actual host-supported compliance/reminder assignment in [TEAM](../../runtime/TEAM.md#shared-work). After every tool, repeat the short command, unmet IDs and next action; restore full fixed instructions at entry, compaction, changes and failures. Read [CONTROL](../../runtime/CONTROL.md) and the [registered operation](../../registry/operations.json); reuse same-version detail and ledger references. Keep all 142 rules and 22 full-candidate judgments. Only strict-reviewed with actual independent A/B, compliance and host-validated release predicates may publish the unchanged candidate and attachments. Missing capacity stays blocked-unapproved. Distinguish sending, receipt, checking and approval; stop the same assignment on completion or interruption.
 <!-- END GENERATED ENTRY -->
@@ -26,18 +29,18 @@ Input: requested text or research records, reader, purpose, language, medium, co
 
 Generated from registry/operations.json; the request determines the actual target and authority.
 
-- `compose`: Compose the requested prose from authorized materials. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
-- `revise`: Revise supplied prose within the authorized content-change scope. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
-- `translate`: Translate the requested passage into the target language. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
-- `convert`: Convert settled content into the requested medium and format. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
+- `compose`: Compose the requested prose from authorized materials. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.
+- `revise`: Revise supplied prose within the authorized content-change scope. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.
+- `translate`: Translate the requested passage into the target language. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.
+- `convert`: Convert settled content into the requested medium and format. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.
 - `guidance`: Answer questions about prose principles and examples. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
-- `explain`: Explain a specified source's economic claims, theory, methods or results. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
+- `explain`: Explain a specified source's economic claims, theory, methods or results. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.
 - `profile`: Create or revise a reusable prose profile and functional fictional examples. Finish: Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.
 <!-- END GENERATED MODES -->
 
 ## Compose
 
-Build new prose from the authorized research records and exhibits. For a complete paper or paper-wide reconstruction, use [paper argument](references/paper-workflow.md#establish-the-argument-from-the-research) and [paper structure](references/paper-workflow.md#design-the-papers-argument). For an Abstract, Introduction or specialist section, read only [section composition](references/paper-workflow.md#compose-the-requested-section). A short passage, talk or memo uses PROSE directly.
+Build new prose from the authorized research records and exhibits. For a complete paper or paper-wide reconstruction, use [paper argument](references/paper-workflow.md#establish-the-argument-from-the-research) and [paper structure](references/paper-workflow.md#design-the-papers-argument). For an Abstract, Introduction or specialist section, read only [section composition](references/paper-workflow.md#compose-the-requested-section). A short passage, talk or memo uses PROSE through the paragraph workflow, with one contract for each requested paragraph.
 
 Obtain an unresolved model implication, source passage or calculation only when it determines the requested claim. Keep available passages and exhibits whose inputs are unchanged. For a requested operational plan, resolve choices with [DECIDE](../../runtime/DECIDE.md) before describing the selected actions and completion conditions.
 
@@ -142,3 +145,7 @@ Render the final pages at the intended viewing size. For slides and figure-heavy
 ## Output
 
 The requested finished text, explanation, guidance, profile or artifact in the requested output format.
+
+## Execute paragraph and argument contracts
+
+Compose, revise, translate, explain and convert all use the mandatory [paragraph and argument workflow](references/paragraph-workflow.md). Generate the argument hierarchy and blueprint before paragraph contracts. Use actual host callbacks for writing and semantic review, inspect the finished reverse outline, and pass the exact integrated text through independent A/B and Compliance review. A one-paragraph request uses one contract; a scoped revision preserves every paragraph outside its editable IDs byte for byte. Use state and native packet bindings for current-version checks and resumption.

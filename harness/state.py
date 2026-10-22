@@ -117,12 +117,35 @@ def context_id(task):
     """Hash governing content, excluding scheduling and continuation display."""
     value = {key: task.get(key) for key in
              ('authority', 'required_outputs', 'required_actions', 'required_checks',
-              'check_targets', 'scope', 'external_targets', 'task_context')}
+              'check_targets', 'scope', 'external_targets', 'task_context', 'writing_state')}
     value['holds'] = sorted(task.get('holds', []))
     if task.get('parent'):
         value['inherited_constraints_sha256'] = task.get('effective_constraints_sha256')
     value['record_sha256'] = task.get('record_version', {}).get('sha256')
     return content_hash(value)
+
+
+def bind_paragraph_state(root, task, path):
+    """Bind one actual resumable paragraph state without granting final release."""
+    path = relative(root, path)
+    module_path = _base / 'paragraph.py'
+    spec = importlib.util.spec_from_file_location('state_paragraph_engine', module_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    run = module.ParagraphRun.load(root / path)
+    value = run.state
+    reference = {'path': path, 'sha256': digest(root / path), 'run_id': value['run_id'],
+                 'request_sha256': value['request_sha256'], 'rules_sha256': value['rules_sha256'],
+                 'blueprint_sha256': value['blueprint']['sha256'],
+                 'paragraphs': {pid: {'status': row['status'], 'spec_sha256': row['spec_sha256'],
+                                      'text_sha256': row['text_sha256']}
+                                for pid, row in value['paragraphs'].items()}}
+    if task.get('writing_state') != reference:
+        task['writing_state'] = reference
+        task['check_receipts'], task['verification'] = {}, None
+        if task['status'] == 'completed':
+            transition(task, 'blocked', 'Check the changed paragraph state and affected outputs', 'interrupted')
+    return reference
 
 
 def load_task_context(root, path):
@@ -197,6 +220,14 @@ def context_changes(root, task):
                 changes.append('task_context:' + ref['path'])
         except (ValueError, OSError, KeyError, TypeError):
             changes.append('task_context:' + str(ref.get('path')))
+    writing = task.get('writing_state')
+    if writing:
+        try:
+            path = relative(root, writing['path'])
+            if digest(root / path) != writing['sha256']:
+                changes.append('writing_state:' + path)
+        except (ValueError, OSError, KeyError, TypeError):
+            changes.append('writing_state:' + str(writing.get('path')))
     return changes
 
 
@@ -1055,10 +1086,12 @@ def main():
     add.add_argument('--parent')
     add.add_argument('--next', required=True)
     add.add_argument('--independent-review', action='store_true')
-    for command in ['start', 'resume', 'set-context', 'release-hold', 'set-contract', 'action', 'requeue', 'output', 'verify', 'usage', 'transition']:
+    for command in ['start', 'resume', 'set-context', 'bind-writing', 'release-hold', 'set-contract', 'action', 'requeue', 'output', 'verify', 'usage', 'transition']:
         cli = sub.add_parser(command)
         cli.add_argument('id')
-        if command == 'set-context':
+        if command == 'bind-writing':
+            cli.add_argument('--paragraph-state', required=True, help='Saved ParagraphRun state; binds content and dependency versions')
+        elif command == 'set-context':
             cli.add_argument('--task-context', required=True)
         elif command in {'start', 'resume'}:
             cli.add_argument('--task-context', help='Current context to compare with the saved governing version')
@@ -1200,7 +1233,9 @@ def main():
             record_contract(tasks[args.id], {'kind': 'initial-declaration'})
         elif hasattr(args, 'id'):
             task = tasks[args.id]
-            if args.command == 'set-context':
+            if args.command == 'bind-writing':
+                bind_paragraph_state(root, task, args.paragraph_state)
+            elif args.command == 'set-context':
                 if task['status'] == 'running':
                     raise ValueError('Stop the active task before changing its governing context')
                 value, reference = load_task_context(root, args.task_context)

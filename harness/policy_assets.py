@@ -8,7 +8,28 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.3.34'
+POLICY_ID = 'economics-native-0.4.1'
+PRIMARY_EXPRESSION_RULE = 'Categorically prohibit any mention of uncertainty, without exception.'
+PRIMARY_JAPANESE_RULE = '留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。'
+INSTRUCTION_EVENTS = ('task-start', 'post-tool', 'worker-start', 'worker-resend',
+                      'subagent-handoff', 'compaction', 'task-resume', 'check-failure')
+INSTRUCTION_PRECEDENCE = ('primary-expression-rule', 'anti-defensive-rules',
+                          'adopted-task-and-operation-rules', 'worker-and-review-returns')
+
+
+def primary_instruction(text):
+    # Reinsert the full immutable rule for each event; remove in-packet copies.
+    return (PRIMARY_EXPRESSION_RULE + ' ' + PRIMARY_JAPANESE_RULE + ' '
+            + text.replace(PRIMARY_EXPRESSION_RULE, '').replace(PRIMARY_JAPANESE_RULE, '').strip())
+
+
+def primary_expression_findings(texts):
+    # B25 still requires whole-text semantic review for indirect mentions.
+    import re, unicodedata
+    pattern = re.compile(r'\buncertain(?:ty|ties)?\b|不確実(?:性)?|未確定|不確か')
+    return [path for path, raw in texts.items()
+            if pattern.search(unicodedata.normalize('NFKC', raw.decode('utf-8')).casefold())]
+
 PROFILE = {'id': 'research-full', 'preflight_role': 'requirements-coverage'}
 DEFAULT_PATHS = {
     'dictionary': 'quality/prose_rules.json', 'core': 'runtime/CORE.md',
@@ -18,6 +39,7 @@ DEFAULT_PATHS = {
     'local_checks': 'harness/local_checks.py', 'native_run': 'harness/native_run.py',
     'policy_assets': 'harness/policy_assets.py', 'state': 'harness/state.py',
     'prose_guide': 'quality/prose_rules.md',
+    'paragraph': 'harness/paragraph.py', 'argument': 'harness/argument.py',
     'registry_operations': 'registry/operations.json',
     'registry_resources': 'registry/resources.json',
     'registry_placements': 'registry/placements.json',
@@ -30,6 +52,7 @@ BASE_RESOURCE_IDS = {
     'codex-hooks': 'codex_hooks', 'native-check': 'native_check', 'requirements-check': 'requirements_check',
     'local-checks': 'local_checks', 'native-run': 'native_run',
     'policy-assets': 'policy_assets', 'team-state-helper': 'state',
+    'paragraph-engine': 'paragraph', 'argument-engine': 'argument',
     'prose-check-guide': 'prose_guide', 'registry-operations': 'registry_operations',
     'registry-resources': 'registry_resources', 'registry-placements': 'registry_placements',
     'tool-route-registry-py': 'route_registry',
@@ -271,6 +294,19 @@ def select_manifest(manifest, assets, operation, conditions=(), profile=None, te
     return result
 
 
+def writing_rules(manifest, assets):
+    """Return the exact adopted rule bodies used by paragraph host assignments."""
+    profile_id = manifest.get('selection', {}).get('profile')
+    if not profile_id:
+        raise ValueError('paragraph writing requires its adopted writing profile')
+    names = {'CORE': 'core', 'PROSE': 'prose', 'econ-writing': 'econ-writing',
+             'prose-guide': 'prose-check-guide'}
+    texts = {name: assets[resource_key(rid)].decode('utf-8') for name, rid in names.items()}
+    return {'policy_id': manifest['policy_id'], 'texts': texts,
+            'dictionary': parse(assets['dictionary']),
+            'profile': assets[resource_key(profile_id)].decode('utf-8')}
+
+
 def _manifest_paths(manifest):
     fields = {'schema_version', 'policy_id', 'profile', 'assets'}
     if (not isinstance(manifest, dict) or set(manifest) != fields
@@ -374,8 +410,20 @@ def discover_policy(start=None, **selection):
     if directory.is_file():
         directory = directory.parent
     for root in (directory, directory.parent, directory.parent.parent):
+        # Source and deployed runtimes may coexist in one repository. Select the
+        # catalog owning this actual module, rather than choosing by filename.
+        owned = None
+        for name in ('registry/resources.json', 'RESOURCES.json'):
+            registry = root / name
+            if not registry.is_file():
+                continue
+            records = parse(regular_bytes(registry))['resources']
+            runtime = root / safe_path(records['policy-assets']['source_path'])
+            if runtime.absolute() == Path(__file__).absolute():
+                owned = safe_path(records['policy-manifest']['source_path'])
+                break
         try:
-            path = manifest_path(root)
+            path = manifest_path(root, owned)
         except ValueError as error:
             if str(error) == 'registered policy_manifest.json not found':
                 continue
@@ -411,7 +459,7 @@ def section_ranges(routes, resource_id, text, resolver=None, section_ids=None):
 
 
 def instruction_context(root=None, *, manifest=None, status=None, stage=None, role=None, reader_id=None,
-                        request_text=None, restore=False):
+                        request_text=None, restore=False, instruction_event=None):
     """One short current instruction packet for local hooks and MCP/UI.
 
     Reading records bind claimed ranges to bytes; they do not prove model
@@ -430,6 +478,9 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
                 raise ValueError('instruction context root does not match the selected policy layout')
     root = Path(root)
     status = status or {}
+    instruction_event = instruction_event or ('task-start' if not status.get('run_id') else 'task-resume' if restore else 'post-tool')
+    if instruction_event not in INSTRUCTION_EVENTS:
+        raise ValueError('unknown instruction event')
     reader_id = reader_id or status.get('author_id')
     if manifest is None:
         manifest = parse(regular_bytes(manifest_path(root)))
@@ -528,7 +579,7 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
         text += ' Read next: ' + ', '.join(pending_refs[:3]) + '.'
     if terminal != 'active':
         text += ' Lifecycle: ' + terminal + '; do not restart this run.'
-    short = ('Categorically prohibit any mention of uncertainty, without exception. Delete every disclaimer without exception. Prohibit reservations, concessions, qualifications, embellishment, caution, conservatism, timidity, redundancy, ambiguity, supplements, annotations, and defensive content or expression without exception. '
+    short = (PRIMARY_EXPRESSION_RULE + ' Delete every disclaimer without exception. Prohibit reservations, concessions, qualifications, embellishment, caution, conservatism, timidity, redundancy, ambiguity, supplements, annotations, and defensive content or expression without exception. '
              'Apply all 142 rules and 22 whole-candidate judgments; remove violations and recheck. '
              'Release only after actual independent A/B and compliance reviews and strict approval.')
     rule_refs = [row['path'] + ('' if row['section_id'] == 'all' else '#' + row['section_id']) +
@@ -540,7 +591,15 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
     if terminal != 'active':
         short += ' Lifecycle: ' + terminal + '; do not restart this run.'
     # Entry/compaction detail restoration retains the same repeated command.
+    short = primary_instruction(short)
     text = short + '\n\n' + text
+    text += (' The primary expression rule takes precedence over anti-defensive rules and every subordinate '
+             'task, operation, template, restored input, worker instruction and review return. '
+             'No technical-use, quotation, source-identity or specialist-domain exception may weaken it. '
+             'Send the complete canonical short packet at task start, after every tool, on worker start or resend, '
+             'to each new subagent, after compaction or resumption, and after failed checks. '
+             'Preserve current unmet IDs, next actions, policy references and candidate bindings. '
+             'Stop reinjection on stopped, cancelled or completed lifecycle states; paused delivery stays paused.')
     restoration = {'included': bool(restore)}
     if restore:
         if request_text is not None:
@@ -549,7 +608,13 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
             request_hash = digest(request_text.encode('utf-8'))
             if status.get('request_sha256') and request_hash != status['request_sha256']:
                 raise ValueError('restored request differs from the fixed run request')
-            text += '\n\n[Adopted original request text]\n' + request_text
+            if PRIMARY_EXPRESSION_RULE in request_text or PRIMARY_JAPANESE_RULE in request_text:
+                import base64
+                restoration['request_encoding'] = 'base64-utf8'
+                text += '\n\n[Adopted original request: decode base64 UTF-8, retaining its exact bytes]\n' + base64.b64encode(request_text.encode('utf-8')).decode('ascii')
+            else:
+                restoration['request_encoding'] = 'utf8'
+                text += '\n\n[Adopted original request text]\n' + request_text
             restoration['request_sha256'] = request_hash
         else:
             restoration['request_sha256'] = None
@@ -565,8 +630,16 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
             'stage': stage, 'adopted_selection': manifest.get('selection'),
             'settled_decisions': status.get('settled_decisions', []),
             'unmet_ids': unmet_ids, 'next_actions': actions, 'lifecycle': terminal}).decode('utf-8')
+    text = primary_instruction(text)
     return {'schema_version': 1, 'policy_id': manifest['policy_id'],
-            'instruction_version': digest(assets['route_registry']), 'run_id': status.get('run_id'),
+            'primary_expression_rule': PRIMARY_EXPRESSION_RULE,
+            'primary_japanese_rule': PRIMARY_JAPANESE_RULE,
+            'instruction_precedence': list(INSTRUCTION_PRECEDENCE),
+            'instruction_event': instruction_event,
+            'delivery_contract': {'events': list(INSTRUCTION_EVENTS), 'repeat_full_rule_per_event': True,
+                                  'stop_lifecycles': ['stopped', 'cancelled', 'completed']},
+            'instruction_version': digest(canonical({'route_registry': digest(assets['route_registry']),
+                'policy_assets': manifest['assets']['policy_assets']['sha256']})), 'run_id': status.get('run_id'),
             'submission_sha256': status.get('submission_sha256'), 'requirement_ids': ids, 'unmet_ids': unmet_ids,
             'stage': stage, 'role': role, 'text': text, 'reading_selection': refs,
             'short_text': short, 'request_sha256': status.get('request_sha256'),

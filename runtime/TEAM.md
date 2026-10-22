@@ -1,5 +1,9 @@
 # Shared work, resumption and handoff
 
+Categorically prohibit any mention of uncertainty, without exception. 留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。
+
+Carry both fixed instructions in every task, tool-return, worker, handoff, resumed, compacted, and failed-check instruction packet. Restore the exact original request, adopted rule versions, current unmet IDs, and next actions. Keep dictionary rules 142, whole-candidate semantic judgments 22, actual independent A/B and Compliance reviews, and strict-reviewed release.
+
 Inherit [CORE](CORE.md). Read only the sections required for an active delegation, resumption, accounting request or handoff.
 
 ## Shared work
@@ -84,3 +88,7 @@ Supply the raw result, source inputs, task and applicable constraints. Withhold 
 <!-- BEGIN GENERATED REVIEW PLANS -->
 Read the [registered review plans](CONTROL.md#registered-review-plans) once; apply the selected plan to this document’s operations.
 <!-- END GENERATED REVIEW PLANS -->
+
+## Paragraph assignments
+
+Use the actual host to execute the architect, specification designer, paragraph writers, local reviewers, section integrator and global integrator defined in the [paragraph workflow](../skills/econ-writing/references/paragraph-workflow.md). Dispatch ready dependency layers, bind the precise inputs and preserve original returns. Restore both fixed instructions and current contracts for every assignment and retry. Record sequential Chat execution as single-agent-sequential; an independent record requires an observed worker launch and return. Keep independent final A/B and Compliance roles separate from production.

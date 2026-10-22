@@ -111,3 +111,7 @@ State updates hold a nonblocking exclusive OS flock on one persistent .lock file
 Required checks may be ID strings (each applies to every requested target) or {id, targets: [...]} records. Keep scoped receipts per check and target; each required pair needs a current passing receipt. A later current failed verdict shadows an earlier pass for that pair. Changes invalidate only affected target receipts and their actual dependencies. All requested targets must be covered before completion.
 
 For a requested delete/remove/unlink action on a consumed input, bind its input_version to the pinned pre-deletion file hash, actual operation and target, successful evidence and observed absence. This tombstone permits only that requested deletion through input validation. Recreating it or changing another consumed input invalidates affected work; explicit read dependencies remain fixed.
+
+## Paragraph state binding
+
+Bind a saved ParagraphRun with `.agents/harness/state.py bind-writing TASK --paragraph-state RELATIVE_PATH`. The binding records its bytes, request, blueprint, rule and paragraph versions; changed state invalidates completion evidence. Use [paragraph.py](paragraph.py) to preserve unaffected text and requeue changed source or specification consumers. Resume with the full current instruction packet. The state binding records execution; it does not replace native final review.

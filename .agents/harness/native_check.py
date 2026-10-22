@@ -26,6 +26,9 @@ def _sibling(name, *filenames):
 
 gate = _sibling('native_local_checks', 'local_checks.py', 'LOCAL_CHECKS.py')
 requirements = _sibling('native_requirements_check', 'requirements_check.py')
+expression_policy = _sibling('native_expression_policy', 'policy_assets.py')
+paragraph = _sibling('native_paragraph', 'paragraph.py')
+argument = _sibling('native_argument', 'argument.py')
 def _registered_review_plans():
     base = Path(__file__).resolve().parent
     paths = (base.parent / 'registry/operations.json', base / 'OPERATIONS.json')
@@ -392,6 +395,8 @@ def _review_identity(report, original, kind, author_id):
 # Fixed saved-result schemas, not connector discovery or runtime authentication.
 # Reviewers cannot select an adapter or redefine its operation/target semantics.
 _OPERATION_ADAPTERS = {
+    ('mcp__codex_apps__github_update_ref', 'github.update_ref'): ('github-ref', ('repository_full_name', 'branch_name')),
+    ('mcp__codex_apps__plugin_creator_update_plugin', 'plugin_creator.update_plugin'): ('plugin-update', ('plugin_id',)),
     ('send_email', 'send_email'): ('json', ('target', 'to')),
     ('publish', 'publish'): ('json', ('target', 'document_id')),
     ('execute_command', 'execute_command'): ('command', ('cmd',)),
@@ -404,6 +409,52 @@ _OPERATION_ADAPTERS = {
     ('mcp__codex_apps__library_finalize_uploads',
      'save_file'): ('library', ('uploads',)),
 }
+
+
+def _connector_payloads(value, depth=0):
+    """Read both structured and textual MCP copies; accept no error branch."""
+    gate.require(depth <= 8 and isinstance(value, dict), 'invalid connector result envelope')
+    gate.require(value.get('isError', False) is False and not value.get('error') and not value.get('errors'),
+                 'connector operation returned an error')
+    if 'structuredContent' in value or 'content' in value:
+        gate.require(set(value) <= {'structuredContent', 'content', 'isError', 'meta', '_meta'},
+                     'unsupported connector envelope fields')
+        payloads = []
+        if 'structuredContent' in value:
+            payloads.extend(_connector_payloads(value['structuredContent'], depth + 1))
+        for block in value.get('content', []):
+            gate.require(isinstance(block, dict) and block.get('type') == 'text'
+                         and isinstance(block.get('text'), str), 'unsupported connector content')
+            if block['text'] == 'Action completed.':
+                continue
+            payloads.extend(_connector_payloads(gate.parse_json(block['text'].encode('utf-8')), depth + 1))
+        gate.require(payloads, 'connector result has no structured outcome')
+        return payloads
+    if set(value) == {'result'}:
+        return _connector_payloads(value['result'], depth + 1)
+    return [value]
+
+
+def _connector_operation(value, args, operation, target, adapter):
+    outcomes = []
+    for result in _connector_payloads(value):
+        if adapter == 'github-ref':
+            gate.require(result == {'success': True}, 'GitHub ref update did not return success')
+            outcomes.append({'status': 'success', 'operation': operation, 'target': target,
+                             'commit_sha': args['sha']})
+        else:
+            allowed = {'current_release_id', 'description', 'discoverability', 'latest_release_id',
+                       'name', 'plugin_id', 'plugin_url', 'release_id', 'scope', 'status', 'version', 'workspace_id'}
+            gate.require(set(result) <= allowed and result.get('plugin_id') == args['plugin_id']
+                         and result.get('status') == 'updated' and _text(result.get('release_id'))
+                         and result['release_id'] == result.get('latest_release_id')
+                         and result['release_id'] != args['expected_release_id']
+                         and _text(result.get('plugin_url')) and _text(result.get('version')),
+                         'plugin update outcome differs from its guarded target or release')
+            outcomes.append({'status': 'success', 'operation': operation, 'target': target,
+                             'release_id': result['release_id'], 'version': result['version']})
+    gate.require(all(row == outcomes[0] for row in outcomes), 'connector result branches contradict each other')
+    return outcomes[0]
 
 
 def _operation_target(value, fields):
@@ -601,7 +652,23 @@ def _operation_results(report, events, outcomes=None):
             gate.require(args['operation'] == event['operation'], 'call operation differs from final event')
         gate.require(record['tool_name'] != 'write_stdin',
                      'command continuation requires its initiating exec_command')
-        if adapter in ('library', 'library-replace'):
+        if adapter == 'github-ref':
+            gate.require(set(args) <= {'repository_full_name', 'branch_name', 'sha', 'expected_sha', 'force'}
+                         and all(_text(args.get(key)) for key in ('repository_full_name', 'branch_name', 'sha'))
+                         and re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', args['repository_full_name'])
+                         and re.fullmatch(r'[a-f0-9]{40}', args['sha'])
+                         and re.fullmatch(r'[a-f0-9]{40}', args.get('expected_sha', ''))
+                         and args.get('force', False) is False,
+                         'GitHub ref update requires an exact target and expected head without force')
+            gate.require(not args['branch_name'].startswith('refs/') and '..' not in args['branch_name']
+                         and not any(c.isspace() for c in args['branch_name']), 'invalid GitHub branch name')
+            target = args['repository_full_name'] + ':refs/heads/' + args['branch_name']
+        elif adapter == 'plugin-update':
+            gate.require(set(args) <= {'archive', 'delete_paths', 'expected_release_id', 'plugin_id'}
+                         and all(_text(args.get(key)) for key in ('archive', 'expected_release_id', 'plugin_id'))
+                         and args['archive'].startswith('/'), 'plugin update requires its exact guarded archive call')
+            target = args['plugin_id']
+        elif adapter in ('library', 'library-replace'):
             if fields == ('file',):
                 allowed_args = ({'file', 'library_file_id', 'expected_current_version', 'directory_id', 'version_reason'}
                                 if adapter == 'library-replace' else
@@ -643,8 +710,10 @@ def _operation_results(report, events, outcomes=None):
         else:
             target = _operation_target(args, fields)
         gate.require(target == event['target'], 'call target differs from final event')
-        outcome = _operation_return(gate.parse_json(record['return_text'].encode('utf-8')),
-                                    event['operation'], target, adapter)
+        returned_value = gate.parse_json(record['return_text'].encode('utf-8'))
+        outcome = (_connector_operation(returned_value, args, event['operation'], target, adapter)
+                   if adapter in ('github-ref', 'plugin-update') else
+                   _operation_return(returned_value, event['operation'], target, adapter))
         if adapter in ('library', 'library-replace') and fields == ('uploads',):
             gate.require(outcome.get('file_id') == upload['file_id'],
                          'finalized file identifier differs from prepared upload')
@@ -1843,7 +1912,7 @@ def _surface_result(result, surface, candidate_bytes, contract=None):
 def check_native(candidate_name, candidate_bytes, request_bytes, contract_bytes,
                  artifacts, events_bytes, dictionary_bytes, author_id,
                  expected_request_sha256, expected_contract_sha256,
-                 expected_candidate_sha256, reports=None, text_views=None, run_id=None, sources=None, review_plan='strict-reviewed', review_definition=None, view_files=None, surface='final'):
+                 expected_candidate_sha256, reports=None, text_views=None, run_id=None, sources=None, review_plan='strict-reviewed', review_definition=None, view_files=None, surface='final', operation=None, expected_writing_rules=None):
     """Check one immutable in-memory snapshot. Artifacts map safe paths to bytes.
 
     Filesystem/host callers own collection and external provenance verification.
@@ -2008,6 +2077,33 @@ def check_native(candidate_name, candidate_bytes, request_bytes, contract_bytes,
             gate.require(position == len(text), 'view page ranges omit text')
             texts['views/' + extracted] = data
             referenced_views.add(extracted)
+        # The operational packet is private machine state, not a delivered prose
+        # attachment. Its complete manuscript still passes every prose check.
+        # Only the named, fully validated packet is accepted outside render views.
+        packet_path = paragraph.PACKET_PATH
+        writing_required = surface == 'final' and operation in paragraph.OPERATIONS
+        if writing_required or packet_path in view_files:
+            gate.require(writing_required, 'paragraph packet requires an adopted final writing operation')
+            gate.require(packet_path in view_files, 'mandatory paragraph execution packet missing')
+            packet_bytes = view_files[packet_path]
+            gate.require(len(packet_bytes) <= gate.MAX_BYTES, 'paragraph packet exceeds byte budget')
+            packet = gate.parse_json(packet_bytes)
+            gate.require(packet.get('operation') == operation, 'paragraph operation differs from adopted route')
+            gate.require(packet.get('request_sha256') == gate.sha(request_bytes), 'paragraph request differs from fixed request')
+            gate.require(expected_writing_rules is not None and packet.get('rules') == expected_writing_rules,
+                         'paragraph rules differ from the adopted policy and profile')
+            for source_id, source in packet.get('sources', {}).items():
+                source_path = source.get('path', source_id)
+                original = request_bytes if source_path == 'request://original' else (sources or {}).get(source_path)
+                gate.require(gate.is_content(original) and original.decode('utf-8') == source.get('text')
+                             and gate.sha(original) == source.get('sha256'),
+                             'paragraph source differs from immutable source bytes: ' + str(source_id))
+            checked_packet = paragraph.validate_packet(packet, candidate_text, artifacts)
+            gate.require(checked_packet['valid'], 'paragraph execution invalid: ' + '; '.join(checked_packet['issues']))
+            result['paragraph_execution'] = checked_packet
+            result['bindings']['paragraph_packet_sha256'] = gate.sha(packet_bytes)
+            result['executed_checks'].append('paragraph-execution')
+            referenced_views.add(packet_path)
         gate.require(set(view_files) == referenced_views, 'unreferenced internal text view')
         gate.require(review_plan != 'focused' or not nontext, 'focused review requires text artifacts')
         for path in sorted(nontext - set(text_views)):
@@ -2017,6 +2113,8 @@ def check_native(candidate_name, candidate_bytes, request_bytes, contract_bytes,
                      and dictionary['rules'], 'dictionary must contain rules; an empty dictionary is not a check')
         inspection = gate.TextInspection()
         hits = gate.scan(texts, dictionary, inspection)
+        for path in expression_policy.primary_expression_findings(texts):
+            _issue(failed, 'B25', 'primary expression rule violated: ' + path)
         result['prose_scan'] = {'status': 'scanned', 'release_authorized': False,
                                 'dictionary_rule_count': len(dictionary['rules']),
                                 'coordinate_system': 'raw-source-characters',
@@ -2244,7 +2342,7 @@ def _collect_artifacts(directory):
 
 def check_native_files(candidate, request, requirements_path, artifacts, events, dictionary,
                        author_id, expected_request_sha256, expected_contract_sha256,
-                       expected_candidate_sha256, reports=None, text_views=None, sources=None, views=None, surface='final'):
+                       expected_candidate_sha256, reports=None, text_views=None, sources=None, views=None, surface='final', operation=None):
     """Read-only CLI adapter. Never writes candidate files or alters saved state."""
     try:
         reports_value = None
@@ -2263,6 +2361,10 @@ def check_native_files(candidate, request, requirements_path, artifacts, events,
                          'candidate cannot be inside the original source root')
         candidate_raw = gate.regular_bytes(candidate)
         contract_raw = gate.regular_bytes(requirements_path)
+        writing_rules = None
+        if operation in paragraph.OPERATIONS:
+            _, _, manifest, policy_assets = expression_policy.discover_policy(__file__, operation=operation)
+            writing_rules = expression_policy.writing_rules(manifest, policy_assets)
         result = check_native(
             Path(candidate).name, candidate_raw, gate.regular_bytes(request),
             contract_raw, _collect_artifacts(artifacts),
@@ -2270,7 +2372,8 @@ def check_native_files(candidate, request, requirements_path, artifacts, events,
             expected_request_sha256, expected_contract_sha256, expected_candidate_sha256,
             reports_value, gate.read_json(text_views) if text_views is not None else None,
             sources=_collect_artifacts(sources) if sources is not None else None,
-            view_files=_collect_artifacts(views) if views is not None else None, surface=surface)
+            view_files=_collect_artifacts(views) if views is not None else None, surface=surface,
+            operation=operation, expected_writing_rules=writing_rules)
         if report_error is not None:
             _issue(result['missing_checks'], 'review-records', 'cannot read returns: ' + report_error)
             result['recorded_checks_complete'] = False
@@ -2300,6 +2403,7 @@ def main(argv=None):
     parser.add_argument('--views', help='Internal extracted text directory')
     parser.add_argument('--sources', help='Separate immutable original-source UTF-8 directory; never generated deliverables')
     parser.add_argument('--surface', choices=SURFACES, default='final')
+    parser.add_argument('--operation', help='Adopted route; the five writing modes require their paragraph execution packet')
     args = vars(parser.parse_args(argv))
     args.pop('command')
     args['requirements_path'] = args.pop('requirements')

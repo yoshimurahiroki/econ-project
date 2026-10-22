@@ -136,7 +136,7 @@
       "owner_skill": "econ-writing",
       "mode": "compose",
       "trigger": "Compose the requested prose from authorized materials.",
-      "input_contract": "Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.",
+      "input_contract": "Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds. Adopt the source-bound argument graph, versioned blueprint and one specification per paragraph; preserve original inputs and authorized editable paragraph IDs.",
       "required_rules": [
         "core.all",
         "control.all",
@@ -146,7 +146,9 @@
         "prose.connect-the-explanation",
         "prose.select-the-profile",
         "prose.finish-the-passage",
-        "econ-writing.compose-for-the-medium-and-language"
+        "econ-writing.compose-for-the-medium-and-language",
+        "paragraph-workflow.all",
+        "econ-writing.execute-paragraph-and-argument-contracts"
       ],
       "conditional_rules": [
         {
@@ -177,7 +179,7 @@
         "target": "from_request",
         "meaning": "Compose the requested prose from authorized materials."
       },
-      "finish": "Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.",
+      "finish": "Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.",
       "uses_profile": true,
       "default": true
     },
@@ -186,7 +188,7 @@
       "owner_skill": "econ-writing",
       "mode": "revise",
       "trigger": "Revise supplied prose within the authorized content-change scope.",
-      "input_contract": "Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.",
+      "input_contract": "Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds. Adopt the source-bound argument graph, versioned blueprint and one specification per paragraph; preserve original inputs and authorized editable paragraph IDs.",
       "required_rules": [
         "core.all",
         "control.all",
@@ -197,7 +199,9 @@
         "prose.select-the-profile",
         "prose.finish-the-passage",
         "prose.revise-for-the-requested-language",
-        "econ-writing.compose-for-the-medium-and-language"
+        "econ-writing.compose-for-the-medium-and-language",
+        "paragraph-workflow.all",
+        "econ-writing.execute-paragraph-and-argument-contracts"
       ],
       "conditional_rules": [
         {
@@ -228,7 +232,7 @@
         "target": "from_request",
         "meaning": "Revise supplied prose within the authorized content-change scope."
       },
-      "finish": "Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.",
+      "finish": "Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.",
       "uses_profile": true
     },
     {
@@ -236,7 +240,7 @@
       "owner_skill": "econ-writing",
       "mode": "translate",
       "trigger": "Translate the requested passage into the target language.",
-      "input_contract": "Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.",
+      "input_contract": "Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds. Adopt the source-bound argument graph, versioned blueprint and one specification per paragraph; preserve original inputs and authorized editable paragraph IDs.",
       "required_rules": [
         "core.all",
         "control.all",
@@ -247,7 +251,9 @@
         "prose.select-the-profile",
         "prose.finish-the-passage",
         "prose.revise-for-the-requested-language",
-        "econ-writing.compose-for-the-medium-and-language"
+        "econ-writing.compose-for-the-medium-and-language",
+        "paragraph-workflow.all",
+        "econ-writing.execute-paragraph-and-argument-contracts"
       ],
       "conditional_rules": [
         {
@@ -275,7 +281,7 @@
         "target": "from_request",
         "meaning": "Translate the requested passage into the target language."
       },
-      "finish": "Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.",
+      "finish": "Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.",
       "uses_profile": true
     },
     {
@@ -283,7 +289,7 @@
       "owner_skill": "econ-writing",
       "mode": "convert",
       "trigger": "Convert settled content into the requested medium and format.",
-      "input_contract": "Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.",
+      "input_contract": "Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds. Adopt the source-bound argument graph, versioned blueprint and one specification per paragraph; preserve original inputs and authorized editable paragraph IDs.",
       "required_rules": [
         "core.all",
         "control.all",
@@ -294,7 +300,9 @@
         "prose.select-the-profile",
         "prose.finish-the-passage",
         "prose.revise-for-the-requested-language",
-        "econ-writing.compose-for-the-medium-and-language"
+        "econ-writing.compose-for-the-medium-and-language",
+        "paragraph-workflow.all",
+        "econ-writing.execute-paragraph-and-argument-contracts"
       ],
       "conditional_rules": [
         {
@@ -325,7 +333,7 @@
         "target": "from_request",
         "meaning": "Convert settled content into the requested medium and format."
       },
-      "finish": "Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.",
+      "finish": "Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.",
       "uses_profile": true
     },
     {
@@ -362,7 +370,7 @@
       "owner_skill": "econ-writing",
       "mode": "explain",
       "trigger": "Explain a specified source's economic claims, theory, methods or results.",
-      "input_contract": "Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.",
+      "input_contract": "Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds. Adopt the source-bound argument graph, versioned blueprint and one specification per paragraph; preserve original inputs and authorized editable paragraph IDs.",
       "required_rules": [
         "core.all",
         "control.all",
@@ -373,7 +381,9 @@
         "prose.revise-for-the-requested-language",
         "econ-writing.explain",
         "econ-writing.output",
-        "econ-writing.compose-for-the-medium-and-language"
+        "econ-writing.compose-for-the-medium-and-language",
+        "paragraph-workflow.all",
+        "econ-writing.execute-paragraph-and-argument-contracts"
       ],
       "conditional_rules": [
         {
@@ -404,7 +414,7 @@
         "target": "from_request",
         "meaning": "Explain a specified source's economic claims, theory, methods or results."
       },
-      "finish": "Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL.",
+      "finish": "Return the requested result when its input, content, format and authorized operation requirements are met. Apply the selected review-plan completion and exact-candidate release conditions in CONTROL. Require the current paragraph execution packet, integrated exact manuscript, reverse-outline comparison and the unchanged independent final gate.",
       "uses_profile": true
     },
     {

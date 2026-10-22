@@ -1,0 +1,1434 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:economics:paragraph-contract:1",
+  "title": "Versioned paragraph writing contracts",
+  "$ref": "#/$defs/ParagraphSpecification",
+  "$defs": {
+    "SourceSpan": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "quote": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "start",
+        "end",
+        "quote"
+      ]
+    },
+    "RequiredContent": {
+      "type": "object",
+      "properties": {
+        "proposition_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exact_content": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_location": {
+          "$ref": "#/$defs/SourceSpan"
+        },
+        "evidence_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_reasoning": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "proposition_id",
+        "exact_content",
+        "source_id",
+        "source_location",
+        "evidence_type",
+        "required_reasoning"
+      ]
+    },
+    "ParagraphSpecification": {
+      "type": "object",
+      "properties": {
+        "paragraph_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blueprint_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "object",
+          "properties": {
+            "purpose": {
+              "type": "string",
+              "minLength": 1
+            },
+            "contribution_to_global_argument": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "purpose",
+            "contribution_to_global_argument"
+          ]
+        },
+        "central_proposition": {
+          "type": "object",
+          "properties": {
+            "claim": {
+              "type": "string",
+              "minLength": 1
+            },
+            "logical_status": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "claim",
+            "logical_status"
+          ]
+        },
+        "required_content": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/RequiredContent"
+          }
+        },
+        "logical_structure": {
+          "type": "object",
+          "properties": {
+            "opening": {},
+            "development": {},
+            "mechanism": {},
+            "implication": {}
+          },
+          "required": [
+            "opening",
+            "development",
+            "mechanism",
+            "implication"
+          ]
+        },
+        "relationships": {
+          "type": "object",
+          "properties": {
+            "preceding_paragraph": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "inherited_information": {},
+            "following_paragraph": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "information_to_pass_forward": {}
+          },
+          "required": [
+            "preceding_paragraph",
+            "inherited_information",
+            "following_paragraph",
+            "information_to_pass_forward"
+          ]
+        },
+        "terminology": {
+          "type": "object",
+          "properties": {
+            "adopted_definitions": {},
+            "fixed_quantities": {},
+            "required_terms": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "adopted_definitions",
+            "fixed_quantities",
+            "required_terms"
+          ]
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "included": {},
+            "excluded": {},
+            "content_change_authority": {}
+          },
+          "required": [
+            "included",
+            "excluded",
+            "content_change_authority"
+          ]
+        },
+        "writing": {
+          "type": "object",
+          "properties": {
+            "language": {
+              "type": "string",
+              "minLength": 1
+            },
+            "profile": {},
+            "paragraph_rules": {},
+            "prohibited_functions": {},
+            "instruction_packet": {},
+            "source_references": {
+              "type": "array",
+              "minItems": 0,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "language",
+            "profile",
+            "paragraph_rules",
+            "prohibited_functions",
+            "instruction_packet",
+            "source_references"
+          ]
+        },
+        "completion": {
+          "type": "object",
+          "properties": {
+            "mandatory_claims": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "evidence_correspondence": {},
+            "logical_coherence": {},
+            "prose_compliance": {},
+            "local_review": {}
+          },
+          "required": [
+            "mandatory_claims",
+            "evidence_correspondence",
+            "logical_coherence",
+            "prose_compliance",
+            "local_review"
+          ]
+        },
+        "argument_node_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parent_proposition": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "node_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "claim": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "node_id",
+                "claim"
+              ]
+            }
+          ]
+        },
+        "local_question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supporting_propositions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "node_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "claim": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_refs": {
+                "type": "array",
+                "items": {
+                  "$ref": "urn:economics-research:argument:1#/$defs/source_ref"
+                },
+                "minItems": 0
+              },
+              "reasoning": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "node_id",
+              "claim",
+              "source_refs",
+              "reasoning"
+            ]
+          },
+          "minItems": 0
+        },
+        "inference_form": {
+          "enum": [
+            "atomic",
+            "deductive",
+            "inductive"
+          ]
+        },
+        "proposition_order": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "logical_completion": {
+          "type": "object",
+          "properties": {
+            "central_claim": {
+              "type": "string",
+              "minLength": 1
+            },
+            "required_reasoning": {
+              "type": "string"
+            },
+            "scope": {
+              "type": "object"
+            },
+            "source_refs": {
+              "type": "array",
+              "items": {
+                "$ref": "urn:economics-research:argument:1#/$defs/source_ref"
+              },
+              "minItems": 0
+            },
+            "global_question": {
+              "type": "string",
+              "minLength": 1
+            },
+            "argument_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "central_claim",
+            "required_reasoning",
+            "scope",
+            "source_refs",
+            "global_question",
+            "argument_sha256"
+          ]
+        }
+      },
+      "required": [
+        "paragraph_id",
+        "section_id",
+        "blueprint_version",
+        "role",
+        "central_proposition",
+        "required_content",
+        "logical_structure",
+        "relationships",
+        "terminology",
+        "scope",
+        "writing",
+        "completion",
+        "argument_node_id",
+        "parent_proposition",
+        "local_question",
+        "supporting_propositions",
+        "inference_form",
+        "proposition_order",
+        "logical_completion"
+      ]
+    },
+    "GlobalWritingBlueprint": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reader": {
+          "type": "string",
+          "minLength": 1
+        },
+        "central_question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "central_answer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contribution": {
+          "type": "string",
+          "minLength": 1
+        },
+        "completion_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {}
+        },
+        "argument_structure": {
+          "$ref": "urn:economics-research:argument:1"
+        },
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "section_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "claim": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "section_id",
+              "role",
+              "claim"
+            ]
+          }
+        },
+        "paragraphs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "paragraph_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "section_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "central_proposition": {
+                "type": "string",
+                "minLength": 1
+              },
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "depends_on": {
+                "type": "array",
+                "minItems": 0,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "source_ids": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "scope": {}
+            },
+            "required": [
+              "paragraph_id",
+              "section_id",
+              "central_proposition",
+              "role",
+              "depends_on",
+              "source_ids",
+              "scope"
+            ]
+          }
+        },
+        "definitions": {},
+        "quantities": {},
+        "conditions": {},
+        "writing_rules": {},
+        "prohibited_rules": {}
+      },
+      "required": [
+        "schema_version",
+        "version",
+        "purpose",
+        "reader",
+        "central_question",
+        "central_answer",
+        "contribution",
+        "completion_conditions",
+        "argument_structure",
+        "sections",
+        "paragraphs",
+        "definitions",
+        "quantities",
+        "conditions",
+        "writing_rules",
+        "prohibited_rules"
+      ]
+    },
+    "Assessment": {
+      "type": "object",
+      "properties": {
+        "check_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verdict": {
+          "enum": [
+            "pass",
+            "fail"
+          ]
+        },
+        "assessment": {
+          "type": "string",
+          "minLength": 1
+        },
+        "spans": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/SourceSpan"
+          }
+        }
+      },
+      "required": [
+        "check_id",
+        "verdict",
+        "assessment",
+        "spans"
+      ]
+    },
+    "ClaimEvidence": {
+      "type": "object",
+      "properties": {
+        "proposition_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assessment": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "$ref": "#/$defs/SourceSpan"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      },
+      "required": [
+        "proposition_id",
+        "assessment",
+        "source_id",
+        "source_sha256",
+        "target",
+        "source"
+      ]
+    },
+    "ReasoningEvidence": {
+      "type": "object",
+      "properties": {
+        "proposition_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assessment": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_reasoning": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      },
+      "required": [
+        "proposition_id",
+        "assessment",
+        "required_reasoning",
+        "target"
+      ]
+    },
+    "QuantityEvidence": {
+      "type": "object",
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assessment": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "$ref": "#/$defs/SourceSpan"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      },
+      "required": [
+        "source_id",
+        "source_sha256",
+        "assessment",
+        "target",
+        "source"
+      ]
+    },
+    "LocalReview": {
+      "type": "object",
+      "properties": {
+        "paragraph_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "spec_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "binding": {
+          "type": "object"
+        },
+        "checks": {
+          "type": "array",
+          "minItems": 8,
+          "items": {
+            "$ref": "#/$defs/Assessment"
+          }
+        },
+        "claim_evidence": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ClaimEvidence"
+          }
+        },
+        "reasoning": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/ReasoningEvidence"
+          }
+        },
+        "quantity_evidence": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/QuantityEvidence"
+          }
+        },
+        "occurrence_judgments": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "properties": {
+              "rule_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "function": {
+                "type": "string",
+                "minLength": 1
+              },
+              "meaning": {
+                "type": "string",
+                "minLength": 1
+              },
+              "syntax": {
+                "type": "string",
+                "minLength": 1
+              },
+              "proposition": {
+                "type": "string",
+                "minLength": 1
+              },
+              "start": {
+                "type": "integer"
+              },
+              "end": {
+                "type": "integer"
+              },
+              "text_sha256": {
+                "type": "string",
+                "minLength": 1
+              },
+              "verdict": {
+                "enum": [
+                  "violation",
+                  "non-prohibited"
+                ]
+              }
+            },
+            "required": [
+              "rule_id",
+              "function",
+              "meaning",
+              "syntax",
+              "proposition",
+              "start",
+              "end",
+              "text_sha256",
+              "verdict"
+            ]
+          }
+        },
+        "findings": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "properties": {
+              "check_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "problem": {
+                "type": "string",
+                "minLength": 1
+              },
+              "repair": {
+                "type": "string",
+                "minLength": 1
+              },
+              "span": {
+                "$ref": "#/$defs/SourceSpan"
+              }
+            },
+            "required": [
+              "check_id",
+              "problem",
+              "repair",
+              "span"
+            ]
+          }
+        }
+      },
+      "required": [
+        "paragraph_id",
+        "text_sha256",
+        "spec_sha256",
+        "binding",
+        "checks",
+        "claim_evidence",
+        "reasoning",
+        "quantity_evidence",
+        "occurrence_judgments",
+        "findings"
+      ]
+    },
+    "ArgumentReview": {
+      "type": "object",
+      "properties": {
+        "argument_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "valid": {
+          "const": true
+        },
+        "semantic_pass": {
+          "const": true
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "minItems": 16
+        },
+        "findings": {
+          "type": "array",
+          "maxItems": 0
+        },
+        "record": {
+          "$ref": "#/$defs/ExecutionRecord"
+        },
+        "release_authorized": {
+          "const": false
+        }
+      },
+      "required": [
+        "argument_sha256",
+        "valid",
+        "semantic_pass",
+        "checks",
+        "findings",
+        "record",
+        "release_authorized"
+      ]
+    },
+    "ObservedExecutionRecord": {
+      "type": "object",
+      "properties": {
+        "worker_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "input_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "return_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "return_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "execution_kind": {
+          "enum": [
+            "independent-subagent",
+            "single-agent-sequential"
+          ]
+        },
+        "launch_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "turn_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "input": {
+          "type": "object"
+        },
+        "task": {
+          "type": "object"
+        },
+        "host_observation": {
+          "type": "object"
+        },
+        "observation": {
+          "type": "object"
+        },
+        "launch_observation": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "worker_id",
+        "event_id",
+        "input_sha256",
+        "return_text",
+        "return_sha256",
+        "execution_kind"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "execution_kind": {
+                "const": "independent-subagent"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "launch_ref",
+              "launch_observation"
+            ]
+          },
+          "else": {
+            "required": [
+              "turn_ref"
+            ]
+          }
+        },
+        {
+          "anyOf": [
+            {
+              "required": [
+                "input",
+                "host_observation"
+              ]
+            },
+            {
+              "required": [
+                "task",
+                "observation"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "ExecutionRecord": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ObservedExecutionRecord"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "$paragraph_blob": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "$paragraph_blob"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "DecodedParagraphPacket": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "request": {
+          "type": "string",
+          "minLength": 1
+        },
+        "request_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority": {
+          "type": "string",
+          "minLength": 1
+        },
+        "author_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operation": {
+          "enum": [
+            "econ-writing:compose",
+            "econ-writing:revise",
+            "econ-writing:translate",
+            "econ-writing:explain",
+            "econ-writing:convert"
+          ]
+        },
+        "blueprint": {
+          "$ref": "#/$defs/GlobalWritingBlueprint"
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "text",
+              "sha256"
+            ]
+          }
+        },
+        "rules": {
+          "type": "object"
+        },
+        "rules_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "execution_kind": {
+          "enum": [
+            "independent-subagent",
+            "single-agent-sequential"
+          ]
+        },
+        "original_paragraphs": {
+          "type": "object"
+        },
+        "editable_ids": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "paragraphs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "paragraph_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "status": {
+                "enum": [
+                  "specified",
+                  "source-ready",
+                  "assigned",
+                  "drafted",
+                  "locally-reviewed",
+                  "integrated",
+                  "globally-reviewed"
+                ]
+              },
+              "spec": {
+                "$ref": "#/$defs/ParagraphSpecification"
+              },
+              "spec_sha256": {
+                "type": "string",
+                "minLength": 1
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "text_sha256": {
+                "type": "string",
+                "minLength": 1
+              },
+              "writer": {
+                "type": "object"
+              },
+              "review": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "paragraph_id",
+              "status",
+              "spec",
+              "spec_sha256",
+              "text",
+              "text_sha256",
+              "writer",
+              "review"
+            ]
+          }
+        },
+        "sections": {
+          "type": "object"
+        },
+        "manuscript": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "status": {
+              "const": "integrated"
+            },
+            "execution": {
+              "$ref": "#/$defs/ExecutionRecord"
+            },
+            "reverse_outline": {
+              "type": "object"
+            },
+            "outline_execution": {
+              "$ref": "#/$defs/ExecutionRecord"
+            },
+            "outline_comparison": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "minItems": 1
+            },
+            "argument_comparison": {
+              "$ref": "#/$defs/ArgumentReview"
+            }
+          },
+          "required": [
+            "text",
+            "sha256",
+            "status",
+            "execution",
+            "reverse_outline",
+            "outline_execution",
+            "outline_comparison",
+            "argument_comparison"
+          ]
+        },
+        "events": {
+          "type": "array",
+          "minItems": 0
+        },
+        "lifecycle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publication_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "packet_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "argument_review": {
+          "$ref": "#/$defs/ArgumentReview"
+        },
+        "packet_encoding": {
+          "const": "observed-record-blobs-v1"
+        },
+        "execution_blobs": {
+          "type": "object",
+          "maxProperties": 4096,
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "encoding": {
+                "const": "zlib+base64"
+              },
+              "uncompressed_bytes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 268435456
+              },
+              "data": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "encoding",
+              "uncompressed_bytes",
+              "data"
+            ]
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "run_id",
+        "request",
+        "request_sha256",
+        "authority",
+        "author_id",
+        "operation",
+        "blueprint",
+        "sources",
+        "rules",
+        "rules_sha256",
+        "execution_kind",
+        "original_paragraphs",
+        "editable_ids",
+        "paragraphs",
+        "sections",
+        "manuscript",
+        "events",
+        "lifecycle",
+        "publication_status",
+        "release_authorized",
+        "target",
+        "candidate_sha256",
+        "packet_sha256",
+        "argument_review"
+      ],
+      "not": {
+        "required": [
+          "execution_blobs"
+        ]
+      }
+    },
+    "CompactParagraphPacket": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "request": {
+          "type": "string",
+          "minLength": 1
+        },
+        "request_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority": {
+          "type": "string",
+          "minLength": 1
+        },
+        "author_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operation": {
+          "enum": [
+            "econ-writing:compose",
+            "econ-writing:revise",
+            "econ-writing:translate",
+            "econ-writing:explain",
+            "econ-writing:convert"
+          ]
+        },
+        "blueprint": {
+          "type": "object"
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "text",
+              "sha256"
+            ]
+          }
+        },
+        "rules": {
+          "type": "object"
+        },
+        "rules_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "execution_kind": {
+          "enum": [
+            "independent-subagent",
+            "single-agent-sequential"
+          ]
+        },
+        "original_paragraphs": {
+          "type": "object"
+        },
+        "editable_ids": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "paragraphs": {
+          "type": "object"
+        },
+        "sections": {
+          "type": "object"
+        },
+        "manuscript": {
+          "type": "object"
+        },
+        "events": {
+          "type": "array",
+          "minItems": 0
+        },
+        "lifecycle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publication_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "release_authorized": {
+          "const": false
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "packet_sha256": {
+          "type": "string",
+          "minLength": 1
+        },
+        "argument_review": {
+          "type": "object"
+        },
+        "packet_encoding": {
+          "const": "observed-record-blobs-v1"
+        },
+        "execution_blobs": {
+          "type": "object",
+          "maxProperties": 4096,
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "encoding": {
+                "const": "zlib+base64"
+              },
+              "uncompressed_bytes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 268435456
+              },
+              "data": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "encoding",
+              "uncompressed_bytes",
+              "data"
+            ]
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "run_id",
+        "request",
+        "request_sha256",
+        "authority",
+        "author_id",
+        "operation",
+        "blueprint",
+        "sources",
+        "rules",
+        "rules_sha256",
+        "execution_kind",
+        "original_paragraphs",
+        "editable_ids",
+        "paragraphs",
+        "sections",
+        "manuscript",
+        "events",
+        "lifecycle",
+        "publication_status",
+        "release_authorized",
+        "target",
+        "candidate_sha256",
+        "packet_sha256",
+        "argument_review",
+        "execution_blobs",
+        "packet_encoding"
+      ],
+      "description": "Lossless transport. Restore every original with paragraph.unpack_packet before validating the complete contracts and host records."
+    },
+    "ParagraphPacket": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/DecodedParagraphPacket"
+        },
+        {
+          "$ref": "#/$defs/CompactParagraphPacket"
+        }
+      ]
+    }
+  }
+}
+

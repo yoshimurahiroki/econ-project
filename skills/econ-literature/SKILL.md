@@ -12,6 +12,8 @@ Apply the exact sentence above with priority throughout the task. Preserve every
 <!-- BEGIN GENERATED ENTRY -->
 ## Native entry contract
 
+Categorically prohibit any mention of uncertainty, without exception. 留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。
+
 Preserve the fixed request, adopted inputs, objective and authority; complete the authorized result and resolve open choices under the same constraints. Delete every disclaimer without exception. Remove other prohibited content, expression, judgment and conduct throughout. First start or resume the one actual host-supported compliance/reminder assignment in [TEAM](../../runtime/TEAM.md#shared-work). After every tool, repeat the short command, unmet IDs and next action; restore full fixed instructions at entry, compaction, changes and failures. Read [CONTROL](../../runtime/CONTROL.md) and the [registered operation](../../registry/operations.json); reuse same-version detail and ledger references. Keep all 142 rules and 22 full-candidate judgments. Only strict-reviewed with actual independent A/B, compliance and host-validated release predicates may publish the unchanged candidate and attachments. Missing capacity stays blocked-unapproved. Distinguish sending, receipt, checking and approval; stop the same assignment on completion or interruption.
 <!-- END GENERATED ENTRY -->
 

@@ -26,7 +26,8 @@ hooks = _sibling('run_codex_hooks', Path(__file__).with_name('codex_hooks.py'))
 LOADED_SOURCE_HASHES = {key: gate.sha(gate.regular_bytes(filename)) for key, filename in {
     'native_run': __file__, 'policy_assets': policy.__file__, 'native_check': native.__file__,
     'codex_hooks': hooks.__file__,
-    'requirements_check': native.requirements.__file__, 'local_checks': gate.__file__}.items()}
+    'requirements_check': native.requirements.__file__, 'local_checks': gate.__file__,
+    'paragraph': native.paragraph.__file__, 'argument': native.argument.__file__}.items()}
 EMPTY_REPORTS = {'schema_version': 1, 'reports': [], 'unresolved_flags': []}
 REQUIRED_CAPABILITIES = tuple(native.REVIEW_PLANS['strict-reviewed']['capabilities'])
 
@@ -339,7 +340,8 @@ def _policy(**selection):
     root, raw, manifest, assets = policy.discover_policy(__file__, **selection)
     loaded = {'native_run': __file__, 'policy_assets': policy.__file__, 'codex_hooks': hooks.__file__,
               'native_check': native.__file__, 'requirements_check': native.requirements.__file__,
-              'local_checks': gate.__file__}
+              'local_checks': gate.__file__, 'paragraph': native.paragraph.__file__,
+              'argument': native.argument.__file__}
     for key, filename in loaded.items():
         gate.require(gate.sha(gate.regular_bytes(filename)) == manifest['assets'][key]['sha256']
                      and LOADED_SOURCE_HASHES[key] == manifest['assets'][key]['sha256'],
@@ -607,6 +609,11 @@ def _status(run, files, check=None, coverage=None):
         'configured-awaiting-host-verification' if run.get('release_adapter') else 'not-connected')
     if check is not None and 'surface_check' in check:
         result['surface_check'] = check['surface_check']
+    if check is not None and check.get('bindings', {}).get('paragraph_packet_sha256'):
+        result['paragraph_packet_sha256'] = check['bindings']['paragraph_packet_sha256']
+        result['paragraph_execution'] = {key: value for key, value in check.get('paragraph_execution', {}).items()
+                                        if key in {'valid', 'issues', 'paragraph_count', 'bundle_sha256',
+                                                   'execution_assurance', 'release_authorized'}}
     return result
 
 
@@ -758,6 +765,12 @@ def _check(run, files, candidate_name, candidate_bytes, artifacts, events, repor
                         gate.require(report.get(field) not in coverage_refs,
                                      'candidate ' + str(report.get('role')) + ' ' + field
                                      + ' reuses a pre-candidate coverage event reference')
+    selected = gate.parse_json(files['policy-manifest.json'])
+    operation = selected['selection']['operation']
+    writing_rules = None
+    if operation in native.paragraph.OPERATIONS:
+        _, _, adopted_assets = _policy(**selected['selection'])
+        writing_rules = policy.writing_rules(selected, adopted_assets)
     return native.check_native(candidate_name, candidate_bytes, files['request.txt'],
                                files['requirements.json'], artifacts, events, files['dictionary.json'],
                                _author(run), gate.sha(files['request.txt']),
@@ -765,7 +778,8 @@ def _check(run, files, candidate_name, candidate_bytes, artifacts, events, repor
                                candidate_reports, gate.parse_json(views), run_id=run['run_id'],
                                review_plan=_review_plan(files),
                                review_definition=_review_definition(files),
-                               view_files=view_files, surface=surface,
+                               view_files=view_files, surface=surface, operation=operation,
+                               expected_writing_rules=writing_rules,
                                sources={**{path[len('sources/'):]: data for path, data in files.items()
                                            if path.startswith('sources/')},
                                         **{'evidence/' + path: data for path, data in evidence.items()}})

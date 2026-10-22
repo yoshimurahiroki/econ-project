@@ -183,3 +183,7 @@ Finalization first fixes submission, destination and the complete output set/siz
 | Linux | renameat2 no-replace + OS lock | native calls | CLI library/shell tests here; actual Codex hooks activation not measured |
 | macOS | renamex_np no-replace + OS lock | mock API branches | not measured |
 | Windows | MoveFileExW no-replace + OS lock | mock API branches | not measured |
+
+## Paragraph writing submissions
+
+For compose, revise, translate, explain and convert, provide the execution packet as internal `views/writing/paragraph-state.json`. In the Site API supply it under the `views` map with key `writing/paragraph-state.json`. Native checks bind the packet to the original request, adopted rules/profile, sources and exact candidate or manuscript artifact. Keep `reports` in its existing three-field envelope. See the [paragraph workflow](../skills/econ-writing/references/paragraph-workflow.md) for host execution and resumption. Independent final role returns and exact-candidate release remain required.

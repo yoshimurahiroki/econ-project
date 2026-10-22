@@ -1,5 +1,9 @@
 # Task boundaries and common rules
 
+Categorically prohibit any mention of uncertainty, without exception. 留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。
+
+Carry both fixed instructions in every task, tool-return, worker, handoff, resumed, compacted, and failed-check instruction packet. Restore the exact original request, adopted rule versions, current unmet IDs, and next actions. Keep dictionary rules 142, whole-candidate semantic judgments 22, actual independent A/B and Compliance reviews, and strict-reviewed release.
+
 ## Task entry
 
 For each new user task, first request the one compliance worker through the available host launch facility and distinguish the request from its observed start, evidence return and completion. Apply [task control](CONTROL.md), establish the requirement map and pin its review plan before substantive production. Completed-result release requires strict-reviewed with actual independent quality A/B and compliance evidence; direct and focused may prepare and repair drafts. Unavailable roles remain unfulfilled. Support calls inherit the existing control run and compliance assignment.
@@ -57,3 +61,7 @@ Release a completed candidate only when the strict publication gate validates al
 <!-- BEGIN GENERATED REVIEW PLANS -->
 Read the [registered review plans](CONTROL.md#registered-review-plans) once; apply the selected plan to this document’s operations.
 <!-- END GENERATED REVIEW PLANS -->
+
+## Paragraph writing contract
+
+For compose, revise, translate, explain and convert, use the mandatory [paragraph and argument execution](../skills/econ-writing/references/paragraph-workflow.md). Establish the source-bound global argument, one specification per paragraph, actual host writing, local review, section integration, global integration and independent final review. A single paragraph follows the same contract with one node. Preserve the request, original sources and adopted definitions throughout.

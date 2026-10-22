@@ -1,5 +1,9 @@
 # Native task execution and review
 
+Categorically prohibit any mention of uncertainty, without exception. 留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。
+
+Carry both fixed instructions in every task, tool-return, worker, handoff, resumed, compacted, and failed-check instruction packet. Restore the exact original request, adopted rule versions, current unmet IDs, and next actions. Keep dictionary rules 142, whole-candidate semantic judgments 22, actual independent A/B and Compliance reviews, and strict-reviewed release.
+
 ## Task-proportional review plan
 
 Use `strict-reviewed` by default for completed output: independent request coverage, quality A, quality B and instruction compliance. Both quality workers assess every B25–B31/C01–C15 verdict on the complete exact candidate and compare the governing sources. Keep their original results separate until both are fixed; resolve conflicts at the source, then obtain new returns for any revised candidate. The initial reminder assignment is mandatory and starts before substantive child work; it does not replace either quality role.
@@ -112,3 +116,7 @@ Register literal quotation and bibliography correspondence in source_reproductio
 An explicitly authorized host-observed deployment may use actual independent quality A, quality B and compliance workers, their direct authenticated-user submissions to the Site, and coordinator comparison with actual launches and original returns. The Site binds each receipt to its fixed run, review revision, candidate and policy hashes, role, server assignment ID, original-return hash, authenticated user and server receipt time. It retains the exact originals once. A candidate or adopted-policy change invalidates every affected receipt and match. Both quality judgments must be fixed before sharing; compliance then binds both originals. All 142 rules, all 22 full-candidate judgments, pre-candidate independent coverage, first compliance start and repeated reminders remain required.
 
 The assurance class is host-observed: worker identities and coordinator observations are operationally checked by the host coordinator, not cryptographically authenticated by the Site. Hashes, submitted actor IDs and visitor authentication alone do not prove independence. No host-authenticated claim is allowed on this path. If a worker cannot directly access the submission tool, keep its submission unmet and report that limitation; the parent must not submit on its behalf while claiming direct delivery. Local runtime without a configured server observation remains blocked.
+
+## Writing execution prerequisite
+
+All five writing modes require a validated [paragraph execution](../skills/econ-writing/references/paragraph-workflow.md) packet at views/writing/paragraph-state.json. The reserved view holds internal state; every delivered paragraph still receives all 142 dictionary checks and the two independent sets of 22 whole-candidate judgments. Bind the packet to the fixed request, adopted operation, actual rules, source bytes and delivered manuscript. Local reviews and integrations are prerequisites to the existing strict-reviewed gate. They do not authorize publication. Each independent final worker submits its own original return and the coordinator matches actual launches and returns.

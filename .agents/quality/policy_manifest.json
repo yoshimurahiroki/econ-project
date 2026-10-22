@@ -1,22 +1,26 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.3.34",
+  "policy_id": "economics-native-0.4.1",
   "profile": {
     "id": "research-full",
     "preflight_role": "requirements-coverage"
   },
   "assets": {
+    "argument": {
+      "path": "harness/argument.py",
+      "sha256": "fbf3b34c3febd21208526e44b6494ea543b10e3d011c2e05950192226a655909"
+    },
     "codex_hooks": {
       "path": "harness/codex_hooks.py",
       "sha256": "af49379b64dbb776ab5e8c5b8ae12f8f51dbb2c774e26a19a57f644cfb8ea320"
     },
     "control": {
       "path": "runtime/CONTROL.md",
-      "sha256": "660a192ad363338164cd9071a5eb5f625cebfc31858af93b0f00ffdf8bb9b5cd"
+      "sha256": "62126a9a74a00dda2484e8eafbda862b72899f3903ad25624c65ee97d09ef224"
     },
     "core": {
       "path": "runtime/CORE.md",
-      "sha256": "0427aa5750f8c1cc81c47339edcde02ef3fe69711465c7ff8c19555b9213c7c5"
+      "sha256": "6d62304fb1d76dbd3f8ae1c12fa2b215ac9ba74db929fca45105814788f66f81"
     },
     "decide": {
       "path": "runtime/DECIDE.md",
@@ -24,11 +28,11 @@
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
-      "sha256": "bf529599a9f8c7912488760bf1752bdd172388f4e5304aad8daeac2c1f003373"
+      "sha256": "b8a4858b2cb185abec04f3d26772ce3c13c21e12beaaadb3700cd3112becfda5"
     },
     "execution": {
       "path": "runtime/EXECUTION.md",
-      "sha256": "9eedaadbe5d77b92c4f2acca47c0fcbfd810b0cb069510c89510e21e94a93b2f"
+      "sha256": "1a4748600b22a61c7039a8bae0e593b03fbad8c8198701cb2e02ecbb717a9a13"
     },
     "local_checks": {
       "path": "harness/local_checks.py",
@@ -36,43 +40,51 @@
     },
     "native_check": {
       "path": "harness/native_check.py",
-      "sha256": "5ce9eacdf010ae8dc62d597e1e5efd840e97d6c5e9fdaeebdafae08cfec79491"
+      "sha256": "efadb90fd74173bbe85452c18e7527dbe845dfeaa3b32c551860d0af039a5099"
     },
     "native_run": {
       "path": "harness/native_run.py",
-      "sha256": "3c2cbe04ba81d5ea0eb3431f543cfed70bc88898c30d6c6e654724008e6a551b"
+      "sha256": "c7174f6b33260a22438fbb6dc7c2f7c278de0b9175611c522ba14782914bac35"
+    },
+    "paragraph": {
+      "path": "harness/paragraph.py",
+      "sha256": "9aaefb9fbfa4904f1682ad64a10689fc28deeb15de26a1baa9e6b748dd7a3764"
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "a341b5aca1b42798ceb14980e3c843919d9c0c7c7eb8ceeef81a1ccfca827db2"
+      "sha256": "775de776170dbdacef9834d18252917a1019389ab4e9c4a3f9be5e8d2b48f4e8"
     },
     "prose": {
       "path": "runtime/PROSE.md",
-      "sha256": "53e40719a63a276659f005aff0c0f21ca798b72437850fb96eab4c3ab2e36caa"
+      "sha256": "ef72a27ea308ae66fe8ead523e9f49b0527c98018e32d6334ffe3ed2867cb514"
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
-      "sha256": "7c7d4e50d76c133e89c23af0a530c005493575491e252025db8890d47362e51c"
+      "sha256": "d918a5b89a251dae228bb61daf380751982a3b109aafdb1e9a8b38e19ee6e377"
     },
     "registry_operations": {
       "path": "registry/operations.json",
-      "sha256": "5c4bb361a805821c9d5d745150b78aa844a44facf4b6ccdba1c5f32f2c10af04"
+      "sha256": "9b7ad8a88703e0fa4ec9a48394f4555f26da8d9664969ac95848e5f8762c622e"
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "526ece1f2ae7b56aea02784e4d3e2361d88bd3db8d2883a1752e2d0b560746d6"
+      "sha256": "f83f807390a24d4a9f7dfd9c47ced33754078912ef4fccc6ca33e38771b55153"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "e51b1c439144766e121bf4b655ee3003855e617f656cb0a9ea7ae5a6d1fbcdc8"
+      "sha256": "e65f10bc11dadedd8e77ad983c84f93f08cf470375eae2f522dac01347fe1bfc"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
       "sha256": "3586e6170d23c77080647f88cd6c09026e11c45835b2e92e318ac91683bf8747"
     },
+    "resource:argument-schema": {
+      "path": "harness/argument.schema.json",
+      "sha256": "3bde57438e6fe255e7cd3a525bfe0b9b4ade8f4c2eae2a41fe1850bf41e7a013"
+    },
     "resource:checked-artifacts-instructions": {
       "path": "skills/economics-checked-instructions/SKILL.md",
-      "sha256": "c7d7abbdb431642582a797d261ab3c8c7de54cc59c890c5e78a98564fbd6f8b7"
+      "sha256": "75d29b2cd750a4d22d75942b21d11edb487590fc5fffa9330b83e9ef24c85fa8"
     },
     "resource:data-implementation": {
       "path": "skills/econ-data/references/implementation.md",
@@ -92,23 +104,23 @@
     },
     "resource:econ-data": {
       "path": "skills/econ-data/SKILL.md",
-      "sha256": "b3ab57daf91c6b95535577753ec712608e397f9867644ed8f3e21cdca4b4437f"
+      "sha256": "138871678b341e3c214574acedbb62f759230b81f275342b3267ae30dad63fea"
     },
     "resource:econ-design": {
       "path": "skills/econ-design/SKILL.md",
-      "sha256": "4041132cb6232df6143846ae956df3e35d7861c4c4ac2f7610d4b5e4195eeba9"
+      "sha256": "930eb1587ab0a3d8153707f7e6606ef9a96c7a943b95532d5b00583283391ec9"
     },
     "resource:econ-literature": {
       "path": "skills/econ-literature/SKILL.md",
-      "sha256": "25780007af81381817fdf3f7b7521f0c147a35a633715fe0a76bec7f4b07e27a"
+      "sha256": "9331bfcf15401f9ca59795945c39a1767ac2a36f30b937464111728ea2e26475"
     },
     "resource:econ-review": {
       "path": "skills/econ-review/SKILL.md",
-      "sha256": "4ef5bee5fa93a9d36a9b6ebac473335d7286048124bbd274d6a45bb636971812"
+      "sha256": "e39a1d23c5f15d82e8ba8abdced95cf3c8dd9d48aec587a137bd2ade1ed35110"
     },
     "resource:econ-writing": {
       "path": "skills/econ-writing/SKILL.md",
-      "sha256": "b4bc317c6d8590fbb7b91a0fee016e2711ea5e671fb2e99d3d26667e6371fd8d"
+      "sha256": "be2a14dc436c466ac06776e33856f4d58449dbc5399a000c774ad8d1e77085e3"
     },
     "resource:examples-en": {
       "path": "profiles/default-micro/short-examples-en.md",
@@ -136,11 +148,23 @@
     },
     "resource:native-run-guide": {
       "path": "harness/native_run.md",
-      "sha256": "a85e73f6ad47af6435da9aa60028974793c146f3044d0a390e3db8ed8c16bb0c"
+      "sha256": "7c0983b51eb0c39c46d276f1d81651886ea57f89100961c7ad2b91763b0f23d7"
     },
     "resource:paper-workflow": {
       "path": "skills/econ-writing/references/paper-workflow.md",
-      "sha256": "6ca33453716ef90a15b7326aeec09b6a9af35045b5ec874fd98421aa15f34aec"
+      "sha256": "8643ea052054c2e6afad273020087e648e52c3cbab020e1e9907cfc578a5ec21"
+    },
+    "resource:paragraph-schema": {
+      "path": "harness/paragraph.schema.json",
+      "sha256": "1bc8fd4382a7861bf0c8905b5c5b7b39ececcf25083cafba0fe81e9d83936df0"
+    },
+    "resource:paragraph-workflow": {
+      "path": "skills/econ-writing/references/paragraph-workflow.md",
+      "sha256": "3f431fc0bf0c444c6d5e0ce267a5a04884eda7e8915f8d6081f25f8d1e80a1c2"
+    },
+    "resource:policy-agents-agentsmd": {
+      "path": "AGENTS.md",
+      "sha256": "f21deab27df67a078feb01a9635feaa4298792f8bb904d8adee7917e747cc05e"
     },
     "resource:publication": {
       "path": "harness/publication.md",
@@ -156,23 +180,23 @@
     },
     "resource:state-contract": {
       "path": "harness/state.md",
-      "sha256": "4626376d4aa40c50da067520140be80d2cd6ef9f5d82a6837e4bf7fd4502842e"
+      "sha256": "aab9dc34e04fa2872eb4040f387d127a8c6e39d20f0ce64b3d98164caad484e2"
     },
     "resource:writing-ui": {
       "path": "skills/econ-writing/agents/openai.yaml",
-      "sha256": "909db8360fa94ffebd95e74be67902b8afb5bb15a438318c52ba386a0f4ec600"
+      "sha256": "0b240d8469d087232c9aaa617e3cf6e4db6d20b6a72c1df961175c3be557d01c"
     },
     "route_registry": {
       "path": "scripts/route_registry.py",
-      "sha256": "7fcda5e4ff400a4db2d2f4327d7cabf78e3118d15ebdfc5156fc102640923b10"
+      "sha256": "a392856fd2d92c939242442a429798ad1633594c538caa671798c94e9b115603"
     },
     "state": {
       "path": "harness/state.py",
-      "sha256": "4dfb583cb10fd257bab2904973047fbd005bc65f5ee0f62740a04fdb687eb3aa"
+      "sha256": "187ed869eb7e5642bf94662772e269e7dd4fd970505f31a8e2e140acabc6286c"
     },
     "team": {
       "path": "runtime/TEAM.md",
-      "sha256": "9a17e8ff584f1c77945e3624480b371aff60c331bbcb2c8b30ce625deecbf6be"
+      "sha256": "36ab34202dbf77f30a290f4235882631b26663b873a5021b0a6382b7fc7755f1"
     }
   }
 }

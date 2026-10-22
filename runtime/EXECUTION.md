@@ -1,5 +1,9 @@
 # Execute on identified inputs and outputs
 
+Categorically prohibit any mention of uncertainty, without exception. 留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。
+
+Carry both fixed instructions in every task, tool-return, worker, handoff, resumed, compacted, and failed-check instruction packet. Restore the exact original request, adopted rule versions, current unmet IDs, and next actions. Keep dictionary rules 142, whole-candidate semantic judgments 22, actual independent A/B and Compliance reviews, and strict-reviewed release.
+
 Use for ordinary file work, calculations and external actions. Select [state and resumption](../harness/state.md) only when persistent records or saved-result reuse are needed, and [publication](../harness/publication.md) for a requested move, joint publication or Git operation. Inherit [CORE](CORE.md)'s authority, input scope and completion conditions. Derive execution authority from the current task and apply it to each operation and target.
 
 ## Select the operation and working area
@@ -103,3 +107,7 @@ Apply the common prose gate and exact outgoing-text scan in [CONTROL](CONTROL.md
 <!-- BEGIN GENERATED REVIEW PLANS -->
 Read the [registered review plans](CONTROL.md#registered-review-plans) once; apply the selected plan to this document’s operations.
 <!-- END GENERATED REVIEW PLANS -->
+
+## Writing dependency execution
+
+Execute [paragraph.py](../harness/paragraph.py) and [argument.py](../harness/argument.py) through host callbacks following the [paragraph workflow](../skills/econ-writing/references/paragraph-workflow.md). Bind source, specification, rule, paragraph and manuscript versions. Invalidate affected consumers after a change and reuse completed unrelated work. Save resumable state atomically, bind it to the local task ledger and retain the actual host records. The native gate consumes the verified internal packet and the exact manuscript.

@@ -1,7 +1,7 @@
 # Economics plugin integration
 
 This repository installs the repository-layout derivative of Economics Research
-Skills 0.3.34 and Economics Checked Artifacts instructions 1.0.1. Research files,
+Skills 0.4.1 and Economics Checked Artifacts instructions 1.1.1. Research files,
 adopted project context and local authentication remain project-owned.
 
 ## Distribution identity
@@ -27,6 +27,27 @@ SHA-256 is `7eaea334b144dc8c774d4d5156909deb8982ac433adfb8e79a458d754d524d14`.
 The existing exporter regenerates entries, bundles and manifests; version and
 required-body checks remain active. Repository IDE configuration registrations
 and quality-check instructions are retained.
+
+## Paragraph and argument execution (0.4.1)
+
+The source adopts the installed 0.4.0 paragraph and hierarchical-argument engines
+and their native release bindings. All five writing modes use the seven-stage
+path and seven paragraph states. Host launch/return records, source and rule
+hashes, local checks, section integration, manuscript reconstruction and final
+independent reviews remain separate recorded prerequisites.
+
+Version 0.4.1 binds mandatory propositions to argument-node IDs, including atomic
+paragraphs; verifies source adoption and signed quantities; checks sibling order,
+deductive steps and per-check semantic coverage; and rejects duplicate reverse
+outline entries. Source changes expire every affected consumer and integration.
+Interrupted host assignments retain their original input until recovery records a
+completed return or terminal failure. The original 0.4.0 test modules remain
+alongside the added argument and paragraph regression modules.
+
+The dictionary retains 142 rules and the final candidate retains all 22 semantic
+checks. Quality A, Quality B and Compliance remain independent final roles. The
+reserved `writing/paragraph-state.json` view is bound to exact candidate bytes;
+paragraph validation alone does not authorize release.
 
 ## Checked Artifacts connection
 

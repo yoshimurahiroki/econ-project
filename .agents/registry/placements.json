@@ -390,6 +390,56 @@
       "resource_id": "tool-test-instruction-links-py",
       "deployment_path": "scripts/test_instruction_links.py",
       "export_alias": "TOOL_test_instruction_links.py"
+    },
+    "paragraph-workflow": {
+      "resource_id": "paragraph-workflow",
+      "deployment_path": ".agents/skills/econ-writing/references/paragraph-workflow.md",
+      "export_alias": "PARAGRAPH_WORKFLOW.md"
+    },
+    "paragraph-engine": {
+      "resource_id": "paragraph-engine",
+      "deployment_path": ".agents/harness/paragraph.py",
+      "export_alias": "paragraph.py"
+    },
+    "argument-engine": {
+      "resource_id": "argument-engine",
+      "deployment_path": ".agents/harness/argument.py",
+      "export_alias": "argument.py"
+    },
+    "paragraph-schema": {
+      "resource_id": "paragraph-schema",
+      "deployment_path": ".agents/harness/paragraph.schema.json",
+      "export_alias": "paragraph.schema.json"
+    },
+    "argument-schema": {
+      "resource_id": "argument-schema",
+      "deployment_path": ".agents/harness/argument.schema.json",
+      "export_alias": "argument.schema.json"
+    },
+    "paragraph-tests": {
+      "resource_id": "paragraph-tests",
+      "deployment_path": ".agents/harness/test_paragraph.py",
+      "export_alias": "test_paragraph.py"
+    },
+    "argument-tests": {
+      "resource_id": "argument-tests",
+      "deployment_path": ".agents/harness/test_argument.py",
+      "export_alias": "test_argument.py"
+    },
+    "writing-integration-tests": {
+      "resource_id": "writing-integration-tests",
+      "deployment_path": ".agents/harness/test_writing_integration.py",
+      "export_alias": "test_writing_integration.py"
+    },
+    "argument-regression-tests": {
+      "resource_id": "argument-regression-tests",
+      "deployment_path": ".agents/harness/test_argument_regressions.py",
+      "export_alias": "test_argument_regressions.py"
+    },
+    "paragraph-regression-tests": {
+      "resource_id": "paragraph-regression-tests",
+      "deployment_path": ".agents/harness/test_paragraph_regressions.py",
+      "export_alias": "test_paragraph_regressions.py"
     }
   },
   "source": {

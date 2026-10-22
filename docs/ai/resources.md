@@ -65,3 +65,28 @@ Generated from the resource and placement registries. Use this catalog only for 
 - policy-assets: harness/policy_assets.py
 - policy-manifest: quality/policy_manifest.json
 - codex-hooks: harness/codex_hooks.py
+- tool-test-sync-common-core-py: scripts/test_sync_common_core.py (complete source distribution only)
+- tool-test-export-project-py: scripts/test_export_project.py (complete source distribution only)
+- tool-setup-ide-mcp-sh: scripts/setup_ide_mcp.sh (complete source distribution only)
+- tool-test-setup-ide-mcp-py: scripts/test_setup_ide_mcp.py (complete source distribution only)
+- tool-setup-extensions-sh: scripts/setup_extensions.sh (complete source distribution only)
+- config-template-readme-md: docs/ai/config-templates/README.md
+- config-template-claude-mcp-example-json: docs/ai/config-templates/claude-mcp.example.json
+- config-template-codex-example-toml: docs/ai/config-templates/codex.example.toml
+- config-template-mcp-example-json: docs/ai/config-templates/mcp.example.json
+- tool-test-configuration-tools-py: scripts/test_configuration_tools.py (complete source distribution only)
+- state-tests: harness/test_state.py (complete source distribution only)
+- checked-artifacts-instructions: skills/economics-checked-instructions/SKILL.md
+- plugin-integration-guide: docs/ai/plugin-integration.md
+- tool-check-instruction-links-py: scripts/check_instruction_links.py (complete source distribution only)
+- tool-test-instruction-links-py: scripts/test_instruction_links.py (complete source distribution only)
+- paragraph-workflow: skills/econ-writing/references/paragraph-workflow.md
+- paragraph-engine: harness/paragraph.py
+- argument-engine: harness/argument.py
+- paragraph-schema: harness/paragraph.schema.json
+- argument-schema: harness/argument.schema.json
+- paragraph-tests: harness/test_paragraph.py (complete source distribution only)
+- argument-tests: harness/test_argument.py (complete source distribution only)
+- writing-integration-tests: harness/test_writing_integration.py (complete source distribution only)
+- argument-regression-tests: harness/test_argument_regressions.py (complete source distribution only)
+- paragraph-regression-tests: harness/test_paragraph_regressions.py (complete source distribution only)

@@ -1,5 +1,9 @@
 # Build the requested prose
 
+Categorically prohibit any mention of uncertainty, without exception. 留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。
+
+Carry both fixed instructions in every task, tool-return, worker, handoff, resumed, compacted, and failed-check instruction packet. Restore the exact original request, adopted rule versions, current unmet IDs, and next actions. Keep dictionary rules 142, whole-candidate semantic judgments 22, actual independent A/B and Compliance reviews, and strict-reviewed release.
+
 Use this resource for composition, revision, translation, explanation, medium conversion and prose guidance. Inherit the task boundary and direct-expression rules from [CORE](CORE.md). Select the sections that resolve the current writing choice; return to the assigned artifact owner. Work in this order: select necessary content, structure the argument, state claims directly, match claims to original sources, then check the complete candidate. Use the existing correction and source-correspondence records for these operations.
 
 ## Select the economic argument
@@ -51,3 +55,7 @@ Choose quotations for the requested proposition and bind their exact source and 
 Use quality schema 3: record the complete text paths in review_scope, candidate_sha256 and claim_ledger_sha256 once, a concrete whole-candidate assessment and all 22 prose_verdicts. The claim ledger records propositions and their original evidence, including numerical or conclusive headings; headings used only for navigation, connectives and list markers are reviewed as information structure without fictitious claims. Check the whole text against the ledger for omitted propositions. Specific violations and unassessed points retain their check ID, exact target and related claim IDs. The checker retains whole-text lexical scanning and detects omitted numeric content; semantic completeness remains the selected reviewer’s judgment. Version 2 is read under its original strict contract and normalized without changing its stored return bytes. See [native check](../harness/native_check.md#individual-full-candidate-prose-records) for generation and migration.
 
 For publication, each independent quality worker supplies the same 22 verdicts on the exact complete candidate; neither zero dictionary hits nor a source quotation establishes approval. Resolve conflicting interpretations at the proposition, source and syntax before obtaining new returns. Shared candidate and claim-ledger hashes replace duplicated bodies, never verdicts.
+
+## Hierarchical argument and paragraph composition
+
+Apply the [paragraph workflow](../skills/econ-writing/references/paragraph-workflow.md) to every requested writing mode. Build the central answer through explicit parent-child support, common sibling classifications and meaningful ordering. Separate information extraction, classification and substantive synthesis. Record deductive premises or the inductive integration step. Each paragraph answers its assigned reader question, develops its central claim and passes the required information forward. Reconstruct the completed argument and repair defects at their producing level.

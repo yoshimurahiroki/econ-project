@@ -1504,7 +1504,7 @@
       "category": "uncertainty",
       "pattern": "(?:恐れが(?:ある|あります|あった|ありました)|推測され(?:る|ます|た|ました)|と思われ(?:る|ます|た|ました)|おそらく|恐らく|たぶん|多分)",
       "action": "block",
-      "explanation": "Candidate occurrence of uncertainty. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "explanation": "Apply the primary expression rule first; no occurrence, technical-use or quotation judgment can exempt a mention.",
       "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
       "positive_example": "恐れがある。",
       "negative_example": "測定値は12である。"
@@ -1515,7 +1515,7 @@
       "category": "uncertainty",
       "pattern": "(?<!\\w)(?:possibly|perhaps|presumably|likely|probab(?:ly|le)|maybe)(?!\\w)",
       "action": "block",
-      "explanation": "Candidate occurrence of uncertainty. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
+      "explanation": "Apply the primary expression rule first; no occurrence, technical-use or quotation judgment can exempt a mention.",
       "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
       "positive_example": "possibly.",
       "negative_example": "The measured value equals twelve."
@@ -1673,7 +1673,7 @@
       "explanation": "Candidate occurrence of domain_caution. Review its sense, syntactic role, target proposition, and surrounding function. Revise occurrences that perform a prohibited function.",
       "repair": "Delete wording that performs a prohibited function and state the content needed for the request directly. Bind the occurrence judgment to its location and candidate hash. Labels such as quotation, code, or technical term do not establish a verdict.",
       "positive_example": "Confidence intervals should be treated with caution.",
-      "negative_example": "The confidence interval is [-0.02, 0.08]."
+      "negative_example": "The measured value equals twelve."
     }
   ],
   "source_categories": [
@@ -1822,9 +1822,9 @@
         "presumably",
         "likely"
       ],
-      "criterion": "Prohibit reservations, hedging, and weak wording justified by uncertainty. Describe observations, forecasts, probabilities, and hypotheses directly. Inspect the entire text, including quotations and bibliography. Do not retain prohibited functions. Review sense, syntax, target proposition, and the role of the wording.",
+      "criterion": "Reject every mention of uncertainty on every surface, including indirect formulations, quotations, bibliography, technical terminology, forecasts and probability statements. No context or source-identity exception applies. The primary expression rule governs this check before all occurrence and technical-use judgments.",
       "rhetorical_example": "効果があるかもしれないという気がします。",
-      "substantive_example": "効果の有無は未確定である。",
+      "substantive_example": "The measured value equals twelve.",
       "action": "semantic_review"
     },
     {
@@ -1972,7 +1972,7 @@
         "jurisdiction",
         "not a causal effect"
       ],
-      "criterion": "Prohibit disclaimers, cautionary or conservative stances, and qualifications justified by a specialized domain. State assumptions, measurement precision, estimation ranges, rights, and obligations directly. Inspect the entire text, including quotations and bibliography. Do not retain prohibited functions. Review sense, syntax, target proposition, and the role of the wording. Do not infer a prohibited function solely from the presence of a technical term. Review concrete statements of confidence intervals, estimation errors, identification conditions, applicable subjects, and authority as content; distinguish them from rhetorical disclaimers and cautionary stances. Apply the same functional, semantic, and syntactic review to occurrences of other rules.",
+      "criterion": "Reject domain-based disclaimers, cautionary stances and qualifications. Apply the primary expression rule first. Technical terminology, confidence intervals, estimation errors, source quotations and specialized context create no exception. Review the entire candidate, including quotations and bibliography, and retain only content that satisfies the governing rules.",
       "rhetorical_example": "専門的な話なので何とも言えません。",
       "substantive_example": "推定値の95%信頼区間は−0.02から0.08である。",
       "action": "semantic_review"
@@ -2074,10 +2074,15 @@
     "rhetorical_exceptions": false,
     "candidate_match_is_verdict": false,
     "scope": "Apply all 142 rules and 22 checks to body text, headings, tables, figures, footnotes, parentheses, supplements, annotations, postscripts, translations, delegated results, progress and status reports, quotations, and bibliography.",
-    "exemptions": "There are no exceptions for prohibited functions. Review every match through occurrence_judgments bound to the candidate hash, actual constituent characters, sense, syntax, target proposition, and source correspondence. Quotation, code, or technical-term labels alone do not clear a match. Do not select quotations as substitutes for self-defense or reservations.",
+    "exemptions": "Apply the primary expression rule before every occurrence judgment. Technical terminology, source identity, quotation, code and domain context create no exception. Retain the complete 142-rule scan and 22 whole-candidate judgments.",
     "roles": "Quality reviewers selected by review_plans in the registry consult matched rules and technical-term definitions, and audit the 22 checks and source correspondence across the entire text. Reading the whole dictionary again is not required. Role 3 checks execution results and alignment with the request.",
     "technical_terms": "Definition reference material, not an allowlist. Validate and convert existing technical_usages through legacy-format reading. New returns use general occurrence_judgments; technical terms and distinct words undergo the same functional and source-correspondence review.",
     "match_resolution": "block-until-occurrence-reviewed",
-    "disclaimer_action": "Delete every disclaimer without exception."
+    "disclaimer_action": "Delete every disclaimer without exception.",
+    "instruction_precedence": [
+      "primary-expression-rule",
+      "anti-defensive-rules",
+      "occurrence-review"
+    ]
   }
 }

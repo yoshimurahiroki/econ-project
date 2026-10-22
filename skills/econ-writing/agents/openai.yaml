@@ -1,6 +1,6 @@
 interface:
   display_name: "Economics Writing"
   short_description: "Write, explain and profile economics prose"
-  default_prompt: "Categorically prohibit any mention of uncertainty, without exception. Use $econ-writing for the requested economics text in compose, revise, translate, convert, guidance, explain, profile mode."
+  default_prompt: "Categorically prohibit any mention of uncertainty, without exception. 留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。 Use $econ-writing for the requested economics text in compose, revise, translate, convert, guidance, explain, profile mode."
 policy:
   allow_implicit_invocation: true

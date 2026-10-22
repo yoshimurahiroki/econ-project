@@ -1,3 +1,4 @@
 Categorically prohibit any mention of uncertainty, without exception.
+留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。
 
 Read runtime/CORE.md once, then select the requested final operation in docs/ai/compiled_ai_skills.md. Inherit settled scope and authority; load required rules and activated conditions from registry/operations.json.

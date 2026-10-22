@@ -517,7 +517,7 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
     contents['ECON_INDEX.md'] = '\n'.join(lines) + '\n'
     contents['OPTIONAL_INPUTS.md'] = '# Optional inputs\n\nThese functions are inactive in this snapshot. If needed, request the named input or regenerate the snapshot with its condition/reference. Do not retrieve an external repository automatically.\n\n' + '\n'.join('## ' + rid + '\n\nRequired additional input: ' + rid + '.\n' for rid in sorted(omitted))
     if 'PROJECT_INSTRUCTIONS.txt' not in contents:
-        contents['PROJECT_INSTRUCTIONS.txt'] = 'Categorically prohibit any mention of uncertainty, without exception.\n\nFollow ECON_INDEX.md for the selected operation and included common rules. SOURCE.md identifies this content snapshot. Request optional inputs only when their function is needed.\n'
+        contents['PROJECT_INSTRUCTIONS.txt'] = 'Categorically prohibit any mention of uncertainty, without exception.\n留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。\n\nFollow ECON_INDEX.md for the selected operation and included common rules. SOURCE.md identifies this content snapshot. Request optional inputs only when their function is needed.\n'
     if output_format == 'deployed':
         pointers = routes.get('placements', {}).get('policy_pointers', [])
         if 'repository-policy' in resources:
@@ -527,9 +527,9 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             parent = str(Path(filename).parent)
             core_link = os.path.relpath(output_paths['core'], parent).replace(os.sep, '/')
             index_link = os.path.relpath('ECON_INDEX.md', parent).replace(os.sep, '/')
-            contents[filename] = f'# Economics task entry\n\nRead [common rules]({core_link}) once, then [selected operation]({index_link}).\n'
+            contents[filename] = f'# Economics task entry\n\nCategorically prohibit any mention of uncertainty, without exception. 留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。\n\nRead [common rules]({core_link}) once, then [selected operation]({index_link}).\n'
         instructions = resources.get('project-instructions', {}).get('deployment_path', 'docs/ai/project_instructions.txt')
-        contents[instructions] = 'Follow ' + os.path.relpath('ECON_INDEX.md', str(Path(instructions).parent)).replace(os.sep, '/') + ' for the selected operation and common rules.\n'
+        contents[instructions] = 'Categorically prohibit any mention of uncertainty, without exception. 留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。\n\nFollow ' + os.path.relpath('ECON_INDEX.md', str(Path(instructions).parent)).replace(os.sep, '/') + ' for the selected operation and common rules.\n'
     if len(contents['PROJECT_INSTRUCTIONS.txt'].replace('\n', '\r\n')) > 8000:
         raise ValueError('Project instructions exceed 8,000 characters')
     if 'policy-manifest' in selected and final_operations:
@@ -710,7 +710,9 @@ def _prepare_distribution(root):
                 f"operations {', '.join(origins)}")
         validate_internal_links(contents, contexts)
         policy.verify_manifest(bundle)
-    policy.verify_manifest(root)
+    # This operation authored the source-layout manifest above. A repository can
+    # also retain a deployed .agents tree with its own independently pinned map.
+    policy.verify_manifest(root, policy.parse(policy.regular_bytes(root / 'quality/policy_manifest.json')))
     return routes
 
 
