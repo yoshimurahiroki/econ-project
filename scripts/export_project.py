@@ -202,17 +202,28 @@ def validate_required_bodies(routes, operations, selections, read_resource):
     """Check registered rule bodies against the exact selected package text."""
     resources = routes['resources']
     required_selections = {}
+    # This invocation verifies one immutable package snapshot. Reuse its bytes
+    # and completed rule checks across operations, never across snapshots.
+    texts, verified, checked_scopes = {}, set(), set()
+    def read_snapshot(rid):
+        if rid not in texts:
+            raw = read_resource(rid)
+            texts[rid] = raw.decode('utf-8') if isinstance(raw, bytes) else raw
+        return texts[rid]
     for operation in operations:
-        validate_rule_bodies(routes, operation.get('active_rules', []), read_resource,
+        pending = [rule for rule in operation.get('active_rules', []) if rule not in verified]
+        validate_rule_bodies(routes, pending, read_snapshot,
                              origin=operation['canonical_operation'])
+        verified.update(pending)
         for rule_id in operation.get('active_rules', []):
             for rid, rule_scope in rule_selection(routes, rule_id, operation['canonical_operation']).items():
                 merge_selection(required_selections, {rid: rule_scope})
                 try:
-                    source_text = read_resource(rid)
-                    if isinstance(source_text, bytes):
-                        source_text = source_text.decode('utf-8')
-                    extract_sections(source_text, rule_scope, resources[rid]['source_path'])
+                    source_text = read_snapshot(rid)
+                    scope = (rid, bool(rule_scope.get('whole_resource')), tuple(rule_scope.get('sections', [])))
+                    if scope not in checked_scopes:
+                        extract_sections(source_text, rule_scope, resources[rid]['source_path'])
+                        checked_scopes.add(scope)
                     if rid not in selections or (rule_scope.get('whole_resource') and not selections[rid].get('whole_resource')):
                         raise ValueError('required body is absent from the selected snapshot')
                     if not selections[rid].get('whole_resource') and not set(rule_scope.get('sections', [])) <= set(selections[rid].get('sections', [])):

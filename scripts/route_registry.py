@@ -556,7 +556,7 @@ def validate_rule_bodies(routes, rule_ids, read_resource, origin='registry'):
     Whole-resource selects a range, not a waiver of dependent section bodies.
     Non-Markdown resources are checked in their own syntax, never as headings.
     """
-    cache = {}
+    cache, verified = {}, set()
     for rule_id in rule_ids:
         rule_selection(routes, rule_id, origin)
         rule = routes['rules'][rule_id]
@@ -565,27 +565,30 @@ def validate_rule_bodies(routes, rule_ids, read_resource, origin='registry'):
         locator = routes['sections'][rid][sid]
         needed = locator.get('heading', sid)
         try:
+            if (rid, sid) in verified:
+                continue
             if rid not in cache:
                 raw = read_resource(rid)
-                cache[rid] = raw.decode('utf-8') if isinstance(raw, bytes) else raw
-            text = cache[rid]
-            if not isinstance(text, str) or not text.strip():
-                raise ValueError('empty resource body')
-            if any(ord(char) < 32 and char not in '\t\n\r\f' or ord(char) == 127 for char in text):
-                raise ValueError('unsupported control character in text resource')
-            suffix = Path(path).suffix.lower()
-            if suffix == '.py':
-                if not ast.parse(text).body:
+                text = raw.decode('utf-8') if isinstance(raw, bytes) else raw
+                if not isinstance(text, str) or not text.strip():
+                    raise ValueError('empty resource body')
+                if any(ord(char) < 32 and char not in '\t\n\r\f' or ord(char) == 127 for char in text):
+                    raise ValueError('unsupported control character in text resource')
+                suffix = Path(path).suffix.lower()
+                if suffix == '.py' and not ast.parse(text).body:
                     raise ValueError('empty Python body')
-                continue
-            if suffix == '.json':
-                if not json.loads(text, object_pairs_hook=unique_object):
+                if suffix == '.json' and not json.loads(text, object_pairs_hook=unique_object):
                     raise ValueError('empty JSON body')
-                continue
+                if suffix == '.md':
+                    text = re.sub(r'<!-- BEGIN GENERATED[^>]*-->.*?<!-- END GENERATED[^>]*-->', '', text, flags=re.S)
+                    lines, headings = markdown_sections(text)
+                else:
+                    lines, headings = [], []
+                cache[rid] = text, suffix, lines, headings
+            text, suffix, lines, headings = cache[rid]
             if suffix != '.md':
+                verified.add((rid, sid))
                 continue
-            text = re.sub(r'<!-- BEGIN GENERATED[^>]*-->.*?<!-- END GENERATED[^>]*-->', '', text, flags=re.S)
-            lines, headings = markdown_sections(text)
             if not locator.get('whole_resource'):
                 matches = [h for h in headings if needed in (h['title'], h['id'], '#' + h['id'])]
                 if len(matches) != 1:
@@ -643,6 +646,7 @@ def validate_rule_bodies(routes, rule_ids, read_resource, origin='registry'):
             if not any(not char.isspace() and unicodedata.category(char) not in {'Cc', 'Cf', 'Cs', 'Mn', 'Me'}
                        for char in ''.join(content)):
                 raise ValueError('section has no non-generated body')
+            verified.add((rid, sid))
         except (OSError, ValueError, SyntaxError, UnicodeError, KeyError) as error:
             raise ValueError(f'Missing required rule {rule_id}; required section {needed}; operation {origin}; source {path}: {error}') from error
 

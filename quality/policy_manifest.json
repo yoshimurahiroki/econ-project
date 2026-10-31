@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.11.0",
+  "policy_id": "economics-native-0.12.0",
   "profile": {
     "id": "research-full",
     "preflight_role": "requirements-coverage"
@@ -24,7 +24,7 @@
     },
     "decide": {
       "path": "runtime/DECIDE.md",
-      "sha256": "082d6be64232436a71c06e02295fb90cbd55678f6ca69c8cadd229ca6ef8c797"
+      "sha256": "a3a356a0526a5a15d7af0fc98df7ffaf11dde6bd1bb80783a54bd4b5fcfaedd1"
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
@@ -32,7 +32,7 @@
     },
     "execution": {
       "path": "runtime/EXECUTION.md",
-      "sha256": "4fd22f86e44f1f5637d6dcc0f1952d704065e85c96f6e43ce81584b32437b2ff"
+      "sha256": "17720b98af6eacc44318eaa37f727d850425babfdab62a8c7a0f57cd2d304787"
     },
     "local_checks": {
       "path": "harness/local_checks.py",
@@ -52,7 +52,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "7b28449d65e785f19f855b1384524aeafd52c004204c3ddb9da3a8f4dde001fb"
+      "sha256": "a9cc4bd338a770b13c1800ed0cd50a487f1121ff2233f4ce94c31c85c2dde3c5"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -72,7 +72,7 @@
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "7dc485333e2dcbcf6d5201faaeede95feb3992b6b7b131b79262a117acc61cbe"
+      "sha256": "6fe25c3f6bcbbe2ed2bc2ba5449c4926334c89c50055592c98fc38321ed965aa"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -104,7 +104,7 @@
     },
     "resource:data-implementation": {
       "path": "skills/econ-data/references/implementation.md",
-      "sha256": "20214c60ab1f23c53d74b6b16a564765a716a1e129c5535dcb61a5e9a4ede0e1"
+      "sha256": "73595de7f39dd84f975b5d878beac2194368175ae73e1c3ef6319d4d43ae8b52"
     },
     "resource:data-results": {
       "path": "skills/econ-data/references/reproducible-workflow.md",
@@ -292,7 +292,7 @@
     },
     "resource:state-contract": {
       "path": "harness/state.md",
-      "sha256": "21d33dd98be4ed6ced5c199725cab71d897d39c3d33641f2934017a0aadef77d"
+      "sha256": "a0beb2926ac0b6a21eb8eaf34ef2a7db012fae7d4749399e565f6ffc50c761d2"
     },
     "resource:writing-ui": {
       "path": "skills/econ-writing/agents/openai.yaml",
@@ -300,15 +300,15 @@
     },
     "route_registry": {
       "path": "scripts/route_registry.py",
-      "sha256": "62572d68eac1bf8e72958dff2b468dc7f4bbcbcf5bee4e710b4facc9b72bc254"
+      "sha256": "ded7428176104de0c6699effbe52d112c3fea2622a8db94146b88bf8e584b851"
     },
     "state": {
       "path": "harness/state.py",
-      "sha256": "e41462f6b403f27024fef016b87cdcc834cf60d57b4b5e8a819c3f88be7322a2"
+      "sha256": "ad37cdfcff61f78d05bcb5b11ffba9dc53142304056d47be28a63feceed9efa3"
     },
     "team": {
       "path": "runtime/TEAM.md",
-      "sha256": "a7a608cff39bd323fdca669282d0a0f540f827d3d81d8dcc0532c7959512ea24"
+      "sha256": "c223ceb5335605e57980c95549e2225f17966b5c06bb58f5894de6aec4a191c4"
     }
   }
 }

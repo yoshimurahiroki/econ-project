@@ -184,6 +184,76 @@ class TeamStateTests(unittest.TestCase):
         (self.root / '.agents/state/team.json').write_text(json.dumps(saved))
         self.assertFalse(h.completion_current(self.root, saved['tasks'], 'T'))
 
+    def test_find_locates_action_and_historical_failure_with_original_references(self):
+        context = self.task_context()
+        self.add('--task-context', 'context.json', '--scope', '.', kind='answer', name='P')
+        action = json.dumps({'target_kind': 'file', 'target_id': 'artifact', 'operation': 'publish'})
+        self.prepared('--parent', 'P', '--required-action', action, name='C/~')
+        self.cli('action', 'C/~', '--target-kind', 'file', '--target-id', 'artifact',
+                 '--operation', 'publish', '--result', 'failed', '--evidence', 'check')
+        self.cli('verify', 'C/~', '--check', 'check', '--result', 'failed', '--reviewer', 'reviewer')
+        self.cli('transition', 'C/~', 'blocked', '--next', 'Resolve the synthetic solver singularity')
+        self.cli('resume', 'C/~')
+        self.verify(name='C/~')
+        self.cli('transition', 'C/~', 'blocked', '--next', 'Continue the synthetic result')
+        self.cli('resume', 'C/~')
+        before = (self.root / '.agents/state/team.json').read_bytes()
+        result = self.cli('find', 'singularity failed', '--parent', 'P', '--status', 'running')
+        self.assertEqual(['C/~'], [row['task_id'] for row in result['tasks']])
+        row = result['tasks'][0]
+        self.assertEqual('/tasks/C~1~0', row['pointer'])
+        self.assertEqual('/tasks/C~1~0/task_context/request_refs', row['references']['request_refs'])
+        self.assertEqual('/tasks/C~1~0/task_context/active_instruction_refs', row['references']['active_instruction_refs'])
+        self.assertEqual('/tasks/C~1~0/task_context/adopted_decisions', row['references']['adopted_decisions'])
+        self.assertTrue(any('/history/' in match['pointer'] for match in row['matches']))
+        self.assertEqual(['C/~'], [item['task_id'] for item in self.cli('find', 'publish failed')['tasks']])
+        self.assertEqual(0, self.cli('find', 'singularity missing-criterion')['total'])
+        self.assertEqual(before, (self.root / '.agents/state/team.json').read_bytes())
+        selected = self.cli('show', 'C/~')
+        self.assertEqual(context, selected['task_context'])
+        self.assertEqual(h.digest(self.root / 'artifact'), selected['outputs']['artifact']['version'])
+        self.assertNotIn('stages', row)
+
+    def test_find_pages_are_scoped_and_bound_to_one_saved_snapshot(self):
+        self.add(kind='answer', name='P')
+        for name in ('C', 'A', 'B'):
+            self.add('--parent', 'P', kind='answer', name=name)
+        first = self.cli('find', 'Produce', '--parent', 'P', '--status', 'queued', '--owner', 'writer', '--limit', '2')
+        self.assertEqual(['A', 'B'], [row['task_id'] for row in first['tasks']])
+        self.assertEqual(3, first['total'])
+        second = self.cli('find', 'Produce', '--parent', 'P', '--limit', '2', '--offset', '2',
+                          '--snapshot', first['store_sha256'])
+        self.assertEqual(['C'], [row['task_id'] for row in second['tasks']])
+        self.assertIsNone(second['next_offset'])
+        self.assertEqual(0, self.cli('find', 'Produce', '--owner', 'another-owner')['total'])
+        for args in [('',), ('Produce', '--limit', '0'), ('Produce', '--offset', '-1'), ('Produce', '--parent', 'missing')]:
+            with self.assertRaises(ValueError):
+                self.cli('find', *args)
+        self.cli('start', 'A')
+        with self.assertRaisesRegex(ValueError, 'Store changed'):
+            self.cli('find', 'Produce', '--offset', '2', '--snapshot', first['store_sha256'])
+
+    def test_find_preserves_resume_checks_and_complete_source_bodies(self):
+        original = self.task_context()
+        self.prepared('--task-context', 'context.json')
+        self.verify()
+        self.cli('transition', 'T', 'blocked', '--next', '需要の逆転を確認する')
+        result = self.cli('find', '需要 逆転')
+        self.assertEqual(['T'], [row['task_id'] for row in result['tasks']])
+        output = self.task()['outputs']['artifact']
+        (self.root / 'rules.md').write_text('Changed synthetic governing content')
+        before = (self.root / '.agents/state/team.json').read_bytes()
+        found = self.cli('find', 'level contrast')
+        self.assertEqual('blocked', found['tasks'][0]['recorded_status'])
+        with self.assertRaisesRegex(ValueError, 'Governing context'):
+            self.cli('resume', 'T')
+        self.assertEqual(before, (self.root / '.agents/state/team.json').read_bytes())
+        self.assertEqual(output, self.task()['outputs']['artifact'])
+        self.assertEqual(original, self.task()['task_context'])
+        (self.root / 'rules.md').write_text('Retain the full request and use the saved analysis.')
+        self.cli('resume', 'T'); self.completed()
+        self.assertEqual(output, self.task()['outputs']['artifact'])
+
     def test_same_path_modify_preserves_before_and_after(self):
         self.add('--scope', 'input', '--input', 'input', '--required-check', 'check', kind='modify')
         before = self.task()['consumed_inputs']['input']

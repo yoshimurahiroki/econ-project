@@ -490,6 +490,28 @@ class RealRegistryTests(unittest.TestCase):
                 self.output('missing', task='econ-writing:revise')
         self.assertFalse((self.base / 'missing').exists())
 
+    def test_shared_resource_checks_each_section_and_rereads_each_snapshot(self):
+        first = 'prose.select-the-economic-argument'
+        later = 'prose.revise-for-the-requested-language'
+        operations = [
+            {'canonical_operation': 'first', 'active_rules': [first]},
+            {'canonical_operation': 'later', 'active_rules': [first, later]},
+        ]
+        texts = {'prose': (self.root / self.routes['resources']['prose']['source_path']).read_text()}
+        selection = {'prose': {'whole_resource': True}}
+        exporter.validate_required_bodies(self.routes, operations, selection, texts.__getitem__)
+        original = texts['prose']
+        texts['prose'] = original.replace('## Revise for the requested language', '## Removed')
+        with self.assertRaisesRegex(ValueError, 'required section Revise for the requested language; operation later'):
+            exporter.validate_required_bodies(self.routes, operations, selection, texts.__getitem__)
+        texts['prose'] = original + '\x00'
+        with self.assertRaisesRegex(ValueError, 'unsupported control character'):
+            exporter.validate_required_bodies(self.routes, operations, selection, texts.__getitem__)
+        texts['prose'] = original
+        with self.assertRaisesRegex(ValueError, 'required section is absent from the selected snapshot'):
+            exporter.validate_required_bodies(self.routes, operations,
+                {'prose': {'sections': ['Select the economic argument']}}, texts.__getitem__)
+
     def test_stable_rule_id_survives_heading_rename(self):
         root = self.copied_source()
         path = root / 'runtime/PROSE.md'
@@ -575,6 +597,11 @@ class RealRegistryTests(unittest.TestCase):
                     '--target-version', 'fixture-version', '--operation', 'publish', '--result', 'passed',
                     '--evidence', 'returned.json')
             command('transition', 'publish', 'completed')
+            found = command('find', 'fixture:result')
+            self.assertEqual(['publish'], [row['task_id'] for row in found['tasks']])
+            contract = self.routes['resources']['state-contract']
+            contract_path = out / contract['export_alias' if fmt == 'flat' else 'deployment_path']
+            self.assertIn('## Find saved work', contract_path.read_text())
 
     def test_source_distribution_keeps_tools_and_state_tests(self):
         paths = {r['source_path'] for r in self.routes['resources'].values()}

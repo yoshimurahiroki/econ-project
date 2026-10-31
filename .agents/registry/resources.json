@@ -17,19 +17,19 @@
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.11.0"
+      "content_version": "0.12.0"
     },
     "execution": {
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "0.11.0"
+      "content_version": "0.12.0"
     },
     "team": {
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "0.11.0"
+      "content_version": "0.12.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
@@ -71,7 +71,7 @@
       "resource_id": "data-implementation",
       "source_path": "skills/econ-data/references/implementation.md",
       "resource_kind": "rule",
-      "content_version": "0.11.0"
+      "content_version": "0.12.0"
     },
     "data-results": {
       "resource_id": "data-results",
@@ -131,7 +131,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.11.0",
+      "content_version": "0.12.0",
       "sync": false
     },
     "resource-guide": {
@@ -144,7 +144,7 @@
       "resource_id": "team-state-helper",
       "source_path": "harness/state.py",
       "resource_kind": "support",
-      "content_version": "0.10.0"
+      "content_version": "0.12.0"
     },
     "project-instructions": {
       "resource_id": "project-instructions",
@@ -169,14 +169,14 @@
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "0.5.0",
+      "content_version": "0.12.0",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.5.0"
+      "content_version": "0.12.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
@@ -268,7 +268,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.12.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -293,7 +293,7 @@
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.11.0"
+      "content_version": "0.12.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -371,13 +371,13 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.11.0"
+      "content_version": "0.12.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
       "source_path": "quality/policy_manifest.json",
       "resource_kind": "support",
-      "content_version": "0.11.0"
+      "content_version": "0.12.0"
     },
     "codex-hooks": {
       "resource_id": "codex-hooks",
@@ -396,7 +396,7 @@
       "resource_id": "tool-test-export-project-py",
       "source_path": "scripts/test_export_project.py",
       "resource_kind": "support",
-      "content_version": "0.11.0",
+      "content_version": "0.12.0",
       "source_distribution_only": true
     },
     "tool-setup-ide-mcp-sh": {
@@ -455,7 +455,7 @@
       "resource_id": "state-tests",
       "source_path": "harness/test_state.py",
       "resource_kind": "maintenance",
-      "content_version": "0.10.0",
+      "content_version": "0.12.0",
       "source_distribution_only": true
     },
     "checked-artifacts-instructions": {
@@ -1413,6 +1413,9 @@
       },
       "governing-context": {
         "heading": "Governing context"
+      },
+      "find-saved-work": {
+        "heading": "Find saved work"
       }
     },
     "publication": {
@@ -2116,7 +2119,8 @@
       "resource_id": "team",
       "section_id": "resumption",
       "requires": [
-        "state-contract.governing-context"
+        "state-contract.governing-context",
+        "state-contract.find-saved-work"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -3585,7 +3589,9 @@
       "rule_id": "state-contract.local-state-helper",
       "resource_id": "state-contract",
       "section_id": "local-state-helper",
-      "requires": [],
+      "requires": [
+        "state-contract.find-saved-work"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4715,6 +4721,16 @@
       "resource_id": "state-contract",
       "section_id": "governing-context",
       "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.find-saved-work": {
+      "rule_id": "state-contract.find-saved-work",
+      "resource_id": "state-contract",
+      "section_id": "find-saved-work",
+      "requires": [
+        "state-contract.governing-context"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     }

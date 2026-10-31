@@ -99,6 +99,14 @@ The coordinator compares worker references with actual runtime launch and return
 
 Use explicit capacity, depth or attempt limits only when the user or runtime supplies them. For a requested legacy-store conversion, use [State migration](../../docs/ai/integration.md#state-migration).
 
+## Find saved work
+
+Use `state.py find QUERY` when the task ID or saved result is unknown. It reads the existing local store and returns candidate IDs, recorded status, owner, immediate parent, matching JSON pointers and short excerpts. Whitespace-separated terms use case-insensitive literal matching; all terms must occur somewhere in the same task. Japanese terms remain searchable without translation. Search covers recorded context, output and evidence references, action results, checks and retained history. File bodies and external services are not searched. A former failed check can match a task whose later check passed; read the pointed original before deciding what that failure means.
+
+Narrow candidates with exact `--parent`, `--owner` or `--status`; parent selects immediate children, and status selects the recorded scheduling state. Pages are ordered by task ID. `--limit` controls the number of candidates (default 5); `--offset` selects the next page. Pass the returned `store_sha256` with `--snapshot` when continuing a page sequence so a changed store causes a fresh search. Each candidate includes at most three matching excerpts, the full match count and the number omitted. These are navigation excerpts; the original source bodies remain intact.
+
+Select a candidate with `state.py show ID`, follow its request, instruction, adopted-decision, result and evidence references, and restore the complete applicable source bodies. The returned pointers address the helper's existing normalized task record; request/rule/decision references retain their original identities, content versions and paths in that record. Use existing show/resume/version checks to compare the current request, inputs, targets, definitions and holds before reusing the result or continuing an operation. A search hit and its recorded status do not certify completion, freshness, permission or applicability. The locator command does not acquire the writer lock, save migrations, replace instructions or create another memory store.
+
 ## Local assessment stages
 
 The verify command compares saved task records, candidate versions and check receipts. Use [CONTROL](../runtime/CONTROL.md) for candidate review and native finalization. show (one task or the entire store) and inspect expose these assessments:

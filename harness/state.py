@@ -1078,6 +1078,86 @@ def inspect(root, state, stale_seconds):
             findings.append({'task': key, 'kind': 'attempt-limit', 'next': 'Review the explicitly configured attempt budget'})
     return findings, stale
 
+def find_tasks(state, query, *, limit=5, offset=0, status=None, owner=None, parent=None):
+    """Locate recorded evidence; current applicability remains a resume/show check."""
+    terms = tuple(dict.fromkeys(query.casefold().split()))
+    if not terms or limit < 1 or offset < 0:
+        raise ValueError('Find requires a nonempty query, positive limit and nonnegative offset')
+    if parent is not None and parent not in state['tasks']:
+        raise ValueError(f'Unknown parent task ID: {parent}')
+
+    def pointer(parts):
+        return '/' + '/'.join(str(part).replace('~', '~0').replace('/', '~1') for part in parts)
+
+    def texts(value, parts):
+        if isinstance(value, str):
+            yield parts, 'value', value
+        elif isinstance(value, dict):
+            for key, item in value.items():
+                # Output/evidence paths can be dictionary keys, not string values.
+                yield (*parts, key), 'key', key
+                yield from texts(item, (*parts, key))
+        elif isinstance(value, list):
+            for index, item in enumerate(value):
+                yield from texts(item, (*parts, index))
+
+    def excerpt(text):
+        folded = text.casefold()
+        at = min((folded.index(term) for term in terms if term in folded), default=0)
+        # Case folding may expand a character; keep the excerpt around the actual match.
+        if len(folded) != len(text):
+            consumed = 0
+            for index, char in enumerate(text):
+                if consumed >= at:
+                    at = index
+                    break
+                consumed += len(char.casefold())
+        start = max(0, at - 60)
+        end = min(len(text), start + 240)
+        return {'excerpt': text[start:end], 'excerpt_truncated': start > 0 or end < len(text)}
+
+    fields = ('task_id', 'owner', 'parent', 'status', 'next', 'record', 'scope', 'external_targets',
+              'authority', 'holds', 'blocked_reason',
+              'task_context', 'task_context_ref', 'inputs', 'read_dependencies', 'consumes',
+              'outputs', 'required_outputs', 'required_actions', 'action_results', 'check_receipts',
+              'verification', 'writing_state', 'history', 'context_revisions', 'contract_revisions')
+    rows = []
+    total = 0
+    for key, task in sorted(state['tasks'].items()):
+        if ((status is not None and task['status'] != status)
+                or (owner is not None and task['owner'] != owner)
+                or (parent is not None and task.get('parent') != parent)):
+            continue
+        seen, matches, additional, count = set(), [], [], 0
+        for field in fields:
+            for parts, location, text in texts(task.get(field), ('tasks', key, field)):
+                found = {term for term in terms if term in text.casefold()}
+                if not found:
+                    continue
+                count += 1
+                if found - seen and len(matches) < 3:
+                    matches.append({'pointer': pointer(parts), 'location': location, **excerpt(text)})
+                elif len(additional) < 3:
+                    additional.append({'pointer': pointer(parts), 'location': location, **excerpt(text)})
+                seen.update(found)
+        if len(seen) != len(terms):
+            continue
+        total += 1
+        if not offset < total <= offset + limit:
+            continue
+        matches += additional[:3 - len(matches)]
+        base = ('tasks', key)
+        refs = {field: pointer((*base, field)) for field in
+                ('record', 'task_context_ref', 'outputs', 'action_results') if task.get(field)}
+        if task.get('task_context') is not None:
+            refs.update({field: pointer((*base, 'task_context', field)) for field in
+                         ('request_refs', 'active_instruction_refs', 'adopted_decisions')})
+        rows.append({'task_id': key, 'recorded_status': task['status'], 'owner': task['owner'],
+                     'parent': task.get('parent'), 'pointer': pointer(base), 'references': refs,
+                     'matches': matches, 'match_count': count, 'matches_omitted': count - len(matches)})
+    return {'query': query, 'view': 'recorded-locators', 'total': total, 'offset': offset, 'limit': limit,
+            'next_offset': offset + len(rows) if offset + len(rows) < total else None, 'tasks': rows}
+
 def report_usage(state):
     groups, problems, intervals = {}, [], []
     runs = [(key, run) for key, task in state['tasks'].items() for run in task['usage']]
@@ -1238,6 +1318,14 @@ def main():
     view.add_argument('--invalidate', action='store_true')
     show = sub.add_parser('show')
     show.add_argument('task_id', nargs='?')
+    find = sub.add_parser('find', help='Locate saved tasks, source references, results and failures before show/resume')
+    find.add_argument('query', help='Case-insensitive literal terms; every whitespace-separated term must occur in the task')
+    find.add_argument('--status', choices=sorted(STATES), help='Exact recorded status, not a current completion assessment')
+    find.add_argument('--owner')
+    find.add_argument('--parent', help='Exact immediate parent task ID')
+    find.add_argument('--limit', type=int, default=5, help='Candidate page size; default 5')
+    find.add_argument('--offset', type=int, default=0)
+    find.add_argument('--snapshot', help='Prior find store_sha256; rejects pagination across a changed store')
     sub.add_parser('summary')
     args = parser.parse_args()
     root = args.root.resolve()
@@ -1245,7 +1333,7 @@ def main():
     if Path(args.store).parts[:2] != ('.agents', 'state'):
         raise ValueError('Operational store must stay in the local .agents/state directory')
     path = root / args.store
-    mutate = args.command not in {'show', 'summary'} and not (args.command == 'inspect' and not args.invalidate)
+    mutate = args.command not in {'show', 'find', 'summary'} and not (args.command == 'inspect' and not args.invalidate)
     def execute():
         if args.command == 'init':
             if path.exists():
@@ -1255,10 +1343,12 @@ def main():
                 raise ValueError('Limits must be positive')
             state = {'version': 5, 'created': now(), 'limits': limits, 'limit_sources': {k: 'explicit' if v is not None else 'unset' for k, v in limits.items()}, 'tasks': {}}
         else:
-            state = json.loads(path.read_text(encoding='utf-8'))
+            source = path.read_bytes()
+            state = json.loads(source.decode('utf-8'))
             migrate(state)
         tasks = state['tasks']
-        refresh_constraints(root, tasks)
+        if args.command != 'find':
+            refresh_constraints(root, tasks)
         if args.command == 'add':
             if args.id in tasks or not args.id.strip():
                 raise ValueError('Task ID must be new and nonempty')
@@ -1667,6 +1757,14 @@ def main():
                       'stages': {key: stages(root, tasks, key) for key in tasks}}
         elif args.command == 'summary':
             output = report_usage(state)
+        elif args.command == 'find':
+            source_sha256 = hashlib.sha256(source).hexdigest()
+            if args.snapshot is not None and args.snapshot != source_sha256:
+                raise ValueError('Store changed since the selected search page; repeat find from the first page')
+            output = find_tasks(state, args.query, limit=args.limit, offset=args.offset,
+                                status=args.status, owner=args.owner, parent=args.parent)
+            output.update(store=args.store, store_sha256=source_sha256,
+                          next_step='show the selected task ID, restore its original source bodies, then use existing resume/version checks')
         elif args.command == 'show':
             if args.task_id is not None and args.task_id not in tasks:
                 raise ValueError(f'Unknown task ID: {args.task_id}')
