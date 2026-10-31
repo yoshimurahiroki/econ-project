@@ -221,13 +221,13 @@ python .agents/skills/econ-data/scripts/equity_company_case.py --directory WORKD
 
 | 資料・実装 | 本機能で利用する内容 |
 | --- | --- |
-| [PyBLP](https://github.com/jeffgortmaker/pyblp)・[API](https://pyblp.readthedocs.io/en/stable/api.html) | 需要・費用のGMM、random coefficients、所有、価格均衡、反実仮想。 |
-| [SciPy](https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.brentq.html) | 期間別分配と売却額からIRRを解く根探索。 |
-| [edinet-tools](https://github.com/matthelmer/edinet-tools) | 無料EDINET APIの既存取得・財務・セグメント抽出。 |
-| [EDINET公式仕様](https://disclosure2dl.edinet-fsa.go.jp/guide/static/disclosure/download/ESE140206.pdf) | 提出書類一覧、APIキー、CSV/XBRL/PDFの種別とフィールド。 |
-| [SEC公式API](https://www.sec.gov/search-filings/edgar-application-programming-interfaces) | submissions・companyfactsの取得、提出企業と公表版の対応。 |
-| [trafilatura](https://github.com/adbar/trafilatura)・[pypdf](https://github.com/py-pdf/pypdf)・[feedparser](https://github.com/kurtmckee/feedparser) | IR・ニュースのHTML/PDF/RSS本文抽出。 |
+| PyBLP・API | 需要・費用のGMM、random coefficients、所有、価格均衡、反実仮想。 |
+| SciPy | 期間別分配と売却額からIRRを解く根探索。 |
+| edinet-tools | 無料EDINET APIの既存取得・財務・セグメント抽出。 |
+| EDINET公式仕様 | 提出書類一覧、APIキー、CSV/XBRL/PDFの種別とフィールド。 |
+| SEC公式API | submissions・companyfactsの取得、提出企業と公表版の対応。 |
+| trafilatura・pypdf・feedparser | IR・ニュースのHTML/PDF/RSS本文抽出。 |
 
-経済モデルの出典は[equity-models.mdの公刊書誌](equity-models.md#公刊書誌)に集約する。需要供給・動学・垂直契約・両面市場・生産性・金融市場、現金、資本コスト、企業価値の理論と識別を、実行する数式とアルゴリズムへ統合している。原本の本文・図表を配布せず、個人資料の接続を必要としない。
+需要供給・動学・垂直契約・両面市場・生産性・金融市場、現金、資本コスト、企業価値の理論と識別は、[モデルと評価の手順](equity-models.md)にある数式とアルゴリズムから実行へ接続する。公開版は公開データと利用者本人の入力から計算する。
 
 実行結果の報告は、使った資料、推定したモデル、計算した金額、価値を決めた要因、前回からの変化に絞る。説明文だけで評価を終えず、要求された計算と保存まで実行する。

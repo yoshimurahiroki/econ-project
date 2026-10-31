@@ -8,11 +8,15 @@ Read the canonical research record and main exhibits. Identify the economic ques
 
 Compare the central finding with the closest existing explanation or result. Identify the measurement, variation or theoretical step that makes the contribution possible. Use econ-literature for an unresolved comparison with prior research and econ-design for an unresolved implication. State the paper's contribution through that specific difference and the result supporting it, rather than a general claim of importance. Carry the answer into the headline claim and body argument.
 
+Build candidate explanations from the relationships among the actual results. Compare the predictions each explanation makes for the available groups, margins and periods. A recurring pattern can identify the next mechanism to investigate; adopt the mechanism through its derivation or identifying comparison. Let a contradictory result change the parent claim and the dependent passages. Preserve the original research objective and settled specification while completing the analysis needed to resolve the consequential difference.
+
 Compose passages whose sources and results are available. When a derivation or computation determines a requested result, resolve that dependency within the user's authority and record the operation in the existing work record. Carry forward sections whose inputs are unchanged.
 
 ## Design the paper's argument
 
 Assign each section a claim or explanation needed for the central argument. Explain institutional rules before a comparison that depends on them and measurement before a design that depends on the measured object.
+
+Make the parent claim explicit enough to determine what its support must establish. A mechanism section needs the choice margin and the response it predicts; an identification section needs the comparison and assumptions recovering the defined estimand. Preserve the same population, policy contrast, outcome scale and horizon across each inferential step, or explain the model or calculation that connects different objects. Order parallel findings by their contribution to the answer and dependent findings by the inference that uses them.
 
 Use the Introduction to explain the question, decisive comparison, answer and contribution. Develop the supporting derivations, observations and estimated comparisons in the body. Place sample construction, specification details and diagnostics with the claims they establish. Include literature comparisons where they explain the added knowledge. Remove repeated explanations when integrating sections.
 
@@ -73,6 +77,8 @@ Expected: two bars starting at zero, North at `40` labeled `40%` and South at `6
 ## Connect the prose
 
 Apply [relation-based sentence connections](../../../runtime/PROSE.md#connect-the-explanation) to connect the paper's argument. When the study establishes the mechanism, explain how an institutional rule changes costs, how costs change choices and how the empirical comparison measures that margin.
+
+Connect sections through what the preceding result establishes and what the next comparison must resolve. For example, a treatment effect on purchases raises a different question from an effect on total consumption: the mechanism linking them requires evidence on substitution or a specified behavioral model. Supply that dependency from the study's actual design and results before carrying the claim into the Abstract or policy recommendation.
 
 ## Revise the integrated manuscript
 

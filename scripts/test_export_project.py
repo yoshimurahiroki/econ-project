@@ -390,6 +390,13 @@ class RealRegistryTests(unittest.TestCase):
             self.assertTrue(selection, cid)
         formal = exporter.resolve_operation(self.routes, 'econ-writing:revise', conditions=['formal_review_requested'])
         self.assertTrue({'native-run', 'native-check', 'prose-check-rules'} <= formal['resource_sections'].keys())
+        for fmt in ('flat', 'deployed'):
+            out = self.output('resume-' + fmt, task='econ-data', conditions=['resumption_active'], output_format=fmt)
+            resource = self.routes['resources']['state-contract']
+            text = (out / resource['export_alias' if fmt == 'flat' else 'deployment_path']).read_text()
+            self.assertIn('## Governing context', text)
+            self.assertIn('context_revisions', text)
+            self.assertIn('previous_context_sha256', text)
 
     def test_one_japanese_example_no_other_function_or_language(self):
         out = self.output('ja', task='econ-writing:revise', conditions=['example_ja_revision_translation'])

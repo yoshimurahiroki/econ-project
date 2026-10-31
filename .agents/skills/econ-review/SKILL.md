@@ -25,6 +25,8 @@ Review the named object within the requested scope:
 
 A local review stays with the named passage, result or operation and dependencies needed to assess it. For a whole argument or execution review, first recover the intended choice, central claim and required outcome from the artifact and actual results. Prioritize defects that change that answer, invalidate its identifying comparison or block delivery. Allocate further inspection by the unresolved consequence under [DECIDE](../../runtime/DECIDE.md); routine technical precision does not substitute for resolving a defective central mechanism. Correct the target when correction is requested.
 
+Compare the recovered result with the governing request. Trace the decisive evidence through its needed inference to the claim and the chosen action. Identify a missing causal step, incompatible premise or unstated aggregation where it changes the answer. For a project result, connect completed subtasks to the parent deliverables and inspect the resulting artifacts and actions. Required work remains open until its own completion condition is met; a convincing report or completed component cannot discharge it.
+
 ### Locate and repair the cause
 
 For each defect, identify the passage, calculation or operation and explain what it changes in the requested result. For a contested explanation, compare its consequential alternative and contradictory evidence. Use the demonstrated cause to select the repair:
@@ -50,6 +52,7 @@ Apply these comparisons when relevant:
 - Subgroup differences: assess their direct contrast.
 - Model–decision-maker disagreement: compare the choices with those rationalized by the decision-maker's objectives, private information and unobserved outcomes. Use remaining violations and relevant realized outcomes to locate decisions to change.
 - Independent judgment: when facts and criteria stay fixed, a change in user insistence or source identity should preserve the evidence-based choice. When contrary evidence changes a determining premise, assess whether the explanation and action change with it.
+- Multi-stage work: compare actual actions and accumulated artifacts at entry, an intermediate decision, finalization and resumption. Check the original purpose, binding conditions, adopted definitions and authorized amendments at each relevant stage. Assess whether new evidence changed the right dependent tasks, preserved reusable results and led to the requested final output. Use the existing task and operation records for the comparison.
 
 Use [oversight notes](references/oversight.md) for requested independent assessment, blinded comparison or a contested execution finding.
 

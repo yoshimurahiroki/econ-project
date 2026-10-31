@@ -103,6 +103,87 @@ class TeamStateTests(unittest.TestCase):
         self.assertTrue(h.completion_current(self.root, self.state()['tasks'], 'T'))
         self.assertEqual([], self.task()['required_checks'])
 
+    def task_context(self, name='context.json', *, delegated=False):
+        (self.root / 'request.txt').write_text('Deliver the policy decision and preserve the adopted outcome units.')
+        (self.root / 'rules.md').write_text('Retain the full request and use the saved analysis.')
+        value = {'request_refs': [{'source_id': 'user-request', 'version': 1,
+                                  'content_sha256': h.digest(self.root / 'request.txt'), 'path': 'request.txt'}],
+                 'goal_and_constraints': 'Choose the profitable policy; retain all regions and monetary units.',
+                 'active_instruction_refs': [{'rule_id': 'core', 'version': 1, 'section': 'all',
+                                              'content_sha256': h.digest(self.root / 'rules.md'), 'path': 'rules.md'}],
+                 'adopted_decisions': [{'decision_id': 'method', 'version': 1, 'choice': 'level contrast',
+                                       'reason': 'Requested units', 'switch_condition': 'New evidence changes the comparison',
+                                       'change_authority': 'delegated' if delegated else 'fixed'}]}
+        (self.root / name).write_text(json.dumps(value))
+        return value
+
+    def test_compacted_context_cannot_drop_binding_requirements(self):
+        original = self.task_context()
+        self.add('--task-context', 'context.json', '--scope', 'artifact', kind='answer', name='P')
+        self.add('--parent', 'P', '--scope', 'artifact', name='C')
+        self.cli('start', 'C'); self.cli('output', 'C', 'artifact'); self.completed('C')
+        self.cli('start', 'P')
+        self.cli('transition', 'P', 'blocked', '--next', 'Read saved context and integrate child result')
+        artifact_version = self.task('C')['outputs']['artifact']['version']
+        for field, replacement in [('request_refs', []), ('active_instruction_refs', []),
+                                   ('adopted_decisions', []), ('goal_and_constraints', 'Report a result')]:
+            with self.subTest(field=field):
+                compacted = {**original, field: replacement}
+                (self.root / 'compacted.json').write_text(json.dumps(compacted))
+                with self.assertRaisesRegex(ValueError, 'binding context'):
+                    self.cli('set-context', 'P', '--task-context', 'compacted.json')
+                self.assertEqual(original, self.task('P')['task_context'])
+                self.assertEqual(original, self.task('C')['task_context'])
+        self.assertEqual(artifact_version, self.task('C')['outputs']['artifact']['version'])
+        self.assertTrue(h.completion_current(self.root, self.state()['tasks'], 'C'))
+        self.cli('resume', 'P', '--task-context', 'context.json')
+        self.cli('output', 'P', 'message:1', '--kind', 'message', '--value', 'Decision from the completed child result')
+        self.completed('P')
+
+    def test_context_changes_bind_authority_and_delegated_decision_evidence(self):
+        previous = self.task_context(delegated=True)
+        self.add('--task-context', 'context.json', kind='answer')
+        replacement = json.loads(json.dumps(previous)); replacement['adopted_decisions'][0].update(version=2, choice='alternative level contrast')
+        (self.root / 'replacement.json').write_text(json.dumps(replacement))
+        (self.root / 'analysis.json').write_text('{"net_benefit":55}')
+        with self.assertRaisesRegex(ValueError, 'decision-update'):
+            self.cli('set-context', 'T', '--task-context', 'replacement.json')
+        self.cli('set-context', 'T', '--task-context', 'replacement.json', '--decision-update',
+                 json.dumps({'decision_id': 'method', 'reason': 'The saved comparison crosses the adopted decision boundary', 'evidence': ['analysis.json']}))
+        self.assertEqual('delegated-decision', self.task()['context_revisions'][-1]['source']['kind'])
+        # A delegated choice cannot rewrite the criterion or the user's instruction.
+        changed = json.loads(json.dumps(replacement)); changed['goal_and_constraints'] = 'New user objective with the same monetary units.'
+        (self.root / 'changed.json').write_text(json.dumps(changed))
+        with self.assertRaisesRegex(ValueError, 'binding context'):
+            self.cli('set-context', 'T', '--task-context', 'changed.json')
+        (self.root / 'user-change.json').write_text(json.dumps({'source': 'user', 'message_id': 'fixture-user-change',
+            'text': 'Adopt the new objective while preserving monetary units.',
+            'previous_context_sha256': h.content_hash(replacement), 'replacement_context_sha256': h.content_hash(changed)}))
+        self.cli('set-context', 'T', '--task-context', 'changed.json', '--user-change', 'user-change.json')
+        self.cli('start', 'T'); self.cli('output', 'T', 'message:1', '--kind', 'message', '--value', 'Completed decision'); self.completed()
+        (self.root / 'analysis.json').write_text('{"net_benefit":-55}')
+        self.assertFalse(h.completion_current(self.root, self.state()['tasks'], 'T'))
+
+    def test_context_rebinding_and_additions_preserve_previous_instructions(self):
+        previous = self.task_context()
+        self.add('--task-context', 'context.json', kind='answer')
+        self.cli('start', 'T'); self.cli('output', 'T', 'message:1', '--kind', 'message', '--value', 'Saved result')
+        self.cli('transition', 'T', 'blocked', '--next', 'Resume the same result')
+        before = self.task()['outputs']
+        (self.root / 'same.json').write_text(json.dumps(previous, indent=2))
+        self.cli('set-context', 'T', '--task-context', 'same.json')
+        self.assertEqual(before, self.task()['outputs'])
+        self.assertEqual(1, len(self.task()['context_revisions']))
+        extra = json.loads(json.dumps(previous)); extra['adopted_decisions'].append(
+            {'decision_id': 'report', 'version': 1, 'choice': 'Report the total', 'reason': 'Decision scope', 'switch_condition': 'User changes the target'})
+        (self.root / 'extra-context.json').write_text(json.dumps(extra))
+        self.cli('set-context', 'T', '--task-context', 'extra-context.json')
+        self.assertEqual(previous, self.task()['context_revisions'][0]['context'])
+        self.cli('resume', 'T', '--task-context', 'extra-context.json'); self.completed()
+        saved = self.state(); saved['tasks']['T']['context_revisions'][0]['context']['goal_and_constraints'] = 'A forged shorter instruction'
+        (self.root / '.agents/state/team.json').write_text(json.dumps(saved))
+        self.assertFalse(h.completion_current(self.root, saved['tasks'], 'T'))
+
     def test_same_path_modify_preserves_before_and_after(self):
         self.add('--scope', 'input', '--input', 'input', '--required-check', 'check', kind='modify')
         before = self.task()['consumed_inputs']['input']

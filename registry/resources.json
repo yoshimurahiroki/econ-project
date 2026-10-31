@@ -5,61 +5,61 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "prose": {
       "resource_id": "prose",
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "research": {
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "execution": {
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "team": {
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
       "source_path": "skills/econ-design/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "econ-data": {
       "resource_id": "econ-data",
       "source_path": "skills/econ-data/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "econ-literature": {
       "resource_id": "econ-literature",
       "source_path": "skills/econ-literature/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "econ-writing": {
       "resource_id": "econ-writing",
       "source_path": "skills/econ-writing/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "econ-review": {
       "resource_id": "econ-review",
       "source_path": "skills/econ-review/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "design-methods": {
       "resource_id": "design-methods",
@@ -71,7 +71,7 @@
       "resource_id": "data-implementation",
       "source_path": "skills/econ-data/references/implementation.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "data-results": {
       "resource_id": "data-results",
@@ -83,7 +83,7 @@
       "resource_id": "paper-workflow",
       "source_path": "skills/econ-writing/references/paper-workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "review-methods": {
       "resource_id": "review-methods",
@@ -131,7 +131,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0",
+      "content_version": "0.10.0",
       "sync": false
     },
     "resource-guide": {
@@ -144,7 +144,7 @@
       "resource_id": "team-state-helper",
       "source_path": "harness/state.py",
       "resource_kind": "support",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "project-instructions": {
       "resource_id": "project-instructions",
@@ -268,7 +268,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -287,13 +287,13 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -305,7 +305,7 @@
       "resource_id": "control",
       "source_path": "runtime/CONTROL.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.10.0"
     },
     "prose-check-guide": {
       "resource_id": "prose-check-guide",
@@ -371,7 +371,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.9.0"
+      "content_version": "0.10.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -396,7 +396,7 @@
       "resource_id": "tool-test-export-project-py",
       "source_path": "scripts/test_export_project.py",
       "resource_kind": "support",
-      "content_version": "0.9.0",
+      "content_version": "0.10.0",
       "source_distribution_only": true
     },
     "tool-setup-ide-mcp-sh": {
@@ -455,7 +455,7 @@
       "resource_id": "state-tests",
       "source_path": "harness/test_state.py",
       "resource_kind": "maintenance",
-      "content_version": "0.9.0",
+      "content_version": "0.10.0",
       "source_distribution_only": true
     },
     "checked-artifacts-instructions": {
@@ -488,7 +488,7 @@
       "resource_id": "paragraph-workflow",
       "source_path": "skills/econ-writing/references/paragraph-workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.10.0"
     },
     "paragraph-engine": {
       "resource_id": "paragraph-engine",
@@ -553,7 +553,7 @@
       "resource_id": "equity-guide",
       "source_path": "skills/econ-data/references/equity.md",
       "resource_kind": "rule",
-      "content_version": "0.8.0",
+      "content_version": "0.10.0",
       "required_resources": [
         "equity-calculator",
         "equity-sources",
@@ -595,7 +595,7 @@
       "resource_id": "equity-models",
       "source_path": "skills/econ-data/references/equity-models.md",
       "resource_kind": "rule",
-      "content_version": "0.8.0"
+      "content_version": "0.10.0"
     },
     "equity-io": {
       "resource_id": "equity-io",
@@ -1410,6 +1410,9 @@
       },
       "paragraph-state-binding": {
         "heading": "Paragraph state binding"
+      },
+      "governing-context": {
+        "heading": "Governing context"
       }
     },
     "publication": {
@@ -2112,7 +2115,9 @@
       "rule_id": "team.resumption",
       "resource_id": "team",
       "section_id": "resumption",
-      "requires": [],
+      "requires": [
+        "state-contract.governing-context"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -2120,7 +2125,9 @@
       "rule_id": "team.handoff",
       "resource_id": "team",
       "section_id": "handoff",
-      "requires": [],
+      "requires": [
+        "state-contract.governing-context"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -3568,7 +3575,9 @@
       "rule_id": "state-contract.state-and-version-contract",
       "resource_id": "state-contract",
       "section_id": "state-and-version-contract",
-      "requires": [],
+      "requires": [
+        "state-contract.governing-context"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4697,6 +4706,14 @@
       "rule_id": "design-methods.structural-estimation-and-counterfactuals",
       "resource_id": "design-methods",
       "section_id": "structural-estimation-and-counterfactuals",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.governing-context": {
+      "rule_id": "state-contract.governing-context",
+      "resource_id": "state-contract",
+      "section_id": "governing-context",
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []

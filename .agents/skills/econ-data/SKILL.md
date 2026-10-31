@@ -25,6 +25,8 @@ Use [EXECUTION](../../runtime/EXECUTION.md) to locate project instructions, esta
 
 Locate the existing entry point, specification, input documentation and saved results for the requested operation. Use [implementation notes](references/implementation.md) for acquisition, data contracts, computation, prediction or numerical methods, [numerical dependencies and replication](references/reproducible-workflow.md) for saved analysis results, and [EXECUTION](../../runtime/EXECUTION.md) for general file operations and [publication](../../harness/publication.md) when that operation is requested. Read only the branches needed for that operation.
 
+Carry the parent question and the decision this calculation informs through its inputs, implementation and returned result. A delegated calculation inherits the governing request, fixed definitions and authorized scope through [TEAM](../../runtime/TEAM.md). On resumption, recover those sources and the saved results before choosing the next operation. Return the computed quantity with the definitions and unresolved dependency its consumer needs; completing an intermediate table leaves the parent's remaining deliverables active.
+
 Map the requested economic object to records, fields, keys and transformations. When the intervention changes reporting, detection or recording, compare the recorded outcome with a source or stage that responds differently to that process. When a result constructs a classification or score, evaluate its target relationship with separate information. Preserve the source version, population, period, observation unit, quantity unit, denominator and adopted observation-status treatment. Choose joins that produce the intended population.
 
 ### Construct a requested data design

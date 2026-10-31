@@ -592,16 +592,3 @@ EVSI=E_z[\max_a E(W_a\mid z)]-\max_aE(W_a)
 既存CLIは、PyBLPの差別化需要、固定総需要の条件付logit、容量付きCournot、有限状態logit動学ゲーム、物量・IO連動FCFF、APV、残余利益、配当、NAV、SOTP、逆算、ニュース更新、指定条件下の投資判断を提供する。生産、検索、切替、交渉、両面の専用式を採用する場合は、本書の観測・識別・方程式に沿ってNumPy・SciPyと既存推定器を組み合わせ、実際に解いた政策・価格・数量・費用・金銭CFを共通の評価入力へ渡す。
 
 完了する出力は、選んだ市場と行動、係数と識別に使った観測、均衡と最適反応の残差、年次金額、財務橋渡し、適正株価・現在株価との差、保有期間の税後受取額、選ばれた行動・数量、判断を変更する観測条件である。実行入力・取得版・推定値を保存し、同じ情報集合で再計算できるようにする。
-
-## 公刊書誌
-
-本文の数式・識別・計算手順に対応する出典。個別企業の分析で採用する数値は、各企業・市場の一次資料から更新する。
-
-1. Gandhi & Nevo (2021), “Empirical Models of Demand and Supply in Differentiated Products Industries,” *Handbook of Industrial Organization*; Bresnahan (1989), “Empirical Studies of Industries with Market Power,” 同書; Ellison (2022), *MIT 14.271*, lectures 4・6; 遠山祐太 (2023–2024), 集計離散選択需要・寡占供給の講義資料。
-2. De Loecker & Syverson (2021), “An Industrial Organization Perspective on Productivity,” *Handbook of Industrial Organization*; Ackerberg, Frazer, Kim, Luo & Su (2023), “Under-identification of Structural Models Based on Timing and Information Set Assumptions,” *Journal of Econometrics*, 237, 105463。
-3. Aguirregabiria, Collard-Wexler & Ryan (2021), “Dynamic Games in Empirical Industrial Organization”; Berry & Reiss (2007), “Empirical Models of Entry and Market Structure”; Doraszelski & Pakes (2007), “A Framework for Applied Dynamic Analysis in IO,” 以上 *Handbook of Industrial Organization*。
-4. Kline, Pakes & Tamer (2021), “Moment Inequalities and Partial Identification in Industrial Organization,” *Handbook of Industrial Organization*; Hortaçsu & Joo (2023), *Structural Econometric Modeling in Industrial Organization and Quantitative Marketing*; Shum (2020更新), *Econometric Models for Industrial Organization*。
-5. Gavazza & Lizzeri (2021), “Frictions in Product Markets”; Jullien, Pavan & Rysman (2021), “Two-sided Markets, Pricing, and Network Effects”; Lee, Whinston & Yurukoglu (2021), “Structural Empirical Analysis of Contracting in Vertical Markets”; Farrell & Klemperer (2007), “Coordination and Lock-In: Competition with Switching Costs and Network Effects,” 以上 *Handbook of Industrial Organization*。
-6. Clark, Houde & Kastl (2021), “The Industrial Organization of Financial Markets”; Kellogg & Reguant (2021), “Energy and Environmental Markets, Industrial Organization, and Regulation,” 以上 *Handbook of Industrial Organization*。
-7. Stein (2003), “Agency, Information and Corporate Investment”; Brennan (2003), “Corporate Investment Policy,” 以上 *Handbook of the Economics of Finance*; Bolton, Chen & Wang (2024), “The Marginal Value of Cash: Corporate Savings, Investment, and Financing,” *Annual Review of Financial Economics*, 16。
-8. Jagannathan, Liberti, Liu & Meier (2017), “A Firm’s Cost of Capital,” *Annual Review of Financial Economics*, 9; Allen & Michaely (2003), “Payout Policy,” *Handbook of the Economics of Finance*; Damodaran, *Intrinsic Valuation* (2026), “Show Me the Money”および負債・株式の最適構成に関する講義資料; Kothari (2004), *MIT 15.511: Financial Statement Analysis / Cash Flow Analysis*。

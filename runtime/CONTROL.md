@@ -12,6 +12,8 @@ Use the host's existing actions to complete the request. An explicitly selected 
 
 Read the current request, adopted specifications, source material and activated rule bodies. Carry their output and action requirements into execution. Use the existing persistent record when recovery or the selected formal workflow requires one.
 
+After a compressed context, handoff or interruption, restore the governing sources and their versions before accepting a new instruction summary or completed result. Preserve the exact request, binding constraints, settled definitions and existing authority through the [governing context](../harness/state.md#governing-context) path. An authorized analytical revision carries the evidence for its switching condition; a change to the user's requirements carries the already-given instruction. A progress update changes neither. Compare an integrated result with the parent's requirements and the definitions of its actual inputs, then continue the remaining authorized work.
+
 ## Worker roles and identities
 
 One responsible agent integrates the result. Delegate a distinct, useful subtask under [TEAM](TEAM.md); preserve its inputs, write scope and actual return. The selected formal review plan defines its reviewer roles and identity requirements.

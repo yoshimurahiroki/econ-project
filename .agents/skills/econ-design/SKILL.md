@@ -25,6 +25,8 @@ When conflicting model results motivate a research question, express their choic
 
 When proposing a behavioral hypothesis, identify its driver, the quantity to measure independently, and the comparison where competing hypotheses predict different outcomes. Specify how cases differ in that driver while holding established determinants of the choice fixed, and how the measure would explain choices beyond established explanations.
 
+Connect a diagnostic design to the condition preventing the requested outcome. Distinguish the observed shortfall, its candidate mechanism, the model margin an intervention changes and the resulting economic choice. Derive the comparison at that margin before specifying data collection or computation. Return its implication for the parent research claim or action, including displacement and participant responses that change the total objective. Keep established specifications attached to each delegated derivation or empirical comparison through [TEAM](../../runtime/TEAM.md).
+
 For a design-only request, complete the requested economic object and the assumptions and operations needed to establish it. An empirical design specifies its question, identifying comparison, measurement targets, estimand and inference; a theoretical design specifies primitives, feasible choices, solution concept and the proposition or comparative static sought. Include testable hypotheses when they are part of the requested design. When the request includes empirical measurement, calculate the comparison on the adopted sample and use its results to retain or revise the hypothesis. A completed design does not itself start measurement or estimation.
 
 ### For an empirical specification

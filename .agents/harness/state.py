@@ -190,7 +190,9 @@ def load_task_context(root, path):
     if not isinstance(rows, list):
         raise ValueError('adopted_decisions must be an array')
     for row in rows:
-        if (not isinstance(row, dict) or set(row) != {'decision_id', 'version', 'choice', 'reason', 'switch_condition'}
+        if (not isinstance(row, dict) or not {'decision_id', 'version', 'choice', 'reason', 'switch_condition'} <= set(row)
+                or set(row) - {'decision_id', 'version', 'choice', 'reason', 'switch_condition', 'change_authority'}
+                or row.get('change_authority', 'fixed') not in {'fixed', 'delegated'}
                 or any(not isinstance(row[k], str) or not row[k].strip()
                        for k in ('decision_id', 'choice', 'reason', 'switch_condition'))
                 or not (isinstance(row['version'], str) and row['version'].strip()
@@ -201,9 +203,81 @@ def load_task_context(root, path):
     return value, {'path': path, 'sha256': content_hash(value)}
 
 
+def record_context(task, source):
+    revisions = task.setdefault('context_revisions', [])
+    value = json.loads(json.dumps(task.get('task_context')))
+    revisions.append({'revision': len(revisions) + 1, 'context': value,
+                      'sha256': content_hash(value), 'source': source, 'at': now()})
+
+
+def context_current(root, task):
+    revisions = task.get('context_revisions', [])
+    if not revisions:
+        return True  # Existing stores and inherited contexts retain their source bindings.
+    try:
+        return (revisions[-1]['context'] == task.get('task_context')
+                and all(row['revision'] == index + 1 and row['sha256'] == content_hash(row['context'])
+                        and not changed(root, row['source'].get('evidence', {}))
+                        for index, row in enumerate(revisions)))
+    except (KeyError, TypeError, ValueError, OSError):
+        return False
+
+
+def context_change(root, task, value, user_change, decision_updates):
+    """Preserve binding instructions; revise delegated choices on recorded evidence."""
+    if not context_current(root, task):
+        raise ValueError('Saved context revision/evidence changed; reconcile the original records')
+    previous = task.get('task_context')
+    if previous == value:
+        return False
+    source = {'kind': 'additive-context'}
+    protected_change = previous is not None and previous['goal_and_constraints'] != value['goal_and_constraints']
+    if previous is not None:
+        for field in ('request_refs', 'active_instruction_refs'):
+            old = [{k: v for k, v in row.items() if k != 'path'} for row in previous[field]]
+            new = [{k: v for k, v in row.items() if k != 'path'} for row in value[field]]
+            protected_change |= any(row not in new for row in old)
+        decisions = {row['decision_id']: row for row in value['adopted_decisions']}
+        replaced = [row for row in previous['adopted_decisions'] if decisions.get(row['decision_id']) != row]
+        protected_change |= any(row['decision_id'] not in decisions
+                                or row.get('change_authority', 'fixed') != 'delegated'
+                                or decisions[row['decision_id']].get('change_authority', 'fixed') != 'delegated'
+                                or decisions[row['decision_id']]['switch_condition'] != row['switch_condition']
+                                for row in replaced)
+    else:
+        replaced, decisions = [], {}
+    if protected_change and not user_change:
+        raise ValueError('Removing or replacing binding context requires --user-change evidence of the user instruction')
+    if user_change:
+        source = user_change_evidence(root, user_change, previous, value, 'context')
+    elif replaced:
+        updates = [gate.parse_json(text.encode('utf-8')) for text in decision_updates]
+        expected = {row['decision_id'] for row in replaced}
+        if (len(updates) != len(expected) or any(not isinstance(row, dict)
+                or set(row) != {'decision_id', 'reason', 'evidence'}
+                or not isinstance(row['reason'], str) or not row['reason'].strip()
+                or not isinstance(row['evidence'], list) or not row['evidence']
+                for row in updates) or {row['decision_id'] for row in updates} != expected):
+            raise ValueError('Each revised delegated decision needs --decision-update with its ID, reason and evidence paths')
+        for row in replaced:
+            if decisions[row['decision_id']]['version'] == row['version']:
+                raise ValueError('A revised decision requires a new version')
+        source = {'kind': 'delegated-decision', 'updates': updates,
+                  'evidence': snapshot(root, [path for row in updates for path in row['evidence']])}
+    elif decision_updates:
+        raise ValueError('Decision-update evidence must match a revised delegated decision')
+    if not task.get('context_revisions'):
+        record_context(task, {'kind': 'legacy-retained' if previous is not None else 'initial-declaration'})
+    task['task_context'] = value
+    record_context(task, source)
+    return True
+
+
 def context_changes(root, task):
     """Compare recorded content, never a Git label or task progress timestamp."""
     changes = []
+    if not context_current(root, task):
+        changes.append('context-revision-or-evidence-changed')
     record = task.get('record')
     if record:
         try:
@@ -709,15 +783,7 @@ def contract_change(root, task, outputs, actions, external_targets, user_change,
     if removed and not user_change:
         raise ValueError('Removing or replacing requirements requires --user-change evidence of the user instruction')
     if user_change:
-        reference = relative(root, user_change)
-        evidence = json.loads((root / reference).read_text(encoding='utf-8'))
-        if (not isinstance(evidence, dict) or evidence.get('source') != 'user'
-                or any(not isinstance(evidence.get(key), str) or not evidence[key].strip()
-                       for key in ('message_id', 'text'))
-                or evidence.get('previous_contract_sha256') != content_hash(previous)
-                or evidence.get('replacement_contract_sha256') != content_hash(replacement)):
-            raise ValueError('User-change evidence needs the user message ID/text and matching previous/replacement contract hashes')
-        source = {'kind': 'user-change', 'evidence': snapshot(root, [reference]), 'message': evidence}
+        source = user_change_evidence(root, user_change, previous, replacement, 'contract')
     if previous == replacement:
         return False
     if not task.get('contract_revisions'):
@@ -725,6 +791,18 @@ def contract_change(root, task, outputs, actions, external_targets, user_change,
     task.update(replacement)
     record_contract(task, source)
     return True
+
+
+def user_change_evidence(root, reference, previous, replacement, kind):
+    reference = relative(root, reference)
+    evidence = gate.parse_json((root / reference).read_bytes())
+    if (not isinstance(evidence, dict) or evidence.get('source') != 'user'
+            or any(not isinstance(evidence.get(key), str) or not evidence[key].strip()
+                   for key in ('message_id', 'text'))
+            or evidence.get('previous_' + kind + '_sha256') != content_hash(previous)
+            or evidence.get('replacement_' + kind + '_sha256') != content_hash(replacement)):
+        raise ValueError('User-change evidence needs the user message ID/text and matching previous/replacement ' + kind + ' hashes')
+    return {'kind': 'user-change', 'evidence': snapshot(root, [reference]), 'message': evidence}
 
 def missing_deliverables(root, task):
     if task.get('completion_contract') != 1:
@@ -1093,6 +1171,8 @@ def main():
             cli.add_argument('--paragraph-state', required=True, help='Saved ParagraphRun state; binds content and dependency versions')
         elif command == 'set-context':
             cli.add_argument('--task-context', required=True)
+            cli.add_argument('--user-change', help='Existing user instruction and old/new context hashes authorizing a binding change')
+            cli.add_argument('--decision-update', action='append', default=[], help='JSON: decision_id, reason, evidence paths for a revised delegated choice')
         elif command in {'start', 'resume'}:
             cli.add_argument('--task-context', help='Current context to compare with the saved governing version')
         elif command == 'set-contract':
@@ -1218,6 +1298,7 @@ def main():
                 'independent_review': args.independent_review, 'human_corrections': 0}
             if args.task_context:
                 tasks[args.id]['task_context'], tasks[args.id]['task_context_ref'] = load_task_context(root, args.task_context)
+                record_context(tasks[args.id], {'kind': 'initial-declaration'})
             elif args.parent and tasks[args.parent].get('task_context') is not None:
                 tasks[args.id]['task_context_inherited_from'] = args.parent
                 for key in ('task_context', 'task_context_ref'):
@@ -1241,7 +1322,8 @@ def main():
                 value, reference = load_task_context(root, args.task_context)
                 before = context_id(task)
                 transition(task, task['status'], task['next'], task.get('blocked_reason'))
-                task['task_context'], task['task_context_ref'] = value, reference
+                context_change(root, task, value, args.user_change, args.decision_update)
+                task['task_context_ref'] = reference
                 task.pop('task_context_inherited_from', None)
                 if context_id(task) != before:
                     task['check_receipts'], task['verification'] = {}, None

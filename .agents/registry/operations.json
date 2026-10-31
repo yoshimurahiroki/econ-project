@@ -819,7 +819,8 @@
       "when": "delegation_active",
       "required_rules": [
         "team.shared-work",
-        "research.resolve-dependencies-and-integrate-findings"
+        "research.resolve-dependencies-and-integrate-findings",
+        "team.return-and-integration"
       ],
       "full_review_required": false
     },
