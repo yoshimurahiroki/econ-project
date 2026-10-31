@@ -752,7 +752,9 @@
         "data-implementation.source-to-analysis",
         "data-implementation.acquisition",
         "data-implementation.data-contracts-and-joins",
-        "data-implementation.computation"
+        "data-implementation.computation",
+        "execution.entry-point-and-dependencies",
+        "execution.complete-outputs-and-failure-propagation"
       ],
       "full_review_required": true
     },
@@ -1148,7 +1150,9 @@
     "data_code_change": {
       "when": "data_code_change",
       "required_rules": [
-        "econ-data.implement-at-the-existing-owner"
+        "econ-data.implement-at-the-existing-owner",
+        "execution.entry-point-and-dependencies",
+        "execution.complete-outputs-and-failure-propagation"
       ],
       "full_review_required": true
     },

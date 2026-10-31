@@ -30,7 +30,7 @@ Resolve the local claim, source correspondence and wording as part of compositio
 
 Arrange the paragraphs so their concrete claims establish the section's proposition. Connect the steps, place definitions before use and preserve citations. Remove repeated or empty paragraphs and restore a missing premise from the source or completed analysis.
 
-Integrate returned passages by matching their actors, population, period, estimand, assumptions and result status to the parent argument. A change in one of these objects requires its explicit analytical connection. Resolve the difference through the responsible analysis and update affected passages. Make the combined inference using the actual returned evidence; a completed paragraph establishes only the claim supported within it.
+Integrate returned passages by matching their actors, population, period, estimand, assumptions and result status to the parent argument. A change in one of these objects requires its explicit analytical connection. Resolve the difference through the responsible analysis and update affected passages. Make the combined inference using the actual returned evidence; a completed paragraph establishes only the claim supported within it. Select the returned proposition, evidence and determining conditions for the parent draft. Remove effort-based self-justification, self-evaluations and defensive content under PROSE before adapting the passage's wording. Retain the actual operation results in their existing operational destination.
 
 ## F. Global Integration
 

@@ -6,6 +6,8 @@ Treat 「わけではありません」「区別が必要です」「実施さ�
 
 The 142 existing JA/EN patterns and all 22 semantic criteria govern ordinary composition and the mandatory integrated editorial review in [PROSE](../runtime/PROSE.md#finish-the-passage). Judge the claim, paragraph and argument by their meaning, including paraphrases absent from the dictionary. Eliminate defensive reservations, artificial contrasts, filler and evasive language by rebuilding the substantive explanation. Complete the explanation before shortening it.
 
+The functional criteria direct removal and reconstruction of the named defect. Apply them first to content selection: retain a passage through its contribution to the requested answer, inference, decision or required content. Delete a defensive passage that contributes none of these. Preserve the necessary population, comparison, causal premise, numerical boundary and action in the argument itself. A direct-sounding paraphrase of irrelevant defensive content retains the defect. Resolve a missing analysis or failed operation through its existing owner and use its actual result in the text.
+
 An explicitly selected exhaustive review activates the existing full scan and required records. Ordinary writing applies the same substantive criteria within its integrated editorial review.
 
 ## Function and occurrence identity

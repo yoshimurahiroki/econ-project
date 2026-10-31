@@ -397,6 +397,13 @@ class RealRegistryTests(unittest.TestCase):
             self.assertIn('## Governing context', text)
             self.assertIn('context_revisions', text)
             self.assertIn('previous_context_sha256', text)
+            for condition in ('data_pipeline_new', 'data_code_change'):
+                out = self.output(condition + '-' + fmt, task='econ-data', conditions=[condition], output_format=fmt)
+                resource = self.routes['resources']['execution']
+                text = (out / resource['export_alias' if fmt == 'flat' else 'deployment_path']).read_text()
+                self.assertIn('## Entry point and dependencies', text)
+                self.assertIn('## Complete outputs and failure propagation', text)
+                self.assertIn('Before a costly dependent run', text)
 
     def test_one_japanese_example_no_other_function_or_language(self):
         out = self.output('ja', task='econ-writing:revise', conditions=['example_ja_revision_translation'])

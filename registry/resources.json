@@ -5,73 +5,73 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "prose": {
       "resource_id": "prose",
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "research": {
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "execution": {
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "team": {
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
       "source_path": "skills/econ-design/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "econ-data": {
       "resource_id": "econ-data",
       "source_path": "skills/econ-data/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "econ-literature": {
       "resource_id": "econ-literature",
       "source_path": "skills/econ-literature/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "econ-writing": {
       "resource_id": "econ-writing",
       "source_path": "skills/econ-writing/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "econ-review": {
       "resource_id": "econ-review",
       "source_path": "skills/econ-review/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "design-methods": {
       "resource_id": "design-methods",
       "source_path": "skills/econ-design/references/designs.md",
       "resource_kind": "rule",
-      "content_version": "0.9.0"
+      "content_version": "0.11.0"
     },
     "data-implementation": {
       "resource_id": "data-implementation",
       "source_path": "skills/econ-data/references/implementation.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "data-results": {
       "resource_id": "data-results",
@@ -131,7 +131,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0",
+      "content_version": "0.11.0",
       "sync": false
     },
     "resource-guide": {
@@ -287,13 +287,13 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -311,13 +311,13 @@
       "resource_id": "prose-check-guide",
       "source_path": "quality/prose_rules.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.11.0"
     },
     "prose-check-rules": {
       "resource_id": "prose-check-rules",
       "source_path": "quality/prose_rules.json",
       "resource_kind": "support",
-      "content_version": "0.5.0"
+      "content_version": "0.11.0"
     },
     "local-checks": {
       "resource_id": "local-checks",
@@ -371,13 +371,13 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
       "source_path": "quality/policy_manifest.json",
       "resource_kind": "support",
-      "content_version": "76.0"
+      "content_version": "0.11.0"
     },
     "codex-hooks": {
       "resource_id": "codex-hooks",
@@ -396,7 +396,7 @@
       "resource_id": "tool-test-export-project-py",
       "source_path": "scripts/test_export_project.py",
       "resource_kind": "support",
-      "content_version": "0.10.0",
+      "content_version": "0.11.0",
       "source_distribution_only": true
     },
     "tool-setup-ide-mcp-sh": {
@@ -448,7 +448,7 @@
       "resource_id": "tool-test-configuration-tools-py",
       "source_path": "scripts/test_configuration_tools.py",
       "resource_kind": "support",
-      "content_version": "66.1",
+      "content_version": "0.11.0",
       "source_distribution_only": true
     },
     "state-tests": {
@@ -488,7 +488,7 @@
       "resource_id": "paragraph-workflow",
       "source_path": "skills/econ-writing/references/paragraph-workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.11.0"
     },
     "paragraph-engine": {
       "resource_id": "paragraph-engine",

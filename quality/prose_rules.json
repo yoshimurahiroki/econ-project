@@ -2007,13 +2007,13 @@
     {
       "id": "C02",
       "function": "Ritual concessions",
-      "criterion": "Add concession structures or a concessive stance. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "criterion": "Remove ritual concessions and the concessive framing of an answer. State the relation established by the relevant observations, premises or comparison directly. Preserve a fact that changes the conclusion through its role in that inference. Judge the function across the paragraph and its actions; context, specialized terminology and good intentions create no exception.",
       "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
     },
     {
       "id": "C03",
       "function": "Preemptive disclaimers",
-      "criterion": "Remove preemptive disclaimers, anticipated objections and framing that disclaims responsibility or justifies the explanation before stating it. Begin with the actual answer, operation or finding and supply its determining evidence. Judge the function throughout the paragraph; changes of vocabulary or placement leave the same function prohibited.",
+      "criterion": "Remove preemptive disclaimers, anticipated objections and framing that disclaims responsibility or justifies the explanation before stating it. Select the actual answer, operation or finding and its determining evidence. Delete defensive content that contributes no required inference or action before revising its words. Judge the function throughout the paragraph; affirmative wording and a different placement preserve irrelevant defensive content.",
       "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
     },
     {
@@ -2025,43 +2025,43 @@
     {
       "id": "C05",
       "function": "Empty warnings",
-      "criterion": "State a cautionary stance instead of concrete subjects or actions. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "criterion": "Remove empty warnings and cautionary framing. State the observed condition, affected object and consequence when they determine the requested judgment or required action. Resolve the consequential cause through the authorized work. Delete warnings that add no required content or decision-changing information. Review the entire proposition and action; context and specialized terminology create no exception.",
       "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
     },
     {
       "id": "C06",
       "function": "Self-defense",
-      "criterion": "Remove self-defense about the writer’s intentions, effort, legitimacy, wording choices, internal judgment, research progress or planned work. Retain an actual operation or result when it answers the request and state it directly. Organize a defensive paragraph around its substantive finding and evidence.",
+      "criterion": "Remove self-defense about the writer’s intentions, effort, legitimacy, wording choices, internal judgment, research progress or planned work. Select the subject-matter finding and evidence for the requested artifact. Keep task-relevant operation results in their existing reporting destination. Repair a failed authorized operation through its execution owner and use the returned output; a rephrased status statement completes no operation.",
       "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
     },
     {
       "id": "C07",
       "function": "Issue avoidance",
-      "criterion": "Replace a concrete request with generalities, methodology, or problem statements. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action. For decision requests, connect the requested choice, adopted objective and binding constraints, comparison criteria, selected result, and next execution step to the original request. For prose revision, address the target proposition and defects in expression.",
+      "criterion": "Remove issue avoidance through generalities, methodology, repeated inspections or renewed problem statements. Connect the requested choice, adopted objective, binding constraints, comparison criteria and determining evidence to the selected action. Resolve a consequential missing premise or output through its existing owner within the authorized task, then complete the requested result. For prose revision, reconstruct the target proposition and its explanation; satisfy the original editing scope.",
       "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
     },
     {
       "id": "C08",
       "function": "Unsupported presentation of both sides",
-      "criterion": "Obscure the answer by presenting both sides without a judgment. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action. For decision requests, connect the requested choice, adopted objective and binding constraints, comparison criteria, selected result, and next execution step to the original request. For prose revision, address the target proposition and defects in expression.",
+      "criterion": "Remove unsupported presentation of both sides. Compare feasible alternatives using the adopted objective, binding constraints and determining evidence, then state and execute the selected action within the task’s authority. Preserve facts and numerical boundaries that change the ranking. When a required comparison is pending, complete it through its existing owner and return the result to the decision.",
       "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
     },
     {
       "id": "C09",
       "function": "Vague degree expressions",
-      "criterion": "Wrap quantities or comparisons in vague degree expressions. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "criterion": "Replace vague degree expressions with the actual quantity, unit, denominator, rounding rule or comparison that establishes the proposition. Preserve the source’s values and the decision boundary they imply. Add no invented measurement or precision. Judge the expression in its entire claim and explanation.",
       "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
     },
     {
       "id": "C10",
       "function": "Unsupported self-evaluation",
-      "criterion": "Wrap execution results in self-evaluation or exaggeration. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "criterion": "Remove unsupported self-evaluation and exaggerated completion claims. State the result through the actual calculation, saved artifact or returned operation and its requested use. A completed check, a model rating and a report of effort establish their own recorded events; complete the required deliverable through its producing owner. Keep every substantive claim tied to the evidence that establishes it.",
       "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
     },
     {
       "id": "C11",
       "function": "Unnecessary conversation extension",
-      "criterion": "Append unrequested conversation extensions to a completed answer. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "criterion": "Remove unrequested conversation extensions, offers and additional work from a completed answer. Finish the requested result and state its determining evidence. Continue a remaining authorized operation through the parent workflow; include a next action in the response when that action fulfills the original task’s remaining dependency.",
       "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
     },
     {
@@ -2085,7 +2085,7 @@
     {
       "id": "C15",
       "function": "Unrequested safety explanations",
-      "criterion": "Emphasize a safe, cautious, or conservative stance instead of concrete hazards and required actions. Do not justify a prohibited function through context, a specialized domain, good intentions, or necessity. Judge the actual function of the sense, syntax, proposition, and action.",
+      "criterion": "Remove generic safety, caution and conservative framing from content selection and expression. Preserve every governing requirement and perform its concrete required action. State an observed hazard through its affected object, causal consequence and required response when it determines the requested work. Delete stance declarations and decision-irrelevant safety padding; applying the rule through another vocabulary preserves the same defect.",
       "required_action": "Remove the function from the entire text, including occurrences in quotations, bibliography, and technical terminology. Fail paraphrases that retain the same prohibited function even without a dictionary match. Include quotation selection and explanation, choices, and actions in the same functional review."
     }
   ],
@@ -2097,7 +2097,7 @@
     "roles": "The author completes one substantive integrated editorial review covering claims, logic, source correspondence, explanation order, prohibited functions and natural language, then repairs and rereads affected passages. Independent reviewers and full semantic records belong to an explicitly selected formal workflow or applicable platform contract.",
     "technical_terms": "Definition reference material, not an allowlist. Validate and convert existing technical_usages through legacy-format reading. New returns use general occurrence_judgments; technical terms and distinct words undergo the same functional and source-correspondence review.",
     "match_resolution": "review-on-request",
-    "disclaimer_action": "Delete every disclaimer and reconstruct its substantive content as a direct proposition. Preserve source facts, quantities and logical relations. Moving the same function into notes or replacing its words preserves the defect.",
+    "disclaimer_action": "Delete every disclaimer at content selection. Reconstruct a necessary source-supported proposition, defining condition or required action directly; remove content that contributes no requested inference, decision or explicit content requirement. Preserve source facts, quantities and logical relations. Repair missing outputs through their existing execution owner. Moving the same function into notes or giving it affirmative wording preserves the defect.",
     "instruction_precedence": [
       "primary-expression-rule",
       "anti-defensive-rules",

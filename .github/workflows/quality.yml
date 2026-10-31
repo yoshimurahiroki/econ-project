@@ -25,21 +25,26 @@ jobs:
           OMP_NUM_THREADS: '1'
           NUMEXPR_NUM_THREADS: '1'
         run: |
+          set -euo pipefail
           base=$(git merge-base "$PR_BASE" HEAD)
           make quality-changed BASE="$base"
           changed=$(git diff --name-only "$base" HEAD)
-          if printf '%s\n' "$changed" | grep -Eq '^(Makefile|pyproject\.toml|\.pre-commit-config\.yaml|\.github/workflows/quality\.yml)$'; then
-            pixi run -e quality pre-commit run --files scripts/build_latex.py scripts/pack_context.sh
+          tests=()
+          if grep -Eq '^(Makefile|pyproject\.toml|pixi\.lock|\.pre-commit-config\.yaml|\.github/workflows/quality\.yml)$' <<< "$changed"; then
+            pixi run -e quality pre-commit run --files scripts/export_project.py scripts/pack_context.sh
           fi
-          if printf '%s\n' "$changed" | grep -Eq '^(Makefile|scripts/(build_latex|test_build_latex)\.py)$'; then
-            pixi run -e quality pytest -q -p no:cacheprovider scripts/test_build_latex.py::BuildTests
+          if grep -Eq '^(Makefile|pyproject\.toml|pixi\.lock|\.pre-commit-config\.yaml|\.github/workflows/quality\.yml|scripts/test_quality_make\.py)$' <<< "$changed"; then
+            tests+=(scripts/test_quality_make.py)
           fi
-          if printf '%s\n' "$changed" | grep -Eq '^(Makefile|scripts/test_quality_commands\.py)$'; then
-            pixi run -e quality pytest -q -p no:cacheprovider scripts/test_quality_commands.py
+          if grep -Eq '^scripts/(setup_ide_mcp\.sh|test_setup_ide_mcp\.py)$' <<< "$changed"; then
+            tests+=(scripts/test_setup_ide_mcp.py)
           fi
-          if printf '%s\n' "$changed" | grep -Eq '^scripts/(setup_ide_mcp\.sh|test_setup_ide_mcp\.py)$'; then
-            pixi run -e quality pytest -q -p no:cacheprovider scripts/test_setup_ide_mcp.py
+          if grep -Eq '^scripts/(sync_common_core|test_sync_common_core)\.py$' <<< "$changed"; then
+            tests+=(scripts/test_sync_common_core.py)
           fi
-          if printf '%s\n' "$changed" | grep -Eq '^scripts/(sync_common_core|test_sync_common_core)\.py$'; then
-            pixi run -e quality pytest -q -p no:cacheprovider scripts/test_sync_common_core.py
+          if grep -Eq '^(Makefile|\.devcontainer/.*|\.github/workflows/quality\.yml|scripts/(pack_context\.sh|setup_extensions\.sh|test_configuration_tools\.py))$' <<< "$changed"; then
+            tests+=(scripts/test_configuration_tools.py)
+          fi
+          if ((${#tests[@]})); then
+            pixi run -e quality pytest -q -p no:cacheprovider "${tests[@]}"
           fi

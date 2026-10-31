@@ -8,11 +8,12 @@ if ! git config --global --get-all safe.directory | grep -Fx -- /workspaces/econ
   git config --global --add safe.directory /workspaces/econ-project
 fi
 
-sudo mkdir -p .pixi data /home/vscode/.cache/rattler /home/vscode/.cache/rv
-sudo chown vscode:vscode .pixi data /home/vscode/.cache/rattler /home/vscode/.cache/rv
-sudo chmod u+rwX .pixi data /home/vscode/.cache/rattler /home/vscode/.cache/rv
+# Initialize mounted-volume ownership once; later Make and kernel operations run as the user.
+sudo mkdir -p .pixi data /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
+sudo chown vscode:vscode /home/vscode/.cache .pixi data /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
+sudo chmod u+rwX /home/vscode/.cache .pixi data /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
 
-pixi install
+make sync
 
 mkdir -p .pixi/envs/default/bin/tools/x86_64/deno_dom
 ln -sf ../../deno .pixi/envs/default/bin/tools/x86_64/deno

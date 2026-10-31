@@ -28,11 +28,7 @@ help:
 	@echo "Project export: python scripts/export_project.py --profile standalone --task econ-paper --output /tmp/econ-paper-new; profiles and all-method export: docs/ai/integration.md"
 
 prepare-pixi:
-	sudo mkdir -p .pixi /home/vscode/.cache /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
-	sudo chown vscode:vscode /home/vscode/.cache
-	sudo chown vscode:vscode .pixi /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
-	sudo chmod u+rwx /home/vscode/.cache
-	sudo chmod u+rwX .pixi /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
+	mkdir -p .pixi
 
 sync: prepare-pixi
 	$(PIXI) install

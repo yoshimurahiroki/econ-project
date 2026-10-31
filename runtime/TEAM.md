@@ -6,6 +6,8 @@ One agent owns and integrates the requested result. The user's purpose, acceptan
 
 Assign work that resolves a determining parent claim or removes its execution obstacle. Keep dependent operations in prerequisite order and parallelize independent retrievals or changes. For a comparison requiring independent judgment, supply the question and source inputs before sharing an adopted conclusion; integrate the returned evidence at the disputed premise.
 
+Pass the unresolved premise and the downstream result that depends on it with the assignment. A worker returns the discriminating observation or executable result before expanding work that relies on that premise. The owner uses it to continue or repair the affected dependency and keeps valid independent work moving. When a worker finishes a peripheral requirement, restore the next determining parent operation from the existing task record.
+
 ## Return and integration
 
 Return the substantive result, its implication for the parent question, changed paths, source references and actual execution outcomes to the owner. Distinguish a measured or derived result from the decision made with it. Identify the condition or dependency that remains unresolved. The owner reconciles definitions, source and instruction versions, assumptions and interfaces before combining findings; repair a mismatch at the producing task. Reuse completed work and review the assembled result against the original deliverables and authorized actions. A worker's completed assignment closes its own dependency. Give the user one integrated response and keep coordination inside the existing conversation or task record.

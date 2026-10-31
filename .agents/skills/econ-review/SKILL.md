@@ -34,7 +34,7 @@ For each defect, identify the passage, calculation or operation and explain what
 - Source or premise: check the cited material.
 - Transformation or calculation: correct the operation and recompute affected results.
 - Inference: revise the claim or its conditions to match the result.
-- Presentation: revise wording or selection when the underlying result supports the claim.
+- Presentation: recover each passage's role in the reader's inference or action. Remove decision-irrelevant defensive content at its selection step; reconstruct necessary content around its actual proposition, evidence and determining quantities under PROSE. Preserve source truth conditions, numerical boundaries and explicit content requirements. Fix the whole unsupported parent claim or missing inference before polishing its sentences.
 - Execution: repair the failed operation, resume its affected descendants and inspect the requested output through its existing owner. A revised success statement cannot repair a missing artifact or failed calculation.
 
 Use econ-writing's `revise` mode for revision and its `compose` mode when the requested repair requires reconstruction; integrate the return into the assessment's named target.
@@ -60,7 +60,7 @@ Use [oversight notes](references/oversight.md) for requested independent assessm
 
 State the conclusion from the comparison. For an economic claim, use its generating comparison or calculation to distinguish an observed association, estimated effect or model implication when that distinction changes the interpretation. For a referee response, answer each comment with the result and supporting passage. Handle execution status, proposed analyses and revision history under [EXECUTION's record and artifact rules](../../runtime/EXECUTION.md), including explicitly requested operational content.
 
-Return demonstrated defects and their needed repairs, plus the corrected target when requested. Continue the next authorized step in the parent task under its existing completion and stopping conditions.
+Return demonstrated defects and their needed repairs, plus the corrected target when requested. Use the affected object, consequence and completed repair to explain an execution defect. Complete authorized recovery and inspect its output before reporting success. Keep the requested artifact's substantive answer separate from work-status details through its existing owner. Continue the next authorized step in the parent task under its existing completion and stopping conditions.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations
