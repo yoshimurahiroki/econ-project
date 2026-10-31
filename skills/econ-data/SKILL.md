@@ -33,6 +33,8 @@ Inspect the source fields that define the proposed measures. Map sample eligibil
 
 ### Implement at the existing owner
 
+For estimation, read [the estimator and package selection branch](references/implementation.md#estimator-engine-and-algorithm-selection), match the adopted parameter to an official function and its supported options, and call that function directly from the existing analysis entry point. Confirm the installed interface before executing it. Carry the selected sample, weights, fixed effects, covariance and requested post-estimation output into the actual call; resolve an unsupported requirement through a matching implementation. Reimplement an estimator only after identifying the required feature absent from the available specialist implementations.
+
 Use the [implementation decisions](references/implementation.md#functions-types-and-failure-boundaries) for readable control flow, reuse, abstraction, file placement and error handling. Prefer the existing function or module and supported standard-library or package operations. Implement the complete requested behavior with the fewest necessary responsibilities. Keep each rule at one owner and update its consumers together. Remove superseded branches, wrappers and files within the authorized change. Preserve functional requirements and required boundary validation, authentication and persistence behavior.
 
 ### Produce the result by dependency

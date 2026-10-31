@@ -1,6 +1,6 @@
 # Native research run
 
-Use `.agents/harness/native_run.py` for an explicitly requested native audit or certified publication. It pins the task, assesses immutable candidate snapshots and publishes host-authorized strict results. Beginning a run activates the registered `formal_review_requested` instruction closure. Ordinary execution and its integrated review follow [CORE](../runtime/CORE.md).
+Use `native_run.py` for an explicitly requested native audit or certified publication. It pins the task, assesses immutable candidate snapshots and publishes host-authorized strict results. Beginning a run activates the registered `formal_review_requested` instruction closure. Ordinary execution and its integrated review follow [CORE](../runtime/CORE.md).
 
 ## Select the review plan
 
@@ -18,7 +18,7 @@ python .agents/harness/native_run.py begin --run-dir run-001 \
   --operation econ-writing:compose --capabilities capabilities.json
 ```
 
-The first call writes run schema 2 and generates a fresh canonical UUIDv4 `run_id` and saves the request, contract, selected policy, capabilities, and mode. Identical inputs in two new directories produce different run identities and hashes. Resuming preserves the identity. Schema-1 runs require a new begin and fresh review originals. The existing request, contract, candidate and snapshot hashes bind revisions; no parallel revision counter is used. The contract must use integer `schema_version: 2`. New begins, saved-run reads, resumes, submissions, and finalizations enforce that version. Run `.agents/harness/requirements_check.py` for a v1 diagnostic, migrate the contract to v2, then start a new run.
+The first call writes run schema 2 and generates a fresh canonical UUIDv4 `run_id` and saves the request, contract, selected policy, capabilities, and mode. Identical inputs in two new directories produce different run identities and hashes. Resuming preserves the identity. Schema-1 runs require a new begin and fresh review originals. The existing request, contract, candidate and snapshot hashes bind revisions; no parallel revision counter is used. The contract must use integer `schema_version: 2`. New begins, saved-run reads, resumes, submissions, and finalizations enforce that version. Run `requirements_check.py` for a v1 diagnostic, migrate the contract to v2, then start a new run.
 
 `--operation` names the registered operation. Use repeatable `--condition` values to select active conditions, `--profile` for a registered prose-profile resource ID, and repeatable `--template` values for registered template resource IDs. The runner verifies the mandatory registry and resolver bytes, resolves the dependency closure, and reads only mandatory assets and the selected closure. It saves the selection, active rule IDs, resource sections, asset paths, and hashes. Changing the selection starts a new run.
 
@@ -78,7 +78,7 @@ To add evidence acquired or computed after begin, pass `--evidence evidence-dir`
 
 Pass the same evidence directory on the report-bearing resubmission. Reviewers inspect the complete original-plus-added evidence set and mirror registered evidence_sources rows. Their sources_sha256 includes the new manifest and body bytes. Changed evidence invalidates reviews bound to the earlier set; retain earlier submissions and obtain affected new returns. Numeric derivation binds premises to the executed command and returned calculation result. Its result_span must identify the complete corresponding quantity; result 3 cannot match a substring of 30, -3, 3.0 or 3e9. Logical and comparison derivations bind premises to a concrete inference or choice comparison without requiring a numeric result.
 
-Give the saved candidate, this run’s `run_id`, and matching hashes to actual reviewers. Every candidate review original must contain the exact `run_id` returned in `checks.bindings`; a transport-only ID does not bind an original. Coverage and candidate originals from another run fail even when every input and candidate hash matches. Their original structured returns follow `.agents/harness/native_check.md`. Submit the unchanged candidate and artifacts again with the returned reports:
+Give the saved candidate, this run’s `run_id`, and matching hashes to actual reviewers. Every candidate review original must contain the exact `run_id` returned in `checks.bindings`; a transport-only ID does not bind an original. Coverage and candidate originals from another run fail even when every input and candidate hash matches. Their original structured returns follow `native_check.md`. Submit the unchanged candidate and artifacts again with the returned reports:
 
 ```sh
 python .agents/harness/native_run.py submit --run-dir run-001 \
@@ -121,7 +121,7 @@ Parent substantive state changes make old surface slots stale; reading bookkeepi
 
 Select `--condition requested_local_state_helper_operation` at begin to pin the state helper. A run without this condition cannot add state at submit; begin a new run with the condition. Unused state helper changes do not invalidate a run.
 
-Add `--state-file FILE --state-task TASK_ID --state-root PROJECT_ROOT` to submit to bind an existing task. `--state-root` defaults to the current directory, matching `.agents/harness/state.py`.
+Add `--state-file FILE --state-task TASK_ID --state-root PROJECT_ROOT` to submit to bind an existing task. `--state-root` defaults to the current directory, matching `state.py`.
 
 The read-only adapter records `state.content_hash(state.candidate(task))` as `state_candidate_sha256` and the native file digest as `native_candidate_file_sha256`. Each registered file or message output maps to one exact candidate/artifact path with its registered version and native file hash. File paths must match the registered project-relative paths; message values must match the final candidate text. When one file supplies both final text and an artifact, its file record maps to the artifact namespace and its message record maps to the candidate namespace. Unmatched or object outputs require an explicit supported correspondence before this adapter proceeds.
 

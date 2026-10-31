@@ -20,7 +20,7 @@ When the research distinguishes competing explanations, identify the comparison 
 
 ## Compose the requested section
 
-An Abstract compresses the question, decisive comparison, principal answer and economic meaning. Write it from the completed argument and findings. An Introduction explains why the question arises, how the comparison answers it and how the findings change existing knowledge.
+An Abstract compresses the question, decisive comparison, principal answer and economic meaning. Write it from the completed argument and findings. Select a result because it establishes the contribution, rather than because it is the largest or most statistically significant coefficient. An Introduction explains the gap between the existing explanation and the observed or theoretical problem, how the comparison answers it and how the findings change economic knowledge. Preserve a consequential non-effect, heterogeneity or counterfactual when it changes the mechanism or policy ranking; put technical detail with the claim whose validity needs it.
 
 For a specialist section, read the corresponding research source sections for the requested paper's institutional rules, data, methods and results. Record their edition and section in the existing source record when needed to locate the claims or continue the task. Resolve remaining wording or organization choices through [the profile-selection rule](../../../runtime/PROSE.md#select-the-profile).
 

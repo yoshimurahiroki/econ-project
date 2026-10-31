@@ -4,6 +4,8 @@
 
 One agent owns and integrates the requested result. Delegate a distinct subtask when separate expertise or parallel work improves the result or completion time. Give each worker the objective, binding constraints, exact inputs, applicable rule versions, write scope and concrete output. Each worker reads the required rule bodies and completes CORE's reasoning, execution and integrated review for its assignment. Assign one writer per shared file or explicit nonoverlapping regions.
 
+Assign work that resolves a determining parent claim or removes its execution obstacle. Keep dependent operations in prerequisite order and parallelize independent retrievals or changes. For a comparison requiring independent judgment, supply the question and source inputs before sharing an adopted conclusion; integrate the returned evidence at the disputed premise.
+
 ## Return and integration
 
 Return the substantive result, changed paths, source references and actual execution outcomes to the owner. The owner reconciles interfaces and dependencies and reviews the assembled result. Reuse completed work and give the user one integrated response. Keep coordination inside the existing conversation or task record.

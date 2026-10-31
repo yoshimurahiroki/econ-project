@@ -108,7 +108,7 @@ P=c_0+c_1Q+W'\gamma-\lambda QD_Q(Q,Y)+\omega
 
 ## 3. 同質財、容量、供給曲線
 
-`.agents/skills/econ-data/scripts/equity.py fit`の`model: cournot`は、逆需要
+`equity.py fit`の`model: cournot`は、逆需要
 
 \[
 P=A-bQ,\quad A=a+Z'\gamma,\quad b>0
@@ -193,7 +193,7 @@ V(N,x)\ge F>V(N+1,x)
 
 当期金銭利得を \(\pi_i(s,a;\theta)\)、共同遷移を \(F(s'\mid s,a)\)、割引因子を \(\beta_i\) とする。先に投資を決めて価格競争が続く市場なら、各 \((s,a)\) で価格・数量均衡を解いて利得を作る。同時投資、逐次参入、契約更新の順序を混ぜない。投資と競合の行動が次期状態を変えるので、現状の市場シェアを将来へ固定して事業価値を計算しない。[3,7]
 
-`.agents/skills/econ-data/scripts/equity.py dynamic`の実装は、平均0・既知尺度 \(\sigma_i\) の独立なType-I extreme-value私的行動利得を持つ有限状態Markovゲームである。相手の政策に関して平均した選択価値を \(v_i(s,a_i)\) とすると、
+`equity.py dynamic`の実装は、平均0・既知尺度 \(\sigma_i\) の独立なType-I extreme-value私的行動利得を持つ有限状態Markovゲームである。相手の政策に関して平均した選択価値を \(v_i(s,a_i)\) とすると、
 
 \[
 P_i(a_i\mid s)=
@@ -503,7 +503,7 @@ SOTPでは事業ごとに適切な方法を選ぶ。FCFF・APV・指定の動学
 F(\theta)=P^{fair}(\theta)-P^{market}
 \]
 
-を定義する。`.agents/skills/econ-data/scripts/equity.py reverse`は、指定された一つの入力のJSON Pointerを変え、`value`によって営業・財務・株価を再計算する。入力は`{base, target_price?, parameter}`で、`base`は評価入力または保存結果、目標株価は省略時に`current_price`となる。`parameter`に既存入力への`path`、逆算する経済量の説明`economic_quantity`、`lower`、`upper`、`kind`を置く。連続係数は`continuous`で、指定区間の符号変化を使う`brentq`を実行する。複数区間は`brackets: [[下端,上端], ...]`へ指定する。整数の優位期間は`integer`で区間内の全整数年を評価し、その範囲で価値が株価以上になる最小年数と全評価値を返す。他の入力を固定する意味を明示する。
+を定義する。`equity.py reverse`は、指定された一つの入力のJSON Pointerを変え、`value`によって営業・財務・株価を再計算する。入力は`{base, target_price?, parameter}`で、`base`は評価入力または保存結果、目標株価は省略時に`current_price`となる。`parameter`に既存入力への`path`、逆算する経済量の説明`economic_quantity`、`lower`、`upper`、`kind`を置く。連続係数は`continuous`で、指定区間の符号変化を使う`brentq`を実行する。複数区間は`brackets: [[下端,上端], ...]`へ指定する。整数の優位期間は`integer`で区間内の全整数年を評価し、その範囲で価値が株価以上になる最小年数と全評価値を返す。他の入力を固定する意味を明示する。
 
 対象は需要水準、価格感応度、容量、単位費用、成長投資、利益率、資本効率、優位期間など、企業の経済条件である。IOを含む入力を変えるなら、`io_model`などで価格・数量も再計算する。上限容量を変えながら数量と投資を同時に任意固定しない。必要価格・数量が市場規模、能力、投資予算、競合の最適反応を満たすかを確認する。
 

@@ -8,7 +8,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.8.0'
+POLICY_ID = 'economics-native-0.9.0'
 PRIMARY_EXPRESSION_RULE = 'Categorically prohibit any mention of uncertainty, without exception.'
 PRIMARY_JAPANESE_RULE = '留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。'
 INSTRUCTION_EVENTS = ('task-start', 'post-tool', 'worker-start', 'worker-resend',

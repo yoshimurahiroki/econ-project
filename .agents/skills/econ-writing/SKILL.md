@@ -31,7 +31,7 @@ Generated from registry/operations.json; the request determines the actual targe
 
 ## Compose
 
-Select the question, answer and evidence from the established study or source materials. Build the explanatory relation before drafting a compressed Abstract, slide or summary. For a whole paper, consult [paper guidance](references/paper-workflow.md) for the required section architecture; load a specialist section only when the request uses it. Complete the common process in the resulting artifact.
+Select the question, answer and decisive evidence from the established study or source materials. Give prominence to results that change the mechanism, action ranking, allocation or economic magnitude. Retain a non-effect, subgroup contrast or behavioral response when omitting it changes that interpretation. Build the explanatory relation before drafting a compressed Abstract, slide or summary. For a whole paper, consult [paper guidance](references/paper-workflow.md) for the required section architecture; load a specialist section only when the request uses it. Complete the common process in the resulting artifact.
 
 ## Revise
 
@@ -75,7 +75,7 @@ Choose examples that demonstrate distinct decisions on information selection, ex
 
 ### Derive principles and worked examples
 
-Extract a practical rule from each necessary example and show the choice it resolves. Preserve the source's meaning in any revision. Teach the operation that makes a claim understandable; fixed paragraph counts, phrase inventories and measured rhythms from a few samples supply no general style rule.
+Extract a practical rule from each necessary example and show the choice it resolves. Distinguish information selection observed in the published text from the reusable rule inferred from it; published order does not establish the author's internal sequence of thought. Preserve the source's meaning in any revision. Teach the operation that makes a claim understandable; fixed paragraph counts, phrase inventories and measured rhythms from a few samples supply no general style rule.
 
 ### Use a requested opening or comparison
 

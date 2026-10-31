@@ -7,7 +7,7 @@ description: Develop an economics question or model, design identification and i
 
 ## Purpose and input
 
-[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../../ECON_INDEX.md) govern this specialist. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
+[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../registry/operations.json) govern this specialist. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
 
 Input: Requested economic question, model or empirical design and supplied premises. Use relevant literature when contribution or source investigation is in scope, and documented source fields when empirical measurement or data feasibility is in scope.
 
@@ -29,13 +29,15 @@ For a design-only request, complete the requested economic object and the assump
 
 ### For an empirical specification
 
+Start with the [estimand-to-method sequence](references/designs.md#choose-the-estimand-and-method): requested use, target population and contrast, observation and assignment units, outcome scale, identifying variation, and inference. Resolve these choices before selecting a package. For an adopted specification, reuse those choices and start at the requested change. Use the count, DID, heterogeneous-effect or structural branch that matches the economic object.
+
 Use [design elements](references/designs.md#design-elements) to define the parameter, comparison, assignment, controls and inference units. Translate the intervention into the information, feasible actions or payoffs it changes and the eligibility rule that includes actors. For staged implementation, locate the changed gate and retain eligible actors who do not proceed through it. Use timing gaps between information, contracting and implementation to find a comparison where one choice is fixed while another can respond. When explanations predict different responses, choose the population, timing or participation boundary where their predictions separate, then assess the explanations against that comparison.
 
 When a proposed rule uses observed behavior to set eligibility, scores or prices, identify who can change that behavior after learning the rule. Compare fixed-input predictions with responses to the announced rule, including the cost of changing the input. Use the announcement-to-implementation interval and differences in the gain or cost of qualifying to distinguish anticipation from implementation effects; revise treatment timing, input assumptions or the policy comparison when those responses change the answer.
 
 Use the [design-specific section selector](references/designs.md#select-the-needed-section) to match estimation and inference to the parameter, treatment path, heterogeneity, dependence and assignment units. Interpret each requested diagnostic through its null, precision and sampling design.
 
-For implementation, pass the adopted estimator, sample, timing, weight meaning and inference requirements to [econ-data's engine selection](../econ-data/references/implementation.md#estimator-engine-and-algorithm-selection). A faster representation must preserve that contract; identify a proposed change in the economic specification and its affected comparisons as a design decision governed by [CORE](../../runtime/CORE.md).
+For implementation, pass the adopted estimator, sample, timing, weight meaning and inference requirements to [econ-data's engine selection](../econ-data/references/implementation.md#estimator-engine-and-algorithm-selection). Require the selected function to implement that parameter and the requested post-estimation comparison. A faster representation must preserve that contract; identify a proposed change in the economic specification and its affected comparisons as a design decision governed by [CORE](../../runtime/CORE.md). An analysis request continues through the package call, saved estimates and requested economic comparison.
 
 ### For a theoretical model
 

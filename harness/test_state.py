@@ -76,6 +76,21 @@ class TeamStateTests(unittest.TestCase):
     def completed(self, name='T'):
         self.cli('transition', name, 'completed')
 
+    def action_evidence(self, target='obj:1', operation='publish', tool='publish',
+                        arguments=None, returned=None):
+        """Synthetic native tool record for offline state-boundary fixtures."""
+        call_text = json.dumps(arguments if arguments is not None else {'target': target})
+        return_text = json.dumps(returned if returned is not None else {'status': 'success', 'target': target})
+        record = {
+            'event_id': 'fixture-action', 'operation': operation, 'target': target, 'status': 'success',
+            'tool_name': tool, 'tool_call_ref': 'fixture-call', 'tool_return_ref': 'fixture-return',
+            'call_args_text': call_text, 'call_args_sha256': h.gate.sha(call_text.encode()),
+            'return_text': return_text, 'return_sha256': h.gate.sha(return_text.encode()),
+            'source_verification': {'status': 'matched-to-runtime', 'reference': 'offline-fixture',
+                                    'verifier_id': 'fixture-owner'},
+        }
+        (self.root / 'check').write_text(json.dumps(record))
+
     def rejects_completion(self, name='T'):
         with self.assertRaises(ValueError):
             self.completed(name)
@@ -365,11 +380,12 @@ class TeamStateTests(unittest.TestCase):
 
     def test_external_action_requires_exact_object_id_and_current_receipt(self):
         target = 'https://service.invalid/objects/../opaque-id'
-        requirement = {'target_kind':'object','target_id':target,'operation':'update'}
+        requirement = {'target_kind':'object','target_id':target,'operation':'publish'}
         self.add('--external-target', target, '--required-action', json.dumps(requirement), kind='external')
         self.cli('start', 'T'); self.rejects_completion()
-        args = ('action', 'T', '--target-kind', 'object', '--target-version', 'remote-v1', '--operation', 'update', '--result', 'passed', '--evidence', 'check')
+        args = ('action', 'T', '--target-kind', 'object', '--target-version', 'remote-v1', '--operation', 'publish', '--result', 'passed', '--evidence', 'check')
         with self.assertRaises(ValueError): self.cli(*args, '--target-id', 'opaque-id')
+        self.action_evidence(target)
         self.cli(*args, '--target-id', target)
         self.completed()
         self.assertTrue(h.completion_current(self.root, self.state()['tasks'], 'T'))
@@ -384,7 +400,60 @@ class TeamStateTests(unittest.TestCase):
         self.cli('start','T'); self.cli('output','T','artifact'); self.rejects_completion()
         args = ('action','T','--target-kind','object','--target-version','remote-v1','--target-id','obj:1','--operation','publish','--evidence','check')
         self.cli(*args,'--result','failed'); self.rejects_completion()
+        self.action_evidence()
         self.cli(*args,'--result','passed'); self.completed()
+
+    def test_external_completion_uses_returned_outcome(self):
+        target = 'python analysis.py'
+        operation = 'execute_command'
+        self.add('--external-target', target, '--required-action', json.dumps({
+            'target_kind': 'object', 'target_id': target, 'operation': operation}), kind='external')
+        self.cli('start', 'T')
+        action = ('action', 'T', '--target-kind', 'object', '--target-id', target,
+                  '--target-version', 'run-1', '--operation', operation,
+                  '--result', 'passed', '--evidence', 'check')
+        with self.assertRaises(ValueError):
+            self.cli(*action)  # An arbitrary existing log and caller verdict.
+        for returned in ({'exit_code': 1, 'output': 'calculation failed'},
+                         {'exit_code': None, 'session_id': 41, 'output': ''},
+                         {'exit_code': 0, 'isError': True},
+                         {'exit_code': 0, 'target': 'different calculation'}):
+            with self.subTest(returned=returned):
+                self.action_evidence(target, operation, 'exec_command', {'cmd': target}, returned)
+                with self.assertRaises(ValueError):
+                    self.cli(*action)
+                self.assertEqual([], self.task()['action_results'])
+                self.rejects_completion()
+        self.action_evidence(target, operation, 'exec_command', {'cmd': target}, {'exit_code': 0, 'output': '42'})
+        self.cli(*action)
+        self.completed()
+        self.assertEqual('success', self.task()['action_results'][0]['operation_outcome']['status'])
+
+    def test_distribution_actions_bind_returned_version(self):
+        cases = [
+            ('repo/fixture:refs/heads/main', 'github.update_ref', 'mcp__codex_apps__github_update_ref',
+             {'repository_full_name': 'repo/fixture', 'branch_name': 'main', 'sha': 'b' * 40,
+              'expected_sha': 'a' * 40}, {'success': True}, 'b' * 40, 'commit_sha'),
+            ('plugins_fixture', 'plugin_creator.update_plugin', 'mcp__codex_apps__plugin_creator_update_plugin',
+             {'plugin_id': 'plugins_fixture', 'archive': '/tmp/fixture.zip', 'expected_release_id': 'old'},
+             {'status': 'updated', 'plugin_id': 'plugins_fixture', 'release_id': 'new',
+              'latest_release_id': 'new', 'plugin_url': 'https://service.invalid/plugin', 'version': '1.1.0'},
+             'new', 'release_id'),
+        ]
+        for number, (target, operation, tool, arguments, returned, version, field) in enumerate(cases):
+            with self.subTest(operation=operation):
+                name = f'D{number}'
+                self.add('--external-target', target, '--required-action', json.dumps({
+                    'target_kind': 'object', 'target_id': target, 'operation': operation}), kind='external', name=name)
+                self.cli('start', name)
+                self.action_evidence(target, operation, tool, arguments, returned)
+                action = ('action', name, '--target-kind', 'object', '--target-id', target,
+                          '--operation', operation, '--result', 'passed', '--evidence', 'check')
+                with self.assertRaisesRegex(ValueError, 'version differs'):
+                    self.cli(*action, '--target-version', 'invented-version')
+                self.cli(*action, '--target-version', version)
+                self.completed(name)
+                self.assertEqual(version, self.task(name)['action_results'][0]['operation_outcome'][field])
 
     def test_v2_migration_preserves_results_limits_holds_requires_contract(self):
         self.prepared(); self.verify(); self.completed()
@@ -420,12 +489,13 @@ class TeamStateTests(unittest.TestCase):
 
     def test_action_only_upstream_replacement_invalidates_consumer(self):
         self.add('--external-target','obj:1', '--required-check','check',
-                 '--required-action', json.dumps({'target_kind':'object','target_id':'obj:1','operation':'update'}), kind='external', name='P')
-        action = ('action','P','--target-kind','object','--target-version','remote-v1','--target-id','obj:1','--operation','update','--evidence','check','--result','passed')
+                 '--required-action', json.dumps({'target_kind':'object','target_id':'obj:1','operation':'publish'}), kind='external', name='P')
+        action = ('action','P','--target-kind','object','--target-version','remote-v1','--target-id','obj:1','--operation','publish','--evidence','check','--result','passed')
+        self.action_evidence()
         self.cli('start','P'); self.cli(*action); self.verify(name='P'); self.completed('P')
         self.add('--after','P','--consumes',self.consume('P','obj:1', 'object'),kind='answer'); self.cli('start','T')
         self.cli('output','T','message:1','--kind','message','--value','Final answer'); self.completed()
-        (self.root / 'check').write_text('new external receipt')
+        self.action_evidence(returned={'status': 'success', 'target': 'obj:1', 'message': 'new external receipt'})
         self.cli('inspect','--invalidate'); self.cli('requeue','P'); self.cli('start','P')
         self.cli(*action); self.verify(name='P'); self.completed('P')
         with self.assertRaises(ValueError): self.cli('resume','T')
@@ -465,10 +535,11 @@ class TeamStateTests(unittest.TestCase):
         self.assertFalse(h.completion_current(self.root,self.state()['tasks'],'T'))
 
     def test_object_action_requires_version_and_tracks_registered_replacements(self):
-        self.add('--external-target','obj:1','--required-action',json.dumps({'target_kind':'object','target_id':'obj:1','operation':'update'}),kind='external')
+        self.add('--external-target','obj:1','--required-action',json.dumps({'target_kind':'object','target_id':'obj:1','operation':'publish'}),kind='external')
         self.cli('start','T')
-        args=('action','T','--target-kind','object','--target-id','obj:1','--operation','update','--result','passed','--evidence','check')
+        args=('action','T','--target-kind','object','--target-id','obj:1','--operation','publish','--result','passed','--evidence','check')
         with self.assertRaises(ValueError): self.cli(*args)
+        self.action_evidence()
         self.cli('output','T','obj:1','--kind','object','--value','{"version":1}')
         self.cli(*args)
         self.cli('output','T','obj:1','--kind','object','--value','{"version":2}')
@@ -643,8 +714,9 @@ class TeamStateTests(unittest.TestCase):
 
     def test_action_consumer_rejects_changed_producer_input(self):
         self.add('--input', 'input', '--external-target', 'obj:1',
-                 '--required-action', json.dumps({'target_kind':'object','target_id':'obj:1','operation':'update'}), kind='external', name='P')
-        self.cli('start', 'P'); self.cli('action', 'P', '--target-kind', 'object', '--target-id', 'obj:1', '--target-version', 'v1', '--operation', 'update', '--result', 'passed', '--evidence', 'check'); self.completed('P')
+                 '--required-action', json.dumps({'target_kind':'object','target_id':'obj:1','operation':'publish'}), kind='external', name='P')
+        self.action_evidence()
+        self.cli('start', 'P'); self.cli('action', 'P', '--target-kind', 'object', '--target-id', 'obj:1', '--target-version', 'v1', '--operation', 'publish', '--result', 'passed', '--evidence', 'check'); self.completed('P')
         self.add('--consumes', self.consume('P', 'obj:1', 'object'), kind='answer')
         self.cli('start', 'T'); self.cli('output', 'T', 'message:1', '--kind', 'message', '--value', 'used'); self.completed()
         (self.root / 'input').write_text('changed source')

@@ -4,9 +4,11 @@ Apply [CORE's primary expression rule](CORE.md) to every passage, including expl
 
 ## Select the economic argument
 
-Determine the question the reader needs answered, the answer, its supporting evidence and the economic relation connecting them. Read the actual source passages and adopted research choices needed to establish that relation. Carry forward facts, quantities, technical terms, citations and logical conditions. Complete this reasoning before shortening the text.
+Determine the question the reader needs answered and the comparison that resolves it. Read the actual source passages and adopted research choices, perform the required calculation and establish the economic relation. Select the answer from those results, then lead the finished text with it. Carry forward facts, quantities, technical terms, citations and logical conditions. Complete this reasoning before shortening the text.
 
 Give each paragraph one central proposition and the explanation that establishes it. Place premises before the inference that uses them, keep an explanation beside its claim, and give consequential steps the space they need. The argument determines paragraph length, heading structure and the number of examples. Delete thin paragraphs, generic introductions, repeated conclusions and a chronological account of the writer's efforts.
+
+Allocate space to the question, mechanism, decisive comparison, economic magnitude and resulting action or contribution. Retain a non-effect, subgroup or dynamic result when it changes that argument or action ranking. Keep execution details with the reproducible result unless the reader needs them to interpret or use the answer. State a published author's claim and the observed result through their actual sources; describe a derived application through the relation established in the current analysis.
 
 Write the substantive proposition directly. Remove reservations, concessions, disclaimers, preemptive rebuttals, declarations of conceptual distinctions, negative contrasts, empty importance claims and commentary on the writer's intentions or future work. Scientific precision, completeness and domain expertise supply no exemption. Rebuild the claim and paragraph; moving the same function into a footnote, parenthesis, quotation or closing paragraph preserves the defect.
 

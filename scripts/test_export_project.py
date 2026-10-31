@@ -523,6 +523,7 @@ class RealRegistryTests(unittest.TestCase):
         self.assertIn('## Revise for the requested language', (out / '.agents/runtime/PROSE.md').read_text())
 
     def test_explicit_state_helper_remains_self_contained_in_both_formats(self):
+        import hashlib
         import subprocess
         import sys
         for fmt in ('flat', 'deployed'):
@@ -535,6 +536,31 @@ class RealRegistryTests(unittest.TestCase):
             self.assertIn('state-contract', ids)
             self.assertIn('team', ids)
             self.assertNotIn('state-tests', ids)
+            project = self.base / (fmt + '-project')
+            project.mkdir()
+            def command(*args):
+                result = subprocess.run([sys.executable, '-B', str(helper), '--root', str(project), *args],
+                                        capture_output=True, text=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                return json.loads(result.stdout)
+            command('init')
+            command('add', 'publish', '--owner', 'fixture', '--operation-kind', 'external',
+                    '--external-target', 'fixture:result', '--next', 'Record the returned publication',
+                    '--required-action', json.dumps({'target_kind': 'object', 'target_id': 'fixture:result', 'operation': 'publish'}))
+            command('start', 'publish')
+            call_text = json.dumps({'target': 'fixture:result'})
+            return_text = json.dumps({'status': 'success', 'target': 'fixture:result'})
+            (project / 'returned.json').write_text(json.dumps({
+                'event_id': 'fixture-event', 'operation': 'publish', 'target': 'fixture:result', 'status': 'success',
+                'tool_name': 'publish', 'tool_call_ref': 'fixture-call', 'tool_return_ref': 'fixture-return',
+                'call_args_text': call_text, 'call_args_sha256': hashlib.sha256(call_text.encode()).hexdigest(),
+                'return_text': return_text, 'return_sha256': hashlib.sha256(return_text.encode()).hexdigest(),
+                'source_verification': {'status': 'matched-to-runtime', 'reference': 'offline-export-fixture', 'verifier_id': 'fixture'},
+            }))
+            command('action', 'publish', '--target-kind', 'object', '--target-id', 'fixture:result',
+                    '--target-version', 'fixture-version', '--operation', 'publish', '--result', 'passed',
+                    '--evidence', 'returned.json')
+            command('transition', 'publish', 'completed')
 
     def test_source_distribution_keeps_tools_and_state_tests(self):
         paths = {r['source_path'] for r in self.routes['resources'].values()}

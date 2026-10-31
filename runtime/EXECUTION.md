@@ -10,6 +10,8 @@ Keep scratch output separate from final destinations. Where a complete file or o
 
 Git staging, commits, remote writes, installation and configuration changes require the task's corresponding authority. Scope authorized changes to task-owned paths and read back a remote result when that action is required. Stage task-owned changes and keep secrets in their authorized credential storage.
 
+Determine the usable execution route from this session's tool inventory and argument schemas, the selected target and current permissions. Use the purpose-built write operation when it implements the authorized action. Diagnose a returned error at that operation: a shell network failure, a rejected argument and a target access denial have different remedies. Repair the responsible input or use another authorized supported route; preserve the existing permission boundary. Record an actual refusal with its operation and return when user action is required. Prior-session access and an absent command establish neither the present connector's capabilities nor the target's permissions.
+
 ## Checks and completion
 
 Complete every requested output and authorized action on its actual target. Perform CORE's integrated review of prose, code and structure. Select behavioral verification from explicit task conditions, the changed objects under [Compare changed outputs](#compare-changed-outputs), and the requested format. Give each selected check named inputs and an observable acceptance condition, then use the smallest existing path that establishes it.
@@ -17,6 +19,8 @@ Complete every requested output and authorized action on its actual target. Perf
 Associate each result with the inputs, definitions and output versions it assesses in the existing result record. Reuse evidence whose relevant inputs and target remain unchanged. A changed calculation invalidates its affected consumers; a display-only change reuses the calculation.
 
 Complete the task when the actual output satisfies its content, format and destination requirements, each requested action has its corresponding return, and the integrated review and selected checks are finished. Formal runner records and candidate hashes belong to the selected certification workflow under [Final delivery authority](#final-delivery-authority).
+
+For computation, match the requested sample, named quantities and saved output to the successful producing run. For a repository update, match repository, branch, parent and resulting commit to the returned write and read-back. For a plugin update, match plugin identity, expected release, new release and changed source. A submitted or still-running operation remains at that stage until its completed return establishes the result. Use the existing [state helper](../harness/state.md) when resumable actions need records; its external-action evidence must use the [returned-action record](../harness/state.md#returned-action-evidence) with the actual invocation and return. Loading that parser supplies operation-result checks; formal review and certification retain their explicitly selected CONTROL workflow.
 
 On failure, identify the cause and affected descendants, repair within authority, then repeat the affected operation. Reuse saved results with matching inputs, definitions and completed prerequisites. After a figure-label change, reuse matching estimates and rebuild rendering; an estimator-input change invalidates the corresponding estimates and dependent tables, figures and prose.
 

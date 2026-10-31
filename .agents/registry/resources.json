@@ -5,73 +5,73 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.9.0"
     },
     "prose": {
       "resource_id": "prose",
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.9.0"
     },
     "research": {
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.9.0"
     },
     "execution": {
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.9.0"
     },
     "team": {
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.9.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
       "source_path": "skills/econ-design/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "72.2"
+      "content_version": "0.9.0"
     },
     "econ-data": {
       "resource_id": "econ-data",
       "source_path": "skills/econ-data/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.8.0"
+      "content_version": "0.9.0"
     },
     "econ-literature": {
       "resource_id": "econ-literature",
       "source_path": "skills/econ-literature/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "72.2"
+      "content_version": "0.9.0"
     },
     "econ-writing": {
       "resource_id": "econ-writing",
       "source_path": "skills/econ-writing/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.9.0"
     },
     "econ-review": {
       "resource_id": "econ-review",
       "source_path": "skills/econ-review/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "75.0"
+      "content_version": "0.9.0"
     },
     "design-methods": {
       "resource_id": "design-methods",
       "source_path": "skills/econ-design/references/designs.md",
       "resource_kind": "rule",
-      "content_version": "66.2"
+      "content_version": "0.9.0"
     },
     "data-implementation": {
       "resource_id": "data-implementation",
       "source_path": "skills/econ-data/references/implementation.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.9.0"
     },
     "data-results": {
       "resource_id": "data-results",
@@ -83,13 +83,13 @@
       "resource_id": "paper-workflow",
       "source_path": "skills/econ-writing/references/paper-workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.5.0"
+      "content_version": "0.9.0"
     },
     "review-methods": {
       "resource_id": "review-methods",
       "source_path": "skills/econ-review/references/oversight.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "0.9.0"
     },
     "default-micro": {
       "resource_id": "default-micro",
@@ -131,7 +131,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.8.0",
+      "content_version": "0.9.0",
       "sync": false
     },
     "resource-guide": {
@@ -144,7 +144,7 @@
       "resource_id": "team-state-helper",
       "source_path": "harness/state.py",
       "resource_kind": "support",
-      "content_version": "0.4.0"
+      "content_version": "0.9.0"
     },
     "project-instructions": {
       "resource_id": "project-instructions",
@@ -268,7 +268,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.4.0"
+      "content_version": "0.9.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -287,13 +287,13 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.8.0"
+      "content_version": "0.9.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.8.0"
+      "content_version": "0.9.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -371,7 +371,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.8.0"
+      "content_version": "0.9.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -396,7 +396,7 @@
       "resource_id": "tool-test-export-project-py",
       "source_path": "scripts/test_export_project.py",
       "resource_kind": "support",
-      "content_version": "0.7.0",
+      "content_version": "0.9.0",
       "source_distribution_only": true
     },
     "tool-setup-ide-mcp-sh": {
@@ -455,7 +455,7 @@
       "resource_id": "state-tests",
       "source_path": "harness/test_state.py",
       "resource_kind": "maintenance",
-      "content_version": "66.1",
+      "content_version": "0.9.0",
       "source_distribution_only": true
     },
     "checked-artifacts-instructions": {
@@ -1005,6 +1005,18 @@
       },
       "deliver-the-selected-result": {
         "heading": "Deliver the selected result"
+      },
+      "choose-the-estimand-and-method": {
+        "heading": "Choose the estimand and method"
+      },
+      "outcome-scale-and-conditional-mean": {
+        "heading": "Outcome scale and conditional mean"
+      },
+      "orthogonal-scores-and-heterogeneous-effects": {
+        "heading": "Orthogonal scores and heterogeneous effects"
+      },
+      "structural-estimation-and-counterfactuals": {
+        "heading": "Structural estimation and counterfactuals"
       }
     },
     "data-implementation": {
@@ -1817,7 +1829,16 @@
       "resource_id": "core",
       "section_id": "economist-role",
       "requires": [],
-      "conditional_requires": [],
+      "conditional_requires": [
+        {
+          "when": "formulation_or_choice_unresolved",
+          "required_rules": [
+            "research.turn-the-question-into-an-operation",
+            "research.separate-explanations-with-a-comparison",
+            "research.select-a-feasible-action"
+          ]
+        }
+      ],
       "optional_examples": []
     },
     "core.authority-and-preserved-inputs": {
@@ -3309,7 +3330,8 @@
         "team.shared-work",
         "team.resumption",
         "local-checks.all",
-        "paragraph-engine.all"
+        "paragraph-engine.all",
+        "native-check.all"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -3797,7 +3819,8 @@
         "prose-check-rules.all",
         "policy-assets.all",
         "paragraph-engine.all",
-        "argument-engine.all"
+        "argument-engine.all",
+        "registry-operations.all"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -4642,6 +4665,38 @@
       "rule_id": "equity-case-results.all",
       "resource_id": "equity-case-results",
       "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.choose-the-estimand-and-method": {
+      "rule_id": "design-methods.choose-the-estimand-and-method",
+      "resource_id": "design-methods",
+      "section_id": "choose-the-estimand-and-method",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.outcome-scale-and-conditional-mean": {
+      "rule_id": "design-methods.outcome-scale-and-conditional-mean",
+      "resource_id": "design-methods",
+      "section_id": "outcome-scale-and-conditional-mean",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.orthogonal-scores-and-heterogeneous-effects": {
+      "rule_id": "design-methods.orthogonal-scores-and-heterogeneous-effects",
+      "resource_id": "design-methods",
+      "section_id": "orthogonal-scores-and-heterogeneous-effects",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.structural-estimation-and-counterfactuals": {
+      "rule_id": "design-methods.structural-estimation-and-counterfactuals",
+      "resource_id": "design-methods",
+      "section_id": "structural-estimation-and-counterfactuals",
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []

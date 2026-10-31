@@ -24,6 +24,15 @@
         },
         {
           "when": "operational_plan_requested"
+        },
+        {
+          "when": "method_outcome_scale_and_conditional_mean"
+        },
+        {
+          "when": "method_orthogonal_scores_and_heterogeneous_effects"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
         }
       ],
       "result_contract": {
@@ -89,6 +98,18 @@
         },
         {
           "when": "data_code_change"
+        },
+        {
+          "when": "formulation_or_choice_unresolved"
+        },
+        {
+          "when": "method_outcome_scale_and_conditional_mean"
+        },
+        {
+          "when": "method_orthogonal_scores_and_heterogeneous_effects"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
         }
       ],
       "result_contract": {
@@ -157,6 +178,18 @@
         },
         {
           "when": "data_code_change"
+        },
+        {
+          "when": "formulation_or_choice_unresolved"
+        },
+        {
+          "when": "method_outcome_scale_and_conditional_mean"
+        },
+        {
+          "when": "method_orthogonal_scores_and_heterogeneous_effects"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
         }
       ],
       "result_contract": {
@@ -715,6 +748,7 @@
     "data_pipeline_new": {
       "when": "data_pipeline_new",
       "required_rules": [
+        "design-methods.choose-the-estimand-and-method",
         "data-implementation.source-to-analysis",
         "data-implementation.acquisition",
         "data-implementation.data-contracts-and-joins",
@@ -762,6 +796,7 @@
     "data_estimator_or_engine_change": {
       "when": "data_estimator_or_engine_change",
       "required_rules": [
+        "design-methods.choose-the-estimand-and-method",
         "data-implementation.estimator-engine-and-algorithm-selection"
       ],
       "full_review_required": true
@@ -1115,6 +1150,34 @@
         "econ-data.implement-at-the-existing-owner"
       ],
       "full_review_required": true
+    },
+    "method_choose_the_estimand_and_method": {
+      "when": "method_choose_the_estimand_and_method",
+      "required_rules": [
+        "design-methods.choose-the-estimand-and-method"
+      ],
+      "full_review_required": false
+    },
+    "method_outcome_scale_and_conditional_mean": {
+      "when": "method_outcome_scale_and_conditional_mean",
+      "required_rules": [
+        "design-methods.outcome-scale-and-conditional-mean"
+      ],
+      "full_review_required": false
+    },
+    "method_orthogonal_scores_and_heterogeneous_effects": {
+      "when": "method_orthogonal_scores_and_heterogeneous_effects",
+      "required_rules": [
+        "design-methods.orthogonal-scores-and-heterogeneous-effects"
+      ],
+      "full_review_required": false
+    },
+    "method_structural_estimation_and_counterfactuals": {
+      "when": "method_structural_estimation_and_counterfactuals",
+      "required_rules": [
+        "design-methods.structural-estimation-and-counterfactuals"
+      ],
+      "full_review_required": false
     }
   },
   "aliases": {

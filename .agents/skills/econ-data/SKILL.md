@@ -7,7 +7,7 @@ description: Acquire, transform, estimate and reproduce economic data and result
 
 ## Purpose and input
 
-[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../../ECON_INDEX.md) govern this specialist. Read their applicable bodies and the selected sections below before implementation. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
+[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../registry/operations.json) govern this specialist. Read their applicable bodies and the selected sections below before implementation. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
 
 Input: Requested data operation, canonical specification, input documentation and saved results.
 
@@ -32,6 +32,8 @@ Map the requested economic object to records, fields, keys and transformations. 
 Inspect the source fields that define the proposed measures. Map sample eligibility, measurement support, scale, case mix, behavior and heterogeneity to their roles in the design. Define each requested metric's population, numerator, denominator, timing, aggregation and missingness treatment. Map the measured quantity to the outcome or resource use that ranks the proposed actions. Preserve each field's definition of amount due, amount paid, level, increment, conditional mean or population total; trace composition changes through the relevant counts or weights. Construct pre-treatment groups from pre-treatment information and fix membership across the comparison period.
 
 ### Implement at the existing owner
+
+For estimation, read [the estimator and package selection branch](references/implementation.md#estimator-engine-and-algorithm-selection), match the adopted parameter to an official function and its supported options, and call that function directly from the existing analysis entry point. Confirm the installed interface before executing it. Carry the selected sample, weights, fixed effects, covariance and requested post-estimation output into the actual call; resolve an unsupported requirement through a matching implementation. Reimplement an estimator only after identifying the required feature absent from the available specialist implementations.
 
 Use the [implementation decisions](references/implementation.md#functions-types-and-failure-boundaries) for readable control flow, reuse, abstraction, file placement and error handling. Prefer the existing function or module and supported standard-library or package operations. Implement the complete requested behavior with the fewest necessary responsibilities. Keep each rule at one owner and update its consumers together. Remove superseded branches, wrappers and files within the authorized change. Preserve functional requirements and required boundary validation, authentication and persistence behavior.
 

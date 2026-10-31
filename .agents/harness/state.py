@@ -1446,11 +1446,32 @@ def main():
                     if not target_version or not target_version.strip():
                         raise ValueError('External action needs a registered object output or explicit --target-version from its result')
                 selected = [target] if target_output else []
+                outcome = None
+                if args.target_kind == 'object' and args.result == 'passed':
+                    # Reuse the native return adapters: a caller's verdict and an
+                    # existing log file do not establish a completed remote action.
+                    evidence_path = relative(root, args.evidence)
+                    observed = gate.parse_json((root / evidence_path).read_bytes())
+                    if not isinstance(observed, dict):
+                        raise ValueError('External action evidence must contain its returned tool record')
+                    spec = importlib.util.spec_from_file_location('state_operation_results', _base / 'native_check.py')
+                    native = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(native)
+                    event = {'event_id': observed.get('event_id'), 'operation': args.operation,
+                             'target': target, 'status': 'success'}
+                    outcomes = []
+                    native._operation_results({'action_results_verified': [observed]}, [event], outcomes)
+                    outcome = outcomes[0]
+                    returned_version = outcome.get('commit_sha') or outcome.get('release_id')
+                    if args.target_version and returned_version and args.target_version != returned_version:
+                        raise ValueError('External target version differs from the returned commit or release')
                 result = {**requirement, 'result': args.result, 'evidence': snapshot(root, [args.evidence]),
                           'target_version': target_version, 'target_output_version': target_output.get('version'),
                           'input_version': task['consumed_inputs'].get(target),
                           'output_ids': selected, 'at': now(), 'receipt_kind': 'action',
                           'versions': versions(task, selected, include_actions=False)}
+                if outcome is not None:
+                    result['operation_outcome'] = outcome
                 if input_changes(root, task, result) or output_changes(root, task):
                     raise ValueError('Action result requires unchanged inputs and current outputs')
                 task['action_results'] = [r for r in task['action_results'] if any(r[k] != v for k, v in requirement.items())] + [result]

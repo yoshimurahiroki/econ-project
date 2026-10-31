@@ -7,7 +7,7 @@ description: Judge a requested economics claim or artifact by comparing its clai
 
 ## Purpose and input
 
-[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../../ECON_INDEX.md) govern this specialist. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
+[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../registry/operations.json) govern this specialist. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
 
 Input: Named claim or artifact, requested review scope, intended reader and cited sources or saved calculations.
 
@@ -23,16 +23,17 @@ Review the named object within the requested scope:
 - Conduct: compare actual operations and returned results with the request and granted authority.
 - Operational plan: apply the [decision-selection rules](../../runtime/DECIDE.md); assess whether actions, handoffs and checks advance the requested outcome. Preserve user-required frequencies.
 
-A local review stays with the named passage, result or operation and dependencies needed to assess it. Correct the target when correction is requested.
+A local review stays with the named passage, result or operation and dependencies needed to assess it. For a whole argument or execution review, first recover the intended choice, central claim and required outcome from the artifact and actual results. Prioritize defects that change that answer, invalidate its identifying comparison or block delivery. Allocate further inspection by the unresolved consequence under [DECIDE](../../runtime/DECIDE.md); routine technical precision does not substitute for resolving a defective central mechanism. Correct the target when correction is requested.
 
 ### Locate and repair the cause
 
-For each defect, identify the passage, calculation or operation and explain what it changes in the requested result. Use the demonstrated cause to select the repair:
+For each defect, identify the passage, calculation or operation and explain what it changes in the requested result. For a contested explanation, compare its consequential alternative and contradictory evidence. Use the demonstrated cause to select the repair:
 
 - Source or premise: check the cited material.
 - Transformation or calculation: correct the operation and recompute affected results.
 - Inference: revise the claim or its conditions to match the result.
 - Presentation: revise wording or selection when the underlying result supports the claim.
+- Execution: repair the failed operation, resume its affected descendants and inspect the requested output through its existing owner. A revised success statement cannot repair a missing artifact or failed calculation.
 
 Use econ-writing's `revise` mode for revision and its `compose` mode when the requested repair requires reconstruction; integrate the return into the assessment's named target.
 
@@ -40,7 +41,7 @@ Trace the repair through connected claims and artifacts. When slides or a figure
 
 ### Compare versions or decisions when requested
 
-Retain an accessible original before a requested before-and-after revision; an existing file or conversation suffices. Compare the actual versions on the same requested outcome and inputs. Identify the choice the changed method or instruction induced, including a justified unchanged choice, and assess the result alongside the work and resources used. Judge mathematical validity, feasibility and the requested economic outcome separately. With a single version, assess its claims against sources or calculations.
+Retain an accessible original before a requested before-and-after revision; an existing file or conversation suffices. Compare actual versions on the same requested outcome, inputs, authority and available tools. Identify the issue selected, decisive evidence used, method adopted and operation completed, including a justified unchanged choice. Assess the resulting calculation or artifact alongside work and resources used. Judge mathematical validity, feasibility and the requested economic outcome separately. Model self-ratings and instruction compliance alone do not establish improvement. With a single version, assess its claims against sources or calculations.
 
 Apply these comparisons when relevant:
 
@@ -48,6 +49,7 @@ Apply these comparisons when relevant:
 - Recipient or action selection: hold budget and constraints fixed; examine errors that cross the selection boundary and their losses. For who gains or loses, inspect group transitions or joint outcomes hidden by averages.
 - Subgroup differences: assess their direct contrast.
 - Model–decision-maker disagreement: compare the choices with those rationalized by the decision-maker's objectives, private information and unobserved outcomes. Use remaining violations and relevant realized outcomes to locate decisions to change.
+- Independent judgment: when facts and criteria stay fixed, a change in user insistence or source identity should preserve the evidence-based choice. When contrary evidence changes a determining premise, assess whether the explanation and action change with it.
 
 Use [oversight notes](references/oversight.md) for requested independent assessment, blinded comparison or a contested execution finding.
 
