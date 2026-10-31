@@ -338,6 +338,130 @@ class RealRegistryTests(unittest.TestCase):
     def manifest(self, out):
         return json.loads((out / 'SOURCE.md').read_text().split('```json\n')[1].split('\n```')[0])
 
+    def assert_native_configuration(self, out, fmt, source_root=None, layout='source'):
+        import hashlib
+        import tomllib
+        source_root = source_root or self.root
+        manifest = self.manifest(out)
+        records = {row['logical_id']: row for row in manifest['files']}
+        models = {'terra': 'gpt-6.1-terra', 'luna': 'gpt-6-luna', 'astra': 'gpt-6-astra'}
+        role_ids = {'policy-codex-agent-' + role for role in models}
+        self.assertEqual({rid for rid in records if rid.startswith('policy-codex-agent-')}, role_ids)
+        expected_paths = {('CODEX_AGENT_' + role + '.toml' if fmt == 'flat'
+                           else '.codex/agents/' + role + '.toml') for role in models}
+        actual_paths = {p.relative_to(out).as_posix() for p in
+                        (out.glob('CODEX_AGENT_*.toml') if fmt == 'flat' else (out / '.codex/agents').glob('*.toml'))}
+        self.assertEqual(actual_paths, expected_paths)
+        for role, model in models.items():
+            rid = 'policy-codex-agent-' + role
+            resource = self.routes['resources'][rid]
+            path = resource['export_alias' if fmt == 'flat' else 'deployment_path']
+            raw = (out / path).read_bytes()
+            self.assertEqual(raw, (self.root / resource['source_path']).read_bytes())
+            config = tomllib.loads(raw.decode())
+            self.assertEqual(set(config), {'name', 'description', 'model', 'model_reasoning_effort', 'developer_instructions'})
+            self.assertEqual((config['name'], config['model'], config['model_reasoning_effort']), (role, model, 'xhigh'))
+            self.assertTrue(config['description'])
+            self.assertTrue(config['developer_instructions'])
+        template = self.routes['resources']['config-template-codex-example-toml']
+        template_path = template['export_alias' if fmt == 'flat' else 'deployment_path']
+        raw = (out / template_path).read_bytes()
+        self.assertEqual(raw, (self.root / template['source_path']).read_bytes())
+        config = tomllib.loads(raw.decode())
+        self.assertEqual(config, {
+            'model': 'gpt-6.1-sol', 'model_provider': 'openai',
+            'model_reasoning_effort': 'xhigh', 'forced_login_method': 'chatgpt',
+            'agents': {'enabled': True, 'max_concurrent_threads_per_session': 3,
+                       'default_subagent_model': 'gpt-6.1-sol', 'default_subagent_reasoning_effort': 'xhigh'},
+        })
+        self.assertEqual(manifest['layout'], layout)
+        self.assertEqual(manifest['output_format'], fmt)
+        self.assertEqual(manifest['conditions'], ['requested_distribution_configuration_or_installation'])
+        self.assertIn('team.native-model-roles', manifest['operations'][0]['active_rules'])
+        for rid, row in records.items():
+            resource = self.routes['resources'][rid]
+            source_path = resource['source_path' if layout == 'source' else 'deployment_path']
+            self.assertEqual(row['source'], resource['source_path'])
+            self.assertEqual(row['resolved_path'], source_path)
+            self.assertEqual(row['source_sha256'], hashlib.sha256((source_root / source_path).read_bytes()).hexdigest())
+            self.assertEqual(row['export_sha256'], hashlib.sha256((out / row['output']).read_bytes()).hexdigest())
+        registries = {name: hashlib.sha256((source_root / (name if layout == 'source' else '.agents/' + name)).read_bytes()).hexdigest()
+                      for name in self.routes['registry_source_paths']}
+        encoded = json.dumps(registries, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode()
+        self.assertEqual(manifest['routes_sha256'], hashlib.sha256(encoded).hexdigest())
+
+    def test_native_configuration_condition_exports_source_identical_toml(self):
+        import shutil
+        for fmt in ('flat', 'deployed'):
+            with self.subTest(layout='source', format=fmt):
+                out = self.output('native-' + fmt, task='econ-data',
+                                  conditions=['requested_distribution_configuration_or_installation'], output_format=fmt)
+                self.assert_native_configuration(out, fmt)
+        installed = self.base / 'native-installed'
+        shutil.copytree(out, installed)  # The actual deployed export is the next input.
+        for rid in ('registry-operations', 'registry-resources', 'registry-placements'):
+            resource = self.routes['resources'][rid]
+            target = installed / resource['deployment_path']
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes((self.root / resource['source_path']).read_bytes())
+        with patch.object(exporter, 'ROOT', installed):
+            for fmt in ('flat', 'deployed'):
+                with self.subTest(layout='installed', format=fmt):
+                    roundtrip = self.output('native-installed-' + fmt, task='econ-data', layout='installed',
+                                            conditions=['requested_distribution_configuration_or_installation'], output_format=fmt)
+                    self.assert_native_configuration(roundtrip, fmt, installed, 'installed')
+
+    def test_bounded_data_keeps_native_authority_without_configuration(self):
+        for fmt in ('flat', 'deployed'):
+            with self.subTest(format=fmt):
+                out = self.output('bounded-' + fmt, task='econ-data', output_format=fmt)
+                manifest = self.manifest(out)
+                ids = {row['logical_id'] for row in manifest['files']}
+                self.assertIn('team.native-model-roles', manifest['operations'][0]['active_rules'])
+                team = self.routes['resources']['team']
+                text = (out / team['export_alias' if fmt == 'flat' else 'deployment_path']).read_text()
+                self.assertIn('## Native model roles', text)
+                self.assertFalse(any(rid.startswith('policy-codex-agent-') for rid in ids))
+                self.assertNotIn('config-template-codex-example-toml', ids)
+                self.assertFalse(list(out.rglob('*.toml')))
+
+    def test_source_and_deployed_policy_select_their_own_manifests(self):
+        import shutil
+        root = self.copied_source()
+        routes = exporter.load_routes(root)
+
+        def load_policy(name, path):
+            spec = importlib.util.spec_from_file_location(name, path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            return module
+
+        source = load_policy('source_policy', root / 'harness/policy_assets.py')
+        paths = {}
+        for rid, resource in routes['resources'].items():
+            if rid == 'policy-manifest' or resource.get('source_distribution_only'):
+                continue
+            original = root / resource['source_path']
+            target = root / resource['deployment_path']
+            if original != target:
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(original, target)
+            paths[source.resource_key(rid)] = resource['deployment_path']
+        (root / 'quality/policy_manifest.json').write_text(json.dumps(source.generate_manifest(root)))
+        deployed_manifest = root / routes['resources']['policy-manifest']['deployment_path']
+        deployed_manifest.parent.mkdir(parents=True, exist_ok=True)
+        deployed_manifest.write_text(json.dumps(source.generate_manifest(root, paths=paths)))
+        deployed = load_policy('deployed_policy', root / '.agents/harness/policy_assets.py')
+        for module, expected in ((source, 'runtime/CORE.md'), (deployed, '.agents/runtime/CORE.md')):
+            adopted_root, _, manifest, _ = module.discover_policy()
+            self.assertEqual(adopted_root, root)
+            self.assertEqual(manifest['assets']['core']['path'], expected)
+        core = root / '.agents/runtime/CORE.md'
+        core.write_text(core.read_text() + '\nChanged deployed instruction.\n')
+        source.discover_policy()
+        with self.assertRaisesRegex(ValueError, 'policy asset changed: core'):
+            deployed.discover_policy()
+
     def test_thirteen_operations_five_owners_both_formats(self):
         self.assertEqual(len(self.routes['operations']), 13)
         self.assertEqual(len({op['owner_skill'] for op in self.routes['operations']}), 5)

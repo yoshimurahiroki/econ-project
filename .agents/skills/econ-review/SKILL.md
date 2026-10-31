@@ -7,7 +7,7 @@ description: Judge a requested economics claim or artifact by comparing its clai
 
 ## Purpose and input
 
-[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../registry/operations.json) govern this specialist. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
+[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../../ECON_INDEX.md) govern this specialist. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
 
 Input: Named claim or artifact, requested review scope, intended reader and cited sources or saved calculations.
 

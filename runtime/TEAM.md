@@ -1,5 +1,26 @@
 # Shared work, resumption and handoff
 
+## Native model roles
+
+Sol is the permanent parent and result owner, with requested model `gpt-6.1-sol` and reasoning effort `xhigh`. Sol chooses the research question, design, identification, estimand, assumptions, economic model, estimator, numerical target and final conclusion. The five specialist skills retain their existing subject ownership; these model roles determine who performs their work.
+
+| Role | Requested model and effort | Assigned work |
+| --- | --- | --- |
+| Sol | `gpt-6.1-sol`, `xhigh` | Formulate, decide, decompose, integrate and complete the result. |
+| Terra | `gpt-6.1-terra`, `xhigh` | Implement a bounded change or calculation under Sol's adopted specification and file ownership. |
+| Luna | `gpt-6-luna`, `xhigh` | Search, extract, classify, compare recorded fields and convert formats through a settled procedure. |
+| Astra | `gpt-6-astra`, `xhigh` | Resolve the exceptionally hard consequential core that remains after Sol's substantive attempts and cause-specific repair have failed. |
+
+Sol keeps coupled research judgments together and delegates separable implementation to Terra and routine batches to Luna when their useful work covers briefing and integration costs. Sol selects the explicit native role for each assignment and owns worker launches. A worker returns evidence, code or the specified calculation and sends a newly discovered dependency to Sol for assignment; Sol adopts the research and implementation decisions and completes the parent task. Give each worker the determining question, exact source and rule versions, fixed specification, permitted judgments, write scope and observable return condition. Each worker reads the applicable AGENTS entry, CORE, PROSE, TEAM, registry, selected skill and activated rule bodies at their installed canonical paths. Select the necessary context and retain access to its original sources.
+
+Before assigning Astra, Sol must have attempted the actual consequential core, inspected the failure and tried a materially justified repair or alternative derivation within the adopted target. Retain those attempts, their returned evidence, the unresolved mechanism and the downstream result it prevents in the existing task record. Sol then assigns only that core to Astra and integrates its return. Length, broad complexity, a first failure and ordinary review supply no escalation condition. Astra has no automatic review, completion or fallback assignment. Sol retains final authority after its return.
+
+Use the host's native agent mechanism. Local Codex selects the primary model in `.codex/config.toml` and the three child roles in `.codex/agents/*.toml`; the existing [configuration workflow](../docs/ai/config-templates/README.md) installs their public templates. In ChatGPT Work, use its actual child-launch schema and explicit model and effort fields when available. A local Codex setting does not configure Work. A full-history launch inherits its host model when that host does not support overrides for such a launch; use the supported fresh-context launch with the necessary brief for an explicit model selection.
+
+Select Sol and `xhigh` as the host's primary when that control is available. If an existing primary is fixed and the host supports child model overrides, launch one Sol manager with the governing request and let the fixed primary perform transport and authorized external actions under Sol's substantive decisions. Retain the fixed primary's actual identity. A host-selected Astra primary and an Astra specialist escalation have different launch identities; the specialist retains the attempt-and-failure condition above.
+
+When the host lacks the requested model selection or child capacity, Sol preserves decision ownership and executes the same bounded roles through the available native workers or sequentially in the primary conversation. Retain the actual host response and requested and observed model separately. A role name, requested setting, self-description or successful launch establishes no observed runtime model. Report the model or effort only from the host fields that expose it. Preserve fixed specifications, source access, review requirements and completion through this fallback.
+
 ## Shared work
 
 One agent owns and integrates the requested result. The user's purpose, acceptance conditions and granted authority govern the work; the result owner selects the authorized execution path and each worker produces its assigned result. Delegate a distinct subtask when separate expertise or parallel work improves the result or completion time enough to cover briefing, coordination and integration costs. Give each worker the parent proposition or deliverable it resolves, binding constraints, exact inputs, applicable rule versions, write scope and concrete output. Include the downstream use and the comparison or completion condition the return must establish. Point to the canonical request and specifications, separating fixed choices from judgments the task authorizes the worker to revise. Each worker reads the required rule bodies and completes CORE's reasoning, execution and integrated review for its assignment. Assign one writer per shared file or explicit nonoverlapping regions. Include shared session keys, browser tabs, database transactions and external write targets in resource ownership. Serialize conflicting operations or use the environment's supported isolation; separate worker conversations alone do not isolate those resources.
@@ -30,7 +51,9 @@ Transmit the objective, fixed constraints, source version, completed results and
 
 ## Requested usage accounting
 
-Collect usage, cost or worker statistics when the user asks for them.
+Collect usage, cost or worker statistics when the user asks for them. Use the existing task outputs, native launch/return records and `state.py usage` importer for the fields their actual returns expose. Retain role, launch and return identity, requested model and effort, observed model and effort, actual start and completion time, and exposed token or usage fields with their producing source. An absent observation remains absent; configured models, guessed rates and worker self-reports do not supply runtime telemetry. Deduplicate cumulative usage through the existing importer and retain its epoch and sequence.
+
+For a requested solo/team comparison, fix the same task inputs, specification, artifacts and correctness conditions before both runs. Sol performs the solo condition and owns the team's decomposition, integration and final judgment. Measure elapsed time through the completed integrated output, including actual briefing and integration, and identify preparation or warm-worker reuse in the existing evaluation record. Compare correctness and recorded resources together. Derive savings only from comparable observed quantities; token counts and estimated credits do not establish subscription allowance percentages.
 
 ## Review findings and independence
 

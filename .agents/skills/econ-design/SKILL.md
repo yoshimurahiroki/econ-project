@@ -7,7 +7,7 @@ description: Develop an economics question or model, design identification and i
 
 ## Purpose and input
 
-[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../registry/operations.json) govern this specialist. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
+[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../../ECON_INDEX.md) govern this specialist. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
 
 Input: Requested economic question, model or empirical design and supplied premises. Use relevant literature when contribution or source investigation is in scope, and documented source fields when empirical measurement or data feasibility is in scope.
 

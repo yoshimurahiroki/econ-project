@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.12.0",
+  "policy_id": "economics-native-0.13.0",
   "profile": {
     "id": "research-full",
     "preflight_role": "requirements-coverage"
@@ -20,11 +20,11 @@
     },
     "core": {
       "path": "runtime/CORE.md",
-      "sha256": "3d4b7fb302e4e9f6cbdb7b3cd1c136eb47aeaa2e65eba06611427931cd1b8eed"
+      "sha256": "33feca8962c615cf7c31cad2e44a592a6713fe28ecc2ae1f0957937e017bfb5c"
     },
     "decide": {
       "path": "runtime/DECIDE.md",
-      "sha256": "a3a356a0526a5a15d7af0fc98df7ffaf11dde6bd1bb80783a54bd4b5fcfaedd1"
+      "sha256": "6ede0ea053ce38f6d93003df6e9b267cd15457d185f87c027a3bb69a72a46008"
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
@@ -52,7 +52,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "a9cc4bd338a770b13c1800ed0cd50a487f1121ff2233f4ce94c31c85c2dde3c5"
+      "sha256": "516849e044f1bb6b616aff1b795ad4921e6d745bdbc8573917c2c88a15d1f95d"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -64,15 +64,15 @@
     },
     "registry_operations": {
       "path": "registry/operations.json",
-      "sha256": "397729c65e0785a47e1ca2816cba98462dac42fe67edbfb01dbe55b51cbf3303"
+      "sha256": "61c2d0e78104d0e065a543bc77cbb508db64051a89c17cf328d6c6ed4c79206d"
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "5048f354f65d521af13b1f0cbab438f2e75a9e2fe9560c7f40ffd14169aad8fb"
+      "sha256": "89b298f7cd3ce4d47b5f0d292fa0d9bf3759dc255a312ae051781d067cfcc9bd"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "6fe25c3f6bcbbe2ed2bc2ba5449c4926334c89c50055592c98fc38321ed965aa"
+      "sha256": "44d4af29c31d6808ef42a7bd0bd4b06bb5fe25fbb4f5d2468d43b2461ce10cca"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -92,7 +92,7 @@
     },
     "resource:config-template-codex-example-toml": {
       "path": "docs/ai/config-templates/codex.example.toml",
-      "sha256": "c57023f63a938b1d62c9c66f5d6f6c0dbb001e496aa9813bbf3d6a5980e38b05"
+      "sha256": "83783b7147ff105e62329f639466f63604f666111269f678e19e6d34cb7125ee"
     },
     "resource:config-template-mcp-example-json": {
       "path": "docs/ai/config-templates/mcp.example.json",
@@ -100,7 +100,7 @@
     },
     "resource:config-template-readme-md": {
       "path": "docs/ai/config-templates/README.md",
-      "sha256": "79d77ee0cffd70c04ef4884485ed124a21d83aba0786a7054c132d75950dfa87"
+      "sha256": "cf671d88f492ece7e40792909a8ab923612afec3b4bce2f0555a9f2ce1de5ad5"
     },
     "resource:data-implementation": {
       "path": "skills/econ-data/references/implementation.md",
@@ -190,6 +190,10 @@
       "path": "profiles/default-micro/extended-introduction-ja.md",
       "sha256": "cb49bab9fbb949538056f82e7560d715a3a6c648f663ea14af2b77e833bec03b"
     },
+    "resource:integration": {
+      "path": "docs/ai/integration.md",
+      "sha256": "55355f6f4e81dd27630cd077c66fa98532ebd2bc90c4a866dade312d80d5242f"
+    },
     "resource:local-checks-guide": {
       "path": "harness/local_checks.md",
       "sha256": "c9df41b68d1aeeefe2ed6a0c2fa5fdd6ec44da1348303e63f78f284dc1501984"
@@ -246,6 +250,18 @@
       "path": "references/repository-policy/.clinerules",
       "sha256": "ef1eedb37cf47b56277e2e192b44e83d67c162adf88e2a0f6e027b892aeb3c7b"
     },
+    "resource:policy-codex-agent-astra": {
+      "path": "references/repository-policy/.codex/agents/astra.toml",
+      "sha256": "4907bdea7a58556dbde0a9897b51f1d108da781f13b67d393fad05e7d5122d81"
+    },
+    "resource:policy-codex-agent-luna": {
+      "path": "references/repository-policy/.codex/agents/luna.toml",
+      "sha256": "7bad1c352234796d9c601e880d1b6231764423c9620c01369f48ed5573c7d850"
+    },
+    "resource:policy-codex-agent-terra": {
+      "path": "references/repository-policy/.codex/agents/terra.toml",
+      "sha256": "75eedb691938ff877a226dbaea7a743ce6140b7aa51a7c9c0e97aba1e8b8ed01"
+    },
     "resource:policy-codexmd": {
       "path": "references/repository-policy/CODEX.md",
       "sha256": "ef1eedb37cf47b56277e2e192b44e83d67c162adf88e2a0f6e027b892aeb3c7b"
@@ -266,6 +282,10 @@
       "path": "references/repository-policy/.windsurfrules",
       "sha256": "ef1eedb37cf47b56277e2e192b44e83d67c162adf88e2a0f6e027b892aeb3c7b"
     },
+    "resource:project-context": {
+      "path": "docs/ai/repo_context.md",
+      "sha256": "5dd399f87e15463a77aa46100bee3570602cf12d190a226a70e815c97ae4dad5"
+    },
     "resource:project-instructions": {
       "path": "docs/ai/project_instructions.txt",
       "sha256": "006c11beaea72cdc43e3805cb39d5cc83b9fe4e9021b6d2cc495207c1bd43336"
@@ -284,7 +304,7 @@
     },
     "resource:resource-guide": {
       "path": "docs/ai/resources.md",
-      "sha256": "c7b1f6ef433d17846072877b691bbb7aa8db7ca7f672884116213cf944573609"
+      "sha256": "8197cba84ed92b3ed768e4b432480c2b66e5bbf53ff78df3c5299ef691c32df1"
     },
     "resource:review-methods": {
       "path": "skills/econ-review/references/oversight.md",
@@ -292,7 +312,7 @@
     },
     "resource:state-contract": {
       "path": "harness/state.md",
-      "sha256": "a0beb2926ac0b6a21eb8eaf34ef2a7db012fae7d4749399e565f6ffc50c761d2"
+      "sha256": "e8c43e331f4b09409e69a4148372d119518b14b1f7c02d29b10a9311a38e6736"
     },
     "resource:writing-ui": {
       "path": "skills/econ-writing/agents/openai.yaml",
@@ -308,7 +328,7 @@
     },
     "team": {
       "path": "runtime/TEAM.md",
-      "sha256": "c223ceb5335605e57980c95549e2225f17966b5c06bb58f5894de6aec4a191c4"
+      "sha256": "07aaa039abb6afa3e96cab3d507dad86d20930146e67f39fa69cdc5e1a41fb18"
     }
   }
 }

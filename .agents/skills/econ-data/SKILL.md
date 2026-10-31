@@ -7,7 +7,7 @@ description: Acquire, transform, estimate and reproduce economic data and result
 
 ## Purpose and input
 
-[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../registry/operations.json) govern this specialist. Read their applicable bodies and the selected sections below before implementation. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
+[Task boundaries and completion](../../runtime/CORE.md) and [operation ownership](../../../ECON_INDEX.md) govern this specialist. Read their applicable bodies and the selected sections below before implementation. Use [PROSE](../../runtime/PROSE.md) when explaining the result.
 
 Input: Requested data operation, canonical specification, input documentation and saved results.
 

@@ -1,6 +1,6 @@
 # Choose the next research operation
 
-Use this resource when the method, economic comparison, identification argument or ordering of dependencies is unresolved. Inherit [CORE](CORE.md)'s task boundaries. If established inputs and methods already determine the requested operation, execute it directly.
+Use this resource when the method, economic comparison, identification argument or ordering of dependencies is unresolved. Inherit [CORE](CORE.md)'s task boundaries and [TEAM's native model roles](TEAM.md#native-model-roles). Sol makes the substantive formulation, model, estimator and final choices, using workers' bounded results as inputs. If established inputs and methods already determine the requested operation, execute it directly.
 
 ## Turn the question into an operation
 

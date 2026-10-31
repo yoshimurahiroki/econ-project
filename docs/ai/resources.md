@@ -100,3 +100,6 @@ Generated from the resource and placement registries. Use this catalog only for 
 - equity-airline-case: skills/econ-data/scripts/equity_airline_case.py
 - equity-company-case: skills/econ-data/scripts/equity_company_case.py
 - equity-case-results: skills/econ-data/references/equity-case-results.json
+- policy-codex-agent-terra: references/repository-policy/.codex/agents/terra.toml
+- policy-codex-agent-luna: references/repository-policy/.codex/agents/luna.toml
+- policy-codex-agent-astra: references/repository-policy/.codex/agents/astra.toml

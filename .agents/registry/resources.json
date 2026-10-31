@@ -5,7 +5,7 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.11.0"
+      "content_version": "0.13.0"
     },
     "prose": {
       "resource_id": "prose",
@@ -17,7 +17,7 @@
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.12.0"
+      "content_version": "0.13.0"
     },
     "execution": {
       "resource_id": "execution",
@@ -29,7 +29,7 @@
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "0.12.0"
+      "content_version": "0.13.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
@@ -268,7 +268,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.12.0"
+      "content_version": "0.13.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -287,19 +287,19 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.11.0"
+      "content_version": "0.13.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.12.0"
+      "content_version": "0.13.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
       "source_path": "registry/placements.json",
       "resource_kind": "registry",
-      "content_version": "0.8.0"
+      "content_version": "0.13.0"
     },
     "control": {
       "resource_id": "control",
@@ -371,13 +371,13 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.12.0"
+      "content_version": "0.13.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
       "source_path": "quality/policy_manifest.json",
       "resource_kind": "support",
-      "content_version": "0.12.0"
+      "content_version": "0.13.0"
     },
     "codex-hooks": {
       "resource_id": "codex-hooks",
@@ -396,21 +396,21 @@
       "resource_id": "tool-test-export-project-py",
       "source_path": "scripts/test_export_project.py",
       "resource_kind": "support",
-      "content_version": "0.12.0",
+      "content_version": "0.13.0",
       "source_distribution_only": true
     },
     "tool-setup-ide-mcp-sh": {
       "resource_id": "tool-setup-ide-mcp-sh",
       "source_path": "scripts/setup_ide_mcp.sh",
       "resource_kind": "support",
-      "content_version": "66.1",
+      "content_version": "0.13.0",
       "source_distribution_only": true
     },
     "tool-test-setup-ide-mcp-py": {
       "resource_id": "tool-test-setup-ide-mcp-py",
       "source_path": "scripts/test_setup_ide_mcp.py",
       "resource_kind": "support",
-      "content_version": "66.1",
+      "content_version": "0.13.0",
       "source_distribution_only": true
     },
     "tool-setup-extensions-sh": {
@@ -424,7 +424,7 @@
       "resource_id": "config-template-readme-md",
       "source_path": "docs/ai/config-templates/README.md",
       "resource_kind": "rule",
-      "content_version": "66.1"
+      "content_version": "0.13.0"
     },
     "config-template-claude-mcp-example-json": {
       "resource_id": "config-template-claude-mcp-example-json",
@@ -436,7 +436,7 @@
       "resource_id": "config-template-codex-example-toml",
       "source_path": "docs/ai/config-templates/codex.example.toml",
       "resource_kind": "support",
-      "content_version": "66.1"
+      "content_version": "0.13.0"
     },
     "config-template-mcp-example-json": {
       "resource_id": "config-template-mcp-example-json",
@@ -628,6 +628,24 @@
       "source_path": "skills/econ-data/references/equity-case-results.json",
       "resource_kind": "support",
       "content_version": "0.8.0"
+    },
+    "policy-codex-agent-terra": {
+      "resource_id": "policy-codex-agent-terra",
+      "source_path": "references/repository-policy/.codex/agents/terra.toml",
+      "resource_kind": "support",
+      "content_version": "0.13.0"
+    },
+    "policy-codex-agent-luna": {
+      "resource_id": "policy-codex-agent-luna",
+      "source_path": "references/repository-policy/.codex/agents/luna.toml",
+      "resource_kind": "support",
+      "content_version": "0.13.0"
+    },
+    "policy-codex-agent-astra": {
+      "resource_id": "policy-codex-agent-astra",
+      "source_path": "references/repository-policy/.codex/agents/astra.toml",
+      "resource_kind": "support",
+      "content_version": "0.13.0"
     }
   },
   "sections": {
@@ -771,6 +789,9 @@
       },
       "paragraph-assignments": {
         "heading": "Paragraph assignments"
+      },
+      "native-model-roles": {
+        "heading": "Native model roles"
       }
     },
     "econ-design": {
@@ -1803,6 +1824,21 @@
       "all": {
         "whole_resource": true
       }
+    },
+    "policy-codex-agent-terra": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-codex-agent-luna": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-codex-agent-astra": {
+      "all": {
+        "whole_resource": true
+      }
     }
   },
   "rules": {
@@ -1826,7 +1862,9 @@
       "rule_id": "core.task-entry",
       "resource_id": "core",
       "section_id": "task-entry",
-      "requires": [],
+      "requires": [
+        "team.native-model-roles"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4731,6 +4769,38 @@
       "requires": [
         "state-contract.governing-context"
       ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team.native-model-roles": {
+      "rule_id": "team.native-model-roles",
+      "resource_id": "team",
+      "section_id": "native-model-roles",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-codex-agent-terra.all": {
+      "rule_id": "policy-codex-agent-terra.all",
+      "resource_id": "policy-codex-agent-terra",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-codex-agent-luna.all": {
+      "rule_id": "policy-codex-agent-luna.all",
+      "resource_id": "policy-codex-agent-luna",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-codex-agent-astra.all": {
+      "rule_id": "policy-codex-agent-astra.all",
+      "resource_id": "policy-codex-agent-astra",
+      "section_id": "all",
+      "requires": [],
       "conditional_requires": [],
       "optional_examples": []
     }

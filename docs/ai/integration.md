@@ -221,9 +221,9 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675",
+  "source_base_commit": "9c848baa7b343cdcef9286c713442024928e0fee",
   "source_state": "committed",
-  "common_content_id": "3bad28d5be1a2ad4fcd8f3eb18a6823d40bae0317d79036b8f2a3c84630e1596",
+  "common_content_id": "6c4f5d2019687eaa976ecb4e7a91442dbec7898e8ad3a82f18f57c18e5bf1cc3",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -1034,16 +1034,16 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "39aba34611f4f34b2ab016c21b62e2c592595c17",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "docs/ai/config-templates/README.md",
       "state": "present",
-      "sha256": "79d77ee0cffd70c04ef4884485ed124a21d83aba0786a7054c132d75950dfa87",
-      "git_blob": "97ec119bcae6bac54dc9b0f39a8208709100a410",
+      "sha256": "cf671d88f492ece7e40792909a8ab923612afec3b4bce2f0555a9f2ce1de5ad5",
+      "git_blob": "4d47eb00992a305dcd53b36065edc087de22ae77",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "docs/ai/config-templates/claude-mcp.example.json",
@@ -1052,16 +1052,16 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "e29ee95ea2e7cdc213561f0a75252c43d28d51de",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "docs/ai/config-templates/codex.example.toml",
       "state": "present",
-      "sha256": "c57023f63a938b1d62c9c66f5d6f6c0dbb001e496aa9813bbf3d6a5980e38b05",
-      "git_blob": "be298aabfb36b8954160f39686750a294dad8527",
+      "sha256": "83783b7147ff105e62329f639466f63604f666111269f678e19e6d34cb7125ee",
+      "git_blob": "b5b0a4b0965ba884c9cba1a024e40d4bb78df725",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "docs/ai/config-templates/mcp.example.json",
@@ -1070,7 +1070,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "da39e4ffafe816be90259a3f68b763a3f71b93ed",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "docs/ai/plugin-integration.md",
@@ -1079,7 +1079,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "48de612d69a557dd975531e64366acca8020e24d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "docs/ai/project_bridge.txt",
@@ -1097,16 +1097,16 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "21fb364c65f735029a0a273a558e1cfd07570336",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "docs/ai/resources.md",
       "state": "present",
-      "sha256": "c7b1f6ef433d17846072877b691bbb7aa8db7ca7f672884116213cf944573609",
-      "git_blob": "0922a0b1884c6e994ec24be8a8d4a1b0a25f048e",
+      "sha256": "8197cba84ed92b3ed768e4b432480c2b66e5bbf53ff78df3c5299ef691c32df1",
+      "git_blob": "318bac30495817b578909ec5877c735b439a9a9b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/argument.py",
@@ -1115,7 +1115,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1829e3fee0a056fbf1fd95ee08017b112e0195bf",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/argument.schema.json",
@@ -1124,7 +1124,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "4397bb0feed6a22c198025f3789fad2f77b44503",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/codex_hooks.py",
@@ -1133,7 +1133,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "899761c5cbc028c091a5bf7ad07ccf37ee0dd967",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/local_checks.md",
@@ -1142,7 +1142,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "5d3e954c637ea95cd38cd47cb615708b02807d5a",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/local_checks.py",
@@ -1151,7 +1151,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "d9878828561f770ebec1ecf24076884e7337652d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/native_check.md",
@@ -1160,7 +1160,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "41982d375eef8611c0e61f3b7caf7e59901a7412",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/native_check.py",
@@ -1169,7 +1169,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "015aa93da026a9c1ad8b1276f2eacdfb4016038c",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/native_run.md",
@@ -1178,7 +1178,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "5d536a372702c4712a24772a11ea0250c27b55f2",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/native_run.py",
@@ -1187,7 +1187,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "175fd933a3d387becb69e104f4167878d018dae0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/paragraph.py",
@@ -1196,7 +1196,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "0bf963a49903f192b1a5e86c86e232083be1ca33",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/paragraph.schema.json",
@@ -1205,16 +1205,16 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1765fb6ee780b4f3e9be04a3479aab3d92c82b75",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/policy_assets.py",
       "state": "present",
-      "sha256": "a9cc4bd338a770b13c1800ed0cd50a487f1121ff2233f4ce94c31c85c2dde3c5",
-      "git_blob": "9514dac3a89279d079ffa27e4f24a03b6877f857",
+      "sha256": "516849e044f1bb6b616aff1b795ad4921e6d745bdbc8573917c2c88a15d1f95d",
+      "git_blob": "dff5853f58903010d441e7d7de1b7da823e3bc12",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/publication.md",
@@ -1223,7 +1223,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "d31793e539faf12ae5f148b6002073751b753f5f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/requirements_check.md",
@@ -1232,7 +1232,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "33b40573042e0393440803cb31f7f76e8faaddb2",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/requirements_check.py",
@@ -1241,16 +1241,16 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "e29565611e61184c4bf5895da6ce1d6aa635a2f2",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/state.md",
       "state": "present",
-      "sha256": "a0beb2926ac0b6a21eb8eaf34ef2a7db012fae7d4749399e565f6ffc50c761d2",
-      "git_blob": "b894508bdbcb942baf26b36801f863cd72127152",
+      "sha256": "e8c43e331f4b09409e69a4148372d119518b14b1f7c02d29b10a9311a38e6736",
+      "git_blob": "8da69ff60da46cce0a4ee4e716ba3ddda03a007e",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/state.py",
@@ -1259,7 +1259,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "3a114c4cd602c08052d2bdffc1adcd4a0619e11d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/test_argument.py",
@@ -1268,7 +1268,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "6dab28f613f2e0a492048e7bfa23294b66f30ce7",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/test_argument_regressions.py",
@@ -1277,7 +1277,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "d65bcef97ed3f1ea415134d65b6877e78e5bf4d5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/test_paragraph.py",
@@ -1286,7 +1286,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "5df8feb0e1bc2e41b7f054fafabe074a76d15362",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/test_paragraph_regressions.py",
@@ -1295,7 +1295,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "cca894667cbc3a898abdb64583dbb0d9f5433982",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/test_state.py",
@@ -1304,7 +1304,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "053f8f4375d9cce98948159bf475d837d82a1c62",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "harness/test_writing_integration.py",
@@ -1313,7 +1313,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "e592ebc2e5f621b9752fadc12b63a0464184e8cd",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "profiles/default-micro/PROFILE.md",
@@ -1322,7 +1322,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "349dbbd4c0c63a6e99cc4beb7b9c100317f8e402",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "profiles/default-micro/extended-introduction-en.md",
@@ -1331,7 +1331,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "834688a8d352f80a6ac4cc0b96fbe4f831dfad74",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "profiles/default-micro/extended-introduction-ja.md",
@@ -1340,7 +1340,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "84c9e720bfec8a585613ed516f91047c9c5f78bb",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "profiles/default-micro/short-examples-en.md",
@@ -1349,7 +1349,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "9fafab070f78b4299f8c8611f4c3083e6514497e",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "profiles/default-micro/short-examples-ja.md",
@@ -1358,16 +1358,16 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1953cb16b796b7001b9be33f7c3804fc3fc87a56",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "quality/policy_manifest.json",
       "state": "present",
-      "sha256": "a47d8ccd9e824b4acdc8d2dbf3ba83a5e8c736e74e1e1acb2a48800ea2275be3",
-      "git_blob": "a722a1d07ef22f385041a5f6643f68894d824b6f",
+      "sha256": "b52e6f7728e9a1eaecc937bd9606f20a1fa806d36e594a2046365dc25ae9ccdd",
+      "git_blob": "228b281422b39a4d0d57dd93d1c380dfb570f59d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "quality/prose_rules.json",
@@ -1376,7 +1376,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "cca7852d21bdb64ec911db5e5b106962eb3a48a6",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "quality/prose_rules.md",
@@ -1385,7 +1385,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "4ed2886075d52e2e2e7e22f9ed313d934412e71d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/.agents/AGENTS.md",
@@ -1394,7 +1394,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "d2dea0549d19641aebd5a1d5b76bd41644875c21",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/.antigravityrules",
@@ -1403,7 +1403,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1fd4bb7151310df632693e71c341dcab4b1d4f19",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/.claude/AGENTS.md",
@@ -1412,7 +1412,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "d2dea0549d19641aebd5a1d5b76bd41644875c21",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/.clinerules",
@@ -1421,7 +1421,34 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1fd4bb7151310df632693e71c341dcab4b1d4f19",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
+    },
+    {
+      "path": "references/repository-policy/.codex/agents/astra.toml",
+      "state": "present",
+      "sha256": "4907bdea7a58556dbde0a9897b51f1d108da781f13b67d393fad05e7d5122d81",
+      "git_blob": "5b45883ed1b8d665e5a82eca73ad519e5d775ec5",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
+    },
+    {
+      "path": "references/repository-policy/.codex/agents/luna.toml",
+      "state": "present",
+      "sha256": "7bad1c352234796d9c601e880d1b6231764423c9620c01369f48ed5573c7d850",
+      "git_blob": "3e4c01fc28c5a04599e341259d9a34df0ddfddd6",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
+    },
+    {
+      "path": "references/repository-policy/.codex/agents/terra.toml",
+      "state": "present",
+      "sha256": "75eedb691938ff877a226dbaea7a743ce6140b7aa51a7c9c0e97aba1e8b8ed01",
+      "git_blob": "158bc4ec22ea8f1af4b0b1257905011f2368a66d",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/.cursor/rules/01_project_policy.mdc",
@@ -1430,7 +1457,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "6ce4b680f3f1c8f18c7b0acc853538c3a71b8e24",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/.cursorrules",
@@ -1439,7 +1466,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1fd4bb7151310df632693e71c341dcab4b1d4f19",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/.gemini/GEMINI.md",
@@ -1448,7 +1475,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "d2dea0549d19641aebd5a1d5b76bd41644875c21",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/.github/copilot-instructions.md",
@@ -1457,7 +1484,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "d2dea0549d19641aebd5a1d5b76bd41644875c21",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/.windsurfrules",
@@ -1466,7 +1493,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1fd4bb7151310df632693e71c341dcab4b1d4f19",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/AGENTS.md",
@@ -1475,7 +1502,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1fd4bb7151310df632693e71c341dcab4b1d4f19",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/CLAUDE.md",
@@ -1484,7 +1511,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1fd4bb7151310df632693e71c341dcab4b1d4f19",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "references/repository-policy/CODEX.md",
@@ -1493,34 +1520,34 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1fd4bb7151310df632693e71c341dcab4b1d4f19",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "registry/operations.json",
       "state": "present",
-      "sha256": "397729c65e0785a47e1ca2816cba98462dac42fe67edbfb01dbe55b51cbf3303",
-      "git_blob": "9c39c1aef4d994125c89ac26374fe631d3a48924",
+      "sha256": "61c2d0e78104d0e065a543bc77cbb508db64051a89c17cf328d6c6ed4c79206d",
+      "git_blob": "53b082f5f7aab9a6c00af1d611fc7867366e3ba5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "registry/placements.json",
       "state": "present",
-      "sha256": "5048f354f65d521af13b1f0cbab438f2e75a9e2fe9560c7f40ffd14169aad8fb",
-      "git_blob": "4255d00970003a2271c7d9e00dd4c92913c067b1",
+      "sha256": "89b298f7cd3ce4d47b5f0d292fa0d9bf3759dc255a312ae051781d067cfcc9bd",
+      "git_blob": "0bbd16e6c86d307d3307225d3c400c760f3ebc0d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "registry/resources.json",
       "state": "present",
-      "sha256": "6fe25c3f6bcbbe2ed2bc2ba5449c4926334c89c50055592c98fc38321ed965aa",
-      "git_blob": "0450fa060908aff356bdcdc01c8415ece15098a8",
+      "sha256": "44d4af29c31d6808ef42a7bd0bd4b06bb5fe25fbb4f5d2468d43b2461ce10cca",
+      "git_blob": "1ba492c504a66df20738431f5d76d3f804d11f5b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "runtime/CONTROL.md",
@@ -1529,25 +1556,25 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "a030b8bd8cafedf48f197bdf08cd3e5a961154b8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "runtime/CORE.md",
       "state": "present",
-      "sha256": "3d4b7fb302e4e9f6cbdb7b3cd1c136eb47aeaa2e65eba06611427931cd1b8eed",
-      "git_blob": "be776d659d37adf09a0625673ead69699b13d85e",
+      "sha256": "33feca8962c615cf7c31cad2e44a592a6713fe28ecc2ae1f0957937e017bfb5c",
+      "git_blob": "4fa9efd20dffa44258797006ad0fc91f09a2eeaf",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "runtime/DECIDE.md",
       "state": "present",
-      "sha256": "a3a356a0526a5a15d7af0fc98df7ffaf11dde6bd1bb80783a54bd4b5fcfaedd1",
-      "git_blob": "f477318bb1eb933bdf37d052dca200932bc952f9",
+      "sha256": "6ede0ea053ce38f6d93003df6e9b267cd15457d185f87c027a3bb69a72a46008",
+      "git_blob": "cf4a3b8b1160e62a3490be2c6f79137aec400b12",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "runtime/EXECUTION.md",
@@ -1556,7 +1583,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "237f68b8a137faab2d760a67838f4dc7077ef336",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "runtime/PROSE.md",
@@ -1565,16 +1592,16 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "f1b8fc0aed2a09af4a38156967e84ed03b37fb59",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "runtime/TEAM.md",
       "state": "present",
-      "sha256": "c223ceb5335605e57980c95549e2225f17966b5c06bb58f5894de6aec4a191c4",
-      "git_blob": "759e87ec9695bed8f991b88904e5e8c13fcef317",
+      "sha256": "07aaa039abb6afa3e96cab3d507dad86d20930146e67f39fa69cdc5e1a41fb18",
+      "git_blob": "0de744eacb7b1ae07a5ac81f3defa5a7002bbaaa",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/__init__.py",
@@ -1583,7 +1610,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "1fc5a64100ae58e3ad92d02cc9ce7b4126f041ea",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/check_instruction_links.py",
@@ -1592,7 +1619,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "351d248153744ebc165306de628da2f1f91dc4a9",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/export_project.py",
@@ -1601,7 +1628,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "3aa7fc7e0da28bf4d4a1c3a26ff40436fac497f8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/pack_context.sh",
@@ -1610,7 +1637,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "5f14fe582e9f4ee842a24d07ae2f7a16d8d777d1",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/route_registry.py",
@@ -1619,7 +1646,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "275ebcb8627def49d2871ca21607eab1c7423a3f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/setup_extensions.sh",
@@ -1628,16 +1655,16 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "f2aad4d755d38bdcf02c7010a99e1925c9951175",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/setup_ide_mcp.sh",
       "state": "present",
-      "sha256": "b35800f79f1dc5e95d8d875d668aa5dc27738f929764c14072dccd0e34af3fc9",
-      "git_blob": "1b5abda4c59df9e91973c9e83f73469903bb59be",
+      "sha256": "ca36bb0feeb401c4d2d19ec902116c5e721243c98acdd2570206b17c6a8e6a03",
+      "git_blob": "10bdf5f7d912fa8c938fcb8a9d002099b899cab4",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/sync_common_core.py",
@@ -1646,7 +1673,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "0eef84d0ffc7f840a75ca74f9e586ed77683ed05",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/test_configuration_tools.py",
@@ -1655,7 +1682,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "d5246f7781bbc7e17b1a8b185d2e418a33f5fce4",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/test_equity.py",
@@ -1664,16 +1691,16 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "aa258adcac24fe8635c111ec1378d1c40b8d8cee",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/test_export_project.py",
       "state": "present",
-      "sha256": "a27393dad3ab56b9854226d012093e8648bfaf42742d3e45d75a1f12a3e296df",
-      "git_blob": "e7c6093885440a9aa1ca7858be1aa825428077d3",
+      "sha256": "eb3b082c04c1853d57147de5d2ab91b49e2329cbad63879aa7f3f4ebee27fdf1",
+      "git_blob": "74d598844b138ec1e49ce9d583b542b6d3ebad1f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/test_instruction_links.py",
@@ -1682,16 +1709,16 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "fa5b2317222fd5b09478b1f1323f394b2cba1e24",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/test_setup_ide_mcp.py",
       "state": "present",
-      "sha256": "1a96b0a96ae68206b3c3072a87471f2d08aa592822d32d30856f9c4e4d5bf3cb",
-      "git_blob": "2b0222ecbcfb61a3d94ce9c05fec3522540ccce7",
+      "sha256": "135d9e674cf39bb18d7396c29d2d1710ebada55c5634c4700d4fe0d293b32b1b",
+      "git_blob": "2a9da869597b88c78c5acc4a10c24eee2a21bd30",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "scripts/test_sync_common_core.py",
@@ -1700,7 +1727,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "2555fbc44b566b3b9b8df00a0c4519163652f187",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/SKILL.md",
@@ -1709,7 +1736,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "f5679aa42bbfcba6b196030bbe1f2403bee83109",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/references/equity-case-results.json",
@@ -1718,7 +1745,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "65a01990e86791bf438c4a4004ad11f3c7707e14",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/references/equity-models.md",
@@ -1727,7 +1754,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "3cf2de32d0d41114c7e2bc2e9afdd22f0df48971",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/references/equity.md",
@@ -1736,7 +1763,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "ef8792d249c74ddc521ecf9af1081d96789eb253",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/references/implementation.md",
@@ -1745,7 +1772,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "a5610d4e4fd720cb6a01f95a6b2efe9f24abdd57",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/references/reproducible-workflow.md",
@@ -1754,7 +1781,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "004ee60bf45b2e56310ecb465eb8679bfebfac99",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/scripts/equity.py",
@@ -1763,7 +1790,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "df6f809760b0209e3c7a03c0592be0ba609ba32e",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/scripts/equity_airline_case.py",
@@ -1772,7 +1799,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "a3b77b4f6ce369c889858e02175db23d3171cf19",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/scripts/equity_company_case.py",
@@ -1781,7 +1808,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "ee7acfdd92fc3e39d6ae98d682efd16eeb8e1ba4",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/scripts/equity_io.py",
@@ -1790,7 +1817,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "23b2159052f8e7655035a5af92a34ecede713d0f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/scripts/equity_sources.py",
@@ -1799,7 +1826,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "43290d859ede730bac639dae89dce24799064e8e",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-data/scripts/requirements-equity.txt",
@@ -1808,7 +1835,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "c2d6b5d234c8e846449217df41bae0b9353c2ea5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-design/SKILL.md",
@@ -1817,7 +1844,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "9da70c152ed73f2ea7e8c4f9c0129572bc638559",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-design/references/designs.md",
@@ -1826,7 +1853,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "a4db99db04f7e2f74a5468e69cb386a8aa89ae08",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-literature/SKILL.md",
@@ -1835,7 +1862,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "19ab5000eb9ad190a3853d64ae7e84d6177a1484",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-review/SKILL.md",
@@ -1844,7 +1871,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "2b7a2055152610e41e19e3fc6c78da24b8e83994",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-review/references/oversight.md",
@@ -1853,7 +1880,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "614e1b6e653d1debc94a230d2f567ffe7260e60f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-writing/SKILL.md",
@@ -1862,7 +1889,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "ec299397f4bfcbbc739b3ea3b863078cf507e701",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-writing/agents/openai.yaml",
@@ -1871,7 +1898,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "d3214f8ae4e43308c30f96f8577c1696f43a068c",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-writing/references/paper-workflow.md",
@@ -1880,7 +1907,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "9aaae68a5e325df34aa0917ee358567308c7ae3d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/econ-writing/references/paragraph-workflow.md",
@@ -1889,7 +1916,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "afa820c2d02db03832d1db6268935ffd594190e6",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/economics-checked-instructions/SKILL.md",
@@ -1898,7 +1925,7 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
       "git_blob": "d9ada92182e0b0a08d333f0f54ae35dc38e2917f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-      "source_commit": "becfd22d5dd15fd6e4b0a273a945a7db3989c675"
+      "source_commit": "9c848baa7b343cdcef9286c713442024928e0fee"
     },
     {
       "path": "skills/explain-before-shorten/SKILL.md",
@@ -1924,3 +1951,9 @@ An old evaluating state maps to running; interrupted maps to blocked with blocke
 }
 ```
 <!-- /common-core-receipt:v2 -->
+
+## 0.13.0 native role deployment
+
+The shared implementation at [`9c848ba`](https://github.com/yoshimurahiroki/econ-project-mini/commit/9c848baa7b343cdcef9286c713442024928e0fee) sets Sol as the permanent manager, Terra as the bounded implementation worker, Luna as the routine worker and Astra as the exceptional specialist. Every role uses `xhigh`; native Codex uses ChatGPT authentication. The existing setup command supports project and user scope, preserves unrelated configuration and installs the registered `.codex/agents/` definitions. The canonical and deployed policy catalogs were regenerated from their own registered paths. [Research and same-input measurements](https://github.com/yoshimurahiroki/econ-project-mini/blob/main/docs/ai/integration.md#0130-native-model-roles-and-measured-evaluation) remain with the common source.
+
+On 2026-10-31 UTC, the resumed environment returned `codex-cli 0.166.0-alpha.1` from `/opt/codex/bin/codex --version` and `Logged in using ChatGPT` from `/opt/codex/bin/codex login status`; both commands exited zero. The earlier `0.164.0` model-catalog observation retains its original source and scope.

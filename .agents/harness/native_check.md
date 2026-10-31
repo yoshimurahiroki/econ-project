@@ -1,6 +1,6 @@
 # Native candidate consistency checks
 
-`native_check.py check-native` is one read-only entry for an existing Python execution tool. It calls the shipped `requirements_check.validate_requirements` and `local_checks.scan` implementations, then compares the selected registered plan’s original role records with the same candidate and inputs. Python 3.10+ is required. The checker reads local inputs and makes no network requests. The host launches the independent reviewers required by focused/full, while direct retains author self-checks; the coordinator supplies their original returns and delivers the finalized runner snapshot.
+`.agents/harness/native_check.py check-native` is one read-only entry for an existing Python execution tool. It calls the shipped `requirements_check.validate_requirements` and `local_checks.scan` implementations, then compares the selected registered plan’s original role records with the same candidate and inputs. Python 3.10+ is required. The checker reads local inputs and makes no network requests. The host launches the independent reviewers required by focused/full, while direct retains author self-checks; the coordinator supplies their original returns and delivers the finalized runner snapshot.
 
 ## Prepare and inspect
 

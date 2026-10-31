@@ -1,6 +1,6 @@
 # Local checks and snapshots
 
-`local_checks.py` uses the Python 3.10+ standard library. It handles text scanning, JSON loading, SHA256, relative paths, regular files, and writing fixed bytes. `native_check.py` and `native_run.py` use it as a shared component.
+`.agents/harness/local_checks.py` uses the Python 3.10+ standard library. It handles text scanning, JSON loading, SHA256, relative paths, regular files, and writing fixed bytes. `.agents/harness/native_check.py` and `.agents/harness/native_run.py` use it as a shared component.
 
 The scanner retains HTML block and cell boundaries as paragraph separators, br as a line break and inline contents as adjacent characters. Inserted separators map to the original tag range. Each hit retains its raw Unicode character coordinates and constituents, plus view (`source`, `visible`, `whitespace`), offset_basis (`raw-source-unicode`) and matched_text; normalized offsets are never substituted for raw coordinates.
 

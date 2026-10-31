@@ -490,6 +490,21 @@
       "resource_id": "equity-case-results",
       "deployment_path": ".agents/skills/econ-data/references/equity-case-results.json",
       "export_alias": "equity-case-results.json"
+    },
+    "policy-codex-agent-terra": {
+      "resource_id": "policy-codex-agent-terra",
+      "deployment_path": ".codex/agents/terra.toml",
+      "export_alias": "CODEX_AGENT_terra.toml"
+    },
+    "policy-codex-agent-luna": {
+      "resource_id": "policy-codex-agent-luna",
+      "deployment_path": ".codex/agents/luna.toml",
+      "export_alias": "CODEX_AGENT_luna.toml"
+    },
+    "policy-codex-agent-astra": {
+      "resource_id": "policy-codex-agent-astra",
+      "deployment_path": ".codex/agents/astra.toml",
+      "export_alias": "CODEX_AGENT_astra.toml"
     }
   },
   "source": {

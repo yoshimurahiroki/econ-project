@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import tomllib
 import unittest
 
 
@@ -23,6 +24,7 @@ class ConfigurationTests(unittest.TestCase):
             shutil.copyfile(source / "runtime/ROUTES.yaml", self.root / "runtime/ROUTES.yaml")
         shutil.copyfile(source / "scripts/route_registry.py", self.root / "scripts/route_registry.py")
         shutil.copytree(Path(__file__).parents[1] / "docs/ai/config-templates", self.root / "docs/ai/config-templates")
+        shutil.copytree(source / "references/repository-policy/.codex/agents", self.root / "references/repository-policy/.codex/agents")
         shutil.copyfile(Path(__file__).with_name("setup_ide_mcp.sh"), self.root / "scripts/setup_ide_mcp.sh")
         (self.root / ".vscode").mkdir()
         (self.root / ".vscode/settings.json").write_text(json.dumps({"model": "user-choice", "mcpServers": {}, "editor.fontSize": 19}))
@@ -35,6 +37,8 @@ class ConfigurationTests(unittest.TestCase):
         (self.root / ".cursor").mkdir()
         (self.root / ".cursor/mcp.json").write_text(json.dumps({"privatePreference": "keep", "mcpServers": {}}))
         self.env = {key: value for key, value in os.environ.items() if key not in {"BRAVE_API_KEY", "EXA_API_KEY", "GITHUB_PERSONAL_ACCESS_TOKEN", "DATABASE_URL", "ENABLE_GOOGLE_DRIVE_MCP", "ENABLE_CONTEXT_MCP", "ENABLE_ECONOMICS_CHECKED_MCP", "ECONOMICS_CHECKED_MCP_URL"}}
+        self.home = self.root / 'home'
+        self.env.update(HOME=str(self.home), CODEX_HOME=str(self.root / 'codex-home'))
 
     def tearDown(self):
         self.temp.cleanup()
@@ -137,6 +141,178 @@ class ConfigurationTests(unittest.TestCase):
         self.run_script("--write")
         self.assertNotIn("[mcp_servers.exa]", self.codex.read_text())
         self.assertTrue(self.codex.read_text().startswith(self.user))
+
+    def test_codex_team_roundtrip_preserves_unrelated_configuration(self):
+        self.codex.write_text('# personal comment\nmodel = "old" # retain this comment\nmodel_provider = "custom"\napproval_policy = "on-request"\n\n[model_providers.custom]\nbase_url = "https://example.invalid/v1"\n\n[agents]\nmax_concurrent_threads_per_session = 5\n\n[agents.reviewer]\nmodel = "review-model"\n\n[permissions]\nworkspace_write = true\n\n[mcp_servers.user_owned]\ncommand = "manual-server"\n')
+        self.env['EXA_API_KEY'] = 'enabled'
+        result = self.checked_command('--write', '--client', 'codex', '--codex-team')
+        self.assertEqual(0, result.returncode, result.stderr)
+        text = self.codex.read_text()
+        data = tomllib.loads(text)
+        self.assertEqual(data['model'], 'gpt-6.1-sol')
+        self.assertEqual(data['model_provider'], 'openai')
+        self.assertEqual(data['model_providers']['custom']['base_url'], 'https://example.invalid/v1')
+        self.assertEqual(data['model_reasoning_effort'], 'xhigh')
+        self.assertEqual(data['forced_login_method'], 'chatgpt')
+        self.assertEqual(data['agents']['enabled'], True)
+        self.assertEqual(data['agents']['max_concurrent_threads_per_session'], 5)
+        self.assertEqual(data['agents']['default_subagent_model'], 'gpt-6.1-sol')
+        self.assertEqual(data['agents']['default_subagent_reasoning_effort'], 'xhigh')
+        self.assertEqual(data['agents']['reviewer']['model'], 'review-model')
+        self.assertEqual(data['permissions']['workspace_write'], True)
+        self.assertEqual(data['mcp_servers']['user_owned']['command'], 'manual-server')
+        self.assertNotIn('exa', data['mcp_servers'])
+        self.assertIn('# personal comment', text)
+        self.assertIn('# retain this comment', text)
+        for role, model in [('terra', 'gpt-6.1-terra'), ('luna', 'gpt-6-luna'), ('astra', 'gpt-6-astra')]:
+            data = tomllib.loads((self.root / '.codex/agents' / (role + '.toml')).read_text())
+            self.assertEqual(set(data), {'name', 'description', 'developer_instructions', 'model', 'model_reasoning_effort'})
+            self.assertEqual((data['name'], data['model'], data['model_reasoning_effort']), (role, model, 'xhigh'))
+        self.assertEqual(0, self.checked_command('--check', '--client', 'codex', '--codex-team').returncode)
+        self.assertEqual(0, self.checked_command('--write', '--client', 'codex', '--codex-team').returncode)
+        self.assertEqual(text, self.codex.read_text())
+
+    def test_codex_team_rejects_unscoped_and_preserves_edited_role(self):
+        for args in (('--codex-team',), ('--codex-team', '--print', '--client', 'codex'),
+                     ('--codex-team', '--write', '--client', 'cursor'),
+                     ('--codex-team', '--write', '--client', 'codex', '--client', 'cursor')):
+            self.assertEqual(2, self.checked_command(*args).returncode)
+        role = self.root / '.codex/agents/terra.toml'
+        role.parent.mkdir()
+        role.write_text('name = "my-custom-role"\n')
+        before = self.snapshot()
+        result = self.checked_command('--write', '--client', 'codex', '--codex-team')
+        self.assertEqual(1, result.returncode)
+        self.assertIn('Conflict:', result.stderr)
+        self.assertEqual(before, self.snapshot())
+        role.unlink()
+        result = self.checked_command('--write', '--client', 'codex', '--codex-team')
+        self.assertEqual(0, result.returncode, result.stderr)
+        self.assertEqual(3, tomllib.loads(self.codex.read_text())['agents']['max_concurrent_threads_per_session'])
+        role.write_text(role.read_text() + '# personal change\n')
+        self.codex.write_text(self.codex.read_text().replace('gpt-6.1-sol', 'user-model', 1))
+        before = self.snapshot()
+        for mode in ('--diff', '--check', '--write'):
+            result = self.checked_command(mode, '--client', 'codex', '--codex-team')
+            self.assertEqual(1, result.returncode)
+            self.assertIn('Conflict:', result.stderr)
+            self.assertIn('.codex/agents/terra.toml', result.stderr)
+            self.assertEqual(before, self.snapshot())
+
+    def test_user_team_scope_roundtrip_preserves_existing_configuration(self):
+        target = Path(self.env['CODEX_HOME'])
+        target.mkdir()
+        config = target / 'config.toml'
+        config.write_text('model = "old"\napproval_policy = "on-request"\n\n[agents]\nmax_threads = 7\n\n[permissions]\nworkspace_write = true\n\n[mcp_servers.manual]\ncommand = "manual"\n')
+        project_before = self.codex.read_bytes()
+        args = ('--codex-team', '--client', 'codex', '--scope', 'user')
+        preview = self.checked_command(*args)
+        self.assertEqual(0, preview.returncode, preview.stderr)
+        self.assertIn('codex-home/config.toml', preview.stdout)
+        self.assertNotIn('gpt-6.1-sol', config.read_text())
+        self.assertEqual(1, self.checked_command(*args, '--check').returncode)
+        result = self.checked_command(*args, '--write')
+        self.assertEqual(0, result.returncode, result.stderr)
+        data = tomllib.loads(config.read_text())
+        self.assertEqual((data['model'], data['model_provider'], data['model_reasoning_effort'], data['forced_login_method']),
+                         ('gpt-6.1-sol', 'openai', 'xhigh', 'chatgpt'))
+        self.assertEqual(data['agents']['max_threads'], 7)
+        self.assertNotIn('max_concurrent_threads_per_session', data['agents'])
+        self.assertEqual(data['permissions']['workspace_write'], True)
+        self.assertEqual(data['mcp_servers']['manual']['command'], 'manual')
+        for role in ('terra', 'luna', 'astra'):
+            self.assertEqual(tomllib.loads((target / 'agents' / f'{role}.toml').read_text())['name'], role)
+        state = json.loads((target / '.agents/state/mcp-generated.json').read_text())
+        self.assertIn('agents/terra.toml', state)
+        self.assertEqual(self.codex.read_bytes(), project_before)
+        self.assertEqual(0, self.checked_command(*args, '--check').returncode)
+        self.assertEqual(0, self.checked_command(*args, '--write').returncode)
+
+    def test_user_team_scope_default_home_and_conflict_preserves_all_targets(self):
+        self.env.pop('CODEX_HOME')
+        target = self.home / '.codex'
+        args = ('--codex-team', '--client', 'codex', '--scope', 'user')
+        self.assertEqual(0, self.checked_command(*args, '--write').returncode)
+        role = target / 'agents/terra.toml'
+        role.write_text(role.read_text() + '# personal change\n')
+        config = target / 'config.toml'
+        config.write_text(config.read_text().replace('gpt-6.1-sol', 'personal-model', 1))
+        before = {path: path.read_bytes() for path in target.rglob('*') if path.is_file()}
+        for mode in ('--diff', '--check', '--write'):
+            result = self.checked_command(*args, mode)
+            self.assertEqual(1, result.returncode)
+            self.assertIn('Conflict:', result.stderr)
+            self.assertEqual(before, {path: path.read_bytes() for path in target.rglob('*') if path.is_file()})
+
+    def test_user_team_scope_preexisting_role_is_not_adopted(self):
+        target = Path(self.env['CODEX_HOME'])
+        (target / 'agents').mkdir(parents=True)
+        config = target / 'config.toml'
+        config.write_text('model = "personal-model"\n')
+        role = target / 'agents/terra.toml'
+        role.write_text('name = "custom"\n')
+        before = {path: path.read_bytes() for path in target.rglob('*') if path.is_file()}
+        result = self.checked_command('--codex-team', '--client', 'codex', '--scope', 'user', '--write')
+        self.assertEqual(1, result.returncode)
+        self.assertIn('Conflict:', result.stderr)
+        self.assertEqual(before, {path: path.read_bytes() for path in target.rglob('*') if path.is_file()})
+
+    def test_user_team_scope_reuses_ownership_from_another_project(self):
+        args = ('--codex-team', '--client', 'codex', '--scope', 'user')
+        result = self.checked_command(*args, '--write')
+        self.assertEqual(0, result.returncode, result.stderr)
+        other = self.root / 'other-project'
+        for directory in ('scripts', 'registry', 'docs/ai/config-templates', 'references/repository-policy/.codex/agents'):
+            shutil.copytree(self.root / directory, other / directory)
+        source = other / 'references/repository-policy/.codex/agents/luna.toml'
+        source.write_text(source.read_text() + '# updated template\n')
+        result = subprocess.run(['bash', str(other / 'scripts/setup_ide_mcp.sh'), *args, '--write'],
+                                env=self.env, capture_output=True, text=True)
+        self.assertEqual(0, result.returncode, result.stderr)
+        installed = Path(self.env['CODEX_HOME']) / 'agents/luna.toml'
+        self.assertEqual(source.read_bytes(), installed.read_bytes())
+        state = json.loads((Path(self.env['CODEX_HOME']) / '.agents/state/mcp-generated.json').read_text())
+        self.assertEqual(state['agents/luna.toml']['owned']['content'], source.read_text())
+
+    def test_user_team_scope_rejects_invalid_combinations_and_symlink(self):
+        for args in (('--scope', 'user'), ('--scope', 'user', '--client', 'codex'),
+                     ('--scope', 'user', '--codex-team', '--client', 'cursor'),
+                     ('--scope', 'user', '--codex-team', '--client', 'codex', '--print')):
+            self.assertEqual(2, self.checked_command(*args).returncode)
+        target = Path(self.env['CODEX_HOME'])
+        elsewhere = self.root / 'elsewhere'
+        elsewhere.mkdir()
+        target.symlink_to(elsewhere, target_is_directory=True)
+        result = self.checked_command('--scope', 'user', '--codex-team', '--client', 'codex', '--write')
+        self.assertEqual(1, result.returncode)
+        self.assertIn('Symlink configuration path refused', result.stderr)
+        self.assertEqual([], list(elsewhere.iterdir()))
+
+    def test_codex_team_does_not_reconcile_mcp_or_validate_integrations(self):
+        self.env['BRAVE_API_KEY'] = 'enabled'
+        result = self.checked_command('--write', '--client', 'codex')
+        self.assertEqual(0, result.returncode, result.stderr)
+        original = self.codex.read_text()
+        original_mcp = original[original.index('[mcp_servers.user_owned]'):]
+        state_path = self.root / '.agents/state/mcp-generated.json'
+        original_ownership = json.loads(state_path.read_text())['.codex/config.toml']
+        self.env.pop('BRAVE_API_KEY')
+        self.env.update(EXA_API_KEY='dummy', ENABLE_GOOGLE_DRIVE_MCP='1',
+                        ENABLE_ECONOMICS_CHECKED_MCP='1', ECONOMICS_CHECKED_MCP_URL='invalid')
+        result = self.checked_command('--write', '--client', 'codex', '--codex-team')
+        self.assertEqual(0, result.returncode, result.stderr)
+        text = self.codex.read_text()
+        self.assertIn(original_mcp, text)
+        data = tomllib.loads(text)['mcp_servers']
+        self.assertEqual(set(data), {'user_owned', 'brave-search'})
+        self.assertEqual(original_ownership, json.loads(state_path.read_text())['.codex/config.toml'])
+        self.assertEqual(0, self.checked_command('--check', '--client', 'codex', '--codex-team').returncode)
+        self.env.pop('ENABLE_GOOGLE_DRIVE_MCP')
+        self.env.pop('ENABLE_ECONOMICS_CHECKED_MCP')
+        result = self.checked_command('--write', '--client', 'codex')
+        self.assertEqual(0, result.returncode, result.stderr)
+        data = tomllib.loads(self.codex.read_text())['mcp_servers']
+        self.assertEqual(set(data), {'user_owned', 'exa'})
 
     def test_manual_mcp_servers_survive_and_same_name_has_one_codex_table(self):
         manual = {"manual-server": {"command": "user-tool"}, "exa": {"command": "user-exa"}}

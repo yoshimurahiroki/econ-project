@@ -1,6 +1,6 @@
 {
   "name": "economics-research-skills",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Economics research and executable long-horizon equity valuation from public data and the current user's own credentials.",
   "author": {
     "name": "Economics Research Skills contributors"

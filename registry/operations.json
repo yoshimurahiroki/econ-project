@@ -734,7 +734,11 @@
     "requested_distribution_configuration_or_installation": {
       "when": "requested_distribution_configuration_or_installation",
       "required_rules": [
-        "integration.all"
+        "integration.all",
+        "policy-codex-agent-terra.all",
+        "policy-codex-agent-luna.all",
+        "policy-codex-agent-astra.all",
+        "config-template-codex-example-toml.all"
       ],
       "full_review_required": true
     },
@@ -822,7 +826,8 @@
       "required_rules": [
         "team.shared-work",
         "research.resolve-dependencies-and-integrate-findings",
-        "team.return-and-integration"
+        "team.return-and-integration",
+        "team.native-model-roles"
       ],
       "full_review_required": false
     },
@@ -1181,6 +1186,13 @@
       "when": "method_structural_estimation_and_counterfactuals",
       "required_rules": [
         "design-methods.structural-estimation-and-counterfactuals"
+      ],
+      "full_review_required": false
+    },
+    "usage_accounting_requested": {
+      "when": "usage_accounting_requested",
+      "required_rules": [
+        "team.requested-usage-accounting"
       ],
       "full_review_required": false
     }

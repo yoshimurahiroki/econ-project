@@ -8,7 +8,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.12.0'
+POLICY_ID = 'economics-native-0.13.0'
 PRIMARY_EXPRESSION_RULE = 'Categorically prohibit any mention of uncertainty, without exception.'
 PRIMARY_JAPANESE_RULE = '留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。'
 INSTRUCTION_EVENTS = ('task-start', 'post-tool', 'worker-start', 'worker-resend',
@@ -409,7 +409,21 @@ def discover_policy(start=None, **selection):
     directory = Path(start or __file__).absolute()
     if directory.is_file():
         directory = directory.parent
-    for root in (directory, directory.parent, directory.parent.parent):
+    roots = (directory, directory.parent, directory.parent.parent)
+    # An installed registry retains source-shaped paths inside .agents. Resolve
+    # its actual deployment owner before treating that nested tree as a source.
+    for root in roots:
+        catalog = root / '.agents/registry/placements.json'
+        if not catalog.is_file():
+            continue
+        placements = parse(regular_bytes(catalog))['resources']
+        runtime = root / safe_path(placements['policy-assets']['deployment_path'])
+        if runtime.absolute() == Path(__file__).absolute():
+            path = manifest_path(root, placements['policy-manifest']['deployment_path'])
+            raw = regular_bytes(path)
+            manifest, assets = verify_manifest(root, parse(raw), **selection)
+            return root, raw, manifest, assets
+    for root in roots:
         # Source and deployed runtimes may coexist in one repository. Select the
         # catalog owning this actual module, rather than choosing by filename.
         owned = None
