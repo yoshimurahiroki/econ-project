@@ -1,0 +1,28 @@
+{
+  "name": "economics-research-skills",
+  "version": "0.8.0",
+  "description": "Economics research and executable long-horizon equity valuation from public data and the current user's own credentials.",
+  "author": {
+    "name": "Economics Research Skills contributors"
+  },
+  "keywords": [
+    "economics",
+    "industrial organization",
+    "equity valuation",
+    "research"
+  ],
+  "interface": {
+    "category": "Productivity",
+    "displayName": "Economics Research Skills",
+    "developerName": "Economics Research Skills contributors",
+    "shortDescription": "経済学研究・中長期株式評価",
+    "longDescription": "経済学研究と日本・米国・海外株の評価。無料の開示・産業データ、構造推定、競争均衡、持続的FCF、ネットキャッシュ、逆DCF、税後投資判断を計算します。公開データと利用者本人の認証情報を使う独立した5専門スキルです。",
+    "defaultPrompt": [
+      "この経済学論文を問い・意義・方法・結果・貢献の5点で解説して。",
+      "この研究の論文と発表スライドを、内容選択・論構成・文章表現を重視して作成して。",
+      "この経済学の文章・資料をレビューし、重要な問題を修正して。"
+    ],
+    "capabilities": []
+  },
+  "skills": "./skills"
+}

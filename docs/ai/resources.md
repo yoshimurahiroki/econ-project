@@ -1,0 +1,102 @@
+# Registered resources
+
+Generated from the resource and placement registries. Use this catalog only for requested distribution or maintenance.
+
+- core: runtime/CORE.md
+- prose: runtime/PROSE.md
+- research: runtime/DECIDE.md
+- execution: runtime/EXECUTION.md
+- team: runtime/TEAM.md
+- econ-design: skills/econ-design/SKILL.md
+- econ-data: skills/econ-data/SKILL.md
+- econ-literature: skills/econ-literature/SKILL.md
+- econ-writing: skills/econ-writing/SKILL.md
+- econ-review: skills/econ-review/SKILL.md
+- design-methods: skills/econ-design/references/designs.md
+- data-implementation: skills/econ-data/references/implementation.md
+- data-results: skills/econ-data/references/reproducible-workflow.md
+- paper-workflow: skills/econ-writing/references/paper-workflow.md
+- review-methods: skills/econ-review/references/oversight.md
+- default-micro: profiles/default-micro/PROFILE.md
+- examples-en: profiles/default-micro/short-examples-en.md
+- examples-ja: profiles/default-micro/short-examples-ja.md
+- extended-en: profiles/default-micro/extended-introduction-en.md
+- extended-ja: profiles/default-micro/extended-introduction-ja.md
+- repository-policy: references/repository-policy/.cursorrules
+- integration: docs/ai/integration.md
+- resource-guide: docs/ai/resources.md
+- team-state-helper: harness/state.py
+- project-instructions: docs/ai/project_instructions.txt
+- native-index: docs/ai/compiled_ai_skills.md
+- project-context: docs/ai/repo_context.md
+- tool-export-project-py: scripts/export_project.py (complete source distribution only)
+- tool-route-registry-py: scripts/route_registry.py
+- tool-sync-common-core-py: scripts/sync_common_core.py (complete source distribution only)
+- tool-pack-context-sh: scripts/pack_context.sh (complete source distribution only)
+- policy-agentsmd: references/repository-policy/AGENTS.md
+- policy-codexmd: references/repository-policy/CODEX.md
+- policy-claudemd: references/repository-policy/CLAUDE.md
+- policy-clinerules: references/repository-policy/.clinerules
+- policy-windsurfrules: references/repository-policy/.windsurfrules
+- policy-antigravityrules: references/repository-policy/.antigravityrules
+- policy-agents-agentsmd: references/repository-policy/.agents/AGENTS.md
+- policy-claude-agentsmd: references/repository-policy/.claude/AGENTS.md
+- policy-cursor-rules-01_project_policymdc: references/repository-policy/.cursor/rules/01_project_policy.mdc
+- policy-gemini-geminimd: references/repository-policy/.gemini/GEMINI.md
+- policy-github-copilot-instructionsmd: references/repository-policy/.github/copilot-instructions.md
+- writing-ui: skills/econ-writing/agents/openai.yaml
+- state-contract: harness/state.md
+- publication: harness/publication.md
+- tool-init: scripts/__init__.py (complete source distribution only)
+- registry-operations: registry/operations.json
+- registry-resources: registry/resources.json
+- registry-placements: registry/placements.json
+- control: runtime/CONTROL.md
+- prose-check-guide: quality/prose_rules.md
+- prose-check-rules: quality/prose_rules.json
+- local-checks: harness/local_checks.py
+- local-checks-guide: harness/local_checks.md
+- requirements-check: harness/requirements_check.py
+- requirements-check-guide: harness/requirements_check.md
+- native-check: harness/native_check.py
+- native-check-guide: harness/native_check.md
+- native-run: harness/native_run.py
+- native-run-guide: harness/native_run.md
+- policy-assets: harness/policy_assets.py
+- policy-manifest: quality/policy_manifest.json
+- codex-hooks: harness/codex_hooks.py
+- tool-test-sync-common-core-py: scripts/test_sync_common_core.py (complete source distribution only)
+- tool-test-export-project-py: scripts/test_export_project.py (complete source distribution only)
+- tool-setup-ide-mcp-sh: scripts/setup_ide_mcp.sh (complete source distribution only)
+- tool-test-setup-ide-mcp-py: scripts/test_setup_ide_mcp.py (complete source distribution only)
+- tool-setup-extensions-sh: scripts/setup_extensions.sh (complete source distribution only)
+- config-template-readme-md: docs/ai/config-templates/README.md
+- config-template-claude-mcp-example-json: docs/ai/config-templates/claude-mcp.example.json
+- config-template-codex-example-toml: docs/ai/config-templates/codex.example.toml
+- config-template-mcp-example-json: docs/ai/config-templates/mcp.example.json
+- tool-test-configuration-tools-py: scripts/test_configuration_tools.py (complete source distribution only)
+- state-tests: harness/test_state.py (complete source distribution only)
+- checked-artifacts-instructions: skills/economics-checked-instructions/SKILL.md
+- plugin-integration-guide: docs/ai/plugin-integration.md
+- tool-check-instruction-links-py: scripts/check_instruction_links.py (complete source distribution only)
+- tool-test-instruction-links-py: scripts/test_instruction_links.py (complete source distribution only)
+- paragraph-workflow: skills/econ-writing/references/paragraph-workflow.md
+- paragraph-engine: harness/paragraph.py
+- argument-engine: harness/argument.py
+- paragraph-schema: harness/paragraph.schema.json
+- argument-schema: harness/argument.schema.json
+- paragraph-tests: harness/test_paragraph.py (complete source distribution only)
+- argument-tests: harness/test_argument.py (complete source distribution only)
+- writing-integration-tests: harness/test_writing_integration.py (complete source distribution only)
+- argument-regression-tests: harness/test_argument_regressions.py (complete source distribution only)
+- paragraph-regression-tests: harness/test_paragraph_regressions.py (complete source distribution only)
+- equity-guide: skills/econ-data/references/equity.md
+- equity-calculator: skills/econ-data/scripts/equity.py
+- equity-sources: skills/econ-data/scripts/equity_sources.py
+- equity-dependencies: skills/econ-data/scripts/requirements-equity.txt
+- equity-tests: scripts/test_equity.py (complete source distribution only)
+- equity-models: skills/econ-data/references/equity-models.md
+- equity-io: skills/econ-data/scripts/equity_io.py
+- equity-airline-case: skills/econ-data/scripts/equity_airline_case.py
+- equity-company-case: skills/econ-data/scripts/equity_company_case.py
+- equity-case-results: skills/econ-data/references/equity-case-results.json

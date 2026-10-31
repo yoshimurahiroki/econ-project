@@ -1,0 +1,135 @@
+# Selected task operations
+
+Read the included common rules once. Support inherits this task and returns to its owner. Run documentation command examples from this snapshot root.
+
+- econ-design / design: design
+- econ-data / execute: execute
+- econ-data / equity: equity
+- econ-literature / investigate: investigate
+- econ-writing / compose: compose
+- econ-writing / revise: revise
+- econ-writing / translate: translate
+- econ-writing / convert: convert
+- econ-writing / guidance: guidance
+- econ-writing / explain: explain
+- econ-writing / profile: profile
+- econ-review / assess: assess
+- econ-review / assess+repair: assess+repair
+
+Included resources:
+
+- [argument-engine](.agents/harness/argument.py)
+- [argument-schema](.agents/harness/argument.schema.json)
+- [checked-artifacts-instructions](.agents/skills/economics-checked-instructions/SKILL.md)
+- [codex-hooks](.agents/harness/codex_hooks.py)
+- [control](.agents/runtime/CONTROL.md)
+- [core](.agents/runtime/CORE.md)
+- [data-implementation](.agents/skills/econ-data/references/implementation.md)
+- [data-results](.agents/skills/econ-data/references/reproducible-workflow.md)
+- [default-micro](.agents/profiles/default-micro/PROFILE.md)
+- [design-methods](.agents/skills/econ-design/references/designs.md)
+- [econ-data](.agents/skills/econ-data/SKILL.md)
+- [econ-design](.agents/skills/econ-design/SKILL.md)
+- [econ-literature](.agents/skills/econ-literature/SKILL.md)
+- [econ-review](.agents/skills/econ-review/SKILL.md)
+- [econ-writing](.agents/skills/econ-writing/SKILL.md)
+- [equity-airline-case](.agents/skills/econ-data/scripts/equity_airline_case.py)
+- [equity-calculator](.agents/skills/econ-data/scripts/equity.py)
+- [equity-case-results](.agents/skills/econ-data/references/equity-case-results.json)
+- [equity-company-case](.agents/skills/econ-data/scripts/equity_company_case.py)
+- [equity-dependencies](.agents/skills/econ-data/scripts/requirements-equity.txt)
+- [equity-guide](.agents/skills/econ-data/references/equity.md)
+- [equity-io](.agents/skills/econ-data/scripts/equity_io.py)
+- [equity-models](.agents/skills/econ-data/references/equity-models.md)
+- [equity-sources](.agents/skills/econ-data/scripts/equity_sources.py)
+- [examples-en](.agents/profiles/default-micro/short-examples-en.md)
+- [examples-ja](.agents/profiles/default-micro/short-examples-ja.md)
+- [execution](.agents/runtime/EXECUTION.md)
+- [extended-en](.agents/profiles/default-micro/extended-introduction-en.md)
+- [extended-ja](.agents/profiles/default-micro/extended-introduction-ja.md)
+- [local-checks](.agents/harness/local_checks.py)
+- [local-checks-guide](.agents/harness/local_checks.md)
+- [native-check](.agents/harness/native_check.py)
+- [native-check-guide](.agents/harness/native_check.md)
+- [native-run](.agents/harness/native_run.py)
+- [native-run-guide](.agents/harness/native_run.md)
+- [paper-workflow](.agents/skills/econ-writing/references/paper-workflow.md)
+- [paragraph-engine](.agents/harness/paragraph.py)
+- [paragraph-schema](.agents/harness/paragraph.schema.json)
+- [paragraph-workflow](.agents/skills/econ-writing/references/paragraph-workflow.md)
+- [policy-agents-agentsmd](.agents/AGENTS.md)
+- [policy-assets](.agents/harness/policy_assets.py)
+- [policy-manifest](.agents/quality/policy_manifest.json)
+- [prose](.agents/runtime/PROSE.md)
+- [prose-check-guide](.agents/quality/prose_rules.md)
+- [prose-check-rules](.agents/quality/prose_rules.json)
+- [publication](.agents/harness/publication.md)
+- [registry-operations](.agents/registry/operations.json)
+- [registry-placements](.agents/registry/placements.json)
+- [registry-resources](.agents/registry/resources.json)
+- [requirements-check](.agents/harness/requirements_check.py)
+- [requirements-check-guide](.agents/harness/requirements_check.md)
+- [research](.agents/runtime/DECIDE.md)
+- [review-methods](.agents/skills/econ-review/references/oversight.md)
+- [state-contract](.agents/harness/state.md)
+- [team](.agents/runtime/TEAM.md)
+- [team-state-helper](.agents/harness/state.py)
+- [tool-route-registry-py](.agents/scripts/route_registry.py)
+- [writing-ui](.agents/skills/econ-writing/agents/openai.yaml)
+
+Optional resources are requested only when their function becomes necessary. See [optional inputs](OPTIONAL_INPUTS.md).
+
+Operation contract:
+
+- Selector: econ-design:design; owner: econ-design; canonical operation: econ-design:design.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Result: {"kind":"as_requested","meaning":"Choose a research question, model, identification strategy, study design or policy action.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-data:execute; owner: econ-data; canonical operation: econ-data:execute.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Result: {"kind":"as_requested","meaning":"Acquire, transform, join, calculate, estimate or change research data and code.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-data:equity; owner: econ-data; canonical operation: econ-data:equity.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Result: {"kind":"as_requested","meaning":"Executed market definition, source observations, identification and estimates, competitive equilibrium, sustainable cash-flow and net-cash bridge, fair and market-implied value, attainable after-tax investment decision and attributed news update. Uncomputed real-company stages remain unfinished.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-literature:investigate; owner: econ-literature; canonical operation: econ-literature:investigate.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Result: {"kind":"as_requested","meaning":"Find and select source information that resolves a research question or citation task.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-writing:compose; owner: econ-writing; canonical operation: econ-writing:compose.
+- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
+- Result: {"kind":"as_requested","meaning":"Compose academic prose and research materials from the adopted sources.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-writing:revise; owner: econ-writing; canonical operation: econ-writing:revise.
+- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
+- Result: {"kind":"as_requested","meaning":"Revise supplied prose, including natural Japanese, spoken explanations and requests such as 自然な日本語に, 何を言いたいの, 直訳っぽい, 口頭で説明して and わかりやすく短く.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-writing:translate; owner: econ-writing; canonical operation: econ-writing:translate.
+- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
+- Result: {"kind":"as_requested","meaning":"Translate supplied prose into natural Japanese or English while preserving its claims and sources.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-writing:convert; owner: econ-writing; canonical operation: econ-writing:convert.
+- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
+- Result: {"kind":"as_requested","meaning":"Convert adopted content into a paper, slides, research site or requested format.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-writing:guidance; owner: econ-writing; canonical operation: econ-writing:guidance.
+- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
+- Result: {"kind":"as_requested","meaning":"Explain a concrete writing decision and show the needed revision.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-writing:explain; owner: econ-writing; canonical operation: econ-writing:explain.
+- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
+- Result: {"kind":"as_requested","meaning":"Explain a paper, theory, institution, method or result through its question, mechanism, evidence and answer.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-writing:profile; owner: econ-writing; canonical operation: econ-writing:profile.
+- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
+- Result: {"kind":"as_requested","meaning":"Create or revise a reusable writing profile only when explicitly requested.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-review:assess; owner: econ-review; canonical operation: econ-review:assess.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Result: {"kind":"as_requested","meaning":"Assess the specified claim or artifact and return findings and proposed repairs.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.
+- Selector: econ-review:assess+repair; owner: econ-review; canonical operation: econ-review:assess+repair.
+- Inputs: Use the requested target and authorized inputs; inherit settled scope, definitions, permissions and holds.
+- Result: {"kind":"as_requested","meaning":"Assess a specified claim or artifact and return requested findings or scoped corrections.","role":"requested_result","target":"from_request"}
+- Finish: Complete the authorized result, the integrated review and the applicable verification in CORE. Deliver the finished work and the actual outcome of requested writes.

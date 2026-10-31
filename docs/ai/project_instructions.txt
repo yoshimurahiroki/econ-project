@@ -1,0 +1,1 @@
+Read runtime/CORE.md and runtime/PROSE.md, then select the requested final operation in docs/ai/compiled_ai_skills.md. Read its required rule bodies and activated conditions from registry/operations.json; reuse same-version reads. Complete the authorized work, its integrated review and applicable verification under CORE.

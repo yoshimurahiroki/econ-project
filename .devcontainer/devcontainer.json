@@ -1,0 +1,72 @@
+{
+  "name": "econ-dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "remoteUser": "vscode",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/econ-project,type=bind,consistency=cached",
+  "workspaceFolder": "/workspaces/econ-project",
+  "updateRemoteUserUID": true,
+  "mounts": [
+    "type=volume,source=econ_data_${devcontainerId},target=/workspaces/econ-project/data",
+    "type=volume,source=econ_pixi_cache,target=/home/vscode/.cache/rattler",
+    "type=volume,source=econ_pixi_env_${devcontainerId},target=/workspaces/econ-project/.pixi"
+  ],
+  "runArgs": [
+    "--init",
+    "--hostname=econ-dev"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "version": "latest",
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    }
+  },
+  "hostRequirements": {
+    "gpu": "optional"
+  },
+  "forwardPorts": [
+    8765
+  ],
+  "portsAttributes": {},
+  "remoteEnv": {
+    "ENABLE_CONTEXT_MCP": "0",
+    "PATH": "/usr/local/bin:/workspaces/econ-project/.pixi/envs/default/bin:${containerEnv:PATH}",
+    "QUARTO_PYTHON": "/workspaces/econ-project/.pixi/envs/default/bin/python",
+    "QUARTO_SHARE_PATH": "/workspaces/econ-project/.pixi/envs/default/share/quarto",
+    "QUARTO_DENO": "/workspaces/econ-project/.pixi/envs/default/bin/deno",
+    "QUARTO_DENO_DOM": "/workspaces/econ-project/.pixi/envs/default/lib/deno_dom.so",
+    "QUARTO_PANDOC": "/workspaces/econ-project/.pixi/envs/default/bin/pandoc",
+    "QUARTO_ESBUILD": "/workspaces/econ-project/.pixi/envs/default/bin/esbuild",
+    "QUARTO_TYPST": "/workspaces/econ-project/.pixi/envs/default/bin/typst",
+    "QUARTO_DART_SASS": "/workspaces/econ-project/.pixi/envs/default/bin/sass",
+    "QUARTO_CONDA_PREFIX": "/workspaces/econ-project/.pixi/envs/default"
+  },
+  "postCreateCommand": "bash .devcontainer/setup-environment.sh",
+  "customizations": {
+    "antigravity": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "REditorSupport.r",
+        "quarto.quarto",
+        "James-Yu.latex-workshop",
+        "charliermarsh.ruff"
+      ]
+    },
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "REditorSupport.r",
+        "quarto.quarto",
+        "James-Yu.latex-workshop",
+        "charliermarsh.ruff"
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: detect-private-key
+        args: [--]
+  - repo: local
+    hooks:
+      - id: python-correctness
+        name: Python correctness (changed files)
+        entry: pixi run --locked -e quality ruff check --select E9,F63,F7,F82 --
+        language: system
+        types_or: [python, pyi]
+      - id: python-boundaries
+        name: Python annotated boundaries
+        entry: pixi run --locked -e quality mypy --
+        language: system
+        files: ^scripts/export_project\.py$
+      - id: shell-correctness
+        name: ShellCheck (warning and error)
+        entry: pixi run --locked -e quality shellcheck --severity=warning --
+        language: system
+        types: [shell]

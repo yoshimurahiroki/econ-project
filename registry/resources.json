@@ -1,0 +1,4893 @@
+{
+  "schema_version": 2,
+  "resources": {
+    "core": {
+      "resource_id": "core",
+      "source_path": "runtime/CORE.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "prose": {
+      "resource_id": "prose",
+      "source_path": "runtime/PROSE.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "research": {
+      "resource_id": "research",
+      "source_path": "runtime/DECIDE.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "execution": {
+      "resource_id": "execution",
+      "source_path": "runtime/EXECUTION.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "team": {
+      "resource_id": "team",
+      "source_path": "runtime/TEAM.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "econ-design": {
+      "resource_id": "econ-design",
+      "source_path": "skills/econ-design/SKILL.md",
+      "resource_kind": "rule",
+      "content_version": "72.2"
+    },
+    "econ-data": {
+      "resource_id": "econ-data",
+      "source_path": "skills/econ-data/SKILL.md",
+      "resource_kind": "rule",
+      "content_version": "0.8.0"
+    },
+    "econ-literature": {
+      "resource_id": "econ-literature",
+      "source_path": "skills/econ-literature/SKILL.md",
+      "resource_kind": "rule",
+      "content_version": "72.2"
+    },
+    "econ-writing": {
+      "resource_id": "econ-writing",
+      "source_path": "skills/econ-writing/SKILL.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "econ-review": {
+      "resource_id": "econ-review",
+      "source_path": "skills/econ-review/SKILL.md",
+      "resource_kind": "rule",
+      "content_version": "75.0"
+    },
+    "design-methods": {
+      "resource_id": "design-methods",
+      "source_path": "skills/econ-design/references/designs.md",
+      "resource_kind": "rule",
+      "content_version": "66.2"
+    },
+    "data-implementation": {
+      "resource_id": "data-implementation",
+      "source_path": "skills/econ-data/references/implementation.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "data-results": {
+      "resource_id": "data-results",
+      "source_path": "skills/econ-data/references/reproducible-workflow.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "paper-workflow": {
+      "resource_id": "paper-workflow",
+      "source_path": "skills/econ-writing/references/paper-workflow.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "review-methods": {
+      "resource_id": "review-methods",
+      "source_path": "skills/econ-review/references/oversight.md",
+      "resource_kind": "rule",
+      "content_version": "66.1"
+    },
+    "default-micro": {
+      "resource_id": "default-micro",
+      "source_path": "profiles/default-micro/PROFILE.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "examples-en": {
+      "resource_id": "examples-en",
+      "source_path": "profiles/default-micro/short-examples-en.md",
+      "resource_kind": "example",
+      "content_version": "66.1"
+    },
+    "examples-ja": {
+      "resource_id": "examples-ja",
+      "source_path": "profiles/default-micro/short-examples-ja.md",
+      "resource_kind": "example",
+      "content_version": "66.1"
+    },
+    "extended-en": {
+      "resource_id": "extended-en",
+      "source_path": "profiles/default-micro/extended-introduction-en.md",
+      "resource_kind": "example",
+      "content_version": "76.0"
+    },
+    "extended-ja": {
+      "resource_id": "extended-ja",
+      "source_path": "profiles/default-micro/extended-introduction-ja.md",
+      "resource_kind": "example",
+      "content_version": "76.0"
+    },
+    "repository-policy": {
+      "resource_id": "repository-policy",
+      "source_path": "references/repository-policy/.cursorrules",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "integration": {
+      "resource_id": "integration",
+      "source_path": "docs/ai/integration.md",
+      "resource_kind": "rule",
+      "content_version": "0.8.0",
+      "sync": false
+    },
+    "resource-guide": {
+      "resource_id": "resource-guide",
+      "source_path": "docs/ai/resources.md",
+      "resource_kind": "rule",
+      "content_version": "0.7.0"
+    },
+    "team-state-helper": {
+      "resource_id": "team-state-helper",
+      "source_path": "harness/state.py",
+      "resource_kind": "support",
+      "content_version": "0.4.0"
+    },
+    "project-instructions": {
+      "resource_id": "project-instructions",
+      "source_path": "docs/ai/project_instructions.txt",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "native-index": {
+      "resource_id": "native-index",
+      "source_path": "docs/ai/compiled_ai_skills.md",
+      "resource_kind": "rule",
+      "content_version": "0.7.0"
+    },
+    "project-context": {
+      "resource_id": "project-context",
+      "source_path": "docs/ai/repo_context.md",
+      "resource_kind": "rule",
+      "content_version": "66.1",
+      "sync": false
+    },
+    "tool-export-project-py": {
+      "resource_id": "tool-export-project-py",
+      "source_path": "scripts/export_project.py",
+      "resource_kind": "support",
+      "content_version": "0.5.0",
+      "source_distribution_only": true
+    },
+    "tool-route-registry-py": {
+      "resource_id": "tool-route-registry-py",
+      "source_path": "scripts/route_registry.py",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "tool-sync-common-core-py": {
+      "resource_id": "tool-sync-common-core-py",
+      "source_path": "scripts/sync_common_core.py",
+      "resource_kind": "support",
+      "content_version": "76.0",
+      "source_distribution_only": true
+    },
+    "tool-pack-context-sh": {
+      "resource_id": "tool-pack-context-sh",
+      "source_path": "scripts/pack_context.sh",
+      "resource_kind": "support",
+      "content_version": "0.4.0",
+      "source_distribution_only": true
+    },
+    "policy-agentsmd": {
+      "resource_id": "policy-agentsmd",
+      "source_path": "references/repository-policy/AGENTS.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "policy-codexmd": {
+      "resource_id": "policy-codexmd",
+      "source_path": "references/repository-policy/CODEX.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "policy-claudemd": {
+      "resource_id": "policy-claudemd",
+      "source_path": "references/repository-policy/CLAUDE.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "policy-clinerules": {
+      "resource_id": "policy-clinerules",
+      "source_path": "references/repository-policy/.clinerules",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "policy-windsurfrules": {
+      "resource_id": "policy-windsurfrules",
+      "source_path": "references/repository-policy/.windsurfrules",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "policy-antigravityrules": {
+      "resource_id": "policy-antigravityrules",
+      "source_path": "references/repository-policy/.antigravityrules",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "policy-agents-agentsmd": {
+      "resource_id": "policy-agents-agentsmd",
+      "source_path": "references/repository-policy/.agents/AGENTS.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "policy-claude-agentsmd": {
+      "resource_id": "policy-claude-agentsmd",
+      "source_path": "references/repository-policy/.claude/AGENTS.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "policy-cursor-rules-01_project_policymdc": {
+      "resource_id": "policy-cursor-rules-01_project_policymdc",
+      "source_path": "references/repository-policy/.cursor/rules/01_project_policy.mdc",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "policy-gemini-geminimd": {
+      "resource_id": "policy-gemini-geminimd",
+      "source_path": "references/repository-policy/.gemini/GEMINI.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "policy-github-copilot-instructionsmd": {
+      "resource_id": "policy-github-copilot-instructionsmd",
+      "source_path": "references/repository-policy/.github/copilot-instructions.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "writing-ui": {
+      "resource_id": "writing-ui",
+      "source_path": "skills/econ-writing/agents/openai.yaml",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "state-contract": {
+      "resource_id": "state-contract",
+      "source_path": "harness/state.md",
+      "resource_kind": "rule",
+      "content_version": "0.4.0"
+    },
+    "publication": {
+      "resource_id": "publication",
+      "source_path": "harness/publication.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "tool-init": {
+      "resource_id": "tool-init",
+      "source_path": "scripts/__init__.py",
+      "resource_kind": "maintenance",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "registry-operations": {
+      "resource_id": "registry-operations",
+      "source_path": "registry/operations.json",
+      "resource_kind": "registry",
+      "content_version": "0.8.0"
+    },
+    "registry-resources": {
+      "resource_id": "registry-resources",
+      "source_path": "registry/resources.json",
+      "resource_kind": "registry",
+      "content_version": "0.8.0"
+    },
+    "registry-placements": {
+      "resource_id": "registry-placements",
+      "source_path": "registry/placements.json",
+      "resource_kind": "registry",
+      "content_version": "0.8.0"
+    },
+    "control": {
+      "resource_id": "control",
+      "source_path": "runtime/CONTROL.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "prose-check-guide": {
+      "resource_id": "prose-check-guide",
+      "source_path": "quality/prose_rules.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "prose-check-rules": {
+      "resource_id": "prose-check-rules",
+      "source_path": "quality/prose_rules.json",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "local-checks": {
+      "resource_id": "local-checks",
+      "source_path": "harness/local_checks.py",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "local-checks-guide": {
+      "resource_id": "local-checks-guide",
+      "source_path": "harness/local_checks.md",
+      "resource_kind": "rule",
+      "content_version": "76.0"
+    },
+    "requirements-check": {
+      "resource_id": "requirements-check",
+      "source_path": "harness/requirements_check.py",
+      "resource_kind": "support",
+      "content_version": "76.0"
+    },
+    "requirements-check-guide": {
+      "resource_id": "requirements-check-guide",
+      "source_path": "harness/requirements_check.md",
+      "resource_kind": "rule",
+      "content_version": "76.0"
+    },
+    "native-check": {
+      "resource_id": "native-check",
+      "source_path": "harness/native_check.py",
+      "resource_kind": "support",
+      "content_version": "0.4.0"
+    },
+    "native-check-guide": {
+      "resource_id": "native-check-guide",
+      "source_path": "harness/native_check.md",
+      "resource_kind": "rule",
+      "content_version": "76.0"
+    },
+    "native-run": {
+      "resource_id": "native-run",
+      "source_path": "harness/native_run.py",
+      "resource_kind": "support",
+      "content_version": "0.5.0"
+    },
+    "native-run-guide": {
+      "resource_id": "native-run-guide",
+      "source_path": "harness/native_run.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "policy-assets": {
+      "resource_id": "policy-assets",
+      "source_path": "harness/policy_assets.py",
+      "resource_kind": "support",
+      "content_version": "0.8.0"
+    },
+    "policy-manifest": {
+      "resource_id": "policy-manifest",
+      "source_path": "quality/policy_manifest.json",
+      "resource_kind": "support",
+      "content_version": "76.0"
+    },
+    "codex-hooks": {
+      "resource_id": "codex-hooks",
+      "source_path": "harness/codex_hooks.py",
+      "resource_kind": "support",
+      "content_version": "76.0"
+    },
+    "tool-test-sync-common-core-py": {
+      "resource_id": "tool-test-sync-common-core-py",
+      "source_path": "scripts/test_sync_common_core.py",
+      "resource_kind": "support",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "tool-test-export-project-py": {
+      "resource_id": "tool-test-export-project-py",
+      "source_path": "scripts/test_export_project.py",
+      "resource_kind": "support",
+      "content_version": "0.7.0",
+      "source_distribution_only": true
+    },
+    "tool-setup-ide-mcp-sh": {
+      "resource_id": "tool-setup-ide-mcp-sh",
+      "source_path": "scripts/setup_ide_mcp.sh",
+      "resource_kind": "support",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "tool-test-setup-ide-mcp-py": {
+      "resource_id": "tool-test-setup-ide-mcp-py",
+      "source_path": "scripts/test_setup_ide_mcp.py",
+      "resource_kind": "support",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "tool-setup-extensions-sh": {
+      "resource_id": "tool-setup-extensions-sh",
+      "source_path": "scripts/setup_extensions.sh",
+      "resource_kind": "support",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "config-template-readme-md": {
+      "resource_id": "config-template-readme-md",
+      "source_path": "docs/ai/config-templates/README.md",
+      "resource_kind": "rule",
+      "content_version": "66.1"
+    },
+    "config-template-claude-mcp-example-json": {
+      "resource_id": "config-template-claude-mcp-example-json",
+      "source_path": "docs/ai/config-templates/claude-mcp.example.json",
+      "resource_kind": "support",
+      "content_version": "66.1"
+    },
+    "config-template-codex-example-toml": {
+      "resource_id": "config-template-codex-example-toml",
+      "source_path": "docs/ai/config-templates/codex.example.toml",
+      "resource_kind": "support",
+      "content_version": "66.1"
+    },
+    "config-template-mcp-example-json": {
+      "resource_id": "config-template-mcp-example-json",
+      "source_path": "docs/ai/config-templates/mcp.example.json",
+      "resource_kind": "support",
+      "content_version": "66.1"
+    },
+    "tool-test-configuration-tools-py": {
+      "resource_id": "tool-test-configuration-tools-py",
+      "source_path": "scripts/test_configuration_tools.py",
+      "resource_kind": "support",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "state-tests": {
+      "resource_id": "state-tests",
+      "source_path": "harness/test_state.py",
+      "resource_kind": "maintenance",
+      "content_version": "66.1",
+      "source_distribution_only": true
+    },
+    "checked-artifacts-instructions": {
+      "resource_id": "checked-artifacts-instructions",
+      "source_path": "skills/economics-checked-instructions/SKILL.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "plugin-integration-guide": {
+      "resource_id": "plugin-integration-guide",
+      "source_path": "docs/ai/plugin-integration.md",
+      "resource_kind": "support",
+      "content_version": "0.8.0"
+    },
+    "tool-check-instruction-links-py": {
+      "resource_id": "tool-check-instruction-links-py",
+      "source_path": "scripts/check_instruction_links.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.3.34",
+      "source_distribution_only": true
+    },
+    "tool-test-instruction-links-py": {
+      "resource_id": "tool-test-instruction-links-py",
+      "source_path": "scripts/test_instruction_links.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.3.34",
+      "source_distribution_only": true
+    },
+    "paragraph-workflow": {
+      "resource_id": "paragraph-workflow",
+      "source_path": "skills/econ-writing/references/paragraph-workflow.md",
+      "resource_kind": "rule",
+      "content_version": "0.5.0"
+    },
+    "paragraph-engine": {
+      "resource_id": "paragraph-engine",
+      "source_path": "harness/paragraph.py",
+      "resource_kind": "support",
+      "content_version": "0.4.1"
+    },
+    "argument-engine": {
+      "resource_id": "argument-engine",
+      "source_path": "harness/argument.py",
+      "resource_kind": "support",
+      "content_version": "0.4.1"
+    },
+    "paragraph-schema": {
+      "resource_id": "paragraph-schema",
+      "source_path": "harness/paragraph.schema.json",
+      "resource_kind": "support",
+      "content_version": "0.4.1"
+    },
+    "argument-schema": {
+      "resource_id": "argument-schema",
+      "source_path": "harness/argument.schema.json",
+      "resource_kind": "support",
+      "content_version": "0.4.0"
+    },
+    "paragraph-tests": {
+      "resource_id": "paragraph-tests",
+      "source_path": "harness/test_paragraph.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.4.1",
+      "source_distribution_only": true
+    },
+    "argument-tests": {
+      "resource_id": "argument-tests",
+      "source_path": "harness/test_argument.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.4.1",
+      "source_distribution_only": true
+    },
+    "writing-integration-tests": {
+      "resource_id": "writing-integration-tests",
+      "source_path": "harness/test_writing_integration.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.4.0",
+      "source_distribution_only": true
+    },
+    "argument-regression-tests": {
+      "resource_id": "argument-regression-tests",
+      "source_path": "harness/test_argument_regressions.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.4.1",
+      "source_distribution_only": true
+    },
+    "paragraph-regression-tests": {
+      "resource_id": "paragraph-regression-tests",
+      "source_path": "harness/test_paragraph_regressions.py",
+      "resource_kind": "maintenance",
+      "content_version": "0.4.1",
+      "source_distribution_only": true
+    },
+    "equity-guide": {
+      "resource_id": "equity-guide",
+      "source_path": "skills/econ-data/references/equity.md",
+      "resource_kind": "rule",
+      "content_version": "0.8.0",
+      "required_resources": [
+        "equity-calculator",
+        "equity-sources",
+        "equity-dependencies",
+        "equity-models",
+        "equity-company-case",
+        "equity-case-results"
+      ]
+    },
+    "equity-calculator": {
+      "resource_id": "equity-calculator",
+      "source_path": "skills/econ-data/scripts/equity.py",
+      "resource_kind": "support",
+      "content_version": "0.8.0",
+      "required_resources": [
+        "equity-io"
+      ]
+    },
+    "equity-sources": {
+      "resource_id": "equity-sources",
+      "source_path": "skills/econ-data/scripts/equity_sources.py",
+      "resource_kind": "support",
+      "content_version": "0.8.0"
+    },
+    "equity-dependencies": {
+      "resource_id": "equity-dependencies",
+      "source_path": "skills/econ-data/scripts/requirements-equity.txt",
+      "resource_kind": "support",
+      "content_version": "0.6.0"
+    },
+    "equity-tests": {
+      "resource_id": "equity-tests",
+      "source_path": "scripts/test_equity.py",
+      "resource_kind": "support",
+      "content_version": "0.8.0",
+      "source_distribution_only": true
+    },
+    "equity-models": {
+      "resource_id": "equity-models",
+      "source_path": "skills/econ-data/references/equity-models.md",
+      "resource_kind": "rule",
+      "content_version": "0.8.0"
+    },
+    "equity-io": {
+      "resource_id": "equity-io",
+      "source_path": "skills/econ-data/scripts/equity_io.py",
+      "resource_kind": "support",
+      "content_version": "0.8.0"
+    },
+    "equity-airline-case": {
+      "resource_id": "equity-airline-case",
+      "source_path": "skills/econ-data/scripts/equity_airline_case.py",
+      "resource_kind": "support",
+      "content_version": "0.8.0",
+      "required_resources": [
+        "equity-calculator",
+        "equity-sources",
+        "equity-dependencies"
+      ]
+    },
+    "equity-company-case": {
+      "resource_id": "equity-company-case",
+      "source_path": "skills/econ-data/scripts/equity_company_case.py",
+      "resource_kind": "support",
+      "content_version": "0.8.0",
+      "required_resources": [
+        "equity-airline-case"
+      ]
+    },
+    "equity-case-results": {
+      "resource_id": "equity-case-results",
+      "source_path": "skills/econ-data/references/equity-case-results.json",
+      "resource_kind": "support",
+      "content_version": "0.8.0"
+    }
+  },
+  "sections": {
+    "core": {
+      "all": {
+        "whole_resource": true
+      },
+      "task-entry": {
+        "heading": "Task entry"
+      },
+      "economist-role": {
+        "heading": "Economist role"
+      },
+      "authority-and-preserved-inputs": {
+        "heading": "Authority and preserved inputs"
+      },
+      "execution-records": {
+        "heading": "Execution records"
+      },
+      "direct-expression": {
+        "heading": "Direct expression"
+      },
+      "read-for-the-pending-decision": {
+        "heading": "Read for the pending decision"
+      },
+      "completion-and-reporting": {
+        "heading": "Completion and reporting"
+      },
+      "paragraph-writing-contract": {
+        "heading": "Paragraph writing contract"
+      }
+    },
+    "prose": {
+      "all": {
+        "whole_resource": true
+      },
+      "select-the-economic-argument": {
+        "heading": "Select the economic argument"
+      },
+      "connect-the-explanation": {
+        "heading": "Connect the explanation"
+      },
+      "select-the-profile": {
+        "heading": "Select the profile"
+      },
+      "revise-for-the-requested-language": {
+        "heading": "Revise for the requested language"
+      },
+      "finish-the-passage": {
+        "heading": "Finish the passage"
+      },
+      "common-full-candidate-record": {
+        "heading": "Common full-candidate record"
+      },
+      "hierarchical-argument-and-paragraph-composition": {
+        "heading": "Hierarchical argument and paragraph composition"
+      }
+    },
+    "research": {
+      "all": {
+        "whole_resource": true
+      },
+      "turn-the-question-into-an-operation": {
+        "heading": "Turn the question into an operation"
+      },
+      "separate-explanations-with-a-comparison": {
+        "heading": "Separate explanations with a comparison"
+      },
+      "select-a-feasible-action": {
+        "heading": "Select a feasible action"
+      },
+      "source-integration-and-method-selection": {
+        "heading": "Source integration and method selection"
+      },
+      "resolve-dependencies-and-integrate-findings": {
+        "heading": "Resolve dependencies and integrate findings"
+      },
+      "operational-plans": {
+        "heading": "Operational plans"
+      },
+      "investigate-source-claims": {
+        "heading": "Investigate source claims"
+      }
+    },
+    "execution": {
+      "all": {
+        "whole_resource": true
+      },
+      "select-the-operation-and-working-area": {
+        "heading": "Select the operation and working area"
+      },
+      "checks-and-completion": {
+        "heading": "Checks and completion"
+      },
+      "compare-changed-outputs": {
+        "heading": "Compare changed outputs"
+      },
+      "project-file-ownership": {
+        "heading": "Project-file ownership"
+      },
+      "entry-point-and-dependencies": {
+        "heading": "Entry point and dependencies"
+      },
+      "complete-outputs-and-failure-propagation": {
+        "heading": "Complete outputs and failure propagation"
+      },
+      "example-replace-one-output-after-a-complete-write": {
+        "heading": "Example: replace one output after a complete write"
+      },
+      "record-and-artifact-boundaries": {
+        "heading": "Record and artifact boundaries"
+      },
+      "writing-dependency-execution": {
+        "heading": "Writing dependency execution"
+      }
+    },
+    "team": {
+      "all": {
+        "whole_resource": true
+      },
+      "shared-work": {
+        "heading": "Shared work"
+      },
+      "return-and-integration": {
+        "heading": "Return and integration"
+      },
+      "retry-and-capacity": {
+        "heading": "Retry and capacity"
+      },
+      "resumption": {
+        "heading": "Resumption"
+      },
+      "handoff": {
+        "heading": "Handoff"
+      },
+      "requested-usage-accounting": {
+        "heading": "Requested usage accounting"
+      },
+      "review-findings-and-independence": {
+        "heading": "Review findings and independence"
+      },
+      "paragraph-assignments": {
+        "heading": "Paragraph assignments"
+      }
+    },
+    "econ-design": {
+      "all": {
+        "whole_resource": true
+      },
+      "purpose-and-input": {
+        "heading": "Purpose and input"
+      },
+      "procedure": {
+        "heading": "Procedure"
+      },
+      "identify-the-requested-design-work": {
+        "heading": "Identify the requested design work"
+      },
+      "for-an-empirical-specification": {
+        "heading": "For an empirical specification"
+      },
+      "for-a-theoretical-model": {
+        "heading": "For a theoretical model"
+      },
+      "for-behavioral-responses-and-group-comparisons": {
+        "heading": "For behavioral responses and group comparisons"
+      },
+      "establish-feasibility": {
+        "heading": "Establish feasibility"
+      },
+      "choose-among-research-designs": {
+        "heading": "Choose among research designs"
+      },
+      "output": {
+        "heading": "Output"
+      }
+    },
+    "econ-data": {
+      "all": {
+        "whole_resource": true
+      },
+      "purpose-and-input": {
+        "heading": "Purpose and input"
+      },
+      "procedure": {
+        "heading": "Procedure"
+      },
+      "map-the-object-to-the-existing-execution-path": {
+        "heading": "Map the object to the existing execution path"
+      },
+      "construct-a-requested-data-design": {
+        "heading": "Construct a requested data design"
+      },
+      "produce-the-result-by-dependency": {
+        "heading": "Produce the result by dependency"
+      },
+      "check-the-changed-calculation": {
+        "heading": "Check the changed calculation"
+      },
+      "deliver-the-data-operation-and-its-economic-meaning": {
+        "heading": "Deliver the data operation and its economic meaning"
+      },
+      "implement-at-the-existing-owner": {
+        "heading": "Implement at the existing owner"
+      }
+    },
+    "econ-literature": {
+      "all": {
+        "whole_resource": true
+      },
+      "purpose-and-input": {
+        "heading": "Purpose and input"
+      },
+      "procedure": {
+        "heading": "Procedure"
+      },
+      "find-the-work-that-answers-the-comparison": {
+        "heading": "Find the work that answers the comparison"
+      },
+      "establish-the-supporting-passages-and-versions": {
+        "heading": "Establish the supporting passages and versions"
+      },
+      "complete-a-requested-ai-method-assessment": {
+        "heading": "Complete a requested AI-method assessment"
+      },
+      "deliver-the-literatures-economic-relevance": {
+        "heading": "Deliver the literature's economic relevance"
+      }
+    },
+    "econ-writing": {
+      "all": {
+        "whole_resource": true
+      },
+      "compose": {
+        "heading": "Compose"
+      },
+      "revise": {
+        "heading": "Revise"
+      },
+      "translate": {
+        "heading": "Translate"
+      },
+      "convert": {
+        "heading": "Convert"
+      },
+      "guidance": {
+        "heading": "Guidance"
+      },
+      "compose-for-the-medium-and-language": {
+        "heading": "Compose for the medium and language"
+      },
+      "output": {
+        "heading": "Output"
+      },
+      "explain": {
+        "heading": "Explain"
+      },
+      "profile": {
+        "heading": "Profile"
+      },
+      "read-and-select-the-argument": {
+        "heading": "Read and select the argument"
+      },
+      "develop-the-connected-explanation": {
+        "heading": "Develop the connected explanation"
+      },
+      "complete-the-requested-explanation": {
+        "heading": "Complete the requested explanation"
+      },
+      "select-source-passages": {
+        "heading": "Select source passages"
+      },
+      "derive-principles-and-worked-examples": {
+        "heading": "Derive principles and worked examples"
+      },
+      "use-a-requested-opening-or-comparison": {
+        "heading": "Use a requested opening or comparison"
+      },
+      "save-the-profile": {
+        "heading": "Save the profile"
+      },
+      "organize-selective-reading": {
+        "heading": "Organize selective reading"
+      },
+      "compose-a-talk": {
+        "heading": "Compose a talk"
+      },
+      "compose-a-research-site": {
+        "heading": "Compose a research site"
+      },
+      "render-the-requested-artifact": {
+        "heading": "Render the requested artifact"
+      },
+      "execute-paragraph-and-argument-contracts": {
+        "heading": "Execute paragraph and argument contracts"
+      }
+    },
+    "econ-review": {
+      "all": {
+        "whole_resource": true
+      },
+      "purpose-and-input": {
+        "heading": "Purpose and input"
+      },
+      "procedure": {
+        "heading": "Procedure"
+      },
+      "choose-the-review-target": {
+        "heading": "Choose the review target"
+      },
+      "locate-and-repair-the-cause": {
+        "heading": "Locate and repair the cause"
+      },
+      "compare-versions-or-decisions-when-requested": {
+        "heading": "Compare versions or decisions when requested"
+      },
+      "deliver-the-assessment": {
+        "heading": "Deliver the assessment"
+      }
+    },
+    "design-methods": {
+      "all": {
+        "whole_resource": true
+      },
+      "select-the-needed-section": {
+        "heading": "Select the needed section"
+      },
+      "model-construction": {
+        "heading": "Model construction"
+      },
+      "ordered-choices-and-constructive-representations": {
+        "heading": "Ordered choices and constructive representations"
+      },
+      "information-choices-and-belief-representations": {
+        "heading": "Information choices and belief representations"
+      },
+      "design-elements": {
+        "heading": "Design elements"
+      },
+      "difference-in-differences-and-event-studies": {
+        "heading": "Difference-in-differences and event studies"
+      },
+      "random-assignment-and-interventions": {
+        "heading": "Random assignment and interventions"
+      },
+      "regression-discontinuity": {
+        "heading": "Regression discontinuity"
+      },
+      "instrumental-variables-and-assignment-leniency": {
+        "heading": "Instrumental variables and assignment leniency"
+      },
+      "shift-share-designs": {
+        "heading": "Shift-share designs"
+      },
+      "networks-and-spillovers": {
+        "heading": "Networks and spillovers"
+      },
+      "synthetic-controls-and-panel-counterfactuals": {
+        "heading": "Synthetic controls and panel counterfactuals"
+      },
+      "inference-and-interpretation": {
+        "heading": "Inference and interpretation"
+      },
+      "connect-observed-choices-and-outcomes-to-the-model-and-interventions": {
+        "heading": "Connect observed choices and outcomes to the model and interventions"
+      },
+      "construct-restrictions-and-set-valued-predictions": {
+        "heading": "Construct restrictions and set-valued predictions"
+      },
+      "select-the-economic-object": {
+        "heading": "Select the economic object"
+      },
+      "reuse-or-calculate-the-requested-quantities": {
+        "heading": "Reuse or calculate the requested quantities"
+      },
+      "deliver-the-selected-result": {
+        "heading": "Deliver the selected result"
+      }
+    },
+    "data-implementation": {
+      "all": {
+        "whole_resource": true
+      },
+      "select-the-operation-specific-rules": {
+        "heading": "Select the operation-specific rules"
+      },
+      "source-to-analysis": {
+        "heading": "Source to analysis"
+      },
+      "1-establish-the-received-source-and-revision": {
+        "heading": "1. Establish the received source and revision"
+      },
+      "2-establish-schema-measurement-and-grain": {
+        "heading": "2. Establish schema, measurement and grain"
+      },
+      "3-construct-the-shared-sample-and-account-for-exclusions": {
+        "heading": "3. Construct the shared sample and account for exclusions"
+      },
+      "4-prepare-the-estimation-input": {
+        "heading": "4. Prepare the estimation input"
+      },
+      "5-hand-off-the-analysis-and-its-dependencies": {
+        "heading": "5. Hand off the analysis and its dependencies"
+      },
+      "example-distinguish-overlapping-reasons-from-sequential-attrition": {
+        "heading": "Example: distinguish overlapping reasons from sequential attrition"
+      },
+      "choose-descriptive-statistics-from-the-question": {
+        "heading": "Choose descriptive statistics from the question"
+      },
+      "example-choose-available-cases-and-the-represented-unit": {
+        "heading": "Example: choose available cases and the represented unit"
+      },
+      "acquisition": {
+        "heading": "Acquisition"
+      },
+      "data-contracts-and-joins": {
+        "heading": "Data contracts and joins"
+      },
+      "example-reshape-values-with-their-observation-status": {
+        "heading": "Example: reshape values with their observation status"
+      },
+      "computation": {
+        "heading": "Computation"
+      },
+      "estimator-engine-and-algorithm-selection": {
+        "heading": "Estimator, engine and algorithm selection"
+      },
+      "functions-types-and-failure-boundaries": {
+        "heading": "Functions, types and failure boundaries"
+      },
+      "measured-performance-and-memory": {
+        "heading": "Measured performance and memory"
+      },
+      "compare-changed-calculations": {
+        "heading": "Compare changed calculations"
+      },
+      "prediction": {
+        "heading": "Prediction"
+      },
+      "numerical-methods": {
+        "heading": "Numerical methods"
+      },
+      "replication": {
+        "heading": "Replication"
+      },
+      "worked-data-examples": {
+        "heading": "Worked data examples"
+      },
+      "example-one-sample-for-counts-and-moments": {
+        "heading": "Example: one sample for counts and moments"
+      },
+      "example-reduce-in-the-query-engine-before-collecting": {
+        "heading": "Example: reduce in the query engine before collecting"
+      },
+      "example-preserve-repeated-cluster-draws": {
+        "heading": "Example: preserve repeated cluster draws"
+      },
+      "example-match-information-available-at-the-decision": {
+        "heading": "Example: match information available at the decision"
+      },
+      "example-diagnose-join-multiplicity-before-attaching-values": {
+        "heading": "Example: diagnose join multiplicity before attaching values"
+      },
+      "example-name-a-calculation-and-its-related-totals": {
+        "heading": "Example: name a calculation and its related totals"
+      }
+    },
+    "data-results": {
+      "all": {
+        "whole_resource": true
+      },
+      "locate-the-requested-result": {
+        "heading": "Locate the requested result"
+      },
+      "entry-point-and-dependencies": {
+        "heading": "Entry point and dependencies"
+      },
+      "carry-analysis-results-into-tables-figures-and-prose": {
+        "heading": "Carry analysis results into tables, figures and prose"
+      },
+      "complete-outputs-and-failure-propagation": {
+        "heading": "Complete outputs and failure propagation"
+      },
+      "reproduce-the-requested-path": {
+        "heading": "Reproduce the requested path"
+      },
+      "deliver-the-reproduced-result": {
+        "heading": "Deliver the reproduced result"
+      },
+      "worked-project-operations": {
+        "heading": "Worked project operations"
+      },
+      "example-reuse-a-named-estimate-without-losing-its-definition": {
+        "heading": "Example: reuse a named estimate without losing its definition"
+      },
+      "example-recompute-the-affected-branch": {
+        "heading": "Example: recompute the affected branch"
+      }
+    },
+    "paper-workflow": {
+      "all": {
+        "whole_resource": true
+      },
+      "establish-the-argument-from-the-research": {
+        "heading": "Establish the argument from the research"
+      },
+      "design-the-papers-argument": {
+        "heading": "Design the paper's argument"
+      },
+      "compose-the-requested-section": {
+        "heading": "Compose the requested section"
+      },
+      "choose-and-explain-descriptive-exhibits": {
+        "heading": "Choose and explain descriptive exhibits"
+      },
+      "example-draw-an-already-calculated-group-share": {
+        "heading": "Example: draw an already calculated group share"
+      },
+      "connect-the-prose": {
+        "heading": "Connect the prose"
+      },
+      "revise-the-integrated-manuscript": {
+        "heading": "Revise the integrated manuscript"
+      },
+      "execute-the-paragraph-architecture": {
+        "heading": "Execute the paragraph architecture"
+      }
+    },
+    "review-methods": {
+      "all": {
+        "whole_resource": true
+      },
+      "review-findings-and-independence": {
+        "heading": "Review findings and independence"
+      },
+      "compare-a-proposed-change-when-requested": {
+        "heading": "Compare a proposed change when requested"
+      }
+    },
+    "default-micro": {
+      "all": {
+        "whole_resource": true
+      },
+      "principles": {
+        "heading": "Principles"
+      },
+      "select-the-passage-function": {
+        "heading": "Select the passage function"
+      }
+    },
+    "examples-en": {
+      "all": {
+        "whole_resource": true
+      },
+      "conclusion-and-comparison": {
+        "heading": "Conclusion and comparison"
+      },
+      "institution-and-mechanism": {
+        "heading": "Institution and mechanism"
+      },
+      "quantities-and-relationship": {
+        "heading": "Quantities and relationship"
+      },
+      "revision-and-translation": {
+        "heading": "Revision and translation"
+      },
+      "abstract-and-introduction": {
+        "heading": "Abstract and Introduction"
+      },
+      "abstract": {
+        "heading": "Abstract"
+      },
+      "introduction-opening": {
+        "heading": "Introduction opening"
+      },
+      "assignment-and-comparison": {
+        "heading": "Assignment and comparison"
+      }
+    },
+    "examples-ja": {
+      "all": {
+        "whole_resource": true
+      },
+      "結論と比較": {
+        "heading": "結論と比較"
+      },
+      "制度と機序": {
+        "heading": "制度と機序"
+      },
+      "数量と関係": {
+        "heading": "数量と関係"
+      },
+      "改稿と翻訳": {
+        "heading": "改稿と翻訳"
+      },
+      "abstractとintroduction": {
+        "heading": "AbstractとIntroduction"
+      },
+      "abstract": {
+        "heading": "Abstract"
+      },
+      "introduction冒頭": {
+        "heading": "Introduction冒頭"
+      },
+      "割当てと比較": {
+        "heading": "割当てと比較"
+      }
+    },
+    "extended-en": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "extended-ja": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "repository-policy": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "integration": {
+      "all": {
+        "whole_resource": true
+      },
+      "common-core": {
+        "heading": "Common core"
+      },
+      "standalone-project-snapshots": {
+        "heading": "Standalone Project snapshots"
+      },
+      "layout-and-generated-index": {
+        "heading": "Layout and generated index"
+      },
+      "project-additions-and-profiles": {
+        "heading": "Project additions and profiles"
+      },
+      "execution-and-handoff": {
+        "heading": "Execution and handoff"
+      },
+      "distribution-and-settings-contract": {
+        "heading": "Distribution contract"
+      },
+      "state-migration": {
+        "heading": "State migration"
+      }
+    },
+    "resource-guide": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "team-state-helper": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "project-instructions": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "native-index": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "project-context": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "tool-export-project-py": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "tool-route-registry-py": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "tool-sync-common-core-py": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "tool-pack-context-sh": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-agentsmd": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-codexmd": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-claudemd": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-clinerules": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-windsurfrules": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-antigravityrules": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-agents-agentsmd": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-claude-agentsmd": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-cursor-rules-01_project_policymdc": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-gemini-geminimd": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-github-copilot-instructionsmd": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "writing-ui": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "state-contract": {
+      "all": {
+        "whole_resource": true
+      },
+      "state-and-version-contract": {
+        "heading": "State and version contract"
+      },
+      "local-state-helper": {
+        "heading": "Local state helper"
+      },
+      "resumption-and-migration": {
+        "heading": "Resumption and migration"
+      },
+      "paragraph-state-binding": {
+        "heading": "Paragraph state binding"
+      }
+    },
+    "publication": {
+      "all": {
+        "whole_resource": true
+      },
+      "complete-generation-boundary": {
+        "heading": "Complete-generation boundary"
+      },
+      "working-files-git-and-delivery": {
+        "heading": "Working files, Git and delivery"
+      },
+      "example-stage-a-correction-and-move-a-clean-file": {
+        "heading": "Example: stage a correction and move a clean file"
+      },
+      "example-publish-one-complete-generation": {
+        "heading": "Example: publish one complete generation"
+      },
+      "example-commit-requested-files-with-unrelated-work-staged": {
+        "heading": "Example: commit requested files with unrelated work staged"
+      }
+    },
+    "tool-init": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "registry-operations": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "registry-resources": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "registry-placements": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "control": {
+      "all": {
+        "whole_resource": true
+      },
+      "task-proportional-review-plan": {
+        "heading": "Task-proportional review plan"
+      },
+      "run-and-capability-contract": {
+        "heading": "Run and capability contract"
+      },
+      "original-request-and-contract": {
+        "heading": "Original request and contract"
+      },
+      "worker-roles-and-identities": {
+        "heading": "Worker roles and identities"
+      },
+      "role-specific-work": {
+        "heading": "Role-specific work"
+      },
+      "full-candidate-prose-records": {
+        "heading": "Full-candidate prose records"
+      },
+      "original-returns-and-correction": {
+        "heading": "Original returns and correction"
+      },
+      "finalization-and-delivery": {
+        "heading": "Finalization and delivery"
+      },
+      "commands-and-result-meanings": {
+        "heading": "Commands and result meanings"
+      },
+      "registered-review-plans": {
+        "heading": "Registered review plans"
+      },
+      "writing-execution-prerequisite": {
+        "heading": "Writing execution prerequisite"
+      }
+    },
+    "prose-check-guide": {
+      "all": {
+        "whole_resource": true
+      },
+      "目的と適用": {
+        "heading": "Purpose and scope"
+      },
+      "機能と出現の同一性": {
+        "heading": "Function and occurrence identity"
+      },
+      "出現記録と旧形式": {
+        "heading": "Occurrence records and legacy formats"
+      },
+      "機械検出と全文審査": {
+        "heading": "Machine detection and whole-text review"
+      },
+      "共通台帳と全文審査": {
+        "heading": "Shared ledger and whole-text review"
+      },
+      "分類と収録数": {
+        "heading": "Categories and counts"
+      },
+      "a24分類の索引": {
+        "heading": "A: Index of 24 categories"
+      },
+      "b7つの意味判定": {
+        "heading": "B: Seven semantic judgments"
+      },
+      "c辞書外の言い換えも対象とする15機能": {
+        "heading": "C: Fifteen functions covering unmatched paraphrases"
+      }
+    },
+    "prose-check-rules": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "local-checks": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "local-checks-guide": {
+      "all": {
+        "whole_resource": true
+      },
+      "本文走査": {
+        "heading": "Text scanning"
+      },
+      "入力と保存": {
+        "heading": "Input and storage"
+      },
+      "送信文と字句用法判定": {
+        "heading": "Outgoing text and lexical/use judgments"
+      }
+    },
+    "requirements-check": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "requirements-check-guide": {
+      "all": {
+        "whole_resource": true
+      },
+      "register-and-freeze-the-requirements": {
+        "heading": "Register and freeze the requirements"
+      },
+      "artifact-and-action-predicates": {
+        "heading": "Artifact and action predicates"
+      },
+      "content-prohibition-and-evidence-predicates": {
+        "heading": "Content, prohibition, and evidence predicates"
+      },
+      "evidence-files-and-ids": {
+        "heading": "Evidence files and IDs"
+      },
+      "structured-review-returns": {
+        "heading": "Structured review returns"
+      },
+      "run-the-check": {
+        "heading": "Run the check"
+      },
+      "python-integration": {
+        "heading": "Python integration"
+      }
+    },
+    "native-check": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "native-check-guide": {
+      "all": {
+        "whole_resource": true
+      },
+      "prepare-and-inspect": {
+        "heading": "Prepare and inspect"
+      },
+      "returned-role-records": {
+        "heading": "Returned role records"
+      },
+      "individual-full-candidate-prose-records": {
+        "heading": "Individual full-candidate prose records"
+      },
+      "prohibition-and-technical-use": {
+        "heading": "Prohibition and technical use"
+      },
+      "output-and-final-checks": {
+        "heading": "Output and final checks"
+      },
+      "実行単位の照合": {
+        "heading": "Run-level verification"
+      },
+      "selected-review-plan": {
+        "heading": "Selected review plan"
+      },
+      "verbatim-correspondence-and-derived-operation-state": {
+        "heading": "Verbatim correspondence and derived operation state"
+      },
+      "artifact-text-classification": {
+        "heading": "Artifact text classification"
+      },
+      "selected-acquisition-and-internal-views": {
+        "heading": "Selected acquisition and internal views"
+      }
+    },
+    "native-run": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "native-run-guide": {
+      "all": {
+        "whole_resource": true
+      },
+      "select-the-review-plan": {
+        "heading": "Select the review plan"
+      },
+      "begin-and-fix-original-request-coverage": {
+        "heading": "Begin and fix original-request coverage"
+      },
+      "submit-and-review-a-snapshot": {
+        "heading": "Submit and review a snapshot"
+      },
+      "finalize-the-same-bytes": {
+        "heading": "Finalize the same bytes"
+      },
+      "explicit-provisional-selection": {
+        "heading": "Explicit provisional selection"
+      },
+      "optional-existing-task-state-binding": {
+        "heading": "Optional existing task-state binding"
+      },
+      "regenerate-and-verify-policy-assets": {
+        "heading": "Regenerate and verify policy assets"
+      },
+      "原資料の固定と表現一致の処理": {
+        "heading": "Fixing sources and handling expression matches"
+      },
+      "file-and-inspection-budgets": {
+        "heading": "File and inspection budgets"
+      },
+      "concurrent-run-operations": {
+        "heading": "Concurrent run operations"
+      },
+      "trusted-codex-hook-association": {
+        "heading": "Trusted Codex hook association"
+      },
+      "paragraph-writing-submissions": {
+        "heading": "Paragraph writing submissions"
+      }
+    },
+    "policy-assets": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-manifest": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "codex-hooks": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "config-template-readme-md": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "config-template-claude-mcp-example-json": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "config-template-codex-example-toml": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "config-template-mcp-example-json": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "checked-artifacts-instructions": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "plugin-integration-guide": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "paragraph-workflow": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "paragraph-engine": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "argument-engine": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "paragraph-schema": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "argument-schema": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "paragraph-tests": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "argument-tests": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "writing-integration-tests": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "equity-guide": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "equity-calculator": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "equity-sources": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "equity-dependencies": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "equity-tests": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "equity-models": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "equity-io": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "equity-airline-case": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "equity-company-case": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "equity-case-results": {
+      "all": {
+        "whole_resource": true
+      }
+    }
+  },
+  "rules": {
+    "core.all": {
+      "rule_id": "core.all",
+      "resource_id": "core",
+      "section_id": "all",
+      "requires": [
+        "core.task-entry",
+        "core.economist-role",
+        "core.authority-and-preserved-inputs",
+        "core.execution-records",
+        "core.direct-expression",
+        "core.read-for-the-pending-decision",
+        "core.completion-and-reporting"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "core.task-entry": {
+      "rule_id": "core.task-entry",
+      "resource_id": "core",
+      "section_id": "task-entry",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "core.economist-role": {
+      "rule_id": "core.economist-role",
+      "resource_id": "core",
+      "section_id": "economist-role",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "core.authority-and-preserved-inputs": {
+      "rule_id": "core.authority-and-preserved-inputs",
+      "resource_id": "core",
+      "section_id": "authority-and-preserved-inputs",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "core.execution-records": {
+      "rule_id": "core.execution-records",
+      "resource_id": "core",
+      "section_id": "execution-records",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "core.direct-expression": {
+      "rule_id": "core.direct-expression",
+      "resource_id": "core",
+      "section_id": "direct-expression",
+      "requires": [
+        "prose.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "core.read-for-the-pending-decision": {
+      "rule_id": "core.read-for-the-pending-decision",
+      "resource_id": "core",
+      "section_id": "read-for-the-pending-decision",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "core.completion-and-reporting": {
+      "rule_id": "core.completion-and-reporting",
+      "resource_id": "core",
+      "section_id": "completion-and-reporting",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose.all": {
+      "rule_id": "prose.all",
+      "resource_id": "prose",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose.select-the-economic-argument": {
+      "rule_id": "prose.select-the-economic-argument",
+      "resource_id": "prose",
+      "section_id": "select-the-economic-argument",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose.connect-the-explanation": {
+      "rule_id": "prose.connect-the-explanation",
+      "resource_id": "prose",
+      "section_id": "connect-the-explanation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose.select-the-profile": {
+      "rule_id": "prose.select-the-profile",
+      "resource_id": "prose",
+      "section_id": "select-the-profile",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": [
+        "example.en.extended-introduction",
+        "example.ja.extended-introduction",
+        "default-micro.en.conclusion",
+        "default-micro.en.mechanism",
+        "default-micro.en.quantities",
+        "default-micro.en.translation",
+        "default-micro.en.abstract",
+        "default-micro.en.introduction",
+        "default-micro.en.assignment",
+        "default-micro.ja.conclusion",
+        "default-micro.ja.mechanism",
+        "default-micro.ja.quantities",
+        "default-micro.ja.translation",
+        "default-micro.ja.abstract",
+        "default-micro.ja.introduction",
+        "default-micro.ja.assignment"
+      ]
+    },
+    "prose.revise-for-the-requested-language": {
+      "rule_id": "prose.revise-for-the-requested-language",
+      "resource_id": "prose",
+      "section_id": "revise-for-the-requested-language",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose.finish-the-passage": {
+      "rule_id": "prose.finish-the-passage",
+      "resource_id": "prose",
+      "section_id": "finish-the-passage",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research.all": {
+      "rule_id": "research.all",
+      "resource_id": "research",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research.turn-the-question-into-an-operation": {
+      "rule_id": "research.turn-the-question-into-an-operation",
+      "resource_id": "research",
+      "section_id": "turn-the-question-into-an-operation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research.separate-explanations-with-a-comparison": {
+      "rule_id": "research.separate-explanations-with-a-comparison",
+      "resource_id": "research",
+      "section_id": "separate-explanations-with-a-comparison",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research.select-a-feasible-action": {
+      "rule_id": "research.select-a-feasible-action",
+      "resource_id": "research",
+      "section_id": "select-a-feasible-action",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research.source-integration-and-method-selection": {
+      "rule_id": "research.source-integration-and-method-selection",
+      "resource_id": "research",
+      "section_id": "source-integration-and-method-selection",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research.resolve-dependencies-and-integrate-findings": {
+      "rule_id": "research.resolve-dependencies-and-integrate-findings",
+      "resource_id": "research",
+      "section_id": "resolve-dependencies-and-integrate-findings",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research.operational-plans": {
+      "rule_id": "research.operational-plans",
+      "resource_id": "research",
+      "section_id": "operational-plans",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "execution.all": {
+      "rule_id": "execution.all",
+      "resource_id": "execution",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "execution.select-the-operation-and-working-area": {
+      "rule_id": "execution.select-the-operation-and-working-area",
+      "resource_id": "execution",
+      "section_id": "select-the-operation-and-working-area",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "execution.checks-and-completion": {
+      "rule_id": "execution.checks-and-completion",
+      "resource_id": "execution",
+      "section_id": "checks-and-completion",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "execution.compare-changed-outputs": {
+      "rule_id": "execution.compare-changed-outputs",
+      "resource_id": "execution",
+      "section_id": "compare-changed-outputs",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "execution.project-file-ownership": {
+      "rule_id": "execution.project-file-ownership",
+      "resource_id": "execution",
+      "section_id": "project-file-ownership",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "execution.entry-point-and-dependencies": {
+      "rule_id": "execution.entry-point-and-dependencies",
+      "resource_id": "execution",
+      "section_id": "entry-point-and-dependencies",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "execution.complete-outputs-and-failure-propagation": {
+      "rule_id": "execution.complete-outputs-and-failure-propagation",
+      "resource_id": "execution",
+      "section_id": "complete-outputs-and-failure-propagation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "execution.example-replace-one-output-after-a-complete-write": {
+      "rule_id": "execution.example-replace-one-output-after-a-complete-write",
+      "resource_id": "execution",
+      "section_id": "example-replace-one-output-after-a-complete-write",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "execution.record-and-artifact-boundaries": {
+      "rule_id": "execution.record-and-artifact-boundaries",
+      "resource_id": "execution",
+      "section_id": "record-and-artifact-boundaries",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team.all": {
+      "rule_id": "team.all",
+      "resource_id": "team",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team.shared-work": {
+      "rule_id": "team.shared-work",
+      "resource_id": "team",
+      "section_id": "shared-work",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team.return-and-integration": {
+      "rule_id": "team.return-and-integration",
+      "resource_id": "team",
+      "section_id": "return-and-integration",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team.retry-and-capacity": {
+      "rule_id": "team.retry-and-capacity",
+      "resource_id": "team",
+      "section_id": "retry-and-capacity",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team.resumption": {
+      "rule_id": "team.resumption",
+      "resource_id": "team",
+      "section_id": "resumption",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team.handoff": {
+      "rule_id": "team.handoff",
+      "resource_id": "team",
+      "section_id": "handoff",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team.requested-usage-accounting": {
+      "rule_id": "team.requested-usage-accounting",
+      "resource_id": "team",
+      "section_id": "requested-usage-accounting",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team.review-findings-and-independence": {
+      "rule_id": "team.review-findings-and-independence",
+      "resource_id": "team",
+      "section_id": "review-findings-and-independence",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-design.all": {
+      "rule_id": "econ-design.all",
+      "resource_id": "econ-design",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-design.purpose-and-input": {
+      "rule_id": "econ-design.purpose-and-input",
+      "resource_id": "econ-design",
+      "section_id": "purpose-and-input",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-design.procedure": {
+      "rule_id": "econ-design.procedure",
+      "resource_id": "econ-design",
+      "section_id": "procedure",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-design.identify-the-requested-design-work": {
+      "rule_id": "econ-design.identify-the-requested-design-work",
+      "resource_id": "econ-design",
+      "section_id": "identify-the-requested-design-work",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-design.for-an-empirical-specification": {
+      "rule_id": "econ-design.for-an-empirical-specification",
+      "resource_id": "econ-design",
+      "section_id": "for-an-empirical-specification",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-design.for-a-theoretical-model": {
+      "rule_id": "econ-design.for-a-theoretical-model",
+      "resource_id": "econ-design",
+      "section_id": "for-a-theoretical-model",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-design.for-behavioral-responses-and-group-comparisons": {
+      "rule_id": "econ-design.for-behavioral-responses-and-group-comparisons",
+      "resource_id": "econ-design",
+      "section_id": "for-behavioral-responses-and-group-comparisons",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-design.establish-feasibility": {
+      "rule_id": "econ-design.establish-feasibility",
+      "resource_id": "econ-design",
+      "section_id": "establish-feasibility",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-design.choose-among-research-designs": {
+      "rule_id": "econ-design.choose-among-research-designs",
+      "resource_id": "econ-design",
+      "section_id": "choose-among-research-designs",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-design.output": {
+      "rule_id": "econ-design.output",
+      "resource_id": "econ-design",
+      "section_id": "output",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-data.all": {
+      "rule_id": "econ-data.all",
+      "resource_id": "econ-data",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-data.purpose-and-input": {
+      "rule_id": "econ-data.purpose-and-input",
+      "resource_id": "econ-data",
+      "section_id": "purpose-and-input",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-data.procedure": {
+      "rule_id": "econ-data.procedure",
+      "resource_id": "econ-data",
+      "section_id": "procedure",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-data.map-the-object-to-the-existing-execution-path": {
+      "rule_id": "econ-data.map-the-object-to-the-existing-execution-path",
+      "resource_id": "econ-data",
+      "section_id": "map-the-object-to-the-existing-execution-path",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-data.construct-a-requested-data-design": {
+      "rule_id": "econ-data.construct-a-requested-data-design",
+      "resource_id": "econ-data",
+      "section_id": "construct-a-requested-data-design",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-data.produce-the-result-by-dependency": {
+      "rule_id": "econ-data.produce-the-result-by-dependency",
+      "resource_id": "econ-data",
+      "section_id": "produce-the-result-by-dependency",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-data.check-the-changed-calculation": {
+      "rule_id": "econ-data.check-the-changed-calculation",
+      "resource_id": "econ-data",
+      "section_id": "check-the-changed-calculation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-data.deliver-the-data-operation-and-its-economic-meaning": {
+      "rule_id": "econ-data.deliver-the-data-operation-and-its-economic-meaning",
+      "resource_id": "econ-data",
+      "section_id": "deliver-the-data-operation-and-its-economic-meaning",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-literature.all": {
+      "rule_id": "econ-literature.all",
+      "resource_id": "econ-literature",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-literature.purpose-and-input": {
+      "rule_id": "econ-literature.purpose-and-input",
+      "resource_id": "econ-literature",
+      "section_id": "purpose-and-input",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-literature.procedure": {
+      "rule_id": "econ-literature.procedure",
+      "resource_id": "econ-literature",
+      "section_id": "procedure",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-literature.find-the-work-that-answers-the-comparison": {
+      "rule_id": "econ-literature.find-the-work-that-answers-the-comparison",
+      "resource_id": "econ-literature",
+      "section_id": "find-the-work-that-answers-the-comparison",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-literature.establish-the-supporting-passages-and-versions": {
+      "rule_id": "econ-literature.establish-the-supporting-passages-and-versions",
+      "resource_id": "econ-literature",
+      "section_id": "establish-the-supporting-passages-and-versions",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-literature.complete-a-requested-ai-method-assessment": {
+      "rule_id": "econ-literature.complete-a-requested-ai-method-assessment",
+      "resource_id": "econ-literature",
+      "section_id": "complete-a-requested-ai-method-assessment",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-literature.deliver-the-literatures-economic-relevance": {
+      "rule_id": "econ-literature.deliver-the-literatures-economic-relevance",
+      "resource_id": "econ-literature",
+      "section_id": "deliver-the-literatures-economic-relevance",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.all": {
+      "rule_id": "econ-writing.all",
+      "resource_id": "econ-writing",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.compose": {
+      "rule_id": "econ-writing.compose",
+      "resource_id": "econ-writing",
+      "section_id": "compose",
+      "requires": [
+        "econ-writing.compose-for-the-medium-and-language"
+      ],
+      "conditional_requires": [
+        {
+          "when": "formal_review_requested",
+          "required_rules": [
+            "econ-writing.execute-paragraph-and-argument-contracts"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "econ-writing.revise": {
+      "rule_id": "econ-writing.revise",
+      "resource_id": "econ-writing",
+      "section_id": "revise",
+      "requires": [
+        "prose.revise-for-the-requested-language",
+        "econ-writing.compose-for-the-medium-and-language"
+      ],
+      "conditional_requires": [
+        {
+          "when": "formal_review_requested",
+          "required_rules": [
+            "econ-writing.execute-paragraph-and-argument-contracts"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "econ-writing.translate": {
+      "rule_id": "econ-writing.translate",
+      "resource_id": "econ-writing",
+      "section_id": "translate",
+      "requires": [
+        "prose.revise-for-the-requested-language",
+        "econ-writing.compose-for-the-medium-and-language"
+      ],
+      "conditional_requires": [
+        {
+          "when": "formal_review_requested",
+          "required_rules": [
+            "econ-writing.execute-paragraph-and-argument-contracts"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "econ-writing.convert": {
+      "rule_id": "econ-writing.convert",
+      "resource_id": "econ-writing",
+      "section_id": "convert",
+      "requires": [
+        "prose.revise-for-the-requested-language",
+        "econ-writing.compose-for-the-medium-and-language"
+      ],
+      "conditional_requires": [
+        {
+          "when": "formal_review_requested",
+          "required_rules": [
+            "econ-writing.execute-paragraph-and-argument-contracts"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "econ-writing.guidance": {
+      "rule_id": "econ-writing.guidance",
+      "resource_id": "econ-writing",
+      "section_id": "guidance",
+      "requires": [
+        "econ-writing.compose-for-the-medium-and-language"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.compose-for-the-medium-and-language": {
+      "rule_id": "econ-writing.compose-for-the-medium-and-language",
+      "resource_id": "econ-writing",
+      "section_id": "compose-for-the-medium-and-language",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.output": {
+      "rule_id": "econ-writing.output",
+      "resource_id": "econ-writing",
+      "section_id": "output",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-review.all": {
+      "rule_id": "econ-review.all",
+      "resource_id": "econ-review",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-review.purpose-and-input": {
+      "rule_id": "econ-review.purpose-and-input",
+      "resource_id": "econ-review",
+      "section_id": "purpose-and-input",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-review.procedure": {
+      "rule_id": "econ-review.procedure",
+      "resource_id": "econ-review",
+      "section_id": "procedure",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-review.choose-the-review-target": {
+      "rule_id": "econ-review.choose-the-review-target",
+      "resource_id": "econ-review",
+      "section_id": "choose-the-review-target",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-review.locate-and-repair-the-cause": {
+      "rule_id": "econ-review.locate-and-repair-the-cause",
+      "resource_id": "econ-review",
+      "section_id": "locate-and-repair-the-cause",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-review.compare-versions-or-decisions-when-requested": {
+      "rule_id": "econ-review.compare-versions-or-decisions-when-requested",
+      "resource_id": "econ-review",
+      "section_id": "compare-versions-or-decisions-when-requested",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-review.deliver-the-assessment": {
+      "rule_id": "econ-review.deliver-the-assessment",
+      "resource_id": "econ-review",
+      "section_id": "deliver-the-assessment",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.all": {
+      "rule_id": "design-methods.all",
+      "resource_id": "design-methods",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.select-the-needed-section": {
+      "rule_id": "design-methods.select-the-needed-section",
+      "resource_id": "design-methods",
+      "section_id": "select-the-needed-section",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.model-construction": {
+      "rule_id": "design-methods.model-construction",
+      "resource_id": "design-methods",
+      "section_id": "model-construction",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.ordered-choices-and-constructive-representations": {
+      "rule_id": "design-methods.ordered-choices-and-constructive-representations",
+      "resource_id": "design-methods",
+      "section_id": "ordered-choices-and-constructive-representations",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.information-choices-and-belief-representations": {
+      "rule_id": "design-methods.information-choices-and-belief-representations",
+      "resource_id": "design-methods",
+      "section_id": "information-choices-and-belief-representations",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.design-elements": {
+      "rule_id": "design-methods.design-elements",
+      "resource_id": "design-methods",
+      "section_id": "design-elements",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.difference-in-differences-and-event-studies": {
+      "rule_id": "design-methods.difference-in-differences-and-event-studies",
+      "resource_id": "design-methods",
+      "section_id": "difference-in-differences-and-event-studies",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.random-assignment-and-interventions": {
+      "rule_id": "design-methods.random-assignment-and-interventions",
+      "resource_id": "design-methods",
+      "section_id": "random-assignment-and-interventions",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.regression-discontinuity": {
+      "rule_id": "design-methods.regression-discontinuity",
+      "resource_id": "design-methods",
+      "section_id": "regression-discontinuity",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.instrumental-variables-and-assignment-leniency": {
+      "rule_id": "design-methods.instrumental-variables-and-assignment-leniency",
+      "resource_id": "design-methods",
+      "section_id": "instrumental-variables-and-assignment-leniency",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.shift-share-designs": {
+      "rule_id": "design-methods.shift-share-designs",
+      "resource_id": "design-methods",
+      "section_id": "shift-share-designs",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.networks-and-spillovers": {
+      "rule_id": "design-methods.networks-and-spillovers",
+      "resource_id": "design-methods",
+      "section_id": "networks-and-spillovers",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.synthetic-controls-and-panel-counterfactuals": {
+      "rule_id": "design-methods.synthetic-controls-and-panel-counterfactuals",
+      "resource_id": "design-methods",
+      "section_id": "synthetic-controls-and-panel-counterfactuals",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.inference-and-interpretation": {
+      "rule_id": "design-methods.inference-and-interpretation",
+      "resource_id": "design-methods",
+      "section_id": "inference-and-interpretation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.connect-observed-choices-and-outcomes-to-the-model-and-interventions": {
+      "rule_id": "design-methods.connect-observed-choices-and-outcomes-to-the-model-and-interventions",
+      "resource_id": "design-methods",
+      "section_id": "connect-observed-choices-and-outcomes-to-the-model-and-interventions",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.construct-restrictions-and-set-valued-predictions": {
+      "rule_id": "design-methods.construct-restrictions-and-set-valued-predictions",
+      "resource_id": "design-methods",
+      "section_id": "construct-restrictions-and-set-valued-predictions",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.select-the-economic-object": {
+      "rule_id": "design-methods.select-the-economic-object",
+      "resource_id": "design-methods",
+      "section_id": "select-the-economic-object",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.reuse-or-calculate-the-requested-quantities": {
+      "rule_id": "design-methods.reuse-or-calculate-the-requested-quantities",
+      "resource_id": "design-methods",
+      "section_id": "reuse-or-calculate-the-requested-quantities",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-methods.deliver-the-selected-result": {
+      "rule_id": "design-methods.deliver-the-selected-result",
+      "resource_id": "design-methods",
+      "section_id": "deliver-the-selected-result",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.all": {
+      "rule_id": "data-implementation.all",
+      "resource_id": "data-implementation",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.select-the-operation-specific-rules": {
+      "rule_id": "data-implementation.select-the-operation-specific-rules",
+      "resource_id": "data-implementation",
+      "section_id": "select-the-operation-specific-rules",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.source-to-analysis": {
+      "rule_id": "data-implementation.source-to-analysis",
+      "resource_id": "data-implementation",
+      "section_id": "source-to-analysis",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.1-establish-the-received-source-and-revision": {
+      "rule_id": "data-implementation.1-establish-the-received-source-and-revision",
+      "resource_id": "data-implementation",
+      "section_id": "1-establish-the-received-source-and-revision",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.2-establish-schema-measurement-and-grain": {
+      "rule_id": "data-implementation.2-establish-schema-measurement-and-grain",
+      "resource_id": "data-implementation",
+      "section_id": "2-establish-schema-measurement-and-grain",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.3-construct-the-shared-sample-and-account-for-exclusions": {
+      "rule_id": "data-implementation.3-construct-the-shared-sample-and-account-for-exclusions",
+      "resource_id": "data-implementation",
+      "section_id": "3-construct-the-shared-sample-and-account-for-exclusions",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.4-prepare-the-estimation-input": {
+      "rule_id": "data-implementation.4-prepare-the-estimation-input",
+      "resource_id": "data-implementation",
+      "section_id": "4-prepare-the-estimation-input",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.5-hand-off-the-analysis-and-its-dependencies": {
+      "rule_id": "data-implementation.5-hand-off-the-analysis-and-its-dependencies",
+      "resource_id": "data-implementation",
+      "section_id": "5-hand-off-the-analysis-and-its-dependencies",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.example-distinguish-overlapping-reasons-from-sequential-attrition": {
+      "rule_id": "data-implementation.example-distinguish-overlapping-reasons-from-sequential-attrition",
+      "resource_id": "data-implementation",
+      "section_id": "example-distinguish-overlapping-reasons-from-sequential-attrition",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.choose-descriptive-statistics-from-the-question": {
+      "rule_id": "data-implementation.choose-descriptive-statistics-from-the-question",
+      "resource_id": "data-implementation",
+      "section_id": "choose-descriptive-statistics-from-the-question",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.example-choose-available-cases-and-the-represented-unit": {
+      "rule_id": "data-implementation.example-choose-available-cases-and-the-represented-unit",
+      "resource_id": "data-implementation",
+      "section_id": "example-choose-available-cases-and-the-represented-unit",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.acquisition": {
+      "rule_id": "data-implementation.acquisition",
+      "resource_id": "data-implementation",
+      "section_id": "acquisition",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.data-contracts-and-joins": {
+      "rule_id": "data-implementation.data-contracts-and-joins",
+      "resource_id": "data-implementation",
+      "section_id": "data-contracts-and-joins",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.example-reshape-values-with-their-observation-status": {
+      "rule_id": "data-implementation.example-reshape-values-with-their-observation-status",
+      "resource_id": "data-implementation",
+      "section_id": "example-reshape-values-with-their-observation-status",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.computation": {
+      "rule_id": "data-implementation.computation",
+      "resource_id": "data-implementation",
+      "section_id": "computation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.estimator-engine-and-algorithm-selection": {
+      "rule_id": "data-implementation.estimator-engine-and-algorithm-selection",
+      "resource_id": "data-implementation",
+      "section_id": "estimator-engine-and-algorithm-selection",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.functions-types-and-failure-boundaries": {
+      "rule_id": "data-implementation.functions-types-and-failure-boundaries",
+      "resource_id": "data-implementation",
+      "section_id": "functions-types-and-failure-boundaries",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.measured-performance-and-memory": {
+      "rule_id": "data-implementation.measured-performance-and-memory",
+      "resource_id": "data-implementation",
+      "section_id": "measured-performance-and-memory",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.compare-changed-calculations": {
+      "rule_id": "data-implementation.compare-changed-calculations",
+      "resource_id": "data-implementation",
+      "section_id": "compare-changed-calculations",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.prediction": {
+      "rule_id": "data-implementation.prediction",
+      "resource_id": "data-implementation",
+      "section_id": "prediction",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.numerical-methods": {
+      "rule_id": "data-implementation.numerical-methods",
+      "resource_id": "data-implementation",
+      "section_id": "numerical-methods",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.replication": {
+      "rule_id": "data-implementation.replication",
+      "resource_id": "data-implementation",
+      "section_id": "replication",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.worked-data-examples": {
+      "rule_id": "data-implementation.worked-data-examples",
+      "resource_id": "data-implementation",
+      "section_id": "worked-data-examples",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.example-one-sample-for-counts-and-moments": {
+      "rule_id": "data-implementation.example-one-sample-for-counts-and-moments",
+      "resource_id": "data-implementation",
+      "section_id": "example-one-sample-for-counts-and-moments",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.example-reduce-in-the-query-engine-before-collecting": {
+      "rule_id": "data-implementation.example-reduce-in-the-query-engine-before-collecting",
+      "resource_id": "data-implementation",
+      "section_id": "example-reduce-in-the-query-engine-before-collecting",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.example-preserve-repeated-cluster-draws": {
+      "rule_id": "data-implementation.example-preserve-repeated-cluster-draws",
+      "resource_id": "data-implementation",
+      "section_id": "example-preserve-repeated-cluster-draws",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.example-match-information-available-at-the-decision": {
+      "rule_id": "data-implementation.example-match-information-available-at-the-decision",
+      "resource_id": "data-implementation",
+      "section_id": "example-match-information-available-at-the-decision",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.example-diagnose-join-multiplicity-before-attaching-values": {
+      "rule_id": "data-implementation.example-diagnose-join-multiplicity-before-attaching-values",
+      "resource_id": "data-implementation",
+      "section_id": "example-diagnose-join-multiplicity-before-attaching-values",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-implementation.example-name-a-calculation-and-its-related-totals": {
+      "rule_id": "data-implementation.example-name-a-calculation-and-its-related-totals",
+      "resource_id": "data-implementation",
+      "section_id": "example-name-a-calculation-and-its-related-totals",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-results.all": {
+      "rule_id": "data-results.all",
+      "resource_id": "data-results",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-results.locate-the-requested-result": {
+      "rule_id": "data-results.locate-the-requested-result",
+      "resource_id": "data-results",
+      "section_id": "locate-the-requested-result",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-results.entry-point-and-dependencies": {
+      "rule_id": "data-results.entry-point-and-dependencies",
+      "resource_id": "data-results",
+      "section_id": "entry-point-and-dependencies",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-results.carry-analysis-results-into-tables-figures-and-prose": {
+      "rule_id": "data-results.carry-analysis-results-into-tables-figures-and-prose",
+      "resource_id": "data-results",
+      "section_id": "carry-analysis-results-into-tables-figures-and-prose",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-results.complete-outputs-and-failure-propagation": {
+      "rule_id": "data-results.complete-outputs-and-failure-propagation",
+      "resource_id": "data-results",
+      "section_id": "complete-outputs-and-failure-propagation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-results.reproduce-the-requested-path": {
+      "rule_id": "data-results.reproduce-the-requested-path",
+      "resource_id": "data-results",
+      "section_id": "reproduce-the-requested-path",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-results.deliver-the-reproduced-result": {
+      "rule_id": "data-results.deliver-the-reproduced-result",
+      "resource_id": "data-results",
+      "section_id": "deliver-the-reproduced-result",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-results.worked-project-operations": {
+      "rule_id": "data-results.worked-project-operations",
+      "resource_id": "data-results",
+      "section_id": "worked-project-operations",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-results.example-reuse-a-named-estimate-without-losing-its-definition": {
+      "rule_id": "data-results.example-reuse-a-named-estimate-without-losing-its-definition",
+      "resource_id": "data-results",
+      "section_id": "example-reuse-a-named-estimate-without-losing-its-definition",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-results.example-recompute-the-affected-branch": {
+      "rule_id": "data-results.example-recompute-the-affected-branch",
+      "resource_id": "data-results",
+      "section_id": "example-recompute-the-affected-branch",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paper-workflow.all": {
+      "rule_id": "paper-workflow.all",
+      "resource_id": "paper-workflow",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paper-workflow.establish-the-argument-from-the-research": {
+      "rule_id": "paper-workflow.establish-the-argument-from-the-research",
+      "resource_id": "paper-workflow",
+      "section_id": "establish-the-argument-from-the-research",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paper-workflow.design-the-papers-argument": {
+      "rule_id": "paper-workflow.design-the-papers-argument",
+      "resource_id": "paper-workflow",
+      "section_id": "design-the-papers-argument",
+      "requires": [
+        "paper-workflow.establish-the-argument-from-the-research"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paper-workflow.compose-the-requested-section": {
+      "rule_id": "paper-workflow.compose-the-requested-section",
+      "resource_id": "paper-workflow",
+      "section_id": "compose-the-requested-section",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paper-workflow.choose-and-explain-descriptive-exhibits": {
+      "rule_id": "paper-workflow.choose-and-explain-descriptive-exhibits",
+      "resource_id": "paper-workflow",
+      "section_id": "choose-and-explain-descriptive-exhibits",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paper-workflow.example-draw-an-already-calculated-group-share": {
+      "rule_id": "paper-workflow.example-draw-an-already-calculated-group-share",
+      "resource_id": "paper-workflow",
+      "section_id": "example-draw-an-already-calculated-group-share",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paper-workflow.connect-the-prose": {
+      "rule_id": "paper-workflow.connect-the-prose",
+      "resource_id": "paper-workflow",
+      "section_id": "connect-the-prose",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paper-workflow.revise-the-integrated-manuscript": {
+      "rule_id": "paper-workflow.revise-the-integrated-manuscript",
+      "resource_id": "paper-workflow",
+      "section_id": "revise-the-integrated-manuscript",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "review-methods.all": {
+      "rule_id": "review-methods.all",
+      "resource_id": "review-methods",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "review-methods.review-findings-and-independence": {
+      "rule_id": "review-methods.review-findings-and-independence",
+      "resource_id": "review-methods",
+      "section_id": "review-findings-and-independence",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "review-methods.compare-a-proposed-change-when-requested": {
+      "rule_id": "review-methods.compare-a-proposed-change-when-requested",
+      "resource_id": "review-methods",
+      "section_id": "compare-a-proposed-change-when-requested",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "default-micro.all": {
+      "rule_id": "default-micro.all",
+      "resource_id": "default-micro",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": [
+        "example.en.extended-introduction",
+        "example.ja.extended-introduction",
+        "default-micro.en.conclusion",
+        "default-micro.en.mechanism",
+        "default-micro.en.quantities",
+        "default-micro.en.translation",
+        "default-micro.en.abstract",
+        "default-micro.en.introduction",
+        "default-micro.en.assignment",
+        "default-micro.ja.conclusion",
+        "default-micro.ja.mechanism",
+        "default-micro.ja.quantities",
+        "default-micro.ja.translation",
+        "default-micro.ja.abstract",
+        "default-micro.ja.introduction",
+        "default-micro.ja.assignment"
+      ]
+    },
+    "default-micro.principles": {
+      "rule_id": "default-micro.principles",
+      "resource_id": "default-micro",
+      "section_id": "principles",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "default-micro.select-the-passage-function": {
+      "rule_id": "default-micro.select-the-passage-function",
+      "resource_id": "default-micro",
+      "section_id": "select-the-passage-function",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-en.all": {
+      "rule_id": "examples-en.all",
+      "resource_id": "examples-en",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-en.conclusion-and-comparison": {
+      "rule_id": "examples-en.conclusion-and-comparison",
+      "resource_id": "examples-en",
+      "section_id": "conclusion-and-comparison",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-en.institution-and-mechanism": {
+      "rule_id": "examples-en.institution-and-mechanism",
+      "resource_id": "examples-en",
+      "section_id": "institution-and-mechanism",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-en.quantities-and-relationship": {
+      "rule_id": "examples-en.quantities-and-relationship",
+      "resource_id": "examples-en",
+      "section_id": "quantities-and-relationship",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-en.revision-and-translation": {
+      "rule_id": "examples-en.revision-and-translation",
+      "resource_id": "examples-en",
+      "section_id": "revision-and-translation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-en.abstract-and-introduction": {
+      "rule_id": "examples-en.abstract-and-introduction",
+      "resource_id": "examples-en",
+      "section_id": "abstract-and-introduction",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-en.abstract": {
+      "rule_id": "examples-en.abstract",
+      "resource_id": "examples-en",
+      "section_id": "abstract",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-en.introduction-opening": {
+      "rule_id": "examples-en.introduction-opening",
+      "resource_id": "examples-en",
+      "section_id": "introduction-opening",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-en.assignment-and-comparison": {
+      "rule_id": "examples-en.assignment-and-comparison",
+      "resource_id": "examples-en",
+      "section_id": "assignment-and-comparison",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-ja.all": {
+      "rule_id": "examples-ja.all",
+      "resource_id": "examples-ja",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-ja.結論と比較": {
+      "rule_id": "examples-ja.結論と比較",
+      "resource_id": "examples-ja",
+      "section_id": "結論と比較",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-ja.制度と機序": {
+      "rule_id": "examples-ja.制度と機序",
+      "resource_id": "examples-ja",
+      "section_id": "制度と機序",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-ja.数量と関係": {
+      "rule_id": "examples-ja.数量と関係",
+      "resource_id": "examples-ja",
+      "section_id": "数量と関係",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-ja.改稿と翻訳": {
+      "rule_id": "examples-ja.改稿と翻訳",
+      "resource_id": "examples-ja",
+      "section_id": "改稿と翻訳",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-ja.abstractとintroduction": {
+      "rule_id": "examples-ja.abstractとintroduction",
+      "resource_id": "examples-ja",
+      "section_id": "abstractとintroduction",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-ja.abstract": {
+      "rule_id": "examples-ja.abstract",
+      "resource_id": "examples-ja",
+      "section_id": "abstract",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-ja.introduction冒頭": {
+      "rule_id": "examples-ja.introduction冒頭",
+      "resource_id": "examples-ja",
+      "section_id": "introduction冒頭",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "examples-ja.割当てと比較": {
+      "rule_id": "examples-ja.割当てと比較",
+      "resource_id": "examples-ja",
+      "section_id": "割当てと比較",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "extended-en.all": {
+      "rule_id": "extended-en.all",
+      "resource_id": "extended-en",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "extended-ja.all": {
+      "rule_id": "extended-ja.all",
+      "resource_id": "extended-ja",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "repository-policy.all": {
+      "rule_id": "repository-policy.all",
+      "resource_id": "repository-policy",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "integration.all": {
+      "rule_id": "integration.all",
+      "resource_id": "integration",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "integration.common-core": {
+      "rule_id": "integration.common-core",
+      "resource_id": "integration",
+      "section_id": "common-core",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "integration.standalone-project-snapshots": {
+      "rule_id": "integration.standalone-project-snapshots",
+      "resource_id": "integration",
+      "section_id": "standalone-project-snapshots",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "integration.layout-and-generated-index": {
+      "rule_id": "integration.layout-and-generated-index",
+      "resource_id": "integration",
+      "section_id": "layout-and-generated-index",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "integration.project-additions-and-profiles": {
+      "rule_id": "integration.project-additions-and-profiles",
+      "resource_id": "integration",
+      "section_id": "project-additions-and-profiles",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "integration.execution-and-handoff": {
+      "rule_id": "integration.execution-and-handoff",
+      "resource_id": "integration",
+      "section_id": "execution-and-handoff",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "resource-guide.all": {
+      "rule_id": "resource-guide.all",
+      "resource_id": "resource-guide",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "team-state-helper.all": {
+      "rule_id": "team-state-helper.all",
+      "resource_id": "team-state-helper",
+      "section_id": "all",
+      "requires": [
+        "state-contract.state-and-version-contract",
+        "state-contract.local-state-helper",
+        "team.shared-work",
+        "team.resumption",
+        "local-checks.all",
+        "paragraph-engine.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "project-instructions.all": {
+      "rule_id": "project-instructions.all",
+      "resource_id": "project-instructions",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-index.all": {
+      "rule_id": "native-index.all",
+      "resource_id": "native-index",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "project-context.all": {
+      "rule_id": "project-context.all",
+      "resource_id": "project-context",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "tool-export-project-py.all": {
+      "rule_id": "tool-export-project-py.all",
+      "resource_id": "tool-export-project-py",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "tool-route-registry-py.all": {
+      "rule_id": "tool-route-registry-py.all",
+      "resource_id": "tool-route-registry-py",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "tool-sync-common-core-py.all": {
+      "rule_id": "tool-sync-common-core-py.all",
+      "resource_id": "tool-sync-common-core-py",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "tool-pack-context-sh.all": {
+      "rule_id": "tool-pack-context-sh.all",
+      "resource_id": "tool-pack-context-sh",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-agentsmd.all": {
+      "rule_id": "policy-agentsmd.all",
+      "resource_id": "policy-agentsmd",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-codexmd.all": {
+      "rule_id": "policy-codexmd.all",
+      "resource_id": "policy-codexmd",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-claudemd.all": {
+      "rule_id": "policy-claudemd.all",
+      "resource_id": "policy-claudemd",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-clinerules.all": {
+      "rule_id": "policy-clinerules.all",
+      "resource_id": "policy-clinerules",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-windsurfrules.all": {
+      "rule_id": "policy-windsurfrules.all",
+      "resource_id": "policy-windsurfrules",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-antigravityrules.all": {
+      "rule_id": "policy-antigravityrules.all",
+      "resource_id": "policy-antigravityrules",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-agents-agentsmd.all": {
+      "rule_id": "policy-agents-agentsmd.all",
+      "resource_id": "policy-agents-agentsmd",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-claude-agentsmd.all": {
+      "rule_id": "policy-claude-agentsmd.all",
+      "resource_id": "policy-claude-agentsmd",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-cursor-rules-01_project_policymdc.all": {
+      "rule_id": "policy-cursor-rules-01_project_policymdc.all",
+      "resource_id": "policy-cursor-rules-01_project_policymdc",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-gemini-geminimd.all": {
+      "rule_id": "policy-gemini-geminimd.all",
+      "resource_id": "policy-gemini-geminimd",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-github-copilot-instructionsmd.all": {
+      "rule_id": "policy-github-copilot-instructionsmd.all",
+      "resource_id": "policy-github-copilot-instructionsmd",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "writing-ui.all": {
+      "rule_id": "writing-ui.all",
+      "resource_id": "writing-ui",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.all": {
+      "rule_id": "state-contract.all",
+      "resource_id": "state-contract",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "publication.all": {
+      "rule_id": "publication.all",
+      "resource_id": "publication",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "tool-init.all": {
+      "rule_id": "tool-init.all",
+      "resource_id": "tool-init",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "registry-operations.all": {
+      "rule_id": "registry-operations.all",
+      "resource_id": "registry-operations",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "registry-resources.all": {
+      "rule_id": "registry-resources.all",
+      "resource_id": "registry-resources",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "registry-placements.all": {
+      "rule_id": "registry-placements.all",
+      "resource_id": "registry-placements",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.explain": {
+      "rule_id": "econ-writing.explain",
+      "resource_id": "econ-writing",
+      "section_id": "explain",
+      "requires": [
+        "prose.revise-for-the-requested-language",
+        "econ-writing.compose-for-the-medium-and-language"
+      ],
+      "conditional_requires": [
+        {
+          "when": "formal_review_requested",
+          "required_rules": [
+            "econ-writing.execute-paragraph-and-argument-contracts"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "econ-writing.profile": {
+      "rule_id": "econ-writing.profile",
+      "resource_id": "econ-writing",
+      "section_id": "profile",
+      "requires": [
+        "econ-writing.compose-for-the-medium-and-language"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.state-and-version-contract": {
+      "rule_id": "state-contract.state-and-version-contract",
+      "resource_id": "state-contract",
+      "section_id": "state-and-version-contract",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.local-state-helper": {
+      "rule_id": "state-contract.local-state-helper",
+      "resource_id": "state-contract",
+      "section_id": "local-state-helper",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.read-and-select-the-argument": {
+      "rule_id": "econ-writing.read-and-select-the-argument",
+      "resource_id": "econ-writing",
+      "section_id": "read-and-select-the-argument",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.develop-the-connected-explanation": {
+      "rule_id": "econ-writing.develop-the-connected-explanation",
+      "resource_id": "econ-writing",
+      "section_id": "develop-the-connected-explanation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.complete-the-requested-explanation": {
+      "rule_id": "econ-writing.complete-the-requested-explanation",
+      "resource_id": "econ-writing",
+      "section_id": "complete-the-requested-explanation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.select-source-passages": {
+      "rule_id": "econ-writing.select-source-passages",
+      "resource_id": "econ-writing",
+      "section_id": "select-source-passages",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.derive-principles-and-worked-examples": {
+      "rule_id": "econ-writing.derive-principles-and-worked-examples",
+      "resource_id": "econ-writing",
+      "section_id": "derive-principles-and-worked-examples",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.use-a-requested-opening-or-comparison": {
+      "rule_id": "econ-writing.use-a-requested-opening-or-comparison",
+      "resource_id": "econ-writing",
+      "section_id": "use-a-requested-opening-or-comparison",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.save-the-profile": {
+      "rule_id": "econ-writing.save-the-profile",
+      "resource_id": "econ-writing",
+      "section_id": "save-the-profile",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.organize-selective-reading": {
+      "rule_id": "econ-writing.organize-selective-reading",
+      "resource_id": "econ-writing",
+      "section_id": "organize-selective-reading",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.compose-a-talk": {
+      "rule_id": "econ-writing.compose-a-talk",
+      "resource_id": "econ-writing",
+      "section_id": "compose-a-talk",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.compose-a-research-site": {
+      "rule_id": "econ-writing.compose-a-research-site",
+      "resource_id": "econ-writing",
+      "section_id": "compose-a-research-site",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-writing.render-the-requested-artifact": {
+      "rule_id": "econ-writing.render-the-requested-artifact",
+      "resource_id": "econ-writing",
+      "section_id": "render-the-requested-artifact",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "integration.distribution-and-settings-contract": {
+      "rule_id": "integration.distribution-and-settings-contract",
+      "resource_id": "integration",
+      "section_id": "distribution-and-settings-contract",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "integration.state-migration": {
+      "rule_id": "integration.state-migration",
+      "resource_id": "integration",
+      "section_id": "state-migration",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.resumption-and-migration": {
+      "rule_id": "state-contract.resumption-and-migration",
+      "resource_id": "state-contract",
+      "section_id": "resumption-and-migration",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "publication.complete-generation-boundary": {
+      "rule_id": "publication.complete-generation-boundary",
+      "resource_id": "publication",
+      "section_id": "complete-generation-boundary",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "publication.working-files-git-and-delivery": {
+      "rule_id": "publication.working-files-git-and-delivery",
+      "resource_id": "publication",
+      "section_id": "working-files-git-and-delivery",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "publication.example-stage-a-correction-and-move-a-clean-file": {
+      "rule_id": "publication.example-stage-a-correction-and-move-a-clean-file",
+      "resource_id": "publication",
+      "section_id": "example-stage-a-correction-and-move-a-clean-file",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "publication.example-publish-one-complete-generation": {
+      "rule_id": "publication.example-publish-one-complete-generation",
+      "resource_id": "publication",
+      "section_id": "example-publish-one-complete-generation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "publication.example-commit-requested-files-with-unrelated-work-staged": {
+      "rule_id": "publication.example-commit-requested-files-with-unrelated-work-staged",
+      "resource_id": "publication",
+      "section_id": "example-commit-requested-files-with-unrelated-work-staged",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.all": {
+      "rule_id": "control.all",
+      "resource_id": "control",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "formal_review_requested",
+          "required_rules": [
+            "prose-check-guide.all",
+            "requirements-check-guide.all",
+            "native-check-guide.all",
+            "native-run-guide.all",
+            "team.review-findings-and-independence"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "prose-check-guide.all": {
+      "rule_id": "prose-check-guide.all",
+      "resource_id": "prose-check-guide",
+      "section_id": "all",
+      "requires": [
+        "prose-check-rules.all",
+        "prose.select-the-economic-argument",
+        "prose.revise-for-the-requested-language",
+        "local-checks.all",
+        "local-checks-guide.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-rules.all": {
+      "rule_id": "prose-check-rules.all",
+      "resource_id": "prose-check-rules",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "local-checks.all": {
+      "rule_id": "local-checks.all",
+      "resource_id": "local-checks",
+      "section_id": "all",
+      "requires": [
+        "requirements-check.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "local-checks-guide.all": {
+      "rule_id": "local-checks-guide.all",
+      "resource_id": "local-checks-guide",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check.all": {
+      "rule_id": "requirements-check.all",
+      "resource_id": "requirements-check",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.all": {
+      "rule_id": "requirements-check-guide.all",
+      "resource_id": "requirements-check-guide",
+      "section_id": "all",
+      "requires": [
+        "requirements-check.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check.all": {
+      "rule_id": "native-check.all",
+      "resource_id": "native-check",
+      "section_id": "all",
+      "requires": [
+        "requirements-check.all",
+        "local-checks.all",
+        "prose-check-rules.all",
+        "policy-assets.all",
+        "paragraph-engine.all",
+        "argument-engine.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.all": {
+      "rule_id": "native-check-guide.all",
+      "resource_id": "native-check-guide",
+      "section_id": "all",
+      "requires": [
+        "native-check.all",
+        "requirements-check-guide.all",
+        "prose-check-guide.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run.all": {
+      "rule_id": "native-run.all",
+      "resource_id": "native-run",
+      "section_id": "all",
+      "requires": [
+        "codex-hooks.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.all": {
+      "rule_id": "native-run-guide.all",
+      "resource_id": "native-run-guide",
+      "section_id": "all",
+      "requires": [
+        "native-run.all",
+        "policy-assets.all",
+        "policy-manifest.all",
+        "native-check-guide.all",
+        "core.all",
+        "prose-check-rules.all",
+        "local-checks.all",
+        "requirements-check.all",
+        "native-check.all",
+        "registry-operations.all",
+        "registry-resources.all",
+        "registry-placements.all",
+        "tool-route-registry-py.all",
+        "prose-check-guide.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-assets.all": {
+      "rule_id": "policy-assets.all",
+      "resource_id": "policy-assets",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-manifest.all": {
+      "rule_id": "policy-manifest.all",
+      "resource_id": "policy-manifest",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research.investigate-source-claims": {
+      "rule_id": "research.investigate-source-claims",
+      "resource_id": "research",
+      "section_id": "investigate-source-claims",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "codex-hooks.all": {
+      "rule_id": "codex-hooks.all",
+      "resource_id": "codex-hooks",
+      "section_id": "all",
+      "requires": [
+        "local-checks.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.task-proportional-review-plan": {
+      "rule_id": "control.task-proportional-review-plan",
+      "resource_id": "control",
+      "section_id": "task-proportional-review-plan",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.run-and-capability-contract": {
+      "rule_id": "control.run-and-capability-contract",
+      "resource_id": "control",
+      "section_id": "run-and-capability-contract",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.original-request-and-contract": {
+      "rule_id": "control.original-request-and-contract",
+      "resource_id": "control",
+      "section_id": "original-request-and-contract",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.worker-roles-and-identities": {
+      "rule_id": "control.worker-roles-and-identities",
+      "resource_id": "control",
+      "section_id": "worker-roles-and-identities",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.role-specific-work": {
+      "rule_id": "control.role-specific-work",
+      "resource_id": "control",
+      "section_id": "role-specific-work",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.full-candidate-prose-records": {
+      "rule_id": "control.full-candidate-prose-records",
+      "resource_id": "control",
+      "section_id": "full-candidate-prose-records",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.original-returns-and-correction": {
+      "rule_id": "control.original-returns-and-correction",
+      "resource_id": "control",
+      "section_id": "original-returns-and-correction",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.finalization-and-delivery": {
+      "rule_id": "control.finalization-and-delivery",
+      "resource_id": "control",
+      "section_id": "finalization-and-delivery",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.commands-and-result-meanings": {
+      "rule_id": "control.commands-and-result-meanings",
+      "resource_id": "control",
+      "section_id": "commands-and-result-meanings",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "control.registered-review-plans": {
+      "rule_id": "control.registered-review-plans",
+      "resource_id": "control",
+      "section_id": "registered-review-plans",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose.common-full-candidate-record": {
+      "rule_id": "prose.common-full-candidate-record",
+      "resource_id": "prose",
+      "section_id": "common-full-candidate-record",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.目的と適用": {
+      "rule_id": "prose-check-guide.目的と適用",
+      "resource_id": "prose-check-guide",
+      "section_id": "目的と適用",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.機能と出現の同一性": {
+      "rule_id": "prose-check-guide.機能と出現の同一性",
+      "resource_id": "prose-check-guide",
+      "section_id": "機能と出現の同一性",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.出現記録と旧形式": {
+      "rule_id": "prose-check-guide.出現記録と旧形式",
+      "resource_id": "prose-check-guide",
+      "section_id": "出現記録と旧形式",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.機械検出と全文審査": {
+      "rule_id": "prose-check-guide.機械検出と全文審査",
+      "resource_id": "prose-check-guide",
+      "section_id": "機械検出と全文審査",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.共通台帳と全文審査": {
+      "rule_id": "prose-check-guide.共通台帳と全文審査",
+      "resource_id": "prose-check-guide",
+      "section_id": "共通台帳と全文審査",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.分類と収録数": {
+      "rule_id": "prose-check-guide.分類と収録数",
+      "resource_id": "prose-check-guide",
+      "section_id": "分類と収録数",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.a24分類の索引": {
+      "rule_id": "prose-check-guide.a24分類の索引",
+      "resource_id": "prose-check-guide",
+      "section_id": "a24分類の索引",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.b7つの意味判定": {
+      "rule_id": "prose-check-guide.b7つの意味判定",
+      "resource_id": "prose-check-guide",
+      "section_id": "b7つの意味判定",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "prose-check-guide.c辞書外の言い換えも対象とする15機能": {
+      "rule_id": "prose-check-guide.c辞書外の言い換えも対象とする15機能",
+      "resource_id": "prose-check-guide",
+      "section_id": "c辞書外の言い換えも対象とする15機能",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.register-and-freeze-the-requirements": {
+      "rule_id": "requirements-check-guide.register-and-freeze-the-requirements",
+      "resource_id": "requirements-check-guide",
+      "section_id": "register-and-freeze-the-requirements",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.artifact-and-action-predicates": {
+      "rule_id": "requirements-check-guide.artifact-and-action-predicates",
+      "resource_id": "requirements-check-guide",
+      "section_id": "artifact-and-action-predicates",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.content-prohibition-and-evidence-predicates": {
+      "rule_id": "requirements-check-guide.content-prohibition-and-evidence-predicates",
+      "resource_id": "requirements-check-guide",
+      "section_id": "content-prohibition-and-evidence-predicates",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.evidence-files-and-ids": {
+      "rule_id": "requirements-check-guide.evidence-files-and-ids",
+      "resource_id": "requirements-check-guide",
+      "section_id": "evidence-files-and-ids",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.structured-review-returns": {
+      "rule_id": "requirements-check-guide.structured-review-returns",
+      "resource_id": "requirements-check-guide",
+      "section_id": "structured-review-returns",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.run-the-check": {
+      "rule_id": "requirements-check-guide.run-the-check",
+      "resource_id": "requirements-check-guide",
+      "section_id": "run-the-check",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "requirements-check-guide.python-integration": {
+      "rule_id": "requirements-check-guide.python-integration",
+      "resource_id": "requirements-check-guide",
+      "section_id": "python-integration",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.prepare-and-inspect": {
+      "rule_id": "native-check-guide.prepare-and-inspect",
+      "resource_id": "native-check-guide",
+      "section_id": "prepare-and-inspect",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.returned-role-records": {
+      "rule_id": "native-check-guide.returned-role-records",
+      "resource_id": "native-check-guide",
+      "section_id": "returned-role-records",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.individual-full-candidate-prose-records": {
+      "rule_id": "native-check-guide.individual-full-candidate-prose-records",
+      "resource_id": "native-check-guide",
+      "section_id": "individual-full-candidate-prose-records",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.prohibition-and-technical-use": {
+      "rule_id": "native-check-guide.prohibition-and-technical-use",
+      "resource_id": "native-check-guide",
+      "section_id": "prohibition-and-technical-use",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.output-and-final-checks": {
+      "rule_id": "native-check-guide.output-and-final-checks",
+      "resource_id": "native-check-guide",
+      "section_id": "output-and-final-checks",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.実行単位の照合": {
+      "rule_id": "native-check-guide.実行単位の照合",
+      "resource_id": "native-check-guide",
+      "section_id": "実行単位の照合",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.selected-review-plan": {
+      "rule_id": "native-check-guide.selected-review-plan",
+      "resource_id": "native-check-guide",
+      "section_id": "selected-review-plan",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.verbatim-correspondence-and-derived-operation-state": {
+      "rule_id": "native-check-guide.verbatim-correspondence-and-derived-operation-state",
+      "resource_id": "native-check-guide",
+      "section_id": "verbatim-correspondence-and-derived-operation-state",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.artifact-text-classification": {
+      "rule_id": "native-check-guide.artifact-text-classification",
+      "resource_id": "native-check-guide",
+      "section_id": "artifact-text-classification",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-check-guide.selected-acquisition-and-internal-views": {
+      "rule_id": "native-check-guide.selected-acquisition-and-internal-views",
+      "resource_id": "native-check-guide",
+      "section_id": "selected-acquisition-and-internal-views",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.select-the-review-plan": {
+      "rule_id": "native-run-guide.select-the-review-plan",
+      "resource_id": "native-run-guide",
+      "section_id": "select-the-review-plan",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.begin-and-fix-original-request-coverage": {
+      "rule_id": "native-run-guide.begin-and-fix-original-request-coverage",
+      "resource_id": "native-run-guide",
+      "section_id": "begin-and-fix-original-request-coverage",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.submit-and-review-a-snapshot": {
+      "rule_id": "native-run-guide.submit-and-review-a-snapshot",
+      "resource_id": "native-run-guide",
+      "section_id": "submit-and-review-a-snapshot",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.finalize-the-same-bytes": {
+      "rule_id": "native-run-guide.finalize-the-same-bytes",
+      "resource_id": "native-run-guide",
+      "section_id": "finalize-the-same-bytes",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.explicit-provisional-selection": {
+      "rule_id": "native-run-guide.explicit-provisional-selection",
+      "resource_id": "native-run-guide",
+      "section_id": "explicit-provisional-selection",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.optional-existing-task-state-binding": {
+      "rule_id": "native-run-guide.optional-existing-task-state-binding",
+      "resource_id": "native-run-guide",
+      "section_id": "optional-existing-task-state-binding",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.regenerate-and-verify-policy-assets": {
+      "rule_id": "native-run-guide.regenerate-and-verify-policy-assets",
+      "resource_id": "native-run-guide",
+      "section_id": "regenerate-and-verify-policy-assets",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.原資料の固定と表現一致の処理": {
+      "rule_id": "native-run-guide.原資料の固定と表現一致の処理",
+      "resource_id": "native-run-guide",
+      "section_id": "原資料の固定と表現一致の処理",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.file-and-inspection-budgets": {
+      "rule_id": "native-run-guide.file-and-inspection-budgets",
+      "resource_id": "native-run-guide",
+      "section_id": "file-and-inspection-budgets",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.concurrent-run-operations": {
+      "rule_id": "native-run-guide.concurrent-run-operations",
+      "resource_id": "native-run-guide",
+      "section_id": "concurrent-run-operations",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.trusted-codex-hook-association": {
+      "rule_id": "native-run-guide.trusted-codex-hook-association",
+      "resource_id": "native-run-guide",
+      "section_id": "trusted-codex-hook-association",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "local-checks-guide.本文走査": {
+      "rule_id": "local-checks-guide.本文走査",
+      "resource_id": "local-checks-guide",
+      "section_id": "本文走査",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "local-checks-guide.入力と保存": {
+      "rule_id": "local-checks-guide.入力と保存",
+      "resource_id": "local-checks-guide",
+      "section_id": "入力と保存",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "local-checks-guide.送信文と字句用法判定": {
+      "rule_id": "local-checks-guide.送信文と字句用法判定",
+      "resource_id": "local-checks-guide",
+      "section_id": "送信文と字句用法判定",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "config-template-readme-md.all": {
+      "rule_id": "config-template-readme-md.all",
+      "resource_id": "config-template-readme-md",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "config-template-claude-mcp-example-json.all": {
+      "rule_id": "config-template-claude-mcp-example-json.all",
+      "resource_id": "config-template-claude-mcp-example-json",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "config-template-codex-example-toml.all": {
+      "rule_id": "config-template-codex-example-toml.all",
+      "resource_id": "config-template-codex-example-toml",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "config-template-mcp-example-json.all": {
+      "rule_id": "config-template-mcp-example-json.all",
+      "resource_id": "config-template-mcp-example-json",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "checked-artifacts-instructions.all": {
+      "rule_id": "checked-artifacts-instructions.all",
+      "resource_id": "checked-artifacts-instructions",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "plugin-integration-guide.all": {
+      "rule_id": "plugin-integration-guide.all",
+      "resource_id": "plugin-integration-guide",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paragraph-workflow.all": {
+      "rule_id": "paragraph-workflow.all",
+      "resource_id": "paragraph-workflow",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "paragraph_execution_requested",
+          "required_rules": [
+            "paragraph-engine.all",
+            "argument-engine.all",
+            "paragraph-schema.all",
+            "argument-schema.all"
+          ]
+        },
+        {
+          "when": "formal_review_requested",
+          "required_rules": [
+            "paragraph-engine.all",
+            "argument-engine.all",
+            "paragraph-schema.all",
+            "argument-schema.all"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "paragraph-engine.all": {
+      "rule_id": "paragraph-engine.all",
+      "resource_id": "paragraph-engine",
+      "section_id": "all",
+      "requires": [
+        "argument-engine.all",
+        "local-checks.all",
+        "prose-check-rules.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "argument-engine.all": {
+      "rule_id": "argument-engine.all",
+      "resource_id": "argument-engine",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paragraph-schema.all": {
+      "rule_id": "paragraph-schema.all",
+      "resource_id": "paragraph-schema",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "argument-schema.all": {
+      "rule_id": "argument-schema.all",
+      "resource_id": "argument-schema",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "paragraph-tests.all": {
+      "rule_id": "paragraph-tests.all",
+      "resource_id": "paragraph-tests",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "argument-tests.all": {
+      "rule_id": "argument-tests.all",
+      "resource_id": "argument-tests",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "writing-integration-tests.all": {
+      "rule_id": "writing-integration-tests.all",
+      "resource_id": "writing-integration-tests",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "core.paragraph-writing-contract": {
+      "rule_id": "core.paragraph-writing-contract",
+      "resource_id": "core",
+      "section_id": "paragraph-writing-contract",
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "paragraph_execution_requested",
+          "required_rules": [
+            "paragraph-workflow.all"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "prose.hierarchical-argument-and-paragraph-composition": {
+      "rule_id": "prose.hierarchical-argument-and-paragraph-composition",
+      "resource_id": "prose",
+      "section_id": "hierarchical-argument-and-paragraph-composition",
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "paragraph_execution_requested",
+          "required_rules": [
+            "paragraph-workflow.all"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "team.paragraph-assignments": {
+      "rule_id": "team.paragraph-assignments",
+      "resource_id": "team",
+      "section_id": "paragraph-assignments",
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "paragraph_execution_requested",
+          "required_rules": [
+            "paragraph-workflow.all"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "execution.writing-dependency-execution": {
+      "rule_id": "execution.writing-dependency-execution",
+      "resource_id": "execution",
+      "section_id": "writing-dependency-execution",
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "paragraph_execution_requested",
+          "required_rules": [
+            "paragraph-workflow.all"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "control.writing-execution-prerequisite": {
+      "rule_id": "control.writing-execution-prerequisite",
+      "resource_id": "control",
+      "section_id": "writing-execution-prerequisite",
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "paragraph_execution_requested",
+          "required_rules": [
+            "paragraph-workflow.all"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "paper-workflow.execute-the-paragraph-architecture": {
+      "rule_id": "paper-workflow.execute-the-paragraph-architecture",
+      "resource_id": "paper-workflow",
+      "section_id": "execute-the-paragraph-architecture",
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "paragraph_execution_requested",
+          "required_rules": [
+            "paragraph-workflow.all"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "econ-writing.execute-paragraph-and-argument-contracts": {
+      "rule_id": "econ-writing.execute-paragraph-and-argument-contracts",
+      "resource_id": "econ-writing",
+      "section_id": "execute-paragraph-and-argument-contracts",
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "paragraph_execution_requested",
+          "required_rules": [
+            "paragraph-workflow.all"
+          ]
+        },
+        {
+          "when": "formal_review_requested",
+          "required_rules": [
+            "paragraph-workflow.all"
+          ]
+        }
+      ],
+      "optional_examples": []
+    },
+    "state-contract.paragraph-state-binding": {
+      "rule_id": "state-contract.paragraph-state-binding",
+      "resource_id": "state-contract",
+      "section_id": "paragraph-state-binding",
+      "requires": [
+        "paragraph-engine.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "native-run-guide.paragraph-writing-submissions": {
+      "rule_id": "native-run-guide.paragraph-writing-submissions",
+      "resource_id": "native-run-guide",
+      "section_id": "paragraph-writing-submissions",
+      "requires": [
+        "paragraph-engine.all"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "econ-data.implement-at-the-existing-owner": {
+      "rule_id": "econ-data.implement-at-the-existing-owner",
+      "resource_id": "econ-data",
+      "section_id": "implement-at-the-existing-owner",
+      "requires": [
+        "data-implementation.functions-types-and-failure-boundaries",
+        "data-implementation.compare-changed-calculations"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.all": {
+      "rule_id": "equity-guide.all",
+      "resource_id": "equity-guide",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-calculator.all": {
+      "rule_id": "equity-calculator.all",
+      "resource_id": "equity-calculator",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-sources.all": {
+      "rule_id": "equity-sources.all",
+      "resource_id": "equity-sources",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-dependencies.all": {
+      "rule_id": "equity-dependencies.all",
+      "resource_id": "equity-dependencies",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-tests.all": {
+      "rule_id": "equity-tests.all",
+      "resource_id": "equity-tests",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.all": {
+      "rule_id": "equity-models.all",
+      "resource_id": "equity-models",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-io.all": {
+      "rule_id": "equity-io.all",
+      "resource_id": "equity-io",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-airline-case.all": {
+      "rule_id": "equity-airline-case.all",
+      "resource_id": "equity-airline-case",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-company-case.all": {
+      "rule_id": "equity-company-case.all",
+      "resource_id": "equity-company-case",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-case-results.all": {
+      "rule_id": "equity-case-results.all",
+      "resource_id": "equity-case-results",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    }
+  },
+  "examples": {
+    "example.en.extended-introduction": {
+      "example_id": "example.en.extended-introduction",
+      "resource_id": "extended-en",
+      "section_id": "all",
+      "language": "en",
+      "function": "cumulative-argument",
+      "extended": true
+    },
+    "example.ja.extended-introduction": {
+      "example_id": "example.ja.extended-introduction",
+      "resource_id": "extended-ja",
+      "section_id": "all",
+      "language": "ja",
+      "function": "cumulative-argument",
+      "extended": true
+    },
+    "default-micro.en.conclusion": {
+      "example_id": "default-micro.en.conclusion",
+      "resource_id": "examples-en",
+      "section_id": "conclusion-and-comparison",
+      "language": "en",
+      "function": "conclusion",
+      "extended": false
+    },
+    "default-micro.en.mechanism": {
+      "example_id": "default-micro.en.mechanism",
+      "resource_id": "examples-en",
+      "section_id": "institution-and-mechanism",
+      "language": "en",
+      "function": "mechanism",
+      "extended": false
+    },
+    "default-micro.en.quantities": {
+      "example_id": "default-micro.en.quantities",
+      "resource_id": "examples-en",
+      "section_id": "quantities-and-relationship",
+      "language": "en",
+      "function": "quantities",
+      "extended": false
+    },
+    "default-micro.en.translation": {
+      "example_id": "default-micro.en.translation",
+      "resource_id": "examples-en",
+      "section_id": "revision-and-translation",
+      "language": "en",
+      "function": "translation",
+      "extended": false
+    },
+    "default-micro.en.abstract": {
+      "example_id": "default-micro.en.abstract",
+      "resource_id": "examples-en",
+      "section_id": "abstract",
+      "language": "en",
+      "function": "abstract",
+      "extended": false
+    },
+    "default-micro.en.introduction": {
+      "example_id": "default-micro.en.introduction",
+      "resource_id": "examples-en",
+      "section_id": "introduction-opening",
+      "language": "en",
+      "function": "introduction",
+      "extended": false
+    },
+    "default-micro.en.assignment": {
+      "example_id": "default-micro.en.assignment",
+      "resource_id": "examples-en",
+      "section_id": "assignment-and-comparison",
+      "language": "en",
+      "function": "assignment",
+      "extended": false
+    },
+    "default-micro.ja.conclusion": {
+      "example_id": "default-micro.ja.conclusion",
+      "resource_id": "examples-ja",
+      "section_id": "結論と比較",
+      "language": "ja",
+      "function": "conclusion",
+      "extended": false
+    },
+    "default-micro.ja.mechanism": {
+      "example_id": "default-micro.ja.mechanism",
+      "resource_id": "examples-ja",
+      "section_id": "制度と機序",
+      "language": "ja",
+      "function": "mechanism",
+      "extended": false
+    },
+    "default-micro.ja.quantities": {
+      "example_id": "default-micro.ja.quantities",
+      "resource_id": "examples-ja",
+      "section_id": "数量と関係",
+      "language": "ja",
+      "function": "quantities",
+      "extended": false
+    },
+    "default-micro.ja.translation": {
+      "example_id": "default-micro.ja.translation",
+      "resource_id": "examples-ja",
+      "section_id": "改稿と翻訳",
+      "language": "ja",
+      "function": "translation",
+      "extended": false
+    },
+    "default-micro.ja.abstract": {
+      "example_id": "default-micro.ja.abstract",
+      "resource_id": "examples-ja",
+      "section_id": "abstract",
+      "language": "ja",
+      "function": "abstract",
+      "extended": false
+    },
+    "default-micro.ja.introduction": {
+      "example_id": "default-micro.ja.introduction",
+      "resource_id": "examples-ja",
+      "section_id": "introduction冒頭",
+      "language": "ja",
+      "function": "introduction",
+      "extended": false
+    },
+    "default-micro.ja.assignment": {
+      "example_id": "default-micro.ja.assignment",
+      "resource_id": "examples-ja",
+      "section_id": "割当てと比較",
+      "language": "ja",
+      "function": "assignment",
+      "extended": false
+    }
+  },
+  "reading_stages": {
+    "entry": {
+      "core": [
+        "task-entry",
+        "authority-and-preserved-inputs",
+        "direct-expression"
+      ],
+      "control": [
+        "task-proportional-review-plan",
+        "worker-roles-and-identities"
+      ],
+      "team": [
+        "shared-work"
+      ]
+    },
+    "contract": {
+      "core": [
+        "authority-and-preserved-inputs"
+      ],
+      "control": [
+        "original-request-and-contract"
+      ],
+      "requirements-check-guide": [
+        "register-and-freeze-the-requirements"
+      ]
+    },
+    "compose": {
+      "core": [
+        "execution-records",
+        "direct-expression"
+      ],
+      "control": [
+        "run-and-capability-contract"
+      ]
+    },
+    "review": {
+      "core": [
+        "direct-expression"
+      ],
+      "control": [
+        "role-specific-work",
+        "full-candidate-prose-records",
+        "original-returns-and-correction"
+      ],
+      "prose-check-guide": [
+        "機能と出現の同一性",
+        "機械検出と全文審査"
+      ],
+      "native-check-guide": [
+        "returned-role-records",
+        "individual-full-candidate-prose-records"
+      ],
+      "local-checks-guide": [
+        "本文走査",
+        "送信文と字句用法判定"
+      ]
+    },
+    "finalize": {
+      "core": [
+        "completion-and-reporting"
+      ],
+      "control": [
+        "finalization-and-delivery"
+      ],
+      "native-run-guide": [
+        "finalize-the-same-bytes"
+      ],
+      "local-checks-guide": [
+        "入力と保存"
+      ]
+    }
+  },
+  "reading_roles": {
+    "requirements-coverage": {
+      "contract": {
+        "requirements-check-guide": [
+          "content-prohibition-and-evidence-predicates"
+        ],
+        "control": [
+          "original-request-and-contract"
+        ]
+      }
+    },
+    "quality-a": {
+      "review": {
+        "prose": [
+          "common-full-candidate-record"
+        ],
+        "native-check-guide": [
+          "prohibition-and-technical-use"
+        ]
+      }
+    },
+    "quality-b": {
+      "review": {
+        "requirements-check-guide": [
+          "structured-review-returns"
+        ],
+        "prose": [
+          "revise-for-the-requested-language"
+        ]
+      }
+    },
+    "compliance": {
+      "review": {
+        "control": [
+          "worker-roles-and-identities",
+          "commands-and-result-meanings",
+          "finalization-and-delivery"
+        ]
+      }
+    }
+  }
+}

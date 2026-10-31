@@ -1,0 +1,1 @@
+Read the included CORE and PROSE bodies, then follow ECON_INDEX.md for the selected operation and its required rules. Reuse same-version reads. Complete reasoning, execution, integrated review and applicable verification under CORE. SOURCE.md identifies this content snapshot. Request optional inputs when their function is needed.

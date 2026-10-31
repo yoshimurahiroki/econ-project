@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:economics-research:argument:1",
+  "title": "Source-bound hierarchical argument",
+  "description": "Structural contract. Semantic judgments require observed host execution, original returns and source correspondence. This schema grants no release authorization.",
+  "type": "object",
+  "required": ["schema_version", "version", "central_question", "central_answer", "root_ids", "nodes", "groups", "dependencies", "source_ids", "source_manifest"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "version": {"$ref": "#/$defs/text"},
+    "central_question": {"$ref": "#/$defs/text"},
+    "central_answer": {"$ref": "#/$defs/text"},
+    "root_ids": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"$ref": "#/$defs/text"}},
+    "nodes": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/node"}},
+    "groups": {"type": "array", "items": {"$ref": "#/$defs/group"}},
+    "dependencies": {"type": "array", "items": {"$ref": "#/$defs/dependency"}},
+    "source_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+    "source_manifest": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/digest"}},
+    "argument_sha256": {"$ref": "#/$defs/digest"},
+    "purpose": {"$ref": "#/$defs/text"},
+    "reader": {"$ref": "#/$defs/text"},
+    "completion_conditions": {"type": "array"},
+    "context": {"type": "object"},
+    "selection": {"$ref": "#/$defs/selection"},
+    "introduction": {"$ref": "#/$defs/introduction"},
+    "problem": {"$ref": "#/$defs/problem"},
+    "exhibits": {"type": "array", "items": {"$ref": "#/$defs/exhibit"}},
+    "generation_records": {"type": "array", "items": {"$ref": "#/$defs/host_record"}},
+    "reviews": {"type": "array", "items": {"type": "object"}},
+    "change_history": {"type": "array", "items": {"type": "object"}}
+  },
+  "$defs": {
+    "text": {"type": "string", "minLength": 1, "pattern": "\\S"},
+    "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+    "order_basis": {"enum": ["inference", "time", "structure", "importance", "dependency"]},
+    "source_ref": {
+      "type": "object", "required": ["source_id", "source_sha256", "start", "end", "quote"],
+      "description": "start and end are Unicode-character offsets into the exact original source text; end is exclusive.",
+      "properties": {
+        "source_id": {"$ref": "#/$defs/text"}, "source_sha256": {"$ref": "#/$defs/digest"},
+        "start": {"type": "integer", "minimum": 0}, "end": {"type": "integer", "minimum": 1},
+        "quote": {"$ref": "#/$defs/text"}
+      }
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "population": {}, "period": {}, "unit": {}, "denominator": {}, "comparison": {},
+        "conditions": {"$ref": "#/$defs/ids"}, "definitions": {"type": "object"}
+      }
+    },
+    "node": {
+      "type": "object",
+      "required": ["node_id", "parent_id", "child_ids", "claim", "question", "next_questions", "logical_role", "inference_form", "abstraction_level", "scope", "source_refs", "section_id", "paragraph_ids", "reasoning", "order"],
+      "properties": {
+        "node_id": {"$ref": "#/$defs/text"},
+        "parent_id": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/text"}]},
+        "child_ids": {"$ref": "#/$defs/ids"}, "claim": {"$ref": "#/$defs/text"},
+        "question": {"$ref": "#/$defs/text"},
+        "next_questions": {"type": "array", "items": {
+          "type": "object", "required": ["question", "answered_by"],
+          "properties": {"question": {"$ref": "#/$defs/text"}, "answered_by": {"$ref": "#/$defs/ids", "minItems": 1}}
+        }},
+        "logical_role": {"$ref": "#/$defs/text"}, "inference_form": {"enum": ["atomic", "deductive", "inductive"]},
+        "abstraction_level": {"type": "integer", "minimum": 0}, "scope": {"$ref": "#/$defs/scope"},
+        "source_refs": {"type": "array", "items": {"$ref": "#/$defs/source_ref"}},
+        "section_id": {"$ref": "#/$defs/text"}, "paragraph_ids": {"$ref": "#/$defs/ids"},
+        "reasoning": {"type": "string"},
+        "order": {
+          "type": "object", "required": ["basis", "position", "rationale"],
+          "properties": {"basis": {"$ref": "#/$defs/order_basis"}, "position": {"type": "integer"}, "rationale": {"$ref": "#/$defs/text"}}
+        },
+        "integration": {"$ref": "#/$defs/integration"},
+        "inference": {"$ref": "#/$defs/inference"},
+        "proposition": {
+          "type": "object", "required": ["subject", "predicate", "object", "new_information"],
+          "properties": {"subject": {"$ref": "#/$defs/text"}, "predicate": {"$ref": "#/$defs/text"}, "object": {"$ref": "#/$defs/text"}, "new_information": {"$ref": "#/$defs/text"}}
+        },
+        "scope_aggregation": {"type": "array", "items": {
+          "type": "object", "required": ["field", "parent_value", "child_values", "reasoning"],
+          "properties": {"field": {"$ref": "#/$defs/text"}, "parent_value": {}, "child_values": {"type": "array", "minItems": 1}, "reasoning": {"$ref": "#/$defs/text"}}
+        }},
+        "quantities": {"type": "array", "items": {"$ref": "#/$defs/quantity"}},
+        "relationship_type": {"$ref": "#/$defs/text"},
+        "causal_basis": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source_ref"}}
+      },
+      "allOf": [
+        {"if": {"properties": {"child_ids": {"minItems": 1}}}, "then": {"properties": {"reasoning": {"$ref": "#/$defs/text"}, "inference_form": {"enum": ["deductive", "inductive"]}}}},
+        {"if": {"properties": {"inference_form": {"const": "inductive"}, "child_ids": {"minItems": 1}}}, "then": {"required": ["integration"]}},
+        {"if": {"properties": {"inference_form": {"const": "deductive"}, "child_ids": {"minItems": 1}}}, "then": {"required": ["inference"]}}
+      ]
+    },
+    "integration": {
+      "type": "object", "required": ["member_ids", "common_property", "meaning", "conclusion"],
+      "properties": {"member_ids": {"$ref": "#/$defs/ids", "minItems": 1}, "common_property": {"$ref": "#/$defs/text"}, "meaning": {"$ref": "#/$defs/text"}, "conclusion": {"$ref": "#/$defs/text"}}
+    },
+    "inference": {
+      "type": "object", "required": ["premise_ids", "conclusion_id", "conditions", "steps"],
+      "properties": {
+        "premise_ids": {"$ref": "#/$defs/ids", "minItems": 1}, "conclusion_id": {"$ref": "#/$defs/text"}, "conditions": {"$ref": "#/$defs/ids"},
+        "steps": {"type": "array", "minItems": 1, "items": {
+          "type": "object", "required": ["step_id", "premise_ids", "claim", "relation"],
+          "properties": {"step_id": {"$ref": "#/$defs/text"}, "premise_ids": {"$ref": "#/$defs/ids", "minItems": 1}, "claim": {"$ref": "#/$defs/text"}, "relation": {"$ref": "#/$defs/text"}}
+        }}
+      }
+    },
+    "quantity": {
+      "type": "object", "required": ["value", "unit", "period", "denominator", "comparison", "source_ref"],
+      "properties": {"value": {"type": ["number", "string"]}, "unit": {"$ref": "#/$defs/text"}, "period": {"$ref": "#/$defs/text"}, "denominator": {"$ref": "#/$defs/text"}, "comparison": {"$ref": "#/$defs/text"}, "source_ref": {"$ref": "#/$defs/source_ref"}}
+    },
+    "group": {
+      "type": "object", "required": ["group_id", "parent_id", "member_ids", "classification_basis", "logical_role", "inference_form", "order"],
+      "properties": {
+        "group_id": {"$ref": "#/$defs/text"}, "parent_id": {"$ref": "#/$defs/text"}, "member_ids": {"$ref": "#/$defs/ids", "minItems": 1},
+        "classification_basis": {"$ref": "#/$defs/text"}, "logical_role": {"$ref": "#/$defs/text"}, "inference_form": {"enum": ["deductive", "inductive"]},
+        "expected_member_ids": {"$ref": "#/$defs/ids"}, "reader_question": {"$ref": "#/$defs/text"}, "evidence_relation": {"$ref": "#/$defs/text"},
+        "order": {"type": "object", "required": ["basis", "ordered_ids", "rationale"], "properties": {"basis": {"$ref": "#/$defs/order_basis"}, "ordered_ids": {"$ref": "#/$defs/ids"}, "rationale": {"$ref": "#/$defs/text"}}}
+      }
+    },
+    "dependency": {
+      "type": "object", "required": ["from", "to", "relation"],
+      "description": "Directed reference dependency from prerequisite to consumer, stored separately from parent-child edges.",
+      "properties": {"from": {"$ref": "#/$defs/text"}, "to": {"$ref": "#/$defs/text"}, "relation": {"$ref": "#/$defs/text"}}
+    },
+    "selection": {
+      "type": "object", "required": ["central_question", "central_answer", "selected_source_ids", "selection_reasons"],
+      "properties": {"central_question": {"$ref": "#/$defs/text"}, "central_answer": {"$ref": "#/$defs/text"}, "selected_source_ids": {"$ref": "#/$defs/ids", "minItems": 1}, "selection_reasons": {"type": "object", "minProperties": 1, "additionalProperties": {"$ref": "#/$defs/text"}}}
+    },
+    "introduction": {
+      "type": "object", "required": ["shared_situation", "complication", "question", "answer", "body_node_ids"],
+      "properties": {"shared_situation": {"$ref": "#/$defs/text"}, "complication": {"$ref": "#/$defs/text"}, "question": {"$ref": "#/$defs/text"}, "answer": {"$ref": "#/$defs/text"}, "body_node_ids": {"$ref": "#/$defs/ids", "minItems": 1}}
+    },
+    "problem": {
+      "type": "object", "required": ["system", "initial_state", "change", "current_result", "target_result", "gap", "previous_actions", "question", "question_type", "relationships", "verification_plan"],
+      "properties": {
+        "system": {"$ref": "#/$defs/text"}, "initial_state": {}, "change": {}, "gap": {}, "previous_actions": {"type": "array"},
+        "current_result": {"$ref": "#/$defs/problem_result"}, "target_result": {"$ref": "#/$defs/problem_result"},
+        "question": {"$ref": "#/$defs/text"}, "question_type": {"enum": ["what", "where", "why", "mechanism", "identification", "options", "choice", "execution"]},
+        "relationships": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["relation_id", "from", "to", "relation"]}},
+        "mechanisms": {"type": "array", "items": {"type": "object", "required": ["mechanism_id", "claim", "object", "conditions", "predictions"]}},
+        "comparisons": {"type": "array", "items": {"type": "object", "required": ["mechanism_ids", "contrast", "design", "evidence_ids", "predictions"]}},
+        "verification_plan": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/verification_task"}}
+      }
+    },
+    "problem_result": {"type": "object", "required": ["object", "period", "measure", "criterion"]},
+    "verification_task": {
+      "type": "object", "required": ["test_id", "question", "evidence_ids", "comparison", "acceptance_condition"],
+      "properties": {"test_id": {"$ref": "#/$defs/text"}, "question": {"$ref": "#/$defs/text"}, "relation_ids": {"$ref": "#/$defs/ids"}, "mechanism_ids": {"$ref": "#/$defs/ids"}, "evidence_ids": {"$ref": "#/$defs/ids", "minItems": 1}, "comparison": {"$ref": "#/$defs/text"}, "acceptance_condition": {"$ref": "#/$defs/text"}},
+      "anyOf": [{"required": ["relation_ids"], "properties": {"relation_ids": {"minItems": 1}}}, {"required": ["mechanism_ids"], "properties": {"mechanism_ids": {"minItems": 1}}}]
+    },
+    "exhibit": {
+      "type": "object", "required": ["exhibit_id", "question", "quantities_or_relation", "node_ids", "meaning", "evidence_relation"],
+      "properties": {"exhibit_id": {"$ref": "#/$defs/text"}, "question": {"$ref": "#/$defs/text"}, "quantities_or_relation": {}, "node_ids": {"$ref": "#/$defs/ids", "minItems": 1}, "meaning": {"$ref": "#/$defs/text"}, "evidence_relation": {"$ref": "#/$defs/text"}}
+    },
+    "host_record": {
+      "type": "object", "required": ["worker_id", "event_id", "input_sha256", "return_text", "return_sha256", "execution_kind", "task", "observation", "assurance_class", "release_authorized"],
+      "properties": {
+        "worker_id": {"$ref": "#/$defs/text"}, "event_id": {"$ref": "#/$defs/text"}, "input_sha256": {"$ref": "#/$defs/digest"}, "return_text": {"$ref": "#/$defs/text"}, "return_sha256": {"$ref": "#/$defs/digest"},
+        "execution_kind": {"enum": ["independent-subagent", "single-agent-sequential"]}, "launch_ref": {"$ref": "#/$defs/text"}, "turn_ref": {"$ref": "#/$defs/text"},
+        "task": {"type": "object"}, "observation": {"type": "object"}, "launch_observation": {"type": ["object", "null"]}, "assurance_class": {"const": "host-observed"}, "release_authorized": {"const": false}
+      },
+      "allOf": [
+        {"if": {"properties": {"execution_kind": {"const": "independent-subagent"}}}, "then": {"required": ["launch_ref", "launch_observation"], "properties": {"launch_observation": {"type": "object"}}}},
+        {"if": {"properties": {"execution_kind": {"const": "single-agent-sequential"}}}, "then": {"required": ["turn_ref"]}}
+      ]
+    }
+  }
+}

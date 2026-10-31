@@ -1,0 +1,1232 @@
+{
+  "schema_version": 1,
+  "example": "Southwest Airlines (NYSE:LUV), historical 2025-10-31 reconstruction",
+  "use": "Reproducible public-data calculation; assumptions and identification apply at the stated scope. This is not a current-price recommendation or an unrevised point-in-time backtest.",
+  "reproduce": [
+    "python skills/econ-data/scripts/equity_airline_case.py --directory WORKDIR",
+    "python skills/econ-data/scripts/equity_company_case.py --directory WORKDIR"
+  ],
+  "demand_and_competition": {
+    "case": "LUV and AA/DL/UA conditional carrier demand",
+    "as_of": "2025-10-31",
+    "baseline_period": "2025Q2",
+    "data_vintage": "Currently retrieved historical archives; later revisions possible",
+    "engine": "pyblp",
+    "engine_version": "1.3.0",
+    "model": "conditional_logit",
+    "observations_including_reference": 195884,
+    "markets": 48971,
+    "price_coefficient_usd_inverse": -0.014303784519336067,
+    "standard_errors": {
+      "beta": [
+        [
+          0.003161923408969092
+        ]
+      ],
+      "sigma": [],
+      "pi": [],
+      "rho": [],
+      "gamma": []
+    },
+    "pyblp_error_clustering": "route",
+    "identification_diagnostics": {
+      "inside_observations": 146913,
+      "routes": 3767,
+      "quarters": [
+        "2022Q2",
+        "2022Q3",
+        "2022Q4",
+        "2023Q1",
+        "2023Q2",
+        "2023Q3",
+        "2023Q4",
+        "2024Q1",
+        "2024Q2",
+        "2024Q3",
+        "2024Q4",
+        "2025Q1",
+        "2025Q2"
+      ],
+      "price_coefficient": -0.014303784519335918,
+      "first_stage_coefficient": 10.472403841639407,
+      "instrument_within_std": 0.07015069146437514,
+      "within_price_instrument_correlation": 0.026086973326327707,
+      "absorbed_fixed_effects": [
+        "route_carrier",
+        "market_ids",
+        "carrier_period"
+      ],
+      "clusters": {
+        "route": {
+          "count": 3767,
+          "first_stage_F": 21.0675776492865,
+          "price_coefficient_se": 0.0031623431797520524
+        },
+        "period": {
+          "count": 13,
+          "first_stage_F": 6.016059501388115,
+          "price_coefficient_se": 0.006516937428744876
+        },
+        "carrier_period": {
+          "count": 39,
+          "first_stage_F": 12.549192334250117,
+          "price_coefficient_se": 0.004332269240474521
+        }
+      },
+      "anderson_rubin": {
+        "confidence": 0.95,
+        "common_shock_clusters": 13,
+        "reference_degrees_of_freedom": 12,
+        "critical_F": 4.747225346722515,
+        "quadratic_coefficients": [
+          12090208.189073935,
+          1440397.9107514159,
+          6571.897040498226
+        ],
+        "bounded": true,
+        "interval": [
+          -0.11438545402994087,
+          -0.004752106566668253
+        ],
+        "inference": "Quarter-cluster AR-type inversion with a small-cluster t approximation; not an exact randomization test."
+      },
+      "leave_one_quarter_out": [
+        {
+          "excluded": "2022Q2",
+          "price_coefficient": -0.015457109513897423,
+          "first_stage_coefficient": 8.51258529201285
+        },
+        {
+          "excluded": "2022Q3",
+          "price_coefficient": -0.008348856413292263,
+          "first_stage_coefficient": 17.2066388970727
+        },
+        {
+          "excluded": "2022Q4",
+          "price_coefficient": -0.01389153749404555,
+          "first_stage_coefficient": 10.63424867191273
+        },
+        {
+          "excluded": "2023Q1",
+          "price_coefficient": -0.013943419994993872,
+          "first_stage_coefficient": 10.905560770862031
+        },
+        {
+          "excluded": "2023Q2",
+          "price_coefficient": -0.015059532754395852,
+          "first_stage_coefficient": 10.299060838311556
+        },
+        {
+          "excluded": "2023Q3",
+          "price_coefficient": -0.01275384849613649,
+          "first_stage_coefficient": 9.700002630808575
+        },
+        {
+          "excluded": "2023Q4",
+          "price_coefficient": -0.014569311805881951,
+          "first_stage_coefficient": 10.725253456163422
+        },
+        {
+          "excluded": "2024Q1",
+          "price_coefficient": -0.01428407198278514,
+          "first_stage_coefficient": 10.32849513116755
+        },
+        {
+          "excluded": "2024Q2",
+          "price_coefficient": -0.014375171849641004,
+          "first_stage_coefficient": 10.379378292694069
+        },
+        {
+          "excluded": "2024Q3",
+          "price_coefficient": -0.013700640259963119,
+          "first_stage_coefficient": 9.801689641625938
+        },
+        {
+          "excluded": "2024Q4",
+          "price_coefficient": -0.017535836870375642,
+          "first_stage_coefficient": 9.819171403490046
+        },
+        {
+          "excluded": "2025Q1",
+          "price_coefficient": -0.016203955497632025,
+          "first_stage_coefficient": 10.91802458881113
+        },
+        {
+          "excluded": "2025Q2",
+          "price_coefficient": -0.016144454324046535,
+          "first_stage_coefficient": 9.82381226988172
+        }
+      ],
+      "interpretation": "Common fuel shocks occur in 13 quarters. The quarter-cluster first stage is weak, and the magnitude interval is wide. Treat point counterfactuals as conditional sensitivity calculations; the exclusion restriction is an economic assumption, not a consequence of the first-stage statistic."
+    },
+    "solution_residuals": {
+      "projected_gradient_norm": 0.0,
+      "gradient_tolerance": 1e-05,
+      "share_max_abs_error": 3.3306690738754696e-16,
+      "share_tolerance": 1e-08
+    },
+    "cost_support": {
+      "negative_marginal_cost_count": 10340,
+      "negative_marginal_cost_fraction": 0.05278634293765698,
+      "minimum_unit_cost": -30149.22249055874
+    },
+    "financial_coverage": {
+      "baseline_period": "2025Q2",
+      "all_modeled_markets": 3767,
+      "rows": [
+        {
+          "support": "point",
+          "firm": "AA",
+          "market_count": 2934,
+          "quantity": 14996040.0,
+          "revenue_usd": 3662500637.5,
+          "point_gross_profit_usd": 1854307336.8611724,
+          "share_of_retained_carrier_db1b_passengers": 0.49615559842736695
+        },
+        {
+          "support": "point",
+          "firm": "DL",
+          "market_count": 2934,
+          "quantity": 13773680.0,
+          "revenue_usd": 3702857034.3999996,
+          "point_gross_profit_usd": 1871085621.5043082,
+          "share_of_retained_carrier_db1b_passengers": 0.46908461667090673
+        },
+        {
+          "support": "point",
+          "firm": "UA",
+          "market_count": 2934,
+          "quantity": 15116610.0,
+          "revenue_usd": 4001074562.999999,
+          "point_gross_profit_usd": 1877823691.0911872,
+          "share_of_retained_carrier_db1b_passengers": 0.6727807609201183
+        },
+        {
+          "support": "point",
+          "firm": "WN",
+          "market_count": 2934,
+          "quantity": 16885030.0,
+          "revenue_usd": 3225453226.0999994,
+          "point_gross_profit_usd": 2031654422.3140497,
+          "share_of_retained_carrier_db1b_passengers": 0.5154646760027121
+        },
+        {
+          "support": "ar_interval",
+          "firm": "AA",
+          "market_count": 22,
+          "quantity": 229770.0,
+          "revenue_usd": 105552119.6,
+          "point_gross_profit_usd": 20270156.255278192,
+          "share_of_retained_carrier_db1b_passengers": 0.007602118415972223
+        },
+        {
+          "support": "ar_interval",
+          "firm": "DL",
+          "market_count": 22,
+          "quantity": 443760.0,
+          "revenue_usd": 201431919.99999997,
+          "point_gross_profit_usd": 47816965.23734413,
+          "share_of_retained_carrier_db1b_passengers": 0.015112953799847359
+        },
+        {
+          "support": "ar_interval",
+          "firm": "UA",
+          "market_count": 22,
+          "quantity": 564920.0,
+          "revenue_usd": 239950817.89999998,
+          "point_gross_profit_usd": 75651996.12524845,
+          "share_of_retained_carrier_db1b_passengers": 0.025142363761385206
+        },
+        {
+          "support": "ar_interval",
+          "firm": "WN",
+          "market_count": 22,
+          "quantity": 55509.99999999994,
+          "revenue_usd": 13170299.099999983,
+          "point_gross_profit_usd": 4194260.1210049684,
+          "share_of_retained_carrier_db1b_passengers": 0.0016946042834931605
+        }
+      ],
+      "support_rule": "Every carrier in a retained market has nonnegative inverse-FOC marginal cost. The interval support is fixed at the least price-elastic AR endpoint. Estimation uses the full sample; support restricts only the monetized counterfactual coverage.",
+      "financial_bridge": "Use the corresponding quarter's change in gross profit only. If a financial fuel forecast already counts the direct cost effect, subtract that fixed-quantity direct effect before adding the strategic response. Do not multiply the covered market change into all company routes or four quarters."
+    },
+    "all_modeled_coverage": [
+      {
+        "period": "2022Q2",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 26656940.0,
+        "modeled_passengers": 19129830.0
+      },
+      {
+        "period": "2022Q2",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 26097110.0,
+        "modeled_passengers": 19678470.0
+      },
+      {
+        "period": "2022Q2",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 18963580.0,
+        "modeled_passengers": 15238400.0
+      },
+      {
+        "period": "2022Q2",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 30594150.0,
+        "modeled_passengers": 26820170.0
+      },
+      {
+        "period": "2022Q3",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 25568690.0,
+        "modeled_passengers": 18034930.0
+      },
+      {
+        "period": "2022Q3",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 25464700.0,
+        "modeled_passengers": 19198890.0
+      },
+      {
+        "period": "2022Q3",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 18650500.0,
+        "modeled_passengers": 14482950.0
+      },
+      {
+        "period": "2022Q3",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 31404230.0,
+        "modeled_passengers": 27430680.0
+      },
+      {
+        "period": "2022Q4",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 26061930.0,
+        "modeled_passengers": 18720050.0
+      },
+      {
+        "period": "2022Q4",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 25186830.0,
+        "modeled_passengers": 19287140.0
+      },
+      {
+        "period": "2022Q4",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 20331430.0,
+        "modeled_passengers": 16317750.0
+      },
+      {
+        "period": "2022Q4",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 30749590.0,
+        "modeled_passengers": 26798840.0
+      },
+      {
+        "period": "2023Q1",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 23631540.0,
+        "modeled_passengers": 16867020.0
+      },
+      {
+        "period": "2023Q1",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 23164130.0,
+        "modeled_passengers": 17673600.0
+      },
+      {
+        "period": "2023Q1",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 18662640.0,
+        "modeled_passengers": 14730370.0
+      },
+      {
+        "period": "2023Q1",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 27417150.0,
+        "modeled_passengers": 23868010.0
+      },
+      {
+        "period": "2023Q2",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 27488760.0,
+        "modeled_passengers": 19621060.0
+      },
+      {
+        "period": "2023Q2",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 27471890.0,
+        "modeled_passengers": 20928000.0
+      },
+      {
+        "period": "2023Q2",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 20823510.0,
+        "modeled_passengers": 16712510.0
+      },
+      {
+        "period": "2023Q2",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 32797270.0,
+        "modeled_passengers": 28643420.0
+      },
+      {
+        "period": "2023Q3",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 26883070.0,
+        "modeled_passengers": 18638720.0
+      },
+      {
+        "period": "2023Q3",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 26367300.0,
+        "modeled_passengers": 19973260.0
+      },
+      {
+        "period": "2023Q3",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 21710940.0,
+        "modeled_passengers": 16826740.0
+      },
+      {
+        "period": "2023Q3",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 32371380.0,
+        "modeled_passengers": 28308660.0
+      },
+      {
+        "period": "2023Q4",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 27529880.0,
+        "modeled_passengers": 19463420.0
+      },
+      {
+        "period": "2023Q4",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 23588750.0,
+        "modeled_passengers": 18089350.0
+      },
+      {
+        "period": "2023Q4",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 22029630.0,
+        "modeled_passengers": 17411820.0
+      },
+      {
+        "period": "2023Q4",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 33875110.0,
+        "modeled_passengers": 29536360.0
+      },
+      {
+        "period": "2024Q1",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 25024320.0,
+        "modeled_passengers": 17564870.0
+      },
+      {
+        "period": "2024Q1",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 23486620.0,
+        "modeled_passengers": 17938220.0
+      },
+      {
+        "period": "2024Q1",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 19462930.0,
+        "modeled_passengers": 15157750.0
+      },
+      {
+        "period": "2024Q1",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 29743890.0,
+        "modeled_passengers": 26015190.0
+      },
+      {
+        "period": "2024Q2",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 29562390.0,
+        "modeled_passengers": 20705370.0
+      },
+      {
+        "period": "2024Q2",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 29425170.0,
+        "modeled_passengers": 22476040.0
+      },
+      {
+        "period": "2024Q2",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 21942840.0,
+        "modeled_passengers": 17348320.0
+      },
+      {
+        "period": "2024Q2",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 34507120.0,
+        "modeled_passengers": 30197620.0
+      },
+      {
+        "period": "2024Q3",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 29124680.0,
+        "modeled_passengers": 19851360.0
+      },
+      {
+        "period": "2024Q3",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 27982210.0,
+        "modeled_passengers": 21146770.0
+      },
+      {
+        "period": "2024Q3",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 21842310.0,
+        "modeled_passengers": 16686340.0
+      },
+      {
+        "period": "2024Q3",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 32454590.0,
+        "modeled_passengers": 28580200.0
+      },
+      {
+        "period": "2024Q4",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 29490410.0,
+        "modeled_passengers": 20577100.0
+      },
+      {
+        "period": "2024Q4",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 28499510.0,
+        "modeled_passengers": 21661560.0
+      },
+      {
+        "period": "2024Q4",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 23240810.0,
+        "modeled_passengers": 18077690.0
+      },
+      {
+        "period": "2024Q4",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 32200830.0,
+        "modeled_passengers": 28392120.0
+      },
+      {
+        "period": "2025Q1",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 24785730.0,
+        "modeled_passengers": 17243910.0
+      },
+      {
+        "period": "2025Q1",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 24296620.0,
+        "modeled_passengers": 18255800.0
+      },
+      {
+        "period": "2025Q1",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 19957320.0,
+        "modeled_passengers": 15302180.0
+      },
+      {
+        "period": "2025Q1",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 26859060.0,
+        "modeled_passengers": 23617560.0
+      },
+      {
+        "period": "2025Q2",
+        "firm": "AA",
+        "all_retained_db1b_passengers": 30224470.0,
+        "modeled_passengers": 21131250.0
+      },
+      {
+        "period": "2025Q2",
+        "firm": "DL",
+        "all_retained_db1b_passengers": 29362890.0,
+        "modeled_passengers": 22049930.0
+      },
+      {
+        "period": "2025Q2",
+        "firm": "UA",
+        "all_retained_db1b_passengers": 22468850.0,
+        "modeled_passengers": 17329200.0
+      },
+      {
+        "period": "2025Q2",
+        "firm": "WN",
+        "all_retained_db1b_passengers": 32756910.0,
+        "modeled_passengers": 28873440.0
+      }
+    ],
+    "input_sha256": "c0ae2e58d9069bf3c0111f2a3d9050b5f32ba76487501a16cbe316c3258412eb",
+    "case_contract": {
+      "version": 1,
+      "normalized_spec_sha256": "f26860ccf076b415770f8190039e757d5e38db6717925a08f74e689df5b88ec8",
+      "data_sha256": "c0ae2e58d9069bf3c0111f2a3d9050b5f32ba76487501a16cbe316c3258412eb",
+      "calculation_sha256": {
+        "equity.py": "bbad37392cc248f4a886b5a5ec62b430b7db16194893c3c21cae03f2b649a357",
+        "equity_io.py": "2cecd52b064c7c087bcc0c5fb9367f34dbaaafe81878425cc21779677714453b"
+      }
+    },
+    "sources": [
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2022_1.zip",
+        "path": "db1b-market-2022q1.zip",
+        "sha256": "f4dc2dc13f44968e12ad17ed12da728e0b79d3256f1dce8fb42e6e5eedb5b18c",
+        "bytes": 81864513,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2022_2.zip",
+        "path": "db1b-market-2022q2.zip",
+        "sha256": "c4f5054947309665a56e9ebadb47ad53ac427f224f3a9b72baef2f964756dd5b",
+        "bytes": 99061514,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2022_3.zip",
+        "path": "db1b-market-2022q3.zip",
+        "sha256": "800489cc7e4ddc1de0dbb78ab3b828d71e86a9de47525561cf02dcf28ec17e50",
+        "bytes": 94164196,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2022_4.zip",
+        "path": "db1b-market-2022q4.zip",
+        "sha256": "b4cf26fbdf331c398508e8b25e80bb1a7b19e8264659fbb26b265ec6b7c599f6",
+        "bytes": 95212749,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2023_1.zip",
+        "path": "db1b-market-2023q1.zip",
+        "sha256": "d8e8dd0e8f5791291f3df0edaa90c4a0ba336a13a536bc927b397ed17ba643ef",
+        "bytes": 88530421,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2023_2.zip",
+        "path": "db1b-market-2023q2.zip",
+        "sha256": "c070fc0ab56efca818bea450c4ba01040c6f671f6f4ee21cf3db8b6d529bb6fd",
+        "bytes": 100171765,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2023_3.zip",
+        "path": "db1b-market-2023q3.zip",
+        "sha256": "3e6c2fcb935dbc01b139f76b5c25ed4f8ed3557d1f1590606f2ded99bc24fc6d",
+        "bytes": 97972037,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2023_4.zip",
+        "path": "db1b-market-2023q4.zip",
+        "sha256": "c4487b5e4c40ec86534fe3cb0077d09eb39b1f75f32088cbcff1fe7836423973",
+        "bytes": 99892180,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2024_1.zip",
+        "path": "db1b-market-2024q1.zip",
+        "sha256": "bc2176c8eec0a8a537a3ce0bd26b02ed6843c08aa7da63faadd888ccb0a4c1bc",
+        "bytes": 95062966,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2024_2.zip",
+        "path": "db1b-market-2024q2.zip",
+        "sha256": "13518c99a2e59892cb76d81800559e8c48a49fca7de05229ed990c18d0ac83f7",
+        "bytes": 109963653,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2024_3.zip",
+        "path": "db1b-market-2024q3.zip",
+        "sha256": "b67439c62446f8bc98dfdca72e1cd05a5727d92bd9ffd57e744d459094cc55cf",
+        "bytes": 107964122,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2024_4.zip",
+        "path": "db1b-market-2024q4.zip",
+        "sha256": "e129d9f32abc0c920abfe485a109af95cb8862af80073ab17c400a3b0cc04145",
+        "bytes": 109087449,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2025_1.zip",
+        "path": "db1b-market-2025q1.zip",
+        "sha256": "6541728831788264d4c7da33ba20eb69d1e65d3bf97f75c32ae79e7084725b41",
+        "bytes": 94587240,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://transtats.bts.gov/PREZIP/Origin_and_Destination_Survey_DB1BMarket_2025_2.zip",
+        "path": "db1b-market-2025q2.zip",
+        "sha256": "e137271888e48ff2b6eb404d0f2ea532b3266aba64362249b42d05858ad87db2",
+        "bytes": 110296405,
+        "sample_rate": 0.1,
+        "authority": "US DOT Bureau of Transportation Statistics"
+      },
+      {
+        "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DJFUELUSGULF",
+        "path": "jetfuel.csv",
+        "sha256": "cc08ccb5fa0eb39f636eb974f5414d7c0bdb1f2bc213aaf84252d178702feccf",
+        "bytes": 154864,
+        "authority": "US EIA via Federal Reserve Bank of St Louis"
+      }
+    ],
+    "economic_conditions": {
+      "market_definition": "Directional city-pair-quarter choice conditional on a paid AA/DL/UA/WN ticket; all four observed in every quarter from 2022Q1 to 2025Q2.",
+      "market_size": "Observed four-carrier DB1B passengers times the official 10% sampling expansion. No assumed population or trip-frequency multiplier.",
+      "reference": "AA normalizes utility during estimation and remains a strategic price setter in equilibrium.",
+      "scope": "The four-carrier passenger pool is fixed in equilibrium. Total travel demand and substitution to other airlines are not identified.",
+      "parameters": [
+        {
+          "name": "common price coefficient",
+          "role": "price",
+          "moments": [
+            "demand_instruments0"
+          ],
+          "variation": "Lagged quarterly EIA jet-fuel spot USD/gallon times 2022Q1 carrier-route flown miles/1000, relative to AA exposure.",
+          "exclusion": "After carrier-route, route-quarter and carrier-quarter effects, fuel shocks times predetermined route exposure affect relative carrier utility only through fares. Fuel-induced service changes and exposure-specific demand shifts can violate this restriction.",
+          "source": "BTS DB1B and EIA DJFUELUSGULF; cost-shift motivation: https://www.nber.org/papers/w20293 and https://cep.lse.ac.uk/pubs/download/dp1709.pdf"
+        }
+      ],
+      "limits": [
+        "Fixed route set conditions on continuing four-carrier service.",
+        "A common nominal USD price coefficient is imposed over 2022Q2–2025Q2; heterogeneous preferences require additional identifying moments.",
+        "Reported fares exclude ancillary charges; average carrier products do not separate fare classes or flight frequency.",
+        "Current public historical archives can contain revisions after the historical evaluation date."
+      ]
+    },
+    "use": "Observed-data estimation and conditional sensitivity analysis. The wide price-response interval and limited common cost support do not establish a company-wide structural valuation."
+  },
+  "company_value_and_decision": {
+    "case": "LUV 2025-10-31 valuation from revised historical data",
+    "point_in_time_backtest": false,
+    "completion": {
+      "primary_financial_extraction": true,
+      "physical_forecast": true,
+      "structural_counterfactual": true,
+      "source_event_valuation": true,
+      "reverse_valuation": true,
+      "investor_cash_flow_comparison": true,
+      "full_company_structural_forecast": false,
+      "unconditional_investment_recommendation": false
+    },
+    "currency": "USD",
+    "financial_amount_unit": 1000000.0,
+    "market_price": 30.3,
+    "capital_cost": {
+      "cost_of_equity": 0.08069065699187666,
+      "cost_of_debt": 0.04796661356008907,
+      "wacc": 0.07170200121390523
+    },
+    "reported_net_cash_usd_million": -1084.0,
+    "baseline_q2_information_fair_price": 10.050487721556511,
+    "updated_stationary_fair_price": 9.256528791793745,
+    "equity_value_usd_million": 4814.830474217778,
+    "news_equity_value_change_usd_million": -493.7136097637858,
+    "news_fair_price_change": -0.7939589297627663,
+    "news_original_announcements": [
+      {
+        "announcement_id": "SEC:92380:0000092380-25-000138",
+        "source_url": "https://investors.southwest.com/sec-filings/all-sec-filings/content/0000092380-25-000138/er-9302025xerdoc.htm",
+        "published_at": "2025-10-22",
+        "revision": 0,
+        "equity_value_change": 326.2863902362142,
+        "fair_price_change": 0.6177470332544495
+      },
+      {
+        "announcement_id": "SEC:92380:0000092380-25-000140",
+        "source_url": "https://investors.southwest.com/sec-filings/all-sec-filings/content/0000092380-25-000140/luv-20250930.htm",
+        "published_at": "2025-10-23",
+        "revision": 0,
+        "equity_value_change": -820.0,
+        "fair_price_change": -1.4117059630172157
+      }
+    ],
+    "mechanism_order_attribution": [
+      {
+        "mechanism": "Q3 physical observations and capacity plan",
+        "equity_value_change_usd_million": 261.77254271960555,
+        "fair_price_change_usd": 0.49560513858834376
+      },
+      {
+        "mechanism": "Q3 cash/debt/capital/share-count observations",
+        "equity_value_change_usd_million": -820.0,
+        "fair_price_change_usd": -1.4135921707328265
+      },
+      {
+        "mechanism": "Q4 fuel guidance, direct cash effect",
+        "equity_value_change_usd_million": 64.51384751660862,
+        "fair_price_change_usd": 0.12402810238171647
+      },
+      {
+        "mechanism": "Fixed-schedule ticket marginal-cost response",
+        "equity_value_change_usd_million": 0.0,
+        "fair_price_change_usd": 0.0
+      }
+    ],
+    "forecasts": [
+      {
+        "period": 1,
+        "revenue": 28038.18791648594,
+        "ebit": 727.6803211052356,
+        "nopat": 564.6799291776629,
+        "depreciation": 1596.0,
+        "capex": 2750.0,
+        "fcff": -589.3200708223371,
+        "invested_capital_begin": 8860.0,
+        "invested_capital_end": 10014.0,
+        "roic": 0.06373362631802064,
+        "economic_profit": -70.5998015775375,
+        "incremental_return": null
+      },
+      {
+        "period": 2,
+        "revenue": 28038.18791648594,
+        "ebit": 638.5828733094131,
+        "nopat": 495.54030968810457,
+        "depreciation": 1596.0,
+        "capex": 1596.0,
+        "fcff": 495.54030968810457,
+        "invested_capital_begin": 10014.0,
+        "invested_capital_end": 10014.0,
+        "roic": 0.04948475231556866,
+        "economic_profit": -222.4835304679424,
+        "incremental_return": {
+          "nopat_change": -69.1396194895583,
+          "investment_period": 1,
+          "net_reinvestment": 1154.0,
+          "incremental_roic": -0.059913015155596445
+        }
+      }
+    ],
+    "boundary_scenarios": [
+      {
+        "initial_capex_usd_million": 2500,
+        "required_operating_cash_usd_million": 0,
+        "fair_price_usd": 9.704998508930549,
+        "equity_value_usd_million": 5048.1042758126505
+      },
+      {
+        "initial_capex_usd_million": 2500,
+        "required_operating_cash_usd_million": 3018.0,
+        "fair_price_usd": 3.9028827245379407,
+        "equity_value_usd_million": 2030.1042758126505
+      },
+      {
+        "initial_capex_usd_million": 3000,
+        "required_operating_cash_usd_million": 0,
+        "fair_price_usd": 8.80805907465694,
+        "equity_value_usd_million": 4581.556672622906
+      },
+      {
+        "initial_capex_usd_million": 3000,
+        "required_operating_cash_usd_million": 3018.0,
+        "fair_price_usd": 3.0059432902643306,
+        "equity_value_usd_million": 1563.5566726229063
+      }
+    ],
+    "full_management_increment_scenario_fair_price": 57.79248240624745,
+    "capitalized_interest_reclassification_conditions": [
+      {
+        "first_period_capitalized_interest_cash_proxy_usd_million": 0,
+        "first_period_operating_capex_usd_million": 2750,
+        "fair_price_usd": 9.256528791793745,
+        "minimum_initiative_years": 9,
+        "financing_interest_cash_proxy_usd_million": 178.0,
+        "npv_at_100_shares_over_treasury_usd": -2024.2850173861043,
+        "action_unowned": "do_not_buy"
+      },
+      {
+        "first_period_capitalized_interest_cash_proxy_usd_million": 49.0,
+        "first_period_operating_capex_usd_million": 2701.0,
+        "fair_price_usd": 9.34442885635256,
+        "minimum_initiative_years": 9,
+        "financing_interest_cash_proxy_usd_million": 178.0,
+        "npv_at_100_shares_over_treasury_usd": -2015.256061506102,
+        "action_unowned": "do_not_buy"
+      }
+    ],
+    "reverse_requirements": {
+      "required_effective_revenue_per_rpm": 0.2077151631920666,
+      "current_effective_revenue_per_rpm": 0.19998409784164342,
+      "required_second_period_ebit": 1722.494371419838,
+      "incremental_ebit_required": 1083.9114981104249,
+      "required_ebit_margin": 0.059147328181858416,
+      "required_nopat_roic_on_book_capital": 0.13347869305190677,
+      "fraction_of_disclosed_2500m_increment": 0.43356459924416996,
+      "price_root_residual": 6.95779895920623e-08
+    },
+    "initiative_duration_reverse": {
+      "minimum_years_after_initial_period": 9,
+      "value_by_years": [
+        {
+          "value": 0,
+          "fair_price": 9.256528791793745
+        },
+        {
+          "value": 1,
+          "fair_price": 12.503816751543479
+        },
+        {
+          "value": 2,
+          "fair_price": 15.533845580519781
+        },
+        {
+          "value": 3,
+          "fair_price": 18.36115095602923
+        },
+        {
+          "value": 4,
+          "fair_price": 20.99929604888806
+        },
+        {
+          "value": 5,
+          "fair_price": 23.460936588768202
+        },
+        {
+          "value": 6,
+          "fair_price": 25.75788157635978
+        },
+        {
+          "value": 7,
+          "fair_price": 27.901149933598873
+        },
+        {
+          "value": 8,
+          "fair_price": 29.901023363723514
+        },
+        {
+          "value": 9,
+          "fair_price": 31.76709567473852
+        },
+        {
+          "value": 10,
+          "fair_price": 33.50831880290413
+        },
+        {
+          "value": 11,
+          "fair_price": 35.13304575703254
+        },
+        {
+          "value": 12,
+          "fair_price": 36.64907068960532
+        },
+        {
+          "value": 13,
+          "fair_price": 38.063666286940766
+        },
+        {
+          "value": 14,
+          "fair_price": 39.38361865777999
+        },
+        {
+          "value": 15,
+          "fair_price": 40.61525988765933
+        },
+        {
+          "value": 16,
+          "fair_price": 41.76449841523907
+        }
+      ],
+      "terminal_nopat_after_advantage_usd_million": 495.54030968810457,
+      "numerical_search_upper_years": 16,
+      "search_condition": "Upper bound doubled until the target price is bracketed; it is not a modeled maximum life of competitive advantage.",
+      "economic_condition": "The full incremental EBIT target lasts for n annual periods after the initial investment period, then terminal NOPAT returns to the stationary operating state. Capacity and book capital are unchanged, capex equals DA and additional working capital is zero during the initiative period."
+    },
+    "io_interval_sensitivity": [
+      {
+        "evaluation": "lower_endpoint",
+        "alpha": -0.11438545402994087,
+        "fair_price_usd": 9.256575457046255,
+        "equity_value_usd_million": 4814.854747385931,
+        "action_unowned": "do_not_buy"
+      },
+      {
+        "evaluation": "point",
+        "alpha": -0.014303784519336067,
+        "fair_price_usd": 9.256524738122518,
+        "equity_value_usd_million": 4814.828365680098,
+        "action_unowned": "do_not_buy"
+      },
+      {
+        "evaluation": "upper_endpoint",
+        "alpha": -0.004752106566668253,
+        "fair_price_usd": 9.25652055096819,
+        "equity_value_usd_million": 4814.826187710502,
+        "action_unowned": "do_not_buy"
+      },
+      {
+        "evaluation": "numerical_minimum",
+        "alpha": -0.004752106566668254,
+        "fair_price_usd": 9.25652055096819,
+        "equity_value_usd_million": 4814.826187710502,
+        "action_unowned": "do_not_buy"
+      },
+      {
+        "evaluation": "numerical_maximum",
+        "alpha": -0.11438545402994085,
+        "fair_price_usd": 9.256575457046255,
+        "equity_value_usd_million": 4814.854747385931,
+        "action_unowned": "do_not_buy"
+      }
+    ],
+    "io_fixed_schedule": {
+      "ticket_marginal_fuel_cost_change": 0,
+      "equilibrium_price_and_quantity_change": 0,
+      "direct_cash_saving_on_covered_routes_usd": 131932.9814812135,
+      "additional_strategic_correction_usd": 0,
+      "interpretation": "Fuel changes the cash cost of the already scheduled flights. The corporate physical forecast counts the saving; add no further IO profit."
+    },
+    "io_medium_run_condition": "Observed corporate gallons/RPM times each 2025Q2 carrier-route flown distance. Interpreting this average as marginal ticket fuel exposure requires a medium-run condition: route capacity/frequency can scale with carried traffic. It is not an identified route fuel-production function or a fixed-schedule ticket marginal cost.",
+    "io_support": {
+      "baseline_interval_valid_market_count": 22,
+      "news_excluded_markets": [
+        "31703-32575-2025Q2",
+        "32457-31703-2025Q2",
+        "32575-30721-2025Q2",
+        "33195-31603-2025Q2",
+        "34057-33667-2025Q2",
+        "34057-34685-2025Q2",
+        "34321-32457-2025Q2"
+      ],
+      "adopted_market_ids": [
+        "30529-30559-2025Q2",
+        "30559-30529-2025Q2",
+        "30559-33667-2025Q2",
+        "30852-34262-2025Q2",
+        "31703-32457-2025Q2",
+        "31714-34057-2025Q2",
+        "31871-32457-2025Q2",
+        "32457-31871-2025Q2",
+        "33667-30559-2025Q2",
+        "33667-34057-2025Q2",
+        "33667-34570-2025Q2",
+        "34057-31714-2025Q2",
+        "34262-30852-2025Q2",
+        "34524-30559-2025Q2",
+        "34685-34057-2025Q2"
+      ],
+      "rows": [
+        {
+          "alpha_per_usd": -0.11438545402994087,
+          "market_count": 15,
+          "wn_passengers": 20410.0,
+          "wn_baseline_gross_profit_usd": 198857.23318491603,
+          "wn_counterfactual_gross_profit_usd": 364312.8987956535,
+          "direct_cost_saving_usd": 131932.9814812135,
+          "gross_profit_change_usd": 165455.66561073746,
+          "strategic_correction_usd": 33522.68412952396,
+          "corporate_fcff_correction_usd_million": 0.026013602884510593,
+          "maximum_best_response_error": 3.552713678800501e-15,
+          "min_baseline_cost": 214.61031033446167,
+          "min_counterfactual_cost": 207.93526956374282,
+          "maximum_competitor_price_change_usd": 0.9109571957792468,
+          "wn_quantity_change": 14872.593028183259
+        },
+        {
+          "alpha_per_usd": -0.014303784519336067,
+          "market_count": 15,
+          "wn_passengers": 20410.0,
+          "wn_baseline_gross_profit_usd": 1590234.729434406,
+          "wn_counterfactual_gross_profit_usd": 1719255.6953863092,
+          "direct_cost_saving_usd": 131932.9814812135,
+          "gross_profit_change_usd": 129020.96595190326,
+          "strategic_correction_usd": -2912.0155293102434,
+          "corporate_fcff_correction_usd_million": -0.002259724050744749,
+          "maximum_best_response_error": 8.881784197001252e-16,
+          "min_baseline_cost": 151.57943296004936,
+          "min_counterfactual_cost": 144.9043921893305,
+          "maximum_competitor_price_change_usd": 0.8384144201694426,
+          "wn_quantity_change": 1515.805630479534
+        },
+        {
+          "alpha_per_usd": -0.004752106566668253,
+          "market_count": 15,
+          "wn_passengers": 20410.0,
+          "wn_baseline_gross_profit_usd": 4786587.713444764,
+          "wn_counterfactual_gross_profit_usd": 4912600.774272879,
+          "direct_cost_saving_usd": 131932.9814812135,
+          "gross_profit_change_usd": 126013.06082811486,
+          "strategic_correction_usd": -5919.920653098641,
+          "corporate_fcff_correction_usd_million": -0.004593858426804546,
+          "maximum_best_response_error": 4.440892098500626e-16,
+          "min_baseline_cost": 2.135784094318865,
+          "min_counterfactual_cost": 0.10620943622384882,
+          "maximum_competitor_price_change_usd": 0.8301004794643632,
+          "wn_quantity_change": 493.60915940542617
+        }
+      ],
+      "extremum_search": {
+        "method": "SciPy SHGO over log(-alpha), 32 initial points, 2 iterations",
+        "evaluated_coefficients": 69,
+        "interpretation": "Numerical interval extrema; not an analytic global bound or an exact finite-sample confidence band."
+      }
+    },
+    "investor_decisions": {
+      "stationary_unowned": {
+        "action": "do_not_buy",
+        "target_shares": 0.0,
+        "irr": -0.4121233066640803,
+        "exit_price": 9.32837867979564,
+        "incremental_npv_usd": 0.0,
+        "npv_at_100_shares_over_treasury_usd": -2024.2850173861043
+      },
+      "stationary_owned": {
+        "action": "sell",
+        "target_shares": 0.0,
+        "irr": -0.4121233066640803,
+        "exit_price": 9.32837867979564,
+        "incremental_npv_usd": 0.0,
+        "npv_at_100_shares_over_treasury_usd": -2024.2850173861043
+      },
+      "full_initiative_unowned": {
+        "action": "buy",
+        "target_shares": 100.0,
+        "irr": 0.48550396025667103,
+        "exit_price": 65.07411423154427,
+        "incremental_npv_usd": 3169.5977094430864,
+        "npv_at_100_shares_over_treasury_usd": 3169.5977094430864
+      }
+    },
+    "two_year_tax_exempt_break_even_exit_price": 31.054948800000002,
+    "additional_100m_first_period_working_capital_price_effect": -0.179387886854722,
+    "decision_conclusion": "The supplied stationary and full-initiative conditional scenarios imply different actions. The observed subset IO interval cannot establish the unobserved corporate improvement, maintenance investment or required operating cash. The output is a quantified decision threshold, not an identified unconditional buy/sell recommendation.",
+    "initiative_condition": "The 2026-minus-2025 management initiative EBIT target difference is used as a conditional 2500m improvement benchmark from period two, persisting into the zero-growth perpetuity. Its amount already embedded in TTM earnings is not separately identified, so this is not a forecast bridge from TTM. Additional capital investment and incremental working capital are zero in this condition. No probability or assertion of achieved target; disclosures do not identify offsetting costs, investment needs or duration.",
+    "assumptions": {
+      "scope": "Two annual operating-state periods calibrated to disclosed 2025 capacity; not a 2026 management forecast. Both Q2 and Q3 information states use the same October 31 market price and capital-cost proxy.",
+      "demand": "TTM load factor and total operating revenue per RPM held fixed; this effective revenue includes ancillary/other revenue.",
+      "cost": "Cash fuel and nonfuel expenses scale with scheduled ASM, not bookings at a fixed schedule. Capital spending is treated as operating investment; financing interest is excluded from operating FCFF.",
+      "fuel": "Use unhedged expense; previously paid hedge-premium amortization is excluded from future cash expense. Q4 guidance applies only to 550 million gallons in period one.",
+      "investment": "First-period capex is the disclosed total capital-spending midpoint, including expected aircraft sales; its maintenance/growth split is unidentified. Period two and zero-growth terminal renewal equal DA, an explicit proxy. The book-capital roll-forward does not separately identify disposal book values.",
+      "capitalized_interest": "Base condition sets operating cash investment numerically equal to the reported capital-spending guidance; this does not identify reported spending as excluding capitalized cash interest. FAS95 paragraph 17(c), footnote 7 includes capitalized paid interest in investing cash flows. A separate first-period 0/49m reclassification comparison uses TTM capitalized accrued interest as a proxy; these are conditions, not an identified interval for cash paid.",
+      "tax": "Reported rolling normalized effective tax rate is used as a cash-tax proxy; tax timing and prepaid-hedge tax shields are not separately identified.",
+      "capital_cost": "January 2025 US air-transport cash-corrected asset beta and ERP, October 31 Treasury curve, approximate disclosed 2030 bond yield; peer lease treatment may differ.",
+      "leases": "Operating rents remain in cash operating costs; no second deduction of operating lease liabilities. Finance leases remain in reported debt.",
+      "shares": "Cover-date common shares plus current-quarter 3m RSU dilution proxy; future buybacks absent, with already-paid buybacks reflected once in cash and shares.",
+      "liquidity": "Zero required operating cash is one boundary, not an estimate; all-cash-required boundary is also computed.",
+      "working_capital": "No incremental operating working capital in the stationary scenario; cash-flow sensitivity per additional USD100m is reported.",
+      "incremental_roic": "Change in NOPAT divided by lagged net investment is an accounting diagnostic; the reversal of temporary fuel savings is not a causal investment-return estimate.",
+      "io_fuel_exposure": "Default fixed schedule: fuel changes capacity cash cost, with zero ticket marginal-cost shock. A separate medium-run frequency-adjustment scenario uses average fuel intensity as a conditional marginal exposure."
+    },
+    "sources": {
+      "fy2024": {
+        "url": "https://investors.southwest.com/sec-filings/all-sec-filings/content/0000092380-25-000007/er-12312024xerdoc.htm",
+        "published_at": "2025-01-30",
+        "file": "luv-fy2024-release.html",
+        "sha256": "3f9359641945ae40a38317a85165fe959340b685ce27525993f719f6c318878a",
+        "checked_at": "2026-10-31T07:32:51.113804+00:00",
+        "announcement_id": "SEC:92380:0000092380-25-000007",
+        "event_id": "SEC:92380:0000092380-25-000007:initial-facts",
+        "revision": 0
+      },
+      "q2": {
+        "url": "https://investors.southwest.com/sec-filings/all-sec-filings/content/0000092380-25-000131/er-6302025xerdoc.htm",
+        "published_at": "2025-07-23",
+        "file": "luv-q2-release.html",
+        "sha256": "0c84b74f41e1123645209b394f814dbdd416beebc7a09e51d650e57d6bc40c7d",
+        "checked_at": "2026-10-31T07:32:51.131068+00:00",
+        "announcement_id": "SEC:92380:0000092380-25-000131",
+        "event_id": "SEC:92380:0000092380-25-000131:initial-facts",
+        "revision": 0
+      },
+      "q2_10q": {
+        "url": "https://investors.southwest.com/sec-filings/all-sec-filings/content/0000092380-25-000134/luv-20250630.htm",
+        "published_at": "2025-07-24",
+        "file": "luv-q2-10q.html",
+        "sha256": "2b2c8d684df6ad0b881e7ba60726cc40631e4c84a8a6fb2fd80970377de265b3",
+        "checked_at": "2026-10-31T07:32:51.145191+00:00",
+        "announcement_id": "SEC:92380:0000092380-25-000134",
+        "event_id": "SEC:92380:0000092380-25-000134:initial-facts",
+        "revision": 0
+      },
+      "q3": {
+        "url": "https://investors.southwest.com/sec-filings/all-sec-filings/content/0000092380-25-000138/er-9302025xerdoc.htm",
+        "published_at": "2025-10-22",
+        "file": "luv-q3-release.html",
+        "sha256": "b9a2b2b4862f644457c84acfcfde221a9e03cc3e5f0cac16ae94d9c56a7de26b",
+        "checked_at": "2026-10-31T07:32:51.188370+00:00",
+        "announcement_id": "SEC:92380:0000092380-25-000138",
+        "event_id": "SEC:92380:0000092380-25-000138:initial-facts",
+        "revision": 0
+      },
+      "q3_10q": {
+        "url": "https://investors.southwest.com/sec-filings/all-sec-filings/content/0000092380-25-000140/luv-20250930.htm",
+        "published_at": "2025-10-23",
+        "file": "luv-q3-10q.html",
+        "sha256": "c96bda8daa4f53598730af065aea0452f86be33bbed47362bb0baa4bc9a01c64",
+        "checked_at": "2026-10-31T07:32:51.202218+00:00",
+        "announcement_id": "SEC:92380:0000092380-25-000140",
+        "event_id": "SEC:92380:0000092380-25-000140:initial-facts",
+        "revision": 0
+      },
+      "price": {
+        "url": "https://query1.finance.yahoo.com/v8/finance/chart/LUV?period1=1761868800&period2=1762214400&interval=1d",
+        "published_at": "2025-10-31",
+        "file": "luv-price-20251031.json",
+        "sha256": "f62bb3dcf9659abcc055576faf43575a50faa5ec3ef62942fe4d25cea829b4a8",
+        "checked_at": "2026-10-31T07:32:51.243388+00:00"
+      },
+      "treasury": {
+        "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?field_tdr_date_value=202510&type=daily_treasury_yield_curve",
+        "published_at": "2025-10-31",
+        "file": "luv-treasury-202510.html",
+        "sha256": "c0a1b73653c84cad071eb92e4dd807d8e16088cf5a9f8829e92fd83f63952669",
+        "checked_at": "2026-10-31T07:32:51.243616+00:00"
+      },
+      "beta": {
+        "url": "https://pages.stern.nyu.edu/~adamodar/pc/archives/betas24.xls",
+        "published_at": "2025-01-05",
+        "file": "luv-airline-betas-jan2025.xls",
+        "sha256": "cd3f0356e71588d974bb2cb16f5398aec576992e3dfe49e959e54d77c329d636",
+        "checked_at": "2026-10-31T07:32:51.246832+00:00"
+      },
+      "erp": {
+        "url": "https://pages.stern.nyu.edu/~adamodar/pc/implprem/ERPJan25.xlsx",
+        "published_at": "2025-01",
+        "file": "luv-erp-jan2025.xlsx",
+        "sha256": "d2191ce864715676a16ca4c0e12917005b4a0a6161e0a6482a280e03a02c6de8",
+        "checked_at": "2026-10-31T07:32:51.248706+00:00"
+      },
+      "capitalized_interest_classification": {
+        "url": "https://storage.fasb.org/fas95.pdf",
+        "published_at": "1987-11",
+        "file": "luv-fas95.pdf",
+        "sha256": "8b628753409709567d9e10fd744d0957790823f6af9eed309799a9ead69353d5",
+        "checked_at": "2026-10-31T07:32:51.249362+00:00"
+      }
+    },
+    "computational_contract": {
+      "equity.py": "bbad37392cc248f4a886b5a5ec62b430b7db16194893c3c21cae03f2b649a357",
+      "equity_io.py": "2cecd52b064c7c087bcc0c5fb9367f34dbaaafe81878425cc21779677714453b",
+      "equity_company_case.py": "4438db3ebe34a80111296032ab5ef0ccc743759d2acaa4e850943971b9f7dea4"
+    },
+    "io_input_hashes": {
+      "airline-case-summary.json": "8f5280557f63d64a95dfc8b2a244516e514aadcd48899c1c3ba0fdb6defc40c1",
+      "airline-baseline-2025q2-ar_interval-valid.csv": "6648be19ee81aebe8f616dd0bc05ac9e23d5f0081b7dc95d10fb157d227df7f3"
+    }
+  }
+}
