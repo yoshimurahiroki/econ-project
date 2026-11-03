@@ -21,7 +21,6 @@ import state
 TOKEN = re.compile(r'\{(root|out:[A-Za-z0-9_.-]+|dep:[A-Za-z0-9_.-]+:[A-Za-z0-9_.-]+)\}')
 STAT = re.compile(r'\{\{stat:([A-Za-z0-9_.-]+)\}\}')
 NAME = re.compile(r'^[A-Za-z0-9_-]+$')
-STATA_ERROR = re.compile(r'^\s*r\(([0-9]+)\);?\s*$')
 
 
 def fail(message):
@@ -146,10 +145,7 @@ def validate_checks(stage):
     for check in checks:
         if not isinstance(check, dict) or not isinstance(check.get('output'), str) or check['output'] not in stage['outputs']:
             fail('Check must select a declared output')
-        if check.get('type') == 'stata_log':
-            if set(check) != {'type', 'output'} or Path(stage['outputs'][check['output']]).suffix.lower() != '.log':
-                fail('Stata check requires the declared .log output')
-        elif check.get('type') == 'json':
+        if check.get('type') == 'json':
             if set(check) != {'type', 'output', 'fields'} or not isinstance(check['fields'], list) or not check['fields']:
                 fail('JSON check requires declared fields')
             for field in check['fields']:
@@ -551,27 +547,21 @@ def output_checks(stage, destinations):
     reports = []
     for check in stage.get('checks', []):
         target = destinations[check['output']]
-        if check['type'] == 'stata_log':
-            matches = [{'line': i, 'text': line, 'code': int(match.group(1))}
-                       for i, line in enumerate(target.read_text(encoding='utf-8', errors='replace').splitlines(), 1)
-                       if (match := STATA_ERROR.fullmatch(line)) and int(match.group(1)) > 0]
-            reports.append({'type': 'stata_log', 'output': check['output'], 'matches': matches})
-        else:
-            data = read_json(target)
-            for field in check['fields']:
-                value = key_value(data, field['key'])
-                types = {'number': lambda x: type(x) in (float, int) and math.isfinite(x),
-                         'integer': lambda x: type(x) is int, 'string': lambda x: isinstance(x, str),
-                         'object': lambda x: isinstance(x, dict), 'array': lambda x: isinstance(x, list),
-                         'boolean': lambda x: type(x) is bool}
-                kind = field.get('type')
-                if not types[kind](value):
-                    fail('JSON field has incorrect type: ' + '.'.join(field['key']))
-                if 'equals' in field and (type(value) is not type(field['equals']) or value != field['equals']):
-                    fail('JSON field differs from its required value: ' + '.'.join(field['key']))
-                if ('min' in field and value < field['min']) or ('max' in field and value > field['max']):
-                    fail('JSON field is outside its declared bounds: ' + '.'.join(field['key']))
-            reports.append({'type': 'json', 'output': check['output'], 'fields': check['fields']})
+        data = read_json(target)
+        for field in check['fields']:
+            value = key_value(data, field['key'])
+            types = {'number': lambda x: type(x) in (float, int) and math.isfinite(x),
+                     'integer': lambda x: type(x) is int, 'string': lambda x: isinstance(x, str),
+                     'object': lambda x: isinstance(x, dict), 'array': lambda x: isinstance(x, list),
+                     'boolean': lambda x: type(x) is bool}
+            kind = field.get('type')
+            if not types[kind](value):
+                fail('JSON field has incorrect type: ' + '.'.join(field['key']))
+            if 'equals' in field and (type(value) is not type(field['equals']) or value != field['equals']):
+                fail('JSON field differs from its required value: ' + '.'.join(field['key']))
+            if ('min' in field and value < field['min']) or ('max' in field and value > field['max']):
+                fail('JSON field is outside its declared bounds: ' + '.'.join(field['key']))
+        reports.append({'type': 'json', 'output': check['output'], 'fields': check['fields']})
     return reports
 
 
@@ -1196,10 +1186,10 @@ def run(root, store, manifest, parent=None, retry_failed=None, retry_reason=None
                 continue
             for target in destinations.values():
                 path(root, target.relative_to(root).as_posix())
-            if (any(state.digest(target) != saved['hashes'][name] for name, target in destinations.items())
-                    or any(report.get('matches') for report in output_checks(stage, destinations))):
+            if any(state.digest(target) != saved['hashes'][name] for name, target in destinations.items()):
                 results[sid] = {'status': 'blocked', 'task': task_id, 'reason': 'Reconcile changed prepared outputs'}
                 continue
+            output_checks(stage, destinations)
             if task['status'] == 'running':
                 call(root, store, 'transition', task_id, 'blocked', '--reason', 'interrupted', '--next', 'Resume the completed stage return')
             call(root, store, 'resume', task_id)
@@ -1299,8 +1289,6 @@ def run(root, store, manifest, parent=None, retry_failed=None, retry_reason=None
             for output in destinations.values():
                 path(root, output.relative_to(root).as_posix())
             reports = output_checks(stage, destinations)
-            if any(r.get('matches') for r in reports):
-                fail('Stata log reports a nonzero r(code)')
             if executable and (str(Path(executable['path']).resolve()) != executable['resolved_path']
                                or state.digest(Path(executable['resolved_path'])) != executable['sha256']):
                 fail('Executable changed during execution')

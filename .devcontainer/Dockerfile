@@ -42,10 +42,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
 RUN sed -i 's/^# *\(ja_JP.UTF-8 UTF-8\)/\1/' /etc/locale.gen && locale-gen
 ENV LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
 
-# ========= 1.2) Global NPM Packages =========
-# Repomix is installed globally; setup_ide_mcp.sh discovers installed MCP servers.
-RUN npm install -g repomix
-
 # ========= 2) User Setup =========
 ARG USERNAME=vscode
 ARG USER_UID=1000
@@ -57,7 +53,7 @@ RUN groupadd --gid "$USER_GID" "$USERNAME" || true && \
     chmod 0440 /etc/sudoers.d/$USERNAME
 
 USER $USERNAME
-WORKDIR /workspaces/econ-project
+WORKDIR /workspaces
 ENV PATH="/home/$USERNAME/.cargo/bin:/home/$USERNAME/.local/bin:/home/$USERNAME/go/bin:$PATH"
 
 # Rust 1.96 supports the locked Polars MSRV (1.95) and ethnum 1.5.2.
@@ -76,20 +72,10 @@ ENV PATH="/home/$USERNAME/.pixi/bin:$PATH"
 # The workspace .pixi volume supplies the runtime environment.
 # setup-environment.sh installs project dependencies after the container starts.
 RUN mkdir -p /tmp/package-lists
-WORKDIR /workspaces/econ-project
 
 # ========= 5.5) rv =========
 RUN curl -sSL https://raw.githubusercontent.com/A2-ai/rv/refs/heads/main/scripts/install.sh | bash
 ENV PATH="/home/$USERNAME/.local/bin:/home/$USERNAME/go/bin:$PATH"
-
-# ========= 6) Runtime Kernel Registration =========
-# The devcontainer setup script registers kernels from the workspace environment.
-WORKDIR /workspaces/econ-project
-
-# ========= 7) On-demand AI References =========
-# Store task reference files in .resources.
-RUN sudo mkdir -p /workspaces/econ-project/.resources && \
-    sudo chown -R $USERNAME:$USERNAME /workspaces/econ-project/.resources
 
 # ========= 8) Default Command =========
 USER root

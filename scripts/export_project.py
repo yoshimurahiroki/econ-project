@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export a route-selected, content-addressed standalone instruction package."""
+"""Export a route-selected standalone instruction package."""
 import argparse
 import ast
 import hashlib
@@ -246,7 +246,7 @@ def validate_internal_links(contents, contexts=None, non_prose=()):
     """Check local file and anchor targets without rewriting or optionalizing them."""
     contexts = contexts or {}
     for name, text in contents.items():
-        if name in non_prose or Path(name).name == 'SOURCE.md' or name.endswith(('.py', '.sh', '.json', '.yaml')):
+        if name in non_prose or name.endswith(('.py', '.sh', '.json', '.yaml')):
             continue
         def validate_link(link):
             parts = urlsplit(link)
@@ -461,7 +461,7 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
                 if re.fullmatch(r'skills/[^/]+/SKILL\.md', res['source_path']):
                     bundled_path = bundled_path.with_name('REFERENCE.md')
                 register_path(bundle / bundled_path, rid)
-    generated_names = ('ECON_INDEX.md', 'SOURCE.md', 'OPTIONAL_INPUTS.md', 'PROJECT_INSTRUCTIONS.txt')
+    generated_names = ('ECON_INDEX.md', 'OPTIONAL_INPUTS.md', 'PROJECT_INSTRUCTIONS.txt')
     declared_root = (routes.get('placements', {}).get('deployed', {}).get('policy_root', '.')
                      if output_format == 'deployed' else '.')
     if declared_root != '.':
@@ -567,7 +567,6 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             if other in selected:
                 code_paths.setdefault(name, output_paths[other])
     contents = {}
-    records = []
     for rid in sorted(selected):
         res = resources[rid]
         source = resource_path(root, res, layout)
@@ -578,7 +577,6 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             # Do not rewrite regexes, code comments, JSON strings or import
             # names as if they were prose links or instruction templates.
             contents[output_paths[rid]] = text
-            records.append({'logical_id': rid, 'source': res['source_path'], 'resolved_path': res['source_path' if layout == 'source' else 'deployment_path'], 'output': output_paths[rid], 'selection': selections[rid], 'source_sha256': sha256(raw[rid]), 'export_sha256': sha256(raw[rid])})
             continue
         text = runtime_prose(rid, text)
         text = extract_sections(text.replace('\r\n', '\n'), selections[rid], rid)
@@ -601,10 +599,9 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
         if re.search(r'\{\{[^{}]+\}\}', text):
             raise ValueError(f'Unresolved template in {rid}')
         contents[output_paths[rid]] = text
-        records.append({'logical_id': rid, 'source': res['source_path'], 'resolved_path': res['source_path' if layout == 'source' else 'deployment_path'], 'output': output_paths[rid], 'selection': selections[rid], 'source_sha256': sha256(raw[rid]), 'export_sha256': sha256(text.encode())})
     knowledge_outputs = set()
     if knowledge_selected:
-        asset_source, asset_files = knowledge_assets(root, layout, knowledge_ids)
+        _, asset_files = knowledge_assets(root, layout, knowledge_ids)
         asset_target = (Path('knowledge/references') if output_format == 'flat'
                         else Path('.agents/skills/econ-knowledge/references'))
         for name, data in asset_files.items():
@@ -613,13 +610,6 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
                 raise ValueError('Knowledge asset output collision: ' + output)
             contents[output] = data.decode('utf-8')
             knowledge_outputs.add(output)
-            source = ({'selection.json': 'derived:knowledge-selection',
-                       'runtime.json': 'derived:knowledge-runtime'}.get(name) or
-                      (Path('skills/econ-knowledge/references') / name).as_posix())
-            resolved = source if name in ('selection.json', 'runtime.json') else (asset_source / name).as_posix()
-            records.append({'logical_id': 'knowledge-asset:' + name,
-                            'source': source, 'resolved_path': resolved, 'output': output,
-                            'source_sha256': sha256(data), 'export_sha256': sha256(data)})
     for entry in config['files']:
         if set(entry) != {'path', 'output'}:
             raise ValueError('Project file requires path and output')
@@ -632,7 +622,6 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
         data = source.read_bytes()
         text = rewrite_markdown(data.decode(), lambda link: destination(source, link, filename))
         contents[filename] = text
-        records.append({'logical_id': 'project:' + entry['path'], 'source': entry['path'], 'output': filename, 'source_sha256': sha256(data), 'export_sha256': sha256(text.encode())})
     custom_output = ('.agents/profiles/CUSTOM_STYLE.md'
                      if custom and 'policy-manifest' in selected and output_format == 'deployed'
                      else 'CUSTOM_STYLE.md')
@@ -644,7 +633,6 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
         if custom_output != custom_pointer:
             target = os.path.relpath(custom_output, Path(custom_pointer).parent).replace(os.sep, '/')
             contents[custom_pointer] = '# Task writing profile\n\n[Use the adopted profile](' + target + ').\n'
-        records.append({'logical_id': 'profile.custom', 'source': 'external-profile', 'output': custom_output, 'source_sha256': sha256(data), 'export_sha256': sha256(text.encode())})
     lines = ['# Selected task operations', '', 'Read the included common rules once. Support inherits this task and returns to its owner. Run documentation command examples from this snapshot root.', '']
     if not final_operations:
         lines += ['Support input only: return these boundary or handoff resources to the existing result owner. Inherit the parent request, authority and progress. Do not start a new owner or native run; no execution policy manifest is generated.', '']
@@ -667,7 +655,7 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
     contents[generated['ECON_INDEX.md']] = '\n'.join(lines) + '\n'
     contents[generated['OPTIONAL_INPUTS.md']] = ('# Optional inputs\n\nThese functions are inactive in this snapshot. If needed, request the named input or regenerate the snapshot with its condition/reference. Do not retrieve an external repository automatically.\n\n' + '\n'.join('## ' + rid + '\n\nRequired additional input: ' + rid + '.\n' for rid in sorted(omitted))).rstrip() + '\n'
     if generated['PROJECT_INSTRUCTIONS.txt'] not in contents:
-        contents[generated['PROJECT_INSTRUCTIONS.txt']] = 'Read the included CORE and PROSE bodies, then follow ECON_INDEX.md for the selected operation and its required rules. Reuse same-version reads. Complete reasoning, execution, integrated review and applicable verification under CORE. SOURCE.md identifies this content snapshot. Request optional inputs when their function is needed.\n'
+        contents[generated['PROJECT_INSTRUCTIONS.txt']] = 'Read the included CORE and PROSE bodies, then follow ECON_INDEX.md for the selected operation and its required rules. Reuse same-version reads. Complete reasoning, execution, integrated review and applicable verification under CORE. Request optional inputs when their function is needed.\n'
     if output_format == 'deployed':
         pointers = routes.get('placements', {}).get('policy_pointers', [])
         if 'repository-policy' in resources:
@@ -736,28 +724,18 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             policy.select_manifest(catalog, assets, operation['canonical_operation'],
                                    conditions=conditions, profile=('export-custom-profile' if custom and operation.get('selected_profile') else operation.get('selected_profile')))
         contents[manifest_output] = json.dumps(catalog, ensure_ascii=False, indent=2) + '\n'
-    for record in records:
-        record['export_sha256'] = sha256(contents[record['output']].encode())
-    registry_paths = routes.get('registry_source_paths')
-    if registry_paths:
-        prefix = '' if layout == 'source' else '.agents/'
-        route_hash = sha256(canonical({name: sha256((root / (prefix + name)).read_bytes()) for name in registry_paths}).encode())
-    else:
-        route_hash = sha256((root / ('runtime/ROUTES.yaml' if layout == 'source' else '.agents/runtime/ROUTES.yaml')).read_bytes())
-    implementation_hashes = {name: sha256((Path(__file__).parent / name).read_bytes()) for name in ('export_project.py', 'route_registry.py')}
-    identity = {'implementation_sha256': implementation_hashes, 'routes_sha256': route_hash, 'project_config_sha256': sha256(context_raw), 'operations': operations, 'conditions': sorted(set(conditions)), 'files': records}
-    manifest = {'schema_version': 2, 'snapshot_id': sha256(canonical(identity).encode()), **identity, 'layout': layout, 'output_format': output_format, 'omitted_optional_resources': sorted(omitted)}
-    manifest['generated_files'] = [{'output': name, 'export_sha256': sha256(text.encode())} for name, text in sorted(contents.items()) if name not in {r['output'] for r in records}]
-    contents[generated['SOURCE.md']] = '# Source snapshot\n\n```json\n' + json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + '\n```\n'
     contexts = {}
-    for record in records:
-        rid = record['logical_id']
+    for rid in selected:
         rule_ids = [rule for op in operations + reference_required
                     for rule in op.get('active_rules', [])
                     if routes.get('rules', {}).get(rule, {}).get('resource_id') == rid]
-        contexts[record['output']] = (
-            f"source {record['source']}; rules {', '.join(dict.fromkeys(rule_ids))}; "
-            "operations " + ', '.join(op['canonical_operation'] for op in operations))
+        contexts[output_paths[rid]] = (
+            f"source {resources[rid]['source_path']}; rules {', '.join(dict.fromkeys(rule_ids))}; "
+            'operations ' + ', '.join(op['canonical_operation'] for op in operations))
+    for entry in config['files']:
+        contexts[entry['output']] = f"source {entry['path']}; operations " + ', '.join(op['canonical_operation'] for op in operations)
+    if custom:
+        contexts[custom_output] = 'source external-profile; operations ' + ', '.join(op['canonical_operation'] for op in operations)
     validate_required_bodies(routes, operations + reference_required, selections,
                              lambda rid: contents[output_paths[rid]])
     data_outputs = {output_paths[rid] for rid in selected if not prose_resource(resources[rid])}

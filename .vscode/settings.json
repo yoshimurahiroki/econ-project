@@ -8,11 +8,11 @@
   "git.untrackedChanges": "hidden",
   "python.formatting.provider": "none",
   "python.analysis.typeCheckingMode": "off",
-  "python.defaultInterpreterPath": "/workspaces/econ-project/.pixi/envs/default/bin/python",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.pixi/envs/default/bin/python",
   "python-envs.workspaceSearchPaths": [],
   "python.terminal.activateEnvironment": false,
   "python.terminal.activateEnvInCurrentTerminal": false,
-  "quarto.path": "/usr/local/bin/quarto",
+  "quarto.path": ".pixi/envs/default/bin/quarto",
   "jupyter.notebookFileRoot": "${workspaceFolder}",
   "latex-workshop.latex.recipe.default": "lualatex (project build)",
   "latex-workshop.latex.build.enableMagicComments": false,
@@ -59,10 +59,10 @@
   "ruff.format.args": [
     "--config=pyproject.toml"
   ],
-  "r.rterm.linux": "/workspaces/econ-project/.pixi/envs/default/bin/R",
+  "r.rterm.linux": "${workspaceFolder}/.pixi/envs/default/bin/R",
   "code-runner.executorMap": {
-    "python": "/workspaces/econ-project/.pixi/envs/default/bin/python -u",
-    "r": "/workspaces/econ-project/.pixi/envs/default/bin/Rscript"
+    "python": "\"$workspaceRoot/.pixi/envs/default/bin/python\" -u",
+    "r": "\"$workspaceRoot/.pixi/envs/default/bin/Rscript\""
   },
   "notebook.formatOnSave.enabled": false,
   "python.testing.pytestEnabled": false,
@@ -75,8 +75,6 @@
   "ltex.language": "en-US",
   "files.associations": {
     "*.qmd": "quarto",
-    "*.do": "stata",
-    "*.ado": "stata",
     "*.Rmd": "rmd",
     "*.R": "r",
     "*.ipynb": "jupyter-notebook",
@@ -93,7 +91,7 @@
     "**/.pm2",
     "**/node_modules"
   ],
-  "r.rpath.linux": "/workspaces/econ-project/.pixi/envs/default/bin/R",
+  "r.rpath.linux": "${workspaceFolder}/.pixi/envs/default/bin/R",
   "mcpServers": {},
   "editor.codeActionsOnSave": {
     "source.fixAll": "never",

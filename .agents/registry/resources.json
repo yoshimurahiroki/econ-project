@@ -131,7 +131,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.48.1",
+      "content_version": "0.49.0",
       "sync": false
     },
     "resource-guide": {
@@ -171,14 +171,14 @@
       "resource_id": "project-context",
       "source_path": "docs/ai/repo_context.md",
       "resource_kind": "rule",
-      "content_version": "66.1",
+      "content_version": "0.49.0",
       "sync": false
     },
     "tool-export-project-py": {
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "0.46.0",
+      "content_version": "0.49.0",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
@@ -276,7 +276,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.48.0"
+      "content_version": "0.49.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -301,7 +301,7 @@
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.29.0"
+      "content_version": "0.49.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -358,20 +358,20 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.48.1"
+      "content_version": "0.49.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
       "source_path": "quality/policy_manifest.json",
       "resource_kind": "support",
-      "content_version": "0.29.0",
+      "content_version": "0.49.0",
       "sync": false
     },
     "codex-hooks": {
       "resource_id": "codex-hooks",
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.48.0",
+      "content_version": "0.49.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -387,14 +387,14 @@
       "resource_id": "tool-setup-extensions-sh",
       "source_path": "scripts/setup_extensions.sh",
       "resource_kind": "support",
-      "content_version": "66.1",
+      "content_version": "0.49.0",
       "source_distribution_only": true
     },
     "config-template-readme-md": {
       "resource_id": "config-template-readme-md",
       "source_path": "docs/ai/config-templates/README.md",
       "resource_kind": "rule",
-      "content_version": "0.32.0"
+      "content_version": "0.49.0"
     },
     "config-template-claude-mcp-example-json": {
       "resource_id": "config-template-claude-mcp-example-json",
@@ -431,7 +431,7 @@
       "resource_id": "tool-check-instruction-links-py",
       "source_path": "scripts/check_instruction_links.py",
       "resource_kind": "maintenance",
-      "content_version": "0.35.0",
+      "content_version": "0.49.0",
       "source_distribution_only": true
     },
     "paragraph-workflow": {
@@ -564,7 +564,7 @@
       "resource_id": "research-runner",
       "source_path": "harness/research.py",
       "resource_kind": "support",
-      "content_version": "0.22.0",
+      "content_version": "0.49.0",
       "required_resources": [
         "team-state-helper",
         "research-experience"

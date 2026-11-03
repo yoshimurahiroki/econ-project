@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Codex hook transport and native-run association; no semantic verdicts."""
+"""Task callbacks, current instructions and attributable operation results."""
 import argparse
 import importlib.util
 import errno
@@ -17,6 +17,8 @@ import uuid
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from urllib.parse import urlsplit, urlunsplit
+
+_INVOCATION_POLICY = {}
 
 if __name__ == '__main__':
     sys.dont_write_bytecode = True
@@ -133,7 +135,7 @@ TERMINAL = {'completed', 'interrupted', 'cancelled'}
 
 
 def feedback(event, text):
-    if event in CONTEXT_EVENTS:
+    if event in CONTEXT_EVENTS or event == 'PreToolUse':
         return {'hookSpecificOutput': {'hookEventName': event, 'additionalContext': text}}
     return {'systemMessage': text}
 
@@ -277,7 +279,7 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
         return binding
 
 
-def _operation_manifest(root, context):
+def _operation_manifest(root, context, directory=None):
     binding = context.get('operation_binding')
     if binding is None:
         return None
@@ -285,11 +287,17 @@ def _operation_manifest(root, context):
                  {'operation', 'conditions', 'profile', 'policy_id', 'selection_sha256',
                   'assets', 'active_rules', 'resource_sections', 'contract'},
                  'invalid operation binding')
-    _, selected, contract = _resolve_operation_binding(root, binding['operation'], binding['conditions'], binding['profile'])
-    gate.require(selected['policy_id'] == binding['policy_id']
+    policy, _, _, catalog, verification = _policy_snapshot(root, directory, context)
+    selection = {'selection': {'operation': binding['operation'], 'conditions': binding['conditions'],
+                               'profile': binding['contract']['selected_profile'], 'templates': []},
+                 'active_rules': binding['active_rules'], 'resource_sections': binding['resource_sections']}
+    selected = {**catalog, **selection}
+    gate.require(policy.digest(policy.canonical(selection)) == verification.get('selection_sha256')
+                 and policy.digest(policy.canonical(binding['contract'])) == verification.get('contract_sha256')
+                 and selected['policy_id'] == binding['policy_id']
                  and gate.sha(gate.canonical(selected)) == binding['selection_sha256']
                  and selected['assets'] == binding['assets'] and selected['active_rules'] == binding['active_rules']
-                 and selected['resource_sections'] == binding['resource_sections'] and contract == binding['contract'],
+                 and selected['resource_sections'] == binding['resource_sections'],
                  'bound operation sources or closure changed; explicitly rebind the operation')
     return selected
 
@@ -633,9 +641,34 @@ def _previous(path):
     return value
 
 
-def _instructions(root, state, manifest=None, stage=None, role=None, reader_id=None, *, detailed=True):
-    policy = sibling('hook_policy_assets', root / 'harness/policy_assets.py')
-    owner, _, current, _ = policy.discover_policy(policy.__file__)
+def _policy_snapshot(root, directory=None, context=None):
+    context = context if context is not None else _read(directory / 'context.json', {}) if directory else {}
+    if directory is None and context.get('task_id') and context.get('plugin_data'):
+        directory = (absolute(context['plugin_data']) / 'economics' / gate.sha(context['session_id'].encode()) /
+                     'tasks' / gate.sha(context['task_id'].encode()))
+    binding = context.get('operation_binding') or {}
+    selection = ({'operation': binding['operation'], 'conditions': binding['conditions'],
+                  'profile': binding['profile']} if binding else {})
+    key = (str(root), str(directory), gate.sha(gate.canonical(selection)))
+    if key in _INVOCATION_POLICY:
+        return _INVOCATION_POLICY[key]
+    policy = sibling('hook_current_policy', root / 'harness/policy_assets.py')
+    record = _read(directory / 'reinjection.json', {}) if directory else {}
+    retained = record.get('policy_verification', {})
+    verification = dict(retained) if isinstance(retained, dict) else {}
+    owner, raw, current, _ = policy.discover_policy(policy.__file__, verification=verification,
+                                                  load_assets=False, **selection)
+    if directory and retained != verification:
+        record['policy_verification'] = verification
+        save_record(directory / 'reinjection.json', record)
+    result = (policy, owner, raw, current, verification)
+    _INVOCATION_POLICY[key] = result
+    return result
+
+
+def _instructions(root, state, manifest=None, stage=None, role=None, reader_id=None, *, detailed=True,
+                  directory=None):
+    policy, owner, _, current, _ = _policy_snapshot(root, directory)
     gate.require(Path(policy.__file__).absolute() == (root / 'harness/policy_assets.py').absolute(),
                  'hook policy module does not belong to this runtime')
     gate.require(manifest is None or manifest['policy_id'] == current['policy_id'], 'adopted policy version changed')
@@ -658,12 +691,11 @@ def _restoration(root, directory, state, manifest=None):
     gate.require(isinstance(prompt, str) and gate.sha(prompt.encode('utf-8')) == context.get('prompt_sha256'),
                  'restore-fixed-request: obtain the exact host original; do not reconstruct it from a candidate')
     request = _effective_request(directory).decode('utf-8') if context.get('schema_version') == 2 else prompt
-    policy = sibling('hook_restoration_policy', root / 'harness/policy_assets.py')
-    owner, _, current, _ = policy.discover_policy(policy.__file__)
+    policy, owner, _, current, _ = _policy_snapshot(root, directory, context)
     gate.require(Path(policy.__file__).absolute() == (root / 'harness/policy_assets.py').absolute(),
                  'hook policy module does not belong to this runtime')
     gate.require(manifest is None or manifest['policy_id'] == current['policy_id'], 'adopted policy version changed')
-    selected = _operation_manifest(root, context)
+    selected = _operation_manifest(root, context, directory)
     packet = policy.instruction_context(owner, manifest=manifest or selected or current,
         status={**state, 'request_sha256': gate.sha(request.encode('utf-8')), 'unmet_ids': _ids(state)},
         request_text=request, restore=True, role='author', reader_id=state.get('author_id'))
@@ -739,6 +771,11 @@ def _restoration(root, directory, state, manifest=None):
                     if ref['content_sha256'] not in included:
                         text += '\n\n[Bound governing source: ' + name + ']\n' + raw.decode('utf-8')
                         included.add(ref['content_sha256'])
+    _, _, policy_raw, _, _ = _policy_snapshot(root, directory, context)
+    reinjection = _read(directory / 'reinjection.json', {})
+    reinjection.update(instruction_policy_sha256=gate.sha(policy_raw),
+                       instruction_binding_sha256=gate.sha(gate.canonical(context.get('operation_binding'))))
+    save_record(directory / 'reinjection.json', reinjection)
     return text
 
 
@@ -755,7 +792,11 @@ def _changed(directory, state):
     saved = {'state_sha256': signature, 'raw_task_state_sha256': state.get('task_state_sha256')}
     if 'compactions' in old:
         saved['compactions'] = old['compactions']
-    save_record(directory / 'reinjection.json', saved)
+    for key in ('policy_verification', 'instruction_policy_sha256', 'instruction_binding_sha256'):
+        if key in old:
+            saved[key] = old[key]
+    if saved != old:
+        save_record(directory / 'reinjection.json', saved)
     return old.get('state_sha256') != signature
 
 
@@ -1672,8 +1713,7 @@ def _child(event, root, directory, state, manifest):
             if isinstance(observed, dict) and key in observed:
                 start[key] = observed[key]
         save_record(path, start)
-        text = _instructions(root, state, manifest, 'review', agent_type, agent_id)
-        return feedback('SubagentStart', text + '\n' + restored +
+        return feedback('SubagentStart', restored +
                         '\nComplete the assigned scope and return its actual result to the parent.')
     gate.require(type(event.get('stop_hook_active')) is bool, 'missing child Stop re-entry state')
     message = event.get('last_assistant_message')
@@ -1802,6 +1842,8 @@ def _completion_callback(directory, root, event):
     if context.get('completion_contract') is None or context.get('state_binding'):
         return
     relative = 'preflight/' + gate.sha(gate.canonical(event)) + '.json'
+    if not (directory / relative).is_file():
+        return
     raw = gate.regular_bytes(directory / relative)
     binding = gate.parse_json(raw)
     if 'callback' not in binding:
@@ -2376,8 +2418,8 @@ def _pre_tool(event, root, directory, state, bound_result=None):
     if opaque_action is not None:
         normalized = [opaque_action]
     resolved_effects = [(verb, _tool_target(target, cwd)) for verb, target in effects]
-    if effect != 'read' and operation != 'state-control':
-        _operation_manifest(root, _read(directory / 'context.json', {}))
+    if operation != 'state-control':
+        _operation_manifest(root, _read(directory / 'context.json', {}), directory)
     _pending_scoped_writes(directory, effect, normalized)
     rows, prohibitions, policy_sha = [], [], state.get('policy_manifest_sha256')
     bound = input_bound or (None if operation == 'state-control' else _bound_state(directory, root))
@@ -2551,6 +2593,11 @@ def _pre_tool(event, root, directory, state, bound_result=None):
                 if output.is_file():
                     binding['output_versions'][target] = module.digest(output)
     preflight_path = directory / 'preflight' / ((key or gate.sha(gate.canonical(event))) + '.json')
+    if (not enabled and 'experience_feedback' not in binding and 'callback' not in binding
+            and (event.get('hook_event_name') != 'PostToolUse' or effect != 'write')):
+        if bound_result is not None:
+            bound_result.append(hint)
+        return {}
     existing = _read(preflight_path)
     if bound_result is not None and isinstance(existing, dict):
         old_core = {name: value for name, value in existing.items() if name != 'experience_feedback'}
@@ -2567,6 +2614,7 @@ def _pre_tool(event, root, directory, state, bound_result=None):
 
 
 def dispatch(event, expected_event):
+    _INVOCATION_POLICY.clear()
     gate.require(isinstance(event, dict) and event.get('hook_event_name') == expected_event,
                  'hook event mismatch')
     for key in ('session_id', 'cwd'):
@@ -2694,8 +2742,6 @@ def dispatch(event, expected_event):
                 effective = _effective_request(directory)
                 state['request_sha256'] = gate.sha(effective)
                 text = _coordinator(directory)
-                if agent_id is not None or old.get('operation_binding') is not None:
-                    text = _instructions(root, state, manifest, detailed=False) + '\n' + text
                 if kind == 'amendment':
                     save_record(directory / 'effective-request.json', {'text': effective.decode('utf-8'), 'sha256': gate.sha(effective)})
                     text += '\nRetained the original request and verbatim additions. Reconcile the governing requirements and current state with the changed request.'
@@ -2723,11 +2769,8 @@ def dispatch(event, expected_event):
             coordinator = _coordinator(directory)
             state['request_sha256'] = context['prompt_sha256']
             text = coordinator
-            if agent_id is not None:
-                text += '\n' + _instructions(root, state, stage='entry')
             text += '\n' + _restoration(root, directory, state)
-            policy = sibling('hook_entry_policy_identity', root / 'harness/policy_assets.py')
-            _, policy_raw, _, _ = policy.discover_policy(policy.__file__)
+            _, _, policy_raw, _, _ = _policy_snapshot(root, directory)
             state['current_policy_manifest_sha256'] = gate.sha(policy_raw)
             state['task_binding_sha256'] = gate.sha(gate.canonical(None))
             state['operation_binding_sha256'] = gate.sha(gate.canonical(None))
@@ -2740,10 +2783,10 @@ def dispatch(event, expected_event):
                      ' bind-operation --hook-context ' + json.dumps(str(context_path)) +
                      ' --operation OPERATION with each applicable --condition and optional --profile.')
             return feedback(expected_event, text)
-        if lifecycle in TERMINAL and expected_event != 'Stop':
-            return {}
         if lifecycle in {'interrupted', 'cancelled'}:
             return failure(expected_event, 'turn ' + lifecycle + '; no automatic restart', failure_class='cancelled')
+        if lifecycle in TERMINAL and expected_event != 'Stop':
+            return {}
         state, manifest = {'status': 'ordinary-active', 'needed_actions': []}, None
         context = _read(context_path, {})
         state['request_sha256'] = context.get('prompt_sha256')
@@ -2757,8 +2800,7 @@ def dispatch(event, expected_event):
             _effective_request(directory)
             selected = _operation_manifest(root, context)
             if selected is None:
-                policy = sibling('hook_compaction_policy', root / 'harness/policy_assets.py')
-                _, _, current, _ = policy.discover_policy(policy.__file__)
+                _, _, _, current, _ = _policy_snapshot(root, directory)
                 gate.require(manifest is None or manifest['policy_id'] == current['policy_id'],
                              'adopted policy version changed')
             _bound_state(directory, root)
@@ -2783,7 +2825,7 @@ def dispatch(event, expected_event):
                 return failure(expected_event, 'recover the exact child assignment from the parent or an authorized bound source before dependent work')
         if (expected_event in ('PreToolUse', 'Stop', 'SubagentStop') and
                 pending_compaction.get('pending_restoration')):
-            text = _instructions(root, state, manifest, detailed=False) + '\n' + _coordinator(directory)
+            text = _coordinator(directory)
             text += '\n' + _restoration(root, directory, state, manifest)
             if agent_id is not None:
                 assignment = _child_assignment(root, directory, agent_id)
@@ -2811,17 +2853,23 @@ def dispatch(event, expected_event):
                 result = failure(expected_event, 'read the restored task and applicable rules before completion\n' + text)
             pending_compaction['pending_restoration'] = False
             pending_compaction['delivery_event'] = expected_event
-            save_record(directory / 'reinjection.json', record)
+            latest = _read(directory / 'reinjection.json', {})
+            latest['compactions'] = record['compactions']
+            save_record(directory / 'reinjection.json', latest)
             return result
         if expected_event == 'PreToolUse':
             if lifecycle == 'paused':
                 return failure('PreToolUse', 'the task is waiting for the next actual user input')
             bound_result = []
+            _, _, policy_raw, _, _ = _policy_snapshot(root, directory, context)
             result = _pre_tool(event, root, directory, state, bound_result=bound_result)
-            specific = result.setdefault('hookSpecificOutput', {'hookEventName': expected_event})
-            reminder = _instructions(root, state, manifest, detailed=False)
+            reinjection = _read(directory / 'reinjection.json', {})
+            changed = (reinjection.get('instruction_policy_sha256') != gate.sha(policy_raw) or
+                       reinjection.get('instruction_binding_sha256') != gate.sha(gate.canonical(context.get('operation_binding'))))
+            reminder = _restoration(root, directory, state, manifest) if changed else ''
             hint = bound_result[0] if bound_result else ''
-            specific['additionalContext'] = reminder + ('\n' + hint if hint else '')
+            if reminder or hint:
+                result = feedback(expected_event, reminder + ('\n' + hint if hint else ''))
             return result
         if expected_event in ('SubagentStart', 'SubagentStop'):
             return _child(event, root, directory, state, manifest)
@@ -2878,8 +2926,7 @@ def dispatch(event, expected_event):
                     pending = _pending_parent_returns(directory)
                 if lifecycle == 'paused' and not pending:
                     return {}
-            policy = sibling('hook_event_policy_identity', root / 'harness/policy_assets.py')
-            _, policy_raw, _, _ = policy.discover_policy(policy.__file__)
+            policy, _, policy_raw, _, _ = _policy_snapshot(root, directory)
             state['current_policy_manifest_sha256'] = gate.sha(policy_raw)
             current_context = _read(context_path, {})
             state['task_binding_sha256'] = gate.sha(gate.canonical(current_context.get('state_binding')))
@@ -2898,9 +2945,6 @@ def dispatch(event, expected_event):
             text = ''
             if needs_restoration:
                 text = _coordinator(directory)
-                if (agent_id is not None or current_context.get('operation_binding') is not None
-                        or expected_event == 'PostToolUse' and not failed):
-                    text = _instructions(root, state, manifest, detailed=False) + '\n' + text
                 text += '\n' + _restoration(root, directory, state, manifest)
                 if pending:
                     text += ('\nReturned child scopes awaiting parent integration: '
@@ -2908,8 +2952,6 @@ def dispatch(event, expected_event):
                              + '\nCompare each actual return with its assignment and integrate the result.')
                 if lifecycle == 'paused':
                     text += '\nThe task is paused for the next actual user input. Preserve its holds; do not start dependent operations automatically.'
-            elif expected_event == 'PostToolUse':
-                text = _instructions(root, state, manifest, detailed=False)
             if observation_error:
                 text += '\nOperation observation was not saved: ' + observation_error
             if loop_observation and loop_observation[1] and loop_observation[0]['operation'].get('opportunity') is True:
@@ -2967,11 +3009,7 @@ def dispatch(event, expected_event):
             save_record(attempts, attempt)
             if failure_class != 'recoverable':
                 _finish(directory, 'blocked')
-            text = ''
-            if agent_id is not None or context.get('operation_binding') is not None:
-                text = _instructions(root, state, manifest, detailed=False)
-                text += '\n' + _instructions(root, state, manifest) + '\n'
-            text += _restoration(root, directory, state, manifest)
+            text = _restoration(root, directory, state, manifest)
             if attempt['repeated_unresolved_conditions']:
                 text += '\nRepeated unresolved conditions. Follow the current repair plan and recheck the candidate.'
             if attempt['candidate_changed_recheck_required']:

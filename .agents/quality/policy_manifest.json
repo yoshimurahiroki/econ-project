@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.48.1",
+  "policy_id": "economics-native-0.49.0",
   "profile": {
     "id": "research-full"
   },
@@ -11,7 +11,7 @@
     },
     "codex_hooks": {
       "path": ".agents/harness/codex_hooks.py",
-      "sha256": "dad3d3c882b68989e69a3150e9e6049f1039a924ef3336d2da1ba3fa8c7c35e8"
+      "sha256": "4fbcf229b5b07c64a7144181a70639ec342a3b12b358b7a06232ad51e5f1f60f"
     },
     "core": {
       "path": ".agents/runtime/CORE.md",
@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": ".agents/harness/policy_assets.py",
-      "sha256": "06d137c7dd4b5923034ab1362e4d2119aabad4bf1a2054e1b1055a2b516f0d38"
+      "sha256": "33eced37e7556f407c95aa7417c508e6fdb5b359e83c420b728f944679c11ae9"
     },
     "prose": {
       "path": ".agents/runtime/PROSE.md",
@@ -63,7 +63,7 @@
     },
     "registry_resources": {
       "path": ".agents/registry/resources.json",
-      "sha256": "0d5296630ae801b7a7678508eb063c969d87de92ab13de626ac92057c640b7f6"
+      "sha256": "7a484320c24d6b4e6435e1602cf6c23e64fb80b3e3388c996c0db750a922dd3d"
     },
     "requirements_check": {
       "path": ".agents/harness/requirements_check.py",
@@ -95,7 +95,7 @@
     },
     "resource:config-template-readme-md": {
       "path": "docs/ai/config-templates/README.md",
-      "sha256": "66a188db428b475f5582c2f5d5de0e71854fac4a79159f1298b25b920af89f5c"
+      "sha256": "2feb567ab91fadaa04761f305ed9f9cbe708adb45699e30c6724c7568440253b"
     },
     "resource:data-implementation": {
       "path": ".agents/skills/econ-data/references/implementation.md",
@@ -195,7 +195,7 @@
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
-      "sha256": "797ffd8208f56f2765410394b7d00ec2e33ba5736e20e604ad2235f447cb0e6e"
+      "sha256": "a791d3ffaf4128d5ae185f395dd7e7760f8f085697bf2eb6076eeaa4a181ac15"
     },
     "resource:knowledge-retrieval": {
       "path": ".agents/skills/econ-knowledge/scripts/knowledge.py",
@@ -359,7 +359,7 @@
     },
     "resource:project-context": {
       "path": "docs/ai/repo_context.md",
-      "sha256": "5dd399f87e15463a77aa46100bee3570602cf12d190a226a70e815c97ae4dad5"
+      "sha256": "9e3b461fb277856560ef729421f15f798061921d4efaa2afde3d225f7bacdc07"
     },
     "resource:project-instructions": {
       "path": "docs/ai/project_instructions.txt",
@@ -491,7 +491,7 @@
     },
     "resource:research-runner": {
       "path": ".agents/harness/research.py",
-      "sha256": "6e43c74a0e360d89e9bd05e18607a8c0d20ada80fe0d2cd465fe71f7bd2b0964"
+      "sha256": "6ad953082a2110d405b82f735abc85200c14db01329d79bd3ef873dbf5f28bb8"
     },
     "resource:research-search": {
       "path": ".agents/skills/econ-literature/scripts/research_search.py",
@@ -523,7 +523,7 @@
     },
     "resource:state-contract": {
       "path": ".agents/harness/state.md",
-      "sha256": "2803d838ef785617f24f6b830285602ded699459212ec822314affeacc3cb571"
+      "sha256": "c831eab564c6982e90e305fb3f7e965b90635e33a30610fc3fc163b6075959fd"
     },
     "resource:tool-pack-context-sh": {
       "path": "scripts/pack_context.sh",

@@ -14,7 +14,7 @@
 
 Sol owns economic choices, decomposition, integration and the final result. Terra implements adopted bounded specifications; Luna performs settled retrieval and extraction; Astra receives the consequential core after Sol's actual attempts and cause-specific repairs leave it unresolved. TEAM owns the model and host contracts. The five specialist owners and seven writing modes retain their specialist methods and actual completion contracts.
 
-CORE owns the common entry and the complete PROSE normative-reading obligation; the detailed dictionary supplies concrete lexical detections for the same integrated review. Specialist entries retain their method, source and execution requirements. The policy assembler validates each selected resource once per invocation, reuses those exact bytes across selected sections and delivers every required body. The existing state, source, research, publication owners retain authority, version, evidence and completion behavior.
+CORE owns the common entry and the complete PROSE normative-reading obligation; the detailed dictionary supplies concrete lexical detections for the same integrated review. Specialist entries retain their method, source and execution requirements. The policy assembler binds verified resources to their manifest, selected operation and actual file identity. The existing task reinjection record reuses unchanged verification across callbacks; changed files are rehashed. Required restoration obtains every applicable body and the original request. The existing state, source, research and publication owners retain authority, version, evidence and completion behavior.
 
 On hosts delivering the registered callbacks, ordinary task completion uses the declared outputs/actions in the existing operation context or bound task state, actual returned outcomes and current artifact versions. Simple responses need no state store. Parent completion waits for child returns; compact/resume retains the original sources and saved-result references. Interactive input requires the exact live session/input and initiating-command authority. Callback records retain actual outcomes within the current execution permission.
 
@@ -89,7 +89,7 @@ Ordinary writing includes CORE, the required PROSE sections, the chosen writing 
 
 Paste PROJECT_INSTRUCTIONS.txt into the Project instruction field and attach the exported files. Use a fresh directory outside the source tree. The exporter validates required files, registered links, aliases, placeholders and the 8,000-character instruction-field limit before publishing the package. Selected references resolve to flat exported aliases. Only inactive optional capabilities and examples may resolve to OPTIONAL_INPUTS.md. Activated mandatory references must resolve inside the package; a missing required rule reports its rule ID and originating operation and prevents publication. Unknown local references fail; no external-repository fallback is generated.
 
-SOURCE.md records the logical resource ID, source path, source SHA-256, exported SHA-256, selected operations, conditions, registry hash and a content-based snapshot ID. Working source bytes are supported. Regenerate when the needed input versions change. These commands create local instruction packages; they do not update a live Project or plugin.
+Working source bytes are supported. Regenerate the local instruction package when needed input versions change.
 
 ## Layout and generated index
 
@@ -111,7 +111,7 @@ python scripts/export_project.py --generate-index docs/ai/compiled_ai_skills.md
 
 ## Project additions and profiles
 
-The export-project:v1 JSON block in repo_context.md supports version, writing_profile and files. Each file entry contains a repository-relative path and unique flat output filename. The persistent writing_profile can be default-micro or a repository-relative custom profile. --style-profile overrides it for this snapshot only; an absolute custom profile path is also supported. Custom inputs are hashed in SOURCE.md. Existing configuration is not rewritten.
+The export-project:v1 JSON block in repo_context.md supports version, writing_profile and files. Each file entry contains a repository-relative path and unique flat output filename. The persistent writing_profile can be default-micro or a repository-relative custom profile. --style-profile overrides it for this snapshot only; an absolute custom profile path is also supported. Existing configuration is not rewritten.
 
 Use econ-writing:profile (or its econ-style compatibility alias) to create or revise a profile. Creating or saving a profile does not adopt it. Switch the persistent preference only when the user requests adoption.
 
@@ -125,7 +125,7 @@ Use the actual selected generation and synchronization results to establish pack
 
 `core.task-entry` requires `team.native-model-roles`, so the ordinary operation retains Sol's authority and the bounded child contracts. The existing `requested_distribution_configuration_or_installation` condition additionally selects the three `policy-codex-agent-*.all` rules and `config-template-codex-example-toml.all`. Their registered source files are public templates; deployment maps child files to `.codex/agents/` and retains the primary template in the configuration documentation. The [configuration commands](config-templates/README.md#native-sol-terra-luna-and-astra) produce flat aliases or deployed paths through this same closure.
 
-Each native role declaration selects its own model and reasoning effort through its registered configuration file. Child execution inherits the parent permission boundary, provider, authentication and MCP configuration. Preserve those inherited bounds when applying a role override. The exporter preserves executable and data-resource bytes; each `SOURCE.md` records the source and exported SHA-256, logical resource and physical output path. The decision contract always applies; configuration files are selected for an authorized installation.
+Each native role declaration selects its own model and reasoning effort through its registered configuration file. Child execution inherits the parent permission boundary, provider, authentication and MCP configuration. Preserve those inherited bounds when applying a role override. The exporter preserves executable and data-resource bytes. The decision contract always applies; configuration files are selected for an authorized installation.
 
 The installed-layout continuation consumes the same deployed resource mappings and complete registry versions. It regenerates only the requested exports, compares native TOML metadata and bytes with the selected source, and retains the completed first exports. The primary template's provider/login settings, the three requested child models and `xhigh`, and Sol's fixed research authority carry through both layouts.
 

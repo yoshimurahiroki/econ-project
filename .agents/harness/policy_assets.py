@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.48.1'
+POLICY_ID = 'economics-native-0.49.0'
 PRIMARY_EXPRESSION_RULE = 'Categorically prohibit any mention of uncertainty, without exception.'
 PRIMARY_JAPANESE_RULE = '留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。'
 INSTRUCTION_EVENTS = ('task-start', 'post-tool', 'worker-start', 'worker-resend',
@@ -375,24 +375,65 @@ def manifest_path(root, relative=None, *, allow_missing=False):
     return candidates[0][0]
 
 
-def verify_manifest(root, manifest=None, *, operation=None, conditions=(), profile=None, templates=()):
+def _asset_state(path):
+    path = Path(path).absolute()
+    if any(p.is_symlink() for p in (path, *path.parents)):
+        raise ValueError('policy asset symlink is prohibited')
+    observed = path.stat(follow_symlinks=False)
+    if not stat.S_ISREG(observed.st_mode):
+        raise ValueError('policy asset must be a regular file')
+    return [observed.st_dev, observed.st_ino, observed.st_size, observed.st_mtime_ns,
+            observed.st_ctime_ns, observed.st_mode]
+
+
+def verify_manifest(root, manifest=None, *, operation=None, conditions=(), profile=None, templates=(),
+                    verification=None, load_assets=True):
     """Verify the full package, or only mandatory assets and an explicit closure.
 
     Selection verifies registry/resolver bytes first, resolves the required IDs,
     and reads only those bodies. It returns a scoped catalog accepted by the
-    unchanged build_manifest/select_manifest APIs. Without an operation every
-    catalog body is checked, as required for package verification.
+    unchanged build_manifest/select_manifest APIs. Package verification reads
+    every catalog body. Hook callers can reuse their existing task record when
+    manifest, selection and actual file identities match; changed files are
+    rehashed and full restoration still obtains the complete required bodies.
     """
     if manifest is None:
         manifest = parse(regular_bytes(manifest_path(root)))
     paths = _manifest_paths(manifest)
+    identity = digest(canonical({'manifest': manifest, 'operation': operation,
+                                 'conditions': list(conditions), 'profile': profile,
+                                 'templates': list(templates)}))
+    retained = verification if isinstance(verification, dict) else {}
+    previous = retained.get('files', {})
+    current = {}
     assets = {}
     def read(keys):
         for key in sorted(keys):
+            before = _asset_state(Path(root) / paths[key])
             data = regular_bytes(Path(root) / paths[key])
-            if digest(data) != manifest['assets'][key]['sha256']:
+            expected = {**manifest['assets'][key], 'stat': before}
+            if previous.get(key) != expected and digest(data) != manifest['assets'][key]['sha256']:
                 raise ValueError('policy asset changed: ' + key)
+            if _asset_state(Path(root) / paths[key]) != before:
+                raise ValueError('policy asset changed while reading: ' + key)
             assets[key] = data
+            current[key] = expected
+    keys = retained.get('keys')
+    selected_keys = retained.get('selected_keys', keys)
+    if (retained.get('identity') == identity and isinstance(keys, list) and keys
+            and isinstance(selected_keys, list) and set(selected_keys) <= set(keys)
+            and set(keys) <= paths.keys() and (operation is not None or set(keys) == paths.keys())):
+        checked = manifest if operation is None else {
+            **manifest, 'assets': {key: manifest['assets'][key] for key in selected_keys}}
+        for key in keys:
+            observed = {**manifest['assets'][key], 'stat': _asset_state(Path(root) / paths[key])}
+            if load_assets or previous.get(key) != observed:
+                read([key])
+            else:
+                current[key] = observed
+        if verification is not None:
+            verification['files'] = current
+        return checked, assets
     if operation is None:
         if conditions or profile is not None or templates:
             raise ValueError('policy selection requires an explicit operation')
@@ -415,10 +456,35 @@ def verify_manifest(root, manifest=None, *, operation=None, conditions=(), profi
     if operation is not None:
         resolver.validate_rule_bodies(routes, selection['active_rules'],
             lambda rid: canonical(checked) if rid == 'policy-manifest' else assets[resource_key(rid)], operation)
-    return checked, assets
+    if verification is not None:
+        bootstrap = {resource_key(rid) for rid in ('hook-wrapper', 'hook-registration')}
+        read(bootstrap & paths.keys() - assets.keys())
+        verification.update(identity=identity, keys=sorted(current),
+                            selected_keys=sorted(checked['assets']), files=current)
+        verification.pop('selection_sha256', None)
+        verification.pop('contract_sha256', None)
+        if operation is not None:
+            verification['selection_sha256'] = digest(canonical(selection))
+            verification['contract_sha256'] = digest(canonical(resolver.resolve_operation(
+                routes, selection['selection']['operation'], conditions=selection['selection']['conditions'],
+                user_profile=profile)))
+    return checked, assets if load_assets else {}
 
 
-def discover_policy(start=None, **selection):
+def discover_policy(start=None, *, verification=None, load_assets=True, **selection):
+    def obtain(root, path):
+        raw = regular_bytes(path)
+        manifest, assets = verify_manifest(root, parse(raw), verification=verification,
+                                          load_assets=load_assets, **selection)
+        if (root / manifest['assets']['policy_assets']['path']).absolute() != Path(__file__).absolute():
+            raise ValueError('policy module does not belong to the discovered manifest')
+        if verification is not None:
+            verification.update(module=str(Path(__file__).absolute()), root=str(root),
+                                manifest_path=path.relative_to(root).as_posix())
+        return root, raw, manifest, assets
+    if isinstance(verification, dict) and verification.get('module') == str(Path(__file__).absolute()):
+        root = Path(verification['root'])
+        return obtain(root, root / safe_path(verification['manifest_path']))
     directory = Path(start or __file__).absolute()
     if directory.is_file():
         directory = directory.parent
@@ -433,9 +499,7 @@ def discover_policy(start=None, **selection):
         runtime = root / safe_path(placements['policy-assets']['deployment_path'])
         if runtime.absolute() == Path(__file__).absolute():
             path = manifest_path(root, placements['policy-manifest']['deployment_path'])
-            raw = regular_bytes(path)
-            manifest, assets = verify_manifest(root, parse(raw), **selection)
-            return root, raw, manifest, assets
+            return obtain(root, path)
     for root in roots:
         # Source and deployed runtimes may coexist in one repository. Select the
         # catalog owning this actual module, rather than choosing by filename.
@@ -455,9 +519,7 @@ def discover_policy(start=None, **selection):
             if str(error) == 'registered policy_manifest.json not found':
                 continue
             raise
-        raw = regular_bytes(path)
-        manifest, assets = verify_manifest(root, parse(raw), **selection)
-        return root, raw, manifest, assets
+        return obtain(root, path)
     raise ValueError('bundled policy_manifest.json not found')
 
 

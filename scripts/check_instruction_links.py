@@ -22,7 +22,6 @@ def check(root: Path, layout: str) -> list[str]:
     policy_root = placements.get('deployed', {}).get('policy_root', '.') if layout == 'deployed' else '.'
     if policy_root != '.':
         safe_relative(policy_root)
-    instructions = (Path(policy_root) / 'PROJECT_INSTRUCTIONS.txt').as_posix()
     if layout == 'deployed':
         paths.update((Path(policy_root) / name).as_posix()
                      for name in ('PROJECT_INSTRUCTIONS.txt', 'ECON_INDEX.md', 'OPTIONAL_INPUTS.md'))
@@ -50,8 +49,6 @@ def check(root: Path, layout: str) -> list[str]:
 
         text = source.read_text()
         rewrite_markdown(text, validate)
-        if relative == instructions and 'SOURCE.md identifies' in text:
-            validate('SOURCE.md')
     return failures
 
 

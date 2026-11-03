@@ -106,7 +106,6 @@ tmp/
 *.bak
 *.tmp
 *.temp
-repomix.txt
 
 # Local AI and reference state
 .agent_state/

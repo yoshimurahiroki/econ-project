@@ -1,5 +1,5 @@
 # Explicit project operations.
-.PHONY: help prepare-pixi sync install setup-dev setup-extensions register-kernels setup-r-kernel format lint test clean r-install r-plan build-paper build-slides quarto-html quarto-pdf quarto-reveal typecheck format-check lint-r format-r
+.PHONY: help prepare-pixi sync setup-extensions register-kernels format lint test clean r-install r-plan build-paper build-slides quarto-html quarto-pdf quarto-reveal typecheck format-check lint-r format-r
 
 PIXI ?= pixi
 PIXI_RUN = $(PIXI) run
@@ -28,13 +28,10 @@ prepare-pixi:
 
 sync: prepare-pixi
 	$(PIXI) install
-install: sync
-setup-dev: sync
 setup-extensions:
-	bash scripts/setup_extensions.sh
+	bash scripts/setup_extensions.sh --sync
 register-kernels:
 	bash .devcontainer/register-kernels.sh
-setup-r-kernel: register-kernels
 
 format:
 	@$(CHECK_FILE); \

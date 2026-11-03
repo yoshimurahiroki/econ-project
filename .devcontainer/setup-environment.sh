@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd /workspaces/econ-project
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.."
+project_root="$PWD"
 
 # Trust the workspace while preserving the user's existing trust entries.
-if ! git config --global --get-all safe.directory | grep -Fx -- /workspaces/econ-project >/dev/null; then
-  git config --global --add safe.directory /workspaces/econ-project
+if ! git config --global --get-all safe.directory | grep -Fx -- "$project_root" >/dev/null; then
+  git config --global --add safe.directory "$project_root"
 fi
 
 # Initialize mounted-volume ownership once; later Make and kernel operations run as the user.
-sudo mkdir -p .pixi data /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
-sudo chown vscode:vscode /home/vscode/.cache .pixi data /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
-sudo chmod u+rwX /home/vscode/.cache .pixi data /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
+sudo mkdir -p .pixi data .resources /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
+sudo chown vscode:vscode /home/vscode/.cache .pixi data .resources /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
+sudo chmod u+rwX /home/vscode/.cache .pixi data .resources /home/vscode/.cache/R /home/vscode/.cache/rattler /home/vscode/.cache/rv
 
 make sync
 
@@ -29,26 +30,31 @@ fi
 
 tee .pixi/envs/default/bin/quarto >/dev/null <<'EOF'
 #!/usr/bin/env bash
-export PATH="/workspaces/econ-project/.pixi/envs/default/bin:$PATH"
-export QUARTO_PYTHON="/workspaces/econ-project/.pixi/envs/default/bin/python"
-export QUARTO_SHARE_PATH="/workspaces/econ-project/.pixi/envs/default/share/quarto"
-export QUARTO_DENO="/workspaces/econ-project/.pixi/envs/default/bin/deno"
-export QUARTO_DENO_DOM="/workspaces/econ-project/.pixi/envs/default/lib/deno_dom.so"
-export QUARTO_PANDOC="/workspaces/econ-project/.pixi/envs/default/bin/pandoc"
-export QUARTO_ESBUILD="/workspaces/econ-project/.pixi/envs/default/bin/esbuild"
-export QUARTO_TYPST="/workspaces/econ-project/.pixi/envs/default/bin/typst"
-export QUARTO_DART_SASS="/workspaces/econ-project/.pixi/envs/default/bin/sass"
-export QUARTO_CONDA_PREFIX="/workspaces/econ-project/.pixi/envs/default"
+bin_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+prefix="$(dirname -- "$bin_dir")"
+export PATH="$bin_dir:$PATH"
+export QUARTO_PYTHON="$bin_dir/python"
+export QUARTO_SHARE_PATH="$prefix/share/quarto"
+export QUARTO_DENO="$bin_dir/deno"
+export QUARTO_DENO_DOM="$prefix/lib/deno_dom.so"
+export QUARTO_PANDOC="$bin_dir/pandoc"
+export QUARTO_ESBUILD="$bin_dir/esbuild"
+export QUARTO_TYPST="$bin_dir/typst"
+export QUARTO_DART_SASS="$bin_dir/sass"
+export QUARTO_CONDA_PREFIX="$prefix"
 
-exec /workspaces/econ-project/.pixi/envs/default/bin/quarto-cli-real "$@"
+project_root="$PWD"
+while [ "$project_root" != "/" ] && [ ! -f "$project_root/tex/paper/fonts.latex" ]; do
+  project_root="$(dirname "$project_root")"
+done
+if [ -f "$project_root/tex/paper/fonts.latex" ]; then
+  export TEXINPUTS="$project_root/tex/paper:${TEXINPUTS:-}"
+  export BSTINPUTS="$project_root/tex/paper:${BSTINPUTS:-}"
+fi
+
+exec "$bin_dir/quarto-cli-real" "$@"
 EOF
 chmod 0755 .pixi/envs/default/bin/quarto
-
-sudo tee /usr/local/bin/quarto >/dev/null <<'EOF'
-#!/usr/bin/env bash
-exec /workspaces/econ-project/.pixi/envs/default/bin/quarto "$@"
-EOF
-sudo chmod 0755 /usr/local/bin/quarto
 
 if [ "${INSTALL_R_PACKAGES:-1}" = "1" ]; then
   make r-install
@@ -61,6 +67,9 @@ if [ "${INSTALL_PLAYWRIGHT_BROWSERS:-0}" = "1" ]; then
   pixi run playwright install --with-deps chromium
 fi
 
-sed -i '/\/workspaces\/econ-project\/\.pixi\/envs\/default\/bin:\$PATH/d' ~/.bashrc
-grep -q "usr/local/bin:.*\.pixi/envs/default/bin" ~/.bashrc || \
-  echo "export PATH=/usr/local/bin:/workspaces/econ-project/.pixi/envs/default/bin:\$PATH" >> ~/.bashrc
+# Record this workspace's Pixi bin once for interactive shells.
+printf -v pixi_bin_quoted '%q' "$project_root/.pixi/envs/default/bin"
+path_line="export PATH=$pixi_bin_quoted:\$PATH"
+grep -Fxq -- "$path_line" ~/.bashrc || printf '%s\n' "$path_line" >> ~/.bashrc
+sed -i '/^export LANG=ja_JP\.UTF-8$/d; /^export LC_ALL=ja_JP\.UTF-8$/d' ~/.bashrc
+printf '%s\n' 'export LANG=ja_JP.UTF-8' 'export LC_ALL=ja_JP.UTF-8' >> ~/.bashrc
