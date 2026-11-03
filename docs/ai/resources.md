@@ -184,3 +184,4 @@ Generated from the resource and placement registries. Use this catalog only for 
 - knowledge-storage-requirements: scripts/requirements-knowledge-storage.txt (complete source distribution only)
 - project-work: skills/project-work/SKILL.md
 - project-practice: skills/project-work/references/practice.md
+- vscode-extension-recommendations: .vscode/extensions.json (complete source distribution only)

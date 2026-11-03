@@ -910,6 +910,11 @@
       "resource_id": "project-practice",
       "deployment_path": ".agents/skills/project-work/references/practice.md",
       "export_alias": "PROJECT_PRACTICE.md"
+    },
+    "vscode-extension-recommendations": {
+      "resource_id": "vscode-extension-recommendations",
+      "deployment_path": ".vscode/extensions.json",
+      "export_alias": "VSCODE_extensions.json"
     }
   },
   "source": {

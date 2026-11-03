@@ -59,11 +59,11 @@
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "07c35984499de409767d72ada0273b11c65f805bcb2d5ed1e34c6a639b551266"
+      "sha256": "34228ad650d46377caf04dac9f262b40540b804f5f8a30a47b40163c8d677b12"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "7a484320c24d6b4e6435e1602cf6c23e64fb80b3e3388c996c0db750a922dd3d"
+      "sha256": "2602e701a8b187f318d6f1d6bb4ceca088426d42c2e1ed5e5767658046d8b51a"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -507,7 +507,7 @@
     },
     "resource:resource-guide": {
       "path": "docs/ai/resources.md",
-      "sha256": "1af26bf1f5e434b714b1a3fcf93f91412fc5b1efeccad080e5fcf34e48bfa872"
+      "sha256": "87c3a3a193ae71232192336ba2e94f61299e94bebf4eac322f72df0a6a467c9d"
     },
     "resource:result-artifacts": {
       "path": "skills/econ-writing/references/result-artifacts.md",
