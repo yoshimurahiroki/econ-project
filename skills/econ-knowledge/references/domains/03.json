@@ -1,0 +1,283 @@
+{
+  "domain": "ミクロ理論",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "micro-01",
+      "chapter": 3,
+      "concept_ids": [
+        "C-MICRO-01",
+        "C-CH-03",
+        "C-OBJ-DEMAND"
+      ],
+      "contract_ids": [],
+      "domain": "ミクロ理論",
+      "file": "chapters/03-microeconomics.md",
+      "id": "MICRO-01",
+      "inputs": [
+        "選好",
+        "財価格",
+        "所得"
+      ],
+      "jel_codes": [
+        "D11",
+        "D12"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "マーシャル需要",
+        "間接効用"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [],
+      "subdomain": "選好、効用と需要",
+      "title": "選好、効用と需要",
+      "topic": "選好、効用と需要; Gorman aggregation; Gorman polar form; ゴーマン集計; ゴーマン極形式",
+      "use_when": "選好と予算から消費者需要と間接効用を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "micro-02",
+      "chapter": 3,
+      "concept_ids": [
+        "C-MICRO-02",
+        "C-CH-03",
+        "C-TERM-EQUIVALENT-VARIATION",
+        "C-TERM-COMPENSATING-VARIATION"
+      ],
+      "contract_ids": [],
+      "domain": "ミクロ理論",
+      "file": "chapters/03-microeconomics.md",
+      "id": "MICRO-02",
+      "inputs": [
+        "効用水準",
+        "新旧価格",
+        "支出関数"
+      ],
+      "jel_codes": [
+        "D11",
+        "D61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "補償需要",
+        "Slutsky分解",
+        "補償変分"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [
+        "MICRO-03",
+        "DEMAND-03"
+      ],
+      "subdomain": "支出最小化と補償需要",
+      "title": "支出最小化と補償需要",
+      "topic": "支出最小化と補償需要",
+      "use_when": "支出最小化から補償需要と価格変更の厚生を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "micro-03",
+      "chapter": 3,
+      "concept_ids": [
+        "C-MICRO-03",
+        "C-CH-03"
+      ],
+      "contract_ids": [],
+      "domain": "ミクロ理論",
+      "file": "chapters/03-microeconomics.md",
+      "id": "MICRO-03",
+      "inputs": [
+        "観測価格",
+        "選択数量",
+        "予算"
+      ],
+      "jel_codes": [
+        "D11",
+        "C14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "顕示選好関係",
+        "効用整合性"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [],
+      "subdomain": "顕示選好",
+      "title": "顕示選好",
+      "topic": "顕示選好",
+      "use_when": "価格と数量の観測が効用最大化と整合するか判定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "micro-04",
+      "chapter": 3,
+      "concept_ids": [
+        "C-MICRO-04",
+        "C-CH-03"
+      ],
+      "contract_ids": [],
+      "domain": "ミクロ理論",
+      "file": "chapters/03-microeconomics.md",
+      "id": "MICRO-04",
+      "inputs": [
+        "生産技術",
+        "投入価格",
+        "産出価格",
+        "固定費"
+      ],
+      "jel_codes": [
+        "D24",
+        "D21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "費用関数",
+        "投入需要",
+        "供給"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "DEMAND-05"
+      ],
+      "subdomain": "生産、費用と供給",
+      "title": "生産、費用と供給",
+      "topic": "生産、費用と供給; producer theory; 生産者理論",
+      "use_when": "技術と投入価格から費用と企業供給を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "micro-05",
+      "chapter": 3,
+      "concept_ids": [
+        "C-MICRO-05",
+        "C-CH-03",
+        "C-TERM-GENERAL-EQUILIBRIUM",
+        "C-OBJ-EQUILIBRIUM",
+        "C-OBJ-EQUILIBRIUM-PRICES",
+        "C-OBJ-MARKET-RESIDUAL",
+        "C-TERM-PARETO"
+      ],
+      "contract_ids": [
+        "MC-exchange-two-goods"
+      ],
+      "domain": "ミクロ理論",
+      "file": "chapters/03-microeconomics.md",
+      "id": "MICRO-05",
+      "inputs": [
+        "選好",
+        "初期保有",
+        "生産集合",
+        "利潤配分"
+      ],
+      "jel_codes": [
+        "D51",
+        "D61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "競争均衡価格",
+        "均衡配分",
+        "パレート効率"
+      ],
+      "prerequisites": [
+        "MICRO-01",
+        "MICRO-04"
+      ],
+      "related": [
+        "MICRO-06"
+      ],
+      "subdomain": "一般均衡と厚生",
+      "title": "一般均衡と厚生",
+      "topic": "一般均衡と厚生",
+      "use_when": "一般均衡配分と市場清算から厚生を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "micro-06",
+      "chapter": 3,
+      "concept_ids": [
+        "C-MICRO-06",
+        "C-CH-03"
+      ],
+      "contract_ids": [],
+      "domain": "ミクロ理論",
+      "file": "chapters/03-microeconomics.md",
+      "id": "MICRO-06",
+      "inputs": [
+        "限界便益",
+        "限界費用",
+        "限界損害",
+        "個人別評価"
+      ],
+      "jel_codes": [
+        "D62",
+        "H41"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最適税",
+        "公共財供給",
+        "加重厚生"
+      ],
+      "prerequisites": [
+        "MICRO-02"
+      ],
+      "related": [
+        "MICRO-05"
+      ],
+      "subdomain": "外部性、公共財と社会的評価",
+      "title": "外部性、公共財と社会的評価",
+      "topic": "外部性、公共財と社会的評価",
+      "use_when": "外部性と公共財の効率的供給と分配を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "micro-07",
+      "chapter": 3,
+      "concept_ids": [
+        "C-MICRO-07",
+        "C-CH-03",
+        "C-TERM-COMPENSATING-VARIATION"
+      ],
+      "contract_ids": [],
+      "domain": "ミクロ理論",
+      "file": "chapters/03-microeconomics.md",
+      "id": "MICRO-07",
+      "inputs": [
+        "Cobb-Douglas効用",
+        "所得120",
+        "旧価格2と1",
+        "新価格4と1"
+      ],
+      "jel_codes": [
+        "D12",
+        "D61"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "旧需要30と60",
+        "新需要15と60",
+        "補償額約49.71",
+        "等価変分の損失約35.15"
+      ],
+      "prerequisites": [
+        "MICRO-02"
+      ],
+      "related": [
+        "MATH-08"
+      ],
+      "subdomain": "例題：需要と補償変分",
+      "title": "例題：需要と補償変分",
+      "topic": "例題：需要と補償変分",
+      "use_when": "価格上昇に伴う需要と補償変分を計算する"
+    }
+  ]
+}

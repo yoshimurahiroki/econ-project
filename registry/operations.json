@@ -1,0 +1,1399 @@
+{
+  "schema_version": 2,
+  "storage_format": "shared-operation-fields-v1",
+  "operation_defaults": {
+    "input_contract": "Use the requested target and authorized inputs. Apply CORE and DECIDE to select the central problem and decisive operation by their contribution to the final result; inherit settled scope, definitions, permissions and holds and execute a determined operation immediately.",
+    "finish": "Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.",
+    "result_contract": {
+      "role": "requested_result",
+      "kind": "as_requested",
+      "target": "from_request"
+    }
+  },
+  "conditional_rule_sets": {
+    "review": [
+      {
+        "when": "assessment_method_comparison_or_independence_needed"
+      },
+      {
+        "when": "independent_review_requested_or_needed"
+      },
+      {
+        "when": "requested_artifact_files"
+      },
+      {
+        "when": "operational_plan_requested"
+      },
+      {
+        "when": "talk_requested"
+      },
+      {
+        "when": "exhibit_composition"
+      },
+      {
+        "when": "artifact_rendering_requested"
+      },
+      {
+        "when": "method_structural_estimation_and_counterfactuals"
+      },
+      {
+        "when": "research_pipeline_requested"
+      },
+      {
+        "when": "method_extended_causal"
+      },
+      {
+        "when": "method_extended_markets"
+      },
+      {
+        "when": "method_extended_dynamic"
+      },
+      {
+        "when": "method_extended_macro"
+      },
+      {
+        "when": "method_agent_simulation"
+      },
+      {
+        "when": "method_extended_numerics"
+      },
+      {
+        "when": "research_source_discovery"
+      },
+      {
+        "when": "research_data_discovery"
+      },
+      {
+        "when": "research_adaptive_experiments"
+      },
+      {
+        "when": "research_result_artifacts"
+      },
+      {
+        "when": "economic_knowledge_needed"
+      },
+      {
+        "when": "review_editorial_requested",
+        "uses_profile": true
+      },
+      {
+        "when": "review_prose_repair_requested"
+      },
+      {
+        "when": "review_prose_reconstruction_requested"
+      },
+      {
+        "when": "whole_paper_abstract_introduction_or_section_architecture"
+      },
+      {
+        "when": "whole_paper_architecture_revision"
+      }
+    ],
+    "project-work": [
+      {
+        "when": "project_resources"
+      },
+      {
+        "when": "project_change"
+      },
+      {
+        "when": "project_discussion"
+      },
+      {
+        "when": "project_contact"
+      },
+      {
+        "when": "project_artifact"
+      },
+      {
+        "when": "project_outcome"
+      },
+      {
+        "when": "formulation_or_choice_unresolved"
+      },
+      {
+        "when": "files_calculation_external_or_resume"
+      },
+      {
+        "when": "requested_artifact_files"
+      },
+      {
+        "when": "operational_plan_requested"
+      },
+      {
+        "when": "economic_knowledge_needed"
+      }
+    ],
+    "writing-delivery": [
+      {
+        "when": "talk_requested"
+      },
+      {
+        "when": "research_site_requested"
+      },
+      {
+        "when": "artifact_rendering_requested"
+      },
+      {
+        "when": "requested_artifact_files"
+      },
+      {
+        "when": "operational_plan_requested"
+      }
+    ],
+    "writing-research-tail": [
+      {
+        "when": "research_pipeline_requested"
+      },
+      {
+        "when": "research_adaptive_experiments"
+      },
+      {
+        "when": "research_result_artifacts"
+      },
+      {
+        "when": "economic_knowledge_needed"
+      }
+    ],
+    "data-execution": [
+      {
+        "when": "numerical_outputs_or_dependency_update"
+      },
+      {
+        "when": "files_calculation_external_or_resume"
+      },
+      {
+        "when": "data_pipeline_new"
+      },
+      {
+        "when": "data_acquisition_or_update"
+      },
+      {
+        "when": "data_schema_measurement_or_grain"
+      },
+      {
+        "when": "data_sample_change"
+      },
+      {
+        "when": "data_join_time_or_reshape"
+      },
+      {
+        "when": "data_descriptive_statistics"
+      },
+      {
+        "when": "data_estimator_or_engine_change"
+      },
+      {
+        "when": "data_numerical_or_simulation"
+      },
+      {
+        "when": "data_measured_performance_or_memory"
+      },
+      {
+        "when": "requested_artifact_files"
+      },
+      {
+        "when": "operational_plan_requested"
+      },
+      {
+        "when": "data_code_change"
+      },
+      {
+        "when": "formulation_or_choice_unresolved"
+      },
+      {
+        "when": "method_outcome_scale_and_conditional_mean"
+      },
+      {
+        "when": "method_orthogonal_scores_and_heterogeneous_effects"
+      },
+      {
+        "when": "method_structural_estimation_and_counterfactuals"
+      },
+      {
+        "when": "research_pipeline_requested"
+      },
+      {
+        "when": "method_extended_causal"
+      },
+      {
+        "when": "method_extended_markets"
+      },
+      {
+        "when": "method_extended_dynamic"
+      },
+      {
+        "when": "method_extended_macro"
+      },
+      {
+        "when": "method_agent_simulation"
+      },
+      {
+        "when": "method_extended_numerics"
+      },
+      {
+        "when": "research_source_discovery"
+      },
+      {
+        "when": "research_data_discovery"
+      },
+      {
+        "when": "research_adaptive_experiments"
+      },
+      {
+        "when": "research_result_artifacts"
+      }
+    ]
+  },
+  "operations": [
+    {
+      "id": "econ-design:design",
+      "owner_skill": "econ-design",
+      "mode": "design",
+      "trigger": "Choose a research question, model, identification strategy, study design or policy action.",
+      "required_rules": [
+        "core.all",
+        "econ-design.all"
+      ],
+      "conditional_rules": [
+        {
+          "when": "formulation_or_choice_unresolved"
+        },
+        {
+          "when": "economic_method_needed"
+        },
+        {
+          "when": "requested_artifact_files"
+        },
+        {
+          "when": "operational_plan_requested"
+        },
+        {
+          "when": "method_outcome_scale_and_conditional_mean"
+        },
+        {
+          "when": "method_orthogonal_scores_and_heterogeneous_effects"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
+        },
+        {
+          "when": "research_pipeline_requested"
+        },
+        {
+          "when": "method_extended_causal"
+        },
+        {
+          "when": "method_extended_markets"
+        },
+        {
+          "when": "method_extended_dynamic"
+        },
+        {
+          "when": "method_extended_macro"
+        },
+        {
+          "when": "method_agent_simulation"
+        },
+        {
+          "when": "method_extended_numerics"
+        },
+        {
+          "when": "research_source_discovery"
+        },
+        {
+          "when": "research_data_discovery"
+        },
+        {
+          "when": "research_adaptive_experiments"
+        },
+        {
+          "when": "research_result_artifacts"
+        },
+        {
+          "when": "economic_knowledge_needed"
+        }
+      ],
+      "uses_profile": false,
+      "default": true
+    },
+    {
+      "id": "econ-data:execute",
+      "owner_skill": "econ-data",
+      "mode": "execute",
+      "trigger": "Acquire, transform, join, calculate, estimate or change research data and code.",
+      "required_rules": [
+        "core.all",
+        "econ-data.all"
+      ],
+      "conditional_rules": [
+        {
+          "conditional_rule_set": "data-execution"
+        },
+        {
+          "when": "specification_reconciliation_requested"
+        },
+        {
+          "when": "operational_procedure_reuse"
+        },
+        {
+          "when": "economic_knowledge_needed"
+        }
+      ],
+      "uses_profile": false,
+      "default": true
+    },
+    {
+      "id": "econ-data:equity",
+      "owner_skill": "econ-data",
+      "mode": "equity",
+      "trigger": "Evaluate Japanese, US and overseas equities from public filings, IR and market observations; estimate competition, compute sustainable cash flows, reverse valuation, after-tax investment decisions and news-driven changes.",
+      "required_rules": [
+        "core.all",
+        "econ-data.all",
+        "equity-guide.all",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "equity-models.all"
+      ],
+      "conditional_rules": [
+        {
+          "conditional_rule_set": "data-execution"
+        },
+        {
+          "when": "economic_knowledge_needed"
+        }
+      ],
+      "uses_profile": false,
+      "result_contract": {
+        "meaning": "Executed market definition, source observations, identification and estimates, competitive equilibrium, sustainable cash-flow and net-cash bridge, fair and market-implied value, attainable after-tax investment decision and attributed news update. Uncomputed real-company stages remain unfinished."
+      }
+    },
+    {
+      "id": "econ-literature:investigate",
+      "owner_skill": "econ-literature",
+      "mode": "investigate",
+      "trigger": "Find and select source information that resolves a research question or citation task.",
+      "required_rules": [
+        "core.all",
+        "econ-literature.all",
+        "research.investigate-source-claims"
+      ],
+      "conditional_rules": [
+        {
+          "when": "source_comparison_or_method_choice_unresolved"
+        },
+        {
+          "when": "requested_artifact_files"
+        },
+        {
+          "when": "operational_plan_requested"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
+        },
+        {
+          "when": "research_pipeline_requested"
+        },
+        {
+          "when": "research_source_discovery"
+        },
+        {
+          "when": "research_data_discovery"
+        },
+        {
+          "when": "research_adaptive_experiments"
+        },
+        {
+          "when": "research_result_artifacts"
+        },
+        {
+          "when": "economic_knowledge_needed"
+        }
+      ],
+      "uses_profile": false,
+      "default": true
+    },
+    {
+      "id": "econ-writing:compose",
+      "owner_skill": "econ-writing",
+      "mode": "compose",
+      "trigger": "Compose academic prose and research materials from the adopted sources.",
+      "input_contract": "Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.",
+      "required_rules": [
+        "core.all",
+        "econ-writing.compose",
+        "econ-writing.output"
+      ],
+      "conditional_rules": [
+        {
+          "when": "whole_paper_abstract_introduction_or_section_architecture"
+        },
+        {
+          "when": "exhibit_composition"
+        },
+        {
+          "conditional_rule_set": "writing-delivery"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
+        },
+        {
+          "conditional_rule_set": "writing-research-tail"
+        }
+      ],
+      "uses_profile": true,
+      "default": true
+    },
+    {
+      "id": "econ-writing:revise",
+      "owner_skill": "econ-writing",
+      "mode": "revise",
+      "trigger": "Revise supplied prose, including natural Japanese, spoken explanations and requests such as 自然な日本語に, 何を言いたいの, 直訳っぽい, 口頭で説明して and わかりやすく短く.",
+      "input_contract": "Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.",
+      "required_rules": [
+        "core.all",
+        "econ-writing.revise",
+        "econ-writing.output"
+      ],
+      "conditional_rules": [
+        {
+          "when": "whole_paper_architecture_revision"
+        },
+        {
+          "conditional_rule_set": "writing-delivery"
+        },
+        {
+          "when": "exhibit_composition"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
+        },
+        {
+          "conditional_rule_set": "writing-research-tail"
+        }
+      ],
+      "uses_profile": true
+    },
+    {
+      "id": "econ-writing:translate",
+      "owner_skill": "econ-writing",
+      "mode": "translate",
+      "trigger": "Translate supplied prose into natural Japanese or English while preserving its claims and sources.",
+      "input_contract": "Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.",
+      "required_rules": [
+        "core.all",
+        "econ-writing.translate",
+        "econ-writing.output"
+      ],
+      "conditional_rules": [
+        {
+          "conditional_rule_set": "writing-delivery"
+        },
+        {
+          "when": "exhibit_composition"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
+        },
+        {
+          "conditional_rule_set": "writing-research-tail"
+        }
+      ],
+      "uses_profile": true
+    },
+    {
+      "id": "econ-writing:convert",
+      "owner_skill": "econ-writing",
+      "mode": "convert",
+      "trigger": "Convert adopted content into a paper, slides, research site or requested format.",
+      "input_contract": "Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.",
+      "required_rules": [
+        "core.all",
+        "econ-writing.convert",
+        "econ-writing.output"
+      ],
+      "conditional_rules": [
+        {
+          "when": "file_output_or_format_rendering"
+        },
+        {
+          "conditional_rule_set": "writing-delivery"
+        },
+        {
+          "when": "exhibit_composition"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
+        },
+        {
+          "conditional_rule_set": "writing-research-tail"
+        }
+      ],
+      "uses_profile": true
+    },
+    {
+      "id": "econ-writing:guidance",
+      "owner_skill": "econ-writing",
+      "mode": "guidance",
+      "trigger": "Explain a concrete writing decision and show the needed revision.",
+      "input_contract": "Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.",
+      "required_rules": [
+        "core.all",
+        "econ-writing.guidance",
+        "econ-writing.output"
+      ],
+      "conditional_rules": [
+        {
+          "when": "requested_artifact_files"
+        },
+        {
+          "when": "operational_plan_requested"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
+        },
+        {
+          "conditional_rule_set": "writing-research-tail"
+        }
+      ],
+      "uses_profile": false,
+      "explicit_profile_allowed": true
+    },
+    {
+      "id": "econ-writing:explain",
+      "owner_skill": "econ-writing",
+      "mode": "explain",
+      "trigger": "Explain a paper, theory, institution, method or result through its question, mechanism, evidence and answer.",
+      "input_contract": "Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.",
+      "required_rules": [
+        "core.all",
+        "econ-writing.explain",
+        "econ-writing.output"
+      ],
+      "conditional_rules": [
+        {
+          "when": "source_derivation_requires_economic_method"
+        },
+        {
+          "conditional_rule_set": "writing-delivery"
+        },
+        {
+          "when": "exhibit_composition"
+        },
+        {
+          "when": "method_structural_estimation_and_counterfactuals"
+        },
+        {
+          "conditional_rule_set": "writing-research-tail"
+        }
+      ],
+      "uses_profile": true
+    },
+    {
+      "id": "econ-writing:profile",
+      "owner_skill": "econ-writing",
+      "mode": "profile",
+      "trigger": "Create or revise a reusable writing profile only when explicitly requested.",
+      "input_contract": "Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.",
+      "required_rules": [
+        "core.all",
+        "econ-writing.profile",
+        "econ-writing.output"
+      ],
+      "conditional_rules": [
+        {
+          "when": "default_profile_is_requested_target_or_comparison"
+        },
+        {
+          "when": "requested_artifact_files"
+        },
+        {
+          "when": "operational_plan_requested"
+        },
+        {
+          "conditional_rule_set": "writing-research-tail"
+        }
+      ],
+      "uses_profile": false
+    },
+    {
+      "id": "econ-review:assess",
+      "owner_skill": "econ-review",
+      "mode": "assess",
+      "trigger": "Assess the specified claim or artifact and return findings and proposed repairs.",
+      "required_rules": [
+        "core.all",
+        "econ-review.all"
+      ],
+      "uses_profile": false,
+      "default": true,
+      "conditional_rule_set": "review"
+    },
+    {
+      "id": "econ-review:assess+repair",
+      "owner_skill": "econ-review",
+      "mode": "assess+repair",
+      "trigger": "Assess the specified target and repair it within the requested change scope.",
+      "required_rules": [
+        "core.all",
+        "econ-review.all"
+      ],
+      "uses_profile": false,
+      "result_contract": {
+        "meaning": "Assess a specified claim or artifact and return requested findings or scoped corrections."
+      },
+      "conditional_rule_set": "review"
+    },
+    {
+      "id": "econ-knowledge:lookup",
+      "owner_skill": "econ-knowledge",
+      "mode": "lookup",
+      "trigger": "Retrieve the economics definitions, derivations, model conditions or worked examples needed by the current specialist.",
+      "required_rules": [
+        "core.all",
+        "econ-knowledge.all"
+      ],
+      "conditional_rules": [],
+      "uses_profile": false,
+      "default": true,
+      "result_contract": {
+        "meaning": "Return selected knowledge IDs, their necessary prerequisites and exact versioned bodies to the owning specialist."
+      }
+    },
+    {
+      "id": "project-work:contribute",
+      "owner_skill": "project-work",
+      "mode": "contribute",
+      "trigger": "Complete an assigned project contribution from its adopted economic model through research, calculations, consultation drafts and actual artifacts.",
+      "required_rules": [
+        "core.all",
+        "project-work.all",
+        "project-practice.connect-the-current-case",
+        "project-practice.complete-the-assigned-contribution",
+        "state-contract.project-work"
+      ],
+      "conditional_rule_set": "project-work",
+      "uses_profile": false,
+      "default": true
+    },
+    {
+      "id": "project-work:manage",
+      "owner_skill": "project-work",
+      "mode": "manage",
+      "trigger": "Manage a project or shared portfolio through its economic decision, evidence, work, resources, authorized changes, outcomes and handover.",
+      "required_rules": [
+        "core.all",
+        "project-work.all",
+        "project-practice.connect-the-current-case",
+        "project-practice.manage-the-case",
+        "state-contract.project-work"
+      ],
+      "conditional_rule_set": "project-work",
+      "uses_profile": false,
+      "default": false
+    }
+  ],
+  "conditions": {
+    "formulation_or_choice_unresolved": {
+      "when": "formulation_or_choice_unresolved",
+      "required_rules": [
+        "research.select-a-feasible-action",
+        "research.source-integration-and-method-selection"
+      ]
+    },
+    "economic_method_needed": {
+      "when": "economic_method_needed",
+      "required_rules": [
+        "design-methods.choose-the-estimand-and-method",
+        "design-methods.select-the-needed-section",
+        "research.source-integration-and-method-selection"
+      ]
+    },
+    "numerical_outputs_or_dependency_update": {
+      "when": "numerical_outputs_or_dependency_update",
+      "required_rules": [
+        "data-results.entry-point-and-dependencies",
+        "data-results.carry-analysis-results-into-tables-figures-and-prose"
+      ]
+    },
+    "files_calculation_external_or_resume": {
+      "when": "files_calculation_external_or_resume",
+      "required_rules": [
+        "execution.select-the-operation-and-working-area",
+        "execution.compare-changed-outputs",
+        "execution.checks-and-completion"
+      ]
+    },
+    "source_comparison_or_method_choice_unresolved": {
+      "when": "source_comparison_or_method_choice_unresolved",
+      "required_rules": [
+        "research.separate-explanations-with-a-comparison",
+        "research.source-integration-and-method-selection"
+      ]
+    },
+    "source_derivation_requires_economic_method": {
+      "when": "source_derivation_requires_economic_method",
+      "required_rules": [
+        "design-methods.select-the-needed-section",
+        "research.source-integration-and-method-selection"
+      ]
+    },
+    "whole_paper_abstract_introduction_or_section_architecture": {
+      "when": "whole_paper_abstract_introduction_or_section_architecture",
+      "required_rules": [
+        "paper-workflow.establish-the-argument-from-the-research",
+        "paper-workflow.design-the-papers-argument",
+        "paper-workflow.compose-the-requested-section"
+      ]
+    },
+    "exhibit_composition": {
+      "when": "exhibit_composition",
+      "required_rules": [
+        "paper-workflow.choose-and-explain-descriptive-exhibits"
+      ]
+    },
+    "whole_paper_architecture_revision": {
+      "when": "whole_paper_architecture_revision",
+      "required_rules": [
+        "paper-workflow.establish-the-argument-from-the-research",
+        "paper-workflow.design-the-papers-argument"
+      ]
+    },
+    "file_output_or_format_rendering": {
+      "when": "file_output_or_format_rendering",
+      "required_rules": [
+        "execution.select-the-operation-and-working-area",
+        "execution.checks-and-completion"
+      ]
+    },
+    "assessment_method_comparison_or_independence_needed": {
+      "when": "assessment_method_comparison_or_independence_needed",
+      "required_rules": [
+        "review-methods.review-findings-and-independence"
+      ]
+    },
+    "independent_review_requested_or_needed": {
+      "when": "independent_review_requested_or_needed",
+      "required_rules": [
+        "team.shared-work",
+        "team.review-findings-and-independence"
+      ]
+    },
+    "default_profile_is_requested_target_or_comparison": {
+      "when": "default_profile_is_requested_target_or_comparison",
+      "required_rules": [
+        "default-micro.principles",
+        "default-micro.select-the-passage-function"
+      ]
+    },
+    "prose_generation_revision_or_explanation": {
+      "when": "prose_generation_revision_or_explanation",
+      "required_rules": [
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation"
+      ]
+    },
+    "english_cumulative_multiparagraph_logic_needed": {
+      "when": "english_cumulative_multiparagraph_logic_needed",
+      "required_rules": [],
+      "optional_examples": [
+        "example.en.extended-introduction"
+      ]
+    },
+    "japanese_cumulative_multiparagraph_logic_needed": {
+      "when": "japanese_cumulative_multiparagraph_logic_needed",
+      "required_rules": [],
+      "optional_examples": [
+        "example.ja.extended-introduction"
+      ]
+    },
+    "requested_distribution_configuration_or_installation": {
+      "when": "requested_distribution_configuration_or_installation",
+      "required_rules": [
+        "integration.all",
+        "policy-codex-agent-terra.all",
+        "policy-codex-agent-luna.all",
+        "policy-codex-agent-astra.all",
+        "config-template-codex-example-toml.all"
+      ]
+    },
+    "requested_local_state_helper_operation": {
+      "when": "requested_local_state_helper_operation",
+      "required_rules": [
+        "team-state-helper.all"
+      ]
+    },
+    "data_pipeline_new": {
+      "when": "data_pipeline_new",
+      "required_rules": [
+        "design-methods.choose-the-estimand-and-method",
+        "data-implementation.source-to-analysis",
+        "data-implementation.acquisition",
+        "data-implementation.data-contracts-and-joins",
+        "data-implementation.computation",
+        "execution.entry-point-and-dependencies",
+        "execution.complete-outputs-and-failure-propagation"
+      ]
+    },
+    "data_acquisition_or_update": {
+      "when": "data_acquisition_or_update",
+      "required_rules": [
+        "data-implementation.acquisition",
+        "data-implementation.1-establish-the-received-source-and-revision"
+      ]
+    },
+    "data_schema_measurement_or_grain": {
+      "when": "data_schema_measurement_or_grain",
+      "required_rules": [
+        "data-implementation.2-establish-schema-measurement-and-grain"
+      ]
+    },
+    "data_sample_change": {
+      "when": "data_sample_change",
+      "required_rules": [
+        "data-implementation.3-construct-the-shared-sample-and-account-for-exclusions",
+        "data-implementation.4-prepare-the-estimation-input"
+      ]
+    },
+    "data_join_time_or_reshape": {
+      "when": "data_join_time_or_reshape",
+      "required_rules": [
+        "data-implementation.data-contracts-and-joins"
+      ]
+    },
+    "data_descriptive_statistics": {
+      "when": "data_descriptive_statistics",
+      "required_rules": [
+        "data-implementation.choose-descriptive-statistics-from-the-question"
+      ]
+    },
+    "data_estimator_or_engine_change": {
+      "when": "data_estimator_or_engine_change",
+      "required_rules": [
+        "design-methods.choose-the-estimand-and-method",
+        "data-implementation.estimator-engine-and-algorithm-selection"
+      ]
+    },
+    "data_numerical_or_simulation": {
+      "when": "data_numerical_or_simulation",
+      "required_rules": [
+        "data-implementation.numerical-methods"
+      ]
+    },
+    "data_measured_performance_or_memory": {
+      "when": "data_measured_performance_or_memory",
+      "required_rules": [
+        "data-implementation.measured-performance-and-memory"
+      ]
+    },
+    "delegation_active": {
+      "when": "delegation_active",
+      "required_rules": [
+        "team.shared-work",
+        "research.resolve-dependencies-and-integrate-findings",
+        "team.return-and-integration",
+        "team.native-model-roles"
+      ]
+    },
+    "resumption_active": {
+      "when": "resumption_active",
+      "required_rules": [
+        "team.resumption",
+        "state-contract.state-and-version-contract"
+      ]
+    },
+    "handoff_active": {
+      "when": "handoff_active",
+      "required_rules": [
+        "team.handoff"
+      ]
+    },
+    "dependency_order_unresolved": {
+      "when": "dependency_order_unresolved",
+      "required_rules": [
+        "research.turn-the-question-into-an-operation",
+        "research.select-a-feasible-action",
+        "research.resolve-dependencies-and-integrate-findings"
+      ]
+    },
+    "persistent_state_needed": {
+      "when": "persistent_state_needed",
+      "required_rules": [
+        "state-contract.state-and-version-contract",
+        "state-contract.local-state-helper"
+      ]
+    },
+    "publication_requested": {
+      "when": "publication_requested",
+      "required_rules": [
+        "publication.all"
+      ]
+    },
+    "method_model_construction": {
+      "when": "method_model_construction",
+      "required_rules": [
+        "design-methods.model-construction"
+      ]
+    },
+    "method_design_elements": {
+      "when": "method_design_elements",
+      "required_rules": [
+        "design-methods.design-elements"
+      ]
+    },
+    "method_difference_in_differences_and_event_studies": {
+      "when": "method_difference_in_differences_and_event_studies",
+      "required_rules": [
+        "design-methods.difference-in-differences-and-event-studies"
+      ]
+    },
+    "method_random_assignment_and_interventions": {
+      "when": "method_random_assignment_and_interventions",
+      "required_rules": [
+        "design-methods.random-assignment-and-interventions"
+      ]
+    },
+    "method_regression_discontinuity": {
+      "when": "method_regression_discontinuity",
+      "required_rules": [
+        "design-methods.regression-discontinuity"
+      ]
+    },
+    "method_instrumental_variables_and_assignment_leniency": {
+      "when": "method_instrumental_variables_and_assignment_leniency",
+      "required_rules": [
+        "design-methods.instrumental-variables-and-assignment-leniency"
+      ]
+    },
+    "method_shift_share_designs": {
+      "when": "method_shift_share_designs",
+      "required_rules": [
+        "design-methods.shift-share-designs"
+      ]
+    },
+    "method_networks_and_spillovers": {
+      "when": "method_networks_and_spillovers",
+      "required_rules": [
+        "design-methods.networks-and-spillovers"
+      ]
+    },
+    "method_synthetic_controls_and_panel_counterfactuals": {
+      "when": "method_synthetic_controls_and_panel_counterfactuals",
+      "required_rules": [
+        "design-methods.synthetic-controls-and-panel-counterfactuals"
+      ]
+    },
+    "method_inference_and_interpretation": {
+      "when": "method_inference_and_interpretation",
+      "required_rules": [
+        "design-methods.inference-and-interpretation"
+      ]
+    },
+    "method_connect_observed_choices_and_outcomes_to_the_model_and_interventions": {
+      "when": "method_connect_observed_choices_and_outcomes_to_the_model_and_interventions",
+      "required_rules": [
+        "design-methods.connect-observed-choices-and-outcomes-to-the-model-and-interventions"
+      ]
+    },
+    "method_construct_restrictions_and_set_valued_predictions": {
+      "when": "method_construct_restrictions_and_set_valued_predictions",
+      "required_rules": [
+        "design-methods.construct-restrictions-and-set-valued-predictions"
+      ]
+    },
+    "method_select_the_economic_object": {
+      "when": "method_select_the_economic_object",
+      "required_rules": [
+        "design-methods.select-the-economic-object"
+      ]
+    },
+    "method_reuse_or_calculate_the_requested_quantities": {
+      "when": "method_reuse_or_calculate_the_requested_quantities",
+      "required_rules": [
+        "design-methods.reuse-or-calculate-the-requested-quantities"
+      ]
+    },
+    "method_deliver_the_selected_result": {
+      "when": "method_deliver_the_selected_result",
+      "required_rules": [
+        "design-methods.deliver-the-selected-result"
+      ]
+    },
+    "example_en_conclusion_comparison": {
+      "when": "example_en_conclusion_comparison",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.en.conclusion"
+      ]
+    },
+    "example_en_institution_mechanism": {
+      "when": "example_en_institution_mechanism",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.en.mechanism"
+      ]
+    },
+    "example_en_quantity_relation": {
+      "when": "example_en_quantity_relation",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.en.quantities"
+      ]
+    },
+    "example_en_revision_translation": {
+      "when": "example_en_revision_translation",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.en.translation"
+      ]
+    },
+    "example_en_abstract": {
+      "when": "example_en_abstract",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.en.abstract"
+      ]
+    },
+    "example_en_introduction_opening": {
+      "when": "example_en_introduction_opening",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.en.introduction"
+      ]
+    },
+    "example_en_assignment_comparison": {
+      "when": "example_en_assignment_comparison",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.en.assignment"
+      ]
+    },
+    "example_ja_conclusion_comparison": {
+      "when": "example_ja_conclusion_comparison",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.ja.conclusion"
+      ]
+    },
+    "example_ja_institution_mechanism": {
+      "when": "example_ja_institution_mechanism",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.ja.mechanism"
+      ]
+    },
+    "example_ja_quantity_relation": {
+      "when": "example_ja_quantity_relation",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.ja.quantities"
+      ]
+    },
+    "example_ja_revision_translation": {
+      "when": "example_ja_revision_translation",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.ja.translation"
+      ]
+    },
+    "example_ja_abstract": {
+      "when": "example_ja_abstract",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.ja.abstract"
+      ]
+    },
+    "example_ja_introduction_opening": {
+      "when": "example_ja_introduction_opening",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.ja.introduction"
+      ]
+    },
+    "example_ja_assignment_comparison": {
+      "when": "example_ja_assignment_comparison",
+      "required_rules": [],
+      "optional_examples": [
+        "default-micro.ja.assignment"
+      ]
+    },
+    "talk_requested": {
+      "when": "talk_requested",
+      "required_rules": [
+        "econ-writing.compose-a-talk"
+      ]
+    },
+    "research_site_requested": {
+      "when": "research_site_requested",
+      "required_rules": [
+        "econ-writing.compose-a-research-site"
+      ]
+    },
+    "artifact_rendering_requested": {
+      "when": "artifact_rendering_requested",
+      "required_rules": [
+        "econ-writing.render-the-requested-artifact"
+      ]
+    },
+    "source_investigation_active": {
+      "when": "source_investigation_active",
+      "required_rules": [
+        "research.investigate-source-claims"
+      ]
+    },
+    "requested_artifact_files": {
+      "when": "requested_artifact_files",
+      "required_rules": [
+        "execution.select-the-operation-and-working-area",
+        "execution.checks-and-completion"
+      ]
+    },
+    "operational_plan_requested": {
+      "when": "operational_plan_requested",
+      "required_rules": [
+        "research.operational-plans"
+      ]
+    },
+    "paragraph_execution_requested": {
+      "when": "paragraph_execution_requested",
+      "required_rules": [
+        "paragraph-workflow.all",
+        "paragraph-engine.all",
+        "argument-engine.all",
+        "paragraph-schema.all",
+        "argument-schema.all"
+      ]
+    },
+    "data_code_change": {
+      "when": "data_code_change",
+      "required_rules": [
+        "econ-data.implement-at-the-existing-owner",
+        "execution.entry-point-and-dependencies",
+        "execution.complete-outputs-and-failure-propagation"
+      ]
+    },
+    "method_choose_the_estimand_and_method": {
+      "when": "method_choose_the_estimand_and_method",
+      "required_rules": [
+        "design-methods.choose-the-estimand-and-method"
+      ]
+    },
+    "method_outcome_scale_and_conditional_mean": {
+      "when": "method_outcome_scale_and_conditional_mean",
+      "required_rules": [
+        "design-methods.select-the-needed-section",
+        "design-methods.choose-the-estimand-and-method",
+        "design-methods.outcome-scale-and-conditional-mean"
+      ]
+    },
+    "method_orthogonal_scores_and_heterogeneous_effects": {
+      "when": "method_orthogonal_scores_and_heterogeneous_effects",
+      "required_rules": [
+        "design-methods.select-the-needed-section",
+        "design-methods.choose-the-estimand-and-method",
+        "design-methods.orthogonal-scores-and-heterogeneous-effects"
+      ]
+    },
+    "method_structural_estimation_and_counterfactuals": {
+      "when": "method_structural_estimation_and_counterfactuals",
+      "required_rules": [
+        "design-methods.select-the-needed-section",
+        "design-methods.choose-the-estimand-and-method",
+        "design-methods.structural-estimation-and-counterfactuals"
+      ]
+    },
+    "usage_accounting_requested": {
+      "when": "usage_accounting_requested",
+      "required_rules": [
+        "team.requested-usage-accounting"
+      ]
+    },
+    "research_pipeline_requested": {
+      "when": "research_pipeline_requested",
+      "required_rules": [
+        "research-execution.all",
+        "data-results.all",
+        "state-contract.all"
+      ]
+    },
+    "method_extended_causal": {
+      "when": "method_extended_causal",
+      "required_rules": [
+        "models-causal.all"
+      ]
+    },
+    "method_extended_markets": {
+      "when": "method_extended_markets",
+      "required_rules": [
+        "models-markets.all"
+      ]
+    },
+    "method_extended_dynamic": {
+      "when": "method_extended_dynamic",
+      "required_rules": [
+        "models-dynamic.all"
+      ]
+    },
+    "method_extended_macro": {
+      "when": "method_extended_macro",
+      "required_rules": [
+        "models-macro-extended.all",
+        "models-dsge.all"
+      ]
+    },
+    "method_agent_simulation": {
+      "when": "method_agent_simulation",
+      "required_rules": [
+        "models-abm.all"
+      ]
+    },
+    "method_extended_numerics": {
+      "when": "method_extended_numerics",
+      "required_rules": [
+        "models-numerics.all"
+      ]
+    },
+    "research_source_discovery": {
+      "when": "research_source_discovery",
+      "required_rules": [
+        "source-discovery.all"
+      ]
+    },
+    "research_data_discovery": {
+      "when": "research_data_discovery",
+      "required_rules": [
+        "research-data-guide.all"
+      ]
+    },
+    "research_adaptive_experiments": {
+      "when": "research_adaptive_experiments",
+      "required_rules": [
+        "adaptive-research.all"
+      ]
+    },
+    "research_result_artifacts": {
+      "when": "research_result_artifacts",
+      "required_rules": [
+        "result-artifacts.all"
+      ]
+    },
+    "specification_reconciliation_requested": {
+      "when": "specification_reconciliation_requested",
+      "required_rules": [
+        "state-contract.analyze-and-converge"
+      ]
+    },
+    "operational_procedure_reuse": {
+      "when": "operational_procedure_reuse",
+      "required_rules": [
+        "research-execution.retain-and-reuse-an-observed-procedure"
+      ]
+    },
+    "economic_knowledge_needed": {
+      "when": "economic_knowledge_needed",
+      "required_rules": [
+        "econ-knowledge.all"
+      ]
+    },
+    "review_editorial_requested": {
+      "when": "review_editorial_requested",
+      "required_rules": [
+        "econ-writing.primary-expression-rule",
+        "econ-writing.native-entry-contract",
+        "econ-writing.preserve-adopted-content",
+        "econ-writing.compose-for-the-medium-and-language"
+      ]
+    },
+    "review_prose_repair_requested": {
+      "when": "review_prose_repair_requested",
+      "required_rules": [
+        "econ-writing.revise",
+        "econ-writing.output"
+      ]
+    },
+    "review_prose_reconstruction_requested": {
+      "when": "review_prose_reconstruction_requested",
+      "required_rules": [
+        "econ-writing.compose",
+        "econ-writing.output"
+      ]
+    },
+    "project_resources": {
+      "when": "project_resources",
+      "required_rules": [
+        "project-practice.resources-and-dates"
+      ]
+    },
+    "project_change": {
+      "when": "project_change",
+      "required_rules": [
+        "project-practice.change-and-recovery"
+      ]
+    },
+    "project_discussion": {
+      "when": "project_discussion",
+      "required_rules": [
+        "project-practice.discussion-and-interviews"
+      ]
+    },
+    "project_contact": {
+      "when": "project_contact",
+      "required_rules": [
+        "project-practice.contact-drafts"
+      ]
+    },
+    "project_artifact": {
+      "when": "project_artifact",
+      "required_rules": [
+        "project-practice.artifacts-and-integration"
+      ]
+    },
+    "project_outcome": {
+      "when": "project_outcome",
+      "required_rules": [
+        "project-practice.outcomes-and-handover"
+      ]
+    }
+  },
+  "aliases": {
+    "econ-workflow": {
+      "runtime_action": "boundary",
+      "required_rules": [
+        "core.all"
+      ],
+      "resolve_owner_by": "requested_final_operation"
+    },
+    "econ-assertive": {
+      "operation_id": "econ-writing:guidance"
+    },
+    "econ-edit": {
+      "operation_id": "econ-writing:revise"
+    },
+    "EDIT": {
+      "operation_id": "econ-writing:revise",
+      "default_input": "immediately_preceding_answer"
+    },
+    "econ-handoff": {
+      "runtime_action": "handoff",
+      "required_rules": [
+        "core.all",
+        "team.handoff"
+      ],
+      "requested_section": "Handoff",
+      "resolve_owner_by": "existing_result_owner"
+    },
+    "econ-paper": {
+      "operation_id": "econ-writing:explain"
+    },
+    "econ-style": {
+      "operation_id": "econ-writing:profile"
+    },
+    "explain-before-shorten": {
+      "operation_id": "econ-writing:revise"
+    },
+    "econ-equity": {
+      "operation_id": "econ-data:equity"
+    }
+  }
+}

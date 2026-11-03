@@ -1,0 +1,6 @@
+numpy==2.3.5
+scipy==1.17.0
+sequence-jacobian==1.0.0
+econ-ark==0.17.2
+statsmodels==0.14.6
+packaging==26.3

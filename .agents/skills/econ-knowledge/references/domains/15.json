@@ -1,0 +1,306 @@
+{
+  "domain": "市場設計",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "design-01",
+      "chapter": 7,
+      "concept_ids": [
+        "C-DESIGN-01",
+        "C-CH-07"
+      ],
+      "contract_ids": [],
+      "domain": "市場設計",
+      "file": "chapters/07-market-design.md",
+      "id": "DESIGN-01",
+      "inputs": [
+        "価値分布",
+        "入札者数",
+        "リスク選好",
+        "売却規則"
+      ],
+      "jel_codes": [
+        "D44",
+        "C72"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "均衡入札",
+        "落札確率",
+        "期待支払"
+      ],
+      "prerequisites": [
+        "GAME-01"
+      ],
+      "related": [],
+      "subdomain": "第一価格と第二価格オークション",
+      "title": "第一価格と第二価格オークション",
+      "topic": "第一価格と第二価格オークション",
+      "use_when": "第一価格と第二価格オークションの入札を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "design-02",
+      "chapter": 7,
+      "concept_ids": [
+        "C-DESIGN-02",
+        "C-CH-07"
+      ],
+      "contract_ids": [],
+      "domain": "市場設計",
+      "file": "chapters/07-market-design.md",
+      "id": "DESIGN-02",
+      "inputs": [
+        "入札額分布",
+        "入札密度",
+        "入札者数",
+        "信号"
+      ],
+      "jel_codes": [
+        "D44",
+        "C57"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "落札条件付き価値",
+        "復元された私的価値"
+      ],
+      "prerequisites": [
+        "DESIGN-01"
+      ],
+      "related": [],
+      "subdomain": "共通価値と入札からの識別",
+      "title": "共通価値と入札からの識別",
+      "topic": "共通価値と入札からの識別",
+      "use_when": "共通価値の落札情報と第一価格入札から価値を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "design-03",
+      "chapter": 7,
+      "concept_ids": [
+        "C-DESIGN-03",
+        "C-CH-07",
+        "C-TERM-VCG"
+      ],
+      "contract_ids": [],
+      "domain": "市場設計",
+      "file": "chapters/07-market-design.md",
+      "id": "DESIGN-03",
+      "inputs": [
+        "価値申告",
+        "配分集合",
+        "価値分布"
+      ],
+      "jel_codes": [
+        "D47",
+        "D44"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "VCG支払",
+        "収入最大化配分",
+        "留保価格"
+      ],
+      "prerequisites": [
+        "DESIGN-01"
+      ],
+      "related": [],
+      "subdomain": "VCG と最適オークション",
+      "title": "VCG と最適オークション",
+      "topic": "VCG と最適オークション",
+      "use_when": "VCG支払と仮想価値から配分と最適留保価格を設計する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "design-04",
+      "chapter": 7,
+      "concept_ids": [
+        "C-DESIGN-04",
+        "C-CH-07"
+      ],
+      "contract_ids": [],
+      "domain": "市場設計",
+      "file": "chapters/07-market-design.md",
+      "id": "DESIGN-04",
+      "inputs": [
+        "生徒の順位",
+        "学校の優先順位",
+        "定員"
+      ],
+      "jel_codes": [
+        "C78",
+        "D47"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "安定割当",
+        "阻止する組"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "繰延受諾と安定性",
+      "title": "繰延受諾と安定性",
+      "topic": "繰延受諾と安定性",
+      "use_when": "繰延受諾で安定した学校割当を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "design-05",
+      "chapter": 7,
+      "concept_ids": [
+        "C-DESIGN-05",
+        "C-CH-07"
+      ],
+      "contract_ids": [],
+      "domain": "市場設計",
+      "file": "chapters/07-market-design.md",
+      "id": "DESIGN-05",
+      "inputs": [
+        "ペア別余剰",
+        "参加制約",
+        "両面の需要"
+      ],
+      "jel_codes": [
+        "C78",
+        "D47"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "マッチング",
+        "双対利得",
+        "均衡参加"
+      ],
+      "prerequisites": [
+        "MATH-07"
+      ],
+      "related": [
+        "DESIGN-04",
+        "IO-05"
+      ],
+      "subdomain": "移転を伴うマッチングとプラットフォーム",
+      "title": "移転を伴うマッチングとプラットフォーム",
+      "topic": "移転を伴うマッチングとプラットフォーム",
+      "use_when": "移転可能な余剰とプラットフォーム参加を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "design-06",
+      "chapter": 7,
+      "concept_ids": [
+        "C-DESIGN-06",
+        "C-CH-07"
+      ],
+      "contract_ids": [],
+      "domain": "市場設計",
+      "file": "chapters/07-market-design.md",
+      "id": "DESIGN-06",
+      "inputs": [
+        "一様価値分布",
+        "入札者数2",
+        "生徒と学校の順位"
+      ],
+      "jel_codes": [
+        "D44",
+        "C78"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "均衡入札v/2",
+        "売上1/3",
+        "学校割当"
+      ],
+      "prerequisites": [
+        "DESIGN-01",
+        "DESIGN-04"
+      ],
+      "related": [],
+      "subdomain": "例題：二人入札と三人の学校割当",
+      "title": "例題：二人入札と三人の学校割当",
+      "topic": "例題：二人入札と三人の学校割当",
+      "use_when": "二人の入札と三人の学校割当を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "design-07",
+      "chapter": 7,
+      "concept_ids": [
+        "C-CH-07",
+        "C-DESIGN-07",
+        "C-TERM-ARROW",
+        "C-TERM-GIBBARD-SATTERTHWAITE"
+      ],
+      "contract_ids": [],
+      "domain": "市場設計",
+      "file": "chapters/07-market-design.md",
+      "id": "DESIGN-07",
+      "inputs": [
+        "個人の選好領域",
+        "社会的出力",
+        "独立性と誘因の条件"
+      ],
+      "jel_codes": [
+        "D71",
+        "D72"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "適用する不可能性定理",
+        "条件を緩める制度",
+        "単峰性などの領域制限"
+      ],
+      "prerequisites": [],
+      "related": [
+        "DESIGN-03",
+        "GAME-01"
+      ],
+      "subdomain": "社会的選択と不可能性",
+      "title": "社会的選択と不可能性",
+      "topic": "社会的選択と不可能性",
+      "use_when": "社会的順位と単一の勝者を区別し、不可能性定理の条件と制限領域の制度を判定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "design-08",
+      "chapter": 7,
+      "concept_ids": [
+        "C-CH-07",
+        "C-DESIGN-08",
+        "C-TERM-ENVY-FREE",
+        "C-TERM-EF1",
+        "C-TERM-PARETO"
+      ],
+      "contract_ids": [],
+      "domain": "市場設計",
+      "file": "chapters/07-market-design.md",
+      "id": "DESIGN-08",
+      "inputs": [
+        "財の可分性",
+        "非負加法的評価などの効用",
+        "実行可能配分"
+      ],
+      "jel_codes": [
+        "D63",
+        "D71"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "無羨望またはEF1の判定",
+        "パレート改善の有無",
+        "仮定付きの存在判断"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [
+        "MICRO-05",
+        "DESIGN-03",
+        "DESIGN-04"
+      ],
+      "subdomain": "公正分配と効率性",
+      "title": "公正分配と効率性",
+      "topic": "公正分配と効率性",
+      "use_when": "可分性と効用仮定を指定し、無羨望・EF1・パレート効率を別々に検査する"
+    }
+  ]
+}

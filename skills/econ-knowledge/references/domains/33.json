@@ -1,0 +1,264 @@
+{
+  "domain": "開発農業",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "dev-01",
+      "chapter": 27,
+      "concept_ids": [
+        "C-DEV-01",
+        "C-CH-27"
+      ],
+      "contract_ids": [],
+      "domain": "開発農業",
+      "file": "chapters/27-development-agriculture.md",
+      "id": "DEV-01",
+      "inputs": [
+        "資産",
+        "借入制約",
+        "投資収益"
+      ],
+      "jel_codes": [
+        "O12",
+        "O11"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "採用閾値",
+        "資産遷移"
+      ],
+      "prerequisites": [
+        "MATH-06"
+      ],
+      "related": [],
+      "subdomain": "固定費、信用と貧困の罠",
+      "title": "固定費、信用と貧困の罠",
+      "topic": "固定費、信用と貧困の罠",
+      "use_when": "信用制約と貧困の罠を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "dev-02",
+      "chapter": 27,
+      "concept_ids": [
+        "C-DEV-02",
+        "C-CH-27"
+      ],
+      "contract_ids": [],
+      "domain": "開発農業",
+      "file": "chapters/27-development-agriculture.md",
+      "id": "DEV-02",
+      "inputs": [
+        "生産技術",
+        "労働市場",
+        "所得"
+      ],
+      "jel_codes": [
+        "Q12",
+        "O13"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "投入",
+        "消費",
+        "作物選択"
+      ],
+      "prerequisites": [
+        "MICRO-04"
+      ],
+      "related": [
+        "DEV-03"
+      ],
+      "subdomain": "農家の生産と消費",
+      "title": "農家の生産と消費",
+      "topic": "農家の生産と消費; agricultural household liquidity constraint; farm credit weather risk; 農家の流動性制約; 農業信用",
+      "use_when": "農家の生産と消費を同時に解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "dev-03",
+      "chapter": 27,
+      "concept_ids": [
+        "C-DEV-03",
+        "C-CH-27"
+      ],
+      "contract_ids": [],
+      "domain": "開発農業",
+      "file": "chapters/27-development-agriculture.md",
+      "id": "DEV-03",
+      "inputs": [
+        "収穫関数",
+        "分益率",
+        "努力費用"
+      ],
+      "jel_codes": [
+        "O12",
+        "D86"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "努力",
+        "参加条件"
+      ],
+      "prerequisites": [
+        "CONTRACT-01"
+      ],
+      "related": [],
+      "subdomain": "小作契約と努力",
+      "title": "小作契約と努力",
+      "topic": "小作契約と努力",
+      "use_when": "小作契約の努力誘因を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "dev-04",
+      "chapter": 27,
+      "concept_ids": [
+        "C-DEV-04",
+        "C-CH-27",
+        "C-TERM-NETWORK"
+      ],
+      "contract_ids": [],
+      "domain": "開発農業",
+      "file": "chapters/27-development-agriculture.md",
+      "id": "DEV-04",
+      "inputs": [
+        "所得過程",
+        "移転",
+        "離脱価値"
+      ],
+      "jel_codes": [
+        "O12",
+        "D85"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "消費平準化",
+        "参加条件"
+      ],
+      "prerequisites": [
+        "DYN-02"
+      ],
+      "related": [
+        "NET-03"
+      ],
+      "subdomain": "保険、ネットワークと約束",
+      "title": "保険、ネットワークと約束",
+      "topic": "保険、ネットワークと約束",
+      "use_when": "家計間の保険と約束を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "dev-05",
+      "chapter": 27,
+      "concept_ids": [
+        "C-DEV-05",
+        "C-CH-27"
+      ],
+      "contract_ids": [],
+      "domain": "開発農業",
+      "file": "chapters/27-development-agriculture.md",
+      "id": "DEV-05",
+      "inputs": [
+        "技能技術",
+        "投入",
+        "企業歪み"
+      ],
+      "jel_codes": [
+        "O15",
+        "J13"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "技能",
+        "限界生産物",
+        "配分"
+      ],
+      "prerequisites": [
+        "MICRO-04"
+      ],
+      "related": [
+        "HEALTH-05"
+      ],
+      "subdomain": "子どもの技能と資源配分",
+      "title": "子どもの技能と資源配分",
+      "topic": "子どもの技能と資源配分",
+      "use_when": "技能投資と企業間資源配分を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "dev-06",
+      "chapter": 27,
+      "concept_ids": [
+        "C-DEV-06",
+        "C-CH-27"
+      ],
+      "contract_ids": [],
+      "domain": "開発農業",
+      "file": "chapters/27-development-agriculture.md",
+      "id": "DEV-06",
+      "inputs": [
+        "行政能力",
+        "参加費",
+        "要素需要供給"
+      ],
+      "jel_codes": [
+        "O11",
+        "O43"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "登録",
+        "賃金",
+        "集計厚生"
+      ],
+      "prerequisites": [
+        "MICRO-05"
+      ],
+      "related": [
+        "DEV-01"
+      ],
+      "subdomain": "制度、構造転換と政策の拡大",
+      "title": "制度、構造転換と政策の拡大",
+      "topic": "制度、構造転換と政策の拡大",
+      "use_when": "制度改革と政策拡大の波及を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "dev-07",
+      "chapter": 27,
+      "concept_ids": [
+        "C-DEV-07",
+        "C-CH-27"
+      ],
+      "contract_ids": [],
+      "domain": "開発農業",
+      "file": "chapters/27-development-agriculture.md",
+      "id": "DEV-07",
+      "inputs": [
+        "収穫",
+        "努力費用",
+        "資産と借入"
+      ],
+      "jel_codes": [
+        "Q12",
+        "O12"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "努力",
+        "余剰",
+        "採用可能閾値"
+      ],
+      "prerequisites": [
+        "DEV-03",
+        "DEV-01"
+      ],
+      "related": [],
+      "subdomain": "分益契約と投資閾値",
+      "title": "例題：分益契約と投資閾値",
+      "topic": "例題：分益契約と投資閾値",
+      "use_when": "分益契約と信用閾値を計算する"
+    }
+  ]
+}

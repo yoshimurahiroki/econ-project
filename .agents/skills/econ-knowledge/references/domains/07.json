@@ -1,0 +1,227 @@
+{
+  "domain": "分野横断例題",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "case-01",
+      "chapter": 34,
+      "concept_ids": [
+        "C-CASE-01",
+        "C-CH-34",
+        "C-OBJ-CONSUMER-SURPLUS",
+        "C-OBJ-OPERATING-PROFIT",
+        "C-OBJ-FCFF",
+        "C-OBJ-ENTERPRISE-VALUE",
+        "C-OBJ-EQUILIBRIUM-PRICES",
+        "C-OBJ-OWNERSHIP",
+        "C-TERM-MERGER",
+        "C-TERM-MARKET-POWER",
+        "C-TERM-EQUITY-VALUE",
+        "C-TERM-FIRM-VALUATION",
+        "C-TERM-EBIT",
+        "C-TERM-HORIZONTAL-MERGER"
+      ],
+      "contract_ids": [
+        "MC-cournot-fcff"
+      ],
+      "domain": "分野横断例題",
+      "file": "chapters/34-integrated-cases.md",
+      "id": "CASE-01",
+      "inputs": [
+        "需要",
+        "費用",
+        "競争",
+        "税",
+        "割引率"
+      ],
+      "jel_codes": [
+        "L13",
+        "G32"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "数量",
+        "利益",
+        "FCFF",
+        "企業価値",
+        "余剰"
+      ],
+      "prerequisites": [
+        "IO-01",
+        "FINANCE-03",
+        "WELFARE-02"
+      ],
+      "related": [],
+      "subdomain": "需要と競争から企業価値へ",
+      "title": "需要と競争から企業価値へ",
+      "topic": "需要と競争から企業価値へ",
+      "use_when": "競争均衡を企業価値と厚生につなぐ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "case-02",
+      "chapter": 34,
+      "concept_ids": [
+        "C-CASE-02",
+        "C-CH-34",
+        "C-OBJ-EXPECTED-SANCTION",
+        "C-OBJ-TRUE-INCIDENCE",
+        "C-TERM-PRESCRIBING",
+        "C-TERM-SANCTION-PROBABILITY",
+        "C-TERM-SANCTION-RISK"
+      ],
+      "contract_ids": [
+        "MC-physician-enforcement"
+      ],
+      "domain": "分野横断例題",
+      "file": "chapters/34-integrated-cases.md",
+      "id": "CASE-02",
+      "inputs": [
+        "診療便益",
+        "費用",
+        "報酬",
+        "摘発"
+      ],
+      "jel_codes": [
+        "I11",
+        "K42"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "診療量",
+        "余剰",
+        "制裁"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "HEALTH-03",
+        "POL-03"
+      ],
+      "subdomain": "医師の誘因と期待制裁",
+      "title": "医師の誘因と期待制裁",
+      "topic": "医師の誘因と期待制裁",
+      "use_when": "医師の制裁反応と余剰を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "case-03",
+      "chapter": 34,
+      "concept_ids": [
+        "C-CASE-03",
+        "C-CH-34",
+        "C-OBJ-HOUSING-RENTS",
+        "C-OBJ-LOCATION-SHARES"
+      ],
+      "contract_ids": [
+        "MC-housing-toy"
+      ],
+      "domain": "分野横断例題",
+      "file": "chapters/34-integrated-cases.md",
+      "id": "CASE-03",
+      "inputs": [
+        "人口",
+        "住宅供給",
+        "選好尺度"
+      ],
+      "jel_codes": [
+        "R31",
+        "R21"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "人口",
+        "家賃",
+        "効用変化"
+      ],
+      "prerequisites": [
+        "SPATIAL-02"
+      ],
+      "related": [
+        "WELFARE-01"
+      ],
+      "subdomain": "住宅供給と居住均衡",
+      "title": "住宅供給と居住均衡",
+      "topic": "住宅供給と居住均衡",
+      "use_when": "住宅供給変更の居住均衡を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "case-04",
+      "chapter": 34,
+      "concept_ids": [
+        "C-CASE-04",
+        "C-CH-34",
+        "C-TERM-DID"
+      ],
+      "contract_ids": [],
+      "domain": "分野横断例題",
+      "file": "chapters/34-integrated-cases.md",
+      "id": "CASE-04",
+      "inputs": [
+        "群別所得",
+        "人口",
+        "費用",
+        "期間"
+      ],
+      "jel_codes": [
+        "C23",
+        "H43"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "ATT",
+        "便益現在価値",
+        "NPV"
+      ],
+      "prerequisites": [
+        "CAUSAL-03",
+        "WELFARE-04"
+      ],
+      "related": [],
+      "subdomain": "DIDから費用便益へ",
+      "title": "DIDから費用便益へ",
+      "topic": "DIDから費用便益へ; difference in differences cost benefit; DID 費用便益; 政策の置換効果",
+      "use_when": "DID効果を費用便益へつなぐ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "case-05",
+      "chapter": 34,
+      "concept_ids": [
+        "C-CASE-05",
+        "C-CH-34"
+      ],
+      "contract_ids": [],
+      "domain": "分野横断例題",
+      "file": "chapters/34-integrated-cases.md",
+      "id": "CASE-05",
+      "inputs": [
+        "削減費用",
+        "目標",
+        "限界便益"
+      ],
+      "jel_codes": [
+        "Q52",
+        "Q54"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "削減配分",
+        "費用",
+        "純便益"
+      ],
+      "prerequisites": [
+        "ENV-01"
+      ],
+      "related": [
+        "ENV-06"
+      ],
+      "subdomain": "炭素価格と異質な削減",
+      "title": "炭素価格と異質な削減",
+      "topic": "炭素価格と異質な削減",
+      "use_when": "炭素価格と異質企業の削減を解く"
+    }
+  ]
+}

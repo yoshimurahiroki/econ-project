@@ -1,0 +1,261 @@
+{
+  "domain": "異質マクロ",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "het-01",
+      "chapter": 19,
+      "concept_ids": [
+        "C-HET-01",
+        "C-CH-19",
+        "C-TERM-EGM",
+        "C-OBJ-MPC",
+        "C-TERM-WEALTH-DISTRIBUTION"
+      ],
+      "contract_ids": [],
+      "domain": "異質マクロ",
+      "file": "chapters/19-heterogeneous-macro.md",
+      "id": "HET-01",
+      "inputs": [
+        "所得遷移",
+        "資産grid",
+        "選好",
+        "価格"
+      ],
+      "jel_codes": [
+        "E21",
+        "C61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "貯蓄政策",
+        "Euler残差"
+      ],
+      "prerequisites": [
+        "DYN-03"
+      ],
+      "related": [
+        "DYN-05",
+        "HET-04"
+      ],
+      "subdomain": "異質家計貯蓄",
+      "title": "不完全市場の貯蓄",
+      "topic": "所得リスクと借入制約の家計政策を解く; endogenous grid method; EGM; 内生的格子法; 借入制約",
+      "use_when": "所得リスクと借入制約の家計政策を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "het-02",
+      "chapter": 19,
+      "concept_ids": [
+        "C-HET-02",
+        "C-CH-19",
+        "C-OBJ-HOUSEHOLD-DISTRIBUTION",
+        "C-TERM-AIYAGARI",
+        "C-TERM-WEALTH-DISTRIBUTION"
+      ],
+      "contract_ids": [],
+      "domain": "異質マクロ",
+      "file": "chapters/19-heterogeneous-macro.md",
+      "id": "HET-02",
+      "inputs": [
+        "家計政策",
+        "所得遷移",
+        "企業技術"
+      ],
+      "jel_codes": [
+        "E21",
+        "O41"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "定常分布",
+        "資本",
+        "賃金と金利"
+      ],
+      "prerequisites": [
+        "HET-01"
+      ],
+      "related": [
+        "DYN-01",
+        "HET-04",
+        "HET-06"
+      ],
+      "subdomain": "異質家計均衡",
+      "title": "定常分布とAiyagari均衡",
+      "topic": "定常分布と資本市場清算を連立する",
+      "use_when": "定常分布と資本市場清算を連立する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "het-03",
+      "chapter": 19,
+      "concept_ids": [
+        "C-HET-03",
+        "C-CH-19",
+        "C-TERM-HANK",
+        "C-OBJ-MPC",
+        "C-OBJ-HOUSEHOLD-DISTRIBUTION",
+        "C-OBJ-RANK"
+      ],
+      "contract_ids": [
+        "MC-hank-one-asset"
+      ],
+      "domain": "異質マクロ",
+      "file": "chapters/19-heterogeneous-macro.md",
+      "id": "HET-03",
+      "inputs": [
+        "MPC",
+        "資産負債",
+        "所得",
+        "政策",
+        "家計の選好と所得遷移",
+        "企業・財政・金融則"
+      ],
+      "jel_codes": [
+        "E32",
+        "E52"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "直接反応",
+        "再分配",
+        "均衡消費"
+      ],
+      "prerequisites": [
+        "HET-02"
+      ],
+      "related": [
+        "MONETARY-01",
+        "HET-05"
+      ],
+      "subdomain": "異質主体金融政策",
+      "title": "HANKと伝達経路",
+      "topic": "家計分布とMPCから金融政策伝達を分解する",
+      "use_when": "家計分布とMPCから金融政策伝達を分解する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "het-04",
+      "chapter": 19,
+      "concept_ids": [
+        "C-HET-04",
+        "C-CH-19",
+        "C-TERM-SSJ",
+        "C-OBJ-HOUSEHOLD-DISTRIBUTION",
+        "C-OBJ-MARKET-RESIDUAL"
+      ],
+      "contract_ids": [
+        "MC-hank-one-asset"
+      ],
+      "domain": "異質マクロ",
+      "file": "chapters/19-heterogeneous-macro.md",
+      "id": "HET-04",
+      "inputs": [
+        "定常家計",
+        "遷移",
+        "価格経路",
+        "均衡条件",
+        "政策ショックと期間"
+      ],
+      "jel_codes": [
+        "E32",
+        "C63"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "政策・分布Jacobian",
+        "一般均衡応答",
+        "元式残差と精度診断"
+      ],
+      "prerequisites": [
+        "HET-03"
+      ],
+      "related": [],
+      "subdomain": "シーケンス空間",
+      "title": "sequence-space Jacobian",
+      "topic": "家計政策と分布のJacobianから均衡応答を求める",
+      "use_when": "家計政策と分布のJacobianから均衡応答を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "het-05",
+      "chapter": 19,
+      "concept_ids": [
+        "C-HET-05",
+        "C-CH-19",
+        "C-OBJ-HOUSEHOLD-DISTRIBUTION",
+        "C-OBJ-POLICY-VALUE"
+      ],
+      "contract_ids": [
+        "MC-hank-one-asset"
+      ],
+      "domain": "異質マクロ",
+      "file": "chapters/19-heterogeneous-macro.md",
+      "id": "HET-05",
+      "inputs": [
+        "初期分布",
+        "政策",
+        "終端条件"
+      ],
+      "jel_codes": [
+        "E21",
+        "O41"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "均衡経路",
+        "状態別消費等価",
+        "初期分布平均効用に対する共通消費等価"
+      ],
+      "prerequisites": [
+        "HET-04"
+      ],
+      "related": [],
+      "subdomain": "移行と厚生",
+      "title": "移行経路と世代厚生",
+      "topic": "初期分布から価格と家計政策の移行を解く",
+      "use_when": "初期分布から価格と家計政策の移行を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "het-06",
+      "chapter": 19,
+      "concept_ids": [
+        "C-HET-06",
+        "C-CH-19",
+        "C-OBJ-MPC"
+      ],
+      "contract_ids": [],
+      "domain": "異質マクロ",
+      "file": "chapters/19-heterogeneous-macro.md",
+      "id": "HET-06",
+      "inputs": [
+        "遷移行列",
+        "資産",
+        "MPC",
+        "移転"
+      ],
+      "jel_codes": [
+        "E21",
+        "D31"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "定常人口",
+        "集計資産",
+        "消費反応"
+      ],
+      "prerequisites": [
+        "DYN-01"
+      ],
+      "related": [
+        "HET-03"
+      ],
+      "subdomain": "分布再分配例",
+      "title": "解答付き例題：分布と再分配",
+      "topic": "定常状態とMPC別の移転反応を集計する",
+      "use_when": "定常状態とMPC別の移転反応を集計する"
+    }
+  ]
+}

@@ -1,0 +1,317 @@
+{
+  "domain": "数値シミュレーション",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "num-01",
+      "chapter": 33,
+      "concept_ids": [
+        "C-NUM-01",
+        "C-CH-33"
+      ],
+      "contract_ids": [],
+      "domain": "数値シミュレーション",
+      "file": "chapters/33-numerical-simulation.md",
+      "id": "NUM-01",
+      "inputs": [
+        "方程式",
+        "制約",
+        "数量尺度"
+      ],
+      "jel_codes": [
+        "C61",
+        "C62"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "残差",
+        "実行可能条件"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "NUM-04"
+      ],
+      "subdomain": "計算対象と解の条件",
+      "title": "計算対象と解の条件",
+      "topic": "計算対象と解の条件",
+      "use_when": "求根と最適化の残差を定義する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "num-02",
+      "chapter": 33,
+      "concept_ids": [
+        "C-NUM-02",
+        "C-CH-33"
+      ],
+      "contract_ids": [],
+      "domain": "数値シミュレーション",
+      "file": "chapters/33-numerical-simulation.md",
+      "id": "NUM-02",
+      "inputs": [
+        "ヤコビアン",
+        "遷移行列",
+        "差分幅"
+      ],
+      "jel_codes": [
+        "C61",
+        "C65"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "感応度",
+        "定常分布",
+        "条件数"
+      ],
+      "prerequisites": [
+        "MATH-02"
+      ],
+      "related": [
+        "NUM-04"
+      ],
+      "subdomain": "行列、微分と条件数",
+      "title": "行列、微分と条件数",
+      "topic": "行列、微分と条件数",
+      "use_when": "感応度と行列条件数を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "num-03",
+      "chapter": 33,
+      "concept_ids": [
+        "C-NUM-03",
+        "C-CH-33"
+      ],
+      "contract_ids": [],
+      "domain": "数値シミュレーション",
+      "file": "chapters/33-numerical-simulation.md",
+      "id": "NUM-03",
+      "inputs": [
+        "関数",
+        "分布",
+        "乱数",
+        "標本数"
+      ],
+      "jel_codes": [
+        "C15",
+        "C63"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "期待値",
+        "計算標準誤差"
+      ],
+      "prerequisites": [
+        "STAT-03"
+      ],
+      "related": [
+        "DYN-04"
+      ],
+      "subdomain": "積分とシミュレーション",
+      "title": "積分とシミュレーション",
+      "topic": "積分とシミュレーション; Monte Carlo integration; モンテカルロ積分",
+      "use_when": "積分とシミュレーションの精度を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "num-04",
+      "chapter": 33,
+      "concept_ids": [
+        "C-NUM-04",
+        "C-CH-33",
+        "C-OBJ-EQUILIBRIUM",
+        "C-OBJ-MARKET-RESIDUAL",
+        "C-ASSUMP-EQUILIBRIUM-SELECTION"
+      ],
+      "contract_ids": [],
+      "domain": "数値シミュレーション",
+      "file": "chapters/33-numerical-simulation.md",
+      "id": "NUM-04",
+      "inputs": [
+        "均衡方程式",
+        "制約",
+        "逸脱利得",
+        "選択規則"
+      ],
+      "jel_codes": [
+        "C62",
+        "C63"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "候補根",
+        "実行可能均衡",
+        "選択枝"
+      ],
+      "prerequisites": [
+        "MATH-06"
+      ],
+      "related": [
+        "NUM-02"
+      ],
+      "subdomain": "均衡の探索と選択",
+      "title": "均衡の探索と選択",
+      "topic": "均衡の探索と選択",
+      "use_when": "複数均衡と政策経路を探索する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "num-05",
+      "chapter": 33,
+      "concept_ids": [
+        "C-NUM-05",
+        "C-CH-33"
+      ],
+      "contract_ids": [],
+      "domain": "数値シミュレーション",
+      "file": "chapters/33-numerical-simulation.md",
+      "id": "NUM-05",
+      "inputs": [
+        "生成過程",
+        "推定法",
+        "反復数"
+      ],
+      "jel_codes": [
+        "C15",
+        "C52"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "バイアス",
+        "RMSE",
+        "被覆率"
+      ],
+      "prerequisites": [
+        "STAT-04"
+      ],
+      "related": [
+        "STRUCT-02"
+      ],
+      "subdomain": "推定量の性能と校正",
+      "title": "推定量の性能と校正",
+      "topic": "推定量の性能と校正; Monte Carlo simulation; モンテカルロ実験",
+      "use_when": "推定量の性能と校正を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "num-06",
+      "chapter": 33,
+      "concept_ids": [
+        "C-NUM-06",
+        "C-CH-33"
+      ],
+      "contract_ids": [],
+      "domain": "数値シミュレーション",
+      "file": "chapters/33-numerical-simulation.md",
+      "id": "NUM-06",
+      "inputs": [
+        "主体状態",
+        "規則",
+        "ショック",
+        "政策"
+      ],
+      "jel_codes": [
+        "C63",
+        "D85"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "価格",
+        "取引",
+        "資源保存",
+        "厚生"
+      ],
+      "prerequisites": [
+        "NUM-03"
+      ],
+      "related": [
+        "NUM-04"
+      ],
+      "subdomain": "主体ベースの市場シミュレーション",
+      "title": "主体ベースの市場シミュレーション",
+      "topic": "主体ベースの市場シミュレーション",
+      "use_when": "主体ベース市場の政策を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "num-07",
+      "chapter": 33,
+      "concept_ids": [
+        "C-NUM-07",
+        "C-CH-33",
+        "C-TERM-GMM"
+      ],
+      "contract_ids": [],
+      "domain": "数値シミュレーション",
+      "file": "chapters/33-numerical-simulation.md",
+      "id": "NUM-07",
+      "inputs": [
+        "元写像",
+        "近似",
+        "検証点",
+        "ヤコビアン",
+        "定義域と残差許容差"
+      ],
+      "jel_codes": [
+        "C52",
+        "C63"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "近似誤差",
+        "候補の元問題評価",
+        "元式残差と解誤差上界",
+        "必要時の直接解"
+      ],
+      "prerequisites": [
+        "NUM-02",
+        "ECON-02"
+      ],
+      "related": [
+        "STRUCT-02"
+      ],
+      "subdomain": "代理近似と元の問題",
+      "title": "代理近似と元の問題",
+      "topic": "代理近似と元の問題; misspecified GMM surrogate error; moment approximation misspecification; 誤指定GMM 代理近似誤差; モーメント近似誤差",
+      "use_when": "代理近似の経済量への誤差を測る"
+    },
+    {
+      "alternatives": [],
+      "anchor": "num-08",
+      "chapter": 33,
+      "concept_ids": [
+        "C-NUM-08",
+        "C-CH-33"
+      ],
+      "contract_ids": [],
+      "domain": "数値シミュレーション",
+      "file": "chapters/33-numerical-simulation.md",
+      "id": "NUM-08",
+      "inputs": [
+        "固定点写像",
+        "発生率行列"
+      ],
+      "jel_codes": [
+        "C63",
+        "C62"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "誤差上界",
+        "定常分布"
+      ],
+      "prerequisites": [
+        "NUM-02"
+      ],
+      "related": [
+        "MATH-06"
+      ],
+      "subdomain": "収縮写像の残差と定常分布",
+      "title": "例題：収縮写像の残差と定常分布",
+      "topic": "例題：収縮写像の残差と定常分布",
+      "use_when": "収縮残差と定常分布の例を解く"
+    }
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "domain": "金融財政開放",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "monetary-01",
+      "chapter": 18,
+      "concept_ids": [
+        "C-MONETARY-01",
+        "C-CH-18",
+        "C-OBJ-RANK"
+      ],
+      "contract_ids": [],
+      "domain": "金融財政開放",
+      "file": "chapters/18-monetary-open-macro.md",
+      "id": "MONETARY-01",
+      "inputs": [
+        "期待",
+        "自然金利",
+        "価格硬直",
+        "政策係数"
+      ],
+      "jel_codes": [
+        "E52",
+        "E32"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "産出gap",
+        "インフレ",
+        "金利"
+      ],
+      "prerequisites": [
+        "MACRO-05"
+      ],
+      "related": [],
+      "subdomain": "ニューケインジアン",
+      "title": "New Keynesianの三式",
+      "topic": "IS・価格式と金融政策則を連立する",
+      "use_when": "IS・価格式と金融政策則を連立する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "monetary-02",
+      "chapter": 18,
+      "concept_ids": [
+        "C-MONETARY-02",
+        "C-CH-18"
+      ],
+      "contract_ids": [],
+      "domain": "金融財政開放",
+      "file": "chapters/18-monetary-open-macro.md",
+      "id": "MONETARY-02",
+      "inputs": [
+        "政策損失関数",
+        "需要・価格式",
+        "金利下限",
+        "終端条件"
+      ],
+      "jel_codes": [
+        "E52",
+        "E61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最適政策経路",
+        "拘束期間",
+        "KKT残差"
+      ],
+      "prerequisites": [
+        "MONETARY-01"
+      ],
+      "related": [],
+      "subdomain": "金融政策制約",
+      "title": "政策目的と下限",
+      "topic": "金利下限と政策目的を動学的に解く",
+      "use_when": "金利下限と政策目的を動学的に解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "monetary-03",
+      "chapter": 18,
+      "concept_ids": [
+        "C-MONETARY-03",
+        "C-CH-18"
+      ],
+      "contract_ids": [],
+      "domain": "金融財政開放",
+      "file": "chapters/18-monetary-open-macro.md",
+      "id": "MONETARY-03",
+      "inputs": [
+        "債務",
+        "利子",
+        "歳出",
+        "税"
+      ],
+      "jel_codes": [
+        "E62",
+        "H63"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "債務経路",
+        "財政乗数"
+      ],
+      "prerequisites": [
+        "ASSET-01"
+      ],
+      "related": [
+        "MONETARY-01"
+      ],
+      "subdomain": "政府債務",
+      "title": "政府債務と財政",
+      "topic": "債務予算と将来財政黒字を対応する; fiscal closure; debt stabilization rule; 財政閉鎖; 債務安定化",
+      "use_when": "債務予算と将来財政黒字を対応する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "monetary-04",
+      "chapter": 18,
+      "concept_ids": [
+        "C-MONETARY-04",
+        "C-CH-18"
+      ],
+      "contract_ids": [],
+      "domain": "金融財政開放",
+      "file": "chapters/18-monetary-open-macro.md",
+      "id": "MONETARY-04",
+      "inputs": [
+        "資産",
+        "金利",
+        "為替",
+        "交易条件",
+        "対外資産の評価変化"
+      ],
+      "jel_codes": [
+        "F41",
+        "F31"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "経常収支",
+        "為替反応"
+      ],
+      "prerequisites": [
+        "ASSET-01"
+      ],
+      "related": [
+        "TRADE-01"
+      ],
+      "subdomain": "開放マクロ",
+      "title": "開放経済と為替",
+      "topic": "対外資産と為替条件から資源移転を求める; foreign currency debt; exchange rate balance sheet; 外貨建て債務; 為替再評価",
+      "use_when": "対外資産と為替条件から資源移転を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "monetary-05",
+      "chapter": 18,
+      "concept_ids": [
+        "C-MONETARY-05",
+        "C-CH-18"
+      ],
+      "contract_ids": [],
+      "domain": "金融財政開放",
+      "file": "chapters/18-monetary-open-macro.md",
+      "id": "MONETARY-05",
+      "inputs": [
+        "債務",
+        "所得遷移",
+        "損失",
+        "貸手金利"
+      ],
+      "jel_codes": [
+        "H63",
+        "F34"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "返済政策",
+        "価格",
+        "厚生"
+      ],
+      "prerequisites": [
+        "DYN-02"
+      ],
+      "related": [
+        "MONETARY-03"
+      ],
+      "subdomain": "国家債務",
+      "title": "ソブリン債務とデフォルト",
+      "topic": "返済とデフォルトの価値・債券価格を連立する",
+      "use_when": "返済とデフォルトの価値・債券価格を連立する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "monetary-06",
+      "chapter": 18,
+      "concept_ids": [
+        "C-MONETARY-06",
+        "C-CH-18"
+      ],
+      "contract_ids": [],
+      "domain": "金融財政開放",
+      "file": "chapters/18-monetary-open-macro.md",
+      "id": "MONETARY-06",
+      "inputs": [
+        "IS・価格・政策係数",
+        "ショック"
+      ],
+      "jel_codes": [
+        "E52",
+        "E32"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "産出gap",
+        "インフレ",
+        "金利"
+      ],
+      "prerequisites": [
+        "MONETARY-01"
+      ],
+      "related": [],
+      "subdomain": "金融政策例",
+      "title": "解答付き例題：一期間自然金利ショック",
+      "topic": "自然金利ショックと金利下限の効果を解く",
+      "use_when": "自然金利ショックと金利下限の効果を解く"
+    }
+  ]
+}

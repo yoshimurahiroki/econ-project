@@ -1,0 +1,304 @@
+{
+  "domain": "構造推定",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "struct-01",
+      "chapter": 14,
+      "concept_ids": [
+        "C-STRUCT-01",
+        "C-CH-14",
+        "C-ASSUMP-PRIMITIVE-INVARIANCE"
+      ],
+      "contract_ids": [
+        "MC-binary-logit"
+      ],
+      "domain": "構造推定",
+      "file": "chapters/14-structural-estimation.md",
+      "id": "STRUCT-01",
+      "inputs": [
+        "観測分布",
+        "正規化",
+        "モーメント"
+      ],
+      "jel_codes": [
+        "C51",
+        "C26"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "識別集合",
+        "局所rank"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [
+        "ECON-02"
+      ],
+      "subdomain": "構造識別",
+      "title": "識別、正規化、観測同値",
+      "topic": "構造パラメータの観測同値と識別を判定する",
+      "use_when": "構造パラメータの観測同値と識別を判定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "struct-02",
+      "chapter": 14,
+      "concept_ids": [
+        "C-STRUCT-02",
+        "C-CH-14",
+        "C-TERM-SMM"
+      ],
+      "contract_ids": [],
+      "domain": "構造推定",
+      "file": "chapters/14-structural-estimation.md",
+      "id": "STRUCT-02",
+      "inputs": [
+        "観測標本",
+        "模擬モデル",
+        "モーメント",
+        "重み",
+        "乱数seed"
+      ],
+      "jel_codes": [
+        "C51",
+        "C52"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "SMM・間接推論推定量",
+        "共分散",
+        "識別rank"
+      ],
+      "prerequisites": [
+        "STRUCT-01"
+      ],
+      "related": [
+        "ECON-03"
+      ],
+      "subdomain": "構造推定",
+      "title": "最尤、SMM、間接推論",
+      "topic": "選択データを尤度・模擬モーメントへ対応する",
+      "use_when": "選択データを尤度・模擬モーメントへ対応する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "struct-03",
+      "chapter": 14,
+      "concept_ids": [
+        "C-STRUCT-03",
+        "C-CH-14",
+        "C-TERM-NFXP",
+        "C-OBJ-STATE-ACTION-TRANSITION",
+        "C-ASSUMP-INTERVENTION-SUPPORT",
+        "C-TERM-DDC"
+      ],
+      "contract_ids": [
+        "MC-replacement-ddc"
+      ],
+      "domain": "構造推定",
+      "file": "chapters/14-structural-estimation.md",
+      "id": "STRUCT-03",
+      "inputs": [
+        "状態",
+        "効用",
+        "遷移",
+        "選択履歴",
+        "割引因子",
+        "内外の許容差"
+      ],
+      "jel_codes": [
+        "C51",
+        "C61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最適政策",
+        "NFXP尤度",
+        "構造推定値",
+        "Bellman残差と勾配診断",
+        "遷移推定を含む不確実性"
+      ],
+      "prerequisites": [
+        "DYN-02"
+      ],
+      "related": [
+        "STRUCT-04"
+      ],
+      "subdomain": "動学離散選択",
+      "title": "動学離散選択とNFXP",
+      "topic": "Bellman解を尤度の各候補で求める; latent type dynamic discrete choice; initial conditions likelihood; 潜在型動学離散選択; 初期条件尤度",
+      "use_when": "Bellman解を尤度の各候補で求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "struct-04",
+      "chapter": 14,
+      "concept_ids": [
+        "C-STRUCT-04",
+        "C-CH-14",
+        "C-TERM-CCP",
+        "C-TERM-MPEC",
+        "C-OBJ-STATE-ACTION-TRANSITION",
+        "C-ASSUMP-POSITIVE-CCP",
+        "C-ASSUMP-INTERVENTION-SUPPORT",
+        "C-TERM-DDC",
+        "C-TERM-CCP-ESTIMATION"
+      ],
+      "contract_ids": [
+        "MC-replacement-ddc"
+      ],
+      "domain": "構造推定",
+      "file": "chapters/14-structural-estimation.md",
+      "id": "STRUCT-04",
+      "inputs": [
+        "状態行動頻度",
+        "遷移",
+        "効用",
+        "尺度"
+      ],
+      "jel_codes": [
+        "C51",
+        "C61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "構造係数",
+        "政策評価",
+        "均衡残差"
+      ],
+      "prerequisites": [
+        "DYN-02"
+      ],
+      "related": [
+        "STRUCT-02"
+      ],
+      "subdomain": "条件付き選択確率",
+      "title": "CCP、MPEC、逐次更新",
+      "topic": "CCP逆算とMPEC・逐次更新を実行する",
+      "use_when": "CCP逆算とMPEC・逐次更新を実行する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "struct-05",
+      "chapter": 14,
+      "concept_ids": [
+        "C-STRUCT-05",
+        "C-CH-14",
+        "C-OBJ-STATE-ACTION-TRANSITION",
+        "C-ASSUMP-EQUILIBRIUM-SELECTION"
+      ],
+      "contract_ids": [],
+      "domain": "構造推定",
+      "file": "chapters/14-structural-estimation.md",
+      "id": "STRUCT-05",
+      "inputs": [
+        "企業・市場の状態と参入・退出履歴",
+        "政策・利得・遷移",
+        "均衡選択または逸脱不等式"
+      ],
+      "jel_codes": [
+        "C57",
+        "C73"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "逸脱価値差",
+        "識別集合"
+      ],
+      "prerequisites": [
+        "DYN-08"
+      ],
+      "related": [
+        "STRUCT-04"
+      ],
+      "subdomain": "動学ゲーム",
+      "title": "動学ゲームと不等式",
+      "topic": "均衡政策と片側逸脱から構造制約を作る",
+      "use_when": "企業の動学的参入・退出と競合の政策から利得係数と均衡反実仮想を識別する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "struct-06",
+      "chapter": 14,
+      "concept_ids": [
+        "C-STRUCT-06",
+        "C-CH-14",
+        "C-OBJ-MARKET-RESIDUAL",
+        "C-OBJ-POLICY-VALUE",
+        "C-ASSUMP-PRIMITIVE-INVARIANCE",
+        "C-ASSUMP-INTERVENTION-SUPPORT",
+        "C-ASSUMP-EQUILIBRIUM-SELECTION"
+      ],
+      "contract_ids": [
+        "MC-ramsey-cf"
+      ],
+      "domain": "構造推定",
+      "file": "chapters/14-structural-estimation.md",
+      "id": "STRUCT-06",
+      "inputs": [
+        "介入",
+        "初期分布",
+        "制約",
+        "価値"
+      ],
+      "jel_codes": [
+        "C54",
+        "D61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "新均衡",
+        "主体別厚生"
+      ],
+      "prerequisites": [
+        "DYN-02"
+      ],
+      "related": [
+        "WELFARE-05",
+        "HET-05",
+        "CASE-01"
+      ],
+      "subdomain": "政策反実仮想",
+      "title": "政策反実仮想と厚生",
+      "topic": "構造行動を解き直し生涯厚生を集計する",
+      "use_when": "構造行動を解き直し生涯厚生を集計する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "struct-07",
+      "chapter": 14,
+      "concept_ids": [
+        "C-STRUCT-07",
+        "C-CH-14"
+      ],
+      "contract_ids": [],
+      "domain": "構造推定",
+      "file": "chapters/14-structural-estimation.md",
+      "id": "STRUCT-07",
+      "inputs": [
+        "選択確率",
+        "割引率",
+        "継続価値差"
+      ],
+      "jel_codes": [
+        "C51",
+        "C57"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "flow差",
+        "補助金後確率"
+      ],
+      "prerequisites": [
+        "STRUCT-03"
+      ],
+      "related": [],
+      "subdomain": "選択確率例",
+      "title": "解答付き例題：観測確率と価値差",
+      "topic": "log oddsと継続価値差からflow差を求める",
+      "use_when": "log oddsと継続価値差からflow差を求める"
+    }
+  ]
+}

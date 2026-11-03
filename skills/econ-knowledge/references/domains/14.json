@@ -1,0 +1,347 @@
+{
+  "domain": "契約組織",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "contract-01",
+      "chapter": 6,
+      "concept_ids": [
+        "C-CONTRACT-01",
+        "C-CH-06"
+      ],
+      "contract_ids": [],
+      "domain": "契約組織",
+      "file": "chapters/06-contracts-organization.md",
+      "id": "CONTRACT-01",
+      "inputs": [
+        "成果分布",
+        "努力費用",
+        "報酬下限",
+        "留保効用"
+      ],
+      "jel_codes": [
+        "D86",
+        "D82"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "誘因両立条件",
+        "参加条件",
+        "成果別報酬"
+      ],
+      "prerequisites": [
+        "MATH-04",
+        "INFO-01"
+      ],
+      "related": [
+        "CONTRACT-02",
+        "HEALTH-03"
+      ],
+      "subdomain": "観察できない努力と誘因",
+      "title": "観察できない努力と誘因",
+      "topic": "観察できない努力と誘因",
+      "use_when": "隠れた努力を実行させる報酬契約を設計する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "contract-02",
+      "chapter": 6,
+      "concept_ids": [
+        "C-CONTRACT-02",
+        "C-CH-06"
+      ],
+      "contract_ids": [],
+      "domain": "契約組織",
+      "file": "chapters/06-contracts-organization.md",
+      "id": "CONTRACT-02",
+      "inputs": [
+        "タイプ分布",
+        "配分",
+        "費用",
+        "留保効用"
+      ],
+      "jel_codes": [
+        "D82",
+        "D86"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "配分メニュー",
+        "情報レント",
+        "仮想価値"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [],
+      "subdomain": "私的情報と選別",
+      "title": "私的情報と選別",
+      "topic": "私的情報と選別",
+      "use_when": "私的タイプに対する誘因両立メニューを設計する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "contract-03",
+      "chapter": 6,
+      "concept_ids": [
+        "C-CONTRACT-03",
+        "C-CH-06"
+      ],
+      "contract_ids": [],
+      "domain": "契約組織",
+      "file": "chapters/06-contracts-organization.md",
+      "id": "CONTRACT-03",
+      "inputs": [
+        "事故確率",
+        "損失",
+        "保険料",
+        "補償",
+        "効用"
+      ],
+      "jel_codes": [
+        "D82",
+        "G22"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "保険需要",
+        "選別契約",
+        "参入の採算条件"
+      ],
+      "prerequisites": [
+        "INFO-01",
+        "CONTRACT-02"
+      ],
+      "related": [],
+      "subdomain": "保険と逆選択",
+      "title": "保険と逆選択",
+      "topic": "保険と逆選択",
+      "use_when": "私的事故リスクのある保険メニューを評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "contract-04",
+      "chapter": 6,
+      "concept_ids": [
+        "C-CONTRACT-04",
+        "C-CH-06"
+      ],
+      "contract_ids": [],
+      "domain": "契約組織",
+      "file": "chapters/06-contracts-organization.md",
+      "id": "CONTRACT-04",
+      "inputs": [
+        "投資費用",
+        "事後余剰",
+        "所有権",
+        "決裂点"
+      ],
+      "jel_codes": [
+        "D23",
+        "D86"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "投資",
+        "交渉配分",
+        "総余剰"
+      ],
+      "prerequisites": [
+        "GAME-05"
+      ],
+      "related": [],
+      "subdomain": "不完備契約と企業境界",
+      "title": "不完備契約と企業境界",
+      "topic": "不完備契約と企業境界",
+      "use_when": "所有権が事前投資と交渉配分に与える影響を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "contract-05",
+      "chapter": 6,
+      "concept_ids": [
+        "C-CONTRACT-05",
+        "C-CH-06"
+      ],
+      "contract_ids": [],
+      "domain": "契約組織",
+      "file": "chapters/06-contracts-organization.md",
+      "id": "CONTRACT-05",
+      "inputs": [
+        "ボーナス",
+        "関係価値",
+        "努力費用",
+        "成果分配"
+      ],
+      "jel_codes": [
+        "D86",
+        "D23"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "履行条件",
+        "努力誘因",
+        "履行可能な報酬範囲"
+      ],
+      "prerequisites": [
+        "GAME-03"
+      ],
+      "related": [],
+      "subdomain": "関係的契約とチーム",
+      "title": "関係的契約とチーム",
+      "topic": "関係的契約とチーム",
+      "use_when": "継続関係とチーム報酬で履行と努力を支える条件を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "contract-06",
+      "chapter": 6,
+      "concept_ids": [
+        "C-CONTRACT-06",
+        "C-CH-06"
+      ],
+      "contract_ids": [],
+      "domain": "契約組織",
+      "file": "chapters/06-contracts-organization.md",
+      "id": "CONTRACT-06",
+      "inputs": [
+        "成功確率0.8と0.4",
+        "努力費用12",
+        "留保効用8"
+      ],
+      "jel_codes": [
+        "D86",
+        "D82"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "成功報酬30",
+        "期待報酬24",
+        "高努力利潤56"
+      ],
+      "prerequisites": [
+        "CONTRACT-01"
+      ],
+      "related": [],
+      "subdomain": "例題：成功ボーナスと参加条件",
+      "title": "例題：成功ボーナスと参加条件",
+      "topic": "例題：成功ボーナスと参加条件",
+      "use_when": "成功報酬と参加条件から高努力契約を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "contract-07",
+      "chapter": 6,
+      "concept_ids": [
+        "C-CONTRACT-07",
+        "C-CH-06"
+      ],
+      "contract_ids": [
+        "MC-multitask-incentives"
+      ],
+      "domain": "契約組織",
+      "file": "chapters/06-contracts-organization.md",
+      "id": "CONTRACT-07",
+      "inputs": [
+        "報酬率と品質の私的便益",
+        "努力費用と成果価値"
+      ],
+      "jel_codes": [
+        "D86",
+        "D23"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "数量・品質努力",
+        "双方の利得とKKT残差"
+      ],
+      "prerequisites": [
+        "MATH-02",
+        "MATH-04"
+      ],
+      "related": [
+        "CONTRACT-01"
+      ],
+      "subdomain": "マルチタスク誘因",
+      "title": "マルチタスク誘因（multitask incentives）",
+      "topic": "マルチタスク誘因",
+      "use_when": "報酬変更が複数努力と双方の利得を変える条件を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "contract-08",
+      "chapter": 6,
+      "concept_ids": [
+        "C-CONTRACT-08",
+        "C-CH-06",
+        "C-DECISION-DELEGATION"
+      ],
+      "contract_ids": [
+        "MC-decision-rights"
+      ],
+      "domain": "契約組織",
+      "file": "chapters/06-contracts-organization.md",
+      "id": "CONTRACT-08",
+      "inputs": [
+        "両主体の便益・費用・一致度",
+        "権限保有者"
+      ],
+      "jel_codes": [
+        "D83",
+        "D23"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "均衡情報努力",
+        "双方の利得と最適反応残差"
+      ],
+      "prerequisites": [
+        "GAME-01",
+        "MATH-02"
+      ],
+      "related": [
+        "CONTRACT-04"
+      ],
+      "subdomain": "情報取得と意思決定権",
+      "title": "情報取得と意思決定権（information acquisition and decision rights）",
+      "topic": "情報取得と意思決定権",
+      "use_when": "情報取得を通じて権限配分による均衡利得を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "contract-09",
+      "chapter": 6,
+      "concept_ids": [
+        "C-CONTRACT-09",
+        "C-CH-06"
+      ],
+      "contract_ids": [],
+      "domain": "契約組織",
+      "file": "chapters/06-contracts-organization.md",
+      "id": "CONTRACT-09",
+      "inputs": [
+        "担当者別の作業時間",
+        "統合費用と完成価値"
+      ],
+      "jel_codes": [
+        "D23",
+        "D24"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "完成時刻と総費用",
+        "単独遂行に対する分業条件"
+      ],
+      "prerequisites": [],
+      "related": [
+        "CONTRACT-05",
+        "CONTRACT-08",
+        "INFO-02"
+      ],
+      "subdomain": "専門化と調整",
+      "title": "専門化と調整（specialisation and coordination）",
+      "topic": "専門化と調整",
+      "use_when": "専門化と調整の費用を単独遂行と比較する"
+    }
+  ]
+}

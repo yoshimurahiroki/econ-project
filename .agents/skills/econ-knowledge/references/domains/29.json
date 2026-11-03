@@ -1,0 +1,228 @@
+{
+  "domain": "貿易",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "trade-01",
+      "chapter": 25,
+      "concept_ids": [
+        "C-TRADE-01",
+        "C-CH-25"
+      ],
+      "contract_ids": [],
+      "domain": "貿易",
+      "file": "chapters/25-trade-globalization.md",
+      "id": "TRADE-01",
+      "inputs": [
+        "労働投入係数",
+        "労働供給"
+      ],
+      "jel_codes": [
+        "F11",
+        "F14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "特化",
+        "相対賃金",
+        "貿易配分"
+      ],
+      "prerequisites": [
+        "MICRO-05"
+      ],
+      "related": [
+        "TRADE-02"
+      ],
+      "subdomain": "比較優位と貿易",
+      "title": "比較優位と貿易",
+      "topic": "比較優位と貿易",
+      "use_when": "比較優位と貿易後の賃金を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "trade-02",
+      "chapter": 25,
+      "concept_ids": [
+        "C-TRADE-02",
+        "C-CH-25"
+      ],
+      "contract_ids": [],
+      "domain": "貿易",
+      "file": "chapters/25-trade-globalization.md",
+      "id": "TRADE-02",
+      "inputs": [
+        "供給元価格",
+        "重み",
+        "弾力性"
+      ],
+      "jel_codes": [
+        "F12",
+        "F11"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "支出シェア",
+        "価格指数"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [],
+      "subdomain": "CES 需要と重力",
+      "title": "CES 需要と重力",
+      "topic": "CES 需要と重力",
+      "use_when": "CESの貿易シェアを計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "trade-03",
+      "chapter": 25,
+      "concept_ids": [
+        "C-TRADE-03",
+        "C-CH-25"
+      ],
+      "contract_ids": [],
+      "domain": "貿易",
+      "file": "chapters/25-trade-globalization.md",
+      "id": "TRADE-03",
+      "inputs": [
+        "生産性分布",
+        "費用",
+        "輸出固定費"
+      ],
+      "jel_codes": [
+        "F12",
+        "F14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "貿易シェア",
+        "輸出閾値"
+      ],
+      "prerequisites": [
+        "TRADE-02"
+      ],
+      "related": [
+        "IO-03"
+      ],
+      "subdomain": "生産性分布と異質企業",
+      "title": "生産性分布と異質企業",
+      "topic": "生産性分布と異質企業",
+      "use_when": "生産性分布と輸出参入を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "trade-04",
+      "chapter": 25,
+      "concept_ids": [
+        "C-TRADE-04",
+        "C-CH-25"
+      ],
+      "contract_ids": [],
+      "domain": "貿易",
+      "file": "chapters/25-trade-globalization.md",
+      "id": "TRADE-04",
+      "inputs": [
+        "国内・二国間取引シェア",
+        "関税・輸送費と貿易弾力性",
+        "所得・税収と収支の閉鎖",
+        "必要な産業間投入"
+      ],
+      "jel_codes": [
+        "F11",
+        "F14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "政策後シェアと賃金",
+        "政府税収と支出",
+        "市場残差と実質所得"
+      ],
+      "prerequisites": [
+        "TRADE-02"
+      ],
+      "related": [
+        "NUM-04",
+        "TRADE-05",
+        "WELFARE-01"
+      ],
+      "subdomain": "変化率による反実仮想",
+      "title": "変化率による反実仮想",
+      "topic": "変化率による反実仮想",
+      "use_when": "関税・貿易費用の変更後に所得、税収と各国市場を清算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "trade-05",
+      "chapter": 25,
+      "concept_ids": [
+        "C-TRADE-05",
+        "C-CH-25"
+      ],
+      "contract_ids": [],
+      "domain": "貿易",
+      "file": "chapters/25-trade-globalization.md",
+      "id": "TRADE-05",
+      "inputs": [
+        "投入係数",
+        "最終需要",
+        "税率"
+      ],
+      "jel_codes": [
+        "F13",
+        "F12"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "産出",
+        "付加価値",
+        "税収"
+      ],
+      "prerequisites": [
+        "MEASURE-04"
+      ],
+      "related": [
+        "TRADE-04"
+      ],
+      "subdomain": "中間財、政策と要素移動",
+      "title": "中間財、政策と要素移動",
+      "topic": "中間財、政策と要素移動",
+      "use_when": "国際投入連関と関税を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "trade-06",
+      "chapter": 25,
+      "concept_ids": [
+        "C-TRADE-06",
+        "C-CH-25"
+      ],
+      "contract_ids": [],
+      "domain": "貿易",
+      "file": "chapters/25-trade-globalization.md",
+      "id": "TRADE-06",
+      "inputs": [
+        "国内シェア",
+        "貿易弾力性"
+      ],
+      "jel_codes": [
+        "F11",
+        "D61"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "実質所得比"
+      ],
+      "prerequisites": [
+        "TRADE-03"
+      ],
+      "related": [
+        "TRADE-04"
+      ],
+      "subdomain": "国内支出シェアと厚生",
+      "title": "例題：国内支出シェアと厚生",
+      "topic": "例題：国内支出シェアと厚生",
+      "use_when": "国内シェアから実質所得を計算する"
+    }
+  ]
+}

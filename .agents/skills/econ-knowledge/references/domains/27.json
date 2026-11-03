@@ -1,0 +1,295 @@
+{
+  "domain": "確率統計",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "stat-01",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-01",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-01",
+      "inputs": [
+        "確率分布",
+        "条件付ける変数"
+      ],
+      "jel_codes": [
+        "C10"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "条件付き平均",
+        "全期待",
+        "全分散"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "確率と条件付き期待値",
+      "title": "確率と条件付き期待値",
+      "topic": "確率と条件付き期待値",
+      "use_when": "条件付き期待値と全分散を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-02",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-02",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-02",
+      "inputs": [
+        "事前確率",
+        "条件付き確率",
+        "観測"
+      ],
+      "jel_codes": [
+        "C11",
+        "C10"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "事後確率",
+        "分布の平均と分散"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "ベイズの定理と分布",
+      "title": "ベイズの定理と分布",
+      "topic": "ベイズの定理と分布",
+      "use_when": "観測から事後確率を更新し対象に合う確率分布を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-03",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-03",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-03",
+      "inputs": [
+        "標本分布",
+        "分散",
+        "変換の導関数",
+        "依存構造"
+      ],
+      "jel_codes": [
+        "C10",
+        "C22"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "標本分布",
+        "標準誤差",
+        "分散"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "大数の法則と中心極限定理",
+      "title": "大数の法則と中心極限定理",
+      "topic": "大数の法則と中心極限定理; strong mixing central limit theorem; HAC long-run variance; 強混合中心極限定理; HAC長期分散",
+      "use_when": "標本平均と滑らかな変換の漸近分布を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-04",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-04",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-04",
+      "inputs": [
+        "一次・共同包含確率",
+        "標本値",
+        "損失関数"
+      ],
+      "jel_codes": [
+        "C83",
+        "C81"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "母集団総量の推定値",
+        "設計分散",
+        "平均または分位点"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "標本設計と推定損失",
+      "title": "標本設計と推定損失",
+      "topic": "標本設計と推定損失",
+      "use_when": "抽出確率から総量を推定し損失に合う推定対象を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-05",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-05",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-05",
+      "inputs": [
+        "独立標本",
+        "確率モデル"
+      ],
+      "jel_codes": [
+        "C13",
+        "C10"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最尤推定値",
+        "スコア",
+        "情報行列"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "尤度と情報",
+      "title": "尤度と情報",
+      "topic": "尤度と情報",
+      "use_when": "標本尤度から最尤推定量とFisher情報を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-06",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-06",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-06",
+      "inputs": [
+        "推定値",
+        "標準誤差",
+        "有意水準",
+        "対象差",
+        "検出力"
+      ],
+      "jel_codes": [
+        "C12",
+        "C10"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "検定結果",
+        "信頼区間",
+        "標本数"
+      ],
+      "prerequisites": [
+        "STAT-03"
+      ],
+      "related": [],
+      "subdomain": "検定、区間と多重性",
+      "title": "検定、区間と多重性",
+      "topic": "検定、区間と多重性",
+      "use_when": "仮説検定、区間、多重性と必要標本数を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-07",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-07",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-07",
+      "inputs": [
+        "事前分布",
+        "尤度",
+        "損失関数"
+      ],
+      "jel_codes": [
+        "C11",
+        "D81"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "事後分布",
+        "事後最適行動",
+        "予測分布"
+      ],
+      "prerequisites": [
+        "STAT-02"
+      ],
+      "related": [],
+      "subdomain": "ベイズ推定と意思決定",
+      "title": "ベイズ推定と意思決定",
+      "topic": "ベイズ推定と意思決定",
+      "use_when": "事前分布と尤度から事後分布と最適行動を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-08",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-08",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-08",
+      "inputs": [
+        "試行100回",
+        "成功80回",
+        "群比率と群平均"
+      ],
+      "jel_codes": [
+        "C10",
+        "C13"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "成功率0.8",
+        "標準誤差0.04",
+        "事後平均約0.794",
+        "2回成功の予測確率約0.6322",
+        "全体平均5.8"
+      ],
+      "prerequisites": [
+        "STAT-05",
+        "STAT-07"
+      ],
+      "related": [
+        "STAT-04"
+      ],
+      "subdomain": "例題：成功率と条件付き平均",
+      "title": "例題：成功率と条件付き平均",
+      "topic": "例題：成功率と条件付き平均",
+      "use_when": "成功率と母集団の加重平均を計算する"
+    }
+  ]
+}

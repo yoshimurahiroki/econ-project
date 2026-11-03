@@ -1,0 +1,233 @@
+{
+  "domain": "環境エネルギー",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "env-01",
+      "chapter": 28,
+      "concept_ids": [
+        "C-ENV-01",
+        "C-CH-28"
+      ],
+      "contract_ids": [],
+      "domain": "環境エネルギー",
+      "file": "chapters/28-environment-energy.md",
+      "id": "ENV-01",
+      "inputs": [
+        "基準排出",
+        "削減費用",
+        "目標"
+      ],
+      "jel_codes": [
+        "Q52",
+        "Q58"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "限界削減費用",
+        "配分"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [],
+      "subdomain": "排出削減と政策手段",
+      "title": "排出削減と政策手段",
+      "topic": "排出削減と政策手段",
+      "use_when": "炭素価格・排出税・排出枠による企業の削減と社会的費用を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "env-02",
+      "chapter": 28,
+      "concept_ids": [
+        "C-ENV-02",
+        "C-CH-28"
+      ],
+      "contract_ids": [],
+      "domain": "環境エネルギー",
+      "file": "chapters/28-environment-energy.md",
+      "id": "ENV-02",
+      "inputs": [
+        "遷移",
+        "損害",
+        "割引"
+      ],
+      "jel_codes": [
+        "Q54",
+        "Q51"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "影価格",
+        "限界排出損害"
+      ],
+      "prerequisites": [
+        "DYN-02"
+      ],
+      "related": [
+        "ENV-01"
+      ],
+      "subdomain": "汚染ストックと炭素の社会費用",
+      "title": "汚染ストックと炭素の社会費用",
+      "topic": "汚染ストックと炭素の社会費用",
+      "use_when": "汚染蓄積と排出の社会費用を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "env-03",
+      "chapter": 28,
+      "concept_ids": [
+        "C-ENV-03",
+        "C-CH-28"
+      ],
+      "contract_ids": [],
+      "domain": "環境エネルギー",
+      "file": "chapters/28-environment-energy.md",
+      "id": "ENV-03",
+      "inputs": [
+        "資源動学",
+        "価格",
+        "採掘費",
+        "割引"
+      ],
+      "jel_codes": [
+        "Q32",
+        "Q42"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "収穫",
+        "資源量",
+        "影価格"
+      ],
+      "prerequisites": [
+        "DYN-02"
+      ],
+      "related": [
+        "ENV-02"
+      ],
+      "subdomain": "枯渇性資源と再生可能資源",
+      "title": "枯渇性資源と再生可能資源",
+      "topic": "枯渇性資源と再生可能資源",
+      "use_when": "資源採掘と再生資源の経路を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "env-04",
+      "chapter": 28,
+      "concept_ids": [
+        "C-ENV-04",
+        "C-CH-28"
+      ],
+      "contract_ids": [],
+      "domain": "環境エネルギー",
+      "file": "chapters/28-environment-energy.md",
+      "id": "ENV-04",
+      "inputs": [
+        "時間別需要と燃料費",
+        "発電・送電容量と排出係数",
+        "貯蔵効率と端点",
+        "炭素制度と投資費用"
+      ],
+      "jel_codes": [
+        "Q41",
+        "Q43"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "時間別発電・蓄電・価格",
+        "排出と設備投資",
+        "集団別費用と厚生"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "ENV-05",
+        "ENV-02",
+        "WELFARE-02"
+      ],
+      "subdomain": "発電、需給と貯蔵",
+      "title": "発電、需給と貯蔵",
+      "topic": "発電、需給と貯蔵; energy efficiency rebound; direct rebound effect; エネルギー効率のリバウンド",
+      "use_when": "炭素価格下の電源配分、蓄電と設備投資を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "env-05",
+      "chapter": 28,
+      "concept_ids": [
+        "C-ENV-05",
+        "C-CH-28"
+      ],
+      "contract_ids": [],
+      "domain": "環境エネルギー",
+      "file": "chapters/28-environment-energy.md",
+      "id": "ENV-05",
+      "inputs": [
+        "排出",
+        "拡散",
+        "人口",
+        "税収"
+      ],
+      "jel_codes": [
+        "Q54",
+        "Q52"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "濃度",
+        "漏出率",
+        "分配"
+      ],
+      "prerequisites": [
+        "ENV-01"
+      ],
+      "related": [
+        "SPATIAL-03"
+      ],
+      "subdomain": "空間、漏出と分配",
+      "title": "空間、漏出と分配",
+      "topic": "空間、漏出と分配",
+      "use_when": "汚染の地域波及と漏出を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "env-06",
+      "chapter": 28,
+      "concept_ids": [
+        "C-ENV-06",
+        "C-CH-28"
+      ],
+      "contract_ids": [],
+      "domain": "環境エネルギー",
+      "file": "chapters/28-environment-energy.md",
+      "id": "ENV-06",
+      "inputs": [
+        "削減費用",
+        "目標"
+      ],
+      "jel_codes": [
+        "Q52",
+        "Q58"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "配分",
+        "税率",
+        "費用差"
+      ],
+      "prerequisites": [
+        "ENV-01"
+      ],
+      "related": [
+        "CASE-05"
+      ],
+      "subdomain": "二企業の排出削減",
+      "title": "例題：二企業の排出削減",
+      "topic": "例題：二企業の排出削減",
+      "use_when": "二企業の削減配分を計算する"
+    }
+  ]
+}

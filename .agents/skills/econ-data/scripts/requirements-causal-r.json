@@ -1,0 +1,9 @@
+{
+  "r_version": "4.5.3",
+  "packages": {
+    "did": "2.5.1",
+    "DRDID": "1.4.0",
+    "gsynth": "1.4.0",
+    "jsonlite": "2.0.0"
+  }
+}

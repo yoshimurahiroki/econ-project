@@ -1,0 +1,261 @@
+{
+  "domain": "時系列",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "ts-01",
+      "chapter": 13,
+      "concept_ids": [
+        "C-TS-01",
+        "C-CH-13",
+        "C-TERM-ARMA"
+      ],
+      "contract_ids": [],
+      "domain": "時系列",
+      "file": "chapters/13-time-series.md",
+      "id": "TS-01",
+      "inputs": [
+        "AR・MA係数",
+        "ショック分散"
+      ],
+      "jel_codes": [
+        "C22",
+        "C32"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "定常性",
+        "長期共分散"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "定常時系列",
+      "title": "定常過程とARMA",
+      "topic": "ARMAの定常性と自己共分散を求める",
+      "use_when": "ARMAの定常性と自己共分散を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "ts-02",
+      "chapter": 13,
+      "concept_ids": [
+        "C-TS-02",
+        "C-CH-13"
+      ],
+      "contract_ids": [],
+      "domain": "時系列",
+      "file": "chapters/13-time-series.md",
+      "id": "TS-02",
+      "inputs": [
+        "水準系列",
+        "決定項",
+        "ラグ"
+      ],
+      "jel_codes": [
+        "C22",
+        "C32"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "単位根検定",
+        "共和分関係"
+      ],
+      "prerequisites": [
+        "TS-01"
+      ],
+      "related": [],
+      "subdomain": "非定常時系列",
+      "title": "単位根と共和分",
+      "topic": "単位根と共和分による長期関係を推定する",
+      "use_when": "単位根と共和分による長期関係を推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "ts-03",
+      "chapter": 13,
+      "concept_ids": [
+        "C-TS-03",
+        "C-CH-13",
+        "C-TERM-VAR",
+        "C-TERM-SVAR",
+        "C-TERM-LOCAL-PROJECTION"
+      ],
+      "contract_ids": [],
+      "domain": "時系列",
+      "file": "chapters/13-time-series.md",
+      "id": "TS-03",
+      "inputs": [
+        "多変量系列",
+        "識別制約",
+        "ラグ"
+      ],
+      "jel_codes": [
+        "C32",
+        "C22"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "構造IRF",
+        "推論"
+      ],
+      "prerequisites": [
+        "TS-01"
+      ],
+      "related": [
+        "TS-02"
+      ],
+      "subdomain": "動学的ショック",
+      "title": "VAR、SVAR、local projection",
+      "topic": "VARの構造ショックと動学反応を識別する",
+      "use_when": "VARの構造ショックと動学反応を識別する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "ts-04",
+      "chapter": 13,
+      "concept_ids": [
+        "C-TS-04",
+        "C-CH-13",
+        "C-OBJ-CONDITIONAL-NEWS",
+        "C-ASSUMP-RELEASE-COVARIANCE"
+      ],
+      "contract_ids": [],
+      "domain": "時系列",
+      "file": "chapters/13-time-series.md",
+      "id": "TS-04",
+      "inputs": [
+        "観測系列",
+        "初期状態分布",
+        "状態・観測行列",
+        "誤差分散"
+      ],
+      "jel_codes": [
+        "C32",
+        "C22"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "フィルタ状態",
+        "尤度"
+      ],
+      "prerequisites": [
+        "STAT-02"
+      ],
+      "related": [],
+      "subdomain": "状態空間",
+      "title": "状態空間とKalman filter",
+      "topic": "観測から潜在状態を逐次更新する",
+      "use_when": "観測から潜在状態を逐次更新する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "ts-05",
+      "chapter": 13,
+      "concept_ids": [
+        "C-TS-05",
+        "C-CH-13"
+      ],
+      "contract_ids": [],
+      "domain": "時系列",
+      "file": "chapters/13-time-series.md",
+      "id": "TS-05",
+      "inputs": [
+        "系列",
+        "状態遷移",
+        "フィルタ"
+      ],
+      "jel_codes": [
+        "C22",
+        "C53"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "状態別係数",
+        "スペクトル"
+      ],
+      "prerequisites": [
+        "TS-01"
+      ],
+      "related": [
+        "TS-04"
+      ],
+      "subdomain": "非線形時系列",
+      "title": "変化、非線形、長期変動",
+      "topic": "構造変化や周波数別変動を表す",
+      "use_when": "構造変化や周波数別変動を表す"
+    },
+    {
+      "alternatives": [],
+      "anchor": "ts-06",
+      "chapter": 13,
+      "concept_ids": [
+        "C-TS-06",
+        "C-CH-13"
+      ],
+      "contract_ids": [],
+      "domain": "時系列",
+      "file": "chapters/13-time-series.md",
+      "id": "TS-06",
+      "inputs": [
+        "予測平均と分散",
+        "観測値と誤差"
+      ],
+      "jel_codes": [
+        "C53",
+        "C11"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "更新平均・分散"
+      ],
+      "prerequisites": [
+        "TS-04"
+      ],
+      "related": [],
+      "subdomain": "情報更新例",
+      "title": "解答付き例題：情報による更新",
+      "topic": "正規予測と新観測を合わせる",
+      "use_when": "正規予測と新観測を合わせる"
+    },
+    {
+      "alternatives": [],
+      "anchor": "ts-07",
+      "chapter": 13,
+      "concept_ids": [
+        "C-TS-07",
+        "C-CH-13"
+      ],
+      "contract_ids": [],
+      "domain": "時系列",
+      "file": "chapters/13-time-series.md",
+      "id": "TS-07",
+      "inputs": [
+        "収益誤差",
+        "GARCH係数",
+        "高頻度収益と観測間隔"
+      ],
+      "jel_codes": [
+        "C58",
+        "C22"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "条件付き分散",
+        "無条件分散",
+        "実現二次変動の近似"
+      ],
+      "prerequisites": [
+        "TS-01"
+      ],
+      "related": [
+        "TS-05"
+      ],
+      "subdomain": "条件付き分散",
+      "title": "条件付き分散と金融系列",
+      "topic": "金融収益の時変分散を推定する",
+      "use_when": "金融収益の時変分散を推定する"
+    }
+  ]
+}

@@ -1,0 +1,233 @@
+{
+  "domain": "成長マクロ",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "macro-01",
+      "chapter": 17,
+      "concept_ids": [
+        "C-MACRO-01",
+        "C-CH-17"
+      ],
+      "contract_ids": [],
+      "domain": "成長マクロ",
+      "file": "chapters/17-growth-macro.md",
+      "id": "MACRO-01",
+      "inputs": [
+        "生産関数",
+        "貯蓄率",
+        "成長率",
+        "減耗"
+      ],
+      "jel_codes": [
+        "O41",
+        "O47"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "定常資本",
+        "黄金律",
+        "成長残差"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [],
+      "subdomain": "成長会計",
+      "title": "Solowと成長会計",
+      "topic": "貯蓄と人口・技術成長から定常資本を求める",
+      "use_when": "貯蓄と人口・技術成長から定常資本を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "macro-02",
+      "chapter": 17,
+      "concept_ids": [
+        "C-MACRO-02",
+        "C-CH-17"
+      ],
+      "contract_ids": [],
+      "domain": "成長マクロ",
+      "file": "chapters/17-growth-macro.md",
+      "id": "MACRO-02",
+      "inputs": [
+        "選好",
+        "生産",
+        "初期資本",
+        "割引"
+      ],
+      "jel_codes": [
+        "O41",
+        "E21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "消費・資本経路",
+        "影価格"
+      ],
+      "prerequisites": [
+        "DYN-03"
+      ],
+      "related": [
+        "MACRO-01"
+      ],
+      "subdomain": "最適成長",
+      "title": "Ramseyと資本の影価格",
+      "topic": "家計のEuler式と資源制約で移行経路を解く; Ramsey model; Ramsey growth transition; ラムゼイ成長モデル",
+      "use_when": "家計のEuler式と資源制約で移行経路を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "macro-03",
+      "chapter": 17,
+      "concept_ids": [
+        "C-MACRO-03",
+        "C-CH-17"
+      ],
+      "contract_ids": [],
+      "domain": "成長マクロ",
+      "file": "chapters/17-growth-macro.md",
+      "id": "MACRO-03",
+      "inputs": [
+        "賃金",
+        "選好",
+        "人口成長"
+      ],
+      "jel_codes": [
+        "O41",
+        "D15"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "貯蓄",
+        "資本",
+        "世代厚生"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [
+        "MACRO-02"
+      ],
+      "subdomain": "世代重複",
+      "title": "世代重複と人口",
+      "topic": "世代間貯蓄と人口成長から資本を求める",
+      "use_when": "世代間貯蓄と人口成長から資本を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "macro-04",
+      "chapter": 17,
+      "concept_ids": [
+        "C-MACRO-04",
+        "C-CH-17"
+      ],
+      "contract_ids": [],
+      "domain": "成長マクロ",
+      "file": "chapters/17-growth-macro.md",
+      "id": "MACRO-04",
+      "inputs": [
+        "技術",
+        "研究投入",
+        "成功率",
+        "費用"
+      ],
+      "jel_codes": [
+        "O41",
+        "O31"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "成長率",
+        "研究誘因",
+        "企業価値"
+      ],
+      "prerequisites": [
+        "MACRO-02"
+      ],
+      "related": [
+        "IO-03"
+      ],
+      "subdomain": "内生成長",
+      "title": "内生成長、技術選択、創造的破壊",
+      "topic": "研究投資と技術蓄積の成長率を求める",
+      "use_when": "研究投資と技術蓄積の成長率を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "macro-05",
+      "chapter": 17,
+      "concept_ids": [
+        "C-MACRO-05",
+        "C-CH-17",
+        "C-TERM-RBC",
+        "C-TERM-GENERAL-EQUILIBRIUM"
+      ],
+      "contract_ids": [
+        "MC-stochastic-rbc"
+      ],
+      "domain": "成長マクロ",
+      "file": "chapters/17-growth-macro.md",
+      "id": "MACRO-05",
+      "inputs": [
+        "選好",
+        "技術",
+        "ショック過程"
+      ],
+      "jel_codes": [
+        "E32",
+        "O41"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "政策関数",
+        "均衡経路",
+        "観測式"
+      ],
+      "prerequisites": [
+        "DYN-03"
+      ],
+      "related": [
+        "TS-04"
+      ],
+      "subdomain": "景気循環",
+      "title": "RBCと動学一般均衡",
+      "topic": "家計・企業の最適化と資源清算を解く; real business cycle; RBC observation equation; 実物的景気循環",
+      "use_when": "家計・企業の最適化と資源清算を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "macro-06",
+      "chapter": 17,
+      "concept_ids": [
+        "C-MACRO-06",
+        "C-CH-17"
+      ],
+      "contract_ids": [],
+      "domain": "成長マクロ",
+      "file": "chapters/17-growth-macro.md",
+      "id": "MACRO-06",
+      "inputs": [
+        "資本分配率",
+        "貯蓄率",
+        "減耗"
+      ],
+      "jel_codes": [
+        "O41",
+        "E21"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "定常資本・生産・消費"
+      ],
+      "prerequisites": [
+        "MACRO-01"
+      ],
+      "related": [],
+      "subdomain": "成長モデル例",
+      "title": "解答付き例題：Solowの水準効果",
+      "topic": "貯蓄率変更の定常資本と消費を比較する",
+      "use_when": "貯蓄率変更の定常資本と消費を比較する"
+    }
+  ]
+}

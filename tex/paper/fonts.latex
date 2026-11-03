@@ -1,0 +1,6 @@
+\usepackage{iftex}
+\ifLuaTeX
+  \usepackage{luatexja}
+\else
+  \PackageError{paper-qmd}{LuaLaTeX is required}{}
+\fi

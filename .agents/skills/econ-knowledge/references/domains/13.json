@@ -1,0 +1,318 @@
+{
+  "domain": "因果拡張",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "advcausal-01",
+      "chapter": 12,
+      "concept_ids": [
+        "C-ADVCAUSAL-01",
+        "C-CH-12",
+        "C-TERM-DML",
+        "C-TERM-ORTHOGONAL-SCORE"
+      ],
+      "contract_ids": [],
+      "domain": "因果拡張",
+      "file": "chapters/12-causal-extensions.md",
+      "id": "ADVCAUSAL-01",
+      "inputs": [
+        "結果",
+        "処置",
+        "共変量",
+        "fold",
+        "補助学習器"
+      ],
+      "jel_codes": [
+        "C14",
+        "C21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "直交スコア",
+        "ATE",
+        "部分線形係数"
+      ],
+      "prerequisites": [
+        "CAUSAL-01"
+      ],
+      "related": [
+        "ECON-08"
+      ],
+      "subdomain": "直交スコア",
+      "title": "直交スコアとcross-fitting",
+      "topic": "直交スコアとcross-fitting",
+      "use_when": "補助関数の柔軟推定を用いてATEまたは部分線形係数を推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "advcausal-02",
+      "chapter": 12,
+      "concept_ids": [
+        "C-ADVCAUSAL-02",
+        "C-CH-12",
+        "C-TERM-HETEROGENEOUS-TREATMENT-EFFECTS"
+      ],
+      "contract_ids": [],
+      "domain": "因果拡張",
+      "file": "chapters/12-causal-extensions.md",
+      "id": "ADVCAUSAL-02",
+      "inputs": [
+        "共変量",
+        "条件付き効果",
+        "処置費用",
+        "定員",
+        "評価標本"
+      ],
+      "jel_codes": [
+        "C21",
+        "C93"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "政策則",
+        "政策価値",
+        "輸送した効果"
+      ],
+      "prerequisites": [
+        "CAUSAL-01"
+      ],
+      "related": [
+        "ADVCAUSAL-01"
+      ],
+      "subdomain": "異質効果と政策",
+      "title": "異質効果と政策価値",
+      "topic": "異質効果と政策価値",
+      "use_when": "異質な処置効果と費用から制約下の処置則と政策価値を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "advcausal-03",
+      "chapter": 12,
+      "concept_ids": [
+        "C-ADVCAUSAL-03",
+        "C-CH-12",
+        "C-TERM-MTE"
+      ],
+      "contract_ids": [],
+      "domain": "因果拡張",
+      "file": "chapters/12-causal-extensions.md",
+      "id": "ADVCAUSAL-03",
+      "inputs": [
+        "参加確率",
+        "操作変数",
+        "共変量",
+        "MTE関数",
+        "政策前後の参加確率"
+      ],
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "MTE",
+        "政策の人口平均効果"
+      ],
+      "prerequisites": [
+        "ECON-02",
+        "CAUSAL-01"
+      ],
+      "related": [],
+      "subdomain": "限界処置効果",
+      "title": "MTEと政策拡張",
+      "topic": "MTEと政策拡張",
+      "use_when": "操作変数が動かす参加限界と政策変更の効果を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "advcausal-04",
+      "chapter": 12,
+      "concept_ids": [
+        "C-ADVCAUSAL-04",
+        "C-CH-12"
+      ],
+      "contract_ids": [],
+      "domain": "因果拡張",
+      "file": "chapters/12-causal-extensions.md",
+      "id": "ADVCAUSAL-04",
+      "inputs": [
+        "基準期シェア",
+        "産業ショック",
+        "地域誤差",
+        "推論単位"
+      ],
+      "jel_codes": [
+        "C21",
+        "C26"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "曝露変数",
+        "ショック水準の直交条件"
+      ],
+      "prerequisites": [
+        "ECON-02"
+      ],
+      "related": [],
+      "subdomain": "シフトシェア",
+      "title": "shift-share",
+      "topic": "shift-share",
+      "use_when": "地域シェアと共通ショックから曝露変数と識別条件を構成する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "advcausal-05",
+      "chapter": 12,
+      "concept_ids": [
+        "C-ADVCAUSAL-05",
+        "C-CH-12"
+      ],
+      "contract_ids": [],
+      "domain": "因果拡張",
+      "file": "chapters/12-causal-extensions.md",
+      "id": "ADVCAUSAL-05",
+      "inputs": [
+        "処置履歴",
+        "共変量履歴",
+        "曝露写像",
+        "割当確率"
+      ],
+      "jel_codes": [
+        "C21",
+        "C23"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "直接効果",
+        "波及効果",
+        "政策経路の平均結果"
+      ],
+      "prerequisites": [
+        "CAUSAL-01"
+      ],
+      "related": [
+        "NET-06",
+        "CAUSAL-04"
+      ],
+      "subdomain": "干渉と縦断処置",
+      "title": "干渉と時間変動処置",
+      "topic": "干渉と時間変動処置",
+      "use_when": "ネットワーク曝露の波及効果や時間変動処置の政策効果を定義する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "advcausal-06",
+      "chapter": 12,
+      "concept_ids": [
+        "C-ADVCAUSAL-06",
+        "C-CH-12"
+      ],
+      "contract_ids": [],
+      "domain": "因果拡張",
+      "file": "chapters/12-causal-extensions.md",
+      "id": "ADVCAUSAL-06",
+      "inputs": [
+        "潜在結果の周辺分布",
+        "媒介変数",
+        "処置",
+        "共変量"
+      ],
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "分布効果",
+        "分位点差",
+        "媒介を固定した直接効果",
+        "平均自然直接効果",
+        "平均自然間接効果"
+      ],
+      "prerequisites": [
+        "CAUSAL-01"
+      ],
+      "related": [
+        "ADVCAUSAL-05"
+      ],
+      "subdomain": "分布と媒介",
+      "title": "分布と媒介",
+      "topic": "分布と媒介",
+      "use_when": "潜在結果の分布差、分位点差、媒介を通る効果を定義する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "advcausal-07",
+      "chapter": 12,
+      "concept_ids": [
+        "C-ADVCAUSAL-07",
+        "C-CH-12"
+      ],
+      "contract_ids": [],
+      "domain": "因果拡張",
+      "file": "chapters/12-causal-extensions.md",
+      "id": "ADVCAUSAL-07",
+      "inputs": [
+        "処置比率",
+        "群別結果平均",
+        "モーメント不等式"
+      ],
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "ATE上下界",
+        "パラメータ集合",
+        "反実仮想集合"
+      ],
+      "prerequisites": [
+        "CAUSAL-01"
+      ],
+      "related": [
+        "ADVCAUSAL-06"
+      ],
+      "subdomain": "部分識別",
+      "title": "識別集合",
+      "topic": "識別集合",
+      "use_when": "二値結果の平均効果またはモーメント不等式から識別集合を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "advcausal-08",
+      "chapter": 12,
+      "concept_ids": [
+        "C-ADVCAUSAL-08",
+        "C-CH-12"
+      ],
+      "contract_ids": [],
+      "domain": "因果拡張",
+      "file": "chapters/12-causal-extensions.md",
+      "id": "ADVCAUSAL-08",
+      "inputs": [
+        "MTE関数",
+        "政策前後の参加確率",
+        "処置費用"
+      ],
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "人口平均効果",
+        "誘発参加者の平均効果",
+        "人口平均純便益"
+      ],
+      "prerequisites": [
+        "ADVCAUSAL-03"
+      ],
+      "related": [],
+      "subdomain": "政策限界の例",
+      "title": "解答付き例題：動かす限界",
+      "topic": "解答付き例題：動かす限界",
+      "use_when": "MTEを政策が動かす参加区間で積分し純便益を求める"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+project:
+  type: default
+
+format:
+  pdf:
+    pdf-engine: lualatex
+    template: tex/paper/pandoc_template.latex
+    documentclass: econsocart
+    cite-method: natbib
+    biblio-style: ecta-fullname
+
+execute:
+  error: false
+  warning: true
+  freeze: false

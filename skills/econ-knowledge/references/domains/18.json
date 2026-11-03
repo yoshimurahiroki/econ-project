@@ -1,0 +1,279 @@
+{
+  "domain": "政治法制度",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "pol-01",
+      "chapter": 29,
+      "concept_ids": [
+        "C-POL-01",
+        "C-CH-29"
+      ],
+      "contract_ids": [],
+      "domain": "政治法制度",
+      "file": "chapters/29-political-law-institutions.md",
+      "id": "POL-01",
+      "inputs": [
+        "理想点",
+        "選好",
+        "投票規則"
+      ],
+      "jel_codes": [
+        "D72",
+        "D71"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "多数決結果",
+        "得票"
+      ],
+      "prerequisites": [
+        "GAME-01"
+      ],
+      "related": [
+        "POL-06"
+      ],
+      "subdomain": "投票と政治競争",
+      "title": "投票と政治競争",
+      "topic": "投票と政治競争",
+      "use_when": "多数決と候補者競争を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "pol-02",
+      "chapter": 29,
+      "concept_ids": [
+        "C-POL-02",
+        "C-CH-29"
+      ],
+      "contract_ids": [],
+      "domain": "政治法制度",
+      "file": "chapters/29-political-law-institutions.md",
+      "id": "POL-02",
+      "inputs": [
+        "利得",
+        "監査",
+        "継続価値",
+        "税率"
+      ],
+      "jel_codes": [
+        "D73",
+        "O43"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "抑止条件",
+        "申告",
+        "税収"
+      ],
+      "prerequisites": [
+        "GAME-02"
+      ],
+      "related": [
+        "POL-03"
+      ],
+      "subdomain": "政治的代理と国家能力",
+      "title": "政治的代理と国家能力",
+      "topic": "政治的代理と国家能力",
+      "use_when": "政治的代理と徴税執行を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "pol-03",
+      "chapter": 29,
+      "concept_ids": [
+        "C-POL-03",
+        "C-CH-29",
+        "C-OBJ-EXPECTED-SANCTION",
+        "C-OBJ-TRUE-INCIDENCE",
+        "C-TERM-CRIME-ENFORCEMENT",
+        "C-TERM-SANCTION-PROBABILITY",
+        "C-TERM-SANCTION-RISK"
+      ],
+      "contract_ids": [
+        "MC-crime-enforcement-displacement"
+      ],
+      "domain": "政治法制度",
+      "file": "chapters/29-political-law-institutions.md",
+      "id": "POL-03",
+      "inputs": [
+        "犯罪と合法行動の利得",
+        "摘発・有罪確率と制裁",
+        "被害と代替先",
+        "執行・収容費用"
+      ],
+      "jel_codes": [
+        "K42",
+        "D72"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "対象・代替先の行動と被害",
+        "最適取締りと社会費用"
+      ],
+      "prerequisites": [
+        "MICRO-06"
+      ],
+      "related": [
+        "HEALTH-03"
+      ],
+      "subdomain": "犯罪、摘発と制裁",
+      "title": "犯罪、摘発と制裁",
+      "topic": "犯罪、摘発と制裁",
+      "use_when": "摘発・制裁と犯罪の代替行動を含む取締りの厚生を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "pol-04",
+      "chapter": 29,
+      "concept_ids": [
+        "C-POL-04",
+        "C-CH-29"
+      ],
+      "contract_ids": [],
+      "domain": "政治法制度",
+      "file": "chapters/29-political-law-institutions.md",
+      "id": "POL-04",
+      "inputs": [
+        "投資収益",
+        "権利保護",
+        "事故損害"
+      ],
+      "jel_codes": [
+        "K12",
+        "D23"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "投資",
+        "安全努力"
+      ],
+      "prerequisites": [
+        "MICRO-06"
+      ],
+      "related": [
+        "CONTRACT-04"
+      ],
+      "subdomain": "財産権、契約と責任",
+      "title": "財産権、契約と責任",
+      "topic": "財産権、契約と責任",
+      "use_when": "財産権と事故責任の誘因を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "pol-05",
+      "chapter": 29,
+      "concept_ids": [
+        "C-POL-05",
+        "C-CH-29"
+      ],
+      "contract_ids": [],
+      "domain": "政治法制度",
+      "file": "chapters/29-political-law-institutions.md",
+      "id": "POL-05",
+      "inputs": [
+        "遵守費用",
+        "継続利得",
+        "制度時点"
+      ],
+      "jel_codes": [
+        "O43",
+        "N10"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "履行条件",
+        "因果比較"
+      ],
+      "prerequisites": [
+        "GAME-03"
+      ],
+      "related": [
+        "CAUSAL-03"
+      ],
+      "subdomain": "制度の持続と歴史的識別",
+      "title": "制度の持続と歴史的識別",
+      "topic": "制度の持続と歴史的識別",
+      "use_when": "制度維持と歴史的効果を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "pol-06",
+      "chapter": 29,
+      "concept_ids": [
+        "C-POL-06",
+        "C-CH-29"
+      ],
+      "contract_ids": [],
+      "domain": "政治法制度",
+      "file": "chapters/29-political-law-institutions.md",
+      "id": "POL-06",
+      "inputs": [
+        "争奪確率",
+        "政策利得",
+        "活動費"
+      ],
+      "jel_codes": [
+        "D72",
+        "D74"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "努力均衡",
+        "社会費用"
+      ],
+      "prerequisites": [
+        "GAME-01"
+      ],
+      "related": [
+        "POL-01"
+      ],
+      "subdomain": "利害集団と紛争",
+      "title": "利害集団と紛争",
+      "topic": "利害集団と紛争",
+      "use_when": "利害集団の争奪と資源費用を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "pol-07",
+      "chapter": 29,
+      "concept_ids": [
+        "C-POL-07",
+        "C-CH-29",
+        "C-OBJ-EXPECTED-SANCTION",
+        "C-TERM-CRIME-ENFORCEMENT"
+      ],
+      "contract_ids": [
+        "MC-crime-enforcement-displacement"
+      ],
+      "domain": "政治法制度",
+      "file": "chapters/29-political-law-institutions.md",
+      "id": "POL-07",
+      "inputs": [
+        "犯罪利得分布",
+        "被害",
+        "罰",
+        "執行費"
+      ],
+      "jel_codes": [
+        "K42",
+        "D72"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "摘発率",
+        "犯罪率"
+      ],
+      "prerequisites": [
+        "POL-03"
+      ],
+      "related": [
+        "CASE-02"
+      ],
+      "subdomain": "取締りの最適水準",
+      "title": "例題：取締りの最適水準",
+      "topic": "例題：取締りの最適水準",
+      "use_when": "最適な摘発確率の例を計算する"
+    }
+  ]
+}

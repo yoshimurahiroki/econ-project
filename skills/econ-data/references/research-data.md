@@ -1,0 +1,35 @@
+# Public data acquisition and research tables
+
+`skills/econ-data/scripts/research_data.py` retrieves specified official observations, preserves the original response bytes and response hashes, and builds research tables from hashed source snapshots. It uses the existing `research_sources.py` connector for HTTP retrieval and World Bank definitions. The researcher chooses the observation unit, period, variables, data conditions and join keys before acquisition; `research_design.py assess` evaluates a declared question, period, population, grain, required fields, missingness, variation and linkage against the actual records and cited source spans.
+
+## Acquisition and catalogues
+
+Run `python skills/econ-data/scripts/research_data.py acquire SPEC.json --output NEW_DIRECTORY`. A specification always provides `provider`, `unit` and `definition`. The supported provider-specific fields are:
+
+- `fred`: `series`, `start` and `end`, with dates in `YYYY-MM-DD`. The source is FRED's public graph CSV. The returned monthly or daily observation dates are preserved.
+- `worldbank`: `series`, `countries` (country codes), integer `start` and `end` years. The existing World Bank connector retrieves both observations and indicator documentation.
+- `imf`: `series`, three-letter `countries`, `start` and `end` years. The public IMF DataMapper indicator endpoint provides the values.
+- `eurostat`: `series` (dataset ID), `filters` (explicit dimension ID/value strings), `start` and `end`. The JSON-stat dimensions and each dimension's code are preserved. Select a sufficiently narrow set of dimensions for the intended grain.
+- `census`: for publicly downloadable Population Estimates, `series` is `POPESTIMATE`, `year` is the 2024 vintage, `start` and `end` are between 2020 and 2024, `geography` is `state:06`, a comma-separated list of two-digit state FIPS codes, or `state:*`, and `unit` is `persons`. The helper reads the Census population estimates CSV. For the ACS API use `year`, an official variable ID as `series`, and a supported `geography`; ACS numeric suppression codes are retained as missing values with their original status. The ACS endpoint can return a key-required HTML response; the retained response shows the actual access result.
+
+The result consists of `observations.csv` and `data-record.json`: provider, selected specification, units and definitions, terms URL, raw response path and SHA-256, missing counts, exact code hash and generated table hash. Each normalized row contains `entity`, `period`, `value`, `status`, `unit` and applicable dimensions. The declared unit is the researcher's adopted source unit; any conversion occurs explicitly in the assembly specification. A new output directory preserves earlier snapshots.
+
+`catalog SPEC.json --output NEW_DIRECTORY` searches bounded official metadata: IMF DataMapper indicators with `{"provider":"imf","query":"real GDP growth","limit":5}` or Census ACS variables with `{"provider":"census","year":2023,"query":"total population","limit":5}`. Terms, query, complete returned source bytes, SHA-256 and the matched official metadata are retained. World Bank indicator search uses `research_sources.py indicators`, and Eurostat dataset and dimension metadata are returned by a filtered acquisition.
+
+## Data used in existing research
+
+`dataset-use SPEC.json --output NEW_DIRECTORY` searches a selected, hash-verified paper PDF for adopted dataset-name patterns. The specification supplies `source:{path,sha256,url}`, `paper`, `first_page`, `last_page` and `datasets:[{id,regex}]`. It invokes `pdftotext -layout` on the stated PDF pages; matches include page, matched text, normalized-page offsets, normalized-page SHA-256 and surrounding source text. A researcher reads the context to establish how the paper uses the named dataset and the required unit, population and period. The search expressions determine what this operation can find.
+
+## Document tables
+
+`extract SPEC.json --root ROOT --output NEW_DIRECTORY` extracts a table from a local hash-verified original. For HTML, specify `format:"html"`, zero-based `table_index`, optional `row_regex`, `unit`, `definition` and optional numeric column names. The selected table needs a distinct header and rectangular rows. For PDF, specify `format:"pdf"`, one-based `page`, the exact selected `exact_line`, a `row_regex` with named groups, and optional `numeric` group names. The helper requires a unique exact-line/regex match in that page and calls `pdftotext -layout`; the output records the original hash, page, line number, extraction engine, matched fields, unit and definition. Row choice, page and capture expressions belong to the adopted source specification.
+
+## Joining, panels and geographic data
+
+`assemble SPEC.json --root ROOT --output NEW_DIRECTORY` reads CSV inputs through `{path,sha256}` references. CSV identifiers remain strings, preserving leading zeros. A join declares `table`, lists of `left` and `right` keys, output `columns`, `cardinality` (`one_to_one` or `many_to_one`) and `unmatched` (`error` or `keep`). Right keys must be unique and complete; one-to-one left keys must also be unique. Declare `rename`, `numeric` and `scale` transformations where needed. Every resulting column requires its `unit`, `definition` and definition `version`; no implicit currency or population scaling is performed.
+
+`grain` is a list of fields whose complete values uniquely identify a row. Optional `panel` declares `entity`, `time` and whether balance is required; each entity–time key must be unique, and a balanced panel must contain the same times for every entity. Optional `geography` supplies a hash-verified GeoJSON FeatureCollection and `data_key`/`feature_key`. Keys must match; point positions must have finite WGS84 longitude and latitude; polygons require closed rings with at least four positions, and multipolygons require valid polygons. The output includes the transformed `analysis.csv`, selected `geography.geojson` and `data-record.json` with source hashes, definitions, panel summary and transformations. Polygon topology beyond ring closure is not evaluated.
+
+## End-to-end seeded example
+
+`python skills/econ-data/scripts/research_data.py case --output NEW_ROOT --python PYTHON` prepares a finite example with seeded person-year source rows, a firm crosswalk, region geometry, definitions, copied code and an existing-runner manifest. Execute it with `python harness/research.py --root NEW_ROOT manifest.json`. The existing DAG assembles the balanced person panel and region features, constructs an OLS specification, calls the existing `research.py estimate` with statsmodels, and creates a coefficient table. The runner tracks raw source, crosswalk, geometry, specifications, helper bytes, Python and package versions, fitted data and result dependencies. A repeated identical run reuses the completed generations. These observations are synthetic; the raw records define their generating equation and seed.

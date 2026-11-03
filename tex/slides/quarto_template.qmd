@@ -1,0 +1,14 @@
+---
+title: "TITLE"
+subtitle: "SUBTITLE"
+author: "Author"
+date: today
+format:
+  beamer:
+    pdf-engine: lualatex
+    template: pandoc_template.latex
+    cite-method: natbib
+    biblio-style: ecta-fullname
+    slide-level: 1
+---
+

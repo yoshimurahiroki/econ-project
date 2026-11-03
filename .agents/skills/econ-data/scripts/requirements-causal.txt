@@ -1,0 +1,14 @@
+numpy==2.3.5
+pandas==3.1.0
+scipy==1.17.0
+statsmodels==0.14.6
+linearmodels==7.0
+pyfixest==0.60.0
+rdrobust==2.1.1
+econml==0.17.0
+scikit-learn==1.7.2
+spreg==1.9.1
+libpysal==4.15.1
+pydynpd==0.2.2
+pysyncon==1.7.0
+packaging==26.3

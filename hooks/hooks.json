@@ -1,0 +1,131 @@
+{
+  "description": "Economics native task context and scoped checks",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" UserPromptSubmit",
+            "timeout": 30,
+            "statusMessage": "Economics task context",
+            "additionalContextLimit": 5000
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" PreToolUse",
+            "timeout": 30,
+            "statusMessage": "Economics task context",
+            "additionalContextLimit": 5000
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" PostToolUse",
+            "timeout": 30,
+            "statusMessage": "Economics task context",
+            "additionalContextLimit": 5000
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" SubagentStart",
+            "timeout": 30,
+            "statusMessage": "Economics task context",
+            "additionalContextLimit": 5000
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" SubagentStop",
+            "timeout": 30,
+            "statusMessage": "Economics task context"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" Stop",
+            "timeout": 30,
+            "statusMessage": "Economics task context"
+          }
+        ]
+      }
+    ],
+    "Interrupt": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" Interrupt",
+            "timeout": 2,
+            "statusMessage": "Economics task context"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" PreCompact",
+            "timeout": 30,
+            "statusMessage": "Economics task context"
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" PostCompact",
+            "timeout": 30,
+            "statusMessage": "Economics task context"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact|fork",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" SessionStart",
+            "timeout": 30,
+            "statusMessage": "Economics task context",
+            "additionalContextLimit": 5000
+          }
+        ]
+      }
+    ]
+  }
+}

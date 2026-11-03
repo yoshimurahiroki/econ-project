@@ -1,0 +1,241 @@
+{
+  "domain": "都市住宅交通",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "spatial-01",
+      "chapter": 24,
+      "concept_ids": [
+        "C-SPATIAL-01",
+        "C-CH-24"
+      ],
+      "contract_ids": [],
+      "domain": "都市住宅交通",
+      "file": "chapters/24-spatial-housing-transport.md",
+      "id": "SPATIAL-01",
+      "inputs": [
+        "賃金",
+        "通勤費",
+        "住宅",
+        "効用"
+      ],
+      "jel_codes": [
+        "R31",
+        "R21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "付け値地代",
+        "都市境界"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [
+        "SPATIAL-02"
+      ],
+      "subdomain": "都市地代",
+      "title": "地代と単一中心都市",
+      "topic": "通勤費から住宅付け値と都市境界を求める",
+      "use_when": "通勤費から住宅付け値と都市境界を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "spatial-02",
+      "chapter": 24,
+      "concept_ids": [
+        "C-SPATIAL-02",
+        "C-CH-24",
+        "C-OBJ-HOUSING-RENTS",
+        "C-OBJ-LOCATION-SHARES"
+      ],
+      "contract_ids": [
+        "MC-housing-toy"
+      ],
+      "domain": "都市住宅交通",
+      "file": "chapters/24-spatial-housing-transport.md",
+      "id": "SPATIAL-02",
+      "inputs": [
+        "地域賃金",
+        "住宅供給",
+        "通勤費",
+        "選好"
+      ],
+      "jel_codes": [
+        "R21",
+        "R31"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "居住・通勤流",
+        "地代",
+        "賃金"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [],
+      "subdomain": "都市労働住宅均衡",
+      "title": "居住、通勤と住宅清算",
+      "topic": "居住・勤務地の選択と住宅市場を清算する",
+      "use_when": "居住・勤務地の選択と住宅市場を清算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "spatial-03",
+      "chapter": 24,
+      "concept_ids": [
+        "C-SPATIAL-03",
+        "C-CH-24",
+        "C-OBJ-HOUSING-RENTS"
+      ],
+      "contract_ids": [],
+      "domain": "都市住宅交通",
+      "file": "chapters/24-spatial-housing-transport.md",
+      "id": "SPATIAL-03",
+      "inputs": [
+        "生産性",
+        "人口",
+        "住宅供給と建設費",
+        "規制上限と地形",
+        "通勤と所有権"
+      ],
+      "jel_codes": [
+        "R32",
+        "R31"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "均衡人口",
+        "賃料",
+        "供給反応",
+        "集団別厚生"
+      ],
+      "prerequisites": [
+        "SPATIAL-02"
+      ],
+      "related": [
+        "LABOR-03",
+        "SPATIAL-04",
+        "SPATIAL-05"
+      ],
+      "subdomain": "集積と住宅供給",
+      "title": "集積、混雑と住宅供給",
+      "topic": "集積と建設規制が人口・地代に与える影響を解く",
+      "use_when": "集積と建設規制が人口・地代に与える影響を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "spatial-04",
+      "chapter": 24,
+      "concept_ids": [
+        "C-SPATIAL-04",
+        "C-CH-24",
+        "C-OBJ-LOCATION-SHARES",
+        "C-OBJ-MIGRATION-FLOWS"
+      ],
+      "contract_ids": [],
+      "domain": "都市住宅交通",
+      "file": "chapters/24-spatial-housing-transport.md",
+      "id": "SPATIAL-04",
+      "inputs": [
+        "移住費",
+        "住宅",
+        "賃料",
+        "資産価値",
+        "公共サービス"
+      ],
+      "jel_codes": [
+        "R23",
+        "H71"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "人口・賃料・税・資産価格経路",
+        "厚生"
+      ],
+      "prerequisites": [
+        "SPATIAL-02",
+        "DYN-02"
+      ],
+      "related": [
+        "LABOR-06"
+      ],
+      "subdomain": "動学移住地方財政",
+      "title": "移住費用と地域公共財",
+      "topic": "住宅市場と地方税を含む移住・厚生経路を求める",
+      "use_when": "住宅市場と地方税を含む移住・厚生経路を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "spatial-05",
+      "chapter": 24,
+      "concept_ids": [
+        "C-SPATIAL-05",
+        "C-CH-24"
+      ],
+      "contract_ids": [],
+      "domain": "都市住宅交通",
+      "file": "chapters/24-spatial-housing-transport.md",
+      "id": "SPATIAL-05",
+      "inputs": [
+        "交通需要",
+        "経路費用",
+        "容量"
+      ],
+      "jel_codes": [
+        "R41",
+        "R48"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "Wardrop配分",
+        "料金",
+        "厚生"
+      ],
+      "prerequisites": [
+        "MICRO-06"
+      ],
+      "related": [],
+      "subdomain": "交通均衡",
+      "title": "交通配分と渋滞料金",
+      "topic": "経路費用と混雑外部性から最適料金を求める",
+      "use_when": "経路費用と混雑外部性から最適料金を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "spatial-06",
+      "chapter": 24,
+      "concept_ids": [
+        "C-SPATIAL-06",
+        "C-CH-24"
+      ],
+      "contract_ids": [],
+      "domain": "都市住宅交通",
+      "file": "chapters/24-spatial-housing-transport.md",
+      "id": "SPATIAL-06",
+      "inputs": [
+        "逆需要",
+        "道路費用"
+      ],
+      "jel_codes": [
+        "R41",
+        "R48"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "均衡交通量",
+        "外部費用",
+        "余剰"
+      ],
+      "prerequisites": [
+        "SPATIAL-05"
+      ],
+      "related": [],
+      "subdomain": "渋滞料金例",
+      "title": "例題：渋滞道路の料金",
+      "topic": "線形需要と混雑費用の効率交通量を求める",
+      "use_when": "線形需要と混雑費用の効率交通量を求める"
+    }
+  ]
+}

@@ -1,0 +1,314 @@
+{
+  "domain": "情報行動",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "info-01",
+      "chapter": 5,
+      "concept_ids": [
+        "C-INFO-01",
+        "C-CH-05"
+      ],
+      "contract_ids": [],
+      "domain": "情報行動",
+      "file": "chapters/05-information-behavior.md",
+      "id": "INFO-01",
+      "inputs": [
+        "所得分布",
+        "効用関数",
+        "事故確率",
+        "保険価格"
+      ],
+      "jel_codes": [
+        "D81",
+        "D91"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "確実同値",
+        "危険プレミアム",
+        "保険需要"
+      ],
+      "prerequisites": [
+        "MATH-03",
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "期待効用と危険",
+      "title": "期待効用と危険",
+      "topic": "期待効用と危険",
+      "use_when": "期待効用と保険条件から危険の評価を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "info-02",
+      "chapter": 5,
+      "concept_ids": [
+        "C-INFO-02",
+        "C-CH-05"
+      ],
+      "contract_ids": [],
+      "domain": "情報行動",
+      "file": "chapters/05-information-behavior.md",
+      "id": "INFO-02",
+      "inputs": [
+        "事前分布",
+        "信号",
+        "行動利得",
+        "情報費用"
+      ],
+      "jel_codes": [
+        "D83",
+        "D81"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "情報価値",
+        "更新後の行動",
+        "事後分布",
+        "事後予測確率"
+      ],
+      "prerequisites": [
+        "STAT-02"
+      ],
+      "related": [
+        "INFO-03",
+        "INFO-04",
+        "DYN-02",
+        "FORECAST-06"
+      ],
+      "subdomain": "情報価値と学習",
+      "title": "情報価値と学習",
+      "topic": "情報価値と学習",
+      "use_when": "信号の取得価値と学習を伴う選択を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "info-03",
+      "chapter": 5,
+      "concept_ids": [
+        "C-INFO-03",
+        "C-CH-05"
+      ],
+      "contract_ids": [],
+      "domain": "情報行動",
+      "file": "chapters/05-information-behavior.md",
+      "id": "INFO-03",
+      "inputs": [
+        "状態",
+        "事前分布",
+        "受信者利得",
+        "信号規則"
+      ],
+      "jel_codes": [
+        "D82",
+        "D83"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "Bayes整合信念",
+        "信号規則",
+        "採用率"
+      ],
+      "prerequisites": [
+        "GAME-02"
+      ],
+      "related": [
+        "INFO-04"
+      ],
+      "subdomain": "シグナルと情報設計",
+      "title": "シグナルと情報設計",
+      "topic": "シグナルと情報設計",
+      "use_when": "信号の設計と事後信念から受信者の選択を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "info-04",
+      "chapter": 5,
+      "concept_ids": [
+        "C-INFO-04",
+        "C-CH-05"
+      ],
+      "contract_ids": [],
+      "domain": "情報行動",
+      "file": "chapters/05-information-behavior.md",
+      "id": "INFO-04",
+      "inputs": [
+        "事前状態分布",
+        "行動利得",
+        "情報費用係数"
+      ],
+      "jel_codes": [
+        "D91",
+        "D83"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "条件付き選択確率",
+        "周辺行動確率",
+        "支持集合の最適性"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [
+        "INFO-03"
+      ],
+      "subdomain": "注意の配分",
+      "title": "注意の配分",
+      "topic": "注意の配分",
+      "use_when": "情報費用を伴う選択確率を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "info-05",
+      "chapter": 5,
+      "concept_ids": [
+        "C-INFO-05",
+        "C-CH-05"
+      ],
+      "contract_ids": [],
+      "domain": "情報行動",
+      "file": "chapters/05-information-behavior.md",
+      "id": "INFO-05",
+      "inputs": [
+        "結果",
+        "参照点",
+        "他者配分",
+        "損失回避係数"
+      ],
+      "jel_codes": [
+        "D91",
+        "D63"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "参照点依存価値",
+        "社会的効用"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [
+        "INFO-06"
+      ],
+      "subdomain": "参照点と社会的選好",
+      "title": "参照点と社会的選好",
+      "topic": "参照点と社会的選好",
+      "use_when": "参照点と他者配分を含む選好で行動を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "info-06",
+      "chapter": 5,
+      "concept_ids": [
+        "C-INFO-06",
+        "C-CH-05"
+      ],
+      "contract_ids": [],
+      "domain": "情報行動",
+      "file": "chapters/05-information-behavior.md",
+      "id": "INFO-06",
+      "inputs": [
+        "各期の効用",
+        "現在バイアス",
+        "割引因子"
+      ],
+      "jel_codes": [
+        "D91",
+        "D15"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "当初計画",
+        "将来の選択",
+        "拘束の価値",
+        "計画変更の条件"
+      ],
+      "prerequisites": [],
+      "related": [
+        "INFO-05"
+      ],
+      "subdomain": "現在バイアス",
+      "title": "現在バイアス",
+      "topic": "現在バイアス",
+      "use_when": "現在バイアスと将来の再最適化から計画を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "info-07",
+      "chapter": 5,
+      "concept_ids": [
+        "C-INFO-07",
+        "C-CH-05"
+      ],
+      "contract_ids": [],
+      "domain": "情報行動",
+      "file": "chapters/05-information-behavior.md",
+      "id": "INFO-07",
+      "inputs": [
+        "事前と事後確率",
+        "信号確率",
+        "費用8",
+        "便益10"
+      ],
+      "jel_codes": [
+        "D83",
+        "C11"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "信号確率0.8と0.2",
+        "今日の価値1.4",
+        "明日の価値-1"
+      ],
+      "prerequisites": [
+        "INFO-03",
+        "INFO-06"
+      ],
+      "related": [],
+      "subdomain": "例題：信号の復元と割引",
+      "title": "例題：信号の復元と割引",
+      "topic": "例題：信号の復元と割引",
+      "use_when": "二状態の信号復元と現在バイアスの計画を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "info-08",
+      "chapter": 5,
+      "concept_ids": [
+        "C-INFO-08",
+        "C-CH-05",
+        "C-TERM-MAXMIN-EU",
+        "C-TERM-RECTANGULARITY"
+      ],
+      "contract_ids": [],
+      "domain": "情報行動",
+      "file": "chapters/05-information-behavior.md",
+      "id": "INFO-08",
+      "inputs": [
+        "状態別利得",
+        "事前分布集合",
+        "情報履歴"
+      ],
+      "jel_codes": [
+        "D81",
+        "D83"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "maxmin価値",
+        "条件付き方策",
+        "動学的一貫性の判定"
+      ],
+      "prerequisites": [
+        "STAT-02"
+      ],
+      "related": [],
+      "subdomain": "複数事前分布と逐次選択",
+      "title": "複数事前分布と逐次選択",
+      "topic": "複数事前分布と逐次選択",
+      "use_when": "複数事前分布と逐次更新の下で行動を選ぶ"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "__TEMPLATE_WARNING__": "Regenerate local MCP configurations with scripts/setup_ide_mcp.sh.",
+  "mcpServers": {}
+}

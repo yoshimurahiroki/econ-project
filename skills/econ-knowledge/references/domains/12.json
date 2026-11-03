@@ -1,0 +1,282 @@
+{
+  "domain": "因果デザイン",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "causal-01",
+      "chapter": 11,
+      "concept_ids": [
+        "C-CAUSAL-01",
+        "C-CH-11"
+      ],
+      "contract_ids": [],
+      "domain": "因果デザイン",
+      "file": "chapters/11-causal-designs.md",
+      "id": "CAUSAL-01",
+      "inputs": [
+        "処置",
+        "結果",
+        "処置前共変量",
+        "対象集団"
+      ],
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "ATE",
+        "ATT",
+        "調整後平均"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "潜在結果",
+      "title": "潜在結果と調整",
+      "topic": "潜在結果と調整",
+      "use_when": "潜在結果と条件付き非交絡性からATEまたはATTの対象と比較を定義する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "causal-02",
+      "chapter": 11,
+      "concept_ids": [
+        "C-CAUSAL-02",
+        "C-CH-11",
+        "C-ASSUMP-IV-EXCLUSION"
+      ],
+      "contract_ids": [],
+      "domain": "因果デザイン",
+      "file": "chapters/11-causal-designs.md",
+      "id": "CAUSAL-02",
+      "inputs": [
+        "割当",
+        "受療",
+        "結果",
+        "割当確率"
+      ],
+      "jel_codes": [
+        "C93",
+        "C21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "ITT",
+        "complierのLATE"
+      ],
+      "prerequisites": [
+        "CAUSAL-01"
+      ],
+      "related": [
+        "ECON-02"
+      ],
+      "subdomain": "無作為割当",
+      "title": "無作為割当と受療",
+      "topic": "無作為割当と受療",
+      "use_when": "無作為割当のITTと不完全受療のLATEを推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "causal-03",
+      "chapter": 11,
+      "concept_ids": [
+        "C-CAUSAL-03",
+        "C-CH-11",
+        "C-TERM-DID",
+        "C-ASSUMP-PARALLEL-TRENDS"
+      ],
+      "contract_ids": [],
+      "domain": "因果デザイン",
+      "file": "chapters/11-causal-designs.md",
+      "id": "CAUSAL-03",
+      "inputs": [
+        "前後の結果",
+        "処置群",
+        "処置前共変量"
+      ],
+      "jel_codes": [
+        "C23",
+        "C21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "ATT",
+        "二重頑健スコア"
+      ],
+      "prerequisites": [
+        "CAUSAL-01"
+      ],
+      "related": [],
+      "subdomain": "差の差",
+      "title": "二期間の差の差",
+      "topic": "二期間の差の差",
+      "use_when": "処置前後のパネルと条件付き平行トレンドからATTを推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "causal-04",
+      "chapter": 11,
+      "concept_ids": [
+        "C-CAUSAL-04",
+        "C-CH-11",
+        "C-ASSUMP-PARALLEL-TRENDS"
+      ],
+      "contract_ids": [],
+      "domain": "因果デザイン",
+      "file": "chapters/11-causal-designs.md",
+      "id": "CAUSAL-04",
+      "inputs": [
+        "群の処置開始期",
+        "処置前後のパネルまたは反復横断結果",
+        "処置前共変量",
+        "予期期",
+        "標本設計と独立個体またはクラスター"
+      ],
+      "jel_codes": [
+        "C23",
+        "C21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "群・時点別ATT",
+        "固定重みイベント時間効果",
+        "標準誤差と区間"
+      ],
+      "prerequisites": [
+        "CAUSAL-03"
+      ],
+      "related": [
+        "ADVCAUSAL-05",
+        "CAUSAL-07"
+      ],
+      "subdomain": "段階導入と履歴",
+      "title": "段階導入と処置経路",
+      "topic": "段階導入と処置経路",
+      "use_when": "処置開始時期が異なるパネルまたは反復横断標本で群・時点別効果と固定人口のイベント時間効果を推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "causal-05",
+      "chapter": 11,
+      "concept_ids": [
+        "C-CAUSAL-05",
+        "C-CH-11",
+        "C-TERM-RDD"
+      ],
+      "contract_ids": [],
+      "domain": "因果デザイン",
+      "file": "chapters/11-causal-designs.md",
+      "id": "CAUSAL-05",
+      "inputs": [
+        "running variable",
+        "閾値",
+        "結果",
+        "受療",
+        "帯域"
+      ],
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "局所効果",
+        "バイアス補正区間"
+      ],
+      "prerequisites": [
+        "CAUSAL-01"
+      ],
+      "related": [
+        "CAUSAL-02"
+      ],
+      "subdomain": "回帰不連続",
+      "title": "回帰不連続",
+      "topic": "回帰不連続; robust bias correction; robust bias corrected regression discontinuity; 回帰不連続の頑健バイアス補正; 帯域選択",
+      "use_when": "閾値割当で閾値近傍の処置効果を局所比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "causal-06",
+      "chapter": 11,
+      "concept_ids": [
+        "C-CAUSAL-06",
+        "C-CH-11",
+        "C-TERM-SCM",
+        "C-ASSUMP-STABLE-DONORS"
+      ],
+      "contract_ids": [],
+      "domain": "因果デザイン",
+      "file": "chapters/11-causal-designs.md",
+      "id": "CAUSAL-06",
+      "inputs": [
+        "処置単位の前後結果",
+        "donor結果",
+        "処置前特徴",
+        "重み行列"
+      ],
+      "jel_codes": [
+        "C21",
+        "C23"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "合成対照重み",
+        "処置後効果系列"
+      ],
+      "prerequisites": [
+        "CAUSAL-01"
+      ],
+      "related": [
+        "CAUSAL-03",
+        "CAUSAL-04"
+      ],
+      "subdomain": "合成対照",
+      "title": "合成対照と因子",
+      "topic": "合成対照と因子",
+      "use_when": "処置前系列が近いdonorから未処置結果を構成する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "causal-07",
+      "chapter": 11,
+      "concept_ids": [
+        "C-CAUSAL-07",
+        "C-CH-11"
+      ],
+      "contract_ids": [],
+      "domain": "因果デザイン",
+      "file": "chapters/11-causal-designs.md",
+      "id": "CAUSAL-07",
+      "inputs": [
+        "群別人数",
+        "処置前後の群平均",
+        "各群・期のATT",
+        "比較可能な群と固定重み"
+      ],
+      "jel_codes": [
+        "C21",
+        "C23"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "群別ATT",
+        "人口平均効果",
+        "総量効果",
+        "群平均効果",
+        "固定構成のイベント期効果"
+      ],
+      "prerequisites": [
+        "CAUSAL-03"
+      ],
+      "related": [
+        "CAUSAL-04"
+      ],
+      "subdomain": "集約対象の例",
+      "title": "解答付き例題：集約対象",
+      "topic": "解答付き例題：集約対象",
+      "use_when": "群別差の差を人口・群・固定イベント期の対象に集約する"
+    }
+  ]
+}

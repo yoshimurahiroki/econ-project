@@ -1,0 +1,242 @@
+{
+  "domain": "資産価格",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "asset-01",
+      "chapter": 20,
+      "concept_ids": [
+        "C-ASSET-01",
+        "C-CH-20"
+      ],
+      "contract_ids": [
+        "MC-state-price-bounds"
+      ],
+      "domain": "資産価格",
+      "file": "chapters/20-asset-pricing.md",
+      "id": "ASSET-01",
+      "inputs": [
+        "状態別支払行列",
+        "既存資産価格",
+        "請求権の状態別支払",
+        "SDFへ換算するときの状態確率"
+      ],
+      "jel_codes": [
+        "G12",
+        "C62"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "状態価格集合",
+        "無裁定価格境界",
+        "複製ポートフォリオ",
+        "subhedgeとsuperhedge",
+        "SDF"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [
+        "ASSET-06"
+      ],
+      "subdomain": "状態価格",
+      "title": "無裁定と状態価格",
+      "topic": "無裁定、状態価格、複製可能性と不完備市場の請求権価格境界",
+      "use_when": "既存資産価格から請求権の点価格または価格範囲とヘッジを求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "asset-02",
+      "chapter": 20,
+      "concept_ids": [
+        "C-ASSET-02",
+        "C-CH-20",
+        "C-TERM-SDF"
+      ],
+      "contract_ids": [
+        "MC-sdf-moments"
+      ],
+      "domain": "資産価格",
+      "file": "chapters/20-asset-pricing.md",
+      "id": "ASSET-02",
+      "inputs": [
+        "消費成長",
+        "選好",
+        "収益",
+        "因子"
+      ],
+      "jel_codes": [
+        "G12",
+        "C58"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "SDF",
+        "因子価格",
+        "HJ境界"
+      ],
+      "prerequisites": [
+        "ASSET-01"
+      ],
+      "related": [
+        "ECON-02"
+      ],
+      "subdomain": "消費資産価格",
+      "title": "消費に基づく価格と因子",
+      "topic": "消費の限界効用から資産リスク価格を求める; stochastic discount factor GMM; SDF GMM; 確率的割引因子; 資産価格GMM",
+      "use_when": "消費の限界効用から資産リスク価格を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "asset-03",
+      "chapter": 20,
+      "concept_ids": [
+        "C-ASSET-03",
+        "C-CH-20"
+      ],
+      "contract_ids": [],
+      "domain": "資産価格",
+      "file": "chapters/20-asset-pricing.md",
+      "id": "ASSET-03",
+      "inputs": [
+        "短期金利",
+        "価格付け確率下の遷移",
+        "満期"
+      ],
+      "jel_codes": [
+        "G12",
+        "E43"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "債券価格",
+        "利回り",
+        "期間プレミアム"
+      ],
+      "prerequisites": [
+        "ASSET-01"
+      ],
+      "related": [
+        "TS-04"
+      ],
+      "subdomain": "債券価格",
+      "title": "債券と期間構造",
+      "topic": "SDFと状態遷移から満期別債券価格を求める",
+      "use_when": "SDFと状態遷移から満期別債券価格を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "asset-04",
+      "chapter": 20,
+      "concept_ids": [
+        "C-ASSET-04",
+        "C-CH-20"
+      ],
+      "contract_ids": [],
+      "domain": "資産価格",
+      "file": "chapters/20-asset-pricing.md",
+      "id": "ASSET-04",
+      "inputs": [
+        "株価",
+        "金利",
+        "満期",
+        "行使価格"
+      ],
+      "jel_codes": [
+        "G13",
+        "C61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "複製ポートフォリオ",
+        "オプション価格"
+      ],
+      "prerequisites": [
+        "ASSET-01"
+      ],
+      "related": [
+        "DYN-07"
+      ],
+      "subdomain": "オプション価格",
+      "title": "複製、オプション、連続時間",
+      "topic": "無裁定複製でオプション価格を求める",
+      "use_when": "無裁定複製でオプション価格を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "asset-05",
+      "chapter": 20,
+      "concept_ids": [
+        "C-ASSET-05",
+        "C-CH-20"
+      ],
+      "contract_ids": [],
+      "domain": "資産価格",
+      "file": "chapters/20-asset-pricing.md",
+      "id": "ASSET-05",
+      "inputs": [
+        "収益平均",
+        "共分散",
+        "リスク係数",
+        "保有制約"
+      ],
+      "jel_codes": [
+        "G11",
+        "G21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最適配分",
+        "KKT乗数",
+        "制約の影価格"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "ASSET-02"
+      ],
+      "subdomain": "投資と流動性",
+      "title": "ポートフォリオ、流動性、仲介",
+      "topic": "リスクと取引制約から資産配分を選ぶ",
+      "use_when": "リスクと取引制約から資産配分を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "asset-06",
+      "chapter": 20,
+      "concept_ids": [
+        "C-ASSET-06",
+        "C-CH-20"
+      ],
+      "contract_ids": [],
+      "domain": "資産価格",
+      "file": "chapters/20-asset-pricing.md",
+      "id": "ASSET-06",
+      "inputs": [
+        "株価",
+        "上下倍率",
+        "金利",
+        "行使価格"
+      ],
+      "jel_codes": [
+        "G13",
+        "G12"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "リスク中立確率",
+        "call価格",
+        "複製保有"
+      ],
+      "prerequisites": [
+        "ASSET-04"
+      ],
+      "related": [],
+      "subdomain": "複製価格例",
+      "title": "解答付き例題：状態価格",
+      "topic": "二状態のcallを複製して価格を求める",
+      "use_when": "二状態のcallを複製して価格を求める"
+    }
+  ]
+}

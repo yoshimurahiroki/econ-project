@@ -1,0 +1,31 @@
+name: Selected changed-behavior test
+
+'on':
+  workflow_dispatch:
+    inputs:
+      test:
+        description: Retained test for the changed implementation
+        required: true
+        type: choice
+        options:
+          - harness/test_state.py::TeamStateTests::test_external_input_change_rejects_pass_and_completion
+          - harness/test_state.py::TeamStateTests::test_permission_hold_needs_recorded_release
+          - harness/test_research.py::ResearchPipelineTest::test_failed_replacement_preserves_previous_and_blocks_descendant
+          - harness/test_research_evidence.py::EvidenceTests::test_changed_number_sample_scenario_and_unit
+
+permissions:
+  contents: read
+
+jobs:
+  selected-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pytest==9.1.1
+      - name: Run the explicitly selected existing test
+        env:
+          SELECTED_TEST: ${{ inputs.test }}
+        run: make test "TEST=$SELECTED_TEST" 'PIXI_RUN=python -m'

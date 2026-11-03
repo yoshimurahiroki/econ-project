@@ -1,0 +1,186 @@
+# Registered resources
+
+Generated from the resource and placement registries. Use this catalog only for requested distribution or maintenance.
+
+- core: runtime/CORE.md
+- prose: runtime/PROSE.md
+- research: runtime/DECIDE.md
+- execution: runtime/EXECUTION.md
+- team: runtime/TEAM.md
+- econ-design: skills/econ-design/SKILL.md
+- econ-data: skills/econ-data/SKILL.md
+- econ-literature: skills/econ-literature/SKILL.md
+- econ-writing: skills/econ-writing/SKILL.md
+- econ-review: skills/econ-review/SKILL.md
+- design-methods: skills/econ-design/references/designs.md
+- data-implementation: skills/econ-data/references/implementation.md
+- data-results: skills/econ-data/references/reproducible-workflow.md
+- paper-workflow: skills/econ-writing/references/paper-workflow.md
+- review-methods: skills/econ-review/references/oversight.md
+- default-micro: profiles/default-micro/PROFILE.md
+- examples-en: profiles/default-micro/short-examples-en.md
+- examples-ja: profiles/default-micro/short-examples-ja.md
+- extended-en: profiles/default-micro/extended-introduction-en.md
+- extended-ja: profiles/default-micro/extended-introduction-ja.md
+- repository-policy: references/repository-policy/.cursorrules
+- integration: docs/ai/integration.md
+- resource-guide: docs/ai/resources.md
+- team-state-helper: harness/state.py
+- capabilities-helper: harness/capabilities.py
+- project-instructions: docs/ai/project_instructions.txt
+- native-index: docs/ai/compiled_ai_skills.md
+- project-context: docs/ai/repo_context.md
+- tool-export-project-py: scripts/export_project.py (complete source distribution only)
+- tool-route-registry-py: scripts/route_registry.py
+- tool-sync-common-core-py: scripts/sync_common_core.py (complete source distribution only)
+- tool-pack-context-sh: scripts/pack_context.sh
+- policy-agentsmd: references/repository-policy/AGENTS.md
+- policy-codexmd: references/repository-policy/CODEX.md
+- policy-claudemd: references/repository-policy/CLAUDE.md
+- policy-clinerules: references/repository-policy/.clinerules
+- policy-windsurfrules: references/repository-policy/.windsurfrules
+- policy-antigravityrules: references/repository-policy/.antigravityrules
+- policy-agents-agentsmd: references/repository-policy/.agents/AGENTS.md
+- policy-claude-agentsmd: references/repository-policy/.claude/AGENTS.md
+- policy-cursor-rules-01_project_policymdc: references/repository-policy/.cursor/rules/01_project_policy.mdc
+- policy-gemini-geminimd: references/repository-policy/.gemini/GEMINI.md
+- policy-github-copilot-instructionsmd: references/repository-policy/.github/copilot-instructions.md
+- writing-ui: skills/econ-writing/agents/openai.yaml
+- state-contract: harness/state.md
+- publication: harness/publication.md
+- tool-init: scripts/__init__.py (complete source distribution only)
+- registry-operations: registry/operations.json
+- registry-resources: registry/resources.json
+- registry-placements: registry/placements.json
+- prose-check-guide: quality/prose_rules.md
+- prose-check-rules: quality/prose_rules.json
+- local-checks: harness/local_checks.py
+- local-checks-guide: harness/local_checks.md
+- requirements-check: harness/requirements_check.py
+- requirements-check-guide: harness/requirements_check.md
+- native-check: harness/native_check.py
+- policy-assets: harness/policy_assets.py
+- policy-manifest: quality/policy_manifest.json
+- codex-hooks: harness/codex_hooks.py
+- tool-setup-ide-mcp-sh: scripts/setup_ide_mcp.sh (complete source distribution only)
+- tool-setup-extensions-sh: scripts/setup_extensions.sh (complete source distribution only)
+- config-template-readme-md: docs/ai/config-templates/README.md
+- config-template-claude-mcp-example-json: docs/ai/config-templates/claude-mcp.example.json
+- config-template-codex-example-toml: docs/ai/config-templates/codex.example.toml
+- config-template-mcp-example-json: docs/ai/config-templates/mcp.example.json
+- state-tests: harness/test_state.py (complete source distribution only)
+- plugin-integration-guide: docs/ai/plugin-integration.md
+- tool-check-instruction-links-py: scripts/check_instruction_links.py (complete source distribution only)
+- paragraph-workflow: skills/econ-writing/references/paragraph-workflow.md
+- paragraph-engine: harness/paragraph.py
+- argument-engine: harness/argument.py
+- paragraph-schema: harness/paragraph.schema.json
+- argument-schema: harness/argument.schema.json
+- equity-guide: skills/econ-data/references/equity.md
+- equity-calculator: skills/econ-data/scripts/equity.py
+- equity-sources: skills/econ-data/scripts/equity_sources.py
+- equity-dependencies: skills/econ-data/scripts/requirements-equity.txt
+- equity-models: skills/econ-data/references/equity-models.md
+- equity-io: skills/econ-data/scripts/equity_io.py
+- equity-airline-case: skills/econ-data/scripts/equity_airline_case.py
+- equity-company-case: skills/econ-data/scripts/equity_company_case.py
+- policy-codex-agent-terra: references/repository-policy/.codex/agents/terra.toml
+- policy-codex-agent-luna: references/repository-policy/.codex/agents/luna.toml
+- policy-codex-agent-astra: references/repository-policy/.codex/agents/astra.toml
+- hook-wrapper: hooks/check.py
+- hook-registration: hooks/hooks.json
+- research-runner: harness/research.py
+- research-execution: harness/research.md
+- research-estimator: skills/econ-data/scripts/research.py
+- research-dependencies: skills/econ-data/scripts/requirements-research.txt
+- research-case: skills/econ-data/scripts/research_case.py
+- research-sources: skills/econ-literature/scripts/research_sources.py
+- research-runner-tests: harness/test_research.py (complete source distribution only)
+- research-structural-case: skills/econ-data/scripts/research_structural_case.py
+- research-experience: harness/experience.py
+- research-evidence: harness/research_evidence.py
+- research-design: skills/econ-design/scripts/research_design.py
+- research-macro: skills/econ-data/scripts/research_macro.py
+- research-evidence-tests: harness/test_research_evidence.py (complete source distribution only)
+- research-reproduction: harness/reproduction.py
+- research-causal-dependencies: skills/econ-data/scripts/requirements-causal.txt
+- research-causal: skills/econ-data/scripts/research_causal.py
+- models-causal: skills/econ-design/references/causal-models.md
+- research-markets-dependencies: skills/econ-data/scripts/requirements-markets.txt
+- research-markets: skills/econ-data/scripts/research_markets.py
+- models-markets: skills/econ-design/references/market-models.md
+- research-dynamic-dependencies: skills/econ-data/scripts/requirements-dynamic.txt
+- research-dynamic: skills/econ-data/scripts/research_dynamic.py
+- models-dynamic: skills/econ-design/references/dynamic-models.md
+- research-numerics-dependencies: skills/econ-data/scripts/requirements-numerics.txt
+- research-numerics: skills/econ-data/scripts/research_numerics.py
+- models-numerics: skills/econ-design/references/numerical-models.md
+- research-julia: skills/econ-data/scripts/research_numerics.jl
+- research-macro-dependencies: skills/econ-data/scripts/requirements-macro.txt
+- research-macro-extended: skills/econ-data/scripts/research_macro_extended.py
+- models-macro-extended: skills/econ-design/references/macro-models.md
+- research-dsge: skills/econ-data/scripts/research_dsge.py
+- models-dsge: skills/econ-design/references/dsge-models.md
+- research-abm: skills/econ-data/scripts/research_abm.py
+- models-abm: skills/econ-design/references/agent-models.md
+- research-search: skills/econ-literature/scripts/research_search.py
+- source-discovery: skills/econ-literature/references/source-discovery.md
+- research-data: skills/econ-data/scripts/research_data.py
+- research-data-guide: skills/econ-data/references/research-data.md
+- research-artifacts: harness/research_artifacts.py
+- result-artifacts: skills/econ-writing/references/result-artifacts.md
+- adaptive-research: skills/econ-design/references/adaptive-research.md
+- research-causal-r-dependencies: skills/econ-data/scripts/requirements-causal-r.json
+- econ-knowledge: skills/econ-knowledge/SKILL.md
+- knowledge-retrieval: skills/econ-knowledge/scripts/knowledge.py
+- knowledge-catalog: skills/econ-knowledge/references/catalog.json (complete source distribution only)
+- knowledge-chapter-01: skills/econ-knowledge/references/chapters/01-mathematics.md (complete source distribution only)
+- knowledge-chapter-02: skills/econ-knowledge/references/chapters/02-probability-statistics.md (complete source distribution only)
+- knowledge-chapter-03: skills/econ-knowledge/references/chapters/03-microeconomics.md (complete source distribution only)
+- knowledge-chapter-04: skills/econ-knowledge/references/chapters/04-games.md (complete source distribution only)
+- knowledge-chapter-05: skills/econ-knowledge/references/chapters/05-information-behavior.md (complete source distribution only)
+- knowledge-chapter-06: skills/econ-knowledge/references/chapters/06-contracts-organization.md (complete source distribution only)
+- knowledge-chapter-07: skills/econ-knowledge/references/chapters/07-market-design.md (complete source distribution only)
+- knowledge-chapter-08: skills/econ-knowledge/references/chapters/08-networks.md (complete source distribution only)
+- knowledge-chapter-09: skills/econ-knowledge/references/chapters/09-dynamic-computation.md (complete source distribution only)
+- knowledge-chapter-10: skills/econ-knowledge/references/chapters/10-econometrics.md (complete source distribution only)
+- knowledge-chapter-11: skills/econ-knowledge/references/chapters/11-causal-designs.md (complete source distribution only)
+- knowledge-chapter-12: skills/econ-knowledge/references/chapters/12-causal-extensions.md (complete source distribution only)
+- knowledge-chapter-13: skills/econ-knowledge/references/chapters/13-time-series.md (complete source distribution only)
+- knowledge-chapter-14: skills/econ-knowledge/references/chapters/14-structural-estimation.md (complete source distribution only)
+- knowledge-chapter-15: skills/econ-knowledge/references/chapters/15-demand-production.md (complete source distribution only)
+- knowledge-chapter-16: skills/econ-knowledge/references/chapters/16-competition-platforms.md (complete source distribution only)
+- knowledge-chapter-17: skills/econ-knowledge/references/chapters/17-growth-macro.md (complete source distribution only)
+- knowledge-chapter-18: skills/econ-knowledge/references/chapters/18-monetary-open-macro.md (complete source distribution only)
+- knowledge-chapter-19: skills/econ-knowledge/references/chapters/19-heterogeneous-macro.md (complete source distribution only)
+- knowledge-chapter-20: skills/econ-knowledge/references/chapters/20-asset-pricing.md (complete source distribution only)
+- knowledge-chapter-21: skills/econ-knowledge/references/chapters/21-corporate-banking.md (complete source distribution only)
+- knowledge-chapter-22: skills/econ-knowledge/references/chapters/22-labor-demography.md (complete source distribution only)
+- knowledge-chapter-23: skills/econ-knowledge/references/chapters/23-public-economics.md (complete source distribution only)
+- knowledge-chapter-24: skills/econ-knowledge/references/chapters/24-spatial-housing-transport.md (complete source distribution only)
+- knowledge-chapter-25: skills/econ-knowledge/references/chapters/25-trade-globalization.md (complete source distribution only)
+- knowledge-chapter-26: skills/econ-knowledge/references/chapters/26-health-education.md (complete source distribution only)
+- knowledge-chapter-27: skills/econ-knowledge/references/chapters/27-development-agriculture.md (complete source distribution only)
+- knowledge-chapter-28: skills/econ-knowledge/references/chapters/28-environment-energy.md (complete source distribution only)
+- knowledge-chapter-29: skills/econ-knowledge/references/chapters/29-political-law-institutions.md (complete source distribution only)
+- knowledge-chapter-30: skills/econ-knowledge/references/chapters/30-innovation-history-marketing.md (complete source distribution only)
+- knowledge-chapter-31: skills/econ-knowledge/references/chapters/31-forecasting-decisions.md (complete source distribution only)
+- knowledge-chapter-32: skills/econ-knowledge/references/chapters/32-welfare-policy.md (complete source distribution only)
+- knowledge-chapter-33: skills/econ-knowledge/references/chapters/33-numerical-simulation.md (complete source distribution only)
+- knowledge-chapter-34: skills/econ-knowledge/references/chapters/34-integrated-cases.md (complete source distribution only)
+- knowledge-chapter-35: skills/econ-knowledge/references/chapters/35-measurement-aggregation.md (complete source distribution only)
+- latex-paper-template: tex/paper/ecta_template.tex
+- latex-paper-class: tex/paper/econsocart.cls
+- latex-paper-config: tex/paper/econsocart.cfg
+- latex-bibliography-style: tex/paper/ecta-fullname.bst
+- latex-slides-template: tex/slides/main.tex
+- latex-paper-pandoc: tex/paper/pandoc_template.latex
+- latex-slides-pandoc: tex/slides/pandoc_template.latex
+- latex-build-helper: scripts/build_latex.py
+- latex-quarto-project: _quarto.yml
+- latex-paper-quarto: tex/paper/quarto_template.qmd
+- latex-slides-quarto: tex/slides/quarto_template.qmd
+- package-notices: THIRD_PARTY_NOTICES.md
+- knowledge-storage-requirements: scripts/requirements-knowledge-storage.txt (complete source distribution only)
+- project-work: skills/project-work/SKILL.md
+- project-practice: skills/project-work/references/practice.md

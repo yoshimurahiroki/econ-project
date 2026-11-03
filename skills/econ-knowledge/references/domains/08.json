@@ -1,0 +1,274 @@
+{
+  "domain": "労働人口",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "labor-01",
+      "chapter": 22,
+      "concept_ids": [
+        "C-LABOR-01",
+        "C-CH-22"
+      ],
+      "contract_ids": [],
+      "domain": "労働人口",
+      "file": "chapters/22-labor-demography.md",
+      "id": "LABOR-01",
+      "inputs": [
+        "効用",
+        "賃金",
+        "所得",
+        "税",
+        "固定費"
+      ],
+      "jel_codes": [
+        "J22",
+        "J21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "参加",
+        "労働時間",
+        "賃金反応"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [
+        "PUBLIC-02"
+      ],
+      "subdomain": "労働供給",
+      "title": "労働供給と参加",
+      "topic": "賃金と税の下で就業と労働時間を求める",
+      "use_when": "賃金と税の下で就業と労働時間を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "labor-02",
+      "chapter": 22,
+      "concept_ids": [
+        "C-LABOR-02",
+        "C-CH-22"
+      ],
+      "contract_ids": [],
+      "domain": "労働人口",
+      "file": "chapters/22-labor-demography.md",
+      "id": "LABOR-02",
+      "inputs": [
+        "投資費用",
+        "技能",
+        "賃金経路",
+        "職種"
+      ],
+      "jel_codes": [
+        "J24",
+        "J31"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "投資収益",
+        "職業選択"
+      ],
+      "prerequisites": [
+        "DYN-03"
+      ],
+      "related": [
+        "LABOR-01"
+      ],
+      "subdomain": "技能と職業選択",
+      "title": "技能投資、選別と仕事",
+      "topic": "人的資本投資と職業間選別を分析する",
+      "use_when": "人的資本投資と職業間選別を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "labor-03",
+      "chapter": 22,
+      "concept_ids": [
+        "C-LABOR-03",
+        "C-CH-22"
+      ],
+      "contract_ids": [],
+      "domain": "労働人口",
+      "file": "chapters/22-labor-demography.md",
+      "id": "LABOR-03",
+      "inputs": [
+        "マッチング関数",
+        "離職率",
+        "費用",
+        "交渉力"
+      ],
+      "jel_codes": [
+        "J64",
+        "J41"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "失業率",
+        "空席",
+        "賃金"
+      ],
+      "prerequisites": [
+        "DYN-01"
+      ],
+      "related": [
+        "IO-04",
+        "LABOR-04"
+      ],
+      "subdomain": "探索とマッチング",
+      "title": "探索、マッチングと賃金交渉",
+      "topic": "就職・空席・賃金交渉の定常均衡を解く",
+      "use_when": "就職・空席・賃金交渉の定常均衡を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "labor-04",
+      "chapter": 22,
+      "concept_ids": [
+        "C-LABOR-04",
+        "C-CH-22"
+      ],
+      "contract_ids": [],
+      "domain": "労働人口",
+      "file": "chapters/22-labor-demography.md",
+      "id": "LABOR-04",
+      "inputs": [
+        "労働供給",
+        "限界収入生産物",
+        "最低賃金"
+      ],
+      "jel_codes": [
+        "J42",
+        "J31"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "賃金",
+        "雇用",
+        "マークダウン"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "LABOR-03"
+      ],
+      "subdomain": "買手独占",
+      "title": "企業の賃金設定とマークダウン",
+      "topic": "企業労働供給弾力性から賃金マークダウンを求める",
+      "use_when": "企業労働供給弾力性から賃金マークダウンを求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "labor-05",
+      "chapter": 22,
+      "concept_ids": [
+        "C-LABOR-05",
+        "C-CH-22"
+      ],
+      "contract_ids": [],
+      "domain": "労働人口",
+      "file": "chapters/22-labor-demography.md",
+      "id": "LABOR-05",
+      "inputs": [
+        "労働者企業パネル",
+        "賃金",
+        "移動"
+      ],
+      "jel_codes": [
+        "J31",
+        "J23"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "労働者・企業効果",
+        "共分散"
+      ],
+      "prerequisites": [
+        "ECON-04"
+      ],
+      "related": [
+        "LABOR-02"
+      ],
+      "subdomain": "労働者企業効果",
+      "title": "労働者と企業の賃金成分",
+      "topic": "移動者を用いて企業別賃金成分を推定する",
+      "use_when": "移動者を用いて企業別賃金成分を推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "labor-06",
+      "chapter": 22,
+      "concept_ids": [
+        "C-LABOR-06",
+        "C-CH-22",
+        "C-OBJ-MIGRATION-FLOWS"
+      ],
+      "contract_ids": [],
+      "domain": "労働人口",
+      "file": "chapters/22-labor-demography.md",
+      "id": "LABOR-06",
+      "inputs": [
+        "家計選好",
+        "賃金",
+        "保育費",
+        "地域価値"
+      ],
+      "jel_codes": [
+        "J13",
+        "J61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "家族配分",
+        "出生",
+        "移住"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [
+        "SPATIAL-04"
+      ],
+      "subdomain": "家族と人口選択",
+      "title": "家族、出生、移住と格差",
+      "topic": "家族内配分、出生、地域移動を共同評価する",
+      "use_when": "家族内配分、出生、地域移動を共同評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "labor-07",
+      "chapter": 22,
+      "concept_ids": [
+        "C-LABOR-07",
+        "C-CH-22"
+      ],
+      "contract_ids": [],
+      "domain": "労働人口",
+      "file": "chapters/22-labor-demography.md",
+      "id": "LABOR-07",
+      "inputs": [
+        "労働供給",
+        "限界収入",
+        "最低賃金"
+      ],
+      "jel_codes": [
+        "J42",
+        "J38"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "賃金",
+        "雇用",
+        "利潤"
+      ],
+      "prerequisites": [
+        "LABOR-04"
+      ],
+      "related": [],
+      "subdomain": "最低賃金例",
+      "title": "例題：最低賃金と企業労働供給",
+      "topic": "企業労働供給から最低賃金後の雇用を求める",
+      "use_when": "企業労働供給から最低賃金後の雇用を求める"
+    }
+  ]
+}

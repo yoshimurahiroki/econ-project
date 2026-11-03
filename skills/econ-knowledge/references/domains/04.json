@@ -1,0 +1,269 @@
+{
+  "domain": "予測意思決定",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "forecast-01",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-01",
+        "C-CH-31",
+        "C-OBJ-DECISION-LOSS"
+      ],
+      "contract_ids": [],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-01",
+      "inputs": [
+        "損失関数",
+        "条件付き分布"
+      ],
+      "jel_codes": [
+        "C53",
+        "D81"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "平均",
+        "中央値または分位点",
+        "最適行動",
+        "期待損失"
+      ],
+      "prerequisites": [
+        "STAT-04"
+      ],
+      "related": [],
+      "subdomain": "損失が予測対象を決める",
+      "title": "損失が予測対象を決める",
+      "topic": "損失が予測対象を決める",
+      "use_when": "損失に対応した予測を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-02",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-02",
+        "C-CH-31"
+      ],
+      "contract_ids": [],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-02",
+      "inputs": [
+        "公表日",
+        "vintage",
+        "予測期間"
+      ],
+      "jel_codes": [
+        "C53",
+        "C52"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "学習窓",
+        "評価窓"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "標本分割と時点",
+      "title": "標本分割と時点",
+      "topic": "標本分割と時点",
+      "use_when": "実時点情報で予測評価を設計する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-03",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-03",
+        "C-CH-31"
+      ],
+      "contract_ids": [],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-03",
+      "inputs": [
+        "予測変数",
+        "訓練窓",
+        "損失"
+      ],
+      "jel_codes": [
+        "C53",
+        "C45"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "予測",
+        "組合せ重み"
+      ],
+      "prerequisites": [
+        "FORECAST-02"
+      ],
+      "related": [
+        "ECON-08"
+      ],
+      "subdomain": "縮小、因子、学習器",
+      "title": "縮小、因子、学習器",
+      "topic": "縮小、因子、学習器",
+      "use_when": "縮小・因子・学習器を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-04",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-04",
+        "C-CH-31",
+        "C-OBJ-CONDITIONAL-NEWS",
+        "C-ASSUMP-RELEASE-COVARIANCE",
+        "C-TERM-NOWCAST"
+      ],
+      "contract_ids": [
+        "MC-correlated-news"
+      ],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-04",
+      "inputs": [
+        "状態空間",
+        "news",
+        "条件付き共分散"
+      ],
+      "jel_codes": [
+        "C53",
+        "C32"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "更新量",
+        "nowcast"
+      ],
+      "prerequisites": [
+        "TS-04"
+      ],
+      "related": [],
+      "subdomain": "nowcastとnews",
+      "title": "nowcastとnews",
+      "topic": "nowcastとnews",
+      "use_when": "新公表のnowcast更新を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-05",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-05",
+        "C-CH-31"
+      ],
+      "contract_ids": [],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-05",
+      "inputs": [
+        "予測",
+        "実現値",
+        "損失系列"
+      ],
+      "jel_codes": [
+        "C53",
+        "C52"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "損失差",
+        "検定",
+        "得点"
+      ],
+      "prerequisites": [
+        "FORECAST-02"
+      ],
+      "related": [
+        "FORECAST-03",
+        "FORECAST-01"
+      ],
+      "subdomain": "予測精度と分布予測",
+      "title": "予測精度と分布予測",
+      "topic": "予測精度と分布予測",
+      "use_when": "点予測と分布予測の精度を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-06",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-06",
+        "C-CH-31",
+        "C-OBJ-DECISION-LOSS"
+      ],
+      "contract_ids": [],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-06",
+      "inputs": [
+        "信念",
+        "信号",
+        "行動効用",
+        "情報費用"
+      ],
+      "jel_codes": [
+        "D81",
+        "C11"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最適行動",
+        "情報価値"
+      ],
+      "prerequisites": [
+        "STAT-07"
+      ],
+      "related": [
+        "INFO-02",
+        "FORECAST-01"
+      ],
+      "subdomain": "ベイズ意思決定と情報価値",
+      "title": "ベイズ意思決定と情報価値",
+      "topic": "ベイズ意思決定と情報価値; expected value of sample information; EVSI; 部分情報の価値",
+      "use_when": "情報の意思決定価値を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-07",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-07",
+        "C-CH-31",
+        "C-OBJ-CONDITIONAL-NEWS",
+        "C-OBJ-DECISION-LOSS"
+      ],
+      "contract_ids": [],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-07",
+      "inputs": [
+        "需要分布",
+        "不足費用",
+        "公表news"
+      ],
+      "jel_codes": [
+        "C53",
+        "D81"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "最適在庫",
+        "更新予測"
+      ],
+      "prerequisites": [
+        "FORECAST-01",
+        "FORECAST-04"
+      ],
+      "related": [],
+      "subdomain": "解答付き予測と発注",
+      "title": "解答付き例題：予測と発注",
+      "topic": "解答付き例題：予測と発注",
+      "use_when": "在庫発注とnews更新の例を解く"
+    }
+  ]
+}

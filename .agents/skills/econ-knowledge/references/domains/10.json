@@ -1,0 +1,282 @@
+{
+  "domain": "医療教育",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "health-01",
+      "chapter": 26,
+      "concept_ids": [
+        "C-HEALTH-01",
+        "C-CH-26"
+      ],
+      "contract_ids": [],
+      "domain": "医療教育",
+      "file": "chapters/26-health-education.md",
+      "id": "HEALTH-01",
+      "inputs": [
+        "健康遷移",
+        "保険需要",
+        "費用"
+      ],
+      "jel_codes": [
+        "I13",
+        "I11"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "健康投資",
+        "加入均衡"
+      ],
+      "prerequisites": [
+        "DYN-02"
+      ],
+      "related": [
+        "CONTRACT-03"
+      ],
+      "subdomain": "健康資本と保険",
+      "title": "健康資本と保険",
+      "topic": "健康資本と保険; insurance adverse selection; insurance cost curve; 保険の逆選択; 費用曲線",
+      "use_when": "健康投資と保険加入を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "health-02",
+      "chapter": 26,
+      "concept_ids": [
+        "C-HEALTH-02",
+        "C-CH-26"
+      ],
+      "contract_ids": [],
+      "domain": "医療教育",
+      "file": "chapters/26-health-education.md",
+      "id": "HEALTH-02",
+      "inputs": [
+        "自己負担率",
+        "健康便益",
+        "費用"
+      ],
+      "jel_codes": [
+        "I12",
+        "I11"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "利用反応",
+        "保険価値"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [
+        "CAUSAL-02",
+        "HEALTH-01"
+      ],
+      "subdomain": "医療利用の誘因と費用曲線",
+      "title": "医療利用の誘因と費用曲線",
+      "topic": "医療利用の誘因と費用曲線",
+      "use_when": "自己負担と医療利用を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "health-03",
+      "chapter": 26,
+      "concept_ids": [
+        "C-HEALTH-03",
+        "C-CH-26",
+        "C-TERM-PRESCRIBING"
+      ],
+      "contract_ids": [],
+      "domain": "医療教育",
+      "file": "chapters/26-health-education.md",
+      "id": "HEALTH-03",
+      "inputs": [
+        "報酬と診療費用",
+        "診断・適応と患者選択",
+        "処方・投与量",
+        "監査選択と主観的制裁"
+      ],
+      "jel_codes": [
+        "I11",
+        "L13"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "処方・未治療と健康結果",
+        "品質・待ち時間",
+        "監査と財政・資源費用"
+      ],
+      "prerequisites": [
+        "MICRO-04"
+      ],
+      "related": [
+        "CASE-02",
+        "HEALTH-02",
+        "HEALTH-04",
+        "POL-03"
+      ],
+      "subdomain": "医療提供者の報酬と競争",
+      "title": "医療提供者の報酬と競争",
+      "topic": "医療提供者の報酬と競争",
+      "use_when": "提供者報酬・監査・期待制裁による処方、質と患者選択を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "health-04",
+      "chapter": 26,
+      "concept_ids": [
+        "C-HEALTH-04",
+        "C-CH-26"
+      ],
+      "contract_ids": [],
+      "domain": "医療教育",
+      "file": "chapters/26-health-education.md",
+      "id": "HEALTH-04",
+      "inputs": [
+        "成功確率",
+        "費用",
+        "生存期間と質"
+      ],
+      "jel_codes": [
+        "I18",
+        "O34"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "投資条件",
+        "QALY",
+        "ICER"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [
+        "WELFARE-04"
+      ],
+      "subdomain": "薬剤、特許と費用対効果",
+      "title": "薬剤、特許と費用対効果",
+      "topic": "薬剤、特許と費用対効果",
+      "use_when": "薬剤開発と費用対効果を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "health-05",
+      "chapter": 26,
+      "concept_ids": [
+        "C-HEALTH-05",
+        "C-CH-26"
+      ],
+      "contract_ids": [],
+      "domain": "医療教育",
+      "file": "chapters/26-health-education.md",
+      "id": "HEALTH-05",
+      "inputs": [
+        "技能",
+        "投資",
+        "学校割当",
+        "成果"
+      ],
+      "jel_codes": [
+        "I21",
+        "J24"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "技能反応",
+        "学校効果"
+      ],
+      "prerequisites": [
+        "CAUSAL-01"
+      ],
+      "related": [
+        "DEV-05"
+      ],
+      "subdomain": "技能形成と学校の効果",
+      "title": "技能形成と学校の効果",
+      "topic": "技能形成と学校の効果",
+      "use_when": "技能形成と学校効果を推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "health-06",
+      "chapter": 26,
+      "concept_ids": [
+        "C-HEALTH-06",
+        "C-CH-26"
+      ],
+      "contract_ids": [],
+      "domain": "医療教育",
+      "file": "chapters/26-health-education.md",
+      "id": "HEALTH-06",
+      "inputs": [
+        "加入需要",
+        "平均費用",
+        "外部便益"
+      ],
+      "jel_codes": [
+        "I13",
+        "D62"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "均衡加入",
+        "効率量",
+        "損失"
+      ],
+      "prerequisites": [
+        "HEALTH-01"
+      ],
+      "related": [
+        "HEALTH-02"
+      ],
+      "subdomain": "保険加入と外部便益",
+      "title": "例題：保険加入と外部便益",
+      "topic": "例題：保険加入と外部便益",
+      "use_when": "保険加入と外部便益の例を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "health-08",
+      "chapter": 26,
+      "concept_ids": [
+        "C-CH-26",
+        "C-HEALTH-08",
+        "C-TERM-CONTACT-REDUCTION"
+      ],
+      "contract_ids": [
+        "MC-sir-finite-policy"
+      ],
+      "domain": "医療教育",
+      "file": "chapters/26-health-education.md",
+      "id": "HEALTH-08",
+      "inputs": [
+        "初期SIR人数",
+        "伝播率と回復率",
+        "接触削減経路",
+        "感染・制御・終端費用",
+        "評価期間"
+      ],
+      "jel_codes": [
+        "I12",
+        "I18",
+        "C63"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "SIRと累積感染の経路",
+        "各費用の内訳",
+        "質量・感染フロー残差",
+        "候補政策の損失"
+      ],
+      "prerequisites": [
+        "MICRO-06"
+      ],
+      "related": [
+        "HEALTH-02"
+      ],
+      "subdomain": "感染動態と接触制御",
+      "title": "感染動態と接触制御",
+      "topic": "感染動態と接触制御",
+      "use_when": "有限期間の感染経路、接触抑制費用、終端感染を指定して政策候補を比較する"
+    }
+  ]
+}

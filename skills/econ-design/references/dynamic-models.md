@@ -1,0 +1,97 @@
+# Executable dynamic models
+
+`research_dynamic.py` implements replacement, persistent-type replacement, discrete and continuous-time entry games, capacity and product choice, and dynamic durable adoption. Its saved JSON binds the model, adopted inputs, intervention, options, full numerical results, software versions and named statistics. Generate independent synthetic examples with `python research_dynamic.py case --output NEW_DIRECTORY`; run either generated specification with `python research_dynamic.py run SPEC.json --output RESULT.json`. Install `requirements-dynamic.txt` into the selected research environment. Declare the script, specification and environment as inputs to the existing research DAG.
+
+## Observed data and executable specifications
+
+`run` estimates the replacement, latent replacement, discrete and continuous-time entry, capacity-product choice, and dynamic adoption models from the observed CSV named by `data.path`; a relative path resolves against the specification's directory. The `data.columns` object maps every semantic field below to its actual CSV header. Column names must be unique; missing entries, invalid numbers, duplicate panel keys and inconsistent transitions stop the run. Results preserve the source path, SHA-256, row count, column map, fitted IDs and their SHA-256, the specification hash and the producer hash. The policy scenario uses the estimated parameters and the supplied change. The continuous-time and capacity-product games also accept calibrated primitives when no data are supplied.
+
+The two replacement models require `id`, `period`, `state`, `action`, and `next_state`. Each ID has unique consecutive nonnegative integer periods; action 0 maintains and advances state to `min(state+1,S-1)`, and action 1 replaces and resets to 0. The next row for an ID must begin in the preceding row's next state. The latent model requires a balanced panel with common observed periods. The discrete entry game requires `id`, `period`, `state`, `action_1`, `action_2`, and `next_state`; states index activity pairs `(0,0),(0,1),(1,0),(1,1)`, and the next-state index is `2*action_1+action_2`. Each firm's action is its next active status. The same panel key, timing and next-state checks apply. The capacity-product panel uses the same six columns with actions 0–3 and next-state index `4*action_1+action_2`. Continuous-time opportunity records use `id`, `period`, `state`, `firm`, `action`, and `next_state`, where firm 0 or 1 observes its revision opportunity and action 1 toggles its activity. Records must be ordered consecutive opportunities within each market, with a next state consistent with the recorded firm and action.
+
+Dynamic durable adoption requires one row per consecutive state index with `state`, `price`, `adoptions`, and `cohort_size`. Counts must give interior shares and prices must be nonnegative. Rows describe fresh cohorts of initially nonowners; the transition matrix and permanent taste distribution are supplied as fixed primitives. The state-specific counts determine shares for joint inversion. Price variation identifies the linear price coefficient under the specified exogeneity condition.
+
+For example, a replacement specification is:
+
+```json
+{
+  "model": "replacement",
+  "data": {"path": "panel.csv", "columns": {"id": "bus", "period": "month", "state": "mileage", "action": "replace", "next_state": "next_mileage"}},
+  "options": {"discount_factor": 0.9, "states": 5, "initial_costs": [0.2, 1.6], "finite_horizon": 8, "replacement_cost_change": 0.5},
+  "adopted": {"source": "describe the observed panel and sampling design"},
+  "scenario": {"description": "replacement cost rises by 0.5 utility units"}
+}
+```
+
+`case --output NEW_DIRECTORY` writes independent simulated CSV inputs, their specifications and a `synthetic-design.json` with generating parameters. It estimates all six datasets through the same observed-data function used by `run`. Each resulting specification can be rerun with `run`; data, specification and result hashes identify the exact inputs.
+
+## Replacement
+
+An agent observes mileage state `s = 0,...,S-1` and independent unit-scale type-I extreme-value action shocks, then chooses maintenance `a=0` or replacement `a=1`. Maintenance costs `c s` and moves mileage to `min(s+1,S-1)`; replacement costs `R` and moves mileage to zero. The next state is known conditional on the action. Normalize Euler's constant to zero. For discount factor `0 < β < 1`, the inclusive value and choice probability satisfy
+
+`V(s) = log Σ_a exp[u(s,a) + β Σ_s' P_a(s,s') V(s')]`,
+
+`p(a|s) = exp[u(s,a) + β P_a(s,:) V - V(s)]`.
+
+The infinite-horizon implementation iterates this contraction; the finite-horizon calculation starts with zero terminal value and performs backward recursion. Each stage records values and policies indexed by periods remaining. The saved residual checks the original recursion. Model values measure expected discounted utility, including the normalized taste shocks. A change in replacement cost produces a new value and policy from the changed primitives.
+
+The supplied panel provides action and state observations. The case draws its panel from that policy and transition, writes it to CSV, and re-solves the baseline and changed replacement cost at the fitted NFXP parameters. Nested fixed point calls the pinned official `ruspy` 2.0 criterion and maximizes its action likelihood over `(c,R)`, resolving the Bellman equation at each trial. The official engine applies one mileage increment after replacement. The equivalent official replacement-cost input is `R_official=R+β[V(1)-V(0)]`, which makes its continuation utility equal to this model’s reset-to-zero continuation. The supplied transition assigns probability one to the one-unit increment before the mileage cap. The output checks the official likelihood against the original model on the same observations. It treats the discount factor, shock scale and transition rule as fixed. Identification requires state variation and action responses that make the two cost derivatives linearly independent; the scale normalization fixes utility units. The reported finite-sample estimate depends on simulated observations.
+
+The two-step CCP calculation estimates action probabilities from state-specific counts. Let `P̄ = Σ_a diag(p_a) P_a`, `H(s)=-Σ_a p_a(s) log p_a(s)` and `ū(s)=Σ_a p_a(s)u(s,a)`. Policy evaluation gives `V_p=(I-βP̄)^-1(ū+H)`. Hence the conditional log odds equal `u(s,1)-u(s,0)+β(P_1-P_0)V_p`. Because flows are linear in `(c,R)`, the implementation solves the resulting least-squares system and reports its rank and residual. This requires both actions observed in each state; it does not smooth empty cells. The initial-state distribution and the deterministic, known transition law are part of the example's data-generating process.
+
+## Continuous-time entry and exit
+
+Two firms observe both activity indicators. Independent Poisson opportunities arrive at rate `λ` for each firm. At an opportunity the firm chooses whether to toggle activity, paying entry cost `K_e` or exit cost `K_x` if it toggles. Active firm `i` earns flow `π_i(s)=s_i(A-Bs_j)`. The discount rate is `ρ>0`; choice shocks are independent unit-scale type-I extreme value and normalized to mean zero for the inclusive calculation.
+
+With `T_i s` toggling firm `i`, let `d_i(s)=V_i(T_i s)-V_i(s)-K_i(s)` and `p_i(s)=1/(1+exp[-d_i(s)])`. Values solve the coupled equilibrium equations
+
+`ρV_i(s)=π_i(s)+λ log(1+exp[d_i(s)])+λ p_j(s)[V_i(T_j s)-V_i(s)]`.
+
+The first term after flow is the firm's optimal response at its own opportunity; the last is the rival's transition at its opportunity. The solver starts at zero values, records that selection rule, and checks the original coupled equations and policy response. Distinct roots can exist for different primitives and starts. A specification that selects another equilibrium requires its own documented selection procedure.
+
+The endogenous generator has off-diagonal `Q(s,T_i s)=λ p_i(s)` and diagonal `-Σ_i λp_i(s)`. For `ν=max_s[-Q(s,s)]`, the sparse matrix `P=I+Q/ν` is stochastic, and the one-unit transition is `exp(Q)=exp(-ν) Σ_{k≥0} ν^k P^k/k!`. The calculation reports the generator row-sum residual and compares its Poisson sum to a separate dense matrix exponential. When opportunity data are supplied, a nested likelihood re-solves the coupled equilibrium while estimating entry cost, with the discount rate, arrival rate, flow parameters and exit cost fixed. The output reports the likelihood score, local choice information and response rank. The scenario resolves the fitted game after changing entry cost; its change in summed initial-state values is a private-value comparison, including the firms' normalized taste shocks.
+
+These routines implement the stated models. The general finite-state game NFXP and MPEC interface is owned by `equity.py dynamic` and `equity_io.py`.
+
+## Discrete-time entry game and policy deviations
+
+Two firms observe last period's activity `s=(s₁,s₂)` and independently choose current activity `a=(a₁,a₂)` simultaneously after receiving independent private type-I extreme-value shocks. Next period's state is `a`. Firm `i` earns `a_i(A-Ba_j)-K a_i(1-s_i)`. Discounting, shock normalization and zero-logit starting values select the recorded stationary Markov equilibrium. For each candidate policy, policy evaluation solves `V_i = (I-βP)^-1(r_i+H_i)` where `P` is the induced joint-action transition and `H_i` is the firm's binary entropy. A root solver equates each firm's policy to the logit of its two expected action values, integrating over the rival's contemporaneous policy. The saved policy residual evaluates this original best-response condition.
+
+The case simulates a panel from the equilibrium, writes it to CSV, estimates state-specific choice probabilities and forms alternative policies by adding each listed constant to one firm's log odds at every state while holding its rival's estimated policy fixed. The other payoff parameters, discount and transition are fixed at their declared values. The implementation evaluates equilibrium and alternative discounted values by the exact finite-state Markov equation. For every firm, initial state and deviation, optimality implies `V_i(p)-V_i(p_i',p_j) ≥ 0`; the estimation criterion sums squared negative parts of these gains. They are affine in entry cost. The saved `sample_inequality_set` is their exact intersection with the declared cost bounds, and the displayed representative cost is its midpoint when the intersection is nonempty. When it is empty the representative minimizes the criterion. This finite-deviation BBL-style estimator reports the sample inequality set; statistical inference for the set requires a separate sampling procedure. The case records the simulated panel, estimated probabilities, deviations and gains. The policy scenario resolves the equilibrium after changing entry cost. The case also re-solves both equilibria at the EPL entry-cost estimate; values sum firms' expected discounted payoffs including normalized private shocks.
+
+## Sequential estimation under game equilibrium
+
+For the discrete entry game, write `x` for the eight policy log odds and `Ψ(x,K)` for the vector of logit best-response indices after evaluating the continuation values under `x`. Equilibrium is `G(x,K)=x-Ψ(x,K)=0`. The data criterion is the negative sum of the two firms' conditional binary log likelihoods, evaluated on observed states and actions. Entry cost is estimated while the discount factor, profit, competition and transition are fixed. The initial iterate uses the empirical state-specific choice probabilities. Every method uses the same bounded scalar likelihood optimization and saves its iteration trace.
+
+Sequential pseudo-likelihood (NPL) holds the current policy fixed while maximizing the likelihood at `Ψ(x_k,K)`; it then sets `x_{k+1}=Ψ(x_k,K_{k+1})`. EPL instead uses the Newton-corrected mapping `N(x_k,K)=x_k-G_x(x_k,K)^-1G(x_k,K)` in the likelihood and updates `x_{k+1}=N(x_k,K_{k+1})`. SLC evaluates `G_x` and `G_K` at `(x_k,K_k)`, solves `G_x z=-G` and `G_x y=-G_K`, and maximizes the likelihood on the affine linearized equilibrium `x_k+z+y(K-K_k)`; that affine prediction supplies `x_{k+1}`. The routines use central differences for the stated derivatives, record the condition number of `G_x`, and require convergence of both cost changes and the original equilibrium equation. The saved pseudo-score checks the NPL fixed-point first-order condition. The constrained score uses `dx/dK=-G_x^-1G_K` and checks the original equilibrium-constrained likelihood for EPL and SLC. Each method selects the local equilibrium reached from the empirical initial policies and recorded cost starting point.
+
+## Persistent latent replacement type
+
+Each agent draws a permanent type before the observed panel. Type `k` has replacement cost `R_k` and share `ω_k`; maintenance cost, discount factor, transitions and shock scale are common and fixed. Its policy solves the replacement Bellman equation. A panel has type-conditional likelihood `L_ik=∏_t p_k(a_it|s_it)`, conditional on its observed initial state and transitions, and mixture likelihood `Σ_k ω_k L_ik`. Type costs must differ and panels must contain action and state variation that distinguishes them; ordering costs labels the two types.
+
+EM computes posterior type weights `τ_ik=ω_k L_ik/Σ_h ω_h L_ih`, updates each share to its sample mean, and maximizes the weighted panel log likelihood for each type's replacement cost with a new Bellman solution at every trial. The observed likelihood must increase at each iteration. The example saves the full likelihood trace, starting values, synthetic panel and final parameter change. Its counterfactual reports the initial-state value averaged across the fitted type shares, using fitted type costs before and after a replacement-cost change. The specification supplies the shared maintenance cost, starting replacement costs, initial type share and estimation bounds.
+
+## Dynamic durable adoption and share inversion
+
+A fresh cohort in observed price state `z` chooses a single durable product or waits; adoption ends the modeled choice problem and waiters expect price state `z'` with known probability `Q_zz'`. Each consumer has a permanent observed-in-distribution price taste `η_k` with known weight `w_k`. Conditional utility of adoption is `δ_z+η_k p_z`, and waiting gives zero current flow. With unit-scale extreme-value choice shocks and normalized adoption terminal value zero,
+
+`V_k(z)=log[exp(δ_z+η_k p_z)+exp(β Σ_z' Q_zz' V_k(z'))]`,
+
+`P_k(adopt|z)=logistic[δ_z+η_k p_z-β Σ_z' Q_zz' V_k(z')]`,
+
+`S_z=Σ_k w_k P_k(adopt|z)`.
+
+The implementation iterates the consumer Bellman equations and solves `S_z(δ)=observed share_z` jointly for mean utilities in all states. For the observed cross sections, each state draws a new cohort from the declared type distribution; the shares are conditional on initial nonownership. The estimated mean utilities are projected onto an intercept and current price. State prices are exogenous in this model; known `Q`, discount factor, type distribution and utility scale are imposed, while price-state variation identifies the intercept and mean price slope. The code records observed counts, simulated shares, inverted mean utilities, regression residuals, rank and both Bellman and share-inversion residuals. A price change recomputes values and shares from the same fitted intercept and slope, including the type-specific price effects; the value comparison is expected utility of an initially nonowning consumer at the first price state. Monetary surplus would additionally require a common marginal utility of income, which is not imposed here. This Dynamic BLP-style case has one inside durable and an outside wait action.
+
+## Capacity and product choice game
+
+Two firms observe last period's pair of actions and simultaneously choose one of four alternatives: inactive, product A with capacity one, product A with capacity two, or product B with capacity one. The chosen pair becomes the next state. Firm `i`'s payoff is `q_i[m(product_i)-B q_j h(product_i,product_j)]-K max(q_i-q_i,previous,0)-C 1{active before and after and product changes}`, where `h` is 1 for the same product and 0.3 for different products. Demand margins, competition, investment and switching costs are supplied in the specification. Independent unit-scale private extreme-value shocks produce multinomial logit policies.
+
+For the 16 joint states, the policy-weighted transition and flow plus own entropy determine each firm's value by a 16-by-16 linear solve. For each firm, state and own action, the response integrates current payoff and continuation value over the rival's action. Equilibrium equates the three log odds relative to inactivity to these action-value differences; the root starts at zero log odds. The output records all 32 firm-state policies, transition matrix, values, the original policy and Bellman residuals and the selection start. Observed joint state/action panels identify investment cost through a nested likelihood with the other primitives fixed. The solver records local choice information, response rank, likelihood score and original equilibrium residuals. The scenario resolves the game at the fitted cost and after its specified change, and compares total private value from the empty market.
+
+## Simulated moments for the replacement model
+
+Add `smm` to the replacement options to estimate the same observed CSV by simulated moments. Supply `seed`, at least two `replications`, two `initial_costs`, a two-by-two `bounds` array and optimizer `tolerance`. Each replication starts every observed ID in its observed initial state, follows its observed panel length, draws new action shocks and applies the same maintenance/replacement transition as the Bellman model. The same seeded draws are reused at every parameter trial; separate replications use independent draws.
+
+The ordered moment vector is the overall replacement frequency followed by the replacement frequency conditional on each mileage state. With observed moments `m` and the mean simulated moments `m̂(θ)`, the identity-weighted criterion is `(m̂(θ)-m)'(m̂(θ)-m)`. Bounded Powell optimization selects the two costs. Every observed state and every simulated replication must have positive state counts. The output reports observed and simulated moments, differences, the objective, bounds and optimizer tolerance, seed, replication count, starting states and panel lengths. Replication-to-replication variation supplies the Monte Carlo standard error of each simulated mean; it treats whole panels as the independent simulation replicates.
+
+For local identification, the code computes expected state masses from the exact controlled Markov transition under each trial policy, forms the corresponding population moment map, and reports its central-difference Jacobian, step sizes, singular values, numerical rank threshold and rank. The two cost columns must have rank two. `fit_id` binds the input source hash, discount factor, number of states, simulation options and producer hash. Baseline and changed policies are resolved at the SMM estimates and report their original Bellman residuals. The example's fixed draws make the comparison reproducible; changes to those draws define another simulation exercise.

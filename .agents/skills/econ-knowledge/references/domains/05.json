@@ -1,0 +1,342 @@
+{
+  "domain": "企業金融銀行",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "finance-01",
+      "chapter": 21,
+      "concept_ids": [
+        "C-FINANCE-01",
+        "C-CH-21"
+      ],
+      "contract_ids": [],
+      "domain": "企業金融銀行",
+      "file": "chapters/21-corporate-banking.md",
+      "id": "FINANCE-01",
+      "inputs": [
+        "利益",
+        "資本遷移",
+        "割引因子",
+        "費用"
+      ],
+      "jel_codes": [
+        "G31",
+        "G32"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "資本Euler式",
+        "投資政策",
+        "投資下限の相補性条件"
+      ],
+      "prerequisites": [
+        "DYN-03"
+      ],
+      "related": [
+        "ASSET-01"
+      ],
+      "subdomain": "投資と資本価値",
+      "title": "投資と資本価値",
+      "topic": "調整費用を含む企業投資と限界qを解く",
+      "use_when": "調整費用を含む企業投資と限界qを解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "finance-02",
+      "chapter": 21,
+      "concept_ids": [
+        "C-FINANCE-02",
+        "C-CH-21"
+      ],
+      "contract_ids": [],
+      "domain": "企業金融銀行",
+      "file": "chapters/21-corporate-banking.md",
+      "id": "FINANCE-02",
+      "inputs": [
+        "税",
+        "負債契約",
+        "倒産費用"
+      ],
+      "jel_codes": [
+        "G32",
+        "G34"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "資本構成",
+        "企業価値"
+      ],
+      "prerequisites": [
+        "ASSET-01"
+      ],
+      "related": [
+        "CONTRACT-01"
+      ],
+      "subdomain": "資本構成",
+      "title": "資本構成と企業支配",
+      "topic": "税・倒産・agencyを含む資金調達を比較する",
+      "use_when": "税・倒産・agencyを含む資金調達を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "finance-03",
+      "chapter": 21,
+      "concept_ids": [
+        "C-FINANCE-03",
+        "C-CH-21",
+        "C-OBJ-OPERATING-PROFIT",
+        "C-OBJ-FCFF",
+        "C-OBJ-ENTERPRISE-VALUE",
+        "C-TERM-EQUITY-VALUE",
+        "C-TERM-FIRM-VALUATION",
+        "C-TERM-EBIT"
+      ],
+      "contract_ids": [
+        "MC-cournot-fcff"
+      ],
+      "domain": "企業金融銀行",
+      "file": "chapters/21-corporate-banking.md",
+      "id": "FINANCE-03",
+      "inputs": [
+        "EBIT",
+        "税",
+        "再投資",
+        "運転資本",
+        "割引率",
+        "製品・企業対応と競争反応",
+        "維持投資・成長投資",
+        "R&Dと投下資本"
+      ],
+      "jel_codes": [
+        "G32",
+        "G31"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "FCFF",
+        "事業価値",
+        "株主価値"
+      ],
+      "prerequisites": [
+        "ASSET-01"
+      ],
+      "related": [],
+      "subdomain": "企業価値",
+      "title": "free cash flowと価値の接続",
+      "topic": "事業cash flowから事業・株主価値を求める",
+      "use_when": "事業cash flowから事業・株主価値を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "finance-04",
+      "chapter": 21,
+      "concept_ids": [
+        "C-FINANCE-04",
+        "C-CH-21",
+        "C-OBJ-ENTERPRISE-VALUE",
+        "C-TERM-EQUITY-VALUE",
+        "C-TERM-FIRM-VALUATION"
+      ],
+      "contract_ids": [],
+      "domain": "企業金融銀行",
+      "file": "chapters/21-corporate-banking.md",
+      "id": "FINANCE-04",
+      "inputs": [
+        "株主・負債比率",
+        "資本コスト",
+        "価格"
+      ],
+      "jel_codes": [
+        "G32",
+        "G12"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "WACC",
+        "内包成長率",
+        "市場価格に整合する割引率または利益率・成長率"
+      ],
+      "prerequisites": [
+        "FINANCE-03"
+      ],
+      "related": [
+        "ASSET-02",
+        "FINANCE-07"
+      ],
+      "subdomain": "資本コスト",
+      "title": "資本コストと逆算",
+      "topic": "市場価格に整合する成長や利益率を逆算する",
+      "use_when": "観測株価から市場が織り込む成長・利益率・割引率を逆DCFで求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "finance-05",
+      "chapter": 21,
+      "concept_ids": [
+        "C-FINANCE-05",
+        "C-CH-21",
+        "C-TERM-BANK-RUN",
+        "C-TERM-CREDIT-RATIONING",
+        "C-TERM-DIAMOND-DYBVIG"
+      ],
+      "contract_ids": [
+        "MC-bank-run"
+      ],
+      "domain": "企業金融銀行",
+      "file": "chapters/21-corporate-banking.md",
+      "id": "FINANCE-05",
+      "inputs": [
+        "預金契約",
+        "早期需要",
+        "長期収益"
+      ],
+      "jel_codes": [
+        "G21",
+        "G01"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "消費配分",
+        "取付け均衡",
+        "信用制約"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "FINANCE-02"
+      ],
+      "subdomain": "銀行と信用",
+      "title": "銀行、信用創造、取付け",
+      "topic": "流動性保険と取付け均衡を比較する; credit rationing; adverse selection lending; bank run; 信用割当; 逆選択",
+      "use_when": "流動性保険と取付け均衡を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "finance-06",
+      "chapter": 21,
+      "concept_ids": [
+        "C-FINANCE-06",
+        "C-CH-21"
+      ],
+      "contract_ids": [],
+      "domain": "企業金融銀行",
+      "file": "chapters/21-corporate-banking.md",
+      "id": "FINANCE-06",
+      "inputs": [
+        "所得",
+        "資産",
+        "負債",
+        "取引費用",
+        "税",
+        "住宅ローン契約と返済条件",
+        "借入制約"
+      ],
+      "jel_codes": [
+        "G51",
+        "D14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "資産・借換え政策",
+        "返済経路と残債",
+        "継続価値の比較"
+      ],
+      "prerequisites": [
+        "DYN-03"
+      ],
+      "related": [
+        "HET-01"
+      ],
+      "subdomain": "家計金融",
+      "title": "家計金融と制度",
+      "topic": "流動性と制度を含む家計の生涯資産選択を解く",
+      "use_when": "流動性と制度を含む家計の生涯資産選択を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "finance-07",
+      "chapter": 21,
+      "concept_ids": [
+        "C-FINANCE-07",
+        "C-CH-21",
+        "C-OBJ-FCFF",
+        "C-TERM-EBIT"
+      ],
+      "contract_ids": [],
+      "domain": "企業金融銀行",
+      "file": "chapters/21-corporate-banking.md",
+      "id": "FINANCE-07",
+      "inputs": [
+        "NOPAT",
+        "成長",
+        "ROIC",
+        "WACC",
+        "負債"
+      ],
+      "jel_codes": [
+        "G32",
+        "G31"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "FCFF",
+        "事業・株主価値",
+        "株価"
+      ],
+      "prerequisites": [
+        "FINANCE-03"
+      ],
+      "related": [],
+      "subdomain": "企業価値例",
+      "title": "解答付き例題：成長と再投資",
+      "topic": "成長に必要な再投資から株価を求める",
+      "use_when": "成長に必要な再投資から株価を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "finance-08",
+      "chapter": 21,
+      "concept_ids": [
+        "C-CH-21",
+        "C-FINANCE-08"
+      ],
+      "contract_ids": [
+        "MC-interbank-clearing"
+      ],
+      "domain": "企業金融銀行",
+      "file": "chapters/21-corporate-banking.md",
+      "id": "FINANCE-08",
+      "inputs": [
+        "債務者から債権者への額面行列",
+        "外部負債",
+        "外部資産",
+        "注入と財源"
+      ],
+      "jel_codes": [
+        "G21",
+        "G01",
+        "C62"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最大清算返済",
+        "外部返済と株主持分",
+        "固定点・資源残差",
+        "介入前後の分配"
+      ],
+      "prerequisites": [
+        "MATH-02",
+        "MATH-06"
+      ],
+      "related": [
+        "FINANCE-05",
+        "NET-03"
+      ],
+      "subdomain": "銀行間債務と連鎖清算",
+      "title": "銀行間債務と連鎖清算",
+      "topic": "銀行間債務と連鎖清算",
+      "use_when": "有限責任と按分返済の固定点を求め、資本注入の分配と純資源を区別する"
+    }
+  ]
+}
