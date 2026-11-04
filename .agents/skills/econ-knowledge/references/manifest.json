@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "26e950a82d533bea8a8dd4ae7367ac018a15fc488d717fb183f798eba4cbcf25",
+  "catalog_sha256": "d56553a0d0e90446f62b47e49807983f4bcc447c6a724d647398c81af8ce6c0e",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -10,7 +10,7 @@
     "chapters/07-market-design.md": "4be072d54bf8ff2443b41f024b03a235cdd1c04f4a2845f1024a5a8f734df141",
     "chapters/08-networks.md": "eaa4c06c5fdc30349ef4029d39d20b6f6db6c59eb5c7e24d367f6a13e13dd3ef",
     "chapters/09-dynamic-computation.md": "7f1d2f70189a35cd5a0d7d2d74e4dda32f846b3aab6847310f28d8e1f4dfbae9",
-    "chapters/10-econometrics.md": "bcfbe164979be9dbc313c683120b9e37629347a5d1008833685e11c666ff1182",
+    "chapters/10-econometrics.md": "2aff78fb89325746b4f4cbe52b844cb4eb99f15c1b2a8a16fb82b86c51d8f70c",
     "chapters/11-causal-designs.md": "e9cbda646f0fc970a0c2f03a76b08ea6c48fbcf17ea83321908bf5a5fb02f39c",
     "chapters/12-causal-extensions.md": "980dbf930cdc2977cb5f243e6d6d917899fbe973f595ad093a4676f845a67d32",
     "chapters/13-time-series.md": "f668b700e013d6ad79ff62e97b2363ae4b8c4ba8ff141334355a8fac32ae8e3f",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "18ec009bd688253a161fe6aa1b6bcd999cd8cd48bfde21dbd2829a7c322b77ad",
+  "domain_listing_sha256": "35f5ce3463dbc53673d7f3c1a162e818acc059683d6eb63245042f5bbea1dfaa",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -175,9 +175,9 @@
       "sha256": "2fe1dc99f3db2e202cc1aa23edc486b858ea8d30d4ddbdf68d6bc8d1d8f54761"
     },
     "計量": {
-      "count": 9,
+      "count": 10,
       "path": "domains/28.json",
-      "sha256": "3e5590a6d916883f8939d4bfd69e148470221be7eb149277589d7d0c5bb06e49"
+      "sha256": "a45b827c15ae31872f9e1a0855bed19c527659bd3718b05e24822a62021e6de2"
     },
     "貿易": {
       "count": 6,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "3fe15bb910ff4ac9d26441cde383063dd93cd669d2516db5a91d244ce0ac5b33"
+      "sha256": "56baec4a2e53e39e1c8e2d0ce367562bef72347705a99dcc81aa8e01b7244830"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "17f1bcb10a0ffcacc700d856aecb540cd4368dfe8129a7d8e2d30fb8fac9c36f"
+      "sha256": "20b22cbad0948d5d67b97fc655e935033f72aebb7e0fb98e91005a997171c903"
     }
   },
   "spec_version": "knowledge-v2",
@@ -680,6 +680,12 @@
       "domain": "計量",
       "path": "units/ECON-09.md",
       "sha256": "a6c8f01b292b2e61a323bc442645d5ec42d1970b04a03cdf7219f535a6c47f4b"
+    },
+    "ECON-10": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-10.md",
+      "sha256": "7297f952c622dab0529fe622be50e3aabc0259e29e807d6880aa37f378667bdb"
     },
     "ENV-01": {
       "chapter": "chapters/28-environment-energy.md",

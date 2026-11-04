@@ -1,11 +1,11 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.24",
+  "version": "2.3.25",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
-  "unit_count": 250,
+  "unit_count": 251,
   "worked_example_unit_count": 39,
   "chapters": [
     {
@@ -178,7 +178,8 @@
         "ECON-06",
         "ECON-07",
         "ECON-08",
-        "ECON-09"
+        "ECON-09",
+        "ECON-10"
       ]
     },
     {
@@ -3274,6 +3275,40 @@
       "jel_codes": [
         "C11",
         "C15"
+      ],
+      "contract_ids": []
+    },
+    {
+      "id": "ECON-10",
+      "title": "非線形パネル：個体効果を消して傾きを推定する",
+      "chapter": 10,
+      "domain": "計量",
+      "subdomain": "非線形パネル",
+      "kind": "knowledge",
+      "topic": "固定効果ロジットと固定効果Poisson",
+      "use_when": "個体効果と共変量の相関を許し、個人別の二値結果の成功回数または非負結果の総量から期間内の変化を推定する",
+      "inputs": [
+        "個体IDと時点",
+        "個人別の二値結果または非負量",
+        "個体内で変わる説明変数",
+        "正の曝露量"
+      ],
+      "outputs": [
+        "条件付き尤度またはプロファイル擬似尤度",
+        "傾きと識別条件",
+        "個体スコアと共分散",
+        "情報を持つ個体"
+      ],
+      "file": "chapters/10-econometrics.md",
+      "anchor": "econ-10",
+      "concept_ids": [
+        "C-METHOD-FE-LOGIT",
+        "C-METHOD-FE-POISSON",
+        "C-CH-10"
+      ],
+      "jel_codes": [
+        "C23",
+        "C25"
       ],
       "contract_ids": []
     },
@@ -19497,6 +19532,77 @@
         "D61"
       ],
       "kind": "concept"
+    },
+    {
+      "id": "C-METHOD-FE-LOGIT",
+      "preferred": {
+        "en": "fixed effects logit",
+        "ja": "固定効果ロジット"
+      },
+      "aliases": {
+        "en": [
+          "conditional logit panel",
+          "panel conditional logit",
+          "conditional fixed effects logit",
+          "binary panel sufficient statistic",
+          "individual intercepts binary panel",
+          "Chamberlain conditional likelihood"
+        ],
+        "ja": [
+          "条件付きロジット",
+          "条件付ロジット",
+          "二値パネル",
+          "個人効果ロジット",
+          "合計成功数",
+          "成功回数に条件付ける"
+        ]
+      },
+      "broader": [
+        "C-CH-10"
+      ],
+      "definition": {
+        "unit": "ECON-10",
+        "anchor": "econ-10"
+      },
+      "jel_codes": [
+        "C23",
+        "C25"
+      ],
+      "kind": "method"
+    },
+    {
+      "id": "C-METHOD-FE-POISSON",
+      "preferred": {
+        "en": "fixed effects Poisson panel",
+        "ja": "固定効果ポアソン"
+      },
+      "aliases": {
+        "en": [
+          "conditional Poisson panel",
+          "conditional fixed effects Poisson",
+          "fixed effects Poisson regression",
+          "within-group count model"
+        ],
+        "ja": [
+          "条件付きポアソン",
+          "固定効果Poisson",
+          "個体効果と件数",
+          "個人別の総件数",
+          "非線形パネルの件数"
+        ]
+      },
+      "broader": [
+        "C-CH-10"
+      ],
+      "definition": {
+        "unit": "ECON-10",
+        "anchor": "econ-10"
+      },
+      "jel_codes": [
+        "C23",
+        "C25"
+      ],
+      "kind": "method"
     }
   ],
   "jel": {
@@ -29916,6 +30022,38 @@
         }
       ],
       "version": "2.3.23"
+    },
+    {
+      "id": "R-ECON-03-ECON-10",
+      "source": "ECON-03",
+      "target": "ECON-10",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "個体ごとの水準と共変量が相関する短期パネルでは、同一個体の結果の配分から傾きを推定する。",
+      "evidence": [
+        {
+          "unit": "ECON-10",
+          "anchor": "econ-10"
+        }
+      ],
+      "version": "2.3.25"
+    },
+    {
+      "id": "R-ECON-04-ECON-10",
+      "source": "ECON-04",
+      "target": "ECON-10",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "線形の個体内変換の代わりに、二値・非負結果の平均構造に応じて個体効果を消去する。",
+      "evidence": [
+        {
+          "unit": "ECON-10",
+          "anchor": "econ-10"
+        }
+      ],
+      "version": "2.3.25"
     }
   ],
   "model_contracts": [

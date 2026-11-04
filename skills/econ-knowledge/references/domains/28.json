@@ -113,7 +113,9 @@
       "prerequisites": [
         "STAT-05"
       ],
-      "related": [],
+      "related": [
+        "ECON-10"
+      ],
       "subdomain": "最尤、擬似尤度、非線形平均",
       "title": "最尤、擬似尤度、非線形平均",
       "topic": "最尤、擬似尤度、非線形平均",
@@ -158,7 +160,9 @@
         "ECON-01",
         "ECON-02"
       ],
-      "related": [],
+      "related": [
+        "ECON-10"
+      ],
       "subdomain": "固定効果と動学パネル",
       "title": "固定効果と動学パネル",
       "topic": "固定効果と動学パネル",
@@ -356,6 +360,43 @@
       "title": "ベイズ計算と粒子",
       "topic": "ベイズ計算と粒子",
       "use_when": "MCMCまたは粒子フィルターで事後分布と状態を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "econ-10",
+      "chapter": 10,
+      "concept_ids": [
+        "C-METHOD-FE-LOGIT",
+        "C-METHOD-FE-POISSON",
+        "C-CH-10"
+      ],
+      "contract_ids": [],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-10",
+      "inputs": [
+        "個体IDと時点",
+        "個人別の二値結果または非負量",
+        "個体内で変わる説明変数",
+        "正の曝露量"
+      ],
+      "jel_codes": [
+        "C23",
+        "C25"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "条件付き尤度またはプロファイル擬似尤度",
+        "傾きと識別条件",
+        "個体スコアと共分散",
+        "情報を持つ個体"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "非線形パネル",
+      "title": "非線形パネル：個体効果を消して傾きを推定する",
+      "topic": "固定効果ロジットと固定効果Poisson",
+      "use_when": "個体効果と共変量の相関を許し、個人別の二値結果の成功回数または非負結果の総量から期間内の変化を推定する"
     }
   ]
 }
