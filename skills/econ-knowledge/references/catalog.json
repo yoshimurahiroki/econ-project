@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.20",
+  "version": "2.3.21",
   "language": "ja",
-  "date": "2026-11-04",
+  "date": "2026-11-05",
   "chapter_count": 35,
   "unit_count": 250,
   "worked_example_unit_count": 39,
@@ -692,7 +692,8 @@
         "C-MATH-04",
         "C-CH-01",
         "C-TERM-SHADOW-PRICE",
-        "C-TERM-UTILITY-MAXIMIZATION"
+        "C-TERM-UTILITY-MAXIMIZATION",
+        "C-TERM-ENVELOPE-THEOREM"
       ],
       "jel_codes": [
         "C61"
@@ -1132,7 +1133,8 @@
         "C-CH-03",
         "C-OBJ-DEMAND",
         "C-TERM-UTILITY-MAXIMIZATION",
-        "C-TERM-MARSHALLIAN-DEMAND"
+        "C-TERM-MARSHALLIAN-DEMAND",
+        "C-TERM-ROY-IDENTITY"
       ],
       "jel_codes": [
         "D11",
@@ -1170,7 +1172,9 @@
         "C-TERM-HICKSIAN-DEMAND",
         "C-TERM-SLUTSKY",
         "C-TERM-INCOME-EFFECT",
-        "C-TERM-SUBSTITUTION-EFFECT"
+        "C-TERM-SUBSTITUTION-EFFECT",
+        "C-TERM-SHEPHARD-LEMMA",
+        "C-TERM-ROY-IDENTITY"
       ],
       "jel_codes": [
         "D11",
@@ -1232,7 +1236,9 @@
       "anchor": "micro-04",
       "concept_ids": [
         "C-MICRO-04",
-        "C-CH-03"
+        "C-CH-03",
+        "C-TERM-SHEPHARD-LEMMA",
+        "C-TERM-HOTELLING-LEMMA"
       ],
       "jel_codes": [
         "D24",
@@ -1269,7 +1275,9 @@
         "C-OBJ-EQUILIBRIUM",
         "C-OBJ-EQUILIBRIUM-PRICES",
         "C-OBJ-MARKET-RESIDUAL",
-        "C-TERM-PARETO"
+        "C-TERM-PARETO",
+        "C-TERM-FIRST-WELFARE-THEOREM",
+        "C-TERM-SECOND-WELFARE-THEOREM"
       ],
       "jel_codes": [
         "D51",
@@ -2204,7 +2212,8 @@
       "concept_ids": [
         "C-DESIGN-01",
         "C-CH-07",
-        "C-TERM-UNIFORM-PRICE-AUCTION"
+        "C-TERM-UNIFORM-PRICE-AUCTION",
+        "C-TERM-REVENUE-EQUIVALENCE"
       ],
       "jel_codes": [
         "D44",
@@ -19287,6 +19296,204 @@
       "jel_codes": [
         "L11",
         "D43"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-SHEPHARD-LEMMA",
+      "preferred": {
+        "en": "Shephard's lemma",
+        "ja": "Shephardの補題"
+      },
+      "aliases": {
+        "en": [
+          "Shephard lemma",
+          "Shephard’s lemma"
+        ],
+        "ja": [
+          "シェパードの補題",
+          "シェファードの補題"
+        ]
+      },
+      "broader": [
+        "C-MICRO-02"
+      ],
+      "definition": {
+        "unit": "MICRO-02",
+        "anchor": "micro-02"
+      },
+      "jel_codes": [
+        "D11",
+        "D24"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-ROY-IDENTITY",
+      "preferred": {
+        "en": "Roy's identity",
+        "ja": "Royの恒等式"
+      },
+      "aliases": {
+        "en": [
+          "Roy identity",
+          "Roy’s identity"
+        ],
+        "ja": [
+          "ロワの恒等式",
+          "ロイの恒等式"
+        ]
+      },
+      "broader": [
+        "C-MICRO-02"
+      ],
+      "definition": {
+        "unit": "MICRO-02",
+        "anchor": "micro-02"
+      },
+      "jel_codes": [
+        "D11"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-HOTELLING-LEMMA",
+      "preferred": {
+        "en": "Hotelling's lemma",
+        "ja": "Hotellingの補題"
+      },
+      "aliases": {
+        "en": [
+          "Hotelling lemma",
+          "Hotelling’s lemma"
+        ],
+        "ja": [
+          "ホテリングの補題"
+        ]
+      },
+      "broader": [
+        "C-MICRO-04"
+      ],
+      "definition": {
+        "unit": "MICRO-04",
+        "anchor": "micro-04"
+      },
+      "jel_codes": [
+        "D21",
+        "D24"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-ENVELOPE-THEOREM",
+      "preferred": {
+        "en": "envelope theorem",
+        "ja": "包絡線定理"
+      },
+      "aliases": {
+        "en": [],
+        "ja": [
+          "包絡定理"
+        ]
+      },
+      "broader": [
+        "C-MATH-04"
+      ],
+      "definition": {
+        "unit": "MATH-04",
+        "anchor": "math-04"
+      },
+      "jel_codes": [
+        "C61"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-REVENUE-EQUIVALENCE",
+      "preferred": {
+        "en": "revenue equivalence theorem",
+        "ja": "収入等価定理"
+      },
+      "aliases": {
+        "en": [
+          "revenue equivalence",
+          "revenue-equivalence theorem"
+        ],
+        "ja": [
+          "収入等価",
+          "収益同値定理"
+        ]
+      },
+      "broader": [
+        "C-DESIGN-01"
+      ],
+      "definition": {
+        "unit": "DESIGN-01",
+        "anchor": "design-01"
+      },
+      "jel_codes": [
+        "D44",
+        "C72"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-FIRST-WELFARE-THEOREM",
+      "preferred": {
+        "en": "first welfare theorem",
+        "ja": "厚生経済学の第一基本定理"
+      },
+      "aliases": {
+        "en": [
+          "first fundamental theorem of welfare economics",
+          "first fundamental welfare theorem"
+        ],
+        "ja": [
+          "厚生経済学の第1基本定理",
+          "厚生の第一定理",
+          "厚生の第1定理"
+        ]
+      },
+      "broader": [
+        "C-MICRO-05"
+      ],
+      "definition": {
+        "unit": "MICRO-05",
+        "anchor": "micro-05"
+      },
+      "jel_codes": [
+        "D51",
+        "D61"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-SECOND-WELFARE-THEOREM",
+      "preferred": {
+        "en": "second welfare theorem",
+        "ja": "厚生経済学の第二基本定理"
+      },
+      "aliases": {
+        "en": [
+          "second fundamental theorem of welfare economics",
+          "second fundamental welfare theorem"
+        ],
+        "ja": [
+          "厚生経済学の第2基本定理",
+          "厚生の第二定理",
+          "厚生の第2定理"
+        ]
+      },
+      "broader": [
+        "C-MICRO-05"
+      ],
+      "definition": {
+        "unit": "MICRO-05",
+        "anchor": "micro-05"
+      },
+      "jel_codes": [
+        "D51",
+        "D61"
       ],
       "kind": "concept"
     }

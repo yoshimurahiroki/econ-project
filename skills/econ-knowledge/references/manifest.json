@@ -1,9 +1,9 @@
 {
-  "catalog_sha256": "084864fca56c493a6db9882f1ef3c23a972741d073f617645c5e2e40ec3b08ee",
+  "catalog_sha256": "7360e7fea1c5d409fbc5148764a32e1b680b1fe9128f89bccddd254c914ab0eb",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
-    "chapters/03-microeconomics.md": "91982674dffa16d89dd1b04f41447ae39debbe4be3e47376c3e390d21244561e",
+    "chapters/03-microeconomics.md": "1299dd4e79de2dc3522f43b71fbaf2589bd44f3cc2b3f9c6f8dfb79cc5bb9893",
     "chapters/04-games.md": "c0150f132db087c79cd13bf2457e7d040ff1a01e683ba88c20ba9f0940af23cf",
     "chapters/05-information-behavior.md": "0d6f1f82591793adc128c59c5cf195c73f347bfe30f9ca805f4aab6de675ec15",
     "chapters/06-contracts-organization.md": "72c21e67dc11662ec9dc4f3d1924b2a69182734cd992e253908c87eea0c7ae6c",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "ef91ea6cae528f9145fb666be26c6bb3a902eda4db0d7d533c9432c0b7043e69",
+  "domain_listing_sha256": "8b4afe151eeea22b6cf864e787abb987c511b537cdc5ba22ab7b5434580fafa7",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -52,7 +52,7 @@
     "ミクロ理論": {
       "count": 7,
       "path": "domains/03.json",
-      "sha256": "6171587fd24ac348c7b06501d8b6f1f7abe48f11e995f89bbd4b6dcab9f50e2b"
+      "sha256": "0fed97d7d38ba50b15d6dc8577b5d27fb7324c1643756f0fc5b1388183d63f38"
     },
     "予測意思決定": {
       "count": 7,
@@ -112,7 +112,7 @@
     "市場設計": {
       "count": 8,
       "path": "domains/15.json",
-      "sha256": "1fee1a68a562d13f9b14ae37a052311340335114601830812de29b2bfc755e4b"
+      "sha256": "2895241825633c56f1cbf1f6cdb3c82fe5bbd17a60e69e2ed41a244881deceb4"
     },
     "情報行動": {
       "count": 8,
@@ -137,7 +137,7 @@
     "数理基盤": {
       "count": 9,
       "path": "domains/20.json",
-      "sha256": "cb3e4cb33b9ad278cfdc894d9bb243eb48a9e93edcae50d5694a816af8b6842c"
+      "sha256": "14803a466076805c98530d41b0de9357d854e6814735db12e9e3261b4d99fb88"
     },
     "時系列": {
       "count": 7,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "f7b8e59b56cf61558702a904101be282b180070fce87723bcb83b760fbd31536"
+      "sha256": "3fe15bb910ff4ac9d26441cde383063dd93cd669d2516db5a91d244ce0ac5b33"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -1249,7 +1249,7 @@
       "chapter": "chapters/03-microeconomics.md",
       "domain": "ミクロ理論",
       "path": "units/MICRO-02.md",
-      "sha256": "f2350e6221556abf524fe4b45f46ebbaad74340d2d3ecd1ddec4012369a8289a"
+      "sha256": "b251ee8ffb2fc086de470ff07e5478ec00875d01197c28d6e43029770184919d"
     },
     "MICRO-03": {
       "chapter": "chapters/03-microeconomics.md",
@@ -1261,13 +1261,13 @@
       "chapter": "chapters/03-microeconomics.md",
       "domain": "ミクロ理論",
       "path": "units/MICRO-04.md",
-      "sha256": "a49e983dee683c0e13aacd186d2b104dcc9f1b880ef6b8aacedcf2455f042456"
+      "sha256": "74e27ed675c36f58c5190363660b688ad29a0017a57b7f052ed1e477cdc01b01"
     },
     "MICRO-05": {
       "chapter": "chapters/03-microeconomics.md",
       "domain": "ミクロ理論",
       "path": "units/MICRO-05.md",
-      "sha256": "0fd6ebd878cf3e8ba0689f5c15835d7fad72dd7606a2d0548e87da30b92b57fb"
+      "sha256": "d033f2cfb1c37f700b1bb7ab3aec28d894e9018b574a6a0f786b064e9c0e666e"
     },
     "MICRO-06": {
       "chapter": "chapters/03-microeconomics.md",

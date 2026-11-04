@@ -114,7 +114,8 @@
         "C-MATH-04",
         "C-CH-01",
         "C-TERM-SHADOW-PRICE",
-        "C-TERM-UTILITY-MAXIMIZATION"
+        "C-TERM-UTILITY-MAXIMIZATION",
+        "C-TERM-ENVELOPE-THEOREM"
       ],
       "contract_ids": [],
       "domain": "数理基盤",

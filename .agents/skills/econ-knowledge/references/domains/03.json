@@ -10,7 +10,8 @@
         "C-CH-03",
         "C-OBJ-DEMAND",
         "C-TERM-UTILITY-MAXIMIZATION",
-        "C-TERM-MARSHALLIAN-DEMAND"
+        "C-TERM-MARSHALLIAN-DEMAND",
+        "C-TERM-ROY-IDENTITY"
       ],
       "contract_ids": [],
       "domain": "ミクロ理論",
@@ -52,7 +53,9 @@
         "C-TERM-HICKSIAN-DEMAND",
         "C-TERM-SLUTSKY",
         "C-TERM-INCOME-EFFECT",
-        "C-TERM-SUBSTITUTION-EFFECT"
+        "C-TERM-SUBSTITUTION-EFFECT",
+        "C-TERM-SHEPHARD-LEMMA",
+        "C-TERM-ROY-IDENTITY"
       ],
       "contract_ids": [],
       "domain": "ミクロ理論",
@@ -126,7 +129,9 @@
       "chapter": 3,
       "concept_ids": [
         "C-MICRO-04",
-        "C-CH-03"
+        "C-CH-03",
+        "C-TERM-SHEPHARD-LEMMA",
+        "C-TERM-HOTELLING-LEMMA"
       ],
       "contract_ids": [],
       "domain": "ミクロ理論",
@@ -170,7 +175,9 @@
         "C-OBJ-EQUILIBRIUM",
         "C-OBJ-EQUILIBRIUM-PRICES",
         "C-OBJ-MARKET-RESIDUAL",
-        "C-TERM-PARETO"
+        "C-TERM-PARETO",
+        "C-TERM-FIRST-WELFARE-THEOREM",
+        "C-TERM-SECOND-WELFARE-THEOREM"
       ],
       "contract_ids": [
         "MC-exchange-two-goods"

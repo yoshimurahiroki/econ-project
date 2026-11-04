@@ -8,7 +8,8 @@
       "concept_ids": [
         "C-DESIGN-01",
         "C-CH-07",
-        "C-TERM-UNIFORM-PRICE-AUCTION"
+        "C-TERM-UNIFORM-PRICE-AUCTION",
+        "C-TERM-REVENUE-EQUIVALENCE"
       ],
       "contract_ids": [],
       "domain": "市場設計",

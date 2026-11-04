@@ -13,7 +13,7 @@
     {
       "domain": "ミクロ理論",
       "path": "domains/03.json",
-      "sha256": "6171587fd24ac348c7b06501d8b6f1f7abe48f11e995f89bbd4b6dcab9f50e2b"
+      "sha256": "0fed97d7d38ba50b15d6dc8577b5d27fb7324c1643756f0fc5b1388183d63f38"
     },
     {
       "domain": "予測意思決定",
@@ -73,7 +73,7 @@
     {
       "domain": "市場設計",
       "path": "domains/15.json",
-      "sha256": "1fee1a68a562d13f9b14ae37a052311340335114601830812de29b2bfc755e4b"
+      "sha256": "2895241825633c56f1cbf1f6cdb3c82fe5bbd17a60e69e2ed41a244881deceb4"
     },
     {
       "domain": "情報行動",
@@ -98,7 +98,7 @@
     {
       "domain": "数理基盤",
       "path": "domains/20.json",
-      "sha256": "cb3e4cb33b9ad278cfdc894d9bb243eb48a9e93edcae50d5694a816af8b6842c"
+      "sha256": "14803a466076805c98530d41b0de9357d854e6814735db12e9e3261b4d99fb88"
     },
     {
       "domain": "時系列",
