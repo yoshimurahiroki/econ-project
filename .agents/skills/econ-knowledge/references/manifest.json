@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "d2722b84d409d2cbbcda545816b221e740035a4f5447971bb101d9afc36cf8b6",
+  "catalog_sha256": "ec89ed2c2196ef4bcd82c8b16e2dca4ad04e4c713e3372697ad20c194e1fdc83",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -11,7 +11,7 @@
     "chapters/08-networks.md": "eaa4c06c5fdc30349ef4029d39d20b6f6db6c59eb5c7e24d367f6a13e13dd3ef",
     "chapters/09-dynamic-computation.md": "1c56c96261d76a9071efdddd22898dbce9fa6ee6f8b0b5447513de9915ea2596",
     "chapters/10-econometrics.md": "bcfbe164979be9dbc313c683120b9e37629347a5d1008833685e11c666ff1182",
-    "chapters/11-causal-designs.md": "ad02b52ea2710f6e6481aeadbf6547328032ca9466c9800b8d91f2ee7eb1d3d3",
+    "chapters/11-causal-designs.md": "778c6723d5f0c79e92e70ffaddebde0649ae8a03e0c7096dba1cc8b692e83ba5",
     "chapters/12-causal-extensions.md": "980dbf930cdc2977cb5f243e6d6d917899fbe973f595ad093a4676f845a67d32",
     "chapters/13-time-series.md": "f668b700e013d6ad79ff62e97b2363ae4b8c4ba8ff141334355a8fac32ae8e3f",
     "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "68af23598bcf54da769b15da15985e332ff03c0b51cb7e24c1a2227bbd5008f8",
+  "domain_listing_sha256": "29407078ef5da8caa98d916641a1deab17bbde5b2966a44e457e27ffe5330b7b",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -97,7 +97,7 @@
     "因果デザイン": {
       "count": 7,
       "path": "domains/12.json",
-      "sha256": "813a558a8e4130219a1d9bad5775c25a55805bd50739e028148e44fcf143e7f6"
+      "sha256": "f1e93df54564fa5e4afca1ecc1c3985d247f9e6753d8445b746e827c78308ff7"
     },
     "因果拡張": {
       "count": 8,
@@ -349,7 +349,7 @@
       "chapter": "chapters/11-causal-designs.md",
       "domain": "因果デザイン",
       "path": "units/CAUSAL-01.md",
-      "sha256": "5c99419cade9f9620f144aa1063d16ca00958491bb52530a2dd8b3b43cf93084"
+      "sha256": "18729ba9ddd5f27496f66c4dd5f48332944ae9b19b0010c655398f81a744b3e0"
     },
     "CAUSAL-02": {
       "chapter": "chapters/11-causal-designs.md",

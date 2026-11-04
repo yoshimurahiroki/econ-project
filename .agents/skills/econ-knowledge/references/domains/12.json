@@ -25,7 +25,8 @@
         "処置前共変量",
         "対象集団",
         "因果グラフ",
-        "観測媒介変数と条件付き分布"
+        "観測媒介変数と条件付き分布",
+        "比較する介入値と条件付き平均モデル"
       ],
       "jel_codes": [
         "C21",
@@ -38,7 +39,8 @@
         "調整後平均",
         "対応規則と対象集団",
         "backdoor調整式",
-        "frontdoor識別式"
+        "frontdoor識別式",
+        "介入量に対応する総効果"
       ],
       "prerequisites": [
         "STAT-01"
@@ -46,7 +48,7 @@
       "related": [],
       "subdomain": "潜在結果",
       "title": "潜在結果と調整",
-      "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング",
+      "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング; frontdoor linear mediation; intervention contrast; 線形媒介と介入量",
       "use_when": "潜在結果と因果グラフからATE・ATTを定義し、マッチング・調整集合・媒介経路の条件で介入効果を識別する"
     },
     {

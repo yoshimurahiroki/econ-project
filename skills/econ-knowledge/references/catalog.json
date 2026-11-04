@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.13",
+  "version": "2.3.14",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -3273,7 +3273,7 @@
       "domain": "因果デザイン",
       "subdomain": "潜在結果",
       "kind": "knowledge",
-      "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング",
+      "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング; frontdoor linear mediation; intervention contrast; 線形媒介と介入量",
       "use_when": "潜在結果と因果グラフからATE・ATTを定義し、マッチング・調整集合・媒介経路の条件で介入効果を識別する",
       "inputs": [
         "処置",
@@ -3281,7 +3281,8 @@
         "処置前共変量",
         "対象集団",
         "因果グラフ",
-        "観測媒介変数と条件付き分布"
+        "観測媒介変数と条件付き分布",
+        "比較する介入値と条件付き平均モデル"
       ],
       "outputs": [
         "ATE",
@@ -3289,7 +3290,8 @@
         "調整後平均",
         "対応規則と対象集団",
         "backdoor調整式",
-        "frontdoor識別式"
+        "frontdoor識別式",
+        "介入量に対応する総効果"
       ],
       "file": "chapters/11-causal-designs.md",
       "anchor": "causal-01",

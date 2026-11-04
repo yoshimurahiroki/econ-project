@@ -46,3 +46,13 @@ frontdoor式の内側の平均は \(M=0\) で0.20、\(M=1\) で0.60となる。�
 
 DoWhyでは、[`CausalModel`](https://github.com/py-why/dowhy/blob/0a05bc12f0d888f843795ccc29f56237ac002c0b/dowhy/causal_model.py) の生成時に`data`、`treatment`、`outcome`、`graph`を与え、`model.identify_effect()`で識別対象を得る。観測変数は渡したデータの列から定まる。同版の [`check_valid_backdoor_set`と`do_surgery`](https://github.com/py-why/dowhy/blob/0a05bc12f0d888f843795ccc29f56237ac002c0b/dowhy/graph.py) はbackdoor検査の出辺切断と介入の入辺切断を別引数で扱い、[`identify_frontdoor`](https://github.com/py-why/dowhy/blob/0a05bc12f0d888f843795ccc29f56237ac002c0b/dowhy/causal_identifier/auto_identifier.py) は上の三条件を検査する。econ-designで制度と時点からグラフを定め、econ-dataで識別式の条件付き分布を推定し、同じ対象人口へ集計する。検索では「structural causal model d-separation」「backdoor adjustment set」「frontdoor identification」を使い、各経路を成立させる測定と制度上の関係を原資料で調べる。
 
+frontdoor条件を満たす単一の処置と媒介変数について、共通係数の線形条件付き平均を $E[M\mid D=d]=a_0+ad$、$E[Y\mid M=m,D=d']=b_0+bm+cd'$ とする。上の識別式へ代入すると、介入後の平均は $b_0+b(a_0+ad)+cE[D]$ となる。したがって、処置を $d_0$ から $d_1$ へ変える総効果は
+\[
+E[Y\mid do(d_1)]-E[Y\mid do(d_0)]=ab(d_1-d_0)
+\]
+である。媒介変数の変化 $a(d_1-d_0)$ に、媒介変数一単位当たりの結果変化 $b$ を掛ける。両回帰の設計行列が列フルランクなら、観測された条件付き平均からこれらの傾きを推定できる。
+
+固定版DoWhyの [`TwoStageRegressionEstimator`](https://github.com/py-why/dowhy/blob/0a05bc12f0d888f843795ccc29f56237ac002c0b/dowhy/causal_estimators/two_stage_regression_estimator.py) は、このグラフに対して既定の線形回帰で $M$ を $D$ に、$Y$ を $M$ と $D$ に回帰する。`estimate_effect` は同じ`control_value`と`treatment_value`を両段階へ渡し、各段階の平均予測差を掛ける。[各回帰の計算](https://github.com/py-why/dowhy/blob/0a05bc12f0d888f843795ccc29f56237ac002c0b/dowhy/causal_estimators/regression_estimator.py)を $\Delta=d_1-d_0$ で表すと、返り値は $(a\Delta)(b\Delta)=ab\Delta^2$ となる。$a=2,b=3$、$0\to2$ の介入では返り値24に対して上の総効果は12であり、$1\to0$ では返り値6に対して総効果は $-6$ である。
+
+econ-dataは、採択した条件付き平均と介入値に対応する計算を選ぶ。上の線形モデルでは回帰係数の積 $ab$ に元の介入差を一度掛け、傾き・介入差・結果尺度を同じ計算結果に残す。非線形の条件付き平均を採択した場合は、frontdoor識別式に沿って条件付き分布を推定し、媒介変数と処置の分布で積分する。
+
