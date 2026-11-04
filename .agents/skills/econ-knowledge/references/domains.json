@@ -83,7 +83,7 @@
     {
       "domain": "成長マクロ",
       "path": "domains/17.json",
-      "sha256": "0d65ef3ea9f16334d5f7df6da866476b8ec094d7769dac40ec82259c152f748d"
+      "sha256": "a8f26398d2e259f8dc94eb954232a466db599d9c67970d7893dd9f791ab2c33a"
     },
     {
       "domain": "政治法制度",
@@ -158,7 +158,7 @@
     {
       "domain": "金融財政開放",
       "path": "domains/32.json",
-      "sha256": "c7de623a0ae8ef1788240c00f0b1f83ee58a1436e5a3f6f65eb0b7d1242e5f6f"
+      "sha256": "e207a4a573628e22b249a2cd19fadf22395d3af308e53d4fa20d11e5c0f934b8"
     },
     {
       "domain": "開発農業",

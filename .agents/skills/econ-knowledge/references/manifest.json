@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "e02b39cc92043b015a67abb3d516fe1ee01c838c66fc8a9adb6117e77121a9bd",
+  "catalog_sha256": "d2722b84d409d2cbbcda545816b221e740035a4f5447971bb101d9afc36cf8b6",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -17,8 +17,8 @@
     "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
     "chapters/15-demand-production.md": "00f228c6b40ee6298c6c1b5f2efa6b4bf0d2a220135fc6aa1a7a904b553739b9",
     "chapters/16-competition-platforms.md": "817457f930b26377309922cf05bd330f4da8ee79032039c4f58aafe0c6d11c45",
-    "chapters/17-growth-macro.md": "e5faf45b0cf55ed4474c879ea4669153d7204433cba5c8232fd3a2b1f79ae0a0",
-    "chapters/18-monetary-open-macro.md": "58772ecab4c65146fe272c6c889be7a57cc5cf52e81e2f2172de4ca20df381db",
+    "chapters/17-growth-macro.md": "5d32a55a61c0279b166b314124e71c42062c7e0f9420ec3f3e7b66bb09f069bd",
+    "chapters/18-monetary-open-macro.md": "3e10d41ec808ea6a56cde8f62dd599a6c686cbd6fc6af69a214867a2a1a4cb9c",
     "chapters/19-heterogeneous-macro.md": "03ebe7991546b79e6f8c891df67249fb07806ec50e0485ec241208053cc9ae99",
     "chapters/20-asset-pricing.md": "71de5e585ef265cb7044c9e2f0d8846139b01f8c962dcaf9b7daafe271f497d2",
     "chapters/21-corporate-banking.md": "2464b1d8de4b9bab677650e9627d5c74c89ba0ea6105593b53e96bbfdb8b87e7",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "a1f60a77f64486793f8c322392fe0f6003c11683b0821a47ba4780585fbda5cc",
+  "domain_listing_sha256": "68af23598bcf54da769b15da15985e332ff03c0b51cb7e24c1a2227bbd5008f8",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -122,7 +122,7 @@
     "成長マクロ": {
       "count": 6,
       "path": "domains/17.json",
-      "sha256": "0d65ef3ea9f16334d5f7df6da866476b8ec094d7769dac40ec82259c152f748d"
+      "sha256": "a8f26398d2e259f8dc94eb954232a466db599d9c67970d7893dd9f791ab2c33a"
     },
     "政治法制度": {
       "count": 7,
@@ -197,7 +197,7 @@
     "金融財政開放": {
       "count": 6,
       "path": "domains/32.json",
-      "sha256": "c7de623a0ae8ef1788240c00f0b1f83ee58a1436e5a3f6f65eb0b7d1242e5f6f"
+      "sha256": "e207a4a573628e22b249a2cd19fadf22395d3af308e53d4fa20d11e5c0f934b8"
     },
     "開発農業": {
       "count": 7,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "d08f7e4e0fc72bc18fd09c42286907ae1207268e3fed67731cbd7216b341cc0b"
+      "sha256": "a8e1d11b68156aabb28a2d1f02491ae7739a461971a6313a15b1f89a09df7328"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "83b1ae00cdedb07b617f372659f0738e593a40392a8429f28e0288d3a2ce2ebe"
+      "sha256": "45d54481ef5d747735c3700930b749b8d2452efa3a480edd84fab7dd7e15ecd7"
     }
   },
   "spec_version": "knowledge-v2",
@@ -1135,7 +1135,7 @@
       "chapter": "chapters/17-growth-macro.md",
       "domain": "成長マクロ",
       "path": "units/MACRO-05.md",
-      "sha256": "fafa38cbdac0a6133942d3922b9e8fd0702d252696cb0cf07aa2b4e8442f0913"
+      "sha256": "05fa22b8588cb54a6e0d40a2ce6536e8c4d4c4879dba6b851cd0540153605362"
     },
     "MACRO-06": {
       "chapter": "chapters/17-growth-macro.md",
@@ -1285,7 +1285,7 @@
       "chapter": "chapters/18-monetary-open-macro.md",
       "domain": "金融財政開放",
       "path": "units/MONETARY-01.md",
-      "sha256": "abce20ceeba13fa340a7108b4323065887e4c0afd74e8e66c216c81abfa8367b"
+      "sha256": "31d0c2973a70436252a71b6c8281b514aac2a504ee2574966ae506f029ef3159"
     },
     "MONETARY-02": {
       "chapter": "chapters/18-monetary-open-macro.md",
@@ -1315,7 +1315,7 @@
       "chapter": "chapters/18-monetary-open-macro.md",
       "domain": "金融財政開放",
       "path": "units/MONETARY-06.md",
-      "sha256": "d0449208d310a37f95d284ba5bb60bd047366daa91a3fecb9f9d314bd00efe7c"
+      "sha256": "5a0849646a2794e5ecaa96dade63c6bd9ed1a67223b61072eb0cb8adb2543bdc"
     },
     "NET-01": {
       "chapter": "chapters/08-networks.md",

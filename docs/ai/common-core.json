@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "792110e0fdb70c8514cd517a75e879159189c33c",
+  "source_base_commit": "22068872f7c17fb5193044d6aff8f9d47332db8b",
   "source_state": "committed",
-  "common_content_id": "4c878f32865268481a8cf78a1ea28403ffb10e035ef908d13427aec9bc58411c",
+  "common_content_id": "ded0cef1020932209e368efb23a2aaa1ee5611736cbb9695769c26c0e2df3271",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -753,8 +753,8 @@
     {
       "path": "harness/policy_assets.py",
       "state": "present",
-      "sha256": "451e8699171b53666130a4a8ebeeaf4c49b7735bb4a735cce202a425034ea325",
-      "git_blob": "959a23b7906ad1703f72553a50f5f54a0f84bc41",
+      "sha256": "7f93fa2d94c7f56440a480cb930ab54ae2ae29add934d66d5a657fb356fdff08",
+      "git_blob": "77cf44d40b1094ba6b8655363b579420363ce53e",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1585,8 +1585,8 @@
     {
       "path": "skills/econ-knowledge/references/catalog.json",
       "state": "present",
-      "sha256": "e02b39cc92043b015a67abb3d516fe1ee01c838c66fc8a9adb6117e77121a9bd",
-      "git_blob": "edd82c9a00c509a7de874b80428a137588851dfc",
+      "sha256": "d2722b84d409d2cbbcda545816b221e740035a4f5447971bb101d9afc36cf8b6",
+      "git_blob": "9961392ee3a2a40374fcc76fff49d41d1a8358bc",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1721,16 +1721,16 @@
     {
       "path": "skills/econ-knowledge/references/chapters/17-growth-macro.md",
       "state": "present",
-      "sha256": "e5faf45b0cf55ed4474c879ea4669153d7204433cba5c8232fd3a2b1f79ae0a0",
-      "git_blob": "d7191d11390a2c9b4ee24f2767eb550c5d5d9c86",
+      "sha256": "5d32a55a61c0279b166b314124e71c42062c7e0f9420ec3f3e7b66bb09f069bd",
+      "git_blob": "6f11fde0edf48baba96d0ad7b34f9861095088ae",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "skills/econ-knowledge/references/chapters/18-monetary-open-macro.md",
       "state": "present",
-      "sha256": "58772ecab4c65146fe272c6c889be7a57cc5cf52e81e2f2172de4ca20df381db",
-      "git_blob": "c98ff5c0dd5ddc502489eb47b0fbc2e2ee357598",
+      "sha256": "3e10d41ec808ea6a56cde8f62dd599a6c686cbd6fc6af69a214867a2a1a4cb9c",
+      "git_blob": "630834fb481e186617e77a3090a150e36ecb0dab",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },

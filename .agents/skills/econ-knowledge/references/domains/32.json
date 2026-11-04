@@ -8,7 +8,9 @@
       "concept_ids": [
         "C-MONETARY-01",
         "C-CH-18",
-        "C-OBJ-RANK"
+        "C-OBJ-RANK",
+        "C-ASSUMP-RATIONAL-EXPECTATIONS",
+        "C-METHOD-BLANCHARD-KAHN"
       ],
       "contract_ids": [],
       "domain": "金融財政開放",
@@ -22,7 +24,8 @@
       ],
       "jel_codes": [
         "E52",
-        "E32"
+        "E32",
+        "D84"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -198,7 +201,8 @@
       "chapter": 18,
       "concept_ids": [
         "C-MONETARY-06",
-        "C-CH-18"
+        "C-CH-18",
+        "C-ASSUMP-RATIONAL-EXPECTATIONS"
       ],
       "contract_ids": [],
       "domain": "金融財政開放",
@@ -206,11 +210,14 @@
       "id": "MONETARY-06",
       "inputs": [
         "IS・価格・政策係数",
-        "ショック"
+        "ショック",
+        "ショックの条件付き平均法則",
+        "割引係数"
       ],
       "jel_codes": [
         "E52",
-        "E32"
+        "E32",
+        "D84"
       ],
       "kind": "worked_example",
       "outputs": [
@@ -223,9 +230,9 @@
       ],
       "related": [],
       "subdomain": "金融政策例",
-      "title": "解答付き例題：一期間自然金利ショック",
-      "topic": "自然金利ショックと金利下限の効果を解く",
-      "use_when": "自然金利ショックと金利下限の効果を解く"
+      "title": "解答付き例題：自然金利ショックの持続性と政策反応",
+      "topic": "自然金利ショックの持続性、合理的期待と金利下限",
+      "use_when": "合理的期待を含む三式から、自然金利ショックの持続性による産出・物価反応を求める"
     }
   ]
 }

@@ -161,7 +161,9 @@
         "C-MACRO-05",
         "C-CH-17",
         "C-TERM-RBC",
-        "C-TERM-GENERAL-EQUILIBRIUM"
+        "C-TERM-GENERAL-EQUILIBRIUM",
+        "C-ASSUMP-RATIONAL-EXPECTATIONS",
+        "C-METHOD-BLANCHARD-KAHN"
       ],
       "contract_ids": [
         "MC-stochastic-rbc"
@@ -176,13 +178,15 @@
       ],
       "jel_codes": [
         "E32",
-        "O41"
+        "O41",
+        "D84"
       ],
       "kind": "knowledge",
       "outputs": [
         "政策関数",
         "均衡経路",
-        "観測式"
+        "観測式",
+        "有界解の一意性"
       ],
       "prerequisites": [
         "DYN-03"
@@ -193,7 +197,7 @@
       "subdomain": "景気循環",
       "title": "RBCと動学一般均衡",
       "topic": "家計・企業の最適化と資源清算を解く; real business cycle; RBC observation equation; 実物的景気循環",
-      "use_when": "家計・企業の最適化と資源清算を解く"
+      "use_when": "家計・企業の最適条件、合理的期待と市場清算を連立し、動学均衡を選ぶ"
     },
     {
       "alternatives": [],

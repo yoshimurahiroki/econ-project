@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.12",
+  "version": "2.3.13",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -4859,7 +4859,7 @@
       "subdomain": "景気循環",
       "kind": "knowledge",
       "topic": "家計・企業の最適化と資源清算を解く; real business cycle; RBC observation equation; 実物的景気循環",
-      "use_when": "家計・企業の最適化と資源清算を解く",
+      "use_when": "家計・企業の最適条件、合理的期待と市場清算を連立し、動学均衡を選ぶ",
       "inputs": [
         "選好",
         "技術",
@@ -4868,7 +4868,8 @@
       "outputs": [
         "政策関数",
         "均衡経路",
-        "観測式"
+        "観測式",
+        "有界解の一意性"
       ],
       "file": "chapters/17-growth-macro.md",
       "anchor": "macro-05",
@@ -4876,11 +4877,14 @@
         "C-MACRO-05",
         "C-CH-17",
         "C-TERM-RBC",
-        "C-TERM-GENERAL-EQUILIBRIUM"
+        "C-TERM-GENERAL-EQUILIBRIUM",
+        "C-ASSUMP-RATIONAL-EXPECTATIONS",
+        "C-METHOD-BLANCHARD-KAHN"
       ],
       "jel_codes": [
         "E32",
-        "O41"
+        "O41",
+        "D84"
       ],
       "contract_ids": [
         "MC-stochastic-rbc"
@@ -4940,11 +4944,14 @@
       "concept_ids": [
         "C-MONETARY-01",
         "C-CH-18",
-        "C-OBJ-RANK"
+        "C-OBJ-RANK",
+        "C-ASSUMP-RATIONAL-EXPECTATIONS",
+        "C-METHOD-BLANCHARD-KAHN"
       ],
       "jel_codes": [
         "E52",
-        "E32"
+        "E32",
+        "D84"
       ],
       "contract_ids": []
     },
@@ -5077,16 +5084,18 @@
     },
     {
       "id": "MONETARY-06",
-      "title": "解答付き例題：一期間自然金利ショック",
+      "title": "解答付き例題：自然金利ショックの持続性と政策反応",
       "chapter": 18,
       "domain": "金融財政開放",
       "subdomain": "金融政策例",
       "kind": "worked_example",
-      "topic": "自然金利ショックと金利下限の効果を解く",
-      "use_when": "自然金利ショックと金利下限の効果を解く",
+      "topic": "自然金利ショックの持続性、合理的期待と金利下限",
+      "use_when": "合理的期待を含む三式から、自然金利ショックの持続性による産出・物価反応を求める",
       "inputs": [
         "IS・価格・政策係数",
-        "ショック"
+        "ショック",
+        "ショックの条件付き平均法則",
+        "割引係数"
       ],
       "outputs": [
         "産出gap",
@@ -5097,11 +5106,13 @@
       "anchor": "monetary-06",
       "concept_ids": [
         "C-MONETARY-06",
-        "C-CH-18"
+        "C-CH-18",
+        "C-ASSUMP-RATIONAL-EXPECTATIONS"
       ],
       "jel_codes": [
         "E52",
-        "E32"
+        "E32",
+        "D84"
       ],
       "contract_ids": []
     },
@@ -12412,7 +12423,8 @@
       },
       "jel_codes": [
         "E32",
-        "O41"
+        "O41",
+        "D84"
       ],
       "kind": "concept"
     },
@@ -12458,7 +12470,8 @@
       },
       "jel_codes": [
         "E52",
-        "E32"
+        "E32",
+        "D84"
       ],
       "kind": "concept"
     },
@@ -12557,8 +12570,8 @@
     {
       "id": "C-MONETARY-06",
       "preferred": {
-        "en": "Solved example: one-period natural-rate shock",
-        "ja": "解答付き例題：一期間自然金利ショック"
+        "en": "Persistent natural-rate shocks and policy responses",
+        "ja": "解答付き例題：自然金利ショックの持続性と政策反応"
       },
       "aliases": {
         "en": [],
@@ -12573,7 +12586,8 @@
       },
       "jel_codes": [
         "E52",
-        "E32"
+        "E32",
+        "D84"
       ],
       "kind": "concept"
     },
@@ -19145,6 +19159,69 @@
         "C63"
       ],
       "kind": "method"
+    },
+    {
+      "id": "C-ASSUMP-RATIONAL-EXPECTATIONS",
+      "preferred": {
+        "en": "rational expectations",
+        "ja": "合理的期待"
+      },
+      "aliases": {
+        "en": [
+          "model-consistent expectations"
+        ],
+        "ja": [
+          "モデル整合的期待"
+        ]
+      },
+      "broader": [
+        "C-MACRO-05"
+      ],
+      "definition": {
+        "unit": "MACRO-05",
+        "anchor": "macro-05"
+      },
+      "jel_codes": [
+        "D84",
+        "E32"
+      ],
+      "kind": "assumption",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/10056-2",
+          "relation": "exactMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-METHOD-BLANCHARD-KAHN",
+      "preferred": {
+        "en": "Blanchard–Kahn conditions",
+        "ja": "Blanchard–Kahn条件"
+      },
+      "aliases": {
+        "en": [
+          "Blanchard-Kahn conditions",
+          "BK conditions"
+        ],
+        "ja": [
+          "ブランシャール＝カーン条件"
+        ]
+      },
+      "broader": [
+        "C-MACRO-05"
+      ],
+      "definition": {
+        "unit": "MACRO-05",
+        "anchor": "macro-05"
+      },
+      "jel_codes": [
+        "C62",
+        "E32"
+      ],
+      "kind": "method"
     }
   ],
   "jel": {
@@ -19446,6 +19523,11 @@
     "D83": {
       "en": "Search • Learning • Information and Knowledge • Communication • Belief • Unawareness",
       "ja": "探索・学習・情報",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "D84": {
+      "en": "Expectations • Speculations",
+      "ja": "期待・投機",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D85": {
@@ -29434,6 +29516,54 @@
         }
       ],
       "version": "2.3.11"
+    },
+    {
+      "id": "R-MACRO-05-RATIONAL-EXPECTATIONS",
+      "source": "MACRO-05",
+      "target": "C-ASSUMP-RATIONAL-EXPECTATIONS",
+      "type": "requires_assumption",
+      "conditions": [],
+      "when": {},
+      "use": "Conditional expectations use the transition law generated by the same adopted policies and market-clearing equations; solve perceived and actual aggregate laws together.",
+      "evidence": [
+        {
+          "unit": "MACRO-05",
+          "anchor": "macro-05"
+        }
+      ],
+      "version": "2.3.13"
+    },
+    {
+      "id": "R-MONETARY-01-RATIONAL-EXPECTATIONS",
+      "source": "MONETARY-01",
+      "target": "C-ASSUMP-RATIONAL-EXPECTATIONS",
+      "type": "requires_assumption",
+      "conditions": [],
+      "when": {},
+      "use": "Conditional expectations use the transition law generated by the same adopted policies and market-clearing equations; solve perceived and actual aggregate laws together.",
+      "evidence": [
+        {
+          "unit": "MACRO-05",
+          "anchor": "macro-05"
+        }
+      ],
+      "version": "2.3.13"
+    },
+    {
+      "id": "R-MONETARY-06-RATIONAL-EXPECTATIONS",
+      "source": "MONETARY-06",
+      "target": "C-ASSUMP-RATIONAL-EXPECTATIONS",
+      "type": "requires_assumption",
+      "conditions": [],
+      "when": {},
+      "use": "Conditional expectations use the transition law generated by the same adopted policies and market-clearing equations; solve perceived and actual aggregate laws together.",
+      "evidence": [
+        {
+          "unit": "MACRO-05",
+          "anchor": "macro-05"
+        }
+      ],
+      "version": "2.3.13"
     }
   ],
   "model_contracts": [
