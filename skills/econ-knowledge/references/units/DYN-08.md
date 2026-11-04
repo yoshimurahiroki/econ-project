@@ -27,9 +27,17 @@ H_iF_i=\beta B_i^\top P_i\Lambda_i+\Gamma_i,\qquad
 P_i=\Pi_i+\beta\Lambda_i^\top P_i\Lambda_i-F_i^\top H_iF_i
 \]
 
-を得る。方策は $u_i=-F_ix$ である。第1式には相手の $F_j$ が含まれるため、両主体の式を連立で解く。有限期間では次期の $P_i$ を所与として当期の $F_1,F_2$ を求め、現在の $P_i$ を第2式で更新する。この連立Riccati更新を終端から後退させ、定常係数を求める。
+を得る。方策は $u_i=-F_ix$ である。$C_{ij}=\beta B_i^\top P_iB_j+M_i^\top$、$b_i=\beta B_i^\top P_iA+W_i^\top$ と置くと、両主体の第1式は
 
-[QuantEcon.pyのnnash](https://github.com/QuantEcon/QuantEcon.py/blob/d30c9000a96d7ae1d434bdecb4aa63d285a18599/quantecon/_lqnash.py)と[QuantEcon.jlのnnash](https://github.com/QuantEcon/QuantEcon.jl/blob/df801457aae1f280698d663e68f1a6ac8423360e/src/lqnash.jl)は、終端価値0に対応する $P_1=P_2=0$ から連立方策と価値係数を更新し、`F1,F2,P1,P2` を返す。Pythonは `nnash(..., beta=beta)`、Juliaは `nnash(...; beta=beta)` に元の $A,B_1,B_2$ と費用行列を渡す。両実装が内部で遷移行列を $\sqrt\beta$ 倍して割引を取り込む。状態経路には元の閉ループ行列 $A-B_1F_1-B_2F_2$ を使う。費用和が有限となる方策について、元のRiccati残差、相手を固定した最適反応、価値の再帰と割引終端値を評価する。行動上限、非負数量、離散参入を持つモデルは、その可行集合を含む最適反応計算へ接続する。
+\[
+\begin{pmatrix}H_1&C_{12}\\C_{21}&H_2\end{pmatrix}
+\begin{pmatrix}F_1\\F_2\end{pmatrix}
+=\begin{pmatrix}b_1\\b_2\end{pmatrix}
+\]
+
+となる。各 $H_i$ が正定値で、このブロック行列が正則なら、次期の価値係数を所与とした両方策の一意解を得る。有限期間では $H_i,C_{ij},b_i$ を次期の価値係数から作り、当期の方策と価値係数を終端から後退計算する。期間を延ばした係数が収束し、その極限が元のRiccati式、相互最適反応と割引終端条件を満たすとき、その極限を定常解として採用する。
+
+[QuantEcon.pyのnnash](https://github.com/QuantEcon/QuantEcon.py/blob/d30c9000a96d7ae1d434bdecb4aa63d285a18599/quantecon/_lqnash.py)と[QuantEcon.jlのnnash](https://github.com/QuantEcon/QuantEcon.jl/blob/df801457aae1f280698d663e68f1a6ac8423360e/src/lqnash.jl)は、終端価値0に対応する $P_1=P_2=0$ から連立方策と価値係数を更新し、`F1,F2,P1,P2` を返す。Pythonは `nnash(..., beta=beta)`、Juliaは `nnash(...; beta=beta)` に元の $A,B_1,B_2$ と費用行列を渡す。両実装が内部で遷移行列を $\sqrt\beta$ 倍して割引を取り込む。停止判定には方策係数の更新差を使う。状態経路には元の閉ループ行列 $A-B_1F_1-B_2F_2$ を使う。費用和が有限となる方策について、元のRiccati残差、相手を固定した最適反応、価値の再帰と割引終端値を評価する。行動上限、非負数量、離散参入を持つモデルは、その可行集合を含む最適反応計算へ接続する。
 
 例えば状態偏差と両主体の調整行動を実数とし、$x_{t+1}=x_t+u_{1t}+u_{2t}$、$\ell_i=(13/16)x^2+u_i^2$、$\beta=1/2$ とする。候補方策 $u_1=u_2=-x/4$、費用価値 $V_1(x)=V_2(x)=x^2$ を代入する。相手が $-x/4$ を選ぶと、当期費用と継続価値の和は
 
@@ -38,5 +46,5 @@ P_i=\Pi_i+\beta\Lambda_i^\top P_i\Lambda_i-F_i^\top H_iF_i
 =x^2+\frac32\left(u_i+\frac14x\right)^2
 \]
 
-となる。全状態で唯一の最適反応は $u_i=-x/4$、最小費用は $x^2$ となる。候補方策は互いに最適反応で、各費用価値は価値の再帰を満たす。閉ループは $x_{t+1}=x_t/2$、割引終端価値は $(1/8)^t x_0^2$ で0へ収束する。公式関数に対応する行列は $A=B_1=B_2=1,\ R_1=R_2=13/16,\ Q_1=Q_2=1,\ S_i=W_i=M_i=0$ であり、参照解は $F_1=F_2=1/4,\ P_1=P_2=1$ となる。入力では各係数を1×1行列として与える。
+となる。全状態で唯一の最適反応は $u_i=-x/4$、最小費用は $x^2$ となる。候補方策は互いに最適反応で、各費用価値は価値の再帰を満たす。閉ループは $x_{t+1}=x_t/2$、割引終端価値は $(1/8)^t x_0^2$ で0へ収束する。公式関数に対応する行列は $A=B_1=B_2=1,\ R_1=R_2=13/16,\ Q_1=Q_2=1,\ S_i=W_i=M_i=0$ であり、参照解は $F_1=F_2=1/4,\ P_1=P_2=1$ となる。この解の連立行列は対角成分 $3/2$、非対角成分 $1/2$ で、行列式は2となる。入力では各係数を1×1行列として与える。
 

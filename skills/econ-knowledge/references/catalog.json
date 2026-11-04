@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.14",
+  "version": "2.3.15",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -29390,7 +29390,7 @@
       "target": "C-MODEL-LQ-MARKOV-GAME",
       "type": "related",
       "conditions": [
-        "State transitions are linear, costs are quadratic, actions range over real vectors, and each best-response Hessian is positive definite. The adopted solution has finite discounted values and satisfies both Riccati equations."
+        "State transitions are linear, costs are quadratic, actions range over real vectors, each best-response Hessian is positive definite, and the joint policy coefficient matrix is nonsingular. The adopted stationary solution has finite discounted values and satisfies both Riccati equations and the discounted terminal condition."
       ],
       "when": {
         "game": [
@@ -29404,7 +29404,7 @@
           "anchor": "dyn-08"
         }
       ],
-      "version": "2.3.11"
+      "version": "2.3.15"
     },
     {
       "id": "R-GAME-CFR",
@@ -29510,14 +29510,14 @@
           "two_player_linear_quadratic"
         ]
       },
-      "use": "Use the linear-system definitions and matrix dimensions to map the game into the documented nnash input and original residuals.",
+      "use": "Check the rank of the joint policy coefficient matrix and the positive definiteness of the individual best-response systems. Map their dimensions to the documented nnash input and evaluate the original residuals.",
       "evidence": [
         {
           "unit": "DYN-08",
           "anchor": "dyn-08"
         }
       ],
-      "version": "2.3.11"
+      "version": "2.3.15"
     },
     {
       "id": "R-MACRO-05-RATIONAL-EXPECTATIONS",

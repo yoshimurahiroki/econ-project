@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "ec89ed2c2196ef4bcd82c8b16e2dca4ad04e4c713e3372697ad20c194e1fdc83",
+  "catalog_sha256": "f382feed9d543ef73b8c5d3ad31a3806f020eb56898773114b2e952d79401c20",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -9,7 +9,7 @@
     "chapters/06-contracts-organization.md": "72c21e67dc11662ec9dc4f3d1924b2a69182734cd992e253908c87eea0c7ae6c",
     "chapters/07-market-design.md": "4be072d54bf8ff2443b41f024b03a235cdd1c04f4a2845f1024a5a8f734df141",
     "chapters/08-networks.md": "eaa4c06c5fdc30349ef4029d39d20b6f6db6c59eb5c7e24d367f6a13e13dd3ef",
-    "chapters/09-dynamic-computation.md": "1c56c96261d76a9071efdddd22898dbce9fa6ee6f8b0b5447513de9915ea2596",
+    "chapters/09-dynamic-computation.md": "81f6c93be04b4eeea818490ec35ff2c43d39386810fe1e257e0d856dd7040b8a",
     "chapters/10-econometrics.md": "bcfbe164979be9dbc313c683120b9e37629347a5d1008833685e11c666ff1182",
     "chapters/11-causal-designs.md": "778c6723d5f0c79e92e70ffaddebde0649ae8a03e0c7096dba1cc8b692e83ba5",
     "chapters/12-causal-extensions.md": "980dbf930cdc2977cb5f243e6d6d917899fbe973f595ad093a4676f845a67d32",
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "45d54481ef5d747735c3700930b749b8d2452efa3a480edd84fab7dd7e15ecd7"
+      "sha256": "8c4d652532e3249e24322c9cf2f04e74348753f6b106dcb384deed30d18b3bfe"
     }
   },
   "spec_version": "knowledge-v2",
@@ -619,7 +619,7 @@
       "chapter": "chapters/09-dynamic-computation.md",
       "domain": "動学計算",
       "path": "units/DYN-08.md",
-      "sha256": "26e8f2dd228987e91c263ea3c8e29b85bd1fd87e5d7447da6fe5ddd1a5875636"
+      "sha256": "e1e3931376030bd9afaab00a4513b4919d3ad4eeb6a633b081e54903f84c6134"
     },
     "DYN-09": {
       "chapter": "chapters/09-dynamic-computation.md",
