@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "7360e7fea1c5d409fbc5148764a32e1b680b1fe9128f89bccddd254c914ab0eb",
+  "catalog_sha256": "36b68f629b552d1344c6aa8d4fc4fa93dbec2324564c24b8328c62e07ebb5020",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -15,7 +15,7 @@
     "chapters/12-causal-extensions.md": "980dbf930cdc2977cb5f243e6d6d917899fbe973f595ad093a4676f845a67d32",
     "chapters/13-time-series.md": "f668b700e013d6ad79ff62e97b2363ae4b8c4ba8ff141334355a8fac32ae8e3f",
     "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
-    "chapters/15-demand-production.md": "00f228c6b40ee6298c6c1b5f2efa6b4bf0d2a220135fc6aa1a7a904b553739b9",
+    "chapters/15-demand-production.md": "b8d26ca9cfcc703940a183864dff3cd7576621ea04d6288555ffe24562db11b9",
     "chapters/16-competition-platforms.md": "938907d8ef24188f3459e721be262bc45274bea172e1c4e0492e341a33166fcf",
     "chapters/17-growth-macro.md": "6a3b3108373af6d0e17fe2816b08d728ef7c89a618db48525bf23628c7ff0371",
     "chapters/18-monetary-open-macro.md": "512bcd529afe54959759db93a3764a00dccdaa7fa27c3ad43e3f7e10575c1f39",
@@ -222,7 +222,7 @@
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
-      "sha256": "b7aa6fa8df8cbf5badf4bd519b511274cc592fecdf486968b4e58a622525ccc0"
+      "sha256": "faff1d1edd6f529e7a543bc28fbb25a08afb5d22c777ab881bcbfa4a5edda4f2"
     },
     "relations.json": {
       "path": "relations.json",
@@ -457,7 +457,7 @@
       "chapter": "chapters/15-demand-production.md",
       "domain": "需要生産",
       "path": "units/DEMAND-03.md",
-      "sha256": "adc1c9dd177aaf07c31030a3b7dded114c5079131900fbe77f72223956d7a56e"
+      "sha256": "052577c2cb571cc2e41c2daa531e41fbda97433f866ff9c4b8e9d9d0a2733280"
     },
     "DEMAND-04": {
       "chapter": "chapters/15-demand-production.md",

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.21",
+  "version": "2.3.22",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -30177,7 +30177,7 @@
         {
           "name": "products",
           "unit": "product-market rows",
-          "meaning": "Identifiers, price, share, excluded demand instruments and characteristics."
+          "meaning": "Identifiers, price, share, excluded demand instruments and characteristics. Binary ownership is determined by firm_ids; ownership and numbered ownership columns are rejected before estimation."
         },
         {
           "name": "linear",
@@ -30202,7 +30202,7 @@
         {
           "name": "counterfactual",
           "unit": "scenario",
-          "meaning": "Retained products, optional entrants and entry_xi, firm_ids, costs and utility_shifts; use the fitted agents and the same price-utility conditions."
+          "meaning": "Retained products, optional entrants and entry_xi, firm_ids, costs and utility_shifts; entrants also use firm_ids for binary ownership with no ownership-matrix columns. Use the fitted agents and the same price-utility conditions."
         }
       ],
       "parameters": [

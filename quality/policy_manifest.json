@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.52.9",
+  "policy_id": "economics-native-0.52.10",
   "profile": {
     "id": "research-full"
   },
@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "15f407f54ed28b4f4f9c26a904215be9a20cfc37cf52f03e9fc60a3773c39524"
+      "sha256": "cc7363e4de99d1f4930b1261a71a622a26c7848a6ec02f0b7c8769c8938da194"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -271,7 +271,7 @@
     },
     "resource:models-markets": {
       "path": "skills/econ-design/references/market-models.md",
-      "sha256": "be64344fb6bd3f7e4499726c4f4d2c45346e1ddc1bc2dd6a6b0652012b757937"
+      "sha256": "0a41e1480908664da243f01f166f044b9c03bbef8b7d88e89e9f00e8f1e8abec"
     },
     "resource:models-numerics": {
       "path": "skills/econ-design/references/numerical-models.md",
@@ -487,7 +487,7 @@
     },
     "resource:research-markets": {
       "path": "skills/econ-data/scripts/research_markets.py",
-      "sha256": "c6763621d989acd89d1cb71d5c103f6febff3e17750a4479d1bdfa52494de529"
+      "sha256": "6b66a8bcf84d30cd31eb44a4e22369021e3202085a0f665a96c37e1fe77ddd42"
     },
     "resource:research-markets-dependencies": {
       "path": "skills/econ-data/scripts/requirements-markets.txt",

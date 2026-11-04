@@ -210,6 +210,15 @@ def blp(s):
     import pyblp
     pyblp.options.verbose = False
     data = pd.DataFrame(s['products'])
+    cf = s['counterfactual']
+    if cf is not None:
+        _keys(cf, {'keep_product_ids','firm_ids','costs','utility_shifts'}, {'entry_products','entry_xi'})
+    entrants = pd.DataFrame(cf.get('entry_products', []) if cf is not None else [])
+    for name, products in (('products', data), ('entry_products', entrants)):
+        ownership_columns = [c for c in products if isinstance(c, str) and
+                             (c == 'ownership' or (c.startswith('ownership') and c[9:].isdigit()))]
+        if ownership_columns:
+            raise ValueError(f'{name} must use firm_ids for binary ownership; remove columns {ownership_columns}')
     required = {'market_ids','product_ids','firm_ids','prices','shares'}
     if not required <= set(data) or data.duplicated(['market_ids','product_ids']).any():
         raise ValueError('products must identify markets, products, firms, prices and shares')
@@ -292,12 +301,9 @@ def blp(s):
     if s['optimal_instruments']:
         opt = result.compute_optimal_instruments(method='approximate')
         out['optimal_instruments']={'demand':arr(opt.demand_instruments),'supply':arr(opt.supply_instruments)}
-    cf = s['counterfactual']
     if cf is not None:
-        _keys(cf, {'keep_product_ids','firm_ids','costs','utility_shifts'}, {'entry_products','entry_xi'})
         mask = data.product_ids.isin(cf['keep_product_ids']).to_numpy()
         new = data.loc[mask].copy().reset_index(drop=True)
-        entrants = pd.DataFrame(cf.get('entry_products', []))
         entry_xi = np.asarray(cf.get('entry_xi', []), dtype=float)
         if len(entry_xi) != len(entrants) or not np.isfinite(entry_xi).all(): raise ValueError('entry_xi must contain one finite structural utility shock per entrant')
         if len(entrants):
