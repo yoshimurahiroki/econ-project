@@ -125,10 +125,16 @@ def toml_entry(name, server):
 def toml_team(text, settings):
     """Update the selected scalar settings while retaining unrelated TOML text."""
     parsed = tomllib.loads(text)
+    def table(data, section):
+        for part in section.split('.') if section else ():
+            data = data.get(part, {})
+            if not isinstance(data, dict):
+                raise ValueError('Codex ' + section + ' setting must be a table')
+        return data
     if 'agents' in parsed and not isinstance(parsed['agents'], dict):
         raise ValueError('Codex agents setting must be a table')
     lines = text.splitlines(keepends=True)
-    sections = {'': [], 'agents': []}
+    sections = {section: [] for section in settings}
     section = ''
     table_seen = False
     for index, line in enumerate(lines):
@@ -144,9 +150,9 @@ def toml_team(text, settings):
         if section in sections:
             sections[section].append(index)
 
-    insertions = {'': [], 'agents': []}
+    insertions = {section: [] for section in settings}
     for section, values in settings.items():
-        actual = parsed if not section else parsed.get(section, {})
+        actual = table(parsed, section)
         for key, value in values.items():
             matches = []
             for index in sections[section]:
@@ -203,11 +209,11 @@ def toml_team(text, settings):
     original_other = copy.deepcopy(parsed)
     updated_other = copy.deepcopy(updated)
     for section, values in settings.items():
-        actual = updated if not section else updated.get(section, {})
+        actual = table(updated, section)
         if any(actual.get(key) != value for key, value in values.items()):
             raise ValueError('Could not apply Codex team settings')
         for data in (original_other, updated_other):
-            target = data if not section else data.get(section, {})
+            target = table(data, section)
             for key in values:
                 target.pop(key, None)
     if 'agents' not in original_other and updated_other.get('agents') == {}:
@@ -228,17 +234,20 @@ def main():
         modes.add_argument('--' + flag, dest='mode', action='store_const', const=flag)
     parser.set_defaults(mode='diff')
     parser.add_argument('--client', action='append', default=[])
-    parser.add_argument('--codex-team', action='store_true', help='Apply the native Codex team settings and roles')
+    parser.add_argument('--codex-team', '--agent-team', dest='codex_team', action='store_true', help='Apply native agent team settings and roles')
+    parser.add_argument('--openai-preset', action='store_true', help='Apply the explicit Codex OpenAI model preset')
     parser.add_argument('--codex-hooks', action='store_true', help='Install the existing Codex lifecycle hooks')
     parser.add_argument('--scope', choices=('project', 'user'), default='project', help='Configuration destination (user is supported for the Codex team only)')
     args = parser.parse_args()
     # Client paths have one definition shared with deployment/export.
     routes = load_routes(ROOT)
     clients = routes['placements']['configuration']['configuration_clients']
-    if any(client not in clients for client in args.client):
+    if any(client not in clients and not (args.codex_team and client == 'opencode') for client in args.client):
         parser.error('Unknown client; choose from: ' + ', '.join(clients))
-    if args.codex_team and (set(args.client) != {'codex'} or args.mode == 'print'):
-        parser.error('--codex-team requires only --client codex and cannot be combined with --print')
+    if args.codex_team and (len(set(args.client)) != 1 or args.client[0] not in ('codex', 'claude', 'opencode', 'gemini') or args.mode == 'print'):
+        parser.error('--agent-team requires one client: codex, claude, opencode or gemini, and cannot be combined with --print')
+    if args.openai_preset and (not args.codex_team or set(args.client) != {'codex'}):
+        parser.error('--openai-preset requires --agent-team --client codex')
     if args.codex_hooks and (set(args.client) != {'codex'} or args.mode == 'print'):
         parser.error('--codex-hooks requires only --client codex and cannot be combined with --print')
     if args.scope == 'user' and (not (args.codex_team or args.codex_hooks) or set(args.client) != {'codex'}):
@@ -311,6 +320,8 @@ def main():
     change_details = {}
     conflicts = []
     for client in selected:
+        if args.codex_team and client != 'codex':
+            continue
         for spec in clients[client]:
             relative = spec['path']
             if args.scope == 'user':
@@ -346,15 +357,49 @@ def main():
                         raise ValueError('Codex team template is missing')
                     template = tomllib.loads(template_bytes.decode())
                     plan[template_path] = (template_bytes, template_bytes)
-                    root_keys = ('model', 'model_reasoning_effort', 'forced_login_method')
-                    if args.scope == 'user':
-                        root_keys += ('model_provider',)
-                    settings = {
-                        '': {key: template[key] for key in root_keys},
-                        'agents': {key: template['agents'][key] for key in ('enabled', 'max_concurrent_threads_per_session', 'default_subagent_model', 'default_subagent_reasoning_effort')},
-                    }
-                    if any(key in tomllib.loads(result).get('agents', {}) for key in ('max_concurrent_threads_per_session', 'max_threads')):
-                        settings['agents'].pop('max_concurrent_threads_per_session')
+                    configured = tomllib.loads(result)
+                    agents = configured.get('agents', {})
+                    if not isinstance(agents, dict):
+                        raise ValueError('Codex agents setting must be a table')
+                    capacity_keys = [key for key in ('max_concurrent_threads_per_session', 'max_threads') if key in agents]
+                    if len(capacity_keys) > 1:
+                        raise ValueError('Codex agents capacity aliases cannot both be set')
+                    capacity_key = capacity_keys[0] if capacity_keys else 'max_concurrent_threads_per_session'
+                    settings = {'': {}, 'agents': {'enabled': True}}
+                    for key, limit in ((capacity_key, 3), ('max_depth', 2)):
+                        value = agents.get(key, limit)
+                        if type(value) is not int or (key == capacity_key and value < 1) or (key == 'max_depth' and not -(2**31) <= value < 2**31):
+                            raise ValueError('Invalid Codex agents ' + key)
+                        settings['agents'][key] = min(value, limit)
+                    features = configured.get('features', {})
+                    if not isinstance(features, dict):
+                        raise ValueError('Codex features setting must be a table')
+                    v2 = features.get('multi_agent_v2')
+                    capacity_field = 'max_concurrent_threads_per_session'
+                    if isinstance(v2, dict) and capacity_field in v2:
+                        value = v2[capacity_field]
+                        if type(value) is not int or value < 1:
+                            raise ValueError('Invalid Codex V2 session capacity')
+                        if value > 4:
+                            settings['features.multi_agent_v2'] = {capacity_field: 4}
+                    if args.openai_preset:
+                        root_keys = ('model', 'model_reasoning_effort', 'forced_login_method')
+                        if args.scope == 'user':
+                            root_keys += ('model_provider',)
+                        expected = {key: template[key] for key in root_keys}
+                        expected.update({'agents.' + key: template['agents'][key] for key in
+                                         ('default_subagent_model', 'default_subagent_reasoning_effort')})
+                        actual = {key: configured[key] for key in root_keys if key in configured}
+                        actual.update({'agents.' + key: agents[key] for key in
+                                       ('default_subagent_model', 'default_subagent_reasoning_effort') if key in agents})
+                        merged, ownership = merge(actual, expected, state.get(relative + '#openai-preset'))
+                        if merged != expected:
+                            conflicts.append(relative + '#openai-preset')
+                        next_state[relative + '#openai-preset'] = ownership
+                        for key in expected:
+                            if key in merged and (key not in actual or merged[key] != actual[key]):
+                                section, field = ('agents', key[7:]) if key.startswith('agents.') else ('', key)
+                                settings[section][field] = merged[key]
                     result = toml_team(result, settings)
                 tomllib.loads(result)
                 after = result.encode()
@@ -385,17 +430,36 @@ def main():
                 after = encode(data) if before is None or json.loads(before) != data else before
             plan[path] = (before, after)
     if args.codex_team:
-        for role in ('terra', 'luna', 'astra'):
-            relative = f'{"agents" if args.scope == "user" else ".codex/agents"}/{role}.toml'
-            path = target_root / relative
-            before = read(path)
+        client = selected[0]
+        roles = ('lead', 'implementer', 'retriever', 'specialist')
+        if client == 'codex':
+            roles += ('terra', 'luna', 'astra')
+        for role in roles:
             source = ROOT / 'references/repository-policy/.codex/agents' / (role + '.toml')
             source_bytes = read(source)
             if source_bytes is None:
-                raise ValueError('Codex team role template is missing: ' + role)
+                raise ValueError('Team role template is missing: ' + role)
+            source_role = tomllib.loads(source_bytes.decode())
+            if source_role.get('name') != role or not all(isinstance(source_role.get(key), str) for key in ('description', 'developer_instructions')):
+                raise ValueError('Invalid team role template: ' + role)
             plan[source] = (source_bytes, source_bytes)
-            expected = {'content': source_bytes.decode()}
-            tomllib.loads(expected['content'])
+            if client == 'codex':
+                relative = f'{"agents" if args.scope == "user" else ".codex/agents"}/{role}.toml'
+                content = source_bytes.decode()
+            else:
+                relative = f'.{client}/agents/{role}.md'
+                fields = ['---']
+                if client in ('claude', 'gemini'):
+                    fields.append('name: ' + json.dumps(source_role['name']))
+                fields.append('description: ' + json.dumps(source_role['description']))
+                if client == 'claude':
+                    fields.extend(['model: inherit', 'color: blue'])
+                elif client == 'opencode':
+                    fields.append('mode: subagent')
+                content = '\n'.join(fields + ['---', '', source_role['developer_instructions'], ''])
+            path = target_root / relative
+            before = read(path)
+            expected = {'content': content}
             actual = {'content': before.decode()} if before is not None else {}
             merged, ownership = merge(actual, expected, state.get(relative))
             if merged != expected:
@@ -470,7 +534,7 @@ def main():
         return int(bool(differences))
     if args.mode == 'write':
         apply(plan)
-        print('Applied selected Codex team configuration.' if args.codex_team else 'Applied selected MCP configuration.')
+        print('Applied selected agent team configuration.' if args.codex_team else 'Applied selected MCP configuration.')
     return 0
 
 if __name__ == '__main__':

@@ -20,7 +20,7 @@ Use actual work, received feedback and the finished result to explain a requeste
 
 ## Manage the case
 
-Derive the intervention from the case's economic objective and mechanism. Link each necessary proposition to its evidence, executable work, responsible actor, available information and downstream use. Choose the next task by its effect on the final judgment or feasible action relative to its resource and delay cost under DECIDE. Assign coupled judgments to Sol and bounded implementation or fixed extraction through TEAM.
+Derive the intervention from the case's economic objective and mechanism. Link each necessary proposition to its evidence, executable work, responsible actor, available information and downstream use. Choose the next task by its effect on the final judgment or feasible action relative to its resource and delay cost under DECIDE. Assign coupled judgments to the lead and bounded implementation or fixed extraction through TEAM.
 
 For a new case, establish the purpose, success criterion, decision right, fixed constraints and requested outputs from the actual sources. For an inherited case, preserve adopted decisions and existing calculations. Use the argument graph to state the current answer and its inference. Bind the work to that graph in the existing state; retain externally approved commitments at their actual source.
 

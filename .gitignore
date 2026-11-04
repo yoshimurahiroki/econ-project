@@ -116,6 +116,10 @@ tmp/
 /.codex/*
 !/.codex/agents/
 /.codex/agents/*
+!/.codex/agents/lead.toml
+!/.codex/agents/implementer.toml
+!/.codex/agents/retriever.toml
+!/.codex/agents/specialist.toml
 !/.codex/agents/terra.toml
 !/.codex/agents/luna.toml
 !/.codex/agents/astra.toml
@@ -123,12 +127,17 @@ tmp/
 references/repository-policy/.codex/*
 !references/repository-policy/.codex/agents/
 references/repository-policy/.codex/agents/*
+!references/repository-policy/.codex/agents/lead.toml
+!references/repository-policy/.codex/agents/implementer.toml
+!references/repository-policy/.codex/agents/retriever.toml
+!references/repository-policy/.codex/agents/specialist.toml
 !references/repository-policy/.codex/agents/terra.toml
 !references/repository-policy/.codex/agents/luna.toml
 !references/repository-policy/.codex/agents/astra.toml
 .claude/
 .cursor/
 .gemini/
+.opencode/
 .windsurf/
 .resources/
 

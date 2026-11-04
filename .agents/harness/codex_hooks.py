@@ -1581,10 +1581,14 @@ def _spawn_assignment(event, agent_id=None):
             or not isinstance(inputs, dict) or not isinstance(response, dict)
             or _tool_failed({'tool_response': response})):
         return None
-    identity = response.get('agent_id')
+    identities = [response[key] for key in ('agent_id', 'task_name') if key in response]
+    if (not identities or any(not isinstance(value, str) or not value.strip()
+                              or value.strip() != value for value in identities)
+            or len(set(identities)) != 1):
+        return None
+    identity = identities[0]
     messages = [inputs[key] for key in ('message', 'prompt') if key in inputs]
-    if (not isinstance(identity, str) or not identity.strip() or identity.strip() != identity
-            or agent_id is not None and identity != agent_id or not messages
+    if (agent_id is not None and identity != agent_id or not messages
             or any(not isinstance(value, str) or not value.strip() for value in messages)
             or len(set(messages)) != 1):
         return None

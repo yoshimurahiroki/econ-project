@@ -7,7 +7,7 @@ description: Complete a project contribution or manage a project from its econom
 
 ## Purpose and entry
 
-Use [CORE](../../runtime/CORE.md), [PROSE](../../runtime/PROSE.md) and [TEAM](../../runtime/TEAM.md). Read the complete selected operation contract and activated rule bodies from the [operation index](../../docs/ai/compiled_ai_skills.md). Sol owns the central question, economic model, action selection, integration and completed result.
+Use [CORE](../../runtime/CORE.md), [PROSE](../../runtime/PROSE.md) and [TEAM](../../runtime/TEAM.md). Read the complete selected operation contract and activated rule bodies from the [operation index](../../docs/ai/compiled_ai_skills.md). The lead owns the central question, economic model, action selection, integration and completed result.
 
 Input: the user's role and requested work, current case sources, adopted decisions and model, authority, existing results and requested artifacts. Recover their current versions before acting. Use the [case connection](references/practice.md#connect-the-current-case) for an actual project operation and select the applicable section below.
 
@@ -40,7 +40,7 @@ Read the section that resolves the actual pending operation; its returned result
 
 Use econ-knowledge for the model needed by the current decision and its true prerequisites. Team incentives and ownership, information acquisition, shared capacity, competition and dynamic adoption each supply a model when that mechanism determines the result. Apply its actual equations, choice conditions and required observations through the responsible specialist.
 
-Complete CORE's integrated review and verification of the affected behavior. A contribution completes its assignment; Sol continues the case through its original requested artifacts and authorized operations.
+Complete CORE's integrated review and verification of the affected behavior. A contribution completes its assignment; the lead continues the case through its original requested artifacts and authorized operations.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

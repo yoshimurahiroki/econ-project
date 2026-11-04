@@ -812,6 +812,10 @@
       "when": "requested_distribution_configuration_or_installation",
       "required_rules": [
         "integration.all",
+        "policy-codex-agent-lead.all",
+        "policy-codex-agent-implementer.all",
+        "policy-codex-agent-retriever.all",
+        "policy-codex-agent-specialist.all",
         "policy-codex-agent-terra.all",
         "policy-codex-agent-luna.all",
         "policy-codex-agent-astra.all",

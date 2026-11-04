@@ -5,7 +5,7 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.48.0"
+      "content_version": "0.50.0"
     },
     "prose": {
       "resource_id": "prose",
@@ -17,7 +17,7 @@
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.48.0"
+      "content_version": "0.50.0"
     },
     "execution": {
       "resource_id": "execution",
@@ -29,13 +29,13 @@
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "0.48.0"
+      "content_version": "0.50.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
       "source_path": "skills/econ-design/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.41.0"
+      "content_version": "0.50.0"
     },
     "econ-data": {
       "resource_id": "econ-data",
@@ -131,7 +131,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.49.0",
+      "content_version": "0.50.0",
       "sync": false
     },
     "resource-guide": {
@@ -276,7 +276,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.49.0"
+      "content_version": "0.50.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -295,19 +295,19 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.46.0"
+      "content_version": "0.50.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.49.0"
+      "content_version": "0.50.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
       "source_path": "registry/placements.json",
       "resource_kind": "registry",
-      "content_version": "0.31.0"
+      "content_version": "0.50.0"
     },
     "prose-check-guide": {
       "resource_id": "prose-check-guide",
@@ -358,7 +358,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.49.0"
+      "content_version": "0.50.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -371,7 +371,7 @@
       "resource_id": "codex-hooks",
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.49.0",
+      "content_version": "0.50.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -380,8 +380,18 @@
       "resource_id": "tool-setup-ide-mcp-sh",
       "source_path": "scripts/setup_ide_mcp.sh",
       "resource_kind": "support",
-      "content_version": "0.15.0",
-      "source_distribution_only": true
+      "content_version": "0.50.0",
+      "source_distribution_only": true,
+      "required_resources": [
+        "config-template-codex-example-toml",
+        "policy-codex-agent-lead",
+        "policy-codex-agent-implementer",
+        "policy-codex-agent-retriever",
+        "policy-codex-agent-specialist",
+        "policy-codex-agent-terra",
+        "policy-codex-agent-luna",
+        "policy-codex-agent-astra"
+      ]
     },
     "tool-setup-extensions-sh": {
       "resource_id": "tool-setup-extensions-sh",
@@ -397,7 +407,7 @@
       "resource_id": "config-template-readme-md",
       "source_path": "docs/ai/config-templates/README.md",
       "resource_kind": "rule",
-      "content_version": "0.49.0"
+      "content_version": "0.50.0"
     },
     "config-template-claude-mcp-example-json": {
       "resource_id": "config-template-claude-mcp-example-json",
@@ -409,7 +419,7 @@
       "resource_id": "config-template-codex-example-toml",
       "source_path": "docs/ai/config-templates/codex.example.toml",
       "resource_kind": "support",
-      "content_version": "0.13.0"
+      "content_version": "0.50.0"
     },
     "config-template-mcp-example-json": {
       "resource_id": "config-template-mcp-example-json",
@@ -537,19 +547,19 @@
       "resource_id": "policy-codex-agent-terra",
       "source_path": "references/repository-policy/.codex/agents/terra.toml",
       "resource_kind": "support",
-      "content_version": "0.31.0"
+      "content_version": "0.50.0"
     },
     "policy-codex-agent-luna": {
       "resource_id": "policy-codex-agent-luna",
       "source_path": "references/repository-policy/.codex/agents/luna.toml",
       "resource_kind": "support",
-      "content_version": "0.31.0"
+      "content_version": "0.50.0"
     },
     "policy-codex-agent-astra": {
       "resource_id": "policy-codex-agent-astra",
       "source_path": "references/repository-policy/.codex/agents/astra.toml",
       "resource_kind": "support",
-      "content_version": "0.31.0"
+      "content_version": "0.50.0"
     },
     "hook-wrapper": {
       "resource_id": "hook-wrapper",
@@ -577,7 +587,7 @@
       "resource_id": "research-execution",
       "source_path": "harness/research.md",
       "resource_kind": "rule",
-      "content_version": "0.48.1",
+      "content_version": "0.50.0",
       "required_resources": [
         "research-runner",
         "research-estimator",
@@ -964,7 +974,7 @@
       "resource_id": "econ-knowledge",
       "source_path": "skills/econ-knowledge/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.48.1"
+      "content_version": "0.50.0"
     },
     "knowledge-retrieval": {
       "resource_id": "knowledge-retrieval",
@@ -1344,13 +1354,13 @@
         "knowledge-retrieval",
         "research-evidence"
       ],
-      "content_version": "0.47.0"
+      "content_version": "0.50.0"
     },
     "project-practice": {
       "resource_id": "project-practice",
       "source_path": "skills/project-work/references/practice.md",
       "resource_kind": "rule",
-      "content_version": "0.47.0"
+      "content_version": "0.50.0"
     },
     "vscode-extension-recommendations": {
       "resource_id": "vscode-extension-recommendations",
@@ -1358,6 +1368,30 @@
       "resource_kind": "support",
       "content_version": "0.49.0",
       "source_distribution_only": true
+    },
+    "policy-codex-agent-lead": {
+      "resource_id": "policy-codex-agent-lead",
+      "source_path": "references/repository-policy/.codex/agents/lead.toml",
+      "resource_kind": "support",
+      "content_version": "0.50.0"
+    },
+    "policy-codex-agent-implementer": {
+      "resource_id": "policy-codex-agent-implementer",
+      "source_path": "references/repository-policy/.codex/agents/implementer.toml",
+      "resource_kind": "support",
+      "content_version": "0.50.0"
+    },
+    "policy-codex-agent-retriever": {
+      "resource_id": "policy-codex-agent-retriever",
+      "source_path": "references/repository-policy/.codex/agents/retriever.toml",
+      "resource_kind": "support",
+      "content_version": "0.50.0"
+    },
+    "policy-codex-agent-specialist": {
+      "resource_id": "policy-codex-agent-specialist",
+      "source_path": "references/repository-policy/.codex/agents/specialist.toml",
+      "resource_kind": "support",
+      "content_version": "0.50.0"
     }
   },
   "sections": {
@@ -2718,6 +2752,26 @@
       "outcomes-and-handover": {
         "heading": "Outcomes and handover"
       },
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-codex-agent-lead": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-codex-agent-implementer": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-codex-agent-retriever": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "policy-codex-agent-specialist": {
       "all": {
         "whole_resource": true
       }
@@ -5896,6 +5950,38 @@
       "rule_id": "state-contract.project-work",
       "resource_id": "state-contract",
       "section_id": "project-work",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-codex-agent-lead.all": {
+      "rule_id": "policy-codex-agent-lead.all",
+      "resource_id": "policy-codex-agent-lead",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-codex-agent-implementer.all": {
+      "rule_id": "policy-codex-agent-implementer.all",
+      "resource_id": "policy-codex-agent-implementer",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-codex-agent-retriever.all": {
+      "rule_id": "policy-codex-agent-retriever.all",
+      "resource_id": "policy-codex-agent-retriever",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "policy-codex-agent-specialist.all": {
+      "rule_id": "policy-codex-agent-specialist.all",
+      "resource_id": "policy-codex-agent-specialist",
+      "section_id": "all",
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []

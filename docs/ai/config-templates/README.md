@@ -20,21 +20,43 @@ Keep standard automatic compaction and stable instruction/tool ordering. The ins
 
 The existing guarded GitHub branch-update and plugin-update connectors use their registered call schemas and exact object targets. An ordinary task must bind the corresponding required action, external target, authority and applicable holds in its existing state. A formal task retains its current output-owner release check. Unknown connector calls and opaque wrapper code remain unresolved; the native execution and destination owners retain their own authorization checks.
 
-## Native Sol, Terra, Luna and Astra
+<a id="native-sol-terra-luna-and-astra"></a>
 
-The public Codex template selects the native OpenAI provider, ChatGPT login and primary `gpt-6.1-sol` with `xhigh`. The three standalone child templates select Terra for bounded implementation, Luna for routine batches and Astra for the consequential exceptionally hard core remaining after Sol's substantive failed attempts. [TEAM](../../../runtime/TEAM.md#native-model-roles) owns their assignments and Sol's final authority.
+## Native roles and model selection
 
-Preview, apply and check the team configuration from this repository:
+[TEAM](../../../runtime/TEAM.md#native-model-roles) owns lead, implementer, retriever and specialist authority, delegation, direct-parent returns and the specialist's actual-attempt escalation condition. These roles are independent of model and provider. Their four native templates refer to the same complete governing bodies; host adapters do not redefine those contracts. Defaults inherit the host's available model and effort. Explicitly edit a role's native model setting to select another supported model; the generator preserves user-edited files and reports a conflict instead of replacing that choice.
+
+Preview, apply and check the existing native configuration workflow:
 
 ```sh
-bash scripts/setup_ide_mcp.sh --codex-team --client codex
-bash scripts/setup_ide_mcp.sh --codex-team --client codex --write
-bash scripts/setup_ide_mcp.sh --codex-team --client codex --check
+bash scripts/setup_ide_mcp.sh --agent-team --client codex
+bash scripts/setup_ide_mcp.sh --agent-team --client codex --write
+bash scripts/setup_ide_mcp.sh --agent-team --client codex --check
 ```
 
-This explicit option sets `.codex/config.toml`'s model, effort and login fields and the supported `[agents]` defaults, then installs `.codex/agents/{terra,luna,astra}.toml`. Project setup omits `model_provider`: Codex 0.159.2 reads that setting at user scope. An existing project provider assignment is preserved. An existing concurrency setting, including the legacy `max_threads` alias, is retained; the template supplies three child slots when neither setting is present. The existing atomic plan and generated-content ownership protect unrelated configuration and edited role files. Team setup preserves existing MCP declarations and their ownership; ordinary MCP generation uses the commands in the next section. A custom role conflict prevents application and identifies its path. The native role files inherit the parent's permissions, provider and MCP configuration.
+`--codex-team` remains a compatibility spelling. Ordinary team setup preserves primary model, provider, login, effort and explicit subagent defaults. It installs `.codex/agents/{lead,implementer,retriever,specialist}.toml` with no model or effort override, and retains the legacy Terra/Luna/Astra native files as explicit OpenAI model presets. Their old names map to TEAM's implementer/retriever/specialist roles without additional authority. The existing Codex example retains the OpenAI primary and subagent settings for explicit `--openai-preset` use:
 
-Export the registered native configuration together with the requested operation:
+```sh
+bash scripts/setup_ide_mcp.sh --agent-team --client codex --openai-preset --write
+```
+
+That selected preset uses the existing native OpenAI model choices and `xhigh`. Project setup preserves the project provider assignment because the inspected Codex client reads `model_provider` at user scope; user-scope preset setup includes that provider. A conflicting user-owned preset value refuses the whole application before writes; use ordinary inherited setup to retain that configuration. Generic setup never starts login or API operations. Codex applies a role's model after a per-call model argument; use a generic inherited role or its explicit native override when choosing a different provider/model, rather than a conflicting model-fixed legacy role.
+
+The root agent settings enable native delegation, bound V1 depth to two edges and share three child slots across the whole session. Existing tighter depth and concurrency settings remain tighter; larger settings are reduced to these adopted bounds. The legacy `max_threads` spelling is retained. At upstream revision `3a2788e6fc897fc4dd40185225167af9a9f13754`, V1 enforces `agents.max_depth`; V2 ignores it. Both share the session registry across descendants. V2 translates `agents.max_concurrent_threads_per_session = 3` to an internal root-inclusive budget of four; its dedicated `features.multi_agent_v2.max_concurrent_threads_per_session` has separate precedence. When present, the generator reduces a larger dedicated root-inclusive budget to four and preserves tighter values; unsupported edited TOML layouts are refused before writes. Keep existing host constraints and TEAM's whole-hierarchy budget, including a bridge worker, instead of assigning a new three-slot pool to each parent. Native role projection does not apply role-local provider, depth or concurrency fields.
+
+Codex CLI and IDE use `CODEX_HOME`, otherwise `~/.codex`, for user configuration. Trusted project configuration layers the repository's settings over that setup. The existing generator supports user installation through `--scope user`; its generated-content ownership, conflict checks, atomic writes and rollback apply at the selected scope. Existing MCP declarations and unrelated model/permission settings retain their ownership.
+
+Claude Code, OpenCode and Gemini CLI native adapters use the same four generic source templates through the existing generator:
+
+```sh
+bash scripts/setup_ide_mcp.sh --agent-team --client claude --write
+bash scripts/setup_ide_mcp.sh --agent-team --client opencode --write
+bash scripts/setup_ide_mcp.sh --agent-team --client gemini --write
+```
+
+Claude files are `.claude/agents/*.md` with native `name`, `description` and `model: inherit`; tool settings are omitted to retain host tools. OpenCode files are `.opencode/agents/*.md` with `mode: subagent`, native descriptions and no model override. Use each host's supported per-role model field for an explicit selection. These operations generate native adapters only, leaving MCP configurations unchanged. Gemini files are `.gemini/agents/*.md` with native names and descriptions and no model or tool override. Its documented recursion protection prevents subagents from invoking other subagents, so they return that dependency to the parent lead for reassignment. Use the same fallback on any host that cannot nest its children. Other hosts retain TEAM and their actual documented delegation/model controls; no independent runtime is installed.
+
+Export the registered native Codex templates with the existing distribution condition:
 
 ```sh
 python scripts/export_project.py --task econ-data \
@@ -45,25 +67,9 @@ python scripts/export_project.py --task econ-data \
   --format deployed --output /tmp/native-team-deployed-new
 ```
 
-The flat package contains `CODEX_AGENT_terra.toml`, `CODEX_AGENT_luna.toml`, `CODEX_AGENT_astra.toml` and `CONFIG_codex.example.toml`. The deployed package places the child definitions in `.codex/agents/` and keeps the primary template at `docs/ai/config-templates/codex.example.toml`. Their TOML bytes and source/output hashes are preserved. Apply the primary template through the configuration workflow above. A bounded operation export carries TEAM's role authority; select the configuration condition when the package must also contain the configuration files.
+Flat output carries `CODEX_AGENT_{lead,implementer,retriever,specialist,terra,luna,astra}.toml` and `CONFIG_codex.example.toml`. Deployed output maps those native templates to `.codex/agents/`. The complete source distribution supplies the configuration generator; `--layout installed` consumes the same registered deployment mappings. Every child inherits its parent's permissions, provider and source access; an explicit role choice never expands that authority.
 
-An installed source tree supplies the three complete registries under `.agents/registry/` and every selected deployment path. From that tree, add `--layout installed` to either export command. A bounded deployed operation package supplies its selected resources; installation of the complete registry-backed source remains the existing deployment workflow.
-
-Codex CLI and its IDE extension read user configuration and user agents from `CODEX_HOME` when set, otherwise from `~/.codex`. Trusted project configuration layers the repository's `.codex/config.toml` and `.codex/agents/` over that user setup. Preview, apply and check a user-wide installation with the same conflict and concurrent-edit protections:
-
-```sh
-bash scripts/setup_ide_mcp.sh --codex-team --client codex --scope user
-bash scripts/setup_ide_mcp.sh --codex-team --client codex --scope user --write
-bash scripts/setup_ide_mcp.sh --codex-team --client codex --scope user --check
-```
-
-`--scope project` is the default. User scope requires `--codex-team --client codex`; it writes the selected Codex home's `config.toml`, including the template's `model_provider = "openai"`, along with `agents/` and `.agents/state/mcp-generated.json` ownership metadata. Each scope keeps its own role ownership history. Existing edited or user-owned role files are preserved and reported as conflicts before any write.
-
-Native configuration follows the installed client's schema and actual model catalog. Run `codex --version` and `codex login status`; the selected authentication result is `Logged in using ChatGPT`. Start the primary with `codex --model gpt-6.1-sol -c model_reasoning_effort='"xhigh"'` when applying the same choices to one session. The [official agent documentation](https://learn.chatgpt.com/docs/agent-configuration/subagents) and [configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference) define native loading and supported fields.
-
-ChatGPT Work uses its hosted child-launch schema. Supply the explicit model and `xhigh` through that schema; use a fresh-context launch when the host requires it for model overrides, and provide the original fixed contract and applicable rule references. Work's composer selects its primary session model. For a fixed primary with supported child overrides, launch a Sol manager and keep the primary on transport and authorized publication. Local TOML configures local Codex clients. Ordinary ChatGPT Chat uses its own model choices and accounting. The API is a separately billed route; this workflow executes through native Work or ChatGPT-authenticated Codex.
-
-Report requested model and effort separately from the host's observed fields. A host that returns only the child identity establishes the accepted launch and its identity. Native `account/usage/read` groups thread model, effort and returned token or credit observations; `account/rateLimits/read` supplies the separate allowance state. Use those actual fields when the installed host exposes them, and retain absent values through TEAM's accounting contract.
+ChatGPT Work uses its exposed native schema: fresh `fork_turns="none"` with the necessary brief, and omitted model/effort fields for inheritance or supported explicit overrides when selected. The inspected CLI V1 spells fresh context `fork_context=false`; CLI V2 uses `fork_turns="none"`. Local TOML does not configure Work. A fixed primary can retain one lead bridge for substantive work while it handles transport; count that bridge among the shared worker slots.
 
 ## Preview and selected application
 

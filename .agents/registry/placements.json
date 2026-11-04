@@ -915,6 +915,26 @@
       "resource_id": "vscode-extension-recommendations",
       "deployment_path": ".vscode/extensions.json",
       "export_alias": "VSCODE_extensions.json"
+    },
+    "policy-codex-agent-lead": {
+      "resource_id": "policy-codex-agent-lead",
+      "deployment_path": ".codex/agents/lead.toml",
+      "export_alias": "CODEX_AGENT_lead.toml"
+    },
+    "policy-codex-agent-implementer": {
+      "resource_id": "policy-codex-agent-implementer",
+      "deployment_path": ".codex/agents/implementer.toml",
+      "export_alias": "CODEX_AGENT_implementer.toml"
+    },
+    "policy-codex-agent-retriever": {
+      "resource_id": "policy-codex-agent-retriever",
+      "deployment_path": ".codex/agents/retriever.toml",
+      "export_alias": "CODEX_AGENT_retriever.toml"
+    },
+    "policy-codex-agent-specialist": {
+      "resource_id": "policy-codex-agent-specialist",
+      "deployment_path": ".codex/agents/specialist.toml",
+      "export_alias": "CODEX_AGENT_specialist.toml"
     }
   },
   "source": {

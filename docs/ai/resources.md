@@ -185,3 +185,7 @@ Generated from the resource and placement registries. Use this catalog only for 
 - project-work: skills/project-work/SKILL.md
 - project-practice: skills/project-work/references/practice.md
 - vscode-extension-recommendations: .vscode/extensions.json (complete source distribution only)
+- policy-codex-agent-lead: references/repository-policy/.codex/agents/lead.toml
+- policy-codex-agent-implementer: references/repository-policy/.codex/agents/implementer.toml
+- policy-codex-agent-retriever: references/repository-policy/.codex/agents/retriever.toml
+- policy-codex-agent-specialist: references/repository-policy/.codex/agents/specialist.toml
