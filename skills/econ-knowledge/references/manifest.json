@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "1c13927e1c84ce76160d8df9c360e840b228bc1992a0967fc991ee6520f9825f",
+  "catalog_sha256": "084864fca56c493a6db9882f1ef3c23a972741d073f617645c5e2e40ec3b08ee",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -16,7 +16,7 @@
     "chapters/13-time-series.md": "f668b700e013d6ad79ff62e97b2363ae4b8c4ba8ff141334355a8fac32ae8e3f",
     "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
     "chapters/15-demand-production.md": "00f228c6b40ee6298c6c1b5f2efa6b4bf0d2a220135fc6aa1a7a904b553739b9",
-    "chapters/16-competition-platforms.md": "c6bdc084ea9044013558cce41f503d21b30f29141bff009edc1c548bf2cc9417",
+    "chapters/16-competition-platforms.md": "938907d8ef24188f3459e721be262bc45274bea172e1c4e0492e341a33166fcf",
     "chapters/17-growth-macro.md": "6a3b3108373af6d0e17fe2816b08d728ef7c89a618db48525bf23628c7ff0371",
     "chapters/18-monetary-open-macro.md": "512bcd529afe54959759db93a3764a00dccdaa7fa27c3ad43e3f7e10575c1f39",
     "chapters/19-heterogeneous-macro.md": "03ebe7991546b79e6f8c891df67249fb07806ec50e0485ec241208053cc9ae99",
@@ -1039,7 +1039,7 @@
       "chapter": "chapters/16-competition-platforms.md",
       "domain": "産業組織",
       "path": "units/IO-03.md",
-      "sha256": "42e9114dd9043986617dae62e34621e784e550a2e3bbf47c0566c7ae986a1c28"
+      "sha256": "a4eb40bcfc0dff94f59dd519a089815d669b0e6ac3fb0551b1aea23766979f23"
     },
     "IO-04": {
       "chapter": "chapters/16-competition-platforms.md",
