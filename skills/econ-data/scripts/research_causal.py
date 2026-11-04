@@ -127,6 +127,7 @@ def run(spec, spec_path):
     if len(set(roles)) != len(roles) or 'const' in roles: raise ValueError('model column roles must be distinct; const is reserved')
     p = Path(spec['data']); p = (p if p.is_absolute() else spec_path.parent / p).resolve()
     df = pd.read_csv(p, dtype={spec['id']:'string'})
+    input_rows = len(df)
     if not set(columns) <= set(df.columns): raise ValueError(f'missing columns: {sorted(set(columns)-set(df.columns))}')
     if df[spec['id']].isna().any() or df[spec['id']].str.strip().eq('').any() or df[spec['id']].duplicated().any():
         raise ValueError('IDs must be nonmissing and unique')
@@ -217,7 +218,16 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
         if excluded or d.duplicated([entity,time]).any() or d.groupby(entity)[cohort].nunique().max()!=1: raise ValueError('DID needs complete unique entity-time observations and fixed cohort')
         grid=np.sort(d[time].unique()); groups=d[cohort].unique(); n_entities=d[entity].nunique()
         if len(grid)<4 or not np.equal(grid,np.floor(grid)).all() or not np.equal(groups,np.floor(groups)).all() or not np.all(np.diff(grid)==1) or len(d)!=n_entities*len(grid) or not (d.groupby(entity)[time].nunique()==len(grid)).all(): raise ValueError('DID needs a balanced consecutive integer-time panel')
-        if 0 not in groups or not np.any(groups>0) or any(g not in grid[1:] for g in groups if g!=0): raise ValueError('DID needs never-treated controls and valid post-baseline treatment cohorts')
+        if not np.any(groups>0) or any(g not in grid[1:] for g in groups if g!=0): raise ValueError('DID needs valid post-baseline treatment cohorts')
+        if control == 'nevertreated' and 0 not in groups:
+            raise ValueError('nevertreated DID requires a never-treated cohort coded zero')
+        if 0 not in groups:
+            if len(groups)<2:
+                raise ValueError('notyettreated DID requires at least two treatment cohorts when no never-treated cohort exists')
+            # No untreated comparison remains from the last adoption period onward.
+            comparison_window = d[time] < max(groups)
+            outside = d.loc[~comparison_window,spec['id']].astype(str).tolist()
+            d = d.loc[comparison_window].copy()
         if not os.environ.get('R_LIBS_USER'): raise ValueError('set R_LIBS_USER to the installed did library')
         rcode="""
 args <- commandArgs(trailingOnly=TRUE)
@@ -242,7 +252,7 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
         if not np.allclose(se.to_numpy(),np.atleast_1d(values['engine_se']),rtol=1e-7,atol=1e-9) or not np.allclose(np.sqrt(np.diag(np.atleast_2d(values['group_cov']))),np.atleast_1d(values['group_se']),rtol=1e-7,atol=1e-9): raise ArithmeticError('DID influence-function covariance does not match engine standard errors')
         pv=pd.Series(2*norm.sf(np.abs(coef/se)),index=names); ci=pd.DataFrame({0:coef-norm.ppf(.975)*se,1:coef+norm.ppf(.975)*se}); reference='normal'; engine='R did::att_gt + did::aggte'
         fit_n=n_entities
-        diagnostics={'control_group':control,'score':'doubly robust','aggregation':'dynamic event time','group_time':{'group':values['groups'],'time':values['times'],'att':values['att'],'standard_errors':values['group_se'],'covariance':values['group_cov']},'units':int(values['n']),'bootstrap':False,'anticipation':0}
+        diagnostics={'control_group':control,'score':'doubly robust','aggregation':'dynamic event time over available cohorts at each event time','base_period':'varying','group_time':{'group':values['groups'],'time':values['times'],'att':values['att'],'standard_errors':values['group_se'],'covariance':values['group_cov']},'units':int(values['n']),'bootstrap':False,'anticipation':0}
     elif method == 'synthetic_control':
         from importlib.metadata import version
         from pysyncon import Synth
@@ -493,7 +503,7 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
     stats.update({f'confidence_95_upper.{k}':{'value':float(ci.loc[k].iloc[1]),'unit':units[k]} for k in names})
     fit_n=len(d) if fit_n is None else fit_n
     stats['observations']={'value':int(fit_n),'unit':'fitted observations'}
-    return {'method':method,'engine':engine,'versions':versions,'options':opt,'adopted':{k:spec[k] for k in ('population','period','unit','estimand','identification','assignment','inference')},'sample':{'id_column':spec['id'],'included_ids':d[spec['id']].astype(str).tolist(),'excluded_incomplete_ids':excluded,'excluded_outside_window_ids':outside,'training_ids':training,'excluded_initial_lag_ids':initial_lags,'input_rows':int(len(d)),'observations':int(fit_n)},'coefficients':dict(zip(names,vals)),'standard_errors':dict(zip(names,std)),'covariance_kind':'upper bound on scalar variance' if method=='causal_forest' else 'estimator covariance','covariance':{a:{b:float(cov.loc[a,b]) for b in names} for a in names},'inference':{'reference':reference,'p_values':{k:float(pv.loc[k]) for k in names},'confidence_intervals_95':{k:[float(x) for x in ci.loc[k]] for k in names}},'diagnostics':diagnostics,'statistics':stats,'provenance':{'data_path':str(p),'data_sha256':_hash(p),'spec_path':str(spec_path.resolve()),'spec_sha256':_hash(spec_path)}}
+    return {'method':method,'engine':engine,'versions':versions,'options':opt,'adopted':{k:spec[k] for k in ('population','period','unit','estimand','identification','assignment','inference')},'sample':{'id_column':spec['id'],'included_ids':d[spec['id']].astype(str).tolist(),'excluded_incomplete_ids':excluded,'excluded_outside_window_ids':outside,'training_ids':training,'excluded_initial_lag_ids':initial_lags,'input_rows':int(input_rows),'observations':int(fit_n)},'coefficients':dict(zip(names,vals)),'standard_errors':dict(zip(names,std)),'covariance_kind':'upper bound on scalar variance' if method=='causal_forest' else 'estimator covariance','covariance':{a:{b:float(cov.loc[a,b]) for b in names} for a in names},'inference':{'reference':reference,'p_values':{k:float(pv.loc[k]) for k in names},'confidence_intervals_95':{k:[float(x) for x in ci.loc[k]] for k in names}},'diagnostics':diagnostics,'statistics':stats,'provenance':{'data_path':str(p),'data_sha256':_hash(p),'spec_path':str(spec_path.resolve()),'spec_sha256':_hash(spec_path)}}
 
 
 def case(output):

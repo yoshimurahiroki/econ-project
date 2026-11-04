@@ -9,7 +9,11 @@
         "C-CAUSAL-01",
         "C-CH-11",
         "C-TERM-PROPENSITY-SCORE",
-        "C-TERM-PROPENSITY-SCORE-MATCHING"
+        "C-TERM-PROPENSITY-SCORE-MATCHING",
+        "C-TERM-CAUSAL-DAG",
+        "C-METHOD-BACKDOOR",
+        "C-METHOD-FRONTDOOR",
+        "C-MODEL-SCM"
       ],
       "contract_ids": [],
       "domain": "因果デザイン",
@@ -19,7 +23,9 @@
         "処置",
         "結果",
         "処置前共変量",
-        "対象集団"
+        "対象集団",
+        "因果グラフ",
+        "観測媒介変数と条件付き分布"
       ],
       "jel_codes": [
         "C21",
@@ -30,7 +36,9 @@
         "ATE",
         "ATT",
         "調整後平均",
-        "対応規則と対象集団"
+        "対応規則と対象集団",
+        "backdoor調整式",
+        "frontdoor識別式"
       ],
       "prerequisites": [
         "STAT-01"
@@ -39,7 +47,7 @@
       "subdomain": "潜在結果",
       "title": "潜在結果と調整",
       "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング",
-      "use_when": "潜在結果と条件付き交換可能性からATE・ATTの対象と比較を定め、マッチングと調整方法を選ぶ"
+      "use_when": "潜在結果と因果グラフからATE・ATTを定義し、マッチング・調整集合・媒介経路の条件で介入効果を識別する"
     },
     {
       "alternatives": [],

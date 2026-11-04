@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.5",
+  "version": "2.3.6",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -3247,18 +3247,22 @@
       "subdomain": "潜在結果",
       "kind": "knowledge",
       "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング",
-      "use_when": "潜在結果と条件付き交換可能性からATE・ATTの対象と比較を定め、マッチングと調整方法を選ぶ",
+      "use_when": "潜在結果と因果グラフからATE・ATTを定義し、マッチング・調整集合・媒介経路の条件で介入効果を識別する",
       "inputs": [
         "処置",
         "結果",
         "処置前共変量",
-        "対象集団"
+        "対象集団",
+        "因果グラフ",
+        "観測媒介変数と条件付き分布"
       ],
       "outputs": [
         "ATE",
         "ATT",
         "調整後平均",
-        "対応規則と対象集団"
+        "対応規則と対象集団",
+        "backdoor調整式",
+        "frontdoor識別式"
       ],
       "file": "chapters/11-causal-designs.md",
       "anchor": "causal-01",
@@ -3266,7 +3270,11 @@
         "C-CAUSAL-01",
         "C-CH-11",
         "C-TERM-PROPENSITY-SCORE",
-        "C-TERM-PROPENSITY-SCORE-MATCHING"
+        "C-TERM-PROPENSITY-SCORE-MATCHING",
+        "C-TERM-CAUSAL-DAG",
+        "C-METHOD-BACKDOOR",
+        "C-METHOD-FRONTDOOR",
+        "C-MODEL-SCM"
       ],
       "jel_codes": [
         "C21",
@@ -3497,7 +3505,9 @@
       "outputs": [
         "直交スコア",
         "ATE",
-        "部分線形係数"
+        "部分線形係数",
+        "ATT",
+        "対象スコアに対応するDoubleML API"
       ],
       "file": "chapters/12-causal-extensions.md",
       "anchor": "advcausal-01",
@@ -3506,7 +3516,9 @@
         "C-CH-12",
         "C-TERM-DML",
         "C-TERM-ORTHOGONAL-SCORE",
-        "C-TERM-PROPENSITY-SCORE"
+        "C-TERM-PROPENSITY-SCORE",
+        "C-MODEL-PLR",
+        "C-MODEL-IRM"
       ],
       "jel_codes": [
         "C14",
@@ -18062,7 +18074,7 @@
         ]
       },
       "broader": [
-        "C-CAUSAL-01"
+        "C-CH-11"
       ],
       "definition": {
         "unit": "CAUSAL-01",
@@ -18638,6 +18650,174 @@
       "jel_codes": [
         "C52",
         "C53"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-CAUSAL-DAG",
+      "preferred": {
+        "en": "Causal directed acyclic graph",
+        "ja": "因果有向非巡回グラフ"
+      },
+      "aliases": {
+        "en": [
+          "causal graph",
+          "DAG"
+        ],
+        "ja": [
+          "因果グラフ",
+          "因果DAG"
+        ]
+      },
+      "broader": [
+        "C-TERM-GRAPH"
+      ],
+      "definition": {
+        "unit": "CAUSAL-01",
+        "anchor": "causal-01"
+      },
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-METHOD-BACKDOOR",
+      "preferred": {
+        "en": "Back-door adjustment",
+        "ja": "バックドア調整"
+      },
+      "aliases": {
+        "en": [
+          "backdoor adjustment",
+          "backdoor criterion"
+        ],
+        "ja": [
+          "バックドア基準"
+        ]
+      },
+      "broader": [
+        "C-CH-11"
+      ],
+      "definition": {
+        "unit": "CAUSAL-01",
+        "anchor": "causal-01"
+      },
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "method"
+    },
+    {
+      "id": "C-METHOD-FRONTDOOR",
+      "preferred": {
+        "en": "Front-door identification",
+        "ja": "フロントドア識別"
+      },
+      "aliases": {
+        "en": [
+          "frontdoor",
+          "frontdoor adjustment",
+          "frontdoor criterion"
+        ],
+        "ja": [
+          "フロントドア基準"
+        ]
+      },
+      "broader": [
+        "C-CH-11"
+      ],
+      "definition": {
+        "unit": "CAUSAL-01",
+        "anchor": "causal-01"
+      },
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "method"
+    },
+    {
+      "id": "C-MODEL-PLR",
+      "preferred": {
+        "en": "Partially linear regression model",
+        "ja": "部分線形回帰モデル"
+      },
+      "aliases": {
+        "en": [
+          "PLR",
+          "partially linear model",
+          "DoubleMLPLR"
+        ],
+        "ja": [
+          "部分線形モデル"
+        ]
+      },
+      "broader": [
+        "C-CH-12"
+      ],
+      "definition": {
+        "unit": "ADVCAUSAL-01",
+        "anchor": "advcausal-01"
+      },
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-MODEL-IRM",
+      "preferred": {
+        "en": "Interactive regression model",
+        "ja": "処置別結果回帰モデル"
+      },
+      "aliases": {
+        "en": [
+          "IRM",
+          "DoubleMLIRM"
+        ],
+        "ja": [
+          "相互作用回帰モデル"
+        ]
+      },
+      "broader": [
+        "C-CH-12"
+      ],
+      "definition": {
+        "unit": "ADVCAUSAL-01",
+        "anchor": "advcausal-01"
+      },
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-MODEL-SCM",
+      "preferred": {
+        "en": "Structural causal model",
+        "ja": "構造因果モデル"
+      },
+      "aliases": {
+        "en": [
+          "SCM"
+        ],
+        "ja": []
+      },
+      "broader": [
+        "C-CH-11"
+      ],
+      "definition": {
+        "unit": "CAUSAL-01",
+        "anchor": "causal-01"
+      },
+      "jel_codes": [
+        "C21",
+        "C14"
       ],
       "kind": "concept"
     }
@@ -28641,6 +28821,98 @@
         }
       ],
       "version": "2.3.0"
+    },
+    {
+      "id": "R-CAUSAL-BACKDOOR",
+      "source": "CAUSAL-01",
+      "target": "C-METHOD-BACKDOOR",
+      "type": "estimated_by",
+      "conditions": [
+        "An observed adjustment set contains no descendant of treatment and blocks every back-door path; the target treatment has positive support within its strata."
+      ],
+      "when": {
+        "adjustment_set": [
+          "backdoor_valid"
+        ]
+      },
+      "use": "Standardize conditional outcomes over the target population covariate distribution.",
+      "evidence": [
+        {
+          "unit": "CAUSAL-01",
+          "anchor": "causal-01"
+        }
+      ],
+      "version": "2.3.6"
+    },
+    {
+      "id": "R-CAUSAL-FRONTDOOR",
+      "source": "CAUSAL-01",
+      "target": "C-METHOD-FRONTDOOR",
+      "type": "estimated_by",
+      "conditions": [
+        "The observed mediator intercepts every directed treatment-outcome path, has no open back-door path from treatment, and its back-door paths to outcome are blocked by treatment; every conditional distribution in the formula has observed support."
+      ],
+      "when": {
+        "mediator": [
+          "frontdoor_valid"
+        ]
+      },
+      "use": "Combine the treatment-induced mediator distribution with treatment-standardized mediator outcome means.",
+      "evidence": [
+        {
+          "unit": "CAUSAL-01",
+          "anchor": "causal-01"
+        }
+      ],
+      "version": "2.3.6"
+    },
+    {
+      "id": "R-DML-IRM",
+      "source": "ADVCAUSAL-01",
+      "target": "C-MODEL-IRM",
+      "type": "estimated_by",
+      "conditions": [
+        "Binary treatment, conditional exchangeability and overlap identify the adopted population ATE or treated-population ATT."
+      ],
+      "when": {
+        "treatment": [
+          "binary"
+        ],
+        "effect_target": [
+          "ATE",
+          "ATT"
+        ]
+      },
+      "use": "Select DoubleMLIRM with score ATE or ATTE and match the nuisance regressions to that target.",
+      "evidence": [
+        {
+          "unit": "ADVCAUSAL-01",
+          "anchor": "advcausal-01"
+        }
+      ],
+      "version": "2.3.6"
+    },
+    {
+      "id": "R-DML-PLR",
+      "source": "ADVCAUSAL-01",
+      "target": "C-MODEL-PLR",
+      "type": "estimated_by",
+      "conditions": [
+        "A partially linear conditional mean and positive residual treatment variation define the common slope; under heterogeneous binary treatment effects the residualized coefficient uses conditional-variance weights."
+      ],
+      "when": {
+        "effect_target": [
+          "partial_linear_coefficient"
+        ]
+      },
+      "use": "Select DoubleMLPLR and match partialling-out or IV-type nuisance regressions to its score.",
+      "evidence": [
+        {
+          "unit": "ADVCAUSAL-01",
+          "anchor": "advcausal-01"
+        }
+      ],
+      "version": "2.3.6"
     }
   ],
   "model_contracts": [

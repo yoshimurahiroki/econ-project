@@ -10,7 +10,9 @@
         "C-CH-12",
         "C-TERM-DML",
         "C-TERM-ORTHOGONAL-SCORE",
-        "C-TERM-PROPENSITY-SCORE"
+        "C-TERM-PROPENSITY-SCORE",
+        "C-MODEL-PLR",
+        "C-MODEL-IRM"
       ],
       "contract_ids": [],
       "domain": "因果拡張",
@@ -31,7 +33,9 @@
       "outputs": [
         "直交スコア",
         "ATE",
-        "部分線形係数"
+        "部分線形係数",
+        "ATT",
+        "対象スコアに対応するDoubleML API"
       ],
       "prerequisites": [
         "CAUSAL-01"

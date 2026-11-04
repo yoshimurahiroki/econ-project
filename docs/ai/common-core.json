@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "9a4e0a351c5cbeec544ec0cf0a983a8e22e78867",
+  "source_base_commit": "440f6b1479bdf040be1429aa0c254b1652b2eef6",
   "source_state": "committed",
-  "common_content_id": "b728028a8a02e053ab5680aa1e4c773468f1e122ff82112ded3d1bdca9769071",
+  "common_content_id": "9d3545fdb7f4b4f1d4b22a6febfb0594e5aada90543816c6115c53c55882a422",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -1409,8 +1409,8 @@
     {
       "path": "skills/econ-data/scripts/research_causal.py",
       "state": "present",
-      "sha256": "8c60a6540f248b011a6f829aaaac4688a66a3869fe323d4f9beabf3bf0878596",
-      "git_blob": "55d6e23b92ed59d655759fa9e208b418a4879443",
+      "sha256": "955d89857308360a2e04cbe21b88e57311482b39a66f34436bc582b88d7baad1",
+      "git_blob": "4146f8d797d39000b74bedafa434bde784d09ff8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1513,8 +1513,8 @@
     {
       "path": "skills/econ-design/references/causal-models.md",
       "state": "present",
-      "sha256": "abfc011face97cdc01bd610a0444ddf29e89ef7c42c6e99b13033df43a01a2cb",
-      "git_blob": "8d106d190942dc844d782539d51418bd254852d3",
+      "sha256": "fe7d43fa990b8c92638b84097014386e29b8c4ca1ba0da06c2d6bb059321771d",
+      "git_blob": "41919db9459c326f81771b5753eacf061723dfe5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1585,8 +1585,8 @@
     {
       "path": "skills/econ-knowledge/references/catalog.json",
       "state": "present",
-      "sha256": "3e98bddaa066c3497709198ef97bebbe9805c6b1791e86a06982fffa17657c61",
-      "git_blob": "db9fe3b6218a9d1aecd08b14822fd7b00441978d",
+      "sha256": "806c4283e059c90fbc534131a586249ff7b0ec873936d6f59f76a9774b0b4c4a",
+      "git_blob": "33f7a4650d0eb47d27dd43ad9bca28d4fc4e4459",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1673,16 +1673,16 @@
     {
       "path": "skills/econ-knowledge/references/chapters/11-causal-designs.md",
       "state": "present",
-      "sha256": "656933e2ac0ab2458fa00f8d5b85dd57b9977a3ed5b1a684fc60fef85177f45b",
-      "git_blob": "ce9d3d4d9e3372d18112b28fd953e23ed3a5464d",
+      "sha256": "a920af62467d8114ad88d49f4a52eea79cf2a4c366d3420385971def1e68b88b",
+      "git_blob": "b9196ab3ebd57f86a89994b7f92ac656c7349f86",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "skills/econ-knowledge/references/chapters/12-causal-extensions.md",
       "state": "present",
-      "sha256": "e5e6641cb9d1c9da6dd9352b7148602d3e4f9814f61bb60786adeb328586624d",
-      "git_blob": "691b40652076b4e0d4f4454267ce0ed2d79c7336",
+      "sha256": "980dbf930cdc2977cb5f243e6d6d917899fbe973f595ad093a4676f845a67d32",
+      "git_blob": "b23436ee1e9b6b8dd429b6c89c9300fad3abd629",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },

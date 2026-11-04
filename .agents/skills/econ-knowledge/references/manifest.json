@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "3e98bddaa066c3497709198ef97bebbe9805c6b1791e86a06982fffa17657c61",
+  "catalog_sha256": "806c4283e059c90fbc534131a586249ff7b0ec873936d6f59f76a9774b0b4c4a",
   "chapters": {
     "chapters/01-mathematics.md": "fd99fe5d3d51fea0ffe8e9ee63d11a75ba41e492908a23728a90047790e84685",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -11,8 +11,8 @@
     "chapters/08-networks.md": "eaa4c06c5fdc30349ef4029d39d20b6f6db6c59eb5c7e24d367f6a13e13dd3ef",
     "chapters/09-dynamic-computation.md": "7b8e38b8f32a97c989c7ca658a2ffc65dec3a95f8d84d5e5333d85ac3048c160",
     "chapters/10-econometrics.md": "0479fbcfbdfd8882924914ca61e66773685d0bd373ab279de5093b7a1c569038",
-    "chapters/11-causal-designs.md": "656933e2ac0ab2458fa00f8d5b85dd57b9977a3ed5b1a684fc60fef85177f45b",
-    "chapters/12-causal-extensions.md": "e5e6641cb9d1c9da6dd9352b7148602d3e4f9814f61bb60786adeb328586624d",
+    "chapters/11-causal-designs.md": "a920af62467d8114ad88d49f4a52eea79cf2a4c366d3420385971def1e68b88b",
+    "chapters/12-causal-extensions.md": "980dbf930cdc2977cb5f243e6d6d917899fbe973f595ad093a4676f845a67d32",
     "chapters/13-time-series.md": "f668b700e013d6ad79ff62e97b2363ae4b8c4ba8ff141334355a8fac32ae8e3f",
     "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
     "chapters/15-demand-production.md": "737738f6b5dfb30b55bfac3e3c7e517e8264886ed8d2bbd728d77f8c71887fba",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "14450cd4cb4b99eed150ccf56dbd269df4385185f9c8a2578934d694806ae0ce",
+  "domain_listing_sha256": "69bf0872267667e6d680ecab604fbc7b1c53d6b089d946d8a087fbd61f4b3117",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -97,12 +97,12 @@
     "因果デザイン": {
       "count": 7,
       "path": "domains/12.json",
-      "sha256": "340599aefb09a6db6f266e0dc7dee591a5cf3364953f8c7dbae4fc8f6f38f302"
+      "sha256": "0122b6607fe895d771d02dc6b250d1107236d5d8ea637ed911a2fc27a9eb6bd0"
     },
     "因果拡張": {
       "count": 8,
       "path": "domains/13.json",
-      "sha256": "fc7f1fbededd1bfb001cf6387805430e6a08f9cb9da142dd793f616cdd08a671"
+      "sha256": "15409a221b025ad5e534d96f45754020ac36236f4bd6e17fc80f8b240e30814c"
     },
     "契約組織": {
       "count": 9,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "93620066fa34e30e3bf4af40264f046de141b79b364b7f0b7b9f598635dc6e08"
+      "sha256": "3a2ff553f0357352ec8ed43e4007580cd6832e54a7d2f8881c167992ee7989eb"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "7d30f0515b00f344192567f68b5b4674e5db42d8253148ebc789060db398b8b3"
+      "sha256": "a9c8804ce1da45508afbbf39d10356200d1a574670a3d82fa9600465a932e7bc"
     }
   },
   "spec_version": "knowledge-v2",
@@ -235,7 +235,7 @@
       "chapter": "chapters/12-causal-extensions.md",
       "domain": "因果拡張",
       "path": "units/ADVCAUSAL-01.md",
-      "sha256": "56eb5aae817a6ceaf80dcc116ae52bab63795e566e59827001ad566a968eee3a"
+      "sha256": "377d218c1306e13f30c5e7098e490f06329c756fc91b8718dff9fa27323ff1ae"
     },
     "ADVCAUSAL-02": {
       "chapter": "chapters/12-causal-extensions.md",
@@ -349,7 +349,7 @@
       "chapter": "chapters/11-causal-designs.md",
       "domain": "因果デザイン",
       "path": "units/CAUSAL-01.md",
-      "sha256": "18ec8d12a8288a876322a6ec6a19626549ae36763c78a4617f86ca925438b609"
+      "sha256": "5c99419cade9f9620f144aa1063d16ca00958491bb52530a2dd8b3b43cf93084"
     },
     "CAUSAL-02": {
       "chapter": "chapters/11-causal-designs.md",
