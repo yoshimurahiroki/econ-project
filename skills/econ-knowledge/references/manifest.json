@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "f382feed9d543ef73b8c5d3ad31a3806f020eb56898773114b2e952d79401c20",
+  "catalog_sha256": "02c3bef8ecc9e58685a9b5d314ec5e1c83d0441c40a5121f2919db72834c68e0",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -9,7 +9,7 @@
     "chapters/06-contracts-organization.md": "72c21e67dc11662ec9dc4f3d1924b2a69182734cd992e253908c87eea0c7ae6c",
     "chapters/07-market-design.md": "4be072d54bf8ff2443b41f024b03a235cdd1c04f4a2845f1024a5a8f734df141",
     "chapters/08-networks.md": "eaa4c06c5fdc30349ef4029d39d20b6f6db6c59eb5c7e24d367f6a13e13dd3ef",
-    "chapters/09-dynamic-computation.md": "81f6c93be04b4eeea818490ec35ff2c43d39386810fe1e257e0d856dd7040b8a",
+    "chapters/09-dynamic-computation.md": "7f1d2f70189a35cd5a0d7d2d74e4dda32f846b3aab6847310f28d8e1f4dfbae9",
     "chapters/10-econometrics.md": "bcfbe164979be9dbc313c683120b9e37629347a5d1008833685e11c666ff1182",
     "chapters/11-causal-designs.md": "778c6723d5f0c79e92e70ffaddebde0649ae8a03e0c7096dba1cc8b692e83ba5",
     "chapters/12-causal-extensions.md": "980dbf930cdc2977cb5f243e6d6d917899fbe973f595ad093a4676f845a67d32",
@@ -17,8 +17,8 @@
     "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
     "chapters/15-demand-production.md": "00f228c6b40ee6298c6c1b5f2efa6b4bf0d2a220135fc6aa1a7a904b553739b9",
     "chapters/16-competition-platforms.md": "817457f930b26377309922cf05bd330f4da8ee79032039c4f58aafe0c6d11c45",
-    "chapters/17-growth-macro.md": "5d32a55a61c0279b166b314124e71c42062c7e0f9420ec3f3e7b66bb09f069bd",
-    "chapters/18-monetary-open-macro.md": "3e10d41ec808ea6a56cde8f62dd599a6c686cbd6fc6af69a214867a2a1a4cb9c",
+    "chapters/17-growth-macro.md": "6a3b3108373af6d0e17fe2816b08d728ef7c89a618db48525bf23628c7ff0371",
+    "chapters/18-monetary-open-macro.md": "512bcd529afe54959759db93a3764a00dccdaa7fa27c3ad43e3f7e10575c1f39",
     "chapters/19-heterogeneous-macro.md": "03ebe7991546b79e6f8c891df67249fb07806ec50e0485ec241208053cc9ae99",
     "chapters/20-asset-pricing.md": "71de5e585ef265cb7044c9e2f0d8846139b01f8c962dcaf9b7daafe271f497d2",
     "chapters/21-corporate-banking.md": "2464b1d8de4b9bab677650e9627d5c74c89ba0ea6105593b53e96bbfdb8b87e7",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "29407078ef5da8caa98d916641a1deab17bbde5b2966a44e457e27ffe5330b7b",
+  "domain_listing_sha256": "c3ab91744236b61e79674c84d4a937bdd61991b3c67d98d116858983be26ef89",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -82,7 +82,7 @@
     "動学計算": {
       "count": 9,
       "path": "domains/09.json",
-      "sha256": "01fcd2a37af97a695b8a3c647d46483b7fa1dda24608f072fbecba2bff325757"
+      "sha256": "eb8b1f18e9e60df7e97f00703f3c3ea0978c6c569a933d9c5ec57c99acf56e45"
     },
     "医療教育": {
       "count": 7,
@@ -122,7 +122,7 @@
     "成長マクロ": {
       "count": 6,
       "path": "domains/17.json",
-      "sha256": "a8f26398d2e259f8dc94eb954232a466db599d9c67970d7893dd9f791ab2c33a"
+      "sha256": "3193b0e57399834132c2b32b10ea07a413680de815d4847a08c40b68ab965da3"
     },
     "政治法制度": {
       "count": 7,
@@ -619,7 +619,7 @@
       "chapter": "chapters/09-dynamic-computation.md",
       "domain": "動学計算",
       "path": "units/DYN-08.md",
-      "sha256": "e1e3931376030bd9afaab00a4513b4919d3ad4eeb6a633b081e54903f84c6134"
+      "sha256": "1a973d191c8d0c3e0522e92b47032273748672c82efd48ceef4ee4e23923081b"
     },
     "DYN-09": {
       "chapter": "chapters/09-dynamic-computation.md",
@@ -1135,7 +1135,7 @@
       "chapter": "chapters/17-growth-macro.md",
       "domain": "成長マクロ",
       "path": "units/MACRO-05.md",
-      "sha256": "05fa22b8588cb54a6e0d40a2ce6536e8c4d4c4879dba6b851cd0540153605362"
+      "sha256": "8626b4e3dc476a7ab5f969c7d8e29a0f6a79ac461a729e720d257006481f8438"
     },
     "MACRO-06": {
       "chapter": "chapters/17-growth-macro.md",
@@ -1285,7 +1285,7 @@
       "chapter": "chapters/18-monetary-open-macro.md",
       "domain": "金融財政開放",
       "path": "units/MONETARY-01.md",
-      "sha256": "31d0c2973a70436252a71b6c8281b514aac2a504ee2574966ae506f029ef3159"
+      "sha256": "76467fb552e369a5e9d6c3d8833daafdb3c88fdb5e0dad4e52f3f391d661bd20"
     },
     "MONETARY-02": {
       "chapter": "chapters/18-monetary-open-macro.md",

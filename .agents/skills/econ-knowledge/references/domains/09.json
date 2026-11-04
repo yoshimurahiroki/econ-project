@@ -327,7 +327,7 @@
       ],
       "subdomain": "確率ゲームと Markov 完全均衡",
       "title": "確率ゲームと Markov 完全均衡",
-      "topic": "確率ゲームとMarkov完全均衡; linear quadratic Markov game; LQ dynamic game; coupled Riccati; nnash",
+      "topic": "確率ゲームとMarkov完全均衡; linear quadratic Markov game; LQ dynamic game; coupled Riccati; nnash; 制御次元; unequal control dimensions",
       "use_when": "全状態の最適反応からMarkov完全均衡を求め、線形二次構造では連立Riccati式を解く"
     },
     {

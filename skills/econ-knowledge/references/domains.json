@@ -43,7 +43,7 @@
     {
       "domain": "動学計算",
       "path": "domains/09.json",
-      "sha256": "01fcd2a37af97a695b8a3c647d46483b7fa1dda24608f072fbecba2bff325757"
+      "sha256": "eb8b1f18e9e60df7e97f00703f3c3ea0978c6c569a933d9c5ec57c99acf56e45"
     },
     {
       "domain": "医療教育",
@@ -83,7 +83,7 @@
     {
       "domain": "成長マクロ",
       "path": "domains/17.json",
-      "sha256": "a8f26398d2e259f8dc94eb954232a466db599d9c67970d7893dd9f791ab2c33a"
+      "sha256": "3193b0e57399834132c2b32b10ea07a413680de815d4847a08c40b68ab965da3"
     },
     {
       "domain": "政治法制度",

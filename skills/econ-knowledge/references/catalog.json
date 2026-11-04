@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.15",
+  "version": "2.3.16",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -2906,7 +2906,7 @@
       "domain": "動学計算",
       "subdomain": "確率ゲームと Markov 完全均衡",
       "kind": "knowledge",
-      "topic": "確率ゲームとMarkov完全均衡; linear quadratic Markov game; LQ dynamic game; coupled Riccati; nnash",
+      "topic": "確率ゲームとMarkov完全均衡; linear quadratic Markov game; LQ dynamic game; coupled Riccati; nnash; 制御次元; unequal control dimensions",
       "use_when": "全状態の最適反応からMarkov完全均衡を求め、線形二次構造では連立Riccati式を解く",
       "inputs": [
         "主体の報酬",
@@ -4860,7 +4860,7 @@
       "domain": "成長マクロ",
       "subdomain": "景気循環",
       "kind": "knowledge",
-      "topic": "家計・企業の最適化と資源清算を解く; real business cycle; RBC observation equation; 実物的景気循環",
+      "topic": "家計・企業の最適化と資源清算を解く; real business cycle; RBC observation equation; 実物的景気循環; 安定不変部分空間; stable invariant subspace; generalized eigenspace",
       "use_when": "家計・企業の最適条件、合理的期待と市場清算を連立し、動学均衡を選ぶ",
       "inputs": [
         "選好",

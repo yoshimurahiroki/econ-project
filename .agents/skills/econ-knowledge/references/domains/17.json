@@ -196,7 +196,7 @@
       ],
       "subdomain": "景気循環",
       "title": "RBCと動学一般均衡",
-      "topic": "家計・企業の最適化と資源清算を解く; real business cycle; RBC observation equation; 実物的景気循環",
+      "topic": "家計・企業の最適化と資源清算を解く; real business cycle; RBC observation equation; 実物的景気循環; 安定不変部分空間; stable invariant subspace; generalized eigenspace",
       "use_when": "家計・企業の最適条件、合理的期待と市場清算を連立し、動学均衡を選ぶ"
     },
     {
