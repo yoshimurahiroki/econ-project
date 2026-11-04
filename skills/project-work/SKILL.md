@@ -1,6 +1,6 @@
 ---
 name: project-work
-description: Complete a project contribution or manage a project from its economic question, adopted model and actual work through decisions, artifacts, acceptance and handover. Connect existing economics specialists and versioned task state.
+description: Clarify task requirements and work approaches; create or improve ready-to-execute prompts when requested. Complete project contributions or manage economics projects through decisions, artifacts, acceptance and handover. Ordinary execution requests stay with their research, writing or implementation specialist.
 ---
 
 # Project work
@@ -9,9 +9,19 @@ description: Complete a project contribution or manage a project from its econom
 
 Use [CORE](../../runtime/CORE.md), [PROSE](../../runtime/PROSE.md) and [TEAM](../../runtime/TEAM.md). Read the complete selected operation contract and activated rule bodies from the [operation index](../../docs/ai/compiled_ai_skills.md). The lead owns the central question, economic model, action selection, integration and completed result.
 
-Input: the user's role and requested work, current case sources, adopted decisions and model, authority, existing results and requested artifacts. Recover their current versions before acting. Use the [case connection](references/practice.md#connect-the-current-case) for an actual project operation and select the applicable section below.
+Select `clarify` for requested requirements definition, scoping or work-approach consultation, and `prompt` for requested execution-prompt creation or improvement. Select by the requested result: an ordinary implementation, analysis or writing request continues through its specialist, including any necessary clarification there. Mentioning prompts, requirements or a prompt file does not change that requested result.
+
+Input: the original request, supplied materials, existing specifications and decisions, authority and requested output; include the user's role, adopted model and saved results for an actual case. Recover their current versions before acting. Use the [case connection](references/practice.md#connect-the-current-case) for `contribute` or `manage` and select the applicable section below.
 
 This entry connects the five research specialists. Use econ-design for the model and identifying comparison, econ-literature for source and interview evidence, econ-data for calculations and implementation, econ-writing for the actual report or presentation, and econ-review for a requested assessment. Read each selected specialist's complete contract and activated dependencies when its work begins. Retain the same parent question and authority through those calls.
+
+## Requirements and work approach
+
+Use `clarify` and read [task definition](references/practice.md#define-the-task). Resolve the consequential open decision from existing context, feasible alternatives and a grounded recommendation. Obtain only the user judgment that remains necessary. When the requirements are settled, return the usable brief or requested specification directly.
+
+## Execution prompts
+
+Use `prompt` and read [task definition](references/practice.md#define-the-task) and [prompt composition](references/practice.md#write-the-execution-prompt). Produce or improve the complete executable prompt from the adopted requirements. Prompt drafting completes that requested artifact; executing its described work requires the user's corresponding instruction and the existing specialist route.
 
 ## Contribute
 
@@ -49,4 +59,6 @@ Generated from registry/operations.json; the request determines the actual targe
 
 - `contribute`: Complete an assigned project contribution from its adopted economic model through research, calculations, consultation drafts and actual artifacts.
 - `manage`: Manage a project or shared portfolio through its economic decision, evidence, work, resources, authorized changes, outcomes and handover.
+- `clarify`: Clarify requested task requirements, scope or work approaches; compare consequential alternatives and complete the adopted brief or specification.
+- `prompt`: Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request.
 <!-- END GENERATED MODES -->

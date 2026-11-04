@@ -18,6 +18,8 @@ Generated from registry/operations.json. Read runtime/CORE.md once; select the f
 - econ-knowledge / lookup: Retrieve the economics definitions, derivations, model conditions or worked examples needed by the current specialist.
 - project-work / contribute: Complete an assigned project contribution from its adopted economic model through research, calculations, consultation drafts and actual artifacts.
 - project-work / manage: Manage a project or shared portfolio through its economic decision, evidence, work, resources, authorized changes, outcomes and handover.
+- project-work / clarify: Clarify requested task requirements, scope or work approaches; compare consequential alternatives and complete the adopted brief or specification.
+- project-work / prompt: Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request.
 
 Compatibility names:
 

@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.50.0",
+  "policy_id": "economics-native-0.51.0",
   "profile": {
     "id": "research-full"
   },
@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "8aa874f653bf612ec34b2a601c4a9dfca51e2ed9fff0c4f4e91909a3ceaf3b2e"
+      "sha256": "d1654a515506ef1936e94097d89b7c460c758f2a7860444e5415794e0d0e23da"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -55,7 +55,7 @@
     },
     "registry_operations": {
       "path": "registry/operations.json",
-      "sha256": "4381cfc6770892223385f0b861f3e3264c31d9f5c0cecc21905f61ca9b22500b"
+      "sha256": "f53db1b0a5231996589f62750b2d6761d5b67e76d9563d0e2f6b20370cf562ec"
     },
     "registry_placements": {
       "path": "registry/placements.json",
@@ -63,7 +63,7 @@
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "d7364c0138bf2670070e1be3b07663b37020cced45df95d0b82a093483852525"
+      "sha256": "5addcf9781ca6f4ad58f1e58f714eda901d0cd712a28d2b103d7a591ac5ac95e"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -135,7 +135,7 @@
     },
     "resource:econ-writing": {
       "path": "skills/econ-writing/SKILL.md",
-      "sha256": "839e51f4d430b253dac73802cfb3b36d940a4a1157cc3057d4b8f819557b15f9"
+      "sha256": "2cf1f127ae53bab2099f5663fda2d82ab34682ff0c4654d994fb0c9db9afddc2"
     },
     "resource:equity-airline-case": {
       "path": "skills/econ-data/scripts/equity_airline_case.py",
@@ -195,7 +195,7 @@
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
-      "sha256": "6e6c82b842135b5710547e483a29f7b09f4edfe6254e214e07e4af87a8ae5472"
+      "sha256": "ed26b25497060d93879bb25753b49a9a06b8edb59b79230d5c3873744eaad9e5"
     },
     "resource:knowledge-retrieval": {
       "path": "skills/econ-knowledge/scripts/knowledge.py",
@@ -279,7 +279,7 @@
     },
     "resource:native-index": {
       "path": "docs/ai/compiled_ai_skills.md",
-      "sha256": "3991bf44bc12e06961ceb063e66aa486f93c7679df05ee7bb01e8848f6ce76bd"
+      "sha256": "230d287841c69ed8dc1442ba9ad3d2b11f4056687dd1d0f43d9b91037764f9cb"
     },
     "resource:package-notices": {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -383,11 +383,11 @@
     },
     "resource:project-practice": {
       "path": "skills/project-work/references/practice.md",
-      "sha256": "f26d4402fe10791c3c9674daf9e8ecbf7498d0a976485c94a7d567823b2e7f3a"
+      "sha256": "18063b6879dc43ea3a48bbda440b76a1a51a77aede92416e0c7f279071dcfacf"
     },
     "resource:project-work": {
       "path": "skills/project-work/SKILL.md",
-      "sha256": "f60e7a851a5a9c61b49f46bfa51964a8ca81c750989b231b25e7e7cb635a12a2"
+      "sha256": "f2a8a681d8c63831ac537aef7a6c25282793a5ae8d0cdcb9b57dc7188e26bf0c"
     },
     "resource:publication": {
       "path": "harness/publication.md",

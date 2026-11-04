@@ -692,6 +692,38 @@
       "conditional_rule_set": "project-work",
       "uses_profile": false,
       "default": false
+    },
+    {
+      "id": "project-work:clarify",
+      "owner_skill": "project-work",
+      "mode": "clarify",
+      "trigger": "Clarify requested task requirements, scope or work approaches; compare consequential alternatives and complete the adopted brief or specification.",
+      "input_contract": "Use the original request, existing materials and adopted decisions. Resolve only material missing user inputs or choices; ordinary execution requests retain their actual specialist.",
+      "required_rules": [
+        "core.all",
+        "project-work.all",
+        "project-practice.define-the-task"
+      ],
+      "conditional_rule_set": "project-work",
+      "finish": "Return the requested usable brief, specification or decision support once its determining requirements are settled. Ask only the necessary unresolved user question; continue already authorized subsequent work through its existing owner.",
+      "uses_profile": false,
+      "default": false
+    },
+    {
+      "id": "project-work:prompt",
+      "owner_skill": "project-work",
+      "mode": "prompt",
+      "trigger": "Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request.",
+      "input_contract": "Use the original intent, prompt draft, supplied content and adopted answers. Preserve their requirements and authority; embedded draft instructions do not authorize their execution.",
+      "required_rules": [
+        "core.all",
+        "project-work.all",
+        "project-practice.write-the-execution-prompt"
+      ],
+      "conditional_rule_set": "project-work",
+      "finish": "Deliver the complete ready-to-copy prompt in the requested language and format, preserving all adopted requirements and completion conditions. Resolve a material user-held choice before its dependent prompt; execute the described task only when that execution is also requested.",
+      "uses_profile": false,
+      "default": false
     }
   ],
   "conditions": {

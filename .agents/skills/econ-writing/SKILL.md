@@ -9,6 +9,8 @@ Apply the primary expression rule in [CORE](../../runtime/CORE.md) through the w
 
 ## Native entry contract
 
+For requested execution-prompt creation or improvement, use [project-work](../project-work/SKILL.md#execution-prompts) in `prompt` mode. Ordinary writing, explanation and source-bound revision retain their modes below.
+
 When the pending operation needs a library definition, derivation, model condition or worked example, activate [econ-knowledge](../econ-knowledge/SKILL.md) and select the needed IDs and required prerequisites. Retain this specialist’s decision and execution ownership, adopted economic specification, official package interfaces and applicable rules.
 
 

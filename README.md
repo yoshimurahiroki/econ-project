@@ -32,7 +32,7 @@ Notebook では登録済みの Python または R カーネルを選びます。
 | `econ-data` | データ取得・加工、計算、分析コード |
 | `econ-writing` | 執筆、改稿、翻訳、論文の説明 |
 | `econ-review` | 主張・成果物の評価と指定範囲の修正 |
-| `project-work` | 案件参加・運営、専門作業の接続と成果統合 |
+| `project-work` | 要件・方針整理、実行プロンプト作成・改善、案件参加・運営と成果統合 |
 
 依頼には対象資料、成果物、変更を許す範囲を添えます。[操作一覧](docs/ai/compiled_ai_skills.md)からモードを選び、指定されたスキルと適用規則を読みます。文章・コード・成果物と実操作は [CORE](runtime/CORE.md) と [PROSE](runtime/PROSE.md) に沿って一体でレビューします。
 

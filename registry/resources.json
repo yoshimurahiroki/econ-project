@@ -53,7 +53,7 @@
       "resource_id": "econ-writing",
       "source_path": "skills/econ-writing/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.45.0"
+      "content_version": "0.51.0"
     },
     "econ-review": {
       "resource_id": "econ-review",
@@ -1354,13 +1354,13 @@
         "knowledge-retrieval",
         "research-evidence"
       ],
-      "content_version": "0.50.0"
+      "content_version": "0.51.0"
     },
     "project-practice": {
       "resource_id": "project-practice",
       "source_path": "skills/project-work/references/practice.md",
       "resource_kind": "rule",
-      "content_version": "0.50.0"
+      "content_version": "0.51.0"
     },
     "vscode-extension-recommendations": {
       "resource_id": "vscode-extension-recommendations",
@@ -2754,6 +2754,12 @@
       },
       "all": {
         "whole_resource": true
+      },
+      "define-the-task": {
+        "heading": "Define the task"
+      },
+      "write-the-execution-prompt": {
+        "heading": "Write the execution prompt"
       }
     },
     "policy-codex-agent-lead": {
@@ -5983,6 +5989,24 @@
       "resource_id": "policy-codex-agent-specialist",
       "section_id": "all",
       "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "project-practice.define-the-task": {
+      "rule_id": "project-practice.define-the-task",
+      "resource_id": "project-practice",
+      "section_id": "define-the-task",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "project-practice.write-the-execution-prompt": {
+      "rule_id": "project-practice.write-the-execution-prompt",
+      "resource_id": "project-practice",
+      "section_id": "write-the-execution-prompt",
+      "requires": [
+        "project-practice.define-the-task"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     }
