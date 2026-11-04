@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.10",
+  "version": "2.3.11",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -3472,20 +3472,23 @@
       "domain": "因果デザイン",
       "subdomain": "集約対象の例",
       "kind": "worked_example",
-      "topic": "解答付き例題：集約対象",
-      "use_when": "群別差の差を人口・群・固定イベント期の対象に集約する",
+      "topic": "DIDの集約対象; staggered DID aggregation; aggte simple group dynamic overall ATT",
+      "use_when": "群・期ATTを人口・曝露期間・イベント期の対象へ集約し、全体効果と影響関数を選ぶ",
       "inputs": [
         "群別人数",
         "処置前後の群平均",
         "各群・期のATT",
-        "比較可能な群と固定重み"
+        "比較可能な群と固定重み",
+        "群人口比を固定するか標本から推定するか"
       ],
       "outputs": [
         "群別ATT",
         "人口平均効果",
         "総量効果",
         "群平均効果",
-        "固定構成のイベント期効果"
+        "固定構成のイベント期効果",
+        "集約規則に対応する全体効果",
+        "推定重みを含む影響関数"
       ],
       "file": "chapters/11-causal-designs.md",
       "anchor": "causal-07",
@@ -11421,12 +11424,18 @@
     {
       "id": "C-CAUSAL-07",
       "preferred": {
-        "en": "Solved example: aggregate estimand",
-        "ja": "解答付き例題：集約対象"
+        "en": "Aggregation of group-time treatment effects",
+        "ja": "群・期処置効果の集約"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "DID aggregation",
+          "aggregate ATT"
+        ],
+        "ja": [
+          "DIDの集約",
+          "群・期ATTの集約"
+        ]
       },
       "broader": [
         "C-CH-11"
