@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.16",
+  "version": "2.3.17",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -3273,8 +3273,8 @@
       "domain": "因果デザイン",
       "subdomain": "潜在結果",
       "kind": "knowledge",
-      "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング; frontdoor linear mediation; intervention contrast; 線形媒介と介入量",
-      "use_when": "潜在結果と因果グラフからATE・ATTを定義し、マッチング・調整集合・媒介経路の条件で介入効果を識別する",
+      "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング; frontdoor linear mediation; intervention contrast; 線形媒介と介入量; 個人の反実仮想; individual counterfactual; abduction action prediction; counterfactual_samples",
+      "use_when": "潜在結果と因果グラフからATE・ATTを定義し、マッチング・調整集合・媒介経路の条件で介入効果を識別する。構造式と個人の観測事実から外生変数を復元し、同じ個人の介入後の結果を計算する",
       "inputs": [
         "処置",
         "結果",
@@ -3282,7 +3282,9 @@
         "対象集団",
         "因果グラフ",
         "観測媒介変数と条件付き分布",
-        "比較する介入値と条件付き平均モデル"
+        "比較する介入値と条件付き平均モデル",
+        "構造式と外生変数の同時分布",
+        "個人の観測事実または外生変数"
       ],
       "outputs": [
         "ATE",
@@ -3291,7 +3293,9 @@
         "対応規則と対象集団",
         "backdoor調整式",
         "frontdoor識別式",
-        "介入量に対応する総効果"
+        "介入量に対応する総効果",
+        "観測事実の再構成",
+        "個人の反実仮想と処置効果"
       ],
       "file": "chapters/11-causal-designs.md",
       "anchor": "causal-01",

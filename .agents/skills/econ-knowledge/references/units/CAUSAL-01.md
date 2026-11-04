@@ -56,3 +56,9 @@ E[Y\mid do(d_1)]-E[Y\mid do(d_0)]=ab(d_1-d_0)
 
 econ-dataは、採択した条件付き平均と介入値に対応する計算を選ぶ。上の線形モデルでは回帰係数の積 $ab$ に元の介入差を一度掛け、傾き・介入差・結果尺度を同じ計算結果に残す。非線形の条件付き平均を採択した場合は、frontdoor識別式に沿って条件付き分布を推定し、媒介変数と処置の分布で積分する。
 
+個人の観測事実 $e$ に対応する反実仮想は、採択した構造因果モデルで外生変数を復元し、同じ外生変数の下で介入を実行して求める。手順はabduction・action・predictionの順となる。まず観測事実で外生変数の分布を $P(U\mid e)$ に更新する。各構造式が外生変数について可逆なら、観測された親変数と結果からその個人の $u_j$ を逆算する。次に処置の構造式を $D=d$ に置き換え、残る構造式と外生変数を保持して、グラフの生成順に介入後の変数を計算する。外生変数の各値で得た結果を $P(U\mid e)$ で集計すると、観測事実に条件付けた反実仮想分布を得る。
+
+独自の計算例として、$D=U_D$、$Y=(1+D)U$ とし、$U_D$ と $U$ は独立、$U$ は $-1,1$ を同じ比率で取る。集団への介入 $do(D=0)$ の結果は $-1,1$、$do(D=1)$ の結果は $-2,2$ となり、ATEは0である。$D=0,Y=1$ を観測した個人では $U=Y/(1+D)=1$ と復元できる。同じ $U=1$ に対して $D=1$ を代入すると $Y(1)=2$、その個人の効果は1となる。集団の介入平均と観測された個人の反実仮想は、それぞれ外生変数の人口分布と観測事実に対応する外生変数を使う。潜在結果間の結合が個人別効果を定める関係は [ADVCAUSAL-06](https://github.com/yoshimurahiroki/econ-project-mini/blob/main/skills/econ-knowledge/references/chapters/12-causal-extensions.md#advcausal-06) を参照する。
+
+[DoWhyの `counterfactual_samples`](https://github.com/py-why/dowhy/blob/50d43ac9c04a9ba301349530fac0ef34db59c9ec/dowhy/gcm/whatif.py) は、`observed_data` と `noise_data` のどちらか一方を受け取る。観測値を渡す経路は `InvertibleStructuralCausalModel` を使い、`compute_noise_from_data` で各個人の外生変数を復元する。外生変数を直接渡す経路は `StructuralCausalModel` を受け取り、両経路とも同じ外生変数を保持して生成順に再計算する。`interventions={"D": lambda _: 1}` は処置を1に固定する介入である。econ-designは、介入で保持する構造式と外生変数の結合を定める。econ-dataは、そのモデル、個人の観測値または外生変数、介入値を同じ計算へ渡し、事実の再構成値と反実仮想の結果を返す。
+
