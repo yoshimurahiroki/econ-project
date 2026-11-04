@@ -26,7 +26,8 @@
       ],
       "jel_codes": [
         "E21",
-        "C61"
+        "C61",
+        "D52"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -72,7 +73,10 @@
       ],
       "jel_codes": [
         "E21",
-        "O41"
+        "O41",
+        "D52",
+        "D31",
+        "E32"
       ],
       "kind": "knowledge",
       "outputs": [

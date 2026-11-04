@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.18",
+  "version": "2.3.19",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -1069,7 +1069,8 @@
       ],
       "jel_codes": [
         "C11",
-        "D81"
+        "D81",
+        "C44"
       ],
       "contract_ids": []
     },
@@ -2895,7 +2896,7 @@
       ],
       "jel_codes": [
         "C61",
-        "C73"
+        "C63"
       ],
       "contract_ids": []
     },
@@ -3133,7 +3134,8 @@
       ],
       "jel_codes": [
         "C24",
-        "C13"
+        "C13",
+        "C41"
       ],
       "contract_ids": []
     },
@@ -4701,7 +4703,8 @@
       ],
       "jel_codes": [
         "D47",
-        "L51"
+        "L51",
+        "C78"
       ],
       "contract_ids": []
     },
@@ -5161,7 +5164,8 @@
       ],
       "jel_codes": [
         "E21",
-        "C61"
+        "C61",
+        "D52"
       ],
       "contract_ids": []
     },
@@ -5200,7 +5204,10 @@
       ],
       "jel_codes": [
         "E21",
-        "O41"
+        "O41",
+        "D52",
+        "D31",
+        "E32"
       ],
       "contract_ids": []
     },
@@ -6140,7 +6147,8 @@
       ],
       "jel_codes": [
         "H21",
-        "D82"
+        "D82",
+        "H41"
       ],
       "contract_ids": []
     },
@@ -6267,7 +6275,8 @@
       ],
       "jel_codes": [
         "R31",
-        "R21"
+        "R21",
+        "R14"
       ],
       "contract_ids": []
     },
@@ -6301,7 +6310,8 @@
       ],
       "jel_codes": [
         "R21",
-        "R31"
+        "R31",
+        "R13"
       ],
       "contract_ids": [
         "MC-housing-toy"
@@ -6338,7 +6348,9 @@
       ],
       "jel_codes": [
         "R32",
-        "R31"
+        "R31",
+        "R12",
+        "R52"
       ],
       "contract_ids": []
     },
@@ -6492,8 +6504,8 @@
         "C-CH-25"
       ],
       "jel_codes": [
-        "F12",
-        "F11"
+        "F11",
+        "F14"
       ],
       "contract_ids": []
     },
@@ -8074,7 +8086,8 @@
       ],
       "jel_codes": [
         "D61",
-        "D04"
+        "D04",
+        "C44"
       ],
       "contract_ids": []
     },
@@ -8299,8 +8312,7 @@
         "C-CH-33"
       ],
       "jel_codes": [
-        "C63",
-        "D85"
+        "C63"
       ],
       "contract_ids": []
     },
@@ -9954,7 +9966,8 @@
       },
       "jel_codes": [
         "C11",
-        "D81"
+        "D81",
+        "C44"
       ],
       "kind": "concept"
     },
@@ -11062,7 +11075,7 @@
       },
       "jel_codes": [
         "C61",
-        "C73"
+        "C63"
       ],
       "kind": "concept"
     },
@@ -11230,7 +11243,8 @@
       },
       "jel_codes": [
         "C24",
-        "C13"
+        "C13",
+        "C41"
       ],
       "kind": "concept"
     },
@@ -12296,7 +12310,8 @@
       },
       "jel_codes": [
         "D47",
-        "L51"
+        "L51",
+        "C78"
       ],
       "kind": "concept"
     },
@@ -12621,7 +12636,8 @@
       },
       "jel_codes": [
         "E21",
-        "C61"
+        "C61",
+        "D52"
       ],
       "kind": "concept"
     },
@@ -12644,7 +12660,10 @@
       },
       "jel_codes": [
         "E21",
-        "O41"
+        "O41",
+        "D52",
+        "D31",
+        "E32"
       ],
       "kind": "concept"
     },
@@ -13280,7 +13299,8 @@
       },
       "jel_codes": [
         "H21",
-        "D82"
+        "D82",
+        "H41"
       ],
       "kind": "concept"
     },
@@ -13372,7 +13392,8 @@
       },
       "jel_codes": [
         "R31",
-        "R21"
+        "R21",
+        "R14"
       ],
       "kind": "concept"
     },
@@ -13395,7 +13416,8 @@
       },
       "jel_codes": [
         "R21",
-        "R31"
+        "R31",
+        "R13"
       ],
       "kind": "concept"
     },
@@ -13418,7 +13440,9 @@
       },
       "jel_codes": [
         "R32",
-        "R31"
+        "R31",
+        "R12",
+        "R52"
       ],
       "kind": "concept"
     },
@@ -13532,8 +13556,8 @@
         "anchor": "trade-02"
       },
       "jel_codes": [
-        "F12",
-        "F11"
+        "F11",
+        "F14"
       ],
       "kind": "concept"
     },
@@ -14664,7 +14688,8 @@
       },
       "jel_codes": [
         "D61",
-        "D04"
+        "D04",
+        "C44"
       ],
       "kind": "concept"
     },
@@ -14824,8 +14849,7 @@
         "anchor": "num-06"
       },
       "jel_codes": [
-        "C63",
-        "D85"
+        "C63"
       ],
       "kind": "concept"
     },
@@ -16802,7 +16826,8 @@
       },
       "jel_codes": [
         "E21",
-        "O41"
+        "O41",
+        "D52"
       ],
       "kind": "method"
     },
@@ -17102,7 +17127,8 @@
       },
       "jel_codes": [
         "E21",
-        "O41"
+        "O41",
+        "D31"
       ],
       "kind": "concept"
     },
@@ -19141,7 +19167,9 @@
       },
       "jel_codes": [
         "E21",
-        "O41"
+        "O41",
+        "D52",
+        "E32"
       ],
       "kind": "method"
     },
@@ -20048,6 +20076,41 @@
       "en": "Land Ownership and Tenure • Land Reform • Land Use • Irrigation • Agriculture and Environment",
       "ja": "土地所有・保有制度・農地改革・土地利用・灌漑・農業と環境",
       "provenance_url": "https://www.aeaweb.org/econlit/jelCodes.php?view=jel"
+    },
+    "C41": {
+      "en": "Duration Analysis • Optimal Timing Strategies",
+      "ja": "期間分析・最適時期選択",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "C44": {
+      "en": "Operations Research • Statistical Decision Theory",
+      "ja": "オペレーションズ・リサーチ・統計的意思決定理論",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "D52": {
+      "en": "Incomplete Markets",
+      "ja": "不完全市場",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "R12": {
+      "en": "Size and Spatial Distributions of Regional Economic Activity",
+      "ja": "地域経済活動の規模・空間分布",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "R13": {
+      "en": "General Equilibrium and Welfare Economic Analysis of Regional Economies",
+      "ja": "地域経済の一般均衡・厚生分析",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "R14": {
+      "en": "Land Use Patterns",
+      "ja": "土地利用の分布",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "R52": {
+      "en": "Land Use and Other Regulations",
+      "ja": "土地利用その他の規制",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     }
   },
   "relations": [

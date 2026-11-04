@@ -233,7 +233,8 @@
       ],
       "jel_codes": [
         "C11",
-        "D81"
+        "D81",
+        "C44"
       ],
       "kind": "knowledge",
       "outputs": [

@@ -21,7 +21,8 @@
       ],
       "jel_codes": [
         "R31",
-        "R21"
+        "R21",
+        "R14"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -63,7 +64,8 @@
       ],
       "jel_codes": [
         "R21",
-        "R31"
+        "R31",
+        "R13"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -102,7 +104,9 @@
       ],
       "jel_codes": [
         "R32",
-        "R31"
+        "R31",
+        "R12",
+        "R52"
       ],
       "kind": "knowledge",
       "outputs": [
