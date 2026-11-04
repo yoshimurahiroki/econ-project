@@ -88,7 +88,7 @@
     {
       "domain": "政治法制度",
       "path": "domains/18.json",
-      "sha256": "0cabea3807caa4d856da552190219a63810086eb319a92805fcc366fa7bc913c"
+      "sha256": "b5975e0feb6f4fba53e2e24ddfe30e27d87621a14dd0874ca981900fe491629a"
     },
     {
       "domain": "数値シミュレーション",
@@ -163,7 +163,7 @@
     {
       "domain": "開発農業",
       "path": "domains/33.json",
-      "sha256": "ab652e78b3c6a5551b9b34108812664768addbb96bda5051f73c1f3a072fb5f8"
+      "sha256": "e23851575abab1dc2208e702ef3b18fa078c14c5ad3faca07847f31ea8faddfc"
     },
     {
       "domain": "需要生産",
@@ -173,7 +173,7 @@
     {
       "domain": "革新歴史広告",
       "path": "domains/35.json",
-      "sha256": "5d32c1f45678ca868774e367368d68572b03ffb3196a878684a68d3a1cf3b1d3"
+      "sha256": "fd00520bf617b27772e889dc00486cde0abd13959e19cd900782717384e6a9ae"
     }
   ],
   "spec_version": "knowledge-v2"

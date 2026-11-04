@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.9",
+  "version": "2.3.10",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -6888,7 +6888,9 @@
       ],
       "jel_codes": [
         "O12",
-        "D86"
+        "D86",
+        "Q12",
+        "Q15"
       ],
       "contract_ids": []
     },
@@ -7331,7 +7333,9 @@
       ],
       "jel_codes": [
         "K12",
-        "D23"
+        "D23",
+        "K11",
+        "K13"
       ],
       "contract_ids": []
     },
@@ -7456,7 +7460,8 @@
       ],
       "jel_codes": [
         "O31",
-        "O32"
+        "O32",
+        "O34"
       ],
       "contract_ids": []
     },
@@ -13771,7 +13776,9 @@
       },
       "jel_codes": [
         "O12",
-        "D86"
+        "D86",
+        "Q12",
+        "Q15"
       ],
       "kind": "concept"
     },
@@ -14093,7 +14100,9 @@
       },
       "jel_codes": [
         "K12",
-        "D23"
+        "D23",
+        "K11",
+        "K13"
       ],
       "kind": "concept"
     },
@@ -14184,7 +14193,8 @@
       },
       "jel_codes": [
         "O31",
-        "O32"
+        "O32",
+        "O34"
       ],
       "kind": "concept"
     },
@@ -18965,27 +18975,27 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C21": {
-      "en": "Cross-Sectional Models",
+      "en": "Cross-Sectional Models • Spatial Models • Treatment Effect Models • Quantile Regressions",
       "ja": "横断面・空間・処置効果モデル",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C22": {
-      "en": "Time-Series Models",
+      "en": "Time-Series Models • Dynamic Quantile Regressions • Dynamic Treatment Effect Models • Diffusion Processes",
       "ja": "時系列モデル",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C23": {
-      "en": "Panel Data Models",
+      "en": "Panel Data Models • Spatio-temporal Models",
       "ja": "パネルデータモデル",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C24": {
-      "en": "Truncated and Censored Models",
+      "en": "Truncated and Censored Models • Switching Regression Models • Threshold Regression Models",
       "ja": "打切り・切替モデル",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C25": {
-      "en": "Discrete Regression and Qualitative Choice Models",
+      "en": "Discrete Regression and Qualitative Choice Models • Discrete Regressors • Proportions • Probabilities",
       "ja": "離散選択モデル",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -18995,12 +19005,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C31": {
-      "en": "Cross-Sectional Models",
+      "en": "Cross-Sectional Models • Spatial Models • Treatment Effect Models • Quantile Regressions • Social Interaction Models",
       "ja": "横断面・空間・社会相互作用モデル",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C32": {
-      "en": "Time-Series Models",
+      "en": "Time-Series Models • Dynamic Quantile Regressions • Dynamic Treatment Effect Models • Diffusion Processes • State Space Models",
       "ja": "時系列・状態空間モデル",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19030,7 +19040,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C53": {
-      "en": "Forecasting and Prediction Methods",
+      "en": "Forecasting and Prediction Methods • Simulation Methods",
       "ja": "予測手法",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19050,7 +19060,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C61": {
-      "en": "Optimization Techniques",
+      "en": "Optimization Techniques • Programming Models • Dynamic Analysis",
       "ja": "最適化・計画法",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19060,7 +19070,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C63": {
-      "en": "Computational Techniques",
+      "en": "Computational Techniques • Simulation Modeling",
       "ja": "計算手法・シミュレーション",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19085,22 +19095,22 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C73": {
-      "en": "Stochastic and Dynamic Games",
+      "en": "Stochastic and Dynamic Games • Evolutionary Games • Repeated Games",
       "ja": "確率・動学ゲーム",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C78": {
-      "en": "Bargaining Theory",
+      "en": "Bargaining Theory • Matching Theory",
       "ja": "交渉・マッチング理論",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C81": {
-      "en": "Methodology for Collecting, Estimating, and Organizing Microeconomic Data",
+      "en": "Methodology for Collecting, Estimating, and Organizing Microeconomic Data • Data Access",
       "ja": "ミクロデータ収集・整理",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C83": {
-      "en": "Survey Methods",
+      "en": "Survey Methods • Sampling Methods",
       "ja": "調査・標本抽出法",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19130,12 +19140,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D14": {
-      "en": "Household Saving",
+      "en": "Household Saving • Personal Finance",
       "ja": "家計貯蓄・個人金融",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D15": {
-      "en": "Intertemporal Household Choice",
+      "en": "Intertemporal Household Choice • Life Cycle Models and Saving",
       "ja": "ライフサイクル選択・貯蓄",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19145,12 +19155,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D23": {
-      "en": "Organizational Behavior",
+      "en": "Organizational Behavior • Transaction Costs • Property Rights",
       "ja": "組織・取引費用・財産権",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D24": {
-      "en": "Production",
+      "en": "Production • Cost • Capital • Capital, Total Factor, and Multifactor Productivity • Capacity",
       "ja": "生産・費用・生産性",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19185,7 +19195,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D61": {
-      "en": "Allocative Efficiency",
+      "en": "Allocative Efficiency • Cost–Benefit Analysis",
       "ja": "配分効率・費用便益分析",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19200,7 +19210,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D71": {
-      "en": "Social Choice",
+      "en": "Social Choice • Clubs • Committees • Associations",
       "ja": "社会選択",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19210,12 +19220,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D73": {
-      "en": "Bureaucracy",
+      "en": "Bureaucracy • Administrative Processes in Public Organizations • Corruption",
       "ja": "官僚制・行政過程",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D74": {
-      "en": "Conflict",
+      "en": "Conflict • Conflict Resolution • Alliances • Revolutions",
       "ja": "紛争",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19225,12 +19235,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D82": {
-      "en": "Asymmetric and Private Information",
+      "en": "Asymmetric and Private Information • Mechanism Design",
       "ja": "非対称情報・メカニズムデザイン",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "D83": {
-      "en": "Search",
+      "en": "Search • Learning • Information and Knowledge • Communication • Belief • Unawareness",
       "ja": "探索・学習・情報",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19250,17 +19260,17 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "E01": {
-      "en": "Measurement and Data on National Income and Product Accounts and Wealth",
+      "en": "Measurement and Data on National Income and Product Accounts and Wealth • Environmental Accounts",
       "ja": "国民所得・資産勘定の測定",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "E21": {
-      "en": "Consumption",
+      "en": "Consumption • Saving • Wealth",
       "ja": "消費・貯蓄・富",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "E32": {
-      "en": "Business Fluctuations",
+      "en": "Business Fluctuations • Cycles",
       "ja": "景気変動・景気循環",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19275,12 +19285,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "E61": {
-      "en": "Policy  Objectives",
+      "en": "Policy Objectives • Policy Designs and Consistency • Policy Coordination",
       "ja": "政策目標・制度設計",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "E62": {
-      "en": "Fiscal Policy",
+      "en": "Fiscal Policy • Modern Monetary Theory",
       "ja": "財政政策",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19290,12 +19300,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "F12": {
-      "en": "Models of Trade with Imperfect Competition and Scale Economies",
+      "en": "Models of Trade with Imperfect Competition and Scale Economies • Fragmentation",
       "ja": "不完全競争・規模の経済を伴う貿易",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "F13": {
-      "en": "Trade Policy",
+      "en": "Trade Policy • International Trade Organizations",
       "ja": "貿易政策",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19325,42 +19335,42 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "G11": {
-      "en": "Portfolio Choice",
+      "en": "Portfolio Choice • Investment Decisions",
       "ja": "ポートフォリオ選択",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "G12": {
-      "en": "Asset Pricing",
+      "en": "Asset Pricing • Trading Volume • Bond Interest Rates",
       "ja": "資産価格",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "G13": {
-      "en": "Contingent Pricing",
+      "en": "Contingent Pricing • Futures Pricing",
       "ja": "デリバティブ価格",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "G21": {
-      "en": "Banks",
+      "en": "Banks • Depository Institutions • Micro Finance Institutions • Mortgages",
       "ja": "銀行・預金取扱機関",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "G22": {
-      "en": "Insurance",
+      "en": "Insurance • Insurance Companies • Actuarial Studies",
       "ja": "保険",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "G31": {
-      "en": "Capital Budgeting",
+      "en": "Capital Budgeting • Fixed Investment and Inventory Studies • Capacity",
       "ja": "資本予算・固定投資",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "G32": {
-      "en": "Financing Policy",
+      "en": "Financing Policy • Financial Risk and Risk Management • Capital and Ownership Structure • Value of Firms • Goodwill",
       "ja": "資金調達・資本構成・企業価値",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "G34": {
-      "en": "Mergers",
+      "en": "Mergers • Acquisitions • Restructuring • Corporate Governance",
       "ja": "合併・企業統治",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19370,7 +19380,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "H21": {
-      "en": "Efficiency",
+      "en": "Efficiency • Optimal Taxation",
       "ja": "効率性・最適課税",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19380,7 +19390,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "H23": {
-      "en": "Externalities",
+      "en": "Externalities • Redistributive Effects • Environmental Taxes and Subsidies",
       "ja": "外部性・環境税",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19395,7 +19405,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "H43": {
-      "en": "Project Evaluation",
+      "en": "Project Evaluation • Social Discount Rate",
       "ja": "事業評価・社会的割引率",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19405,7 +19415,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "H63": {
-      "en": "Debt",
+      "en": "Debt • Debt Management • Sovereign Debt",
       "ja": "公的債務・債務管理",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19430,7 +19440,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "I18": {
-      "en": "Government Policy",
+      "en": "Government Policy • Regulation • Public Health",
       "ja": "医療政策・規制",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19440,7 +19450,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "J13": {
-      "en": "Fertility",
+      "en": "Fertility • Family Planning • Child Care • Children • Youth",
       "ja": "出生率・家族・育児",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19460,12 +19470,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "J24": {
-      "en": "Human Capital",
+      "en": "Human Capital • Skills • Occupational Choice • Labor Productivity",
       "ja": "人的資本・技能・職業選択",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "J31": {
-      "en": "Wage Level and Structure",
+      "en": "Wage Level and Structure • Wage Differentials",
       "ja": "賃金水準・構造",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19480,12 +19490,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "J42": {
-      "en": "Monopsony",
+      "en": "Monopsony • Segmented Labor Markets",
       "ja": "買手独占・分断された労働市場",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "J61": {
-      "en": "Geographic Labor Mobility",
+      "en": "Geographic Labor Mobility • Immigrant Workers",
       "ja": "地理的労働移動",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19505,12 +19515,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "L11": {
-      "en": "Production, Pricing, and Market Structure",
+      "en": "Production, Pricing, and Market Structure • Size Distribution of Firms",
       "ja": "価格形成・市場構造・企業規模",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "L12": {
-      "en": "Monopoly",
+      "en": "Monopoly • Monopolization Strategies",
       "ja": "独占・独占化戦略",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19520,7 +19530,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "L15": {
-      "en": "Information and Product Quality",
+      "en": "Information and Product Quality • Standardization and Compatibility",
       "ja": "情報・製品品質",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19530,7 +19540,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "L42": {
-      "en": "Vertical Restraints",
+      "en": "Vertical Restraints • Resale Price Maintenance • Quantity Discounts",
       "ja": "垂直制約・再販売価格",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19540,7 +19550,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "L86": {
-      "en": "Information and Internet Services",
+      "en": "Information and Internet Services • Computer Software",
       "ja": "情報・インターネットサービス",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19575,12 +19585,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "O13": {
-      "en": "Agriculture",
+      "en": "Agriculture • Natural Resources • Energy • Environment • Other Primary Products",
       "ja": "農業・天然資源・エネルギー",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "O15": {
-      "en": "Human Resources",
+      "en": "Human Resources • Human Development • Income Distribution • Migration",
       "ja": "人的資源・人的開発",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19595,7 +19605,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "O33": {
-      "en": "Technological Change: Choices and Consequences",
+      "en": "Technological Change: Choices and Consequences • Diffusion Processes",
       "ja": "技術変化・普及",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19615,7 +19625,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "O47": {
-      "en": "Empirical Studies of Economic Growth",
+      "en": "Empirical Studies of Economic Growth • Aggregate Productivity • Cross-Country Output Convergence",
       "ja": "経済成長の実証研究",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19635,7 +19645,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "Q41": {
-      "en": "Demand and Supply",
+      "en": "Demand and Supply • Prices",
       "ja": "エネルギー需給",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19655,12 +19665,12 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "Q52": {
-      "en": "Pollution Control Adoption and Costs",
+      "en": "Pollution Control Adoption and Costs • Distributional Effects • Employment Effects",
       "ja": "汚染規制・導入費用",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "Q54": {
-      "en": "Climate",
+      "en": "Climate • Natural Disasters and Their Management • Global Warming",
       "ja": "気候・自然災害・地球温暖化",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19675,7 +19685,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "R23": {
-      "en": "Regional Migration",
+      "en": "Regional Migration • Regional Labor Markets • Population • Neighborhood Characteristics",
       "ja": "地域間移動・人口",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19690,7 +19700,7 @@
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "R41": {
-      "en": "Transportation: Demand, Supply, and Congestion",
+      "en": "Transportation: Demand, Supply, and Congestion • Travel Time • Safety and Accidents • Transportation Noise",
       "ja": "交通需要・供給・混雑",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
@@ -19698,6 +19708,21 @@
       "en": "Government Pricing and Policy",
       "ja": "交通政策・料金",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "K11": {
+      "en": "Property Law",
+      "ja": "財産法",
+      "provenance_url": "https://www.aeaweb.org/econlit/jelCodes.php?view=jel"
+    },
+    "K13": {
+      "en": "Tort Law and Product Liability • Forensic Economics",
+      "ja": "不法行為法・製造物責任・訴訟経済分析",
+      "provenance_url": "https://www.aeaweb.org/econlit/jelCodes.php?view=jel"
+    },
+    "Q15": {
+      "en": "Land Ownership and Tenure • Land Reform • Land Use • Irrigation • Agriculture and Environment",
+      "ja": "土地所有・保有制度・農地改革・土地利用・灌漑・農業と環境",
+      "provenance_url": "https://www.aeaweb.org/econlit/jelCodes.php?view=jel"
     }
   },
   "relations": [

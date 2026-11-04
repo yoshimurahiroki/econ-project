@@ -93,7 +93,9 @@
       ],
       "jel_codes": [
         "O12",
-        "D86"
+        "D86",
+        "Q12",
+        "Q15"
       ],
       "kind": "knowledge",
       "outputs": [
