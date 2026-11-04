@@ -3,7 +3,7 @@
     {
       "domain": "ゲーム",
       "path": "domains/01.json",
-      "sha256": "fd549fc072d2bc1c12153932ab6717c69734711354088c28451e864d63231add"
+      "sha256": "18bac7c7b607b49f0fae2179b951ae28307fc9a48ee7b0a52eb61aa83313a9e5"
     },
     {
       "domain": "ネットワーク",
@@ -73,7 +73,7 @@
     {
       "domain": "市場設計",
       "path": "domains/15.json",
-      "sha256": "e571841f428d1a29067ffce8f71d6b0b487dcef97b1928a56fc1919a48a06a95"
+      "sha256": "6c85892b56b91e473219d7d5eb5b972c75688a585e2823fbfd2986f301ecd07a"
     },
     {
       "domain": "情報行動",

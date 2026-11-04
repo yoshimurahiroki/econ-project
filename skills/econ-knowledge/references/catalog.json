@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -1351,8 +1351,8 @@
       "domain": "ゲーム",
       "subdomain": "標準形とナッシュ均衡",
       "kind": "knowledge",
-      "topic": "標準形とナッシュ均衡",
-      "use_when": "戦略と最適反応から純粋または混合ナッシュ均衡を求める",
+      "topic": "標準形ゲーム、連続行動の純粋均衡の存在、最適反応と混合戦略",
+      "use_when": "行動集合・連続性・準凹性から純粋均衡の存在を判定し、最適反応から純粋または混合ナッシュ均衡を求める",
       "inputs": [
         "主体",
         "行動集合",
@@ -1360,13 +1360,15 @@
       ],
       "outputs": [
         "ナッシュ均衡",
-        "混合戦略"
+        "混合戦略",
+        "均衡存在条件"
       ],
       "file": "chapters/04-games.md",
       "anchor": "game-01",
       "concept_ids": [
         "C-GAME-01",
-        "C-CH-04"
+        "C-CH-04",
+        "C-TERM-PURE-NASH"
       ],
       "jel_codes": [
         "C72"
@@ -2238,28 +2240,32 @@
       "domain": "市場設計",
       "subdomain": "VCG と最適オークション",
       "kind": "knowledge",
-      "topic": "VCG と最適オークション",
-      "use_when": "VCG支払と仮想価値から配分と最適留保価格を設計する",
+      "topic": "VCG、ベイズ誘因両立性、条件付き信念と最適オークション",
+      "use_when": "真タイプの条件付き期待効用で申告の誘因を比較し、VCG支払と仮想価値から配分と最適留保価格を設計する",
       "inputs": [
         "価値申告",
         "配分集合",
-        "価値分布"
+        "価値分布",
+        "真タイプ別の条件付き分布"
       ],
       "outputs": [
         "VCG支払",
         "収入最大化配分",
-        "留保価格"
+        "留保価格",
+        "ベイズ誘因制約"
       ],
       "file": "chapters/07-market-design.md",
       "anchor": "design-03",
       "concept_ids": [
         "C-DESIGN-03",
         "C-CH-07",
-        "C-TERM-VCG"
+        "C-TERM-VCG",
+        "C-TERM-BIC"
       ],
       "jel_codes": [
         "D47",
-        "D44"
+        "D44",
+        "D82"
       ],
       "contract_ids": []
     },
@@ -18097,6 +18103,61 @@
       "jel_codes": [
         "C61",
         "C63"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-PURE-NASH",
+      "preferred": {
+        "en": "Pure-strategy Nash equilibrium",
+        "ja": "純粋戦略ナッシュ均衡"
+      },
+      "aliases": {
+        "en": [
+          "pure Nash equilibrium"
+        ],
+        "ja": [
+          "純粋ナッシュ均衡"
+        ]
+      },
+      "broader": [
+        "C-GAME-01"
+      ],
+      "definition": {
+        "unit": "GAME-01",
+        "anchor": "game-01"
+      },
+      "jel_codes": [
+        "C72"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-BIC",
+      "preferred": {
+        "en": "Bayesian incentive compatibility",
+        "ja": "ベイズ誘因両立性"
+      },
+      "aliases": {
+        "en": [
+          "BIC",
+          "Bayesian IC"
+        ],
+        "ja": [
+          "ベイズ誘因整合性",
+          "ベイジアン誘因両立性"
+        ]
+      },
+      "broader": [
+        "C-CH-07"
+      ],
+      "definition": {
+        "unit": "DESIGN-03",
+        "anchor": "design-03"
+      },
+      "jel_codes": [
+        "D82",
+        "D44"
       ],
       "kind": "concept"
     }

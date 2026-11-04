@@ -81,7 +81,8 @@
       "concept_ids": [
         "C-DESIGN-03",
         "C-CH-07",
-        "C-TERM-VCG"
+        "C-TERM-VCG",
+        "C-TERM-BIC"
       ],
       "contract_ids": [],
       "domain": "市場設計",
@@ -90,17 +91,20 @@
       "inputs": [
         "価値申告",
         "配分集合",
-        "価値分布"
+        "価値分布",
+        "真タイプ別の条件付き分布"
       ],
       "jel_codes": [
         "D47",
-        "D44"
+        "D44",
+        "D82"
       ],
       "kind": "knowledge",
       "outputs": [
         "VCG支払",
         "収入最大化配分",
-        "留保価格"
+        "留保価格",
+        "ベイズ誘因制約"
       ],
       "prerequisites": [
         "DESIGN-01"
@@ -108,8 +112,8 @@
       "related": [],
       "subdomain": "VCG と最適オークション",
       "title": "VCG と最適オークション",
-      "topic": "VCG と最適オークション",
-      "use_when": "VCG支払と仮想価値から配分と最適留保価格を設計する"
+      "topic": "VCG、ベイズ誘因両立性、条件付き信念と最適オークション",
+      "use_when": "真タイプの条件付き期待効用で申告の誘因を比較し、VCG支払と仮想価値から配分と最適留保価格を設計する"
     },
     {
       "alternatives": [],

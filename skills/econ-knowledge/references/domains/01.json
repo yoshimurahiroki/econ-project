@@ -7,7 +7,8 @@
       "chapter": 4,
       "concept_ids": [
         "C-GAME-01",
-        "C-CH-04"
+        "C-CH-04",
+        "C-TERM-PURE-NASH"
       ],
       "contract_ids": [],
       "domain": "ゲーム",
@@ -24,7 +25,8 @@
       "kind": "knowledge",
       "outputs": [
         "ナッシュ均衡",
-        "混合戦略"
+        "混合戦略",
+        "均衡存在条件"
       ],
       "prerequisites": [
         "MATH-06"
@@ -34,8 +36,8 @@
       ],
       "subdomain": "標準形とナッシュ均衡",
       "title": "標準形とナッシュ均衡",
-      "topic": "標準形とナッシュ均衡",
-      "use_when": "戦略と最適反応から純粋または混合ナッシュ均衡を求める"
+      "topic": "標準形ゲーム、連続行動の純粋均衡の存在、最適反応と混合戦略",
+      "use_when": "行動集合・連続性・準凹性から純粋均衡の存在を判定し、最適反応から純粋または混合ナッシュ均衡を求める"
     },
     {
       "alternatives": [],

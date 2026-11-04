@@ -1,13 +1,13 @@
 {
-  "catalog_sha256": "9e04a82bea57281c0d9fc652324f44549d768d409f33177feb93922b47c2ae1f",
+  "catalog_sha256": "800f3e07db3220595359061bd58169b2b470f9e9599c1f3f2563a4aa8553f5ad",
   "chapters": {
     "chapters/01-mathematics.md": "fd99fe5d3d51fea0ffe8e9ee63d11a75ba41e492908a23728a90047790e84685",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
     "chapters/03-microeconomics.md": "91982674dffa16d89dd1b04f41447ae39debbe4be3e47376c3e390d21244561e",
-    "chapters/04-games.md": "f9e0421598b34186f7197808b8f5ff3b97aaf864cf525406fc46a4fed8bb58df",
+    "chapters/04-games.md": "1477c3d64dd6b9a7f17475c5b7e3a46ae27acca08d49471f4e8b1f4a08ccf752",
     "chapters/05-information-behavior.md": "f598b278f1ccfbb0b5681368607a9602ecfbcfea8b087ff134f95c6a7ec67156",
     "chapters/06-contracts-organization.md": "72c21e67dc11662ec9dc4f3d1924b2a69182734cd992e253908c87eea0c7ae6c",
-    "chapters/07-market-design.md": "07a46e4f0a63c34e3a8a8eae5db21e9552059171c66c4397117609bdb7d4ef99",
+    "chapters/07-market-design.md": "ea941e3a8e5909d390158ff1af35924d99533a4fd020541cf8310528877d996b",
     "chapters/08-networks.md": "eaa4c06c5fdc30349ef4029d39d20b6f6db6c59eb5c7e24d367f6a13e13dd3ef",
     "chapters/09-dynamic-computation.md": "7b8e38b8f32a97c989c7ca658a2ffc65dec3a95f8d84d5e5333d85ac3048c160",
     "chapters/10-econometrics.md": "0479fbcfbdfd8882924914ca61e66773685d0bd373ab279de5093b7a1c569038",
@@ -16,7 +16,7 @@
     "chapters/13-time-series.md": "f668b700e013d6ad79ff62e97b2363ae4b8c4ba8ff141334355a8fac32ae8e3f",
     "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
     "chapters/15-demand-production.md": "737738f6b5dfb30b55bfac3e3c7e517e8264886ed8d2bbd728d77f8c71887fba",
-    "chapters/16-competition-platforms.md": "6925be46025c7c3b232ff18e2d93b9eda3bda49a741ed37f9b59a2199010309e",
+    "chapters/16-competition-platforms.md": "bea2367665507597da9d26b711d2a63d50b617a74a21ca2a70fd725333d1df04",
     "chapters/17-growth-macro.md": "e5faf45b0cf55ed4474c879ea4669153d7204433cba5c8232fd3a2b1f79ae0a0",
     "chapters/18-monetary-open-macro.md": "58772ecab4c65146fe272c6c889be7a57cc5cf52e81e2f2172de4ca20df381db",
     "chapters/19-heterogeneous-macro.md": "5ef5791ce18c7ae5b94156fb1104fb56a91596b671399de4838baf21b16b110d",
@@ -37,12 +37,12 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "3b0ff7722ad294c53efea0c620f44d345df48e66502331ba1fa7c218f11d1215",
+  "domain_listing_sha256": "9eb76da7377f04b58ff88b0a12780b9bed6867be7094eb9257ece4e1d05bb7e2",
   "domains": {
     "ゲーム": {
       "count": 9,
       "path": "domains/01.json",
-      "sha256": "fd549fc072d2bc1c12153932ab6717c69734711354088c28451e864d63231add"
+      "sha256": "18bac7c7b607b49f0fae2179b951ae28307fc9a48ee7b0a52eb61aa83313a9e5"
     },
     "ネットワーク": {
       "count": 7,
@@ -112,7 +112,7 @@
     "市場設計": {
       "count": 8,
       "path": "domains/15.json",
-      "sha256": "e571841f428d1a29067ffce8f71d6b0b487dcef97b1928a56fc1919a48a06a95"
+      "sha256": "6c85892b56b91e473219d7d5eb5b972c75688a585e2823fbfd2986f301ecd07a"
     },
     "情報行動": {
       "count": 8,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "b705d18a9db12f8f045b350ba54876a25263a07d93188afca877ce326e811d7f"
+      "sha256": "d32bd6ec9c1ce54e7f471f49a741a38c1d07c630680edb4c22769f615c82f05d"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -487,7 +487,7 @@
       "chapter": "chapters/07-market-design.md",
       "domain": "市場設計",
       "path": "units/DESIGN-01.md",
-      "sha256": "8bba939bad8dbac62e11c841ba6c1303e46386a80c22f3e2d7883a662e111549"
+      "sha256": "8e50b334b97467bfdb8b5bfea00d2fdd3447000885c7843c92876b9717c799c0"
     },
     "DESIGN-02": {
       "chapter": "chapters/07-market-design.md",
@@ -499,7 +499,7 @@
       "chapter": "chapters/07-market-design.md",
       "domain": "市場設計",
       "path": "units/DESIGN-03.md",
-      "sha256": "bb96f9e1010ef8ba5ce18990f81716c6a304228d88a00acaa8dbb818c2a8c4b1"
+      "sha256": "0703c8554354c19937ae07f50c22a962a8654c8afc0ea11cd53492fba98c3e03"
     },
     "DESIGN-04": {
       "chapter": "chapters/07-market-design.md",
@@ -811,7 +811,7 @@
       "chapter": "chapters/04-games.md",
       "domain": "ゲーム",
       "path": "units/GAME-01.md",
-      "sha256": "db85d588472caae842c70ab3cd9f6a71fb98be4be53885fcabd27b83225b87df"
+      "sha256": "98826007c1403d81b59ae6e3f42fd21849689354920c407084d2cc4e288e7467"
     },
     "GAME-02": {
       "chapter": "chapters/04-games.md",
@@ -1027,7 +1027,7 @@
       "chapter": "chapters/16-competition-platforms.md",
       "domain": "産業組織",
       "path": "units/IO-01.md",
-      "sha256": "338ef3156af060b1a01c9fa325fec6b329c2bbeeacd9cd2e48a922a10ce18993"
+      "sha256": "f782606ef7761b3003b0e4d06f47cd44e8248fc9a6e8e5350f8e5cb2f358dfc0"
     },
     "IO-02": {
       "chapter": "chapters/16-competition-platforms.md",
