@@ -9,7 +9,8 @@
         "C-ADVCAUSAL-01",
         "C-CH-12",
         "C-TERM-DML",
-        "C-TERM-ORTHOGONAL-SCORE"
+        "C-TERM-ORTHOGONAL-SCORE",
+        "C-TERM-PROPENSITY-SCORE"
       ],
       "contract_ids": [],
       "domain": "因果拡張",

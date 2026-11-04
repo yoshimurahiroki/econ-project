@@ -113,7 +113,8 @@
       "concept_ids": [
         "C-MATH-04",
         "C-CH-01",
-        "C-TERM-SHADOW-PRICE"
+        "C-TERM-SHADOW-PRICE",
+        "C-TERM-UTILITY-MAXIMIZATION"
       ],
       "contract_ids": [],
       "domain": "数理基盤",

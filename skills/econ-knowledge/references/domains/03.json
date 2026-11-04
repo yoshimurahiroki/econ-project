@@ -8,7 +8,9 @@
       "concept_ids": [
         "C-MICRO-01",
         "C-CH-03",
-        "C-OBJ-DEMAND"
+        "C-OBJ-DEMAND",
+        "C-TERM-UTILITY-MAXIMIZATION",
+        "C-TERM-MARSHALLIAN-DEMAND"
       ],
       "contract_ids": [],
       "domain": "ミクロ理論",
@@ -45,7 +47,12 @@
         "C-MICRO-02",
         "C-CH-03",
         "C-TERM-EQUIVALENT-VARIATION",
-        "C-TERM-COMPENSATING-VARIATION"
+        "C-TERM-COMPENSATING-VARIATION",
+        "C-TERM-MARSHALLIAN-DEMAND",
+        "C-TERM-HICKSIAN-DEMAND",
+        "C-TERM-SLUTSKY",
+        "C-TERM-INCOME-EFFECT",
+        "C-TERM-SUBSTITUTION-EFFECT"
       ],
       "contract_ids": [],
       "domain": "ミクロ理論",

@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "1159dd97827d91203581a940ec0fd24b651dbf30aa523c64fb50805d9dc12736",
+  "catalog_sha256": "1600a83367bf21c14463eab5153e60ed59372709ca99373fdf4f1519968dde3a",
   "chapters": {
     "chapters/01-mathematics.md": "fd99fe5d3d51fea0ffe8e9ee63d11a75ba41e492908a23728a90047790e84685",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -9,7 +9,7 @@
     "chapters/06-contracts-organization.md": "72c21e67dc11662ec9dc4f3d1924b2a69182734cd992e253908c87eea0c7ae6c",
     "chapters/07-market-design.md": "07a46e4f0a63c34e3a8a8eae5db21e9552059171c66c4397117609bdb7d4ef99",
     "chapters/08-networks.md": "eaa4c06c5fdc30349ef4029d39d20b6f6db6c59eb5c7e24d367f6a13e13dd3ef",
-    "chapters/09-dynamic-computation.md": "30d17d26afbb282170c135c80ef1f6e259da3345880540f05c5e5b2b7e84b3ba",
+    "chapters/09-dynamic-computation.md": "7b8e38b8f32a97c989c7ca658a2ffc65dec3a95f8d84d5e5333d85ac3048c160",
     "chapters/10-econometrics.md": "0479fbcfbdfd8882924914ca61e66773685d0bd373ab279de5093b7a1c569038",
     "chapters/11-causal-designs.md": "0ddc979650763b15200d5914b31522f0be294ce463e0bfa57be1f550a26ddfa9",
     "chapters/12-causal-extensions.md": "e5e6641cb9d1c9da6dd9352b7148602d3e4f9814f61bb60786adeb328586624d",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "a3f92d84887efd47ce11ead2285c7063d899fe93f57f8ceae523e392a8819eea",
+  "domain_listing_sha256": "3b0ff7722ad294c53efea0c620f44d345df48e66502331ba1fa7c218f11d1215",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -52,7 +52,7 @@
     "ミクロ理論": {
       "count": 7,
       "path": "domains/03.json",
-      "sha256": "e505f52a133bc2ae722db398aae4c8b931daf39e1bc9ce58f6569e462627f8ed"
+      "sha256": "6171587fd24ac348c7b06501d8b6f1f7abe48f11e995f89bbd4b6dcab9f50e2b"
     },
     "予測意思決定": {
       "count": 7,
@@ -82,7 +82,7 @@
     "動学計算": {
       "count": 9,
       "path": "domains/09.json",
-      "sha256": "590708f5036e43c8bcee14fb4b81e1b80b6724fb240a59053adcc7f35c2e5df1"
+      "sha256": "f492d78aa7aec5d7c90346dd77440fcfbc3c526fc4b2a3002e31a4b03e34be9e"
     },
     "医療教育": {
       "count": 7,
@@ -97,12 +97,12 @@
     "因果デザイン": {
       "count": 7,
       "path": "domains/12.json",
-      "sha256": "883a507f8060cd1f36236a6adff719abd2325b534fbd49d7166656d2a0f81637"
+      "sha256": "6521498bc44468ad7b0c27a2c295a89adee0135ae3683d1fb8329bffc895ed21"
     },
     "因果拡張": {
       "count": 8,
       "path": "domains/13.json",
-      "sha256": "4e58f0485bde0c68d4721adff8e2a7e450505264023cca7c46183ace40e899b2"
+      "sha256": "fc7f1fbededd1bfb001cf6387805430e6a08f9cb9da142dd793f616cdd08a671"
     },
     "契約組織": {
       "count": 9,
@@ -137,7 +137,7 @@
     "数理基盤": {
       "count": 9,
       "path": "domains/20.json",
-      "sha256": "06bcbb7f4d3cffc06948b2b7e6a36fb33e5059f9dae2c8addbee34d107866cc2"
+      "sha256": "712cf095fc3cfdf1d3d1ce063281ace8caefdab1a88b2f83fb4adeea9fd0c6c5"
     },
     "時系列": {
       "count": 7,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "f4d118c143190aecb2485c06be6a82a16d9dbc48d3a0d5c8a4b532c288c193a6"
+      "sha256": "b705d18a9db12f8f045b350ba54876a25263a07d93188afca877ce326e811d7f"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -583,7 +583,7 @@
       "chapter": "chapters/09-dynamic-computation.md",
       "domain": "動学計算",
       "path": "units/DYN-02.md",
-      "sha256": "bcf0320d851a68d4247d8b4d2c612ea1a666e7217723fc6ff94fe01f9aa1cfb9"
+      "sha256": "452ca5e9be67f02c327d2526472bc8b867592bb8a57d13c5e283878d5464944c"
     },
     "DYN-03": {
       "chapter": "chapters/09-dynamic-computation.md",

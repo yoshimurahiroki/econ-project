@@ -86,6 +86,56 @@ def contains_term(text, term):
         start = position + 1
 
 
+def lexical_words(text):
+    """Normalize English inflections without conflating distinct concept labels."""
+    stop = {'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'can', 'do', 'does',
+            'for', 'from', 'how', 'in', 'is', 'it', 'of', 'on', 'or', 'that',
+            'the', 'their', 'to', 'under', 'using', 'what', 'when', 'which', 'with'}
+    words = set()
+    for word in re.findall(r'[a-z0-9]+(?:-[0-9]+)?', text):
+        if word in stop or len(word) < 2:
+            continue
+        if len(word) > 4 and word.endswith('ies'):
+            word = word[:-3] + 'y'
+        elif word.endswith(('ches', 'shes', 'sses', 'xes', 'zes')):
+            word = word[:-2]
+        elif len(word) > 3 and word.endswith('s') and not word.endswith(('ss', 'is', 'us')):
+            word = word[:-1]
+        words.add(word)
+    return words
+
+
+def lexical_scores(query, texts):
+    """Rank both unit and concept text using discriminating query evidence."""
+    words = lexical_words(query)
+    documents = [lexical_words(text) for text in texts]
+    word_weights = {word: 1 + math.log((len(texts) + 1) /
+                    (1 + sum(word in document for document in documents))) for word in words}
+    segments = re.findall(r'[一-龯ぁ-ゖァ-ヺー]+', query)
+    particles = set('のとがをでにはへも')
+    generic = {'含む', 'よる', '変化'}
+    grams = {segment[i:i + width] for segment in segments for width in range(2, 7)
+             for i in range(len(segment) - width + 1)
+             if segment[i] not in particles and segment[i + width - 1] not in particles
+             and (segment[i:i + width] not in generic or query == segment[i:i + width])}
+    weights = {gram: len(gram) * (1 + math.log((len(texts) + 1) /
+               (1 + sum(gram in text for text in texts)))) for gram in grams}
+    scores = []
+    for text, document in zip(texts, documents):
+        score = 4 * sum(weight for word, weight in word_weights.items() if word in document)
+        for segment in segments:
+            best = [0.0] * (len(segment) + 1)
+            for end in range(1, len(segment) + 1):
+                best[end] = best[end - 1]
+                for width in range(2, min(6, end) + 1):
+                    gram = segment[end - width:end]
+                    if gram in weights and gram in text:
+                        best[end] = max(best[end], best[end - width] + weights[gram])
+            score += best[-1]
+        scores.append(score)
+    return scores
+
+
 def encoded(value):
     return (json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + '\n').encode()
 
@@ -636,27 +686,24 @@ class Reader:
     def search(self, domain, query, limit):
         if not 1 <= limit <= 20 or not query.strip(): raise ValueError('Use a nonempty query and limit 1..20')
         normalized = unicodedata.normalize('NFKC', query).casefold()
-        terms = set(re.findall(r'[a-z0-9]+(?:-[0-9]+)?', normalized))
-        segments = re.findall(r'[一-龯ぁ-ゖァ-ヺー]+', normalized)
-        particles = set('のとがをでにはへも')
-        generic = {'含む', 'よる', '変化'}
-        grams = {segment[i:i + width] for segment in segments for width in range(2, 7)
-                 for i in range(len(segment) - width + 1)
-                 if segment[i] not in particles and segment[i + width - 1] not in particles
-                 and (segment[i:i + width] not in generic or normalized == segment[i:i + width])}
-        concept_labels, classifications = {}, {}
+        exact_ids = {term.upper() for term in re.findall(r'[a-z0-9]+(?:-[0-9]+)?', normalized)
+                     if ID.fullmatch(term.upper())}
+        concept_labels, classifications, matched_concepts = {}, {}, {}
         if self.spec_version == SEMANTIC_VERSION:
+            visible = self.visible_concepts()
             for concept in self.semantic('lexicon.json')['concepts']:
+                if visible is not None and concept['id'] not in visible:
+                    continue
                 labels = [*concept['preferred'].values(), *concept['aliases']['en'], *concept['aliases']['ja']]
                 target = classifications if concept.get('kind', 'concept') == 'classification' else concept_labels
-                target[concept['id']] = [unicodedata.normalize('NFKC', value).casefold() for value in labels]
-            expanded = {label for labels in concept_labels.values()
-                        if any(contains_term(normalized, label) for label in labels) for label in labels}
-            field_expanded = {label for labels in classifications.values()
-                              if any(contains_term(normalized, label) for label in labels) for label in labels}
+                target[concept['id']] = sorted({unicodedata.normalize('NFKC', value).casefold() for value in labels})
+                matches = [label for label in target[concept['id']] if contains_term(normalized, label)]
+                if matches and target is concept_labels:
+                    matched_concepts[concept['id']] = {'id': concept['id'], 'labels': matches,
+                                                     'definition': concept['definition']}
+            expanded = set()
         else:
             expanded = {target for source, target in ALIASES if contains_term(normalized, source)}
-            field_expanded = set()
         if domain is not None:
             domains = [domain]
         elif self.selection:
@@ -673,33 +720,23 @@ class Reader:
                       *(label for concept in u.get('concept_ids', []) for label in concept_labels.get(concept, [])))
             return unicodedata.normalize('NFKC', ' '.join(fields)).casefold()
         indexed = [(u, corpus(u)) for u in candidates]
-        frequencies = {gram: sum(gram in text for _, text in indexed) for gram in grams}
-        def score(u, text):
-            exact_id = u['id'].casefold() in terms
-            words = sum(contains_term(text, term) for term in terms if len(term) > 1)
-            aliases = sum(contains_term(text, term) for term in expanded)
-            fragments = 0.0
-            for segment in segments:
-                best = [0.0] * (len(segment) + 1)
-                for end in range(1, len(segment) + 1):
-                    best[end] = best[end - 1]
-                    for width in range(2, min(6, end) + 1):
-                        gram = segment[end - width:end]
-                        if gram in frequencies and gram in text:
-                            weight = width * (1 + math.log((len(indexed) + 1) / (frequencies[gram] + 1)))
-                            best[end] = max(best[end], best[end - width] + weight)
-                fragments += best[-1]
-            primary = 25 * (words + aliases) + fragments
-            field = ' '.join(label for concept in u.get('concept_ids', [])
-                             for label in classifications.get(concept, []))
-            field_score = (sum(contains_term(field, term) for term in terms if len(term) > 1)
-                           + sum(contains_term(field, term) for term in field_expanded)
-                           + sum(gram in field for gram in grams))
-            return (exact_id, primary > 0, primary, field_score)
-        ranked = [(score(u, text), u) for u, text in indexed]
+        scores = lexical_scores(normalized, [text for _, text in indexed])
+        field_scores = lexical_scores(normalized, [' '.join(label for concept in u.get('concept_ids', [])
+                         for label in classifications.get(concept, [])) for u in candidates])
+        concept_weights = {cid: 4 * (1 + math.log((len(candidates) + 1) /
+                           (1 + sum(cid in u.get('concept_ids', []) for u in candidates))))
+                           for cid in matched_concepts}
+        ranked = []
+        for (u, text), primary, field_score in zip(indexed, scores, field_scores):
+            # A concept contributes once, irrespective of its number of aliases.
+            primary += sum(concept_weights[cid] for cid in u.get('concept_ids', []) if cid in matched_concepts)
+            primary += 4 * sum(contains_term(text, term) for term in expanded)
+            defining = sum(match['definition']['unit'] == u['id'] for match in matched_concepts.values())
+            ranked.append(((u['id'] in exact_ids, primary > 0, primary, defining, field_score), u))
         candidates = [u for rank, u in sorted(ranked, key=lambda row: (row[0], row[1]['id']), reverse=True)
                       if any(rank)]
         return {'domain': domain, 'query': query, 'candidates': candidates[:limit],
+                'matched_concepts': list(matched_concepts.values()),
                 'truncated': len(candidates) > limit, **self.report()}
 
     def semantic(self, name):
@@ -726,24 +763,29 @@ class Reader:
         lexicon = self.semantic('lexicon.json')
         visible = self.visible_concepts()
         normalized = unicodedata.normalize('NFKC', query).casefold()
-        rows = []
+        candidates, texts, matches = [], [], []
         for concept in lexicon['concepts']:
             if visible is not None and concept['id'] not in visible: continue
             labels = [concept['id'], *concept['preferred'].values(),
                       *concept['aliases']['en'], *concept['aliases']['ja']]
             labels = [unicodedata.normalize('NFKC', label).casefold() for label in labels]
-            score = max((3 if normalized == label else 2 if contains_term(label, normalized) else
-                         1 if len(label) > 1 and contains_term(normalized, label) else 0) for label in labels)
-            if score:
+            matched = [label for label in labels if contains_term(normalized, label)]
+            candidates.append(concept)
+            matches.append((normalized in labels, matched))
+            texts.append(' '.join(labels))
+        rows = []
+        for concept, score, (exact, matched) in zip(candidates, lexical_scores(normalized, texts), matches):
+            if score or matched:
                 row = dict(concept)
+                row['matched_labels'] = matched
                 row['jel'] = {code: lexicon['jel'][code] for code in concept['jel_codes']}
                 row['definition'] = {**concept['definition'], 'body_readable': not self.selection
                                      or concept['definition']['unit'] in self.selection['closure_ids']}
                 if visible is not None:
                     row['broader'] = [x for x in row['broader'] if x in visible]
                     row['narrower'] = [x for x in row['narrower'] if x in visible]
-                rows.append((score, row))
-        rows.sort(key=lambda value: (-value[0], value[1]['id']))
+                rows.append(((exact, bool(matched), score), row))
+        rows.sort(key=lambda value: (value[0], value[1]['id']), reverse=True)
         return {'query': query, 'concepts': [row for _, row in rows[:limit]],
                 'truncated': len(rows) > limit, **self.report()}
 

@@ -43,7 +43,10 @@
       "concept_ids": [
         "C-DYN-02",
         "C-CH-09",
-        "C-OBJ-STATE-ACTION-TRANSITION"
+        "C-OBJ-STATE-ACTION-TRANSITION",
+        "C-TERM-TIME-DISCOUNT",
+        "C-TERM-VALUE-ITERATION",
+        "C-TERM-POLICY-ITERATION"
       ],
       "contract_ids": [],
       "domain": "動学計算",
@@ -75,7 +78,7 @@
       ],
       "subdomain": "Bellman 方程式",
       "title": "Bellman 方程式",
-      "topic": "Bellman 方程式",
+      "topic": "Bellman 方程式; contraction convergence; 収縮写像と収束",
       "use_when": "Bellman方程式を価値反復または方策反復で解く"
     },
     {
@@ -84,7 +87,8 @@
       "chapter": 9,
       "concept_ids": [
         "C-DYN-03",
-        "C-CH-09"
+        "C-CH-09",
+        "C-TERM-TIME-DISCOUNT"
       ],
       "contract_ids": [],
       "domain": "動学計算",
@@ -159,7 +163,8 @@
       "concept_ids": [
         "C-DYN-05",
         "C-CH-09",
-        "C-TERM-EGM"
+        "C-TERM-EGM",
+        "C-TERM-TIME-DISCOUNT"
       ],
       "contract_ids": [],
       "domain": "動学計算",
@@ -242,7 +247,8 @@
       "chapter": 9,
       "concept_ids": [
         "C-DYN-07",
-        "C-CH-09"
+        "C-CH-09",
+        "C-TERM-TIME-DISCOUNT"
       ],
       "contract_ids": [],
       "domain": "動学計算",

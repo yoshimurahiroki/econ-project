@@ -13,7 +13,7 @@
     {
       "domain": "ミクロ理論",
       "path": "domains/03.json",
-      "sha256": "e505f52a133bc2ae722db398aae4c8b931daf39e1bc9ce58f6569e462627f8ed"
+      "sha256": "6171587fd24ac348c7b06501d8b6f1f7abe48f11e995f89bbd4b6dcab9f50e2b"
     },
     {
       "domain": "予測意思決定",
@@ -43,7 +43,7 @@
     {
       "domain": "動学計算",
       "path": "domains/09.json",
-      "sha256": "590708f5036e43c8bcee14fb4b81e1b80b6724fb240a59053adcc7f35c2e5df1"
+      "sha256": "f492d78aa7aec5d7c90346dd77440fcfbc3c526fc4b2a3002e31a4b03e34be9e"
     },
     {
       "domain": "医療教育",
@@ -58,12 +58,12 @@
     {
       "domain": "因果デザイン",
       "path": "domains/12.json",
-      "sha256": "883a507f8060cd1f36236a6adff719abd2325b534fbd49d7166656d2a0f81637"
+      "sha256": "6521498bc44468ad7b0c27a2c295a89adee0135ae3683d1fb8329bffc895ed21"
     },
     {
       "domain": "因果拡張",
       "path": "domains/13.json",
-      "sha256": "4e58f0485bde0c68d4721adff8e2a7e450505264023cca7c46183ace40e899b2"
+      "sha256": "fc7f1fbededd1bfb001cf6387805430e6a08f9cb9da142dd793f616cdd08a671"
     },
     {
       "domain": "契約組織",
@@ -98,7 +98,7 @@
     {
       "domain": "数理基盤",
       "path": "domains/20.json",
-      "sha256": "06bcbb7f4d3cffc06948b2b7e6a36fb33e5059f9dae2c8addbee34d107866cc2"
+      "sha256": "712cf095fc3cfdf1d3d1ce063281ace8caefdab1a88b2f83fb4adeea9fd0c6c5"
     },
     {
       "domain": "時系列",

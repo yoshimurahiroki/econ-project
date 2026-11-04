@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.51.0",
+  "policy_id": "economics-native-0.51.1",
   "profile": {
     "id": "research-full"
   },
@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "d1654a515506ef1936e94097d89b7c460c758f2a7860444e5415794e0d0e23da"
+      "sha256": "26c680fe9bdf53f1b2b7bd172416e6e86c60234d4070b6ff9910bf6286d67d3d"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -123,7 +123,7 @@
     },
     "resource:econ-knowledge": {
       "path": "skills/econ-knowledge/SKILL.md",
-      "sha256": "2f93d781cdfc67854da8e01caf81a55f72899898fec072f340052d9f77cd9c86"
+      "sha256": "e2c93f3ceaea6eca6be217c6a30992ab90076d43861eb41cee6e74f0b535e046"
     },
     "resource:econ-literature": {
       "path": "skills/econ-literature/SKILL.md",
@@ -199,7 +199,7 @@
     },
     "resource:knowledge-retrieval": {
       "path": "skills/econ-knowledge/scripts/knowledge.py",
-      "sha256": "ba519949f33f3dd68242a9835632d06ba062070e32d3b34dc72cefffdba28b90"
+      "sha256": "64d26af48c5471e9f688442671273399c4019c4122006de3645e0d874d5174d6"
     },
     "resource:latex-bibliography-style": {
       "path": "tex/paper/ecta-fullname.bst",

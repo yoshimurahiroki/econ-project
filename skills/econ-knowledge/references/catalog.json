@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "language": "ja",
   "date": "2026-11-03",
   "chapter_count": 35,
@@ -691,7 +691,8 @@
       "concept_ids": [
         "C-MATH-04",
         "C-CH-01",
-        "C-TERM-SHADOW-PRICE"
+        "C-TERM-SHADOW-PRICE",
+        "C-TERM-UTILITY-MAXIMIZATION"
       ],
       "jel_codes": [
         "C61"
@@ -1128,7 +1129,9 @@
       "concept_ids": [
         "C-MICRO-01",
         "C-CH-03",
-        "C-OBJ-DEMAND"
+        "C-OBJ-DEMAND",
+        "C-TERM-UTILITY-MAXIMIZATION",
+        "C-TERM-MARSHALLIAN-DEMAND"
       ],
       "jel_codes": [
         "D11",
@@ -1161,7 +1164,12 @@
         "C-MICRO-02",
         "C-CH-03",
         "C-TERM-EQUIVALENT-VARIATION",
-        "C-TERM-COMPENSATING-VARIATION"
+        "C-TERM-COMPENSATING-VARIATION",
+        "C-TERM-MARSHALLIAN-DEMAND",
+        "C-TERM-HICKSIAN-DEMAND",
+        "C-TERM-SLUTSKY",
+        "C-TERM-INCOME-EFFECT",
+        "C-TERM-SUBSTITUTION-EFFECT"
       ],
       "jel_codes": [
         "D11",
@@ -2672,7 +2680,7 @@
       "domain": "動学計算",
       "subdomain": "Bellman 方程式",
       "kind": "knowledge",
-      "topic": "Bellman 方程式",
+      "topic": "Bellman 方程式; contraction convergence; 収縮写像と収束",
       "use_when": "Bellman方程式を価値反復または方策反復で解く",
       "inputs": [
         "状態",
@@ -2691,7 +2699,10 @@
       "concept_ids": [
         "C-DYN-02",
         "C-CH-09",
-        "C-OBJ-STATE-ACTION-TRANSITION"
+        "C-OBJ-STATE-ACTION-TRANSITION",
+        "C-TERM-TIME-DISCOUNT",
+        "C-TERM-VALUE-ITERATION",
+        "C-TERM-POLICY-ITERATION"
       ],
       "jel_codes": [
         "C61",
@@ -2723,7 +2734,8 @@
       "anchor": "dyn-03",
       "concept_ids": [
         "C-DYN-03",
-        "C-CH-09"
+        "C-CH-09",
+        "C-TERM-TIME-DISCOUNT"
       ],
       "jel_codes": [
         "C61",
@@ -2789,7 +2801,8 @@
       "concept_ids": [
         "C-DYN-05",
         "C-CH-09",
-        "C-TERM-EGM"
+        "C-TERM-EGM",
+        "C-TERM-TIME-DISCOUNT"
       ],
       "jel_codes": [
         "C63",
@@ -2854,7 +2867,8 @@
       "anchor": "dyn-07",
       "concept_ids": [
         "C-DYN-07",
-        "C-CH-09"
+        "C-CH-09",
+        "C-TERM-TIME-DISCOUNT"
       ],
       "jel_codes": [
         "C61",
@@ -3241,7 +3255,8 @@
       "anchor": "causal-01",
       "concept_ids": [
         "C-CAUSAL-01",
-        "C-CH-11"
+        "C-CH-11",
+        "C-TERM-PROPENSITY-SCORE"
       ],
       "jel_codes": [
         "C21",
@@ -3305,7 +3320,8 @@
         "C-CAUSAL-03",
         "C-CH-11",
         "C-TERM-DID",
-        "C-ASSUMP-PARALLEL-TRENDS"
+        "C-ASSUMP-PARALLEL-TRENDS",
+        "C-TERM-PROPENSITY-SCORE"
       ],
       "jel_codes": [
         "C23",
@@ -3339,7 +3355,8 @@
       "concept_ids": [
         "C-CAUSAL-04",
         "C-CH-11",
-        "C-ASSUMP-PARALLEL-TRENDS"
+        "C-ASSUMP-PARALLEL-TRENDS",
+        "C-TERM-PROPENSITY-SCORE"
       ],
       "jel_codes": [
         "C23",
@@ -3474,7 +3491,8 @@
         "C-ADVCAUSAL-01",
         "C-CH-12",
         "C-TERM-DML",
-        "C-TERM-ORTHOGONAL-SCORE"
+        "C-TERM-ORTHOGONAL-SCORE",
+        "C-TERM-PROPENSITY-SCORE"
       ],
       "jel_codes": [
         "C14",
@@ -10797,8 +10815,13 @@
         "ja": "Bellman 方程式"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "Bellman",
+          "Bellman optimality equation"
+        ],
+        "ja": [
+          "ベルマン方程式"
+        ]
       },
       "broader": [
         "C-CH-09"
@@ -17807,6 +17830,273 @@
       "jel_codes": [
         "D83",
         "D23"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-UTILITY-MAXIMIZATION",
+      "preferred": {
+        "en": "utility maximization",
+        "ja": "効用最大化"
+      },
+      "aliases": {
+        "en": [
+          "utility maximisation"
+        ],
+        "ja": []
+      },
+      "broader": [
+        "C-MICRO-01"
+      ],
+      "definition": {
+        "unit": "MICRO-01",
+        "anchor": "micro-01"
+      },
+      "jel_codes": [
+        "D11",
+        "D12"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-MARSHALLIAN-DEMAND",
+      "preferred": {
+        "en": "Marshallian demand",
+        "ja": "マーシャル需要"
+      },
+      "aliases": {
+        "en": [
+          "uncompensated demand",
+          "ordinary demand"
+        ],
+        "ja": [
+          "通常需要",
+          "非補償需要"
+        ]
+      },
+      "broader": [
+        "C-MICRO-01"
+      ],
+      "definition": {
+        "unit": "MICRO-01",
+        "anchor": "micro-01"
+      },
+      "jel_codes": [
+        "D11",
+        "D12"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-HICKSIAN-DEMAND",
+      "preferred": {
+        "en": "Hicksian demand",
+        "ja": "ヒックス需要"
+      },
+      "aliases": {
+        "en": [
+          "compensated demand"
+        ],
+        "ja": [
+          "補償需要"
+        ]
+      },
+      "broader": [
+        "C-MICRO-02"
+      ],
+      "definition": {
+        "unit": "MICRO-02",
+        "anchor": "micro-02"
+      },
+      "jel_codes": [
+        "D11",
+        "D61"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-SLUTSKY",
+      "preferred": {
+        "en": "Slutsky equation",
+        "ja": "Slutsky方程式"
+      },
+      "aliases": {
+        "en": [
+          "Slutsky decomposition"
+        ],
+        "ja": [
+          "スルツキー方程式",
+          "スルツキー分解",
+          "Slutsky分解"
+        ]
+      },
+      "broader": [
+        "C-MICRO-02"
+      ],
+      "definition": {
+        "unit": "MICRO-02",
+        "anchor": "micro-02"
+      },
+      "jel_codes": [
+        "D11",
+        "D61"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-INCOME-EFFECT",
+      "preferred": {
+        "en": "income effect",
+        "ja": "所得効果"
+      },
+      "aliases": {
+        "en": [],
+        "ja": [
+          "実質所得効果"
+        ]
+      },
+      "broader": [
+        "C-MICRO-02"
+      ],
+      "definition": {
+        "unit": "MICRO-02",
+        "anchor": "micro-02"
+      },
+      "jel_codes": [
+        "D11",
+        "D61"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-SUBSTITUTION-EFFECT",
+      "preferred": {
+        "en": "substitution effect",
+        "ja": "代替効果"
+      },
+      "aliases": {
+        "en": [],
+        "ja": []
+      },
+      "broader": [
+        "C-MICRO-02"
+      ],
+      "definition": {
+        "unit": "MICRO-02",
+        "anchor": "micro-02"
+      },
+      "jel_codes": [
+        "D11",
+        "D61"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-PROPENSITY-SCORE",
+      "preferred": {
+        "en": "propensity score",
+        "ja": "傾向スコア"
+      },
+      "aliases": {
+        "en": [],
+        "ja": [
+          "処置確率"
+        ]
+      },
+      "broader": [
+        "C-CAUSAL-01"
+      ],
+      "definition": {
+        "unit": "CAUSAL-01",
+        "anchor": "causal-01"
+      },
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-TIME-DISCOUNT",
+      "preferred": {
+        "en": "time discount factor",
+        "ja": "時間割引因子"
+      },
+      "aliases": {
+        "en": [
+          "discount factor",
+          "subjective discount factor"
+        ],
+        "ja": [
+          "割引因子",
+          "主観的割引因子"
+        ]
+      },
+      "broader": [
+        "C-DYN-02"
+      ],
+      "definition": {
+        "unit": "DYN-02",
+        "anchor": "dyn-02"
+      },
+      "jel_codes": [
+        "C61",
+        "C63"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-VALUE-ITERATION",
+      "preferred": {
+        "en": "value function iteration",
+        "ja": "価値関数反復"
+      },
+      "aliases": {
+        "en": [
+          "value iteration",
+          "VFI"
+        ],
+        "ja": [
+          "価値反復"
+        ]
+      },
+      "broader": [
+        "C-DYN-02"
+      ],
+      "definition": {
+        "unit": "DYN-02",
+        "anchor": "dyn-02"
+      },
+      "jel_codes": [
+        "C61",
+        "C63"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-POLICY-ITERATION",
+      "preferred": {
+        "en": "policy iteration",
+        "ja": "方策反復"
+      },
+      "aliases": {
+        "en": [
+          "Howard policy iteration"
+        ],
+        "ja": [
+          "方策反復法"
+        ]
+      },
+      "broader": [
+        "C-DYN-02"
+      ],
+      "definition": {
+        "unit": "DYN-02",
+        "anchor": "dyn-02"
+      },
+      "jel_codes": [
+        "C61",
+        "C63"
       ],
       "kind": "concept"
     }
