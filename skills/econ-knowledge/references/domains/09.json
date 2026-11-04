@@ -25,7 +25,9 @@
       "kind": "knowledge",
       "outputs": [
         "状態分布",
-        "定常分布"
+        "定常分布",
+        "閉じた通信類",
+        "分布反復の収束条件"
       ],
       "prerequisites": [
         "STAT-01"
@@ -33,7 +35,7 @@
       "related": [],
       "subdomain": "マルコフ過程と定常分布",
       "title": "マルコフ過程と定常分布",
-      "topic": "マルコフ過程と定常分布",
+      "topic": "マルコフ過程と定常分布; stationary distribution uniqueness periodicity recurrent class; 定常分布 一意性 周期性 閉じた通信類",
       "use_when": "マルコフ遷移から分布の推移と定常分布を計算する"
     },
     {
@@ -145,16 +147,19 @@
       "outputs": [
         "補間価値",
         "期待値",
-        "シミュレーション経路"
+        "シミュレーション経路",
+        "近似Bellman残差",
+        "原モデルとの誤差上界"
       ],
       "prerequisites": [
-        "DYN-01"
+        "DYN-01",
+        "DYN-02"
       ],
       "related": [],
       "subdomain": "離散化、補間と積分",
       "title": "離散化、補間と積分",
-      "topic": "離散化、補間と積分",
-      "use_when": "状態空間の離散化と積分で動学モデルを近似する"
+      "topic": "離散化、補間と積分; approximate Bellman operator residual error bound; 近似Bellman残差 原モデル誤差",
+      "use_when": "状態・行動格子、補間と積分を選び、反復誤差と元モデルの近似誤差を評価する"
     },
     {
       "alternatives": [],

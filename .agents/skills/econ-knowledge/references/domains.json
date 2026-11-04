@@ -43,7 +43,7 @@
     {
       "domain": "動学計算",
       "path": "domains/09.json",
-      "sha256": "f492d78aa7aec5d7c90346dd77440fcfbc3c526fc4b2a3002e31a4b03e34be9e"
+      "sha256": "9da92f52c5728cce4e22d57684427275b797327e0b4ad786e552c7ad45a6cfdf"
     },
     {
       "domain": "医療教育",
@@ -128,7 +128,7 @@
     {
       "domain": "異質マクロ",
       "path": "domains/26.json",
-      "sha256": "4f3f258cb8ee0e5792fc5f83d5c72402362719fdd673b520c6fa58a5a60bb52b"
+      "sha256": "7f14d434df9e6ec501e2f5b389718e241bbadea71c87f130b6241be036c3bb82"
     },
     {
       "domain": "確率統計",
@@ -143,7 +143,7 @@
     {
       "domain": "貿易",
       "path": "domains/29.json",
-      "sha256": "3811f355a483ca82495cf382f8e5ee90d29e06cb7f6081d05caf5171e09e1979"
+      "sha256": "ff16b0e259559e9c449f9cf762727910325aa67b611f6d3d36cf55f00bc0fd45"
     },
     {
       "domain": "資産価格",

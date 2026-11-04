@@ -88,7 +88,8 @@
       "inputs": [
         "生産性分布",
         "費用",
-        "輸出固定費"
+        "輸出固定費",
+        "CES代替弾力性"
       ],
       "jel_codes": [
         "F12",
@@ -97,7 +98,9 @@
       "kind": "knowledge",
       "outputs": [
         "貿易シェア",
-        "輸出閾値"
+        "輸出閾値",
+        "価格分布",
+        "CES価格指数と有限性条件"
       ],
       "prerequisites": [
         "TRADE-02"
@@ -107,7 +110,7 @@
       ],
       "subdomain": "生産性分布と異質企業",
       "title": "生産性分布と異質企業",
-      "topic": "生産性分布と異質企業",
+      "topic": "生産性分布と異質企業; Eaton Kortum Frechet price distribution CES moment condition; フレシェ分布 価格指数",
       "use_when": "生産性分布と輸出参入を分析する"
     },
     {

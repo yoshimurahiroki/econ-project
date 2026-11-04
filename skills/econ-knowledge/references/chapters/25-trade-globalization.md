@@ -32,7 +32,16 @@
 
 ## TRADE-03 生産性分布と異質企業
 
-各国の財別生産性 $z$ が供給国間で独立で、$x>0$ において $P(z\le x)=\exp(-T_jx^{-\theta})$、$T_j,\theta>0$ に従い、単位費用が $c_j\tau_{ij}/z$ とする。財ごとに最も安い供給国が選ばれると、国 $i$ の国 $j$ からの購入シェアは $\pi_{ij}=T_j(c_j\tau_{ij})^{-\theta}/\sum_kT_k(c_k\tau_{ik})^{-\theta}$ となる。$\theta$ は貿易費用に対するシェアの反応を決める。
+単位測度の連続体の財について、財別生産性 $z$ が供給国間で独立で、$x>0$ において $P(z\le x)=\exp(-T_jx^{-\theta})$、$T_j,\theta>0$ に従うとする。共通の形状係数 $\theta$ と単位費用 $c_j\tau_{ij}/z$ の下で、各財を最も安い国から調達する。$\Phi_i=\sum_jT_j(c_j\tau_{ij})^{-\theta}$ と置くと、最安価格の分布は $G_i(p)=1-\exp(-\Phi_i p^\theta)$、国 $j$ が供給する財の割合は $\pi_{ij}=T_j(c_j\tau_{ij})^{-\theta}/\Phi_i$ となる。各供給元から実際に購入する財の価格分布も同じ $G_i$ になるため、共通のCES需要の下で財の割合が支出シェアに一致する。$\theta$ は貿易費用による調達先の変更を通じてシェアの反応を決める。
+
+代替弾力性 $\sigma>1$ のCES価格指数は $P_i=[\int_0^\infty p^{1-\sigma}dG_i(p)]^{1/(1-\sigma)}$ である。$u=\Phi_i p^\theta$ と変数変換すると、
+
+\[
+P_i=\left[\Gamma\!\left(1+\frac{1-\sigma}{\theta}\right)\right]^{1/(1-\sigma)}\Phi_i^{-1/\theta},
+\qquad \theta>\sigma-1
+\]
+
+を得る。ここで $\Gamma(\cdot)$ はガンマ関数である。価格0付近の積分核は $p^{\theta-\sigma}$ に比例するため、$\theta>\sigma-1$ がこの積分を有限にする。例えば $\theta=\sigma-1$ では $\int_0 p^{-1}dp$ が発散する。[Eaton–Kortum (2002), pp.1748–1749, 式(6)–(10)](https://economics.yale.edu/sites/default/files/2024-02/Eaton-TechnologyGeographyTrade-2002.pdf)の価格分布と支出シェアは、この共通の価格集計でつながる。反実仮想では同じ $\sigma,\theta$ と価格の正規化を保ち、費用・賃金・支出をTRADE-04の市場清算へ渡して実質所得を比較する。
 
 企業の生産性 $\varphi$ が異なり、輸出先 $j$ で毎期の固定費 $f_j$ と可変貿易費用を負担するとする。代替弾力性 $\sigma>1$ のCES需要と一定マークアップの下で可変利潤は売上の $1/\sigma$ であり、輸出条件は売上 $r_j(\varphi)/\sigma\ge f_j$ となる。これを等号で満たす生産性が輸出閾値である。一度だけ払う参入費用なら、将来の追加利潤の現在価値とその費用を比較する。潜在企業は産業への参入費用と参入後の期待利潤を比較し、自由参入では両者が等しい。貿易費用の低下は既存企業の販売と参入・退出、財の種類数を通じて価格指数を変える。
 

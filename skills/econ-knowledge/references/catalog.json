@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.7",
+  "version": "2.3.8",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -2658,7 +2658,7 @@
       "domain": "動学計算",
       "subdomain": "マルコフ過程と定常分布",
       "kind": "knowledge",
-      "topic": "マルコフ過程と定常分布",
+      "topic": "マルコフ過程と定常分布; stationary distribution uniqueness periodicity recurrent class; 定常分布 一意性 周期性 閉じた通信類",
       "use_when": "マルコフ遷移から分布の推移と定常分布を計算する",
       "inputs": [
         "状態遷移行列",
@@ -2667,7 +2667,9 @@
       ],
       "outputs": [
         "状態分布",
-        "定常分布"
+        "定常分布",
+        "閉じた通信類",
+        "分布反復の収束条件"
       ],
       "file": "chapters/09-dynamic-computation.md",
       "anchor": "dyn-01",
@@ -2758,8 +2760,8 @@
       "domain": "動学計算",
       "subdomain": "離散化、補間と積分",
       "kind": "knowledge",
-      "topic": "離散化、補間と積分",
-      "use_when": "状態空間の離散化と積分で動学モデルを近似する",
+      "topic": "離散化、補間と積分; approximate Bellman operator residual error bound; 近似Bellman残差 原モデル誤差",
+      "use_when": "状態・行動格子、補間と積分を選び、反復誤差と元モデルの近似誤差を評価する",
       "inputs": [
         "状態格子",
         "遷移",
@@ -2769,7 +2771,9 @@
       "outputs": [
         "補間価値",
         "期待値",
-        "シミュレーション経路"
+        "シミュレーション経路",
+        "近似Bellman残差",
+        "原モデルとの誤差上界"
       ],
       "file": "chapters/09-dynamic-computation.md",
       "anchor": "dyn-04",
@@ -5097,11 +5101,15 @@
         "所得遷移",
         "資産grid",
         "選好",
-        "価格"
+        "価格",
+        "恒久・一時所得shock",
+        "初期分布"
       ],
       "outputs": [
         "貯蓄政策",
-        "Euler残差"
+        "Euler残差",
+        "家計の模擬経路",
+        "正規化消費と水準消費"
       ],
       "file": "chapters/19-heterogeneous-macro.md",
       "anchor": "het-01",
@@ -6452,16 +6460,19 @@
       "domain": "貿易",
       "subdomain": "生産性分布と異質企業",
       "kind": "knowledge",
-      "topic": "生産性分布と異質企業",
+      "topic": "生産性分布と異質企業; Eaton Kortum Frechet price distribution CES moment condition; フレシェ分布 価格指数",
       "use_when": "生産性分布と輸出参入を分析する",
       "inputs": [
         "生産性分布",
         "費用",
-        "輸出固定費"
+        "輸出固定費",
+        "CES代替弾力性"
       ],
       "outputs": [
         "貿易シェア",
-        "輸出閾値"
+        "輸出閾値",
+        "価格分布",
+        "CES価格指数と有限性条件"
       ],
       "file": "chapters/25-trade-globalization.md",
       "anchor": "trade-03",
@@ -27918,23 +27929,17 @@
       "id": "R-0582",
       "source": "CASE-03",
       "target": "MC-housing-toy",
-      "type": "validated_by",
-      "conditions": [
-        "The claim concerns the exact contract example and its maintained model assumptions."
-      ],
-      "when": {
-        "evidence_scope": [
-          "contract-example"
-        ]
-      },
-      "use": "The exact named numerical example is checked through this scoped executable contract, under its stated model and input conventions.",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "Read the two-district housing supplies, mobility conditions, populations and market-clearing rents defined by this mathematical contract.",
       "evidence": [
         {
           "unit": "CASE-03",
           "anchor": "case-03"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.8"
     },
     {
       "id": "R-0583",
@@ -28006,67 +28011,49 @@
       "id": "R-0586",
       "source": "ASSET-02",
       "target": "MC-sdf-moments",
-      "type": "validated_by",
-      "conditions": [
-        "The claim concerns the exact contract example and its maintained model assumptions."
-      ],
-      "when": {
-        "evidence_scope": [
-          "contract-example"
-        ]
-      },
-      "use": "The exact named numerical example is checked through this scoped executable contract, under its stated model and input conventions.",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "Solve the rank-two linear pricing equations under the declared state probabilities and return the SDF coefficients and original price residuals.",
       "evidence": [
         {
           "unit": "ASSET-02",
           "anchor": "asset-02"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.8"
     },
     {
       "id": "R-0587",
       "source": "FINANCE-05",
       "target": "MC-bank-run",
-      "type": "validated_by",
-      "conditions": [
-        "The claim concerns the exact contract example and its maintained model assumptions."
-      ],
-      "when": {
-        "evidence_scope": [
-          "contract-example"
-        ]
-      },
-      "use": "The exact named numerical example is checked through this scoped executable contract, under its stated model and input conventions.",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "Derive the CARA insurance allocation and the sequential-payment service fraction from the stated resource and incentive conditions.",
       "evidence": [
         {
           "unit": "FINANCE-05",
           "anchor": "finance-05"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.8"
     },
     {
       "id": "R-0588",
       "source": "MICRO-05",
       "target": "MC-exchange-two-goods",
-      "type": "validated_by",
-      "conditions": [
-        "The claim concerns the exact contract example and its maintained model assumptions."
-      ],
-      "when": {
-        "evidence_scope": [
-          "contract-example"
-        ]
-      },
-      "use": "The exact named numerical example is checked through this scoped executable contract, under its stated model and input conventions.",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "Read the two-good exchange endowments, household demands, price normalization and market-clearing allocation.",
       "evidence": [
         {
           "unit": "MICRO-05",
           "anchor": "micro-05"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.8"
     },
     {
       "id": "R-0589",
@@ -28094,23 +28081,17 @@
       "id": "R-0590",
       "source": "FORECAST-04",
       "target": "MC-correlated-news",
-      "type": "validated_by",
-      "conditions": [
-        "The claim concerns the exact contract example and its maintained model assumptions."
-      ],
-      "when": {
-        "evidence_scope": [
-          "contract-example"
-        ]
-      },
-      "use": "The exact named numerical example is checked through this scoped executable contract, under its stated model and input conventions.",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "Evaluate the conditional-Gaussian news equations with the fixed old and new observations and compare weights, impacts and updated state moments.",
       "evidence": [
         {
           "unit": "FORECAST-04",
           "anchor": "forecast-04"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.8"
     },
     {
       "id": "R-0591",
@@ -28160,23 +28141,17 @@
       "id": "R-0593",
       "source": "CASE-02",
       "target": "MC-physician-enforcement",
-      "type": "validated_by",
-      "conditions": [
-        "The claim concerns the exact contract example and its maintained model assumptions."
-      ],
-      "when": {
-        "evidence_scope": [
-          "contract-example"
-        ]
-      },
-      "use": "The exact named numerical example is checked through this scoped executable contract, under its stated model and input conventions.",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "Derive physician services and social surplus from the stated detection probability, payoff and resource equations.",
       "evidence": [
         {
           "unit": "CASE-02",
           "anchor": "case-02"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.8"
     },
     {
       "id": "R-0594",
@@ -28204,23 +28179,17 @@
       "id": "R-0595",
       "source": "POL-03",
       "target": "MC-crime-enforcement-displacement",
-      "type": "validated_by",
-      "conditions": [
-        "The claim concerns the exact contract example and its maintained model assumptions."
-      ],
-      "when": {
-        "evidence_scope": [
-          "contract-example"
-        ]
-      },
-      "use": "The exact named numerical example is checked through this scoped executable contract, under its stated model and input conventions.",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "Read the distinct single-action enforcement and discrete-location displacement examples with their own choices, resource costs and social outcomes.",
       "evidence": [
         {
           "unit": "POL-03",
           "anchor": "pol-03"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.8"
     },
     {
       "id": "R-0596",
@@ -28287,28 +28256,6 @@
         }
       ],
       "version": "2.0.0"
-    },
-    {
-      "id": "R-0599",
-      "source": "ASSET-02",
-      "target": "MC-sdf-moments",
-      "type": "validated_by",
-      "conditions": [
-        "The payoff moments identify the named linear SDF parameters under the adopted state probabilities and return normalization."
-      ],
-      "when": {
-        "model_contract": [
-          "linear-state-sdf-moments"
-        ]
-      },
-      "use": "Reproduce the declared four-state linear-SDF example with fixed inputs and original pricing residuals; its implementation descriptor identifies source-only provenance.",
-      "evidence": [
-        {
-          "unit": "ASSET-02",
-          "anchor": "asset-02"
-        }
-      ],
-      "version": "2.3.0"
     },
     {
       "id": "R-0600",
@@ -29063,6 +29010,22 @@
         }
       ],
       "version": "2.3.7"
+    },
+    {
+      "id": "R-DYN-APPROX-BELLMAN",
+      "source": "DYN-04",
+      "target": "DYN-02",
+      "type": "prerequisite_to_understand",
+      "conditions": [],
+      "when": {},
+      "use": "Use the Bellman contraction and fixed-point residual bound to separate iteration error from the approximation of the original operator.",
+      "evidence": [
+        {
+          "unit": "DYN-04",
+          "anchor": "dyn-04"
+        }
+      ],
+      "version": "2.3.8"
     }
   ],
   "model_contracts": [
@@ -29730,9 +29693,9 @@
       ],
       "outputs": [
         {
-          "name": "fitted.x",
+          "name": "theta",
           "unit": "SDF coefficients",
-          "meaning": "Least-squares parameters."
+          "meaning": "Coefficients a,b solving the two original linear pricing equations."
         },
         {
           "name": "errors",
