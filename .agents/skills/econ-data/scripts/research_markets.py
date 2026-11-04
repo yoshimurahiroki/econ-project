@@ -233,6 +233,37 @@ def blp(s):
     options['error_behavior'] = 'raise'
     result = problem.solve(**options)
     if not result.converged or not np.asarray(result.fp_converged).all(): raise ArithmeticError('estimation or contraction did not converge')
+
+    def check_surplus_utility(economy):
+        # PyBLP's logsum uses the first product's price derivative for each agent.
+        columns = [*economy._X1_formulations, *economy._X2_formulations]
+        derivatives = [column.differentiate('prices') for column in columns]
+        dx = np.column_stack([
+            np.broadcast_to(np.asarray(column.evaluate_derivative('prices', economy.products)).ravel(), (economy.N,))
+            for column in columns
+        ])
+        for market in economy.unique_market_ids:
+            rows = np.flatnonzero(economy.products.market_ids.ravel() == market)
+            agents = economy.agents[economy.agents.market_ids.ravel() == market]
+            random_coefficients = result.sigma @ agents.nodes.T
+            coefficients = np.vstack((np.broadcast_to(result.beta, (economy.K1, len(agents))), random_coefficients))
+            slopes = dx[rows, :economy.K1] @ result.beta + dx[rows, economy.K1:] @ random_coefficients
+            if not np.isfinite(slopes).all() or not (slopes < 0).all():
+                raise ValueError(f'consumer surplus requires finite negative price utility derivatives in market {market!r}')
+            for coefficient in coefficients.T:
+                slope = sum(float(value)*derivative for value, derivative in zip(coefficient, derivatives) if value != 0).simplify()
+                if slope == 0:
+                    raise ValueError(f'consumer surplus requires nonzero price utility derivatives in market {market!r}')
+                if any(symbol.name == 'prices' for symbol in slope.free_symbols):
+                    attributes = [symbol for symbol in slope.free_symbols if symbol.name != 'prices']
+                    for row in rows:
+                        fixed = {symbol: float(economy.products[symbol.name][row, 0]) for symbol in attributes}
+                        if any(symbol.name == 'prices' for symbol in slope.subs(fixed).simplify().free_symbols):
+                            raise ValueError(f'consumer surplus requires price-affine utility in market {market!r}')
+            if not np.allclose(slopes, slopes[:1], rtol=1e-10, atol=0):
+                raise ValueError(f'consumer surplus requires a common price derivative across products for each agent in market {market!r}')
+
+    check_surplus_utility(problem)
     costs = result.compute_costs()
     fitted = result.compute_shares()
     error = float(np.max(np.abs(fitted.ravel()-data.shares.to_numpy())))
@@ -242,17 +273,18 @@ def blp(s):
             if isinstance(v, list): return [clean(i) for i in v]
             return None if isinstance(v, float) and not math.isfinite(v) else v
         return clean(np.asarray(x).tolist())
+    consumer_surpluses = result.compute_consumer_surpluses()
     out = {'beta':arr(result.beta),'sigma':arr(result.sigma),'rho':arr(result.rho),'gamma':arr(result.gamma),
            'standard_errors': {'beta':arr(result.beta_se), 'sigma':arr(result.sigma_se), 'rho':arr(result.rho_se), 'gamma':arr(result.gamma_se)},
            'objective':float(result.objective),'gradient_norm':(float(result.projected_gradient_norm) if np.isfinite(result.projected_gradient_norm).all() else None),
            'share_max_abs_error':error,'elasticities':arr(result.compute_elasticities()),
            'diversion_ratios':arr(result.compute_diversion_ratios()),'markups':arr(result.compute_markups()),
-           'marginal_costs':arr(costs),'consumer_surpluses':arr(result.compute_consumer_surpluses()),
+           'marginal_costs':arr(costs),'consumer_surpluses':arr(consumer_surpluses),
            'shares':arr(fitted), 'product_profits':arr(result.compute_profits(costs=costs)), 'optimal_instruments':None}
     if not isinstance(s['optimal_instruments'], bool): raise ValueError('optimal_instruments must be boolean')
     market_ids = sorted(data.market_ids.unique().tolist())
     profits = np.asarray(result.compute_profits(costs=costs)).ravel()
-    cs = np.asarray(result.compute_consumer_surpluses()).ravel()
+    cs = np.asarray(consumer_surpluses).ravel()
     out['welfare'] = [{'market_ids':market, 'consumer_surplus':float(cs[i]),
                        'producer_surplus':float(profits[data.market_ids.to_numpy() == market].sum()),
                        'social_welfare':float(cs[i]+profits[data.market_ids.to_numpy() == market].sum())}
@@ -277,8 +309,13 @@ def blp(s):
             raise ValueError('counterfactual arrays must match retained product observations')
         new['firm_ids'] = cf['firm_ids']
         xi = np.r_[(result.delta - pyblp.build_matrix(forms[0], data) @ result.beta)[mask].ravel(), entry_xi][:,None] + np.asarray(cf['utility_shifts'])[:,None]
+        agent_data = None
+        if problem.K2:
+            retained_agents = np.isin(problem.agents.market_ids.ravel(), new.market_ids.unique())
+            agent_data = {name: problem.agents[name][retained_agents].copy() for name in ('market_ids', 'nodes', 'weights')}
         sim = pyblp.Simulation(forms[:2], new, beta=result.beta, sigma=result.sigma if s['nonlinear'] else None,
-                               rho=result.rho if 'rho' in s['solve'] else None, xi=xi, integration=integration)
+                               rho=result.rho if 'rho' in s['solve'] else None, xi=xi, agent_data=agent_data)
+        check_surplus_utility(sim)
         change = sim.replace_endogenous(costs=np.asarray(cf['costs'])[:,None], prices=new.prices.to_numpy()[:,None],
                                         iteration=pyblp.Iteration('simple',{'atol':1e-12}), error_behavior='raise')
         if not np.asarray(change.fp_converged).all(): raise ArithmeticError('counterfactual equilibrium did not converge')
@@ -288,7 +325,8 @@ def blp(s):
         pdout=change.product_data
         prices=np.asarray(pdout.prices).ravel(); shares=np.asarray(pdout.shares).ravel()
         costs2=np.asarray(cf['costs'])
-        cf_cs = np.asarray(change.compute_consumer_surpluses()).ravel()
+        cf_consumer_surpluses = change.compute_consumer_surpluses()
+        cf_cs = np.asarray(cf_consumer_surpluses).ravel()
         cf_profit = (prices-costs2)*shares
         cf_markets = sorted(new.market_ids.unique().tolist())
         cf_welfare = [{'market_ids':market, 'consumer_surplus':float(cf_cs[i]),
@@ -298,7 +336,7 @@ def blp(s):
         out['counterfactual']={'welfare':cf_welfare, 'product_ids':new.product_ids.tolist(),'firm_ids':new.firm_ids.tolist(),
                                'prices':prices.tolist(),'shares':shares.tolist(),'marginal_costs':costs2.tolist(),
                                'product_profits':((prices-costs2)*shares).tolist(),
-                               'consumer_surpluses':arr(change.compute_consumer_surpluses()),
+                               'consumer_surpluses':arr(cf_consumer_surpluses),
                                'profit_gradient_max_abs':grad,'profit_hessian_max_eigenvalue':eigen}
     return out
 

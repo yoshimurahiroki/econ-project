@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "181cc55cc214b99be0100db5775a6bc464ff8cb26c4df9f161f4772ebe621c44",
+  "catalog_sha256": "f2f730825f8ff6ce14b752b6876e3eb91f8e8866c3e94679f1852cec97693b13",
   "chapters": {
     "chapters/01-mathematics.md": "fd99fe5d3d51fea0ffe8e9ee63d11a75ba41e492908a23728a90047790e84685",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -15,7 +15,7 @@
     "chapters/12-causal-extensions.md": "980dbf930cdc2977cb5f243e6d6d917899fbe973f595ad093a4676f845a67d32",
     "chapters/13-time-series.md": "f668b700e013d6ad79ff62e97b2363ae4b8c4ba8ff141334355a8fac32ae8e3f",
     "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
-    "chapters/15-demand-production.md": "737738f6b5dfb30b55bfac3e3c7e517e8264886ed8d2bbd728d77f8c71887fba",
+    "chapters/15-demand-production.md": "00f228c6b40ee6298c6c1b5f2efa6b4bf0d2a220135fc6aa1a7a904b553739b9",
     "chapters/16-competition-platforms.md": "817457f930b26377309922cf05bd330f4da8ee79032039c4f58aafe0c6d11c45",
     "chapters/17-growth-macro.md": "e5faf45b0cf55ed4474c879ea4669153d7204433cba5c8232fd3a2b1f79ae0a0",
     "chapters/18-monetary-open-macro.md": "58772ecab4c65146fe272c6c889be7a57cc5cf52e81e2f2172de4ca20df381db",
@@ -222,7 +222,7 @@
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
-      "sha256": "0183bad876bab4e51a367a6ff03f4efb147051e1ae7abe6be91b930e164caa0c"
+      "sha256": "b7aa6fa8df8cbf5badf4bd519b511274cc592fecdf486968b4e58a622525ccc0"
     },
     "relations.json": {
       "path": "relations.json",
@@ -451,13 +451,13 @@
       "chapter": "chapters/15-demand-production.md",
       "domain": "需要生産",
       "path": "units/DEMAND-02.md",
-      "sha256": "6e9b316977656ed7210f0ddc0d90a7d76b4ce9029818583310f7c2131d986499"
+      "sha256": "70f125e6ec26fd8c175231b4489a654217b0aa79523ae8f8876016d5cbaa78ee"
     },
     "DEMAND-03": {
       "chapter": "chapters/15-demand-production.md",
       "domain": "需要生産",
       "path": "units/DEMAND-03.md",
-      "sha256": "b02233dab1d4077da0b879845a672770e08cbee499173ec017690babe16b3e4e"
+      "sha256": "adc1c9dd177aaf07c31030a3b7dded114c5079131900fbe77f72223956d7a56e"
     },
     "DEMAND-04": {
       "chapter": "chapters/15-demand-production.md",

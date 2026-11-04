@@ -12,7 +12,7 @@ q-\Delta(p-c)=0,\qquad c=p-\Delta^{-1}q.
 
 部分所有や契約上の利益配分を扱うときは、価格 \(p_j\) の決定者が製品 \(k\) の利潤に付ける重みを \(H_{jk}\) とする。非対称な重みでも \(\Delta_{jk}=-H_{jk}\partial q_k/\partial p_j\) を使い、企業・契約の証拠と採択した行動に応じて重みを定める。例えば外部財付きlogitで価格 \((2,2)\)、内部財シェア \((.25,.25)\)、価格係数 \(-1\)、\(H=((1,.5),(0,1))\) なら、シェア微分行列 \(J_{jk}=\partial s_j/\partial p_k\) は対角 \(-.1875\)、非対角 .0625である。PyBLP 1.3.0の `SimulationResults.compute_costs(ownership=H)` は費用 \((4/9,2/3)\) を返し、元のFOC \(s+(H\odot J^\mathsf{T})(p-c)=0\) の両成分は0となる。重みを転置すると同じ費用での残差は \((-.041667,.048611)\) になる。econ-dataの既存BLP実行経路は `firm_ids` による二値の所有変更を扱い、この非対称例にはPyBLPの所有行列を直接渡す。
 
-弾力性は \(\epsilon_{jk}=(\partial q_j/\partial p_k)p_k/q_j\)、製品 \(j\) から \(k\) へのdiversionは \(-(\partial q_k/\partial p_j)/(\partial q_j/\partial p_j)\) である。有限な製品退出では選択集合を変更してシェアと厚生を再計算する。
+弾力性は \(\epsilon_{jk}=(\partial q_j/\partial p_k)p_k/q_j\)、製品 \(j\) から \(k\) へのdiversionは \(-(\partial q_k/\partial p_j)/(\partial q_j/\partial p_j)\) である。有限な製品退出では選択集合を変更してシェアと厚生を再計算する。基準と政策後で同じ消費者分布を比較するため、推定に使った市場別の積分点と重みを引き継ぐ。既存のBLP実行経路は `problem.agents` から残存市場の `market_ids`、`nodes`、`weights` を行順・列順を維持して抽出し、`Simulation` の `agent_data` へ渡す。積分規則を再生成すると、seed未指定時や市場集合の変更時に積分点が変わるため、政策効果へ別の数値積分差が加わる。嗜好係数を固定した比較では同じ積分点を使い、各ケースの余剰を一度計算して厚生へ集約する。
 
 合併対象の市場と製品を定義し、事前の所有、価格、数量、費用シフターと競争相手を対応させる。費用回収は同時価格設定のFOCに依存するため、卸売契約、容量、価格規制、差別化した製品範囲が価格選択を拘束するときは、その制約を含む供給モデルへ切り替える。`merger differentiated products ownership markup conduct instruments` で競争の方法論と制度資料を調べ、財務開示や取引記録で企業・製品の対応と費用変化を確認する。econ-dataで所有行列を更新して各社の価格逸脱と元の価格条件を検査し、価格・数量・利益・消費者便益を同じ市場人口と期間でCASE-01へ渡す。
 

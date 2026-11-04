@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "918dd2655a8d5bd0b8a72a8a0f95274c1e528562",
+  "source_base_commit": "3f5e64f7d2e62e11ed084b7dc30acb5ea8ac594b",
   "source_state": "committed",
-  "common_content_id": "8ce251859dc5953e4dc96c852df55502f961d42b0e573990888ff4c7dbdc7f5b",
+  "common_content_id": "bb4e8d42b77e810efc8cfec2cb00d29345d7e8b0bbca102ce6061b28940ba487",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -1457,8 +1457,8 @@
     {
       "path": "skills/econ-data/scripts/research_markets.py",
       "state": "present",
-      "sha256": "e57384b6256a0cdd3b6a58433aba0e7b9c619d1d6d558f87301d03a0f1de7df0",
-      "git_blob": "b878752fdc992a401f9a567de51da432ab1a7b57",
+      "sha256": "c6763621d989acd89d1cb71d5c103f6febff3e17750a4479d1bdfa52494de529",
+      "git_blob": "e42819c1b56121be7d6330c4bf364162966e0d6c",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1553,8 +1553,8 @@
     {
       "path": "skills/econ-design/references/market-models.md",
       "state": "present",
-      "sha256": "6b04aed8e3c438e1b8333555bcadff0fef5c1809af90eed87451188951e09e68",
-      "git_blob": "105fe38a99281da052d99a786a404fdf89fc873e",
+      "sha256": "be64344fb6bd3f7e4499726c4f4d2c45346e1ddc1bc2dd6a6b0652012b757937",
+      "git_blob": "86b58c72284da7655c1c422bd86068150328d501",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1585,8 +1585,8 @@
     {
       "path": "skills/econ-knowledge/references/catalog.json",
       "state": "present",
-      "sha256": "181cc55cc214b99be0100db5775a6bc464ff8cb26c4df9f161f4772ebe621c44",
-      "git_blob": "2cc2b83b31196843ae1aba065c7a5c1cab8002a1",
+      "sha256": "f2f730825f8ff6ce14b752b6876e3eb91f8e8866c3e94679f1852cec97693b13",
+      "git_blob": "aeb75b7bf6c7c55b720132806efbc65cb5aab35d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1705,8 +1705,8 @@
     {
       "path": "skills/econ-knowledge/references/chapters/15-demand-production.md",
       "state": "present",
-      "sha256": "737738f6b5dfb30b55bfac3e3c7e517e8264886ed8d2bbd728d77f8c71887fba",
-      "git_blob": "dbc48b0c4cc08e4adbd4c00693a7e3793e35c793",
+      "sha256": "00f228c6b40ee6298c6c1b5f2efa6b4bf0d2a220135fc6aa1a7a904b553739b9",
+      "git_blob": "1d05d47e0ebe1706a6ce9581270b03d11222fe95",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },

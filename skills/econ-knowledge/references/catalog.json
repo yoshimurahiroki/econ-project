@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.8",
+  "version": "2.3.9",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -29313,17 +29313,17 @@
         {
           "name": "linear",
           "unit": "formula",
-          "meaning": "Linear demand formulation."
+          "meaning": "Linear demand formulation. Log-sum welfare requires utility linear in price with a finite, strictly negative price derivative common across products for each integration agent."
         },
         {
           "name": "nonlinear",
           "unit": "formula or null",
-          "meaning": "Random-coefficient formulation."
+          "meaning": "Random-coefficient formulation or null. Its contribution to each agent's price derivative enters the same welfare conditions."
         },
         {
           "name": "integration",
           "unit": "configuration",
-          "meaning": "Nodes and integration rule when nonlinear."
+          "meaning": "Nodes and weights for nonlinear demand. The estimated problem's actual agent rows are retained by market for counterfactuals."
         },
         {
           "name": "solve",
@@ -29333,7 +29333,7 @@
         {
           "name": "counterfactual",
           "unit": "scenario",
-          "meaning": "Retained products, firm_ids, costs and utility_shifts."
+          "meaning": "Retained products, optional entrants and entry_xi, firm_ids, costs and utility_shifts; use the fitted agents and the same price-utility conditions."
         }
       ],
       "parameters": [
@@ -29368,7 +29368,7 @@
         {
           "name": "counterfactual",
           "unit": "scenario result",
-          "meaning": "Prices, shares, profit and consumer surplus under changed ownership."
+          "meaning": "Prices, shares, profit and consumer surplus for the adopted ownership, cost, utility and product-set intervention using the fitted integration population."
         },
         {
           "name": "share_max_abs_error",
@@ -29379,6 +29379,16 @@
           "name": "counterfactual.profit_gradient_max_abs",
           "unit": "share",
           "meaning": "Post-change maximum profit gradient."
+        },
+        {
+          "name": "consumer_surpluses",
+          "unit": "currency per potential consumer",
+          "meaning": "Market log-sum surplus after checking price-linearity and agent-specific product-common negative price derivatives."
+        },
+        {
+          "name": "welfare",
+          "unit": "currency per potential consumer",
+          "meaning": "Consumer surplus, aggregate product profit and their sum within each baseline market; scenario quantities use their own equilibrium."
         }
       ],
       "assumptions": [
