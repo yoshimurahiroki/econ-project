@@ -69,7 +69,8 @@
         "MATH-02"
       ],
       "related": [
-        "NUM-04"
+        "NUM-04",
+        "DYN-01"
       ],
       "subdomain": "行列、微分と条件数",
       "title": "行列、微分と条件数",

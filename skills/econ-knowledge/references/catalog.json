@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.22",
+  "version": "2.3.23",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -29895,6 +29895,26 @@
         }
       ],
       "version": "2.3.18"
+    },
+    {
+      "id": "R-NUM-02-DYN-01",
+      "source": "NUM-02",
+      "target": "DYN-01",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "Use closed communicating classes to select a unique normalized stationary solve or class-specific stationary distributions and their mixtures.",
+      "evidence": [
+        {
+          "unit": "NUM-02",
+          "anchor": "num-02"
+        },
+        {
+          "unit": "DYN-01",
+          "anchor": "dyn-01"
+        }
+      ],
+      "version": "2.3.23"
     }
   ],
   "model_contracts": [
