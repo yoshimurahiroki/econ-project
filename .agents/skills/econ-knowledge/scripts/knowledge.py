@@ -105,6 +105,13 @@ def lexical_words(text):
     return words
 
 
+def matched_jel_codes(query, codes):
+    """Resolve JEL codes and explicit field prefixes against the authored mapping."""
+    selectors = set(re.findall(r'(?<![a-z0-9])([a-z][0-9]{1,2})(?![a-z0-9])', query))
+    selectors.update(re.findall(r'\bjel[\s:-]+([a-z](?:[0-9]{1,2})?)\b', query))
+    return {code for code in codes if any(code.casefold().startswith(term) for term in selectors)}
+
+
 def lexical_scores(query, texts):
     """Rank both unit and concept text using discriminating query evidence."""
     words = lexical_words(query)
@@ -688,19 +695,23 @@ class Reader:
         normalized = unicodedata.normalize('NFKC', query).casefold()
         exact_ids = {term.upper() for term in re.findall(r'[a-z0-9]+(?:-[0-9]+)?', normalized)
                      if ID.fullmatch(term.upper())}
-        concept_labels, classifications, matched_concepts = {}, {}, {}
+        concept_labels, classifications, matched_concepts, matched_classifications = {}, {}, {}, {}
+        jel_matches = set()
         if self.spec_version == SEMANTIC_VERSION:
+            lexicon = self.semantic('lexicon.json')
+            jel_matches = matched_jel_codes(normalized, lexicon['jel'])
             visible = self.visible_concepts()
-            for concept in self.semantic('lexicon.json')['concepts']:
+            for concept in lexicon['concepts']:
                 if visible is not None and concept['id'] not in visible:
                     continue
                 labels = [*concept['preferred'].values(), *concept['aliases']['en'], *concept['aliases']['ja']]
                 target = classifications if concept.get('kind', 'concept') == 'classification' else concept_labels
                 target[concept['id']] = sorted({unicodedata.normalize('NFKC', value).casefold() for value in labels})
                 matches = [label for label in target[concept['id']] if contains_term(normalized, label)]
-                if matches and target is concept_labels:
-                    matched_concepts[concept['id']] = {'id': concept['id'], 'labels': matches,
-                                                     'definition': concept['definition']}
+                if matches:
+                    matched = matched_concepts if target is concept_labels else matched_classifications
+                    matched[concept['id']] = {'id': concept['id'], 'labels': matches,
+                                              'definition': concept['definition']}
             expanded = set()
         else:
             expanded = {target for source, target in ALIASES if contains_term(normalized, source)}
@@ -725,18 +736,23 @@ class Reader:
                          for label in classifications.get(concept, [])) for u in candidates])
         concept_weights = {cid: 4 * (1 + math.log((len(candidates) + 1) /
                            (1 + sum(cid in u.get('concept_ids', []) for u in candidates))))
-                           for cid in matched_concepts}
+                           for cid in matched_concepts.keys() | matched_classifications.keys()}
         ranked = []
         for (u, text), primary, field_score in zip(indexed, scores, field_scores):
             # A concept contributes once, irrespective of its number of aliases.
-            primary += sum(concept_weights[cid] for cid in u.get('concept_ids', []) if cid in matched_concepts)
+            primary += sum(concept_weights[cid] for cid in u.get('concept_ids', []) if cid in concept_weights)
             primary += 4 * sum(contains_term(text, term) for term in expanded)
             defining = sum(match['definition']['unit'] == u['id'] for match in matched_concepts.values())
-            ranked.append(((u['id'] in exact_ids, primary > 0, primary, defining, field_score), u))
+            matched_codes = sorted(set(u.get('jel_codes', [])) & jel_matches)
+            ranked.append(((u['id'] in exact_ids, bool(matched_codes), primary > 0,
+                            primary, defining, field_score),
+                           {**u, 'matched_jel_codes': matched_codes}))
         candidates = [u for rank, u in sorted(ranked, key=lambda row: (row[0], row[1]['id']), reverse=True)
                       if any(rank)]
         return {'domain': domain, 'query': query, 'candidates': candidates[:limit],
                 'matched_concepts': list(matched_concepts.values()),
+                'matched_classifications': list(matched_classifications.values()),
+                'matched_jel_codes': sorted(jel_matches),
                 'truncated': len(candidates) > limit, **self.report()}
 
     def semantic(self, name):
@@ -763,6 +779,7 @@ class Reader:
         lexicon = self.semantic('lexicon.json')
         visible = self.visible_concepts()
         normalized = unicodedata.normalize('NFKC', query).casefold()
+        jel_matches = matched_jel_codes(normalized, lexicon['jel'])
         candidates, texts, matches = [], [], []
         for concept in lexicon['concepts']:
             if visible is not None and concept['id'] not in visible: continue
@@ -775,16 +792,18 @@ class Reader:
             texts.append(' '.join(labels))
         rows = []
         for concept, score, (exact, matched) in zip(candidates, lexical_scores(normalized, texts), matches):
-            if score or matched:
+            matched_codes = sorted(set(concept['jel_codes']) & jel_matches)
+            if score or matched or matched_codes:
                 row = dict(concept)
                 row['matched_labels'] = matched
+                row['matched_jel_codes'] = matched_codes
                 row['jel'] = {code: lexicon['jel'][code] for code in concept['jel_codes']}
                 row['definition'] = {**concept['definition'], 'body_readable': not self.selection
                                      or concept['definition']['unit'] in self.selection['closure_ids']}
                 if visible is not None:
                     row['broader'] = [x for x in row['broader'] if x in visible]
                     row['narrower'] = [x for x in row['narrower'] if x in visible]
-                rows.append(((exact, bool(matched), score), row))
+                rows.append(((exact, bool(matched_codes), bool(matched), score), row))
         rows.sort(key=lambda value: (value[0], value[1]['id']), reverse=True)
         return {'query': query, 'concepts': [row for _, row in rows[:limit]],
                 'truncated': len(rows) > limit, **self.report()}
@@ -805,7 +824,7 @@ class Reader:
         if item.startswith('C-'):
             return item in self.visible_concepts()
         if item.startswith('MC-'):
-            return any(contract['id'] == item and contract['owner'] in self.selection['closure_ids']
+            return any(contract['id'] == item and set(contract['units']) & set(self.selection['closure_ids'])
                        for contract in self.semantic('model-contracts.json')['contracts'])
         return False
 
@@ -822,7 +841,7 @@ class Reader:
         contract = next((entry for entry in self.semantic('model-contracts.json')['contracts']
                          if entry['id'] == item), None) if item.startswith('MC-') else None
         if contract:
-            if self.selection and contract['owner'] not in self.selection['closure_ids']:
+            if not self.semantic_available(item):
                 raise ValueError(f'Contract outside exported selection: {item}')
             return
         raise ValueError(f'Unknown semantic ID: {item}')
@@ -855,7 +874,7 @@ class Reader:
         contracts = self.semantic('model-contracts.json')
         contract = next((entry for entry in contracts['contracts'] if entry['id'] == item), None)
         if contract is None: raise ValueError(f'Unknown contract: {item}')
-        if self.selection and contract['owner'] not in self.selection['closure_ids']:
+        if not self.semantic_available(item):
             raise ValueError(f'Contract outside exported selection: {item}')
         result = dict(contract)
         result['unit_locators'] = [{'id': unit, 'body_readable': self.semantic_available(unit)}
@@ -909,8 +928,8 @@ class Reader:
                 if state == 'satisfied': eligible[edge_id] = annotated
                 elif state == 'unresolved': unresolved[edge_id] = annotated
         selected_contracts = [self.contract(contract['id']) for contract in contracts['contracts']
-                              if contract['owner'] in required and (not self.selection
-                                 or contract['owner'] in self.selection['closure_ids'])]
+                              if set(contract['units']) & set(required)
+                              and self.semantic_available(contract['id'])]
         locators = [{'id': item, 'path': self.manifest['units'][item]['path'],
                      'body_readable': not self.selection or item in self.selection['closure_ids']}
                     for item in required]

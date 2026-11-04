@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "800f3e07db3220595359061bd58169b2b470f9e9599c1f3f2563a4aa8553f5ad",
+  "catalog_sha256": "e77988099faa660c30b2c3997e349a807ae9ea98578df7bf54f725380cb7f3c3",
   "chapters": {
     "chapters/01-mathematics.md": "fd99fe5d3d51fea0ffe8e9ee63d11a75ba41e492908a23728a90047790e84685",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "9eb76da7377f04b58ff88b0a12780b9bed6867be7094eb9257ece4e1d05bb7e2",
+  "domain_listing_sha256": "1d523e39ce5483f7781f027ca2bed5a0457ddb66a2750d647f23ffba15324c53",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -97,7 +97,7 @@
     "因果デザイン": {
       "count": 7,
       "path": "domains/12.json",
-      "sha256": "6521498bc44468ad7b0c27a2c295a89adee0135ae3683d1fb8329bffc895ed21"
+      "sha256": "491108d41afa194d4818e422ed689020c75098d393fa9caf123e8aeacbb835f8"
     },
     "因果拡張": {
       "count": 8,
@@ -127,7 +127,7 @@
     "政治法制度": {
       "count": 7,
       "path": "domains/18.json",
-      "sha256": "538f7dc85994569a50b05936b6226bf10f79d04924b61bb56ae1a063ee8ba89e"
+      "sha256": "16f5c0336aa541bc757b97374ef4f9dda344d584ba90cc592b0b111750ed4c0a"
     },
     "数値シミュレーション": {
       "count": 8,
@@ -212,13 +212,13 @@
     "革新歴史広告": {
       "count": 6,
       "path": "domains/35.json",
-      "sha256": "2382c652613950df69a73f09c1684ba3a33f31622acba80d860da629332e3625"
+      "sha256": "17fb3a8a2a0bed40450e842e5de6da60ac8e52c3957e99042bb022a546b4b788"
     }
   },
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "d32bd6ec9c1ce54e7f471f49a741a38c1d07c630680edb4c22769f615c82f05d"
+      "sha256": "ee4c7d8014714a46c6e6158cc88565892a298bf2ede59e0c5d2bd43adc8ba493"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",

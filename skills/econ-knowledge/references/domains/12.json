@@ -46,7 +46,10 @@
       "concept_ids": [
         "C-CAUSAL-02",
         "C-CH-11",
-        "C-ASSUMP-IV-EXCLUSION"
+        "C-ASSUMP-IV-EXCLUSION",
+        "C-TERM-IV",
+        "C-OBJ-LATE",
+        "C-OBJ-ITT"
       ],
       "contract_ids": [],
       "domain": "因果デザイン",
@@ -60,7 +63,8 @@
       ],
       "jel_codes": [
         "C93",
-        "C21"
+        "C21",
+        "C26"
       ],
       "kind": "knowledge",
       "outputs": [

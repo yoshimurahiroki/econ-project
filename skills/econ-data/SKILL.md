@@ -21,6 +21,8 @@ Before acquisition, implementation or calculation, apply [CORE task entry](../..
 
 When the pending operation needs a library definition, derivation, model condition or worked example, activate [econ-knowledge](../econ-knowledge/SKILL.md) and select the needed IDs and required prerequisites. Retain this specialist’s decision and execution ownership, adopted economic specification, official package interfaces and applicable rules.
 
+Use the selected units' knowledge plan to retrieve their shared model contracts. Match the contract's inputs, outputs and equation bodies to the adopted calculation before choosing its execution binding. Resolve the binding through this skill's registered engine and dependencies, then retain the actual specification and returned quantities in the producing result.
+
 
 ### Execute structural estimation and equilibrium
 

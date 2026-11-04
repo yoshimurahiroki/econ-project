@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "c45628042ed46bd2470206b596dde8afe2ebecd2",
+  "source_base_commit": "2563022bf2fd44fc7ef6835a22b81333b451cc5b",
   "source_state": "committed",
-  "common_content_id": "5894bce33255c734d0e4a01746ca6a37d5404e4537556b25e3d8d2901c1dc849",
+  "common_content_id": "dda1e2bc84c1e9375088db55cc56ac5b78a6ab073159f3147501328f8e37cc91",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -1233,8 +1233,8 @@
     {
       "path": "skills/econ-data/SKILL.md",
       "state": "present",
-      "sha256": "841bf3f108dce4999e9e4a14f689c5fee42c32c8f751a3a8d15fe4f9185f0f57",
-      "git_blob": "891ff079c9041eeba679462e03a0addfe05ce173",
+      "sha256": "c5693e9c1651a0d8c440838c6fe3a2fc355e1a93e9f76ebe859dfbb2d49cf8ef",
+      "git_blob": "978b143b5c44dc5707f890ea2a933d24773a7dfb",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1577,16 +1577,16 @@
     {
       "path": "skills/econ-knowledge/SKILL.md",
       "state": "present",
-      "sha256": "e2c93f3ceaea6eca6be217c6a30992ab90076d43861eb41cee6e74f0b535e046",
-      "git_blob": "f2320c125e1f203cde093efb5164c0998b00ef53",
+      "sha256": "7ba929c77ae5606f56e72555aafbff9f7fa21cc0a92c98e258ed7c6f42cb6ac6",
+      "git_blob": "885e1a17e751ac767da78ff2e219f938f7ffaf97",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "skills/econ-knowledge/references/catalog.json",
       "state": "present",
-      "sha256": "800f3e07db3220595359061bd58169b2b470f9e9599c1f3f2563a4aa8553f5ad",
-      "git_blob": "d72b74ede982e411eebf325f77182614f2ed875c",
+      "sha256": "e77988099faa660c30b2c3997e349a807ae9ea98578df7bf54f725380cb7f3c3",
+      "git_blob": "aefef11e720f8cec7314128ef59935c9309fa27b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -4081,8 +4081,8 @@
     {
       "path": "skills/econ-knowledge/scripts/knowledge.py",
       "state": "present",
-      "sha256": "64d26af48c5471e9f688442671273399c4019c4122006de3645e0d874d5174d6",
-      "git_blob": "cd2ff3bd9330da0044292332aa11d94e78fe5e3c",
+      "sha256": "5ce7be9d12fce46dacd10886363d4a75ed7652fa70cab42c73ba09f361c6e610",
+      "git_blob": "1bdc5cbcb301a9ef76c55cbca20f0b2fb4a2719d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },

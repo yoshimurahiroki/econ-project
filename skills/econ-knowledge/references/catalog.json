@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -3294,11 +3294,15 @@
       "concept_ids": [
         "C-CAUSAL-02",
         "C-CH-11",
-        "C-ASSUMP-IV-EXCLUSION"
+        "C-ASSUMP-IV-EXCLUSION",
+        "C-TERM-IV",
+        "C-OBJ-LATE",
+        "C-OBJ-ITT"
       ],
       "jel_codes": [
         "C93",
-        "C21"
+        "C21",
+        "C26"
       ],
       "contract_ids": []
     },
@@ -7309,7 +7313,8 @@
       "anchor": "pol-05",
       "concept_ids": [
         "C-POL-05",
-        "C-CH-29"
+        "C-CH-29",
+        "C-CLASS-HISTORY"
       ],
       "jel_codes": [
         "O43",
@@ -7525,7 +7530,8 @@
       "anchor": "innov-05",
       "concept_ids": [
         "C-INNOV-05",
-        "C-CH-30"
+        "C-CH-30",
+        "C-CLASS-HISTORY"
       ],
       "jel_codes": [
         "N10",
@@ -11259,7 +11265,8 @@
       },
       "jel_codes": [
         "C93",
-        "C21"
+        "C21",
+        "C26"
       ],
       "kind": "concept"
     },
@@ -11274,7 +11281,7 @@
         "ja": []
       },
       "broader": [
-        "C-CH-11"
+        "C-TERM-DID"
       ],
       "definition": {
         "unit": "CAUSAL-03",
@@ -15220,12 +15227,13 @@
       },
       "aliases": {
         "en": [
-          "DID"
+          "DID",
+          "difference-in-differences"
         ],
         "ja": []
       },
       "broader": [
-        "C-CAUSAL-03"
+        "C-CH-11"
       ],
       "definition": {
         "unit": "CAUSAL-03",
@@ -18160,6 +18168,78 @@
         "D44"
       ],
       "kind": "concept"
+    },
+    {
+      "id": "C-CLASS-HISTORY",
+      "preferred": {
+        "en": "Economic history",
+        "ja": "経済史"
+      },
+      "aliases": {
+        "en": [],
+        "ja": []
+      },
+      "broader": [],
+      "definition": {
+        "unit": "INNOV-05",
+        "anchor": "innov-05"
+      },
+      "jel_codes": [
+        "N10"
+      ],
+      "kind": "classification"
+    },
+    {
+      "id": "C-OBJ-LATE",
+      "preferred": {
+        "en": "Local average treatment effect",
+        "ja": "局所平均処置効果"
+      },
+      "aliases": {
+        "en": [
+          "LATE",
+          "complier average causal effect",
+          "CACE"
+        ],
+        "ja": [
+          "コンプライヤー平均処置効果"
+        ]
+      },
+      "broader": [],
+      "definition": {
+        "unit": "CAUSAL-02",
+        "anchor": "causal-02"
+      },
+      "jel_codes": [
+        "C26",
+        "C93"
+      ],
+      "kind": "object"
+    },
+    {
+      "id": "C-OBJ-ITT",
+      "preferred": {
+        "en": "Intention-to-treat effect",
+        "ja": "割当効果"
+      },
+      "aliases": {
+        "en": [
+          "ITT",
+          "intention to treat"
+        ],
+        "ja": [
+          "ITT効果"
+        ]
+      },
+      "broader": [],
+      "definition": {
+        "unit": "CAUSAL-02",
+        "anchor": "causal-02"
+      },
+      "jel_codes": [
+        "C93"
+      ],
+      "kind": "object"
     }
   ],
   "jel": {
