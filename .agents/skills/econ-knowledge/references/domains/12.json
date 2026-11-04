@@ -53,7 +53,7 @@
       "related": [],
       "subdomain": "潜在結果",
       "title": "潜在結果と調整",
-      "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング; frontdoor linear mediation; intervention contrast; 線形媒介と介入量; 個人の反実仮想; individual counterfactual; abduction action prediction; counterfactual_samples; reversing treatment and control; 処置と対照を入れ替えた効果",
+      "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング; frontdoor linear mediation; intervention contrast; 線形媒介と介入量; 個人の反実仮想; individual counterfactual; abduction action prediction; counterfactual_samples; reversing treatment and control; 処置と対照を入れ替えた効果; 共同媒介の同時分布; joint frontdoor mediators",
       "use_when": "潜在結果と因果グラフからATE・ATT・ATCの対象集団と対比の向きを定め、マッチング・調整集合・媒介経路の条件で介入効果を識別する。構造式と個人の観測事実から外生変数を復元し、同じ個人の介入後の結果を計算する"
     },
     {
@@ -177,7 +177,7 @@
       ],
       "subdomain": "段階導入と履歴",
       "title": "段階導入と処置経路",
-      "topic": "段階導入と処置経路",
+      "topic": "段階導入と処置経路; 処置前の基準期; varying universal base period",
       "use_when": "処置開始時期が異なるパネルまたは反復横断標本で群・時点別効果と固定人口のイベント時間効果を推定する"
     },
     {
@@ -302,7 +302,7 @@
       ],
       "subdomain": "集約対象の例",
       "title": "解答付き例題：集約対象",
-      "topic": "DIDの集約対象; staggered DID aggregation; aggte simple group dynamic overall ATT",
+      "topic": "DIDの集約対象; staggered DID aggregation; aggte simple group dynamic overall ATT; 処置前後の共通コホート; balance_e event time composition",
       "use_when": "群・期ATTを人口・曝露期間・イベント期の対象へ集約し、全体効果と影響関数を選ぶ"
     }
   ]

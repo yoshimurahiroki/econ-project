@@ -58,12 +58,12 @@
     {
       "domain": "因果デザイン",
       "path": "domains/12.json",
-      "sha256": "9daada9df7adf71955eef4d5c9b4be29025afb8830aea74729a94a1a870b01d4"
+      "sha256": "333be5482597e2277b765c0a93a92291ff8e808052288729dcf5418d5c0b91d5"
     },
     {
       "domain": "因果拡張",
       "path": "domains/13.json",
-      "sha256": "15409a221b025ad5e534d96f45754020ac36236f4bd6e17fc80f8b240e30814c"
+      "sha256": "a3e88978685b2538fcaf2c0c915abb3f956e25411e0a4418580ffeccc2e70ae9"
     },
     {
       "domain": "契約組織",

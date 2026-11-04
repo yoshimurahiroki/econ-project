@@ -45,7 +45,7 @@
       ],
       "subdomain": "直交スコア",
       "title": "直交スコアとcross-fitting",
-      "topic": "直交スコアとcross-fitting",
+      "topic": "直交スコアとcross-fitting; 傾向スコアの切り詰め; propensity score clipping; 二値結果の部分線形モデル; binary outcome PLR",
       "use_when": "補助関数の柔軟推定を用いてATEまたは部分線形係数を推定する"
     },
     {
