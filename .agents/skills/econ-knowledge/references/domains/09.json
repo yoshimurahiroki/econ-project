@@ -90,7 +90,8 @@
       "concept_ids": [
         "C-DYN-03",
         "C-CH-09",
-        "C-TERM-TIME-DISCOUNT"
+        "C-TERM-TIME-DISCOUNT",
+        "C-METHOD-COLEMAN-REFFETT"
       ],
       "contract_ids": [],
       "domain": "動学計算",
@@ -110,7 +111,9 @@
       "kind": "knowledge",
       "outputs": [
         "Euler等式と不等式",
-        "横断性条件"
+        "横断性条件",
+        "Coleman-Reffett時間反復",
+        "消費方策と原Euler残差"
       ],
       "prerequisites": [
         "DYN-02"
@@ -118,8 +121,8 @@
       "related": [],
       "subdomain": "消費、Euler 方程式と終端条件",
       "title": "消費、Euler 方程式と終端条件",
-      "topic": "消費、Euler 方程式と終端条件",
-      "use_when": "資産制約を持つ家計の消費Euler条件を導く"
+      "topic": "消費、Euler方程式と終端条件; 最適成長; Coleman-Reffett; Euler time iteration",
+      "use_when": "家計のEuler条件を導き、微分・内点・境界条件から価値反復と時間反復を選ぶ"
     },
     {
       "alternatives": [],
@@ -290,7 +293,8 @@
       "chapter": 9,
       "concept_ids": [
         "C-DYN-08",
-        "C-CH-09"
+        "C-CH-09",
+        "C-MODEL-LQ-MARKOV-GAME"
       ],
       "contract_ids": [],
       "domain": "動学計算",
@@ -310,7 +314,9 @@
       "outputs": [
         "均衡方策",
         "価値",
-        "逸脱利得"
+        "逸脱利得",
+        "線形二次ゲームの方策係数",
+        "閉ループ状態遷移"
       ],
       "prerequisites": [
         "GAME-01",
@@ -321,8 +327,8 @@
       ],
       "subdomain": "確率ゲームと Markov 完全均衡",
       "title": "確率ゲームと Markov 完全均衡",
-      "topic": "確率ゲームと Markov 完全均衡",
-      "use_when": "確率ゲームのMarkov完全均衡を求める"
+      "topic": "確率ゲームとMarkov完全均衡; linear quadratic Markov game; LQ dynamic game; coupled Riccati; nnash",
+      "use_when": "全状態の最適反応からMarkov完全均衡を求め、線形二次構造では連立Riccati式を解く"
     },
     {
       "alternatives": [],

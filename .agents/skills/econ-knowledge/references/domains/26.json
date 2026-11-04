@@ -56,7 +56,8 @@
         "C-CH-19",
         "C-OBJ-HOUSEHOLD-DISTRIBUTION",
         "C-TERM-AIYAGARI",
-        "C-TERM-WEALTH-DISTRIBUTION"
+        "C-TERM-WEALTH-DISTRIBUTION",
+        "C-METHOD-KRUSELL-SMITH"
       ],
       "contract_ids": [],
       "domain": "異質マクロ",
@@ -65,7 +66,9 @@
       "inputs": [
         "家計政策",
         "所得遷移",
-        "企業技術"
+        "企業技術",
+        "集計状態と遷移",
+        "集計貯蓄の予測則"
       ],
       "jel_codes": [
         "E21",
@@ -75,7 +78,9 @@
       "outputs": [
         "定常分布",
         "資本",
-        "賃金と金利"
+        "賃金と金利",
+        "状態別集計予測則",
+        "家計分布の遷移"
       ],
       "prerequisites": [
         "HET-01"
@@ -85,10 +90,10 @@
         "HET-04",
         "HET-06"
       ],
-      "subdomain": "異質家計均衡",
-      "title": "定常分布とAiyagari均衡",
-      "topic": "定常分布と資本市場清算を連立する",
-      "use_when": "定常分布と資本市場清算を連立する"
+      "subdomain": "家計分布と不完全市場均衡",
+      "title": "家計分布と不完全市場均衡",
+      "topic": "定常分布とAiyagari均衡; 集計ショック; aggregate Markov shocks; Krusell-Smith; approximate aggregation; aggregate saving rule",
+      "use_when": "家計政策・分布・価格を連立し、定常経済と集計ショック下の予測則を解く"
     },
     {
       "alternatives": [],

@@ -3,7 +3,7 @@
     {
       "domain": "ゲーム",
       "path": "domains/01.json",
-      "sha256": "18bac7c7b607b49f0fae2179b951ae28307fc9a48ee7b0a52eb61aa83313a9e5"
+      "sha256": "3f237d20a40bf1790418630b044f1bc780df2047234b292f01e969b95bda15cc"
     },
     {
       "domain": "ネットワーク",
@@ -43,7 +43,7 @@
     {
       "domain": "動学計算",
       "path": "domains/09.json",
-      "sha256": "9da92f52c5728cce4e22d57684427275b797327e0b4ad786e552c7ad45a6cfdf"
+      "sha256": "01fcd2a37af97a695b8a3c647d46483b7fa1dda24608f072fbecba2bff325757"
     },
     {
       "domain": "医療教育",
@@ -78,7 +78,7 @@
     {
       "domain": "情報行動",
       "path": "domains/16.json",
-      "sha256": "2cb23cf0f90f4a3681c46d7d3f4ef6eadfb685869c404ee824b0952e1dc911ce"
+      "sha256": "06ae815f93eeb532a12558f13c4a65200fcef90ad3dd74f56cd1484e2c7b9677"
     },
     {
       "domain": "成長マクロ",
@@ -93,12 +93,12 @@
     {
       "domain": "数値シミュレーション",
       "path": "domains/19.json",
-      "sha256": "7a2b453879fbf5c9131ff11ed8565823109902df224ebeee79e2c9e6a0ebe979"
+      "sha256": "69b2808e557c5db269b82f80d9d31bc68b1cc634c424ae91ff291b3051e7c8d2"
     },
     {
       "domain": "数理基盤",
       "path": "domains/20.json",
-      "sha256": "712cf095fc3cfdf1d3d1ce063281ace8caefdab1a88b2f83fb4adeea9fd0c6c5"
+      "sha256": "cb3e4cb33b9ad278cfdc894d9bb243eb48a9e93edcae50d5694a816af8b6842c"
     },
     {
       "domain": "時系列",
@@ -128,7 +128,7 @@
     {
       "domain": "異質マクロ",
       "path": "domains/26.json",
-      "sha256": "7f14d434df9e6ec501e2f5b389718e241bbadea71c87f130b6241be036c3bb82"
+      "sha256": "d993d73da503a8d1dd7acc023a01daa7e8c03365cada8e328482eb9153bb2e9a"
     },
     {
       "domain": "確率統計",

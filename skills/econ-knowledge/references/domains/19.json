@@ -82,7 +82,8 @@
       "chapter": 33,
       "concept_ids": [
         "C-NUM-03",
-        "C-CH-33"
+        "C-CH-33",
+        "C-METHOD-IMPORTANCE-SAMPLING"
       ],
       "contract_ids": [],
       "domain": "数値シミュレーション",
@@ -101,7 +102,9 @@
       "kind": "knowledge",
       "outputs": [
         "期待値",
-        "計算標準誤差"
+        "計算標準誤差",
+        "重要度重み",
+        "提案分布別の分散"
       ],
       "prerequisites": [
         "STAT-03"
@@ -111,8 +114,8 @@
       ],
       "subdomain": "積分とシミュレーション",
       "title": "積分とシミュレーション",
-      "topic": "積分とシミュレーション; Monte Carlo integration; モンテカルロ積分",
-      "use_when": "積分とシミュレーションの精度を評価する"
+      "topic": "積分とシミュレーション; Monte Carlo integration; モンテカルロ積分; importance sampling; 重要度サンプリング; finite second moment",
+      "use_when": "支持条件と二次モーメントから積分の提案分布と計算標準誤差を選ぶ"
     },
     {
       "alternatives": [],

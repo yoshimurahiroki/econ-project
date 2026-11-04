@@ -1,15 +1,15 @@
 {
-  "catalog_sha256": "ab98b0d0fdd73659e59136fcae057d731381d564bba708d521e462e187e68ae7",
+  "catalog_sha256": "e02b39cc92043b015a67abb3d516fe1ee01c838c66fc8a9adb6117e77121a9bd",
   "chapters": {
-    "chapters/01-mathematics.md": "fd99fe5d3d51fea0ffe8e9ee63d11a75ba41e492908a23728a90047790e84685",
+    "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
     "chapters/03-microeconomics.md": "91982674dffa16d89dd1b04f41447ae39debbe4be3e47376c3e390d21244561e",
-    "chapters/04-games.md": "1477c3d64dd6b9a7f17475c5b7e3a46ae27acca08d49471f4e8b1f4a08ccf752",
-    "chapters/05-information-behavior.md": "f598b278f1ccfbb0b5681368607a9602ecfbcfea8b087ff134f95c6a7ec67156",
+    "chapters/04-games.md": "c0150f132db087c79cd13bf2457e7d040ff1a01e683ba88c20ba9f0940af23cf",
+    "chapters/05-information-behavior.md": "0d6f1f82591793adc128c59c5cf195c73f347bfe30f9ca805f4aab6de675ec15",
     "chapters/06-contracts-organization.md": "72c21e67dc11662ec9dc4f3d1924b2a69182734cd992e253908c87eea0c7ae6c",
     "chapters/07-market-design.md": "4be072d54bf8ff2443b41f024b03a235cdd1c04f4a2845f1024a5a8f734df141",
     "chapters/08-networks.md": "eaa4c06c5fdc30349ef4029d39d20b6f6db6c59eb5c7e24d367f6a13e13dd3ef",
-    "chapters/09-dynamic-computation.md": "749431157db6b0199426c7aeff2a1397b5aea7f9969c91585da0dbfbbb905aa5",
+    "chapters/09-dynamic-computation.md": "1c56c96261d76a9071efdddd22898dbce9fa6ee6f8b0b5447513de9915ea2596",
     "chapters/10-econometrics.md": "bcfbe164979be9dbc313c683120b9e37629347a5d1008833685e11c666ff1182",
     "chapters/11-causal-designs.md": "ad02b52ea2710f6e6481aeadbf6547328032ca9466c9800b8d91f2ee7eb1d3d3",
     "chapters/12-causal-extensions.md": "980dbf930cdc2977cb5f243e6d6d917899fbe973f595ad093a4676f845a67d32",
@@ -19,7 +19,7 @@
     "chapters/16-competition-platforms.md": "817457f930b26377309922cf05bd330f4da8ee79032039c4f58aafe0c6d11c45",
     "chapters/17-growth-macro.md": "e5faf45b0cf55ed4474c879ea4669153d7204433cba5c8232fd3a2b1f79ae0a0",
     "chapters/18-monetary-open-macro.md": "58772ecab4c65146fe272c6c889be7a57cc5cf52e81e2f2172de4ca20df381db",
-    "chapters/19-heterogeneous-macro.md": "a5c1deaa008730c49f3e74e00bf9adac0fa2913ce3f7057716e76ff604cba666",
+    "chapters/19-heterogeneous-macro.md": "03ebe7991546b79e6f8c891df67249fb07806ec50e0485ec241208053cc9ae99",
     "chapters/20-asset-pricing.md": "71de5e585ef265cb7044c9e2f0d8846139b01f8c962dcaf9b7daafe271f497d2",
     "chapters/21-corporate-banking.md": "2464b1d8de4b9bab677650e9627d5c74c89ba0ea6105593b53e96bbfdb8b87e7",
     "chapters/22-labor-demography.md": "f240acd3e1155914479c3b80450caee7ffb1fa7626e2d5adc44fdbd67d4a2971",
@@ -28,21 +28,21 @@
     "chapters/25-trade-globalization.md": "f896af60d28235772e378b4637db0263a9e480c51df643ea8deb2a670d8c39bb",
     "chapters/26-health-education.md": "06be2fefc8e29b8727651948b55e8eb496065c99864e0730e837594287066aa8",
     "chapters/27-development-agriculture.md": "8d68c5ae0fc1d54e5f21895d03fba9a62de40a485a9ce076ed3b7f2f47c644c6",
-    "chapters/28-environment-energy.md": "e5167b8a9902ee935b1a1ab156e7b472daf172b28d7bc82bb2017d80721eb207",
+    "chapters/28-environment-energy.md": "cef9f134a3decc524af107f32b59c04bcc90628d0aaeca53a615abda77649cb2",
     "chapters/29-political-law-institutions.md": "ba6c55a883b073d29e7a45c921b077a4823f12e18e9b0d92fe6dc2c380ce566a",
     "chapters/30-innovation-history-marketing.md": "cb240cc4335d448db0bf8ee39a9d52cde38cb3df8e921ce7041146ca39da1274",
     "chapters/31-forecasting-decisions.md": "ec1ce467226723f05eab0e2bce4c1264afe8d82ca6888377d808e0db29f4ab4b",
     "chapters/32-welfare-policy.md": "32f68ca06758831c1d683b5765c6b839fa2b56fb6cb7862c00e33485774c548b",
-    "chapters/33-numerical-simulation.md": "6aa894e7cfc20aa184df2bd0b296533b4fe1908dd30f78fb4003ab8fb3470ee7",
+    "chapters/33-numerical-simulation.md": "2686da9c473122a39092ccb94067ebf2b8ed24865787a3458a6719526b9844a4",
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "d26f3e44f94690dca2ac53271e88a4ef57467d8e64b4595438d672b84ef879b0",
+  "domain_listing_sha256": "a1f60a77f64486793f8c322392fe0f6003c11683b0821a47ba4780585fbda5cc",
   "domains": {
     "ゲーム": {
       "count": 9,
       "path": "domains/01.json",
-      "sha256": "18bac7c7b607b49f0fae2179b951ae28307fc9a48ee7b0a52eb61aa83313a9e5"
+      "sha256": "3f237d20a40bf1790418630b044f1bc780df2047234b292f01e969b95bda15cc"
     },
     "ネットワーク": {
       "count": 7,
@@ -82,7 +82,7 @@
     "動学計算": {
       "count": 9,
       "path": "domains/09.json",
-      "sha256": "9da92f52c5728cce4e22d57684427275b797327e0b4ad786e552c7ad45a6cfdf"
+      "sha256": "01fcd2a37af97a695b8a3c647d46483b7fa1dda24608f072fbecba2bff325757"
     },
     "医療教育": {
       "count": 7,
@@ -117,7 +117,7 @@
     "情報行動": {
       "count": 8,
       "path": "domains/16.json",
-      "sha256": "2cb23cf0f90f4a3681c46d7d3f4ef6eadfb685869c404ee824b0952e1dc911ce"
+      "sha256": "06ae815f93eeb532a12558f13c4a65200fcef90ad3dd74f56cd1484e2c7b9677"
     },
     "成長マクロ": {
       "count": 6,
@@ -132,12 +132,12 @@
     "数値シミュレーション": {
       "count": 8,
       "path": "domains/19.json",
-      "sha256": "7a2b453879fbf5c9131ff11ed8565823109902df224ebeee79e2c9e6a0ebe979"
+      "sha256": "69b2808e557c5db269b82f80d9d31bc68b1cc634c424ae91ff291b3051e7c8d2"
     },
     "数理基盤": {
       "count": 9,
       "path": "domains/20.json",
-      "sha256": "712cf095fc3cfdf1d3d1ce063281ace8caefdab1a88b2f83fb4adeea9fd0c6c5"
+      "sha256": "cb3e4cb33b9ad278cfdc894d9bb243eb48a9e93edcae50d5694a816af8b6842c"
     },
     "時系列": {
       "count": 7,
@@ -167,7 +167,7 @@
     "異質マクロ": {
       "count": 6,
       "path": "domains/26.json",
-      "sha256": "7f14d434df9e6ec501e2f5b389718e241bbadea71c87f130b6241be036c3bb82"
+      "sha256": "d993d73da503a8d1dd7acc023a01daa7e8c03365cada8e328482eb9153bb2e9a"
     },
     "確率統計": {
       "count": 8,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "512fde66e4e7ef3635d885b767ef137613854cd01701507c446510ac6326050c"
+      "sha256": "d08f7e4e0fc72bc18fd09c42286907ae1207268e3fed67731cbd7216b341cc0b"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "ec9b129dd9138734f1861495a89b4d4f950e6fd38e4274001539e3cc257c940d"
+      "sha256": "83b1ae00cdedb07b617f372659f0738e593a40392a8429f28e0288d3a2ce2ebe"
     }
   },
   "spec_version": "knowledge-v2",
@@ -589,7 +589,7 @@
       "chapter": "chapters/09-dynamic-computation.md",
       "domain": "動学計算",
       "path": "units/DYN-03.md",
-      "sha256": "ca2c03a67d9265a22aca228acfca2992b189d0bae38111a0fe355381979717d9"
+      "sha256": "d6a20401076c4123280699feabf77bc94878493e07851da488a2c9f7ad8c2de2"
     },
     "DYN-04": {
       "chapter": "chapters/09-dynamic-computation.md",
@@ -619,7 +619,7 @@
       "chapter": "chapters/09-dynamic-computation.md",
       "domain": "動学計算",
       "path": "units/DYN-08.md",
-      "sha256": "4c9f610e13947edfb83826379b791e977ab6517e20a5aec9f7cbafb4a2e80ee3"
+      "sha256": "26e8f2dd228987e91c263ea3c8e29b85bd1fd87e5d7447da6fe5ddd1a5875636"
     },
     "DYN-09": {
       "chapter": "chapters/09-dynamic-computation.md",
@@ -685,7 +685,7 @@
       "chapter": "chapters/28-environment-energy.md",
       "domain": "環境エネルギー",
       "path": "units/ENV-01.md",
-      "sha256": "bbba6ccf6926edd498a8c82494070062bc4bcc90ef55feb4a55a17503dcc022f"
+      "sha256": "27eed4474fa84952ab66e1c1c1bc1a7b8e81a4e529e64c9657120f7eb67e81ff"
     },
     "ENV-02": {
       "chapter": "chapters/28-environment-energy.md",
@@ -817,7 +817,7 @@
       "chapter": "chapters/04-games.md",
       "domain": "ゲーム",
       "path": "units/GAME-02.md",
-      "sha256": "48709cd46042315338e512bbd37d1ea21e20e93bd5f3877ae3c7fd24ad961cab"
+      "sha256": "30cad11de2d6caf2952cd3cb3de602117deab9090755da06b2a2db55e13b8e64"
     },
     "GAME-03": {
       "chapter": "chapters/04-games.md",
@@ -913,7 +913,7 @@
       "chapter": "chapters/19-heterogeneous-macro.md",
       "domain": "異質マクロ",
       "path": "units/HET-02.md",
-      "sha256": "3caa1cc164bdde9b4dc5c09688fefac077b8d6e200eab22f5f5b69d02e2ee2a4"
+      "sha256": "18eae6180dd6fcd8006dc27ede3964e40445393af1f383c00a770ceaa529dc87"
     },
     "HET-03": {
       "chapter": "chapters/19-heterogeneous-macro.md",
@@ -973,7 +973,7 @@
       "chapter": "chapters/05-information-behavior.md",
       "domain": "情報行動",
       "path": "units/INFO-06.md",
-      "sha256": "d1a622306b163f34d20901222c5967b6eaca9f391fd56347b55a9f394061084c"
+      "sha256": "80452e0e8609f9f3d39be67c7b1bb149cb5a822c3e4afa54019a07be98551304"
     },
     "INFO-07": {
       "chapter": "chapters/05-information-behavior.md",
@@ -1177,7 +1177,7 @@
       "chapter": "chapters/01-mathematics.md",
       "domain": "数理基盤",
       "path": "units/MATH-06.md",
-      "sha256": "651425267f60df0b494b1d2cdf94a9a9425695a51a35bd4fc54f2df9053fdc9c"
+      "sha256": "ca8d697f9fc94a24cb7cc49455344472e51e5047d41aa7b0e2859825ee402be3"
     },
     "MATH-07": {
       "chapter": "chapters/01-mathematics.md",
@@ -1375,7 +1375,7 @@
       "chapter": "chapters/33-numerical-simulation.md",
       "domain": "数値シミュレーション",
       "path": "units/NUM-03.md",
-      "sha256": "f6897a20d410a2d104f0619f37f935592632156fcd089af87fead59031cd8632"
+      "sha256": "0c783bd238e0072a8f772d68bfbe1ed01ad47f21c3ad0147d0718017fc642dbd"
     },
     "NUM-04": {
       "chapter": "chapters/33-numerical-simulation.md",

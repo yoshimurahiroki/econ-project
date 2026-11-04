@@ -36,6 +36,34 @@
 
 包絡線条件は $V_a(a,y)=R u'(c)$ で、資産一単位の価値はその期に消費できる資源の限界効用に等しい。遺産効用0、非負資産、利得有限の無限期間内点問題では、終端に消費可能な価値を残さない横断性条件 $\lim_{T\to\infty}E[\beta^T u'(c_T)a_{T+1}]=0$ を課す。初期資産、所得遷移、借入下限、効用と利子率を定めて方策を求める。
 
+生産した資源を消費と次期への投資に分ける最適成長では、現在の資源を $y>0$、消費を $0<c<y$、次期資源を $y'=f(y-c)z$ とする。生産性 $z>0$ は独立同分布、$0<\beta<1$ とし、効用 $u$ は増加・厳密凹、生産関数 $f$ は増加・凹とする。以下の微分と期待値が存在し、価値が有限で最適消費が内点にある場合、Bellman式と包絡線条件は
+
+\[
+V(y)=\max_{0<c<y}\{u(c)+\beta E[V(f(y-c)z)]\},\qquad
+V'(y)=u'(c^*(y))
+\]
+
+となる。消費から投資へ微小に移すとき、投資に対する次期資源の限界収益は $f'(y-c)z$ である。この限界収益と次期限界効用を用い、将来の消費方策 $\sigma$ に対する更新消費を
+
+\[
+u'(c)=\beta E\!\left[u'\{\sigma(f(y-c)z)\}f'(y-c)z\right]
+\]
+
+の根として求める。Coleman–Reffett作用素は、この根によって新しい方策 $K\sigma$ を定める。時間反復は $\sigma_{n+1}=K\sigma_n$ と更新する。正で増加する連続方策 $0<\sigma(y)<y$ の下では、左辺から右辺を引いた関数は $c$ について厳密に減少する。可行区間内の両端でその符号が正から負へ変われば、内点根は一意に定まる。
+
+[QuantEconのPython時間反復](https://github.com/QuantEcon/lecture-python.myst/blob/4d82fffbb1280f8f6980a45dbe518e677f5c9a39/lectures/os_time_iter.md)では、`euler_diff` がこの差を計算し、`K` が各状態で `brentq` により求根する。[Julia版](https://github.com/QuantEcon/lecture-julia.myst/blob/18877b5dd22cba3530089a3a3f3de23f427b8656/lectures/dynamic_programming/coleman_policy_iter.md)の `K!` は同じ式を `find_zero` で解き、`K` は出力を確保してその処理を呼ぶ。どちらも将来方策を線形補間し、固定したショック標本で期待値を計算する。Pythonの `np.interp` は格子外に端点値を使い、Juliaの `LinearInterpolation(...,extrapolation_bc=Line())` は線形外挿する。DYN-04の条件に従い、比較する格子・積分・境界処理を揃える。
+
+滑らかな連続選択で内点根が一意なら、この時間反復を選べる。借入・投資制約が等号で成立する境界では、Euler不等式と可行性を用いる。離散行動や非微分点を含む選択は、DYN-02のBellman右辺の最大化で比較する。Howard方策反復は固定方策の価値評価と行動改善を繰り返す。計算費用は同じ格子・積分と経済量の精度目標の下で、最大化、方策評価の線形系、Euler求根に要する時間を比べる。方策更新差と元のEuler残差に許容値を定め、求めた方策を資源式、Euler等式・不等式と横断条件へ戻して評価する。
+
+例えば $u(c)=\log c,\ f(k)=\sqrt{k},\ z=1,\ \beta=4/5$ とする。$V(y)=A+B\log y$ をBellman式へ代入すると $B=1+\beta B/2=5/3$、$A=5\log(3/5)+(10/3)\log(2/5)$ となる。消費の一階条件 $1/c=(\beta B/2)/(y-c)$ と厳密凹性から、$c^*(y)=3y/5$、投資 $y-c^*(y)=2y/5$ を得る。$y=1$ では $c=3/5,\ y'=\sqrt{2/5},\ c'=3\sqrt{2/5}/5$ なので、
+
+\[
+\frac1c=\frac53
+=\frac45\frac{1}{3\sqrt{2/5}/5}\frac{1}{2\sqrt{2/5}}.
+\]
+
+資源式とEuler式が成立し、割引した投資の限界価値 $\beta^t u'(c_t)(y_t-c_t)=(2/3)(4/5)^t$ は0へ収束する。資本を状態とするDYN-04の例とは $y=f(k)$ で対応する。
+
 <a id="dyn-04"></a>
 
 ## DYN-04 離散化、補間と積分
@@ -110,6 +138,36 @@ V(k)=\frac{\log(.6)+(.4/.6)\log(.4)}{.2}+
 参入退出の均衡推定では、企業の選択前に観測する状態、私的shock、競合の情報と同時性、参入費用の支払、当期行動後の遷移を決める。企業ごとの最適反応が同じ状態で複数の政策を許すとき、初期条件と選択規則を使った経路と、選択を固定しない均衡結果の集合を比較する。`dynamic oligopoly entry exit Markov perfect equilibrium identification` と `dynamic games equilibrium selection moment inequalities` を用いて原著・レビュー、参入退出と候補企業の記録を探す。econ-designで観測状態と逸脱集合を定め、econ-dataで各候補の一回逸脱、価値再帰と政策後の状態分布を求める。競合相手の政策と遷移を推定した誤差は市場単位の推論に入れる。
 
 混合方策では、状態 \(s\) の他社行動分布を所与とした一回逸脱 \(a_i\) の利得を、当期報酬と次期状態の継続価値の期待和として求める。候補方策の価値はその候補が作る遷移行列で評価し、正の確率を置く行動が最大価値を達成することを検査する。全状態・全行動の最大逸脱利得を \(\varepsilon\) とすれば、一回逸脱の最適反応Bellman残差は \(\varepsilon\) 以下であり、割引 \(\beta\) の下で全期間の最適反応価値と候補価値の差は \(\varepsilon/(1-\beta)\) 以下となる。相互最適反応の単純反復は循環することがあるため、異なる初期方策から候補を求め、各候補の逸脱条件と採択した均衡選択を確認する。STRUCT-05の反復参入例は、当期行動が次期状態に影響しない特殊例で、各社の逸脱条件と複数均衡を具体的に計算する。
+
+線形二次動学ゲームでは、2主体が各期に共通状態 $x_t\in\mathbb R^n$ を観測して行動 $u_{it}\in\mathbb R^{k_i}$ を同時に選び、状態が $x_{t+1}=Ax_t+B_1u_{1t}+B_2u_{2t}$ に従う。主体 $i$ は $0<\beta<1$ の下で割引費用和を最小化する。$j\ne i$ とし、当期費用を
+
+\[
+\ell_i(x,u_i,u_j)
+=x^\top R_ix+u_i^\top Q_iu_i+u_j^\top S_iu_j
++2x^\top W_iu_i+2u_j^\top M_iu_i
+\]
+
+とする。費用行列 $R_i,Q_i,S_i$ は対称とする。状態、自己と相手の調整量、それらの相互作用を各行列に対応させる。相手の方策 $u_j=-F_jx$ を固定すると、$\Lambda_i=A-B_jF_j$、$\Pi_i=R_i+F_j^\top S_iF_j$、$\Gamma_i=W_i^\top-M_i^\top F_j$ により、遷移は $\Lambda_ix+B_iu_i$、費用は $x^\top\Pi_ix+u_i^\top Q_iu_i+2u_i^\top\Gamma_ix$ となる。
+
+対称な $P_i$ を用いて定常費用価値を $V_i(x)=x^\top P_ix$ と置き、$H_i=Q_i+\beta B_i^\top P_iB_i$ が正定値となるとき、自己行動の一階条件と価値の再帰から
+
+\[
+H_iF_i=\beta B_i^\top P_i\Lambda_i+\Gamma_i,\qquad
+P_i=\Pi_i+\beta\Lambda_i^\top P_i\Lambda_i-F_i^\top H_iF_i
+\]
+
+を得る。方策は $u_i=-F_ix$ である。第1式には相手の $F_j$ が含まれるため、両主体の式を連立で解く。有限期間では次期の $P_i$ を所与として当期の $F_1,F_2$ を求め、現在の $P_i$ を第2式で更新する。この連立Riccati更新を終端から後退させ、定常係数を求める。
+
+[QuantEcon.pyのnnash](https://github.com/QuantEcon/QuantEcon.py/blob/d30c9000a96d7ae1d434bdecb4aa63d285a18599/quantecon/_lqnash.py)と[QuantEcon.jlのnnash](https://github.com/QuantEcon/QuantEcon.jl/blob/df801457aae1f280698d663e68f1a6ac8423360e/src/lqnash.jl)は、終端価値0に対応する $P_1=P_2=0$ から連立方策と価値係数を更新し、`F1,F2,P1,P2` を返す。Pythonは `nnash(..., beta=beta)`、Juliaは `nnash(...; beta=beta)` に元の $A,B_1,B_2$ と費用行列を渡す。両実装が内部で遷移行列を $\sqrt\beta$ 倍して割引を取り込む。状態経路には元の閉ループ行列 $A-B_1F_1-B_2F_2$ を使う。費用和が有限となる方策について、元のRiccati残差、相手を固定した最適反応、価値の再帰と割引終端値を評価する。行動上限、非負数量、離散参入を持つモデルは、その可行集合を含む最適反応計算へ接続する。
+
+例えば状態偏差と両主体の調整行動を実数とし、$x_{t+1}=x_t+u_{1t}+u_{2t}$、$\ell_i=(13/16)x^2+u_i^2$、$\beta=1/2$ とする。候補方策 $u_1=u_2=-x/4$、費用価値 $V_1(x)=V_2(x)=x^2$ を代入する。相手が $-x/4$ を選ぶと、当期費用と継続価値の和は
+
+\[
+\frac{13}{16}x^2+u_i^2+\frac12\left(\frac34x+u_i\right)^2
+=x^2+\frac32\left(u_i+\frac14x\right)^2
+\]
+
+となる。全状態で唯一の最適反応は $u_i=-x/4$、最小費用は $x^2$ となる。候補方策は互いに最適反応で、各費用価値は価値の再帰を満たす。閉ループは $x_{t+1}=x_t/2$、割引終端価値は $(1/8)^t x_0^2$ で0へ収束する。公式関数に対応する行列は $A=B_1=B_2=1,\ R_1=R_2=13/16,\ Q_1=Q_2=1,\ S_i=W_i=M_i=0$ であり、参照解は $F_1=F_2=1/4,\ P_1=P_2=1$ となる。入力では各係数を1×1行列として与える。
 
 <a id="dyn-09"></a>
 

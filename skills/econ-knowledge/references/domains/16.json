@@ -203,7 +203,8 @@
       "chapter": 5,
       "concept_ids": [
         "C-INFO-06",
-        "C-CH-05"
+        "C-CH-05",
+        "C-MODEL-QUASI-HYPERBOLIC"
       ],
       "contract_ids": [],
       "domain": "情報行動",
@@ -212,7 +213,10 @@
       "inputs": [
         "各期の効用",
         "現在バイアス",
-        "割引因子"
+        "割引因子",
+        "状態遷移",
+        "将来自己の行動規則",
+        "拘束費用"
       ],
       "jel_codes": [
         "D91",
@@ -221,9 +225,10 @@
       "kind": "knowledge",
       "outputs": [
         "当初計画",
-        "将来の選択",
-        "拘束の価値",
-        "計画変更の条件"
+        "実現方策",
+        "将来方策の指数割引価値",
+        "各時点の自己の価値",
+        "拘束の価値"
       ],
       "prerequisites": [],
       "related": [
@@ -231,8 +236,8 @@
       ],
       "subdomain": "現在バイアス",
       "title": "現在バイアス",
-      "topic": "現在バイアス",
-      "use_when": "現在バイアスと将来の再最適化から計画を比較する"
+      "topic": "現在バイアス; 準双曲割引; quasi-hyperbolic discounting; sophisticated; naive; commitment demand",
+      "use_when": "将来自己の再最適化を予見する行動と当初計画を分け、拘束契約を比較する"
     },
     {
       "alternatives": [],

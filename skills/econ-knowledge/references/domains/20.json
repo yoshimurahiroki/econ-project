@@ -210,7 +210,7 @@
       "related": [],
       "subdomain": "固定点と均衡",
       "title": "固定点と均衡",
-      "topic": "固定点と均衡",
+      "topic": "固定点と均衡; Banach contraction; 収縮写像; 完備距離空間; 自己写像; Brouwer; Kakutani",
       "use_when": "収縮反復や固定点定理で均衡の存在と一意性を調べる"
     },
     {
