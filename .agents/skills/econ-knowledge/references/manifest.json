@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "e499bd0f93ca19475f658aab7443cb43fe5b117bc17bae4baafd3089b24e5223",
+  "catalog_sha256": "eb35871d6b862f7106bc3bdbd095e08feee0d00ec9e444b444378b938f2d7cd8",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -16,7 +16,7 @@
     "chapters/13-time-series.md": "f668b700e013d6ad79ff62e97b2363ae4b8c4ba8ff141334355a8fac32ae8e3f",
     "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
     "chapters/15-demand-production.md": "00f228c6b40ee6298c6c1b5f2efa6b4bf0d2a220135fc6aa1a7a904b553739b9",
-    "chapters/16-competition-platforms.md": "817457f930b26377309922cf05bd330f4da8ee79032039c4f58aafe0c6d11c45",
+    "chapters/16-competition-platforms.md": "c6bdc084ea9044013558cce41f503d21b30f29141bff009edc1c548bf2cc9417",
     "chapters/17-growth-macro.md": "6a3b3108373af6d0e17fe2816b08d728ef7c89a618db48525bf23628c7ff0371",
     "chapters/18-monetary-open-macro.md": "512bcd529afe54959759db93a3764a00dccdaa7fa27c3ad43e3f7e10575c1f39",
     "chapters/19-heterogeneous-macro.md": "03ebe7991546b79e6f8c891df67249fb07806ec50e0485ec241208053cc9ae99",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "3b21da23b44cb2230bc799e8c168c8f1c5cd8baff720b4bab6f8639d7296eb90",
+  "domain_listing_sha256": "c5e5c8fc3553f316708f03fcefdee263df02a6209c5b8d4198d8eef0cb5267fe",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -162,7 +162,7 @@
     "産業組織": {
       "count": 7,
       "path": "domains/25.json",
-      "sha256": "e4cc78fa639c44b80ddc3e226a30691190fb345b89c7cbe34cf298ddfe9fee73"
+      "sha256": "f4409c3d4f873fbb7cddb2cedd4e7592dcd932c51c27449dba8df8798d977f44"
     },
     "異質マクロ": {
       "count": 6,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "a8e1d11b68156aabb28a2d1f02491ae7739a461971a6313a15b1f89a09df7328"
+      "sha256": "e743b07a6f5d9841b2a5bb7d74cf5bed9900fcb06efd9ae9ea4dfe50b2ad75a7"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "8c4d652532e3249e24322c9cf2f04e74348753f6b106dcb384deed30d18b3bfe"
+      "sha256": "3ed0aecb6275f5ece6501bcfe14888fb8d712f3e88c1293083e397794264386a"
     }
   },
   "spec_version": "knowledge-v2",
@@ -1039,7 +1039,7 @@
       "chapter": "chapters/16-competition-platforms.md",
       "domain": "産業組織",
       "path": "units/IO-03.md",
-      "sha256": "6f5a364c5de355cc817abfbae3d2f9d3aef5dc716b534a550b4dbfe80df72c6d"
+      "sha256": "42e9114dd9043986617dae62e34621e784e550a2e3bbf47c0566c7ae986a1c28"
     },
     "IO-04": {
       "chapter": "chapters/16-competition-platforms.md",

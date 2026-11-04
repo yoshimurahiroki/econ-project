@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "b81a4f62be614b9cd3e6b5c554267c7c8dc36723",
+  "source_base_commit": "c8022f8687a4422030ba961b766dc1d9d0e2b51d",
   "source_state": "committed",
-  "common_content_id": "c09962e4d61b08207a8e332a378dda165844848eb1a1beb72046b4cea7ad803d",
+  "common_content_id": "d6eaf3b70a73249ff495c12e76203b134c7954511aa6e9704eb06ca9e8b1cda0",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -753,8 +753,8 @@
     {
       "path": "harness/policy_assets.py",
       "state": "present",
-      "sha256": "8f1fc0d0b7271b9c19dc8dba82594952ac4b917c139653f40f3ff32c0e6d871c",
-      "git_blob": "8c1bffca3c2fb29e249af7069dd8b882537a3c0b",
+      "sha256": "fa4238f89b629ad0a7c1d966bba676f5699bf4357bbb1d168d7938c3656cad61",
+      "git_blob": "6fa16464a1e05d463681813bccd15396b0acf08f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1585,8 +1585,8 @@
     {
       "path": "skills/econ-knowledge/references/catalog.json",
       "state": "present",
-      "sha256": "e499bd0f93ca19475f658aab7443cb43fe5b117bc17bae4baafd3089b24e5223",
-      "git_blob": "f13ca25ab0fb335b60931dbb6df9c598d2015e2b",
+      "sha256": "eb35871d6b862f7106bc3bdbd095e08feee0d00ec9e444b444378b938f2d7cd8",
+      "git_blob": "247edc42038ebc5924d6b527673315bbb062bcea",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1713,8 +1713,8 @@
     {
       "path": "skills/econ-knowledge/references/chapters/16-competition-platforms.md",
       "state": "present",
-      "sha256": "817457f930b26377309922cf05bd330f4da8ee79032039c4f58aafe0c6d11c45",
-      "git_blob": "7cd6c1abbdac995f49ae48470f3136e5a3e1b6e1",
+      "sha256": "c6bdc084ea9044013558cce41f503d21b30f29141bff009edc1c548bf2cc9417",
+      "git_blob": "efb80bba32ab2a31fbf61d93a0f0293053acc030",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },

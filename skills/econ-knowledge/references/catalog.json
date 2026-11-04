@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.17",
+  "version": "2.3.18",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -4577,22 +4577,27 @@
       "domain": "産業組織",
       "subdomain": "参入と退出",
       "kind": "knowledge",
-      "topic": "固定費と参入逸脱条件から市場構造を求める",
-      "use_when": "固定費と参入逸脱条件から市場構造を求める",
+      "topic": "固定費と参入逸脱条件から市場構造を求める; 独占的競争; CES monopolistic competition; Dixit Stiglitz; free entry product variety price index",
+      "use_when": "固定費と参入逸脱条件から市場構造を求める。CES需要、価格選択と自由参入を連立して品種数と価格指数を求める",
       "inputs": [
         "企業利潤",
         "参入費用",
-        "状態"
+        "状態",
+        "市場支出とCES代替弾力性",
+        "限界費用と一期間の固定資源費用"
       ],
       "outputs": [
         "参入企業数",
-        "動学政策"
+        "動学政策",
+        "対称価格と各品種の数量",
+        "品種数とCES価格指数"
       ],
       "file": "chapters/16-competition-platforms.md",
       "anchor": "io-03",
       "concept_ids": [
         "C-IO-03",
-        "C-CH-16"
+        "C-CH-16",
+        "C-MODEL-CES-MONOPOLISTIC-COMPETITION"
       ],
       "jel_codes": [
         "L11",
@@ -19228,6 +19233,34 @@
         "E32"
       ],
       "kind": "method"
+    },
+    {
+      "id": "C-MODEL-CES-MONOPOLISTIC-COMPETITION",
+      "preferred": {
+        "en": "CES monopolistic competition",
+        "ja": "CES独占的競争"
+      },
+      "aliases": {
+        "en": [
+          "Dixit-Stiglitz model",
+          "Dixit Stiglitz model"
+        ],
+        "ja": [
+          "ディキシット＝スティグリッツ・モデル"
+        ]
+      },
+      "broader": [
+        "C-CH-16"
+      ],
+      "definition": {
+        "unit": "IO-03",
+        "anchor": "io-03"
+      },
+      "jel_codes": [
+        "L11",
+        "D43"
+      ],
+      "kind": "concept"
     }
   ],
   "jel": {
@@ -29570,6 +29603,28 @@
         }
       ],
       "version": "2.3.13"
+    },
+    {
+      "id": "R-IO-CES-ENTRY",
+      "source": "IO-03",
+      "target": "TRADE-02",
+      "type": "requires_to_apply",
+      "conditions": [
+        "Firms each produce one differentiated variety, take expenditure and the price index as given, and face CES demand with elasticity greater than one. Symmetric firms have positive common marginal and period fixed costs; free entry determines the continuous mass of varieties."
+      ],
+      "when": {
+        "market_structure": [
+          "ces_monopolistic_competition"
+        ]
+      },
+      "use": "Use the shared CES demand and price-index definitions to connect profit-maximizing prices, zero profits, variety mass and market expenditure.",
+      "evidence": [
+        {
+          "unit": "IO-03",
+          "anchor": "io-03"
+        }
+      ],
+      "version": "2.3.18"
     }
   ],
   "model_contracts": [

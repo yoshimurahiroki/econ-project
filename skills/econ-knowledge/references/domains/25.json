@@ -95,7 +95,8 @@
       "chapter": 16,
       "concept_ids": [
         "C-IO-03",
-        "C-CH-16"
+        "C-CH-16",
+        "C-MODEL-CES-MONOPOLISTIC-COMPETITION"
       ],
       "contract_ids": [],
       "domain": "産業組織",
@@ -104,7 +105,9 @@
       "inputs": [
         "企業利潤",
         "参入費用",
-        "状態"
+        "状態",
+        "市場支出とCES代替弾力性",
+        "限界費用と一期間の固定資源費用"
       ],
       "jel_codes": [
         "L11",
@@ -113,7 +116,9 @@
       "kind": "knowledge",
       "outputs": [
         "参入企業数",
-        "動学政策"
+        "動学政策",
+        "対称価格と各品種の数量",
+        "品種数とCES価格指数"
       ],
       "prerequisites": [
         "GAME-01"
@@ -123,8 +128,8 @@
       ],
       "subdomain": "参入と退出",
       "title": "参入、退出、製品選択",
-      "topic": "固定費と参入逸脱条件から市場構造を求める",
-      "use_when": "固定費と参入逸脱条件から市場構造を求める"
+      "topic": "固定費と参入逸脱条件から市場構造を求める; 独占的競争; CES monopolistic competition; Dixit Stiglitz; free entry product variety price index",
+      "use_when": "固定費と参入逸脱条件から市場構造を求める。CES需要、価格選択と自由参入を連立して品種数と価格指数を求める"
     },
     {
       "alternatives": [],
