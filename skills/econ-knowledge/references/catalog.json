@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.6",
+  "version": "2.3.7",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -3039,7 +3039,8 @@
       "anchor": "econ-03",
       "concept_ids": [
         "C-ECON-03",
-        "C-CH-10"
+        "C-CH-10",
+        "C-METHOD-PPML"
       ],
       "jel_codes": [
         "C13",
@@ -3055,22 +3056,30 @@
       "subdomain": "固定効果と動学パネル",
       "kind": "knowledge",
       "topic": "固定効果と動学パネル",
-      "use_when": "パネル固定効果と動学パネルのモーメントを構成する",
+      "use_when": "多方向の固定効果を同時に除き、静学回帰・操作変数法・動学パネルの識別と実行方法を選ぶ",
       "inputs": [
         "パネル結果",
         "説明変数",
         "ラグ",
-        "個体ID"
+        "個体ID",
+        "固定効果の各分類",
+        "除外操作変数",
+        "推論単位"
       ],
       "outputs": [
         "固定効果推定",
-        "差分GMMモーメント"
+        "差分GMMモーメント",
+        "同時残差化",
+        "固定効果付きIV推定",
+        "構造残差に基づく共分散"
       ],
       "file": "chapters/10-econometrics.md",
       "anchor": "econ-04",
       "concept_ids": [
         "C-ECON-04",
-        "C-CH-10"
+        "C-CH-10",
+        "C-METHOD-HDFE",
+        "C-METHOD-FE-IV"
       ],
       "jel_codes": [
         "C23",
@@ -18820,6 +18829,97 @@
         "C14"
       ],
       "kind": "concept"
+    },
+    {
+      "id": "C-METHOD-PPML",
+      "preferred": {
+        "en": "Poisson pseudo maximum likelihood",
+        "ja": "ポアソン擬似最尤法"
+      },
+      "aliases": {
+        "en": [
+          "PPML",
+          "Poisson quasi maximum likelihood",
+          "fepois"
+        ],
+        "ja": [
+          "ポアソン擬似最尤",
+          "ポアソン準最尤法"
+        ]
+      },
+      "broader": [
+        "C-CH-10"
+      ],
+      "definition": {
+        "unit": "ECON-03",
+        "anchor": "econ-03"
+      },
+      "jel_codes": [
+        "C13",
+        "C21",
+        "C25"
+      ],
+      "kind": "method"
+    },
+    {
+      "id": "C-METHOD-HDFE",
+      "preferred": {
+        "en": "High-dimensional fixed effects",
+        "ja": "高次元固定効果"
+      },
+      "aliases": {
+        "en": [
+          "HDFE",
+          "fixed effect absorption",
+          "multiple fixed effects",
+          "multiway fixed effects"
+        ],
+        "ja": [
+          "多方向固定効果",
+          "固定効果の吸収"
+        ]
+      },
+      "broader": [
+        "C-CH-10"
+      ],
+      "definition": {
+        "unit": "ECON-04",
+        "anchor": "econ-04"
+      },
+      "jel_codes": [
+        "C23"
+      ],
+      "kind": "method"
+    },
+    {
+      "id": "C-METHOD-FE-IV",
+      "preferred": {
+        "en": "Instrumental variables with fixed effects",
+        "ja": "固定効果付き操作変数法"
+      },
+      "aliases": {
+        "en": [
+          "FE-IV",
+          "fixed effects instrumental variables",
+          "fixed effects 2SLS"
+        ],
+        "ja": [
+          "固定効果IV",
+          "固定効果付き2SLS"
+        ]
+      },
+      "broader": [
+        "C-TERM-IV"
+      ],
+      "definition": {
+        "unit": "ECON-04",
+        "anchor": "econ-04"
+      },
+      "jel_codes": [
+        "C23",
+        "C26"
+      ],
+      "kind": "method"
     }
   ],
   "jel": {
@@ -28913,6 +29013,56 @@
         }
       ],
       "version": "2.3.6"
+    },
+    {
+      "id": "R-ECON-PPML",
+      "source": "ECON-03",
+      "target": "C-METHOD-PPML",
+      "type": "estimated_by",
+      "conditions": [
+        "The outcome is nonnegative, its conditional mean is exponential in the adopted regressors and effects, and identification and a finite solution hold; covariance follows the sampling and assignment units."
+      ],
+      "when": {
+        "outcome_support": [
+          "nonnegative"
+        ],
+        "target": [
+          "conditional_mean"
+        ]
+      },
+      "use": "Use Poisson quasi-likelihood for the adopted mean. Match effects, exposure and covariance to fepois or the documented existing poisson execution path.",
+      "evidence": [
+        {
+          "unit": "ECON-03",
+          "anchor": "econ-03"
+        }
+      ],
+      "version": "2.3.7"
+    },
+    {
+      "id": "R-ECON-FE-IV",
+      "source": "ECON-04",
+      "target": "C-METHOD-FE-IV",
+      "type": "estimated_by",
+      "conditions": [
+        "Project outcomes, exogenous and endogenous regressors, and excluded instruments on the same fixed-effect space; the residualized instruments satisfy exclusion and the rank condition."
+      ],
+      "when": {
+        "model": [
+          "linear_iv"
+        ],
+        "fixed_effects": [
+          "absorbed"
+        ]
+      },
+      "use": "Use the fixed-effect IV formula in feols and retain structural residuals, fitted observations, covariance and small-sample settings.",
+      "evidence": [
+        {
+          "unit": "ECON-04",
+          "anchor": "econ-04"
+        }
+      ],
+      "version": "2.3.7"
     }
   ],
   "model_contracts": [

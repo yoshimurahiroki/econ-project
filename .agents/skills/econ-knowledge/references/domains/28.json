@@ -87,7 +87,8 @@
       "chapter": 10,
       "concept_ids": [
         "C-ECON-03",
-        "C-CH-10"
+        "C-CH-10",
+        "C-METHOD-PPML"
       ],
       "contract_ids": [],
       "domain": "計量",
@@ -124,7 +125,9 @@
       "chapter": 10,
       "concept_ids": [
         "C-ECON-04",
-        "C-CH-10"
+        "C-CH-10",
+        "C-METHOD-HDFE",
+        "C-METHOD-FE-IV"
       ],
       "contract_ids": [],
       "domain": "計量",
@@ -134,7 +137,10 @@
         "パネル結果",
         "説明変数",
         "ラグ",
-        "個体ID"
+        "個体ID",
+        "固定効果の各分類",
+        "除外操作変数",
+        "推論単位"
       ],
       "jel_codes": [
         "C23",
@@ -143,7 +149,10 @@
       "kind": "knowledge",
       "outputs": [
         "固定効果推定",
-        "差分GMMモーメント"
+        "差分GMMモーメント",
+        "同時残差化",
+        "固定効果付きIV推定",
+        "構造残差に基づく共分散"
       ],
       "prerequisites": [
         "ECON-01",
@@ -153,7 +162,7 @@
       "subdomain": "固定効果と動学パネル",
       "title": "固定効果と動学パネル",
       "topic": "固定効果と動学パネル",
-      "use_when": "パネル固定効果と動学パネルのモーメントを構成する"
+      "use_when": "多方向の固定効果を同時に除き、静学回帰・操作変数法・動学パネルの識別と実行方法を選ぶ"
     },
     {
       "alternatives": [],

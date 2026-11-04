@@ -434,7 +434,7 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
             engine = 'statsmodels.GLS'; diagnostics['variance_range'] = [float(d[opt['variance']].min()),float(d[opt['variance']].max())]
         else:
             y=d[spec['outcome']]
-            if method == 'poisson' and ((y<0).any() or (y != np.floor(y)).any()): raise ValueError('Poisson outcome must be a nonnegative integer')
+            if method == 'poisson' and (y<0).any(): raise ValueError('Poisson conditional-mean outcome must be nonnegative')
             if method == 'logit' and set(y.unique()) != {0,1}: raise ValueError('logit outcome must contain 0 and 1')
             family=sm.families.Poisson() if method=='poisson' else sm.families.Binomial()
             fit=sm.GLM(y,X,family=family).fit(**fitkw)
