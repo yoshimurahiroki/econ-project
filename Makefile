@@ -53,7 +53,7 @@ format-r:
 	$(PIXI_RUN) Rscript --vanilla -e 'Sys.setenv(R_CACHE_ROOTPATH = tempdir()); f <- Sys.getenv("QUALITY_FILE"); x <- readLines(f, warn = FALSE, encoding = "UTF-8"); y <- as.character(styler::style_text(x, scope = "spaces")); if (anyNA(y) || (length(x) > 0L && length(y) == 0L)) stop("Formatter returned no valid source"); invisible(parse(text = y)); if (!identical(x, y)) writeLines(y, f, useBytes = TRUE)'
 test:
 	@test -n "$$QUALITY_TEST" || { echo "Specify TEST=path::node" >&2; exit 2; }; \
-	$(THREAD_ENV) $(PIXI_RUN) pytest -q -p no:cacheprovider -- "$$QUALITY_TEST"
+	$(THREAD_ENV) PYTHONPATH=".$${PYTHONPATH:+:$$PYTHONPATH}" $(PIXI_RUN) pytest -q -rs -p no:cacheprovider -p harness.local_checks -- "$$QUALITY_TEST"
 
 r-install: RV_ACTION = sync
 r-plan: RV_ACTION = plan

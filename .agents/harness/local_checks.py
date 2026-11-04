@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Local text checks and exact snapshot writing using Python's standard library.
+"""Local checks and exact snapshot writing using Python's standard library.
 
 Text matches use NFKC/casefold views mapped to raw source coordinates. Snapshot writes
 stage exact bytes before an atomic no-overwrite directory rename.
@@ -24,6 +24,52 @@ import unicodedata
 SURFACES = ('final', 'progress', 'status', 'error')
 MAX_BYTES = 16 * 1024 * 1024
 TEXT_SUFFIXES = {'.txt', '.md', '.tex', '.bib', '.csv', '.tsv', '.json', '.yaml', '.yml', '.rst', '.html', '.xml', '.py', '.r', '.jl', '.sql', '.sh', '.toml', '.js', '.ts', '.css', '.qmd', '.svg', '.ipynb', '.do', '.ado', '.m', '.c', '.cpp', '.h'}
+
+
+class _RequiredTests:
+    """Require actual passing calls for an explicitly selected pytest run."""
+
+    def __init__(self):
+        self.collected = set()
+        self.passed = set()
+        self.incomplete = set()
+
+    def pytest_itemcollected(self, item):
+        self.collected.add(item.nodeid)
+
+    def pytest_collectreport(self, report):
+        if report.failed or report.skipped:
+            self.incomplete.add('collection ' + report.outcome)
+
+    def pytest_deselected(self, items):
+        if items:
+            self.incomplete.add('deselected tests')
+
+    def pytest_runtest_logreport(self, report):
+        if report.failed or report.skipped:
+            self.incomplete.add(report.when + ' ' + report.outcome)
+        if report.when == 'call' and report.passed:
+            self.passed.add(report.nodeid)
+
+    def pytest_sessionfinish(self, session, exitstatus):
+        if exitstatus != 0:
+            return
+        if self.incomplete or not self.collected or self.collected != self.passed:
+            session.exitstatus = 1
+            reasons = sorted(self.incomplete)
+            if not self.collected:
+                reasons.append('no tests collected')
+            missing = self.collected - self.passed
+            if missing:
+                reasons.append(f'no passing call for {len(missing)} collected test(s)')
+            terminal = session.config.pluginmanager.get_plugin('terminalreporter')
+            if terminal is not None:
+                terminal.write_sep('=', 'Required tests incomplete: ' + '; '.join(reasons))
+
+
+def pytest_configure(config):
+    config.pluginmanager.register(_RequiredTests(), 'econ-required-tests')
+
 
 class GateError(ValueError):
     pass

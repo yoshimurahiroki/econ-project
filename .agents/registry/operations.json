@@ -1206,7 +1206,9 @@
       "required_rules": [
         "econ-data.implement-at-the-existing-owner",
         "execution.entry-point-and-dependencies",
-        "execution.complete-outputs-and-failure-propagation"
+        "execution.complete-outputs-and-failure-propagation",
+        "execution.project-file-ownership",
+        "research.resolve-dependencies-and-integrate-findings"
       ]
     },
     "method_choose_the_estimand_and_method": {
