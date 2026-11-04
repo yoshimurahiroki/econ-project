@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "1600a83367bf21c14463eab5153e60ed59372709ca99373fdf4f1519968dde3a",
+  "catalog_sha256": "9e04a82bea57281c0d9fc652324f44549d768d409f33177feb93922b47c2ae1f",
   "chapters": {
     "chapters/01-mathematics.md": "fd99fe5d3d51fea0ffe8e9ee63d11a75ba41e492908a23728a90047790e84685",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -26,7 +26,7 @@
     "chapters/23-public-economics.md": "ffe4b1e77305bd1ac8969728257dc37e2312e97397c728122170fe62c97579aa",
     "chapters/24-spatial-housing-transport.md": "679b50a3ae4da655d2e064bd60ae79f131a42c3d4c19e95e4c3459af7863eecc",
     "chapters/25-trade-globalization.md": "591a53c6bf592a9c8cbf4552d8e9988d3e503c7d495b940374efd72117705c7f",
-    "chapters/26-health-education.md": "2cb52e354a81d8da1a403abd46307d896334158ca4d6809e0811f5216360efbe",
+    "chapters/26-health-education.md": "06be2fefc8e29b8727651948b55e8eb496065c99864e0730e837594287066aa8",
     "chapters/27-development-agriculture.md": "8d68c5ae0fc1d54e5f21895d03fba9a62de40a485a9ce076ed3b7f2f47c644c6",
     "chapters/28-environment-energy.md": "f5298eb20cdf305621c7515c3d3406fd5453f0e3cfe7351ac1dcdd82e9da0b84",
     "chapters/29-political-law-institutions.md": "ba6c55a883b073d29e7a45c921b077a4823f12e18e9b0d92fe6dc2c380ce566a",
@@ -865,7 +865,7 @@
       "chapter": "chapters/26-health-education.md",
       "domain": "医療教育",
       "path": "units/HEALTH-01.md",
-      "sha256": "59cc761e1cbdf73a82928d48ed0cb70fd054468408d8813852cee7a0e39a3a59"
+      "sha256": "5a6bfa0a38e85ee4abf7c068fcd8f05e09eddd0cf1444f8d7863317099495167"
     },
     "HEALTH-02": {
       "chapter": "chapters/26-health-education.md",
