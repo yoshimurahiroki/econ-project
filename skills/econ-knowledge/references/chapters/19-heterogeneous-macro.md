@@ -24,6 +24,8 @@ CRRAのEGMを実装する。各所得 \(e\) と次期資産格子 \(a'_j\) に�
 
 恒久所得の変動を含む家計では、各期の期首資源、消費、期末資産を当期の恒久所得 \(p_t\) で割り、\(m_t=c_t+a_t\)、\(p_{t+1}=\Gamma\psi_{t+1}p_t\)、\(m_{t+1}=Ra_t/(\Gamma\psi_{t+1})+\theta_{t+1}\) とする。恒久所得shock \(\psi\) と一時所得shock \(\theta\) の同時分布を期待値に使う。CRRA係数 \(\gamma\)、生存確率 \(\ell\) の内点条件は \(c_t^{-\gamma}=\beta\ell R E[(\Gamma\psi_{t+1})^{-\gamma}c_{t+1}^{-\gamma}]\) であり、借入境界では左辺が右辺以上になる。各shockで次期資源を下限 \(\underline m_{t+1}\) 以上に保つ自然借入下限は \(a_t^N=\max_{\psi,\theta} (\Gamma\psi/R)(\underline m_{t+1}-\theta)\) で、人工的な制約 \(a_t^A\) を課す場合の下限は \(\max(a_t^N,a_t^A)\) である。EGMでは各期末資産から次期資源と期待限界効用を求めて消費を逆算し、拘束部分を接続する。
 
+[HARKの自然借入下限](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/HARK/ConsumptionSaving/ConsIndShockModel.py#L510-L532)は、恒久・一時ショックの最小値を別々に取る。$\underline m_{t+1}\le\min\theta$ で二つの最小値が同じ支持点で実現すると、この積は上の同時分布の最大値に等しい。相関した所得ショックでは、正の質量を持つ組ごとに下限を計算する。例えば $R=\Gamma=1,\ \underline m_{t+1}=0$、同じ質量の $(\psi,\theta)=(.5,1.5),(1.5,.5)$ では自然下限は $-.75$、個別の最小値を掛ける実装は $-.25$ を返す。資産 $a=-.5$ で次期資源はそれぞれ $.5,1/6$ となり、両状態で下限を満たす。econ-dataにはショックの組と質量を渡し、同じ支持を借入制約・Euler式・シミュレーションに使う。
+
 HARKの[公式ノートブック](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/examples/ConsIndShockModel/IndShockConsumerType.ipynb)は、`IndShockConsumerType(cycles=0, T_sim=120)` を構築し、`solve()` で無限期間の消費方策を求める。`aNrm`、`mNrm`、`cNrm`、`pLvl` を `track_vars` に指定し、`initialize_sim()` で初期状態と履歴を用意してから `simulate()` で家計の経路を作る。この固定版に保存された出力では、資源下限 `mNrmMin` は0、MPCの下限は .0445362734、上限は1である。正規化消費の横断面平均は `history["cNrm"]` を家計方向に平均して求め、水準消費は各家計の `pLvl` と `cNrm` の積を平均する。
 
 数値解は元の条件へ戻して評価する。\(\zeta=1-c^\gamma\beta\ell R E[(\Gamma\psi)^{-\gamma}c'^{-\gamma}]\) と置き、内点で \(\zeta=0\)、借入境界で \(\zeta\ge0\)、相補性 \(\zeta(a-\underline a)=0\) を確認する。各期の予算は \(m-c-a\)、同一家計の次期資源は \(m'-Ra/(\Gamma\psi)-\theta\)、恒久所得は \(p'-\Gamma\psi p\) の残差で評価する。同版の[家計遷移コード](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/HARK/ConsumptionSaving/ConsIndShockModel.py)が記録する `PermShk` には \(\Gamma\) が含まれる。死亡・出生を含む模擬では、新生家計の遷移を初期化後の状態へ対応させる。格子点数、所得分布の離散化、資産領域を変え、対象とする資源での消費とこれらの残差を比較する。
@@ -37,6 +39,8 @@ HARKの[公式ノートブック](https://github.com/econ-ark/HARK/blob/4c285e86
 総資産 \(K^s(r)=\sum_{a,e}a\mu_r(a,e)\)、労働 \(L=\sum e\mu\) とする。競争企業の \(r=\alpha A(K/L)^{\alpha-1}-\delta\)、\(w=(1-\alpha)A(K/L)^\alpha\) と \(K=K^s(r)\) を連立する。
 
 計算は価格を仮定し、家計政策、定常分布、総資産を解き、資本超過需要を根探索する。家計Euler残差、分布不変性、質量1、資本・財市場清算を元式で確認する。所得遷移はパネルから推定し、借入下限と選好は資産・消費・反応モーメントへ対応させる。HET-06には所与の政策から定常分布を求める小例、HET-04には家計・分布・市場清算を同時に評価する別の一資産モデルの実行例がある。
+
+人口を1とすると、企業の労働投入 $N$ と家計の効率労働 $L$ は同じ単位で清算する。QuantEconの [PythonのEGM例](https://github.com/QuantEcon/lecture-python.myst/blob/4d82fffbb1280f8f6980a45dbe518e677f5c9a39/lectures/aiyagari_egm.md) と [Juliaの政策反復例](https://github.com/QuantEcon/lecture-julia.myst/blob/18877b5dd22cba3530089a3a3f3de23f427b8656/lectures/multi_agent_models/aiyagari.md) の所得効率 $(.1,1)$ と対称な遷移では、定常人口が半数ずつなので $L=0.55$ である。企業に $N=1$ を渡し、家計に元の効率を使うと、資本市場が清算しても財市場に $Y-C-\delta K=w(N-L)=.45w$ が残る。家計の効率をそのまま使うなら企業に $N=.55$ を渡す。企業の労働を1に正規化するなら各家計の効率を $.55$ で割る。どちらも同じ単位で価格・家計政策・定常分布を解き、予算と財市場に戻して確かめる。
 
 集計ショックが反復する経済では、集計Markov状態 \(z_t\) と家計の資産・所得分布 \(\mu_t(a,e)\) を集計状態として持つ。人口を1に正規化し、家計の次期資産政策を \(g_t(a,e)=g(a,e,z_t,\mu_t)\) とすると、
 \[
@@ -144,4 +148,6 @@ HET-04の10点gridの政策例では、各期の状態別消費・労働とそ�
 
 二状態遷移を \(P=\begin{pmatrix}0.9&0.1\\0.2&0.8\end{pmatrix}\) とする。定常条件 \(0.1\mu_1=0.2\mu_2\) と質量1から \(\mu=(2/3,1/3)\) となる。資産がそれぞれ0と6なら総資産は2である。
 
-群1のMPCが0.8、群2が0.2とする。群2から合計1の資源を群1へ移す当期移転は、固定価格で総消費を \(0.8-0.2=0.6\) 増やす。各人への移転は人口比を用いて群1に1.5、群2に \(-3\) とし、総移転が0となることを確認する。均衡効果はこの直接反応を所得・価格調整へ接続して求める。
+移転区間全体で消費方策の傾きが群1で0.8、群2で0.2とする。群2から合計1の資源を群1へ移す当期移転は、固定価格で総消費を \(0.8-0.2=0.6\) 増やす。各人への移転は人口比を用いて群1に1.5、群2に \(-3\) とし、総移転が0となることを確認する。均衡効果はこの直接反応を所得・価格調整へ接続して求める。
+
+有限の移転 $t_j$ に対する固定価格での消費変化は $\sum_j\mu_j[c_j(m_j+t_j)-c_j(m_j)]$ である。[HARKの消費方策とMPC](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/HARK/ConsumptionSaving/ConsIndShockModel.py#L1551-L1574)のうち、この差には各端点の方策値を使う。例えば $c_1(m)=\min(.8m,.4m+1),\ m_1=2$、$c_2(m)=.2m,\ m_2=5$ では、移転前の傾きは上の例と等しい。群1の消費は1.6から2.4、群2は1から0.4へ変わり、総消費増は $(2/3)(.8)+(1/3)(-.6)=1/3$ となる。

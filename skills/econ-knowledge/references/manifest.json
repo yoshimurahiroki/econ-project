@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "b249189e255aebabec61b4db48b3429adf6204b544fcd6f07f63be2da1742cf3",
+  "catalog_sha256": "ad31020f37cec7e6d4515818414026087e2b40303b7564d5f84e74d4909754e5",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -19,7 +19,7 @@
     "chapters/16-competition-platforms.md": "938907d8ef24188f3459e721be262bc45274bea172e1c4e0492e341a33166fcf",
     "chapters/17-growth-macro.md": "6a3b3108373af6d0e17fe2816b08d728ef7c89a618db48525bf23628c7ff0371",
     "chapters/18-monetary-open-macro.md": "512bcd529afe54959759db93a3764a00dccdaa7fa27c3ad43e3f7e10575c1f39",
-    "chapters/19-heterogeneous-macro.md": "03ebe7991546b79e6f8c891df67249fb07806ec50e0485ec241208053cc9ae99",
+    "chapters/19-heterogeneous-macro.md": "ee6c27a133c2be525a9f80864ae4efa942b778c5b8b4c7425c12da540041fb19",
     "chapters/20-asset-pricing.md": "71de5e585ef265cb7044c9e2f0d8846139b01f8c962dcaf9b7daafe271f497d2",
     "chapters/21-corporate-banking.md": "2464b1d8de4b9bab677650e9627d5c74c89ba0ea6105593b53e96bbfdb8b87e7",
     "chapters/22-labor-demography.md": "f240acd3e1155914479c3b80450caee7ffb1fa7626e2d5adc44fdbd67d4a2971",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "9047c636efcfa5f6d4d65daa90dfdeac2f16f8af6f1180289f229368161c6be9",
+  "domain_listing_sha256": "c7a8456203f9217a9b11ca6aff78ced154d9fae4fdc20b9ebb10f84c093c631d",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -167,7 +167,7 @@
     "異質マクロ": {
       "count": 6,
       "path": "domains/26.json",
-      "sha256": "a1470d50d7527a38e382af5f05532bffa0eae9da6c4c6f2b1b7ee7bdd4f901ea"
+      "sha256": "33646886f3171001bc59d3f40cf90c4da2917dd55a96d760d10f5fa761451165"
     },
     "確率統計": {
       "count": 8,
@@ -913,13 +913,13 @@
       "chapter": "chapters/19-heterogeneous-macro.md",
       "domain": "異質マクロ",
       "path": "units/HET-01.md",
-      "sha256": "c9ab95c476f5371e9087c722e4da0d708bc53890c38aa3d70da7f9b78315354b"
+      "sha256": "9a56faf5a250ce86b3e98a325efa184a4a7c9887e7b8f57f0eb91f247940de5e"
     },
     "HET-02": {
       "chapter": "chapters/19-heterogeneous-macro.md",
       "domain": "異質マクロ",
       "path": "units/HET-02.md",
-      "sha256": "18eae6180dd6fcd8006dc27ede3964e40445393af1f383c00a770ceaa529dc87"
+      "sha256": "b68ec5755e9ae856a2ee31d5f21d239810a652105c7d648e1c3f2eeb69b241d7"
     },
     "HET-03": {
       "chapter": "chapters/19-heterogeneous-macro.md",
@@ -943,7 +943,7 @@
       "chapter": "chapters/19-heterogeneous-macro.md",
       "domain": "異質マクロ",
       "path": "units/HET-06.md",
-      "sha256": "72958eda621ed313d845306e1f2a0e825e8b4fe520082a8a2e2e4dc956bad8ad"
+      "sha256": "fa408776a87696119cc37410df6290a3aa6a26475407e992e39185ff8f0da783"
     },
     "INFO-01": {
       "chapter": "chapters/05-information-behavior.md",

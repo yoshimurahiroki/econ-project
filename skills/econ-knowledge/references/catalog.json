@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.26",
+  "version": "2.3.27",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -5182,7 +5182,7 @@
       "domain": "異質マクロ",
       "subdomain": "異質家計貯蓄",
       "kind": "knowledge",
-      "topic": "所得リスクと借入制約の家計政策を解く; endogenous grid method; EGM; 内生的格子法; 借入制約",
+      "topic": "所得リスクと借入制約の家計政策を解く; endogenous grid method; EGM; 内生的格子法; 借入制約; 相関した所得ショック; joint shock support and natural borrowing limit",
       "use_when": "所得リスクと借入制約の家計政策を解く",
       "inputs": [
         "所得遷移",
@@ -5221,7 +5221,7 @@
       "domain": "異質マクロ",
       "subdomain": "家計分布と不完全市場均衡",
       "kind": "knowledge",
-      "topic": "定常分布とAiyagari均衡; 集計ショック; aggregate Markov shocks; Krusell-Smith; approximate aggregation; aggregate saving rule",
+      "topic": "定常分布とAiyagari均衡; 集計ショック; aggregate Markov shocks; Krusell-Smith; approximate aggregation; aggregate saving rule; 効率労働の単位と財市場清算; effective labour normalization",
       "use_when": "家計政策・分布・価格を連立し、定常経済と集計ショック下の予測則を解く",
       "inputs": [
         "家計政策",
@@ -5376,7 +5376,7 @@
       "domain": "異質マクロ",
       "subdomain": "分布再分配例",
       "kind": "worked_example",
-      "topic": "定常状態とMPC別の移転反応を集計する",
+      "topic": "定常状態とMPC別の移転反応を集計する; 有限移転の消費反応; finite transfers and interval MPC",
       "use_when": "定常状態とMPC別の移転反応を集計する",
       "inputs": [
         "遷移行列",
