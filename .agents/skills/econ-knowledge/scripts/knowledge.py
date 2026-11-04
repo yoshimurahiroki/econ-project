@@ -241,7 +241,7 @@ def normalize_semantics(catalog, base):
 
     for concept in concepts:
         required = {'id', 'preferred', 'aliases', 'broader', 'definition', 'jel_codes'}
-        if (not required <= set(concept) or set(concept) - required - {'kind'}
+        if (not required <= set(concept) or set(concept) - required - {'kind', 'mappings'}
                 or not isinstance(concept.get('kind', 'concept'), str)
                 or concept.get('kind', 'concept') not in {'classification', 'concept', 'method', 'object', 'assumption'}):
             raise ValueError('Invalid concept fields')
@@ -256,6 +256,26 @@ def normalize_semantics(catalog, base):
                 or set(concept['jel_codes']) - jel.keys()):
             raise ValueError('Invalid concept references')
         locator(concept['definition'])
+        mappings = concept.get('mappings', [])
+        if not isinstance(mappings, list):
+            raise ValueError('Invalid concept vocabulary mappings')
+        mapped_uris = set()
+        for mapping in mappings:
+            if (not isinstance(mapping, dict)
+                    or set(mapping) != {'scheme', 'uri', 'relation', 'version'}
+                    or any(not isinstance(x, str) or not x.strip() for x in mapping.values())):
+                raise ValueError('Invalid vocabulary mapping fields')
+            external = urlsplit(mapping['uri'])
+            if (mapping['scheme'] != 'STW'
+                    or external.scheme not in {'http', 'https'} or external.netloc != 'zbw.eu'
+                    or not re.fullmatch(r'/stw/descriptor/[0-9]+-[0-9]+', external.path)
+                    or external.query or external.fragment
+                    or mapping['relation'] not in {'exactMatch', 'closeMatch', 'broadMatch',
+                                                   'narrowMatch', 'relatedMatch'}
+                    or not re.fullmatch(r'[0-9]+(?:\.[0-9]+)+', mapping['version'])
+                    or mapping['uri'] in mapped_uris):
+                raise ValueError('Invalid STW vocabulary mapping')
+            mapped_uris.add(mapping['uri'])
 
     # A taxonomy edge points to its broader concept. This graph, unlike the
     # general typed-relation graph, must be acyclic.

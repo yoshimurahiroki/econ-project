@@ -8,7 +8,8 @@
       "concept_ids": [
         "C-CAUSAL-01",
         "C-CH-11",
-        "C-TERM-PROPENSITY-SCORE"
+        "C-TERM-PROPENSITY-SCORE",
+        "C-TERM-PROPENSITY-SCORE-MATCHING"
       ],
       "contract_ids": [],
       "domain": "因果デザイン",
@@ -28,7 +29,8 @@
       "outputs": [
         "ATE",
         "ATT",
-        "調整後平均"
+        "調整後平均",
+        "対応規則と対象集団"
       ],
       "prerequisites": [
         "STAT-01"
@@ -36,8 +38,8 @@
       "related": [],
       "subdomain": "潜在結果",
       "title": "潜在結果と調整",
-      "topic": "潜在結果と調整",
-      "use_when": "潜在結果と条件付き非交絡性からATEまたはATTの対象と比較を定義する"
+      "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング",
+      "use_when": "潜在結果と条件付き交換可能性からATE・ATTの対象と比較を定め、マッチングと調整方法を選ぶ"
     },
     {
       "alternatives": [],

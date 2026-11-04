@@ -44,7 +44,8 @@
       "chapter": 31,
       "concept_ids": [
         "C-FORECAST-02",
-        "C-CH-31"
+        "C-CH-31",
+        "C-TERM-CROSS-VALIDATION"
       ],
       "contract_ids": [],
       "domain": "予測意思決定",
@@ -62,13 +63,14 @@
       "kind": "knowledge",
       "outputs": [
         "学習窓",
-        "評価窓"
+        "評価窓",
+        "分割ごとの検証損失"
       ],
       "prerequisites": [],
       "related": [],
       "subdomain": "標本分割と時点",
       "title": "標本分割と時点",
-      "topic": "標本分割と時点",
+      "topic": "標本分割と時点; cross-validation; CV; train validation test; 交差検証",
       "use_when": "実時点情報で予測評価を設計する"
     },
     {
@@ -77,7 +79,10 @@
       "chapter": 31,
       "concept_ids": [
         "C-FORECAST-03",
-        "C-CH-31"
+        "C-CH-31",
+        "C-TERM-CROSS-VALIDATION",
+        "C-TERM-BAYESIAN-INFORMATION-CRITERION",
+        "C-TERM-AIC"
       ],
       "contract_ids": [],
       "domain": "予測意思決定",
@@ -86,7 +91,9 @@
       "inputs": [
         "予測変数",
         "訓練窓",
-        "損失"
+        "損失",
+        "最大化対数尤度",
+        "観測数と自由なパラメータ数"
       ],
       "jel_codes": [
         "C53",
@@ -95,7 +102,8 @@
       "kind": "knowledge",
       "outputs": [
         "予測",
-        "組合せ重み"
+        "組合せ重み",
+        "AIC・BICと選択された候補"
       ],
       "prerequisites": [
         "FORECAST-02"
@@ -105,8 +113,8 @@
       ],
       "subdomain": "縮小、因子、学習器",
       "title": "縮小、因子、学習器",
-      "topic": "縮小、因子、学習器",
-      "use_when": "縮小・因子・学習器を比較する"
+      "topic": "縮小、因子、学習器; Bayesian information criterion; BIC; Akaike information criterion; AIC; 情報量規準",
+      "use_when": "縮小・因子・学習器を予測損失で比較し、尤度モデルの情報量規準を計算する"
     },
     {
       "alternatives": [],

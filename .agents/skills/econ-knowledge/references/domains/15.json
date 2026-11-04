@@ -7,17 +7,18 @@
       "chapter": 7,
       "concept_ids": [
         "C-DESIGN-01",
-        "C-CH-07"
+        "C-CH-07",
+        "C-TERM-UNIFORM-PRICE-AUCTION"
       ],
       "contract_ids": [],
       "domain": "市場設計",
       "file": "chapters/07-market-design.md",
       "id": "DESIGN-01",
       "inputs": [
-        "価値分布",
-        "入札者数",
+        "限界価値とその分布",
+        "入札者数と供給単位数",
         "リスク選好",
-        "売却規則"
+        "配分・支払・同点処理規則"
       ],
       "jel_codes": [
         "D44",
@@ -25,18 +26,18 @@
       ],
       "kind": "knowledge",
       "outputs": [
-        "均衡入札",
-        "落札確率",
-        "期待支払"
+        "均衡入札または逸脱利得",
+        "数量配分と支払",
+        "売手収入と総余剰"
       ],
       "prerequisites": [
         "GAME-01"
       ],
       "related": [],
-      "subdomain": "第一価格と第二価格オークション",
-      "title": "第一価格と第二価格オークション",
-      "topic": "第一価格と第二価格オークション",
-      "use_when": "第一価格と第二価格オークションの入札を求める"
+      "subdomain": "単一財と複数単位のオークション",
+      "title": "単一財と複数単位のオークション",
+      "topic": "第一価格・第二価格・統一価格オークション; multi-unit auction; demand reduction",
+      "use_when": "入札方式から配分、支払、逸脱利得を求める"
     },
     {
       "alternatives": [],
@@ -121,7 +122,8 @@
       "chapter": 7,
       "concept_ids": [
         "C-DESIGN-04",
-        "C-CH-07"
+        "C-CH-07",
+        "C-TERM-STABLE-MATCHING"
       ],
       "contract_ids": [],
       "domain": "市場設計",

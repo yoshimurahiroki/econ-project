@@ -85,7 +85,8 @@
       "chapter": 22,
       "concept_ids": [
         "C-LABOR-03",
-        "C-CH-22"
+        "C-CH-22",
+        "C-TERM-JOB-MATCHING"
       ],
       "contract_ids": [],
       "domain": "労働人口",

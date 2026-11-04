@@ -8,7 +8,8 @@
       "concept_ids": [
         "C-IO-01",
         "C-CH-16",
-        "C-TERM-MARKET-POWER"
+        "C-TERM-MARKET-POWER",
+        "C-TERM-HOTELLING-MODEL"
       ],
       "contract_ids": [],
       "domain": "産業組織",
@@ -18,7 +19,8 @@
         "需要",
         "費用",
         "企業数",
-        "競争変数"
+        "競争変数",
+        "立地と距離費用"
       ],
       "jel_codes": [
         "L13",
@@ -28,7 +30,8 @@
       "outputs": [
         "価格",
         "数量",
-        "マークアップ"
+        "マークアップ",
+        "消費者余剰と総余剰"
       ],
       "prerequisites": [
         "MICRO-04"
@@ -38,7 +41,7 @@
       ],
       "subdomain": "企業競争",
       "title": "独占、数量競争、価格競争",
-      "topic": "独占・数量競争・価格競争の均衡を比較する",
+      "topic": "独占・数量競争・価格競争の均衡を比較する; Hotelling spatial price competition; product differentiation; ホテリング立地競争",
       "use_when": "独占・数量競争・価格競争の均衡を比較する"
     },
     {
@@ -67,6 +70,7 @@
         "費用"
       ],
       "jel_codes": [
+        "L41",
         "L42",
         "L13"
       ],

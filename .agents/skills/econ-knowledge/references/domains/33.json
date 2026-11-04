@@ -153,7 +153,8 @@
       "chapter": 27,
       "concept_ids": [
         "C-DEV-05",
-        "C-CH-27"
+        "C-CH-27",
+        "C-TERM-RESOURCE-MISALLOCATION"
       ],
       "contract_ids": [],
       "domain": "開発農業",
@@ -166,7 +167,8 @@
       ],
       "jel_codes": [
         "O15",
-        "J13"
+        "J13",
+        "D24"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -182,7 +184,7 @@
       ],
       "subdomain": "子どもの技能と資源配分",
       "title": "子どもの技能と資源配分",
-      "topic": "子どもの技能と資源配分",
+      "topic": "子どもの技能と資源配分; resource misallocation; firm productivity; capital wedges; 資源誤配分",
       "use_when": "技能投資と企業間資源配分を分析する"
     },
     {

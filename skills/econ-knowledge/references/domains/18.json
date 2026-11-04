@@ -103,8 +103,7 @@
         "執行・収容費用"
       ],
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -257,8 +256,7 @@
         "執行費"
       ],
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "kind": "worked_example",
       "outputs": [

@@ -79,7 +79,9 @@
       "chapter": 28,
       "concept_ids": [
         "C-ENV-03",
-        "C-CH-28"
+        "C-CH-28",
+        "C-TERM-MAXIMUM-SUSTAINABLE-YIELD",
+        "C-TERM-HOTELLING-RULE"
       ],
       "contract_ids": [],
       "domain": "環境エネルギー",
@@ -93,7 +95,7 @@
       ],
       "jel_codes": [
         "Q32",
-        "Q42"
+        "Q22"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -109,7 +111,7 @@
       ],
       "subdomain": "枯渇性資源と再生可能資源",
       "title": "枯渇性資源と再生可能資源",
-      "topic": "枯渇性資源と再生可能資源",
+      "topic": "枯渇性資源と再生可能資源; renewable resource harvesting; fishery; 漁業; Hotelling rule; maximum sustainable yield",
       "use_when": "資源採掘と再生資源の経路を解く"
     },
     {
@@ -132,7 +134,7 @@
       ],
       "jel_codes": [
         "Q41",
-        "Q43"
+        "L94"
       ],
       "kind": "knowledge",
       "outputs": [

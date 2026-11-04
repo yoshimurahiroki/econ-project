@@ -6,5 +6,9 @@ ridgeは \(\sum_i(Y_i-X_i'b)^2+\lambda\|b\|_2^2\)、lassoは二乗損失に \(\l
 
 因子予測は \(X_t=\Lambda f_t+e_t\) の共通変動を抽出し、その因子と結果の動学を推定する。木・森林・boostingは非線形と相互作用を、ニューラルモデルは指定した入力と表現で学ぶ。各器の比較は同じ情報集合、予測期間、損失、計算範囲で行う。
 
+尤度モデルの候補は、適合の改善と推定するパラメータ数を情報量規準で比較できる。同じ観測、結果尺度と尤度の定義を使い、最大化対数尤度を $\hat\ell$、観測数を $n$、自由なパラメータ数を $k$ とする。正則な有限次元モデルで、赤池情報量規準は $\mathrm{AIC}=-2\hat\ell+2k$、ベイズ情報量規準（Bayesian information criterion, BIC; Schwarz criterion）は $\mathrm{BIC}=-2\hat\ell+k\log n$ であり、それぞれの値を最小にする候補を選ぶ。$k$ には推定する切片と尺度パラメータも含める。変換した結果の尤度はJacobianを含めて同じ尺度へ合わせる。
+
+$n=100$、候補1が $(\hat\ell,k)=(-100,2)$、候補2が $(-96,4)$ なら、AICは順に204と200、BICは209.210340と210.420681となる。2個の追加パラメータに対する対数尤度の改善4は、AICの閾値2を超え、BICの閾値 $\log100=4.605170$ を下回る。したがってAICは候補2、BICは候補1を選ぶ。実時間予測に用いる候補は、FORECAST-02の分割と共通の予測損失でも比較する。これらの計算式は[statsmodelsのaic・bic実装](https://github.com/statsmodels/statsmodels/blob/b39c731511338368f67def8ee502eaa24f37df9c/statsmodels/tools/eval_measures.py#L393-L477)に対応する。機構設計のBICはDESIGN-03のベイズ誘因両立性を指す。
+
 組合せ予測は \(\hat y=\sum_kw_k\hat y_k\) とする。和1のweightでは二乗損失の最適weightは予測誤差の二次モーメント行列で決まる。誤差の平均がゼロならこの行列は共分散行列に等しい。非負・和1の制約や等weightは、推定するweightの変動を制御する。
 

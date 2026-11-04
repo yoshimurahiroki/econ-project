@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "language": "ja",
   "date": "2026-11-04",
   "chapter_count": 35,
@@ -2172,29 +2172,30 @@
     },
     {
       "id": "DESIGN-01",
-      "title": "第一価格と第二価格オークション",
+      "title": "単一財と複数単位のオークション",
       "chapter": 7,
       "domain": "市場設計",
-      "subdomain": "第一価格と第二価格オークション",
+      "subdomain": "単一財と複数単位のオークション",
       "kind": "knowledge",
-      "topic": "第一価格と第二価格オークション",
-      "use_when": "第一価格と第二価格オークションの入札を求める",
+      "topic": "第一価格・第二価格・統一価格オークション; multi-unit auction; demand reduction",
+      "use_when": "入札方式から配分、支払、逸脱利得を求める",
       "inputs": [
-        "価値分布",
-        "入札者数",
+        "限界価値とその分布",
+        "入札者数と供給単位数",
         "リスク選好",
-        "売却規則"
+        "配分・支払・同点処理規則"
       ],
       "outputs": [
-        "均衡入札",
-        "落札確率",
-        "期待支払"
+        "均衡入札または逸脱利得",
+        "数量配分と支払",
+        "売手収入と総余剰"
       ],
       "file": "chapters/07-market-design.md",
       "anchor": "design-01",
       "concept_ids": [
         "C-DESIGN-01",
-        "C-CH-07"
+        "C-CH-07",
+        "C-TERM-UNIFORM-PRICE-AUCTION"
       ],
       "jel_codes": [
         "D44",
@@ -2291,7 +2292,8 @@
       "anchor": "design-04",
       "concept_ids": [
         "C-DESIGN-04",
-        "C-CH-07"
+        "C-CH-07",
+        "C-TERM-STABLE-MATCHING"
       ],
       "jel_codes": [
         "C78",
@@ -3244,8 +3246,8 @@
       "domain": "因果デザイン",
       "subdomain": "潜在結果",
       "kind": "knowledge",
-      "topic": "潜在結果と調整",
-      "use_when": "潜在結果と条件付き非交絡性からATEまたはATTの対象と比較を定義する",
+      "topic": "潜在結果と調整; matching treated control; propensity score matching; 傾向スコアマッチング",
+      "use_when": "潜在結果と条件付き交換可能性からATE・ATTの対象と比較を定め、マッチングと調整方法を選ぶ",
       "inputs": [
         "処置",
         "結果",
@@ -3255,14 +3257,16 @@
       "outputs": [
         "ATE",
         "ATT",
-        "調整後平均"
+        "調整後平均",
+        "対応規則と対象集団"
       ],
       "file": "chapters/11-causal-designs.md",
       "anchor": "causal-01",
       "concept_ids": [
         "C-CAUSAL-01",
         "C-CH-11",
-        "C-TERM-PROPENSITY-SCORE"
+        "C-TERM-PROPENSITY-SCORE",
+        "C-TERM-PROPENSITY-SCORE-MATCHING"
       ],
       "jel_codes": [
         "C21",
@@ -4449,25 +4453,28 @@
       "domain": "産業組織",
       "subdomain": "企業競争",
       "kind": "knowledge",
-      "topic": "独占・数量競争・価格競争の均衡を比較する",
+      "topic": "独占・数量競争・価格競争の均衡を比較する; Hotelling spatial price competition; product differentiation; ホテリング立地競争",
       "use_when": "独占・数量競争・価格競争の均衡を比較する",
       "inputs": [
         "需要",
         "費用",
         "企業数",
-        "競争変数"
+        "競争変数",
+        "立地と距離費用"
       ],
       "outputs": [
         "価格",
         "数量",
-        "マークアップ"
+        "マークアップ",
+        "消費者余剰と総余剰"
       ],
       "file": "chapters/16-competition-platforms.md",
       "anchor": "io-01",
       "concept_ids": [
         "C-IO-01",
         "C-CH-16",
-        "C-TERM-MARKET-POWER"
+        "C-TERM-MARKET-POWER",
+        "C-TERM-HOTELLING-MODEL"
       ],
       "jel_codes": [
         "L13",
@@ -4509,6 +4516,7 @@
         "C-TERM-HORIZONTAL-MERGER"
       ],
       "jel_codes": [
+        "L41",
         "L42",
         "L13"
       ],
@@ -5836,7 +5844,8 @@
       "anchor": "labor-03",
       "concept_ids": [
         "C-LABOR-03",
-        "C-CH-22"
+        "C-CH-22",
+        "C-TERM-JOB-MATCHING"
       ],
       "jel_codes": [
         "J64",
@@ -6889,7 +6898,7 @@
       "domain": "開発農業",
       "subdomain": "子どもの技能と資源配分",
       "kind": "knowledge",
-      "topic": "子どもの技能と資源配分",
+      "topic": "子どもの技能と資源配分; resource misallocation; firm productivity; capital wedges; 資源誤配分",
       "use_when": "技能投資と企業間資源配分を分析する",
       "inputs": [
         "技能技術",
@@ -6905,11 +6914,13 @@
       "anchor": "dev-05",
       "concept_ids": [
         "C-DEV-05",
-        "C-CH-27"
+        "C-CH-27",
+        "C-TERM-RESOURCE-MISALLOCATION"
       ],
       "jel_codes": [
         "O15",
-        "J13"
+        "J13",
+        "D24"
       ],
       "contract_ids": []
     },
@@ -7042,7 +7053,7 @@
       "domain": "環境エネルギー",
       "subdomain": "枯渇性資源と再生可能資源",
       "kind": "knowledge",
-      "topic": "枯渇性資源と再生可能資源",
+      "topic": "枯渇性資源と再生可能資源; renewable resource harvesting; fishery; 漁業; Hotelling rule; maximum sustainable yield",
       "use_when": "資源採掘と再生資源の経路を解く",
       "inputs": [
         "資源動学",
@@ -7059,11 +7070,13 @@
       "anchor": "env-03",
       "concept_ids": [
         "C-ENV-03",
-        "C-CH-28"
+        "C-CH-28",
+        "C-TERM-MAXIMUM-SUSTAINABLE-YIELD",
+        "C-TERM-HOTELLING-RULE"
       ],
       "jel_codes": [
         "Q32",
-        "Q42"
+        "Q22"
       ],
       "contract_ids": []
     },
@@ -7095,7 +7108,7 @@
       ],
       "jel_codes": [
         "Q41",
-        "Q43"
+        "L94"
       ],
       "contract_ids": []
     },
@@ -7254,8 +7267,7 @@
         "C-TERM-SANCTION-RISK"
       ],
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "contract_ids": [
         "MC-crime-enforcement-displacement"
@@ -7380,8 +7392,7 @@
         "C-TERM-CRIME-ENFORCEMENT"
       ],
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "contract_ids": [
         "MC-crime-enforcement-displacement"
@@ -7473,7 +7484,7 @@
         "C-TERM-FIRM-VALUATION"
       ],
       "jel_codes": [
-        "O43",
+        "G31",
         "G32"
       ],
       "contract_ids": []
@@ -7608,7 +7619,7 @@
       "domain": "予測意思決定",
       "subdomain": "標本分割と時点",
       "kind": "knowledge",
-      "topic": "標本分割と時点",
+      "topic": "標本分割と時点; cross-validation; CV; train validation test; 交差検証",
       "use_when": "実時点情報で予測評価を設計する",
       "inputs": [
         "公表日",
@@ -7617,13 +7628,15 @@
       ],
       "outputs": [
         "学習窓",
-        "評価窓"
+        "評価窓",
+        "分割ごとの検証損失"
       ],
       "file": "chapters/31-forecasting-decisions.md",
       "anchor": "forecast-02",
       "concept_ids": [
         "C-FORECAST-02",
-        "C-CH-31"
+        "C-CH-31",
+        "C-TERM-CROSS-VALIDATION"
       ],
       "jel_codes": [
         "C53",
@@ -7638,22 +7651,28 @@
       "domain": "予測意思決定",
       "subdomain": "縮小、因子、学習器",
       "kind": "knowledge",
-      "topic": "縮小、因子、学習器",
-      "use_when": "縮小・因子・学習器を比較する",
+      "topic": "縮小、因子、学習器; Bayesian information criterion; BIC; Akaike information criterion; AIC; 情報量規準",
+      "use_when": "縮小・因子・学習器を予測損失で比較し、尤度モデルの情報量規準を計算する",
       "inputs": [
         "予測変数",
         "訓練窓",
-        "損失"
+        "損失",
+        "最大化対数尤度",
+        "観測数と自由なパラメータ数"
       ],
       "outputs": [
         "予測",
-        "組合せ重み"
+        "組合せ重み",
+        "AIC・BICと選択された候補"
       ],
       "file": "chapters/31-forecasting-decisions.md",
       "anchor": "forecast-03",
       "concept_ids": [
         "C-FORECAST-03",
-        "C-CH-31"
+        "C-CH-31",
+        "C-TERM-CROSS-VALIDATION",
+        "C-TERM-BAYESIAN-INFORMATION-CRITERION",
+        "C-TERM-AIC"
       ],
       "jel_codes": [
         "C53",
@@ -7882,7 +7901,7 @@
       ],
       "jel_codes": [
         "D61",
-        "C14"
+        "H21"
       ],
       "contract_ids": []
     },
@@ -8006,7 +8025,7 @@
       ],
       "jel_codes": [
         "D61",
-        "H24"
+        "H43"
       ],
       "contract_ids": []
     },
@@ -8635,7 +8654,7 @@
       ],
       "jel_codes": [
         "C81",
-        "C91"
+        "C38"
       ],
       "contract_ids": []
     },
@@ -10501,8 +10520,8 @@
     {
       "id": "C-DESIGN-01",
       "preferred": {
-        "en": "First-price and second-price auctions",
-        "ja": "第一価格と第二価格オークション"
+        "en": "Single-item and multi-unit auctions",
+        "ja": "単一財と複数単位のオークション"
       },
       "aliases": {
         "en": [],
@@ -12093,6 +12112,7 @@
         "anchor": "io-02"
       },
       "jel_codes": [
+        "L41",
         "L42",
         "L13"
       ],
@@ -13765,7 +13785,8 @@
       },
       "jel_codes": [
         "O15",
-        "J13"
+        "J13",
+        "D24"
       ],
       "kind": "concept"
     },
@@ -13880,7 +13901,7 @@
       },
       "jel_codes": [
         "Q32",
-        "Q42"
+        "Q22"
       ],
       "kind": "concept"
     },
@@ -13903,7 +13924,7 @@
       },
       "jel_codes": [
         "Q41",
-        "Q43"
+        "L94"
       ],
       "kind": "concept"
     },
@@ -14017,8 +14038,7 @@
         "anchor": "pol-03"
       },
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "kind": "concept"
     },
@@ -14109,8 +14129,7 @@
         "anchor": "pol-07"
       },
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "kind": "concept"
     },
@@ -14178,7 +14197,7 @@
         "anchor": "innov-03"
       },
       "jel_codes": [
-        "O43",
+        "G31",
         "G32"
       ],
       "kind": "concept"
@@ -14478,7 +14497,7 @@
       },
       "jel_codes": [
         "D61",
-        "C14"
+        "H21"
       ],
       "kind": "concept"
     },
@@ -14570,7 +14589,7 @@
       },
       "jel_codes": [
         "D61",
-        "H24"
+        "H43"
       ],
       "kind": "concept"
     },
@@ -15007,7 +15026,7 @@
       },
       "jel_codes": [
         "C81",
-        "C91"
+        "C38"
       ],
       "kind": "concept"
     },
@@ -15682,7 +15701,15 @@
         "D51",
         "D61"
       ],
-      "kind": "concept"
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/10070-1",
+          "relation": "exactMatch",
+          "version": "9.20"
+        }
+      ]
     },
     {
       "id": "C-TERM-PRICE-INDEX",
@@ -15705,17 +15732,30 @@
         "C43",
         "D11"
       ],
-      "kind": "concept"
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/15093-6",
+          "relation": "exactMatch",
+          "version": "9.20"
+        }
+      ]
     },
     {
       "id": "C-TERM-COST-OF-LIVING",
       "preferred": {
-        "en": "cost of living",
-        "ja": "生活費"
+        "en": "cost-of-living index",
+        "ja": "生計費指数"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "cost of living index",
+          "COLI"
+        ],
+        "ja": [
+          "生活費指数"
+        ]
       },
       "broader": [
         "C-MEASURE-02"
@@ -15728,7 +15768,15 @@
         "C43",
         "D11"
       ],
-      "kind": "concept"
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/15088-6",
+          "relation": "relatedMatch",
+          "version": "9.20"
+        }
+      ]
     },
     {
       "id": "C-TERM-HETEROGENEOUS-TREATMENT-EFFECTS",
@@ -16125,8 +16173,7 @@
         "anchor": "pol-03"
       },
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "kind": "object"
     },
@@ -16148,8 +16195,7 @@
         "anchor": "pol-03"
       },
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "kind": "object"
     },
@@ -16755,6 +16801,7 @@
         "anchor": "io-02"
       },
       "jel_codes": [
+        "L41",
         "L42",
         "L13"
       ],
@@ -16853,8 +16900,7 @@
         "anchor": "pol-03"
       },
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "kind": "concept"
     },
@@ -17007,8 +17053,7 @@
         "anchor": "pol-03"
       },
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "kind": "concept"
     },
@@ -17155,7 +17200,7 @@
         "anchor": "io-02"
       },
       "jel_codes": [
-        "L42",
+        "L41",
         "L13"
       ],
       "kind": "concept"
@@ -17178,8 +17223,7 @@
         "anchor": "pol-03"
       },
       "jel_codes": [
-        "K42",
-        "D72"
+        "K42"
       ],
       "kind": "concept"
     },
@@ -18240,6 +18284,362 @@
         "C93"
       ],
       "kind": "object"
+    },
+    {
+      "id": "C-TERM-CROSS-VALIDATION",
+      "preferred": {
+        "en": "cross-validation",
+        "ja": "交差検証"
+      },
+      "aliases": {
+        "en": [
+          "cross validation",
+          "CV"
+        ],
+        "ja": [
+          "クロスバリデーション"
+        ]
+      },
+      "broader": [
+        "C-FORECAST-02"
+      ],
+      "definition": {
+        "unit": "FORECAST-02",
+        "anchor": "forecast-02"
+      },
+      "jel_codes": [
+        "C53",
+        "C52"
+      ],
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/19568-0",
+          "relation": "broadMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-TERM-BAYESIAN-INFORMATION-CRITERION",
+      "preferred": {
+        "en": "Bayesian information criterion",
+        "ja": "ベイズ情報量規準"
+      },
+      "aliases": {
+        "en": [
+          "BIC",
+          "Schwarz criterion"
+        ],
+        "ja": [
+          "ベイズ情報量基準"
+        ]
+      },
+      "broader": [
+        "C-FORECAST-03"
+      ],
+      "definition": {
+        "unit": "FORECAST-03",
+        "anchor": "forecast-03"
+      },
+      "jel_codes": [
+        "C52",
+        "C53"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-MAXIMUM-SUSTAINABLE-YIELD",
+      "preferred": {
+        "en": "maximum sustainable yield",
+        "ja": "最大持続収穫"
+      },
+      "aliases": {
+        "en": [
+          "MSY"
+        ],
+        "ja": [
+          "最大持続生産量",
+          "最大持続漁獲量"
+        ]
+      },
+      "broader": [
+        "C-ENV-03"
+      ],
+      "definition": {
+        "unit": "ENV-03",
+        "anchor": "env-03"
+      },
+      "jel_codes": [
+        "Q22"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-RESOURCE-MISALLOCATION",
+      "preferred": {
+        "en": "resource misallocation",
+        "ja": "資源誤配分"
+      },
+      "aliases": {
+        "en": [
+          "misallocation",
+          "resource allocation wedges"
+        ],
+        "ja": [
+          "資源の誤配分",
+          "資源配分の歪み"
+        ]
+      },
+      "broader": [
+        "C-DEV-05"
+      ],
+      "definition": {
+        "unit": "DEV-05",
+        "anchor": "dev-05"
+      },
+      "jel_codes": [
+        "D24",
+        "O15"
+      ],
+      "kind": "concept"
+    },
+    {
+      "id": "C-TERM-HOTELLING-RULE",
+      "preferred": {
+        "en": "Hotelling rule",
+        "ja": "Hotelling則"
+      },
+      "aliases": {
+        "en": [
+          "Hotelling's rule",
+          "Hotelling principle"
+        ],
+        "ja": [
+          "ホテリング則"
+        ]
+      },
+      "broader": [
+        "C-ENV-03"
+      ],
+      "definition": {
+        "unit": "ENV-03",
+        "anchor": "env-03"
+      },
+      "jel_codes": [
+        "Q32"
+      ],
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/29589-0",
+          "relation": "exactMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-TERM-JOB-MATCHING",
+      "preferred": {
+        "en": "job matching",
+        "ja": "求人求職マッチング"
+      },
+      "aliases": {
+        "en": [
+          "labor market matching",
+          "labour market matching"
+        ],
+        "ja": [
+          "労働市場マッチング"
+        ]
+      },
+      "broader": [
+        "C-LABOR-03"
+      ],
+      "definition": {
+        "unit": "LABOR-03",
+        "anchor": "labor-03"
+      },
+      "jel_codes": [
+        "J64"
+      ],
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/28089-4",
+          "relation": "broadMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-TERM-STABLE-MATCHING",
+      "preferred": {
+        "en": "stable matching",
+        "ja": "安定マッチング"
+      },
+      "aliases": {
+        "en": [],
+        "ja": [
+          "安定割当"
+        ]
+      },
+      "broader": [
+        "C-DESIGN-04"
+      ],
+      "definition": {
+        "unit": "DESIGN-04",
+        "anchor": "design-04"
+      },
+      "jel_codes": [
+        "C78",
+        "D47"
+      ],
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/28089-4",
+          "relation": "broadMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-TERM-HOTELLING-MODEL",
+      "preferred": {
+        "en": "Hotelling model",
+        "ja": "Hotelling立地競争モデル"
+      },
+      "aliases": {
+        "en": [
+          "Hotelling competition"
+        ],
+        "ja": [
+          "ホテリングモデル",
+          "ホテリング立地競争"
+        ]
+      },
+      "broader": [
+        "C-IO-01"
+      ],
+      "definition": {
+        "unit": "IO-01",
+        "anchor": "io-01"
+      },
+      "jel_codes": [
+        "L13",
+        "D43"
+      ],
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/29790-0",
+          "relation": "closeMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-TERM-UNIFORM-PRICE-AUCTION",
+      "preferred": {
+        "en": "uniform-price auction",
+        "ja": "統一価格オークション"
+      },
+      "aliases": {
+        "en": [
+          "uniform price auction"
+        ],
+        "ja": [
+          "均一価格オークション"
+        ]
+      },
+      "broader": [
+        "C-DESIGN-01"
+      ],
+      "definition": {
+        "unit": "DESIGN-01",
+        "anchor": "design-01"
+      },
+      "jel_codes": [
+        "D44",
+        "C72"
+      ],
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/29787-3",
+          "relation": "broadMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-TERM-PROPENSITY-SCORE-MATCHING",
+      "preferred": {
+        "en": "propensity score matching",
+        "ja": "傾向スコアマッチング"
+      },
+      "aliases": {
+        "en": [
+          "PSM"
+        ],
+        "ja": [
+          "傾向スコアによるマッチング"
+        ]
+      },
+      "broader": [
+        "C-CAUSAL-01"
+      ],
+      "definition": {
+        "unit": "CAUSAL-01",
+        "anchor": "causal-01"
+      },
+      "jel_codes": [
+        "C21",
+        "C14"
+      ],
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/28089-4",
+          "relation": "broadMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-TERM-AIC",
+      "preferred": {
+        "en": "Akaike information criterion",
+        "ja": "赤池情報量規準"
+      },
+      "aliases": {
+        "en": [
+          "AIC"
+        ],
+        "ja": [
+          "赤池情報量基準"
+        ]
+      },
+      "broader": [
+        "C-FORECAST-03"
+      ],
+      "definition": {
+        "unit": "FORECAST-03",
+        "anchor": "forecast-03"
+      },
+      "jel_codes": [
+        "C52",
+        "C53"
+      ],
+      "kind": "concept"
     }
   ],
   "jel": {
@@ -18313,6 +18713,11 @@
       "ja": "時系列・状態空間モデル",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
+    "C38": {
+      "en": "Classification Methods • Cluster Analysis • Principal Components • Factor Models",
+      "ja": "分類・クラスター分析・主成分・因子モデル",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
     "C43": {
       "en": "Index Numbers and Aggregation",
       "ja": "指数・集計",
@@ -18376,6 +18781,11 @@
     "C67": {
       "en": "Input–Output Models",
       "ja": "産業連関モデル",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "C71": {
+      "en": "Cooperative Games",
+      "ja": "協力ゲーム",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "C72": {
@@ -18823,6 +19233,11 @@
       "ja": "情報・製品品質",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
+    "L41": {
+      "en": "Monopolization • Horizontal Anticompetitive Practices",
+      "ja": "独占化・水平的な反競争行為",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
     "L42": {
       "en": "Vertical Restraints",
       "ja": "垂直制約・再販売価格",
@@ -18836,6 +19251,11 @@
     "L86": {
       "en": "Information and Internet Services",
       "ja": "情報・インターネットサービス",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "L94": {
+      "en": "Electric Utilities",
+      "ja": "電気事業",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "M31": {
@@ -18913,6 +19333,11 @@
       "ja": "農業企業・農家のミクロ分析",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
+    "Q22": {
+      "en": "Fishery • Aquaculture",
+      "ja": "漁業・養殖",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
     "Q32": {
       "en": "Exhaustible Resources and Economic Development",
       "ja": "枯渇性資源・開発",
@@ -18981,11 +19406,6 @@
     "R48": {
       "en": "Government Pricing and Policy",
       "ja": "交通政策・料金",
-      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
-    },
-    "C71": {
-      "en": "Cooperative Games",
-      "ja": "協力ゲーム",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     }
   },
