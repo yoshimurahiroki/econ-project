@@ -7,7 +7,10 @@
       "chapter": 28,
       "concept_ids": [
         "C-ENV-01",
-        "C-CH-28"
+        "C-CH-28",
+        "C-TERM-CARBON-PRICING",
+        "C-TERM-CARBON-TAX",
+        "C-TERM-EMISSIONS-TRADING"
       ],
       "contract_ids": [],
       "domain": "環境エネルギー",
@@ -16,7 +19,9 @@
       "inputs": [
         "基準排出",
         "削減費用",
-        "目標"
+        "排出目標・炭素税率",
+        "需要・供給",
+        "限界損害"
       ],
       "jel_codes": [
         "Q52",
@@ -25,7 +30,9 @@
       "kind": "knowledge",
       "outputs": [
         "限界削減費用",
-        "配分"
+        "削減配分・生産量",
+        "税収",
+        "社会的厚生"
       ],
       "prerequisites": [
         "MATH-04"
@@ -161,17 +168,19 @@
       "chapter": 28,
       "concept_ids": [
         "C-ENV-05",
-        "C-CH-28"
+        "C-CH-28",
+        "C-TERM-CARBON-TAX-RECYCLING"
       ],
       "contract_ids": [],
       "domain": "環境エネルギー",
       "file": "chapters/28-environment-energy.md",
       "id": "ENV-05",
       "inputs": [
-        "排出",
+        "地域別排出",
         "拡散",
         "人口",
-        "税収"
+        "電力料金負担",
+        "税収と家計への返還先"
       ],
       "jel_codes": [
         "Q54",
@@ -179,9 +188,10 @@
       ],
       "kind": "knowledge",
       "outputs": [
-        "濃度",
+        "汚染濃度",
         "漏出率",
-        "分配"
+        "世界排出の変化",
+        "所得階層別純便益"
       ],
       "prerequisites": [
         "ENV-01"
@@ -192,7 +202,7 @@
       "subdomain": "空間、漏出と分配",
       "title": "空間、漏出と分配",
       "topic": "空間、漏出と分配",
-      "use_when": "汚染の地域波及と漏出を評価する"
+      "use_when": "汚染の地域波及、炭素漏出、炭素税収還元後の所得階層別純便益を評価する"
     },
     {
       "alternatives": [],

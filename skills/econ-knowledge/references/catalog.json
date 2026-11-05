@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.52",
+  "version": "2.3.53",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -7312,17 +7312,24 @@
       "inputs": [
         "基準排出",
         "削減費用",
-        "目標"
+        "排出目標・炭素税率",
+        "需要・供給",
+        "限界損害"
       ],
       "outputs": [
         "限界削減費用",
-        "配分"
+        "削減配分・生産量",
+        "税収",
+        "社会的厚生"
       ],
       "file": "chapters/28-environment-energy.md",
       "anchor": "env-01",
       "concept_ids": [
         "C-ENV-01",
-        "C-CH-28"
+        "C-CH-28",
+        "C-TERM-CARBON-PRICING",
+        "C-TERM-CARBON-TAX",
+        "C-TERM-EMISSIONS-TRADING"
       ],
       "jel_codes": [
         "Q52",
@@ -7434,23 +7441,26 @@
       "subdomain": "空間、漏出と分配",
       "kind": "knowledge",
       "topic": "空間、漏出と分配",
-      "use_when": "汚染の地域波及と漏出を評価する",
+      "use_when": "汚染の地域波及、炭素漏出、炭素税収還元後の所得階層別純便益を評価する",
       "inputs": [
-        "排出",
+        "地域別排出",
         "拡散",
         "人口",
-        "税収"
+        "電力料金負担",
+        "税収と家計への返還先"
       ],
       "outputs": [
-        "濃度",
+        "汚染濃度",
         "漏出率",
-        "分配"
+        "世界排出の変化",
+        "所得階層別純便益"
       ],
       "file": "chapters/28-environment-energy.md",
       "anchor": "env-05",
       "concept_ids": [
         "C-ENV-05",
-        "C-CH-28"
+        "C-CH-28",
+        "C-TERM-CARBON-TAX-RECYCLING"
       ],
       "jel_codes": [
         "Q54",
@@ -20361,6 +20371,147 @@
         "C45"
       ],
       "kind": "method"
+    },
+    {
+      "id": "C-TERM-CARBON-PRICING",
+      "preferred": {
+        "en": "carbon pricing",
+        "ja": "炭素価格付け"
+      },
+      "aliases": {
+        "en": [
+          "carbon price",
+          "CO2 pricing"
+        ],
+        "ja": [
+          "炭素価格",
+          "カーボンプライシング"
+        ]
+      },
+      "broader": [
+        "C-ENV-01"
+      ],
+      "definition": {
+        "unit": "ENV-01",
+        "anchor": "env-01"
+      },
+      "jel_codes": [
+        "Q52",
+        "Q58"
+      ],
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/30558-1",
+          "relation": "exactMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-TERM-CARBON-TAX",
+      "preferred": {
+        "en": "carbon tax",
+        "ja": "炭素税"
+      },
+      "aliases": {
+        "en": [
+          "carbon taxation",
+          "CO2 tax"
+        ],
+        "ja": [
+          "二酸化炭素税"
+        ]
+      },
+      "broader": [
+        "C-TERM-CARBON-PRICING"
+      ],
+      "definition": {
+        "unit": "ENV-01",
+        "anchor": "env-01"
+      },
+      "jel_codes": [
+        "Q52",
+        "Q58"
+      ],
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/18072-6",
+          "relation": "broadMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-TERM-EMISSIONS-TRADING",
+      "preferred": {
+        "en": "emissions trading",
+        "ja": "排出量取引"
+      },
+      "aliases": {
+        "en": [
+          "cap and trade",
+          "cap-and-trade",
+          "tradable emissions permits"
+        ],
+        "ja": [
+          "排出枠取引",
+          "排出権取引"
+        ]
+      },
+      "broader": [
+        "C-ENV-01"
+      ],
+      "definition": {
+        "unit": "ENV-01",
+        "anchor": "env-01"
+      },
+      "jel_codes": [
+        "Q52",
+        "Q58"
+      ],
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/20762-1",
+          "relation": "exactMatch",
+          "version": "9.20"
+        }
+      ]
+    },
+    {
+      "id": "C-TERM-CARBON-TAX-RECYCLING",
+      "preferred": {
+        "en": "carbon tax revenue recycling",
+        "ja": "炭素税収の還元"
+      },
+      "aliases": {
+        "en": [
+          "recycling carbon tax revenues",
+          "carbon revenue recycling"
+        ],
+        "ja": [
+          "炭素税の税収還元",
+          "炭素税収還元",
+          "炭素税収の家計還元"
+        ]
+      },
+      "broader": [
+        "C-ENV-05"
+      ],
+      "definition": {
+        "unit": "ENV-05",
+        "anchor": "env-05"
+      },
+      "jel_codes": [
+        "Q54",
+        "Q52"
+      ],
+      "kind": "concept"
     }
   ],
   "jel": {
