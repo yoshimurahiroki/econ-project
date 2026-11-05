@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.47",
+  "version": "2.3.48",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -3670,7 +3670,7 @@
       "subdomain": "直交スコア",
       "kind": "knowledge",
       "topic": "直交スコアとcross-fitting; 傾向スコアの切り詰め; propensity score clipping; 二値結果の部分線形モデル; binary outcome PLR",
-      "use_when": "補助関数の柔軟推定を用いてATEまたは部分線形係数を推定する",
+      "use_when": "補助関数の柔軟推定を用いてATEまたは部分線形係数を推定する。線形辞書の処置・結果の二重選択と、標本分割による直交スコアを使い分ける",
       "inputs": [
         "結果",
         "処置",
@@ -11840,8 +11840,21 @@
         "ja": "直交スコアとcross-fitting"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "post-double-selection",
+          "post double selection",
+          "double lasso",
+          "double selection",
+          "union of selected controls",
+          "post-selection OLS"
+        ],
+        "ja": [
+          "二重選択",
+          "二重Lasso",
+          "処置回帰と結果回帰",
+          "選択後の再回帰",
+          "共変量の和集合"
+        ]
       },
       "broader": [
         "C-CH-12"
