@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.40",
+  "version": "2.3.41",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -5699,7 +5699,7 @@
       "subdomain": "資本構成",
       "kind": "knowledge",
       "topic": "税・倒産・agencyを含む資金調達を比較する",
-      "use_when": "税・倒産・agencyを含む資金調達を比較する",
+      "use_when": "税・倒産費用と資金調達を比較し、返済順位と有限責任から既発債による過少投資を判定する",
       "inputs": [
         "税",
         "負債契約",
@@ -13148,8 +13148,24 @@
         "ja": "資本構成と企業支配"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "debt overhang",
+          "senior debt",
+          "underinvestment",
+          "risky debt payoff",
+          "face value",
+          "residual equity claim",
+          "priority of claims"
+        ],
+        "ja": [
+          "既発債",
+          "債務の優先弁済",
+          "請求権の返済順位",
+          "債務の重荷",
+          "過少投資",
+          "既存株主",
+          "債権者への価値移転"
+        ]
       },
       "broader": [
         "C-CH-21"
