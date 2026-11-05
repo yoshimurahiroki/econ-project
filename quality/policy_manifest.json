@@ -38,7 +38,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "628a11c3d7715e7e7fd87506629f093b767cd1858b4257123fb8af5364f68928"
+      "sha256": "ecfc743cdf6de4228c6bc2224b4abcc27b9999a90eb83ecf3ec3b9a5901c1d5b"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -557,7 +557,7 @@
       "sha256": "a1ff1eb697b1ffe89cb056da3c59f4f564f5e691b8266804d03b8081d071d0fe"
     }
   },
-  "policy_id": "economics-native-0.52.53",
+  "policy_id": "economics-native-0.52.54",
   "profile": {
     "id": "research-full"
   },
