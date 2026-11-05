@@ -13,7 +13,7 @@
     {
       "domain": "ミクロ理論",
       "path": "domains/03.json",
-      "sha256": "39127d788b3fb42334fe351c4ec578861af8946712ec8087b54307898ff2aebc"
+      "sha256": "7659c3f1b3a7fce8e6eb54cc1e5464d7fb0ebfbdc118de4e71f1ce72a802d5a2"
     },
     {
       "domain": "予測意思決定",
@@ -123,7 +123,7 @@
     {
       "domain": "産業組織",
       "path": "domains/25.json",
-      "sha256": "971f02b707d2291523695a1df8765b1b847683561a46cff60528ae20de4fe6ee"
+      "sha256": "91994fba3018717e7afbbe31e17fe3efff738264b24b6611be4f7e797be4fa31"
     },
     {
       "domain": "異質マクロ",

@@ -1,9 +1,9 @@
 {
-  "catalog_sha256": "1e150654ea850b289af9fc07d9af9ac948c2cfa9f7977254224c9b5ed1ae6271",
+  "catalog_sha256": "8ebb03c12192ac45f72c1b4d0edcd57880f675180a9be04abd7f12e2742097cc",
   "chapters": {
     "chapters/01-mathematics.md": "e6c08317522ed57b2885136185edcb7fb6b0af0076c72be1cbe4f58ece2d9a78",
     "chapters/02-probability-statistics.md": "639a09fe66f42747521e849060ba370094ba50eed3dc228bcdf3826f0acb6822",
-    "chapters/03-microeconomics.md": "0f0a6bf8f008533943194b1aedb0259b93a1469dedeb7090c8454111c0d27ff5",
+    "chapters/03-microeconomics.md": "02cb38aec34282d01a011181899614db46f0bdb1a152e8ae5e857e0beceee411",
     "chapters/04-games.md": "4178a534a7edc94e8f8171c990fe3a3317532a663d180b6d18fe798f9d00ca1d",
     "chapters/05-information-behavior.md": "83ebd5711efc2cebc4dc8b2e2aa2d98e88605195af80a90cdc0338ae23209116",
     "chapters/06-contracts-organization.md": "72c21e67dc11662ec9dc4f3d1924b2a69182734cd992e253908c87eea0c7ae6c",
@@ -16,7 +16,7 @@
     "chapters/13-time-series.md": "6961162455411b116527807deaac4f4e98e470db39dcc4851c82e701f70bfaac",
     "chapters/14-structural-estimation.md": "d90ce56a11e205e587da21a510d355b6b80ce90ff8011fe78f9f581887cd5980",
     "chapters/15-demand-production.md": "6d9e6e263765cbe9dc7ca3d84424b50727db512ec5eb1bf1808859ea1c51d6b9",
-    "chapters/16-competition-platforms.md": "938907d8ef24188f3459e721be262bc45274bea172e1c4e0492e341a33166fcf",
+    "chapters/16-competition-platforms.md": "9abe70b98f776006104243559c259b0fbc8dc85974db1b2f41399e91458bedcf",
     "chapters/17-growth-macro.md": "6a3b3108373af6d0e17fe2816b08d728ef7c89a618db48525bf23628c7ff0371",
     "chapters/18-monetary-open-macro.md": "5cbf585da44c1ec745d37f275ba5df0c465187149da85f399638517a4f32a107",
     "chapters/19-heterogeneous-macro.md": "8c5d3c028a7a227da7ef2a02289652b21011893f594e3c9a13c6afbffbf029a4",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "f4ba6adec2ad58659ba867a2cf0e684c0cf79c680036588277a64074c14dd54a",
+  "domain_listing_sha256": "fe2c22a896cfb5a5d504832ad7dc27b5645a3fe012bb926793a0d03b419c637d",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -52,7 +52,7 @@
     "ミクロ理論": {
       "count": 7,
       "path": "domains/03.json",
-      "sha256": "39127d788b3fb42334fe351c4ec578861af8946712ec8087b54307898ff2aebc"
+      "sha256": "7659c3f1b3a7fce8e6eb54cc1e5464d7fb0ebfbdc118de4e71f1ce72a802d5a2"
     },
     "予測意思決定": {
       "count": 8,
@@ -162,7 +162,7 @@
     "産業組織": {
       "count": 7,
       "path": "domains/25.json",
-      "sha256": "971f02b707d2291523695a1df8765b1b847683561a46cff60528ae20de4fe6ee"
+      "sha256": "91994fba3018717e7afbbe31e17fe3efff738264b24b6611be4f7e797be4fa31"
     },
     "異質マクロ": {
       "count": 6,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "355a463dcbdb7df1e027b777d09631e662c30e45d11883a07aa0d04a7dcb2be0"
+      "sha256": "114318339b66e199a87fb701d60c3969ed3a079fd551c9e2bc3714e8056d14bd"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "6027993ad3ab644b1ea30a78e51e09ad345f87857c61958c391ceddd033da15b"
+      "sha256": "c49a09b29fdb9ef5700fffc32e7ff85db30add9ee12af4d5fd295698d6ca69f8"
     }
   },
   "spec_version": "knowledge-v2",
@@ -1039,7 +1039,7 @@
       "chapter": "chapters/16-competition-platforms.md",
       "domain": "産業組織",
       "path": "units/IO-01.md",
-      "sha256": "7395d7cdb60bbb70d14a370a95ea8675ad91ecab0c45a49fa19952b68d8dffe9"
+      "sha256": "9624cc04797d69adffcb7168136162be8c5c2c02c3430cf4359661012af29202"
     },
     "IO-02": {
       "chapter": "chapters/16-competition-platforms.md",
@@ -1285,7 +1285,7 @@
       "chapter": "chapters/03-microeconomics.md",
       "domain": "ミクロ理論",
       "path": "units/MICRO-05.md",
-      "sha256": "704b1e4eb29a5eeec3d82f76d84c379eeaf45f5b88598e4551c480ffe2f87089"
+      "sha256": "c2caa364de0ba73727cff3896f2603fe07fffb1353153a12429da39e0c9cab30"
     },
     "MICRO-06": {
       "chapter": "chapters/03-microeconomics.md",

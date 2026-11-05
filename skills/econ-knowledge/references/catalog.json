@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.57",
+  "version": "2.3.58",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -1347,8 +1347,8 @@
       "domain": "ミクロ理論",
       "subdomain": "一般均衡と厚生",
       "kind": "knowledge",
-      "topic": "一般均衡と厚生",
-      "use_when": "一般均衡配分と市場清算から厚生を分析する",
+      "topic": "一般均衡と厚生; 純粋交換の均衡存在; pure exchange equilibrium existence; excess demand; 超過需要",
+      "use_when": "需要と市場清算から競争均衡を求め、純粋交換の均衡存在条件と配分の厚生を分析する",
       "inputs": [
         "選好",
         "初期保有",
@@ -1358,6 +1358,7 @@
       "outputs": [
         "競争均衡価格",
         "均衡配分",
+        "純粋交換の均衡存在条件",
         "パレート効率"
       ],
       "file": "chapters/03-microeconomics.md",
@@ -1375,7 +1376,8 @@
       ],
       "jel_codes": [
         "D51",
-        "D61"
+        "D61",
+        "C62"
       ],
       "contract_ids": [
         "MC-exchange-two-goods"
@@ -4687,8 +4689,8 @@
       "domain": "産業組織",
       "subdomain": "企業競争",
       "kind": "knowledge",
-      "topic": "独占・数量競争・価格競争の均衡を比較する; Hotelling spatial price competition; product differentiation; ホテリング立地競争",
-      "use_when": "独占・数量競争・価格競争の均衡を比較する",
+      "topic": "独占・数量競争・価格競争の均衡を比較する; Hotelling spatial price competition; product differentiation; ホテリング立地競争; monopoly corner solution; 独占の端点解",
+      "use_when": "独占の内点・端点解を求め、数量競争・価格競争の均衡と厚生を比較する",
       "inputs": [
         "需要",
         "費用",
@@ -10453,7 +10455,8 @@
       },
       "jel_codes": [
         "D51",
-        "D61"
+        "D61",
+        "C62"
       ],
       "kind": "concept"
     },
@@ -31315,6 +31318,28 @@
         ]
       },
       "use": "Solve stationary capital-market clearing with the same household policies and distribution before constructing the transition response."
+    },
+    {
+      "id": "R-MICRO-05-MATH-06",
+      "source": "MICRO-05",
+      "target": "MATH-06",
+      "type": "requires_to_apply",
+      "conditions": [
+        "純粋交換経済の均衡存在を、超過需要と価格単体上の対応から証明する。"
+      ],
+      "when": {
+        "equilibrium_task": [
+          "pure_exchange_existence"
+        ]
+      },
+      "use": "均衡存在の証明を選んだ場合に、Kakutaniの固定点定理と上半連続な対応の条件を読み込む。",
+      "evidence": [
+        {
+          "unit": "MICRO-05",
+          "anchor": "micro-05"
+        }
+      ],
+      "version": "2.3.58"
     }
   ],
   "model_contracts": [

@@ -41,8 +41,8 @@
       ],
       "subdomain": "企業競争",
       "title": "独占、数量競争、価格競争",
-      "topic": "独占・数量競争・価格競争の均衡を比較する; Hotelling spatial price competition; product differentiation; ホテリング立地競争",
-      "use_when": "独占・数量競争・価格競争の均衡を比較する"
+      "topic": "独占・数量競争・価格競争の均衡を比較する; Hotelling spatial price competition; product differentiation; ホテリング立地競争; monopoly corner solution; 独占の端点解",
+      "use_when": "独占の内点・端点解を求め、数量競争・価格競争の均衡と厚生を比較する"
     },
     {
       "alternatives": [],
