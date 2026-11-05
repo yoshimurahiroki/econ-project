@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.59",
+  "version": "2.3.60",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -2104,18 +2104,21 @@
       "domain": "契約組織",
       "subdomain": "不完備契約と企業境界",
       "kind": "knowledge",
-      "topic": "不完備契約と企業境界",
-      "use_when": "所有権が事前投資と交渉配分に与える影響を比較する",
+      "topic": "不完備契約と企業境界; property rights and firm boundaries; ownership and investment; residual control rights; 所有形態の選択; 投資誘因",
+      "use_when": "所有権が決裂時利得と事前投資を変える仕組みを導き、分離・統合の総余剰から所有形態を選ぶ",
       "inputs": [
         "投資費用",
         "事後余剰",
         "所有権",
-        "決裂点"
+        "決裂点",
+        "資産の外部利用技術",
+        "再交渉の配分規則"
       ],
       "outputs": [
         "投資",
         "交渉配分",
-        "総余剰"
+        "総余剰",
+        "所有形態の選択条件"
       ],
       "file": "chapters/06-contracts-organization.md",
       "anchor": "contract-04",

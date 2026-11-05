@@ -134,7 +134,9 @@
         "投資費用",
         "事後余剰",
         "所有権",
-        "決裂点"
+        "決裂点",
+        "資産の外部利用技術",
+        "再交渉の配分規則"
       ],
       "jel_codes": [
         "D23",
@@ -144,7 +146,8 @@
       "outputs": [
         "投資",
         "交渉配分",
-        "総余剰"
+        "総余剰",
+        "所有形態の選択条件"
       ],
       "prerequisites": [
         "GAME-05"
@@ -152,8 +155,8 @@
       "related": [],
       "subdomain": "不完備契約と企業境界",
       "title": "不完備契約と企業境界",
-      "topic": "不完備契約と企業境界",
-      "use_when": "所有権が事前投資と交渉配分に与える影響を比較する"
+      "topic": "不完備契約と企業境界; property rights and firm boundaries; ownership and investment; residual control rights; 所有形態の選択; 投資誘因",
+      "use_when": "所有権が決裂時利得と事前投資を変える仕組みを導き、分離・統合の総余剰から所有形態を選ぶ"
     },
     {
       "alternatives": [],
