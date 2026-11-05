@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.34",
+  "version": "2.3.35",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -771,18 +771,24 @@
       "subdomain": "線形計画と最適輸送",
       "kind": "knowledge",
       "topic": "線形計画と最適輸送",
-      "use_when": "線形配分または輸送の主問題と双対問題を解く",
+      "use_when": "線形配分または輸送の主問題と双対問題を解く。最短路の辺流と双対、連続の式による測地線と重心を計算する",
       "inputs": [
         "資源制約",
         "目的係数",
         "供給量",
         "需要量",
-        "輸送費"
+        "輸送費",
+        "辺長",
+        "周辺分布",
+        "分位点"
       ],
       "outputs": [
         "配分",
         "双対価格",
-        "最適性の証拠"
+        "最適性の証拠",
+        "W1距離",
+        "W2測地線",
+        "分位点重心"
       ],
       "file": "chapters/01-mathematics.md",
       "anchor": "math-07",
@@ -867,15 +873,20 @@
       "subdomain": "確率と条件付き期待値",
       "kind": "knowledge",
       "topic": "確率と条件付き期待値",
-      "use_when": "条件付き期待値と全分散を計算する",
+      "use_when": "条件付き期待値と全分散を計算する。測度から本質的上限と関数ノルムを求める",
       "inputs": [
         "確率分布",
-        "条件付ける変数"
+        "条件付ける変数",
+        "測度",
+        "可測関数"
       ],
       "outputs": [
         "条件付き平均",
         "全期待",
-        "全分散"
+        "全分散",
+        "本質的上限",
+        "L∞ノルム",
+        "L1ノルム"
       ],
       "file": "chapters/02-probability-statistics.md",
       "anchor": "stat-01",
@@ -926,17 +937,22 @@
       "subdomain": "大数の法則と中心極限定理",
       "kind": "knowledge",
       "topic": "大数の法則と中心極限定理; strong mixing central limit theorem; HAC long-run variance; 強混合中心極限定理; HAC長期分散",
-      "use_when": "標本平均と滑らかな変換の漸近分布を求める",
+      "use_when": "標本平均と滑らかな変換の漸近分布を求める。概収束、期待値と極限の交換、推定点への極限分布の移行を判定する",
       "inputs": [
         "標本分布",
         "分散",
         "変換の導関数",
-        "依存構造"
+        "依存構造",
+        "可積分な上界",
+        "裾の期待値",
+        "近傍内の振動"
       ],
       "outputs": [
         "標本分布",
         "標準誤差",
-        "分散"
+        "分散",
+        "期待値の収束",
+        "推定点での極限分布"
       ],
       "file": "chapters/02-probability-statistics.md",
       "anchor": "stat-03",
@@ -989,15 +1005,19 @@
       "subdomain": "尤度と情報",
       "kind": "knowledge",
       "topic": "尤度と情報",
-      "use_when": "標本尤度から最尤推定量とFisher情報を求める",
+      "use_when": "標本尤度から最尤推定量とFisher情報を求める。KLと核平均の差で確率分布を比較する",
       "inputs": [
         "独立標本",
-        "確率モデル"
+        "確率モデル",
+        "確率測度",
+        "正定値核"
       ],
       "outputs": [
         "最尤推定値",
         "スコア",
-        "情報行列"
+        "情報行列",
+        "KLダイバージェンス",
+        "二乗MMD"
       ],
       "file": "chapters/02-probability-statistics.md",
       "anchor": "stat-05",
@@ -9829,8 +9849,28 @@
         "ja": "線形計画と最適輸送"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "Wasserstein distance",
+          "W1",
+          "W2",
+          "graph flow",
+          "Kantorovich-Rubinstein duality",
+          "Benamou-Brenier",
+          "displacement interpolation",
+          "quantile barycenter",
+          "Lipschitz dual",
+          "continuity equation"
+        ],
+        "ja": [
+          "グラフ上の流量",
+          "積分双対",
+          "変位補間",
+          "分位点重心",
+          "動的作用",
+          "辺流",
+          "Lipschitz双対",
+          "W2測地線"
+        ]
       },
       "broader": [
         "C-CH-01"
@@ -9875,8 +9915,18 @@
         "ja": "確率と条件付き期待値"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "essential supremum",
+          "L-infinity norm",
+          "ess sup",
+          "L1 norm"
+        ],
+        "ja": [
+          "本質的上限",
+          "L∞ノルム",
+          "ルベーグ測度",
+          "L1ノルム"
+        ]
       },
       "broader": [
         "C-CH-02"
@@ -9920,8 +9970,24 @@
         "ja": "大数の法則と中心極限定理"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "almost sure convergence",
+          "dominated convergence",
+          "uniform integrability",
+          "stochastic equicontinuity",
+          "random evaluation point",
+          "interchange of limit and expectation"
+        ],
+        "ja": [
+          "ほとんど確実収束",
+          "優収束定理",
+          "一様可積分性",
+          "確率的同程度連続性",
+          "ランダムな評価点",
+          "概収束",
+          "期待値と極限の交換",
+          "確率的同程度連続"
+        ]
       },
       "broader": [
         "C-CH-02"
@@ -9966,8 +10032,23 @@
         "ja": "尤度と情報"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "absolute continuity",
+          "Kullback-Leibler divergence",
+          "maximum mean discrepancy",
+          "MMD",
+          "characteristic kernel",
+          "squared MMD",
+          "KL"
+        ],
+        "ja": [
+          "絶対連続性",
+          "KLダイバージェンス",
+          "最大平均差異",
+          "特性的な核",
+          "二乗MMD",
+          "絶対連続"
+        ]
       },
       "broader": [
         "C-CH-02"
@@ -30220,6 +30301,26 @@
         {
           "unit": "TRADE-04",
           "anchor": "trade-04"
+        }
+      ],
+      "version": "2.3.34"
+    },
+    {
+      "id": "R-DISTRIBUTIONS-01",
+      "source": "STAT-05",
+      "target": "MATH-07",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "KL・MMDと輸送距離を同じ確率測度について比較する。",
+      "evidence": [
+        {
+          "unit": "STAT-05",
+          "anchor": "stat-05"
+        },
+        {
+          "unit": "MATH-07",
+          "anchor": "math-07"
         }
       ],
       "version": "2.3.34"

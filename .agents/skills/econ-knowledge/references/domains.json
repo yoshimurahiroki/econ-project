@@ -98,7 +98,7 @@
     {
       "domain": "数理基盤",
       "path": "domains/20.json",
-      "sha256": "14803a466076805c98530d41b0de9357d854e6814735db12e9e3261b4d99fb88"
+      "sha256": "9b83f43310e0eee187a7ab10f34c9ee3c0eb8e1953d100eb56f0c4e2b6078152"
     },
     {
       "domain": "時系列",
@@ -133,7 +133,7 @@
     {
       "domain": "確率統計",
       "path": "domains/27.json",
-      "sha256": "2fe1dc99f3db2e202cc1aa23edc486b858ea8d30d4ddbdf68d6bc8d1d8f54761"
+      "sha256": "d988ac507f4248b250926cf9e99e3662bc3f4dae611512fe5f000713b06aeb40"
     },
     {
       "domain": "計量",

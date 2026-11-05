@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.52.24",
+  "policy_id": "economics-native-0.52.25",
   "profile": {
     "id": "research-full"
   },
@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "0d0faa4da3b2f9c6e6857903138773b520ccca4290c810ad2be2aa44301f9ceb"
+      "sha256": "ed28a66b41321b979afe214be6b8579aacd45521222d4a505a4898c7a19ed46f"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -199,7 +199,7 @@
     },
     "resource:knowledge-retrieval": {
       "path": "skills/econ-knowledge/scripts/knowledge.py",
-      "sha256": "25e04306332e170ccba82e9449dcb6ddbfc6246053459f9c433b61d2515c558e"
+      "sha256": "4eedc5903ea39aaff24dd6b566c86b26168271d435a2c0698d0790749e9aa8c8"
     },
     "resource:latex-bibliography-style": {
       "path": "tex/paper/ecta-fullname.bst",

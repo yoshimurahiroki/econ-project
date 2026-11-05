@@ -107,7 +107,9 @@ def lexical_words(text):
 
 def matched_jel_codes(query, codes):
     """Resolve JEL codes and explicit field prefixes against the authored mapping."""
-    selectors = set(re.findall(r'(?<![a-z0-9])([a-z][0-9]{1,2})(?![a-z0-9])', query))
+    # An Lp norm names a function space, not a JEL industry classification.
+    bare_query = re.sub(r'(?<![a-z0-9])l[12](?=\s*[-‐‑–]?\s*(?:norm\b|ノルム))', ' ', query)
+    selectors = set(re.findall(r'(?<![a-z0-9])([a-z][0-9]{1,2})(?![a-z0-9])', bare_query))
     selectors.update(re.findall(r'\bjel[\s:-]+([a-z](?:[0-9]{1,2})?)\b', query))
     return {code for code in codes if any(code.casefold().startswith(term) for term in selectors)}
 
