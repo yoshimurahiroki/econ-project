@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.45",
+  "version": "2.3.46",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -2803,7 +2803,7 @@
       "subdomain": "Bellman 方程式",
       "kind": "knowledge",
       "topic": "Bellman 方程式; contraction convergence; 収縮写像と収束",
-      "use_when": "Bellman方程式を価値反復または方策反復で解く",
+      "use_when": "遷移法則が既知ならBellman式を解き、固定方策の軌跡しかないときはTDまたは実現収益で価値を推定する",
       "inputs": [
         "状態",
         "行動",
@@ -11248,10 +11248,22 @@
       "aliases": {
         "en": [
           "Bellman",
-          "Bellman optimality equation"
+          "Bellman optimality equation",
+          "temporal difference",
+          "TD(0)",
+          "Monte Carlo policy evaluation",
+          "one-step TD",
+          "n-step return",
+          "sample value update"
         ],
         "ja": [
-          "ベルマン方程式"
+          "ベルマン方程式",
+          "時間差学習",
+          "価値の更新",
+          "学習率",
+          "モンテカルロ更新",
+          "実現収益",
+          "多段階の価値目標"
         ]
       },
       "broader": [
