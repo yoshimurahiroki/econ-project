@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.38",
+  "version": "2.3.39",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -6469,16 +6469,20 @@
       "subdomain": "交通均衡",
       "kind": "knowledge",
       "topic": "経路費用と混雑外部性から最適料金を求める",
-      "use_when": "経路費用と混雑外部性から最適料金を求める",
+      "use_when": "経路費用と混雑外部性から最適料金を求める。歪みのない基準配分で区間の生産性改善を最終支出と同じ尺度の便益へ換算する",
       "inputs": [
         "交通需要",
         "経路費用",
-        "容量"
+        "容量",
+        "基準の産業間投入シェアと最終需要",
+        "区間別生産性と建設費"
       ],
       "outputs": [
         "Wardrop配分",
         "料金",
-        "厚生"
+        "厚生",
+        "輸送への総エクスポージャー",
+        "微小生産性変化の厚生効果"
       ],
       "file": "chapters/24-spatial-housing-transport.md",
       "anchor": "spatial-05",
@@ -13646,8 +13650,19 @@
         "ja": "交通配分と渋滞料金"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "Hulten theorem",
+          "Domar weight",
+          "transport productivity welfare",
+          "transport segment exposure"
+        ],
+        "ja": [
+          "ドーマーウェイト",
+          "Domarウェイト",
+          "ハルテンの定理",
+          "輸送区間の生産性",
+          "交通インフラの厚生評価"
+        ]
       },
       "broader": [
         "C-CH-24"
