@@ -4,7 +4,7 @@
 
 [econ-project-mini](https://github.com/yoshimurahiroki/econ-project-mini) owns the shared instructions and implementation. Its canonical files are `runtime/`, `skills/`, `registry/`, `quality/`, `profiles/`, `harness/` and the registered maintenance scripts. `registry/resources.json` declares ownership; `registry/placements.json` declares repository and Project output paths.
 
-The common source is synchronized to explicitly selected public or private destinations. Public manifests contain the skills without account-specific apps, MCP endpoints or credentials. A private distribution owns its account release, authenticated app bindings and service source; these are outside the common resource registry. Repository `.agents/` files, IDE entrances, Project exports and skill-local plugin bundles are generated from the same canonical instructions. The synchronization receipt in `docs/ai/integration.md` binds each synchronized destination to its source commit and managed file hashes.
+The common source is synchronized to explicitly selected public or private destinations. Public manifests contain the skills without account-specific apps, MCP endpoints or credentials. A private distribution owns its account release, authenticated app bindings and service source; these are outside the common resource registry. Repository `.agents/` files, IDE entrances, Project exports and skill-local plugin bundles are generated from the same canonical instructions. The synchronization receipt in `docs/ai/common-core.json` binds each synchronized destination to its source commit and managed file hashes.
 
 ## Writing and execution
 

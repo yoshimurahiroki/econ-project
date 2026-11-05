@@ -182,13 +182,14 @@
         "元式残差と精度診断"
       ],
       "prerequisites": [
-        "HET-03"
+        "DYN-01",
+        "MATH-02"
       ],
       "related": [],
       "subdomain": "シーケンス空間",
       "title": "sequence-space Jacobian",
       "topic": "家計政策と分布のJacobianから均衡応答を求める",
-      "use_when": "家計政策と分布のJacobianから均衡応答を求める"
+      "use_when": "状態別政策と分布のJacobianから均衡応答を求める。所与の政策反応の集計、内生的な家計政策、AiyagariまたはHANKの均衡条件を区別して必要な前提を選ぶ"
     },
     {
       "alternatives": [],

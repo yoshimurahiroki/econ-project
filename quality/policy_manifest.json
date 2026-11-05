@@ -1,4 +1,9 @@
 {
+  "schema_version": 2,
+  "policy_id": "economics-native-0.52.56",
+  "profile": {
+    "id": "research-full"
+  },
   "assets": {
     "argument": {
       "path": "harness/argument.py",
@@ -38,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "ecfc743cdf6de4228c6bc2224b4abcc27b9999a90eb83ecf3ec3b9a5901c1d5b"
+      "sha256": "1c9782f3c46589003160c36491d0ccbc4afba554529766df23e71c986be0e935"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -190,7 +195,7 @@
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
-      "sha256": "ed26b25497060d93879bb25753b49a9a06b8edb59b79230d5c3873744eaad9e5"
+      "sha256": "a24153667df2b469bac445ea8e700a64b710dafd7292f33ac5314e0e1a9ae852"
     },
     "resource:knowledge-retrieval": {
       "path": "skills/econ-knowledge/scripts/knowledge.py",
@@ -294,7 +299,7 @@
     },
     "resource:plugin-integration-guide": {
       "path": "docs/ai/plugin-integration.md",
-      "sha256": "dac82c982db4efdf0a8644c4d18de52f625ea73e499176cc37a2d4bd662fc16c"
+      "sha256": "c959761cb0ff23ec75b175f4cab08129ed74b0347dd459230a8ceccc54061e57"
     },
     "resource:policy-agents-agentsmd": {
       "path": "references/repository-policy/.agents/AGENTS.md",
@@ -556,10 +561,5 @@
       "path": "runtime/TEAM.md",
       "sha256": "a1ff1eb697b1ffe89cb056da3c59f4f564f5e691b8266804d03b8081d071d0fe"
     }
-  },
-  "policy_id": "economics-native-0.52.54",
-  "profile": {
-    "id": "research-full"
-  },
-  "schema_version": 2
+  }
 }

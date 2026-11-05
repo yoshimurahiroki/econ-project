@@ -206,7 +206,8 @@
       ],
       "related": [
         "DEMAND-06",
-        "DEMAND-02"
+        "DEMAND-02",
+        "IO-03"
       ],
       "subdomain": "生産関数推定",
       "title": "生産関数と生産性",
@@ -221,7 +222,8 @@
         "C-DEMAND-06",
         "C-CH-15",
         "C-TERM-MARKUP",
-        "C-TERM-MARKET-POWER"
+        "C-TERM-MARKET-POWER",
+        "C-TERM-RESOURCE-MISALLOCATION"
       ],
       "contract_ids": [],
       "domain": "需要生産",
@@ -230,27 +232,35 @@
       "inputs": [
         "産出弾力性",
         "投入支出",
-        "売上"
+        "売上",
+        "企業別資本・労働・産出",
+        "投入価格と配分の歪み",
+        "資源総量と産出の集計方法"
       ],
       "jel_codes": [
         "D24",
-        "L11"
+        "L11",
+        "O47"
       ],
       "kind": "knowledge",
       "outputs": [
         "マークアップ",
-        "配分wedge"
+        "配分wedge",
+        "企業別投入配分",
+        "再配分後の産業産出"
       ],
       "prerequisites": [
         "MICRO-04"
       ],
       "related": [
-        "DEMAND-05"
+        "DEMAND-05",
+        "IO-03",
+        "STRUCT-06"
       ],
       "subdomain": "マークアップと配分",
       "title": "費用、マークアップ、配分",
-      "topic": "投入弾力性と売上比からマークアップを求める",
-      "use_when": "投入弾力性と売上比からマークアップを求める"
+      "topic": "投入弾力性と売上比からマークアップを求め、企業間の資源誤配分を分析する; resource misallocation; firm productivity; capital wedges",
+      "use_when": "マークアップを推定し、企業間の投入配分の歪みと再配分後の産出を計算する"
     },
     {
       "alternatives": [],

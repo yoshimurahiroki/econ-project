@@ -429,13 +429,6 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
     if unsupported:
         raise ValueError('Use complete source distribution for maintenance tools; cannot publish an executable flat/deployed snapshot for: ' + ', '.join(unsupported))
     output_paths = {rid: res['export_alias' if output_format == 'flat' else 'deployment_path'] for rid, res in resources.items()}
-    if 'policy-manifest' in selected and final_operations:
-        # A manifest is rooted at the common containing directory of all its
-        # assets. Repository documents and policy pointers may sit above .agents.
-        containing = Path(os.path.commonpath([str(Path(output_paths[rid]).parent)
-                          for rid in selected if rid != 'policy-manifest']))
-        previous = Path(output_paths['policy-manifest'])
-        output_paths['policy-manifest'] = (containing / previous.parent.name / previous.name).as_posix()
     # Both physical layouts use the exact same resolved selections.
     # All logical paths resolve through this registry in either physical layout.
     path_ids = {}
@@ -679,9 +672,9 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
         policy = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(policy)
         manifest_output = output_paths['policy-manifest']
-        policy_root = ('.' if output_format == 'deployed' and declared_root != '.' else
-                       str(Path(manifest_output).parent.parent)
-                       if Path(manifest_output).parent.name == 'quality' else '.')
+        # Registered deployment paths are relative to the exported project root,
+        # even when the manifest itself is under .agents/quality.
+        policy_root = '.'
         if output_format == 'deployed':
             catalog_path = output_paths['registry-placements']
             placement_catalog = json.loads(contents[catalog_path])

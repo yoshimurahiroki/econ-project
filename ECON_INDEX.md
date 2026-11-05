@@ -106,7 +106,7 @@ Included resources:
 - [policy-cursor-rules-01_project_policymdc](.cursor/rules/01_project_policy.mdc)
 - [policy-gemini-geminimd](.gemini/GEMINI.md)
 - [policy-github-copilot-instructionsmd](.github/copilot-instructions.md)
-- [policy-manifest](quality/policy_manifest.json)
+- [policy-manifest](.agents/quality/policy_manifest.json)
 - [policy-windsurfrules](.windsurfrules)
 - [project-context](docs/ai/repo_context.md)
 - [project-instructions](docs/ai/project_instructions.txt)

@@ -37,8 +37,14 @@ def runtime_io():
 def common_paths(source):
     routes = load_routes(source)
     registry_paths = routes.get("registry_source_paths", ["runtime/ROUTES.yaml"])
-    return tuple(sorted({resource["source_path"] for resource in routes["resources"].values()
-                         if resource.get("sync", True)} | set(registry_paths)))
+    paths = {resource["source_path"] for resource in routes["resources"].values()
+             if resource.get("sync", True)} | set(registry_paths)
+    catalog = routes["resources"].get("knowledge-catalog")
+    if catalog and catalog.get("sync", True):
+        from export_project import knowledge_assets
+        base, assets = knowledge_assets(source, "source", source_assets=True)
+        paths.update((base / name).as_posix() for name in assets)
+    return tuple(sorted(paths))
 
 
 LOCAL_CONFIG_PATHS = (".codex/config.toml",)

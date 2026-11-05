@@ -196,12 +196,14 @@
       ],
       "jel_codes": [
         "D51",
-        "D61"
+        "D61",
+        "C62"
       ],
       "kind": "knowledge",
       "outputs": [
         "競争均衡価格",
         "均衡配分",
+        "純粋交換の均衡存在条件",
         "パレート効率"
       ],
       "prerequisites": [
@@ -213,8 +215,8 @@
       ],
       "subdomain": "一般均衡と厚生",
       "title": "一般均衡と厚生",
-      "topic": "一般均衡と厚生",
-      "use_when": "一般均衡配分と市場清算から厚生を分析する"
+      "topic": "一般均衡と厚生; 純粋交換の均衡存在; pure exchange equilibrium existence; excess demand; 超過需要",
+      "use_when": "需要と市場清算から競争均衡を求め、純粋交換の均衡存在条件と配分の厚生を分析する"
     },
     {
       "alternatives": [],

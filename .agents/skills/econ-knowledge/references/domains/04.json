@@ -84,7 +84,9 @@
         "C-CH-31",
         "C-TERM-CROSS-VALIDATION",
         "C-TERM-BAYESIAN-INFORMATION-CRITERION",
-        "C-TERM-AIC"
+        "C-TERM-AIC",
+        "C-TERM-LASSO",
+        "C-TERM-RIDGE"
       ],
       "contract_ids": [],
       "domain": "予測意思決定",

@@ -23,7 +23,8 @@
         "処置",
         "共変量",
         "fold",
-        "補助学習器"
+        "補助学習器",
+        "クラスター識別子と調整範囲"
       ],
       "jel_codes": [
         "C14",
@@ -35,7 +36,8 @@
         "ATE",
         "部分線形係数",
         "ATT",
-        "対象スコアに対応するDoubleML API"
+        "対象スコアに対応するDoubleML API",
+        "学習・評価を分離した補助予測"
       ],
       "prerequisites": [
         "CAUSAL-01"
@@ -45,8 +47,8 @@
       ],
       "subdomain": "直交スコア",
       "title": "直交スコアとcross-fitting",
-      "topic": "直交スコアとcross-fitting; 傾向スコアの切り詰め; propensity score clipping; 二値結果の部分線形モデル; binary outcome PLR",
-      "use_when": "補助関数の柔軟推定を用いてATEまたは部分線形係数を推定する。線形辞書の処置・結果の二重選択と、標本分割による直交スコアを使い分ける"
+      "topic": "直交スコアとcross-fitting; 傾向スコアの切り詰め; propensity score clipping; 二値結果の部分線形モデル; binary outcome PLR; DoubleML hyperparameter tuning; nested cross-validation; cluster sample splitting; クラスター標本の前処理・調整・標本分割",
+      "use_when": "補助関数の柔軟推定を用いてATEまたは部分線形係数を推定する。線形辞書の処置・結果の二重選択と、標本分割による直交スコアを使い分ける。前処理とハイパーパラメータ調整を評価foldから分け、クラスター構造に応じて標本分割する"
     },
     {
       "alternatives": [],

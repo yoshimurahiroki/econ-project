@@ -8,3 +8,5 @@
 
 例えば一様事前分布から始め、3回中2回成功したとき、事後分布は $\operatorname{Beta}(3,2)$、成功確率を条件に過去と独立な次の試行における事後予測成功確率は $3/5=0.6$ である。次の試行に参加すると成功時に1の便益を得て必ず0.5の費用を払うなら、参加の事後期待純便益は $0.6-0.5=0.1$、参加しない場合は0なので参加を選ぶ。費用や失敗時の損失が変われば、この同じ事後分布でも最適行動は変わる。
 
+事後積分をシミュレーションで計算するときは、[ECON-09](https://github.com/yoshimurahiroki/econ-project-mini/blob/main/skills/econ-knowledge/references/chapters/10-econometrics.md#econ-09)の密度変換、Metropolis–Hastings、系列相関を含むMonte Carlo標準誤差を用いる。共役分布の解析的なモーメントは、その計算を照合する対象になる。
+
