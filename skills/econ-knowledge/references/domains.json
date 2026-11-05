@@ -68,7 +68,7 @@
     {
       "domain": "契約組織",
       "path": "domains/14.json",
-      "sha256": "a0de82d57e78dd8560d65468f5b222c03b08f4301362673f626fb7338a0b0a85"
+      "sha256": "a2f47fd8bf0a038d4204b2f3a269f16f0f2568dca65cc0912d53ecf514a645bf"
     },
     {
       "domain": "市場設計",
@@ -88,7 +88,7 @@
     {
       "domain": "政治法制度",
       "path": "domains/18.json",
-      "sha256": "af79780771d1d801948297e1793202e7396cdcd557154b949e1bba0c8bfd75f2"
+      "sha256": "b3cb1f7131470b2a5a0a465729184ee6cad292e69af0431273817a2af928a7c6"
     },
     {
       "domain": "数値シミュレーション",
@@ -98,7 +98,7 @@
     {
       "domain": "数理基盤",
       "path": "domains/20.json",
-      "sha256": "81af32c22fc0f5190014329051151701004c9322c755be5da673ab35e3c556b8"
+      "sha256": "3b73c6eb681741a9713d3a1ab307615a46b6984b4d09ad4e0fc45b57b01b526f"
     },
     {
       "domain": "時系列",
@@ -118,7 +118,7 @@
     {
       "domain": "環境エネルギー",
       "path": "domains/24.json",
-      "sha256": "9e88d0edc685fedad266ea524d8868d42f349cf4a778969259e59cb941b88e39"
+      "sha256": "c515f4befc18fc327c796712622168152d4efc2c1f0ed132323eebd864a65cf1"
     },
     {
       "domain": "産業組織",
@@ -173,7 +173,7 @@
     {
       "domain": "革新歴史広告",
       "path": "domains/35.json",
-      "sha256": "d0e5fcae8a1c7574f8249d1cfd08d8e376b6b3992393da5746226d5687ff7e51"
+      "sha256": "5af7a33d96c656ace93bb698c52ebba7dd08196485013e48f803fba2772f774b"
     }
   ],
   "spec_version": "knowledge-v2"

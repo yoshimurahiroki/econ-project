@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.60",
+  "version": "2.3.61",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -864,7 +864,8 @@
       ],
       "jel_codes": [
         "C61",
-        "C63"
+        "C63",
+        "C44"
       ],
       "contract_ids": [
         "MC-queue-capacity"
@@ -2128,7 +2129,9 @@
       ],
       "jel_codes": [
         "D23",
-        "D86"
+        "D86",
+        "P14",
+        "L22"
       ],
       "contract_ids": []
     },
@@ -2160,7 +2163,8 @@
       ],
       "jel_codes": [
         "D86",
-        "D23"
+        "D23",
+        "L14"
       ],
       "contract_ids": []
     },
@@ -2252,7 +2256,8 @@
       ],
       "jel_codes": [
         "D83",
-        "D23"
+        "D23",
+        "L22"
       ],
       "contract_ids": [
         "MC-decision-rights"
@@ -2283,7 +2288,8 @@
       ],
       "jel_codes": [
         "D23",
-        "D24"
+        "D24",
+        "L23"
       ],
       "contract_ids": []
     },
@@ -7475,7 +7481,10 @@
       ],
       "jel_codes": [
         "Q54",
-        "Q52"
+        "Q52",
+        "H22",
+        "H23",
+        "Q58"
       ],
       "contract_ids": []
     },
@@ -7637,7 +7646,8 @@
         "K12",
         "D23",
         "K11",
-        "K13"
+        "K13",
+        "P14"
       ],
       "contract_ids": []
     },
@@ -7824,7 +7834,8 @@
       ],
       "jel_codes": [
         "G31",
-        "G32"
+        "G32",
+        "O34"
       ],
       "contract_ids": []
     },
@@ -10931,7 +10942,9 @@
       },
       "jel_codes": [
         "D23",
-        "D86"
+        "D86",
+        "P14",
+        "L22"
       ],
       "kind": "concept"
     },
@@ -10954,7 +10967,8 @@
       },
       "jel_codes": [
         "D86",
-        "D23"
+        "D23",
+        "L14"
       ],
       "kind": "concept"
     },
@@ -14548,7 +14562,10 @@
       },
       "jel_codes": [
         "Q54",
-        "Q52"
+        "Q52",
+        "H22",
+        "H23",
+        "Q58"
       ],
       "kind": "concept"
     },
@@ -14665,7 +14682,8 @@
         "K12",
         "D23",
         "K11",
-        "K13"
+        "K13",
+        "P14"
       ],
       "kind": "concept"
     },
@@ -14803,7 +14821,8 @@
       },
       "jel_codes": [
         "G31",
-        "G32"
+        "G32",
+        "O34"
       ],
       "kind": "concept"
     },
@@ -18400,7 +18419,8 @@
       },
       "jel_codes": [
         "C61",
-        "C63"
+        "C63",
+        "C44"
       ],
       "kind": "concept"
     },
@@ -18450,7 +18470,8 @@
       },
       "jel_codes": [
         "D83",
-        "D23"
+        "D23",
+        "L22"
       ],
       "kind": "concept"
     },
@@ -18475,7 +18496,8 @@
       },
       "jel_codes": [
         "D23",
-        "D24"
+        "D24",
+        "L23"
       ],
       "kind": "concept"
     },
@@ -20540,7 +20562,10 @@
       },
       "jel_codes": [
         "Q54",
-        "Q52"
+        "Q52",
+        "H22",
+        "H23",
+        "Q58"
       ],
       "kind": "concept"
     }
@@ -21186,9 +21211,24 @@
       "ja": "寡占・不完全競争市場",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
+    "L14": {
+      "en": "Transactional Relationships • Contracts and Reputation • Networks",
+      "ja": "取引関係・契約と評判・ネットワーク",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
     "L15": {
       "en": "Information and Product Quality • Standardization and Compatibility",
       "ja": "情報・製品品質",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "L22": {
+      "en": "Firm Organization and Market Structure",
+      "ja": "企業組織と市場構造",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "L23": {
+      "en": "Organization of Production",
+      "ja": "生産組織",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "L41": {
@@ -21289,6 +21329,11 @@
     "O47": {
       "en": "Empirical Studies of Economic Growth • Aggregate Productivity • Cross-Country Output Convergence",
       "ja": "経済成長の実証研究",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "P14": {
+      "en": "Property Rights",
+      "ja": "財産権",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "Q12": {

@@ -140,7 +140,9 @@
       ],
       "jel_codes": [
         "D23",
-        "D86"
+        "D86",
+        "P14",
+        "L22"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -178,7 +180,8 @@
       ],
       "jel_codes": [
         "D86",
-        "D23"
+        "D23",
+        "L14"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -291,7 +294,8 @@
       ],
       "jel_codes": [
         "D83",
-        "D23"
+        "D23",
+        "L22"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -328,7 +332,8 @@
       ],
       "jel_codes": [
         "D23",
-        "D24"
+        "D24",
+        "L23"
       ],
       "kind": "knowledge",
       "outputs": [

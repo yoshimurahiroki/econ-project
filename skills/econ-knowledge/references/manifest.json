@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "b2d0ffa58a7a0b368f284ac752576d18110f733a1324d8f17808e674c0ba0432",
+  "catalog_sha256": "a5dd880d576373eb435c3fc6416f1a3f89d75e1aa0fc454f3cd0996890e4acbd",
   "chapters": {
     "chapters/01-mathematics.md": "e6c08317522ed57b2885136185edcb7fb6b0af0076c72be1cbe4f58ece2d9a78",
     "chapters/02-probability-statistics.md": "57fa00ebec9aec9af6459a944d283052a9c80f0d76ae30cb37b4a300109b1958",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "449950f6447a63bd2ef231c318e05fec8e084feb7626609b57cb3b2d0e08f176",
+  "domain_listing_sha256": "b55678ff427c8bec4590762b5ef20da880ca13db740f502dbffbcd4ce70b9a74",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -107,7 +107,7 @@
     "契約組織": {
       "count": 9,
       "path": "domains/14.json",
-      "sha256": "a0de82d57e78dd8560d65468f5b222c03b08f4301362673f626fb7338a0b0a85"
+      "sha256": "a2f47fd8bf0a038d4204b2f3a269f16f0f2568dca65cc0912d53ecf514a645bf"
     },
     "市場設計": {
       "count": 8,
@@ -127,7 +127,7 @@
     "政治法制度": {
       "count": 7,
       "path": "domains/18.json",
-      "sha256": "af79780771d1d801948297e1793202e7396cdcd557154b949e1bba0c8bfd75f2"
+      "sha256": "b3cb1f7131470b2a5a0a465729184ee6cad292e69af0431273817a2af928a7c6"
     },
     "数値シミュレーション": {
       "count": 8,
@@ -137,7 +137,7 @@
     "数理基盤": {
       "count": 10,
       "path": "domains/20.json",
-      "sha256": "81af32c22fc0f5190014329051151701004c9322c755be5da673ab35e3c556b8"
+      "sha256": "3b73c6eb681741a9713d3a1ab307615a46b6984b4d09ad4e0fc45b57b01b526f"
     },
     "時系列": {
       "count": 8,
@@ -157,7 +157,7 @@
     "環境エネルギー": {
       "count": 6,
       "path": "domains/24.json",
-      "sha256": "9e88d0edc685fedad266ea524d8868d42f349cf4a778969259e59cb941b88e39"
+      "sha256": "c515f4befc18fc327c796712622168152d4efc2c1f0ed132323eebd864a65cf1"
     },
     "産業組織": {
       "count": 7,
@@ -212,13 +212,13 @@
     "革新歴史広告": {
       "count": 6,
       "path": "domains/35.json",
-      "sha256": "d0e5fcae8a1c7574f8249d1cfd08d8e376b6b3992393da5746226d5687ff7e51"
+      "sha256": "5af7a33d96c656ace93bb698c52ebba7dd08196485013e48f803fba2772f774b"
     }
   },
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "9c61e4c4edbcdaf2094c80526face5cb41627b99afaa41de85b4e18f2a35e75a"
+      "sha256": "dc2e32c5e3dac31f017043fd6ce7a45afaec5bd813eb6af5b989df60f1330f93"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
