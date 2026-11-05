@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.36",
+  "version": "2.3.37",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -1739,7 +1739,7 @@
       "subdomain": "シグナルと情報設計",
       "kind": "knowledge",
       "topic": "シグナルと情報設計",
-      "use_when": "信号の設計と事後信念から受信者の選択を求める",
+      "use_when": "信号の設計と事後信念から受信者の選択を求める。経路外の信号について、逸脱利得と受信者の最適応答からプール均衡の存否を判定する",
       "inputs": [
         "状態",
         "事前分布",
@@ -1749,7 +1749,8 @@
       "outputs": [
         "Bayes整合信念",
         "信号規則",
-        "採用率"
+        "採用率",
+        "経路外のタイプ除外と直観基準の判定"
       ],
       "file": "chapters/05-information-behavior.md",
       "anchor": "info-03",
@@ -10498,8 +10499,18 @@
         "ja": "シグナルと情報設計"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "intuitive criterion",
+          "Cho Kreps criterion",
+          "equilibrium-dominated type",
+          "off-path signaling belief"
+        ],
+        "ja": [
+          "直観基準",
+          "直観的基準",
+          "経路外の信念",
+          "分離均衡とプール均衡"
+        ]
       },
       "broader": [
         "C-CH-05"
