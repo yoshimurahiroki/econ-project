@@ -710,7 +710,7 @@ class Reader:
             raise ValueError('Domain listing specification version mismatch')
         return {**listing, **self.report()}
 
-    def search(self, domain, query, limit):
+    def search(self, domain, query, limit, *, include_report=True):
         if not 1 <= limit <= 20 or not query.strip(): raise ValueError('Use a nonempty query and limit 1..20')
         normalized = unicodedata.normalize('NFKC', query).casefold()
         exact_ids = {term.upper() for term in re.findall(r'[a-z0-9]+(?:-[0-9]+)?', normalized)
@@ -773,7 +773,7 @@ class Reader:
                 'matched_concepts': list(matched_concepts.values()),
                 'matched_classifications': list(matched_classifications.values()),
                 'matched_jel_codes': sorted(jel_matches),
-                'truncated': len(candidates) > limit, **self.report()}
+                'truncated': len(candidates) > limit, **(self.report() if include_report else {})}
 
     def semantic(self, name):
         if self.spec_version != SEMANTIC_VERSION:
@@ -1024,20 +1024,34 @@ def main():
     sub = parser.add_subparsers(dest='action', required=True)
     b = sub.add_parser('build'); b.add_argument('--check', action='store_true')
     sub.add_parser('domains')
-    s = sub.add_parser('search'); s.add_argument('--domain'); s.add_argument('--query', required=True); s.add_argument('--limit', type=int, default=8)
+    s = sub.add_parser('search'); s.add_argument('--domain'); s.add_argument('--query', required=True, action='append', help='Repeat to rank each question separately'); s.add_argument('--limit', type=int, default=8)
     r = sub.add_parser('read'); r.add_argument('ids', nargs='+'); r.add_argument('--task'); r.add_argument('--root', type=Path, default=Path.cwd()); r.add_argument('--store', default='.agents/state/team.json')
     c = sub.add_parser('concepts'); c.add_argument('--query', required=True); c.add_argument('--limit', type=int, default=8)
     rel = sub.add_parser('relations'); rel.add_argument('ids', nargs='+'); rel.add_argument('--type', action='append', default=[]); rel.add_argument('--context', action='append', default=[])
     plan = sub.add_parser('plan'); plan.add_argument('ids', nargs='+'); plan.add_argument('--context', action='append', default=[])
+    plan.add_argument('--read', action='store_true', help='Return the full bodies of the resolved required IDs in dependency order')
     a = parser.parse_args()
     if a.action == 'build': result = build(a.base, a.check)
     else:
         reader = Reader(a.base)
         if a.action == 'domains': result = reader.domains()
-        elif a.action == 'search': result = reader.search(a.domain, a.query, a.limit)
+        elif a.action == 'search':
+            if len(a.query) == 1:
+                result = reader.search(a.domain, a.query[0], a.limit)
+            else:
+                searches = [reader.search(a.domain, query, a.limit, include_report=False) for query in a.query]
+                result = {'searches': searches, **reader.report()}
         elif a.action == 'concepts': result = reader.concepts(a.query, a.limit)
         elif a.action == 'relations': result = reader.relations(a.ids, a.type, parse_context(a.context))
-        elif a.action == 'plan': result = reader.plan(a.ids, parse_context(a.context))
+        elif a.action == 'plan':
+            result = reader.plan(a.ids, parse_context(a.context))
+            if a.read:
+                if result['application_cycles'] or any(not loc['body_readable'] for loc in result['locators']):
+                    # Keep the complete plan, including the reason it has no readable dependency order.
+                    result['read_blocked'] = True
+                else:
+                    result['units'] = reader.units(result['required_ids'])['units']
+                    result.update(reader.report())
         else:
             cache = {}
             if a.task:
@@ -1056,6 +1070,8 @@ def main():
                     value = {'version': unit['version'], 'body': unit['body']}
                     subprocess.run(command + ['output', a.task, 'knowledge:' + unit['id'], '--kind', 'object', '--value', json.dumps(value, ensure_ascii=False), '--no-dependencies'], check=True, stdout=subprocess.DEVNULL)
     print(json.dumps(result, ensure_ascii=False, indent=2))
+    if result.get('read_blocked'):
+        raise ValueError('Cannot read the required IDs; see application_cycles and unavailable locators in the plan')
 
 
 if __name__ == '__main__':
