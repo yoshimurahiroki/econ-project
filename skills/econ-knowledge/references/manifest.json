@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "e43ea23af6b6b270980001c472098b927be6b605a178857377276654d529a791",
+  "catalog_sha256": "499e8b1be9cb42866a08240a0aeba7d60e3ee6ee479996873b8659cb38b556eb",
   "chapters": {
     "chapters/01-mathematics.md": "e6c08317522ed57b2885136185edcb7fb6b0af0076c72be1cbe4f58ece2d9a78",
     "chapters/02-probability-statistics.md": "639a09fe66f42747521e849060ba370094ba50eed3dc228bcdf3826f0acb6822",
@@ -13,13 +13,13 @@
     "chapters/10-econometrics.md": "f609cbf1afaa328da0862575690f3bd1c99f1eb60b011d3b8bbc68413c83be5e",
     "chapters/11-causal-designs.md": "d77b36f5970dc4dc800004e5079aa64afc932a9da49d7887fd09e343e0e2d0db",
     "chapters/12-causal-extensions.md": "b12534139c0fe2cf24f7072469b311bec966f5e60d33e06a1fb478dcc39cb1f2",
-    "chapters/13-time-series.md": "78f6375c8c9559ac36c5e3b53033f0dd7bf537d4524ae8b5399d822c8d6e6644",
+    "chapters/13-time-series.md": "6961162455411b116527807deaac4f4e98e470db39dcc4851c82e701f70bfaac",
     "chapters/14-structural-estimation.md": "d90ce56a11e205e587da21a510d355b6b80ce90ff8011fe78f9f581887cd5980",
     "chapters/15-demand-production.md": "6d9e6e263765cbe9dc7ca3d84424b50727db512ec5eb1bf1808859ea1c51d6b9",
     "chapters/16-competition-platforms.md": "938907d8ef24188f3459e721be262bc45274bea172e1c4e0492e341a33166fcf",
     "chapters/17-growth-macro.md": "6a3b3108373af6d0e17fe2816b08d728ef7c89a618db48525bf23628c7ff0371",
     "chapters/18-monetary-open-macro.md": "5cbf585da44c1ec745d37f275ba5df0c465187149da85f399638517a4f32a107",
-    "chapters/19-heterogeneous-macro.md": "ee6c27a133c2be525a9f80864ae4efa942b778c5b8b4c7425c12da540041fb19",
+    "chapters/19-heterogeneous-macro.md": "8c5d3c028a7a227da7ef2a02289652b21011893f594e3c9a13c6afbffbf029a4",
     "chapters/20-asset-pricing.md": "71de5e585ef265cb7044c9e2f0d8846139b01f8c962dcaf9b7daafe271f497d2",
     "chapters/21-corporate-banking.md": "fd9b06cb1bce7721b04ef12d0ed8572355f1d1654025cd60ea1c12a4b2232b18",
     "chapters/22-labor-demography.md": "f240acd3e1155914479c3b80450caee7ffb1fa7626e2d5adc44fdbd67d4a2971",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "e5171792ac5e1f2fcdd3b13e041d9f805244d6010c6a36c34c7772a0645f67c1",
+  "domain_listing_sha256": "728f9f6de0e48bf81f392ffc439bbee988b6a4ca48c4d833302bb1472b971732",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -167,7 +167,7 @@
     "異質マクロ": {
       "count": 6,
       "path": "domains/26.json",
-      "sha256": "33646886f3171001bc59d3f40cf90c4da2917dd55a96d760d10f5fa761451165"
+      "sha256": "dc7fa4d6d41ecfab3224963baa9fa56a39cccba3469c21fbc73a1d970d909cdd"
     },
     "確率統計": {
       "count": 9,
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "7f70aba79ec313f88bb7d9cddee90cc34a6049a4e4fd7c7b4dc67753fe47cf3b"
+      "sha256": "6027993ad3ab644b1ea30a78e51e09ad345f87857c61958c391ceddd033da15b"
     }
   },
   "spec_version": "knowledge-v2",
@@ -937,7 +937,7 @@
       "chapter": "chapters/19-heterogeneous-macro.md",
       "domain": "異質マクロ",
       "path": "units/HET-04.md",
-      "sha256": "72aafc91f34e2ecdb1f4d9a255c58d9ba45ed81033c5f0c5751e865bac591cd7"
+      "sha256": "0c0b5a6dadd5147d4f2c2ad106c4c8ebefa61f9c171bb29c0b84436275394f45"
     },
     "HET-05": {
       "chapter": "chapters/19-heterogeneous-macro.md",
@@ -1723,7 +1723,7 @@
       "chapter": "chapters/13-time-series.md",
       "domain": "時系列",
       "path": "units/TS-08.md",
-      "sha256": "170726cfacef7ec25ccc7c94fb2382b6d2c426cad1e858ec8d34ccf2f681fe7d"
+      "sha256": "22252f86f6f1955a52e520c2fdb26661d1a41d495572fda1ed151697c1ee2421"
     },
     "WELFARE-01": {
       "chapter": "chapters/32-welfare-policy.md",

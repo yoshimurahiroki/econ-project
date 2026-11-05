@@ -94,6 +94,16 @@ HANKは異質家計を名目価格硬直、企業、金融・財政則へ接続�
 
 ## HET-04　sequence-space Jacobian
 
+集計量の応答を、状態別の政策反応と分布の移動に分解する。状態別の政策と遷移が問題の入力として与えられている場合は、DYN-01の分布更新とMATH-02の線形系を使い、下記の集計式からJacobianと均衡応答を求める。政策を原始的要素から求める場合は、採択した計算に対応する本文を追加する。
+
+| 求める経済的対象 | 追加する知識 | `plan`の条件 |
+| --- | --- | --- |
+| 所得過程・選好・価格から家計の消費・貯蓄政策を解く | HET-01 | `household_policy=endogenous` |
+| 家計政策・分布・生産から定常の資本・価格を清算する | HET-02 | `equilibrium_model=aiyagari` |
+| 名目硬直性、金融則、財政と異質家計を閉じる | HET-03 | `equilibrium_model=one_asset_hank` |
+
+`plan HET-04 --read` は共通の前提を取得する。例えば家計から求める一資産HANKでは `--context household_policy=endogenous --context equilibrium_model=one_asset_hank` を加える。条件は問題の入力と求める均衡から選ぶ。所与の家計反応を集計する計算では、その反応の定義、時点、初期分布を保持する。
+
 期首状態を資産 \(a\) と所得 \(z\)、所得遷移を \(\Pi(z,z')\) とする。価格・所得経路 \((r_t,w_t,T_t)\) を予見する家計は、\(a'\ge\underline a\)、\(c>0\)、\(c+a'=(1+r_t)a+w_tz+T_t\) の下で
 \[
 V_t(a,z)=\max_{c,a'}\{u(c)+\beta\sum_{z'}\Pi(z,z')V_{t+1}(a',z')\}

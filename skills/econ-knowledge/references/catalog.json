@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.54",
+  "version": "2.3.56",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -5475,7 +5475,7 @@
       "subdomain": "シーケンス空間",
       "kind": "knowledge",
       "topic": "家計政策と分布のJacobianから均衡応答を求める",
-      "use_when": "家計政策と分布のJacobianから均衡応答を求める",
+      "use_when": "状態別政策と分布のJacobianから均衡応答を求める。所与の政策反応の集計、内生的な家計政策、AiyagariまたはHANKの均衡条件を区別して必要な前提を選ぶ",
       "inputs": [
         "定常家計",
         "遷移",
@@ -25230,17 +25230,23 @@
       "id": "R-0293",
       "source": "HET-04",
       "target": "HET-03",
-      "type": "prerequisite_to_understand",
-      "conditions": [],
-      "when": {},
-      "use": "sequence-space Jacobian uses the definitions and equations in HANKと伝達経路.",
+      "type": "requires_to_apply",
+      "conditions": [
+        "The adopted equilibrium is a one-asset HANK model with heterogeneous households, nominal rigidities, monetary and fiscal closure."
+      ],
+      "when": {
+        "equilibrium_model": [
+          "one_asset_hank"
+        ]
+      },
+      "use": "Retrieve the household, distribution, pricing, fiscal and monetary equations that close the selected HANK equilibrium.",
       "evidence": [
         {
           "unit": "HET-04",
           "anchor": "het-04"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.55"
     },
     {
       "id": "R-0295",
@@ -31229,6 +31235,82 @@
         }
       ],
       "version": "2.3.54"
+    },
+    {
+      "id": "R-HET-SSJ-MARKOV",
+      "source": "HET-04",
+      "evidence": [
+        {
+          "unit": "HET-04",
+          "anchor": "het-04"
+        }
+      ],
+      "version": "2.3.55",
+      "target": "DYN-01",
+      "type": "prerequisite_to_understand",
+      "conditions": [],
+      "when": {},
+      "use": "Use the state-transition orientation, stationary distribution and mass-preserving distribution updates."
+    },
+    {
+      "id": "R-HET-SSJ-LINEAR",
+      "source": "HET-04",
+      "evidence": [
+        {
+          "unit": "HET-04",
+          "anchor": "het-04"
+        }
+      ],
+      "version": "2.3.55",
+      "target": "MATH-02",
+      "type": "prerequisite_to_understand",
+      "conditions": [],
+      "when": {},
+      "use": "Use linear maps and nonsingular linear systems to assemble and solve the aggregate response."
+    },
+    {
+      "id": "R-HET-SSJ-HOUSEHOLD",
+      "source": "HET-04",
+      "evidence": [
+        {
+          "unit": "HET-04",
+          "anchor": "het-04"
+        }
+      ],
+      "version": "2.3.55",
+      "target": "HET-01",
+      "type": "requires_to_apply",
+      "conditions": [
+        "The requested calculation derives household consumption and saving policies from preferences, income transitions, borrowing constraints and prices."
+      ],
+      "when": {
+        "household_policy": [
+          "endogenous"
+        ]
+      },
+      "use": "Solve the household policy and its Euler/KKT conditions before differentiating its transition and aggregate response."
+    },
+    {
+      "id": "R-HET-SSJ-STATIONARY",
+      "source": "HET-04",
+      "evidence": [
+        {
+          "unit": "HET-04",
+          "anchor": "het-04"
+        }
+      ],
+      "version": "2.3.55",
+      "target": "HET-02",
+      "type": "requires_to_apply",
+      "conditions": [
+        "The adopted equilibrium jointly determines stationary household policies, the wealth distribution and competitive capital-market prices in an Aiyagari economy."
+      ],
+      "when": {
+        "equilibrium_model": [
+          "aiyagari"
+        ]
+      },
+      "use": "Solve stationary capital-market clearing with the same household policies and distribution before constructing the transition response."
     }
   ],
   "model_contracts": [
