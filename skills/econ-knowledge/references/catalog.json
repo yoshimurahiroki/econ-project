@@ -1,11 +1,11 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.41",
+  "version": "2.3.42",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
-  "unit_count": 252,
+  "unit_count": 253,
   "worked_example_unit_count": 39,
   "chapters": [
     {
@@ -23,7 +23,8 @@
         "MATH-06",
         "MATH-07",
         "MATH-08",
-        "MATH-09"
+        "MATH-09",
+        "MATH-10"
       ]
     },
     {
@@ -865,6 +866,37 @@
       "contract_ids": [
         "MC-queue-capacity"
       ]
+    },
+    {
+      "id": "MATH-10",
+      "title": "離散凸集合：数量の交換、公理の選択と持ち上げ",
+      "chapter": 1,
+      "domain": "数理基盤",
+      "subdomain": "整数配分の交換",
+      "kind": "knowledge",
+      "topic": "M凸集合とM自然凸集合",
+      "use_when": "整数の保有数量を交換できるか、総量を変える割当てに余剰座標が必要かを判定する",
+      "inputs": [
+        "空でない整数配分の集合",
+        "交換する二つの配分",
+        "数量・容量制約"
+      ],
+      "outputs": [
+        "M凸・M自然凸の判定",
+        "交換の証明または反例",
+        "総量を固定した持ち上げ"
+      ],
+      "file": "chapters/01-mathematics.md",
+      "anchor": "math-10",
+      "concept_ids": [
+        "C-MATH-10",
+        "C-CH-01"
+      ],
+      "jel_codes": [
+        "C61",
+        "C65"
+      ],
+      "contract_ids": []
     },
     {
       "id": "STAT-01",
@@ -19927,6 +19959,45 @@
         "E52"
       ],
       "kind": "concept"
+    },
+    {
+      "id": "C-MATH-10",
+      "preferred": {
+        "ja": "離散凸解析と交換公理",
+        "en": "discrete convex sets and integer exchange axioms"
+      },
+      "aliases": {
+        "ja": [
+          "M凸集合",
+          "M♮凸集合",
+          "M自然凸",
+          "余剰座標",
+          "基交換公理",
+          "整数配分の持ち上げ",
+          "離散凸"
+        ],
+        "en": [
+          "M-convex set",
+          "M-natural-convex set",
+          "M♮-convex",
+          "M-natural convexity",
+          "integer base exchange",
+          "dummy coordinate",
+          "discrete convex analysis"
+        ]
+      },
+      "broader": [
+        "C-CH-01"
+      ],
+      "definition": {
+        "unit": "MATH-10",
+        "anchor": "math-10"
+      },
+      "jel_codes": [
+        "C61",
+        "C65"
+      ],
+      "kind": "concept"
     }
   ],
   "jel": {
@@ -30495,6 +30566,22 @@
         }
       ],
       "version": "2.3.40"
+    },
+    {
+      "id": "R-MATH-03-MATH-10",
+      "source": "MATH-03",
+      "target": "MATH-10",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "実数上の線分に対する凸性と、整数配分間の単位交換に対する閉性の定義を区別する。",
+      "evidence": [
+        {
+          "unit": "MATH-10",
+          "anchor": "math-10"
+        }
+      ],
+      "version": "2.3.42"
     }
   ],
   "model_contracts": [

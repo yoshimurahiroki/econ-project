@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.52.31",
+  "policy_id": "economics-native-0.52.32",
   "profile": {
     "id": "research-full"
   },
@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "e055c627e407c772190f6e5594a13950366183d557b9b488421ebb8a1a1019a9"
+      "sha256": "dc6fbcf6c762df21c8075d26de23e2c6cea7058457449c06f2c42577d8dab38f"
     },
     "prose": {
       "path": "runtime/PROSE.md",

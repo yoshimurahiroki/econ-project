@@ -100,7 +100,9 @@
         "Jensen不等式"
       ],
       "prerequisites": [],
-      "related": [],
+      "related": [
+        "MATH-10"
+      ],
       "subdomain": "凸性と期待値",
       "title": "凸性と期待値",
       "topic": "凸性と期待値",
@@ -333,6 +335,40 @@
       "title": "容量、混雑と作業順序（capacity, congestion and scheduling）",
       "topic": "容量、混雑と作業順序",
       "use_when": "共有容量の作業順序と混雑費用を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "math-10",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-10",
+        "C-CH-01"
+      ],
+      "contract_ids": [],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-10",
+      "inputs": [
+        "空でない整数配分の集合",
+        "交換する二つの配分",
+        "数量・容量制約"
+      ],
+      "jel_codes": [
+        "C61",
+        "C65"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "M凸・M自然凸の判定",
+        "交換の証明または反例",
+        "総量を固定した持ち上げ"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "整数配分の交換",
+      "title": "離散凸集合：数量の交換、公理の選択と持ち上げ",
+      "topic": "M凸集合とM自然凸集合",
+      "use_when": "整数の保有数量を交換できるか、総量を変える割当てに余剰座標が必要かを判定する"
     }
   ]
 }
