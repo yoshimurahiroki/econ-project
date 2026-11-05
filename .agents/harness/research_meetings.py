@@ -22,6 +22,8 @@ from urllib.parse import quote, urlsplit
 SECTION = re.compile(r"^<!-- section:([A-Za-z][A-Za-z0-9_-]*) -->\s*$", re.MULTILINE)
 NAME = re.compile(r"^[A-Za-z][A-Za-z0-9_-]*$")
 LAYOUTS = {"stack", "figure-left", "figure-right", "figures"}
+TABLE_KINDS = {"table", "table1", "regression", "regression_table", "descriptive",
+               "descriptive_table", "sample_composition", "balance", "sample-flow"}
 
 
 def read_json(path):
@@ -63,6 +65,9 @@ def load_meeting(bundle):
     meeting = json.loads(specification)
     if meeting.get("schema") != "ers-meeting-v1":
         raise ValueError("Expected an ers-meeting-v1 source")
+    if meeting.get("document_type", "slides") not in {"slides", "article"}:
+        raise ValueError("document_type must be slides or article")
+    export_formats(meeting)
     sections = meeting.get("sections", [])
     identities = [row["id"] for row in sections]
     if len(set(identities)) != len(identities) or any(not NAME.fullmatch(key) for key in identities):
@@ -78,6 +83,15 @@ def load_meeting(bundle):
                 raise ValueError("Unknown selected artifact: " + artifact_id)
     revision = hashlib.sha256(specification + b"\0" + manuscript).hexdigest()
     return meeting, bodies, revision
+
+
+def export_formats(meeting):
+    formats = meeting.get("cloud_formats", ["html"])
+    if (not isinstance(formats, list) or not formats or
+            any(value not in ("html", "pdf", "markdown") for value in formats) or
+            len(set(formats)) != len(formats)):
+        raise ValueError("cloud_formats must select distinct html, pdf or markdown outputs")
+    return formats
 
 
 def split_content(markdown):
@@ -97,13 +111,13 @@ def content_text(sections, bodies):
                         for row in sections) + "\n"
 
 
-def template_path(root, name):
+def template_path(root, name, family="slides"):
     root = Path(root)
-    candidates = [root / "tex/slides" / name, root / ".agents/tex/slides" / name,
-                  Path(__file__).resolve().parent.parent / "tex/slides" / name,
+    candidates = [root / "tex" / family / name, root / ".agents/tex" / family / name,
+                  Path(__file__).resolve().parent.parent / "tex" / family / name,
                   Path(__file__).resolve().parent / name]
     if name == "pandoc_template.latex":
-        candidates.append(Path(__file__).resolve().parent / "slides_pandoc_template.latex")
+        candidates.append(Path(__file__).resolve().parent / (family + "_pandoc_template.latex"))
     return next((path for path in candidates if path.is_file()), None)
 
 
@@ -172,6 +186,9 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
         "next": task_lines(view.get("next", view.get("next_actions", []))),
         "question": str(view.get("research_question", view.get("central_question", ""))),
         "plan": summary_lines(view.get("plan", [])),
+        "data": summary_lines(view.get("data_description", [])),
+        "specification": summary_lines(view.get("specification_description", [])),
+        "results": summary_lines(view.get("results_summary", [])),
     })
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=".meeting-", dir=output.parent) as temporary:
@@ -183,8 +200,11 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
             if identity in artifacts:
                 raise ValueError("Duplicate selected artifact: " + identity)
             exported = {key: copy.deepcopy(entry[key]) for key in
-                        ("id", "title", "kind", "metadata", "provenance", "rows", "columns",
+                        ("id", "title", "kind", "plot_type", "metadata", "provenance", "rows", "columns",
                          "interpretation", "status", "links", "display", "result_ids") if key in entry}
+            if "columns" in exported:
+                exported["columns"] = [{"key": column, "label": column} if isinstance(column, str) else column
+                                       for column in exported["columns"]]
             exported["files"] = {}
             for file_index, relative in enumerate(entry.get("files", [])):
                 role = str(file_index + 1)
@@ -199,7 +219,8 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
                 exported["files"][role] = name
                 exported.setdefault("content_versions", {})[role] = hashlib.sha256(raw).hexdigest()
             artifacts[identity] = exported
-        result_position = next((i for i, row in enumerate(sections) if row["id"] == "results"), len(sections))
+        exhibit_section = "exhibits" if any(row["id"] == "exhibits" for row in sections) else "results"
+        result_position = next((i for i, row in enumerate(sections) if row["id"] == exhibit_section), len(sections))
         if result_position < len(sections):
             sections.pop(result_position)
         for index, entry in enumerate(entries):
@@ -215,9 +236,12 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
             section.setdefault("caption", "")
             section.setdefault("speaker_notes", "")
         meeting = {"schema": "ers-meeting-v1", "title": title, "date": date, "kind": kind,
+                   "document_type": formats[kind].get("document_type", "slides"),
                    "issue_url": issue_url, "github_source": github_source, "cloud_export": False,
+                   "cloud_formats": ["html", "pdf"],
                    "previous": {"title": prior.get("title", ""), "issue_url": prior.get("issue_url", "")},
-                   "sections": sections, "artifacts": artifacts, "decisions": [],
+                   "sections": sections, "artifacts": artifacts,
+                   "decisions": copy.deepcopy(view.get("adopted_decisions", [])),
                    "next_actions": copy.deepcopy(view.get("next", view.get("next_actions", []))),
                    "task_snapshot": copy.deepcopy(view.get("tasks", [])),
                    "task_source": copy.deepcopy(view.get("github", {})),
@@ -291,31 +315,41 @@ def artifact_notes(entry, *, output_format="html"):
     if output_format == "pdf":
         labels.update({"population": "母集団", "variables": "変数"})
     parts = []
-    for key, label in labels.items():
-        value = metadata.get(key)
-        if value is not None and value != "":
-            if isinstance(value, (dict, list)):
-                value = json.dumps(value, ensure_ascii=False)
-            parts.append(label + ": " + str(value))
+    notes = entry.get("display", {}).get("notes")
+    if notes:
+        parts.append(" ".join(str(note) for note in notes) if isinstance(notes, list) else str(notes))
+    definitions = metadata.get("result_definitions") or {key: metadata[key] for key in entry.get("result_ids", [])
+                                                       if isinstance(metadata.get(key), dict)}
+    for identity, definition in [("", metadata), *definitions.items()]:
+        description = []
+        for key, label in labels.items():
+            value = definition.get(key)
+            if value is None or value == "" or (identity and value == metadata.get(key)):
+                continue
+            if isinstance(value, dict):
+                value = ", ".join(str(name) + ": " + str(item) for name, item in value.items() if item not in (None, "", []))
+            elif isinstance(value, list):
+                value = ", ".join(str(item) for item in value)
+            description.append(label + ": " + str(value))
+        if description:
+            parts.append((identity + ": " if identity else "") + "、".join(description))
     if entry.get("result_ids"):
         parts.append("結果ID: " + ", ".join(entry["result_ids"]))
     if output_format == "pdf":
-        for result_id in entry.get("result_ids", []):
-            definition = metadata.get("result_definitions", {}).get(result_id, {})
-            for key, label in labels.items():
-                value = definition.get(key)
-                if value is not None and value != "" and value != metadata.get(key):
-                    if isinstance(value, (dict, list)):
-                        value = json.dumps(value, ensure_ascii=False)
-                    parts.append(result_id + " " + label + ": " + str(value))
-            producer = metadata.get("producers", {}).get(result_id, {})
-            identity = producer.get("identity") or {}
-            origin = dict(identity)
+        for identity in entry.get("result_ids", []):
+            producer = metadata.get("producers", {}).get(identity, {})
+            origin = dict(producer.get("identity") or {})
             if producer.get("run_id"):
                 origin["run_id"] = producer["run_id"]
             if origin:
-                parts.append(result_id + " 生成元: " + json.dumps(origin, ensure_ascii=False))
-    return "。".join(parts)
+                parts.append(identity + " 生成元: " + ", ".join(str(name) + ": " + str(value)
+                                                               for name, value in origin.items()))
+    return "。".join(part.rstrip("。") for part in parts)
+
+
+def is_table(entry):
+    plot_type = entry.get("display", {}).get("plot_type", entry.get("plot_type"))
+    return plot_type == "table" if plot_type else entry.get("kind") in TABLE_KINDS
 
 
 def table_markdown(entry):
@@ -328,74 +362,74 @@ def table_markdown(entry):
     def cell(value, key=None):
         if type(value) in (int, float) and key in display.get("formats", {}):
             value = format(value, display["formats"][key])
-        return str(value if value is not None else "").replace("|", "\\|").replace("\n", " ")
+        return str(value if value is not None else "—").replace("|", "\\|").replace("\n", " ")
     labels = {item["key"]: display.get("column_labels", {}).get(item["key"], item.get("label", item["key"])) +
               (" (" + item["unit"] + ")" if item.get("unit") else "") for item in definitions}
+    labels.update(display.get("labels", {}))
     lines = ["| " + " | ".join(cell(labels.get(key, key)) for key in columns) + " |",
              "| " + " | ".join("---" for _ in columns) + " |"]
     lines.extend("| " + " | ".join(cell(row.get(key, ""), key) for key in columns) + " |" for row in rows)
     return "\n".join(lines)
 
 
-def exhibit_markdown(entry, *, output_format="html", layout="stack"):
+def exhibit_markdown(entry, output_format="html", *, slides=False, caption=""):
     files = entry.get("files", {})
-    image = next((value for suffix in (".png", ".jpg", ".jpeg", ".svg")
-                  for value in files.values() if Path(value).suffix.lower() == suffix), None)
-    table = entry.get("display", {}).get("plot_type", "table" if entry.get("kind") in
-        {"table", "descriptive", "descriptive_table", "sample_composition"} else "figure") == "table"
-    if table and entry.get("rows"):
+    extensions = (".pdf", ".png", ".jpg", ".jpeg", ".svg") if output_format == "pdf" else (".png", ".jpg", ".jpeg", ".svg")
+    image = next((value for extension in extensions for value in files.values() if Path(value).suffix.lower() == extension), None)
+    notes = artifact_notes(entry, output_format=output_format)
+    if output_format == "pdf" and caption:
+        notes = (notes.rstrip("。") + "。" if notes else "") + caption
+    if is_table(entry) and entry.get("rows"):
         content = table_markdown(entry)
+        if output_format == "pdf" and notes:
+            return content + "\n\n: " + notes
     elif image:
-        content = "![" + entry.get("title", "").replace("]", "\\]") + "](" + image + "){fig-alt=" + json.dumps(entry.get("title", ""), ensure_ascii=False) + "}"
+        caption = entry.get("title", "")
+        if output_format == "pdf" and notes:
+            caption += ". " + notes
+        size = " height=1.4in" if output_format == "pdf" and slides else ""
+        content = "![" + caption.replace("]", "\\]") + "](" + image + "){fig-alt=" + json.dumps(entry.get("title", ""), ensure_ascii=False) + size + "}"
+        if output_format == "pdf":
+            return content
     else:
         content = table_markdown(entry)
-    notes = artifact_notes(entry, output_format=output_format)
-    if output_format == "pdf":
-        note = "```{=latex}\n\\begingroup\\scriptsize\\raggedright\n```\n\n" + notes + "\n\n```{=latex}\n\\par\\endgroup\n```" if notes else ""
-        if image and not table:
-            # Reserve room for the saved definitions and preserve the display's
-            # aspect ratio while bounding both dimensions within its column.
-            height = "70%" if layout == "stack" else "40%"
-            content = content[:-1] + " width=100% height=" + height + "}"
-            content = "```{=latex}\n\\begingroup\\setkeys{Gin}{keepaspectratio}\n```\n\n" + content + "\n\n```{=latex}\n\\endgroup\n```"
-            if note and layout == "stack":
-                return ":::: {.columns}\n::: {.column width=\"68%\"}\n" + content + "\n:::\n::: {.column width=\"32%\"}\n" + note + "\n:::\n::::"
-        return "\n\n".join(part for part in (content, note) if part)
     return content + ("\n\n::: {.exhibit-note}\n" + notes + "\n:::" if notes else "")
 
 
-def document_source(root, meeting, bodies, *, output_format="html"):
+def document_source(root, meeting, bodies, output_format="html"):
     template = template_path(root, "meeting_template.qmd")
     if template is None:
         raise ValueError("Missing tex/slides/meeting_template.qmd")
     slides = []
+    article = meeting.get("document_type") == "article"
     for section in meeting["sections"]:
         if not section.get("visible", True):
             continue
         body = bodies[section["id"]]
-        if "{{<" in body:
-            raise ValueError("Meeting Markdown uses saved bundle assets; expand Quarto shortcodes before export")
+        for text in (body, section.get("caption", ""), section.get("speaker_notes", "")):
+            if "{{<" in text or re.search(r"!\s*\[", text):
+                raise ValueError("Select saved figures through section.artifacts; body text cannot include files or Quarto shortcodes")
+        selected = section.get("artifacts", [])
+        exhibit_parts = [exhibit_markdown(meeting["artifacts"][key], output_format, slides=not article,
+                         caption=section.get("caption", "") if index == len(selected) - 1 else "")
+                         for index, key in enumerate(selected)]
+        exhibits = "\n\n".join(exhibit_parts)
         layout = section.get("layout", "stack")
-        selected = [exhibit_markdown(meeting["artifacts"][key], output_format=output_format, layout=layout)
-                    for key in section.get("artifacts", [])]
-        exhibits = "\n\n".join(selected)
         if layout in {"figure-left", "figure-right"} and exhibits:
             first, second = (exhibits, body) if layout == "figure-left" else (body, exhibits)
             content = ":::: {.columns}\n::: {.column width=\"52%\"}\n" + first + "\n:::\n::: {.column width=\"48%\"}\n" + second + "\n:::\n::::"
-        elif layout == "figures" and selected:
-            width = str(100 / len(selected)) + "%"
-            content = body + "\n\n:::: {.columns}\n" + "\n".join(
-                "::: {.column width=\"" + width + "\"}\n" + exhibit + "\n:::" for exhibit in selected) + "\n::::"
+        elif layout == "figures" and exhibit_parts:
+            width = str(100 / len(exhibit_parts))
+            columns = "\n\n".join('::: {.column width="' + width + '%"}\n' + part + "\n:::" for part in exhibit_parts)
+            content = (body + "\n\n" if body else "") + ":::: {.columns}\n" + columns + "\n::::"
         else:
             content = "\n\n".join(part for part in (body, exhibits) if part)
-        if section.get("caption"):
-            if output_format == "pdf":
-                content += "\n\n```{=latex}\n\\begingroup\\scriptsize\\raggedright\n```\n\n" + section["caption"] + "\n\n```{=latex}\n\\par\\endgroup\n```"
-            else:
-                content += "\n\n::: {.exhibit-note}\n" + section["caption"] + "\n:::"
-        if section.get("speaker_notes"):
+        if section.get("caption") and not (output_format == "pdf" and exhibit_parts):
+            content += "\n\n::: {.exhibit-note}\n" + section["caption"] + "\n:::"
+        if section.get("speaker_notes") and not article:
             content += "\n\n::: {.notes}\n" + section["speaker_notes"] + "\n:::"
-        slides.append("## " + section["title"].replace("\n", " ") + " {#" + section["id"] + "}\n\n" + content)
+        heading = "# " if article else "## "
+        slides.append(heading + section["title"].replace("\n", " ") + " {#" + section["id"] + "}\n\n" + content)
     substitutions = {"title": json.dumps(meeting["title"], ensure_ascii=False),
                      "date": json.dumps(meeting.get("date", ""), ensure_ascii=False),
                      "body": "\n\n".join(slides)}
@@ -414,9 +448,7 @@ def preview_markdown(bundle, *, asset_base_url=""):
             entry = meeting["artifacts"][key]
             picture = next((path for path in entry.get("files", {}).values()
                             if Path(path).suffix.lower() in {".png", ".jpg", ".jpeg", ".svg"}), None)
-            table = entry.get("display", {}).get("plot_type", "table" if entry.get("kind") in
-                {"table", "descriptive", "descriptive_table", "sample_composition"} else "figure") == "table"
-            if table or not picture:
+            if is_table(entry) or not picture:
                 output.append(table_markdown(entry))
             else:
                 url = asset_base_url.rstrip("/") + "/" + quote(picture, safe="/") if asset_base_url else picture
@@ -434,35 +466,55 @@ def render_bundle(root, bundle, output, *, quarto="quarto", output_format="html"
     meeting, bodies, revision = load_meeting(bundle)
     if output.exists():
         raise ValueError("Choose a new render directory; completed editions are retained")
-    source = document_source(root, meeting, bodies, output_format=output_format)
+    source = document_source(root, meeting, bodies, output_format)
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=".ers-meeting-render-", dir=output.parent) as temporary:
         stage = Path(temporary)
         (stage / "index.qmd").write_text(source, encoding="utf-8")
         # An isolated document root prevents repository render hooks and engines
         # from participating in a saved-exhibit render.
-        (stage / "_quarto.yml").write_text("project:\n  type: default\nexecute:\n  enabled: false\n  freeze: true\n", encoding="utf-8")
+        (stage / "_quarto.yml").write_text("project:\n  type: default\nengine: markdown\nexecute:\n  enabled: false\n  freeze: true\n", encoding="utf-8")
         consumed = set()
+        asset_versions = {}
         for section in meeting["sections"]:
             if not section.get("visible", True):
                 continue
             for key in section.get("artifacts", []):
-                for relative in meeting["artifacts"][key].get("files", {}).values():
+                entry = meeting["artifacts"][key]
+                for role, relative in entry.get("files", {}).items():
                     if relative in consumed:
                         continue
                     source_asset = bundled_path(bundle, relative)
+                    asset_version = hashlib.sha256(source_asset.read_bytes()).hexdigest()
+                    expected = entry.get("content_versions", {}).get(role)
+                    if expected and expected != asset_version:
+                        raise ValueError("Saved exhibit changed; select its current display version: " + relative)
                     target = stage / relative
                     target.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copyfile(source_asset, target)
                     consumed.add(relative)
-        target_format = {"html": "revealjs", "pdf": "beamer", "markdown": "gfm"}[output_format]
+                    asset_versions[relative] = asset_version
+        article = meeting.get("document_type") == "article"
+        target_format = {"html": "html" if article else "revealjs", "pdf": "pdf" if article else "beamer", "markdown": "gfm"}[output_format]
         command = [quarto, "render", "index.qmd", "--to", target_format, "--no-execute"]
+        templates = [template_path(root, "meeting_template.qmd")]
         if output_format == "pdf":
-            adapter = template_path(root, "pandoc_template.latex")
+            family = "paper" if article else "slides"
+            adapter = template_path(root, "pandoc_template.latex", family)
             if adapter is None:
-                raise ValueError("Missing existing Beamer/Pandoc template")
+                raise ValueError("Missing existing " + family + "/pandoc_template.latex")
             command += ["--template", str(adapter), "--pdf-engine", "lualatex"]
-        subprocess.run(command, cwd=stage, capture_output=True, text=True, check=True)
+            templates.append(adapter)
+            if article:
+                for name in ("econsocart.cls", "econsocart.cfg", "ecta-fullname.bst"):
+                    source_style = template_path(root, name, "paper")
+                    if source_style is None:
+                        raise ValueError("Missing existing Econometrica style: " + name)
+                    shutil.copyfile(source_style, stage / name)
+                    templates.append(source_style)
+        rendered = subprocess.run(command, cwd=stage, capture_output=True, text=True)
+        if rendered.returncode:
+            raise RuntimeError("Quarto render failed:\n" + rendered.stdout + rendered.stderr)
         extension = {"html": "html", "pdf": "pdf", "markdown": "md"}[output_format]
         completed = stage / ("index." + extension)
         if not completed.is_file():
@@ -476,7 +528,9 @@ def render_bundle(root, bundle, output, *, quarto="quarto", output_format="html"
             shutil.copytree(stage / "assets", published / "assets")
         record = {"source_revision": revision, "format": output_format, "command": command,
                   "artifact": completed.name, "artifact_sha256": hashlib.sha256(completed.read_bytes()).hexdigest(),
-                  "consumed_assets": sorted(consumed), "analysis_executed": False,
+                  "consumed_assets": sorted(consumed), "asset_versions": asset_versions,
+                  "template_versions": {str(path): hashlib.sha256(path.read_bytes()).hexdigest() for path in templates},
+                  "analysis_executed": False,
                   "renderer": subprocess.run([quarto, "--version"], check=True, capture_output=True, text=True).stdout.strip()}
         write_json(published / "render.json", record)
         os.replace(published, output)
@@ -585,9 +639,7 @@ def native_slides_requests(bundle, *, asset_base_url=None):
             files = entry.get("files", {})
             paths = files.values() if isinstance(files, dict) else files
             picture = next((value for value in paths if Path(value).suffix.lower() in {".png", ".jpg", ".jpeg"}), None)
-            plot_type = entry.get("display", {}).get("plot_type")
-            saved_table = plot_type == "table" if plot_type else entry.get("kind") == "table"
-            if entry.get("rows") and (saved_table or not picture):
+            if entry.get("rows") and (is_table(entry) or not picture):
                 rows = entry["rows"]
                 definitions = entry.get("columns") or [{"key": key, "label": key} for key in rows[0]]
                 columns = [column["key"] for column in definitions]
@@ -599,17 +651,21 @@ def native_slides_requests(bundle, *, asset_base_url=None):
                     "tableRange": {"location": {"rowIndex": 0, "columnIndex": 0}, "rowSpan": 1, "columnSpan": len(columns)},
                     "tableCellProperties": {"tableCellBackgroundFill": {"solidFill": {"color": {"rgbColor": {"red": 0.91, "green": 0.94, "blue": 0.97}}}}},
                     "fields": "tableCellBackgroundFill"}})
-                labels = [column.get("label", column["key"]) + ("\n" + column["unit"] if column.get("unit") else "") for column in definitions]
+                display = entry.get("display", {})
+                labels = [display.get("column_labels", {}).get(column["key"], column.get("label", column["key"])) +
+                          ("\n" + column["unit"] if column.get("unit") else "") for column in definitions]
+                labels = [display.get("labels", {}).get(key, label) for key, label in zip(columns, labels)]
                 values = [labels] + [[row.get(key, "") for key in columns] for row in rows]
                 formats = entry.get("display", {}).get("formats", {})
                 for row_index, values_row in enumerate(values):
                     for column_index, value in enumerate(values_row):
                         location = {"rowIndex": row_index, "columnIndex": column_index}
-                        if row_index and isinstance(value, (int, float)) and columns[column_index] in formats:
+                        if row_index and type(value) in (int, float) and columns[column_index] in formats:
                             value = format(value, formats[columns[column_index]])
                         cell = "—" if value is None else str(value)
-                        if cell:
-                            requests.append({"insertText": {"objectId": identity, "cellLocation": location, "text": cell}})
+                        if not cell:
+                            continue
+                        requests.append({"insertText": {"objectId": identity, "cellLocation": location, "text": cell}})
                         requests.append({"updateTextStyle": {"objectId": identity, "cellLocation": location, "textRange": {"type": "ALL"},
                             "style": {"fontFamily": "Noto Sans JP", "fontSize": {"magnitude": 14 if row_index == 0 else 16, "unit": "PT"}, "bold": row_index == 0}, "fields": "fontFamily,fontSize,bold"}})
             elif picture:
@@ -627,7 +683,7 @@ def native_slides_requests(bundle, *, asset_base_url=None):
         box(page, "caption_" + str(index), caption, 30, exhibit_bottom, 650, caption_height, 10)
         note_parts = [section.get("speaker_notes", "")]
         for entry in entries:
-            note_parts.extend([entry["title"], artifact_notes(entry), *entry.get("display", {}).get("notes", [])])
+            note_parts.extend([entry["title"], artifact_notes(entry)])
             note_parts.append(json.dumps(entry.get("metadata", {}), ensure_ascii=False, indent=2))
         notes[page] = "\n\n".join(part for part in note_parts if part)
     return {"title": meeting["title"] + (" — " + meeting["date"] if meeting.get("date") else ""),
@@ -638,7 +694,10 @@ def native_slides_requests(bundle, *, asset_base_url=None):
 
 def affected_bundles(root, changed):
     root = Path(root)
-    common = {"harness/research_meetings.py", "tex/slides/meeting_template.qmd", ".github/workflows/meetings.yml"}
+    common = {"harness/research_meetings.py", "tex/slides/meeting_template.qmd",
+              "tex/slides/pandoc_template.latex", "tex/paper/pandoc_template.latex",
+              "tex/paper/econsocart.cls", "tex/paper/econsocart.cfg", "tex/paper/ecta-fullname.bst",
+              ".github/workflows/meetings.yml"}
     if common.intersection(changed):
         return sorted(str(path.parent.relative_to(root)) for path in (root / "meetings").glob("*/meeting.json"))
     names = {"/".join(Path(path).parts[:2]) for path in changed
@@ -654,7 +713,7 @@ def main(argv=None):
     create.add_argument("--selection", type=Path, required=True, help="Explicit saved gallery selection JSON")
     create.add_argument("--output", type=Path, required=True)
     create.add_argument("--title", required=True)
-    create.add_argument("--kind", default="meeting", choices=("meeting", "progress", "proposal", "results"))
+    create.add_argument("--kind", default="meeting", choices=("brief", "meeting", "progress", "proposal", "results", "manuscript"))
     create.add_argument("--project-view", type=Path)
     create.add_argument("--previous", type=Path)
     create.add_argument("--date", default="")

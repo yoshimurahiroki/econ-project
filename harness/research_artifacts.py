@@ -26,13 +26,21 @@ TOKEN=re.compile(r'\{\{stat:([A-Za-z][A-Za-z0-9_-]*)\}\}|\{\{(table|figure)\}\}'
 GALLERY_KINDS = ('descriptive', 'sample_composition', 'distribution', 'time_series',
                  'group_comparison', 'coefficient', 'event_study', 'robustness',
                  'alternative_specification', 'table', 'figure')
-PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study')
-GALLERY_RENDER_VERSION = 2
+PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study', 'density', 'ecdf', 'box')
+GALLERY_RENDER_VERSION = 4
 DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_order',
                   'sort_by', 'ascending', 'notes', 'plot_type', 'x', 'y', 'lower', 'upper',
                   'series', 'visible_series', 'selected_result_ids', 'x_label', 'y_label',
                   'x_limits', 'y_limits', 'x_scale', 'y_scale', 'colors', 'legend',
-                  'legend_location', 'width', 'height', 'orientation'}
+                  'legend_location', 'width', 'height', 'orientation', 'style', 'font_size',
+                  'series_order', 'series_labels'}
+GALLERY_FILTERS = ('result_id', 'sample', 'comparison', 'outcome', 'specification', 'period', 'adoption')
+GALLERY_LABELS = {'variable': '変数', 'term': '項目', 'group': '群', 'period': '期間',
+                  'event_time': '導入からの期数', 'mean': '平均', 'sd': '標準偏差', 'median': '中央値',
+                  'q25': '25%点', 'q50': '50%点', 'q75': '75%点', 'estimate': '推定値',
+                  'se': '標準誤差', 'ci_low': '区間下端', 'ci_high': '区間上端', 'p_value': 'p 値',
+                  'n': '観測数', 'unit': '単位', 'stage': '段階', 'n_missing': '欠損数', 'n_zero': 'ゼロの件数',
+                  'value': '値', 'middle': '中央値', 'count': '件数', 'density': '密度', 'bin_mid': '階級の中央'}
 
 
 def gallery_registry(root, path):
@@ -50,6 +58,16 @@ def gallery_registry(root, path):
     return path, registry
 
 
+def gallery_display_metadata(value):
+    """Keep sample membership in the scientific record, outside display metadata."""
+    if isinstance(value, dict):
+        return {key: gallery_display_metadata(item) for key, item in value.items()
+                if not (key.endswith('_ids') and key not in ('result_ids', 'specification_ids', 'cohort_ids'))}
+    if isinstance(value, list):
+        return [gallery_display_metadata(item) for item in value]
+    return copy.deepcopy(value)
+
+
 def gallery_metadata(registry, result_ids):
     """Capture economic definitions and producer identities from saved results once."""
     producers = {}
@@ -57,7 +75,10 @@ def gallery_metadata(registry, result_ids):
     fields = ('run_id', 'specification_id', 'sample', 'population', 'observation_unit',
               'comparison', 'period', 'variables', 'measurement_units', 'estimand',
               'inference', 'weights', 'denominator', 'bin_edges', 'interval_closure',
-              'quantile_convention', 'observations')
+              'quantile_convention', 'observations', 'outcome', 'specification', 'estimator',
+              'n', 'n_clusters', 'fixed_effects', 'controls', 'sample_policy', 'unit',
+              'ci_kind', 'interval_type', 'confidence_level', 'reference_time', 'reference_event_time',
+              'reference_distribution', 'degrees_of_freedom', 'cluster')
     for result_id in result_ids:
         if result_id not in registry['records']:
             raise ValueError('unknown saved result: ' + result_id)
@@ -70,11 +91,15 @@ def gallery_metadata(registry, result_ids):
                     if key in saved or key in adopted}
         metadata.update({key: copy.deepcopy(value) for key, value in record.get('metadata', {}).items()
                          if key in fields})
-        # Fitted record IDs stay in the scientific result. A sample summary is enough for browsing.
-        if isinstance(metadata.get('sample'), dict):
-            metadata['sample'] = {key: value for key, value in metadata['sample'].items()
-                                  if key in {'id', 'description', 'population', 'selection', 'observations',
-                                             'excluded_count', 'artifact', 'definition_version'}}
+        if isinstance(saved.get('display'), dict):
+            metadata.update(copy.deepcopy(saved['display'].get('metadata', {})))
+        metadata.setdefault('specification', metadata.get('specification_id', record.get('identity', {}).get('specification', saved.get('specification'))))
+        if 'outcome' not in metadata and 'variables' in metadata:
+            metadata['outcome'] = copy.deepcopy(metadata['variables'])
+        for old, new in (('observations', 'n'), ('method', 'estimator')):
+            if new not in metadata and old in saved:
+                metadata[new] = copy.deepcopy(saved[old])
+        metadata = gallery_display_metadata(metadata)
         definitions.append(metadata)
         producers[result_id] = {
             'identity': copy.deepcopy(record.get('identity', {})),
@@ -147,6 +172,19 @@ def validate_gallery_item(item):
     for field in ('column_labels', 'formats', 'colors'):
         if not isinstance(display.get(field, {}), dict) or any(not isinstance(k, str) or not isinstance(v, str) for k, v in display.get(field, {}).items()):
             raise ValueError(field + ' must map strings to strings')
+    if display.get('style', 'paper') not in ('paper', 'presentation'):
+        raise ValueError('style must be paper or presentation')
+    if type(display.get('font_size', 10)) not in (int, float) or not 6 <= display.get('font_size', 10) <= 40:
+        raise ValueError('font_size must be 6–40')
+    if not isinstance(display.get('series_order', []), list) or any(not isinstance(value, str) for value in display.get('series_order', [])):
+        raise ValueError('series_order must contain saved series names')
+    if display.get('series'):
+        series = {str(row.get(display['series'])) for row in item['rows']}
+        order = display.get('series_order', [])
+        if set(order) - series or len(set(order)) != len(order):
+            raise ValueError('series_order must select distinct saved series')
+    if not isinstance(display.get('series_labels', {}), dict) or any(not isinstance(k, str) or not isinstance(v, str) for k, v in display.get('series_labels', {}).items()):
+        raise ValueError('series_labels must map saved names to labels')
     if set(display.get('column_labels', {})) - set(keys) or set(display.get('formats', {})) - set(keys):
         raise ValueError('column labels and formats must use saved column keys')
     if any(not FMT.fullmatch(fmt) for fmt in display.get('formats', {}).values()):
@@ -174,6 +212,9 @@ def validate_gallery_item(item):
         raise ValueError('metadata and links must be objects')
     if not isinstance(item.get('interpretation'), str) or not isinstance(item.get('status'), str) or not item['status']:
         raise ValueError('interpretation and status must be text')
+    for field in ('findings', 'issues', 'adoption_decision'):
+        if not isinstance(item.get(field, ''), str):
+            raise ValueError(field + ' must be text')
     if any(not isinstance(v, list) or any(not isinstance(link, str) for link in v) for v in item['links'].values()):
         raise ValueError('links must map names to lists of references')
     if not isinstance(item.get('files'), list) or any(not isinstance(v, str) for v in item['files']):
@@ -213,16 +254,27 @@ def gallery_projection(item):
     return view
 
 
-def gallery_items(root, gallery_spec_path, query=''):
+def gallery_items(root, gallery_spec_path, query='', filters=None):
     """List/search saved displays; no producer reads, checks or calculation runs."""
     _, registry = gallery_registry(root, gallery_spec_path)
     terms = query.casefold().split()
     items = []
     for item in registry.get('items', {}).values():
         searchable = json.dumps({key: item.get(key) for key in
-                                ('id', 'title', 'kind', 'metadata', 'interpretation', 'status', 'links', 'display')},
+                                ('id', 'title', 'kind', 'result_ids', 'metadata', 'interpretation', 'findings', 'issues', 'adoption_decision', 'status', 'links', 'display')},
                                ensure_ascii=False).casefold()
-        if all(term in searchable for term in terms):
+        matched = True
+        for key, value in (filters or {}).items():
+            if not value:
+                continue
+            if key not in GALLERY_FILTERS:
+                raise ValueError('Unknown gallery filter: ' + key)
+            candidates = (item['result_ids'] if key == 'result_id' else [item['status']] if key == 'adoption'
+                          else [item['metadata'].get(key), *[meta.get(key) for meta in item['metadata'].get('result_definitions', {}).values()]])
+            if not any(str(value).casefold() in json.dumps(candidate, ensure_ascii=False).casefold() for candidate in candidates if candidate is not None):
+                matched = False
+                break
+        if matched and all(term in searchable for term in terms):
             items.append(gallery_projection(item))
     return items
 
@@ -234,11 +286,71 @@ def gallery_compare(root, gallery_spec_path, item_ids):
         raise ValueError('compare requires distinct existing gallery item IDs')
     selected = [items[item_id] for item_id in item_ids]
     fields = ('sample', 'population', 'observation_unit', 'comparison', 'period',
-              'variables', 'measurement_units', 'estimand', 'inference')
+              'variables', 'measurement_units', 'estimand', 'inference', 'outcome', 'specification',
+              'sample_policy', 'weights', 'estimator', 'ci_kind', 'interval_type', 'reference_event_time')
     differences = {key: {item['id']: item['metadata'].get(key) for item in selected}
                    for key in fields if any(item['metadata'].get(key) != selected[0]['metadata'].get(key)
                                              for item in selected[1:])}
-    return {'items': selected, 'definition_differences': differences}
+    return {'items': selected, 'definition_differences': differences,
+            'regression_table': gallery_regression_comparison(selected)}
+
+
+def saved_display_definitions(result_id, saved):
+    """Map a producer's display blocks into the existing registry.items contract."""
+    definitions = []
+    kinds = {'table1': 'descriptive', 'table': 'table', 'regression': 'table', 'balance': 'group_comparison',
+             'sample-flow': 'sample_composition', 'trend': 'time_series', 'event-study': 'event_study',
+             'iv': 'coefficient', 'rdd': 'figure', 'heterogeneity': 'coefficient',
+             'sensitivity': 'robustness', 'counterfactual': 'figure'}
+    def visit(block, path):
+        if not isinstance(block, dict):
+            return
+        if isinstance(block.get('rows'), list) and block['rows']:
+            rows = copy.deepcopy(block['rows'])
+            source_kind = block.get('kind', 'table')
+            kind = kinds.get(source_kind, source_kind)
+            keys = list(dict.fromkeys(key for row in rows for key in row if key != 'result_id'))
+            metadata = gallery_display_metadata(block.get('metadata', {}))
+            metadata['display_source'] = {'result_id': result_id, 'key': path}
+            if source_kind == 'regression':
+                metadata['table_type'] = 'regression'
+            columns = [{'key': key, 'label': GALLERY_LABELS.get(key, key), 'unit': ''} for key in keys]
+            distribution_type = metadata.get('distribution_type', 'histogram')
+            x = next((key for key in ('event_time', 'period', 'running', 'bin_mid', 'x', 'term', 'scenario', 'group') if key in keys), None)
+            y = next((key for key in ('estimate', 'value', 'mean', 'count', 'density', 'middle', 'n') if key in keys), None)
+            if kind in ('descriptive', 'sample_composition', 'group_comparison', 'table'):
+                plot_type = 'table'
+            elif kind == 'distribution':
+                plot_type = {'histogram': 'bar', 'density': 'density', 'ecdf': 'ecdf', 'box': 'box'}[distribution_type]
+            else:
+                plot_type = {'coefficient': 'coefficient', 'event_study': 'event_study'}.get(kind, 'line')
+            if x is None or y is None:
+                plot_type = 'table'
+            display = {'plot_type': plot_type, 'style': 'paper',
+                       'formats': {key: '.3g' for key in keys if any(type(row.get(key)) in (int, float) for row in rows)}}
+            if source_kind == 'table1':
+                display['column_order'] = [key for key in keys if key in ('variable', 'group', 'mean', 'sd', 'median', 'n', 'unit') or key.startswith('q')]
+                display['height'] = max(300, min(1600, 160 + len(rows) * 34))
+            if plot_type != 'table':
+                for column in columns:
+                    if column['key'] == y:
+                        column['unit'] = metadata.get('unit', '')
+                    if column['key'] == x and kind == 'distribution' and plot_type != 'box':
+                        column['unit'] = metadata.get('outcome_unit', '')
+                display.update(x=x, y=y, series='group' if 'group' in keys else 'series' if 'series' in keys else None,
+                               lower='ci_low' if 'ci_low' in keys else None, upper='ci_high' if 'ci_high' in keys else None)
+                if plot_type == 'coefficient':
+                    display['orientation'] = 'horizontal'
+            suffix = '-'.join(path[1:]) or source_kind
+            identity = result_id + '-' + re.sub(r'[^A-Za-z0-9_-]', '_', suffix)
+            definitions.append({'id': identity, 'title': block.get('title', result_id + ' / ' + suffix),
+                                'kind': kind, 'result_ids': [result_id], 'columns': columns,
+                                'rows': rows, 'metadata': metadata, 'display': display})
+        for key, value in block.items():
+            if key not in ('rows', 'columns', 'metadata', 'kind') and isinstance(value, dict):
+                visit(value, path + [key])
+    visit(saved.get('display'), ['display'])
+    return definitions
 
 
 def prepare_gallery_items(registry, definitions=None):
@@ -247,9 +359,11 @@ def prepare_gallery_items(registry, definitions=None):
         definitions = list(registry.get('items', {}).values())
         if not definitions:
             for result_id, record in registry['records'].items():
-                definitions.extend(copy.deepcopy((record.get('source_result') or {}).get('display_items', [])))
-            if not definitions:
-                for result_id, record in registry['records'].items():
+                saved = record.get('source_result') or {}
+                saved_items = copy.deepcopy(saved.get('display_items', [])) or saved_display_definitions(result_id, saved)
+                if saved_items:
+                    definitions.extend(saved_items)
+                else:
                     prefix = result_id + '.'
                     quantities = {key[len(prefix):]: value for key, value in registry.get('statistics', {}).items()
                                   if key.startswith(prefix)}
@@ -261,11 +375,13 @@ def prepare_gallery_items(registry, definitions=None):
                             rows.append({'term': term, 'estimate': estimate['value'], 'unit': estimate['unit'],
                                          'standard_error': quantities.get('standard_error.' + term, {}).get('value'),
                                          'lower': quantities.get('confidence_95_lower.' + term, {}).get('value'),
-                                         'upper': quantities.get('confidence_95_upper.' + term, {}).get('value')})
+                                         'upper': quantities.get('confidence_95_upper.' + term, {}).get('value'),
+                                         'p_value': quantities.get('p_value.' + term, {}).get('value')})
                         definitions.append({'id': result_id + '-coefficients', 'title': result_id + ' coefficients',
                                             'kind': 'coefficient', 'result_ids': [result_id], 'rows': rows,
                                             'columns': [{'key': key, 'label': key.replace('_', ' '), 'unit': ''}
-                                                        for key in ('term', 'estimate', 'standard_error', 'lower', 'upper', 'unit')],
+                                                        for key in ('term', 'estimate', 'standard_error', 'lower', 'upper', 'p_value', 'unit')],
+                                            'metadata': {'table_type': 'regression'},
                                             'display': {'plot_type': 'table', 'x': 'term', 'y': 'estimate',
                                                         'lower': 'lower', 'upper': 'upper', 'series': 'term'}})
                     elif quantities:
@@ -284,11 +400,13 @@ def prepare_gallery_items(registry, definitions=None):
         if not isinstance(ids, list) or not ids:
             raise ValueError('each display must identify its producing saved results')
         metadata = gallery_metadata(registry, ids)
-        supplied = item.get('metadata', {})
+        supplied = gallery_display_metadata(item.get('metadata', {}))
         if not isinstance(supplied, dict):
             raise ValueError('display metadata must be an object')
         item['metadata'] = {**metadata, **supplied, 'producers': metadata['producers'],
                             'result_definitions': metadata['result_definitions']}
+        if len(ids) == 1:
+            item['metadata']['result_definitions'][ids[0]].update({key: copy.deepcopy(value) for key, value in supplied.items() if key not in ('producers', 'result_definitions')})
         item.setdefault('files', [])
         item.setdefault('interpretation', '')
         item.setdefault('status', 'candidate')
@@ -317,9 +435,61 @@ def gallery_cell(value, key, display):
     return str(value)
 
 
+def gallery_regression_comparison(items):
+    models, definitions = {}, {}
+    for item in items:
+        for row in item['rows']:
+            if 'term' in row and 'estimate' in row:
+                models.setdefault(row['result_id'], {})[str(row['term'])] = row
+                definitions[row['result_id']] = item['metadata'].get('result_definitions', {}).get(row['result_id'], {})
+    rows = []
+    terms = list(dict.fromkeys(term for model in models.values() for term in model))
+    for term in terms:
+        for keys, label in [(('estimate',), '推定値'), (('se', 'standard_error'), '標準誤差'),
+                            (('ci_low', 'lower'), '区間下端'), (('ci_high', 'upper'), '区間上端'),
+                            (('p_value',), 'p 値'), (('unit',), '単位')]:
+            if any(any(key in model.get(term, {}) for key in keys) for model in models.values()):
+                rows.append({'quantity': term + ' / ' + label, **{identity: next((model.get(term, {})[key] for key in keys if key in model.get(term, {})), None) for identity, model in models.items()}})
+    fields = [('n', '観測数'), ('n_clusters', 'クラスタ数'), ('fixed_effects', '固定効果'),
+              ('controls', '統制変数'), ('period', '期間'), ('sample', 'サンプル'),
+              ('sample_policy', 'サンプル方式'), ('weights', '重み'), ('estimator', '推定法'),
+              ('specification', '仕様'), ('ci_kind', '区間の種類'), ('interval_type', '保存区間'),
+              ('confidence_level', '区間水準'), ('reference_distribution', '参照分布'),
+              ('degrees_of_freedom', '自由度'), ('unit', '単位')]
+    for key, label in fields:
+        if any(key in metadata for metadata in definitions.values()):
+            values = {identity: metadata.get(key) for identity, metadata in definitions.items()}
+            rows.append({'quantity': label, **{identity: json.dumps(value, ensure_ascii=False) if isinstance(value, (dict, list)) else value for identity, value in values.items()}})
+    return {'rows': rows, 'columns': [{'key': 'quantity', 'label': '項目', 'unit': ''},
+                                     *[{'key': identity, 'label': identity, 'unit': ''} for identity in models]]}
+
+
+def gallery_notes(item):
+    notes = list(item.get('display', {}).get('notes', []))
+    labels = {'sample': 'サンプル', 'sample_policy': 'サンプル方式', 'period': '期間', 'unit': '単位',
+              'ci_kind': '区間', 'interval_type': '保存区間', 'confidence_level': '区間水準',
+              'reference_time': '基準期', 'reference_event_time': '基準イベント期',
+              'n': '観測数', 'n_clusters': 'クラスタ数', 'denominator': '分母',
+              'quantile_method': '分位点', 'distribution_type': '分布表示'}
+    metadata = item['metadata']
+    shared = [label + ': ' + (json.dumps(metadata[key], ensure_ascii=False) if isinstance(metadata[key], (dict, list)) else str(metadata[key]))
+              for key, label in labels.items() if metadata.get(key) is not None]
+    if shared:
+        notes.append(' / '.join(shared))
+    for result_id, definition in metadata.get('result_definitions', {}).items():
+        differences = [label + ': ' + (json.dumps(definition[key], ensure_ascii=False) if isinstance(definition[key], (dict, list)) else str(definition[key]))
+                       for key, label in labels.items() if key in definition and definition[key] != metadata.get(key)]
+        if differences:
+            notes.append(result_id + ': ' + ' / '.join(differences))
+    return notes
+
+
 def gallery_table(item, markdown=False):
     view = gallery_projection(item)
     display = item.get('display', {})
+    if item['metadata'].get('table_type') == 'regression':
+        view = gallery_regression_comparison([view])
+        display = {**display, 'formats': {**{col['key']: '.3g' for col in view['columns'][1:]}, **display.get('formats', {})}}
     headings = [col['label'] + (' (' + col['unit'] + ')' if col['unit'] else '') for col in view['columns']]
     cells = [[gallery_cell(row.get(col['key']), col['key'], display) for col in view['columns']]
              for row in view['rows']]
@@ -341,15 +511,25 @@ def gallery_plot(item):
     display = item.get('display', {})
     view = gallery_projection({**item, 'display': {**display, 'column_order': [col['key'] for col in item['columns']]}})
     font_names = {font.name for font in font_manager.fontManager.ttflist}
+    if 'Noto Sans CJK JP' not in font_names:
+        for path in font_manager.findSystemFonts():
+            if Path(path).name == 'NotoSansCJK-Regular.ttc':
+                font_manager.fontManager.addfont(path)
+        font_names = {font.name for font in font_manager.fontManager.ttflist}
     family = next((name for name in ('Noto Sans CJK JP', 'Noto Sans JP', 'IPAexGothic') if name in font_names), 'DejaVu Sans')
+    font_size = display.get('font_size', 14 if display.get('style') == 'presentation' else 10)
     figure = Figure(figsize=(display.get('width', 960) / 100, display.get('height', 540) / 100), dpi=100)
     FigureCanvasAgg(figure)
     axis = figure.subplots()
     title = display.get('title', item['title'])
-    figure.suptitle(title, fontsize=15, fontfamily=family, x=0.06, ha='left')
+    figure.suptitle(title, fontsize=font_size + 4, fontfamily=family, x=0.06, ha='left')
+    axis.tick_params(labelsize=font_size)
     plot_type = display.get('plot_type', 'table')
     if plot_type == 'table':
         table_view = gallery_projection(item)
+        if item['metadata'].get('table_type') == 'regression':
+            table_view = gallery_regression_comparison([table_view])
+            display = {**display, 'formats': {**{col['key']: '.3g' for col in table_view['columns'][1:]}, **display.get('formats', {})}}
         headings = [col['label'] + ('\n' + col['unit'] if col['unit'] else '') for col in table_view['columns']]
         cells = [[gallery_cell(row.get(col['key']), col['key'], display) for col in table_view['columns']]
                  for row in table_view['rows']]
@@ -357,7 +537,7 @@ def gallery_plot(item):
         if cells:
             table_artist = axis.table(cellText=cells, colLabels=headings, loc='center', cellLoc='left')
             table_artist.auto_set_font_size(False)
-            table_artist.set_fontsize(10)
+            table_artist.set_fontsize(max(8, font_size - max(0, len(headings) - 8)))
             table_artist.scale(1, 1.6)
             for (row, _), cell in table_artist.get_celld().items():
                 cell.set_edgecolor('#d9e2ec')
@@ -372,11 +552,15 @@ def gallery_plot(item):
         if not xkey or not ykey:
             raise ValueError('plot display requires x and y saved column keys')
         rows = view['rows']
+        units = {row.get('unit') for row in rows if row.get(ykey) is not None and row.get('unit')}
+        if len(units) > 1:
+            raise ValueError('One plot axis requires one saved unit; select matching saved series')
         if any(row.get(ykey) is not None and type(row[ykey]) not in (int, float) for row in rows):
             raise ValueError('plot y column must contain numeric saved values or null')
         labels = list(dict.fromkeys(row.get(xkey) for row in rows if row.get(xkey) is not None))
         categorical = any(type(value) not in (int, float) for value in labels)
         groups = list(dict.fromkeys(str(row.get(display['series'])) for row in rows)) if display.get('series') else ['']
+        groups = [group for group in display.get('series_order', []) if group in groups] + [group for group in groups if group not in display.get('series_order', [])]
         horizontal = display.get('orientation') == 'horizontal'
         for index, group in enumerate(groups):
             selected = [row for row in rows if row.get(xkey) is not None and
@@ -384,14 +568,25 @@ def gallery_plot(item):
             xs = [labels.index(row[xkey]) if categorical else row[xkey] for row in selected]
             ys = [row[ykey] if row.get(ykey) is not None else float('nan') for row in selected]
             color = display.get('colors', {}).get(group, ['#245b8a', '#b4513b', '#31836b', '#8a5b9e'][index % 4])
-            kwargs = {'label': group or None, 'color': color}
+            kwargs = {'label': display.get('series_labels', {}).get(group, group) or None, 'color': color}
+            if plot_type == 'box':
+                for offset, row in enumerate(selected):
+                    if any(type(row.get(key)) not in (int, float) for key in ('ymin', 'lower', 'middle', 'upper', 'ymax')):
+                        raise ValueError('Box plots require saved ymin/lower/middle/upper/ymax statistics')
+                    axis.bxp([{'label': kwargs['label'] or str(row[xkey]), 'whislo': row['ymin'], 'q1': row['lower'],
+                               'med': row['middle'], 'q3': row['upper'], 'whishi': row['ymax']}],
+                             positions=[index + offset * .15], widths=.5, showfliers=False,
+                             vert=not horizontal, patch_artist=True,
+                             boxprops={'facecolor': color, 'alpha': .55}, medianprops={'color': '#172938'})
+                continue
             if plot_type == 'bar':
-                width = .8 / max(1, len(groups))
-                positions = [x + (index - (len(groups) - 1) / 2) * width for x in xs]
+                histogram = item['metadata'].get('distribution_type') == 'histogram'
+                width = [row['bin_high'] - row['bin_low'] for row in selected] if histogram else .8 / max(1, len(groups))
+                positions = xs if histogram else [x + (index - (len(groups) - 1) / 2) * width for x in xs]
                 if horizontal:
                     axis.barh(positions, ys, height=width, **kwargs)
                 else:
-                    axis.bar(positions, ys, width=width, **kwargs)
+                    axis.bar(positions, ys, width=width, alpha=.6 if histogram else 1, **kwargs)
             elif plot_type in ('scatter', 'coefficient'):
                 axis.scatter(ys if horizontal else xs, xs if horizontal else ys, s=35, **kwargs)
             elif plot_type == 'area':
@@ -400,8 +595,9 @@ def gallery_plot(item):
                 else:
                     axis.fill_between(xs, ys, alpha=.3, **kwargs)
             else:
-                axis.plot(ys if horizontal else xs, xs if horizontal else ys, marker='o',
-                          drawstyle='steps-post' if plot_type == 'step' else 'default', **kwargs)
+                axis.plot(ys if horizontal else xs, xs if horizontal else ys,
+                          marker=None if plot_type in ('density', 'ecdf') else 'o',
+                          drawstyle='steps-post' if plot_type in ('step', 'ecdf') else 'default', **kwargs)
             if display.get('lower') and display.get('upper'):
                 for x, row in zip(xs, selected):
                     lower, upper = row.get(display['lower']), row.get(display['upper'])
@@ -413,7 +609,7 @@ def gallery_plot(item):
                         axis.hlines(x, lower, upper, color=color, linewidth=1.5)
                     else:
                         axis.vlines(x, lower, upper, color=color, linewidth=1.5)
-        if categorical:
+        if categorical and plot_type != 'box':
             if horizontal:
                 axis.set_yticks(range(len(labels)), [str(value) for value in labels])
             else:
@@ -424,17 +620,27 @@ def gallery_plot(item):
         axis.set_ylabel(display.get('y_label', column_labels[xkey if horizontal else ykey]), fontfamily=family)
         if plot_type in ('coefficient', 'event_study'):
             (axis.axvline if horizontal else axis.axhline)(0, color='#73808c', linewidth=.8)
+        if plot_type == 'event_study':
+            references = [item['metadata'], *item['metadata'].get('result_definitions', {}).values()]
+            times = {meta.get('reference_event_time', meta.get('reference_time')) for meta in references}
+            for reference in times:
+                if type(reference) in (int, float):
+                    (axis.axhline if horizontal else axis.axvline)(reference, color='#73808c', linewidth=.8, linestyle='--')
         for axis_name in ('x', 'y'):
-            getattr(axis, 'set_' + axis_name + 'scale')(display.get(axis_name + '_scale', 'linear'))
+            if display.get(axis_name + '_scale', 'linear') != 'linear':
+                getattr(axis, 'set_' + axis_name + 'scale')(display[axis_name + '_scale'])
             if display.get(axis_name + '_limits') is not None:
                 getattr(axis, 'set_' + axis_name + 'lim')(*display[axis_name + '_limits'])
+        if plot_type == 'box':
+            tick_labels = [display.get('series_labels', {}).get(group, group) for group in groups]
+            (axis.set_yticks if horizontal else axis.set_xticks)(range(len(groups)), tick_labels)
         axis.spines[['top', 'right']].set_visible(False)
         axis.grid(axis='x' if horizontal else 'y', alpha=.18)
-        if display.get('legend', True) and groups != ['']:
+        if display.get('legend', True) and groups != [''] and axis.get_legend_handles_labels()[0]:
             axis.legend(loc=display.get('legend_location', 'best'), frameon=False, prop={'family': family})
         for label in [*axis.get_xticklabels(), *axis.get_yticklabels()]:
             label.set_fontfamily(family)
-    notes = '\n'.join(textwrap.fill(note, max(35, display.get('width', 960) // 8)) for note in display.get('notes', []))
+    notes = '\n'.join(textwrap.fill(note, max(35, display.get('width', 960) // 9)) for note in gallery_notes(item))
     bottom = min(.4, .06 + .035 * len(notes.splitlines())) if notes else .03
     if notes:
         figure.text(.06, .02, notes, fontsize=9, color='#425466', va='bottom', fontfamily=family)
@@ -455,7 +661,7 @@ def gallery_preview(item, svg=None):
         body = stream.getvalue()
     if item.get('display', {}).get('plot_type', 'table') == 'table':
         title = html.escape(item.get('display', {}).get('title', item['title']))
-        notes = ''.join('<p>' + html.escape(note) + '</p>' for note in item.get('display', {}).get('notes', []))
+        notes = ''.join('<p>' + html.escape(note) + '</p>' for note in gallery_notes(item))
         body = '<h3>' + title + '</h3>' + body + notes
     return ('<section class="research-display"><style>.research-display{font-family:system-ui,sans-serif;color:#213547;}'
             '.research-display table{border-collapse:collapse;width:100%;font-size:14px;}'
@@ -463,6 +669,29 @@ def gallery_preview(item, svg=None):
             '.research-display th{background:#eaf1f7;}.research-display svg{max-width:100%;height:auto;}'
             '.research-display p{font-size:13px;color:#425466;}</style>'
             + body + '</section>')
+
+
+def gallery_latex(item):
+    escapes = {'\\': r'\textbackslash{}', '&': r'\&', '%': r'\%', '$': r'\$', '#': r'\#', '_': r'\_', '{': r'\{', '}': r'\}', '~': r'\textasciitilde{}', '^': r'\textasciicircum{}'}
+    def escape(value):
+        return ''.join(escapes.get(char, char) for char in str(value))
+    is_table = item.get('display', {}).get('plot_type', 'table') == 'table'
+    lines = [r'\begin{table}[htbp]' if is_table else r'\begin{figure}[htbp]', r'\centering']
+    if is_table:
+        view = gallery_projection(item)
+        if item['metadata'].get('table_type') == 'regression':
+            view = gallery_regression_comparison([view])
+        columns = view['columns']
+        lines += [r'\begin{tabular}{' + 'l' + 'r' * (len(columns) - 1) + '}', r'\hline',
+                  ' & '.join(escape(column['label']) for column in columns) + r' \\', r'\hline']
+        lines += [' & '.join(escape(gallery_cell(row.get(column['key']), column['key'], item.get('display', {}))) for column in columns) + r' \\' for row in view['rows']]
+        lines += [r'\hline', r'\end{tabular}']
+    else:
+        lines.append(r'\includegraphics[width=\linewidth]{display.pdf}')
+    lines += [r'\caption{' + escape(item.get('display', {}).get('title', item['title'])) + '}',
+              r'\par\small ' + escape(' / '.join(gallery_notes(item))),
+              r'\end{table}' if is_table else r'\end{figure}']
+    return '\n'.join(lines) + '\n'
 
 
 def render_gallery_item(root, item, assets):
@@ -475,18 +704,18 @@ def render_gallery_item(root, item, assets):
     assets = root / state.relative(root, assets.as_posix(), exists=False)
     import matplotlib
     version = state.content_hash({'renderer': GALLERY_RENDER_VERSION, 'matplotlib': matplotlib.__version__,
-                                  'item': {key: item[key] for key in ('id', 'title', 'rows', 'columns', 'display')}})[:20]
+                                  'item': {key: item[key] for key in ('id', 'title', 'rows', 'columns', 'display', 'metadata')}})[:20]
     destination = assets / (item['id'] + '-' + version)
-    filenames = ['display.svg', 'display.png', 'display.html', 'table.md']
+    filenames = ['display.svg', 'display.png', 'display.html', 'display.pdf', 'display.tex']
     if not destination.exists():
         assets.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix='.display-', dir=assets) as temporary:
             temporary = Path(temporary)
             figure = gallery_plot(item)
-            for extension in ('svg', 'png'):
+            for extension in ('svg', 'png', 'pdf'):
                 figure.savefig(temporary / ('display.' + extension), format=extension)
             (temporary / 'display.html').write_text(gallery_preview(item, (temporary / 'display.svg').read_text(encoding='utf8')), encoding='utf8')
-            (temporary / 'table.md').write_text(gallery_table(item, markdown=True), encoding='utf8')
+            (temporary / 'display.tex').write_text(gallery_latex(item), encoding='utf8')
             os.replace(temporary, destination)
     return [(destination / filename).relative_to(root).as_posix() for filename in filenames]
 
@@ -516,9 +745,9 @@ def gallery_edit_kind(changes):
         raise ValueError('provide the selected item fields to change')
     if set(changes) <= {'title', 'display'}:
         return 'display'
-    if set(changes) <= {'interpretation', 'status', 'links'}:
+    if set(changes) <= {'interpretation', 'status', 'links', 'findings', 'issues', 'adoption_decision'}:
         return 'interpretation'
-    if set(changes) <= {'title', 'display', 'interpretation', 'status', 'links'}:
+    if set(changes) <= {'title', 'display', 'interpretation', 'status', 'links', 'findings', 'issues', 'adoption_decision'}:
         raise ValueError('save display and interpretation edits separately')
     return 'scientific'
 
@@ -546,7 +775,7 @@ def edit_gallery_item(root, gallery_spec_path, item_id, changes, expected_revisi
             else:
                 item[key] = copy.deepcopy(value)
         validate_gallery_item(item)
-        changed = [key for key in changes if item[key] != previous[key]]
+        changed = [key for key in changes if item[key] != previous.get(key)]
         if kind == 'display' and changed:
             item['files'] = render_gallery_item(root, item, path.parent / 'gallery-assets')
             changed.append('files')
@@ -589,6 +818,7 @@ def latex_adapter(source, kind):
             '$common.latex()$\n$if(bibliography)$$else$\\let\\bibliographystyle\\econbibstyle\n$endif$'
             '$if(standalone-renderer)$\n$for(header-includes)$\n$header-includes$\n$endfor$\n$endif$\n')
     if kind=='paper':
+        common += '\\usepackage{needspace}\n\\BeforeBeginEnvironment{longtable}{\\Needspace{12\\baselineskip}}\n'
         source=replace_once(source,'\\documentclass[ecta,nameyear,draft]{econsocart}', '\\RequirePackage{fontspec}\n\\def\\econselectedclass{$documentclass$}\n\\def\\econjournalclass{econsocart}\n\\ifx\\econselectedclass\\econjournalclass\n\\documentclass[ecta,nameyear,draft]{econsocart}\n\\else\n\\documentclass[$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}\n\\fi')
         source=replace_once(source,'\\startlocaldefs',common+'\\newcounter{pandocauthor}\n\\newcommand{\\pandocauthor}[1]{\\stepcounter{pandocauthor}\\author[id=au\\arabic{pandocauthor},addressref={add1}]{\\fnms{}~\\snm{#1}\\ead[label=e\\arabic{pandocauthor}]{}}}\n\\ifx\\econselectedclass\\econjournalclass\n\\startlocaldefs')
         source=replace_once(source,'\\endlocaldefs','\\endlocaldefs\n\\fi')
@@ -602,10 +832,10 @@ def latex_adapter(source, kind):
         source=replace_once(source,'\\bibliographystyle{ecta-fullname} % Style BST file', '% Bibliography style is set to ecta-fullname by the renderer.')
         source=replace_once(source,'\\bibliography{../bibliography}  % Bibliography file (usually \'*.bib\')', '$if(bibliography)$\\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}$endif$')
     elif kind=='slides':
-        source=replace_once(source,'\\documentclass[unicode, mathserif, m, 12pt, unknownkeysallowed]{beamer}', '\\documentclass[unicode, mathserif, m, $if(fontsize)$$fontsize$$else$12pt$endif$, unknownkeysallowed$if(aspectratio)$, aspectratio=$aspectratio$$endif$]{beamer}')
+        source=replace_once(source,'\\documentclass[unicode, mathserif, m, 12pt, unknownkeysallowed]{beamer}', '\\documentclass[unicode, mathserif, m, $if(fontsize)$$fontsize$$else$12pt$endif$, unknownkeysallowed$if(aspectratio)$,aspectratio=$aspectratio$$endif$]{beamer}')
         source=replace_once(source,'\\usetheme[numbering=fraction]{metropolis}', '$if(theme)$\\usetheme{$theme$}$else$\\usetheme[numbering=fraction]{metropolis}$endif$')
         source=replace_once(source,'\\title[Footer title]{TITLE}\n\\subtitle{SUBTITLE}\n\\author{Author}\n\\institute{}\n\\date{\\today}', '$if(title)$\\title{$title$}$endif$\n$if(subtitle)$\\subtitle{$subtitle$}$endif$\n\\author{$for(author)$$author$$sep$ \\and $endfor$}\n$if(institute)$\\institute{$institute$}$endif$\n\\date{$if(date)$$date$$else$\\today$endif$}')
-        source=replace_once(source,'\\usepackage{amsmath}\n\\begin{document}', '\\usepackage{amsmath}\n'+common+'\\AtBeginEnvironment{longtable}{\\footnotesize\\setlength{\\tabcolsep}{2pt}}\n\\begin{document}')
+        source=replace_once(source,'\\usepackage{amsmath}\n\\begin{document}', '\\usepackage{amsmath}\n'+common+'\\setbeamerfont{caption}{size=\\scriptsize}\n\\AtBeginEnvironment{longtable}{\\footnotesize\\setlength{\\tabcolsep}{2pt}}\n\\begin{document}')
         start=source.index('\\begin{frame}{}'); end=source.index('\\appendix',start)
         source=source[:start]+'$body$\n\n'+source[end:]
         source=replace_once(source,'\\begin{frame}{References}', '$if(bibliography)$\\begin{frame}{References}')
@@ -1026,7 +1256,7 @@ The reservation threshold is {{stat:threshold}} and expected net surplus is {{st
 def gallery_main(argv=None):
     parser = argparse.ArgumentParser(description='Browse and edit saved research displays')
     commands = parser.add_subparsers(dest='command', required=True)
-    for name in ('register', 'list', 'show', 'compare', 'select', 'preview', 'render', 'edit'):
+    for name in ('register', 'list', 'show', 'compare', 'select', 'preview', 'render', 'edit', 'ui'):
         command = commands.add_parser(name)
         command.add_argument('--root', required=True, type=Path)
         command.add_argument('--registry', required=True, type=Path)
@@ -1039,6 +1269,18 @@ def gallery_main(argv=None):
             command.add_argument('--query', default='')
             command.add_argument('--kind', choices=GALLERY_KINDS)
             command.add_argument('--status')
+            for key in GALLERY_FILTERS:
+                command.add_argument('--' + key.replace('_', '-'))
+        if name == 'ui':
+            command.add_argument('--port', type=int, default=2718)
+            command.add_argument('--host', default='127.0.0.1')
+            command.add_argument('--headless', action='store_true')
+            command.add_argument('--project-summary')
+            command.add_argument('--project')
+            command.add_argument('--store')
+            command.add_argument('--github', action='append', default=[])
+            command.add_argument('--meeting')
+            command.add_argument('--quarto')
         if name in ('show', 'preview', 'edit'):
             command.add_argument('item_id')
         if name in ('compare', 'select'):
@@ -1048,7 +1290,7 @@ def gallery_main(argv=None):
             command.add_argument('--assets', type=Path)
         if name == 'edit':
             command.add_argument('--changes', required=True, type=Path)
-            command.add_argument('--expected-revision')
+            command.add_argument('--expected-revision', required=True)
     args = parser.parse_args(argv)
     try:
         root = args.root.resolve(strict=True)
@@ -1056,6 +1298,18 @@ def gallery_main(argv=None):
         def local(value, exists=True):
             value = value.relative_to(root) if value.is_absolute() else value
             return root / state.relative(root, value.as_posix(), exists=exists)
+        if args.command == 'ui':
+            command = [sys.executable, '-m', 'marimo', 'run', str(Path(__file__).with_name('research_gallery.py')),
+                       '--host', args.host, '--port', str(args.port)]
+            if args.headless:
+                command.append('--headless')
+            command += ['--', '--root', str(root), '--registry', path.relative_to(root).as_posix()]
+            for key in ('project_summary', 'project', 'store', 'meeting', 'quarto'):
+                if getattr(args, key):
+                    command += ['--' + key.replace('_', '-'), getattr(args, key)]
+            for source in args.github:
+                command += ['--github', source]
+            return subprocess.run(command, check=False).returncode
         if args.command == 'register':
             definitions = load(local(args.items)) if args.items else None
             result = register_gallery(root, path, definitions, args.output, args.assets)
@@ -1073,7 +1327,8 @@ def gallery_main(argv=None):
                 state.save(path, registry)
             result = {'registry': path.relative_to(root).as_posix(), 'item_ids': selected}
         elif args.command == 'list':
-            result = [item for item in gallery_items(root, path, args.query)
+            filters = {key: getattr(args, key) for key in GALLERY_FILTERS}
+            result = [item for item in gallery_items(root, path, args.query, filters)
                       if (not args.kind or item['kind'] == args.kind) and (not args.status or item['status'] == args.status)]
         elif args.command in ('compare', 'select'):
             result = gallery_compare(root, path, args.item_ids)
@@ -1083,7 +1338,7 @@ def gallery_main(argv=None):
             if args.item_id not in registry.get('items', {}):
                 raise ValueError('unknown gallery item: ' + args.item_id)
             item = registry['items'][args.item_id]
-            result = gallery_preview(item) if args.command == 'preview' else gallery_projection(item)
+            result = gallery_preview(item) if args.command == 'preview' else {'revision': state.content_hash(item), **gallery_projection(item)}
         output = getattr(args, 'output', None)
         if output is not None and args.command != 'register':
             target = local(output, exists=False)
