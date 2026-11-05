@@ -413,6 +413,7 @@ nest-asyncio = ">=1.6.0,<2"
 [tool.pixi.tasks]
 lint = "make lint"
 format = "make format"
+research-ui = "python -m marimo run harness/research_gallery.py"
 
 [tool.mypy]
 python_version = "3.12"

@@ -1336,7 +1336,14 @@ def run(root, store, manifest, parent=None, retry_failed=None, retry_reason=None
     return results, any(row['status'] in {'failed', 'blocked'} and key not in excluded for key, row in results.items())
 
 
-def main():
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0] == 'gallery':
+        import research_artifacts
+        return research_artifacts.gallery_main(argv[1:])
+    if argv and argv[0] == 'meeting':
+        import research_meetings
+        return research_meetings.main(argv[1:])
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, default=Path.cwd())
     parser.add_argument('--store', default='.agents/state/team.json')
@@ -1346,7 +1353,7 @@ def main():
     parser.add_argument('--retry-reason', help='Reason that the specific retry is justified')
     parser.add_argument('--retry-evidence', help='Root-relative file recording the actual repair or transient evidence')
     parser.add_argument('manifest')
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     root = args.root.resolve()
     path(root, args.store, exists=False)
     if Path(args.store).parts[:2] != ('.agents', 'state'):

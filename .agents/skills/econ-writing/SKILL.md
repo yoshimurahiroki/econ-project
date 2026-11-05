@@ -26,7 +26,7 @@ Preserve adopted research claims, numbers, comparison groups, citations, formatt
 
 ## Generate articles and slides from results
 
-Select `research_result_artifacts` and use [result artifacts](references/result-artifacts.md) to register named quantities and units from saved estimates, preserve their covariance and inference, and generate the article, table, figure and slide sources through the existing research DAG. Its portable example executes the scientific engines and produces LaTeX, Quarto, HTML, PDF, Word and PowerPoint outputs. Bind the adopted equations and parameters to their actual code, specification and result. A changed producer or result rebuilds its affected consumers while preserving completed generations. Use the same selected quantities when revising article and slide arguments.
+Select `research_result_artifacts` and use [result artifacts](references/result-artifacts.md) to register named quantities and units from saved estimates, preserve their covariance and inference, and generate the article, table, figure and slide sources through the existing research DAG. Its portable example executes the scientific engines and produces LaTeX, Quarto, HTML and PDF outputs. Bind the adopted equations and parameters to their actual code, specification and result. A changed producer or result rebuilds its affected consumers while preserving completed generations. Use the same selected quantities when revising article and slide arguments. Select `research_meeting_materials` for [meeting materials](../../harness/meetings.md) assembled from saved displays and GitHub progress, with editable Markdown, Quarto rendering and independent native Google Slides editions.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

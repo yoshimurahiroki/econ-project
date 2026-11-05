@@ -841,8 +841,10 @@ def _prepare_distribution(root):
             validate_required_bodies(bundled_routes, operations, selections,
                 lambda rid: bodies[rid].decode('utf-8').replace('\r\n', '\n').replace('\r', '\n'))
             validated_bundle = (bundled_routes, body_snapshot)
-        contents = {p.relative_to(bundle).as_posix(): p.read_text(encoding='utf-8')
-                    for p in bundle.rglob('*') if p.is_file()}
+        bundle_paths = {placements[record['source_path']] for record in runtime.values()}
+        bundle_paths.update(knowledge_paths)
+        bundle_paths.add('quality/policy_manifest.json')
+        contents = {name: (bundle / name).read_text(encoding='utf-8') for name in sorted(bundle_paths)}
         contexts = {}
         for rid, record in runtime.items():
             rules = [rule for rule, definition in routes['rules'].items()
@@ -995,8 +997,14 @@ def _generate_distribution(root):
                              if current.get(key) != expected.get(key))
             raise ValueError('Distribution inputs changed: ' + ', '.join(changed))
     try:
-        shutil.copytree(root, staging, symlinks=True,
-                        ignore=shutil.ignore_patterns('.git', '__pycache__', '*.pyc'))
+        generated_parents = {(root / routes['resources'][owner]['source_path']).parent / 'references'
+                             for owner in owners}
+        def omit_generated(directory, names):
+            omitted = set(shutil.ignore_patterns('.git', '__pycache__', '*.pyc', '.rsync-tmp')(directory, names))
+            if Path(directory) in generated_parents:
+                omitted.add('bundle')
+            return omitted
+        shutil.copytree(root, staging, symlinks=True, ignore=omit_generated)
         prepared = _prepare_distribution(staging)
         expected = dict(initial)
         verify(expected)
@@ -1005,10 +1013,17 @@ def _generate_distribution(root):
         _distribution_record(temporary, journal)
         try:
             for relative_path in targets:
-                verify(expected)
                 destination, staged = root / relative_path, staging / relative_path
                 saved = backup / relative_path
                 before, desired = tree_records(destination), tree_records(staged)
+                prefix = relative_path.as_posix()
+                expected_target = {('.' if name == prefix else name[len(prefix) + 1:]): state
+                                   for name, state in expected.items()
+                                   if name == prefix or name.startswith(prefix + '/')}
+                if not same_tree(before, expected_target):
+                    raise ValueError('Distribution target changed: ' + prefix)
+                if same_tree(before, desired):
+                    continue
                 existed = bool(before)
                 saved.parent.mkdir(parents=True, exist_ok=True)
                 # Adopt only directories created here, retaining every other
@@ -1035,14 +1050,14 @@ def _generate_distribution(root):
                     os.link(staged, destination, follow_symlinks=False)
                     staged.unlink()
                 row['published'] = True
-                prefix = relative_path.as_posix()
                 expected = {name: state for name, state in expected.items()
                             if name != prefix and not name.startswith(prefix + '/')}
                 expected.update({prefix + ('' if name == '.' else '/' + name): state
                                  for name, state in desired.items()})
-                verify(expected)
                 if existed and not same_tree(tree_records(saved), before):
                     raise ValueError('Retired distribution input changed: ' + str(relative_path))
+            # One final input comparison covers the whole generation. Each
+            # changed target was checked immediately before its replacement.
             verify(expected)
         except BaseException as error:
             conflicts = []

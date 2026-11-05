@@ -122,6 +122,9 @@
       },
       {
         "when": "economic_knowledge_needed"
+      },
+      {
+        "when": "research_meeting_materials"
       }
     ],
     "writing-delivery": [
@@ -139,6 +142,9 @@
       },
       {
         "when": "operational_plan_requested"
+      },
+      {
+        "when": "research_meeting_materials"
       }
     ],
     "writing-research-tail": [
@@ -242,6 +248,9 @@
       },
       {
         "when": "research_result_artifacts"
+      },
+      {
+        "when": "research_meeting_materials"
       }
     ]
   },
@@ -1395,6 +1404,12 @@
       "when": "project_outcome",
       "required_rules": [
         "project-practice.outcomes-and-handover"
+      ]
+    },
+    "research_meeting_materials": {
+      "when": "research_meeting_materials",
+      "required_rules": [
+        "meeting-materials.all"
       ]
     }
   },

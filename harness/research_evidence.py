@@ -82,6 +82,10 @@ def check_registered_inputs(result, root, key=None):
     """Recheck the selected producing record, or the whole registry when required."""
     if not isinstance(result, dict) or result.get('schema') != 'research-artifact-registry-v1':
         return
+    if key and key[0] == 'items':
+        require(len(key) > 1 and key[1] in obj(result.get('items'), 'gallery items'),
+                'selected saved gallery item is missing')
+        return
     records = obj(result.get('records'), 'registry records')
     if key and len(key) > 1 and key[0] in {'statistics', 'records'}:
         name = key[1].split('.', 1)[0] if key[0] == 'statistics' else key[1]
@@ -576,9 +580,9 @@ def bind(contract, root):
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
-    if argv and argv[0] == 'artifacts':
+    if argv and argv[0] in {'artifacts', 'gallery'}:
         import research_artifacts
-        return research_artifacts.main(argv[1:])
+        return (research_artifacts.gallery_main if argv[0] == 'gallery' else research_artifacts.main)(argv[1:])
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command', required=True)
     for name in ('bind', 'review'):

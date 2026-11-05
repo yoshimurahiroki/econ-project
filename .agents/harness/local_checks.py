@@ -17,6 +17,7 @@ from pathlib import Path, PurePosixPath
 import re
 import shutil
 import stat
+import subprocess
 import sys
 import tempfile
 import unicodedata
@@ -974,15 +975,116 @@ def release(artifacts, output, input_hashes=None, validate_inputs=None):
         if staging.exists():
             shutil.rmtree(staging)
 
+def changed_checks(root, paths, checks):
+    """Select existing commands from changed owners and the requested evidence gaps."""
+    root = Path(root)
+    paths = {safe_relative(path) for path in paths}
+    python = sorted(path for path in paths if path.endswith('.py') and (root / path).is_file())
+    selected = set(checks)
+    commands = []
+    if python:
+        if 'syntax' in selected:
+            commands.append(('syntax', [sys.executable, '-m', 'py_compile', *python]))
+        if 'lint' in selected:
+            commands.append(('lint', [sys.executable, '-m', 'ruff', 'check', '--', *python]))
+        if 'typecheck' in selected:
+            commands.append(('typecheck', [sys.executable, '-m', 'mypy', '--follow-imports=skip',
+                                          '--ignore-missing-imports', '--', *python]))
+    if 'tests' in selected:
+        owners = [
+            ({'harness/state.py', 'harness/test_state.py'},
+             'harness/test_state.py::TeamStateTests::test_external_input_change_rejects_pass_and_completion'),
+            ({'harness/state.py', 'harness/test_state.py'},
+             'harness/test_state.py::TeamStateTests::test_permission_hold_needs_recorded_release'),
+            ({'harness/state.py', 'harness/test_state.py'},
+             'harness/test_state.py::TeamStateTests::test_github_summary_is_derived_and_keeps_execution_receipts_separate'),
+            ({'harness/state.py', 'harness/test_state.py'},
+             'harness/test_state.py::TeamStateTests::test_project_revisions_and_impact_preserve_unaffected_results'),
+            ({'harness/state.py', 'harness/test_state.py'},
+             'harness/test_state.py::TeamStateTests::test_project_observations_use_existing_output_and_context_owners'),
+            ({'harness/state.py', 'harness/test_state.py'},
+             'harness/test_state.py::TeamStateTests::test_native_github_read_paginates_project_and_dependency_connections'),
+            ({'harness/state.py', 'harness/test_state.py'},
+             'harness/test_state.py::TeamStateTests::test_github_update_checks_targets_types_and_returns_actual_readback'),
+            ({'harness/codex_hooks.py', 'hooks/check.py', 'hooks/hooks.json', 'harness/test_state.py'},
+             'harness/test_state.py::HookCallbacksTests::test_actual_callbacks_and_stop_reuse_execution_records'),
+            ({'harness/codex_hooks.py', 'harness/policy_assets.py', 'hooks/hooks.json', 'harness/test_state.py'},
+             'harness/test_state.py::HookCallbacksTests::test_changed_rules_and_compaction_preserve_restoration'),
+            ({'harness/local_checks.py', '.github/workflows/quality.yml', 'harness/test_state.py'},
+             'harness/test_state.py::HookCallbacksTests::test_changed_checks_execute_the_selected_paths'),
+            ({'harness/research.py', 'harness/research_artifacts.py', 'harness/test_research.py'},
+             'harness/test_research.py::ResearchPipelineTest::test_failed_replacement_preserves_previous_and_blocks_descendant'),
+            ({'harness/research_evidence.py', 'harness/test_research_evidence.py'},
+             'harness/test_research_evidence.py::EvidenceTests::test_changed_number_sample_scenario_and_unit'),
+        ]
+        tests = [test for owned, test in owners if paths & owned]
+        if tests:
+            commands.append(('tests', [sys.executable, '-m', 'pytest', '-q', '-rs', '-p',
+                                      'no:cacheprovider', '-p', 'harness.local_checks', '--', *tests]))
+    if not selected & {'registry', 'distribution'}:
+        return commands
+    registry = any(path.startswith('registry/') or path == 'scripts/route_registry.py'
+                   or path.endswith('/SKILL.md') for path in paths)
+    manifest_path = root / 'quality/policy_manifest.json'
+    registered = ({row['path'] for row in parse_json(regular_bytes(manifest_path))['assets'].values()}
+                  if manifest_path.is_file() else set())
+    distribution = bool(paths & registered) or registry or any(path.startswith(('runtime/', 'skills/', 'profiles/', 'harness/', 'hooks/'))
+        and not Path(path).name.startswith('test_') for path in paths)
+    distribution = distribution or bool(paths & {'scripts/export_project.py', 'scripts/sync_common_core.py',
+        'quality/policy_manifest.json', 'quality/prose_rules.json', '.codex-plugin/plugin.json'})
+    if distribution and 'distribution' in selected:
+        # This existing producer includes registry entries, so run it only once.
+        commands.append(('distribution', [sys.executable, 'scripts/export_project.py', '--generate-entries']))
+    elif registry and 'registry' in selected:
+        commands.append(('registry', [sys.executable, '-c',
+            'import sys; from pathlib import Path; sys.path.insert(0, "scripts"); '
+            'from route_registry import generate_entries; generate_entries(Path.cwd())']))
+    return commands
+
+
+def check_changed(root, *, paths=(), base='HEAD', checks=(), list_only=False):
+    """Execute the selected existing checks; keep results in the host command return."""
+    root = Path(root).resolve(strict=True)
+    if not paths:
+        revision = subprocess.run(['git', 'rev-parse', '--verify', '--end-of-options', base + '^{commit}'],
+            cwd=root, check=True, capture_output=True, text=True).stdout.strip()
+        paths = []
+        for arguments in (['git', 'diff', '--name-only', '-z', revision, '--'],
+                          ['git', 'ls-files', '--others', '--exclude-standard', '-z']):
+            result = subprocess.run(arguments, cwd=root, check=True, capture_output=True)
+            paths.extend(os.fsdecode(path) for path in result.stdout.split(b'\0') if path)
+    selected = checks if checks and 'all' not in checks else ('syntax', 'lint', 'typecheck', 'tests', 'registry', 'distribution')
+    commands = changed_checks(root, paths, selected)
+    if list_only:
+        print(json.dumps({'status': 'selected', 'commands': [
+            {'check': check, 'argv': argv} for check, argv in commands]}, ensure_ascii=False))
+        return 0
+    for check, argv in commands:
+        print(json.dumps({'check': check, 'argv': argv}, ensure_ascii=False), flush=True)
+        result = subprocess.run(argv, cwd=root)
+        if result.returncode:
+            return result.returncode
+    print(json.dumps({'status': 'completed', 'checks': [check for check, _ in commands]}, ensure_ascii=False))
+    return 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=('scan-text',))
-    parser.add_argument('--dictionary', required=True)
+    parser.add_argument('command', choices=('scan-text', 'check-changed'))
+    parser.add_argument('--dictionary')
+    parser.add_argument('--root', type=Path, default=Path('.'))
+    parser.add_argument('--base', default='HEAD')
+    parser.add_argument('--path', action='append', default=[])
+    parser.add_argument('--check', action='append', choices=('all', 'syntax', 'lint', 'typecheck', 'tests', 'registry', 'distribution'), default=[])
+    parser.add_argument('--list', action='store_true')
     parser.add_argument('--input')
     parser.add_argument('--require-clean', action='store_true')
     parser.add_argument('--surface', choices=SURFACES, default='final')
     args = parser.parse_args(argv)
     try:
+        if args.command == 'check-changed':
+            return check_changed(args.root, paths=args.path, base=args.base, checks=args.check, list_only=args.list)
+        require(args.dictionary, 'scan-text requires --dictionary')
         require(args.input, 'scan-text requires --input')
         path = Path(args.input)
         require(path.suffix.lower() in TEXT_SUFFIXES, 'scan-text requires a supported text suffix')
@@ -1003,7 +1105,7 @@ def main(argv=None):
                                     ('rule_id', 'start', 'end', 'character_spans')}
                                    for hit in hits]}, ensure_ascii=False))
         return int(args.require_clean and bool(hits))
-    except (GateError, OSError, ValueError, TypeError, KeyError, OverflowError, RecursionError) as exc:
+    except (GateError, OSError, ValueError, TypeError, KeyError, OverflowError, RecursionError, subprocess.CalledProcessError) as exc:
         print(json.dumps({'status': 'blocked', 'error': str(exc)}, ensure_ascii=False), file=sys.stderr)
         return 1
 

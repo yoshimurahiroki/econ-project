@@ -935,6 +935,41 @@
       "resource_id": "policy-codex-agent-specialist",
       "deployment_path": ".codex/agents/specialist.toml",
       "export_alias": "CODEX_AGENT_specialist.toml"
+    },
+    "research-gallery": {
+      "resource_id": "research-gallery",
+      "deployment_path": ".agents/harness/research_gallery.py",
+      "export_alias": "research_gallery.py"
+    },
+    "research-meetings": {
+      "resource_id": "research-meetings",
+      "deployment_path": ".agents/harness/research_meetings.py",
+      "export_alias": "research_meetings.py"
+    },
+    "meeting-materials": {
+      "resource_id": "meeting-materials",
+      "deployment_path": ".agents/harness/meetings.md",
+      "export_alias": "meetings.md"
+    },
+    "meeting-quarto-template": {
+      "resource_id": "meeting-quarto-template",
+      "deployment_path": ".agents/tex/slides/meeting_template.qmd",
+      "export_alias": "meeting_template.qmd"
+    },
+    "meeting-templates": {
+      "resource_id": "meeting-templates",
+      "deployment_path": ".agents/tex/slides/meeting_templates.json",
+      "export_alias": "meeting_templates.json"
+    },
+    "meeting-cloud-workflow": {
+      "resource_id": "meeting-cloud-workflow",
+      "deployment_path": ".github/workflows/meetings.yml",
+      "export_alias": "meeting-workflow.yml"
+    },
+    "research-task-form": {
+      "resource_id": "research-task-form",
+      "deployment_path": ".github/ISSUE_TEMPLATE/research-task.yml",
+      "export_alias": "research-task.yml"
     }
   },
   "source": {

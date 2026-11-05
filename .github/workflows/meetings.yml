@@ -1,0 +1,111 @@
+name: Render selected meeting materials
+
+'on':
+  push:
+    paths:
+      - 'meetings/**/meeting.json'
+      - 'meetings/**/content.md'
+      - 'meetings/**/assets/**'
+      - 'harness/research_meetings.py'
+      - 'tex/slides/meeting_template.qmd'
+      - '.github/workflows/meetings.yml'
+  workflow_dispatch:
+    inputs:
+      bundle:
+        description: 'Selected meeting directory, for example meetings/workspace-demo'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: meetings-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.changed.outputs.matrix }}
+      count: ${{ steps.changed.outputs.count }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /meetings/
+            /harness/research_meetings.py
+      - id: changed
+        name: Select only changed, explicitly exported meeting bundles
+        env:
+          BEFORE: ${{ github.event.before }}
+          REQUESTED_BUNDLE: ${{ inputs.bundle }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess, sys
+          from pathlib import Path
+          sys.path.insert(0, 'harness')
+          import research_meetings as meetings
+          requested = os.environ.get('REQUESTED_BUNDLE', '')
+          if requested:
+              path = Path(requested)
+              if path.is_absolute() or '..' in path.parts or len(path.parts) != 2 or path.parts[0] != 'meetings':
+                  raise SystemExit('Select a directory immediately below meetings/')
+              selected = [requested]
+          else:
+              before = os.environ.get('BEFORE', '')
+              if not before or set(before) == {'0'}:
+                  changed = ['.github/workflows/meetings.yml']
+              else:
+                  changed = subprocess.check_output(['git', 'diff', '--name-only', before, os.environ['GITHUB_SHA']], text=True).splitlines()
+              selected = meetings.affected_bundles(Path.cwd(), changed)
+          rows = []
+          for bundle in selected:
+              spec, _, _ = meetings.load_meeting(bundle)
+              if spec.get('cloud_export') is True:
+                  rows.append({'bundle': bundle, 'slug': Path(bundle).name})
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write('matrix=' + json.dumps({'include': rows}) + '\n')
+              output.write('count=' + str(len(rows)) + '\n')
+          PY
+  render:
+    needs: select
+    if: needs.select.outputs.count != '0'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.select.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /meetings/
+            /harness/research_meetings.py
+            /tex/slides/meeting_template.qmd
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: '1.11.9'
+      - name: Render saved text, tables and figures
+        env:
+          MEETING_BUNDLE: ${{ matrix.bundle }}
+        run: python harness/research_meetings.py render --root . --bundle "$MEETING_BUNDLE" --output rendered
+      - id: artifact
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: meeting-${{ matrix.slug }}-${{ github.sha }}
+          path: rendered/
+          if-no-files-found: error
+      - name: Preview the finished materials in the browser
+        env:
+          MEETING_BUNDLE: ${{ matrix.bundle }}
+          ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
+        run: |
+          python harness/research_meetings.py preview --bundle "$MEETING_BUNDLE" --output "$GITHUB_STEP_SUMMARY" --asset-base-url "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$GITHUB_SHA/$MEETING_BUNDLE"
+          python - <<'PY'
+          import os
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as output:
+              output.write('\n[完成したHTML・Markdown・図表を取得](' + os.environ['ARTIFACT_URL'] + ')\n')
+              output.write('\n保存済みの本文・図表だけをレンダリングしました。\n')
+          PY

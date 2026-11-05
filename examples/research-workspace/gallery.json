@@ -1,0 +1,428 @@
+{
+  "items": {
+    "event-study": {
+      "columns": [
+        {
+          "key": "period",
+          "label": "Relative period",
+          "unit": "period"
+        },
+        {
+          "key": "series",
+          "label": "Specification",
+          "unit": ""
+        },
+        {
+          "key": "estimate",
+          "label": "Saved estimate",
+          "unit": "percentage point"
+        },
+        {
+          "key": "lower",
+          "label": "Saved lower endpoint",
+          "unit": "percentage point"
+        },
+        {
+          "key": "upper",
+          "label": "Saved upper endpoint",
+          "unit": "percentage point"
+        }
+      ],
+      "display": {
+        "colors": {
+          "Alternative": "#b4513b",
+          "Main": "#245b8a"
+        },
+        "height": 540,
+        "legend": true,
+        "legend_location": "upper left",
+        "lower": "lower",
+        "notes": [
+          "Authored display values and endpoints; no data analysis or estimation."
+        ],
+        "plot_type": "event_study",
+        "selected_result_ids": [
+          "main",
+          "alternative"
+        ],
+        "series": "series",
+        "title": "Synthetic display example: event study",
+        "upper": "upper",
+        "visible_series": [
+          "Main",
+          "Alternative"
+        ],
+        "width": 960,
+        "x": "period",
+        "x_label": "Relative period",
+        "y": "estimate",
+        "y_label": "Saved coefficient (percentage point)"
+      },
+      "files": [
+        "examples/research-workspace/gallery-assets/event-study-72856ebf8c1d89b3b91b/display.svg",
+        "examples/research-workspace/gallery-assets/event-study-72856ebf8c1d89b3b91b/display.png",
+        "examples/research-workspace/gallery-assets/event-study-72856ebf8c1d89b3b91b/display.html",
+        "examples/research-workspace/gallery-assets/event-study-72856ebf8c1d89b3b91b/table.md"
+      ],
+      "id": "event-study",
+      "interpretation": "表示操作用に作成した合成表示例。主仕様と別仕様の保存値を同じ図に表示する。実証結果を表さない。",
+      "kind": "event_study",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "analysis_execution": "none",
+        "comparison": "Example group and example reference",
+        "estimand": "Illustrative saved coefficient",
+        "example_type": "合成表示例",
+        "inference": {
+          "clusters": [],
+          "interval_level": 0.95,
+          "method": "Authored endpoints"
+        },
+        "measurement_units": {
+          "estimate": "percentage point"
+        },
+        "observation_unit": "Illustrative group-period",
+        "period": "Relative periods -2 to 2",
+        "population": "Synthetic display example",
+        "producers": {
+          "alternative": {
+            "engine": null,
+            "environment": {},
+            "identity": {
+              "kind": "authored illustration",
+              "specification": "display-example-alternative"
+            },
+            "method": null,
+            "references": {},
+            "run_id": null
+          },
+          "main": {
+            "engine": null,
+            "environment": {},
+            "identity": {
+              "kind": "authored illustration",
+              "specification": "display-example-main"
+            },
+            "method": null,
+            "references": {},
+            "run_id": null
+          }
+        },
+        "result_definitions": {
+          "alternative": {
+            "comparison": "Example group and example reference",
+            "estimand": "Illustrative saved coefficient",
+            "inference": {
+              "clusters": [],
+              "interval_level": 0.95,
+              "method": "Authored endpoints"
+            },
+            "measurement_units": {
+              "estimate": "percentage point"
+            },
+            "observation_unit": "Illustrative group-period",
+            "period": "Relative periods -2 to 2",
+            "population": "Synthetic display example",
+            "sample": "Authored alternative cells",
+            "variables": {
+              "outcome": "Illustrative outcome"
+            }
+          },
+          "main": {
+            "comparison": "Example group and example reference",
+            "estimand": "Illustrative saved coefficient",
+            "inference": {
+              "clusters": [],
+              "interval_level": 0.95,
+              "method": "Authored endpoints"
+            },
+            "measurement_units": {
+              "estimate": "percentage point"
+            },
+            "observation_unit": "Illustrative group-period",
+            "period": "Relative periods -2 to 2",
+            "population": "Synthetic display example",
+            "sample": "Authored example cells",
+            "variables": {
+              "outcome": "Illustrative outcome"
+            }
+          }
+        },
+        "variables": {
+          "outcome": "Illustrative outcome"
+        }
+      },
+      "result_ids": [
+        "main",
+        "alternative"
+      ],
+      "rows": [
+        {
+          "estimate": -0.1,
+          "lower": -0.4,
+          "period": -2,
+          "result_id": "main",
+          "series": "Main",
+          "upper": 0.2
+        },
+        {
+          "estimate": 0,
+          "lower": 0,
+          "period": -1,
+          "result_id": "main",
+          "series": "Main",
+          "upper": 0
+        },
+        {
+          "estimate": 0.25,
+          "lower": -0.05,
+          "period": 0,
+          "result_id": "main",
+          "series": "Main",
+          "upper": 0.55
+        },
+        {
+          "estimate": 0.55,
+          "lower": 0.2,
+          "period": 1,
+          "result_id": "main",
+          "series": "Main",
+          "upper": 0.9
+        },
+        {
+          "estimate": 0.7,
+          "lower": 0.3,
+          "period": 2,
+          "result_id": "main",
+          "series": "Main",
+          "upper": 1.1
+        },
+        {
+          "estimate": 0.05,
+          "lower": -0.3,
+          "period": -2,
+          "result_id": "alternative",
+          "series": "Alternative",
+          "upper": 0.4
+        },
+        {
+          "estimate": 0,
+          "lower": 0,
+          "period": -1,
+          "result_id": "alternative",
+          "series": "Alternative",
+          "upper": 0
+        },
+        {
+          "estimate": 0.2,
+          "lower": -0.15,
+          "period": 0,
+          "result_id": "alternative",
+          "series": "Alternative",
+          "upper": 0.55
+        },
+        {
+          "estimate": 0.45,
+          "lower": 0.05,
+          "period": 1,
+          "result_id": "alternative",
+          "series": "Alternative",
+          "upper": 0.85
+        },
+        {
+          "estimate": 0.6,
+          "lower": 0.15,
+          "period": 2,
+          "result_id": "alternative",
+          "series": "Alternative",
+          "upper": 1.05
+        }
+      ],
+      "status": "example",
+      "title": "合成表示例：イベントスタディと別仕様"
+    },
+    "sample-composition": {
+      "columns": [
+        {
+          "key": "group",
+          "label": "Group",
+          "unit": ""
+        },
+        {
+          "key": "included",
+          "label": "Included",
+          "unit": "illustrative units"
+        },
+        {
+          "key": "excluded",
+          "label": "Excluded",
+          "unit": "illustrative units"
+        }
+      ],
+      "display": {
+        "height": 420,
+        "notes": [
+          "Authored display values; no data analysis or estimation.",
+          "A dash denotes a missing saved cell; zero remains zero."
+        ],
+        "plot_type": "table",
+        "title": "Synthetic display example: sample composition",
+        "width": 960,
+        "x": "group",
+        "y": "included"
+      },
+      "files": [
+        "examples/research-workspace/gallery-assets/sample-composition-440da9c5d12143b21a6b/display.svg",
+        "examples/research-workspace/gallery-assets/sample-composition-440da9c5d12143b21a6b/display.png",
+        "examples/research-workspace/gallery-assets/sample-composition-440da9c5d12143b21a6b/display.html",
+        "examples/research-workspace/gallery-assets/sample-composition-440da9c5d12143b21a6b/table.md"
+      ],
+      "id": "sample-composition",
+      "interpretation": "表示操作用に作成した合成表示例。数値は実証結果を表さない。",
+      "kind": "sample_composition",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "analysis_execution": "none",
+        "example_type": "合成表示例",
+        "measurement_units": {
+          "count": "illustrative units"
+        },
+        "observation_unit": "Illustrative group",
+        "period": "Example period",
+        "population": "Synthetic display example",
+        "producers": {
+          "summary": {
+            "engine": null,
+            "environment": {},
+            "identity": {
+              "kind": "authored illustration",
+              "specification": "display-example-summary"
+            },
+            "method": null,
+            "references": {},
+            "run_id": null
+          }
+        },
+        "result_definitions": {
+          "summary": {
+            "measurement_units": {
+              "count": "illustrative units"
+            },
+            "observation_unit": "Illustrative group",
+            "period": "Example period",
+            "population": "Synthetic display example",
+            "sample": "Authored example cells"
+          }
+        },
+        "sample": "Authored example cells"
+      },
+      "result_ids": [
+        "summary"
+      ],
+      "rows": [
+        {
+          "excluded": 8,
+          "group": "Example A",
+          "included": 120,
+          "result_id": "summary"
+        },
+        {
+          "excluded": 0,
+          "group": "Example B",
+          "included": 135,
+          "result_id": "summary"
+        },
+        {
+          "excluded": null,
+          "group": "Example C",
+          "included": 95,
+          "result_id": "summary"
+        }
+      ],
+      "status": "example",
+      "title": "合成表示例：標本構成"
+    }
+  },
+  "records": {
+    "alternative": {
+      "identity": {
+        "kind": "authored illustration",
+        "specification": "display-example-alternative"
+      },
+      "references": {},
+      "source_result": {
+        "comparison": "Example group and example reference",
+        "estimand": "Illustrative saved coefficient",
+        "inference": {
+          "clusters": [],
+          "interval_level": 0.95,
+          "method": "Authored endpoints"
+        },
+        "measurement_units": {
+          "estimate": "percentage point"
+        },
+        "observation_unit": "Illustrative group-period",
+        "period": "Relative periods -2 to 2",
+        "population": "Synthetic display example",
+        "sample": "Authored alternative cells",
+        "variables": {
+          "outcome": "Illustrative outcome"
+        }
+      }
+    },
+    "main": {
+      "identity": {
+        "kind": "authored illustration",
+        "specification": "display-example-main"
+      },
+      "references": {},
+      "source_result": {
+        "comparison": "Example group and example reference",
+        "estimand": "Illustrative saved coefficient",
+        "inference": {
+          "clusters": [],
+          "interval_level": 0.95,
+          "method": "Authored endpoints"
+        },
+        "measurement_units": {
+          "estimate": "percentage point"
+        },
+        "observation_unit": "Illustrative group-period",
+        "period": "Relative periods -2 to 2",
+        "population": "Synthetic display example",
+        "sample": "Authored example cells",
+        "variables": {
+          "outcome": "Illustrative outcome"
+        }
+      }
+    },
+    "summary": {
+      "identity": {
+        "kind": "authored illustration",
+        "specification": "display-example-summary"
+      },
+      "references": {},
+      "source_result": {
+        "measurement_units": {
+          "count": "illustrative units"
+        },
+        "observation_unit": "Illustrative group",
+        "period": "Example period",
+        "population": "Synthetic display example",
+        "sample": "Authored example cells"
+      }
+    }
+  },
+  "schema": "research-artifact-registry-v1",
+  "statistics": {}
+}

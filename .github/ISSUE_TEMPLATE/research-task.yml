@@ -1,0 +1,55 @@
+name: 研究タスク
+description: 研究計画・結果・図表・会議資料に結び付く作業
+title: "[Research] "
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: 作業の目的と完了時に必要な成果物
+    validations:
+      required: true
+  - type: dropdown
+    id: classification
+    attributes:
+      label: Classification
+      description: 分類
+      options:
+        - planning
+        - data
+        - descriptive
+        - analysis
+        - figure
+        - writing
+        - meeting
+        - infrastructure
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: 優先順位
+      options: [P0, P1, P2, P3]
+      default: 1
+  - type: dropdown
+    id: progress
+    attributes:
+      label: Progress
+      description: 進捗。完了時は Issue を Close します。
+      options: [Not started, In progress, Waiting]
+  - type: input
+    id: due
+    attributes:
+      label: Due date
+      description: 期限（YYYY-MM-DD）
+  - type: textarea
+    id: related
+    attributes:
+      label: Related research
+      description: 研究計画、仕様、結果ID、図表、会議資料、関連Issueのリンク
+  - type: textarea
+    id: decisions
+    attributes:
+      label: Decisions and next actions
+      description: 判断事項、次の作業、関連する依存Issue

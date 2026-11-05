@@ -42,6 +42,20 @@ Notebook では登録済みの Python または R カーネルを選びます。
 
 中長期の株式評価は [`econ-data:equity`](skills/econ-data/references/equity.md) と[経済モデル](skills/econ-data/references/equity-models.md)を使います。開示・IR・ニュース・産業データから需要、競争、投資、持続的 FCF、適正株価と意思決定を分析します。EDINET・e-Stat のキーは利用者自身の環境で管理します。
 
+## 保存済み結果・研究計画・会議資料を編集する
+
+```sh
+pixi run research-ui -- --root . \
+  --registry examples/research-workspace/gallery.json \
+  --meeting meetings/workspace-demo
+```
+
+marimo の画面で、保存した記述統計表・図表を検索、比較、編集します。`--registry` に自分の結果ギャラリーを指定します。[結果ギャラリー](skills/econ-writing/references/result-artifacts.md)は保存済みの表示用行データと定義を読み、表示変更には既存の推定結果を使います。[公開用の合成表示例](examples/research-workspace/README.md)を同梱しています。
+
+研究計画、採用仕様、発見・解釈・判断は既存 ERS の記録から編集します。`--project CASE` で登録済みの案件を開き、計画の版、比較、変更の影響を確認できます。担当、期限、依存、優先順位、進捗は [GitHub Issues / Projects](harness/state.md#project-work) で管理します。
+
+[会議資料](harness/meetings.md)は、選択した保存済み図表、前回の決定・To Do、今回の進捗から作成します。画面で本文と構成を編集し、Markdown、Quarto HTML、Beamer PDF を生成します。GitHub のブラウザで資料を編集すると、Actions が保存済み資料を HTML に描画します。Google Slides にはネイティブの編集版を作成します。
+
 ## 論文とスライド
 
 [LaTeX 論文](tex/paper/ecta_template.tex)と [Beamer スライド](tex/slides/main.tex)を編集し、次のコマンドで PDF を作ります。

@@ -89,18 +89,6 @@
         ]
       }
     ],
-    "PreCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" PreCompact",
-            "timeout": 30,
-            "statusMessage": "Economics task context"
-          }
-        ]
-      }
-    ],
     "PostCompact": [
       {
         "hooks": [

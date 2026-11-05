@@ -213,7 +213,7 @@ def tree_records(root):
     record(root)
     if root.is_dir() and not root.is_symlink():
         for directory, directories, files in os.walk(root, followlinks=False):
-            directories[:] = [name for name in directories if name not in {'.git', '__pycache__'}]
+            directories[:] = [name for name in directories if name not in {'.git', '__pycache__', '.rsync-tmp'}]
             for name in [*directories, *[n for n in files if not n.endswith('.pyc')]]:
                 record(Path(directory) / name)
     return result
