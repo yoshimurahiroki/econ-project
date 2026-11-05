@@ -267,7 +267,8 @@
       "chapter": 11,
       "concept_ids": [
         "C-CAUSAL-07",
-        "C-CH-11"
+        "C-CH-11",
+        "C-TERM-DID"
       ],
       "contract_ids": [],
       "domain": "因果デザイン",
@@ -292,7 +293,8 @@
         "群平均効果",
         "固定構成のイベント期効果",
         "集約規則に対応する全体効果",
-        "推定重みを含む影響関数"
+        "推定重みを含む影響関数",
+        "暦年別効果と暦年間の平均効果"
       ],
       "prerequisites": [
         "CAUSAL-03"
@@ -302,8 +304,8 @@
       ],
       "subdomain": "集約対象の例",
       "title": "解答付き例題：集約対象",
-      "topic": "DIDの集約対象; staggered DID aggregation; aggte simple group dynamic overall ATT; 処置前後の共通コホート; balance_e event time composition",
-      "use_when": "群・期ATTを人口・曝露期間・イベント期の対象へ集約し、全体効果と影響関数を選ぶ"
+      "topic": "DIDの集約対象; staggered DID aggregation; aggte simple group dynamic overall ATT; 処置前後の共通コホート; balance_e event time composition; calendar aggregation; 暦年別のDID集約",
+      "use_when": "群・期ATTを人口・曝露期間・イベント期・暦年の対象へ集約し、共通支持、全体効果と影響関数を選ぶ"
     }
   ]
 }

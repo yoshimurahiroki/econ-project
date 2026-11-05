@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.56",
+  "version": "2.3.57",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -3633,8 +3633,8 @@
       "domain": "因果デザイン",
       "subdomain": "集約対象の例",
       "kind": "worked_example",
-      "topic": "DIDの集約対象; staggered DID aggregation; aggte simple group dynamic overall ATT; 処置前後の共通コホート; balance_e event time composition",
-      "use_when": "群・期ATTを人口・曝露期間・イベント期の対象へ集約し、全体効果と影響関数を選ぶ",
+      "topic": "DIDの集約対象; staggered DID aggregation; aggte simple group dynamic overall ATT; 処置前後の共通コホート; balance_e event time composition; calendar aggregation; 暦年別のDID集約",
+      "use_when": "群・期ATTを人口・曝露期間・イベント期・暦年の対象へ集約し、共通支持、全体効果と影響関数を選ぶ",
       "inputs": [
         "群別人数",
         "処置前後の群平均",
@@ -3649,13 +3649,15 @@
         "群平均効果",
         "固定構成のイベント期効果",
         "集約規則に対応する全体効果",
-        "推定重みを含む影響関数"
+        "推定重みを含む影響関数",
+        "暦年別効果と暦年間の平均効果"
       ],
       "file": "chapters/11-causal-designs.md",
       "anchor": "causal-07",
       "concept_ids": [
         "C-CAUSAL-07",
-        "C-CH-11"
+        "C-CH-11",
+        "C-TERM-DID"
       ],
       "jel_codes": [
         "C21",
@@ -3670,21 +3672,23 @@
       "domain": "因果拡張",
       "subdomain": "直交スコア",
       "kind": "knowledge",
-      "topic": "直交スコアとcross-fitting; 傾向スコアの切り詰め; propensity score clipping; 二値結果の部分線形モデル; binary outcome PLR",
-      "use_when": "補助関数の柔軟推定を用いてATEまたは部分線形係数を推定する。線形辞書の処置・結果の二重選択と、標本分割による直交スコアを使い分ける",
+      "topic": "直交スコアとcross-fitting; 傾向スコアの切り詰め; propensity score clipping; 二値結果の部分線形モデル; binary outcome PLR; DoubleML hyperparameter tuning; nested cross-validation; cluster sample splitting; クラスター標本の前処理・調整・標本分割",
+      "use_when": "補助関数の柔軟推定を用いてATEまたは部分線形係数を推定する。線形辞書の処置・結果の二重選択と、標本分割による直交スコアを使い分ける。前処理とハイパーパラメータ調整を評価foldから分け、クラスター構造に応じて標本分割する",
       "inputs": [
         "結果",
         "処置",
         "共変量",
         "fold",
-        "補助学習器"
+        "補助学習器",
+        "クラスター識別子と調整範囲"
       ],
       "outputs": [
         "直交スコア",
         "ATE",
         "部分線形係数",
         "ATT",
-        "対象スコアに対応するDoubleML API"
+        "対象スコアに対応するDoubleML API",
+        "学習・評価を分離した補助予測"
       ],
       "file": "chapters/12-causal-extensions.md",
       "anchor": "advcausal-01",
