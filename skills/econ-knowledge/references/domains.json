@@ -133,12 +133,12 @@
     {
       "domain": "確率統計",
       "path": "domains/27.json",
-      "sha256": "306908ec52117e3c566e03bb424ba4aacab8958bf4170aaf32b51bb15d159fe2"
+      "sha256": "3fb146863126b1a5ac0393b845eb0241ace399dec918277a6b001a0e9cbe6cbf"
     },
     {
       "domain": "計量",
       "path": "domains/28.json",
-      "sha256": "53b66b35b830ef5e9a3e3dcd6f3170d4f07fa7aa01477661ae88ded805e63cdc"
+      "sha256": "02379ada360aab10ba298148248b38e06b5a9d8a6eb16bc5b63869574f422b02"
     },
     {
       "domain": "貿易",

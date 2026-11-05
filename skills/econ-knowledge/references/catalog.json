@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.58",
+  "version": "2.3.59",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -3350,16 +3350,19 @@
       "subdomain": "ベイズ計算と粒子",
       "kind": "knowledge",
       "topic": "ベイズ計算と粒子",
-      "use_when": "MCMCまたは粒子フィルターで事後分布と状態を計算する",
+      "use_when": "事後分布を変数変換しMetropolis–Hastings・MCMCでモーメントとMonte Carlo標準誤差を求める、または粒子フィルターで状態と尤度を計算する",
       "inputs": [
         "尤度",
         "事前分布",
+        "パラメータ変換とJacobian",
         "提案分布",
         "状態遷移"
       ],
       "outputs": [
         "事後標本",
+        "事後モーメント",
         "実効標本数",
+        "Monte Carlo標準誤差",
         "粒子尤度"
       ],
       "file": "chapters/10-econometrics.md",
@@ -11712,8 +11715,27 @@
         "ja": "ベイズ計算と粒子"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "MCMC",
+          "Markov chain Monte Carlo",
+          "Metropolis Hastings",
+          "Metropolis-Hastings",
+          "MH algorithm",
+          "posterior simulation",
+          "change of variables",
+          "density transformation",
+          "batch means",
+          "Monte Carlo standard error"
+        ],
+        "ja": [
+          "マルコフ連鎖モンテカルロ",
+          "メトロポリス・ヘイスティングス",
+          "事後シミュレーション",
+          "密度の変数変換",
+          "密度変換",
+          "バッチ平均",
+          "モンテカルロ標準誤差"
+        ]
       },
       "broader": [
         "C-CH-10"
@@ -31340,6 +31362,22 @@
         }
       ],
       "version": "2.3.58"
+    },
+    {
+      "id": "R-0625",
+      "source": "STAT-07",
+      "target": "ECON-09",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "事後分布の積分を反復計算するとき、密度変換・受容規則・Monte Carlo標準誤差へ進む。",
+      "evidence": [
+        {
+          "unit": "STAT-07",
+          "anchor": "stat-07"
+        }
+      ],
+      "version": "2.3.59"
     }
   ],
   "model_contracts": [

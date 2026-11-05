@@ -262,7 +262,9 @@
       "prerequisites": [
         "STAT-02"
       ],
-      "related": [],
+      "related": [
+        "ECON-09"
+      ],
       "subdomain": "ベイズ推定と意思決定",
       "title": "ベイズ推定と意思決定",
       "topic": "ベイズ推定と意思決定",

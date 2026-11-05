@@ -9,7 +9,25 @@
 \]
 で採択し、残りで現在値に留まる。Gibbsは各成分の完全条件付き分布から順に抽出する。Hamiltonian法は対数事後の勾配と補助運動量で候補を作り、数値積分誤差を採択確率へ反映する。
 
-事後モーメントのMonte Carlo分散はdraw列の自己共分散を含む。提案分布は対象とする事後分布のsupportを探索できるよう選ぶ。既約性など収束条件を検討し、複数初期値の系列、実効標本数、対象モーメントのMonte Carlo標準誤差を用い、事後予測分布を同じ観測過程へ戻す。
+**密度変換と不変分布。** 制約付きパラメータを一対一の微分可能な変換 $\theta=T(z)$ で表すと、$z$ の密度は $\pi_z(z\mid Y)=\pi_\theta(T(z)\mid Y)|\det DT(z)|$ となる。これは任意の領域 $A$ について $\int_{T(A)}\pi_\theta(\theta\mid Y)d\theta=\int_A\pi_z(z\mid Y)dz$ と確率を保存する変数変換である。対数密度に $\log|\det DT(z)|$ を加え、提案密度も実際に連鎖を動かす座標で評価する。正の尺度なら $\theta=e^z$ で対数Jacobianは $z$、確率なら $\theta=(1+e^{-z})^{-1}$ で $\log\theta+\log(1-\theta)$ となる。
+
+正規化した標的密度を $p$、上の受容確率を $\alpha(z,z')$ と書くと、異なる点の確率流は
+\[
+p(z)q(z'\mid z)\alpha(z,z')=\min\{p(z)q(z'\mid z),p(z')q(z\mid z')\}
+=p(z')q(z\mid z')\alpha(z',z).
+\]
+棄却時の自己遷移を加えた遷移核は詳細釣合いを満たし、両辺を積分すると $p$ が不変分布となる。標的について既約・非周期かつHarris再帰的な連鎖では、標本平均は可積分な標的モーメントへ収束する。正規化定数は密度比で消える。対称なランダムウォーク提案では提案密度比も消える。
+
+**反復と誤差評価。** 初期値を標的のsupport内に置き、毎回、候補 $z'$ と独立な $U\sim U(0,1)$ を生成する。$\log U<\min(0,\log p(z')-\log p(z)+\log q(z\mid z')-\log q(z'\mid z))$ なら更新し、棄却時は現在値を次のdrawとして保存する。提案尺度の調整期間と保存期間を分け、保存期間では指定した遷移核を固定する。別々の乱数系列と離れた初期値で複数連鎖を実行し、各連鎖の平均、分散、受容率、自己相関、実効標本数を比較する。
+
+保存した $N$ 個の $h(\theta_t)$ の平均を $\bar h$、定常自己共分散を $\gamma_k$ とする。Markov連鎖CLTと有限な長期分散の下で $\operatorname{Var}(\bar h)$ の主要項は $[\gamma_0+2\sum_{k\ge1}\gamma_k]/N$。batch meansでは $N=ab$ 個を長さ $b$ の連続した $a$ 組に分け、組平均 $\bar h_j$ を使って
+\[
+\widehat{\operatorname{MCSE}}^2(\bar h)=\frac{1}{a(a-1)}\sum_{j=1}^a(\bar h_j-\bar h)^2,
+\qquad N_{\rm eff}=\frac{\widehat\gamma_0}{\widehat{\operatorname{MCSE}}^2(\bar h)}
+\]
+を計算する。一致性には連鎖の混合・モーメント条件と $a,b\to\infty$ が必要である。評価するモーメントごとにbatchを作り、連鎖ごとの結果とbatch長を増やした結果を照合する。等長で独立な $C$ 本の平均をまとめると、そのMonte Carlo分散推定値は各連鎖の分散推定値の和を $C^2$ で割ったものになる。事後分散はパラメータ分布の広がり、MCSEは有限回の反復で計算した平均の誤差を測る。事後予測では各drawから同じ観測過程を通じて将来観測を生成する。
+
+**計算例。** 事後分布 $\theta\sim\operatorname{Beta}(A,B)$ をlogit座標で動かすと、対数標的は $A\log\theta+B\log(1-\theta)+\mathrm{const}$ である。対称提案 $z'=z+s\varepsilon$, $\varepsilon\sim N(0,1)$ にはこの対数標的差を使う。安定な評価は `log_theta = -logaddexp(0, -z)`、`log_one_minus_theta = -logaddexp(0, z)` で行う。戻したdrawの平均と分散を $A/(A+B)$、$AB/[(A+B)^2(A+B+1)]$ に照合する。$A=4,B=7$ なら平均 $4/11$、分散 $7/363$。Jacobianを省いたlogit標的を逆変換すると、元の密度を $\theta(1-\theta)$ で割るため、$A,B>1$ では $\operatorname{Beta}(A-1,B-1)$ となり、この例の平均は $1/3$ に変わる。$A\le1$ または $B\le1$ では省略後の標的の積分が発散する。
 
 非線形・非Gaussian状態空間では粒子filterを使う。状態粒子を遷移で予測し、観測尤度でweightを更新し、正規化weightに従って再抽出する。毎期再抽出するbootstrap filterでは、各期の予測粒子に対する観測尤度の平均を掛け合わせて尤度を推定する。再抽出の頻度や提案分布を変える場合は、その手順に対応した逐次正規化と重要度比を用いる。粒子数を増やした尤度・予測の変化と、weightの集中を評価する。Kalman filterはTS-04の線形Gaussian系を解析的に更新する。
 

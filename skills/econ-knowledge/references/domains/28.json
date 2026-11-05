@@ -339,6 +339,7 @@
       "inputs": [
         "尤度",
         "事前分布",
+        "パラメータ変換とJacobian",
         "提案分布",
         "状態遷移"
       ],
@@ -349,7 +350,9 @@
       "kind": "knowledge",
       "outputs": [
         "事後標本",
+        "事後モーメント",
         "実効標本数",
+        "Monte Carlo標準誤差",
         "粒子尤度"
       ],
       "prerequisites": [
@@ -359,7 +362,7 @@
       "subdomain": "ベイズ計算と粒子",
       "title": "ベイズ計算と粒子",
       "topic": "ベイズ計算と粒子",
-      "use_when": "MCMCまたは粒子フィルターで事後分布と状態を計算する"
+      "use_when": "事後分布を変数変換しMetropolis–Hastings・MCMCでモーメントとMonte Carlo標準誤差を求める、または粒子フィルターで状態と尤度を計算する"
     },
     {
       "alternatives": [],
