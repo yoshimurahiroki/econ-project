@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.37",
+  "version": "2.3.38",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -7896,16 +7896,18 @@
       "subdomain": "予測精度と分布予測",
       "kind": "knowledge",
       "topic": "予測精度と分布予測",
-      "use_when": "点予測と分布予測の精度を比較する",
+      "use_when": "点予測と分布予測の精度を比較する。追加説明変数を持つ入れ子の二つの予測で実現損失と補正検定を分ける",
       "inputs": [
         "予測",
         "実現値",
-        "損失系列"
+        "損失系列",
+        "小モデル・大モデルの同じ評価時点の予測と実現値"
       ],
       "outputs": [
         "損失差",
         "検定",
-        "得点"
+        "得点",
+        "Clark–West補正差と片側比較"
       ],
       "file": "chapters/31-forecasting-decisions.md",
       "anchor": "forecast-05",
@@ -14662,8 +14664,18 @@
         "ja": "予測精度と分布予測"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "Clark West adjustment",
+          "Clark-West test",
+          "nested forecast comparison",
+          "adjusted MSPE"
+        ],
+        "ja": [
+          "Clark–West補正",
+          "クラーク・ウェスト検定",
+          "入れ子予測",
+          "補正損失差"
+        ]
       },
       "broader": [
         "C-CH-31"
