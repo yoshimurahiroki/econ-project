@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.49",
+  "version": "2.3.50",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -7983,7 +7983,9 @@
         "C-CH-31",
         "C-TERM-CROSS-VALIDATION",
         "C-TERM-BAYESIAN-INFORMATION-CRITERION",
-        "C-TERM-AIC"
+        "C-TERM-AIC",
+        "C-TERM-LASSO",
+        "C-TERM-RIDGE"
       ],
       "jel_codes": [
         "C53",
@@ -11021,11 +11023,16 @@
     {
       "id": "C-DESIGN-04",
       "preferred": {
-        "en": "Deferred acceptance and stability",
+        "en": "Deferred acceptance and stable school assignment",
         "ja": "繰延受諾と安定性"
       },
       "aliases": {
-        "en": [],
+        "en": [
+          "student-school matching",
+          "school choice mechanism",
+          "school admission matching",
+          "Gale-Shapley algorithm"
+        ],
         "ja": []
       },
       "broader": [
@@ -20274,6 +20281,70 @@
         "C53"
       ],
       "kind": "concept"
+    },
+    {
+      "id": "C-TERM-LASSO",
+      "preferred": {
+        "en": "lasso",
+        "ja": "Lasso"
+      },
+      "aliases": {
+        "en": [
+          "L1 regularization",
+          "L1 regularisation",
+          "L1 penalty",
+          "L1-penalized regression",
+          "least absolute shrinkage and selection operator"
+        ],
+        "ja": [
+          "L1正則化",
+          "L1罰則"
+        ]
+      },
+      "broader": [
+        "C-FORECAST-03"
+      ],
+      "definition": {
+        "unit": "FORECAST-03",
+        "anchor": "forecast-03"
+      },
+      "jel_codes": [
+        "C53",
+        "C45"
+      ],
+      "kind": "method"
+    },
+    {
+      "id": "C-TERM-RIDGE",
+      "preferred": {
+        "en": "ridge regression",
+        "ja": "リッジ回帰"
+      },
+      "aliases": {
+        "en": [
+          "ridge",
+          "L2 regularization",
+          "L2 regularisation",
+          "L2 penalty",
+          "L2-penalized regression"
+        ],
+        "ja": [
+          "L2正則化",
+          "L2罰則"
+        ]
+      },
+      "broader": [
+        "C-FORECAST-03"
+      ],
+      "definition": {
+        "unit": "FORECAST-03",
+        "anchor": "forecast-03"
+      },
+      "jel_codes": [
+        "C53",
+        "C45"
+      ],
+      "kind": "method"
     }
   ],
   "jel": {

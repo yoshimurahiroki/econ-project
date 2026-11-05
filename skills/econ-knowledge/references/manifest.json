@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "20d5046b32bfe96246643516ce895807205acee5ee3678211019eef8636e789b",
+  "catalog_sha256": "5a4e8f872e6951174b8e35865d002e1478b8089fb0f17268e227bb862e590c24",
   "chapters": {
     "chapters/01-mathematics.md": "e6c08317522ed57b2885136185edcb7fb6b0af0076c72be1cbe4f58ece2d9a78",
     "chapters/02-probability-statistics.md": "639a09fe66f42747521e849060ba370094ba50eed3dc228bcdf3826f0acb6822",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "2a21b13a80fae0e8428047b668c9e8e06914206726e1f07ab40df72b82bf6913",
+  "domain_listing_sha256": "9336fc2aea39219a86a806d96b93dadb188fcf456af88ca76d318a79b3fb83fc",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -57,7 +57,7 @@
     "予測意思決定": {
       "count": 8,
       "path": "domains/04.json",
-      "sha256": "42dbf69c6eb1f2b9913ad16732470a3ceab95484e88b90c16111957c2e34bddc"
+      "sha256": "804357a3205935afd92071cef5eb75fb8f38b913fcf2ea45680a4b9dc05a76d7"
     },
     "企業金融銀行": {
       "count": 8,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "be15990ce6933da8c181bec4a249bc326ef6f4db4f2094bc30e197d3dbee43cd"
+      "sha256": "637158c3afbfdc030434dcb32338d479955178299285a61d498b9a98e4f4ef5e"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
