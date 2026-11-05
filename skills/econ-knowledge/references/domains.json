@@ -163,12 +163,12 @@
     {
       "domain": "開発農業",
       "path": "domains/33.json",
-      "sha256": "e23851575abab1dc2208e702ef3b18fa078c14c5ad3faca07847f31ea8faddfc"
+      "sha256": "a86cdb19eb4bea0c46837850037744be92384348f049add3b7859fa458d81c8b"
     },
     {
       "domain": "需要生産",
       "path": "domains/34.json",
-      "sha256": "19aac90ef8c7ffe3880b9101c0a6cd9a260c1fb5c949ede6d7a6efd44090b069"
+      "sha256": "dc7bc27d1a3996c631499b1288c11131be25901e6354e4880afdd09237ad58f9"
     },
     {
       "domain": "革新歴史広告",

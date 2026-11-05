@@ -155,39 +155,37 @@
       "chapter": 27,
       "concept_ids": [
         "C-DEV-05",
-        "C-CH-27",
-        "C-TERM-RESOURCE-MISALLOCATION"
+        "C-CH-27"
       ],
       "contract_ids": [],
       "domain": "開発農業",
       "file": "chapters/27-development-agriculture.md",
       "id": "DEV-05",
       "inputs": [
-        "技能技術",
-        "投入",
-        "企業歪み"
+        "技能形成技術",
+        "時期別投資費用",
+        "家計予算と借入条件"
       ],
       "jel_codes": [
         "O15",
-        "J13",
-        "D24"
+        "J13"
       ],
       "kind": "knowledge",
       "outputs": [
         "技能",
-        "限界生産物",
-        "配分"
+        "時期別投資配分"
       ],
       "prerequisites": [
-        "MICRO-04"
+        "MATH-04"
       ],
       "related": [
-        "HEALTH-05"
+        "HEALTH-05",
+        "DEMAND-06"
       ],
-      "subdomain": "子どもの技能と資源配分",
-      "title": "子どもの技能と資源配分",
-      "topic": "子どもの技能と資源配分; resource misallocation; firm productivity; capital wedges; 資源誤配分",
-      "use_when": "技能投資と企業間資源配分を分析する"
+      "subdomain": "子どもの技能と時期別投資",
+      "title": "子どもの技能と時期別投資",
+      "topic": "子どもの技能と時期別投資; human capital investment timing",
+      "use_when": "予算と借入条件の下で幼少期・後期の技能投資を配分する"
     },
     {
       "alternatives": [],

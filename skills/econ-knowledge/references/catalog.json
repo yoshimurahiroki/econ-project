@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.50",
+  "version": "2.3.51",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -4613,16 +4613,21 @@
       "domain": "需要生産",
       "subdomain": "マークアップと配分",
       "kind": "knowledge",
-      "topic": "投入弾力性と売上比からマークアップを求める",
-      "use_when": "投入弾力性と売上比からマークアップを求める",
+      "topic": "投入弾力性と売上比からマークアップを求め、企業間の資源誤配分を分析する; resource misallocation; firm productivity; capital wedges",
+      "use_when": "マークアップを推定し、企業間の投入配分の歪みと再配分後の産出を計算する",
       "inputs": [
         "産出弾力性",
         "投入支出",
-        "売上"
+        "売上",
+        "企業別資本・労働・産出",
+        "投入価格と配分の歪み",
+        "資源総量と産出の集計方法"
       ],
       "outputs": [
         "マークアップ",
-        "配分wedge"
+        "配分wedge",
+        "企業別投入配分",
+        "再配分後の産業産出"
       ],
       "file": "chapters/15-demand-production.md",
       "anchor": "demand-06",
@@ -4630,11 +4635,13 @@
         "C-DEMAND-06",
         "C-CH-15",
         "C-TERM-MARKUP",
-        "C-TERM-MARKET-POWER"
+        "C-TERM-MARKET-POWER",
+        "C-TERM-RESOURCE-MISALLOCATION"
       ],
       "jel_codes": [
         "D24",
-        "L11"
+        "L11",
+        "O47"
       ],
       "contract_ids": []
     },
@@ -7199,34 +7206,31 @@
     },
     {
       "id": "DEV-05",
-      "title": "子どもの技能と資源配分",
+      "title": "子どもの技能と時期別投資",
       "chapter": 27,
       "domain": "開発農業",
-      "subdomain": "子どもの技能と資源配分",
+      "subdomain": "子どもの技能と時期別投資",
       "kind": "knowledge",
-      "topic": "子どもの技能と資源配分; resource misallocation; firm productivity; capital wedges; 資源誤配分",
-      "use_when": "技能投資と企業間資源配分を分析する",
+      "topic": "子どもの技能と時期別投資; human capital investment timing",
+      "use_when": "予算と借入条件の下で幼少期・後期の技能投資を配分する",
       "inputs": [
-        "技能技術",
-        "投入",
-        "企業歪み"
+        "技能形成技術",
+        "時期別投資費用",
+        "家計予算と借入条件"
       ],
       "outputs": [
         "技能",
-        "限界生産物",
-        "配分"
+        "時期別投資配分"
       ],
       "file": "chapters/27-development-agriculture.md",
       "anchor": "dev-05",
       "concept_ids": [
         "C-DEV-05",
-        "C-CH-27",
-        "C-TERM-RESOURCE-MISALLOCATION"
+        "C-CH-27"
       ],
       "jel_codes": [
         "O15",
-        "J13",
-        "D24"
+        "J13"
       ],
       "contract_ids": []
     },
@@ -12545,7 +12549,8 @@
       },
       "jel_codes": [
         "D24",
-        "L11"
+        "L11",
+        "O47"
       ],
       "kind": "concept"
     },
@@ -14314,8 +14319,8 @@
     {
       "id": "C-DEV-05",
       "preferred": {
-        "en": "Children’s skills and resource allocation",
-        "ja": "子どもの技能と資源配分"
+        "en": "Children’s skills and investment timing",
+        "ja": "子どもの技能と時期別投資"
       },
       "aliases": {
         "en": [],
@@ -14330,8 +14335,7 @@
       },
       "jel_codes": [
         "O15",
-        "J13",
-        "D24"
+        "J13"
       ],
       "kind": "concept"
     },
@@ -18999,19 +19003,20 @@
         ],
         "ja": [
           "資源の誤配分",
-          "資源配分の歪み"
+          "資源配分の歪み",
+          "企業間の資源誤配分"
         ]
       },
       "broader": [
-        "C-DEV-05"
+        "C-DEMAND-06"
       ],
       "definition": {
-        "unit": "DEV-05",
-        "anchor": "dev-05"
+        "unit": "DEMAND-06",
+        "anchor": "demand-06"
       },
       "jel_codes": [
         "D24",
-        "O15"
+        "O47"
       ],
       "kind": "concept"
     },
@@ -24338,14 +24343,14 @@
       "type": "related",
       "conditions": [],
       "when": {},
-      "use": "Navigation between the cited economics topics; the relation supplies no equivalence or causal claim.",
+      "use": "生産性と需要・価格を分ける観測式から、投入の限界生産物と企業間の配分を構成する。",
       "evidence": [
         {
           "unit": "DEMAND-06",
           "anchor": "demand-06"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.51"
     },
     {
       "id": "R-0244",
@@ -26656,18 +26661,18 @@
     {
       "id": "R-0407",
       "source": "DEV-05",
-      "target": "MICRO-04",
+      "target": "MATH-04",
       "type": "prerequisite_to_understand",
       "conditions": [],
       "when": {},
-      "use": "子どもの技能と資源配分 uses the definitions and equations in 生産、費用と供給.",
+      "use": "技能投資の時期別配分を予算制約付き最適化として解く。",
       "evidence": [
         {
           "unit": "DEV-05",
           "anchor": "dev-05"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.51"
     },
     {
       "id": "R-0408",
@@ -26676,14 +26681,14 @@
       "type": "related",
       "conditions": [],
       "when": {},
-      "use": "Navigation between the cited economics topics; the relation supplies no equivalence or causal claim.",
+      "use": "技能形成の補完性と学校効果の識別を、時期別投資配分へ結ぶ。",
       "evidence": [
         {
           "unit": "DEV-05",
           "anchor": "dev-05"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.51"
     },
     {
       "id": "R-0409",
@@ -30977,6 +30982,70 @@
         }
       ],
       "version": "2.3.49"
+    },
+    {
+      "id": "R-DEV-05-DEMAND-06",
+      "source": "DEV-05",
+      "target": "DEMAND-06",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "家計の技能投資配分と企業間の投入配分を、それぞれの主体と制約から選ぶ。",
+      "evidence": [
+        {
+          "unit": "DEV-05",
+          "anchor": "dev-05"
+        }
+      ],
+      "version": "2.3.51"
+    },
+    {
+      "id": "R-DEMAND-06-IO-03",
+      "source": "DEMAND-06",
+      "target": "IO-03",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "参入・退出を変える政策では、企業集合の変更を投入配分と産業産出へ反映する。",
+      "evidence": [
+        {
+          "unit": "DEMAND-06",
+          "anchor": "demand-06"
+        }
+      ],
+      "version": "2.3.51"
+    },
+    {
+      "id": "R-DEMAND-06-STRUCT-06",
+      "source": "DEMAND-06",
+      "target": "STRUCT-06",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "配分の変更を要素価格、市場清算と政策厚生の計算へ渡す。",
+      "evidence": [
+        {
+          "unit": "DEMAND-06",
+          "anchor": "demand-06"
+        }
+      ],
+      "version": "2.3.51"
+    },
+    {
+      "id": "R-DEMAND-05-IO-03",
+      "source": "DEMAND-05",
+      "target": "IO-03",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "存続・退出の観測過程を、企業の参入・退出選択へ対応させる。",
+      "evidence": [
+        {
+          "unit": "DEMAND-05",
+          "anchor": "demand-05"
+        }
+      ],
+      "version": "2.3.51"
     }
   ],
   "model_contracts": [
