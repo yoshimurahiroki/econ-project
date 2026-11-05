@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.46",
+  "version": "2.3.47",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -3178,7 +3178,7 @@
       "subdomain": "固定効果と動学パネル",
       "kind": "knowledge",
       "topic": "固定効果と動学パネル",
-      "use_when": "多方向の固定効果を同時に除き、静学回帰・操作変数法・動学パネルの識別と実行方法を選ぶ",
+      "use_when": "多方向の固定効果を同時に除き、静学回帰・操作変数法・動学パネルの識別と実行方法を選ぶ。個人別リッジでは平均縮小係数による補正と単純平均の一致条件を調べる。",
       "inputs": [
         "パネル結果",
         "説明変数",
@@ -11519,11 +11519,21 @@
         "en": [
           "dynamic panel",
           "difference GMM",
-          "Arellano Bond"
+          "Arellano Bond",
+          "heterogeneous slope panel",
+          "individual ridge regression",
+          "average shrinkage correction",
+          "short panel mean slopes",
+          "ridge shrinkage weights"
         ],
         "ja": [
           "動学パネル",
-          "差分GMM"
+          "差分GMM",
+          "異質係数パネル",
+          "個人別リッジ",
+          "平均縮小係数",
+          "短いパネルの平均傾き",
+          "リッジの縮小補正"
         ]
       },
       "broader": [
