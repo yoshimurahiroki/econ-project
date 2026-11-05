@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.61",
+  "version": "2.3.62",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -589,7 +589,7 @@
       "subdomain": "集合と連続性",
       "kind": "knowledge",
       "topic": "集合、連続性と解の存在",
-      "use_when": "連続目的の最大解の存在とパラメータ変化に対する最適解の連続性を判定する",
+      "use_when": "最大解の存在、上半連続性と下半連続性、最大値定理による最適値と最適選択の連続性を判定する",
       "inputs": [
         "選択集合",
         "目的関数",
@@ -597,8 +597,9 @@
       ],
       "outputs": [
         "最大解の存在",
-        "最適値の連続性",
-        "最適解集合の上半連続性"
+        "対応の上半連続性と下半連続性",
+        "最大値定理の導出",
+        "最適値と最適選択の連続性"
       ],
       "file": "chapters/01-mathematics.md",
       "anchor": "math-01",
@@ -681,16 +682,19 @@
       "subdomain": "制約付き最適化と影価格",
       "kind": "knowledge",
       "topic": "制約付き最適化と影価格",
-      "use_when": "制約付き最大化のKKT条件と影価格を求める",
+      "use_when": "制約付き最大化のKKT条件、影価格、最適値の微分可能性と包絡式を導出する",
       "inputs": [
         "目的関数",
         "不等式制約",
-        "等式制約"
+        "等式制約",
+        "パラメータと制約の変化"
       ],
       "outputs": [
         "最適条件",
         "双対問題",
-        "影価格"
+        "影価格",
+        "包絡定理の条件と挟み込み証明",
+        "制約変化を含む最適値の微分"
       ],
       "file": "chapters/01-mathematics.md",
       "anchor": "math-04",
@@ -9930,8 +9934,21 @@
         "ja": "集合、連続性と解の存在"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "upper hemicontinuity",
+          "lower hemicontinuity",
+          "upper semicontinuity correspondence",
+          "lower semicontinuity correspondence",
+          "Berge maximum theorem",
+          "UHC",
+          "LHC"
+        ],
+        "ja": [
+          "上半連続対応",
+          "下半連続対応",
+          "最大値定理",
+          "最大解対応"
+        ]
       },
       "broader": [
         "C-CH-01"
