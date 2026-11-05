@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "c016d9614f635ed9bfd4b26325e04a24b2110e8e",
+  "source_base_commit": "23056448bb81757a4fe250a4a325ff8e5234b446",
   "source_state": "committed",
-  "common_content_id": "214e5da203a30c11948069bc656a01e08174332856262e40d7e75e0ff00ef438",
+  "common_content_id": "e32374c111d8a56737334cc8cbd319acacf7436ee8026f6c16e4a69b069400d1",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -105,8 +105,8 @@
     {
       "path": ".agents/harness/policy_assets.py",
       "state": "present",
-      "sha256": "8d0736533a5025bcb3b5cd0b402d68ce0df3bc86737c63171be60150ce73a04a",
-      "git_blob": "1ea353d0b1f39542c3ff47522a00f938bb7a37d4",
+      "sha256": "fee21c2329a5539bb14e9b035f0b9c3971bba6d55d1c7080ecd4f06774f8eeb8",
+      "git_blob": "ba30aa50806b63e99be3fa1f9efccfc16ecb1e8a",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -409,8 +409,16 @@
     {
       "path": ".agents/skills/econ-knowledge/references/domains.json",
       "state": "present",
-      "sha256": "e899e0f53ecb70877a49c3665d02866de5c61649a486c31404dbd8b3025c1722",
-      "git_blob": "cbae1555b394a8ab3883253836ea1af96ce90b7c",
+      "sha256": "7c4117a12b44515a821a52578d7755ecfb460e010244aca1d71960e27e9b4d1f",
+      "git_blob": "3e14cae62ce372e518885e44c45213a67747e8fd",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": ".agents/skills/econ-knowledge/references/domains/01.json",
+      "state": "present",
+      "sha256": "23222cc47dd46fe9e560bd99d4baecdb4b0348f83c45e5f158038c6f2e91731d",
+      "git_blob": "91f883304006a997d56072e6b858c4c6ddd4a7de",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -521,8 +529,8 @@
     {
       "path": ".agents/skills/econ-knowledge/references/manifest.json",
       "state": "present",
-      "sha256": "db2f39e73f59893c3b9c94247f4acf3668cfb729aff92898996464d4641fd6c6",
-      "git_blob": "ac984a7bad4e396e4aa6b325a31a76c6c354b915",
+      "sha256": "085718219769c04dbd4d2553fbc2f9744ed88b0d3ac261f954bfcd34ce406304",
+      "git_blob": "4f2073018ade6cb72011c457da1e8a8f23677242",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -545,8 +553,8 @@
     {
       "path": ".agents/skills/econ-knowledge/references/runtime.json",
       "state": "present",
-      "sha256": "341a41f3c3e6fa8f8b88eace066ebd4a984aa2541992545636c394dce73acbf0",
-      "git_blob": "c8036e9abedfb216fe10c3dd39756562d5ee03da",
+      "sha256": "936ff250123825cc45a4a6a87433a863b909522d31a16c4a0f846ecd0c998d66",
+      "git_blob": "f316163e40685a8a249b8e53505b495bb9f1f062",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -611,6 +619,14 @@
       "state": "present",
       "sha256": "7297f952c622dab0529fe622be50e3aabc0259e29e807d6880aa37f378667bdb",
       "git_blob": "0ffe9136f21448c36258c78e0e06849e066b641d",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": ".agents/skills/econ-knowledge/references/units/GAME-01.md",
+      "state": "present",
+      "sha256": "36a69c1bdd791bd894fca8981f8e51d0e51714c6688173dbfd1d497d79c89c26",
+      "git_blob": "192520a3d6f6c1d219928fc1c495410852ab8170",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1033,8 +1049,8 @@
     {
       "path": "harness/policy_assets.py",
       "state": "present",
-      "sha256": "8d0736533a5025bcb3b5cd0b402d68ce0df3bc86737c63171be60150ce73a04a",
-      "git_blob": "1ea353d0b1f39542c3ff47522a00f938bb7a37d4",
+      "sha256": "fee21c2329a5539bb14e9b035f0b9c3971bba6d55d1c7080ecd4f06774f8eeb8",
+      "git_blob": "ba30aa50806b63e99be3fa1f9efccfc16ecb1e8a",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1865,8 +1881,8 @@
     {
       "path": "skills/econ-knowledge/references/catalog.json",
       "state": "present",
-      "sha256": "18f582014949577b65c81108c8fcea18b62874a9cc564988ff69ebe0a8273664",
-      "git_blob": "d0d81b76e9337a485432eeef09c6ebd9da04938c",
+      "sha256": "4896e4a03ed12b57a86dc4fdbc975858a698e475e40695579084420b77d5d4e7",
+      "git_blob": "7707096ebeb30595322a932b0591c3599d994388",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1897,8 +1913,8 @@
     {
       "path": "skills/econ-knowledge/references/chapters/04-games.md",
       "state": "present",
-      "sha256": "c0150f132db087c79cd13bf2457e7d040ff1a01e683ba88c20ba9f0940af23cf",
-      "git_blob": "4501be2449a1169e1712febe052636d7b9e09cb8",
+      "sha256": "4178a534a7edc94e8f8171c990fe3a3317532a663d180b6d18fe798f9d00ca1d",
+      "git_blob": "2f1bb3f304baa8b54fef4cb51f5082e9bb79f586",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -2153,16 +2169,16 @@
     {
       "path": "skills/econ-knowledge/references/domains.json",
       "state": "present",
-      "sha256": "e899e0f53ecb70877a49c3665d02866de5c61649a486c31404dbd8b3025c1722",
-      "git_blob": "cbae1555b394a8ab3883253836ea1af96ce90b7c",
+      "sha256": "7c4117a12b44515a821a52578d7755ecfb460e010244aca1d71960e27e9b4d1f",
+      "git_blob": "3e14cae62ce372e518885e44c45213a67747e8fd",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "skills/econ-knowledge/references/domains/01.json",
       "state": "present",
-      "sha256": "61c15e21a0a270e82c5e652d7053d28a00091b71d4980f873e49d83368842adc",
-      "git_blob": "6ebbac201931b1e2a83e11ab3f13be64375ec066",
+      "sha256": "23222cc47dd46fe9e560bd99d4baecdb4b0348f83c45e5f158038c6f2e91731d",
+      "git_blob": "91f883304006a997d56072e6b858c4c6ddd4a7de",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -2449,8 +2465,8 @@
     {
       "path": "skills/econ-knowledge/references/manifest.json",
       "state": "present",
-      "sha256": "db2f39e73f59893c3b9c94247f4acf3668cfb729aff92898996464d4641fd6c6",
-      "git_blob": "ac984a7bad4e396e4aa6b325a31a76c6c354b915",
+      "sha256": "085718219769c04dbd4d2553fbc2f9744ed88b0d3ac261f954bfcd34ce406304",
+      "git_blob": "4f2073018ade6cb72011c457da1e8a8f23677242",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -3201,8 +3217,8 @@
     {
       "path": "skills/econ-knowledge/references/units/GAME-01.md",
       "state": "present",
-      "sha256": "2ab1029e41154ef2dd421bf26542c148244a3fcf4c14680c7496768acb59fd4b",
-      "git_blob": "066b789369d07cb3601807a2383fe5eec98d45b5",
+      "sha256": "36a69c1bdd791bd894fca8981f8e51d0e51714c6688173dbfd1d497d79c89c26",
+      "git_blob": "192520a3d6f6c1d219928fc1c495410852ab8170",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
