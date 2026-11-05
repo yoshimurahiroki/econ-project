@@ -1,11 +1,11 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.39",
+  "version": "2.3.40",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
-  "unit_count": 251,
+  "unit_count": 252,
   "worked_example_unit_count": 39,
   "chapters": [
     {
@@ -306,7 +306,8 @@
         "MONETARY-03",
         "MONETARY-04",
         "MONETARY-05",
-        "MONETARY-06"
+        "MONETARY-06",
+        "MONETARY-07"
       ]
     },
     {
@@ -5198,6 +5199,38 @@
         "E52",
         "E32",
         "D84"
+      ],
+      "contract_ids": []
+    },
+    {
+      "id": "MONETARY-07",
+      "title": "伸縮価格の家計：実質貨幣需要、名目利子と最適貨幣量",
+      "chapter": 18,
+      "domain": "金融財政開放",
+      "subdomain": "貨幣保有と最適貨幣量",
+      "kind": "knowledge",
+      "topic": "貨幣による取引便益と債券の実質収益",
+      "use_when": "伸縮価格下で家計の貨幣・債券の選択から名目利子、貨幣需要、最適インフレ率を求める",
+      "inputs": [
+        "家計の予算・実質残高の便益",
+        "通貨または付利貨幣の収益率",
+        "時点別物価と実質総利子率"
+      ],
+      "outputs": [
+        "名目債券Euler式",
+        "貨幣需要の限界条件と十分性",
+        "純率・総率・総インフレの換算",
+        "最適貨幣量と実物余剰"
+      ],
+      "file": "chapters/18-monetary-open-macro.md",
+      "anchor": "monetary-07",
+      "concept_ids": [
+        "C-MONETARY-07",
+        "C-CH-18"
+      ],
+      "jel_codes": [
+        "E41",
+        "E52"
       ],
       "contract_ids": []
     },
@@ -19838,6 +19871,46 @@
         "R12"
       ],
       "kind": "concept"
+    },
+    {
+      "id": "C-MONETARY-07",
+      "preferred": {
+        "en": "money in utility and the Friedman rule",
+        "ja": "実質貨幣残高の効用とフリードマン・ルール"
+      },
+      "aliases": {
+        "en": [
+          "money in the utility function",
+          "money in utility",
+          "MIU",
+          "Friedman rule",
+          "optimum quantity of money",
+          "gross Fisher relation",
+          "interest on money balances"
+        ],
+        "ja": [
+          "貨幣保有の最適性条件",
+          "貨幣の限界取引便益",
+          "最適貨幣量",
+          "名目利率",
+          "ゼロ名目金利",
+          "総インフレ率",
+          "付利貨幣",
+          "フィッシャー関係"
+        ]
+      },
+      "broader": [
+        "C-CH-18"
+      ],
+      "definition": {
+        "unit": "MONETARY-07",
+        "anchor": "monetary-07"
+      },
+      "jel_codes": [
+        "E41",
+        "E52"
+      ],
+      "kind": "concept"
     }
   ],
   "jel": {
@@ -20194,6 +20267,11 @@
     "E32": {
       "en": "Business Fluctuations • Cycles",
       "ja": "景気変動・景気循環",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "E41": {
+      "en": "Demand for Money",
+      "ja": "貨幣需要",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "E43": {
@@ -30376,6 +30454,31 @@
         }
       ],
       "version": "2.3.34"
+    },
+    {
+      "id": "R-MONETARY-01-MONETARY-07",
+      "source": "MONETARY-01",
+      "target": "MONETARY-07",
+      "type": "alternative_under",
+      "conditions": [
+        "財価格が伸縮的で、貨幣と債券の保有が選択対象である。"
+      ],
+      "when": {
+        "price_setting": [
+          "flexible"
+        ],
+        "choice": [
+          "money_bonds"
+        ]
+      },
+      "use": "同じ名目金利でも、価格硬直性のある産出・インフレの三式と、伸縮価格下の通貨保有の限界条件を区別する。",
+      "evidence": [
+        {
+          "unit": "MONETARY-07",
+          "anchor": "monetary-07"
+        }
+      ],
+      "version": "2.3.40"
     }
   ],
   "model_contracts": [

@@ -233,6 +233,41 @@
       "title": "解答付き例題：自然金利ショックの持続性と政策反応",
       "topic": "自然金利ショックの持続性、合理的期待と金利下限",
       "use_when": "合理的期待を含む三式から、自然金利ショックの持続性による産出・物価反応を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "monetary-07",
+      "chapter": 18,
+      "concept_ids": [
+        "C-MONETARY-07",
+        "C-CH-18"
+      ],
+      "contract_ids": [],
+      "domain": "金融財政開放",
+      "file": "chapters/18-monetary-open-macro.md",
+      "id": "MONETARY-07",
+      "inputs": [
+        "家計の予算・実質残高の便益",
+        "通貨または付利貨幣の収益率",
+        "時点別物価と実質総利子率"
+      ],
+      "jel_codes": [
+        "E41",
+        "E52"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "名目債券Euler式",
+        "貨幣需要の限界条件と十分性",
+        "純率・総率・総インフレの換算",
+        "最適貨幣量と実物余剰"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "貨幣保有と最適貨幣量",
+      "title": "伸縮価格の家計：実質貨幣需要、名目利子と最適貨幣量",
+      "topic": "貨幣による取引便益と債券の実質収益",
+      "use_when": "伸縮価格下で家計の貨幣・債券の選択から名目利子、貨幣需要、最適インフレ率を求める"
     }
   ]
 }
