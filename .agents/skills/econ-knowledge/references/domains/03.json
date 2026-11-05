@@ -85,7 +85,7 @@
       ],
       "subdomain": "支出最小化と補償需要",
       "title": "支出最小化と補償需要",
-      "topic": "支出最小化と補償需要",
+      "topic": "支出最小化と補償需要; ギッフェン財と所得効果; Giffen good",
       "use_when": "支出最小化から補償需要と価格変更の厚生を求める"
     },
     {
@@ -161,7 +161,7 @@
       ],
       "subdomain": "生産、費用と供給",
       "title": "生産、費用と供給",
-      "topic": "生産、費用と供給; producer theory; 生産者理論",
+      "topic": "生産、費用と供給; producer theory; 生産者理論; 自由参入と長期供給; long-run industry supply",
       "use_when": "技術と投入価格から費用と企業供給を求める"
     },
     {

@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.28",
+  "version": "2.3.29",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -1150,7 +1150,7 @@
       "domain": "ミクロ理論",
       "subdomain": "支出最小化と補償需要",
       "kind": "knowledge",
-      "topic": "支出最小化と補償需要",
+      "topic": "支出最小化と補償需要; ギッフェン財と所得効果; Giffen good",
       "use_when": "支出最小化から補償需要と価格変更の厚生を求める",
       "inputs": [
         "効用水準",
@@ -1220,7 +1220,7 @@
       "domain": "ミクロ理論",
       "subdomain": "生産、費用と供給",
       "kind": "knowledge",
-      "topic": "生産、費用と供給; producer theory; 生産者理論",
+      "topic": "生産、費用と供給; producer theory; 生産者理論; 自由参入と長期供給; long-run industry supply",
       "use_when": "技術と投入価格から費用と企業供給を求める",
       "inputs": [
         "生産技術",
@@ -15856,8 +15856,14 @@
         "ja": "一般均衡"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "Walrasian equilibrium",
+          "Arrow-Debreu equilibrium"
+        ],
+        "ja": [
+          "ワルラス均衡",
+          "アロー＝ドブリュー均衡"
+        ]
       },
       "broader": [
         "C-MICRO-05"
@@ -17805,7 +17811,15 @@
         "D51",
         "D61"
       ],
-      "kind": "concept"
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/10102-0",
+          "relation": "exactMatch",
+          "version": "9.20"
+        }
+      ]
     },
     {
       "id": "C-TERM-MAXMIN-EU",
@@ -18170,7 +18184,15 @@
         "D11",
         "D61"
       ],
-      "kind": "concept"
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/10182-4",
+          "relation": "broadMatch",
+          "version": "9.20"
+        }
+      ]
     },
     {
       "id": "C-TERM-INCOME-EFFECT",
@@ -18195,7 +18217,15 @@
         "D11",
         "D61"
       ],
-      "kind": "concept"
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/19197-2",
+          "relation": "exactMatch",
+          "version": "9.20"
+        }
+      ]
     },
     {
       "id": "C-TERM-SUBSTITUTION-EFFECT",
@@ -18218,7 +18248,15 @@
         "D11",
         "D61"
       ],
-      "kind": "concept"
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/19200-4",
+          "relation": "exactMatch",
+          "version": "9.20"
+        }
+      ]
     },
     {
       "id": "C-TERM-PROPENSITY-SCORE",

@@ -1,9 +1,9 @@
 {
-  "catalog_sha256": "1925bd139a1c8cc774be7e7d2c996f08b858969d0f4d2926b9a8cf48df4073e4",
+  "catalog_sha256": "ee917dc7e91afe20e44995add2ceca565e7f3e3719d9e77e9bed7f2b69032b7d",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
-    "chapters/03-microeconomics.md": "1299dd4e79de2dc3522f43b71fbaf2589bd44f3cc2b3f9c6f8dfb79cc5bb9893",
+    "chapters/03-microeconomics.md": "477c8906714f15192ffaa22a741332b6d641262e3a313e3d60020bedd85a805c",
     "chapters/04-games.md": "c0150f132db087c79cd13bf2457e7d040ff1a01e683ba88c20ba9f0940af23cf",
     "chapters/05-information-behavior.md": "0d6f1f82591793adc128c59c5cf195c73f347bfe30f9ca805f4aab6de675ec15",
     "chapters/06-contracts-organization.md": "72c21e67dc11662ec9dc4f3d1924b2a69182734cd992e253908c87eea0c7ae6c",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "2efe7b11fdb3190379e47091429083640c2358c32d885e3447aa3112478905ef",
+  "domain_listing_sha256": "7eb12fcac4f6dcf8fca00fbb0b81b4a3b75462486613dd2fd33a8b4e44b0fa8d",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -52,7 +52,7 @@
     "ミクロ理論": {
       "count": 7,
       "path": "domains/03.json",
-      "sha256": "0fed97d7d38ba50b15d6dc8577b5d27fb7324c1643756f0fc5b1388183d63f38"
+      "sha256": "c4019f12dd50d0dedfc7e08aae9f4166823766c3508bdf8e9e86489aeb4720cf"
     },
     "予測意思決定": {
       "count": 7,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "27974c234e7474ccdcfa0f9465d8db463bad8f8482043072a303160c5a118bba"
+      "sha256": "a607250f68971dd85cc6cd2fdbafda12de319486c88f75635511e236417b38ec"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -1255,7 +1255,7 @@
       "chapter": "chapters/03-microeconomics.md",
       "domain": "ミクロ理論",
       "path": "units/MICRO-02.md",
-      "sha256": "b251ee8ffb2fc086de470ff07e5478ec00875d01197c28d6e43029770184919d"
+      "sha256": "f89ba25a169c2e6b976410df6b15b2ef122dddd2d826a2de608bcc76c48c4c83"
     },
     "MICRO-03": {
       "chapter": "chapters/03-microeconomics.md",
@@ -1267,13 +1267,13 @@
       "chapter": "chapters/03-microeconomics.md",
       "domain": "ミクロ理論",
       "path": "units/MICRO-04.md",
-      "sha256": "74e27ed675c36f58c5190363660b688ad29a0017a57b7f052ed1e477cdc01b01"
+      "sha256": "04670edd3996d9d9a0c19704ae0806209640d61da0d3aba7a9fe8df23bf7ca31"
     },
     "MICRO-05": {
       "chapter": "chapters/03-microeconomics.md",
       "domain": "ミクロ理論",
       "path": "units/MICRO-05.md",
-      "sha256": "d033f2cfb1c37f700b1bb7ab3aec28d894e9018b574a6a0f786b064e9c0e666e"
+      "sha256": "704b1e4eb29a5eeec3d82f76d84c379eeaf45f5b88598e4551c480ffe2f87089"
     },
     "MICRO-06": {
       "chapter": "chapters/03-microeconomics.md",
