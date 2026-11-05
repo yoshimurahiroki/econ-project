@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "ad3b293d935b5b715f4728b742e8c1bda583c917524b9ae162f7b8afb9893a0f",
+  "catalog_sha256": "20d5046b32bfe96246643516ce895807205acee5ee3678211019eef8636e789b",
   "chapters": {
     "chapters/01-mathematics.md": "e6c08317522ed57b2885136185edcb7fb6b0af0076c72be1cbe4f58ece2d9a78",
     "chapters/02-probability-statistics.md": "639a09fe66f42747521e849060ba370094ba50eed3dc228bcdf3826f0acb6822",
@@ -31,13 +31,13 @@
     "chapters/28-environment-energy.md": "cef9f134a3decc524af107f32b59c04bcc90628d0aaeca53a615abda77649cb2",
     "chapters/29-political-law-institutions.md": "ba6c55a883b073d29e7a45c921b077a4823f12e18e9b0d92fe6dc2c380ce566a",
     "chapters/30-innovation-history-marketing.md": "cb240cc4335d448db0bf8ee39a9d52cde38cb3df8e921ce7041146ca39da1274",
-    "chapters/31-forecasting-decisions.md": "1d6bc6745f1853e1af8545735ecab40232c188d91ccd075916c83095111f783d",
+    "chapters/31-forecasting-decisions.md": "80371216783d421de653522e6c887e8096458b28f0b54f01ccf1434dbd43145b",
     "chapters/32-welfare-policy.md": "32f68ca06758831c1d683b5765c6b839fa2b56fb6cb7862c00e33485774c548b",
     "chapters/33-numerical-simulation.md": "24711b85f8ca89b927ac9fc9cd717fc57001cc2431bc46e5c77955584c3a2a9e",
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "c92818baa1ba30e5debfa700d1e8e340659f23fd0e9d24c838668882c2086f87",
+  "domain_listing_sha256": "2a21b13a80fae0e8428047b668c9e8e06914206726e1f07ab40df72b82bf6913",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -55,9 +55,9 @@
       "sha256": "39127d788b3fb42334fe351c4ec578861af8946712ec8087b54307898ff2aebc"
     },
     "予測意思決定": {
-      "count": 7,
+      "count": 8,
       "path": "domains/04.json",
-      "sha256": "c74d48b2e4a29b05d5a68771c053d1caa478f8a7dc032e6b4224c08a280acc39"
+      "sha256": "42dbf69c6eb1f2b9913ad16732470a3ceab95484e88b90c16111957c2e34bddc"
     },
     "企業金融銀行": {
       "count": 8,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "360ff25292c6d360b73d7354b00ade728f51ebd1bbe230bc210ca65b25cbdee8"
+      "sha256": "be15990ce6933da8c181bec4a249bc326ef6f4db4f2094bc30e197d3dbee43cd"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "a7c9670e90df4760e330538021a6a2e3561e0a8ad11d2f7379b9c9c49657dc84"
+      "sha256": "ab124dc73f55d53cc90b48dfad41182ee647fce3453577097ca86b8da86b5102"
     }
   },
   "spec_version": "knowledge-v2",
@@ -812,6 +812,12 @@
       "domain": "予測意思決定",
       "path": "units/FORECAST-07.md",
       "sha256": "bc2c3550125faa95394d1e9bcd7bcfc39b90f0f45fe7c386d7118155722b33bf"
+    },
+    "FORECAST-08": {
+      "chapter": "chapters/31-forecasting-decisions.md",
+      "domain": "予測意思決定",
+      "path": "units/FORECAST-08.md",
+      "sha256": "fa906beedcd66d4450777b43538d99391dc2e8514efb8c7b66488c508e0d3b69"
     },
     "GAME-01": {
       "chapter": "chapters/04-games.md",

@@ -1,11 +1,11 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.48",
+  "version": "2.3.49",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
-  "unit_count": 255,
+  "unit_count": 256,
   "worked_example_unit_count": 39,
   "chapters": [
     {
@@ -512,7 +512,8 @@
         "FORECAST-04",
         "FORECAST-05",
         "FORECAST-06",
-        "FORECAST-07"
+        "FORECAST-07",
+        "FORECAST-08"
       ]
     },
     {
@@ -8119,6 +8120,37 @@
       "jel_codes": [
         "C53",
         "D81"
+      ],
+      "contract_ids": []
+    },
+    {
+      "id": "FORECAST-08",
+      "title": "季節性のある需要予測：加法・乗法Holt–Wintersの選択と更新",
+      "chapter": 31,
+      "domain": "予測意思決定",
+      "subdomain": "季節平滑化",
+      "kind": "knowledge",
+      "topic": "水準・傾き・季節成分の逐次更新と保留予測",
+      "use_when": "繰り返す季節の振幅が水準とともに変わるかを調べ、季節別の需要予測を次期以降へ外挿する",
+      "inputs": [
+        "順序づけた需要・周期と観測頻度",
+        "水準・傾き・季節成分の初期値",
+        "平滑係数と予測起点"
+      ],
+      "outputs": [
+        "加法型または乗法型を選ぶ条件",
+        "三成分の更新と複数期の予測",
+        "事前予測の誤差と季節別の診断"
+      ],
+      "file": "chapters/31-forecasting-decisions.md",
+      "anchor": "forecast-08",
+      "concept_ids": [
+        "C-FORECAST-08",
+        "C-CH-31"
+      ],
+      "jel_codes": [
+        "C22",
+        "C53"
       ],
       "contract_ids": []
     },
@@ -20202,6 +20234,46 @@
         "C12"
       ],
       "kind": "concept"
+    },
+    {
+      "id": "C-FORECAST-08",
+      "preferred": {
+        "ja": "季節指数平滑法と加法・乗法の選択",
+        "en": "Holt-Winters additive and multiplicative seasonal forecasting"
+      },
+      "aliases": {
+        "ja": [
+          "ホルト・ウィンタース",
+          "季節指数平滑",
+          "乗法季節",
+          "加法季節",
+          "季節係数",
+          "水準と傾きと季節性",
+          "需要の季節変動",
+          "季節別の振幅"
+        ],
+        "en": [
+          "Holt-Winters",
+          "triple exponential smoothing",
+          "multiplicative seasonality",
+          "additive seasonality",
+          "seasonal amplitude",
+          "seasonal index",
+          "level trend seasonal components"
+        ]
+      },
+      "broader": [
+        "C-CH-31"
+      ],
+      "definition": {
+        "unit": "FORECAST-08",
+        "anchor": "forecast-08"
+      },
+      "jel_codes": [
+        "C22",
+        "C53"
+      ],
+      "kind": "concept"
     }
   ],
   "jel": {
@@ -30818,6 +30890,22 @@
         }
       ],
       "version": "2.3.45"
+    },
+    {
+      "id": "R-FORECAST-02-FORECAST-08",
+      "source": "FORECAST-02",
+      "target": "FORECAST-08",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "将来期を学習に混ぜず、季節モデルを予測起点別・予測期間別に検証する。",
+      "evidence": [
+        {
+          "unit": "FORECAST-08",
+          "anchor": "forecast-08"
+        }
+      ],
+      "version": "2.3.49"
     }
   ],
   "model_contracts": [

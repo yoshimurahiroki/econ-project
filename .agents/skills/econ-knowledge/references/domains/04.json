@@ -67,7 +67,9 @@
         "分割ごとの検証損失"
       ],
       "prerequisites": [],
-      "related": [],
+      "related": [
+        "FORECAST-08"
+      ],
       "subdomain": "標本分割と時点",
       "title": "標本分割と時点",
       "topic": "標本分割と時点; cross-validation; CV; train validation test; 交差検証",
@@ -274,6 +276,40 @@
       "title": "解答付き例題：予測と発注",
       "topic": "解答付き例題：予測と発注",
       "use_when": "在庫発注とnews更新の例を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-08",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-08",
+        "C-CH-31"
+      ],
+      "contract_ids": [],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-08",
+      "inputs": [
+        "順序づけた需要・周期と観測頻度",
+        "水準・傾き・季節成分の初期値",
+        "平滑係数と予測起点"
+      ],
+      "jel_codes": [
+        "C22",
+        "C53"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "加法型または乗法型を選ぶ条件",
+        "三成分の更新と複数期の予測",
+        "事前予測の誤差と季節別の診断"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "季節平滑化",
+      "title": "季節性のある需要予測：加法・乗法Holt–Wintersの選択と更新",
+      "topic": "水準・傾き・季節成分の逐次更新と保留予測",
+      "use_when": "繰り返す季節の振幅が水準とともに変わるかを調べ、季節別の需要予測を次期以降へ外挿する"
     }
   ]
 }
