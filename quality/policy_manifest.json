@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.52.39",
+  "policy_id": "economics-native-0.52.40",
   "profile": {
     "id": "research-full"
   },
@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "5b6b0d821ea9fc852339a82f70c5339d5e84fddca4966bd89848554346acfcbe"
+      "sha256": "185cad411c80e6a06a19c3795ed45886dd7a86de2d5eec796b79ce624fed54e0"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -55,7 +55,7 @@
     },
     "registry_operations": {
       "path": "registry/operations.json",
-      "sha256": "3198af3f7f148416ed92f96c6bb3cb316781d1c04c2bf5ec3cc5e6acf483dca5"
+      "sha256": "2bf86488dd110dbe2be19e90b9b8df621728a6c46a944546be62f341711cb9e7"
     },
     "registry_placements": {
       "path": "registry/placements.json",
@@ -63,7 +63,7 @@
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "5addcf9781ca6f4ad58f1e58f714eda901d0cd712a28d2b103d7a591ac5ac95e"
+      "sha256": "cb032bc8985d3422ab9a333c1c24094d5af135c037688b6165b9a40154a62c38"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -123,7 +123,7 @@
     },
     "resource:econ-knowledge": {
       "path": "skills/econ-knowledge/SKILL.md",
-      "sha256": "ac493339e17c2b04e4776b8d1d81ab894ed1d4f682f0de60db49eb80f519fd45"
+      "sha256": "d37c36fe9288ef9c0f19faf44bf90f4c8e51f6bb77f00ec8889d517551576d6c"
     },
     "resource:econ-literature": {
       "path": "skills/econ-literature/SKILL.md",

@@ -5728,9 +5728,7 @@
       "rule_id": "knowledge-retrieval.all",
       "resource_id": "knowledge-retrieval",
       "section_id": "all",
-      "requires": [
-        "team-state-helper.all"
-      ],
+      "requires": [],
       "conditional_requires": [],
       "optional_examples": []
     },

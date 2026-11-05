@@ -654,7 +654,11 @@
         "core.all",
         "econ-knowledge.all"
       ],
-      "conditional_rules": [],
+      "conditional_rules": [
+        {
+          "when": "requested_local_state_helper_operation"
+        }
+      ],
       "uses_profile": false,
       "default": true,
       "result_contract": {
