@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.31",
+  "version": "2.3.32",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -4125,7 +4125,7 @@
       "domain": "構造推定",
       "subdomain": "動学離散選択",
       "kind": "knowledge",
-      "topic": "Bellman解を尤度の各候補で求める; latent type dynamic discrete choice; initial conditions likelihood; 潜在型動学離散選択; 初期条件尤度",
+      "topic": "Bellman解を尤度の各候補で求める; latent type dynamic discrete choice; initial conditions likelihood; 潜在型動学離散選択; 初期条件尤度; 遷移変更と状態別利得の識別; transition counterfactual identification",
       "use_when": "Bellman解を尤度の各候補で求める",
       "inputs": [
         "状態",
@@ -30126,6 +30126,32 @@
         }
       ],
       "version": "2.3.25"
+    },
+    {
+      "id": "R-0624",
+      "source": "STRUCT-06",
+      "target": "STRUCT-03",
+      "type": "requires_to_apply",
+      "conditions": [
+        "The adopted dynamic discrete-choice intervention changes action-specific transition probabilities."
+      ],
+      "when": {
+        "policy_model": [
+          "ddc-transition-change"
+        ]
+      },
+      "use": "Identify state-specific payoffs before solving the model with a changed transition.",
+      "evidence": [
+        {
+          "unit": "STRUCT-06",
+          "anchor": "struct-06"
+        },
+        {
+          "unit": "STRUCT-03",
+          "anchor": "struct-03"
+        }
+      ],
+      "version": "2.3.32"
     }
   ],
   "model_contracts": [

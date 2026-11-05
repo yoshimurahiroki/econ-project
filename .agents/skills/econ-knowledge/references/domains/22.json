@@ -128,7 +128,7 @@
       ],
       "subdomain": "動学離散選択",
       "title": "動学離散選択とNFXP",
-      "topic": "Bellman解を尤度の各候補で求める; latent type dynamic discrete choice; initial conditions likelihood; 潜在型動学離散選択; 初期条件尤度",
+      "topic": "Bellman解を尤度の各候補で求める; latent type dynamic discrete choice; initial conditions likelihood; 潜在型動学離散選択; 初期条件尤度; 遷移変更と状態別利得の識別; transition counterfactual identification",
       "use_when": "Bellman解を尤度の各候補で求める"
     },
     {

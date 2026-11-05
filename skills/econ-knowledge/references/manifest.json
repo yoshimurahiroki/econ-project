@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "4896e4a03ed12b57a86dc4fdbc975858a698e475e40695579084420b77d5d4e7",
+  "catalog_sha256": "ba9b08f42f0c4fc6bb393ba0a0d9d335b97408e1f32435cad0f081cb905f0901",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -14,7 +14,7 @@
     "chapters/11-causal-designs.md": "d77b36f5970dc4dc800004e5079aa64afc932a9da49d7887fd09e343e0e2d0db",
     "chapters/12-causal-extensions.md": "19ae6bce7e12f720cab903f08e783810dc4dbafb07d6936ff608a730228bcd53",
     "chapters/13-time-series.md": "f668b700e013d6ad79ff62e97b2363ae4b8c4ba8ff141334355a8fac32ae8e3f",
-    "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
+    "chapters/14-structural-estimation.md": "d90ce56a11e205e587da21a510d355b6b80ce90ff8011fe78f9f581887cd5980",
     "chapters/15-demand-production.md": "f9d79c0556250b88be396f0beac44d8d342c6ed22befd397a38c2782585d9b3b",
     "chapters/16-competition-platforms.md": "938907d8ef24188f3459e721be262bc45274bea172e1c4e0492e341a33166fcf",
     "chapters/17-growth-macro.md": "6a3b3108373af6d0e17fe2816b08d728ef7c89a618db48525bf23628c7ff0371",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "7c4117a12b44515a821a52578d7755ecfb460e010244aca1d71960e27e9b4d1f",
+  "domain_listing_sha256": "6a30f483f6c2fb45b909e32a45914155f256df6628a12492915a050bdc78e786",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -147,7 +147,7 @@
     "構造推定": {
       "count": 7,
       "path": "domains/22.json",
-      "sha256": "59f7e8a060986c8883af7caa899ac8b6001eda5856257c7dfe2528c027df48ae"
+      "sha256": "fe6e062a4e4d9043a6c953670210a92863286345444782166ed2b95edc39f929"
     },
     "測定集計": {
       "count": 7,
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "20b22cbad0948d5d67b97fc655e935033f72aebb7e0fb98e91005a997171c903"
+      "sha256": "82411306a7dd93527a0ef44f7ceb002dbae602253ccc5beb3508855a72e6602c"
     }
   },
   "spec_version": "knowledge-v2",
@@ -1591,7 +1591,7 @@
       "chapter": "chapters/14-structural-estimation.md",
       "domain": "構造推定",
       "path": "units/STRUCT-03.md",
-      "sha256": "f6e1d061a4204fa583e641ab37661c690c69a82c9db7227585505e973da79aa8"
+      "sha256": "821a6320fa3d32532e0893b2cf70addbea2212e57c499918b749145386361bc0"
     },
     "STRUCT-04": {
       "chapter": "chapters/14-structural-estimation.md",
@@ -1609,7 +1609,7 @@
       "chapter": "chapters/14-structural-estimation.md",
       "domain": "構造推定",
       "path": "units/STRUCT-06.md",
-      "sha256": "501a08201ad2c2603d8db934670639f1815fe8e916d3b814e5af0788aca91ee0"
+      "sha256": "3ecf4910a6a5afde56a3995e58cd4c6ed367ea1f11e29a8e9c8f93b4f122afb5"
     },
     "STRUCT-07": {
       "chapter": "chapters/14-structural-estimation.md",
