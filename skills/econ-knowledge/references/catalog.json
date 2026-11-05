@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.27",
+  "version": "2.3.28",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -4307,7 +4307,7 @@
       "domain": "需要生産",
       "subdomain": "離散選択需要",
       "kind": "knowledge",
-      "topic": "製品選択と外部選択から需要と代替を導く",
+      "topic": "製品選択と外部選択から需要と代替を導く; 入れ子ロジットと巣内シェアの識別; nested logit within-group share",
       "use_when": "製品選択と外部選択から需要と代替を導く",
       "inputs": [
         "製品特性",
@@ -4328,7 +4328,8 @@
       ],
       "jel_codes": [
         "D12",
-        "D11"
+        "D11",
+        "C25"
       ],
       "contract_ids": []
     },
@@ -12078,7 +12079,8 @@
       },
       "jel_codes": [
         "D12",
-        "D11"
+        "D11",
+        "C25"
       ],
       "kind": "concept"
     },
@@ -30349,6 +30351,11 @@
           "meaning": "Random-coefficient formulation or null. Its contribution to each agent's price derivative enters the same welfare conditions."
         },
         {
+          "name": "supply",
+          "unit": "formula or null",
+          "meaning": "Supply-side cost formulation X3, or null. The welfare calculation uses a quantity-independent unit cost within each product-market and scenario."
+        },
+        {
           "name": "integration",
           "unit": "configuration",
           "meaning": "Nodes and weights for nonlinear demand. The estimated problem's actual agent rows are retained by market for counterfactuals."
@@ -30359,9 +30366,19 @@
           "meaning": "PyBLP solver configuration."
         },
         {
+          "name": "add_exogenous",
+          "unit": "boolean",
+          "meaning": "Whether PyBLP adds exogenous characteristics to the instrument matrices."
+        },
+        {
+          "name": "optimal_instruments",
+          "unit": "boolean",
+          "meaning": "Whether to return the fitted model’s approximate optimal demand and supply instruments."
+        },
+        {
           "name": "counterfactual",
           "unit": "scenario",
-          "meaning": "Retained products, optional entrants and entry_xi, firm_ids, costs and utility_shifts; entrants also use firm_ids for binary ownership with no ownership-matrix columns. Use the fitted agents and the same price-utility conditions."
+          "meaning": "Retained products, optional entrants and entry_xi, firm_ids, costs and utility_shifts; entrants also use firm_ids for binary ownership with no ownership-matrix columns. Use the fitted agents and the same price-utility conditions. Supplied unit costs stay fixed while equilibrium prices and quantities adjust."
         }
       ],
       "parameters": [
@@ -30416,7 +30433,7 @@
         {
           "name": "welfare",
           "unit": "currency per potential consumer",
-          "meaning": "Consumer surplus, aggregate product profit and their sum within each baseline market; scenario quantities use their own equilibrium."
+          "meaning": "Consumer surplus, aggregate product profit and their sum within each baseline market; scenario quantities use their own equilibrium. Product profit is gross of fixed costs at quantity-independent unit costs."
         }
       ],
       "assumptions": [

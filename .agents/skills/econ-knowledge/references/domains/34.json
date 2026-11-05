@@ -22,7 +22,8 @@
       ],
       "jel_codes": [
         "D12",
-        "D11"
+        "D11",
+        "C25"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -35,7 +36,7 @@
       "related": [],
       "subdomain": "離散選択需要",
       "title": "離散選択需要",
-      "topic": "製品選択と外部選択から需要と代替を導く",
+      "topic": "製品選択と外部選択から需要と代替を導く; 入れ子ロジットと巣内シェアの識別; nested logit within-group share",
       "use_when": "製品選択と外部選択から需要と代替を導く"
     },
     {

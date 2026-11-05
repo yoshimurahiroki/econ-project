@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "ad31020f37cec7e6d4515818414026087e2b40303b7564d5f84e74d4909754e5",
+  "catalog_sha256": "1925bd139a1c8cc774be7e7d2c996f08b858969d0f4d2926b9a8cf48df4073e4",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -15,7 +15,7 @@
     "chapters/12-causal-extensions.md": "19ae6bce7e12f720cab903f08e783810dc4dbafb07d6936ff608a730228bcd53",
     "chapters/13-time-series.md": "f668b700e013d6ad79ff62e97b2363ae4b8c4ba8ff141334355a8fac32ae8e3f",
     "chapters/14-structural-estimation.md": "161af430266bd41e91ae301e4016526bef6d7ddfb51bc85d94603829810c5e00",
-    "chapters/15-demand-production.md": "b8d26ca9cfcc703940a183864dff3cd7576621ea04d6288555ffe24562db11b9",
+    "chapters/15-demand-production.md": "f9d79c0556250b88be396f0beac44d8d342c6ed22befd397a38c2782585d9b3b",
     "chapters/16-competition-platforms.md": "938907d8ef24188f3459e721be262bc45274bea172e1c4e0492e341a33166fcf",
     "chapters/17-growth-macro.md": "6a3b3108373af6d0e17fe2816b08d728ef7c89a618db48525bf23628c7ff0371",
     "chapters/18-monetary-open-macro.md": "512bcd529afe54959759db93a3764a00dccdaa7fa27c3ad43e3f7e10575c1f39",
@@ -34,10 +34,10 @@
     "chapters/31-forecasting-decisions.md": "ec1ce467226723f05eab0e2bce4c1264afe8d82ca6888377d808e0db29f4ab4b",
     "chapters/32-welfare-policy.md": "32f68ca06758831c1d683b5765c6b839fa2b56fb6cb7862c00e33485774c548b",
     "chapters/33-numerical-simulation.md": "24711b85f8ca89b927ac9fc9cd717fc57001cc2431bc46e5c77955584c3a2a9e",
-    "chapters/34-integrated-cases.md": "63177ff34ef06ba3a55bfad32da13b2305ee9c81ab968d9c91a9a9e703670c69",
+    "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "abdb9c1acfac3c9befd3854f359648e3a31e0bcc160540e417578dd8795b36e4"
   },
-  "domain_listing_sha256": "c7a8456203f9217a9b11ca6aff78ced154d9fae4fdc20b9ebb10f84c093c631d",
+  "domain_listing_sha256": "2efe7b11fdb3190379e47091429083640c2358c32d885e3447aa3112478905ef",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -207,7 +207,7 @@
     "需要生産": {
       "count": 7,
       "path": "domains/34.json",
-      "sha256": "42fc24ddf80cb1d7e8846ecb0e4c81f0c43f6a79a0533c11b645cd985c0a57c1"
+      "sha256": "19aac90ef8c7ffe3880b9101c0a6cd9a260c1fb5c949ede6d7a6efd44090b069"
     },
     "革新歴史広告": {
       "count": 6,
@@ -218,11 +218,11 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "56baec4a2e53e39e1c8e2d0ce367562bef72347705a99dcc81aa8e01b7244830"
+      "sha256": "27974c234e7474ccdcfa0f9465d8db463bad8f8482043072a303160c5a118bba"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
-      "sha256": "faff1d1edd6f529e7a543bc28fbb25a08afb5d22c777ab881bcbfa4a5edda4f2"
+      "sha256": "33bf67c810b071ecae31b463969917d2c0404110f7482b0f2573facd471dce86"
     },
     "relations.json": {
       "path": "relations.json",
@@ -319,7 +319,7 @@
       "chapter": "chapters/34-integrated-cases.md",
       "domain": "分野横断例題",
       "path": "units/CASE-01.md",
-      "sha256": "589990f30a4f974d343b8bbec1bacfb8ae69c419c968f2e9897b64d728241276"
+      "sha256": "4b6a794c111955fca49abf1744ca7f0039428aa2d3958fe758a704668ac6c3af"
     },
     "CASE-02": {
       "chapter": "chapters/34-integrated-cases.md",
@@ -445,7 +445,7 @@
       "chapter": "chapters/15-demand-production.md",
       "domain": "需要生産",
       "path": "units/DEMAND-01.md",
-      "sha256": "8bd54916dac5258594ea5970164d6bb94edf8df6b5ca5961057a1c667e375508"
+      "sha256": "d69773da0641a5710ac35aab6c9e9467ea86972205358cb26bdae1fa04098f40"
     },
     "DEMAND-02": {
       "chapter": "chapters/15-demand-production.md",
@@ -457,7 +457,7 @@
       "chapter": "chapters/15-demand-production.md",
       "domain": "需要生産",
       "path": "units/DEMAND-03.md",
-      "sha256": "052577c2cb571cc2e41c2daa531e41fbda97433f866ff9c4b8e9d9d0a2733280"
+      "sha256": "18489a37a4a510ee6543127e9966a07fcb86eb72e36463142aac8d77ca789ecf"
     },
     "DEMAND-04": {
       "chapter": "chapters/15-demand-production.md",
