@@ -1,5 +1,5 @@
 % !TEX program = lualatex
-\documentclass[unicode, mathserif, m, $if(fontsize)$$fontsize$$else$12pt$endif$, unknownkeysallowed$if(aspectratio)$, aspectratio=$aspectratio$$endif$]{beamer}
+\documentclass[unicode, mathserif, m, $if(fontsize)$$fontsize$$else$12pt$endif$, unknownkeysallowed$if(aspectratio)$,aspectratio=$aspectratio$$endif$]{beamer}
 %\includeonlyframes{current}
 
 \usepackage{color}
@@ -37,6 +37,7 @@ $for(header-includes)$
 $header-includes$
 $endfor$
 $endif$
+\setbeamerfont{caption}{size=\scriptsize}
 \AtBeginEnvironment{longtable}{\footnotesize\setlength{\tabcolsep}{2pt}}
 \begin{document}
 

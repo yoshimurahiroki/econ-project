@@ -970,6 +970,11 @@
       "resource_id": "research-task-form",
       "deployment_path": ".github/ISSUE_TEMPLATE/research-task.yml",
       "export_alias": "research-task.yml"
+    },
+    "research-gallery-example": {
+      "resource_id": "research-gallery-example",
+      "deployment_path": ".agents/examples/research-workspace/gallery.json",
+      "export_alias": "research_gallery_example.json"
     }
   },
   "source": {

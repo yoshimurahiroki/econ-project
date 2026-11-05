@@ -4,6 +4,10 @@
     "did": "2.5.1",
     "DRDID": "1.4.0",
     "gsynth": "1.4.0",
-    "jsonlite": "2.0.0"
+    "jsonlite": "2.0.0",
+    "modelsummary": "2.6.0",
+    "ggplot2": "4.0.3",
+    "Hmisc": "5.1.1",
+    "quantreg": "5.97"
   }
 }

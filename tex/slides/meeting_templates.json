@@ -1,4 +1,17 @@
 {
+  "brief": {
+    "label": "分析概要",
+    "document_type": "article",
+    "sections": [
+      {"id": "question", "title": "研究質問と推定対象"},
+      {"id": "data", "title": "データと標本"},
+      {"id": "specification", "title": "分析仕様"},
+      {"id": "results", "title": "保存済み分析結果"},
+      {"id": "exhibits", "title": "図表"},
+      {"id": "interpretation", "title": "結果の解釈"},
+      {"id": "next", "title": "次の作業"}
+    ]
+  },
   "meeting": {
     "label": "研究ミーティング",
     "sections": [
@@ -46,6 +59,17 @@
       {"id": "interpretation", "title": "結果の解釈"},
       {"id": "discussion", "title": "追加検討する事項"},
       {"id": "next", "title": "次の作業"}
+    ]
+  },
+  "manuscript": {
+    "label": "論文 Data・Results・図表",
+    "document_type": "article",
+    "sections": [
+      {"id": "data", "title": "Data"},
+      {"id": "specification", "title": "Empirical specification"},
+      {"id": "results", "title": "Results"},
+      {"id": "exhibits", "title": "Tables and figures"},
+      {"id": "interpretation", "title": "Interpretation"}
     ]
   }
 }

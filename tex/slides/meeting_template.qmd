@@ -2,8 +2,34 @@
 title: {{title}}
 date: {{date}}
 lang: ja
+engine: markdown
+from: markdown-raw_tex-raw_html-yaml_metadata_block
 slide-level: 2
 format:
+  html:
+    theme: cosmo
+    embed-resources: true
+    format-links: false
+    toc: true
+    number-sections: false
+    include-in-header:
+      text: |
+        <style>
+        body { font-family: "Noto Sans JP", sans-serif; }
+        h1, h2, a { color: #922E41; }
+        .exhibit-note { font-size: .8em; line-height: 1.5; color: #434343; }
+        .columns { display: flex; gap: 1.5rem; }
+        .column { min-width: 0; }
+        img { max-width: 100%; }
+        </style>
+  pdf:
+    pdf-engine: lualatex
+    documentclass: econsocart
+    cite-method: natbib
+    biblio-style: ecta-fullname
+    keep-tex: true
+    CJKmainfont: HaranoAjiMincho
+    CJKsansfont: HaranoAjiGothic
   revealjs:
     theme: simple
     width: 1280
@@ -36,6 +62,7 @@ format:
     aspectratio: 169
     theme: metropolis
     fontsize: 10pt
+    keep-tex: true
   gfm: default
 execute:
   enabled: false

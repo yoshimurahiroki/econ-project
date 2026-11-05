@@ -562,5 +562,20 @@
     "snapshot_sha256": "dcbf82b7916331d0f682bdd08eb7b000e545a4b220ed2476d3da3c5ce8ee2f4f",
     "source": "GitHub connector github_fetch /repos/yoshimurahiroki/econ-project-mini/issues/8"
   },
-  "editions": []
+  "editions": [
+    {
+      "kind": "google-slides",
+      "url": "https://docs.google.com/presentation/d/1VVMrxyp_EFaU_OtkLuNsuUQ3yDLCN1tfkgqXHYe4HLM/edit?usp=drivesdk",
+      "source_revision": "d5ea7e1987eccceddccdda7eb9c61a28bc5e6ff506a0d659619d6562a4c6f254"
+    },
+    {
+      "kind": "google-slides",
+      "url": "https://docs.google.com/presentation/d/1LsyeOm4GQ8rJdw0MNN_9KTF30WPdiywJNj3yxz6DTqA/edit",
+      "source_revision": "064f01d8534acc6aabafa0e4a05e9e3102cd8a51491af4b38c6dc46566cada2d"
+    }
+  ],
+  "cloud_formats": [
+    "html",
+    "pdf"
+  ]
 }

@@ -20,8 +20,179 @@ sys.path.insert(0, str(ROOT / 'harness'))
 import state
 
 
+R_METHODS = {
+    'ols_r': ('stats', 'lm'),
+    'fixest_ols': ('fixest', 'feols'),
+    'fixest_ppml': ('fixest', 'fepois'),
+    'drdid_panel': ('DRDID', 'drdid_panel'),
+    'drdid_rc': ('DRDID', 'drdid_rc'),
+    'did_multiplegt_dyn': ('DIDmultiplegtDYN', 'did_multiplegt_dyn'),
+    'honest_did': ('HonestDiD', 'createSensitivityResults_relativeMagnitudes'),
+    'wild_cluster_bootstrap': ('fwildclusterboot', 'boottest'),
+    'club_sandwich': ('clubSandwich', 'coef_test'),
+    'rdrobust_r': ('rdrobust', 'rdrobust'),
+    'rddensity': ('rddensity', 'rddensity'),
+    'rdpower': ('rdpower', 'rdpower'),
+    'grf': ('grf', 'causal_forest'),
+}
+
+
 def _hash(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def select_method(request):
+    """Map an explicit estimand and design to its existing execution owner."""
+    required = {'question','estimand','identification','design','outcome_scale','data_structure','treatment_pattern','dependence'}
+    contract_fields = ('population','comparison_group','observation_unit','assignment_unit',
+                       'unit','period','assignment','weights','inference')
+    optional = {'adopted_method','adopted_specification','options','score','structural_model','implementation',*contract_fields}
+    if not isinstance(request, dict) or not required <= request.keys() or set(request)-required-optional:
+        raise ValueError(f'selection requires {sorted(required)} and accepts {sorted(optional)}')
+    if any(not isinstance(request[k], str) or not request[k].strip() for k in required):
+        raise ValueError('selection fields must be explicit nonempty strings')
+    adopted_spec = request.get('adopted_specification', {})
+    if not isinstance(adopted_spec, dict):
+        raise ValueError('adopted_specification must be an existing specification object')
+    if any(not isinstance(s.get('options', {}), dict) for s in (request, adopted_spec)):
+        raise ValueError('selection and adopted specification options must be objects')
+    adopted = request.get('adopted_method', adopted_spec.get('method', adopted_spec.get('model')))
+    if adopted is not None and (not isinstance(adopted, str) or not adopted.strip()):
+        raise ValueError('adopted_method must be a nonempty string')
+    stored_method = adopted_spec.get('method', adopted_spec.get('model'))
+    if stored_method and adopted and stored_method != adopted:
+        raise ValueError('adopted_method must match adopted_specification')
+    def scientific_contract(s):
+        fields = {k:s[k] for k in contract_fields if k in s}
+        o = s.get('options', {})
+        if 'comparison_group' not in fields and 'control_group' in o:
+            fields['comparison_group'] = o['control_group']
+        if 'weights' not in fields:
+            weights = {k:o[k] for k in ('weightsname','fix_weights') if k in o}
+            for group in ('args','columns'):
+                if not isinstance(o.get(group, {}), dict):
+                    raise ValueError('native args and columns must be objects')
+                selected = {k:v for k,v in o.get(group, {}).items() if k in ('weights','i.weights','sample.weights','weight')}
+                if selected: weights[group] = selected
+            if weights: fields['weights'] = weights
+        return fields
+    adopted_contract = scientific_contract(adopted_spec)
+    proposed_contract = scientific_contract({**adopted_spec, **request})
+    forward_options = request.get('options', adopted_spec.get('options', {}))
+    design = request['design']; structure = request['data_structure']; pattern = request['treatment_pattern']
+    owner = 'skills/econ-data/scripts/research_causal.py run'
+    conditions = []
+    method_quantity = request['estimand']
+    if 'implementation' in request and design != 'heterogeneous_effect':
+        raise ValueError('implementation selects grf or econml for heterogeneous_effect')
+    if design == 'conditional_mean':
+        if request['outcome_scale'] == 'level': method = 'fixest_ols'
+        elif request['outcome_scale'] == 'proportional_nonnegative': method = 'fixest_ppml'
+        else: raise ValueError('conditional_mean requires level or proportional_nonnegative outcome_scale')
+        conditions = ['adopted conditional mean', 'fixed effects and weights from the target population', 'covariance matched to dependence']
+    elif design == 'did':
+        if pattern == 'absorbing_staggered': method = 'staggered_did'
+        elif pattern in ('reversals','changing_dose','treatment_histories'): method = 'did_multiplegt_dyn'
+        elif pattern == 'two_period':
+            if structure == 'panel': method = 'drdid_panel'
+            elif structure == 'repeated_cross_section': method = 'drdid_rc'
+            else: raise ValueError('two-period DID requires panel or repeated_cross_section data_structure')
+        else: raise ValueError('DID treatment_pattern must identify two_period, absorbing_staggered, reversals, changing_dose or treatment_histories')
+        conditions = ['specified untreated-trend scale and comparison eligibility', 'adopted anticipation and reference period', 'cohort or switcher population and horizon weights', 'assignment-matched clustering and interval family']
+    elif design == 'rdd':
+        method = 'rdrobust_r'; conditions = ['cutoff and running-variable support', 'sharp, fuzzy or derivative target', 'adopted bandwidth, bias correction and dependence']
+    elif design == 'density_at_cutoff':
+        method = 'rddensity'; conditions = ['adopted cutoff', 'running-variable measurement and mass points']
+    elif design == 'rd_power':
+        method = 'rdpower'; conditions = ['adopted alternative effect, sample size and bandwidth', 'same RD estimator and dependence as the research design']
+    elif design in ('iv','instrumental_variables'):
+        method = 'iv_gmm'
+        conditions = ['specified endogenous regressors and excluded instruments', 'instrument exclusion and rank identify the adopted moment coefficient', 'robust or adopted cluster covariance and the same moment weighting']
+        method_quantity = 'linear IV moment coefficient estimated by two-step GMM'
+    elif design == 'weak_instrument_inference':
+        method = 'iv_ar'
+        conditions = ['one endogenous regressor and the adopted excluded instruments', 'independent homoskedastic normal outcome errors with fixed instruments', 'adopted alpha and inversion of the Anderson-Rubin F test']
+        method_quantity = 'Anderson-Rubin confidence set for the specified endogenous-regressor coefficient'
+    elif design == 'synthetic_control':
+        method = 'synthetic_control'
+        conditions = ['one treated unit and at least two balanced eligible donors', 'adopted training, untreated validation and post-treatment periods', 'nonnegative donor weights summing to one and held-out gap inference']
+        method_quantity = 'post-treatment treated-minus-synthetic gap relative to its held-out untreated validation mean'
+    elif design == 'generalized_synth':
+        method = 'generalized_synth'
+        conditions = ['balanced panel with never-treated controls and one common absorbing adoption date', 'adopted factor rank and two-way interactive-effects specification', 'parametric bootstrap under the adopted error model']
+        method_quantity = 'treated-block average and event-time effects relative to the interactive fixed-effects counterfactual'
+    elif design == 'orthogonal_score':
+        score = request.get('score')
+        if score not in ('plr','did'): raise ValueError('this DoubleML owner supports score plr or did')
+        method = 'dml_' + score; owner = 'skills/econ-data/scripts/research.py estimate'
+        conditions = ['score identifies the stated target', 'folds preserve independent sampling units', 'nuisance fitting and tuning use training folds']
+    elif design == 'heterogeneous_effect':
+        implementation = request.get('implementation', 'grf')
+        if implementation not in ('grf','econml'):
+            raise ValueError('heterogeneous_effect implementation must be grf or econml')
+        method = 'causal_forest' if implementation == 'econml' else 'grf'
+        conditions = ['conditional exchangeability and overlap',
+            'binary treatment with cross-fitted nuisance learners' if implementation == 'econml' else 'binary CATE or continuous covariance-to-variance target',
+            'adopted effect covariates, independent sampling units and averaging population']
+        method_quantity = 'conditional treatment effects and their adopted target-population aggregate'
+    elif design == 'policy_learning':
+        method = 'policy_tree'
+        conditions = ['binary treatment and known assignment propensities', 'distinct training and evaluation samples', 'adopted effect covariates and the untreated-all baseline']
+        method_quantity = 'held-out policy value gain relative to assigning treatment zero to every evaluation unit'
+    elif design == 'parallel_trend_sensitivity':
+        method = 'honest_did'; conditions = ['saved coefficients and joint covariance', 'ordered pre/post terms with universal reference', 'adopted restriction, magnitude grid and post-treatment contrast']
+    elif design == 'wild_cluster_inference':
+        method = 'wild_cluster_bootstrap'; conditions = ['saved supported linear-model fit', 'adopted null, clusters, bootstrap weights and repetitions']
+    elif design == 'small_cluster_inference':
+        method = 'club_sandwich'; conditions = ['saved supported model fit', 'adopted CR correction, coefficient contrast and degrees-of-freedom approximation']
+    elif design == 'structural':
+        model = request.get('structural_model')
+        if model in ('blp','auction','auction_fit','search','bargaining','platform','matching'):
+            method = model; owner = 'skills/econ-data/scripts/research_markets.py run'
+        elif model in ('replacement','latent_replacement','discrete_entry','dynamic_adoption_blp','continuous_time_entry','capacity_product_game'):
+            method = model; owner = 'skills/econ-data/scripts/research_dynamic.py run'
+        elif model == 'dynamic_game':
+            method = model; owner = 'skills/econ-data/scripts/equity.py dynamic'
+        else:
+            raise ValueError('structural_model must name a documented existing market, replacement, entry, adoption or dynamic-game model')
+        conditions = ['adopted primitives, timing, moments and excluded variation', 'normalizations and equilibrium selection', 'counterfactual re-solves affected endogenous choices']
+    else:
+        raise ValueError('unsupported design; use the documented selection contracts')
+    if method in R_METHODS:
+        package, function = R_METHODS[method]; engine = f'{package}::{function}'
+    else:
+        engine = {'staggered_did':'did::att_gt + did::aggte','dml_plr':'doubleml.DoubleMLPLR',
+                  'dml_did':'doubleml.did.DoubleMLDID','blp':'pyblp.Problem.solve',
+                  'iv_gmm':'linearmodels.iv.IVGMM',
+                  'iv_ar':'linearmodels.iv.IV2SLS + statsmodels.OLS + scipy.stats.f',
+                  'synthetic_control':'pysyncon.Synth + statsmodels.OLS',
+                  'generalized_synth':'gsynth::gsynth',
+                  'causal_forest':'econml.dml.CausalForestDML',
+                  'policy_tree':'econml.policy.DRPolicyTree + statsmodels.OLS',
+                  'bargaining':'research_markets.bargain','dynamic_game':'equity_io.dynamic_game'}.get(method)
+        if engine is None:
+            engine = 'research_dynamic.observed_run' if owner.startswith('skills/econ-data/scripts/research_dynamic.py') else 'research_markets.'+method
+    changes = []
+    if adopted and adopted != method:
+        changes.append({'field':'method','adopted':adopted,'selected':method})
+    for key in ('estimand','identification'):
+        if key in adopted_spec and adopted_spec[key] != request[key]:
+            changes.append({'field':key,'adopted':adopted_spec[key],'selected':request[key]})
+    for key in contract_fields:
+        if key in adopted_contract and proposed_contract.get(key) != adopted_contract[key]:
+            changes.append({'field':key,'adopted':adopted_contract[key],'selected':proposed_contract.get(key)})
+    if 'options' in adopted_spec and forward_options != adopted_spec['options']:
+        changes.append({'field':'options','adopted':adopted_spec['options'],'selected':forward_options})
+    relation = {'adopted_estimand':adopted_spec.get('estimand'),
+                'requested_estimand':request['estimand'],'selected_method_quantity':method_quantity}
+    return {'status':'design_change' if changes else 'selected','question':request['question'],
+        'estimand':request['estimand'],'identification':request['identification'],
+        'method':method,'engine':engine,'entry_point':owner,'determining_conditions':conditions,
+        'forward_options':forward_options,'design_contract':proposed_contract,
+        'adopted_specification':adopted_spec,'estimand_relation':relation,
+        'design_change':{'adopted_method':adopted,'selected_method':method,'changes':changes,'estimand_relation':relation} if changes else None,
+        'requested_design':{k:request[k] for k in ('outcome_scale','data_structure','treatment_pattern','dependence')},
+        'executed':False}
 
 
 def _network(spec_path, filename, ids):
@@ -38,6 +209,500 @@ def _network(spec_path, filename, ids):
     w=W(neighbors,weights,id_order=ids,silence_warnings=True); w.transform='r'
     return w,wp
 
+
+def _staggered_did(spec, data):
+    """Call did with the adopted options and serialize its fitted objects."""
+    import os
+    import re
+    import subprocess
+    import tempfile
+
+    opt = spec['options']
+    entity, time, cohort = (opt[k] for k in ('entity', 'time', 'cohort'))
+    names = [spec['outcome'], *spec['regressors'], entity, time, cohort]
+    if (len(set(names)) != len(names) or
+            spec['id'] in (entity, time, cohort) or
+            any(not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', k) for k in names)):
+        raise ValueError('DID requires distinct simple column names')
+    if data.duplicated([entity, time]).any():
+        raise ValueError('DID requires unique entity-time observations')
+    grid = np.sort(data[time].unique())
+    if (len(grid) < 2 or not np.equal(grid, np.floor(grid)).all() or
+            not np.all(np.diff(grid) == 1) or
+            not np.equal(data[cohort], np.floor(data[cohort])).all()):
+        raise ValueError('DID requires consecutive integer period codes and integer treatment cohorts')
+    panel = opt.get('panel', True)
+    if panel and data.groupby(entity)[cohort].nunique().max() != 1:
+        raise ValueError('DID panel cohorts must remain fixed within entity')
+    if not panel and data[entity].duplicated().any():
+        raise ValueError('repeated cross sections require a distinct entity ID for each observation')
+    if opt['control_group'] not in ('nevertreated', 'notyettreated'):
+        raise ValueError('DID control_group must be nevertreated or notyettreated')
+    if opt['control_group'] == 'nevertreated' and not (data[cohort] == 0).any():
+        raise ValueError('nevertreated DID requires a never-treated cohort coded zero')
+    for key in ('panel', 'allow_unbalanced_panel', 'bstrap', 'cband', 'faster_mode'):
+        if key in opt and not isinstance(opt[key], bool):
+            raise ValueError(f'DID {key} must be boolean')
+    for key, minimum in (('anticipation', 0), ('biters', 1), ('seed', 0)):
+        if key in opt and (isinstance(opt[key], bool) or not isinstance(opt[key], int) or opt[key] < minimum):
+            raise ValueError(f'DID {key} must be an integer >= {minimum}')
+    if opt.get('base_period', 'varying') not in ('varying', 'universal'):
+        raise ValueError('DID base_period must be varying or universal')
+    if opt.get('est_method', 'dr') not in ('dr', 'ipw', 'reg'):
+        raise ValueError('DID est_method must be dr, ipw or reg')
+    clusters = opt.get('clustervars', [])
+    if (not isinstance(clusters, list) or len(clusters) != len(set(clusters)) or
+            any(not isinstance(k, str) or not k for k in clusters) or
+            len(set(clusters) - {entity}) > 1):
+        raise ValueError('DID clustervars accepts the entity and one additional cluster column')
+    aggregate = opt.get('aggregation', {})
+    aggregate_keys = {'type', 'balance_e', 'min_e', 'max_e', 'na.rm', 'bstrap', 'biters', 'cband', 'alp', 'clustervars'}
+    if not isinstance(aggregate, dict) or set(aggregate) - aggregate_keys:
+        raise ValueError('DID aggregation must contain documented aggte options')
+    if aggregate.get('type', 'dynamic') not in ('simple', 'dynamic', 'group', 'calendar'):
+        raise ValueError('DID aggregation type must be simple, dynamic, group or calendar')
+    if 'clustervars' in aggregate and aggregate['clustervars'] != clusters:
+        raise ValueError('aggte clustervars must match att_gt clustervars')
+    if opt.get('cband', False) and not opt.get('bstrap', False):
+        raise ValueError('DID simultaneous bands require bstrap=true')
+    if aggregate.get('cband', opt.get('cband', False)) and not aggregate.get('bstrap', opt.get('bstrap', False)):
+        raise ValueError('aggte simultaneous bands require bstrap=true')
+    for key in ('alp',):
+        for settings in (opt, aggregate):
+            if key in settings and (isinstance(settings[key], bool) or not isinstance(settings[key], (int, float)) or not 0 < settings[key] < 1):
+                raise ValueError('DID alp must lie strictly between zero and one')
+    if 'weightsname' in opt:
+        weights = data[opt['weightsname']]
+        if (weights < 0).any() or weights.sum() <= 0:
+            raise ValueError('DID sampling weights must be nonnegative with positive total')
+
+    # JSON supplies named arguments; the R package owns preprocessing, fitting,
+    # aggregation, bootstrap standard errors and simultaneous critical values.
+    rcode = r'''
+args <- commandArgs(trailingOnly=TRUE)
+suppressPackageStartupMessages(library(did))
+suppressPackageStartupMessages(library(jsonlite))
+if (packageVersion('did') < '2.5.1') stop('did >= 2.5.1 is required')
+s <- fromJSON(args[2], simplifyVector=TRUE); o <- s$options
+classes <- setNames('character', s$id)
+d <- read.csv(args[1], check.names=FALSE, colClasses=classes)
+unit <- o$entity; tm <- o$time; gn <- o$cohort
+original_unit <- as.character(d[[unit]])
+d[[unit]] <- match(original_unit, unique(original_unit))
+call_args <- list(yname=s$outcome, tname=tm, idname=unit, gname=gn,
+  xformla=reformulate(if(length(s$regressors)) s$regressors else '1'), data=d,
+  panel=TRUE, allow_unbalanced_panel=FALSE, anticipation=0L,
+  bstrap=FALSE, cband=FALSE, est_method='dr', base_period='varying', cores=1L,
+  control_group=o$control_group)
+forward <- c('panel','allow_unbalanced_panel','anticipation','weightsname',
+  'fix_weights','alp','bstrap','biters','clustervars','cband','est_method',
+  'base_period','faster_mode')
+for (k in intersect(names(o), forward)) call_args[k] <- o[k]
+if (!is.null(o$seed)) set.seed(o$seed)
+invisible(capture.output(a <- do.call(did::att_gt, call_args)))
+agg_args <- list(MP=a, type='dynamic')
+if (length(o$aggregation)) for(k in names(o$aggregation)) agg_args[k] <- o$aggregation[k]
+invisible(capture.output(e <- do.call(did::aggte, agg_args)))
+ap <- a$DIDparams; ep <- e$DIDparams
+if (isTRUE(call_args$cband) && !isTRUE(ap$cband)) stop('did did not retain the requested group-time simultaneous band')
+requested_band <- if(!is.null(o$aggregation$cband)) o$aggregation$cband else call_args$cband
+if (isTRUE(requested_band) && e$type != 'simple' && !isTRUE(ep$cband)) stop('did did not retain the requested aggregate simultaneous band')
+pd <- as.data.frame(ap$data)
+if (!all(c(unit,tm) %in% names(pd))) stop('did did not retain the entity-time sample mapping')
+row_index <- match(paste(pd[[unit]],pd[[tm]],sep=':'), paste(d[[unit]],d[[tm]],sep=':'))
+if (anyNA(row_index)) stop('did sample mapping failed')
+fitted <- d[row_index,,drop=FALSE]
+if(!isTRUE(all.equal(pd[[s$outcome]], fitted[[s$outcome]],check.attributes=FALSE))) stop('did sample mapping changed outcomes')
+official_weights <- if('.w' %in% names(pd)) pd$.w else pd$weights
+if(length(official_weights) != nrow(fitted)) stop('did did not retain observation-level sampling weights')
+grid <- sort(unique(fitted[[tm]]))
+
+# Retain the official influence-function covariance separately from the selected
+# bootstrap SE. Cluster sums follow the package's analytical covariance formula.
+if_names <- switch(e$type, dynamic=c('dynamic.inf.func','dynamic.inf.func.e'),
+  group=c('selective.inf.func','selective.inf.func.g'),
+  calendar=c('calendar.inf.func','calendar.inf.func.t'), simple='simple.att')
+influences <- do.call(cbind, e$inf.function[if_names])
+analytic_cov <- function(x, params) {
+  x <- as.matrix(x); n <- nrow(x)
+  extra <- setdiff(params$clustervars, c(params$idname, unit, ''))
+  if (length(extra)) {
+    if (length(params$cluster_vector) != n) stop('did cluster vector does not match influence functions')
+    x <- rowsum(x, params$cluster_vector, reorder=TRUE)
+  }
+  unname(crossprod(x) / n^2)
+}
+vv <- analytic_cov(influences, ep)
+gv <- analytic_cov(a$inffunc, ap)
+
+# These are the exact cohort mass inputs used by compute.aggte in did 2.5.1.
+if (ap$panel) {
+  if (isTRUE(ap$faster_mode) && !is.null(ap$time_invariant_data)) {
+    population <- as.data.frame(ap$time_invariant_data)
+  } else population <- pd[pd[[tm]] == min(grid),,drop=FALSE]
+} else {
+  population <- suppressWarnings(aggregate(pd, list(pd[[ap$idname]]), mean))
+  population <- population[,-1L,drop=FALSE]
+}
+gpop <- population[[gn]]; gpop[is.infinite(gpop)] <- 0
+wp <- if('.w' %in% names(population)) population$.w else population$weights
+if (is.null(wp)) stop('did did not retain aggregation sampling weights')
+mass <- vapply(a$group, function(g) sum(wp[gpop == g]), numeric(1))
+cell_role <- function(g,t) {
+  if (ap$base_period == 'universal' && t == max(grid[grid < g-ap$anticipation])) 'reference'
+  else if (t >= g) 'post_treatment_att'
+  else if (t >= g-ap$anticipation) 'anticipation'
+  else 'pretreatment_diagnostic'
+}
+cells <- lapply(seq_along(a$att), function(j) {
+  g <- a$group[j]; t <- a$t[j]
+  base <- if(ap$base_period == 'universal' || t >= g) max(grid[grid < g-ap$anticipation]) else grid[match(t,grid)-1L]
+  target <- fitted[[gn]] == g
+  control <- fitted[[gn]] == 0
+  if(ap$control_group == 'notyettreated') control <- control | (fitted[[gn]] > max(t,base)+ap$anticipation & fitted[[gn]] != g)
+  take <- fitted[[tm]] %in% c(base,t) & (target | control)
+  rows <- fitted[take,,drop=FALSE]
+  raw_sampling <- if(is.null(o$weightsname)) rep(1,nrow(rows)) else rows[[o$weightsname]]
+  sampling <- official_weights[take]
+  weight_period <- if((ap$panel && !identical(o$fix_weights,'varying')) || isTRUE(o$fix_weights %in% c('first_period','base_period'))) {
+    if(identical(o$fix_weights,'first_period')) min(grid)
+    else if(identical(o$fix_weights,'base_period')) max(grid[grid < g-ap$anticipation])
+    else min(base,t)
+  } else NULL
+  if (!is.null(weight_period)) {
+    weight_rows <- fitted[fitted[[tm]] == weight_period,,drop=FALSE]
+    weight_index <- match(rows[[unit]], weight_rows[[unit]])
+    raw_sampling <- if(is.null(o$weightsname)) rep(1,nrow(rows)) else weight_rows[[o$weightsname]][weight_index]
+    sampling <- official_weights[fitted[[tm]] == weight_period][weight_index]
+    present <- rows[[unit]] %in% weight_rows[[unit]]
+    rows <- rows[present,,drop=FALSE]; sampling <- sampling[present]; raw_sampling <- raw_sampling[present]
+  }
+  list(group=g,time=t,event_time=t-g,base_period=base,role=cell_role(g,t),
+    estimate=a$att[j],se=a$se[j],critical_value=as.numeric(a$c),
+    ci_low=a$att[j]-as.numeric(a$c)*a$se[j],ci_high=a$att[j]+as.numeric(a$c)*a$se[j],
+    sample_ids=I(as.character(rows[[s$id]])),
+    treated_ids=I(as.character(rows[[s$id]][rows[[gn]]==g])),
+    control_ids=I(as.character(rows[[s$id]][rows[[gn]]!=g])),
+    sampling_weights=I(sampling),raw_sampling_weights=I(raw_sampling),sampling_weight_period=weight_period)
+})
+
+components <- lapply(seq_along(e$egt), function(k) {
+  z <- e$egt[k]
+  keep <- switch(e$type, dynamic=(a$t-a$group == z), group=(a$group == z & a$t >= a$group), calendar=(a$t == z & a$group <= a$t))
+  if (e$type == 'dynamic' && !is.null(e$balance_e)) keep <- keep & max(grid)-a$group >= e$balance_e
+  if (e$type == 'group' && isTRUE(is.finite(agg_args$max_e))) keep <- keep & a$t <= a$group+agg_args$max_e
+  keep <- which(keep & !is.na(a$att))
+  weights <- mass[keep] / sum(mass[keep])
+  ids <- unique(unlist(lapply(cells[keep], function(x) x$treated_ids), use.names=FALSE))
+  list(index=z,cohorts=I(as.numeric(a$group[keep])),times=I(as.numeric(a$t[keep])),
+    weights=I(weights),treated_sample_ids=I(ids),
+    treated_units=length(unique(d[[unit]][match(ids,d[[s$id]])])),
+    estimate=e$att.egt[k],se=e$se.egt[k],
+    ci_low=e$att.egt[k]-e$crit.val.egt*e$se.egt[k],
+    ci_high=e$att.egt[k]+e$crit.val.egt*e$se.egt[k])
+})
+settings <- function(params) {
+  keys <- c('panel','allow_unbalanced_panel','control_group','anticipation','weightsname',
+    'fix_weights','alp','bstrap','biters','clustervars','cband','est_method','base_period','faster_mode')
+  params[intersect(keys,names(params))]
+}
+obj <- list(r_version=as.character(getRversion()), did_version=as.character(packageVersion('did')),
+  drdid_version=as.character(packageVersion('DRDID')),
+  runtime=list(library_paths=I(.libPaths()),working_directory=getwd(),profile_user=Sys.getenv('R_PROFILE_USER',unset=NA_character_)),
+  signatures=list(att_gt=names(formals(did::att_gt)),aggte=names(formals(did::aggte))),
+  att_gt_options=settings(ap),aggregate_options=c(settings(ep), list(type=e$type,balance_e=agg_args$balance_e,min_e=agg_args$min_e,max_e=agg_args$max_e,na.rm=isTRUE(agg_args$na.rm))),
+  event_times=e$egt,coef=c(e$overall.att,e$att.egt),engine_se=c(e$overall.se,e$se.egt),
+  critical_values=c(qnorm(1-ep$alp/2),rep(e$crit.val.egt,length(e$egt))),
+  cov=vv,group_cov=gv,groups=a$group,times=a$t,att=a$att,group_se=a$se,n=a$n,
+  fitted_ids=I(as.character(fitted[[s$id]])),components=components,cells=cells,
+  pretreatment_test=list(statistic=a$W,p_value=a$Wpval),
+  influence_unit_ids=I(rownames(a$inffunc)))
+write_json(obj,args[3],auto_unbox=TRUE,digits=16,na='null',null='null')
+'''
+    with tempfile.TemporaryDirectory(prefix='causal-did-') as tmp:
+        tmp = Path(tmp)
+        data.to_csv(tmp / 'data.csv', index=False)
+        (tmp / 'spec.json').write_text(json.dumps(spec), encoding='utf-8')
+        proc = subprocess.run(['Rscript', '-', str(tmp / 'data.csv'),
+                               str(tmp / 'spec.json'), str(tmp / 'result.json')],
+                              input=rcode, text=True, capture_output=True, env=os.environ.copy())
+        if proc.returncode:
+            raise ArithmeticError('did engine failed: ' + proc.stderr[-4000:])
+        result = json.loads((tmp / 'result.json').read_text(encoding='utf-8'))
+    result['engine_messages'] = proc.stderr.strip()
+    return result
+
+
+def _official_r(spec, spec_path):
+    """Execute a named official R interface in the existing result lifecycle."""
+    import base64
+    import os
+    import subprocess
+    import tempfile
+
+    method = spec['method']; opt = spec['options']
+    required = {
+        'ols_r': set(), 'fixest_ols': set(), 'fixest_ppml': set(),
+        'drdid_panel': {'entity','time','pre','post','treatment'},
+        'drdid_rc': {'time','pre','post','treatment'},
+        'did_multiplegt_dyn': {'entity','time','treatment'},
+        'honest_did': {'pre_terms','post_terms','restriction'},
+        'wild_cluster_bootstrap': set(), 'club_sandwich': set(),
+        'rdrobust_r': {'running'}, 'rddensity': {'running'}, 'rdpower': {'running'}, 'grf': {'treatment'},
+    }[method]
+    optional = {'args','columns','seed'}
+    if method in ('ols_r','fixest_ols','fixest_ppml'): optional.add('fixed_effects')
+    if method == 'grf': optional.add('aggregation')
+    if not required <= opt.keys() or set(opt)-required-optional:
+        raise ValueError(f'{method} options require {sorted(required)} and accept {sorted(optional)}')
+    if spec['inference'] != {'type':'official'}:
+        raise ValueError('official R methods require inference={"type":"official"}; specify inference options in options.args')
+    if not isinstance(opt.get('args', {}), dict) or not isinstance(opt.get('columns', {}), dict):
+        raise ValueError('options.args and options.columns must be objects')
+    if 'seed' in opt and (isinstance(opt['seed'], bool) or not isinstance(opt['seed'], int) or opt['seed'] < 0):
+        raise ValueError('seed must be a nonnegative integer')
+    path = Path(spec['data']); path = (path if path.is_absolute() else spec_path.parent/path).resolve()
+    saved_input = method in ('honest_did','wild_cluster_bootstrap','club_sandwich')
+    source = json.loads(path.read_text()) if saved_input else None
+    if method in ('wild_cluster_bootstrap','club_sandwich'):
+        native = source.get('native_fit', {})
+        if native.get('format') != 'R-serialize-v3':
+            raise ValueError('post-estimation requires a saved native fit from this runner')
+        if hashlib.sha256(base64.b64decode(native['data'])).hexdigest() != native['sha256']:
+            raise ValueError('saved native fit hash does not match')
+    package, function = R_METHODS[method]
+    if method == 'honest_did':
+        if opt['restriction'] not in ('relative_magnitudes','smoothness'):
+            raise ValueError('HonestDiD restriction must be relative_magnitudes or smoothness')
+        if opt['restriction'] == 'smoothness': function = 'createSensitivityResults'
+        terms = opt['pre_terms'] + opt['post_terms']
+        if (not opt['pre_terms'] or not opt['post_terms'] or len(terms) != len(set(terms)) or
+                any(t not in source['coefficients'] for t in terms)):
+            raise ValueError('HonestDiD requires distinct saved pre_terms and post_terms in their adopted order')
+        if source.get('method') == 'staggered_did' and source['options'].get('base_period','varying') != 'universal':
+            raise ValueError('HonestDiD event studies require an adopted universal reference period')
+    rcode = r'''
+args <- commandArgs(trailingOnly=TRUE)
+suppressPackageStartupMessages(library(jsonlite))
+s <- fromJSON(args[1], simplifyVector=TRUE); o <- s$options; method <- s$method
+pkg <- args[3]; fname <- args[4]
+if(!requireNamespace(pkg,quietly=TRUE)) stop(paste('Install the selected official package:',pkg))
+fun <- getExportedValue(pkg,fname)
+formal_names <- names(formals(fun))
+invoke <- function(f, a, additional=character()) {
+  unknown <- setdiff(names(a),c(names(formals(f)),additional))
+  if(length(unknown)) stop(paste('Unsupported official option:',paste(unknown,collapse=', ')))
+  do.call(f,a)
+}
+if(!is.null(o$seed)) set.seed(o$seed)
+postprocess <- method %in% c('honest_did','wild_cluster_bootstrap','club_sandwich')
+if(postprocess) {
+  source <- fromJSON(args[2],simplifyVector=FALSE)
+  if(method != 'honest_did') {
+    native <- unserialize(base64_dec(source$native_fit$data))
+    fit_source <- native$fit; d <- native$data; ids <- native$ids
+  }
+} else {
+  d <- read.csv(args[2],check.names=FALSE,colClasses=setNames('character',s$id))
+  if(!s$id %in% names(d) || anyNA(d[[s$id]]) || anyDuplicated(d[[s$id]])) stop('Input IDs must be nonmissing and unique')
+  ids <- as.character(d[[s$id]])
+}
+call_args <- o$args
+if(is.null(call_args)) call_args <- list()
+if(length(o$columns)) for(k in names(o$columns)) {
+  if(k %in% names(call_args)) stop(paste('Argument appears in both args and columns:',k))
+  cols <- o$columns[[k]]
+  if(!all(cols %in% names(d))) stop(paste('Missing bound columns for',k))
+  call_args[[k]] <- if(length(cols)==1L) d[[cols]] else as.matrix(d[,cols,drop=FALSE])
+}
+owned <- list(); diagnostics <- list(); estimates <- NULL; intervals <- NULL; covariance <- NULL; rows <- NULL
+kind <- 'regression'
+if(method %in% c('ols_r','fixest_ols','fixest_ppml')) {
+  model_columns <- c(s$outcome,s$regressors,o$fixed_effects)
+  if(!all(grepl('^[A-Za-z_][A-Za-z0-9_]*$',model_columns))) stop('Model columns must use simple names')
+  rhs <- if(length(s$regressors)) paste(s$regressors,collapse='+') else '1'
+  if(method=='ols_r') {
+    if(length(o$fixed_effects)) rhs <- paste(rhs,paste0('factor(',o$fixed_effects,')',collapse='+'),sep='+')
+    owned <- list(formula=as.formula(paste(s$outcome,'~',rhs)),data=d)
+  } else {
+    fml <- paste(s$outcome,'~',rhs)
+    if(length(o$fixed_effects)) fml <- paste(fml,'|',paste(o$fixed_effects,collapse='+'))
+    owned <- list(fml=as.formula(fml),data=d,data.save=TRUE)
+    for(k in intersect(c('vcov','weights','offset','cluster','panel.id'),names(call_args))) {
+      if(is.character(call_args[[k]]) && length(call_args[[k]])==1L && startsWith(call_args[[k]],'~')) call_args[[k]] <- as.formula(call_args[[k]])
+    }
+    if(is.list(call_args$ssc)) call_args$ssc <- invoke(fixest::ssc,call_args$ssc)
+  }
+} else if(method %in% c('drdid_panel','drdid_rc')) {
+  if(!all(c(s$outcome,s$regressors,o$time,o$treatment) %in% names(d))) stop('Missing DRDID columns')
+    if(length(unique(d[[o$time]]))!=2L || !all(sort(unique(d[[o$time]])) == c(o$pre,o$post)) || o$pre>=o$post) stop('DRDID requires exactly the adopted pre and post periods')
+  if(!all(d[[o$treatment]] %in% c(0,1))) stop('DRDID treatment identifies the binary treated group in both periods')
+  if(method=='drdid_panel') {
+    if(anyDuplicated(d[,c(o$entity,o$time)])) stop('DRDID requires unique entity-time pairs')
+    before <- d[d[[o$time]]==o$pre,,drop=FALSE]; after <- d[d[[o$time]]==o$post,,drop=FALSE]
+    if(!setequal(before[[o$entity]],after[[o$entity]])) stop('DRDID panel requires both observations for every entity')
+    after <- after[match(before[[o$entity]],after[[o$entity]]),,drop=FALSE]
+    if(any(before[[o$treatment]] != after[[o$treatment]])) stop('DRDID treated-group membership must be fixed')
+    if('i.weights' %in% names(o$columns)) call_args$i.weights <- before[[o$columns[['i.weights']]]]
+    x <- model.matrix(reformulate(if(length(s$regressors)) s$regressors else '1'),before)
+    owned <- list(y1=after[[s$outcome]],y0=before[[s$outcome]],D=before[[o$treatment]],covariates=x,inffunc=TRUE)
+    diagnostics <- list(entity_ids=I(as.character(before[[o$entity]])),pre_ids=I(before[[s$id]]),post_ids=I(after[[s$id]]),covariate_period=o$pre)
+  } else {
+    x <- model.matrix(reformulate(if(length(s$regressors)) s$regressors else '1'),d)
+    owned <- list(y=d[[s$outcome]],post=as.integer(d[[o$time]]==o$post),D=d[[o$treatment]],covariates=x,inffunc=TRUE)
+    diagnostics <- list(covariate_period='observation period')
+  }
+} else if(method=='did_multiplegt_dyn') {
+  owned <- list(df=d,outcome=s$outcome,group=o$entity,time=o$time,treatment=o$treatment,controls=s$regressors)
+  if(is.null(call_args$graph_off)) call_args$graph_off <- TRUE
+  if(is.null(call_args$save_sample)) call_args$save_sample <- TRUE
+  kind <- 'event-study'
+} else if(method=='honest_did') {
+  terms <- c(o$pre_terms,o$post_terms)
+  bhat <- vapply(terms,function(t) source$coefficients[[t]],numeric(1))
+  sigma <- do.call(rbind,lapply(terms,function(t) vapply(terms,function(u) source$covariance[[t]][[u]],numeric(1))))
+  owned <- list(betahat=bhat,sigma=sigma,numPrePeriods=length(o$pre_terms),numPostPeriods=length(o$post_terms))
+  ids <- unlist(source$sample$included_ids); d <- NULL; kind <- 'sensitivity'
+  diagnostics <- list(terms=terms,source_covariance_kind=source$covariance_kind)
+} else if(method=='wild_cluster_bootstrap') {
+  supported <- intersect(class(fit_source),c('fixest','lm','felm'))
+  if(!length(supported)) stop('boottest requires a supported saved linear-model object')
+  fun <- getS3method('boottest',supported[1],envir=asNamespace(pkg))
+  formal_names <- names(formals(fun)); owned <- list(object=fit_source)
+  if(is.list(call_args$ssc)) call_args$ssc <- invoke(getExportedValue(pkg,'boot_ssc'),call_args$ssc)
+  kind <- 'sensitivity'
+} else if(method=='club_sandwich') {
+  owned <- list(obj=fit_source); kind <- 'sensitivity'
+} else if(method=='rdrobust_r') {
+  owned <- list(y=d[[s$outcome]],x=d[[o$running]]); kind <- 'rdd'
+} else if(method=='rddensity') {
+  owned <- list(X=d[[o$running]]); kind <- 'rdd'
+} else if(method=='rdpower') {
+  if(is.null(call_args$tau)) stop('rdpower requires the adopted alternative effect in args.tau')
+  owned <- list(data=as.matrix(d[,c(s$outcome,o$running)])); kind <- 'sensitivity'
+} else if(method=='grf') {
+  owned <- list(X=as.matrix(d[,s$regressors,drop=FALSE]),Y=d[[s$outcome]],W=d[[o$treatment]])
+  kind <- 'heterogeneity'
+}
+if(length(intersect(names(owned),names(call_args)))) stop(paste('options.args cannot replace owned model inputs:',paste(intersect(names(owned),names(call_args)),collapse=', ')))
+all_args <- c(owned,call_args)
+additional <- character()
+if(method=='club_sandwich' && is.character(call_args$vcov)) {
+  covariance_method <- NULL
+  for(cls in class(fit_source)) {
+    covariance_method <- getS3method('vcovCR',cls,optional=TRUE,envir=asNamespace(pkg))
+    if(!is.null(covariance_method)) break
+  }
+  if(is.null(covariance_method)) stop('clubSandwich has no vcovCR method for this saved model class')
+  additional <- names(formals(covariance_method))
+}
+invisible(capture.output(fit <- invoke(fun,all_args,additional)))
+if(method %in% c('ols_r','fixest_ols','fixest_ppml')) {
+  if(inherits(fit,'fixest_multi')) stop('This result contract requires one fitted model')
+  table <- if(method=='ols_r') coef(summary(fit)) else fixest::coeftable(fit)
+  intervals <- confint(fit); covariance <- vcov(fit)
+  estimates <- data.frame(term=rownames(table),estimate=table[,1],se=table[,2],p_value=table[,4],ci_low=intervals[,1],ci_high=intervals[,2],row.names=NULL)
+  used <- if(method=='ols_r') as.integer(rownames(model.frame(fit))) else fixest::obs(fit)
+  ids <- ids[used]; d <- d[used,,drop=FALSE]
+  diagnostics <- list(observations=nobs(fit),fixed_effects=o$fixed_effects)
+  if(inherits(fit,'fixest')) diagnostics$n_clusters <- attr(fit$cov.scaled,'G')
+} else if(method %in% c('drdid_panel','drdid_rc')) {
+  estimates <- data.frame(term='ATT',estimate=fit$ATT,se=fit$se,p_value=2*pnorm(-abs(fit$ATT/fit$se)),ci_low=fit$lci,ci_high=fit$uci)
+  covariance <- matrix(fit$se^2,1,1,dimnames=list('ATT','ATT'))
+  diagnostics$influence_function <- fit$att.inf.func
+  diagnostics$effective_options <- fit$argu
+  diagnostics$observations <- length(all_args$D)
+  diagnostics$sampling_weights <- if(is.null(all_args$i.weights)) rep(1,length(all_args$D)) else all_args$i.weights/mean(all_args$i.weights)
+} else if(method=='grf') {
+  aggregate_args <- if(is.null(o$aggregation)) list() else o$aggregation
+  ate <- invoke(grf::average_treatment_effect,c(list(forest=fit),aggregate_args))
+  predictions <- predict(fit,estimate.variance=TRUE)
+  estimates <- data.frame(term='target_ate',estimate=ate[1],se=ate[2],p_value=2*pnorm(-abs(ate[1]/ate[2])),ci_low=ate[1]-qnorm(.975)*ate[2],ci_high=ate[1]+qnorm(.975)*ate[2])
+  covariance <- matrix(ate[2]^2,1,1,dimnames=list('target_ate','target_ate'))
+  diagnostics$cate <- data.frame(id=ids,estimate=predictions$predictions,variance=predictions$variance.estimates)
+} else if(method=='honest_did') {
+  rows <- as.data.frame(fit)
+} else if(method=='did_multiplegt_dyn') {
+  diagnostics$sample <- fit$save_sample
+  diagnostics$normalized_weights <- fit$normalized_weights
+  diagnostics$treatment_paths <- fit$design
+  diagnostics$effects <- fit$results$Effects
+  diagnostics$placebos <- fit$results$Placebos
+  if(!is.null(fit$save_sample) && all(c(s$id,'_did_sample') %in% names(fit$save_sample))) ids <- as.character(fit$save_sample[[s$id]][!is.na(fit$save_sample[['_did_sample']])])
+} else if(method=='rdrobust_r') {
+  estimates <- data.frame(term='treatment_effect',estimate=fit$coef['Robust',1],se=fit$se['Robust',1],p_value=fit$pv['Robust',1],ci_low=fit$ci['Robust',1],ci_high=fit$ci['Robust',2])
+  covariance <- matrix(fit$se['Robust',1]^2,1,1,dimnames=list('treatment_effect','treatment_effect'))
+  cutoff <- if(is.null(call_args$c)) 0 else call_args$c
+  local <- d[[o$running]] >= cutoff-fit$bws['h',1] & d[[o$running]] <= cutoff+fit$bws['h',2]
+  diagnostics <- list(bandwidths=fit$bws,effective_counts=fit$N_h,local_ids=I(ids[local]))
+} else if(method=='club_sandwich') {
+  rows <- as.data.frame(fit)
+} else if(method=='wild_cluster_bootstrap') {
+  rows <- data.frame(term=paste(fit$param,collapse='+'),p_value=fit$p_val)
+  if(length(fit$conf_int)==2) { rows$ci_low <- fit$conf_int[1]; rows$ci_high <- fit$conf_int[2] }
+}
+if(!is.null(estimates)) rows <- estimates
+# Retain the native package result for subsequent official post-estimation.
+native <- serialize(list(fit=fit,data=d,ids=ids),NULL,version=3)
+clean <- function(x) {
+  if(is.null(x) || is.atomic(x)) return(x)
+  if(is.data.frame(x)) return(x)
+  if(is.list(x)) {
+    x <- unclass(x)
+    x[intersect(names(x),c('plot','call','call.param','args','data','df','model','terms','formula','xlevels'))] <- NULL
+    return(lapply(x,clean))
+  }
+  NULL
+}
+cleaned <- clean(fit)
+if(is.null(rows)) rows <- data.frame(result=names(cleaned),value=vapply(cleaned,function(x) paste(capture.output(str(x,give.attr=FALSE,max.level=1)),collapse=' '),character(1)))
+obj <- list(engine=paste0(pkg,'::',fname),versions=setNames(list(as.character(packageVersion(pkg))),pkg),
+  R=as.character(getRversion()),signature=formal_names,official_result=cleaned,
+  runtime=list(library_paths=I(.libPaths()),working_directory=getwd(),profile_user=Sys.getenv('R_PROFILE_USER',unset=NA_character_)),
+  estimates=estimates,covariance=covariance,diagnostics=clean(diagnostics),
+  sample=list(included_ids=I(as.character(ids))),display=list(kind=kind,rows=rows),
+  native_fit=list(format='R-serialize-v3',data=base64_enc(native)))
+obj$confidence_level <- if(method=='rdrobust_r' && !is.null(call_args$level)) call_args$level/100 else if(method=='wild_cluster_bootstrap' && !is.null(call_args$sign_level)) 1-call_args$sign_level else if(method=='honest_did' && !is.null(call_args$alpha)) 1-call_args$alpha else .95
+write_json(obj,args[5],auto_unbox=TRUE,digits=16,na='null',null='null',dataframe='rows')
+'''
+    with tempfile.TemporaryDirectory(prefix='causal-official-r-') as tmp:
+        tmp = Path(tmp); (tmp/'spec.json').write_text(json.dumps(spec),encoding='utf-8')
+        proc = subprocess.run(['Rscript','-',str(tmp/'spec.json'),str(path),package,function,str(tmp/'result.json')],
+                              input=rcode,text=True,capture_output=True,env=os.environ.copy())
+        if proc.returncode: raise ArithmeticError(f'{package} engine failed: ' + proc.stderr[-4000:])
+        result = json.loads((tmp/'result.json').read_text())
+    result.update(method=method, options=opt, adopted={k:spec[k] for k in ('population','period','unit','estimand','identification','assignment','inference')},
+        provenance={'data_path':str(path),'data_sha256':_hash(path),'spec_path':str(spec_path.resolve()),'spec_sha256':_hash(spec_path)})
+    result['versions']['R'] = result.pop('R')
+    result['native_fit']['sha256'] = hashlib.sha256(base64.b64decode(result['native_fit']['data'])).hexdigest()
+    result['sample']['id_column'] = spec['id']
+    if not result['diagnostics']: result['diagnostics'] = {}
+    result['sample']['observations'] = result['diagnostics'].get('observations')
+    display_sample = {'id_column':spec['id'],'included_rows':len(result['sample']['included_ids']),
+                      'observations':result['sample']['observations']}
+    result['display']['metadata'] = {'unit':spec['unit'],'population':spec['population'],'estimand':spec['estimand'],
+        'sample':display_sample,'engine':result['engine'],'inference':spec['inference'],
+        'n':result['sample']['observations'],'n_clusters':result['diagnostics'].get('n_clusters'),
+        'fixed_effects':opt.get('fixed_effects',[]),'controls':spec['regressors'],
+        'period':spec['period'],'weights':{k:v for k,v in {**opt.get('args',{}),**opt.get('columns',{})}.items() if k in ('weights','i.weights','sample.weights','weight')},
+        'estimator':result['engine'],'sample_policy':'official estimator preprocessing with saved observation IDs',
+        'specification':{'outcome':spec['outcome'],'regressors':spec['regressors'],'fixed_effects':opt.get('fixed_effects',[]),'options':opt},
+        'confidence_level':result['confidence_level']}
+    result['diagnostics']['engine_messages'] = proc.stderr.strip()
+    result['statistics'] = {}
+    if result['estimates']:
+        estimates = result.pop('estimates')
+        result['coefficients'] = {r['term']:r['estimate'] for r in estimates}
+        result['standard_errors'] = {r['term']:r['se'] for r in estimates}
+        result['inference'] = {'confidence_level':result['confidence_level'],'p_values':{r['term']:r['p_value'] for r in estimates},
+            'confidence_intervals':{r['term']:[r['ci_low'],r['ci_high']] for r in estimates}}
+        if result['confidence_level'] == .95:
+            result['inference']['confidence_intervals_95'] = result['inference']['confidence_intervals']
+        terms = list(result['coefficients']); matrix = np.atleast_2d(result['covariance'])
+        result['covariance'] = {a:{b:float(matrix[i,j]) for j,b in enumerate(terms)} for i,a in enumerate(terms)}
+        result['statistics'] = {f'coefficient.{r["term"]}':{'value':r['estimate'],'unit':spec['unit']} for r in estimates}
+    return result
+
 def run(spec, spec_path):
     allowed = {'method','data','id','outcome','regressors','endogenous','instruments',
                'population','period','unit','estimand','identification','assignment',
@@ -45,7 +710,7 @@ def run(spec, spec_path):
     if not isinstance(spec, dict) or set(spec) != allowed:
         raise ValueError('specification must contain exactly the documented fields')
     method = spec['method']
-    methods = {'gls','iv_gmm','iv_ar','panel_fe','quantile','poisson','logit','rct','rdd_sharp','rdd_fuzzy','hdfe','causal_forest','spatial_lag','rdd_localrand','shift_share','policy_tree','network_spillover','tobit','dynamic_panel','synthetic_control','staggered_did','generalized_synth','multitreatment_did','distribution_effect'}
+    methods = {'gls','iv_gmm','iv_ar','panel_fe','quantile','poisson','logit','rct','rdd_sharp','rdd_fuzzy','hdfe','causal_forest','spatial_lag','rdd_localrand','shift_share','policy_tree','network_spillover','tobit','dynamic_panel','synthetic_control','staggered_did','generalized_synth','multitreatment_did','distribution_effect'} | set(R_METHODS)
     if method not in methods:
         raise ValueError('unsupported method')
     for key in ('data','id','outcome','population','period','unit','estimand','identification','assignment'):
@@ -66,10 +731,15 @@ def run(spec, spec_path):
         raise ValueError('iv_ar requires one endogenous regressor')
     if not isinstance(spec['options'],dict):
         raise ValueError('options must be an object')
+    if method in R_METHODS:
+        return _official_r(spec, spec_path)
     opt = spec['options']
     required = {'gls': {'variance'}, 'iv_gmm': set(), 'iv_ar': {'alpha'}, 'panel_fe': {'entity','time','entity_effects','time_effects'},
                 'quantile': {'quantile'}, 'poisson': set(), 'logit': set(), 'rct': {'treatment','permutations','seed'}, 'rdd_sharp': {'running','cutoff','bandwidth'}, 'rdd_fuzzy': {'running','cutoff','bandwidth','treatment'}, 'hdfe': {'fixed_effects'}, 'causal_forest': {'treatment','seed','trees','min_leaf'}, 'spatial_lag': {'weights'}, 'rdd_localrand': {'running','cutoff','bandwidth','permutations','seed'}, 'shift_share': {'shares','shocks'}, 'policy_tree': {'treatment','propensity','partition','seed'}, 'network_spillover': {'weights','treatment'}, 'tobit': {'lower'}, 'dynamic_panel': {'entity','time'}, 'synthetic_control': {'entity','time','treated','training_end','pre_end'}, 'staggered_did': {'entity','time','cohort','control_group'}, 'generalized_synth': {'entity','time','treatment','factors','bootstraps','seed'}, 'multitreatment_did': {'entity','time','pre','post','treatments'}, 'distribution_effect': {'treatment','threshold'}}[method]
-    if set(opt) != required:
+    optional = ({'panel','allow_unbalanced_panel','anticipation','weightsname','fix_weights',
+                 'alp','bstrap','biters','clustervars','cband','est_method','base_period',
+                 'faster_mode','seed','aggregation'} if method == 'staggered_did' else set())
+    if not required <= set(opt) or set(opt) - required - optional:
         raise ValueError(f'{method} options must contain exactly {sorted(required)}')
     inf = spec['inference']
     if not isinstance(inf,dict) or inf.get('type') not in ('robust','cluster','homoskedastic','randomization','rdrobust','forest','spatial_ml','policy','likelihood','dynamic_gmm','synthetic_holdout','did','gsynth'):
@@ -121,6 +791,11 @@ def run(spec, spec_path):
              [opt['variance']] if method == 'gls' else
              [opt['entity'],opt['time']] if method == 'panel_fe' else [])
     columns = [spec['id'],spec['outcome'],*spec['regressors'],*spec['endogenous'],*spec['instruments'],*extra]
+    if method == 'staggered_did':
+        if not isinstance(opt.get('clustervars', []), list):
+            raise ValueError('DID clustervars must be a list of column names')
+        columns.extend(opt.get('clustervars', []))
+        if 'weightsname' in opt: columns.append(opt['weightsname'])
     if inf['type']=='cluster': columns += [inf['cluster']]
     if any(not isinstance(x,str) or not x for x in columns): raise ValueError('column names must be nonempty strings')
     roles = [spec['id'],spec['outcome'],*spec['regressors'],*spec['endogenous'],*spec['instruments']]
@@ -136,6 +811,7 @@ def run(spec, spec_path):
     if method == 'multitreatment_did': numeric.extend([opt['time'],*opt['treatments']])
     if method == 'generalized_synth': numeric.extend([opt['time'],opt['treatment']])
     if method == 'staggered_did': numeric.extend([opt['time'],opt['cohort']])
+    if method == 'staggered_did' and 'weightsname' in opt: numeric.append(opt['weightsname'])
     if method == 'policy_tree': numeric.extend([opt['treatment'],opt['propensity']])
     if method == 'shift_share': numeric.extend(opt['shares'])
     if method == 'gls': numeric.append(opt['variance'])
@@ -159,7 +835,7 @@ def run(spec, spec_path):
         groups = d[inf['cluster']]
         if groups.nunique()<2: raise ValueError('at least two clusters required')
     versions = {'python':sys.version.split()[0], 'numpy':np.__version__, 'pandas':pd.__version__, 'scipy':scipy.__version__, 'statsmodels':statsmodels.__version__}
-    diagnostics = {}; fit_n=None
+    diagnostics = {}; fit_n=None; did_values=None; confidence_level=0.95
     if method == 'distribution_effect':
         treatment=opt['treatment']; threshold=opt['threshold']
         if spec['regressors']!=[treatment] or set(d[treatment].unique())!={0,1} or isinstance(threshold,bool) or not isinstance(threshold,(int,float)) or not np.isfinite(threshold): raise ValueError('distribution effect requires a binary treatment regressor and finite threshold')
@@ -211,48 +887,47 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
         pv=pd.Series(2*norm.sf(np.abs(coef/se)),index=names); ci=pd.DataFrame({0:coef-norm.ppf(.975)*se,1:coef+norm.ppf(.975)*se}); reference='normal'; engine='R gsynth::gsynth'
         diagnostics={'factors':rank,'bootstraps':boots,'bootstrap':'parametric','seed':seed,'force':'two-way','cross_validation':False,'rmse':values['rmse'],'iterations':values['iterations'],'treated_units':int(values['treated']),'control_units':int(values['controls'])}
     elif method == 'staggered_did':
-        import re, subprocess, tempfile, os
-        entity=opt['entity']; time=opt['time']; cohort=opt['cohort']; control=opt['control_group']
-        variables=[spec['outcome'],*spec['regressors'],entity,time,cohort]
-        if control not in ('nevertreated','notyettreated') or any(not isinstance(k,str) or not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*',k) for k in variables) or len(set(variables))!=len(variables): raise ValueError('DID requires distinct simple column names and valid control group')
-        if excluded or d.duplicated([entity,time]).any() or d.groupby(entity)[cohort].nunique().max()!=1: raise ValueError('DID needs complete unique entity-time observations and fixed cohort')
-        grid=np.sort(d[time].unique()); groups=d[cohort].unique(); n_entities=d[entity].nunique()
-        if len(grid)<4 or not np.equal(grid,np.floor(grid)).all() or not np.equal(groups,np.floor(groups)).all() or not np.all(np.diff(grid)==1) or len(d)!=n_entities*len(grid) or not (d.groupby(entity)[time].nunique()==len(grid)).all(): raise ValueError('DID needs a balanced consecutive integer-time panel')
-        if not np.any(groups>0) or any(g not in grid[1:] for g in groups if g!=0): raise ValueError('DID needs valid post-baseline treatment cohorts')
-        if control == 'nevertreated' and 0 not in groups:
-            raise ValueError('nevertreated DID requires a never-treated cohort coded zero')
-        if 0 not in groups:
-            if len(groups)<2:
-                raise ValueError('notyettreated DID requires at least two treatment cohorts when no never-treated cohort exists')
-            # No untreated comparison remains from the last adoption period onward.
-            comparison_window = d[time] < max(groups)
-            outside = d.loc[~comparison_window,spec['id']].astype(str).tolist()
-            d = d.loc[comparison_window].copy()
-        if not os.environ.get('R_LIBS_USER'): raise ValueError('set R_LIBS_USER to the installed did library')
-        rcode="""
-args <- commandArgs(trailingOnly=TRUE)
-suppressPackageStartupMessages(library(did)); suppressPackageStartupMessages(library(jsonlite))
-d <- read.csv(args[1],check.names=FALSE); y <- args[2]; unit <- args[3]; tm <- args[4]; cohort <- args[5]; control <- args[6]; covars <- args[7]
-d[[unit]] <- as.integer(as.factor(d[[unit]])); form <- if(nchar(covars)) as.formula(paste('~',gsub(',', '+', covars))) else ~1
-invisible(capture.output(a <- att_gt(yname=y,tname=tm,idname=unit,gname=cohort,xformla=form,data=d,control_group=control,panel=TRUE,allow_unbalanced_panel=FALSE,anticipation=0,bstrap=FALSE,cband=FALSE,est_method='dr',base_period='varying',cores=1)))
-invisible(capture.output(e <- aggte(a,type='dynamic',bstrap=FALSE,cband=FALSE)))
-influences <- cbind(e$inf.function$dynamic.inf.func, e$inf.function$dynamic.inf.func.e); vv <- crossprod(influences)/(a$n^2)
-gv <- crossprod(as.matrix(a$inffunc))/(a$n^2)
-obj <- list(r_version=as.character(getRversion()),did_version=as.character(packageVersion('did')),event_times=e$egt,coef=c(e$overall.att,e$att.egt),engine_se=c(e$overall.se,e$se.egt),cov=unname(vv),groups=a$group,times=a$t,att=a$att,group_cov=unname(gv),group_se=a$se,n=a$n)
-cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
-"""
-        with tempfile.TemporaryDirectory(prefix='causal-did-') as tmp:
-            inp=Path(tmp)/'data.csv'; d.to_csv(inp,index=False)
-            proc=subprocess.run(['Rscript','-',str(inp),spec['outcome'],entity,time,cohort,control,','.join(spec['regressors'])],input=rcode,text=True,capture_output=True,env=os.environ.copy())
-        if proc.returncode: raise ArithmeticError('did engine failed: '+proc.stderr[-2000:])
-        values=json.loads(proc.stdout); versions['R']=values['r_version']; versions['did']=values['did_version']
-        events=np.atleast_1d(values['event_times']); names=['overall']+[('event_m'+str(abs(int(x))) if x<0 else 'event_p'+str(int(x))) for x in events]; vals=np.atleast_1d(values['coef']); covariance=np.atleast_2d(values['cov']);
-        if not np.isfinite(vals.astype(float)).all() or not np.isfinite(covariance.astype(float)).all(): raise ArithmeticError('DID returned nonfinite estimates')
-        coef=pd.Series(vals,index=names,dtype=float); cov=pd.DataFrame(covariance,index=names,columns=names,dtype=float); se=pd.Series(np.sqrt(np.diag(cov)),index=names); from scipy.stats import norm
-        if not np.allclose(se.to_numpy(),np.atleast_1d(values['engine_se']),rtol=1e-7,atol=1e-9) or not np.allclose(np.sqrt(np.diag(np.atleast_2d(values['group_cov']))),np.atleast_1d(values['group_se']),rtol=1e-7,atol=1e-9): raise ArithmeticError('DID influence-function covariance does not match engine standard errors')
-        pv=pd.Series(2*norm.sf(np.abs(coef/se)),index=names); ci=pd.DataFrame({0:coef-norm.ppf(.975)*se,1:coef+norm.ppf(.975)*se}); reference='normal'; engine='R did::att_gt + did::aggte'
-        fit_n=n_entities
-        diagnostics={'control_group':control,'score':'doubly robust','aggregation':'dynamic event time over available cohorts at each event time','base_period':'varying','group_time':{'group':values['groups'],'time':values['times'],'att':values['att'],'standard_errors':values['group_se'],'covariance':values['group_cov']},'units':int(values['n']),'bootstrap':False,'anticipation':0}
+        from scipy.stats import norm
+        did_values = _staggered_did(spec, d)
+        values = did_values
+        versions.update(R=values['r_version'], did=values['did_version'], DRDID=values['drdid_version'])
+        effective = values['att_gt_options']; aggregation = values['aggregate_options']
+        events = np.atleast_1d(values['event_times']) if values['event_times'] is not None else np.array([])
+        prefix = {'dynamic':'event', 'group':'cohort', 'calendar':'time', 'simple':'overall'}[aggregation['type']]
+        names = ['overall'] + [prefix + ('_m' + str(abs(int(x))) if x < 0 else '_p' + str(int(x))) for x in events]
+        vals = np.atleast_1d(values['coef']).astype(float)
+        errors = np.atleast_1d(values['engine_se']).astype(float)
+        covariance = np.atleast_2d(values['cov']).astype(float)
+        # A universal reference period is normalized by did and has no test.
+        baseline = opt.get('base_period', 'varying') == 'universal'
+        normalized = np.r_[False, (events == -opt.get('anticipation', 0)-1)] if aggregation['type'] == 'dynamic' and baseline else np.zeros(len(vals),dtype=bool)
+        keep = ~normalized
+        names = list(np.asarray(names)[keep]); vals = vals[keep]; errors = errors[keep]
+        covariance = covariance[np.ix_(keep,keep)]
+        coef = pd.Series(vals,index=names); se = pd.Series(errors,index=names)
+        cov = pd.DataFrame(covariance,index=names,columns=names)
+        critical = np.atleast_1d(values['critical_values']).astype(float)[keep]
+        if not aggregation['bstrap'] and not np.allclose(se.to_numpy(),np.sqrt(np.diag(covariance)),rtol=1e-7,atol=1e-9):
+            raise ArithmeticError('DID analytical covariance does not match official standard errors')
+        pv = pd.Series(2*norm.sf(np.abs(coef/se)),index=names)
+        ci = pd.DataFrame({0:coef-critical*se,1:coef+critical*se})
+        confidence_level = 1-aggregation['alp']
+        reference = 'normal pointwise tests with official multiplier-bootstrap standard errors' if aggregation['bstrap'] else 'normal'
+        engine = 'R did::att_gt + did::aggte'; fit_n = int(values['n'])
+        retained = set(values['fitted_ids'])
+        removed = d.loc[~d[spec['id']].isin(retained),spec['id']].astype(str).tolist()
+        outside = removed if not (d[opt['cohort']] == 0).any() else []
+        d = d.loc[d[spec['id']].isin(retained)].copy()
+        diagnostics = {'control_group':opt['control_group'],'score':effective['est_method'],
+            'aggregation':aggregation['type'],'base_period':effective['base_period'],
+            'group_time':{'group':values['groups'],'time':values['times'],'att':values['att'],
+                          'standard_errors':values['group_se'],'covariance':values['group_cov'],
+                          'cells':values['cells']},
+            'units':fit_n,'bootstrap':effective['bstrap'],'anticipation':effective['anticipation'],
+            'effective_options':{'att_gt':effective,'aggte':aggregation},
+            'official_interfaces':values['signatures'],'aggregation_components':values['components'],
+            'pretreatment_test':values['pretreatment_test'], 'excluded_engine_ids':removed,
+            'engine_messages':values['engine_messages'],'runtime':values['runtime'],'seed':opt.get('seed')}
     elif method == 'synthetic_control':
         from importlib.metadata import version
         from pysyncon import Synth
@@ -495,15 +1170,51 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
     arrays=[np.asarray(z,dtype=float) for z in (coef,cov,se,pv,ci)]
     if any(not np.isfinite(z).all() for z in arrays): raise ArithmeticError('estimator returned nonfinite inference')
     names=list(coef.index); vals=[float(v) for v in coef]; std=[float(v) for v in se]
-    units={k:(spec['unit'] if k in ('const','treatment_effect','sample_ate','policy_value_gain','overall','post') or k.startswith('event_') else 'dimensionless' if k in ('spatial_lag','log_sigma','L1.'+spec['outcome']) else f"{spec['unit']} per one unit of {k}") for k in names}
+    units={k:(spec['unit'] if k in ('const','treatment_effect','sample_ate','policy_value_gain','overall','post') or k.startswith(('event_','cohort_','time_')) else 'dimensionless' if k in ('spatial_lag','log_sigma','L1.'+spec['outcome']) else f"{spec['unit']} per one unit of {k}") for k in names}
     stats={f'coefficient.{k}':{'value':v,'unit':units[k]} for k,v in zip(names,vals)}
     stats.update({f'standard_error.{k}':{'value':v,'unit':units[k]} for k,v in zip(names,std)})
     stats.update({f'p_value.{k}':{'value':float(pv.loc[k]),'unit':'probability'} for k in names})
-    stats.update({f'confidence_95_lower.{k}':{'value':float(ci.loc[k].iloc[0]),'unit':units[k]} for k in names})
-    stats.update({f'confidence_95_upper.{k}':{'value':float(ci.loc[k].iloc[1]),'unit':units[k]} for k in names})
+    level_label = format(100*confidence_level, '.8g')
+    stats.update({f'confidence_{level_label}_lower.{k}':{'value':float(ci.loc[k].iloc[0]),'unit':units[k]} for k in names})
+    stats.update({f'confidence_{level_label}_upper.{k}':{'value':float(ci.loc[k].iloc[1]),'unit':units[k]} for k in names})
     fit_n=len(d) if fit_n is None else fit_n
     stats['observations']={'value':int(fit_n),'unit':'fitted observations'}
-    return {'method':method,'engine':engine,'versions':versions,'options':opt,'adopted':{k:spec[k] for k in ('population','period','unit','estimand','identification','assignment','inference')},'sample':{'id_column':spec['id'],'included_ids':d[spec['id']].astype(str).tolist(),'excluded_incomplete_ids':excluded,'excluded_outside_window_ids':outside,'training_ids':training,'excluded_initial_lag_ids':initial_lags,'input_rows':int(input_rows),'observations':int(fit_n)},'coefficients':dict(zip(names,vals)),'standard_errors':dict(zip(names,std)),'covariance_kind':'upper bound on scalar variance' if method=='causal_forest' else 'estimator covariance','covariance':{a:{b:float(cov.loc[a,b]) for b in names} for a in names},'inference':{'reference':reference,'p_values':{k:float(pv.loc[k]) for k in names},'confidence_intervals_95':{k:[float(x) for x in ci.loc[k]] for k in names}},'diagnostics':diagnostics,'statistics':stats,'provenance':{'data_path':str(p),'data_sha256':_hash(p),'spec_path':str(spec_path.resolve()),'spec_sha256':_hash(spec_path)}}
+    result = {'method':method,'engine':engine,'versions':versions,'options':opt,'adopted':{k:spec[k] for k in ('population','period','unit','estimand','identification','assignment','inference')},'sample':{'id_column':spec['id'],'included_ids':d[spec['id']].astype(str).tolist(),'excluded_incomplete_ids':excluded,'excluded_outside_window_ids':outside,'training_ids':training,'excluded_initial_lag_ids':initial_lags,'input_rows':int(input_rows),'observations':int(fit_n)},'coefficients':dict(zip(names,vals)),'standard_errors':dict(zip(names,std)),'covariance_kind':'upper bound on scalar variance' if method=='causal_forest' else 'estimator covariance','covariance':{a:{b:float(cov.loc[a,b]) for b in names} for a in names},'inference':{'reference':reference,'p_values':{k:float(pv.loc[k]) for k in names},'confidence_level':confidence_level,'confidence_intervals':{k:[float(x) for x in ci.loc[k]] for k in names}},'diagnostics':diagnostics,'statistics':stats,'provenance':{'data_path':str(p),'data_sha256':_hash(p),'spec_path':str(spec_path.resolve()),'spec_sha256':_hash(spec_path)}}
+    if confidence_level == 0.95:
+        result['inference']['confidence_intervals_95'] = result['inference']['confidence_intervals']
+    if did_values is not None:
+        aggregation = did_values['aggregate_options']
+        result['covariance_kind'] = 'analytical covariance from official influence functions with adopted clustering'
+        result['inference'].update(standard_error_method='multiplier bootstrap' if aggregation['bstrap'] else 'analytical',
+            interval_type='simultaneous' if aggregation['cband'] and aggregation['type'] != 'simple' else 'pointwise',
+            overall_interval_type='pointwise', critical_values=did_values['critical_values'])
+        result['sample']['excluded_engine_ids'] = diagnostics['excluded_engine_ids']
+        rows = []
+        for component in did_values['components']:
+            index = component['index']
+            term = prefix + ('_m' + str(abs(int(index))) if index < 0 else '_p' + str(int(index)))
+            role = ('reference' if aggregation['type'] == 'dynamic' and baseline and index == -opt.get('anticipation',0)-1
+                    else 'post_treatment_att' if aggregation['type'] != 'dynamic' or index >= 0
+                    else 'anticipation' if index >= -opt.get('anticipation',0) else 'pretreatment_diagnostic')
+            row = {'term':term,'estimate':component['estimate'],'se':component['se'],
+                   'ci_low':component['ci_low'],'ci_high':component['ci_high'],
+                   'p_value':result['inference']['p_values'].get(term),
+                   'n':component['treated_units'],'unit':spec['unit'],'role':role}
+            row['event_time' if aggregation['type'] == 'dynamic' else 'group' if aggregation['type'] == 'group' else 'period'] = index
+            rows.append(row)
+        if not rows:
+            rows = [{'term':'overall','estimate':result['coefficients']['overall'],
+                     'se':result['standard_errors']['overall'],'ci_low':float(ci.loc['overall'].iloc[0]),
+                     'ci_high':float(ci.loc['overall'].iloc[1]),'p_value':float(pv.loc['overall']),
+                     'n':fit_n,'unit':spec['unit'],'role':'post_treatment_att'}]
+        result['display'] = {'kind':'event-study' if aggregation['type'] == 'dynamic' else 'coefficient',
+            'rows':rows,'metadata':{'aggregation':aggregation['type'],'confidence_level':confidence_level,
+            'interval_type':result['inference']['interval_type'],
+            'reference_event_time':-opt.get('anticipation',0)-1 if baseline else None,
+            'cohort_contributions':[{k:v for k,v in component.items() if k != 'treated_sample_ids'} for component in did_values['components']],
+            'unit':spec['unit'],'population':spec['population'],
+            'sample':{k:v for k,v in result['sample'].items() if not isinstance(v,list)}}}
+    return result
 
 
 def case(output):
@@ -594,13 +1305,14 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     sub=parser.add_subparsers(dest='operation',required=True)
     run_parser=sub.add_parser('run'); run_parser.add_argument('spec',type=Path); run_parser.add_argument('--output','-o',required=True,type=Path)
+    select_parser=sub.add_parser('select'); select_parser.add_argument('spec',type=Path); select_parser.add_argument('--output','-o',required=True,type=Path)
     case_parser=sub.add_parser('case'); case_parser.add_argument('--output','-o',required=True,type=Path)
     a=parser.parse_args()
     try:
         if a.operation=='case': case(a.output)
         else:
             spec=json.loads(a.spec.read_text(encoding='utf-8'))
-            result=run(spec,a.spec)
+            result=select_method(spec) if a.operation=='select' else run(spec,a.spec)
             state.save(a.output,result)
     except (ValueError,TypeError,KeyError,OSError,ArithmeticError) as exc: parser.exit(2,f'error: {exc}\n')
 

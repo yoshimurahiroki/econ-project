@@ -438,6 +438,305 @@ def dataset_mentions(spec, root, directory):
     return result
 
 
+DESCRIBE_R = r'''
+args <- commandArgs(trailingOnly=TRUE)
+suppressPackageStartupMessages(library(jsonlite))
+suppressPackageStartupMessages(library(modelsummary))
+suppressPackageStartupMessages(library(ggplot2))
+job <- fromJSON(args[1], simplifyVector=TRUE)
+d <- as.data.frame(job$rows, stringsAsFactors=FALSE)
+weighted <- job$weights$kind != "none"
+if (weighted && !requireNamespace("Hmisc", quietly=TRUE)) stop("Weighted summaries require Hmisc")
+qprobs <- as.numeric(job$quantiles$probabilities)
+qnames <- paste0("q", gsub("[.]", "p", format(qprobs * 100, scientific=FALSE, trim=TRUE, digits=15)))
+groups <- as.character(job$groups)
+summary_rows <- list()
+trends <- list()
+distributions <- list()
+balance_frames <- list()
+summarize <- function(x, w) {
+    usable <- !is.na(x) & !is.na(w) & w > 0
+    x <- x[usable]; w <- w[usable]
+    if (!length(x)) return(as.list(setNames(c(rep(NA_real_, 3 + length(qprobs)), 0), c("mean", "sd", "median", qnames, "n"))))
+    e <- new.env(parent=environment())
+    e$Mean <- if (weighted) function(x) stats::weighted.mean(x, w) else base::mean
+    e$SD <- if (weighted) function(x) sqrt(Hmisc::wtd.var(x, w, normwt=job$weights$normalization == "sum_to_n", method=job$weights$variance)) else stats::sd
+    quantile_at <- function(p) {
+        force(p)
+        if (weighted) function(x) as.numeric(Hmisc::wtd.quantile(x, w, probs=p, normwt=job$weights$normalization == "sum_to_n", type=job$quantiles$method))
+        else function(x) as.numeric(stats::quantile(x, probs=p, type=job$quantiles$type, names=FALSE))
+    }
+    e$Median <- quantile_at(0.5)
+    e$N <- length
+    for (j in seq_along(qprobs)) e[[qnames[j]]] <- quantile_at(qprobs[j])
+    formula <- stats::reformulate(c("Mean", "SD", "Median", qnames, "N"), response="value", env=e)
+    tab <- modelsummary::datasummary(formula, data=data.frame(value=x), output="data.frame",
+                                    fmt=function(x) if (is.numeric(x)) sprintf("%.17g", x) else x)
+    values <- lapply(tab[1, -1, drop=FALSE], function(value) as.numeric(value[[1]]))
+    names(values) <- c("mean", "sd", "median", qnames, "n")
+    values
+}
+for (i in seq_len(nrow(job$variables))) {
+    variable <- job$variables[i, ]
+    xall <- as.numeric(d[[variable$key]])
+    balance_data <- data.frame(value=xall, group=factor(d$group, levels=groups))
+    if (weighted) balance_data$weights <- d$weight
+    valid_weight <- !is.na(d$weight) & d$weight > 0
+    balance_data <- balance_data[valid_weight, , drop=FALSE]
+    if (nrow(balance_data) && !weighted) {
+        balance <- modelsummary::datasummary_balance(value ~ group, data=balance_data, dinm=FALSE,
+                         output="data.frame", fmt=function(x) if (is.numeric(x)) sprintf("%.17g", x) else x)
+        names(balance) <- make.unique(ifelse(trimws(names(balance)) == "", "variable", names(balance)))
+        balance$variable <- variable$name
+        balance$unit <- variable$unit
+        for (column in setdiff(names(balance), c("variable", "unit"))) balance[[column]] <- as.numeric(balance[[column]])
+        for (group in groups) balance[[paste0(group, " / N usable")]] <- sum(!is.na(xall) & d$group == group & valid_weight)
+        balance_frames[[length(balance_frames) + 1]] <- balance
+    }
+    trend_rows <- list()
+    plot_rows <- list(histogram=list(), density=list(), ecdf=list(), box=list())
+    for (group in groups) {
+        take <- d$group == group
+        x <- xall[take]; w <- as.numeric(d$weight[take])
+        stats <- summarize(x, w)
+        row <- c(list(variable=variable$name, group=group), stats,
+                 list(n_observed=sum(!is.na(x)), n_missing=sum(is.na(x)), n_zero=sum(x == 0, na.rm=TRUE),
+                      n_missing_weight=sum(is.na(w)), n_zero_weight=sum(w == 0, na.rm=TRUE),
+                      weight_sum=sum(w[!is.na(x) & !is.na(w) & w > 0]), unit=variable$unit))
+        summary_rows[[length(summary_rows) + 1]] <- row
+        for (period in job$periods) {
+            period_take <- take & d$period == period
+            period_stats <- summarize(xall[period_take], as.numeric(d$weight[period_take]))
+            trend_rows[[length(trend_rows) + 1]] <- c(list(variable=variable$name, group=group, period=period),
+                period_stats, list(unit=variable$unit))
+        }
+        usable <- !is.na(x) & !is.na(w) & w > 0
+        x <- x[usable]; w <- w[usable]
+        if (!length(x)) next
+        pd <- data.frame(value=x, weight=w)
+        options <- job$distributions[[variable$name]]
+        if (is.null(options)) next
+        save_layer <- function(layer, type, unit) {
+            for (j in seq_len(nrow(layer))) {
+                one <- as.list(layer[j, , drop=FALSE])
+                plot_rows[[type]][[length(plot_rows[[type]]) + 1]] <<- c(list(variable=variable$name, group=group), one, list(n=length(x), weight_sum=sum(w), unit=unit))
+            }
+        }
+        if (!is.null(options$histogram)) {
+            h <- options$histogram
+            if (min(x) < min(h$breaks) || max(x) > max(h$breaks)) stop("Histogram breaks must cover the selected values")
+            p <- ggplot(pd, aes(x=value, weight=weight)) + geom_histogram(breaks=h$breaks, closed=h$closed)
+            layer <- ggplot2::layer_data(p)
+            layer <- data.frame(bin_mid=layer$x, bin_low=layer$xmin, bin_high=layer$xmax, count=layer$count, density=layer$density)
+            save_layer(layer, "histogram", if (weighted) "weight" else "observations")
+        }
+        if (!is.null(options$density) && length(x) >= 2) {
+            de <- options$density
+            p <- ggplot(pd, aes(x=value, weight=weight)) + geom_density(bw=de$bw, adjust=de$adjust, n=de$n, kernel="gaussian")
+            layer <- ggplot2::layer_data(p)
+            save_layer(data.frame(x=layer$x, value=layer$density), "density", paste0("1/(", variable$unit, ")"))
+        }
+        if (!is.null(options$ecdf)) {
+            if (weighted) {
+                ec <- Hmisc::wtd.Ecdf(x, w, normwt=FALSE, type="i/n")
+                layer <- data.frame(x=ec$x, value=ec$ecdf)
+            } else {
+                p <- ggplot(pd, aes(x=value)) + stat_ecdf(pad=FALSE)
+                built <- ggplot2::layer_data(p)
+                layer <- data.frame(x=built$x, value=built$y)
+            }
+            layer <- layer[order(layer$x), , drop=FALSE]
+            save_layer(layer, "ecdf", "share")
+        }
+        if (!is.null(options$box)) {
+            if (weighted && !requireNamespace("quantreg", quietly=TRUE)) stop("Weighted ggplot2 box plots require quantreg")
+            mapping <- if (weighted) aes(x=factor(1), y=value, weight=weight) else aes(x=factor(1), y=value)
+            p <- ggplot(pd, mapping) + geom_boxplot(coef=options$box$coef, outlier.shape=NA)
+            built <- ggplot2::layer_data(p)
+            layer <- data.frame(ymin=built$ymin, lower=built$lower, middle=built$middle,
+                                upper=built$upper, ymax=built$ymax,
+                                n_outliers=vapply(built$outliers, length, integer(1)))
+            save_layer(layer, "box", variable$unit)
+        }
+    }
+    trends[[variable$name]] <- trend_rows
+    distributions[[variable$name]] <- plot_rows
+}
+balance_rows <- if (weighted) summary_rows else if (length(balance_frames)) do.call(rbind, balance_frames) else data.frame()
+packages <- c("modelsummary", "ggplot2", "jsonlite", if (weighted) "Hmisc")
+if (weighted && any(vapply(job$distributions, function(x) !is.null(x$box), logical(1)))) packages <- c(packages, "quantreg")
+versions <- setNames(lapply(packages, function(p) as.character(packageVersion(p))), packages)
+write_json(list(rows=summary_rows, balance=balance_rows, trends=trends, distributions=distributions,
+                engine=list(R=R.version.string, packages=versions)), args[2], auto_unbox=TRUE, digits=NA, na="null", dataframe="rows", pretty=TRUE)
+'''
+
+
+def describe(spec, root, directory, rscript='Rscript'):
+    """Calculate adopted display aggregates through modelsummary and ggplot2."""
+    allowed = {'result_id', 'specification', 'data', 'row_id', 'population', 'sample',
+               'period', 'group', 'variables', 'weights', 'quantiles', 'denominator', 'distributions'}
+    require(isinstance(spec, dict) and not set(spec) - allowed, 'Unknown descriptive specification fields')
+    for key in ('result_id', 'specification', 'row_id', 'population', 'denominator'):
+        require(isinstance(spec.get(key), str) and spec[key], 'Adopt descriptive ' + key)
+    root = Path(root).resolve()
+    data_path = Path(spec['data']['path'])
+    require(not data_path.is_absolute() and '..' not in data_path.parts, 'Data path must be project-relative')
+    fields, rows = load_table(root, spec['data'])
+    require(spec['row_id'] in fields, 'Row identity column is absent')
+    identities = [row[spec['row_id']] for row in rows]
+    require(all(identities) and len(set(identities)) == len(rows), 'Row identities must be complete and unique')
+    variables = spec.get('variables')
+    require(isinstance(variables, list) and variables, 'Select descriptive variables')
+    for variable in variables:
+        require(isinstance(variable, dict) and set(variable) <= {'name', 'unit', 'label', 'status', 'observed_statuses'} and all(isinstance(variable.get(key), str) and variable[key] for key in ('name', 'unit')), 'Variable needs its saved name and unit')
+        require(variable['name'] in fields, 'Descriptive variable is absent: ' + variable['name'])
+        if 'status' in variable:
+            require(variable['status'] in fields and isinstance(variable.get('observed_statuses'), list) and variable['observed_statuses'], 'Status fields require adopted observed_statuses')
+    require(len({variable['name'] for variable in variables}) == len(variables), 'Descriptive variable names must be distinct')
+    sample = spec.get('sample', {})
+    require(isinstance(sample, dict) and sample.get('id') and sample.get('policy') in ('available-case', 'complete-case', 'fitted'), 'Adopt sample id and available-case, complete-case or fitted policy')
+    require(not set(sample) - {'id', 'policy', 'filters', 'result', 'ids_key'} and isinstance(sample.get('filters', []), list), 'Sample uses explicit filters or a saved fitted-result identity list')
+    flow = [{'stage': 'input', 'n': len(rows), 'unit': 'records'}]
+    for condition in sample.get('filters', []):
+        require(set(condition) == {'column', 'values'} and condition['column'] in fields and isinstance(condition['values'], list), 'Sample filters require a column and explicit values')
+        values = {str(value) for value in condition['values']}
+        rows = [row for row in rows if row[condition['column']] in values]
+        flow.append({'stage': 'filter:' + condition['column'], 'n': len(rows), 'unit': 'records'})
+    if sample['policy'] == 'fitted':
+        reference = sample['result']
+        path = Path(reference['path'])
+        require(not path.is_absolute() and '..' not in path.parts, 'Fitted result path must be project-relative')
+        raw = (root / path).read_bytes()
+        require(digest(raw) == reference['sha256'], 'Fitted sample result hash differs')
+        selected = json.loads(raw)
+        for key in sample['ids_key']:
+            selected = selected[key]
+        require(isinstance(selected, list), 'Fitted sample key must contain the recorded row IDs')
+        selected_ids = {str(value) for value in selected}
+        require(selected_ids <= set(identities), 'Fitted row identities are absent from the input snapshot')
+        rows = [row for row in rows if row[spec['row_id']] in selected_ids]
+        require({row[spec['row_id']] for row in rows} == selected_ids, 'Sample filters changed the adopted fitted sample')
+        flow.append({'stage': 'fitted sample', 'n': len(rows), 'unit': 'records'})
+    period = spec.get('period')
+    if isinstance(period, dict):
+        require(set(period) == {'column', 'values', 'label'} and period['column'] in fields and isinstance(period['values'], list) and period['values'], 'Period requires column, values and label')
+        periods = [str(value) for value in period['values']]
+        rows = [row for row in rows if row[period['column']] in periods]
+        period_label = period['label']
+    else:
+        require(isinstance(period, str) and period, 'Adopt the descriptive period')
+        periods, period_label = [period], period
+    flow.append({'stage': 'period', 'n': len(rows), 'unit': 'records'})
+    group = spec.get('group')
+    if group:
+        require(set(group) == {'column', 'levels', 'missing'} and group['column'] in fields and group['missing'] in ('include', 'exclude') and isinstance(group['levels'], list) and group['levels'], 'Group requires column, levels and missing policy')
+        groups = [str(value) for value in group['levels']]
+        if group['missing'] == 'include':
+            groups.append('（群欠損）')
+        rows = [row for row in rows if (row[group['column']] or '（群欠損）') in groups]
+    else:
+        groups = ['全体']
+    flow.append({'stage': 'groups', 'n': len(rows), 'unit': 'records'})
+    weights = spec.get('weights')
+    require(isinstance(weights, dict) and weights.get('kind') in ('none', 'frequency', 'population', 'reliability'), 'Adopt the weight meaning')
+    weighted = weights['kind'] != 'none'
+    if weighted:
+        require(set(weights) == {'kind', 'column', 'normalization', 'variance'} and weights['column'] in fields and weights['normalization'] in ('none', 'sum_to_n') and weights['variance'] in ('unbiased', 'ML'), 'Weights require column, normalization and variance convention')
+        require(weights['kind'] != 'frequency' or weights['normalization'] == 'none', 'Frequency weights retain their original counts')
+        require(weights['kind'] != 'reliability' or weights['normalization'] == 'sum_to_n', 'Reliability weights normalize to the usable observation count')
+        require(weights['kind'] != 'population' or weights['variance'] == 'ML', 'Population-weight dispersion uses the adopted population variance')
+    else:
+        require(set(weights) == {'kind'}, 'Unweighted summaries require weights.kind=none')
+    quantiles = spec.get('quantiles')
+    require(isinstance(quantiles, dict) and isinstance(quantiles.get('probabilities'), list) and quantiles['probabilities'] and all(type(p) in (int, float) and 0 <= p <= 1 for p in quantiles['probabilities']), 'Adopt quantile probabilities')
+    require(len(set(quantiles['probabilities'])) == len(quantiles['probabilities']), 'Quantile probabilities must be distinct')
+    if weighted:
+        require(quantiles.get('method') in ('quantile', '(i-1)/(n-1)', 'i/(n+1)', 'i/n'), 'Adopt the Hmisc weighted quantile convention')
+    else:
+        require(type(quantiles.get('type')) is int and 1 <= quantiles['type'] <= 9, 'Adopt an R quantile type from 1 to 9')
+    prepared, row_ids = [], []
+    status_counts = {}
+    for row in rows:
+        weight = numeric(row[weights['column']]) if weighted else 1.0
+        require(weight is None or weight >= 0, 'Weights must be nonnegative')
+        require(weights['kind'] != 'frequency' or weight is None or weight.is_integer(), 'Frequency weights must be integer counts')
+        prepared_row = {'group': row[group['column']] or '（群欠損）' if group else '全体',
+                        'period': row[period['column']] if isinstance(period, dict) else period,
+                        'weight': weight}
+        for index, variable in enumerate(variables):
+            status = row[variable['status']] if 'status' in variable else 'observed'
+            observed = 'status' not in variable or status in variable['observed_statuses']
+            value = numeric(row[variable['name']]) if observed else None
+            if 'status' not in variable and value is None:
+                status = 'missing'
+            status_counts.setdefault(variable['name'], {}).setdefault(status, 0)
+            status_counts[variable['name']][status] += 1
+            prepared_row['v' + str(index)] = value
+        if sample['policy'] == 'complete-case' and (weight is None or weight == 0 or any(prepared_row['v' + str(index)] is None for index in range(len(variables)))):
+            continue
+        prepared.append(prepared_row)
+        row_ids.append(row[spec['row_id']])
+    flow.append({'stage': sample['policy'], 'n': len(prepared), 'unit': 'records'})
+    if sample['policy'] == 'fitted':
+        require(set(row_ids) == selected_ids, 'Period or group selection changed the adopted fitted sample')
+    require(prepared, 'The adopted sample has no rows')
+    distributions = spec.get('distributions', {})
+    require(isinstance(distributions, dict) and not set(distributions) - {v['name'] for v in variables}, 'Distribution variables must be selected summaries')
+    for name, options in distributions.items():
+        require(isinstance(options, dict) and not set(options) - {'histogram', 'density', 'ecdf', 'box'}, 'Unknown distribution type')
+        if 'histogram' in options:
+            h = options['histogram']; breaks = h.get('breaks', [])
+            require(set(h) == {'breaks', 'closed'} and len(breaks) >= 2 and all(type(x) in (int, float) and math.isfinite(x) for x in breaks) and all(a < b for a, b in zip(breaks, breaks[1:])) and h['closed'] in ('left', 'right'), 'Histogram requires increasing breaks and closed side')
+        if 'density' in options:
+            d = options['density']
+            require(set(d) == {'bw', 'adjust', 'n'} and (d['bw'] == 'nrd0' or type(d['bw']) in (int, float) and d['bw'] > 0) and type(d['adjust']) in (int, float) and d['adjust'] > 0 and type(d['n']) is int and d['n'] >= 2, 'Density requires adopted bw, adjust and n')
+        if 'box' in options:
+            require(set(options['box']) == {'coef'} and type(options['box']['coef']) in (int, float) and options['box']['coef'] >= 0, 'Box plot requires its adopted whisker coefficient')
+        if 'ecdf' in options:
+            require(options['ecdf'] == {}, 'ECDF uses the saved empirical distribution without padding')
+    job = {'rows': prepared, 'groups': groups, 'periods': periods, 'weights': weights, 'quantiles': quantiles,
+           'variables': [{'key': 'v' + str(i), **v} for i, v in enumerate(variables)], 'distributions': distributions}
+    binary = shutil.which(rscript)
+    require(binary is not None, 'Rscript is required for descriptive summaries')
+    with tempfile.TemporaryDirectory(prefix='.describe-', dir=directory) as temporary:
+        temporary = Path(temporary)
+        write_json(temporary / 'input.json', job)
+        (temporary / 'describe.R').write_text(DESCRIBE_R, encoding='utf8')
+        subprocess.run([binary, str(temporary / 'describe.R'), str(temporary / 'input.json'), str(temporary / 'output.json')], check=True)
+        computed = json.loads((temporary / 'output.json').read_text())
+    require(digest((root / data_path).read_bytes()) == spec['data']['sha256'], 'Input snapshot changed during descriptive calculation')
+    metadata = {'population': spec['population'], 'sample': sample['id'], 'sample_policy': sample['policy'],
+                'period': period_label, 'weights': weights, 'denominator': spec['denominator'],
+                'specification': spec['specification'], 'outcome': [v['name'] for v in variables],
+                'quantile_method': quantiles, 'group': group or 'all'}
+    units = {variable['unit'] for variable in variables}
+    if len(units) == 1:
+        metadata['unit'] = next(iter(units))
+    display = {'kind': 'table1', 'rows': computed['rows'], 'metadata': metadata,
+               'balance': {'kind': 'balance', 'rows': computed['balance'],
+                           'metadata': {**metadata, 'summary_engine': 'modelsummary::datasummary' if weighted else 'modelsummary::datasummary_balance', 'difference_in_means': False}},
+               'sample_flow': {'kind': 'sample-flow', 'rows': flow, 'metadata': metadata},
+               'trends': {}, 'distributions': {}}
+    for variable in variables:
+        name = variable['name']
+        shared = {**metadata, 'outcome': name, 'unit': variable['unit']}
+        display['trends'][name] = {'kind': 'trend', 'rows': computed['trends'][name], 'metadata': shared}
+        display['distributions'][name] = {}
+        for kind, saved_rows in computed['distributions'][name].items():
+            if saved_rows:
+                unit = saved_rows[0]['unit']
+                display['distributions'][name][kind] = {'kind': 'distribution', 'rows': saved_rows,
+                    'metadata': {**shared, 'unit': unit, 'outcome_unit': variable['unit'],
+                                 'distribution_type': kind, 'distribution_definition': distributions[name][kind],
+                                 **({'outliers': 'count_only'} if kind == 'box' else {})}}
+    return {'result_id': spec['result_id'], 'specification': spec['specification'], 'status': 'completed',
+            'method': 'modelsummary descriptive statistics and ggplot2 saved display data',
+            'adopted': spec, 'sample': {'id': sample['id'], 'row_ids': row_ids, 'status_counts': status_counts},
+            'display': display, 'statistics': {}, 'engine': computed['engine'],
+            'provenance': {'data_sha256': spec['data']['sha256'], 'script_sha256': digest(Path(__file__).read_bytes()),
+                           'r_script_sha256': digest(DESCRIBE_R.encode()), 'rscript': str(Path(binary).resolve())}}
+
+
 def create_case(root, python):
     """Prepare one finite synthetic pipeline for the existing research DAG."""
     root = Path(root).resolve()
@@ -519,12 +818,13 @@ def case_table(result_path, output):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=('acquire', 'assemble', 'extract', 'catalog', 'case', 'case-fit-spec', 'case-table', 'dataset-use'))
+    parser.add_argument('command', choices=('acquire', 'assemble', 'extract', 'catalog', 'case', 'case-fit-spec', 'case-table', 'dataset-use', 'describe'))
     parser.add_argument('specification', type=Path, nargs='?')
     parser.add_argument('--root', type=Path, default=Path.cwd())
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--output-record', action='store_true')
     parser.add_argument('--python', default=sys.executable)
+    parser.add_argument('--rscript', default='Rscript')
     args = parser.parse_args(argv)
     if args.command == 'case':
         print(json.dumps(create_case(args.output,args.python))); return
@@ -539,6 +839,13 @@ def main(argv=None):
     raw = args.specification.read_bytes()
     spec = json.loads(raw)
     args.output.mkdir(parents=True, exist_ok=True)
+    if args.command == 'describe':
+        require(not (args.output / 'result.json').exists(), 'Result already exists; choose a new descriptive generation')
+        result = describe(spec, args.root, args.output, args.rscript)
+        result['provenance']['spec_sha256'] = digest(raw)
+        write_json(args.output / 'result.json', result)
+        print(json.dumps({'result': str((args.output / 'result.json').resolve()), 'result_id': result['result_id']}))
+        return
     record_name = 'catalog.json' if args.command == 'catalog' else 'dataset-mentions.json' if args.command == 'dataset-use' else 'data-record.json'
     require(not (args.output/record_name).exists(), 'Output record already exists; select a new directory')
     if args.command == 'acquire': result = acquire(spec,args.output)

@@ -144,6 +144,7 @@ Included resources:
 - [research-execution](.agents/harness/research.md)
 - [research-experience](.agents/harness/experience.py)
 - [research-gallery](.agents/harness/research_gallery.py)
+- [research-gallery-example](.agents/examples/research-workspace/gallery.json)
 - [research-julia](.agents/skills/econ-data/scripts/research_numerics.jl)
 - [research-macro](.agents/skills/econ-data/scripts/research_macro.py)
 - [research-macro-dependencies](.agents/skills/econ-data/scripts/requirements-macro.txt)

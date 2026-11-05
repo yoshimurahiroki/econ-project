@@ -75,12 +75,18 @@ def _(artifacts, catalogue, mo):
     query = mo.ui.text(label='結果・変数・標本・解釈を検索', full_width=True)
     kinds = mo.ui.multiselect(options={kind_names[_key]: _key for _key in artifacts.GALLERY_KINDS}, label='種類')
     statuses = mo.ui.multiselect(options=sorted({_item['status'] for _item in catalogue}), label='採用状況')
-    return kind_names, kinds, query, statuses
+    search_filters = mo.ui.dictionary({
+        _key: mo.ui.text(label=_label, full_width=True) for _key, _label in {
+            'result_id': '結果 ID', 'sample': 'サンプル', 'comparison': '比較',
+            'outcome': 'アウトカム', 'specification': '仕様', 'period': '期間', 'adoption': '採用状況',
+        }.items()
+    })
+    return kind_names, kinds, query, search_filters, statuses
 
 
 @app.cell
-def _(artifacts, catalogue, kind_names, kinds, mo, query, registry_path, root, statuses):
-    _items = artifacts.gallery_items(root, registry_path, query.value) if catalogue else []
+def _(artifacts, catalogue, kind_names, kinds, mo, query, registry_path, root, search_filters, statuses):
+    _items = artifacts.gallery_items(root, registry_path, query.value, search_filters.value) if catalogue else []
     matching_items = [_item for _item in _items
                       if (not kinds.value or _item['kind'] in kinds.value)
                       and (not statuses.value or _item['status'] in statuses.value)]
@@ -108,6 +114,13 @@ def _(artifacts, catalogue, json, mo, registry_data, registry_path, result_table
     comparison_panel = mo.vstack(_previews) if _previews else mo.md('表の行を選ぶと、保存済みの図表を表示します。')
     if len(selected_ids) > 1:
         _comparison = artifacts.gallery_compare(root, registry_path, selected_ids)
+        _regression = _comparison['regression_table']
+        if _regression['rows']:
+            comparison_panel = mo.vstack([
+                mo.md('### 保存済み推定結果の比較'),
+                mo.ui.table(_regression['rows'], selection=None, show_column_summaries=False,
+                            show_data_types=False), comparison_panel,
+            ])
         _definitions = [{'定義': _key, **{_id: json.dumps(_value, ensure_ascii=False) for _id, _value in _values.items()}}
                         for _key, _values in _comparison['definition_differences'].items()]
         if _definitions:
@@ -135,7 +148,8 @@ def _(artifacts, copy, item_picker, json, mo, registry_data):
     _keys = [_column['key'] for _column in _columns]
     _available = {'選択なし': None, **{_key: _key for _key in _keys}}
     _plot_names = {'表': 'table', '棒': 'bar', '折れ線': 'line', '散布図': 'scatter',
-                   '階段': 'step', '面': 'area', '係数': 'coefficient', 'イベントスタディ': 'event_study'}
+                   '階段': 'step', '面': 'area', '係数': 'coefficient', 'イベントスタディ': 'event_study',
+                   '密度': 'density', '累積分布': 'ecdf', '箱ひげ': 'box'}
     _numeric_keys = [_key for _key in _keys if editing_item and
                      any(type(_row.get(_key)) in (int, float) for _row in editing_item['rows'])]
     title_input = mo.ui.text(value=_display.get('title', editing_item['title'] if editing_item else ''), label='表題', full_width=True)
@@ -174,6 +188,9 @@ def _(artifacts, copy, item_picker, json, mo, registry_data):
                                     value=_display.get('legend_location', 'best'), label='凡例位置')
     width = mo.ui.number(start=240, stop=4000, value=_display.get('width', 960), label='幅 px')
     height = mo.ui.number(start=240, stop=4000, value=_display.get('height', 540), label='高さ px')
+    presentation_style = mo.ui.dropdown({'論文': 'paper', '発表': 'presentation'},
+                                        value='発表' if _display.get('style') == 'presentation' else '論文', label='用途')
+    font_size = mo.ui.number(start=6, stop=40, value=_display.get('font_size', 11), label='文字サイズ pt')
     save_display = mo.ui.run_button(label='表示を保存', disabled=editing_item is None, kind='success')
     item_revision = artifacts.state.content_hash(editing_item) if editing_item else None
     return (
@@ -181,6 +198,7 @@ def _(artifacts, copy, item_picker, json, mo, registry_data):
         legend, legend_location, lower_column, notes_input, orientation, plot_type, row_order,
         save_display, selected_specs, series_column, sort_column, title_input, upper_column,
         width, x_column, x_label, x_limits, x_scale, y_column, y_label, y_limits, y_scale,
+        presentation_style, font_size,
     )
 
 
@@ -192,7 +210,11 @@ def _(editing_item, mo, series_column):
     visible_series = mo.ui.multiselect(options=_series, value=_visible, label='表示する系列')
     colors = mo.ui.dictionary({_value: mo.ui.text(value=_display.get('colors', {}).get(_value, ['#245b8a', '#b4513b', '#31836b', '#8a5b9e'][_index % 4]),
                                                   label=_value) for _index, _value in enumerate(_series or [''])}, label='色（色名・HEX）')
-    return colors, visible_series
+    series_order = mo.ui.text_area(value='\n'.join(_display.get('series_order', _series)),
+                                   label='系列の順序（1 行 1 系列キー）', full_width=True)
+    series_labels = mo.ui.dictionary({_value: mo.ui.text(value=_display.get('series_labels', {}).get(_value, _value),
+                                                        label=_value) for _value in _series}, label='系列名')
+    return colors, series_labels, series_order, visible_series
 
 
 @app.cell
@@ -201,7 +223,7 @@ def _(
     editing_item, height, json, legend, legend_location, lower_column, mo, notes_input,
     orientation, plot_type, row_order, selected_specs, series_column, sort_column,
     title_input, upper_column, visible_series, width, x_column, x_label, x_limits,
-    x_scale, y_column, y_label, y_limits, y_scale,
+    x_scale, y_column, y_label, y_limits, y_scale, presentation_style, font_size, series_labels, series_order,
 ):
     candidate_item = copy.deepcopy(editing_item)
     display_changes = None
@@ -225,6 +247,9 @@ def _(
                 'x_scale': x_scale.value, 'y_scale': y_scale.value, 'orientation': orientation.value,
                 'colors': colors.value, 'legend': legend.value, 'legend_location': legend_location.value,
                 'width': int(width.value), 'height': int(height.value),
+                'style': presentation_style.value, 'font_size': font_size.value,
+                'series_order': [value.strip() for value in series_order.value.splitlines() if value.strip()],
+                'series_labels': series_labels.value,
             }
             candidate_item['display'].update(display_changes)
             preview_panel = mo.Html(artifacts.gallery_preview(candidate_item))
@@ -259,18 +284,21 @@ def _(editing_item, mo):
     interpretation_input = mo.ui.text_area(value=editing_item['interpretation'] if editing_item else '',
                                           label='結果の解釈', full_width=True, rows=5)
     status_input = mo.ui.text(value=editing_item['status'] if editing_item else '', label='採用状況')
+    findings_input = mo.ui.text_area(value=editing_item.get('findings', '') if editing_item else '', label='所見', full_width=True)
+    issues_input = mo.ui.text_area(value=editing_item.get('issues', '') if editing_item else '', label='残る課題', full_width=True)
+    adoption_input = mo.ui.text_area(value=editing_item.get('adoption_decision', '') if editing_item else '', label='採用判断と根拠', full_width=True)
     task_links = mo.ui.text_area(value='\n'.join(editing_item['links'].get('tasks', [])) if editing_item else '',
                                  label='関連タスク（1 行 1 参照）', full_width=True)
     document_links = mo.ui.text_area(value='\n'.join(editing_item['links'].get('documents', [])) if editing_item else '',
                                      label='関連文書（1 行 1 参照）', full_width=True)
     save_interpretation = mo.ui.run_button(label='解釈・採用状況・参照を保存', disabled=editing_item is None)
-    return document_links, interpretation_input, save_interpretation, status_input, task_links
+    return document_links, interpretation_input, save_interpretation, status_input, task_links, findings_input, issues_input, adoption_input
 
 
 @app.cell
 def _(
     artifacts, document_links, editing_item, interpretation_input, item_revision, mo,
-    refresh_set, registry_path, root, save_interpretation, status_input, task_links,
+    refresh_set, registry_path, root, save_interpretation, status_input, task_links, findings_input, issues_input, adoption_input,
 ):
     interpretation_save_message = mo.md('')
     if save_interpretation.value and editing_item:
@@ -279,7 +307,9 @@ def _(
                       'tasks': [value for value in task_links.value.splitlines() if value],
                       'documents': [value for value in document_links.value.splitlines() if value]}
             artifacts.edit_gallery_item(root, registry_path, editing_item['id'],
-                                         {'interpretation': interpretation_input.value, 'status': status_input.value, 'links': _links},
+                                         {'interpretation': interpretation_input.value, 'status': status_input.value, 'links': _links,
+                                          'findings': findings_input.value, 'issues': issues_input.value,
+                                          'adoption_decision': adoption_input.value},
                                          expected_revision=item_revision)
             interpretation_save_message = mo.callout('解釈と参照を保存しました。', kind='success')
             refresh_set(lambda value: value + 1)
@@ -298,7 +328,8 @@ def _(
     row_order, save_display, save_interpretation, selected_specs, selection_download,
     series_column, sort_column, status_input, statuses, task_links, title_input,
     upper_column, visible_series, width, x_column, x_label, x_limits, x_scale,
-    y_column, y_label, y_limits, y_scale,
+    y_column, y_label, y_limits, y_scale, search_filters, presentation_style, font_size,
+    series_labels, series_order, findings_input, issues_input, adoption_input,
 ):
     header = mo.vstack([
         mo.md('# Research workspace\n保存済みの結果を選び、比較・表示編集・会議資料に使います。'),
@@ -306,7 +337,8 @@ def _(
         mo.callout(load_error, kind='danger') if load_error else mo.md(f'**{len(catalogue)} 件の保存済み図表**'),
     ])
     gallery_panel = mo.vstack([
-        query, mo.hstack([kinds, statuses]), result_table, selection_download, comparison_panel,
+        query, mo.hstack([kinds, statuses]), mo.accordion({'定義で絞り込む': search_filters}),
+        result_table, selection_download, comparison_panel,
     ])
     editor_panel = mo.vstack([
         item_picker, title_input, mo.hstack([plot_type, orientation, selected_specs]),
@@ -315,16 +347,17 @@ def _(
                 '列・行・説明': mo.vstack([columns_order, column_labels, column_formats, row_order,
                                           mo.hstack([sort_column, ascending]), notes_input]),
                 '系列と区間': mo.vstack([mo.hstack([x_column, y_column]), series_column, visible_series,
-                                         mo.hstack([lower_column, upper_column]), colors]),
+                                         series_order, series_labels, mo.hstack([lower_column, upper_column]), colors]),
                 '軸・凡例・サイズ': mo.vstack([mo.hstack([x_label, y_label]), mo.hstack([x_limits, y_limits]),
                                               mo.hstack([x_scale, y_scale]), mo.hstack([legend, legend_location]),
-                                              mo.hstack([width, height])]),
+                                              mo.hstack([width, height]), mo.hstack([presentation_style, font_size])]),
             }), save_display, display_save_message,
         ]), preview_panel], widths=[1, 2], align='start'),
     ]) if editing_item else mo.md('保存済みの結果を開いてください。')
     interpretation_panel = mo.vstack([
         mo.md('### 選択中の結果\n' + (editing_item['title'] if editing_item else '')),
-        interpretation_input, status_input, mo.hstack([task_links, document_links]),
+        interpretation_input, findings_input, issues_input, status_input, adoption_input,
+        mo.hstack([task_links, document_links]),
         save_interpretation, interpretation_save_message,
         mo.md('### 保存された研究定義と来歴\n```json\n' + json.dumps(editing_item['metadata'] if editing_item else {},
                                                                      ensure_ascii=False, indent=2) + '\n```'),

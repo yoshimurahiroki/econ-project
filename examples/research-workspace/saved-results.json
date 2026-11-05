@@ -1,126 +1,6323 @@
 {
-  "schema": "research-artifact-registry-v1",
-  "statistics": {},
+  "items": {
+    "descriptive-demo-r01-balance": {
+      "columns": [
+        {
+          "key": "variable",
+          "label": "変数",
+          "unit": ""
+        },
+        {
+          "key": "A (N=5) / Mean",
+          "label": "A (N=5) / Mean",
+          "unit": ""
+        },
+        {
+          "key": "A (N=5) / Std. Dev.",
+          "label": "A (N=5) / Std. Dev.",
+          "unit": ""
+        },
+        {
+          "key": "B (N=5) / Mean",
+          "label": "B (N=5) / Mean",
+          "unit": ""
+        },
+        {
+          "key": "B (N=5) / Std. Dev.",
+          "label": "B (N=5) / Std. Dev.",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "単位",
+          "unit": ""
+        },
+        {
+          "key": "A / N usable",
+          "label": "A / N usable",
+          "unit": ""
+        },
+        {
+          "key": "B / N usable",
+          "label": "B / N usable",
+          "unit": ""
+        }
+      ],
+      "display": {
+        "formats": {
+          "A (N=5) / Mean": ".3g",
+          "A (N=5) / Std. Dev.": ".3g",
+          "A / N usable": ".3g",
+          "B (N=5) / Mean": ".3g",
+          "B (N=5) / Std. Dev.": ".3g",
+          "B / N usable": ".3g"
+        },
+        "height": 540,
+        "plot_type": "table",
+        "style": "paper",
+        "title": "合成データ：群別の比較",
+        "width": 960
+      },
+      "files": [],
+      "id": "descriptive-demo-r01-balance",
+      "interpretation": "",
+      "kind": "group_comparison",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md",
+          "examples/research-workspace/descriptive-spec.json"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "denominator": "各変数で観測した個人年",
+        "difference_in_means": false,
+        "display_source": {
+          "key": [
+            "display",
+            "balance"
+          ],
+          "result_id": "descriptive-demo-r01"
+        },
+        "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "group": {
+          "column": "group",
+          "levels": [
+            "A",
+            "B"
+          ],
+          "missing": "exclude"
+        },
+        "outcome": [
+          "hours",
+          "age"
+        ],
+        "period": "2020–2021",
+        "population": "架空の個人年データ",
+        "producers": {
+          "descriptive-demo-r01": {
+            "engine": {
+              "R": "R version 4.3.3 (2024-02-29)",
+              "packages": {
+                "ggplot2": "4.0.3",
+                "jsonlite": "1.8.8",
+                "modelsummary": "2.6.0"
+              }
+            },
+            "environment": null,
+            "identity": {
+              "model": "modelsummary descriptive statistics and ggplot2 saved display data",
+              "specification": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+            },
+            "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "references": {
+              "code": {
+                "path": "skills/econ-data/scripts/research_data.py",
+                "sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b"
+              },
+              "data": {
+                "path": "examples/research-workspace/observations.csv",
+                "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+              },
+              "result": {
+                "path": "examples/research-workspace/descriptive-result.json",
+                "sha256": "f837d59ff13f9467454bbc3e8c4745c78fb131a9ee27dd0a5cd934b9fb0fe2cd"
+              },
+              "specification": {
+                "path": "examples/research-workspace/descriptive-spec.json",
+                "sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+              }
+            },
+            "run_id": null
+          }
+        },
+        "quantile_method": {
+          "probabilities": [
+            0.25,
+            0.75
+          ],
+          "type": 7
+        },
+        "result_definitions": {
+          "descriptive-demo-r01": {
+            "denominator": "各変数で観測した個人年",
+            "difference_in_means": false,
+            "display_source": {
+              "key": [
+                "display",
+                "balance"
+              ],
+              "result_id": "descriptive-demo-r01"
+            },
+            "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "group": {
+              "column": "group",
+              "levels": [
+                "A",
+                "B"
+              ],
+              "missing": "exclude"
+            },
+            "outcome": [
+              "hours",
+              "age"
+            ],
+            "period": "2020–2021",
+            "population": "架空の個人年データ",
+            "quantile_method": {
+              "probabilities": [
+                0.25,
+                0.75
+              ],
+              "type": 7
+            },
+            "sample": "eligible-person-years-v1",
+            "sample_policy": "available-case",
+            "specification": "descriptive-demo-s1",
+            "summary_engine": "modelsummary::datasummary_balance",
+            "variables": [
+              {
+                "label": "週当たり労働時間",
+                "name": "hours",
+                "unit": "hours_per_week"
+              },
+              {
+                "label": "年齢",
+                "name": "age",
+                "unit": "years"
+              }
+            ],
+            "weights": {
+              "kind": "none"
+            }
+          }
+        },
+        "sample": "eligible-person-years-v1",
+        "sample_policy": "available-case",
+        "specification": "descriptive-demo-s1",
+        "summary_engine": "modelsummary::datasummary_balance",
+        "variables": [
+          {
+            "label": "週当たり労働時間",
+            "name": "hours",
+            "unit": "hours_per_week"
+          },
+          {
+            "label": "年齢",
+            "name": "age",
+            "unit": "years"
+          }
+        ],
+        "weights": {
+          "kind": "none"
+        }
+      },
+      "result_ids": [
+        "descriptive-demo-r01"
+      ],
+      "rows": [
+        {
+          "A (N=5) / Mean": 3,
+          "A (N=5) / Std. Dev.": 2.58198889747161,
+          "A / N usable": 4,
+          "B (N=5) / Mean": 5,
+          "B (N=5) / Std. Dev.": 3.16227766016838,
+          "B / N usable": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "hours_per_week",
+          "variable": "hours"
+        },
+        {
+          "A (N=5) / Mean": 23,
+          "A (N=5) / Std. Dev.": 2.58198889747161,
+          "A / N usable": 4,
+          "B (N=5) / Mean": 34,
+          "B (N=5) / Std. Dev.": 3.16227766016838,
+          "B / N usable": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "years",
+          "variable": "age"
+        }
+      ],
+      "status": "example",
+      "title": "合成データ：群別の比較"
+    },
+    "descriptive-demo-r01-distributions-hours-box": {
+      "columns": [
+        {
+          "key": "variable",
+          "label": "変数",
+          "unit": ""
+        },
+        {
+          "key": "group",
+          "label": "群",
+          "unit": ""
+        },
+        {
+          "key": "ymin",
+          "label": "ymin",
+          "unit": ""
+        },
+        {
+          "key": "lower",
+          "label": "lower",
+          "unit": ""
+        },
+        {
+          "key": "middle",
+          "label": "中央値",
+          "unit": "hours_per_week"
+        },
+        {
+          "key": "upper",
+          "label": "upper",
+          "unit": ""
+        },
+        {
+          "key": "ymax",
+          "label": "ymax",
+          "unit": ""
+        },
+        {
+          "key": "n_outliers",
+          "label": "n_outliers",
+          "unit": ""
+        },
+        {
+          "key": "n",
+          "label": "観測数",
+          "unit": ""
+        },
+        {
+          "key": "weight_sum",
+          "label": "weight_sum",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "単位",
+          "unit": ""
+        }
+      ],
+      "display": {
+        "formats": {
+          "lower": ".3g",
+          "middle": ".3g",
+          "n": ".3g",
+          "n_outliers": ".3g",
+          "upper": ".3g",
+          "weight_sum": ".3g",
+          "ymax": ".3g",
+          "ymin": ".3g"
+        },
+        "height": 540,
+        "lower": null,
+        "plot_type": "box",
+        "series": "group",
+        "style": "paper",
+        "title": "合成データ：労働時間の箱ひげ図",
+        "upper": null,
+        "width": 960,
+        "x": "group",
+        "x_label": "群",
+        "y": "middle",
+        "y_label": "週当たり労働時間（時間）"
+      },
+      "files": [],
+      "id": "descriptive-demo-r01-distributions-hours-box",
+      "interpretation": "",
+      "kind": "distribution",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md",
+          "examples/research-workspace/descriptive-spec.json"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "denominator": "各変数で観測した個人年",
+        "display_source": {
+          "key": [
+            "display",
+            "distributions",
+            "hours",
+            "box"
+          ],
+          "result_id": "descriptive-demo-r01"
+        },
+        "distribution_definition": {
+          "coef": 1.5
+        },
+        "distribution_type": "box",
+        "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "group": {
+          "column": "group",
+          "levels": [
+            "A",
+            "B"
+          ],
+          "missing": "exclude"
+        },
+        "outcome": "hours",
+        "outcome_unit": "hours_per_week",
+        "outliers": "count_only",
+        "period": "2020–2021",
+        "population": "架空の個人年データ",
+        "producers": {
+          "descriptive-demo-r01": {
+            "engine": {
+              "R": "R version 4.3.3 (2024-02-29)",
+              "packages": {
+                "ggplot2": "4.0.3",
+                "jsonlite": "1.8.8",
+                "modelsummary": "2.6.0"
+              }
+            },
+            "environment": null,
+            "identity": {
+              "model": "modelsummary descriptive statistics and ggplot2 saved display data",
+              "specification": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+            },
+            "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "references": {
+              "code": {
+                "path": "skills/econ-data/scripts/research_data.py",
+                "sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b"
+              },
+              "data": {
+                "path": "examples/research-workspace/observations.csv",
+                "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+              },
+              "result": {
+                "path": "examples/research-workspace/descriptive-result.json",
+                "sha256": "f837d59ff13f9467454bbc3e8c4745c78fb131a9ee27dd0a5cd934b9fb0fe2cd"
+              },
+              "specification": {
+                "path": "examples/research-workspace/descriptive-spec.json",
+                "sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+              }
+            },
+            "run_id": null
+          }
+        },
+        "quantile_method": {
+          "probabilities": [
+            0.25,
+            0.75
+          ],
+          "type": 7
+        },
+        "result_definitions": {
+          "descriptive-demo-r01": {
+            "denominator": "各変数で観測した個人年",
+            "display_source": {
+              "key": [
+                "display",
+                "distributions",
+                "hours",
+                "box"
+              ],
+              "result_id": "descriptive-demo-r01"
+            },
+            "distribution_definition": {
+              "coef": 1.5
+            },
+            "distribution_type": "box",
+            "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "group": {
+              "column": "group",
+              "levels": [
+                "A",
+                "B"
+              ],
+              "missing": "exclude"
+            },
+            "outcome": "hours",
+            "outcome_unit": "hours_per_week",
+            "outliers": "count_only",
+            "period": "2020–2021",
+            "population": "架空の個人年データ",
+            "quantile_method": {
+              "probabilities": [
+                0.25,
+                0.75
+              ],
+              "type": 7
+            },
+            "sample": "eligible-person-years-v1",
+            "sample_policy": "available-case",
+            "specification": "descriptive-demo-s1",
+            "unit": "hours_per_week",
+            "variables": [
+              {
+                "label": "週当たり労働時間",
+                "name": "hours",
+                "unit": "hours_per_week"
+              },
+              {
+                "label": "年齢",
+                "name": "age",
+                "unit": "years"
+              }
+            ],
+            "weights": {
+              "kind": "none"
+            }
+          }
+        },
+        "sample": "eligible-person-years-v1",
+        "sample_policy": "available-case",
+        "specification": "descriptive-demo-s1",
+        "unit": "hours_per_week",
+        "variables": [
+          {
+            "label": "週当たり労働時間",
+            "name": "hours",
+            "unit": "hours_per_week"
+          },
+          {
+            "label": "年齢",
+            "name": "age",
+            "unit": "years"
+          }
+        ],
+        "weights": {
+          "kind": "none"
+        }
+      },
+      "result_ids": [
+        "descriptive-demo-r01"
+      ],
+      "rows": [
+        {
+          "group": "A",
+          "lower": 1.5,
+          "middle": 3,
+          "n": 4,
+          "n_outliers": 0,
+          "result_id": "descriptive-demo-r01",
+          "unit": "hours_per_week",
+          "upper": 4.5,
+          "variable": "hours",
+          "weight_sum": 4,
+          "ymax": 6,
+          "ymin": 0
+        },
+        {
+          "group": "B",
+          "lower": 3,
+          "middle": 5,
+          "n": 5,
+          "n_outliers": 0,
+          "result_id": "descriptive-demo-r01",
+          "unit": "hours_per_week",
+          "upper": 7,
+          "variable": "hours",
+          "weight_sum": 5,
+          "ymax": 9,
+          "ymin": 1
+        }
+      ],
+      "status": "example",
+      "title": "合成データ：労働時間の箱ひげ図"
+    },
+    "descriptive-demo-r01-distributions-hours-density": {
+      "columns": [
+        {
+          "key": "variable",
+          "label": "変数",
+          "unit": ""
+        },
+        {
+          "key": "group",
+          "label": "群",
+          "unit": ""
+        },
+        {
+          "key": "x",
+          "label": "x",
+          "unit": "hours_per_week"
+        },
+        {
+          "key": "value",
+          "label": "値",
+          "unit": "1/(hours_per_week)"
+        },
+        {
+          "key": "n",
+          "label": "観測数",
+          "unit": ""
+        },
+        {
+          "key": "weight_sum",
+          "label": "weight_sum",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "単位",
+          "unit": ""
+        }
+      ],
+      "display": {
+        "formats": {
+          "n": ".3g",
+          "value": ".3g",
+          "weight_sum": ".3g",
+          "x": ".3g"
+        },
+        "height": 540,
+        "lower": null,
+        "plot_type": "density",
+        "series": "group",
+        "style": "paper",
+        "title": "合成データ：労働時間の密度",
+        "upper": null,
+        "width": 960,
+        "x": "x",
+        "x_label": "週当たり労働時間（時間）",
+        "y": "value",
+        "y_label": "密度（1/時間）"
+      },
+      "files": [],
+      "id": "descriptive-demo-r01-distributions-hours-density",
+      "interpretation": "",
+      "kind": "distribution",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md",
+          "examples/research-workspace/descriptive-spec.json"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "denominator": "各変数で観測した個人年",
+        "display_source": {
+          "key": [
+            "display",
+            "distributions",
+            "hours",
+            "density"
+          ],
+          "result_id": "descriptive-demo-r01"
+        },
+        "distribution_definition": {
+          "adjust": 1.0,
+          "bw": 1.0,
+          "n": 64
+        },
+        "distribution_type": "density",
+        "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "group": {
+          "column": "group",
+          "levels": [
+            "A",
+            "B"
+          ],
+          "missing": "exclude"
+        },
+        "outcome": "hours",
+        "outcome_unit": "hours_per_week",
+        "period": "2020–2021",
+        "population": "架空の個人年データ",
+        "producers": {
+          "descriptive-demo-r01": {
+            "engine": {
+              "R": "R version 4.3.3 (2024-02-29)",
+              "packages": {
+                "ggplot2": "4.0.3",
+                "jsonlite": "1.8.8",
+                "modelsummary": "2.6.0"
+              }
+            },
+            "environment": null,
+            "identity": {
+              "model": "modelsummary descriptive statistics and ggplot2 saved display data",
+              "specification": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+            },
+            "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "references": {
+              "code": {
+                "path": "skills/econ-data/scripts/research_data.py",
+                "sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b"
+              },
+              "data": {
+                "path": "examples/research-workspace/observations.csv",
+                "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+              },
+              "result": {
+                "path": "examples/research-workspace/descriptive-result.json",
+                "sha256": "f837d59ff13f9467454bbc3e8c4745c78fb131a9ee27dd0a5cd934b9fb0fe2cd"
+              },
+              "specification": {
+                "path": "examples/research-workspace/descriptive-spec.json",
+                "sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+              }
+            },
+            "run_id": null
+          }
+        },
+        "quantile_method": {
+          "probabilities": [
+            0.25,
+            0.75
+          ],
+          "type": 7
+        },
+        "result_definitions": {
+          "descriptive-demo-r01": {
+            "denominator": "各変数で観測した個人年",
+            "display_source": {
+              "key": [
+                "display",
+                "distributions",
+                "hours",
+                "density"
+              ],
+              "result_id": "descriptive-demo-r01"
+            },
+            "distribution_definition": {
+              "adjust": 1.0,
+              "bw": 1.0,
+              "n": 64
+            },
+            "distribution_type": "density",
+            "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "group": {
+              "column": "group",
+              "levels": [
+                "A",
+                "B"
+              ],
+              "missing": "exclude"
+            },
+            "outcome": "hours",
+            "outcome_unit": "hours_per_week",
+            "period": "2020–2021",
+            "population": "架空の個人年データ",
+            "quantile_method": {
+              "probabilities": [
+                0.25,
+                0.75
+              ],
+              "type": 7
+            },
+            "sample": "eligible-person-years-v1",
+            "sample_policy": "available-case",
+            "specification": "descriptive-demo-s1",
+            "unit": "1/(hours_per_week)",
+            "variables": [
+              {
+                "label": "週当たり労働時間",
+                "name": "hours",
+                "unit": "hours_per_week"
+              },
+              {
+                "label": "年齢",
+                "name": "age",
+                "unit": "years"
+              }
+            ],
+            "weights": {
+              "kind": "none"
+            }
+          }
+        },
+        "sample": "eligible-person-years-v1",
+        "sample_policy": "available-case",
+        "specification": "descriptive-demo-s1",
+        "unit": "1/(hours_per_week)",
+        "variables": [
+          {
+            "label": "週当たり労働時間",
+            "name": "hours",
+            "unit": "hours_per_week"
+          },
+          {
+            "label": "年齢",
+            "name": "age",
+            "unit": "years"
+          }
+        ],
+        "weights": {
+          "kind": "none"
+        }
+      },
+      "result_ids": [
+        "descriptive-demo-r01"
+      ],
+      "rows": [
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.113320152510288,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.115643262122798,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0.0952380952380952
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.117479997509955,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0.19047619047619
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.118864333679624,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0.285714285714286
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.119873483466077,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0.380952380952381
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.120571301275294,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0.476190476190476
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.121042130406772,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0.571428571428571
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.121359629194336,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0.666666666666667
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.121597889480528,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0.761904761904762
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.121818924731422,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0.857142857142857
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.122072233246267,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0.952380952380952
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.122392010466615,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 1.04761904761905
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.122795572067902,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 1.14285714285714
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.123283368363701,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 1.23809523809524
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.12384166512674,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 1.33333333333333
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.124443017031772,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 1.42857142857143
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.125052054217672,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 1.52380952380952
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.125628561408573,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 1.61904761904762
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126130417242362,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 1.71428571428571
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126523350730724,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 1.80952380952381
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126774423239763,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 1.9047619047619
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126870747077949,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126800805213037,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2.09523809523809
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.12657915481173,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2.19047619047619
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126222176408434,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2.28571428571429
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.125766355183117,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2.38095238095238
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.125250837114477,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2.47619047619048
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.124722851869128,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2.57142857142857
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.124229868678027,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2.66666666666667
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.123815103577493,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2.76190476190476
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.123516665408841,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2.85714285714286
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.123360190510084,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2.95238095238095
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.123360190510084,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 3.04761904761905
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.123516665408841,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 3.14285714285714
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.123815103577494,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 3.23809523809524
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.124229868678027,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 3.33333333333333
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.124722851869128,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 3.42857142857143
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.125250837114477,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 3.52380952380952
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.125766355183117,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 3.61904761904762
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126222176408434,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 3.71428571428571
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.12657915481173,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 3.80952380952381
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126800805213037,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 3.9047619047619
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126870747077949,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126774423239763,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4.09523809523809
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126523350730724,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4.19047619047619
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.126130417242362,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4.28571428571429
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.125628561408573,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4.38095238095238
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.125052054217672,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4.47619047619048
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.124443017031772,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4.57142857142857
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.12384166512674,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4.66666666666667
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.123283368363701,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4.76190476190476
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.122795572067902,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4.85714285714286
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.122392010466615,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4.95238095238095
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.122072233246267,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 5.04761904761905
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.121818924731422,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 5.14285714285714
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.121597889480529,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 5.23809523809524
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.121359629194336,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 5.33333333333333
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.121042130406772,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 5.42857142857143
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.120571301275294,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 5.52380952380952
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.119873483466077,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 5.61904761904762
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.118864333679624,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 5.71428571428571
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.117479997509955,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 5.80952380952381
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.115643262122798,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 5.9047619047619
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.113320152510288,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 6
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0906482639010557,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 1
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0930433311999849,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 1.12698412698413
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0947566542160964,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 1.25396825396825
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0958970232191229,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 1.38095238095238
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0966002271892941,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 1.50793650793651
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0970132460141232,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 1.63492063492063
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0972788513523091,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 1.76190476190476
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0975189541138071,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 1.88888888888889
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0978222310178944,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 2.01587301587302
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.098237227732142,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 2.14285714285714
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0987706676419764,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 2.26984126984127
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0993915848346866,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 2.3968253968254
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100040580279377,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 2.52380952380952
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100642760292188,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 2.65079365079365
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101122384202243,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 2.77777777777778
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101417008011712,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 2.9047619047619
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101489002907583,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 3.03174603174603
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101332740621154,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 3.15873015873016
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100976410583025,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 3.28571428571429
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100478264308856,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 3.41269841269841
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0999179429333607,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 3.53968253968254
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0993843013631223,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 3.66666666666667
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0989616796837954,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 3.79365079365079
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0987171758368572,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 3.92063492063492
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0986895413500287,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 4.04761904761905
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0988828150220553,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 4.17460317460317
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0992666359053695,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 4.3015873015873
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0997807331973747,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 4.42857142857143
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100344400414766,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 4.55555555555556
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100869165761134,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 4.68253968253968
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101272674016582,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 4.80952380952381
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101491605079378,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 4.93650793650794
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101491605079378,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 5.06349206349206
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101272674016582,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 5.19047619047619
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100869165761134,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 5.31746031746032
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100344400414766,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 5.44444444444444
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0997807331973747,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 5.57142857142857
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0992666359053694,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 5.6984126984127
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0988828150220552,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 5.82539682539683
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0986895413500287,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 5.95238095238095
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0987171758368573,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 6.07936507936508
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0989616796837954,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 6.20634920634921
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0993843013631223,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 6.33333333333333
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0999179429333607,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 6.46031746031746
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100478264308856,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 6.58730158730159
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100976410583025,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 6.71428571428571
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101332740621154,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 6.84126984126984
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101489002907583,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 6.96825396825397
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101417008011712,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 7.09523809523809
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.101122384202243,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 7.22222222222222
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100642760292188,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 7.34920634920635
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.100040580279377,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 7.47619047619048
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0993915848346866,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 7.6031746031746
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0987706676419763,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 7.73015873015873
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0982372277321419,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 7.85714285714286
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0978222310178943,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 7.98412698412698
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0975189541138072,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 8.11111111111111
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0972788513523091,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 8.23809523809524
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0970132460141232,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 8.36507936507936
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0966002271892941,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 8.49206349206349
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.095897023219123,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 8.61904761904762
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0947566542160964,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 8.74603174603175
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0930433311999849,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 8.87301587301587
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "1/(hours_per_week)",
+          "value": 0.0906482639010557,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 9
+        }
+      ],
+      "status": "example",
+      "title": "合成データ：労働時間の密度"
+    },
+    "descriptive-demo-r01-distributions-hours-ecdf": {
+      "columns": [
+        {
+          "key": "variable",
+          "label": "変数",
+          "unit": ""
+        },
+        {
+          "key": "group",
+          "label": "群",
+          "unit": ""
+        },
+        {
+          "key": "x",
+          "label": "x",
+          "unit": "hours_per_week"
+        },
+        {
+          "key": "value",
+          "label": "値",
+          "unit": "share"
+        },
+        {
+          "key": "n",
+          "label": "観測数",
+          "unit": ""
+        },
+        {
+          "key": "weight_sum",
+          "label": "weight_sum",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "単位",
+          "unit": ""
+        }
+      ],
+      "display": {
+        "formats": {
+          "n": ".3g",
+          "value": ".3g",
+          "weight_sum": ".3g",
+          "x": ".3g"
+        },
+        "height": 540,
+        "lower": null,
+        "plot_type": "ecdf",
+        "series": "group",
+        "style": "paper",
+        "title": "合成データ：労働時間の累積分布",
+        "upper": null,
+        "width": 960,
+        "x": "x",
+        "x_label": "週当たり労働時間（時間）",
+        "y": "value",
+        "y_label": "累積割合"
+      },
+      "files": [],
+      "id": "descriptive-demo-r01-distributions-hours-ecdf",
+      "interpretation": "",
+      "kind": "distribution",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md",
+          "examples/research-workspace/descriptive-spec.json"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "denominator": "各変数で観測した個人年",
+        "display_source": {
+          "key": [
+            "display",
+            "distributions",
+            "hours",
+            "ecdf"
+          ],
+          "result_id": "descriptive-demo-r01"
+        },
+        "distribution_definition": {},
+        "distribution_type": "ecdf",
+        "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "group": {
+          "column": "group",
+          "levels": [
+            "A",
+            "B"
+          ],
+          "missing": "exclude"
+        },
+        "outcome": "hours",
+        "outcome_unit": "hours_per_week",
+        "period": "2020–2021",
+        "population": "架空の個人年データ",
+        "producers": {
+          "descriptive-demo-r01": {
+            "engine": {
+              "R": "R version 4.3.3 (2024-02-29)",
+              "packages": {
+                "ggplot2": "4.0.3",
+                "jsonlite": "1.8.8",
+                "modelsummary": "2.6.0"
+              }
+            },
+            "environment": null,
+            "identity": {
+              "model": "modelsummary descriptive statistics and ggplot2 saved display data",
+              "specification": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+            },
+            "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "references": {
+              "code": {
+                "path": "skills/econ-data/scripts/research_data.py",
+                "sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b"
+              },
+              "data": {
+                "path": "examples/research-workspace/observations.csv",
+                "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+              },
+              "result": {
+                "path": "examples/research-workspace/descriptive-result.json",
+                "sha256": "f837d59ff13f9467454bbc3e8c4745c78fb131a9ee27dd0a5cd934b9fb0fe2cd"
+              },
+              "specification": {
+                "path": "examples/research-workspace/descriptive-spec.json",
+                "sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+              }
+            },
+            "run_id": null
+          }
+        },
+        "quantile_method": {
+          "probabilities": [
+            0.25,
+            0.75
+          ],
+          "type": 7
+        },
+        "result_definitions": {
+          "descriptive-demo-r01": {
+            "denominator": "各変数で観測した個人年",
+            "display_source": {
+              "key": [
+                "display",
+                "distributions",
+                "hours",
+                "ecdf"
+              ],
+              "result_id": "descriptive-demo-r01"
+            },
+            "distribution_definition": {},
+            "distribution_type": "ecdf",
+            "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "group": {
+              "column": "group",
+              "levels": [
+                "A",
+                "B"
+              ],
+              "missing": "exclude"
+            },
+            "outcome": "hours",
+            "outcome_unit": "hours_per_week",
+            "period": "2020–2021",
+            "population": "架空の個人年データ",
+            "quantile_method": {
+              "probabilities": [
+                0.25,
+                0.75
+              ],
+              "type": 7
+            },
+            "sample": "eligible-person-years-v1",
+            "sample_policy": "available-case",
+            "specification": "descriptive-demo-s1",
+            "unit": "share",
+            "variables": [
+              {
+                "label": "週当たり労働時間",
+                "name": "hours",
+                "unit": "hours_per_week"
+              },
+              {
+                "label": "年齢",
+                "name": "age",
+                "unit": "years"
+              }
+            ],
+            "weights": {
+              "kind": "none"
+            }
+          }
+        },
+        "sample": "eligible-person-years-v1",
+        "sample_policy": "available-case",
+        "specification": "descriptive-demo-s1",
+        "unit": "share",
+        "variables": [
+          {
+            "label": "週当たり労働時間",
+            "name": "hours",
+            "unit": "hours_per_week"
+          },
+          {
+            "label": "年齢",
+            "name": "age",
+            "unit": "years"
+          }
+        ],
+        "weights": {
+          "kind": "none"
+        }
+      },
+      "result_ids": [
+        "descriptive-demo-r01"
+      ],
+      "rows": [
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "share",
+          "value": 0.25,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 0
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "share",
+          "value": 0.5,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 2
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "share",
+          "value": 0.75,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 4
+        },
+        {
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "share",
+          "value": 1,
+          "variable": "hours",
+          "weight_sum": 4,
+          "x": 6
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "share",
+          "value": 0.2,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 1
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "share",
+          "value": 0.4,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 3
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "share",
+          "value": 0.6,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 5
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "share",
+          "value": 0.8,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 7
+        },
+        {
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "share",
+          "value": 1,
+          "variable": "hours",
+          "weight_sum": 5,
+          "x": 9
+        }
+      ],
+      "status": "example",
+      "title": "合成データ：労働時間の累積分布"
+    },
+    "descriptive-demo-r01-distributions-hours-histogram": {
+      "columns": [
+        {
+          "key": "variable",
+          "label": "変数",
+          "unit": ""
+        },
+        {
+          "key": "group",
+          "label": "群",
+          "unit": ""
+        },
+        {
+          "key": "bin_mid",
+          "label": "階級の中央",
+          "unit": "hours_per_week"
+        },
+        {
+          "key": "bin_low",
+          "label": "bin_low",
+          "unit": ""
+        },
+        {
+          "key": "bin_high",
+          "label": "bin_high",
+          "unit": ""
+        },
+        {
+          "key": "count",
+          "label": "件数",
+          "unit": "observations"
+        },
+        {
+          "key": "density",
+          "label": "密度",
+          "unit": ""
+        },
+        {
+          "key": "n",
+          "label": "観測数",
+          "unit": ""
+        },
+        {
+          "key": "weight_sum",
+          "label": "weight_sum",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "単位",
+          "unit": ""
+        }
+      ],
+      "display": {
+        "formats": {
+          "bin_high": ".3g",
+          "bin_low": ".3g",
+          "bin_mid": ".3g",
+          "count": ".3g",
+          "density": ".3g",
+          "n": ".3g",
+          "weight_sum": ".3g"
+        },
+        "height": 540,
+        "lower": null,
+        "plot_type": "bar",
+        "series": "group",
+        "style": "paper",
+        "title": "合成データ：労働時間のヒストグラム",
+        "upper": null,
+        "width": 960,
+        "x": "bin_mid",
+        "x_label": "週当たり労働時間（時間）",
+        "y": "count",
+        "y_label": "観測数"
+      },
+      "files": [],
+      "id": "descriptive-demo-r01-distributions-hours-histogram",
+      "interpretation": "",
+      "kind": "distribution",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md",
+          "examples/research-workspace/descriptive-spec.json"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "denominator": "各変数で観測した個人年",
+        "display_source": {
+          "key": [
+            "display",
+            "distributions",
+            "hours",
+            "histogram"
+          ],
+          "result_id": "descriptive-demo-r01"
+        },
+        "distribution_definition": {
+          "breaks": [
+            0,
+            2,
+            4,
+            6,
+            8,
+            10
+          ],
+          "closed": "left"
+        },
+        "distribution_type": "histogram",
+        "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "group": {
+          "column": "group",
+          "levels": [
+            "A",
+            "B"
+          ],
+          "missing": "exclude"
+        },
+        "outcome": "hours",
+        "outcome_unit": "hours_per_week",
+        "period": "2020–2021",
+        "population": "架空の個人年データ",
+        "producers": {
+          "descriptive-demo-r01": {
+            "engine": {
+              "R": "R version 4.3.3 (2024-02-29)",
+              "packages": {
+                "ggplot2": "4.0.3",
+                "jsonlite": "1.8.8",
+                "modelsummary": "2.6.0"
+              }
+            },
+            "environment": null,
+            "identity": {
+              "model": "modelsummary descriptive statistics and ggplot2 saved display data",
+              "specification": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+            },
+            "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "references": {
+              "code": {
+                "path": "skills/econ-data/scripts/research_data.py",
+                "sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b"
+              },
+              "data": {
+                "path": "examples/research-workspace/observations.csv",
+                "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+              },
+              "result": {
+                "path": "examples/research-workspace/descriptive-result.json",
+                "sha256": "f837d59ff13f9467454bbc3e8c4745c78fb131a9ee27dd0a5cd934b9fb0fe2cd"
+              },
+              "specification": {
+                "path": "examples/research-workspace/descriptive-spec.json",
+                "sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+              }
+            },
+            "run_id": null
+          }
+        },
+        "quantile_method": {
+          "probabilities": [
+            0.25,
+            0.75
+          ],
+          "type": 7
+        },
+        "result_definitions": {
+          "descriptive-demo-r01": {
+            "denominator": "各変数で観測した個人年",
+            "display_source": {
+              "key": [
+                "display",
+                "distributions",
+                "hours",
+                "histogram"
+              ],
+              "result_id": "descriptive-demo-r01"
+            },
+            "distribution_definition": {
+              "breaks": [
+                0,
+                2,
+                4,
+                6,
+                8,
+                10
+              ],
+              "closed": "left"
+            },
+            "distribution_type": "histogram",
+            "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "group": {
+              "column": "group",
+              "levels": [
+                "A",
+                "B"
+              ],
+              "missing": "exclude"
+            },
+            "outcome": "hours",
+            "outcome_unit": "hours_per_week",
+            "period": "2020–2021",
+            "population": "架空の個人年データ",
+            "quantile_method": {
+              "probabilities": [
+                0.25,
+                0.75
+              ],
+              "type": 7
+            },
+            "sample": "eligible-person-years-v1",
+            "sample_policy": "available-case",
+            "specification": "descriptive-demo-s1",
+            "unit": "observations",
+            "variables": [
+              {
+                "label": "週当たり労働時間",
+                "name": "hours",
+                "unit": "hours_per_week"
+              },
+              {
+                "label": "年齢",
+                "name": "age",
+                "unit": "years"
+              }
+            ],
+            "weights": {
+              "kind": "none"
+            }
+          }
+        },
+        "sample": "eligible-person-years-v1",
+        "sample_policy": "available-case",
+        "specification": "descriptive-demo-s1",
+        "unit": "observations",
+        "variables": [
+          {
+            "label": "週当たり労働時間",
+            "name": "hours",
+            "unit": "hours_per_week"
+          },
+          {
+            "label": "年齢",
+            "name": "age",
+            "unit": "years"
+          }
+        ],
+        "weights": {
+          "kind": "none"
+        }
+      },
+      "result_ids": [
+        "descriptive-demo-r01"
+      ],
+      "rows": [
+        {
+          "bin_high": 2,
+          "bin_low": 0,
+          "bin_mid": 1,
+          "count": 1,
+          "density": 0.125,
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "observations",
+          "variable": "hours",
+          "weight_sum": 4
+        },
+        {
+          "bin_high": 4,
+          "bin_low": 2,
+          "bin_mid": 3,
+          "count": 1,
+          "density": 0.125,
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "observations",
+          "variable": "hours",
+          "weight_sum": 4
+        },
+        {
+          "bin_high": 6,
+          "bin_low": 4,
+          "bin_mid": 5,
+          "count": 1,
+          "density": 0.125,
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "observations",
+          "variable": "hours",
+          "weight_sum": 4
+        },
+        {
+          "bin_high": 8,
+          "bin_low": 6,
+          "bin_mid": 7,
+          "count": 1,
+          "density": 0.125,
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "observations",
+          "variable": "hours",
+          "weight_sum": 4
+        },
+        {
+          "bin_high": 10,
+          "bin_low": 8,
+          "bin_mid": 9,
+          "count": 0,
+          "density": 0,
+          "group": "A",
+          "n": 4,
+          "result_id": "descriptive-demo-r01",
+          "unit": "observations",
+          "variable": "hours",
+          "weight_sum": 4
+        },
+        {
+          "bin_high": 2,
+          "bin_low": 0,
+          "bin_mid": 1,
+          "count": 1,
+          "density": 0.1,
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "observations",
+          "variable": "hours",
+          "weight_sum": 5
+        },
+        {
+          "bin_high": 4,
+          "bin_low": 2,
+          "bin_mid": 3,
+          "count": 1,
+          "density": 0.1,
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "observations",
+          "variable": "hours",
+          "weight_sum": 5
+        },
+        {
+          "bin_high": 6,
+          "bin_low": 4,
+          "bin_mid": 5,
+          "count": 1,
+          "density": 0.1,
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "observations",
+          "variable": "hours",
+          "weight_sum": 5
+        },
+        {
+          "bin_high": 8,
+          "bin_low": 6,
+          "bin_mid": 7,
+          "count": 1,
+          "density": 0.1,
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "observations",
+          "variable": "hours",
+          "weight_sum": 5
+        },
+        {
+          "bin_high": 10,
+          "bin_low": 8,
+          "bin_mid": 9,
+          "count": 1,
+          "density": 0.1,
+          "group": "B",
+          "n": 5,
+          "result_id": "descriptive-demo-r01",
+          "unit": "observations",
+          "variable": "hours",
+          "weight_sum": 5
+        }
+      ],
+      "status": "example",
+      "title": "合成データ：労働時間のヒストグラム"
+    },
+    "descriptive-demo-r01-sample_flow": {
+      "columns": [
+        {
+          "key": "stage",
+          "label": "段階",
+          "unit": ""
+        },
+        {
+          "key": "n",
+          "label": "観測数",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "単位",
+          "unit": ""
+        }
+      ],
+      "display": {
+        "formats": {
+          "n": ".3g"
+        },
+        "height": 540,
+        "plot_type": "table",
+        "style": "paper",
+        "title": "合成データ：標本の構成",
+        "width": 960
+      },
+      "files": [],
+      "id": "descriptive-demo-r01-sample_flow",
+      "interpretation": "",
+      "kind": "sample_composition",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md",
+          "examples/research-workspace/descriptive-spec.json"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "denominator": "各変数で観測した個人年",
+        "display_source": {
+          "key": [
+            "display",
+            "sample_flow"
+          ],
+          "result_id": "descriptive-demo-r01"
+        },
+        "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "group": {
+          "column": "group",
+          "levels": [
+            "A",
+            "B"
+          ],
+          "missing": "exclude"
+        },
+        "outcome": [
+          "hours",
+          "age"
+        ],
+        "period": "2020–2021",
+        "population": "架空の個人年データ",
+        "producers": {
+          "descriptive-demo-r01": {
+            "engine": {
+              "R": "R version 4.3.3 (2024-02-29)",
+              "packages": {
+                "ggplot2": "4.0.3",
+                "jsonlite": "1.8.8",
+                "modelsummary": "2.6.0"
+              }
+            },
+            "environment": null,
+            "identity": {
+              "model": "modelsummary descriptive statistics and ggplot2 saved display data",
+              "specification": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+            },
+            "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "references": {
+              "code": {
+                "path": "skills/econ-data/scripts/research_data.py",
+                "sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b"
+              },
+              "data": {
+                "path": "examples/research-workspace/observations.csv",
+                "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+              },
+              "result": {
+                "path": "examples/research-workspace/descriptive-result.json",
+                "sha256": "f837d59ff13f9467454bbc3e8c4745c78fb131a9ee27dd0a5cd934b9fb0fe2cd"
+              },
+              "specification": {
+                "path": "examples/research-workspace/descriptive-spec.json",
+                "sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+              }
+            },
+            "run_id": null
+          }
+        },
+        "quantile_method": {
+          "probabilities": [
+            0.25,
+            0.75
+          ],
+          "type": 7
+        },
+        "result_definitions": {
+          "descriptive-demo-r01": {
+            "denominator": "各変数で観測した個人年",
+            "display_source": {
+              "key": [
+                "display",
+                "sample_flow"
+              ],
+              "result_id": "descriptive-demo-r01"
+            },
+            "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "group": {
+              "column": "group",
+              "levels": [
+                "A",
+                "B"
+              ],
+              "missing": "exclude"
+            },
+            "outcome": [
+              "hours",
+              "age"
+            ],
+            "period": "2020–2021",
+            "population": "架空の個人年データ",
+            "quantile_method": {
+              "probabilities": [
+                0.25,
+                0.75
+              ],
+              "type": 7
+            },
+            "sample": "eligible-person-years-v1",
+            "sample_policy": "available-case",
+            "specification": "descriptive-demo-s1",
+            "variables": [
+              {
+                "label": "週当たり労働時間",
+                "name": "hours",
+                "unit": "hours_per_week"
+              },
+              {
+                "label": "年齢",
+                "name": "age",
+                "unit": "years"
+              }
+            ],
+            "weights": {
+              "kind": "none"
+            }
+          }
+        },
+        "sample": "eligible-person-years-v1",
+        "sample_policy": "available-case",
+        "specification": "descriptive-demo-s1",
+        "variables": [
+          {
+            "label": "週当たり労働時間",
+            "name": "hours",
+            "unit": "hours_per_week"
+          },
+          {
+            "label": "年齢",
+            "name": "age",
+            "unit": "years"
+          }
+        ],
+        "weights": {
+          "kind": "none"
+        }
+      },
+      "result_ids": [
+        "descriptive-demo-r01"
+      ],
+      "rows": [
+        {
+          "n": 12,
+          "result_id": "descriptive-demo-r01",
+          "stage": "input",
+          "unit": "records"
+        },
+        {
+          "n": 11,
+          "result_id": "descriptive-demo-r01",
+          "stage": "period",
+          "unit": "records"
+        },
+        {
+          "n": 10,
+          "result_id": "descriptive-demo-r01",
+          "stage": "groups",
+          "unit": "records"
+        },
+        {
+          "n": 10,
+          "result_id": "descriptive-demo-r01",
+          "stage": "available-case",
+          "unit": "records"
+        }
+      ],
+      "status": "example",
+      "title": "合成データ：標本の構成"
+    },
+    "descriptive-demo-r01-table1": {
+      "columns": [
+        {
+          "key": "variable",
+          "label": "変数",
+          "unit": ""
+        },
+        {
+          "key": "group",
+          "label": "群",
+          "unit": ""
+        },
+        {
+          "key": "mean",
+          "label": "平均",
+          "unit": ""
+        },
+        {
+          "key": "sd",
+          "label": "標準偏差",
+          "unit": ""
+        },
+        {
+          "key": "median",
+          "label": "中央値",
+          "unit": ""
+        },
+        {
+          "key": "q25",
+          "label": "25%点",
+          "unit": ""
+        },
+        {
+          "key": "q75",
+          "label": "75%点",
+          "unit": ""
+        },
+        {
+          "key": "n",
+          "label": "観測数",
+          "unit": ""
+        },
+        {
+          "key": "n_observed",
+          "label": "n_observed",
+          "unit": ""
+        },
+        {
+          "key": "n_missing",
+          "label": "欠損数",
+          "unit": ""
+        },
+        {
+          "key": "n_zero",
+          "label": "ゼロの件数",
+          "unit": ""
+        },
+        {
+          "key": "n_missing_weight",
+          "label": "n_missing_weight",
+          "unit": ""
+        },
+        {
+          "key": "n_zero_weight",
+          "label": "n_zero_weight",
+          "unit": ""
+        },
+        {
+          "key": "weight_sum",
+          "label": "weight_sum",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "単位",
+          "unit": ""
+        }
+      ],
+      "display": {
+        "column_order": [
+          "variable",
+          "group",
+          "mean",
+          "sd",
+          "median",
+          "q25",
+          "q75",
+          "n",
+          "unit"
+        ],
+        "formats": {
+          "mean": ".3g",
+          "median": ".3g",
+          "n": ".3g",
+          "n_missing": ".3g",
+          "n_missing_weight": ".3g",
+          "n_observed": ".3g",
+          "n_zero": ".3g",
+          "n_zero_weight": ".3g",
+          "q25": ".3g",
+          "q75": ".3g",
+          "sd": ".3g",
+          "weight_sum": ".3g"
+        },
+        "height": 300,
+        "plot_type": "table",
+        "style": "paper",
+        "title": "合成データ：記述統計",
+        "width": 960
+      },
+      "files": [],
+      "id": "descriptive-demo-r01-table1",
+      "interpretation": "",
+      "kind": "descriptive",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md",
+          "examples/research-workspace/descriptive-spec.json"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "denominator": "各変数で観測した個人年",
+        "display_source": {
+          "key": [
+            "display"
+          ],
+          "result_id": "descriptive-demo-r01"
+        },
+        "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "group": {
+          "column": "group",
+          "levels": [
+            "A",
+            "B"
+          ],
+          "missing": "exclude"
+        },
+        "outcome": [
+          "hours",
+          "age"
+        ],
+        "period": "2020–2021",
+        "population": "架空の個人年データ",
+        "producers": {
+          "descriptive-demo-r01": {
+            "engine": {
+              "R": "R version 4.3.3 (2024-02-29)",
+              "packages": {
+                "ggplot2": "4.0.3",
+                "jsonlite": "1.8.8",
+                "modelsummary": "2.6.0"
+              }
+            },
+            "environment": null,
+            "identity": {
+              "model": "modelsummary descriptive statistics and ggplot2 saved display data",
+              "specification": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+            },
+            "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "references": {
+              "code": {
+                "path": "skills/econ-data/scripts/research_data.py",
+                "sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b"
+              },
+              "data": {
+                "path": "examples/research-workspace/observations.csv",
+                "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+              },
+              "result": {
+                "path": "examples/research-workspace/descriptive-result.json",
+                "sha256": "f837d59ff13f9467454bbc3e8c4745c78fb131a9ee27dd0a5cd934b9fb0fe2cd"
+              },
+              "specification": {
+                "path": "examples/research-workspace/descriptive-spec.json",
+                "sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+              }
+            },
+            "run_id": null
+          }
+        },
+        "quantile_method": {
+          "probabilities": [
+            0.25,
+            0.75
+          ],
+          "type": 7
+        },
+        "result_definitions": {
+          "descriptive-demo-r01": {
+            "denominator": "各変数で観測した個人年",
+            "display_source": {
+              "key": [
+                "display"
+              ],
+              "result_id": "descriptive-demo-r01"
+            },
+            "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "group": {
+              "column": "group",
+              "levels": [
+                "A",
+                "B"
+              ],
+              "missing": "exclude"
+            },
+            "outcome": [
+              "hours",
+              "age"
+            ],
+            "period": "2020–2021",
+            "population": "架空の個人年データ",
+            "quantile_method": {
+              "probabilities": [
+                0.25,
+                0.75
+              ],
+              "type": 7
+            },
+            "sample": "eligible-person-years-v1",
+            "sample_policy": "available-case",
+            "specification": "descriptive-demo-s1",
+            "variables": [
+              {
+                "label": "週当たり労働時間",
+                "name": "hours",
+                "unit": "hours_per_week"
+              },
+              {
+                "label": "年齢",
+                "name": "age",
+                "unit": "years"
+              }
+            ],
+            "weights": {
+              "kind": "none"
+            }
+          }
+        },
+        "sample": "eligible-person-years-v1",
+        "sample_policy": "available-case",
+        "specification": "descriptive-demo-s1",
+        "variables": [
+          {
+            "label": "週当たり労働時間",
+            "name": "hours",
+            "unit": "hours_per_week"
+          },
+          {
+            "label": "年齢",
+            "name": "age",
+            "unit": "years"
+          }
+        ],
+        "weights": {
+          "kind": "none"
+        }
+      },
+      "result_ids": [
+        "descriptive-demo-r01"
+      ],
+      "rows": [
+        {
+          "group": "A",
+          "mean": 3,
+          "median": 3,
+          "n": 4,
+          "n_missing": 1,
+          "n_missing_weight": 0,
+          "n_observed": 4,
+          "n_zero": 1,
+          "n_zero_weight": 0,
+          "q25": 1.5,
+          "q75": 4.5,
+          "result_id": "descriptive-demo-r01",
+          "sd": 2.58198889747161,
+          "unit": "hours_per_week",
+          "variable": "hours",
+          "weight_sum": 4
+        },
+        {
+          "group": "B",
+          "mean": 5,
+          "median": 5,
+          "n": 5,
+          "n_missing": 0,
+          "n_missing_weight": 0,
+          "n_observed": 5,
+          "n_zero": 0,
+          "n_zero_weight": 0,
+          "q25": 3,
+          "q75": 7,
+          "result_id": "descriptive-demo-r01",
+          "sd": 3.16227766016838,
+          "unit": "hours_per_week",
+          "variable": "hours",
+          "weight_sum": 5
+        },
+        {
+          "group": "A",
+          "mean": 23,
+          "median": 23,
+          "n": 4,
+          "n_missing": 1,
+          "n_missing_weight": 0,
+          "n_observed": 4,
+          "n_zero": 0,
+          "n_zero_weight": 0,
+          "q25": 21.5,
+          "q75": 24.5,
+          "result_id": "descriptive-demo-r01",
+          "sd": 2.58198889747161,
+          "unit": "years",
+          "variable": "age",
+          "weight_sum": 4
+        },
+        {
+          "group": "B",
+          "mean": 34,
+          "median": 34,
+          "n": 5,
+          "n_missing": 0,
+          "n_missing_weight": 0,
+          "n_observed": 5,
+          "n_zero": 0,
+          "n_zero_weight": 0,
+          "q25": 32,
+          "q75": 36,
+          "result_id": "descriptive-demo-r01",
+          "sd": 3.16227766016838,
+          "unit": "years",
+          "variable": "age",
+          "weight_sum": 5
+        }
+      ],
+      "status": "example",
+      "title": "合成データ：記述統計"
+    },
+    "descriptive-demo-r01-trends-age": {
+      "columns": [
+        {
+          "key": "variable",
+          "label": "変数",
+          "unit": ""
+        },
+        {
+          "key": "group",
+          "label": "群",
+          "unit": ""
+        },
+        {
+          "key": "period",
+          "label": "期間",
+          "unit": ""
+        },
+        {
+          "key": "mean",
+          "label": "平均",
+          "unit": "years"
+        },
+        {
+          "key": "sd",
+          "label": "標準偏差",
+          "unit": ""
+        },
+        {
+          "key": "median",
+          "label": "中央値",
+          "unit": ""
+        },
+        {
+          "key": "q25",
+          "label": "25%点",
+          "unit": ""
+        },
+        {
+          "key": "q75",
+          "label": "75%点",
+          "unit": ""
+        },
+        {
+          "key": "n",
+          "label": "観測数",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "単位",
+          "unit": ""
+        }
+      ],
+      "display": {
+        "formats": {
+          "mean": ".3g",
+          "median": ".3g",
+          "n": ".3g",
+          "q25": ".3g",
+          "q75": ".3g",
+          "sd": ".3g"
+        },
+        "height": 540,
+        "lower": null,
+        "plot_type": "line",
+        "series": "group",
+        "style": "paper",
+        "title": "合成データ：年齢の推移",
+        "upper": null,
+        "width": 960,
+        "x": "period",
+        "x_label": "年",
+        "y": "mean"
+      },
+      "files": [],
+      "id": "descriptive-demo-r01-trends-age",
+      "interpretation": "",
+      "kind": "time_series",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md",
+          "examples/research-workspace/descriptive-spec.json"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "denominator": "各変数で観測した個人年",
+        "display_source": {
+          "key": [
+            "display",
+            "trends",
+            "age"
+          ],
+          "result_id": "descriptive-demo-r01"
+        },
+        "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "group": {
+          "column": "group",
+          "levels": [
+            "A",
+            "B"
+          ],
+          "missing": "exclude"
+        },
+        "outcome": "age",
+        "period": "2020–2021",
+        "population": "架空の個人年データ",
+        "producers": {
+          "descriptive-demo-r01": {
+            "engine": {
+              "R": "R version 4.3.3 (2024-02-29)",
+              "packages": {
+                "ggplot2": "4.0.3",
+                "jsonlite": "1.8.8",
+                "modelsummary": "2.6.0"
+              }
+            },
+            "environment": null,
+            "identity": {
+              "model": "modelsummary descriptive statistics and ggplot2 saved display data",
+              "specification": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+            },
+            "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "references": {
+              "code": {
+                "path": "skills/econ-data/scripts/research_data.py",
+                "sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b"
+              },
+              "data": {
+                "path": "examples/research-workspace/observations.csv",
+                "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+              },
+              "result": {
+                "path": "examples/research-workspace/descriptive-result.json",
+                "sha256": "f837d59ff13f9467454bbc3e8c4745c78fb131a9ee27dd0a5cd934b9fb0fe2cd"
+              },
+              "specification": {
+                "path": "examples/research-workspace/descriptive-spec.json",
+                "sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+              }
+            },
+            "run_id": null
+          }
+        },
+        "quantile_method": {
+          "probabilities": [
+            0.25,
+            0.75
+          ],
+          "type": 7
+        },
+        "result_definitions": {
+          "descriptive-demo-r01": {
+            "denominator": "各変数で観測した個人年",
+            "display_source": {
+              "key": [
+                "display",
+                "trends",
+                "age"
+              ],
+              "result_id": "descriptive-demo-r01"
+            },
+            "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "group": {
+              "column": "group",
+              "levels": [
+                "A",
+                "B"
+              ],
+              "missing": "exclude"
+            },
+            "outcome": "age",
+            "period": "2020–2021",
+            "population": "架空の個人年データ",
+            "quantile_method": {
+              "probabilities": [
+                0.25,
+                0.75
+              ],
+              "type": 7
+            },
+            "sample": "eligible-person-years-v1",
+            "sample_policy": "available-case",
+            "specification": "descriptive-demo-s1",
+            "unit": "years",
+            "variables": [
+              {
+                "label": "週当たり労働時間",
+                "name": "hours",
+                "unit": "hours_per_week"
+              },
+              {
+                "label": "年齢",
+                "name": "age",
+                "unit": "years"
+              }
+            ],
+            "weights": {
+              "kind": "none"
+            }
+          }
+        },
+        "sample": "eligible-person-years-v1",
+        "sample_policy": "available-case",
+        "specification": "descriptive-demo-s1",
+        "unit": "years",
+        "variables": [
+          {
+            "label": "週当たり労働時間",
+            "name": "hours",
+            "unit": "hours_per_week"
+          },
+          {
+            "label": "年齢",
+            "name": "age",
+            "unit": "years"
+          }
+        ],
+        "weights": {
+          "kind": "none"
+        }
+      },
+      "result_ids": [
+        "descriptive-demo-r01"
+      ],
+      "rows": [
+        {
+          "group": "A",
+          "mean": 23,
+          "median": 23,
+          "n": 2,
+          "period": "2020",
+          "q25": 21.5,
+          "q75": 24.5,
+          "result_id": "descriptive-demo-r01",
+          "sd": 4.24264068711928,
+          "unit": "years",
+          "variable": "age"
+        },
+        {
+          "group": "A",
+          "mean": 23,
+          "median": 23,
+          "n": 2,
+          "period": "2021",
+          "q25": 22.5,
+          "q75": 23.5,
+          "result_id": "descriptive-demo-r01",
+          "sd": 1.4142135623731,
+          "unit": "years",
+          "variable": "age"
+        },
+        {
+          "group": "B",
+          "mean": 34,
+          "median": 34,
+          "n": 2,
+          "period": "2020",
+          "q25": 33,
+          "q75": 35,
+          "result_id": "descriptive-demo-r01",
+          "sd": 2.82842712474619,
+          "unit": "years",
+          "variable": "age"
+        },
+        {
+          "group": "B",
+          "mean": 34,
+          "median": 34,
+          "n": 3,
+          "period": "2021",
+          "q25": 32,
+          "q75": 36,
+          "result_id": "descriptive-demo-r01",
+          "sd": 4,
+          "unit": "years",
+          "variable": "age"
+        }
+      ],
+      "status": "example",
+      "title": "合成データ：年齢の推移"
+    },
+    "descriptive-demo-r01-trends-hours": {
+      "columns": [
+        {
+          "key": "variable",
+          "label": "変数",
+          "unit": ""
+        },
+        {
+          "key": "group",
+          "label": "群",
+          "unit": ""
+        },
+        {
+          "key": "period",
+          "label": "期間",
+          "unit": ""
+        },
+        {
+          "key": "mean",
+          "label": "平均",
+          "unit": "hours_per_week"
+        },
+        {
+          "key": "sd",
+          "label": "標準偏差",
+          "unit": ""
+        },
+        {
+          "key": "median",
+          "label": "中央値",
+          "unit": ""
+        },
+        {
+          "key": "q25",
+          "label": "25%点",
+          "unit": ""
+        },
+        {
+          "key": "q75",
+          "label": "75%点",
+          "unit": ""
+        },
+        {
+          "key": "n",
+          "label": "観測数",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "単位",
+          "unit": ""
+        }
+      ],
+      "display": {
+        "formats": {
+          "mean": ".3g",
+          "median": ".3g",
+          "n": ".3g",
+          "q25": ".3g",
+          "q75": ".3g",
+          "sd": ".3g"
+        },
+        "height": 540,
+        "lower": null,
+        "plot_type": "line",
+        "series": "group",
+        "style": "paper",
+        "title": "合成データ：週当たり労働時間の推移",
+        "upper": null,
+        "width": 960,
+        "x": "period",
+        "x_label": "年",
+        "y": "mean"
+      },
+      "files": [],
+      "id": "descriptive-demo-r01-trends-hours",
+      "interpretation": "",
+      "kind": "time_series",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md",
+          "examples/research-workspace/descriptive-spec.json"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "denominator": "各変数で観測した個人年",
+        "display_source": {
+          "key": [
+            "display",
+            "trends",
+            "hours"
+          ],
+          "result_id": "descriptive-demo-r01"
+        },
+        "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "group": {
+          "column": "group",
+          "levels": [
+            "A",
+            "B"
+          ],
+          "missing": "exclude"
+        },
+        "outcome": "hours",
+        "period": "2020–2021",
+        "population": "架空の個人年データ",
+        "producers": {
+          "descriptive-demo-r01": {
+            "engine": {
+              "R": "R version 4.3.3 (2024-02-29)",
+              "packages": {
+                "ggplot2": "4.0.3",
+                "jsonlite": "1.8.8",
+                "modelsummary": "2.6.0"
+              }
+            },
+            "environment": null,
+            "identity": {
+              "model": "modelsummary descriptive statistics and ggplot2 saved display data",
+              "specification": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+            },
+            "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "references": {
+              "code": {
+                "path": "skills/econ-data/scripts/research_data.py",
+                "sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b"
+              },
+              "data": {
+                "path": "examples/research-workspace/observations.csv",
+                "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+              },
+              "result": {
+                "path": "examples/research-workspace/descriptive-result.json",
+                "sha256": "f837d59ff13f9467454bbc3e8c4745c78fb131a9ee27dd0a5cd934b9fb0fe2cd"
+              },
+              "specification": {
+                "path": "examples/research-workspace/descriptive-spec.json",
+                "sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+              }
+            },
+            "run_id": null
+          }
+        },
+        "quantile_method": {
+          "probabilities": [
+            0.25,
+            0.75
+          ],
+          "type": 7
+        },
+        "result_definitions": {
+          "descriptive-demo-r01": {
+            "denominator": "各変数で観測した個人年",
+            "display_source": {
+              "key": [
+                "display",
+                "trends",
+                "hours"
+              ],
+              "result_id": "descriptive-demo-r01"
+            },
+            "estimator": "modelsummary descriptive statistics and ggplot2 saved display data",
+            "group": {
+              "column": "group",
+              "levels": [
+                "A",
+                "B"
+              ],
+              "missing": "exclude"
+            },
+            "outcome": "hours",
+            "period": "2020–2021",
+            "population": "架空の個人年データ",
+            "quantile_method": {
+              "probabilities": [
+                0.25,
+                0.75
+              ],
+              "type": 7
+            },
+            "sample": "eligible-person-years-v1",
+            "sample_policy": "available-case",
+            "specification": "descriptive-demo-s1",
+            "unit": "hours_per_week",
+            "variables": [
+              {
+                "label": "週当たり労働時間",
+                "name": "hours",
+                "unit": "hours_per_week"
+              },
+              {
+                "label": "年齢",
+                "name": "age",
+                "unit": "years"
+              }
+            ],
+            "weights": {
+              "kind": "none"
+            }
+          }
+        },
+        "sample": "eligible-person-years-v1",
+        "sample_policy": "available-case",
+        "specification": "descriptive-demo-s1",
+        "unit": "hours_per_week",
+        "variables": [
+          {
+            "label": "週当たり労働時間",
+            "name": "hours",
+            "unit": "hours_per_week"
+          },
+          {
+            "label": "年齢",
+            "name": "age",
+            "unit": "years"
+          }
+        ],
+        "weights": {
+          "kind": "none"
+        }
+      },
+      "result_ids": [
+        "descriptive-demo-r01"
+      ],
+      "rows": [
+        {
+          "group": "A",
+          "mean": 2,
+          "median": 2,
+          "n": 2,
+          "period": "2020",
+          "q25": 1,
+          "q75": 3,
+          "result_id": "descriptive-demo-r01",
+          "sd": 2.82842712474619,
+          "unit": "hours_per_week",
+          "variable": "hours"
+        },
+        {
+          "group": "A",
+          "mean": 4,
+          "median": 4,
+          "n": 2,
+          "period": "2021",
+          "q25": 3,
+          "q75": 5,
+          "result_id": "descriptive-demo-r01",
+          "sd": 2.82842712474619,
+          "unit": "hours_per_week",
+          "variable": "hours"
+        },
+        {
+          "group": "B",
+          "mean": 5,
+          "median": 5,
+          "n": 2,
+          "period": "2020",
+          "q25": 4,
+          "q75": 6,
+          "result_id": "descriptive-demo-r01",
+          "sd": 2.82842712474619,
+          "unit": "hours_per_week",
+          "variable": "hours"
+        },
+        {
+          "group": "B",
+          "mean": 5,
+          "median": 5,
+          "n": 3,
+          "period": "2021",
+          "q25": 3,
+          "q75": 7,
+          "result_id": "descriptive-demo-r01",
+          "sd": 4,
+          "unit": "hours_per_week",
+          "variable": "hours"
+        }
+      ],
+      "status": "example",
+      "title": "合成データ：週当たり労働時間の推移"
+    },
+    "event-study": {
+      "columns": [
+        {
+          "key": "period",
+          "label": "Relative period",
+          "unit": "period"
+        },
+        {
+          "key": "series",
+          "label": "Specification",
+          "unit": ""
+        },
+        {
+          "key": "estimate",
+          "label": "Saved estimate",
+          "unit": "percentage point"
+        },
+        {
+          "key": "lower",
+          "label": "Saved lower endpoint",
+          "unit": "percentage point"
+        },
+        {
+          "key": "upper",
+          "label": "Saved upper endpoint",
+          "unit": "percentage point"
+        }
+      ],
+      "display": {
+        "colors": {
+          "Alternative": "#b4513b",
+          "Main": "#245b8a"
+        },
+        "height": 540,
+        "legend": true,
+        "legend_location": "upper left",
+        "lower": "lower",
+        "notes": [
+          "Authored display values and endpoints; no data analysis or estimation."
+        ],
+        "plot_type": "event_study",
+        "selected_result_ids": [
+          "main",
+          "alternative"
+        ],
+        "series": "series",
+        "title": "Synthetic display example: event study",
+        "upper": "upper",
+        "visible_series": [
+          "Main",
+          "Alternative"
+        ],
+        "width": 960,
+        "x": "period",
+        "x_label": "Relative period",
+        "y": "estimate",
+        "y_label": "Saved coefficient (percentage point)"
+      },
+      "id": "event-study",
+      "interpretation": "表示操作用に作成した合成表示例。主仕様と別仕様の保存値を同じ図に表示する。実証結果を表さない。",
+      "kind": "event_study",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "analysis_execution": "none",
+        "example_type": "合成表示例"
+      },
+      "result_ids": [
+        "main",
+        "alternative"
+      ],
+      "rows": [
+        {
+          "estimate": -0.1,
+          "lower": -0.4,
+          "period": -2,
+          "result_id": "main",
+          "series": "Main",
+          "upper": 0.2
+        },
+        {
+          "estimate": 0,
+          "lower": 0,
+          "period": -1,
+          "result_id": "main",
+          "series": "Main",
+          "upper": 0
+        },
+        {
+          "estimate": 0.25,
+          "lower": -0.05,
+          "period": 0,
+          "result_id": "main",
+          "series": "Main",
+          "upper": 0.55
+        },
+        {
+          "estimate": 0.55,
+          "lower": 0.2,
+          "period": 1,
+          "result_id": "main",
+          "series": "Main",
+          "upper": 0.9
+        },
+        {
+          "estimate": 0.7,
+          "lower": 0.3,
+          "period": 2,
+          "result_id": "main",
+          "series": "Main",
+          "upper": 1.1
+        },
+        {
+          "estimate": 0.05,
+          "lower": -0.3,
+          "period": -2,
+          "result_id": "alternative",
+          "series": "Alternative",
+          "upper": 0.4
+        },
+        {
+          "estimate": 0,
+          "lower": 0,
+          "period": -1,
+          "result_id": "alternative",
+          "series": "Alternative",
+          "upper": 0
+        },
+        {
+          "estimate": 0.2,
+          "lower": -0.15,
+          "period": 0,
+          "result_id": "alternative",
+          "series": "Alternative",
+          "upper": 0.55
+        },
+        {
+          "estimate": 0.45,
+          "lower": 0.05,
+          "period": 1,
+          "result_id": "alternative",
+          "series": "Alternative",
+          "upper": 0.85
+        },
+        {
+          "estimate": 0.6,
+          "lower": 0.15,
+          "period": 2,
+          "result_id": "alternative",
+          "series": "Alternative",
+          "upper": 1.05
+        }
+      ],
+      "status": "example",
+      "title": "合成表示例：イベントスタディと別仕様"
+    },
+    "sample-composition": {
+      "columns": [
+        {
+          "key": "group",
+          "label": "Group",
+          "unit": ""
+        },
+        {
+          "key": "included",
+          "label": "Included",
+          "unit": "illustrative units"
+        },
+        {
+          "key": "excluded",
+          "label": "Excluded",
+          "unit": "illustrative units"
+        }
+      ],
+      "display": {
+        "height": 420,
+        "notes": [
+          "Authored display values; no data analysis or estimation.",
+          "A dash denotes a missing saved cell; zero remains zero."
+        ],
+        "plot_type": "table",
+        "title": "Synthetic display example: sample composition",
+        "width": 960,
+        "x": "group",
+        "y": "included"
+      },
+      "id": "sample-composition",
+      "interpretation": "表示操作用に作成した合成表示例。数値は実証結果を表さない。",
+      "kind": "sample_composition",
+      "links": {
+        "documents": [
+          "examples/research-workspace/README.md"
+        ],
+        "tasks": []
+      },
+      "metadata": {
+        "analysis_execution": "none",
+        "example_type": "合成表示例"
+      },
+      "result_ids": [
+        "summary"
+      ],
+      "rows": [
+        {
+          "excluded": 8,
+          "group": "Example A",
+          "included": 120
+        },
+        {
+          "excluded": 0,
+          "group": "Example B",
+          "included": 135
+        },
+        {
+          "excluded": null,
+          "group": "Example C",
+          "included": 95
+        }
+      ],
+      "status": "example",
+      "title": "合成表示例：標本構成"
+    }
+  },
   "records": {
-    "summary": {
-      "identity": {"specification": "display-example-summary", "kind": "authored illustration"},
-      "references": {},
-      "source_result": {
-        "population": "Synthetic display example",
-        "sample": "Authored example cells",
-        "observation_unit": "Illustrative group",
-        "period": "Example period",
-        "measurement_units": {"count": "illustrative units"}
-      }
-    },
-    "main": {
-      "identity": {"specification": "display-example-main", "kind": "authored illustration"},
-      "references": {},
-      "source_result": {
-        "population": "Synthetic display example",
-        "sample": "Authored example cells",
-        "observation_unit": "Illustrative group-period",
-        "comparison": "Example group and example reference",
-        "period": "Relative periods -2 to 2",
-        "variables": {"outcome": "Illustrative outcome"},
-        "measurement_units": {"estimate": "percentage point"},
-        "estimand": "Illustrative saved coefficient",
-        "inference": {"interval_level": 0.95, "method": "Authored endpoints", "clusters": []}
-      }
-    },
     "alternative": {
-      "identity": {"specification": "display-example-alternative", "kind": "authored illustration"},
+      "identity": {
+        "kind": "authored illustration",
+        "specification": "display-example-alternative"
+      },
       "references": {},
       "source_result": {
+        "comparison": "Example group and example reference",
+        "estimand": "Illustrative saved coefficient",
+        "inference": {
+          "clusters": [],
+          "interval_level": 0.95,
+          "method": "Authored endpoints"
+        },
+        "measurement_units": {
+          "estimate": "percentage point"
+        },
+        "observation_unit": "Illustrative group-period",
+        "period": "Relative periods -2 to 2",
         "population": "Synthetic display example",
         "sample": "Authored alternative cells",
-        "observation_unit": "Illustrative group-period",
+        "variables": {
+          "outcome": "Illustrative outcome"
+        }
+      }
+    },
+    "descriptive-demo-r01": {
+      "adopted": {
+        "data": {
+          "path": "examples/research-workspace/observations.csv",
+          "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+        },
+        "denominator": "各変数で観測した個人年",
+        "distributions": {
+          "hours": {
+            "box": {
+              "coef": 1.5
+            },
+            "density": {
+              "adjust": 1.0,
+              "bw": 1.0,
+              "n": 64
+            },
+            "ecdf": {},
+            "histogram": {
+              "breaks": [
+                0,
+                2,
+                4,
+                6,
+                8,
+                10
+              ],
+              "closed": "left"
+            }
+          }
+        },
+        "group": {
+          "column": "group",
+          "levels": [
+            "A",
+            "B"
+          ],
+          "missing": "exclude"
+        },
+        "period": {
+          "column": "year",
+          "label": "2020–2021",
+          "values": [
+            "2020",
+            "2021"
+          ]
+        },
+        "population": "架空の個人年データ",
+        "quantiles": {
+          "probabilities": [
+            0.25,
+            0.75
+          ],
+          "type": 7
+        },
+        "result_id": "descriptive-demo-r01",
+        "row_id": "id",
+        "sample": {
+          "id": "eligible-person-years-v1",
+          "policy": "available-case"
+        },
+        "specification": "descriptive-demo-s1",
+        "variables": [
+          {
+            "label": "週当たり労働時間",
+            "name": "hours",
+            "unit": "hours_per_week"
+          },
+          {
+            "label": "年齢",
+            "name": "age",
+            "unit": "years"
+          }
+        ],
+        "weights": {
+          "kind": "none"
+        }
+      },
+      "engine": {
+        "R": "R version 4.3.3 (2024-02-29)",
+        "packages": {
+          "ggplot2": "4.0.3",
+          "jsonlite": "1.8.8",
+          "modelsummary": "2.6.0"
+        }
+      },
+      "hash_checks": {
+        "code": "verified",
+        "data": "verified",
+        "specification": "verified"
+      },
+      "identity": {
+        "model": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "specification": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+      },
+      "metadata": {},
+      "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+      "model": null,
+      "options": null,
+      "provenance": {
+        "data_sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081",
+        "r_script_sha256": "1ed159b6e296d955767662893c1a0cb951ee0ba74977c2e95f76fc9f05d73f40",
+        "rscript": "/usr/bin/Rscript",
+        "script_sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b",
+        "spec_sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+      },
+      "quantity_origins": {},
+      "references": {
+        "code": {
+          "path": "skills/econ-data/scripts/research_data.py",
+          "sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b"
+        },
+        "data": {
+          "path": "examples/research-workspace/observations.csv",
+          "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+        },
+        "result": {
+          "path": "examples/research-workspace/descriptive-result.json",
+          "sha256": "f837d59ff13f9467454bbc3e8c4745c78fb131a9ee27dd0a5cd934b9fb0fe2cd"
+        },
+        "specification": {
+          "path": "examples/research-workspace/descriptive-spec.json",
+          "sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+        }
+      },
+      "source_result": {
+        "adopted": {
+          "data": {
+            "path": "examples/research-workspace/observations.csv",
+            "sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081"
+          },
+          "denominator": "各変数で観測した個人年",
+          "distributions": {
+            "hours": {
+              "box": {
+                "coef": 1.5
+              },
+              "density": {
+                "adjust": 1.0,
+                "bw": 1.0,
+                "n": 64
+              },
+              "ecdf": {},
+              "histogram": {
+                "breaks": [
+                  0,
+                  2,
+                  4,
+                  6,
+                  8,
+                  10
+                ],
+                "closed": "left"
+              }
+            }
+          },
+          "group": {
+            "column": "group",
+            "levels": [
+              "A",
+              "B"
+            ],
+            "missing": "exclude"
+          },
+          "period": {
+            "column": "year",
+            "label": "2020–2021",
+            "values": [
+              "2020",
+              "2021"
+            ]
+          },
+          "population": "架空の個人年データ",
+          "quantiles": {
+            "probabilities": [
+              0.25,
+              0.75
+            ],
+            "type": 7
+          },
+          "result_id": "descriptive-demo-r01",
+          "row_id": "id",
+          "sample": {
+            "id": "eligible-person-years-v1",
+            "policy": "available-case"
+          },
+          "specification": "descriptive-demo-s1",
+          "variables": [
+            {
+              "label": "週当たり労働時間",
+              "name": "hours",
+              "unit": "hours_per_week"
+            },
+            {
+              "label": "年齢",
+              "name": "age",
+              "unit": "years"
+            }
+          ],
+          "weights": {
+            "kind": "none"
+          }
+        },
+        "display": {
+          "balance": {
+            "kind": "balance",
+            "metadata": {
+              "denominator": "各変数で観測した個人年",
+              "difference_in_means": false,
+              "group": {
+                "column": "group",
+                "levels": [
+                  "A",
+                  "B"
+                ],
+                "missing": "exclude"
+              },
+              "outcome": [
+                "hours",
+                "age"
+              ],
+              "period": "2020–2021",
+              "population": "架空の個人年データ",
+              "quantile_method": {
+                "probabilities": [
+                  0.25,
+                  0.75
+                ],
+                "type": 7
+              },
+              "sample": "eligible-person-years-v1",
+              "sample_policy": "available-case",
+              "specification": "descriptive-demo-s1",
+              "summary_engine": "modelsummary::datasummary_balance",
+              "weights": {
+                "kind": "none"
+              }
+            },
+            "rows": [
+              {
+                "A (N=5) / Mean": 3,
+                "A (N=5) / Std. Dev.": 2.58198889747161,
+                "A / N usable": 4,
+                "B (N=5) / Mean": 5,
+                "B (N=5) / Std. Dev.": 3.16227766016838,
+                "B / N usable": 5,
+                "unit": "hours_per_week",
+                "variable": "hours"
+              },
+              {
+                "A (N=5) / Mean": 23,
+                "A (N=5) / Std. Dev.": 2.58198889747161,
+                "A / N usable": 4,
+                "B (N=5) / Mean": 34,
+                "B (N=5) / Std. Dev.": 3.16227766016838,
+                "B / N usable": 5,
+                "unit": "years",
+                "variable": "age"
+              }
+            ]
+          },
+          "distributions": {
+            "age": {},
+            "hours": {
+              "box": {
+                "kind": "distribution",
+                "metadata": {
+                  "denominator": "各変数で観測した個人年",
+                  "distribution_definition": {
+                    "coef": 1.5
+                  },
+                  "distribution_type": "box",
+                  "group": {
+                    "column": "group",
+                    "levels": [
+                      "A",
+                      "B"
+                    ],
+                    "missing": "exclude"
+                  },
+                  "outcome": "hours",
+                  "outcome_unit": "hours_per_week",
+                  "outliers": "count_only",
+                  "period": "2020–2021",
+                  "population": "架空の個人年データ",
+                  "quantile_method": {
+                    "probabilities": [
+                      0.25,
+                      0.75
+                    ],
+                    "type": 7
+                  },
+                  "sample": "eligible-person-years-v1",
+                  "sample_policy": "available-case",
+                  "specification": "descriptive-demo-s1",
+                  "unit": "hours_per_week",
+                  "weights": {
+                    "kind": "none"
+                  }
+                },
+                "rows": [
+                  {
+                    "group": "A",
+                    "lower": 1.5,
+                    "middle": 3,
+                    "n": 4,
+                    "n_outliers": 0,
+                    "unit": "hours_per_week",
+                    "upper": 4.5,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "ymax": 6,
+                    "ymin": 0
+                  },
+                  {
+                    "group": "B",
+                    "lower": 3,
+                    "middle": 5,
+                    "n": 5,
+                    "n_outliers": 0,
+                    "unit": "hours_per_week",
+                    "upper": 7,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "ymax": 9,
+                    "ymin": 1
+                  }
+                ]
+              },
+              "density": {
+                "kind": "distribution",
+                "metadata": {
+                  "denominator": "各変数で観測した個人年",
+                  "distribution_definition": {
+                    "adjust": 1.0,
+                    "bw": 1.0,
+                    "n": 64
+                  },
+                  "distribution_type": "density",
+                  "group": {
+                    "column": "group",
+                    "levels": [
+                      "A",
+                      "B"
+                    ],
+                    "missing": "exclude"
+                  },
+                  "outcome": "hours",
+                  "outcome_unit": "hours_per_week",
+                  "period": "2020–2021",
+                  "population": "架空の個人年データ",
+                  "quantile_method": {
+                    "probabilities": [
+                      0.25,
+                      0.75
+                    ],
+                    "type": 7
+                  },
+                  "sample": "eligible-person-years-v1",
+                  "sample_policy": "available-case",
+                  "specification": "descriptive-demo-s1",
+                  "unit": "1/(hours_per_week)",
+                  "weights": {
+                    "kind": "none"
+                  }
+                },
+                "rows": [
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.113320152510288,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.115643262122798,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0.0952380952380952
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.117479997509955,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0.19047619047619
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.118864333679624,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0.285714285714286
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.119873483466077,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0.380952380952381
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.120571301275294,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0.476190476190476
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.121042130406772,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0.571428571428571
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.121359629194336,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0.666666666666667
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.121597889480528,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0.761904761904762
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.121818924731422,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0.857142857142857
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.122072233246267,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0.952380952380952
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.122392010466615,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 1.04761904761905
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.122795572067902,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 1.14285714285714
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.123283368363701,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 1.23809523809524
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.12384166512674,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 1.33333333333333
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.124443017031772,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 1.42857142857143
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.125052054217672,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 1.52380952380952
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.125628561408573,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 1.61904761904762
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126130417242362,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 1.71428571428571
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126523350730724,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 1.80952380952381
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126774423239763,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 1.9047619047619
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126870747077949,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126800805213037,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2.09523809523809
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.12657915481173,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2.19047619047619
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126222176408434,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2.28571428571429
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.125766355183117,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2.38095238095238
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.125250837114477,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2.47619047619048
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.124722851869128,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2.57142857142857
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.124229868678027,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2.66666666666667
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.123815103577493,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2.76190476190476
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.123516665408841,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2.85714285714286
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.123360190510084,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2.95238095238095
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.123360190510084,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 3.04761904761905
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.123516665408841,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 3.14285714285714
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.123815103577494,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 3.23809523809524
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.124229868678027,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 3.33333333333333
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.124722851869128,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 3.42857142857143
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.125250837114477,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 3.52380952380952
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.125766355183117,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 3.61904761904762
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126222176408434,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 3.71428571428571
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.12657915481173,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 3.80952380952381
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126800805213037,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 3.9047619047619
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126870747077949,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126774423239763,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4.09523809523809
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126523350730724,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4.19047619047619
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.126130417242362,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4.28571428571429
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.125628561408573,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4.38095238095238
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.125052054217672,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4.47619047619048
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.124443017031772,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4.57142857142857
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.12384166512674,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4.66666666666667
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.123283368363701,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4.76190476190476
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.122795572067902,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4.85714285714286
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.122392010466615,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4.95238095238095
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.122072233246267,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 5.04761904761905
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.121818924731422,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 5.14285714285714
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.121597889480529,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 5.23809523809524
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.121359629194336,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 5.33333333333333
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.121042130406772,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 5.42857142857143
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.120571301275294,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 5.52380952380952
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.119873483466077,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 5.61904761904762
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.118864333679624,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 5.71428571428571
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.117479997509955,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 5.80952380952381
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.115643262122798,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 5.9047619047619
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.113320152510288,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 6
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0906482639010557,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 1
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0930433311999849,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 1.12698412698413
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0947566542160964,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 1.25396825396825
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0958970232191229,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 1.38095238095238
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0966002271892941,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 1.50793650793651
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0970132460141232,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 1.63492063492063
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0972788513523091,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 1.76190476190476
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0975189541138071,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 1.88888888888889
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0978222310178944,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 2.01587301587302
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.098237227732142,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 2.14285714285714
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0987706676419764,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 2.26984126984127
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0993915848346866,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 2.3968253968254
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100040580279377,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 2.52380952380952
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100642760292188,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 2.65079365079365
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101122384202243,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 2.77777777777778
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101417008011712,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 2.9047619047619
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101489002907583,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 3.03174603174603
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101332740621154,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 3.15873015873016
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100976410583025,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 3.28571428571429
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100478264308856,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 3.41269841269841
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0999179429333607,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 3.53968253968254
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0993843013631223,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 3.66666666666667
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0989616796837954,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 3.79365079365079
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0987171758368572,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 3.92063492063492
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0986895413500287,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 4.04761904761905
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0988828150220553,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 4.17460317460317
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0992666359053695,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 4.3015873015873
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0997807331973747,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 4.42857142857143
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100344400414766,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 4.55555555555556
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100869165761134,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 4.68253968253968
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101272674016582,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 4.80952380952381
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101491605079378,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 4.93650793650794
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101491605079378,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 5.06349206349206
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101272674016582,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 5.19047619047619
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100869165761134,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 5.31746031746032
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100344400414766,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 5.44444444444444
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0997807331973747,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 5.57142857142857
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0992666359053694,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 5.6984126984127
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0988828150220552,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 5.82539682539683
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0986895413500287,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 5.95238095238095
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0987171758368573,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 6.07936507936508
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0989616796837954,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 6.20634920634921
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0993843013631223,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 6.33333333333333
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0999179429333607,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 6.46031746031746
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100478264308856,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 6.58730158730159
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100976410583025,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 6.71428571428571
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101332740621154,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 6.84126984126984
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101489002907583,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 6.96825396825397
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101417008011712,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 7.09523809523809
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.101122384202243,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 7.22222222222222
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100642760292188,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 7.34920634920635
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.100040580279377,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 7.47619047619048
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0993915848346866,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 7.6031746031746
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0987706676419763,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 7.73015873015873
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0982372277321419,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 7.85714285714286
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0978222310178943,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 7.98412698412698
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0975189541138072,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 8.11111111111111
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0972788513523091,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 8.23809523809524
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0970132460141232,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 8.36507936507936
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0966002271892941,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 8.49206349206349
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.095897023219123,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 8.61904761904762
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0947566542160964,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 8.74603174603175
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0930433311999849,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 8.87301587301587
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "1/(hours_per_week)",
+                    "value": 0.0906482639010557,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 9
+                  }
+                ]
+              },
+              "ecdf": {
+                "kind": "distribution",
+                "metadata": {
+                  "denominator": "各変数で観測した個人年",
+                  "distribution_definition": {},
+                  "distribution_type": "ecdf",
+                  "group": {
+                    "column": "group",
+                    "levels": [
+                      "A",
+                      "B"
+                    ],
+                    "missing": "exclude"
+                  },
+                  "outcome": "hours",
+                  "outcome_unit": "hours_per_week",
+                  "period": "2020–2021",
+                  "population": "架空の個人年データ",
+                  "quantile_method": {
+                    "probabilities": [
+                      0.25,
+                      0.75
+                    ],
+                    "type": 7
+                  },
+                  "sample": "eligible-person-years-v1",
+                  "sample_policy": "available-case",
+                  "specification": "descriptive-demo-s1",
+                  "unit": "share",
+                  "weights": {
+                    "kind": "none"
+                  }
+                },
+                "rows": [
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "share",
+                    "value": 0.25,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 0
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "share",
+                    "value": 0.5,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 2
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "share",
+                    "value": 0.75,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 4
+                  },
+                  {
+                    "group": "A",
+                    "n": 4,
+                    "unit": "share",
+                    "value": 1,
+                    "variable": "hours",
+                    "weight_sum": 4,
+                    "x": 6
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "share",
+                    "value": 0.2,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 1
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "share",
+                    "value": 0.4,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 3
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "share",
+                    "value": 0.6,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 5
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "share",
+                    "value": 0.8,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 7
+                  },
+                  {
+                    "group": "B",
+                    "n": 5,
+                    "unit": "share",
+                    "value": 1,
+                    "variable": "hours",
+                    "weight_sum": 5,
+                    "x": 9
+                  }
+                ]
+              },
+              "histogram": {
+                "kind": "distribution",
+                "metadata": {
+                  "denominator": "各変数で観測した個人年",
+                  "distribution_definition": {
+                    "breaks": [
+                      0,
+                      2,
+                      4,
+                      6,
+                      8,
+                      10
+                    ],
+                    "closed": "left"
+                  },
+                  "distribution_type": "histogram",
+                  "group": {
+                    "column": "group",
+                    "levels": [
+                      "A",
+                      "B"
+                    ],
+                    "missing": "exclude"
+                  },
+                  "outcome": "hours",
+                  "outcome_unit": "hours_per_week",
+                  "period": "2020–2021",
+                  "population": "架空の個人年データ",
+                  "quantile_method": {
+                    "probabilities": [
+                      0.25,
+                      0.75
+                    ],
+                    "type": 7
+                  },
+                  "sample": "eligible-person-years-v1",
+                  "sample_policy": "available-case",
+                  "specification": "descriptive-demo-s1",
+                  "unit": "observations",
+                  "weights": {
+                    "kind": "none"
+                  }
+                },
+                "rows": [
+                  {
+                    "bin_high": 2,
+                    "bin_low": 0,
+                    "bin_mid": 1,
+                    "count": 1,
+                    "density": 0.125,
+                    "group": "A",
+                    "n": 4,
+                    "unit": "observations",
+                    "variable": "hours",
+                    "weight_sum": 4
+                  },
+                  {
+                    "bin_high": 4,
+                    "bin_low": 2,
+                    "bin_mid": 3,
+                    "count": 1,
+                    "density": 0.125,
+                    "group": "A",
+                    "n": 4,
+                    "unit": "observations",
+                    "variable": "hours",
+                    "weight_sum": 4
+                  },
+                  {
+                    "bin_high": 6,
+                    "bin_low": 4,
+                    "bin_mid": 5,
+                    "count": 1,
+                    "density": 0.125,
+                    "group": "A",
+                    "n": 4,
+                    "unit": "observations",
+                    "variable": "hours",
+                    "weight_sum": 4
+                  },
+                  {
+                    "bin_high": 8,
+                    "bin_low": 6,
+                    "bin_mid": 7,
+                    "count": 1,
+                    "density": 0.125,
+                    "group": "A",
+                    "n": 4,
+                    "unit": "observations",
+                    "variable": "hours",
+                    "weight_sum": 4
+                  },
+                  {
+                    "bin_high": 10,
+                    "bin_low": 8,
+                    "bin_mid": 9,
+                    "count": 0,
+                    "density": 0,
+                    "group": "A",
+                    "n": 4,
+                    "unit": "observations",
+                    "variable": "hours",
+                    "weight_sum": 4
+                  },
+                  {
+                    "bin_high": 2,
+                    "bin_low": 0,
+                    "bin_mid": 1,
+                    "count": 1,
+                    "density": 0.1,
+                    "group": "B",
+                    "n": 5,
+                    "unit": "observations",
+                    "variable": "hours",
+                    "weight_sum": 5
+                  },
+                  {
+                    "bin_high": 4,
+                    "bin_low": 2,
+                    "bin_mid": 3,
+                    "count": 1,
+                    "density": 0.1,
+                    "group": "B",
+                    "n": 5,
+                    "unit": "observations",
+                    "variable": "hours",
+                    "weight_sum": 5
+                  },
+                  {
+                    "bin_high": 6,
+                    "bin_low": 4,
+                    "bin_mid": 5,
+                    "count": 1,
+                    "density": 0.1,
+                    "group": "B",
+                    "n": 5,
+                    "unit": "observations",
+                    "variable": "hours",
+                    "weight_sum": 5
+                  },
+                  {
+                    "bin_high": 8,
+                    "bin_low": 6,
+                    "bin_mid": 7,
+                    "count": 1,
+                    "density": 0.1,
+                    "group": "B",
+                    "n": 5,
+                    "unit": "observations",
+                    "variable": "hours",
+                    "weight_sum": 5
+                  },
+                  {
+                    "bin_high": 10,
+                    "bin_low": 8,
+                    "bin_mid": 9,
+                    "count": 1,
+                    "density": 0.1,
+                    "group": "B",
+                    "n": 5,
+                    "unit": "observations",
+                    "variable": "hours",
+                    "weight_sum": 5
+                  }
+                ]
+              }
+            }
+          },
+          "kind": "table1",
+          "metadata": {
+            "denominator": "各変数で観測した個人年",
+            "group": {
+              "column": "group",
+              "levels": [
+                "A",
+                "B"
+              ],
+              "missing": "exclude"
+            },
+            "outcome": [
+              "hours",
+              "age"
+            ],
+            "period": "2020–2021",
+            "population": "架空の個人年データ",
+            "quantile_method": {
+              "probabilities": [
+                0.25,
+                0.75
+              ],
+              "type": 7
+            },
+            "sample": "eligible-person-years-v1",
+            "sample_policy": "available-case",
+            "specification": "descriptive-demo-s1",
+            "weights": {
+              "kind": "none"
+            }
+          },
+          "rows": [
+            {
+              "group": "A",
+              "mean": 3,
+              "median": 3,
+              "n": 4,
+              "n_missing": 1,
+              "n_missing_weight": 0,
+              "n_observed": 4,
+              "n_zero": 1,
+              "n_zero_weight": 0,
+              "q25": 1.5,
+              "q75": 4.5,
+              "sd": 2.58198889747161,
+              "unit": "hours_per_week",
+              "variable": "hours",
+              "weight_sum": 4
+            },
+            {
+              "group": "B",
+              "mean": 5,
+              "median": 5,
+              "n": 5,
+              "n_missing": 0,
+              "n_missing_weight": 0,
+              "n_observed": 5,
+              "n_zero": 0,
+              "n_zero_weight": 0,
+              "q25": 3,
+              "q75": 7,
+              "sd": 3.16227766016838,
+              "unit": "hours_per_week",
+              "variable": "hours",
+              "weight_sum": 5
+            },
+            {
+              "group": "A",
+              "mean": 23,
+              "median": 23,
+              "n": 4,
+              "n_missing": 1,
+              "n_missing_weight": 0,
+              "n_observed": 4,
+              "n_zero": 0,
+              "n_zero_weight": 0,
+              "q25": 21.5,
+              "q75": 24.5,
+              "sd": 2.58198889747161,
+              "unit": "years",
+              "variable": "age",
+              "weight_sum": 4
+            },
+            {
+              "group": "B",
+              "mean": 34,
+              "median": 34,
+              "n": 5,
+              "n_missing": 0,
+              "n_missing_weight": 0,
+              "n_observed": 5,
+              "n_zero": 0,
+              "n_zero_weight": 0,
+              "q25": 32,
+              "q75": 36,
+              "sd": 3.16227766016838,
+              "unit": "years",
+              "variable": "age",
+              "weight_sum": 5
+            }
+          ],
+          "sample_flow": {
+            "kind": "sample-flow",
+            "metadata": {
+              "denominator": "各変数で観測した個人年",
+              "group": {
+                "column": "group",
+                "levels": [
+                  "A",
+                  "B"
+                ],
+                "missing": "exclude"
+              },
+              "outcome": [
+                "hours",
+                "age"
+              ],
+              "period": "2020–2021",
+              "population": "架空の個人年データ",
+              "quantile_method": {
+                "probabilities": [
+                  0.25,
+                  0.75
+                ],
+                "type": 7
+              },
+              "sample": "eligible-person-years-v1",
+              "sample_policy": "available-case",
+              "specification": "descriptive-demo-s1",
+              "weights": {
+                "kind": "none"
+              }
+            },
+            "rows": [
+              {
+                "n": 12,
+                "stage": "input",
+                "unit": "records"
+              },
+              {
+                "n": 11,
+                "stage": "period",
+                "unit": "records"
+              },
+              {
+                "n": 10,
+                "stage": "groups",
+                "unit": "records"
+              },
+              {
+                "n": 10,
+                "stage": "available-case",
+                "unit": "records"
+              }
+            ]
+          },
+          "trends": {
+            "age": {
+              "kind": "trend",
+              "metadata": {
+                "denominator": "各変数で観測した個人年",
+                "group": {
+                  "column": "group",
+                  "levels": [
+                    "A",
+                    "B"
+                  ],
+                  "missing": "exclude"
+                },
+                "outcome": "age",
+                "period": "2020–2021",
+                "population": "架空の個人年データ",
+                "quantile_method": {
+                  "probabilities": [
+                    0.25,
+                    0.75
+                  ],
+                  "type": 7
+                },
+                "sample": "eligible-person-years-v1",
+                "sample_policy": "available-case",
+                "specification": "descriptive-demo-s1",
+                "unit": "years",
+                "weights": {
+                  "kind": "none"
+                }
+              },
+              "rows": [
+                {
+                  "group": "A",
+                  "mean": 23,
+                  "median": 23,
+                  "n": 2,
+                  "period": "2020",
+                  "q25": 21.5,
+                  "q75": 24.5,
+                  "sd": 4.24264068711928,
+                  "unit": "years",
+                  "variable": "age"
+                },
+                {
+                  "group": "A",
+                  "mean": 23,
+                  "median": 23,
+                  "n": 2,
+                  "period": "2021",
+                  "q25": 22.5,
+                  "q75": 23.5,
+                  "sd": 1.4142135623731,
+                  "unit": "years",
+                  "variable": "age"
+                },
+                {
+                  "group": "B",
+                  "mean": 34,
+                  "median": 34,
+                  "n": 2,
+                  "period": "2020",
+                  "q25": 33,
+                  "q75": 35,
+                  "sd": 2.82842712474619,
+                  "unit": "years",
+                  "variable": "age"
+                },
+                {
+                  "group": "B",
+                  "mean": 34,
+                  "median": 34,
+                  "n": 3,
+                  "period": "2021",
+                  "q25": 32,
+                  "q75": 36,
+                  "sd": 4,
+                  "unit": "years",
+                  "variable": "age"
+                }
+              ]
+            },
+            "hours": {
+              "kind": "trend",
+              "metadata": {
+                "denominator": "各変数で観測した個人年",
+                "group": {
+                  "column": "group",
+                  "levels": [
+                    "A",
+                    "B"
+                  ],
+                  "missing": "exclude"
+                },
+                "outcome": "hours",
+                "period": "2020–2021",
+                "population": "架空の個人年データ",
+                "quantile_method": {
+                  "probabilities": [
+                    0.25,
+                    0.75
+                  ],
+                  "type": 7
+                },
+                "sample": "eligible-person-years-v1",
+                "sample_policy": "available-case",
+                "specification": "descriptive-demo-s1",
+                "unit": "hours_per_week",
+                "weights": {
+                  "kind": "none"
+                }
+              },
+              "rows": [
+                {
+                  "group": "A",
+                  "mean": 2,
+                  "median": 2,
+                  "n": 2,
+                  "period": "2020",
+                  "q25": 1,
+                  "q75": 3,
+                  "sd": 2.82842712474619,
+                  "unit": "hours_per_week",
+                  "variable": "hours"
+                },
+                {
+                  "group": "A",
+                  "mean": 4,
+                  "median": 4,
+                  "n": 2,
+                  "period": "2021",
+                  "q25": 3,
+                  "q75": 5,
+                  "sd": 2.82842712474619,
+                  "unit": "hours_per_week",
+                  "variable": "hours"
+                },
+                {
+                  "group": "B",
+                  "mean": 5,
+                  "median": 5,
+                  "n": 2,
+                  "period": "2020",
+                  "q25": 4,
+                  "q75": 6,
+                  "sd": 2.82842712474619,
+                  "unit": "hours_per_week",
+                  "variable": "hours"
+                },
+                {
+                  "group": "B",
+                  "mean": 5,
+                  "median": 5,
+                  "n": 3,
+                  "period": "2021",
+                  "q25": 3,
+                  "q75": 7,
+                  "sd": 4,
+                  "unit": "hours_per_week",
+                  "variable": "hours"
+                }
+              ]
+            }
+          }
+        },
+        "engine": {
+          "R": "R version 4.3.3 (2024-02-29)",
+          "packages": {
+            "ggplot2": "4.0.3",
+            "jsonlite": "1.8.8",
+            "modelsummary": "2.6.0"
+          }
+        },
+        "method": "modelsummary descriptive statistics and ggplot2 saved display data",
+        "provenance": {
+          "data_sha256": "89b032f4973552d751a8b96fb8175b24c82fdb3306d533f2cdfa7f8a4121d081",
+          "r_script_sha256": "1ed159b6e296d955767662893c1a0cb951ee0ba74977c2e95f76fc9f05d73f40",
+          "rscript": "/usr/bin/Rscript",
+          "script_sha256": "516c2ed689ccd76e361133aa2c42e9632bbe78a75b1664efcf6e85604770aa8b",
+          "spec_sha256": "554c747082ce145691a17cc56bfca2cc94b343bb7231ffe4c759eba5140fdc12"
+        },
+        "result_id": "descriptive-demo-r01",
+        "sample": {
+          "id": "eligible-person-years-v1",
+          "row_ids": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          "status_counts": {
+            "age": {
+              "missing": 1,
+              "observed": 9
+            },
+            "hours": {
+              "missing": 1,
+              "observed": 9
+            }
+          }
+        },
+        "specification": "descriptive-demo-s1",
+        "statistics": {},
+        "status": "completed"
+      },
+      "versions": null
+    },
+    "main": {
+      "identity": {
+        "kind": "authored illustration",
+        "specification": "display-example-main"
+      },
+      "references": {},
+      "source_result": {
         "comparison": "Example group and example reference",
-        "period": "Relative periods -2 to 2",
-        "variables": {"outcome": "Illustrative outcome"},
-        "measurement_units": {"estimate": "percentage point"},
         "estimand": "Illustrative saved coefficient",
-        "inference": {"interval_level": 0.95, "method": "Authored endpoints", "clusters": []}
+        "inference": {
+          "clusters": [],
+          "interval_level": 0.95,
+          "method": "Authored endpoints"
+        },
+        "measurement_units": {
+          "estimate": "percentage point"
+        },
+        "observation_unit": "Illustrative group-period",
+        "period": "Relative periods -2 to 2",
+        "population": "Synthetic display example",
+        "sample": "Authored example cells",
+        "variables": {
+          "outcome": "Illustrative outcome"
+        }
+      }
+    },
+    "summary": {
+      "identity": {
+        "kind": "authored illustration",
+        "specification": "display-example-summary"
+      },
+      "references": {},
+      "source_result": {
+        "measurement_units": {
+          "count": "illustrative units"
+        },
+        "observation_unit": "Illustrative group",
+        "period": "Example period",
+        "population": "Synthetic display example",
+        "sample": "Authored example cells"
       }
     }
   },
-  "items": {
-    "sample-composition": {
-      "id": "sample-composition",
-      "title": "合成表示例：標本構成",
-      "kind": "sample_composition",
-      "result_ids": ["summary"],
-      "columns": [
-        {"key": "group", "label": "Group", "unit": ""},
-        {"key": "included", "label": "Included", "unit": "illustrative units"},
-        {"key": "excluded", "label": "Excluded", "unit": "illustrative units"}
-      ],
-      "rows": [
-        {"group": "Example A", "included": 120, "excluded": 8},
-        {"group": "Example B", "included": 135, "excluded": 0},
-        {"group": "Example C", "included": 95, "excluded": null}
-      ],
-      "metadata": {"example_type": "合成表示例", "analysis_execution": "none"},
-      "interpretation": "表示操作用に作成した合成表示例。数値は実証結果を表さない。",
-      "status": "example",
-      "links": {"tasks": [], "documents": ["examples/research-workspace/README.md"]},
-      "display": {
-        "title": "Synthetic display example: sample composition",
-        "plot_type": "table",
-        "x": "group",
-        "y": "included",
-        "width": 960,
-        "height": 420,
-        "notes": ["Authored display values; no data analysis or estimation.", "A dash denotes a missing saved cell; zero remains zero."]
-      }
-    },
-    "event-study": {
-      "id": "event-study",
-      "title": "合成表示例：イベントスタディと別仕様",
-      "kind": "event_study",
-      "result_ids": ["main", "alternative"],
-      "columns": [
-        {"key": "period", "label": "Relative period", "unit": "period"},
-        {"key": "series", "label": "Specification", "unit": ""},
-        {"key": "estimate", "label": "Saved estimate", "unit": "percentage point"},
-        {"key": "lower", "label": "Saved lower endpoint", "unit": "percentage point"},
-        {"key": "upper", "label": "Saved upper endpoint", "unit": "percentage point"}
-      ],
-      "rows": [
-        {"result_id": "main", "series": "Main", "period": -2, "estimate": -0.1, "lower": -0.4, "upper": 0.2},
-        {"result_id": "main", "series": "Main", "period": -1, "estimate": 0, "lower": 0, "upper": 0},
-        {"result_id": "main", "series": "Main", "period": 0, "estimate": 0.25, "lower": -0.05, "upper": 0.55},
-        {"result_id": "main", "series": "Main", "period": 1, "estimate": 0.55, "lower": 0.2, "upper": 0.9},
-        {"result_id": "main", "series": "Main", "period": 2, "estimate": 0.7, "lower": 0.3, "upper": 1.1},
-        {"result_id": "alternative", "series": "Alternative", "period": -2, "estimate": 0.05, "lower": -0.3, "upper": 0.4},
-        {"result_id": "alternative", "series": "Alternative", "period": -1, "estimate": 0, "lower": 0, "upper": 0},
-        {"result_id": "alternative", "series": "Alternative", "period": 0, "estimate": 0.2, "lower": -0.15, "upper": 0.55},
-        {"result_id": "alternative", "series": "Alternative", "period": 1, "estimate": 0.45, "lower": 0.05, "upper": 0.85},
-        {"result_id": "alternative", "series": "Alternative", "period": 2, "estimate": 0.6, "lower": 0.15, "upper": 1.05}
-      ],
-      "metadata": {"example_type": "合成表示例", "analysis_execution": "none"},
-      "interpretation": "表示操作用に作成した合成表示例。主仕様と別仕様の保存値を同じ図に表示する。実証結果を表さない。",
-      "status": "example",
-      "links": {"tasks": [], "documents": ["examples/research-workspace/README.md"]},
-      "display": {
-        "title": "Synthetic display example: event study",
-        "plot_type": "event_study",
-        "x": "period",
-        "y": "estimate",
-        "lower": "lower",
-        "upper": "upper",
-        "series": "series",
-        "visible_series": ["Main", "Alternative"],
-        "selected_result_ids": ["main", "alternative"],
-        "x_label": "Relative period",
-        "y_label": "Saved coefficient (percentage point)",
-        "colors": {"Main": "#245b8a", "Alternative": "#b4513b"},
-        "legend": true,
-        "legend_location": "upper left",
-        "width": 960,
-        "height": 540,
-        "notes": ["Authored display values and endpoints; no data analysis or estimation."]
-      }
-    }
-  }
+  "schema": "research-artifact-registry-v1",
+  "statistics": {}
 }
