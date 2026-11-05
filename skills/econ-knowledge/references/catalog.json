@@ -1,11 +1,11 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.43",
+  "version": "2.3.44",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
-  "unit_count": 253,
+  "unit_count": 254,
   "worked_example_unit_count": 39,
   "chapters": [
     {
@@ -229,7 +229,8 @@
         "TS-04",
         "TS-05",
         "TS-06",
-        "TS-07"
+        "TS-07",
+        "TS-08"
       ]
     },
     {
@@ -4105,6 +4106,38 @@
       "jel_codes": [
         "C58",
         "C22"
+      ],
+      "contract_ids": []
+    },
+    {
+      "id": "TS-08",
+      "title": "ベイズVAR：係数・革新共分散の同時推定と予測",
+      "chapter": 13,
+      "domain": "時系列",
+      "subdomain": "共役事後と多変量予測",
+      "kind": "knowledge",
+      "topic": "正規・逆Wishart事前のベイズ回帰とVAR",
+      "use_when": "複数の時系列の係数を縮小し、革新・係数・共分散を含む一期先の同時予測を計算する",
+      "inputs": [
+        "時系列とラグ、確定的な説明変数",
+        "行列正規事前の中心・行共分散",
+        "逆Wishartの自由度・尺度"
+      ],
+      "outputs": [
+        "係数と革新共分散の事後分布",
+        "多変量tの自由度・尺度・共分散",
+        "部分観測後の条件付き予測",
+        "解析解と事後予測シミュレーションの照合"
+      ],
+      "file": "chapters/13-time-series.md",
+      "anchor": "ts-08",
+      "concept_ids": [
+        "C-TS-08",
+        "C-CH-13"
+      ],
+      "jel_codes": [
+        "C11",
+        "C32"
       ],
       "contract_ids": []
     },
@@ -20016,6 +20049,45 @@
         "C65"
       ],
       "kind": "concept"
+    },
+    {
+      "id": "C-TS-08",
+      "preferred": {
+        "ja": "共役ベイズVARと多変量t予測",
+        "en": "conjugate Bayesian VAR and multivariate predictive regression"
+      },
+      "aliases": {
+        "ja": [
+          "ベイズVAR",
+          "ベイズ回帰の同時予測",
+          "逆Wishart",
+          "行列正規",
+          "事後予測分布",
+          "予測分布の自由度",
+          "条件付き多変量t"
+        ],
+        "en": [
+          "Bayesian vector autoregression",
+          "BVAR",
+          "conjugate multivariate regression",
+          "matrix normal inverse Wishart",
+          "multivariate Student t predictive",
+          "conditional multivariate t",
+          "posterior predictive covariance"
+        ]
+      },
+      "broader": [
+        "C-CH-13"
+      ],
+      "definition": {
+        "unit": "TS-08",
+        "anchor": "ts-08"
+      },
+      "jel_codes": [
+        "C11",
+        "C32"
+      ],
+      "kind": "concept"
     }
   ],
   "jel": {
@@ -30600,6 +30672,22 @@
         }
       ],
       "version": "2.3.42"
+    },
+    {
+      "id": "R-TS-03-TS-08",
+      "source": "TS-03",
+      "target": "TS-08",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "既定の多変量ラグ系を予測する目的で係数を事前分布に縮小する。構造ショックの識別には別の制約が必要。",
+      "evidence": [
+        {
+          "unit": "TS-08",
+          "anchor": "ts-08"
+        }
+      ],
+      "version": "2.3.44"
     }
   ],
   "model_contracts": [

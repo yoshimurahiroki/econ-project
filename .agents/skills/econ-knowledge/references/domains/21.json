@@ -104,7 +104,8 @@
         "TS-01"
       ],
       "related": [
-        "TS-02"
+        "TS-02",
+        "TS-08"
       ],
       "subdomain": "動学的ショック",
       "title": "VAR、SVAR、local projection",
@@ -257,6 +258,41 @@
       "title": "条件付き分散と金融系列",
       "topic": "金融収益の時変分散を推定する",
       "use_when": "金融収益の時変分散を推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "ts-08",
+      "chapter": 13,
+      "concept_ids": [
+        "C-TS-08",
+        "C-CH-13"
+      ],
+      "contract_ids": [],
+      "domain": "時系列",
+      "file": "chapters/13-time-series.md",
+      "id": "TS-08",
+      "inputs": [
+        "時系列とラグ、確定的な説明変数",
+        "行列正規事前の中心・行共分散",
+        "逆Wishartの自由度・尺度"
+      ],
+      "jel_codes": [
+        "C11",
+        "C32"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "係数と革新共分散の事後分布",
+        "多変量tの自由度・尺度・共分散",
+        "部分観測後の条件付き予測",
+        "解析解と事後予測シミュレーションの照合"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "共役事後と多変量予測",
+      "title": "ベイズVAR：係数・革新共分散の同時推定と予測",
+      "topic": "正規・逆Wishart事前のベイズ回帰とVAR",
+      "use_when": "複数の時系列の係数を縮小し、革新・係数・共分散を含む一期先の同時予測を計算する"
     }
   ]
 }
