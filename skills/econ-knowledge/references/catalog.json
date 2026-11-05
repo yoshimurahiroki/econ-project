@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.33",
+  "version": "2.3.34",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -6599,27 +6599,32 @@
       "subdomain": "変化率による反実仮想",
       "kind": "knowledge",
       "topic": "変化率による反実仮想",
-      "use_when": "関税・貿易費用の変更後に所得、税収と各国市場を清算する",
+      "use_when": "関税・貿易費用の変更後に所得、税収と各国市場を清算する。地域間の移住がある場合は品種数・交易・住宅費・実質所得を同時に決める",
       "inputs": [
         "国内・二国間取引シェア",
         "関税・輸送費と貿易弾力性",
         "所得・税収と収支の閉鎖",
-        "必要な産業間投入"
+        "必要な産業間投入",
+        "移住の可否・生産性・アメニティ・床面積"
       ],
       "outputs": [
         "政策後シェアと賃金",
         "政府税収と支出",
-        "市場残差と実質所得"
+        "市場残差と実質所得",
+        "地域人口の一意性条件と反実仮想の共通実質効用"
       ],
       "file": "chapters/25-trade-globalization.md",
       "anchor": "trade-04",
       "concept_ids": [
         "C-TRADE-04",
-        "C-CH-25"
+        "C-CH-25",
+        "C-MODEL-TRADE-MOBILITY"
       ],
       "jel_codes": [
         "F11",
-        "F14"
+        "F14",
+        "F12",
+        "R12"
       ],
       "contract_ids": []
     },
@@ -19665,6 +19670,41 @@
         "C25"
       ],
       "kind": "method"
+    },
+    {
+      "id": "C-MODEL-TRADE-MOBILITY",
+      "preferred": {
+        "en": "Helpman economic geography model",
+        "ja": "交易・移住・住宅の空間均衡"
+      },
+      "aliases": {
+        "en": [
+          "Helpman spatial equilibrium",
+          "Redding trade and geography",
+          "equilibrium populations",
+          "symmetric trade costs and population mobility"
+        ],
+        "ja": [
+          "均衡人口の一意性",
+          "人口配分の一意性",
+          "地域間交易費用",
+          "対称交易費用",
+          "交易と人口移動",
+          "品種数と住宅費"
+        ]
+      },
+      "broader": [
+        "C-TRADE-04"
+      ],
+      "definition": {
+        "unit": "TRADE-04",
+        "anchor": "trade-04"
+      },
+      "jel_codes": [
+        "F12",
+        "R12"
+      ],
+      "kind": "concept"
     }
   ],
   "jel": {
@@ -30167,6 +30207,22 @@
         }
       ],
       "version": "2.3.32"
+    },
+    {
+      "id": "R-SPATIAL-02-TRADE-04",
+      "source": "SPATIAL-02",
+      "target": "TRADE-04",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "地域間の交易と移住が同時に変わる場合は、住宅の清算に品種数・交易収支と実質効用均等を加える。",
+      "evidence": [
+        {
+          "unit": "TRADE-04",
+          "anchor": "trade-04"
+        }
+      ],
+      "version": "2.3.34"
     }
   ],
   "model_contracts": [

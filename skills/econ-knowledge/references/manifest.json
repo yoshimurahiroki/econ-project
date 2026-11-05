@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "2c62c0fa37c3d390042db1e5c764332b16714ee86ab3735f64045dbc81ab49b3",
+  "catalog_sha256": "a9e8366f87b8803961105b6b0eb43ee1cbd526f07053ed6069fb8408b7a6d903",
   "chapters": {
     "chapters/01-mathematics.md": "8db13c7d1f81901e72fcbd54480a246cb5669ca278791d00fb2d768d9cd9a3cd",
     "chapters/02-probability-statistics.md": "1322d90bb8a2f64b39fbd3a64be81291be0c7150411814f1cae4e4d28ec1c1e9",
@@ -25,7 +25,7 @@
     "chapters/22-labor-demography.md": "f240acd3e1155914479c3b80450caee7ffb1fa7626e2d5adc44fdbd67d4a2971",
     "chapters/23-public-economics.md": "ffe4b1e77305bd1ac8969728257dc37e2312e97397c728122170fe62c97579aa",
     "chapters/24-spatial-housing-transport.md": "679b50a3ae4da655d2e064bd60ae79f131a42c3d4c19e95e4c3459af7863eecc",
-    "chapters/25-trade-globalization.md": "f896af60d28235772e378b4637db0263a9e480c51df643ea8deb2a670d8c39bb",
+    "chapters/25-trade-globalization.md": "2c23bc4e9ad29c7a6884ef23897f1a2ac084969ef88d8cb1b52afd7df8d9d87b",
     "chapters/26-health-education.md": "06be2fefc8e29b8727651948b55e8eb496065c99864e0730e837594287066aa8",
     "chapters/27-development-agriculture.md": "8d68c5ae0fc1d54e5f21895d03fba9a62de40a485a9ce076ed3b7f2f47c644c6",
     "chapters/28-environment-energy.md": "cef9f134a3decc524af107f32b59c04bcc90628d0aaeca53a615abda77649cb2",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "1166777700ed1fc6fc87e8bb568f162c700a32497f58f26ba6d034d00f5bd3d5",
+  "domain_listing_sha256": "fdd6cc81782bcaa6fb51ed811968f3225cbf15370d73c56839a9a7e5a7c808fd",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -182,7 +182,7 @@
     "貿易": {
       "count": 6,
       "path": "domains/29.json",
-      "sha256": "e62bef51b6a0c4f062b2c9b510b2c69e517c3d87d795f03246dfb258459627c5"
+      "sha256": "578545bb511c0963b264d6bc902076955ea68af970f47f444075c97927baa1cc"
     },
     "資産価格": {
       "count": 6,
@@ -192,7 +192,7 @@
     "都市住宅交通": {
       "count": 6,
       "path": "domains/31.json",
-      "sha256": "451efcdfc38e9320c3e4ed8d074597e150de47d64bb4316f67170e71264c27dd"
+      "sha256": "ade65266e223a57cfa6629151011fb0e4adc310c3e885e3354e8c66fd1d961f9"
     },
     "金融財政開放": {
       "count": 6,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "9445bc9f9e9cbc02b666fadbf5ebb6057ca05c0bcdcdb262c00cf62765488652"
+      "sha256": "220166fed942fe1f99dded96435bba8416a506dfb837aa7e40e4ff0509e60fbb"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "82411306a7dd93527a0ef44f7ceb002dbae602253ccc5beb3508855a72e6602c"
+      "sha256": "8fd8ee4e1dd80aacd793a6034145e6ae81f7a2af53b6a10f229244aed79e9574"
     }
   },
   "spec_version": "knowledge-v2",
@@ -1639,7 +1639,7 @@
       "chapter": "chapters/25-trade-globalization.md",
       "domain": "貿易",
       "path": "units/TRADE-04.md",
-      "sha256": "0b8c2a8d65eb883ba3275bee27f06b8e5ab1e7275cf8a1dd48d5fbe178e41a62"
+      "sha256": "7f8896791b0b6f5cfbc4c4c66babc142ae73a4f7d2b0eef7c1a7401e94669fbf"
     },
     "TRADE-05": {
       "chapter": "chapters/25-trade-globalization.md",

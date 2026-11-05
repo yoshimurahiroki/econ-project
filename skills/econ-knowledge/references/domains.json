@@ -143,7 +143,7 @@
     {
       "domain": "貿易",
       "path": "domains/29.json",
-      "sha256": "e62bef51b6a0c4f062b2c9b510b2c69e517c3d87d795f03246dfb258459627c5"
+      "sha256": "578545bb511c0963b264d6bc902076955ea68af970f47f444075c97927baa1cc"
     },
     {
       "domain": "資産価格",
@@ -153,7 +153,7 @@
     {
       "domain": "都市住宅交通",
       "path": "domains/31.json",
-      "sha256": "451efcdfc38e9320c3e4ed8d074597e150de47d64bb4316f67170e71264c27dd"
+      "sha256": "ade65266e223a57cfa6629151011fb0e4adc310c3e885e3354e8c66fd1d961f9"
     },
     {
       "domain": "金融財政開放",

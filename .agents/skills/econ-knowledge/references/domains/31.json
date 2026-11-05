@@ -76,7 +76,9 @@
       "prerequisites": [
         "MICRO-01"
       ],
-      "related": [],
+      "related": [
+        "TRADE-04"
+      ],
       "subdomain": "都市労働住宅均衡",
       "title": "居住、通勤と住宅清算",
       "topic": "居住・勤務地の選択と住宅市場を清算する",
