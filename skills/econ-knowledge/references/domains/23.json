@@ -96,7 +96,8 @@
       ],
       "jel_codes": [
         "D31",
-        "D63"
+        "D63",
+        "I32"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -244,7 +245,8 @@
       ],
       "jel_codes": [
         "E01",
-        "C43"
+        "C43",
+        "I32"
       ],
       "kind": "worked_example",
       "outputs": [

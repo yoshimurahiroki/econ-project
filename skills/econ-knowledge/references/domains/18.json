@@ -58,7 +58,8 @@
       ],
       "jel_codes": [
         "D73",
-        "O43"
+        "O43",
+        "H26"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -74,7 +75,7 @@
       ],
       "subdomain": "政治的代理と国家能力",
       "title": "政治的代理と国家能力",
-      "topic": "政治的代理と国家能力",
+      "topic": "政治的代理と国家能力; 脱税と過少申告の監査; tax evasion and tax reporting",
       "use_when": "政治的代理と徴税執行を分析する"
     },
     {
@@ -180,7 +181,7 @@
       ],
       "jel_codes": [
         "O43",
-        "N10"
+        "N01"
       ],
       "kind": "knowledge",
       "outputs": [

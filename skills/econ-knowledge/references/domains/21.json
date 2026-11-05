@@ -204,7 +204,8 @@
       ],
       "jel_codes": [
         "C53",
-        "C11"
+        "C11",
+        "C32"
       ],
       "kind": "worked_example",
       "outputs": [

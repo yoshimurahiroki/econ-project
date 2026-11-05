@@ -88,7 +88,7 @@
     {
       "domain": "政治法制度",
       "path": "domains/18.json",
-      "sha256": "b5975e0feb6f4fba53e2e24ddfe30e27d87621a14dd0874ca981900fe491629a"
+      "sha256": "af79780771d1d801948297e1793202e7396cdcd557154b949e1bba0c8bfd75f2"
     },
     {
       "domain": "数値シミュレーション",
@@ -103,17 +103,17 @@
     {
       "domain": "時系列",
       "path": "domains/21.json",
-      "sha256": "daea78bccedd4396ad3bb723753631babba32cd205fedf14b71d0874aa4fa936"
+      "sha256": "751d485542c21dbc79bcf4058f72111126ca34c498bf3ad7ebfebcab14d5ca22"
     },
     {
       "domain": "構造推定",
       "path": "domains/22.json",
-      "sha256": "a057c6aa69868f635a67ffe746bdb9d5c3e7228f8a14e6ab634dc26b0ad32adf"
+      "sha256": "59f7e8a060986c8883af7caa899ac8b6001eda5856257c7dfe2528c027df48ae"
     },
     {
       "domain": "測定集計",
       "path": "domains/23.json",
-      "sha256": "2dca5731ce397b2085d835dfabf854864b88d4ab374920009b5f13d4e166c93e"
+      "sha256": "4f24141befcf397354eefcf3f144422aa57917a5fc202b8b985bf24747201745"
     },
     {
       "domain": "環境エネルギー",
@@ -148,7 +148,7 @@
     {
       "domain": "資産価格",
       "path": "domains/30.json",
-      "sha256": "e0031c651a19b355900e24c42358103f484856e3f40b7dd173965f4990dcc81f"
+      "sha256": "a5967a855d6cb20e41868ad8b4db1c4ddf4658df2f15541ec433311248627d3c"
     },
     {
       "domain": "都市住宅交通",
@@ -173,7 +173,7 @@
     {
       "domain": "革新歴史広告",
       "path": "domains/35.json",
-      "sha256": "fd00520bf617b27772e889dc00486cde0abd13959e19cd900782717384e6a9ae"
+      "sha256": "d0e5fcae8a1c7574f8249d1cfd08d8e376b6b3992393da5746226d5687ff7e51"
     }
   ],
   "spec_version": "knowledge-v2"

@@ -168,8 +168,9 @@
         "人口"
       ],
       "jel_codes": [
-        "N10",
-        "O43"
+        "D02",
+        "O43",
+        "N00"
       ],
       "kind": "knowledge",
       "outputs": [
