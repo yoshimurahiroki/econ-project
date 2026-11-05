@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "1f6772aed3993aeb27d8be1ba5a4378d5027b3504b903c265ec54c295bfb0632",
+  "catalog_sha256": "e43ea23af6b6b270980001c472098b927be6b605a178857377276654d529a791",
   "chapters": {
     "chapters/01-mathematics.md": "e6c08317522ed57b2885136185edcb7fb6b0af0076c72be1cbe4f58ece2d9a78",
     "chapters/02-probability-statistics.md": "639a09fe66f42747521e849060ba370094ba50eed3dc228bcdf3826f0acb6822",
@@ -28,7 +28,7 @@
     "chapters/25-trade-globalization.md": "2c23bc4e9ad29c7a6884ef23897f1a2ac084969ef88d8cb1b52afd7df8d9d87b",
     "chapters/26-health-education.md": "06be2fefc8e29b8727651948b55e8eb496065c99864e0730e837594287066aa8",
     "chapters/27-development-agriculture.md": "4e2bf9a32b063b22b1fa637025272d8a115def2e5079cf3ebbf725013265848c",
-    "chapters/28-environment-energy.md": "cef9f134a3decc524af107f32b59c04bcc90628d0aaeca53a615abda77649cb2",
+    "chapters/28-environment-energy.md": "c662b938e114f188418b9c3f5dda0a539a15599686ce69ce228e9ffe7ff9e6b0",
     "chapters/29-political-law-institutions.md": "ba6c55a883b073d29e7a45c921b077a4823f12e18e9b0d92fe6dc2c380ce566a",
     "chapters/30-innovation-history-marketing.md": "cb240cc4335d448db0bf8ee39a9d52cde38cb3df8e921ce7041146ca39da1274",
     "chapters/31-forecasting-decisions.md": "80371216783d421de653522e6c887e8096458b28f0b54f01ccf1434dbd43145b",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "b350f739dbee2614ea2d22b83959f39b3185a95817b9d3847acbfe25d52dbe59",
+  "domain_listing_sha256": "e5171792ac5e1f2fcdd3b13e041d9f805244d6010c6a36c34c7772a0645f67c1",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -157,7 +157,7 @@
     "環境エネルギー": {
       "count": 6,
       "path": "domains/24.json",
-      "sha256": "e7862f620958f3c852060525bc4181fb20bb6b5337118cabf923206c7632599c"
+      "sha256": "9e88d0edc685fedad266ea524d8868d42f349cf4a778969259e59cb941b88e39"
     },
     "産業組織": {
       "count": 7,
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "e787de1eb74dfd8c51d4f7b5a71713026fa6f923929dce0ec167d3535883e301"
+      "sha256": "7f70aba79ec313f88bb7d9cddee90cc34a6049a4e4fd7c7b4dc67753fe47cf3b"
     }
   },
   "spec_version": "knowledge-v2",
@@ -715,7 +715,7 @@
       "chapter": "chapters/28-environment-energy.md",
       "domain": "環境エネルギー",
       "path": "units/ENV-05.md",
-      "sha256": "2d85649c81ccf4ac3bb7be87be1bf720ede5b21405a2a091de394ca9387cfd70"
+      "sha256": "e35caae4bbf198efae965a9fabbbea8a0a261d2218d5fbd4636068b7d125fe45"
     },
     "ENV-06": {
       "chapter": "chapters/28-environment-energy.md",
