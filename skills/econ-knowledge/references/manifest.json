@@ -1,8 +1,8 @@
 {
-  "catalog_sha256": "33b3dbae11f81a3f39e0bcbb93a428ac1aef647631618e69e00a6fc4ad295871",
+  "catalog_sha256": "bbe70580d1fc4cd074951e46d348452f084cac9fe97e0085409d15606f059b5a",
   "chapters": {
     "chapters/01-mathematics.md": "e6c08317522ed57b2885136185edcb7fb6b0af0076c72be1cbe4f58ece2d9a78",
-    "chapters/02-probability-statistics.md": "adb1fd9c4be12c3601bd84605b1ce47cdff45debddfc475422ed64f8d2f50db8",
+    "chapters/02-probability-statistics.md": "639a09fe66f42747521e849060ba370094ba50eed3dc228bcdf3826f0acb6822",
     "chapters/03-microeconomics.md": "0f0a6bf8f008533943194b1aedb0259b93a1469dedeb7090c8454111c0d27ff5",
     "chapters/04-games.md": "4178a534a7edc94e8f8171c990fe3a3317532a663d180b6d18fe798f9d00ca1d",
     "chapters/05-information-behavior.md": "83ebd5711efc2cebc4dc8b2e2aa2d98e88605195af80a90cdc0338ae23209116",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "4bec6123e26cb29ae1f9f08175dc68eaab7535f8beac048f079c427f19ae8146",
+  "domain_listing_sha256": "9222f8053044bc8014cf1eadfa53f0520ccb1ce5e4cfad1b1559ae3c484bfbf6",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -170,9 +170,9 @@
       "sha256": "33646886f3171001bc59d3f40cf90c4da2917dd55a96d760d10f5fa761451165"
     },
     "確率統計": {
-      "count": 8,
+      "count": 9,
       "path": "domains/27.json",
-      "sha256": "d988ac507f4248b250926cf9e99e3662bc3f4dae611512fe5f000713b06aeb40"
+      "sha256": "306908ec52117e3c566e03bb424ba4aacab8958bf4170aaf32b51bb15d159fe2"
     },
     "計量": {
       "count": 10,
@@ -218,7 +218,7 @@
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "8b39635ea58fad572a14f112d4a979c434dbb9929c1b34f03599de51826a199c"
+      "sha256": "40229d87092c72d54eb6dcd76ce3e4e74c5a00892440d8826c2e395201b868ef"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
@@ -226,7 +226,7 @@
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "cb8c70a6049709133413fb44d64306785bb717c0029d2f0018a6940447062a46"
+      "sha256": "a7c9670e90df4760e330538021a6a2e3561e0a8ad11d2f7379b9c9c49657dc84"
     }
   },
   "spec_version": "knowledge-v2",
@@ -1586,6 +1586,12 @@
       "domain": "確率統計",
       "path": "units/STAT-08.md",
       "sha256": "8e1fe1297cd0a1f6b30c4c8d8e6bd689d4f18226e24d63e218919880717f3daf"
+    },
+    "STAT-09": {
+      "chapter": "chapters/02-probability-statistics.md",
+      "domain": "確率統計",
+      "path": "units/STAT-09.md",
+      "sha256": "ca0589b53a7d271deef66592a424c3706e485999abfa7592ef8cc2e11083ac55"
     },
     "STRUCT-01": {
       "chapter": "chapters/14-structural-estimation.md",

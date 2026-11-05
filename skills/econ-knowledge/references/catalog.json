@@ -1,11 +1,11 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.44",
+  "version": "2.3.45",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
-  "unit_count": 254,
+  "unit_count": 255,
   "worked_example_unit_count": 39,
   "chapters": [
     {
@@ -41,7 +41,8 @@
         "STAT-05",
         "STAT-06",
         "STAT-07",
-        "STAT-08"
+        "STAT-08",
+        "STAT-09"
       ]
     },
     {
@@ -1160,6 +1161,40 @@
       "jel_codes": [
         "C10",
         "C13"
+      ],
+      "contract_ids": []
+    },
+    {
+      "id": "STAT-09",
+      "title": "多変量の依存構造：正準相関、独立成分、順位尤度",
+      "chapter": 2,
+      "domain": "確率統計",
+      "subdomain": "線形の関連と分布全体の依存",
+      "kind": "knowledge",
+      "topic": "数値の尺度・独立性・順位情報から依存構造を選ぶ",
+      "use_when": "二つの変数群の線形関連、白色化後の独立成分、未知の周辺分布を持つ順序指標の依存を区別して推定する",
+      "inputs": [
+        "二群の観測または共分散",
+        "共通の調整変数",
+        "分散を正規化した混合成分",
+        "個体別の順位・同順位"
+      ],
+      "outputs": [
+        "正準相関とWilksのラムダ",
+        "正規尤度比と残差共分散",
+        "独立成分の符号・順序の識別",
+        "拡張順位尤度の積分領域"
+      ],
+      "file": "chapters/02-probability-statistics.md",
+      "anchor": "stat-09",
+      "concept_ids": [
+        "C-STAT-09",
+        "C-CH-02"
+      ],
+      "jel_codes": [
+        "C38",
+        "C14",
+        "C12"
       ],
       "contract_ids": []
     },
@@ -20088,6 +20123,50 @@
         "C32"
       ],
       "kind": "concept"
+    },
+    {
+      "id": "C-STAT-09",
+      "preferred": {
+        "ja": "多変量の依存構造と順位情報",
+        "en": "multivariate dependence, canonical correlation, ICA and rank likelihood"
+      },
+      "aliases": {
+        "ja": [
+          "正準相関",
+          "Wilksのラムダ",
+          "ホワイトニング",
+          "白色化",
+          "独立成分分析",
+          "コピュラ",
+          "同順位",
+          "拡張順位尤度",
+          "共分散だけで混合を識別"
+        ],
+        "en": [
+          "canonical correlation analysis",
+          "Wilks lambda",
+          "canonical roots",
+          "independent component analysis",
+          "ICA whitening",
+          "copula",
+          "extended rank likelihood",
+          "tied ordinal observations",
+          "Gaussian copula"
+        ]
+      },
+      "broader": [
+        "C-CH-02"
+      ],
+      "definition": {
+        "unit": "STAT-09",
+        "anchor": "stat-09"
+      },
+      "jel_codes": [
+        "C38",
+        "C14",
+        "C12"
+      ],
+      "kind": "concept"
     }
   ],
   "jel": {
@@ -30688,6 +30767,22 @@
         }
       ],
       "version": "2.3.44"
+    },
+    {
+      "id": "R-STAT-05-STAT-09",
+      "source": "STAT-05",
+      "target": "STAT-09",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "尤度比の一般原理を、共分散ブロックの制約または潜在順位の事象へ適用する。",
+      "evidence": [
+        {
+          "unit": "STAT-09",
+          "anchor": "stat-09"
+        }
+      ],
+      "version": "2.3.45"
     }
   ],
   "model_contracts": [
