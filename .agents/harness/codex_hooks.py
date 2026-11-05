@@ -2,7 +2,6 @@
 """Task callbacks, current instructions and attributable operation results."""
 import argparse
 import importlib.util
-import errno
 import json
 import os
 from pathlib import Path
@@ -10,7 +9,6 @@ import re
 import stat
 import shlex
 import shutil
-import subprocess
 import sys
 import unicodedata
 import uuid
@@ -143,7 +141,7 @@ def feedback(event, text):
 def failure(event, reason, repeated=False, failure_class='recoverable'):
     """A Stop continuation is never limited by count or stop_hook_active."""
     reason = 'Economics task check: ' + reason
-    if event in ('PreCompact', 'PostCompact', 'SessionStart'):
+    if event in ('PostCompact', 'SessionStart'):
         return {'continue': False, 'stopReason': reason, 'systemMessage': reason}
     if event == 'PreToolUse':
         return {'hookSpecificOutput': {'hookEventName': event, 'permissionDecision': 'deny',
@@ -189,12 +187,6 @@ def _finish(directory, status):
     save_record(directory / 'lifecycle.json', {'status': status})
 
 
-
-
-
-
-
-
 def _effective_request(directory):
     original = _read(directory / 'original-prompt.json')
     gate.require(isinstance(original, dict) and isinstance(original.get('text'), str)
@@ -205,8 +197,6 @@ def _effective_request(directory):
         if row['kind'] == 'amendment':
             text += '\n\n[User amendment ' + row['turn_id'] + ']\n' + row['text']
     return text.encode('utf-8')
-
-
 
 
 def _resolve_operation_binding(root, operation, conditions, profile):
@@ -302,8 +292,6 @@ def _operation_manifest(root, context, directory=None):
     return selected
 
 
-
-
 def bind_state(context_path, state_file, state_root, task_id):
     path = absolute(str(context_path))
     context = _read(path)
@@ -346,10 +334,12 @@ def bind_state(context_path, state_file, state_root, task_id):
                  for key in ('state_file', 'state_root', 'task_id')),
                  'bound task identity cannot be replaced by another state record')
     save_record(path, {**context, 'state_binding': binding})
+    retained = _read(directory / 'reinjection.json', {})
+    save_record(directory / 'reinjection.json', {**retained, 'instruction_policy_sha256': None})
     return binding
 
 
-def _bound_state(directory, root):
+def _bound_state(directory, root, *, check_sources=True):
     context = _read(directory / 'context.json', {})
     binding = context.get('state_binding')
     if binding is None:
@@ -375,38 +365,38 @@ def _bound_state(directory, root):
                          and message.get('hold_id') == release.get('hold_id')
                          and (message.get('message_id'), message.get('text')) in actual
                          and isinstance(release.get('evidence'), dict) and release['evidence']
-                         and not module.changed(state_root, release['evidence']),
+                         and (not check_sources or not module.changed(state_root, release['evidence'])),
                          'hold release does not match a saved actual user message and evidence')
     request_sha = binding['effective_request_sha256']
     gate.require(any(row.get('content_sha256') == request_sha and row.get('path')
-                     and module.digest(state_root / module.relative(state_root, row['path'])) == request_sha
+                     and (not check_sources or module.digest(state_root / module.relative(state_root, row['path'])) == request_sha)
                      for row in (task.get('task_context') or {}).get('request_refs', [])),
                  'state no longer binds the effective request source')
-    gate.require(task.get('authority') and not module.context_changes(state_root, task)
-                 and not module.effective_constraints(data['tasks'], task, state_root)['scope_errors'],
+    gate.require(task.get('authority') and (not check_sources or not module.context_changes(state_root, task))
+                 and not module.effective_constraints(data['tasks'], task, state_root if check_sources else None)['scope_errors'],
                  'state authority, instructions or scope require reconciliation')
     refs = (task.get('task_context') or {}).get('active_instruction_refs', [])
-    gate.require(refs and all(row.get('path') and module.digest(state_root / module.relative(state_root, row['path']))
-                              == row.get('content_sha256') for row in refs),
+    gate.require(refs and (not check_sources or all(row.get('path') and module.digest(state_root / module.relative(state_root, row['path']))
+                              == row.get('content_sha256') for row in refs)),
                  'bound instruction sources or versions require reconciliation')
     return module, data, task, state_root
 
 
-def _completion_task(directory, root):
+def _completion_task(directory, root, *, check_sources=True):
     """Use the existing hook context, without creating a local state store."""
     context = _read(directory / 'context.json', {})
     contract = context.get('completion_contract')
     if contract is None:
         return None
     module = sibling('hook_completion_state', root / 'harness/state.py')
-    gate.require(isinstance(contract, dict) and module.contract_current(Path(context['cwd']), contract)
+    gate.require(isinstance(contract, dict) and (not check_sources or module.contract_current(Path(context['cwd']), contract))
                  and contract.get('request_sha256') == gate.sha(_effective_request(directory)),
                  'completion requirements or original request need reconciliation')
-    outputs, actions = module.contract(Path(context['cwd']),
-        [json.dumps(row) for row in contract['required_outputs']],
-        [json.dumps(row) for row in contract['required_actions']])
-    gate.require(outputs == contract['required_outputs'] and actions == contract['required_actions'],
-                 'completion requirements are not normalized')
+    outputs, actions = contract['required_outputs'], contract['required_actions']
+    if check_sources:
+        normalized = module.contract(Path(context['cwd']),
+            [json.dumps(row) for row in outputs], [json.dumps(row) for row in actions])
+        gate.require(normalized == (outputs, actions), 'completion requirements are not normalized')
     scopes = sorted({row['target'] for row in outputs if row['kind'] == 'file'} |
                     {row['target_id'] for row in actions if row['target_kind'] == 'file'})
     task = {**contract, 'task_id': context['task_id'], 'parent': None, 'status': 'running',
@@ -416,7 +406,7 @@ def _completion_task(directory, root):
     return module, {'tasks': {task['task_id']: task}}, task, Path(context['cwd'])
 
 
-def _pending_task_holds(directory, bound):
+def _pending_task_holds(directory, bound, *, check_sources=True):
     holds = _read(directory / 'task-holds.json', [])
     if bound is None:
         return holds
@@ -433,7 +423,7 @@ def _pending_task_holds(directory, bound):
                     or message.get('source_task_id') != task['task_id']
                     or message.get('hold_id') != release.get('hold_id')
                     or not any(row.get('turn_id') == message.get('message_id') and row.get('text') == message.get('text')
-                               for row in messages) or module.changed(state_root, evidence)):
+                               for row in messages) or (check_sources and module.changed(state_root, evidence))):
                 continue
             record = task.get('hold_records', {}).get(release.get('hold_id'), {})
             identifiers = {release.get('hold_id')} | {value.split(':', 1)[-1] for value in record.get('targets', [])}
@@ -441,8 +431,6 @@ def _pending_task_holds(directory, bound):
         if not labels or released != labels:
             remaining.append(hold)
     return remaining
-
-
 
 
 def _ids(state):
@@ -466,179 +454,6 @@ def _ids(state):
     collect(requirements.get('unmet', []))
     collect([item for item in requirements.get('evaluations', []) if item.get('status') != 'pass'])
     return sorted(result)
-
-
-def _ordinary_candidate(module, task, state_root, message):
-    """Identify only required outputs using their current bytes or actual values."""
-    candidates = []
-    for requirement in task['required_outputs']:
-        kind, target = requirement['kind'], requirement['target']
-        identity = {'kind': kind, 'role': requirement['role'], 'target': target}
-        if kind == 'file':
-            path = state_root / module.relative(state_root, target, exists=False)
-            if path.is_file():
-                identity['content_sha256'] = module.digest(path)
-            elif path.exists():
-                raise ValueError('required output is not a regular file')
-            else:
-                identity['content_sha256'] = None
-        elif kind == 'message':
-            identity['content_sha256'] = gate.sha(message.encode('utf-8')) if isinstance(message, str) else None
-        elif kind == 'object':
-            row = task['outputs'].get(target, {})
-            identity['content_sha256'] = module.content_version(row) if row.get('kind') == 'object' else None
-        else:
-            raise ValueError('unknown required output kind')
-        candidates.append(identity)
-    return gate.sha(gate.canonical(candidates)) if candidates else None
-
-
-def _ordinary_attempt_state(root, directory, state, message):
-    """Use the bound task store's existing unmet contracts for ordinary Stop guidance."""
-    result = dict(state)
-    try:
-        bound = _bound_state(directory, root) or _completion_task(directory, root)
-        if bound is None:
-            return result
-        module, data, task, state_root = bound
-        result['candidate_file_sha256'] = _ordinary_candidate(module, task, state_root, message)
-        actions = list(result.get('needed_actions', []))
-        for item in module.missing_deliverables(state_root, task):
-            if item in ('explicit-completion-contract-required', 'contract-revision-or-evidence-changed'):
-                actions.append({'action': 'reconcile-task-contract', 'check_id': item})
-            elif isinstance(item, str):
-                actions.append({'action': 'satisfy-required-output', 'requirement_id': item})
-            elif isinstance(item, dict):
-                actions.append({'action': 'complete-required-action', **item})
-        for check in module.missing_checks(state_root, task):
-            actions.append({'action': 'complete-required-check', 'check_id': check})
-        result['needed_actions'] = actions
-    except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError):
-        # The existing Stop guard and restoration path retain the reconciliation failure.
-        pass
-    return result
-
-
-def _attempt_context(root, directory, state):
-    """Identify governing inputs, without hashing the mutable task store or tool payloads."""
-    try:
-        request = gate.sha(_effective_request(directory))
-        context = _read(directory / 'context.json', {})
-        binding = context.get('completion_contract')
-        if context.get('state_binding') is not None:
-            bound = _bound_state(directory, root)
-            module, data, task, _ = bound
-            keys = ('task_id', 'authority', 'task_context', 'required_outputs', 'required_actions',
-                    'required_checks', 'check_targets', 'scope', 'external_targets', 'holds',
-                    'hold_records', 'specification')
-            binding = [{key: owner.get(key) for key in keys}
-                       for owner in [task, *module.task_ancestors(data['tasks'], task)]]
-        return gate.sha(gate.canonical({'request': request, 'binding': binding,
-            'policy_id': state.get('policy_id'),
-            'policy_manifest_sha256': state.get('policy_manifest_sha256')}))
-    except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError):
-        # An unverified governing context cannot establish a repeat.
-        return None
-
-
-def _unmet_action_ids(state):
-    """Identify explicit unresolved action targets without saving their payloads."""
-    keys = ('target_kind', 'target_id', 'operation')
-    return sorted({gate.sha(gate.canonical({key: row[key] for key in keys}))
-                   for row in state.get('needed_actions', []) if isinstance(row, dict)
-                   and all(isinstance(row.get(key), str) and row[key] for key in keys)})
-
-
-def _condition_identity(state, candidate, context):
-    """Hash machine-readable condition and action keys, excluding free-form messages."""
-    ids = _ids(state)
-    fields = ('action', 'requirement_id', 'check_id', 'check', 'capability', 'role', 'id',
-              'path', 'operation', 'target_kind', 'target_id', 'capability_status')
-    actions = [{key: row[key] for key in fields if isinstance(row.get(key), str) and row[key]}
-               for row in state.get('needed_actions', []) if isinstance(row, dict)]
-    actions = [row for row in actions if row.get('action')]
-    if context is None or not (ids or actions):
-        return None
-    encoded = sorted({gate.canonical(row).decode('utf-8') for row in actions})
-    return gate.sha(gate.canonical({'context': context, 'candidate': candidate,
-                                    'unresolved_ids': ids, 'actions': encoded}))
-
-
-def _attempt(state, reason, previous=None, context_sha256=None):
-    """Only relevant, validator-consistent evidence can count as progress."""
-    actions = state.get('needed_actions') or [{'action': 'correct-failure-cause', 'reason': reason}]
-    checks = state.get('checks', {})
-    evidence = []
-    for value in checks.get('operation_results', []):
-        if value.get('status') in ('completed', 'passed', 'consistent'):
-            evidence.append('operation:' + gate.sha(gate.canonical(value)))
-    repairs = []
-    for key in ('failed_checks', 'missing_checks', 'unresolved'):
-        for row in checks.get(key, []):
-            identity = row.get('requirement_id') or row.get('check_id') or row.get('check') or key
-            matched = [action for action in actions if any(action.get(k) == identity for k in
-                       ('requirement_id', 'check_id', 'check'))]
-            repairs.append({'id': identity, 'cause': row.get('message') or row.get('reason') or key,
-                            'next_actions': matched or [{'action': 'correct-failure-cause', 'check_id': identity,
-                                'reason': row.get('message') or row.get('reason') or key}]})
-    if not repairs:
-        repairs = [{'id': identity, 'cause': reason, 'next_actions': actions}
-                   for identity in _ids(state) or ['hook-stop']]
-    current = {'schema_version': 2, 'status': 'blocked',
-               'candidate_sha256': state.get('candidate_file_sha256'),
-               'record_sha256': state.get('record_sha256'), 'unresolved_ids': _ids(state),
-               'next_actions': actions, 'failure_class': 'recoverable',
-               'evidence': sorted(evidence), 'reason': reason, 'progress': 'none',
-               'repair_plan': repairs,
-               'candidate_changed_recheck_required': False}
-    current['context_sha256'] = context_sha256
-    current['unresolved_action_ids'] = _unmet_action_ids(state)
-    current['condition_sha256'] = _condition_identity(state, current['candidate_sha256'], context_sha256)
-    current['condition_history'] = []
-    current['repeated_unresolved_conditions'] = False
-    if previous is not None and previous.get('schema_version') == 2:
-        same_context = (context_sha256 is not None and previous.get('context_sha256') == context_sha256)
-        if same_context:
-            if (current['candidate_sha256'] != previous.get('candidate_sha256')
-                    and (previous.get('unresolved_ids') or previous.get('condition_sha256'))):
-                current['candidate_changed_recheck_required'] = True
-            elif (set(previous.get('unresolved_ids', [])) - set(current['unresolved_ids'])
-                  or set(previous.get('unresolved_action_ids', [])) - set(current['unresolved_action_ids'])):
-                current['progress'] = 'unresolved-condition-satisfied'
-            elif set(current['evidence']) - set(previous.get('evidence', [])):
-                current['progress'] = 'relevant-validated-evidence-added'
-            # A changed record or submission by itself does not establish progress.
-            if current['progress'] == 'none' and not current['candidate_changed_recheck_required']:
-                current['condition_history'] = list(previous.get('condition_history', []))
-                identity = current['condition_sha256']
-                current['repeated_unresolved_conditions'] = bool(identity and identity in current['condition_history'])
-    identity = current['condition_sha256']
-    if identity:
-        history = [value for value in current['condition_history'] if value != identity]
-        current['condition_history'] = (history + [identity])[-16:]
-    return current
-
-
-def _previous(path):
-    value = _read(path)
-    if value is None:
-        return None
-    gate.require(isinstance(value, dict), 'invalid hook attempt record')
-    if set(value) == {'failures'}:
-        gate.require(type(value['failures']) is int and value['failures'] >= 0, 'invalid legacy hook attempts')
-        return None  # Read conversion; old counts have no stopping semantics.
-    gate.require(value.get('schema_version') == 2, 'unsupported hook attempt schema')
-    if 'condition_history' in value:
-        history = value['condition_history']
-        gate.require(isinstance(history, list) and len(history) <= 16
-                     and all(gate.hexhash(item) for item in history), 'invalid hook condition history')
-    for key in ('context_sha256', 'condition_sha256'):
-        gate.require(value.get(key) is None or gate.hexhash(value[key]), 'invalid hook condition identity')
-    if 'unresolved_action_ids' in value:
-        gate.require(isinstance(value['unresolved_action_ids'], list)
-                     and all(gate.hexhash(item) for item in value['unresolved_action_ids']),
-                     'invalid hook unresolved action identities')
-    return value
 
 
 def _policy_snapshot(root, directory=None, context=None):
@@ -666,21 +481,6 @@ def _policy_snapshot(root, directory=None, context=None):
     return result
 
 
-def _instructions(root, state, manifest=None, stage=None, role=None, reader_id=None, *, detailed=True,
-                  directory=None):
-    policy, owner, _, current, _ = _policy_snapshot(root, directory)
-    gate.require(Path(policy.__file__).absolute() == (root / 'harness/policy_assets.py').absolute(),
-                 'hook policy module does not belong to this runtime')
-    gate.require(manifest is None or manifest['policy_id'] == current['policy_id'], 'adopted policy version changed')
-    manifest = manifest or current
-    state = {**state, 'unmet_ids': _ids(state)}
-    packet = policy.instruction_context(owner, manifest=manifest, status=state,
-                                        stage=stage, role=role, reader_id=reader_id)
-    gate.require(isinstance(packet, dict) and isinstance(packet.get('text'), str)
-                 and packet['text'].strip(), 'shared instruction context is unavailable')
-    return packet['text'] if detailed else packet['short_text']
-
-
 def _restoration(root, directory, state, manifest=None):
     """Restore fixed inputs, never a generated substitute for the host prompt."""
     context = _read(directory / 'context.json', {})
@@ -696,6 +496,8 @@ def _restoration(root, directory, state, manifest=None):
                  'hook policy module does not belong to this runtime')
     gate.require(manifest is None or manifest['policy_id'] == current['policy_id'], 'adopted policy version changed')
     selected = _operation_manifest(root, context, directory)
+    source_versions = {str(owner / row['path']): row['sha256']
+                       for row in (selected or current)['assets'].values()}
     packet = policy.instruction_context(owner, manifest=manifest or selected or current,
         status={**state, 'request_sha256': gate.sha(request.encode('utf-8')), 'unmet_ids': _ids(state)},
         request_text=request, restore=True, role='author', reader_id=state.get('author_id'))
@@ -768,12 +570,13 @@ def _restoration(root, directory, state, manifest=None):
                     name = module.relative(state_root, ref['path'])
                     raw = gate.regular_bytes(state_root / name)
                     gate.require(gate.sha(raw) == ref['content_sha256'], 'bound governing source changed: ' + name)
+                    source_versions[str(state_root / name)] = ref['content_sha256']
                     if ref['content_sha256'] not in included:
                         text += '\n\n[Bound governing source: ' + name + ']\n' + raw.decode('utf-8')
                         included.add(ref['content_sha256'])
     _, _, policy_raw, _, _ = _policy_snapshot(root, directory, context)
     reinjection = _read(directory / 'reinjection.json', {})
-    reinjection.update(instruction_policy_sha256=gate.sha(policy_raw),
+    reinjection.update(instruction_policy_sha256=gate.sha(policy_raw), instruction_sources=source_versions,
                        instruction_binding_sha256=gate.sha(gate.canonical(context.get('operation_binding'))))
     save_record(directory / 'reinjection.json', reinjection)
     return text
@@ -792,7 +595,7 @@ def _changed(directory, state):
     saved = {'state_sha256': signature, 'raw_task_state_sha256': state.get('task_state_sha256')}
     if 'compactions' in old:
         saved['compactions'] = old['compactions']
-    for key in ('policy_verification', 'instruction_policy_sha256', 'instruction_binding_sha256'):
+    for key in ('policy_verification', 'instruction_policy_sha256', 'instruction_binding_sha256', 'instruction_sources'):
         if key in old:
             saved[key] = old[key]
     if saved != old:
@@ -830,224 +633,6 @@ def _relevant_state_hash(data, task):
     return gate.sha(gate.canonical(relevant))
 
 
-def _authorized_settings(directory, module, task):
-    """Read only the operator's existing task configuration, never imported facts."""
-    reader = getattr(module, 'optimization_settings', None)
-    return reader(task) if callable(reader) else {}
-
-
-def _feature_enabled(directory, module, task, name):
-    settings = _authorized_settings(directory, module, task)
-    features = settings.get('features') or {}
-    return settings.get('enabled') is True and features.get(name) is True
-
-
-def _experience_hint(root, directory, bound, event):
-    """Return optional pending-tool feedback and an honest operational status."""
-    if bound is None:
-        return '', None
-    module, data, task, state_root = bound
-    try:
-        settings = _authorized_settings(directory, module, task)
-        if not (settings.get('enabled') is True and (settings.get('features') or {}).get('experience') is True):
-            return '', None
-        plan = settings.get('experience_plan')
-        if plan is None:
-            return '', {'status': 'no-plan', 'delivery': 'not-emitted'}
-        binding = _read(directory / 'context.json')['state_binding']
-        store = Path(binding['state_file']).relative_to(state_root).as_posix()
-        experience = sibling('hook_experience', root / 'harness/experience.py')
-        result = experience.automatic_feedback(state_root, store, data['tasks'], task['task_id'], plan, event)
-        presentation = result.get('presentation') if isinstance(result, dict) else None
-        status = result.get('status') if isinstance(result, dict) else None
-        if (not isinstance(status, str) or not isinstance(presentation, list)
-                or not all(isinstance(item, str) for item in presentation)):
-            return '', {'status': 'invalid-feedback-result', 'delivery': 'not-emitted'}
-        hint = '\n'.join(presentation)
-        record = {'status': status, 'delivery': 'prepared-pending-host-delivery' if hint else 'not-emitted'}
-        if gate.hexhash(result.get('fact_version')):
-            record['fact_version'] = result['fact_version']
-        return hint, record
-    except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError) as exc:
-        # Preserve the authority decision while recording the optional feature failure.
-        return '', {'status': 'internal-error', 'error_type': type(exc).__name__, 'delivery': 'not-emitted'}
-
-
-def _diagnostic_identity(response):
-    """Hash a specific observed failure while preserving diagnostic numbers and locations."""
-    if not isinstance(response, dict):
-        return None
-    text = response.get('output') or response.get('error') or response.get('stderr')
-    if not isinstance(text, str):
-        return None
-    if not re.search(r'(?i)\berror\b|exception|failed|failure|\b\w+Error\b', text):
-        return None
-    lines = [line.strip() for line in text.splitlines()
-             if re.search(r'(?i)(?:\d|\b(?:error|exception|failed|failure)\b|\b\w+Error\b)', line)]
-    if not lines:
-        return None
-    text = '\n'.join(lines)
-    text = re.sub(r'\b\d{4}-\d\d-\d\d[T ][0-9:.+-]+Z?\b', '<time>', text)
-    text = re.sub(r'(?<!\w)/tmp/[^\s:]+', '<temporary>', text)
-    return gate.sha(text.encode('utf-8'))
-
-
-def _preflight_key(event):
-    keys = ('session_id', 'turn_id', 'tool_use_id')
-    if all(isinstance(event.get(key), str) and event[key] for key in keys):
-        return gate.sha(gate.canonical({key: event[key] for key in keys}))
-    return None
-
-
-def _target_version(target, cwd):
-    """Return a version only for an actual regular file inside the task root."""
-    try:
-        path, root = absolute(str(target)), absolute(str(cwd))
-        path.relative_to(root)
-        if not path.exists():
-            return {'known': True, 'sha256': None}
-        gate.require(path.is_file(), 'edit target is not a regular file')
-        flags = os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0)
-        fd = os.open(path, flags)
-        with os.fdopen(fd, 'rb') as stream:
-            before = os.fstat(stream.fileno())
-            gate.require(stat.S_ISREG(before.st_mode), 'nonregular edit target')
-            import hashlib
-            digest = hashlib.sha256()
-            for chunk in iter(lambda: stream.read(1024 * 1024), b''):
-                digest.update(chunk)
-            after = os.fstat(stream.fileno())
-            current = os.stat(path, follow_symlinks=False)
-            fields = ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns', 'st_mode')
-            gate.require(all(getattr(before, key) == getattr(after, key) == getattr(current, key)
-                             for key in fields), 'edit target changed while reading')
-        return {'known': True, 'sha256': digest.hexdigest()}
-    except (OSError, ValueError):
-        return {'known': False, 'sha256': None}
-
-
-def _saved_check_return(event, module, task, directory):
-    """Match an actual terminal producer return to the existing check-run record."""
-    response = event.get('tool_response')
-    output = response.get('output') if isinstance(response, dict) else None
-    if not isinstance(output, str):
-        return None
-    try:
-        result = json.loads(output)
-    except ValueError:
-        return None
-    if (not isinstance(result, dict) or result.get('command') != 'run-check'
-            or result.get('task_id') != task.get('task_id')
-            or str(event.get('tool_name', '')).rsplit('__', 1)[-1].split('.')[-1] != 'exec_command'):
-        return None
-    try:
-        binding = _read(directory / 'context.json')['state_binding']
-        root = Path(binding['state_root'])
-        store = Path(binding['state_file']).relative_to(root).as_posix()
-        args = event.get('tool_input') or {}
-        native = {'call_args_text': json.dumps({'cmd': args.get('cmd'),
-                    'workdir': args.get('workdir') or event.get('cwd')}),
-                  'return_text': json.dumps(response)}
-        if module._check_wrapper(root, store, task['task_id'], result.get('check_id'), native) != result:
-            return None
-    except (OSError, ValueError, TypeError, KeyError):
-        return None
-    for check in task.get('check_runs', []):
-        if (check.get('run_id') != result.get('run_id') or check.get('check_id') != result.get('check_id')
-                or check.get('producer_sha256') != result.get('producer_sha256')
-                or check.get('status') != result.get('status')):
-            continue
-        body = {key: value for key, value in check.items() if key != 'producer_sha256'}
-        if module.content_hash(body) != check['producer_sha256']:
-            continue
-        return check
-    return None
-
-
-def _observation(event, directory, module, task, prior=()):
-    """Build a sanitized callback observation without inferring terminal success."""
-    tool = str(event['tool_name']).rsplit('__', 1)[-1].split('.')[-1].lower()
-    args = event.get('tool_input') if isinstance(event.get('tool_input'), dict) else {}
-    response = event.get('tool_response')
-    response = response if isinstance(response, dict) else {}
-    process = args.get('session_id') if tool == 'write_stdin' else response.get('session_id')
-    process_sha = gate.sha(str(process).encode()) if isinstance(process, (str, int)) else None
-    exit_code = response.get('exit_code') if type(response.get('exit_code')) is int else None
-    failed = _tool_failed(event)
-    connector = event.get('tool_name') in {'mcp__codex_apps__github_update_ref',
-                                           'mcp__codex_apps__plugin_creator_update_plugin'}
-    if (exit_code is not None or failed or
-            connector and isinstance(event.get('tool_response'), dict)):
-        phase = 'terminal'
-        outcome = 'failed' if failed else 'success'
-    elif process_sha:
-        phase, outcome = 'launch' if tool != 'write_stdin' else 'pending', 'unknown'
-    elif response.get('isError') is False or response.get('success') is True:
-        phase, outcome = 'terminal', 'success'
-    else:
-        phase, outcome = 'unknown', 'unknown'
-    event_sha = gate.sha(event['tool_use_id'].encode('utf-8'))
-    session_sha = gate.sha(event['session_id'].encode('utf-8'))
-    turn_sha = gate.sha(event['turn_id'].encode('utf-8'))
-    launch = next((row for row in reversed(prior) if process_sha and row.get('process_sha256') == process_sha
-                   and row.get('phase') == 'launch' and row.get('host_session_sha256') == session_sha
-                   and row.get('turn_sha256') == turn_sha), None)
-    operation_args = {key: value for key, value in args.items()
-                      if key not in {'yield_time_ms', 'max_output_tokens'}}
-    operation_sha = (launch.get('operation_sha256') if launch and tool == 'write_stdin' else
-                     gate.sha(gate.canonical({'tool': tool, 'input': operation_args})))
-    context_sha = module.context_id(task)
-    input_sha = gate.sha(gate.canonical({'consumed_inputs': task.get('consumed_inputs'),
-        'read_dependencies': task.get('read_dependencies'), 'consumes': task.get('consumes'),
-        'dependency_versions': task.get('dependency_versions'), 'specification': task.get('specification')}))
-    before = _read(directory / 'preflight' / ((_preflight_key(event) or '') + '.json'), {})
-    edits = []
-    if outcome == 'success' and before.get('source') == 'PreToolUse':
-        for target in before.get('edit_targets', []):
-            after = _target_version(target['path'], event['cwd'])
-            if target.get('version', {}).get('known') and after['known'] and target['version']['sha256'] != after['sha256']:
-                edits.append(gate.sha(target['path'].encode('utf-8')))
-    check = _saved_check_return(event, module, task, directory)
-    if check is not None:
-        phase, outcome = 'terminal', 'failed' if check.get('status') == 'failed' else 'success'
-        try:
-            stdout = bytes.fromhex(check['stdout_hex'])
-            stderr = bytes.fromhex(check['stderr_hex'])
-            gate.require(gate.sha(stdout) == check['stdout_sha256'] and gate.sha(stderr) == check['stderr_sha256'],
-                         'saved check output changed')
-            reason = check.get('failure_reason')
-            diagnostic = {'output': ('Saved check failure: ' + reason + '\n' if reason else '')
-                          + (stdout + b'\n' + stderr).decode('utf-8', errors='replace')}
-        except (ValueError, TypeError, KeyError):
-            diagnostic = {}
-    else:
-        diagnostic = response
-    cause = _diagnostic_identity(diagnostic) if outcome == 'failed' else None
-    try:
-        root = Path(event['cwd'])
-        checks = [{'kind': 'check', 'value': item} for item in module.missing_checks(root, task)]
-        deliverables = [{'kind': 'deliverable', 'value': item} for item in module.missing_deliverables(root, task)]
-        unresolved = sorted(gate.sha(gate.canonical(item)) for item in checks + deliverables)
-    except (OSError, ValueError, TypeError, KeyError):
-        unresolved = None
-    preflight_path = directory / 'preflight' / (gate.sha(gate.canonical(event)) + '.json')
-    source = None
-    if preflight_path.is_file():
-        source = {'path': str(preflight_path), 'sha256': gate.sha(gate.regular_bytes(preflight_path))}
-    return {'schema_version': 1, 'source': 'PostToolUse', 'host_session_sha256': session_sha,
-        'turn_sha256': turn_sha, 'event_sha256': event_sha, 'task_id': task['task_id'],
-        'context_sha256': context_sha, 'input_sha256': input_sha, 'tool': tool,
-        'process_sha256': process_sha, 'launch_event_sha256': launch.get('event_sha256') if launch else None,
-        'phase': phase, 'outcome': outcome, 'terminal_exit': exit_code,
-        'call_sha256': gate.sha(gate.canonical(args)), 'return_sha256': gate.sha(gate.canonical(event.get('tool_response'))),
-        'producer_event_sha256': gate.sha(gate.canonical(event)), 'operation_sha256': operation_sha,
-        'diagnostic_sha256': cause, 'edited_file_sha256': edits, 'unresolved_checks': unresolved,
-        'check_source': ({'check_id': check['check_id'], 'run_id': check['run_id'],
-                          'producer_sha256': check['producer_sha256']} if check else None),
-        'source_preflight': source, 'source_evidence': None, 'provenance_authenticated': False,
-        'observed_at': datetime.now(timezone.utc).isoformat()}
-
-
 def _hook_usage_source(module, task, item, directory):
     """Match an imported fact to its saved hook-owned source and task binding."""
     identity, operation = item.get('identity') or {}, item.get('operation') or {}
@@ -1083,81 +668,6 @@ def _hook_usage_source(module, task, item, directory):
         except (OSError, ValueError, TypeError, KeyError, AttributeError):
             continue
     return None
-
-
-def _prior_hook_observations(task, session_sha, turn_sha, directory, module):
-    """Use only observations retained by the existing usage importer."""
-    rows = []
-    for item in task.get('usage', []):
-        identity, operation = item.get('identity') or {}, item.get('operation') or {}
-        if (item.get('usage_contract') != 3 or identity.get('source_id') != 'codex-hook-preflight'
-                or identity.get('session_id') != session_sha or item.get('turn_id') != turn_sha):
-            continue
-        if _hook_usage_source(module, task, item, directory) is None:
-            continue
-        rows.append({'event_sha256': identity.get('event_id'), 'host_session_sha256': session_sha,
-                     'turn_sha256': turn_sha, 'process_sha256': operation.get('process_id'),
-                     'phase': 'launch' if operation.get('phase') == 'started' else operation.get('phase'),
-                     'operation_sha256': operation.get('operation_sha256'), 'sequence': item.get('sequence', 0)})
-    return sorted(rows, key=lambda row: row['sequence'])
-
-
-def _hook_usage_row(event, directory, module, task):
-    session = gate.sha(event['session_id'].encode('utf-8'))
-    turn = gate.sha(event['turn_id'].encode('utf-8'))
-    prior = _prior_hook_observations(task, session, turn, directory, module)
-    observation = _observation(event, directory, module, task, prior)
-    phase = {'launch': 'started', 'pending': 'pending', 'terminal': 'terminal'}.get(observation['phase'], 'unknown')
-    status = {'success': 'success', 'failed': 'failure'}.get(observation['outcome'],
-             'pending' if phase in {'started', 'pending'} else 'unknown')
-    event_id = gate.sha(gate.canonical([session, turn, observation['event_sha256']]))
-    checks = observation['unresolved_checks']
-    operation = {'tool': observation['tool'] if len(observation['tool']) <= 256 else None,
-        'call_id': observation['event_sha256'],
-        'stage': ('check:' + gate.sha(observation['check_source']['check_id'].encode('utf-8'))
-                  if observation['check_source'] else 'operation:' + observation['operation_sha256']), 'phase': phase, 'status': status,
-        'exit_code': observation['terminal_exit'], 'process_id': observation['process_sha256'],
-        'call_sha256': observation['call_sha256'], 'return_sha256': observation['return_sha256'],
-        'context_sha256': observation['context_sha256'], 'input_sha256': observation['input_sha256'],
-        'operation_sha256': observation['operation_sha256'], 'diagnostic_sha256': observation['diagnostic_sha256'],
-        'edited_file_sha256': observation['edited_file_sha256'],
-        'unresolved_check_sha256': checks,
-        'launch_event_sha256': observation['launch_event_sha256'],
-        'effects_sha256': gate.sha(gate.canonical(observation['edited_file_sha256'])) if observation['edited_file_sha256'] else None}
-    return {'type': 'usage.observed', 'source_id': 'codex-hook-preflight', 'session_id': session,
-            'turn_id': turn, 'event_id': event_id, 'operation': operation}
-
-
-def _import_hook_observation(event, root, directory):
-    """Import the already-written preflight record using the existing state owner."""
-    source = directory / 'preflight' / (gate.sha(gate.canonical(event)) + '.json')
-    preflight = _read(source, {})
-    row = preflight.get('usage_observation')
-    if not isinstance(row, dict):
-        return None
-    bound = _bound_state(directory, root)
-    if bound is None:
-        return None
-    module, _, task, state_root = bound
-    if not _feature_enabled(directory, module, task, 'loops'):
-        return None
-    for old in task.get('usage', []):
-        if (old.get('identity') or {}).get('event_id') == row['event_id']:
-            gate.require(old.get('operation') == module.usage_operation(row['operation']),
-                         'conflicting callback identity requires reconciliation')
-            return row, False
-    prior = _prior_hook_observations(task, row['session_id'], row['turn_id'], directory, module)
-    sequence = max((item['sequence'] for item in prior), default=-1) + 1
-    binding = _read(directory / 'context.json')['state_binding']
-    store = Path(binding['state_file']).relative_to(state_root).as_posix()
-    epoch = 'hook-' + row['turn_id']
-    command = [sys.executable, '-B', str(root / 'harness/state.py'), '--root', str(state_root),
-               '--store', store, 'usage', task['task_id'], '--jsonl', str(source),
-               '--source-format', 'usage-event', '--counter-mode', 'observation',
-               '--epoch', epoch, '--sequence', str(sequence)]
-    result = subprocess.run(command, cwd=state_root, capture_output=True, text=True)
-    gate.require(result.returncode == 0, 'state observation importer failed: ' + result.stderr.strip()[:500])
-    return row, True
 
 
 def focus_saved_check(module, task, check_id, *, run_id=None, view='selected', offset=0, limit=100):
@@ -1328,30 +838,6 @@ def _completed_turn_lengths(module, data, task, directory, state_root):
     return lengths
 
 
-def _pending_loop_advice(event, row, bound, directory):
-    module, data, task, state_root = bound
-    rows = [item for item, _ in _verified_loop_rows(module, task, directory, row['session_id'], row['turn_id'])]
-    sequence = max((item.get('sequence', 0) for item in rows), default=-1) + 1
-    proposed = {'identity': {'event_id': row['event_id']}, 'operation': row['operation'], 'sequence': sequence, 'index': 0}
-    # The inexpensive conjunction must hold before scanning completed-turn evidence.
-    quick = evaluate_loop(rows + [proposed], [1, 1, 1, 1, 1])
-    if not quick['candidate'] or quick['already_attempted']:
-        return None
-    outcome = evaluate_loop(rows + [proposed], _completed_turn_lengths(module, data, task, directory, state_root))
-    if (not outcome['candidate'] or outcome['already_attempted']
-            or outcome['selected_event_id'] != row['event_id']):
-        return None
-    check = _saved_check_return(event, module, task, directory)
-    if check is not None and check.get('status') == 'failed':
-        row['operation']['opportunity'] = True
-        return {'assessment': outcome, 'check_id': check['check_id'], 'run_id': check['run_id'],
-                'producer_sha256': check['producer_sha256']}
-    if row['operation'].get('diagnostic_sha256') is None:
-        return None
-    row['operation']['opportunity'] = True
-    return {'assessment': outcome, 'callback_diagnostic_sha256': row['operation']['diagnostic_sha256']}
-
-
 def _tool_failed(event):
     """A returned failure selects more instruction detail."""
     returned = event.get('tool_response')
@@ -1372,8 +858,6 @@ def _tool_failed(event):
     return (returned.get('isError') is True or returned.get('success') is False
             or bool(returned.get('error'))
             or (type(returned.get('exit_code')) is int and returned['exit_code'] != 0))
-
-
 
 
 def _coordinator(directory):
@@ -1496,14 +980,6 @@ def _stop_requested(prompt, task_id=None):
         if re.match(r'^stop\s+(?:working|running|continuing|processing)\b', command):
             return whole()
     return result
-
-
-
-
-
-
-
-
 
 
 def _pending_parent_returns(directory):
@@ -1753,8 +1229,6 @@ def _child(event, root, directory, state, manifest):
     return {}
 
 
-
-
 def _explicit_user_wait(directory):
     """Only use an explicit wait instruction in the saved actual user text."""
     texts = [_read(directory / 'original-prompt.json', {}).get('text', '')]
@@ -1778,10 +1252,47 @@ def _explicit_user_wait(directory):
     return waiting
 
 
+def _recorded_check_covered(module, task, check, targets=None):
+    """Compare the selected check's executed receipts with its saved target versions."""
+    required = module.requested_targets(task)
+    selected = task.get('check_targets', {}).get(check)
+    if selected is not None:
+        if set(selected) - required:
+            return False
+        required = set(selected)
+    if targets is not None:
+        required &= set(targets)
+    latest = {}
+    for receipt in task.get('check_receipts', {}).values():
+        if receipt.get('operation') != check:
+            continue
+        if receipt.get('versions') != module.versions(task, receipt.get('output_ids'), receipt.get('input_ids')):
+            continue
+        if task.get('independent_review') and receipt.get('review_kind') != 'worker-result':
+            continue
+        covered = (set(task['outputs']) | {row['target_id'] for row in task.get('action_results', [])}
+                   if receipt.get('output_ids') is None else set(receipt['output_ids']))
+        order = (receipt.get('sequence', 0), receipt.get('at', ''))
+        for target in required & covered:
+            if target not in latest or order >= latest[target][0]:
+                latest[target] = (order, receipt)
+    return all(target in latest and latest[target][1].get('result') == 'passed' for target in required)
+
+
+def _recorded_completion(module, tasks, task):
+    constraints = module.effective_constraints(tasks, task)
+    return (task['status'] == 'completed' and task.get('completion_contract') == 1
+            and not constraints['holds'] and not constraints['scope_errors']
+            and not module.dependencies_changed(tasks, task)
+            and not module.missing_required_results(task, lambda row: row.get('result') == 'passed'
+                and row.get('versions') == module.versions(task, row.get('output_ids'), row.get('input_ids'), include_actions=False))
+            and all(_recorded_check_covered(module, task, check) for check in task['required_checks']))
+
+
 def _ordinary_wait_leaf(module, data, task, state_root, directory, message):
     """Validate the completed phase while retaining the held parent contract."""
     tasks = data['tasks']
-    constraints = module.effective_constraints(tasks, task, state_root)
+    constraints = module.effective_constraints(tasks, task)
     holds = constraints['holds']
     gate.require(_explicit_user_wait(directory) and task['status'] == 'blocked'
                  and task.get('blocked_reason') == 'user_hold' and task.get('holds')
@@ -1790,12 +1301,10 @@ def _ordinary_wait_leaf(module, data, task, state_root, directory, message):
     labels = {row['hold_id'] for row in holds} | {target.split(':', 1)[-1]
               for row in holds for target in row['targets']}
     gate.require(all(row.get('target_ids') and set(row['target_ids']) <= labels
-                     for row in _pending_task_holds(directory, (module, data, task, state_root))),
+                     for row in _pending_task_holds(directory, (module, data, task, state_root), check_sources=False)),
                  'unresolved user hold is not represented in the current state')
-    gate.require(task.get('completion_contract') == 1 and module.contract_current(state_root, task)
-                 and not constraints['scope_errors'] and not module.input_changes(state_root, task)
-                 and not module.context_changes(state_root, task) and not module.output_changes(state_root, task)
-                 and module.consumed_current(state_root, tasks, task), 'parent task versions or contract changed')
+    gate.require(task.get('completion_contract') == 1 and not constraints['scope_errors'],
+                 'parent task contract or scope requires reconciliation')
     def held(kind, target, operation=None):
         for row in holds:
             if operation is None and row['operations']:
@@ -1819,19 +1328,19 @@ def _ordinary_wait_leaf(module, data, task, state_root, directory, message):
     gate.require(len(required_outputs) < len(task['required_outputs'])
                  or len(required_actions) < len(task['required_actions']), 'hold covers no requested target')
     targets = {row['target'] for row in required_outputs} | {row['target_id'] for row in required_actions}
-    gate.require(all(module.check_covered(state_root, task, check, targets=targets)
+    gate.require(all(_recorded_check_covered(module, task, check, targets=targets)
                      for check in task['required_checks']), 'parent phase checks are incomplete')
     candidates = [child for child in tasks.values() if child.get('parent') == task['task_id']
                   and not any(other.get('parent') == child['task_id'] for other in tasks.values())]
     descendants = [child for child in tasks.values() if any(
         ancestor['task_id'] == task['task_id'] for ancestor in module.task_ancestors(tasks, child))]
     for child in descendants:
-        inherited = module.effective_constraints(tasks, child, state_root)
+        inherited = module.effective_constraints(tasks, child)
         gate.require(not inherited['scope_errors'], 'child authority or scope requires reconciliation')
         if not inherited['holds']:
-            gate.require(module.completion_current(state_root, tasks, child['task_id']),
+            gate.require(_recorded_completion(module, tasks, child),
                          'nonheld descendant task is not current and complete')
-    leaves = [child for child in candidates if module.completion_current(state_root, tasks, child['task_id'])]
+    leaves = [child for child in candidates if _recorded_completion(module, tasks, child)]
     gate.require(leaves and all(any(row in leaf['required_outputs'] for leaf in leaves) for row in required_outputs)
                  and all(any(row in leaf['required_actions'] for leaf in leaves) for row in required_actions),
                  'nonheld outputs and actions require current completed leaf evidence')
@@ -1888,11 +1397,12 @@ def _ordinary_action_result(directory, requirement, observed, state_root):
     if _tool_failed(row):
         return None
     if requirement['target_kind'] == 'file':
-        path = state_root / target
+        latest = next((item.get('output_versions', {}).get(target) for item in reversed(observed)
+                       if target in item.get('output_versions', {})), None)
         if operation in {'delete', 'remove'}:
-            if path.exists():
+            if target not in row.get('preflight', {}).get('deleted_targets', []) or latest is not None:
                 return None
-        elif not path.is_file() or row.get('output_versions', {}).get(target) != gate.sha(gate.regular_bytes(path)):
+        elif not latest or row.get('output_versions', {}).get(target) != latest:
             return None
         return {**requirement, 'result': 'passed', 'callback': row}
     native = sibling('hook_completion_native', next(path for path in
@@ -1927,11 +1437,11 @@ def _ordinary_action_result(directory, requirement, observed, state_root):
 
 def _verify_completion_contract(directory, root, message, observed):
     context = _read(directory / 'context.json', {})
-    selected = _operation_manifest(root, context)
-    gate.require(selected is not None, 'select the task operation before completing its result')
-    bound = _completion_task(directory, root)
+    selected = context.get('operation_binding')
+    gate.require(isinstance(selected, dict), 'select the task operation before completing its result')
+    bound = _completion_task(directory, root, check_sources=False)
     if bound is None:
-        conditions = set(selected['selection']['conditions'])
+        conditions = set(selected['conditions'])
         gate.require(not observed and not conditions.intersection({
             'requested_artifact_files', 'file_output_or_format_rendering', 'data_code_change',
             'requested_distribution_configuration_or_installation', 'publication_requested'}),
@@ -1951,11 +1461,9 @@ def _verify_completion_contract(directory, root, message, observed):
             value = message
             version = module.content_hash(value)
         elif kind == 'file':
-            path = state_root / module.relative(state_root, target, exists=False)
-            recorded = next((row.get('output_versions', {}).get(target) for row in reversed(observed)
-                             if target in row.get('output_versions', {})), None)
-            version = module.digest(path) if path.is_file() else None
-            if not version or version != recorded:
+            version = next((row.get('output_versions', {}).get(target) for row in reversed(observed)
+                            if target in row.get('output_versions', {})), None)
+            if not version:
                 continue
         else:
             result = next((row for row in reversed(task['action_results']) if row['target_id'] == target), None)
@@ -1979,18 +1487,20 @@ def _verify_ordinary_stop(event, root, directory):
             child = _read(path)
             gate.require(child.get('return_observation') and child.get('status') not in {
                 'restoration-check-failed', 'scope-check-failed'}, 'child work has not returned its completed scope')
+    gate.require(_read(directory / 'reinjection.json', {}).get('instruction_policy_sha256', True) is not None,
+                 'a governing source changed; rebind its adopted instructions before completion')
     observed = _completion_observations(directory, _read(directory / 'context.json', {}))
-    bound = _bound_state(directory, root)
+    bound = _bound_state(directory, root, check_sources=False)
     if bound is None:
         gate.require(not _pending_task_holds(directory, None), 'unresolved task hold requires continuation')
         _verify_completion_contract(directory, root, message, observed)
         return 'completed'
     module, data, task, state_root = bound
-    if module.completion_current(state_root, data['tasks'], task['task_id']):
-        gate.require(all(module.completion_current(state_root, data['tasks'], ancestor['task_id'])
+    if _recorded_completion(module, data['tasks'], task):
+        gate.require(all(_recorded_completion(module, data['tasks'], ancestor)
                          for ancestor in module.task_ancestors(data['tasks'], task)),
                      'bound leaf cannot complete an unfinished parent task')
-        gate.require(not _pending_task_holds(directory, bound), 'unresolved task hold requires continuation')
+        gate.require(not _pending_task_holds(directory, bound, check_sources=False), 'unresolved task hold requires continuation')
         candidates = [task['outputs'].get(row['target'], {}) for row in task['required_outputs'] if row['kind'] == 'message']
         gate.require(any(row.get('value') == message for row in candidates),
                      'host message differs from the required recorded message output')
@@ -2001,10 +1511,13 @@ def _verify_ordinary_stop(event, root, directory):
     for event in observed:
         matched = False
         for receipt in (receipt for owner in receipt_tasks for receipt in owner.get('action_results', [])
-                        if module.receipt_current(state_root, owner, receipt)):
+                        if receipt.get('result') == 'passed'):
             for name in receipt.get('evidence', {}):
                 try:
-                    evidence = gate.parse_json(gate.regular_bytes(state_root / module.relative(state_root, name)))
+                    raw = gate.regular_bytes(state_root / module.relative(state_root, name))
+                    if gate.sha(raw) != receipt['evidence'][name]:
+                        continue
+                    evidence = gate.parse_json(raw)
                     matched = any(row.get('tool_call_ref') == event['tool_use_id']
                                   and row.get('tool_name') == event['tool_name']
                                   and json.loads(row.get('call_args_text', 'null')) == event['tool_input']
@@ -2158,12 +1671,13 @@ def _observed_read_paths(event, task_root):
     return output
 
 
-def _instruction_closure(root, observations):
+def _instruction_closure(root, observations, retained=()):
     sources = {}
+    available = {row['path']: row for row in retained}
     for observation in observations:
         lexical = Path(observation['path'])
         try:
-            actual = lexical.resolve(strict=True)
+            actual = lexical.resolve()
         except (OSError, RuntimeError):
             continue
         if not actual.is_relative_to(root):
@@ -2174,14 +1688,19 @@ def _instruction_closure(root, observations):
             while scope.is_relative_to(root):
                 candidate = scope / 'AGENTS.md'
                 try:
-                    resolved = candidate.resolve(strict=True)
-                    if resolved.is_relative_to(root) and resolved.is_file():
-                        body = gate.regular_bytes(resolved)
-                        key = (str(candidate), gate.sha(body))
+                    source = available.get(str(candidate))
+                    if source is None:
+                        resolved = candidate.resolve(strict=True)
+                        if resolved.is_relative_to(root) and resolved.is_file():
+                            body = gate.regular_bytes(resolved)
+                            source = {'path': str(candidate), 'resolved_path': str(resolved),
+                                      'directory': str(scope), 'sha256': gate.sha(body),
+                                      'body': body.decode('utf-8'), 'observed': []}
+                            available[str(candidate)] = source
+                    if source is not None:
+                        key = (source['path'], source['sha256'])
                         if key not in sources:
-                            sources[key] = {'path': str(candidate), 'resolved_path': str(resolved),
-                                            'directory': str(scope), 'sha256': key[1],
-                                            'body': body.decode('utf-8'), 'observed': []}
+                            sources[key] = {**source, 'observed': list(source['observed'])}
                         origin = {'path': observation['path'], 'tool_name': observation['tool_name'],
                                   'tool_use_id': observation['tool_use_id']}
                         if origin not in sources[key]['observed']:
@@ -2194,23 +1713,42 @@ def _instruction_closure(root, observations):
     return sorted(sources.values(), key=lambda row: (len(Path(row['directory']).relative_to(root).parts), row['directory']))
 
 
-def _scoped_instructions(event, directory, context, *, restore=False, available=None):
+def _scoped_instructions(event, directory, context, *, restore=False, available=None, changed_paths=()):
     """Retain and restore the applicable AGENTS closure for observed read paths."""
     root = Path(context['cwd']).resolve(strict=True)
     record_path = directory / 'scoped-instructions.json'
     previous = _read(record_path, {'root': str(root), 'observations': [], 'instructions': [], 'pending': []})
     gate.require(previous.get('root') == str(root), 'scoped instruction root changed')
     observations = list(previous['observations'])
+    additions = []
+    observed = [] if restore else _observed_read_paths(event, root)
     if not restore:
-        for lexical, actual in _observed_read_paths(event, root):
+        for lexical, actual in observed:
             item = {'path': str(lexical), 'resolved_path': str(actual), 'tool_name': event['tool_name'],
                     'tool_use_id': event['tool_use_id']}
             if not any(row['path'] == item['path'] and row['resolved_path'] == item['resolved_path']
                        for row in observations):
                 observations.append(item)
-    if not observations:
+                additions.append(item)
+            elif lexical.name == 'AGENTS.md':
+                additions.append(item)
+    changed_sources = [row for row in previous['instructions']
+                       if row['path'] in changed_paths or row['resolved_path'] in changed_paths]
+    for row in changed_sources:
+        additions.extend(row['observed'])
+    if not observations and not additions:
         return ''
-    instructions = _instruction_closure(root, observations)
+    if restore:
+        instructions = _instruction_closure(root, observations)
+    else:
+        instructions_by_path = {row['path']: row for row in previous['instructions'] if row not in changed_sources}
+        if additions:
+            reread = {str(path) for pair in observed for path in pair if path.name == 'AGENTS.md'}
+            retained = [row for row in instructions_by_path.values()
+                        if row['path'] not in reread and row['resolved_path'] not in reread]
+            instructions_by_path.update({row['path']: row for row in _instruction_closure(root, additions, retained)})
+        instructions = sorted(instructions_by_path.values(), key=lambda row: (
+            len(Path(row['directory']).relative_to(root).parts), row['directory']))
     current = {(row['path'], row['sha256']) for row in instructions}
     old = {(row['path'], row['sha256']) for row in previous['instructions']}
     restore = restore or previous.get('turn_id') != event.get('turn_id')
@@ -2222,7 +1760,7 @@ def _scoped_instructions(event, directory, context, *, restore=False, available=
         content = response if isinstance(response, str) else (response.get('content', response.get('output')) if isinstance(response, dict) else None)
         if isinstance(content, str):
             digest = gate.sha(content.encode('utf-8'))
-            for _, actual in _observed_read_paths(event, root):
+            for _, actual in observed:
                 for row in instructions:
                     if row['resolved_path'] == str(actual) and row['sha256'] == digest:
                         verified.add(row['path'] + ':' + digest)
@@ -2268,43 +1806,29 @@ def _pending_scoped_writes(directory, effect, targets):
     record = _read(directory / 'scoped-instructions.json', {})
     if effect not in {'write', 'unresolved'} or not record.get('observations'):
         return
-    root = Path(record['root'])
-    current = _instruction_closure(root, record['observations'])
-    old_keys = {(row['path'], row['sha256']) for row in record['instructions']}
-    new_keys = {(row['path'], row['sha256']) for row in current}
     pending = set(record.get('pending', []))
-    changed_rows = [row for row in current + record['instructions']
-                    if (row['path'], row['sha256']) in old_keys ^ new_keys]
-    for row in record['instructions']:
-        try:
-            if (Path(row['path']).resolve(strict=True) != Path(row['resolved_path']) or
-                    gate.sha(gate.regular_bytes(Path(row['resolved_path']))) != row['sha256']):
-                pending.add(row['path'] + ':' + row['sha256'])
-        except (OSError, ValueError):
-            pending.add(row['path'] + ':' + row['sha256'])
-    sources = changed_rows + [row for row in record['instructions'] if row['path'] + ':' + row['sha256'] in pending]
-    if not sources:
-        return
     if not targets or any(not str(target).startswith('/') for target in targets):
-        raise ValueError('read the pending scoped AGENTS.md instructions before an unresolved write')
-    for target in targets:
-        path = Path(target)
-        if any(path.is_relative_to(Path(row['directory'])) or
-               path.is_relative_to(Path(row['directory']).resolve()) for row in sources):
-            raise ValueError('read the pending scoped AGENTS.md instructions before a dependent write')
+        gate.require(not pending, 'read the pending scoped AGENTS.md instructions before an unresolved write')
+        return
+    root = Path(record['root'])
+    scoped = [target for target in targets if Path(target).is_relative_to(root)]
+    observations = [{'path': target, 'resolved_path': str(Path(target).resolve()),
+                     'tool_name': 'PreToolUse', 'tool_use_id': 'target-authority'} for target in scoped]
+    current = _instruction_closure(root, observations)
+    previous = {row['path']: row for row in record['instructions']
+                if any(Path(target).is_relative_to(Path(row['directory'])) for target in scoped)}
+    gate.require(set(previous) <= {row['path'] for row in current},
+                 'a scoped instruction source changed; read its current parent instructions before a dependent write')
+    for row in current:
+        old = previous.get(row['path'])
+        gate.require(old is not None and old['sha256'] == row['sha256']
+                     and old['resolved_path'] == row['resolved_path']
+                     and row['path'] + ':' + row['sha256'] not in pending,
+                     'read the current applicable AGENTS.md instructions before a dependent write')
 
 
-def _pre_tool(event, root, directory, state, bound_result=None):
-    """Hook-side preflight only; it cannot install execution-owner enforcement.
-
-    In particular the host does not rerun this hook for write_stdin, and callback
-    errors/timeouts can bypass a hook. Its output is not a reusable execution permit.
-    """
-    if event.get('hook_event_name') == 'PostToolUse':
-        observed_sha = gate.sha(gate.canonical(event))
-        previous = _read(directory / 'preflight' / (observed_sha + '.json'))
-        if previous is not None and previous.get('callback_sha256') == observed_sha:
-            return {}  # The exact immutable returned event is not a new execution request.
+def _tool_effect(event, root, directory, *, enforce_authority=True):
+    """Classify the actual tool call; authority belongs to its preflight."""
     tool, arguments = event.get('tool_name'), event.get('tool_input')
     gate.require(isinstance(tool, str) and tool and isinstance(arguments, dict), 'missing actual tool name/input')
     name = tool.rsplit('__', 1)[-1].split('.')[-1].lower()
@@ -2313,14 +1837,15 @@ def _pre_tool(event, root, directory, state, bound_result=None):
     command_action = None
     opaque_action = None
     input_bound = None
-    read_operation = None
     if name == 'write_stdin':
         gate.require(isinstance(arguments.get('session_id'), (str, int)), 'missing interactive session identity')
-        record = _read(directory / 'sessions' / (gate.sha(str(arguments['session_id']).encode()) + '.json'))
-        gate.require(record is not None and not record.get('closed'),
-                     'interactive session is unknown or already terminal')
-        if arguments.get('chars'):
-            input_bound = _bound_state(directory, root) or _completion_task(directory, root)
+        if arguments.get('chars') and enforce_authority:
+            record = _read(directory / 'sessions' / (gate.sha(str(arguments['session_id']).encode()) + '.json'))
+            gate.require(record is not None and not record.get('closed'),
+                         'interactive session is unknown or already terminal')
+            gate.require(_read(directory / 'reinjection.json', {}).get('instruction_policy_sha256', True) is not None,
+                         'a governing source changed; rebind its adopted instructions before interactive input')
+            input_bound = _bound_state(directory, root, check_sources=False) or _completion_task(directory, root, check_sources=False)
             gate.require(input_bound is not None and record.get('command'),
                          'interactive input requires its initiating operation and current task authority')
             module, data, task, state_root = input_bound
@@ -2329,8 +1854,8 @@ def _pre_tool(event, root, directory, state, bound_result=None):
                          and record['command'] in task['external_targets']
                          and any(row['operation'] == 'execute_command' and row['target_id'] == record['command']
                                  for row in task['required_actions'])
-                         and not _pending_task_holds(directory, input_bound)
-                         and not module.effective_constraints(data['tasks'], task, state_root)['holds'],
+                         and not _pending_task_holds(directory, input_bound, check_sources=False)
+                         and not module.effective_constraints(data['tasks'], task)['holds'],
                          'interactive input lacks exact current session/input authority or has an unresolved hold')
         operation, targets, effect = ('write_stdin', [str(arguments['session_id'])], 'local-control') if arguments.get('chars') else (
                                      'poll', [str(arguments['session_id'])], 'read')
@@ -2339,12 +1864,10 @@ def _pre_tool(event, root, directory, state, bound_result=None):
                    if isinstance(arguments.get(key), str) and arguments[key]]
         if tool in {'Read', 'read_file', 'read_text_file', 'list_directory', 'search_files', 'view_image'}:
             operation, effect = 'read', 'read'
-            read_operation = 'read_document'
         elif (tool.startswith(('web__', 'mcp__')) and
               tool in ((native := sibling('hook_acquisition_tools', root / 'harness/native_check.py')).WEB_READ_TOOLS |
                        native.LIBRARY_READ_TOOLS | native.CONNECTOR_READ_TOOLS)):
             operation, effect = 'read', 'read'
-            read_operation = 'read_url' if tool in native.WEB_READ_TOOLS else 'read_document'
             for key in ('repository_full_name', 'repository_url', 'repository_name', 'org', 'ref',
                         'plugin_id', 'document_id', 'document_url', 'read_paths', 'repository_id'):
                 value = arguments.get(key)
@@ -2365,7 +1888,8 @@ def _pre_tool(event, root, directory, state, bound_result=None):
         elif name in {'bash', 'exec_command', 'run_command'}:
             command = arguments.get('command') if name == 'bash' else arguments.get('cmd')
             gate.require(isinstance(command, str), 'missing execution command')
-            gate.require(not arguments.get('env'), 'execution environment override is unresolved')
+            if enforce_authority:
+                gate.require(not arguments.get('env'), 'execution environment override is unresolved')
             parts = shlex.split(command)
             gate.require(parts, 'empty execution command')
             if re.search(r'[;&|<>\n`]|\$|[\r\x00]', command):
@@ -2378,26 +1902,31 @@ def _pre_tool(event, root, directory, state, bound_result=None):
                   and _tool_target(parts[2] if parts[1] == '-B' and len(parts) > 3 else parts[1], cwd)
                   == str((root / 'harness/state.py').resolve())):
                 tail = parts[3:] if parts[1] == '-B' else parts[2:]
-                specified = [tail[i + 1] for i, value in enumerate(tail[:-1]) if value == '--root']
-                specified += [value.split('=', 1)[1] for value in tail if value.startswith('--root=')]
-                context = _read(directory / 'context.json', {})
-                task_root = str(absolute(context.get('cwd')).resolve())
-                selected_root = _tool_target(specified[0], cwd) if specified else str(Path(cwd).resolve())
-                gate.require(len(specified) <= 1 and selected_root == task_root,
-                             'state bookkeeping root differs from the original task root')
-                operation, effect = 'state-control', 'local-control'
+                if enforce_authority:
+                    specified = [tail[i + 1] for i, value in enumerate(tail[:-1]) if value == '--root']
+                    specified += [value.split('=', 1)[1] for value in tail if value.startswith('--root=')]
+                    context = _read(directory / 'context.json', {})
+                    task_root = str(absolute(context.get('cwd')).resolve())
+                    selected_root = _tool_target(specified[0], cwd) if specified else str(Path(cwd).resolve())
+                    gate.require(len(specified) <= 1 and selected_root == task_root,
+                                 'state bookkeeping root differs from the original task root')
+                if 'project-update' in tail:
+                    operation, effect, command_action = 'execute_command', 'write', command
+                else:
+                    operation, effect = 'state-control', 'local-control'
             elif (parts[0] in {'python', 'python3'} and len(parts) >= 3
                   and _tool_target(parts[2] if parts[1] == '-B' and len(parts) > 3 else parts[1], cwd)
                   == str((root / 'harness/codex_hooks.py').resolve())):
-                tail = parts[3:] if parts[1] == '-B' else parts[2:]
-                context = _read(directory / 'context.json', {})
-                roots = [tail[i+1] for i, value in enumerate(tail[:-1]) if value == '--root']
-                contexts = [tail[i+1] for i, value in enumerate(tail[:-1]) if value == '--hook-context']
-                gate.require(any(value in tail for value in ('bind-operation', 'bind-child-assignment'))
-                             and len(roots) == 1 and len(contexts) == 1
-                             and _tool_target(roots[0], cwd) == str(absolute(context['cwd']).resolve())
-                             and _tool_target(contexts[0], cwd) == str((directory / 'context.json').resolve()),
-                             'operation binding must target this task and its original root')
+                if enforce_authority:
+                    tail = parts[3:] if parts[1] == '-B' else parts[2:]
+                    context = _read(directory / 'context.json', {})
+                    roots = [tail[i+1] for i, value in enumerate(tail[:-1]) if value == '--root']
+                    contexts = [tail[i+1] for i, value in enumerate(tail[:-1]) if value == '--hook-context']
+                    gate.require(any(value in tail for value in ('bind-operation', 'bind-child-assignment'))
+                                 and len(roots) == 1 and len(contexts) == 1
+                                 and _tool_target(roots[0], cwd) == str(absolute(context['cwd']).resolve())
+                                 and _tool_target(contexts[0], cwd) == str((directory / 'context.json').resolve()),
+                                 'operation binding must target this task and its original root')
                 operation, effect = 'state-control', 'local-control'
             else:
                 operation, effect, command_action = 'execute_command', 'write', command
@@ -2422,13 +1951,23 @@ def _pre_tool(event, root, directory, state, bound_result=None):
     if opaque_action is not None:
         normalized = [opaque_action]
     resolved_effects = [(verb, _tool_target(target, cwd)) for verb, target in effects]
-    if operation != 'state-control':
-        _operation_manifest(root, _read(directory / 'context.json', {}), directory)
+    return tool, arguments, name, operation, effect, normalized, resolved_effects, command_action, opaque_action, input_bound
+
+
+def _pre_tool(event, root, directory, state, bound_result=None):
+    """Check only the authority and targets of a modifying operation."""
+    tool, arguments, name, operation, effect, normalized, resolved_effects, command_action, opaque_action, input_bound = (
+        _tool_effect(event, root, directory))
+    if effect in {'read', 'local-control'}:
+        return {}
+    gate.require(_read(directory / 'reinjection.json', {}).get('instruction_policy_sha256', True) is not None,
+                 'a governing source changed; rebind its adopted instructions before dependent changes')
+    cwd = event['cwd']
     _pending_scoped_writes(directory, effect, normalized)
-    rows, prohibitions, policy_sha = [], [], state.get('policy_manifest_sha256')
-    bound = input_bound or (None if operation == 'state-control' else _bound_state(directory, root))
+    rows, prohibitions = [], []
+    bound = input_bound or (None if operation == 'state-control' else _bound_state(directory, root, check_sources=False))
     if bound is None and operation != 'state-control':
-        bound = _completion_task(directory, root)
+        bound = _completion_task(directory, root, check_sources=False)
     if bound is not None:
         state_module, data, task, state_root = bound
         ancestors = state_module.task_ancestors(data['tasks'], task) if task.get('parent') else []
@@ -2438,58 +1977,15 @@ def _pre_tool(event, root, directory, state, bound_result=None):
                 requirements = state_module._native().requirements.validate_contract(specification, request)
                 prohibitions.extend(row for row in requirements
                                     if row.get('evaluator', {}).get('type') == 'forbidden_operation')
-        if effect != 'local-control':
-            if effect == 'read' and task['status'] == 'blocked' and task.get('blocked_reason') == 'user_hold':
-                if name in {'bash', 'exec_command', 'run_command'}:
-                    gate.require(parts[0] in {'cat', 'head', 'tail', 'wc', 'sha256sum', 'stat', 'ls', 'pwd'}
-                                 and all(not part.startswith('-') for part in parts[1:]),
-                                 'held shell read scope is unresolved')
-                else:
-                    gate.require(tool in {'read_file', 'read_text_file', 'list_directory', 'view_image'}
-                                 and set(arguments) <= {'path', 'file_path', 'file', 'target', 'offset', 'limit',
-                                                       'start_line', 'end_line', 'detail'},
-                                 'held read scope is unresolved')
-                constraints = state_module.effective_constraints(data['tasks'], task, state_root)
-                state_holds = constraints['holds']
-                gate.require(state_holds and not constraints['scope_errors'], 'held read scope is unresolved')
-                labels = {row['hold_id'] for row in state_holds} | {target.split(':', 1)[-1]
-                          for row in state_holds for target in row['targets']}
-                gate.require(all(row.get('target_ids') and set(row['target_ids']) <= labels
-                                 for row in _pending_task_holds(directory, bound)),
-                             'held read scope is unresolved')
-                gate.require(normalized or (name in {'bash', 'exec_command', 'run_command'} and command == 'pwd'),
-                             'held read target is unresolved')
-                if not normalized:
-                    gate.require(all(row['targets'] or (row['operations'] and not set(row['operations']) & {'read', tool, name})
-                                     for row in state_holds), 'held read scope is unresolved')
-                for target in normalized:
-                    is_url = '://' in target
-                    if is_url:
-                        gate.require(target in task.get('external_targets', []), 'held read target is outside task scope')
-                    else:
-                        gate.require(Path(target).is_relative_to(state_root), 'held read target is outside task scope')
-                    for hold in state_holds:
-                        if hold['operations'] and not set(hold['operations']) & {'read', tool, name}:
-                            continue
-                        gate.require(hold['targets'], 'held read scope is unresolved')
-                        for selected in hold['targets']:
-                            if is_url:
-                                blocked = selected == 'object:' + target
-                            elif selected.startswith('file:'):
-                                blocked = state_module.scopes_overlap(selected[5:], Path(target).relative_to(state_root).as_posix())
-                            else:
-                                blocked = False
-                            gate.require(not blocked, 'task hold covers this read')
-            else:
-                gate.require(task['status'] == 'running', 'task state is not running')
+        gate.require(task['status'] == 'running', 'task state is not running')
         rows = [{'kind': 'action', 'operation': row['operation'], 'target':
                  str(state_root / row['target_id']) if row['target_kind'] == 'file' else row['target_id'],
                  'target_kind': row['target_kind']} for row in task['required_actions']]
-    holds = _pending_task_holds(directory, bound)
+    holds = _pending_task_holds(directory, bound, check_sources=False)
     for row in prohibitions:
         forbidden = row['target'] if opaque_action is not None else _tool_target(row['target'], cwd)
         gate.require(not (forbidden in normalized and (row['evaluator']['operation'] in
-                         {operation, read_operation, tool, name} or effect == 'write')),
+                         {operation, tool, name} or effect == 'write')),
                      'forbidden operation ' + row['id'] + ' on ' + row['target'])
     if effect not in {'read', 'local-control'}:
         if opaque_action is not None:
@@ -2499,14 +1995,14 @@ def _pre_tool(event, root, directory, state, bound_result=None):
                              any(row['operation'] == operation and row.get('target_kind') == 'object'
                                  and row['target'] == opaque_action for row in rows),
                              'external operation lacks its exact object authority')
-                for hold in state_module.effective_constraints(data['tasks'], task, state_root)['holds']:
+                for hold in state_module.effective_constraints(data['tasks'], task)['holds']:
                     gate.require(not ((not hold['operations'] or operation in hold['operations']) and
                                       (not hold['targets'] or 'object:' + opaque_action in hold['targets'])),
                                  'task state hold covers this external operation')
             else:
                 raise ValueError('external operation lacks its exact object authority')
         if command_action is not None:
-            gate.require(bound is not None and not holds and not state_module.effective_constraints(data['tasks'], task, state_root)['holds'],
+            gate.require(bound is not None and not holds and not state_module.effective_constraints(data['tasks'], task)['holds'],
                          'command requires bound authority and no unresolved hold')
             gate.require(any(row['operation'] == 'execute_command' and row.get('target_kind') == 'object'
                              and row['target'] == command_action for row in rows)
@@ -2535,86 +2031,64 @@ def _pre_tool(event, root, directory, state, bound_result=None):
                 relative = state_module.relative(state_root, relative_target, exists=False)
                 gate.require(state_module.in_scope(relative, task.get('write_scope', [])),
                              'target exceeds task write scope')
-                for hold in state_module.effective_constraints(data['tasks'], task, state_root)['holds']:
+                for hold in state_module.effective_constraints(data['tasks'], task)['holds']:
                     matches_operation = not hold['operations'] or verb in hold['operations']
                     targets = hold['targets']
                     matches_target = not targets or any(item == 'file:' + relative for item in targets)
                     gate.require(not (matches_operation and matches_target), 'task state hold covers this operation')
-    binding = {'tool_name': tool, 'operation': operation, 'targets': normalized, 'effect': effect,
-               'resolved_effects': resolved_effects,
-               'input_sha256': gate.sha(gate.canonical(arguments)), 'policy_sha256': policy_sha,
-               'effective_holds_sha256': gate.sha(gate.canonical(holds)), 'session_id': arguments.get('session_id'),
-               'task_id': _read(directory / 'context.json', {}).get('task_id'),
-               'execution_owner_connected': False}
-    observation_bound = bound
-    if (observation_bound is None and event.get('hook_event_name') == 'PostToolUse'
-            and _read(directory / 'context.json', {}).get('state_binding')):
-        observation_bound = _bound_state(directory, root)
-    enabled = (observation_bound is not None and _feature_enabled(directory, observation_bound[0],
-                                                                    observation_bound[2], 'loops'))
-    key = _preflight_key(event) if enabled and event.get('hook_event_name') == 'PreToolUse' else None
-    if key:
-        binding['source'] = 'PreToolUse'
-        candidates = [target for _, target in resolved_effects] or normalized
-        if effect == 'write' and command_action is None and opaque_action is None:
-            binding['edit_targets'] = [{'path': target, 'version': _target_version(target, cwd)}
-                                       for target in candidates if Path(target).is_absolute()]
-    if enabled and event.get('hook_event_name') == 'PostToolUse':
-        previous = _read(directory / 'preflight' / (gate.sha(gate.canonical(event)) + '.json'), {})
-        if isinstance(previous.get('usage_observation'), dict):
-            for field in ('usage_observation', 'usage_check_source', 'loop_advisory'):
-                if field in previous:
-                    binding[field] = previous[field]
-        else:
-            binding['usage_observation'] = _hook_usage_row(event, directory, observation_bound[0], observation_bound[2])
-            check = _saved_check_return(event, observation_bound[0], observation_bound[2], directory)
-            if check is not None:
-                binding['usage_check_source'] = {'check_id': check['check_id'], 'run_id': check['run_id'],
-                                                 'producer_sha256': check['producer_sha256']}
-            advice = _pending_loop_advice(event, binding['usage_observation'], observation_bound, directory)
-            if advice is not None:
-                binding['loop_advisory'] = advice
-    hint = ''
-    if bound_result is not None:
-        hint, experience_status = _experience_hint(root, directory, bound, event)
-        if experience_status is not None:
-            binding['experience_feedback'] = experience_status
-    context = _read(directory / 'context.json', {})
-    if event.get('hook_event_name') == 'PostToolUse':
-        binding['callback_sha256'] = gate.sha(gate.canonical(event))
-    if (event.get('hook_event_name') == 'PostToolUse' and context.get('completion_contract')
-            and not context.get('state_binding') and (effect == 'write' or name == 'write_stdin')):
-        binding['callback'] = {field: event.get(field) for field in
-                               ('tool_name', 'tool_use_id', 'tool_input', 'tool_response')}
-        binding['output_versions'] = {}
-        if not _tool_failed(event):
-            completion = _completion_task(directory, root)
-            module, _, task, state_root = completion
-            targets = {row['target'] for row in task['required_outputs'] if row['kind'] == 'file'}
-            targets.update(row['target_id'] for row in task['required_actions'] if row['target_kind'] == 'file')
-            for target in targets:
-                output = state_root / module.relative(state_root, target, exists=False)
-                if output.is_file():
-                    binding['output_versions'][target] = module.digest(output)
-    preflight_path = directory / 'preflight' / ((key or gate.sha(gate.canonical(event))) + '.json')
-    if (not enabled and 'experience_feedback' not in binding and 'callback' not in binding
-            and (event.get('hook_event_name') != 'PostToolUse' or effect != 'write')):
-        if bound_result is not None:
-            bound_result.append(hint)
-        return {}
-    existing = _read(preflight_path)
-    if bound_result is not None and isinstance(existing, dict):
-        old_core = {name: value for name, value in existing.items() if name != 'experience_feedback'}
-        new_core = {name: value for name, value in binding.items() if name != 'experience_feedback'}
-        if old_core == new_core and existing.get('experience_feedback') != binding.get('experience_feedback'):
-            binding.pop('experience_feedback', None)
-            if 'experience_feedback' in existing:
-                binding['experience_feedback'] = existing['experience_feedback']
-            hint = ''  # Preserve the immutable earlier callback record on a replay.
-    save_record(preflight_path, binding, replace=False)
-    if bound_result is not None:
-        bound_result.append(hint)
     return {}
+
+
+def _post_tool(event, root, directory):
+    """Keep the actual execution result needed by the existing completion contract."""
+    context = _read(directory / 'context.json', {})
+    tool, arguments, name, operation, effect, targets, resolved_effects, command_action, opaque_action, _ = (
+        _tool_effect(event, root, directory, enforce_authority=False))
+    if effect not in {'write', 'unresolved'} and name != 'write_stdin':
+        return operation, []
+    if command_action is not None:
+        targets = [command_action]
+    affected = {target for _, target in resolved_effects} or set(targets)
+    changed_paths = ({target for target in affected if Path(target).is_absolute()}
+                     if command_action is None and opaque_action is None and name != 'write_stdin' else set())
+    observed_sha = gate.sha(gate.canonical(event))
+    path = directory / 'preflight' / (observed_sha + '.json')
+    existing = _read(path)
+    if existing is not None:
+        _completion_callback(directory, root, event)
+        return operation, existing.get('changed_paths', sorted(changed_paths))
+    binding = {'tool_name': tool, 'operation': operation, 'targets': targets, 'effect': effect,
+               'resolved_effects': resolved_effects, 'input_sha256': gate.sha(gate.canonical(arguments)),
+               'session_id': arguments.get('session_id'), 'task_id': context.get('task_id'),
+               'execution_owner_connected': False, 'callback_sha256': observed_sha,
+               'callback': {field: event.get(field) for field in
+                            ('tool_name', 'tool_use_id', 'tool_input', 'tool_response')}}
+    if context.get('completion_contract') and not context.get('state_binding'):
+        binding['output_versions'] = {}
+        binding['deleted_targets'] = []
+        contract = context['completion_contract']
+        state_root = Path(context['cwd'])
+        required = {row['target'] for row in contract['required_outputs'] if row['kind'] == 'file'}
+        required.update(row['target_id'] for row in contract['required_actions'] if row['target_kind'] == 'file')
+        for target in sorted(required):
+            output = state_root / target
+            if command_action is not None or name == 'write_stdin' or str(output) in affected:
+                changed_paths.add(str(output))
+                binding['output_versions'][target] = (gate.sha(gate.file_snapshot(output))
+                    if output.is_file() and not _tool_failed(event) else None)
+                if not output.exists() and not _tool_failed(event):
+                    binding['deleted_targets'].append(target)
+        binding['changed_paths'] = sorted(changed_paths)
+        save_record(path, binding, replace=False)
+        _completion_callback(directory, root, event)
+    retained = _read(directory / 'reinjection.json', {})
+    sources = retained.get('instruction_sources', {})
+    for target in changed_paths & sources.keys():
+        output = Path(target)
+        if not output.is_file() or gate.sha(gate.file_snapshot(output)) != sources[target]:
+            save_record(directory / 'reinjection.json', {**retained, 'instruction_policy_sha256': None})
+            break
+    return operation, sorted(changed_paths)
 
 
 def dispatch(event, expected_event):
@@ -2624,8 +2098,8 @@ def dispatch(event, expected_event):
     for key in ('session_id', 'cwd'):
         gate.require(isinstance(event.get(key), str) and event[key].strip(), 'missing host ' + key)
     gate.require(expected_event in CONTEXT_EVENTS | {'PreToolUse', 'Stop', 'SubagentStop', 'Interrupt',
-                 'PreCompact', 'PostCompact'}, 'unsupported hook event')
-    if expected_event in ('PreCompact', 'PostCompact'):
+                 'PostCompact'}, 'unsupported hook event')
+    if expected_event == 'PostCompact':
         gate.require(event.get('trigger') in ('manual', 'auto'), 'unknown compaction trigger')
     agent_id = event.get('agent_id')
     gate.require(agent_id is None or (isinstance(agent_id, str) and agent_id.strip() == agent_id and agent_id),
@@ -2644,7 +2118,7 @@ def dispatch(event, expected_event):
                 save_record(session / 'active-task.json', {'task_id': 'recovery-required:' + event['session_id']}, replace=False)
             return feedback(expected_event, _recovery_packet(root))
         return {}
-    if expected_event in ('PreCompact', 'PostCompact') and not (directory / 'context.json').exists():
+    if expected_event == 'PostCompact' and not (directory / 'context.json').exists():
         session = data / 'economics' / gate.sha(event['session_id'].encode())
         gate.require(not (session / 'active-task.json').exists(), 'active task context is missing')
         return {}
@@ -2653,7 +2127,7 @@ def dispatch(event, expected_event):
     recovering = str(active.get('task_id', '')).startswith('recovery-required:')
     new_task = expected_event == 'UserPromptSubmit' and _new_task_requested(event.get('prompt', ''))
     if recovering and not new_task:
-        if expected_event in ('PreCompact', 'PostCompact'):
+        if expected_event == 'PostCompact':
             return failure(expected_event, 'restore the original task before compaction')
         if expected_event == 'Interrupt':
             with turn_lock(directory):
@@ -2796,27 +2270,17 @@ def dispatch(event, expected_event):
         state['request_sha256'] = context.get('prompt_sha256')
         if expected_event == 'SessionStart' and event.get('source') == 'compact':
             _bound_state(directory, root)
-        if expected_event in ('PreCompact', 'PostCompact'):
+        if expected_event == 'PostCompact':
             gate.require(context.get('session_id') == event['session_id'] and absolute(context['cwd']) == cwd,
                          'compaction task identity changed')
-            original = _read(directory / 'original-prompt.json', {})
-            gate.require(original.get('sha256') == context.get('prompt_sha256'), 'original task binding changed')
-            _effective_request(directory)
-            selected = _operation_manifest(root, context)
-            if selected is None:
-                _, _, _, current, _ = _policy_snapshot(root, directory)
-                gate.require(manifest is None or manifest['policy_id'] == current['policy_id'],
-                             'adopted policy version changed')
-            _bound_state(directory, root)
             record = _read(directory / 'reinjection.json', {})
             gate.require(isinstance(record, dict), 'invalid reinjection state')
             compactions = record.setdefault('compactions', {})
             gate.require(isinstance(compactions, dict), 'invalid compaction state')
-            pending = bool((compactions.get(compaction_key) or {}).get('pending_restoration'))
             compactions[compaction_key] = {'event': expected_event, 'trigger': event['trigger'],
                                            'session_id': event['session_id'], 'turn_id': event['turn_id'],
                                            'agent_id': agent_id, 'agent_type': event.get('agent_type'),
-                                           'pending_restoration': expected_event == 'PostCompact' or pending}
+                                           'pending_restoration': True}
             save_record(directory / 'reinjection.json', record)
             return {}
         record = _read(directory / 'reinjection.json', {})
@@ -2864,23 +2328,11 @@ def dispatch(event, expected_event):
         if expected_event == 'PreToolUse':
             if lifecycle == 'paused':
                 return failure('PreToolUse', 'the task is waiting for the next actual user input')
-            bound_result = []
-            _, _, policy_raw, _, _ = _policy_snapshot(root, directory, context)
-            result = _pre_tool(event, root, directory, state, bound_result=bound_result)
-            reinjection = _read(directory / 'reinjection.json', {})
-            changed = (reinjection.get('instruction_policy_sha256') != gate.sha(policy_raw) or
-                       reinjection.get('instruction_binding_sha256') != gate.sha(gate.canonical(context.get('operation_binding'))))
-            reminder = _restoration(root, directory, state, manifest) if changed else ''
-            hint = bound_result[0] if bound_result else ''
-            if reminder or hint:
-                result = feedback(expected_event, reminder + ('\n' + hint if hint else ''))
-            return result
+            return _pre_tool(event, root, directory, state)
         if expected_event in ('SubagentStart', 'SubagentStop'):
             return _child(event, root, directory, state, manifest)
         if expected_event in ('PostToolUse', 'SessionStart'):
             pending = []
-            observation_error = None
-            loop_observation = None
             if expected_event == 'PostToolUse':
                 gate.require(isinstance(event.get('tool_name'), str) and event['tool_name']
                              and isinstance(event.get('tool_use_id'), str) and event['tool_use_id'], 'missing host tool identity')
@@ -2902,21 +2354,7 @@ def dispatch(event, expected_event):
                         else:
                             gate.require(existing_session['tool_use_id'] == event['tool_use_id'],
                                          'interactive session belongs to another initiating call')
-                try:
-                    _pre_tool(event, root, directory, state)
-                except (OSError, ValueError, TypeError, KeyError, AttributeError):
-                    current = _read(context_path)
-                    observations = current.get('unbound_operations', [])
-                    observation = {'tool_name': event['tool_name'], 'tool_use_id': event['tool_use_id'],
-                                   'tool_input': event.get('tool_input'), 'tool_response': response}
-                    if observation not in observations:
-                        save_record(context_path, {**current, 'unbound_operations': observations + [observation]})
-                else:
-                    _completion_callback(directory, root, event)
-                    try:
-                        loop_observation = _import_hook_observation(event, root, directory)
-                    except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError) as exc:
-                        observation_error = str(exc)
+                operation, changed_paths = _post_tool(event, root, directory)
                 if str(event['tool_name']).rsplit('__', 1)[-1].split('.')[-1].lower() == 'write_stdin':
                     session_id = event.get('tool_input', {}).get('session_id')
                     session_path = directory / 'sessions' / (gate.sha(str(session_id).encode()) + '.json')
@@ -2930,6 +2368,28 @@ def dispatch(event, expected_event):
                     pending = _pending_parent_returns(directory)
                 if lifecycle == 'paused' and not pending:
                     return {}
+                text = ''
+                current_context = _read(context_path, {})
+                retained = _read(directory / 'reinjection.json', {})
+                if (operation == 'state-control' and not _tool_failed(event)
+                        and (retained.get('instruction_binding_sha256') != gate.sha(gate.canonical(current_context.get('operation_binding')))
+                             or retained.get('instruction_policy_sha256') is None)):
+                    text = _restoration(root, directory, state, manifest)
+                elif retained.get('instruction_policy_sha256', True) is None:
+                    text = 'A governing source changed. Rebind its adopted instructions before dependent changes or completion.'
+                if pending:
+                    text += ('\nReturned child scopes awaiting parent integration: '
+                            + json.dumps(pending, ensure_ascii=False)
+                            + '\nCompare each actual return with its assignment and integrate the result.')
+                    save_record(directory / 'pending-parent-returns.json', {'returns': []})
+                scoped = ''
+                affected_instructions = any(row['path'] in changed_paths or row['resolved_path'] in changed_paths
+                    for row in _read(directory / 'scoped-instructions.json', {}).get('instructions', []))
+                if affected_instructions or _observed_read_paths(event, Path(context['cwd'])):
+                    policy = sibling('hook_scoped_policy', root / 'harness/policy_assets.py')
+                    scoped = _scoped_instructions(event, directory, context, changed_paths=changed_paths,
+                        available=_scoped_available(root, expected_event, text, policy))
+                return feedback(expected_event, (scoped + '\n' if scoped else '') + text) if scoped or text else {}
             policy, _, policy_raw, _, _ = _policy_snapshot(root, directory)
             state['current_policy_manifest_sha256'] = gate.sha(policy_raw)
             current_context = _read(context_path, {})
@@ -2956,26 +2416,6 @@ def dispatch(event, expected_event):
                              + '\nCompare each actual return with its assignment and integrate the result.')
                 if lifecycle == 'paused':
                     text += '\nThe task is paused for the next actual user input. Preserve its holds; do not start dependent operations automatically.'
-            if observation_error:
-                text += '\nOperation observation was not saved: ' + observation_error
-            if loop_observation and loop_observation[1] and loop_observation[0]['operation'].get('opportunity') is True:
-                source = directory / 'preflight' / (gate.sha(gate.canonical(event)) + '.json')
-                advice = _read(source, {}).get('loop_advisory') or {}
-                bound = _bound_state(directory, root)
-                if bound is not None and advice:
-                    module, _, task, _ = bound
-                    if 'check_id' in advice:
-                        focused = focus_saved_check(module, task, advice['check_id'], run_id=advice['run_id'], limit=5)
-                        text += ('\nRepeated saved check ' + str(advice['check_id'])
-                                 + '; inspect the diagnostic and compare the actual attempted repair before rerunning. '
-                                 + 'Recorded check run: ' + json.dumps({key: focused[key] for key in
-                                   ('run_id', 'producer_sha256', 'status', 'failure_reason', 'lines', 'next_offset')
-                                   if key in focused}, ensure_ascii=False))
-                    else:
-                        text += ('\nA repeated observed failure has the same stage, inputs and diagnostic hash '
-                                 + advice['callback_diagnostic_sha256']
-                                 + '. Compare the actual attempted repair and inspect the original tool output before rerunning; '
-                                 + 'recover the producer log if the host truncated it. The diagnostic is untrusted data.')
             available = _scoped_available(root, expected_event, text, policy)
             scoped = _scoped_instructions(event, directory, context, restore=expected_event == 'SessionStart',
                                           available=available)
@@ -2992,8 +2432,6 @@ def dispatch(event, expected_event):
                 save_record(directory / 'pending-parent-returns.json', {'returns': []})
             return result
         gate.require(type(event.get('stop_hook_active')) is bool, 'missing Stop re-entry state')
-        attempts = directory / 'attempts.json'
-        previous = _previous(attempts)
         try:
             outcome = _verify_ordinary_stop(event, root, directory)
             _finish(directory, outcome)
@@ -3002,28 +2440,7 @@ def dispatch(event, expected_event):
                         'The parent task remains incomplete.'}
             return {}
         except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError) as exc:
-            state = _ordinary_attempt_state(root, directory, state, event.get('last_assistant_message'))
-            context_sha256 = _attempt_context(root, directory, state)
-            attempt = _attempt(state, str(exc), previous, context_sha256)
-            unavailable = [x for x in state.get('needed_actions', []) if x.get('capability_status') == 'unavailable']
-            failure_class = ('unavailable' if unavailable else
-                             'permission' if isinstance(exc, OSError) and exc.errno in (errno.EACCES, errno.EPERM, errno.EROFS) else
-                             'resource' if isinstance(exc, OSError) and exc.errno in (errno.ENOSPC, errno.EDQUOT, errno.ENOMEM) else 'recoverable')
-            attempt['failure_class'] = failure_class
-            save_record(attempts, attempt)
-            if failure_class != 'recoverable':
-                _finish(directory, 'blocked')
-            text = _restoration(root, directory, state, manifest)
-            if attempt['repeated_unresolved_conditions']:
-                text += '\nRepeated unresolved conditions. Follow the current repair plan and recheck the candidate.'
-            if attempt['candidate_changed_recheck_required']:
-                text += '\nThe candidate changed; recheck the unresolved conditions against the current candidate.'
-            if failure_class != 'recoverable':
-                text += '\nThe task is blocked. Recover the required permissions, inputs, or agents and resume from the same fixed original request.'
-            text += '\nUnmet IDs: ' + json.dumps(attempt['unresolved_ids'], ensure_ascii=False)
-            text += '\nNext actions: ' + json.dumps(attempt['next_actions'], ensure_ascii=False)
-            text += '\nCause-specific repairs: ' + json.dumps(attempt['repair_plan'], ensure_ascii=False)
-            return failure('Stop', str(exc) + '\n' + text, failure_class=failure_class)
+            return failure('Stop', str(exc))
 
 
 def main(expected_event):

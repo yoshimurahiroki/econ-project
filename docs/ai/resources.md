@@ -189,3 +189,10 @@ Generated from the resource and placement registries. Use this catalog only for 
 - policy-codex-agent-implementer: references/repository-policy/.codex/agents/implementer.toml
 - policy-codex-agent-retriever: references/repository-policy/.codex/agents/retriever.toml
 - policy-codex-agent-specialist: references/repository-policy/.codex/agents/specialist.toml
+- research-gallery: harness/research_gallery.py
+- research-meetings: harness/research_meetings.py
+- meeting-materials: harness/meetings.md
+- meeting-quarto-template: tex/slides/meeting_template.qmd
+- meeting-templates: tex/slides/meeting_templates.json
+- meeting-cloud-workflow: .github/workflows/meetings.yml (complete source distribution only)
+- research-task-form: .github/ISSUE_TEMPLATE/research-task.yml (complete source distribution only)

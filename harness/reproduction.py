@@ -18,6 +18,7 @@ import json
 import math
 import os
 import re
+import shlex
 from pathlib import Path
 import shutil
 import subprocess
@@ -70,7 +71,7 @@ def verify(package):
 
 
 def selected(root, store, config):
-    require(set(config) <= {'manifest', 'profile', 'tasks', 'outputs', 'allow_inputs', 'allow_env', 'interpreters', 'helpers'}, 'Unknown config field')
+    require(set(config) <= {'manifest', 'profile', 'tasks', 'outputs', 'allow_inputs', 'allow_env', 'interpreters', 'helpers', 'documentation'}, 'Unknown config field')
     for key in ('manifest', 'tasks', 'outputs', 'allow_inputs', 'allow_env', 'interpreters'):
         require(key in config, 'Missing config field: ' + key)
     manifest = research.read_json(root / state.relative(root, config['manifest']))
@@ -188,6 +189,120 @@ def selected(root, store, config):
     return manifest, stages, recorded, input_paths
 
 
+def write_readme(package, config, stages, records, metadata):
+    """Document the selected execution and author-supplied data declarations."""
+    doc = config.get('documentation', {})
+    require(isinstance(doc, dict), 'documentation must be an object')
+    allowed = {'title', 'overview', 'data_availability', 'rights', 'code_license', 'data_sources',
+               'hardware', 'runtime', 'randomness', 'exhibits', 'references', 'formats', 'font'}
+    require(not set(doc) - allowed, 'Unknown documentation field')
+    formats = doc.get('formats', ['md'])
+    require(isinstance(formats, list) and formats and set(formats) <= {'md', 'pdf'}, 'README formats are md and pdf')
+    for key in ('data_sources', 'exhibits', 'references'):
+        require(isinstance(doc.get(key, []), list), 'documentation.' + key + ' must be a list')
+    def inline(value):
+        return str(value).replace('\n', ' ').replace('|', r'\|')
+    lines = ['# ' + str(doc.get('title', 'Research reproduction package')), '', '## Overview', '',
+             str(doc.get('overview', 'This package contains the explicitly selected completed execution, its approved inputs and saved comparison outputs.')),
+             '', 'Code identity: `inventory.json`.' + (' Git revision: `' + metadata['git_revision'] + '`.' if metadata.get('git_revision') else ''),
+             'Manifest: `project/manifest.json`. Exact input/output identities and execution returns: `metadata.json`.', '']
+    for key, heading in [('data_availability', 'Data availability and provenance'), ('rights', 'Data access and redistribution rights'),
+                         ('code_license', 'Code license')]:
+        if doc.get(key):
+            lines += ['## ' + heading, '', str(doc[key]), '']
+    if doc.get('data_sources'):
+        lines += ['## Data sources and analysis definitions', '']
+        for row in doc['data_sources']:
+            require(isinstance(row, dict) and row.get('name'), 'A data source requires its name')
+            lines += ['### ' + str(row['name']), '']
+            for key, label in [('source', 'Source / persistent identifier'), ('version', 'Data version'), ('access', 'Access procedure and cost'),
+                               ('license', 'Data license'), ('observation_unit', 'Observation unit'), ('period', 'Period'),
+                               ('variables', 'Variables / codebook'), ('sample', 'Sample construction and exclusions'),
+                               ('weights', 'Weights and denominator'), ('citation', 'Data citation')]:
+                if key in row:
+                    lines += ['- **' + label + ':** ' + inline(row[key])]
+            for path in row.get('files', []):
+                # Inclusion follows the original approved copy map, not a prose assertion.
+                destinations = metadata['source_map'].get(path, [])
+                lines += ['- `' + inline(path) + '`: ' + (', '.join('`' + p + '`' for p in destinations) if destinations else 'Access through the stated source procedure.')]
+            lines.append('')
+    lines += ['## Computational requirements', '', 'Recorded interpreters and package versions are stored in `metadata.json`. The `environment` command below displays the selected runtime requirements.', '']
+    for key, label in [('hardware', 'Hardware'), ('runtime', 'Execution time and storage'), ('randomness', 'Random seeds and streams')]:
+        if doc.get(key):
+            lines += ['**' + label + ':** ' + str(doc[key]), '']
+    for stage in stages:
+        if stage['id'] not in records:
+            continue
+        runtime = records[stage['id']]['signature'].get('runtime') or {}
+        if runtime:
+            lines += ['### ' + stage['id'], '', '**Runtime version:** ' + inline(runtime.get('version', '')) + '.', '']
+            for name, value in sorted(runtime.get('packages', {}).items()):
+                lines += ['- `' + inline(name) + '`: ' + inline(value.get('version') if isinstance(value, dict) else value)]
+            lines.append('')
+    lines += ['## Instructions to replicators', '',
+              'Run these commands from the package directory. `verify` reads the selected files. `reproduce` executes the packaged research stages in a new project directory.', '',
+              '```sh', 'python project/harness/reproduction.py verify .',
+              'python project/harness/reproduction.py environment .',
+              'python project/harness/reproduction.py reproduce . --output ../reproduced-project', '```', '',
+              'For a recorded Python package closure, restore the isolated environment first:', '',
+              '```sh', 'python project/harness/reproduction.py restore . \\',
+              '  --python /path/to/python --output ../reproduction-env',
+              'python project/harness/reproduction.py reproduce . \\',
+              '  --python ../reproduction-env/bin/python --output ../reproduced-project', '```', '',
+              'R and Julia stages use the selected project environment files included below.', '',
+              '## Programs, dependencies and saved results', '']
+    for stage in stages:
+        sid = stage['id']
+        if sid not in records:
+            continue
+        record = records[sid]
+        argv = record['execution'].get('argv')
+        command = shlex.join(argv) if isinstance(argv, list) else 'Saved template rendering stage'
+        lines += ['### ' + sid, '', '**Producer task:** `' + record['task'] + '`.', '',
+                  '**Execution:**', '', '```sh', command, '```', '',
+                  '**Inputs:** ' + ', '.join('`' + p + '`' for p in stage['inputs']) + '.', '',
+                  '**Consumed outputs:** `' + inline(json.dumps(stage['depends'], ensure_ascii=False)) + '`.', '']
+        for name, result in metadata['expected'].get(sid, {}).items():
+            lines += ['- [' + name + '](' + result['path'] + '): `' + inline(json.dumps(result['comparison'], ensure_ascii=False)) + '`.']
+        lines.append('')
+    if doc.get('exhibits'):
+        lines += ['## Paper and appendix exhibit correspondence', '']
+        for row in doc['exhibits']:
+            require(isinstance(row, dict) and all(row.get(k) for k in ('label', 'stage', 'output')), 'An exhibit requires label, stage and output')
+            require(row['output'] in metadata['expected'].get(row['stage'], {}), 'Exhibit must select an included saved output')
+            path = metadata['expected'][row['stage']][row['output']]['path']
+            lines += ['### ' + inline(row['label']), '',
+                      '- Saved output: [' + inline(row['stage'] + ':' + row['output']) + '](' + path + ')']
+            for key in ('result_id', 'specification', 'sample', 'status'):
+                if row.get(key):
+                    lines += ['- ' + key.replace('_', ' ').capitalize() + ': `' + inline(row[key]) + '`']
+            lines.append('')
+        lines.append('')
+    included = sorted(set(config['allow_inputs']) & set(metadata['source_map']))
+    lines += ['## Included input files', '', *('- `' + p + '`' for p in included), '',
+              '## References', '',
+              '- [AEA Data and Code Availability Policy, February 2026](https://www.aeaweb.org/journals/data/data-code-policy)',
+              '- [Social Science Data Editors README template](https://social-science-data-editors.github.io/template_README/)',
+              '- [TIER Protocol 4.0](https://www.projecttier.org/tier-protocol/protocol-4-0/)',
+              '- [showyourwork: script-to-figure correspondence](https://show-your.work/en/latest/latex/)',
+              *('- ' + str(item) for item in doc.get('references', [])), '']
+    (package / 'README.md').write_text('\n'.join(lines), encoding='utf-8')
+    if 'pdf' in formats:
+        header = package / '.readme-layout.tex'
+        header.write_text(r'\usepackage{fvextra}' + '\n' +
+                          r'\DefineVerbatimEnvironment{verbatim}{Verbatim}{breaklines,breakanywhere,fontsize=\small}' + '\n', encoding='utf-8')
+        command = ['pandoc', 'README.md', '--from=gfm', '--no-highlight', '--pdf-engine=xelatex',
+                   '--include-in-header=' + header.name, '-V', 'geometry:margin=25mm',
+                   '-V', 'fontsize:10pt', '-o', 'README.pdf']
+        if doc.get('font'):
+            command += ['-V', 'mainfont:' + str(doc['font'])]
+        try:
+            result = subprocess.run(command, cwd=package, text=True, capture_output=True)
+        finally:
+            header.unlink()
+        require(result.returncode == 0 and (package / 'README.pdf').is_file(), 'README PDF rendering failed: ' + result.stderr)
+
+
 def build(root, store, config, target):
     root, target = root.resolve(), target.absolute()
     require(target.parent.is_dir() and not any(p.is_symlink() for p in (target, *target.parents)), 'Invalid destination')
@@ -268,6 +383,7 @@ def build(root, store, config, target):
                     'profile': config.get('profile'), 'git_revision': state.revision(root),
                     'config_sha256': state.content_hash(config)}
         (temp / 'metadata.json').write_bytes(dump(metadata))
+        write_readme(temp, config, stages, records, metadata)
         (temp / 'inventory.json').write_bytes(dump({'files': safe_tree(temp)}))
         verify(temp)
         current = selected(root, store, config)

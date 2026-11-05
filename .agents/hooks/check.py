@@ -33,7 +33,7 @@ try:
 except Exception as exc:
     reason = instruction('Economics hook unavailable; no approval: ' + str(exc))
     result = ({'continue': False, 'stopReason': reason, 'systemMessage': reason}
-              if event in {'PreCompact', 'PostCompact', 'SessionStart'} else
+              if event in {'PostCompact', 'SessionStart'} else
               {'hookSpecificOutput': {'hookEventName': event, 'permissionDecision': 'deny',
                                       'permissionDecisionReason': reason}}
               if event == 'PreToolUse' else

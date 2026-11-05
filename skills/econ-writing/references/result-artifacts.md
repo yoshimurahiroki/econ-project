@@ -2,6 +2,59 @@
 
 The artifact operations extend `harness/research_evidence.py` and generate a manifest for the existing `harness/research.py` DAG. The research owner adopts the result sources, displayed quantities, units, words, equations, code spans and substantive judgments. The resulting registry retains each original result in full, including the covariance, inference reference, confidence-set structure and JSON nulls. Each input is identified by its project-relative path and SHA-256.
 
+## Save displays at analysis or registration
+
+The same `research-artifact-registry-v1` registry holds an `items` object keyed by stable display IDs. Save the rows needed by a table or plot when the analysis produces them. A saved source result can carry `display_items`, an array of the display records below. Normalization retains those records; a source without them receives a named coefficient or statistic table. Register an existing saved registry to create its SVG, PNG, HTML and Markdown displays:
+
+```sh
+python harness/research.py gallery register --root "$PROJECT" \
+  --registry analysis/saved-results.json --output analysis/gallery.json
+```
+
+`--items analysis/display-items.json` selects an explicit array of display records supplied by the completed analysis. Registration reads the saved registry and supplied display records. It does not invoke the legacy normalizer or an estimator. The normalizer's explicit legacy inference contract below remains attached to that separate operation.
+
+Each item contains `id`, `title`, `kind`, `result_ids`, `columns`, `rows`, `metadata`, `display`, `interpretation`, `status`, `links` and `files`. `columns` is an array of `{key,label,unit}`. Each row contains scalar saved cells and its `result_id`; JSON null remains a missing cell and numeric zero remains zero. `files` is an array of project-relative display paths. Supported kinds are `descriptive`, `sample_composition`, `distribution`, `time_series`, `group_comparison`, `coefficient`, `event_study`, `robustness`, `alternative_specification`, `table` and `figure`.
+
+Save each descriptive summary at its analysis grain, with the relevant group, period or bin keys, usable counts, denominator, weights and measurement units. Preserve bin edges and interval closure for distributions, and the adopted convention for quantiles. Save coefficient and event-study estimates together with their already computed endpoints. The renderer selects and draws those cells.
+
+At registration, `metadata` joins the saved result IDs to `producers` and `result_definitions`. Retain the actual producing run and specification IDs, code/specification/result references and hashes, engine and environment, sample and population, observation unit, comparison, period, variables, measurement units, estimand, weights and saved inference settings. Record the SE method, clustering units and interval level in `inference`. A source's optional `metadata` object supplies run, environment and economic definitions to the normalizer; an item's metadata supplies its shared display definitions. The selected input's provenance remains in the registry; fitted individual IDs stay in the scientific result. `status` records adoption, and `links.tasks` / `links.documents` connect the result to existing work and manuscripts.
+
+## Browse compare and edit saved results
+
+```sh
+python harness/research.py gallery list --root "$PROJECT" \
+  --registry analysis/gallery.json --query "employment"
+python harness/research.py gallery compare --root "$PROJECT" \
+  --registry analysis/gallery.json main-event-study alternative-event-study
+python harness/research.py gallery select --root "$PROJECT" \
+  --registry analysis/gallery.json main-event-study sample-table \
+  --output meetings/selected-results.json
+python -m marimo run harness/research_gallery.py -- \
+  --root "$PROJECT" --registry analysis/gallery.json
+```
+
+`research_evidence.py gallery` and `research_artifacts.py gallery` expose the same commands. `show ID` returns one selected display; `preview ID --output PATH` renders saved rows to HTML. `render --item ID` saves a complete SVG/PNG/HTML/Markdown generation from the selected item's rows. `list` supports `--kind` and `--status` filters. `compare` keeps the selected records together and reports their saved definition differences.
+
+The Python interface `gallery_items(root, gallery_spec_path, query="")` returns display records with `files: list[str]`, `columns: list[{key,label,unit}]` and `rows: list[dict]`. Its rows and columns reflect the saved display selection, while the registry keeps the complete saved rows. Search, comparison, preview and reporting read that saved content. They do not reopen raw data, producer code, source specifications or execution environments. The resulting record list is the meeting module's explicit selection input; only selected display assets, rows and metadata travel into a meeting bundle.
+
+The local marimo app uses the project's existing Python environment with `marimo` and `matplotlib`. It offers searchable result selection, preview, comparison, table headings/columns/order/notes, plot type, saved specification and series selection, axes/scales/ranges, colors, legend, title and dimensions. Changes preview reactively; the save buttons persist an explicit edit. The app also edits interpretation, adoption status and task/document links. It exports the selected display records as JSON for meetings. The [synthetic display example](https://github.com/yoshimurahiroki/econ-project-mini/tree/main/examples/research-workspace) exercises the saved-result path with authored values and no estimation.
+
+`edit_gallery_item(root, registry_path, item_id, changes, expected_revision=None)` distinguishes display changes (`title`, `display`), interpretation changes (`interpretation`, `status`, `links`) and scientific changes (`rows`, `metadata`, units, result identity or other definitions). Display edits preserve the saved scientific rows and produce a complete new display generation. Interpretation edits preserve the display assets. A scientific change goes through the existing adopted-specification and result-registration path. A saved view never changes the selected sample, estimator, denominator, bins or inference.
+
+The returned `changed_references` identifies the edited fields with existing JSON references: `keys:["items",ITEM_ID,"display"]`, `rows`, `metadata`, `interpretation` or `files`. Bind consumers to the fields they actually use through the existing argument/task dependency graph. A figure uses its rows, columns and display; interpretation uses its saved result definitions. A label edit regenerates the selected display consumers, an interpretation edit reopens its text consumers, and an authorized specification change updates the corresponding scientific result and its actual descendants. Keep unrelated result IDs reusable. The gallery adds no task store, registry or approval stage.
+
+## Source basis for reuse and provenance
+
+The [AEA Data and Code Availability Policy, February 2026](https://www.aeaweb.org/journals/data/data-code-policy), requires a program-to-output-to-exhibit map and reproduction instructions with software, hardware and running-time requirements. These fields belong to the producing result and reproduction package. The gallery retains their saved identities for result reuse. The policy's data-access and deposit provisions govern a separately authorized replication deposit.
+
+The [AEA Data Editor's preparation guidance](https://aeadataeditor.github.io/aea-de-guidance/preparing-for-data-deposit) connects data provenance, computational requirements, programs and expected outputs. Its “No manual modifications” section requires figures, tables and numerical text to be generated from code. Saved numerical rows and persistent display settings give the local editor that executable correspondence.
+
+[TIER Protocol 4.0's Output folder](https://www.projecttier.org/tier-protocol/protocol-4-0/root/output/) preserves generated tables, figures and other reported results, with separate data-appendix and analysis outputs. The gallery's kinds and source links retain that distinction in the existing registry.
+
+[showyourwork's dependency configuration](https://show-your.work/en/latest/config/#dependencies) declares the files used by each script and reruns the consuming workflow section when those dependencies change. ERS applies that dependency principle through its existing DAG and selected JSON references. It reuses saved estimates when display settings change.
+
+The marimo documentation defines [reactive controls](https://docs.marimo.io/guides/interactivity/), [selectable tables](https://docs.marimo.io/api/inputs/table/), [explicit run buttons](https://docs.marimo.io/api/inputs/run_button/), [application arguments](https://docs.marimo.io/api/cli_args/) and [HTML export](https://docs.marimo.io/guides/exporting/). The local app uses those native controls for browsing, editing and explicit saves. Source versions above were read on 2026-11-05.
+
 ## Default LaTeX family
 
 New paper and slide exports use the supplied [Econometrica paper](../../../tex/paper/ecta_template.tex) and [metropolis slides](../../../tex/slides/main.tex). Their original author/title/body placeholders remain available for direct editing. Keep the paper's class, configuration and `ecta-fullname.bst` together. A citing direct document reads its project bibliography at `tex/bibliography.bib`; a missing requested bibliography remains a build error.
@@ -47,7 +100,7 @@ python harness/research_evidence.py artifacts materialize \
 python harness/research.py --root "$PROJECT" analysis/artifact-manifest.json
 ```
 
-The generated stages normalize each selected result separately, merge their registry, render the table and SVG, generate article and slide sources, bind the manuscript and model, and export article HTML, LaTeX, PDF, Word and Quarto HTML plus slide PDF and PowerPoint. The article and slide sources are Quarto Markdown. Pandoc and Quarto execute as declared stages, and the Quarto output retains its executable version and hash. The PDF stages use a project-local LuaTeX cache; the runner records the selected environment and Pandoc executable identity.
+The generated stages normalize each selected result separately, merge their registry, render the table and SVG, generate article and slide sources, bind the manuscript and model, and export article HTML, LaTeX, PDF and Quarto HTML plus Beamer slide PDF. The article and slide sources are Quarto Markdown. Pandoc and Quarto execute as declared stages, and the Quarto output retains its executable version and hash. The PDF stages use a project-local LuaTeX cache; the runner records the selected environment and Pandoc executable identity.
 
 Result, specification, data, code and template bytes enter the ordinary stage signatures. A changed result rebuilds its registry fragment and descendants; a figure consuming a different source remains reusable. A changed code or specification hash fails its old source binding until the owner adopts the changed input and its corresponding result. Binder verification rechecks the producing references of each selected registry quantity; an unrelated registry record is outside that selection. An older report fails when its selected result or code changes. Run the manifest again after an authorized update; the existing research runner retains prior generations and rebuilds affected stages. Update the article or slide text when a changed result changes the adopted argument.
 

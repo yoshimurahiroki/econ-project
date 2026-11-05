@@ -1,0 +1,45 @@
+---
+title: {{title}}
+date: {{date}}
+lang: ja
+slide-level: 2
+format:
+  revealjs:
+    theme: simple
+    width: 1280
+    height: 720
+    margin: 0.07
+    slide-number: c/t
+    navigation-mode: linear
+    transition: none
+    controls: true
+    progress: true
+    embed-resources: true
+    html-math-method: mathjax
+    include-in-header:
+      text: |
+        <style>
+        :root { --r-main-font: "Noto Sans JP", sans-serif; --r-heading-font: "Noto Sans JP", sans-serif; --r-main-font-size: 30px; --r-heading-color: #922E41; --r-link-color: #922E41; }
+        .reveal h2 { font-size: 1.45em; text-align: left; }
+        .reveal .slides section { text-align: left; }
+        .reveal .exhibit-note { font-size: .49em; line-height: 1.35; color: #434343; margin-top: .8em; }
+        .reveal table { font-size: .64em; width: 100%; }
+        .reveal table thead { color: #922E41; }
+        .reveal img { max-height: 425px; object-fit: contain; margin: .3em auto; }
+        .reveal .column img { max-height: 430px; }
+        .reveal .columns { gap: 1.2em; }
+        .reveal .slides section .fragment { opacity: 1; }
+        </style>
+  beamer:
+    latex-auto-install: false
+    pdf-engine: lualatex
+    aspectratio: 169
+    theme: metropolis
+    fontsize: 10pt
+  gfm: default
+execute:
+  enabled: false
+  freeze: true
+---
+
+{{body}}

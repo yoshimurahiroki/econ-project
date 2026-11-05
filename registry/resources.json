@@ -53,7 +53,7 @@
       "resource_id": "econ-writing",
       "source_path": "skills/econ-writing/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.51.0"
+      "content_version": "0.53.0"
     },
     "econ-review": {
       "resource_id": "econ-review",
@@ -131,7 +131,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.50.0",
+      "content_version": "0.53.0",
       "sync": false
     },
     "resource-guide": {
@@ -144,7 +144,7 @@
       "resource_id": "team-state-helper",
       "source_path": "harness/state.py",
       "resource_kind": "support",
-      "content_version": "0.48.0",
+      "content_version": "0.53.0",
       "required_resources": [
         "capabilities-helper"
       ]
@@ -178,7 +178,7 @@
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "0.49.0",
+      "content_version": "0.53.0",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
@@ -191,7 +191,7 @@
       "resource_id": "tool-sync-common-core-py",
       "source_path": "scripts/sync_common_core.py",
       "resource_kind": "support",
-      "content_version": "0.48.1",
+      "content_version": "0.53.0",
       "source_distribution_only": true
     },
     "tool-pack-context-sh": {
@@ -276,7 +276,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.50.0"
+      "content_version": "0.53.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -295,19 +295,19 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.50.0"
+      "content_version": "0.53.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.50.0"
+      "content_version": "0.53.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
       "source_path": "registry/placements.json",
       "resource_kind": "registry",
-      "content_version": "0.50.0"
+      "content_version": "0.53.0"
     },
     "prose-check-guide": {
       "resource_id": "prose-check-guide",
@@ -325,7 +325,7 @@
       "resource_id": "local-checks",
       "source_path": "harness/local_checks.py",
       "resource_kind": "support",
-      "content_version": "0.48.0",
+      "content_version": "0.53.0",
       "required_resources": [
         "prose-check-rules"
       ]
@@ -358,7 +358,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.50.0"
+      "content_version": "0.53.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -371,7 +371,7 @@
       "resource_id": "codex-hooks",
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.50.0",
+      "content_version": "0.53.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -407,7 +407,7 @@
       "resource_id": "config-template-readme-md",
       "source_path": "docs/ai/config-templates/README.md",
       "resource_kind": "rule",
-      "content_version": "0.50.0"
+      "content_version": "0.53.0"
     },
     "config-template-claude-mcp-example-json": {
       "resource_id": "config-template-claude-mcp-example-json",
@@ -431,7 +431,7 @@
       "resource_id": "state-tests",
       "source_path": "harness/test_state.py",
       "resource_kind": "maintenance",
-      "content_version": "0.48.0",
+      "content_version": "0.53.0",
       "source_distribution_only": true
     },
     "plugin-integration-guide": {
@@ -565,19 +565,19 @@
       "resource_id": "hook-wrapper",
       "source_path": "hooks/check.py",
       "resource_kind": "support",
-      "content_version": "0.32.0"
+      "content_version": "0.53.0"
     },
     "hook-registration": {
       "resource_id": "hook-registration",
       "source_path": "hooks/hooks.json",
       "resource_kind": "support",
-      "content_version": "0.32.0"
+      "content_version": "0.53.0"
     },
     "research-runner": {
       "resource_id": "research-runner",
       "source_path": "harness/research.py",
       "resource_kind": "support",
-      "content_version": "0.49.0",
+      "content_version": "0.53.0",
       "required_resources": [
         "team-state-helper",
         "research-experience"
@@ -587,7 +587,7 @@
       "resource_id": "research-execution",
       "source_path": "harness/research.md",
       "resource_kind": "rule",
-      "content_version": "0.50.0",
+      "content_version": "0.53.0",
       "required_resources": [
         "research-runner",
         "research-estimator",
@@ -671,7 +671,7 @@
       "resource_id": "research-evidence",
       "source_path": "harness/research_evidence.py",
       "resource_kind": "support",
-      "content_version": "0.47.0",
+      "content_version": "0.53.0",
       "required_resources": [
         "paragraph-engine",
         "team-state-helper",
@@ -930,7 +930,7 @@
       "resource_id": "research-artifacts",
       "source_path": "harness/research_artifacts.py",
       "resource_kind": "support",
-      "content_version": "0.26.1",
+      "content_version": "0.53.0",
       "required_resources": [
         "research-evidence",
         "team-state-helper",
@@ -945,12 +945,13 @@
       "resource_id": "result-artifacts",
       "source_path": "skills/econ-writing/references/result-artifacts.md",
       "resource_kind": "rule",
-      "content_version": "0.45.0",
+      "content_version": "0.53.0",
       "required_resources": [
         "research-artifacts",
         "research-runner",
         "research-causal",
-        "research-markets"
+        "research-markets",
+        "research-gallery"
       ]
     },
     "adaptive-research": {
@@ -1392,6 +1393,64 @@
       "source_path": "references/repository-policy/.codex/agents/specialist.toml",
       "resource_kind": "support",
       "content_version": "0.50.0"
+    },
+    "research-gallery": {
+      "resource_id": "research-gallery",
+      "source_path": "harness/research_gallery.py",
+      "resource_kind": "support",
+      "content_version": "0.53.0",
+      "required_resources": [
+        "research-artifacts",
+        "research-meetings",
+        "team-state-helper"
+      ]
+    },
+    "research-meetings": {
+      "resource_id": "research-meetings",
+      "source_path": "harness/research_meetings.py",
+      "resource_kind": "support",
+      "content_version": "0.53.0",
+      "required_resources": [
+        "meeting-quarto-template",
+        "meeting-templates",
+        "latex-slides-pandoc"
+      ]
+    },
+    "meeting-materials": {
+      "resource_id": "meeting-materials",
+      "source_path": "harness/meetings.md",
+      "resource_kind": "rule",
+      "content_version": "0.53.0",
+      "required_resources": [
+        "research-meetings",
+        "research-gallery"
+      ]
+    },
+    "meeting-quarto-template": {
+      "resource_id": "meeting-quarto-template",
+      "source_path": "tex/slides/meeting_template.qmd",
+      "resource_kind": "support",
+      "content_version": "0.53.0"
+    },
+    "meeting-templates": {
+      "resource_id": "meeting-templates",
+      "source_path": "tex/slides/meeting_templates.json",
+      "resource_kind": "support",
+      "content_version": "0.53.0"
+    },
+    "meeting-cloud-workflow": {
+      "resource_id": "meeting-cloud-workflow",
+      "source_path": ".github/workflows/meetings.yml",
+      "resource_kind": "maintenance",
+      "content_version": "0.53.0",
+      "source_distribution_only": true
+    },
+    "research-task-form": {
+      "resource_id": "research-task-form",
+      "source_path": ".github/ISSUE_TEMPLATE/research-task.yml",
+      "resource_kind": "maintenance",
+      "content_version": "0.53.0",
+      "source_distribution_only": true
     }
   },
   "sections": {
@@ -2778,6 +2837,31 @@
       }
     },
     "policy-codex-agent-specialist": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "meeting-materials": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "research-gallery": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "research-meetings": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "meeting-quarto-template": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "meeting-templates": {
       "all": {
         "whole_resource": true
       }
@@ -6005,6 +6089,46 @@
       "requires": [
         "project-practice.define-the-task"
       ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "meeting-materials.all": {
+      "rule_id": "meeting-materials.all",
+      "resource_id": "meeting-materials",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-gallery.all": {
+      "rule_id": "research-gallery.all",
+      "resource_id": "research-gallery",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-meetings.all": {
+      "rule_id": "research-meetings.all",
+      "resource_id": "research-meetings",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "meeting-quarto-template.all": {
+      "rule_id": "meeting-quarto-template.all",
+      "resource_id": "meeting-quarto-template",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "meeting-templates.all": {
+      "rule_id": "meeting-templates.all",
+      "resource_id": "meeting-templates",
+      "section_id": "all",
+      "requires": [],
       "conditional_requires": [],
       "optional_examples": []
     }

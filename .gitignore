@@ -153,3 +153,8 @@ references/repository-policy/.codex/agents/*
 .agents/mcp.json
 .mcp.json
 mcp.json
+
+# Local marimo editor state and generated skill bundles
+**/__marimo__/
+examples/research-workspace/gallery.lock
+skills/*/references/bundle/

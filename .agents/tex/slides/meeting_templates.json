@@ -1,0 +1,51 @@
+{
+  "meeting": {
+    "label": "研究ミーティング",
+    "sections": [
+      {"id": "previous", "title": "前回の決定事項"},
+      {"id": "previous-todos", "title": "前回からの To Do"},
+      {"id": "completed", "title": "完了した作業"},
+      {"id": "active", "title": "進行中の作業"},
+      {"id": "results", "title": "新しい記述統計・分析結果"},
+      {"id": "findings", "title": "研究上の発見"},
+      {"id": "interpretation", "title": "結果の解釈"},
+      {"id": "discussion", "title": "今回検討する事項"},
+      {"id": "decisions", "title": "採用した判断"},
+      {"id": "next", "title": "次回までの To Do"}
+    ]
+  },
+  "progress": {
+    "label": "進捗報告",
+    "sections": [
+      {"id": "question", "title": "研究質問"},
+      {"id": "previous", "title": "前回の決定事項"},
+      {"id": "completed", "title": "完了した成果"},
+      {"id": "active", "title": "進行中の作業"},
+      {"id": "results", "title": "結果"},
+      {"id": "discussion", "title": "判断する事項"},
+      {"id": "next", "title": "次の作業・担当・期限"}
+    ]
+  },
+  "proposal": {
+    "label": "研究計画相談",
+    "sections": [
+      {"id": "question", "title": "研究質問と推定対象"},
+      {"id": "plan", "title": "採用した研究計画"},
+      {"id": "results", "title": "標本構成と記述統計"},
+      {"id": "discussion", "title": "設計上の検討事項"},
+      {"id": "decisions", "title": "採用した判断"},
+      {"id": "next", "title": "次の作業・担当・期限"}
+    ]
+  },
+  "results": {
+    "label": "主要結果報告",
+    "sections": [
+      {"id": "question", "title": "研究質問と推定対象"},
+      {"id": "results", "title": "主要結果と仕様比較"},
+      {"id": "findings", "title": "研究上の発見"},
+      {"id": "interpretation", "title": "結果の解釈"},
+      {"id": "discussion", "title": "追加検討する事項"},
+      {"id": "next", "title": "次の作業"}
+    ]
+  }
+}
