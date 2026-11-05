@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.42",
+  "version": "2.3.43",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -3838,7 +3838,7 @@
       "subdomain": "部分識別",
       "kind": "knowledge",
       "topic": "識別集合",
-      "use_when": "二値結果の平均効果またはモーメント不等式から識別集合を求める",
+      "use_when": "二値結果・モーメント不等式の識別集合を求め、観測共変量を外した効果の変化で未観測交絡の感度を較正する",
       "inputs": [
         "処置比率",
         "群別結果平均",
@@ -11888,8 +11888,26 @@
         "ja": "識別集合"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "sensitivity analysis",
+          "unobserved confounding",
+          "unmeasured confounding",
+          "covariate benchmark",
+          "omitted covariate",
+          "observed covariate",
+          "benchmarking confounders",
+          "partial identification bounds"
+        ],
+        "ja": [
+          "感度分析",
+          "未観測交絡",
+          "観測共変量",
+          "共変量を除いた比較",
+          "交絡の較正",
+          "感度モデル",
+          "部分識別",
+          "効果の上下界"
+        ]
       },
       "broader": [
         "C-CH-12"
