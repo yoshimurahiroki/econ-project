@@ -192,7 +192,8 @@
       ],
       "jel_codes": [
         "G21",
-        "G01"
+        "G01",
+        "E51"
       ],
       "kind": "knowledge",
       "outputs": [
@@ -208,7 +209,7 @@
       ],
       "subdomain": "銀行と信用",
       "title": "銀行、信用創造、取付け",
-      "topic": "流動性保険と取付け均衡を比較する; credit rationing; adverse selection lending; bank run; 信用割当; 逆選択",
+      "topic": "流動性保険と取付け均衡を比較する; credit rationing; adverse selection lending; bank run; 信用割当; 逆選択; 貸出による預金創造と他行決済; bank lending deposit creation and settlement",
       "use_when": "流動性保険と取付け均衡を比較する"
     },
     {

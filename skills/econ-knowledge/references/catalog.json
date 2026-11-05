@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.32",
+  "version": "2.3.33",
   "language": "ja",
   "date": "2026-11-05",
   "chapter_count": 35,
@@ -5749,7 +5749,7 @@
       "domain": "企業金融銀行",
       "subdomain": "銀行と信用",
       "kind": "knowledge",
-      "topic": "流動性保険と取付け均衡を比較する; credit rationing; adverse selection lending; bank run; 信用割当; 逆選択",
+      "topic": "流動性保険と取付け均衡を比較する; credit rationing; adverse selection lending; bank run; 信用割当; 逆選択; 貸出による預金創造と他行決済; bank lending deposit creation and settlement",
       "use_when": "流動性保険と取付け均衡を比較する",
       "inputs": [
         "預金契約",
@@ -5772,7 +5772,8 @@
       ],
       "jel_codes": [
         "G21",
-        "G01"
+        "G01",
+        "E51"
       ],
       "contract_ids": [
         "MC-bank-run"
@@ -13078,7 +13079,8 @@
       },
       "jel_codes": [
         "G21",
-        "G01"
+        "G01",
+        "E51"
       ],
       "kind": "concept"
     },
@@ -16944,7 +16946,15 @@
         "G21",
         "G01"
       ],
-      "kind": "concept"
+      "kind": "concept",
+      "mappings": [
+        {
+          "scheme": "STW",
+          "uri": "http://zbw.eu/stw/descriptor/13688-6",
+          "relation": "broadMatch",
+          "version": "9.20"
+        }
+      ]
     },
     {
       "id": "C-TERM-CREDIT-RATIONING",
@@ -20016,6 +20026,11 @@
     "E43": {
       "en": "Interest Rates: Determination, Term Structure, and Effects",
       "ja": "金利・期間構造",
+      "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
+    },
+    "E51": {
+      "en": "Money Supply • Credit • Money Multipliers",
+      "ja": "貨幣供給・信用・貨幣乗数",
       "provenance_url": "https://www.aeaweb.org/econlit/classificationTree.xml"
     },
     "E52": {
