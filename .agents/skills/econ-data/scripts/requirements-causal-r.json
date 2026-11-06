@@ -8,6 +8,29 @@
     "modelsummary": "2.6.0",
     "ggplot2": "4.0.3",
     "Hmisc": "5.1.1",
-    "quantreg": "5.97"
+    "quantreg": "5.97",
+    "MASS": "7.3-66",
+    "fixest": "0.14.2",
+    "did2s": "1.3.0",
+    "didimputation": "0.6.0",
+    "fixes": "1.0.0",
+    "nonabsdid": "0.4.1.9000",
+    "synthdid": "0.0.9",
+    "DIDmultiplegtDYN": "2.4.0",
+    "ivDiag": "1.0.8",
+    "estimatr": "2.0.1",
+    "survey": "4.5",
+    "rdrobust": "4.1.1"
+  },
+  "sources": {
+    "fixest": {"repository": "lrberge/fixest", "ref": "cf9461331033e6f7276ad39d8203751690e619d4"},
+    "did2s": {"repository": "kylebutts/did2s", "ref": "3adaf985980d4b46205de2e1856f93ba075baefe"},
+    "didimputation": {"repository": "kylebutts/didimputation", "ref": "5645e6b14bfb3fe3faa88a1c14a2339bbb03fbc3"},
+    "fixes": {"repository": "yo5uke/fixes", "ref": "0a1e1cbba31bd344b7599273f973f9c850247c92"},
+    "nonabsdid": {"repository": "takuma1102/nonabsdid", "ref": "92af671e0c99d6cc5bbe1eff4c0b813dac473707"},
+    "synthdid": {"repository": "synth-inference/synthdid", "ref": "70c1ce3eac58e28c30b67435ca377bb48baa9b8a"},
+    "DIDmultiplegtDYN": {"repository": "Credible-Answers/did_multiplegt_dyn", "ref": "ed2df86f73e6360e615c9cc32697fa1355c3e9ef", "subdir": "R"},
+    "ivDiag": {"repository": "apoorvalal/ivDiag", "ref": "cbc391f4b1013c837743593bcde54efd5d733fb7"},
+    "rdrobust": {"repository": "rdpackages/rdrobust", "ref": "0e990b829bc123334b5227f1ae7d820faff14726", "subdir": "R/rdrobust"}
   }
 }

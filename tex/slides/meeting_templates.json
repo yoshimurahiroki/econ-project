@@ -5,7 +5,8 @@
     "sections": [
       {"id": "question", "title": "研究質問と推定対象"},
       {"id": "data", "title": "データと標本"},
-      {"id": "specification", "title": "分析仕様"},
+      {"id": "specification", "title": "識別デザイン・推定・推論"},
+      {"id": "table1", "title": "Table 1・群間比較", "artifact_role": "descriptive"},
       {"id": "results", "title": "保存済み分析結果"},
       {"id": "exhibits", "title": "図表"},
       {"id": "interpretation", "title": "結果の解釈"},
@@ -19,7 +20,10 @@
       {"id": "previous-todos", "title": "前回からの To Do"},
       {"id": "completed", "title": "完了した作業"},
       {"id": "active", "title": "進行中の作業"},
-      {"id": "results", "title": "新しい記述統計・分析結果"},
+      {"id": "table1", "title": "標本・記述統計の更新", "artifact_role": "descriptive"},
+      {"id": "results", "title": "新しい分析結果", "artifact_role": "main"},
+      {"id": "event-study", "title": "効果の時間構造", "artifact_role": "event_study"},
+      {"id": "additional", "title": "追加結果と仕様比較", "artifact_role": "additional"},
       {"id": "findings", "title": "研究上の発見"},
       {"id": "interpretation", "title": "結果の解釈"},
       {"id": "discussion", "title": "今回検討する事項"},
@@ -34,7 +38,8 @@
       {"id": "previous", "title": "前回の決定事項"},
       {"id": "completed", "title": "完了した成果"},
       {"id": "active", "title": "進行中の作業"},
-      {"id": "results", "title": "結果"},
+      {"id": "table1", "title": "標本と記述統計", "artifact_role": "descriptive"},
+      {"id": "results", "title": "結果", "artifact_role": "main"},
       {"id": "discussion", "title": "判断する事項"},
       {"id": "next", "title": "次の作業・担当・期限"}
     ]
@@ -44,7 +49,9 @@
     "sections": [
       {"id": "question", "title": "研究質問と推定対象"},
       {"id": "plan", "title": "採用した研究計画"},
-      {"id": "results", "title": "標本構成と記述統計"},
+      {"id": "data", "title": "データ・観測単位・利用可能な変動"},
+      {"id": "specification", "title": "識別・推定・推論の設計"},
+      {"id": "results", "title": "標本構成と記述統計", "artifact_role": "descriptive"},
       {"id": "discussion", "title": "設計上の検討事項"},
       {"id": "decisions", "title": "採用した判断"},
       {"id": "next", "title": "次の作業・担当・期限"}
@@ -54,10 +61,16 @@
     "label": "主要結果報告",
     "sections": [
       {"id": "question", "title": "研究質問と推定対象"},
-      {"id": "results", "title": "主要結果と仕様比較"},
+      {"id": "specification", "title": "識別デザイン・推定・推論"},
+      {"id": "data", "title": "母集団・分析標本・観測単位"},
+      {"id": "table1", "title": "Table 1・群間比較", "artifact_role": "descriptive"},
+      {"id": "results", "title": "主推定結果", "artifact_role": "main"},
+      {"id": "event-study", "title": "イベントスタディ", "artifact_role": "event_study"},
+      {"id": "additional", "title": "主要な追加結果・代替仕様", "artifact_role": "additional"},
       {"id": "findings", "title": "研究上の発見"},
       {"id": "interpretation", "title": "結果の解釈"},
-      {"id": "discussion", "title": "追加検討する事項"},
+      {"id": "discussion", "title": "今回判断する事項"},
+      {"id": "decisions", "title": "採用した判断"},
       {"id": "next", "title": "次の作業"}
     ]
   },
@@ -67,7 +80,10 @@
     "sections": [
       {"id": "data", "title": "Data"},
       {"id": "specification", "title": "Empirical specification"},
-      {"id": "results", "title": "Results"},
+      {"id": "table1", "title": "Table 1", "artifact_role": "descriptive"},
+      {"id": "results", "title": "Results", "artifact_role": "main"},
+      {"id": "event-study", "title": "Dynamic effects", "artifact_role": "event_study"},
+      {"id": "additional", "title": "Additional results", "artifact_role": "additional"},
       {"id": "exhibits", "title": "Tables and figures"},
       {"id": "interpretation", "title": "Interpretation"}
     ]

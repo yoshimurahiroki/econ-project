@@ -25,22 +25,55 @@ FMT=re.compile(r'^(?:\.[0-9]{1,2})?[fge]$')
 TOKEN=re.compile(r'\{\{stat:([A-Za-z][A-Za-z0-9_-]*)\}\}|\{\{(table|figure)\}\}')
 GALLERY_KINDS = ('descriptive', 'sample_composition', 'distribution', 'time_series',
                  'group_comparison', 'coefficient', 'event_study', 'robustness',
-                 'alternative_specification', 'table', 'figure')
-PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study', 'density', 'ecdf', 'box')
-GALLERY_RENDER_VERSION = 4
+                 'alternative_specification', 'table', 'figure', 'att_gt', 'cohort_event',
+                 'parallel_trends', 'rdd', 'iv_first_stage', 'iv_reduced_form', 'iv_confidence_set',
+                 'scm', 'scm_gap', 'scm_placebo', 'binned_scatter', 'smd', 'structural', 'geo')
+PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study', 'density', 'ecdf', 'box',
+              'att_gt', 'cohort_event', 'parallel_trends', 'rdd', 'iv_first_stage', 'iv_reduced_form',
+              'iv_confidence_set', 'scm', 'scm_gap', 'scm_placebo', 'binned_scatter', 'smd', 'structural', 'geo')
+GALLERY_RENDER_VERSION = 6
 DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_order',
                   'sort_by', 'ascending', 'notes', 'plot_type', 'x', 'y', 'lower', 'upper',
                   'series', 'visible_series', 'selected_result_ids', 'x_label', 'y_label',
                   'x_limits', 'y_limits', 'x_scale', 'y_scale', 'colors', 'legend',
                   'legend_location', 'width', 'height', 'orientation', 'style', 'font_size',
-                  'series_order', 'series_labels'}
+                  'series_order', 'series_labels', 'preset', 'table_number', 'latex_label',
+                  'model_column', 'model_labels', 'model_order', 'outcome_column', 'column_groups',
+                  'term_labels', 'term_order', 'panels', 'statistic_rows', 'show_se', 'show_ci',
+                  'show_p', 'show_stars', 'digits', 'component', 'cohort', 'time', 'value',
+                  'geometry', 'x_lower', 'x_upper', 'color_label', 'facet', 'note_fields'}
 GALLERY_FILTERS = ('result_id', 'sample', 'comparison', 'outcome', 'specification', 'period', 'adoption')
+RESULT_DEFINITION_FIELDS = (
+    'run_id', 'specification_id', 'sample', 'population', 'observation_unit',
+    'comparison', 'period', 'variables', 'measurement_units', 'estimand',
+    'inference', 'weights', 'denominator', 'bin_edges', 'interval_closure',
+    'quantile_convention', 'observations', 'outcome', 'specification', 'estimator',
+    'n', 'n_clusters', 'fixed_effects', 'controls', 'sample_policy', 'unit',
+    'ci_kind', 'interval_type', 'confidence_level', 'reference_time', 'reference_event_time',
+    'reference_distribution', 'degrees_of_freedom', 'cluster', 'clustering',
+    'treatment_group', 'control_group', 'comparison_group', 'assignment_unit',
+    'inference_unit', 'treatment_history', 'time_structure', 'cohort',
+    'aggregation', 'aggregation_weights', 'cohort_contributions', 'base_period',
+    'anticipation', 'treatment_time', 'treatment_event_time', 'cutoff', 'bandwidth', 'weight_type',
+    'weight_normalization', 'covariance_kind', 'official_function', 'effective_options',
+    'result_format_version', 'scenario', 'parameter_definition', 'identification', 'reference_lines',
+    'report_role', 'selection_status', 'method_selection')
+COMPARISON_FIELDS = (
+    'estimand', 'population', 'sample', 'observation_unit', 'assignment_unit',
+    'comparison', 'comparison_group', 'treatment_group', 'control_group', 'period',
+    'outcome', 'unit', 'measurement_units', 'treatment_history', 'time_structure',
+    'weights', 'weight_type', 'weight_normalization', 'aggregation',
+    'aggregation_weights', 'cohort', 'cohort_contributions', 'base_period',
+    'reference_time', 'reference_event_time', 'anticipation', 'inference_unit',
+    'cluster', 'clustering', 'inference', 'interval_type', 'confidence_level')
 GALLERY_LABELS = {'variable': '変数', 'term': '項目', 'group': '群', 'period': '期間',
                   'event_time': '導入からの期数', 'mean': '平均', 'sd': '標準偏差', 'median': '中央値',
                   'q25': '25%点', 'q50': '50%点', 'q75': '75%点', 'estimate': '推定値',
                   'se': '標準誤差', 'ci_low': '区間下端', 'ci_high': '区間上端', 'p_value': 'p 値',
                   'n': '観測数', 'unit': '単位', 'stage': '段階', 'n_missing': '欠損数', 'n_zero': 'ゼロの件数',
-                  'value': '値', 'middle': '中央値', 'count': '件数', 'density': '密度', 'bin_mid': '階級の中央'}
+                  'value': '値', 'middle': '中央値', 'count': '件数', 'density': '密度', 'bin_mid': '階級の中央',
+                  'min': '最小値', 'max': '最大値', 'difference': '平均差', 'standard_error': '標準誤差',
+                  'conf_low': '区間下端', 'conf_high': '区間上端', 'smd': '標準化平均差', 'n_entities': '対象数'}
 
 
 def gallery_registry(root, path):
@@ -61,8 +94,16 @@ def gallery_registry(root, path):
 def gallery_display_metadata(value):
     """Keep sample membership in the scientific record, outside display metadata."""
     if isinstance(value, dict):
-        return {key: gallery_display_metadata(item) for key, item in value.items()
-                if not (key.endswith('_ids') and key not in ('result_ids', 'specification_ids', 'cohort_ids'))}
+        metadata = {key: gallery_display_metadata(item) for key, item in value.items()
+                    if not (key.endswith('_ids') and key not in ('result_ids', 'specification_ids', 'cohort_ids'))}
+        # Official calls retain resolved column vectors in the source result.
+        # Exhibits retain their column bindings and scalar options.
+        if isinstance(value.get('columns'), dict):
+            for field in ('args', 'inherited_args'):
+                if isinstance(metadata.get(field), dict):
+                    metadata[field] = {key: item for key, item in metadata[field].items()
+                                       if key not in value['columns']}
+        return metadata
     if isinstance(value, list):
         return [gallery_display_metadata(item) for item in value]
     return copy.deepcopy(value)
@@ -72,19 +113,13 @@ def gallery_metadata(registry, result_ids):
     """Capture economic definitions and producer identities from saved results once."""
     producers = {}
     definitions = []
-    fields = ('run_id', 'specification_id', 'sample', 'population', 'observation_unit',
-              'comparison', 'period', 'variables', 'measurement_units', 'estimand',
-              'inference', 'weights', 'denominator', 'bin_edges', 'interval_closure',
-              'quantile_convention', 'observations', 'outcome', 'specification', 'estimator',
-              'n', 'n_clusters', 'fixed_effects', 'controls', 'sample_policy', 'unit',
-              'ci_kind', 'interval_type', 'confidence_level', 'reference_time', 'reference_event_time',
-              'reference_distribution', 'degrees_of_freedom', 'cluster')
+    fields = RESULT_DEFINITION_FIELDS
     for result_id in result_ids:
         if result_id not in registry['records']:
             raise ValueError('unknown saved result: ' + result_id)
         record = registry['records'][result_id]
         saved = record.get('source_result') or {}
-        adopted = record.get('adopted') or saved.get('definition') or {}
+        adopted = record.get('adopted') or saved.get('adopted') or saved.get('definition') or {}
         if not isinstance(adopted, dict):
             adopted = {}
         metadata = {key: copy.deepcopy(saved.get(key, adopted.get(key))) for key in fields
@@ -93,6 +128,11 @@ def gallery_metadata(registry, result_ids):
                          if key in fields})
         if isinstance(saved.get('display'), dict):
             metadata.update(copy.deepcopy(saved['display'].get('metadata', {})))
+        for key in ('interval_type', 'confidence_level', 'reference_distribution',
+                    'degrees_of_freedom', 'inference_unit', 'cluster', 'n_clusters'):
+            inference = saved.get('inference') or {}
+            if key not in metadata and isinstance(inference, dict) and key in inference:
+                metadata[key] = copy.deepcopy(inference[key])
         metadata.setdefault('specification', metadata.get('specification_id', record.get('identity', {}).get('specification', saved.get('specification'))))
         if 'outcome' not in metadata and 'variables' in metadata:
             metadata['outcome'] = copy.deepcopy(metadata['variables'])
@@ -109,6 +149,11 @@ def gallery_metadata(registry, result_ids):
                                           record.get('environment', record.get('versions', saved.get('environment', {}))))),
             'engine': copy.deepcopy(record.get('engine')),
             'method': record.get('method'),
+            'official_function': copy.deepcopy(saved.get('official_function', saved.get('engine', record.get('engine')))),
+            'effective_options': copy.deepcopy(saved.get('effective_options',
+                (saved.get('diagnostics') or {}).get('effective_options', saved.get('options', record.get('options', {}))))),
+            'versions': copy.deepcopy(saved.get('versions', record.get('versions', {}))),
+            'result_format_version': saved.get('result_format_version', saved.get('schema_version', saved.get('schema'))),
         }
     common = {key: value for key, value in definitions[0].items()
               if all(other.get(key) == value for other in definitions[1:])} if definitions else {}
@@ -151,7 +196,8 @@ def validate_gallery_item(item):
         raise ValueError('unsupported display setting; scientific definitions belong to a new registered result')
     if display.get('plot_type', 'table') not in PLOT_TYPES:
         raise ValueError('unsupported saved-data plot type')
-    for field in ('x', 'y', 'lower', 'upper', 'series', 'sort_by'):
+    for field in ('x', 'y', 'lower', 'upper', 'series', 'sort_by', 'model_column', 'outcome_column',
+                  'component', 'cohort', 'time', 'value', 'geometry', 'x_lower', 'x_upper', 'facet'):
         if display.get(field) is not None and display[field] not in keys:
             raise ValueError(field + ' must name a saved column')
     for field in ('column_order', 'selected_result_ids', 'visible_series'):
@@ -174,6 +220,39 @@ def validate_gallery_item(item):
             raise ValueError(field + ' must map strings to strings')
     if display.get('style', 'paper') not in ('paper', 'presentation'):
         raise ValueError('style must be paper or presentation')
+    if display.get('preset', 'paper') not in ('paper', 'meeting'):
+        raise ValueError('preset must be paper or meeting')
+    if type(display.get('digits', 3)) is not int or not 0 <= display.get('digits', 3) <= 10:
+        raise ValueError('digits must be an integer from 0 to 10')
+    for field in ('show_se', 'show_ci', 'show_p', 'show_stars'):
+        if field in display and type(display[field]) is not bool:
+            raise ValueError(field + ' must be boolean')
+    for field in ('model_labels', 'term_labels'):
+        if not isinstance(display.get(field, {}), dict) or any(not isinstance(k, str) or not isinstance(v, str)
+                                                              for k, v in display.get(field, {}).items()):
+            raise ValueError(field + ' must map strings to labels')
+    for field in ('model_order', 'term_order', 'note_fields'):
+        values = display.get(field, [])
+        if not isinstance(values, list) or any(not isinstance(value, str) for value in values) or len(set(values)) != len(values):
+            raise ValueError(field + ' must contain distinct strings')
+    for field, member in (('column_groups', 'models'), ('panels', 'terms')):
+        groups = display.get(field, [])
+        if not isinstance(groups, list):
+            raise ValueError(field + ' must be a list')
+        members = []
+        for group in groups:
+            if not isinstance(group, dict) or set(group) != {'label', member} or not isinstance(group['label'], str):
+                raise ValueError(field + ' requires a label and ' + member)
+            values = group[member]
+            if not isinstance(values, list) or not values or any(not isinstance(value, str) for value in values):
+                raise ValueError(member + ' must contain saved names')
+            members.extend(values)
+        if len(set(members)) != len(members):
+            raise ValueError(field + ' cannot repeat a saved member')
+    statistics = display.get('statistic_rows', [])
+    if not isinstance(statistics, list) or any(not isinstance(row, dict) or set(row) != {'field', 'label'} or
+                                              any(not isinstance(value, str) for value in row.values()) for row in statistics):
+        raise ValueError('statistic_rows requires saved field and label pairs')
     if type(display.get('font_size', 10)) not in (int, float) or not 6 <= display.get('font_size', 10) <= 40:
         raise ValueError('font_size must be 6–40')
     if not isinstance(display.get('series_order', []), list) or any(not isinstance(value, str) for value in display.get('series_order', [])):
@@ -189,7 +268,7 @@ def validate_gallery_item(item):
         raise ValueError('column labels and formats must use saved column keys')
     if any(not FMT.fullmatch(fmt) for fmt in display.get('formats', {}).values()):
         raise ValueError('numeric formats must use f, g or e precision')
-    for field in ('title', 'x_label', 'y_label', 'legend_location'):
+    for field in ('title', 'x_label', 'y_label', 'legend_location', 'table_number', 'latex_label', 'color_label'):
         if field in display and not isinstance(display[field], str):
             raise ValueError(field + ' must be text')
     for field in ('ascending', 'legend'):
@@ -256,7 +335,7 @@ def gallery_projection(item):
 
 def gallery_items(root, gallery_spec_path, query='', filters=None):
     """List/search saved displays; no producer reads, checks or calculation runs."""
-    _, registry = gallery_registry(root, gallery_spec_path)
+    path, registry = gallery_registry(root, gallery_spec_path)
     terms = query.casefold().split()
     items = []
     for item in registry.get('items', {}).values():
@@ -275,7 +354,18 @@ def gallery_items(root, gallery_spec_path, query='', filters=None):
                 matched = False
                 break
         if matched and all(term in searchable for term in terms):
-            items.append(gallery_projection(item))
+            view = gallery_projection(item)
+            if view['metadata'].get('table_type') == 'regression':
+                regression = gallery_projection({**item, 'display': {**item.get('display', {}),
+                    'column_order': [column['key'] for column in item['columns']]}})
+                presentation = gallery_regression_comparison([regression]).get('presentation')
+                if presentation is not None:
+                    view['presentation'] = presentation
+            view['source_reference'] = {
+                'kind': 'json', 'path': path.relative_to(Path(root).resolve()).as_posix(),
+                'keys': ['items', item['id']], 'content_version': state.content_hash(item),
+                'fields': ['rows', 'columns', 'metadata', 'display', 'interpretation', 'files']}
+            items.append(view)
     return items
 
 
@@ -285,13 +375,31 @@ def gallery_compare(root, gallery_spec_path, item_ids):
     if not item_ids or len(set(item_ids)) != len(item_ids) or set(item_ids) - set(items):
         raise ValueError('compare requires distinct existing gallery item IDs')
     selected = [items[item_id] for item_id in item_ids]
-    fields = ('sample', 'population', 'observation_unit', 'comparison', 'period',
-              'variables', 'measurement_units', 'estimand', 'inference', 'outcome', 'specification',
-              'sample_policy', 'weights', 'estimator', 'ci_kind', 'interval_type', 'reference_event_time')
+    fields = (*COMPARISON_FIELDS, 'variables', 'specification', 'sample_policy', 'estimator', 'ci_kind')
     differences = {key: {item['id']: item['metadata'].get(key) for item in selected}
                    for key in fields if any(item['metadata'].get(key) != selected[0]['metadata'].get(key)
                                              for item in selected[1:])}
+    definitions = {}
+    for item in selected:
+        for result_id in item['result_ids']:
+            definition = item['metadata'].get('result_definitions', {}).get(result_id, item['metadata'])
+            definitions[item['id'] + '/' + result_id] = definition
+    names = list(definitions)
+    result_differences = {field: {key: definition.get(field) for key, definition in definitions.items()}
+                          for field in fields if names and any(definitions[key].get(field) != definitions[names[0]].get(field)
+                                                                for key in names[1:])}
+    required = ('estimand', 'population', 'sample', 'period', 'weights')
+    unrecorded = {key: [field for field in required if field not in definition or
+                       (definition[field] is None and field != 'weights')]
+                  for key, definition in definitions.items()}
+    unrecorded = {key: value for key, value in unrecorded.items() if value}
     return {'items': selected, 'definition_differences': differences,
+            'result_definition_differences': result_differences,
+            'comparison_contract': {
+                'status': 'different_definitions' if any(key in result_differences for key in COMPARISON_FIELDS)
+                          else 'definition_fields_required' if unrecorded else 'aligned_saved_definitions',
+                'fields': list(COMPARISON_FIELDS), 'unrecorded_fields': unrecorded,
+                'automatic_reweighting': False, 'analysis_executed': False},
             'regression_table': gallery_regression_comparison(selected)}
 
 
@@ -300,8 +408,13 @@ def saved_display_definitions(result_id, saved):
     definitions = []
     kinds = {'table1': 'descriptive', 'table': 'table', 'regression': 'table', 'balance': 'group_comparison',
              'sample-flow': 'sample_composition', 'trend': 'time_series', 'event-study': 'event_study',
-             'iv': 'coefficient', 'rdd': 'figure', 'heterogeneity': 'coefficient',
-             'sensitivity': 'robustness', 'counterfactual': 'figure'}
+             'iv': 'coefficient', 'heterogeneity': 'coefficient',
+             'sensitivity': 'robustness', 'counterfactual': 'structural',
+             'att-gt': 'att_gt', 'cohort-event': 'cohort_event', 'parallel-trends': 'parallel_trends',
+             'iv-first-stage': 'iv_first_stage', 'iv-reduced-form': 'iv_reduced_form',
+             'iv-confidence-set': 'iv_confidence_set', 'synthetic-control': 'scm',
+             'scm-gap': 'scm_gap', 'scm-placebo': 'scm_placebo', 'binscatter': 'binned_scatter',
+             'equilibrium': 'structural', 'geography': 'geo'}
     def visit(block, path):
         if not isinstance(block, dict):
             return
@@ -316,20 +429,24 @@ def saved_display_definitions(result_id, saved):
                 metadata['table_type'] = 'regression'
             columns = [{'key': key, 'label': GALLERY_LABELS.get(key, key), 'unit': ''} for key in keys]
             distribution_type = metadata.get('distribution_type', 'histogram')
-            x = next((key for key in ('event_time', 'period', 'running', 'bin_mid', 'x', 'term', 'scenario', 'group') if key in keys), None)
+            x = next((key for key in ('event_time', 'time', 'period', 'running', 'bin_mid', 'x', 'term', 'variable', 'scenario', 'group') if key in keys), None)
             y = next((key for key in ('estimate', 'value', 'mean', 'count', 'density', 'middle', 'n') if key in keys), None)
             if kind in ('descriptive', 'sample_composition', 'group_comparison', 'table'):
                 plot_type = 'table'
             elif kind == 'distribution':
                 plot_type = {'histogram': 'bar', 'density': 'density', 'ecdf': 'ecdf', 'box': 'box'}[distribution_type]
             else:
-                plot_type = {'coefficient': 'coefficient', 'event_study': 'event_study'}.get(kind, 'line')
-            if x is None or y is None:
+                plot_type = kind if kind in PLOT_TYPES else 'line'
+            if kind == 'att_gt' and 'cohort' in keys:
+                y = 'cohort'
+            elif kind == 'smd' and 'smd' in keys:
+                y = 'smd'
+            if (x is None or y is None) and not (kind == 'geo' and 'geometry' in keys) and kind != 'iv_confidence_set':
                 plot_type = 'table'
             display = {'plot_type': plot_type, 'style': 'paper',
                        'formats': {key: '.3g' for key in keys if any(type(row.get(key)) in (int, float) for row in rows)}}
             if source_kind == 'table1':
-                display['column_order'] = [key for key in keys if key in ('variable', 'group', 'mean', 'sd', 'median', 'n', 'unit') or key.startswith('q')]
+                display['column_order'] = [key for key in keys if key in ('variable', 'group', 'period', 'mean', 'sd', 'median', 'min', 'max', 'n', 'unit') or key.startswith('q')]
                 display['height'] = max(300, min(1600, 160 + len(rows) * 34))
             if plot_type != 'table':
                 for column in columns:
@@ -338,11 +455,18 @@ def saved_display_definitions(result_id, saved):
                     if column['key'] == x and kind == 'distribution' and plot_type != 'box':
                         column['unit'] = metadata.get('outcome_unit', '')
                 display.update(x=x, y=y, series='group' if 'group' in keys else 'series' if 'series' in keys else None,
-                               lower='ci_low' if 'ci_low' in keys else None, upper='ci_high' if 'ci_high' in keys else None)
-                if plot_type == 'coefficient':
+                               lower=next((key for key in ('ci_low', 'conf_low', 'lower') if key in keys), None),
+                               upper=next((key for key in ('ci_high', 'conf_high', 'upper') if key in keys), None))
+                for field in ('component', 'cohort', 'time', 'geometry'):
+                    if field in keys:
+                        display[field] = field
+                if kind in ('att_gt', 'geo'):
+                    display['value'] = next((key for key in ('estimate', 'value') if key in keys), None)
+                if plot_type in ('coefficient', 'smd'):
                     display['orientation'] = 'horizontal'
             suffix = '-'.join(path[1:]) or source_kind
-            identity = result_id + '-' + re.sub(r'[^A-Za-z0-9_-]', '_', suffix)
+            identity_suffix = '-'.join(path) if path[0] == 'displays' else suffix
+            identity = result_id + '-' + re.sub(r'[^A-Za-z0-9_-]', '_', identity_suffix)
             definitions.append({'id': identity, 'title': block.get('title', result_id + ' / ' + suffix),
                                 'kind': kind, 'result_ids': [result_id], 'columns': columns,
                                 'rows': rows, 'metadata': metadata, 'display': display})
@@ -350,6 +474,32 @@ def saved_display_definitions(result_id, saved):
             if key not in ('rows', 'columns', 'metadata', 'kind') and isinstance(value, dict):
                 visit(value, path + [key])
     visit(saved.get('display'), ['display'])
+    visit(saved.get('displays'), ['displays'])
+    group_time = saved.get('diagnostics', {}).get('group_time', {})
+    if group_time.get('cells') and not any(item['kind'] == 'att_gt' for item in definitions):
+        # These cells already contain official estimates and interval endpoints.
+        # Retain row-level sample IDs and weights in the source result only.
+        rows = [{key: cell[key] for key in ('time', 'event_time', 'base_period', 'role', 'estimate', 'se', 'ci_low', 'ci_high')
+                 if key in cell} | {'cohort': cell['group']} for cell in group_time['cells']]
+        options = saved.get('diagnostics', {}).get('effective_options', {}).get('att_gt', {})
+        metadata = {**saved.get('display', {}).get('metadata', {}), 'estimand': 'ATT(g,t)',
+                    'aggregation': 'unaggregated group-time cells', 'base_period': options.get('base_period'),
+                    'control_group': options.get('control_group'), 'anticipation': options.get('anticipation'),
+                    'interval_type': None, 'confidence_level': None}
+        if 'cband' in options:
+            metadata['interval_type'] = 'simultaneous' if options['cband'] else 'pointwise'
+        if options.get('alp') is not None:
+            metadata['confidence_level'] = 1 - options['alp']
+        for key in ('cohort_contributions', 'aggregation_weights'):
+            metadata[key] = None
+        visit({'kind': 'att_gt', 'rows': rows, 'metadata': metadata}, ['diagnostics', 'group_time'])
+        visit({'kind': 'cohort_event', 'rows': rows, 'metadata': metadata}, ['diagnostics', 'group_time'])
+        definitions[-1]['id'] += '-cohort-event'
+    gaps = saved.get('diagnostics', {}).get('period_gap')
+    if gaps and not any(item['kind'] == 'scm_gap' for item in definitions):
+        visit({'kind': 'scm_gap', 'rows': [{'time': row['time'], 'estimate': row['gap']} for row in gaps],
+               'metadata': {**saved.get('adopted', {}),
+                            'estimand': 'treated-minus-synthetic outcome gap'}}, ['diagnostics', 'period_gap'])
     return definitions
 
 
@@ -374,8 +524,8 @@ def prepare_gallery_items(registry, definitions=None):
                             estimate = quantities['coefficient.' + term]
                             rows.append({'term': term, 'estimate': estimate['value'], 'unit': estimate['unit'],
                                          'standard_error': quantities.get('standard_error.' + term, {}).get('value'),
-                                         'lower': quantities.get('confidence_95_lower.' + term, {}).get('value'),
-                                         'upper': quantities.get('confidence_95_upper.' + term, {}).get('value'),
+                                         'lower': quantities.get('confidence_lower.' + term, quantities.get('confidence_95_lower.' + term, {})).get('value'),
+                                         'upper': quantities.get('confidence_upper.' + term, quantities.get('confidence_95_upper.' + term, {})).get('value'),
                                          'p_value': quantities.get('p_value.' + term, {}).get('value')})
                         definitions.append({'id': result_id + '-coefficients', 'title': result_id + ' coefficients',
                                             'kind': 'coefficient', 'result_ids': [result_id], 'rows': rows,
@@ -430,47 +580,190 @@ def prepare_gallery_items(registry, definitions=None):
 def gallery_cell(value, key, display):
     if value is None:
         return '—'
+    if isinstance(value, list):
+        return ', '.join(gallery_cell(part, key, display) for part in value)
+    if isinstance(value, dict):
+        return ', '.join(str(name) + ': ' + gallery_cell(part, key, display) for name, part in value.items())
     if type(value) in (int, float) and key in display.get('formats', {}):
         return format(value, display['formats'][key])
     return str(value)
 
 
 def gallery_regression_comparison(items):
-    models, definitions = {}, {}
+    """Present saved tidy/glance quantities; estimation and inference stay upstream.
+
+    The numeric rows remain available to existing consumers. ``presentation`` is
+    the shared, formatted table consumed by HTML, LaTeX, figures and meetings.
+    """
+    display = items[0].get('display', {}) if items else {}
+    models, definitions, model_info, formats = {}, {}, {}, {}
     for item in items:
         for row in item['rows']:
             if 'term' in row and 'estimate' in row:
-                models.setdefault(row['result_id'], {})[str(row['term'])] = row
-                definitions[row['result_id']] = item['metadata'].get('result_definitions', {}).get(row['result_id'], {})
+                definition = {**item.get('metadata', {}), **item.get('metadata', {}).get('result_definitions', {}).get(row['result_id'], {})}
+                model = str(row.get(display.get('model_column'), row['result_id']))
+                outcome = row.get(display.get('outcome_column') or 'outcome', definition.get('outcome'))
+                stage = row.get('stage', definition.get('stage'))
+                identity = (row['result_id'], model, gallery_cell(outcome, '', {}), gallery_cell(stage, '', {}))
+                panel = row.get('panel', ' / '.join(str(row[key]) for key in ('subgroup', 'group', 'period') if row.get(key) is not None))
+                term = (str(panel or ''), str(row['term']))
+                previous = models.setdefault(identity, {}).get(term)
+                if previous is not None and previous != row:
+                    raise ValueError('saved regression rows repeat a model/term; select model_column or save distinct panel terms')
+                models[identity][term] = row
+                definitions[identity] = definition
+                model_info[identity] = {'result_id': row['result_id'], 'model': model,
+                                        'outcome': outcome, 'stage': stage}
+                formats[identity] = item.get('display', {})
+    identities = list(models)
+    def matches(identity, name):
+        info = model_info[identity]
+        return name in (info['model'], info['result_id'], info.get('key'))
+    for identity in identities:
+        info = model_info[identity]
+        siblings = [key for key in identities if model_info[key]['model'] == info['model']]
+        suffix = [str(info[field]) for field in ('outcome', 'stage') if info[field] is not None]
+        info['key'] = info['model'] if len(siblings) == 1 else info['result_id'] + ' / ' + ' / '.join(suffix or [info['model']])
+    ordered = [identity for name in display.get('model_order', []) for identity in identities if matches(identity, name)]
+    identities = list(dict.fromkeys(ordered + identities))
+    grouped = [identity for group in display.get('column_groups', []) for identity in identities
+               if any(matches(identity, name) for name in group['models'])]
+    identities = list(dict.fromkeys(grouped + identities))
+    keys = [model_info[identity]['key'] for identity in identities]
+    if len(set(keys)) != len(keys):
+        raise ValueError('saved model columns require distinct identities')
     rows = []
     terms = list(dict.fromkeys(term for model in models.values() for term in model))
+    terms = list(dict.fromkeys([term for name in display.get('term_order', []) for term in terms if term[1] == name] + terms))
+    panels = display.get('panels', [])
+    if panels:
+        terms = list(dict.fromkeys([term for panel in panels for name in panel['terms'] for term in terms if term[1] == name] + terms))
+    body = []
+    current_panel = None
+    def saved(row, names):
+        return next((row[key] for key in names if key in row), None)
+    def number(value, key, identity):
+        settings = {**formats[identity], **display}
+        if value is None:
+            return ''
+        if type(value) in (int, float):
+            return format(value, settings.get('formats', {}).get(key, '.' + str(settings.get('digits', 3)) + 'f'))
+        return gallery_cell(value, key, settings)
     for term in terms:
-        for keys, label in [(('estimate',), '推定値'), (('se', 'standard_error'), '標準誤差'),
-                            (('ci_low', 'lower'), '区間下端'), (('ci_high', 'upper'), '区間上端'),
-                            (('p_value',), 'p 値'), (('unit',), '単位')]:
-            if any(any(key in model.get(term, {}) for key in keys) for model in models.values()):
-                rows.append({'quantity': term + ' / ' + label, **{identity: next((model.get(term, {})[key] for key in keys if key in model.get(term, {})), None) for identity, model in models.items()}})
+        panel_label = next((panel['label'] for panel in panels if term[1] in panel['terms']), term[0])
+        if panel_label and panel_label != current_panel:
+            body.append({'kind': 'panel', 'label': panel_label, 'cells': [''] * len(identities)})
+        current_panel = panel_label
+        term_label = display.get('term_labels', {}).get(term[1], term[1])
+        if term[0] and panel_label != term[0]:
+            term_label += ' (' + term[0] + ')'
+        estimates, errors, intervals, probabilities = [], [], [], []
+        for identity in identities:
+            row = models[identity].get(term, {})
+            estimate = number(row.get('estimate'), 'estimate', identity)
+            if display.get('show_stars', False) and estimate:
+                symbol = saved(row, ('significance', 'stars'))
+                p = row.get('p_value')
+                if symbol is None and type(p) in (int, float):
+                    symbol = '***' if p < .01 else '**' if p < .05 else '*' if p < .1 else ''
+                estimate += str(symbol or '')
+            estimates.append(estimate)
+            se = number(saved(row, ('se', 'standard_error', 'std.error')), 'se', identity)
+            errors.append('(' + se + ')' if se else '')
+            low, high = saved(row, ('ci_low', 'lower', 'conf.low')), saved(row, ('ci_high', 'upper', 'conf.high'))
+            intervals.append('[' + number(low, 'ci_low', identity) + ', ' + number(high, 'ci_high', identity) + ']' if low is not None and high is not None else '')
+            p = number(row.get('p_value'), 'p_value', identity)
+            probabilities.append(p)
+        body.append({'kind': 'coefficient', 'label': term_label, 'cells': estimates})
+        if display.get('show_se', True) and any(errors):
+            body.append({'kind': 'se', 'label': '', 'cells': errors})
+        if display.get('show_ci', False) and any(intervals):
+            body.append({'kind': 'ci', 'label': '区間', 'cells': intervals})
+        if display.get('show_p', False) and any(probabilities):
+            body.append({'kind': 'p', 'label': 'p 値', 'cells': probabilities})
+        for names, label in [(('estimate',), '推定値'), (('se', 'standard_error', 'std.error'), '標準誤差'),
+                             (('ci_low', 'lower', 'conf.low'), '区間下端'), (('ci_high', 'upper', 'conf.high'), '区間上端'),
+                             (('p_value',), 'p 値'), (('unit',), '単位')]:
+            if any(any(key in model.get(term, {}) for key in names) for model in models.values()):
+                label = ' / '.join(value for value in (*term, label) if value)
+                rows.append({'quantity': label, **{model_info[identity]['key']: saved(models[identity].get(term, {}), names) for identity in identities}})
     fields = [('n', '観測数'), ('n_clusters', 'クラスタ数'), ('fixed_effects', '固定効果'),
               ('controls', '統制変数'), ('period', '期間'), ('sample', 'サンプル'),
               ('sample_policy', 'サンプル方式'), ('weights', '重み'), ('estimator', '推定法'),
-              ('specification', '仕様'), ('ci_kind', '区間の種類'), ('interval_type', '保存区間'),
+              ('specification', '仕様'), ('stage', '推定段階'), ('first_stage_result_id', '第一段階の結果'),
+              ('second_stage_result_id', '第二段階の結果'), ('instruments', '操作変数'),
+              ('treatment_group', '処置群'), ('control_group', '対照群'), ('cohort', '導入群'),
+              ('aggregation', '集計法'), ('ci_kind', '区間の種類'), ('interval_type', '保存区間'),
               ('confidence_level', '区間水準'), ('reference_distribution', '参照分布'),
-              ('degrees_of_freedom', '自由度'), ('unit', '単位')]
+              ('degrees_of_freedom', '自由度'), ('cluster', 'クラスタ単位'), ('unit', '単位')]
+    if 'statistic_rows' in display:
+        fields = [(entry['field'], entry['label']) for entry in display['statistic_rows']]
+    footer = []
     for key, label in fields:
-        if any(key in metadata for metadata in definitions.values()):
-            values = {identity: metadata.get(key) for identity, metadata in definitions.items()}
-            rows.append({'quantity': label, **{identity: json.dumps(value, ensure_ascii=False) if isinstance(value, (dict, list)) else value for identity, value in values.items()}})
+        values = {}
+        for identity in identities:
+            value = model_info[identity].get(key) if key == 'stage' else definitions[identity].get(key)
+            if value is None:
+                saved_values = [row[key] for row in models[identity].values() if key in row]
+                if saved_values and all(value == saved_values[0] for value in saved_values):
+                    value = saved_values[0]
+            values[model_info[identity]['key']] = value
+        saved_weight = key == 'weights' and any('weights' in definitions[identity] for identity in identities)
+        if any(value is not None for value in values.values()) or saved_weight or 'statistic_rows' in display:
+            rows.append({'quantity': label, **{key: gallery_cell(value, '', {}) if isinstance(value, (dict, list)) else value for key, value in values.items()}})
+            footer.append({'label': label, 'cells': [gallery_cell(values[name], key, display) if values[name] is not None else
+                                                    'なし' if key == 'weights' and 'weights' in definitions[identity] else ''
+                                                    for name, identity in zip(keys, identities)]})
+    headers = []
+    if display.get('column_groups'):
+        groups = [{'text': '', 'colspan': 1}]
+        for identity in identities:
+            label = next((group['label'] for group in display['column_groups'] if any(matches(identity, name) for name in group['models'])), '')
+            if len(groups) > 1 and groups[-1]['text'] == label:
+                groups[-1]['colspan'] += 1
+            else:
+                groups.append({'text': label, 'colspan': 1})
+        headers.append(groups)
+    if any(model_info[identity]['outcome'] is not None for identity in identities):
+        outcomes = [{'text': 'アウトカム', 'colspan': 1}]
+        for identity in identities:
+            label = gallery_cell(model_info[identity]['outcome'], '', {})
+            if len(outcomes) > 1 and outcomes[-1]['text'] == label:
+                outcomes[-1]['colspan'] += 1
+            else:
+                outcomes.append({'text': label, 'colspan': 1})
+        headers.append(outcomes)
+    labels = [display.get('model_labels', {}).get(key, display.get('model_labels', {}).get(model_info[identity]['model'], key)) for key, identity in zip(keys, identities)]
+    headers.append([{'text': '項目', 'colspan': 1}, *[{'text': label, 'colspan': 1} for label in labels]])
+    headers.append([{'text': '', 'colspan': 1}, *[{'text': '(' + str(index + 1) + ')', 'colspan': 1} for index in range(len(keys))]])
+    notes = list(dict.fromkeys(note for item in items for note in gallery_notes(item)))
+    if display.get('show_se', True) and any(row['kind'] == 'se' for row in body):
+        notes.insert(0, '括弧内は保存された標準誤差。')
+    if display.get('show_stars', False):
+        notes.append('保存された有意記号を優先。保存 p 値の表示規則: * p < 0.10、** p < 0.05、*** p < 0.01。')
+    presentation = {'headers': headers, 'body': body, 'footer': footer, 'notes': notes,
+                    'caption': display.get('title', items[0].get('title', '') if items else ''),
+                    'label': display.get('latex_label', ''), 'number': str(display.get('table_number', '')),
+                    'preset': display.get('preset', 'meeting' if display.get('style') == 'presentation' else 'paper')}
     return {'rows': rows, 'columns': [{'key': 'quantity', 'label': '項目', 'unit': ''},
-                                     *[{'key': identity, 'label': identity, 'unit': ''} for identity in models]]}
+                                     *[{'key': key, 'label': label, 'unit': ''} for key, label in zip(keys, labels)]],
+            'presentation': presentation}
 
 
 def gallery_notes(item):
     notes = list(item.get('display', {}).get('notes', []))
-    labels = {'sample': 'サンプル', 'sample_policy': 'サンプル方式', 'period': '期間', 'unit': '単位',
+    labels = {'estimand': '推定対象', 'sample': 'サンプル', 'sample_policy': 'サンプル方式',
+              'population': '母集団', 'period': '期間', 'unit': '単位', 'weights': '重み',
               'ci_kind': '区間', 'interval_type': '保存区間', 'confidence_level': '区間水準',
               'reference_time': '基準期', 'reference_event_time': '基準イベント期',
+              'base_period': '基準期の定義', 'treatment_time': '処置時点', 'treatment_event_time': '処置イベント期', 'cutoff': '閾値',
+              'bandwidth': '帯域幅', 'treatment_group': '処置群', 'control_group': '対照群',
+              'comparison_group': '比較群', 'aggregation': '集計法', 'aggregation_weights': '集計重み',
               'n': '観測数', 'n_clusters': 'クラスタ数', 'denominator': '分母',
               'quantile_method': '分位点', 'distribution_type': '分布表示'}
+    requested = item.get('display', {}).get('note_fields')
+    if requested is not None:
+        labels = {key: labels.get(key, key) for key in requested}
     metadata = item['metadata']
     shared = [label + ': ' + (json.dumps(metadata[key], ensure_ascii=False) if isinstance(metadata[key], (dict, list)) else str(metadata[key]))
               for key, label in labels.items() if metadata.get(key) is not None]
@@ -484,22 +777,387 @@ def gallery_notes(item):
     return notes
 
 
-def gallery_table(item, markdown=False):
+def gallery_table_presentation(item):
+    if item['metadata'].get('table_type') == 'regression':
+        view = gallery_projection({**item, 'display': {**item.get('display', {}), 'column_order': [col['key'] for col in item['columns']]}})
+        return gallery_regression_comparison([view])['presentation']
     view = gallery_projection(item)
     display = item.get('display', {})
-    if item['metadata'].get('table_type') == 'regression':
-        view = gallery_regression_comparison([view])
-        display = {**display, 'formats': {**{col['key']: '.3g' for col in view['columns'][1:]}, **display.get('formats', {})}}
     headings = [col['label'] + (' (' + col['unit'] + ')' if col['unit'] else '') for col in view['columns']]
-    cells = [[gallery_cell(row.get(col['key']), col['key'], display) for col in view['columns']]
-             for row in view['rows']]
+    cells = [[gallery_cell(row.get(col['key']), col['key'], display) for col in view['columns']] for row in view['rows']]
+    return {'headers': [[{'text': heading, 'colspan': 1} for heading in headings]],
+            'body': [{'kind': 'row', 'label': row[0], 'cells': row[1:]} for row in cells],
+            'footer': [], 'notes': gallery_notes(item), 'caption': view['title'],
+            'label': display.get('latex_label', ''), 'number': str(display.get('table_number', '')),
+            'preset': display.get('preset', 'meeting' if display.get('style') == 'presentation' else 'paper')}
+
+
+def gallery_presentation(presentation, markdown=False):
+    """Render the same header/body/footer contract used by meeting consumers."""
+    count = sum(cell['colspan'] for cell in presentation['headers'][-1])
     if markdown:
         def line(values):
-            return '| ' + ' | '.join(value.replace('|', '\\|').replace('\n', '<br>') for value in values) + ' |'
-        return '\n'.join([line(headings), line(['---'] * len(headings)), *(line(row) for row in cells)]) + '\n'
-    return ('<table><thead><tr>' + ''.join('<th>' + html.escape(value) + '</th>' for value in headings)
-            + '</tr></thead><tbody>' + ''.join('<tr>' + ''.join('<td>' + html.escape(value) + '</td>' for value in row)
-                                              + '</tr>' for row in cells) + '</tbody></table>')
+            return '| ' + ' | '.join(str(value).replace('|', '\\|').replace('\n', '<br>') for value in values) + ' |'
+        headers = []
+        for header in presentation['headers']:
+            expanded = [cell['text'] for cell in header for _ in range(cell['colspan'])]
+            headers.append(expanded)
+        combined = ['<br>'.join(dict.fromkeys(row[index] for row in headers if row[index])) for index in range(count)]
+        rows = [[row['label'], *row['cells']] for row in presentation['body'] + presentation['footer']]
+        return '\n'.join([line(combined), line(['---'] * count), *(line(row) for row in rows)]) + '\n'
+    headers = ''.join('<tr>' + ''.join('<th colspan="' + str(cell['colspan']) + '">' + html.escape(cell['text']) + '</th>' for cell in header) + '</tr>' for header in presentation['headers'])
+    rows = []
+    for row in presentation['body']:
+        if row.get('kind') == 'panel':
+            rows.append('<tr class="panel"><th colspan="' + str(count) + '">' + html.escape(row['label']) + '</th></tr>')
+        else:
+            rows.append('<tr class="' + row.get('kind', 'row') + '"><th scope="row">' + html.escape(row['label']) + '</th>'
+                        + ''.join('<td>' + html.escape(str(value)) + '</td>' for value in row['cells']) + '</tr>')
+    footer = ''.join('<tr><th scope="row">' + html.escape(row['label']) + '</th>' + ''.join('<td>' + html.escape(str(value)) + '</td>' for value in row['cells']) + '</tr>' for row in presentation['footer'])
+    style = ('<style>.econ-table{border-collapse:collapse;width:100%;font-size:14px;color:#213547;'
+             'border-top:2px solid #28323c;border-bottom:2px solid #28323c;font-family:system-ui,sans-serif;}'
+             '.econ-table th,.econ-table td{padding:7px 12px;text-align:center;white-space:pre-line;}'
+             '.econ-table th:first-child{text-align:left;}.econ-table tbody th,.econ-table tfoot th{font-weight:normal;}'
+             '.econ-table thead{border-bottom:1px solid #65717e;}.econ-table tfoot{border-top:1px solid #65717e;}'
+             '.econ-table .panel th{font-weight:600;padding-top:14px;border-top:1px solid #aab2ba;}'
+             '.econ-table .se td,.econ-table .ci td,.econ-table .p td{padding-top:0;color:#46505c;}'
+             '.econ-table .coefficient td{padding-bottom:2px;}.econ-table.meeting{font-size:18px;}</style>')
+    return style + '<table class="econ-table ' + presentation.get('preset', 'paper') + '"><thead>' + headers + '</thead><tbody>' + ''.join(rows) + '</tbody><tfoot>' + footer + '</tfoot></table>'
+
+
+def gallery_table(item, markdown=False):
+    return gallery_presentation(gallery_table_presentation(item), markdown=markdown)
+
+
+def gallery_plot_table(axis, presentation, family, font_size, width):
+    """Draw booktabs-style horizontal rules and genuine spanning headers."""
+    import textwrap
+    count = sum(cell['colspan'] for cell in presentation['headers'][-1])
+    label_width = .32 if count > 1 else 1
+    widths = [label_width] + [(1 - label_width) / (count - 1)] * (count - 1)
+    boundaries = [0]
+    for value in widths:
+        boundaries.append(boundaries[-1] + value)
+    records = []
+    for header in presentation['headers']:
+        records.append(('header', header))
+    records += [(row.get('kind', 'row'), [{'text': row['label'], 'colspan': count}] if row.get('kind') == 'panel'
+                 else [{'text': row['label'], 'colspan': 1}, *[{'text': str(value), 'colspan': 1} for value in row['cells']]])
+                for row in presentation['body']]
+    footer_start = len(records)
+    records += [('footer', [{'text': row['label'], 'colspan': 1}, *[{'text': str(value), 'colspan': 1} for value in row['cells']]]) for row in presentation['footer']]
+    prepared = []
+    for kind, cells in records:
+        column, wrapped = 0, []
+        for cell in cells:
+            span = cell['colspan']
+            usable = sum(widths[column:column + span]) * width
+            text = '\n'.join(textwrap.fill(part, max(5, int(usable / (font_size * .85)))) for part in cell['text'].splitlines())
+            wrapped.append((column, span, text))
+            column += span
+        height = max((text.count('\n') + 1 for _, _, text in wrapped), default=1)
+        prepared.append((kind, wrapped, height + (.35 if kind == 'se' else .7)))
+    total = sum(height for _, _, height in prepared) or 1
+    y = 1
+    axis.set_axis_off()
+    axis.plot([0, 1], [y, y], transform=axis.transAxes, color='#20252b', linewidth=1.2)
+    for index, (kind, cells, height) in enumerate(prepared):
+        if index == len(presentation['headers']) or index == footer_start or kind == 'panel':
+            axis.plot([0, 1], [y, y], transform=axis.transAxes, color='#6b7280', linewidth=.65)
+        for column, span, text in cells:
+            left = boundaries[column]
+            right = boundaries[column + span]
+            centered = column > 0 or (kind == 'header' and span > 1)
+            axis.text((left + right) / 2 if centered else left + .006, y - height / total / 2,
+                      text, transform=axis.transAxes, ha='center' if centered else 'left', va='center',
+                      fontsize=font_size, fontfamily=family,
+                      fontweight='bold' if kind in ('header', 'panel') else 'normal',
+                      color='#46505c' if kind in ('se', 'ci', 'p') else '#17212b')
+        y -= height / total
+    axis.plot([0, 1], [y, y], transform=axis.transAxes, color='#20252b', linewidth=1.2)
+
+
+def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size):
+    """Draw one panel from saved points, endpoints, curves or polygon geometry."""
+    import numpy as np
+    from matplotlib import colors as mpl_colors
+    plot_type = display.get('plot_type', 'line')
+    xkey, ykey = display.get('x'), display.get('y')
+    if plot_type == 'att_gt':
+        xkey = display.get('time', xkey or 'time')
+        cohort_key = display.get('cohort', 'cohort')
+        ykey = display.get('value', ykey or 'estimate')
+        times = list(dict.fromkeys(row[xkey] for row in rows if row.get(xkey) is not None))
+        cohorts = list(dict.fromkeys(row[cohort_key] for row in rows if row.get(cohort_key) is not None))
+        if not times or not cohorts:
+            raise ValueError('ATT(g,t) requires saved time and cohort columns')
+        matrix = np.full((len(cohorts), len(times)), np.nan)
+        occupied = set()
+        for row in rows:
+            if row.get(xkey) is None or row.get(cohort_key) is None:
+                continue
+            cell = (cohorts.index(row[cohort_key]), times.index(row[xkey]))
+            if cell in occupied:
+                raise ValueError('ATT(g,t) repeats cohort/time; select a result or facet by saved model')
+            occupied.add(cell)
+            if row.get(ykey) is not None:
+                matrix[cell] = row[ykey]
+        finite = matrix[np.isfinite(matrix)]
+        norm = mpl_colors.TwoSlopeNorm(vcenter=0) if len(finite) and finite.min() < 0 < finite.max() else None
+        artist = axis.imshow(np.ma.masked_invalid(matrix), aspect='auto', origin='lower', cmap='RdBu_r' if norm else 'viridis', norm=norm)
+        axis.set_xticks(range(len(times)), [str(value) for value in times])
+        axis.set_yticks(range(len(cohorts)), [str(value) for value in cohorts])
+        axis.set_xlabel(display.get('x_label') or columns.get(xkey, xkey))
+        axis.set_ylabel(display.get('y_label') or columns.get(cohort_key, cohort_key))
+        axis.figure.colorbar(artist, ax=axis, label=display.get('color_label') or columns.get(ykey, ykey))
+        return
+    if plot_type == 'geo':
+        from matplotlib.path import Path as PlotPath
+        from matplotlib.patches import PathPatch
+        from matplotlib.collections import PatchCollection
+        geometry_key = display.get('geometry', 'geometry')
+        value_key = display.get('value', ykey or 'value')
+        patches, values, points, point_values = [], [], [], []
+        for row in rows:
+            geometry = json.loads(row[geometry_key])
+            if geometry.get('type') == 'Feature':
+                geometry = geometry['geometry']
+            kind, coordinates = geometry.get('type'), geometry.get('coordinates')
+            if kind in ('Point', 'MultiPoint'):
+                saved_points = [coordinates] if kind == 'Point' else coordinates
+                points.extend([point[:2] for point in saved_points])
+                point_values.extend([row.get(value_key)] * len(saved_points))
+                continue
+            polygons = [coordinates] if kind == 'Polygon' else coordinates if kind == 'MultiPolygon' else None
+            if polygons is None:
+                raise ValueError('geo requires saved Point, MultiPoint, Polygon or MultiPolygon GeoJSON geometry')
+            for polygon in polygons:
+                vertices, codes = [], []
+                for ring in polygon:
+                    if len(ring) < 4:
+                        raise ValueError('saved polygon rings require at least four coordinates')
+                    vertices.extend([point[:2] for point in ring])
+                    codes.extend([PlotPath.MOVETO, *([PlotPath.LINETO] * (len(ring) - 2)), PlotPath.CLOSEPOLY])
+                patches.append(PathPatch(PlotPath(vertices, codes)))
+                values.append(row.get(value_key))
+        finite = [value for value in values + point_values if value is not None]
+        norm = mpl_colors.Normalize(min(finite), max(finite)) if finite else None
+        artist = None
+        if patches:
+            artist = PatchCollection(patches, cmap='viridis', norm=norm, edgecolor='white', linewidth=.6, facecolor='#d7dce2')
+            if finite:
+                artist.set_array(np.ma.masked_invalid(np.array([float(value) if value is not None else np.nan for value in values])))
+            axis.add_collection(artist)
+        if points:
+            x, y = zip(*points)
+            artist = axis.scatter(x, y, c=[value if value is not None else np.nan for value in point_values] if finite else '#d7dce2',
+                                  cmap='viridis' if finite else None, norm=norm, s=42, edgecolors='white', linewidths=.6, plotnonfinite=True)
+        axis.autoscale_view()
+        axis.set_aspect('equal')
+        if finite and artist is not None:
+            colorbar = axis.figure.colorbar(artist, ax=axis, label=display.get('color_label') or columns.get(value_key, value_key))
+            if metadata.get('unit') in ('year', 'years') and len(set(finite)) <= 12:
+                colorbar.set_ticks(sorted(set(finite)))
+        axis.set_xlabel(display.get('x_label') or metadata.get('x_label', ''))
+        axis.set_ylabel(display.get('y_label') or metadata.get('y_label', ''))
+        return
+    if plot_type == 'iv_confidence_set':
+        low_key, high_key = display.get('lower', 'lower'), display.get('upper', 'upper')
+        names = list(dict.fromkeys(str(row.get(display.get('series', 'term'), row.get('result_id', ''))) for row in rows))
+        finite = [row[key] for row in rows for key in (low_key, high_key) if type(row.get(key)) in (int, float)]
+        limits = display.get('x_limits') or ([min(finite) - max(1, max(finite) - min(finite)) * .1,
+                                            max(finite) + max(1, max(finite) - min(finite)) * .1] if finite else None)
+        for row in rows:
+            name = str(row.get(display.get('series', 'term'), row.get('result_id', '')))
+            index = names.index(name)
+            low, high = row.get(low_key), row.get(high_key)
+            if row.get('set_type', metadata.get('set_type')) == 'empty':
+                axis.text(.5, index, '空集合', transform=axis.get_yaxis_transform(), ha='center')
+                continue
+            left_open, right_open = row.get('lower_unbounded', False), row.get('upper_unbounded', False)
+            if left_open and right_open and limits is None:
+                axis.annotate('', xy=(.97, index), xytext=(.03, index), xycoords=axis.get_yaxis_transform(),
+                              arrowprops={'arrowstyle': '<->', 'color': '#245b8a', 'linewidth': 2})
+                axis.text(.5, index + .12, r'$\mathbb{R}$', transform=axis.get_yaxis_transform(), ha='center')
+                continue
+            if (left_open or right_open) and limits is None:
+                raise ValueError('unbounded confidence sets require display x_limits or saved finite endpoints')
+            left, right = limits[0] if left_open else low, limits[1] if right_open else high
+            if left is None or right is None:
+                continue
+            if left > right:
+                raise ValueError('saved confidence-set endpoints must be ordered')
+            axis.hlines(index, left, right, color='#245b8a', linewidth=3)
+            axis.scatter([left, right], [index, index], color='#245b8a', marker='|', s=90)
+            for endpoint, unbounded, marker in ((left, left_open, '<'), (right, right_open, '>')):
+                if unbounded:
+                    axis.scatter([endpoint], [index], marker=marker, color='#245b8a', s=55)
+        axis.set_yticks(range(len(names)), [display.get('series_labels', {}).get(name, name) for name in names])
+        axis.set_xlabel(display.get('x_label') or metadata.get('parameter_definition', '係数'))
+        if limits:
+            axis.set_xlim(*limits)
+        else:
+            axis.set_xticks([])
+        axis.set_ylim(-.6, max(.6, len(names) - .4))
+        return
+    if not xkey or not ykey:
+        raise ValueError('plot display requires x and y saved column keys')
+    units = {row.get('unit') for row in rows if row.get(ykey) is not None and row.get('unit')}
+    if len(units) > 1:
+        raise ValueError('One plot axis requires one saved unit; select matching saved series or a facet')
+    if any(row.get(ykey) is not None and type(row[ykey]) not in (int, float) for row in rows):
+        raise ValueError('plot y column must contain numeric saved values or null')
+    labels = list(dict.fromkeys(row[xkey] for row in rows if row.get(xkey) is not None))
+    categorical = any(type(value) not in (int, float) for value in labels)
+    horizontal = display.get('orientation') == 'horizontal'
+    component_key = display.get('component', 'component')
+    series_key = display.get('series')
+    if not series_key:
+        series_key = 'result_id' if len({row['result_id'] for row in rows}) > 1 else component_key
+    multiple_results = len({row['result_id'] for row in rows}) > 1 and series_key != 'result_id'
+    if plot_type == 'cohort_event' and not display.get('series'):
+        series_key = display.get('cohort') or 'cohort'
+        multiple_results = len({row['result_id'] for row in rows}) > 1
+    def group_key(row):
+        return (row['result_id'] if multiple_results else '', str(row.get(series_key, '')))
+    groups = list(dict.fromkeys(group_key(row) for row in rows))
+    order = display.get('series_order', [])
+    groups = [group for name in order for group in groups if group[1] == name] + [group for group in groups if group[1] not in order]
+    palette = ['#245b8a', '#b4513b', '#31836b', '#8a5b9e', '#b18324', '#427f8f']
+    cutoff = metadata.get('cutoff')
+    for index, group in enumerate(groups):
+        selected = [row for row in rows if row.get(xkey) is not None and group_key(row) == group]
+        components = list(dict.fromkeys((str(row.get(component_key, '')), str(row.get('role', ''))) for row in selected))
+        for component, role in components:
+            component_rows = [row for row in selected if (str(row.get(component_key, '')), str(row.get('role', ''))) == (component, role)]
+            role = {'pretreatment_diagnostic': 'pre_diagnostic', 'post_treatment_att': 'att'}.get(role, role)
+            if plot_type == 'rdd':
+                sides = list(dict.fromkeys(row.get('side', row.get('group')) for row in component_rows))
+                if sides != [None]:
+                    if None in sides:
+                        raise ValueError('saved RDD side/group must identify every row in a curve')
+                    segments = [[row for row in component_rows if row.get('side', row.get('group')) == side] for side in sides]
+                elif component in ('fit', 'fitted', 'line', 'curve', 'local_fit', 'band'):
+                    raise ValueError('saved RDD curves require side/group to preserve both cutoff endpoints')
+                elif type(cutoff) in (int, float):
+                    segments = [[row for row in component_rows if row[xkey] < cutoff], [row for row in component_rows if row[xkey] >= cutoff]]
+                else:
+                    segments = [component_rows]
+            else:
+                segments = [component_rows]
+            for segment_number, segment in enumerate(segments):
+                if not segment:
+                    continue
+                if not categorical:
+                    segment = sorted(segment, key=lambda row: row[xkey])
+                xs = [labels.index(row[xkey]) if categorical else row[xkey] for row in segment]
+                if plot_type in ('coefficient', 'smd') and len(groups) > 1:
+                    xs = [value + (index - (len(groups) - 1) / 2) * .14 for value in xs]
+                ys = [row[ykey] if row.get(ykey) is not None else float('nan') for row in segment]
+                color = display.get('colors', {}).get(group[0] or group[1], display.get('colors', {}).get(group[1], palette[index % len(palette)]))
+                label = display.get('series_labels', {}).get(group[1], group[1])
+                if group[0]:
+                    label = group[0] + (' / ' + label if label else '')
+                if len({value[0] for value in components}) > 1 and component:
+                    label += ' / ' + component
+                if role:
+                    role_label = {'pre_diagnostic': '処置前診断', 'reference': '基準期', 'att': 'ATT'}.get(role, role)
+                    if series_key in ('term', 'role') and role in ('pre_diagnostic', 'reference', 'att'):
+                        label = group[0] or segment[0]['result_id']
+                    label += (' / ' if label else '') + role_label
+                kwargs = {'label': label if segment_number == 0 else None, 'color': color}
+                point = plot_type in ('scatter', 'coefficient', 'smd', 'binned_scatter') or component in ('points', 'bins', 'bin', 'binned_mean', 'observed', 'equilibrium')
+                if plot_type in ('iv_first_stage', 'iv_reduced_form'):
+                    point = component not in ('fit', 'fitted', 'line', 'curve', 'band')
+                if plot_type == 'rdd' and component not in ('fit', 'fitted', 'line', 'curve', 'local_fit', 'band'):
+                    point = True
+                if plot_type == 'box':
+                    aliases = [('whislo', 'ymin'), ('q1', 'lower'), ('median', 'middle'), ('q3', 'upper'), ('whishi', 'ymax')]
+                    for x, row in zip(xs, segment):
+                        stats = [row.get(first, row.get(second)) for first, second in aliases]
+                        if any(type(value) not in (int, float) for value in stats):
+                            raise ValueError('Box plots require saved whiskers and quartiles')
+                        axis.bxp([dict(zip(('whislo', 'q1', 'med', 'q3', 'whishi'), stats))], positions=[x + (index - (len(groups) - 1) / 2) * .2],
+                                 widths=.5 / max(1, len(groups)), showfliers=False, vert=not horizontal, patch_artist=True,
+                                 boxprops={'facecolor': color, 'alpha': .55}, medianprops={'color': '#172938'}, manage_ticks=False)
+                elif plot_type == 'bar':
+                    histogram = metadata.get('distribution_type') == 'histogram'
+                    width = [row['bin_high'] - row['bin_low'] for row in segment] if histogram else .8 / max(1, len(groups))
+                    positions = xs if histogram else [x + (index - (len(groups) - 1) / 2) * width for x in xs]
+                    (axis.barh if horizontal else axis.bar)(positions, ys, **({'height': width} if horizontal else {'width': width}), alpha=.65 if histogram else 1, **kwargs)
+                elif point:
+                    axis.scatter(ys if horizontal else xs, xs if horizontal else ys, s=32, **kwargs)
+                elif plot_type == 'area':
+                    (axis.fill_betweenx if horizontal else axis.fill_between)(xs, ys, alpha=.3, **kwargs)
+                else:
+                    marker = 'o' if plot_type in ('event_study', 'cohort_event', 'parallel_trends') else None
+                    if role == 'reference':
+                        marker = '|'
+                    linestyle = '--' if component == 'synthetic' or role == 'pre_diagnostic' else '-'
+                    if role == 'reference':
+                        linestyle = 'None'
+                    axis.plot(ys if horizontal else xs, xs if horizontal else ys,
+                              marker=marker, markerfacecolor='none' if role == 'pre_diagnostic' else color,
+                              linestyle=linestyle,
+                              alpha=.35 if component == 'placebo' else 1,
+                              drawstyle='steps-post' if plot_type in ('step', 'ecdf') else 'default', **kwargs)
+                lower_key, upper_key = display.get('lower'), display.get('upper')
+                intervals = []
+                if lower_key and upper_key:
+                    for x, row in zip(xs, segment):
+                        low, high = row.get(lower_key), row.get(upper_key)
+                        if low is None or high is None:
+                            continue
+                        if type(low) not in (int, float) or type(high) not in (int, float) or low > high:
+                            raise ValueError('saved interval endpoints must be ordered numeric values or null')
+                        intervals.append((x, low, high))
+                if intervals:
+                    ix, low, high = zip(*intervals)
+                    if component == 'band':
+                        (axis.fill_betweenx if horizontal else axis.fill_between)(ix, low, high, color=color, alpha=.18)
+                    else:
+                        (axis.hlines if horizontal else axis.vlines)(ix, low, high, color=color, linewidth=1.3)
+                if display.get('x_lower') and display.get('x_upper'):
+                    for y, row in zip(ys, segment):
+                        low, high = row.get(display['x_lower']), row.get(display['x_upper'])
+                        if low is not None and high is not None:
+                            if low > high:
+                                raise ValueError('saved x interval endpoints must be ordered')
+                            (axis.vlines if horizontal else axis.hlines)(y, low, high, color=color, linewidth=1)
+    if categorical:
+        (axis.set_yticks if horizontal else axis.set_xticks)(range(len(labels)), [str(value) for value in labels])
+    axis.set_xlabel(display.get('x_label') or columns.get(ykey if horizontal else xkey, ykey if horizontal else xkey), fontfamily=family)
+    axis.set_ylabel(display.get('y_label') or columns.get(xkey if horizontal else ykey, xkey if horizontal else ykey), fontfamily=family)
+    if plot_type in ('coefficient', 'event_study', 'cohort_event', 'smd', 'scm_gap', 'scm_placebo'):
+        (axis.axvline if horizontal else axis.axhline)(0, color='#73808c', linewidth=.8)
+    definitions = [metadata, *metadata.get('result_definitions', {}).values()]
+    markers = []
+    if plot_type in ('event_study', 'cohort_event'):
+        markers += [(definition.get('reference_event_time', definition.get('reference_time')), '--') for definition in definitions]
+        markers += [(definition.get('treatment_event_time'), ':') for definition in definitions]
+    if plot_type in ('parallel_trends', 'scm', 'scm_gap', 'scm_placebo'):
+        markers += [(definition.get('treatment_time'), ':') for definition in definitions]
+    if plot_type == 'rdd':
+        markers.append((cutoff, '--'))
+        bandwidth = metadata.get('bandwidth')
+        if type(cutoff) in (int, float) and isinstance(bandwidth, (list, tuple)) and len(bandwidth) == 2:
+            (axis.axhspan if horizontal else axis.axvspan)(cutoff - bandwidth[0], cutoff + bandwidth[1], color='#245b8a', alpha=.05)
+    for value, style in dict.fromkeys((value, style) for value, style in markers if type(value) in (int, float)):
+        (axis.axhline if horizontal else axis.axvline)(value, color='#73808c', linewidth=.8, linestyle=style)
+    for reference in metadata.get('reference_lines', []):
+        if reference.get('axis') in ('x', 'y') and type(reference.get('value')) in (int, float):
+            (axis.axvline if reference['axis'] == 'x' else axis.axhline)(reference['value'], color='#73808c', linestyle=':', linewidth=.8, label=reference.get('label'))
+    for name in ('x', 'y'):
+        getattr(axis, 'set_' + name + 'scale')(display.get(name + '_scale', 'linear'))
+        if display.get(name + '_limits') is not None:
+            getattr(axis, 'set_' + name + 'lim')(*display[name + '_limits'])
+    axis.spines[['top', 'right']].set_visible(False)
+    axis.grid(axis='x' if horizontal else 'y', alpha=.18)
+    handles, labels = axis.get_legend_handles_labels()
+    if display.get('legend', True) and handles:
+        unique = dict(zip(labels, handles))
+        axis.legend(unique.values(), unique.keys(), loc=display.get('legend_location', 'best'), frameon=False,
+                    prop={'family': family, 'size': font_size})
 
 
 def gallery_plot(item):
@@ -517,131 +1175,50 @@ def gallery_plot(item):
                 font_manager.fontManager.addfont(path)
         font_names = {font.name for font in font_manager.fontManager.ttflist}
     family = next((name for name in ('Noto Sans CJK JP', 'Noto Sans JP', 'IPAexGothic') if name in font_names), 'DejaVu Sans')
-    font_size = display.get('font_size', 14 if display.get('style') == 'presentation' else 10)
-    figure = Figure(figsize=(display.get('width', 960) / 100, display.get('height', 540) / 100), dpi=100)
-    FigureCanvasAgg(figure)
-    axis = figure.subplots()
-    title = display.get('title', item['title'])
-    figure.suptitle(title, fontsize=font_size + 4, fontfamily=family, x=0.06, ha='left')
-    axis.tick_params(labelsize=font_size)
+    meeting = display.get('preset') == 'meeting' or display.get('style') == 'presentation'
+    font_size = display.get('font_size', 14 if meeting else 10)
     plot_type = display.get('plot_type', 'table')
-    if plot_type == 'table':
-        table_view = gallery_projection(item)
-        if item['metadata'].get('table_type') == 'regression':
-            table_view = gallery_regression_comparison([table_view])
-            display = {**display, 'formats': {**{col['key']: '.3g' for col in table_view['columns'][1:]}, **display.get('formats', {})}}
-        headings = [col['label'] + ('\n' + col['unit'] if col['unit'] else '') for col in table_view['columns']]
-        cells = [[gallery_cell(row.get(col['key']), col['key'], display) for col in table_view['columns']]
-                 for row in table_view['rows']]
-        axis.set_axis_off()
-        if cells:
-            table_artist = axis.table(cellText=cells, colLabels=headings, loc='center', cellLoc='left')
-            table_artist.auto_set_font_size(False)
-            table_artist.set_fontsize(max(8, font_size - max(0, len(headings) - 8)))
-            table_artist.scale(1, 1.6)
-            for (row, _), cell in table_artist.get_celld().items():
-                cell.set_edgecolor('#d9e2ec')
-                cell.get_text().set_fontfamily(family)
-                if row == 0:
-                    cell.set_facecolor('#eaf1f7')
-                    cell.get_text().set_weight('bold')
-                    if any('\n' in heading for heading in headings):
-                        cell.set_height(cell.get_height() * 1.7)
+    presentation = gallery_table_presentation(item) if plot_type == 'table' else None
+    note_list = presentation['notes'] if presentation else gallery_notes(view)
+    width = display.get('width', 960)
+    notes = '\n'.join(textwrap.fill(note, max(35, width // 9)) for note in note_list)
+    note_lines = len(notes.splitlines())
+    height = display.get('height', 540)
+    if presentation:
+        row_count = len(presentation['headers']) + len(presentation['body']) + len(presentation['footer'])
+        height = max(height, int(row_count * font_size * 2.6 + note_lines * 15 + 90))
+    figure = Figure(figsize=(width / 100, height / 100), dpi=100)
+    FigureCanvasAgg(figure)
+    title = display.get('title', item['title'])
+    if presentation and presentation['number']:
+        title = 'Table ' + presentation['number'] + '. ' + title
+    figure.suptitle(title, fontsize=font_size + 4, fontfamily=family, x=.06, ha='left')
+    if presentation:
+        axis = figure.subplots()
+        gallery_plot_table(axis, presentation, family, font_size, width)
     else:
-        xkey, ykey = display.get('x'), display.get('y')
-        if not xkey or not ykey:
-            raise ValueError('plot display requires x and y saved column keys')
-        rows = view['rows']
-        units = {row.get('unit') for row in rows if row.get(ykey) is not None and row.get('unit')}
-        if len(units) > 1:
-            raise ValueError('One plot axis requires one saved unit; select matching saved series')
-        if any(row.get(ykey) is not None and type(row[ykey]) not in (int, float) for row in rows):
-            raise ValueError('plot y column must contain numeric saved values or null')
-        labels = list(dict.fromkeys(row.get(xkey) for row in rows if row.get(xkey) is not None))
-        categorical = any(type(value) not in (int, float) for value in labels)
-        groups = list(dict.fromkeys(str(row.get(display['series'])) for row in rows)) if display.get('series') else ['']
-        groups = [group for group in display.get('series_order', []) if group in groups] + [group for group in groups if group not in display.get('series_order', [])]
-        horizontal = display.get('orientation') == 'horizontal'
-        for index, group in enumerate(groups):
-            selected = [row for row in rows if row.get(xkey) is not None and
-                        (not display.get('series') or str(row.get(display['series'])) == group)]
-            xs = [labels.index(row[xkey]) if categorical else row[xkey] for row in selected]
-            ys = [row[ykey] if row.get(ykey) is not None else float('nan') for row in selected]
-            color = display.get('colors', {}).get(group, ['#245b8a', '#b4513b', '#31836b', '#8a5b9e'][index % 4])
-            kwargs = {'label': display.get('series_labels', {}).get(group, group) or None, 'color': color}
-            if plot_type == 'box':
-                for offset, row in enumerate(selected):
-                    if any(type(row.get(key)) not in (int, float) for key in ('ymin', 'lower', 'middle', 'upper', 'ymax')):
-                        raise ValueError('Box plots require saved ymin/lower/middle/upper/ymax statistics')
-                    axis.bxp([{'label': kwargs['label'] or str(row[xkey]), 'whislo': row['ymin'], 'q1': row['lower'],
-                               'med': row['middle'], 'q3': row['upper'], 'whishi': row['ymax']}],
-                             positions=[index + offset * .15], widths=.5, showfliers=False,
-                             vert=not horizontal, patch_artist=True,
-                             boxprops={'facecolor': color, 'alpha': .55}, medianprops={'color': '#172938'})
+        facet = display.get('facet')
+        facets = list(dict.fromkeys(row.get(facet) for row in view['rows'])) if facet else [None]
+        facets = facets or [None]
+        ncols = min(2, len(facets))
+        axes = figure.subplots(math.ceil(len(facets) / ncols), ncols, squeeze=False).flat
+        columns = {col['key']: col['label'] + (' (' + col['unit'] + ')' if col['unit'] else '') for col in view['columns']}
+        for index, axis in enumerate(axes):
+            if index >= len(facets):
+                axis.set_visible(False)
                 continue
-            if plot_type == 'bar':
-                histogram = item['metadata'].get('distribution_type') == 'histogram'
-                width = [row['bin_high'] - row['bin_low'] for row in selected] if histogram else .8 / max(1, len(groups))
-                positions = xs if histogram else [x + (index - (len(groups) - 1) / 2) * width for x in xs]
-                if horizontal:
-                    axis.barh(positions, ys, height=width, **kwargs)
-                else:
-                    axis.bar(positions, ys, width=width, alpha=.6 if histogram else 1, **kwargs)
-            elif plot_type in ('scatter', 'coefficient'):
-                axis.scatter(ys if horizontal else xs, xs if horizontal else ys, s=35, **kwargs)
-            elif plot_type == 'area':
-                if horizontal:
-                    axis.fill_betweenx(xs, ys, alpha=.3, **kwargs)
-                else:
-                    axis.fill_between(xs, ys, alpha=.3, **kwargs)
-            else:
-                axis.plot(ys if horizontal else xs, xs if horizontal else ys,
-                          marker=None if plot_type in ('density', 'ecdf') else 'o',
-                          drawstyle='steps-post' if plot_type in ('step', 'ecdf') else 'default', **kwargs)
-            if display.get('lower') and display.get('upper'):
-                for x, row in zip(xs, selected):
-                    lower, upper = row.get(display['lower']), row.get(display['upper'])
-                    if lower is None or upper is None:
-                        continue
-                    if type(lower) not in (int, float) or type(upper) not in (int, float) or lower > upper:
-                        raise ValueError('saved interval endpoints must be ordered numeric values or null')
-                    if horizontal:
-                        axis.hlines(x, lower, upper, color=color, linewidth=1.5)
-                    else:
-                        axis.vlines(x, lower, upper, color=color, linewidth=1.5)
-        if categorical and plot_type != 'box':
-            if horizontal:
-                axis.set_yticks(range(len(labels)), [str(value) for value in labels])
-            else:
-                axis.set_xticks(range(len(labels)), [str(value) for value in labels])
-        column_labels = {col['key']: col['label'] + (' (' + col['unit'] + ')' if col['unit'] else '')
-                         for col in view['columns']}
-        axis.set_xlabel(display.get('x_label', column_labels[ykey if horizontal else xkey]), fontfamily=family)
-        axis.set_ylabel(display.get('y_label', column_labels[xkey if horizontal else ykey]), fontfamily=family)
-        if plot_type in ('coefficient', 'event_study'):
-            (axis.axvline if horizontal else axis.axhline)(0, color='#73808c', linewidth=.8)
-        if plot_type == 'event_study':
-            references = [item['metadata'], *item['metadata'].get('result_definitions', {}).values()]
-            times = {meta.get('reference_event_time', meta.get('reference_time')) for meta in references}
-            for reference in times:
-                if type(reference) in (int, float):
-                    (axis.axhline if horizontal else axis.axvline)(reference, color='#73808c', linewidth=.8, linestyle='--')
-        for axis_name in ('x', 'y'):
-            if display.get(axis_name + '_scale', 'linear') != 'linear':
-                getattr(axis, 'set_' + axis_name + 'scale')(display[axis_name + '_scale'])
-            if display.get(axis_name + '_limits') is not None:
-                getattr(axis, 'set_' + axis_name + 'lim')(*display[axis_name + '_limits'])
-        if plot_type == 'box':
-            tick_labels = [display.get('series_labels', {}).get(group, group) for group in groups]
-            (axis.set_yticks if horizontal else axis.set_xticks)(range(len(groups)), tick_labels)
-        axis.spines[['top', 'right']].set_visible(False)
-        axis.grid(axis='x' if horizontal else 'y', alpha=.18)
-        if display.get('legend', True) and groups != [''] and axis.get_legend_handles_labels()[0]:
-            axis.legend(loc=display.get('legend_location', 'best'), frameon=False, prop={'family': family})
-        for label in [*axis.get_xticklabels(), *axis.get_yticklabels()]:
-            label.set_fontfamily(family)
-    notes = '\n'.join(textwrap.fill(note, max(35, display.get('width', 960) // 9)) for note in gallery_notes(item))
-    bottom = min(.4, .06 + .035 * len(notes.splitlines())) if notes else .03
+            selected = [row for row in view['rows'] if not facet or row.get(facet) == facets[index]]
+            metadata = view['metadata']
+            result_ids = {row['result_id'] for row in selected}
+            if len(result_ids) == 1:
+                metadata = {**metadata, **metadata.get('result_definitions', {}).get(next(iter(result_ids)), {})}
+            gallery_plot_panel(axis, selected, display, metadata, columns, family, font_size)
+            axis.tick_params(labelsize=font_size)
+            if facet:
+                axis.set_title(str(facets[index]), fontfamily=family, fontsize=font_size + 1)
+            for label in [*axis.get_xticklabels(), *axis.get_yticklabels(), axis.xaxis.label, axis.yaxis.label]:
+                label.set_fontfamily(family)
+    bottom = min(.5, (note_lines * 15 + 20) / height) if notes else .03
     if notes:
         figure.text(.06, .02, notes, fontsize=9, color='#425466', va='bottom', fontfamily=family)
     figure.tight_layout(rect=(.02, bottom, .99, .94))
@@ -660,13 +1237,13 @@ def gallery_preview(item, svg=None):
         gallery_plot(item).savefig(stream, format='svg')
         body = stream.getvalue()
     if item.get('display', {}).get('plot_type', 'table') == 'table':
-        title = html.escape(item.get('display', {}).get('title', item['title']))
-        notes = ''.join('<p>' + html.escape(note) + '</p>' for note in gallery_notes(item))
+        presentation = gallery_table_presentation(item)
+        title = ('Table ' + presentation['number'] + '. ' if presentation['number'] else '') + presentation['caption']
+        title = html.escape(title)
+        notes = ''.join('<p>' + html.escape(note) + '</p>' for note in presentation['notes'])
         body = '<h3>' + title + '</h3>' + body + notes
-    return ('<section class="research-display"><style>.research-display{font-family:system-ui,sans-serif;color:#213547;}'
-            '.research-display table{border-collapse:collapse;width:100%;font-size:14px;}'
-            '.research-display th,.research-display td{padding:9px 12px;border-bottom:1px solid #d9e2ec;text-align:left;}'
-            '.research-display th{background:#eaf1f7;}.research-display svg{max-width:100%;height:auto;}'
+    return ('<section class="research-display"><style>.research-display{font-family:system-ui,sans-serif;color:#213547;overflow-x:auto;}'
+            '.research-display svg{max-width:100%;height:auto;}'
             '.research-display p{font-size:13px;color:#425466;}</style>'
             + body + '</section>')
 
@@ -674,23 +1251,41 @@ def gallery_preview(item, svg=None):
 def gallery_latex(item):
     escapes = {'\\': r'\textbackslash{}', '&': r'\&', '%': r'\%', '$': r'\$', '#': r'\#', '_': r'\_', '{': r'\{', '}': r'\}', '~': r'\textasciitilde{}', '^': r'\textasciicircum{}'}
     def escape(value):
-        return ''.join(escapes.get(char, char) for char in str(value))
+        return ''.join(escapes.get(char, char) for char in str(value)).replace('\n', ' ')
     is_table = item.get('display', {}).get('plot_type', 'table') == 'table'
-    lines = [r'\begin{table}[htbp]' if is_table else r'\begin{figure}[htbp]', r'\centering']
+    display = item.get('display', {})
+    presentation = gallery_table_presentation(item) if is_table else None
+    lines = [r'\begingroup', r'\begin{table}[htbp]' if is_table else r'\begin{figure}[htbp]', r'\centering']
+    if presentation and presentation['number']:
+        lines.append(r'\renewcommand{\thetable}{' + escape(presentation['number']) + '}')
+    lines.append(r'\caption{' + escape(presentation['caption'] if presentation else display.get('title', item['title'])) + '}')
+    label = display.get('latex_label') or ('tab:' if is_table else 'fig:') + item['id']
+    if not re.fullmatch(r'[A-Za-z0-9:_.-]+', label):
+        raise ValueError('latex_label must contain letters, digits, colon, underscore, dot or hyphen')
+    lines.append(r'\label{' + label + '}')
     if is_table:
-        view = gallery_projection(item)
-        if item['metadata'].get('table_type') == 'regression':
-            view = gallery_regression_comparison([view])
-        columns = view['columns']
-        lines += [r'\begin{tabular}{' + 'l' + 'r' * (len(columns) - 1) + '}', r'\hline',
-                  ' & '.join(escape(column['label']) for column in columns) + r' \\', r'\hline']
-        lines += [' & '.join(escape(gallery_cell(row.get(column['key']), column['key'], item.get('display', {}))) for column in columns) + r' \\' for row in view['rows']]
-        lines += [r'\hline', r'\end{tabular}']
+        count = sum(cell['colspan'] for cell in presentation['headers'][-1])
+        lines += [r'\begin{tabular}{l' + 'c' * (count - 1) + '}', r'\toprule']
+        for header in presentation['headers']:
+            lines.append(' & '.join(r'\multicolumn{' + str(cell['colspan']) + '}{c}{' + escape(cell['text']) + '}'
+                                    if cell['colspan'] > 1 else escape(cell['text']) for cell in header) + r' \\')
+        lines.append(r'\midrule')
+        for row in presentation['body']:
+            if row.get('kind') == 'panel':
+                lines += [r'\addlinespace', r'\multicolumn{' + str(count) + r'}{l}{\textit{' + escape(row['label']) + r'}} \\']
+            else:
+                lines.append(' & '.join(escape(value) for value in [row['label'], *row['cells']]) + r' \\')
+        if presentation['footer']:
+            lines.append(r'\midrule')
+            lines += [' & '.join(escape(value) for value in [row['label'], *row['cells']]) + r' \\' for row in presentation['footer']]
+        lines += [r'\bottomrule', r'\end{tabular}']
     else:
         lines.append(r'\includegraphics[width=\linewidth]{display.pdf}')
-    lines += [r'\caption{' + escape(item.get('display', {}).get('title', item['title'])) + '}',
-              r'\par\small ' + escape(' / '.join(gallery_notes(item))),
-              r'\end{table}' if is_table else r'\end{figure}']
+    notes = presentation['notes'] if presentation else gallery_notes(item)
+    if notes:
+        lines += [r'\par\medskip\begin{minipage}{\linewidth}\footnotesize',
+                  r'\par '.join(escape(note) for note in notes), r'\end{minipage}']
+    lines += [r'\end{table}' if is_table else r'\end{figure}', r'\endgroup']
     return '\n'.join(lines) + '\n'
 
 
@@ -832,7 +1427,8 @@ def latex_adapter(source, kind):
         source=replace_once(source,'\\bibliographystyle{ecta-fullname} % Style BST file', '% Bibliography style is set to ecta-fullname by the renderer.')
         source=replace_once(source,'\\bibliography{../bibliography}  % Bibliography file (usually \'*.bib\')', '$if(bibliography)$\\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}$endif$')
     elif kind=='slides':
-        source=replace_once(source,'\\documentclass[unicode, mathserif, m, 12pt, unknownkeysallowed]{beamer}', '\\documentclass[unicode, mathserif, m, $if(fontsize)$$fontsize$$else$12pt$endif$, unknownkeysallowed$if(aspectratio)$,aspectratio=$aspectratio$$endif$]{beamer}')
+        # Pandoc's common preamble selects Babel's locale through the class option.
+        source=replace_once(source,'\\documentclass[unicode, mathserif, m, 12pt, unknownkeysallowed]{beamer}', '\\documentclass[unicode, mathserif, m, $if(fontsize)$$fontsize$$else$12pt$endif$, unknownkeysallowed$if(babel-lang)$,$babel-lang$$endif$$if(aspectratio)$,aspectratio=$aspectratio$$endif$]{beamer}')
         source=replace_once(source,'\\usetheme[numbering=fraction]{metropolis}', '$if(theme)$\\usetheme{$theme$}$else$\\usetheme[numbering=fraction]{metropolis}$endif$')
         source=replace_once(source,'\\title[Footer title]{TITLE}\n\\subtitle{SUBTITLE}\n\\author{Author}\n\\institute{}\n\\date{\\today}', '$if(title)$\\title{$title$}$endif$\n$if(subtitle)$\\subtitle{$subtitle$}$endif$\n\\author{$for(author)$$author$$sep$ \\and $endfor$}\n$if(institute)$\\institute{$institute$}$endif$\n\\date{$if(date)$$date$$else$\\today$endif$}')
         source=replace_once(source,'\\usepackage{amsmath}\n\\begin{document}', '\\usepackage{amsmath}\n'+common+'\\setbeamerfont{caption}{size=\\scriptsize}\n\\AtBeginEnvironment{longtable}{\\footnotesize\\setlength{\\tabcolsep}{2pt}}\n\\begin{document}')
@@ -984,7 +1580,7 @@ def normalize(root,spec,selected=None):
         provenance=result.get('provenance',result.get('inputs',{}))
         if not isinstance(provenance,dict): raise ValueError('result provenance must be an object')
         checks={}
-        for ref_name, hash_names in {'specification':('spec_sha256','specification_sha256'),'data':('data_sha256',),'code':('script_sha256','code_sha256')}.items():
+        for ref_name, hash_names in {'specification':('spec_sha256','specification_sha256'),'data':('data_sha256',),'code':('script_sha256','code_sha256','producer_sha256')}.items():
             claimed=next((provenance[k] for k in hash_names if k in provenance),None)
             if claimed is not None:
                 if ref_name not in refs or refs[ref_name]['sha256']!=claimed: raise ValueError(f'{name}: {ref_name} does not match declared producer hash')
@@ -1010,13 +1606,16 @@ def normalize(root,spec,selected=None):
         coef=result.get('coefficients',{}); ses=result.get('standard_errors',{}); units=source.get('coefficient_units',{})
         if not isinstance(coef,dict) or not isinstance(ses,dict): raise ValueError('coefficients and standard_errors must be objects')
         for key,value in coef.items():
+            if value is None: continue
             sname='coefficient.'+key
             unit=quantities.get(sname,{}).get('statistic',{}).get('unit',units.get(key))
             if unit is None: raise ValueError(f'{name}: coefficient unit required for {key}')
             add(sname,value,unit,['coefficients',key])
         for key,value in ses.items():
+            if value is None: continue
             sname='standard_error.'+key
-            unit=quantities.get(sname,{}).get('statistic',{}).get('unit',units.get(key))
+            unit=quantities.get(sname,{}).get('statistic',{}).get('unit',
+                quantities.get('coefficient.'+key,{}).get('statistic',{}).get('unit',units.get(key)))
             if unit is None: raise ValueError(f'{name}: standard error unit required for {key}')
             add(sname,value,unit,['standard_errors',key])
         inference=result.get('inference',{}) or {}
@@ -1024,29 +1623,22 @@ def normalize(root,spec,selected=None):
             pvalues=inference.get('p_values',{})
             if not pvalues and 'pvalue' in inference and len(coef)==1: pvalues={next(iter(coef)):inference['pvalue']}
             if isinstance(pvalues,dict):
-                for k,v in pvalues.items(): add('p_value.'+k,v,'probability',['inference','p_values',k] if 'p_values' in inference else ['inference','pvalue'])
-            intervals=inference.get('confidence_intervals_95',{})
-            if not intervals and 'confidence_interval_95' in inference and len(coef)==1: intervals={next(iter(coef)):inference['confidence_interval_95']}
-            if isinstance(intervals,dict):
+                for k,v in pvalues.items():
+                    if v is not None: add('p_value.'+k,v,'probability',['inference','p_values',k] if 'p_values' in inference else ['inference','pvalue'])
+            for field in ('confidence_intervals', 'confidence_interval', 'confidence_intervals_95', 'confidence_interval_95'):
+                intervals=inference.get(field)
+                if intervals is None: continue
+                singular=field in ('confidence_interval', 'confidence_interval_95')
+                if singular and len(coef)==1: intervals={next(iter(coef)):intervals}
+                if not isinstance(intervals,dict): raise ValueError(field+' must map named terms to saved endpoints')
+                prefix='confidence_95_' if field.endswith('_95') else 'confidence_'
                 for k,ends in intervals.items():
                     if not isinstance(ends,list) or len(ends)!=2: raise ValueError('confidence interval must have two endpoints')
-                    unit=quantities.get('coefficient.'+k,{}).get('statistic',{}).get('unit')
+                    unit=quantities.get('coefficient.'+k,{}).get('statistic',{}).get('unit',units.get(k))
                     for index,(which,v) in enumerate(zip(('lower','upper'),ends)):
                         if v is None: continue
-                        add('confidence_95_'+which+'.'+k,v,unit,['inference','confidence_intervals_95',k,index] if 'confidence_intervals_95' in inference else ['inference','confidence_interval_95',index])
-        reference=inference.get('reference') if isinstance(inference,dict) else None
-        df=inference.get('degrees_of_freedom') if isinstance(inference,dict) else None
-        need_wald=any(k in ses and ses[k]>0 and any(prefix+k not in quantities for prefix in ('p_value.','confidence_95_lower.','confidence_95_upper.')) for k in coef)
-        if need_wald and reference in ('normal','Student t') and (reference=='normal' or type(df) in (int,float) and math.isfinite(df) and df>0):
-            from scipy.stats import norm, t
-            distribution=norm if reference=='normal' else t(df)
-            critical=float(distribution.ppf(0.975))
-            for k,value in coef.items():
-                if k not in ses or ses[k]<=0: continue
-                unit=quantities['coefficient.'+k]['statistic']['unit']; se=ses[k]
-                if 'p_value.'+k not in quantities: add('p_value.'+k,float(2*distribution.sf(abs(value/se))),'probability',{'calculation':'two-sided Wald p-value','reference':reference,'degrees_of_freedom':df,'inputs':[['coefficients',k],['standard_errors',k]]})
-                for which,sign in (('lower',-1),('upper',1)):
-                    if 'confidence_95_'+which+'.'+k not in quantities: add('confidence_95_'+which+'.'+k,float(value+sign*critical*se),unit,{'calculation':'95% Wald confidence limit','reference':reference,'degrees_of_freedom':df,'inputs':[['coefficients',k],['standard_errors',k]]})
+                        origin=['inference',field]+([] if singular else [k])+[index]
+                        add(prefix+which+'.'+k,v,unit,origin)
         observations=result.get('observations')
         if observations is not None and 'observations' not in quantities: add('observations',observations,'observations',['observations'])
         for key,value in quantities.items(): stats[name+'.'+key]=value['statistic']

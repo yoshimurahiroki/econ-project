@@ -24,6 +24,13 @@ R_METHODS = {
     'ols_r': ('stats', 'lm'),
     'fixest_ols': ('fixest', 'feols'),
     'fixest_ppml': ('fixest', 'fepois'),
+    'negative_binomial_r': ('MASS', 'glm.nb'),
+    'sunab': ('fixest', 'feols'),
+    'did2s': ('did2s', 'did2s'),
+    'did_imputation': ('didimputation', 'did_imputation'),
+    'fixes_event_study': ('fixes', 'event_study'),
+    'nonabs_did': ('nonabsdid', 'nabs_event_study'),
+    'synthdid': ('synthdid', 'synthdid_estimate'),
     'drdid_panel': ('DRDID', 'drdid_panel'),
     'drdid_rc': ('DRDID', 'drdid_rc'),
     'did_multiplegt_dyn': ('DIDmultiplegtDYN', 'did_multiplegt_dyn'),
@@ -42,10 +49,15 @@ def _hash(path):
 
 
 def select_method(request):
-    """Map an explicit estimand and design to its existing execution owner."""
+    """Select an estimator from economic objects and structured design conditions.
+
+    Narrative identification is retained as evidence, never parsed as a package
+    request. Existing flat specifications remain readable at this boundary.
+    """
     required = {'question','estimand','identification','design','outcome_scale','data_structure','treatment_pattern','dependence'}
     contract_fields = ('population','comparison_group','observation_unit','assignment_unit',
-                       'unit','period','assignment','weights','inference')
+                       'unit','period','assignment','weights','inference',
+                       'economic_model','target','conditions','comparison','numerical')
     optional = {'adopted_method','adopted_specification','options','score','structural_model','implementation',*contract_fields}
     if not isinstance(request, dict) or not required <= request.keys() or set(request)-required-optional:
         raise ValueError(f'selection requires {sorted(required)} and accepts {sorted(optional)}')
@@ -54,6 +66,28 @@ def select_method(request):
     adopted_spec = request.get('adopted_specification', {})
     if not isinstance(adopted_spec, dict):
         raise ValueError('adopted_specification must be an existing specification object')
+    for key in ('economic_model','target','conditions','comparison','numerical'):
+        if not isinstance(request.get(key, adopted_spec.get(key,{})), dict):
+            raise ValueError(f'{key} must be a structured object')
+    facts = request.get('conditions', adopted_spec.get('conditions',{}))
+    target = request.get('target', adopted_spec.get('target',{}))
+    economic_model = request.get('economic_model', adopted_spec.get('economic_model',{}))
+    comparison = request.get('comparison', adopted_spec.get('comparison',{}))
+    numerical = request.get('numerical', adopted_spec.get('numerical',{}))
+    for key in ('randomized','weak_instruments','homoskedastic_normal_errors',
+                'conditional_exchangeability','overlap','parallel_trends',
+                'exclusion','monotonicity','continuity','common_treatment_block',
+                'equilibrium_counterfactual','independent_units','no_interference'):
+        if key in facts and not isinstance(facts[key], bool):
+            raise ValueError(f'conditions.{key} must be boolean')
+    target_kind = target.get('kind')
+    allowed_targets = {'ate','att','itt','late','cate','policy_value','linear_projection',
+        'conditional_mean','count_distribution','group_time_att','event_time_att',
+        'treatment_path_effect','dose_response','local_effect','confidence_set',
+        'treated_trajectory','treated_block_att','structural_parameter','equilibrium',
+        'welfare','sensitivity','density_discontinuity','power'}
+    if target_kind is not None and target_kind not in allowed_targets:
+        raise ValueError(f'target.kind must be one of {sorted(allowed_targets)}')
     if any(not isinstance(s.get('options', {}), dict) for s in (request, adopted_spec)):
         raise ValueError('selection and adopted specification options must be objects')
     adopted = request.get('adopted_method', adopted_spec.get('method', adopted_spec.get('model')))
@@ -80,52 +114,222 @@ def select_method(request):
     proposed_contract = scientific_contract({**adopted_spec, **request})
     forward_options = request.get('options', adopted_spec.get('options', {}))
     design = request['design']; structure = request['data_structure']; pattern = request['treatment_pattern']
+    mechanism = facts.get('assignment_mechanism')
+    if design == 'auto':
+        mechanisms = {'randomized':'rct','parallel_trends':'did','threshold':'rdd',
+            'instrument':'iv','selection_on_observables':'orthogonal_score',
+            'conditional_mean':'conditional_mean','donor_panel':'synthetic_control',
+            'structural_equilibrium':'structural'}
+        if mechanism not in mechanisms:
+            raise ValueError('design=auto requires conditions.assignment_mechanism: ' + ', '.join(mechanisms))
+        design = mechanisms[mechanism]
+        if mechanism in ('randomized','selection_on_observables'):
+            if target_kind == 'cate': design = 'heterogeneous_effect'
+            if target_kind == 'policy_value': design = 'policy_learning'
+    if mechanism == 'selection_on_observables':
+        if facts.get('conditional_exchangeability') is False or facts.get('overlap') is False:
+            raise ValueError('selection on observables requires conditional exchangeability and overlap in the target population')
+    for name, value in (('data_structure',structure),('treatment_pattern',pattern),
+                        ('outcome_scale',request['outcome_scale'])):
+        if name in facts and facts[name] != value:
+            raise ValueError(f'conditions.{name} must match the explicit {name}')
     owner = 'skills/econ-data/scripts/research_causal.py run'
     conditions = []
+    required_inputs = []
+    alternatives = []
+    required_native_options = {}
+    external_implementation = None
     method_quantity = request['estimand']
-    if 'implementation' in request and design != 'heterogeneous_effect':
-        raise ValueError('implementation selects grf or econml for heterogeneous_effect')
-    if design == 'conditional_mean':
-        if request['outcome_scale'] == 'level': method = 'fixest_ols'
+    score = facts.get('score', request.get('score'))
+    if 'score' in facts and 'score' in request and facts['score'] != request['score']:
+        raise ValueError('conditions.score must match score')
+    if design in ('rct','randomized'):
+        if facts.get('randomized') is False:
+            raise ValueError('RCT requires randomized assignment')
+        method = 'rct'
+        method_quantity = 'E[Y(1)-Y(0)] for the randomized assignment population'
+        if target_kind == 'late':
+            method = 'iv_gmm'
+            method_quantity = 'complier effect under assignment exclusion, relevance and monotonicity'
+        elif target_kind not in (None,'ate','itt'):
+            raise ValueError('RCT assignment comparison targets ate or itt; receipt late requires the IV branch')
+        conditions = ['recorded randomization probabilities and assignment units',
+            'consistency and the adopted interference mapping',
+            'complete randomization at the observed arm counts for the sharp-null permutation test']
+        required_inputs = ['treatment assignment column','outcome','assignment unit','randomization scheme']
+        if method == 'iv_gmm':
+            conditions = ['random assignment of the instrument','assignment exclusion','nonzero receipt first stage','monotonic receipt response']
+            required_inputs += ['actual treatment receipt','assignment as excluded instrument']
+        elif request['dependence'] in ('cluster','clustered'):
+            method = 'fixest_ols'
+            conditions = ['randomized cluster assignment','assignment-level covariance','assignment contrast with the adopted cluster/population weights']
+            required_inputs.append('cluster column bound to official vcov')
+        alternatives = [{'method':'fixest_ols','difference':'covariate-adjusted assignment contrast with assignment-matched covariance'},
+            {'method':'iv_gmm','difference':'receipt LATE additionally uses assignment as an instrument and the compliance restrictions'}]
+    elif design == 'conditional_mean':
+        if target_kind == 'count_distribution' or facts.get('conditional_distribution') == 'nb2':
+            if facts.get('conditional_distribution') != 'nb2':
+                raise ValueError('count-distribution selection requires conditions.conditional_distribution=nb2')
+            method = 'negative_binomial_r'
+            method_quantity = 'NB2 likelihood coefficient with E[Y|X]=exp(X beta) and Var(Y|X)=mu+alpha*mu^2'
+        elif request['outcome_scale'] == 'level':
+            method = 'hdfe' if request.get('implementation') == 'pyfixest' else 'fixest_ols'
+            method_quantity = 'weighted additive conditional-mean or linear-projection coefficient in outcome units'
         elif request['outcome_scale'] == 'proportional_nonnegative': method = 'fixest_ppml'
         else: raise ValueError('conditional_mean requires level or proportional_nonnegative outcome_scale')
         conditions = ['adopted conditional mean', 'fixed effects and weights from the target population', 'covariance matched to dependence']
+        if method == 'fixest_ppml':
+            method_quantity = 'log-mean coefficient beta in E[Y|X,FE]=exp(X beta+FE+offset)'
+        required_inputs = ['outcome scale and support','regressors and fixed effects','sampling or analytic weights','exposure/offset when a rate is targeted']
+        alternatives = [{'method':'fixest_ols','difference':'additive outcome-unit contrast'},
+            {'method':'fixest_ppml','difference':'exponential conditional mean, including observed zeros'},
+            {'method':'negative_binomial_r','difference':'NB2 count likelihood estimates dispersion; marginal overdispersion does not select it'}]
     elif design == 'did':
-        if pattern == 'absorbing_staggered': method = 'staggered_did'
-        elif pattern in ('reversals','changing_dose','treatment_histories'): method = 'did_multiplegt_dyn'
+        if facts.get('parallel_trends') is False:
+            raise ValueError('DID requires the adopted parallel-trend restriction; use saved-event-study sensitivity for a bounded departure')
+        estimator = facts.get('estimator', 'group_time')
+        if pattern == 'absorbing_staggered':
+            candidates = {'group_time':'staggered_did','cohort_interaction':'sunab',
+                'imputation':'did_imputation','two_stage':'did2s','fixes':'fixes_event_study'}
+            if estimator not in candidates:
+                raise ValueError('absorbing DID estimator must be group_time, cohort_interaction, imputation, two_stage or fixes')
+            method = candidates[estimator]
+            if method == 'fixes_event_study':
+                required_inputs.append('explicit fixes estimator and its supported nuisance/weight/cluster contract')
+            method_quantity = 'ATT(g,t)=E[Y_t(g)-Y_t(0)|G=g], aggregated over the adopted cohorts and event times'
+        elif pattern in ('reversals','changing_dose','treatment_histories','continuous'):
+            if target_kind == 'dose_response' and facts.get('effect_normalization') != 'per_unit_dose':
+                raise ValueError('dose_response requires the adopted per_unit_dose normalization and dose-response restrictions')
+            method = 'nonabs_did' if estimator == 'nonabsdid' else 'did_multiplegt_dyn'
+            if estimator not in ('group_time','switcher','nonabsdid'):
+                raise ValueError('changing treatment histories require switcher or nonabsdid estimator conditions')
+            method_quantity = ('weighted current and lagged per-unit dose effects' if facts.get('effect_normalization') == 'per_unit_dose'
+                else 'switcher effect of the realized treatment path relative to maintaining the baseline dose')
+            normalized = facts.get('effect_normalization') == 'per_unit_dose'
+            native_normalized = forward_options.get('args',{}).get('normalized')
+            if native_normalized is not None and native_normalized != normalized:
+                raise ValueError('native normalized option must match the selected treatment-path estimand')
+            required_native_options['args.normalized'] = normalized
         elif pattern == 'two_period':
             if structure == 'panel': method = 'drdid_panel'
             elif structure == 'repeated_cross_section': method = 'drdid_rc'
             else: raise ValueError('two-period DID requires panel or repeated_cross_section data_structure')
+            if score not in (None,'dr','doubly_robust'):
+                raise ValueError('the two-period runner implements the doubly robust score; preserve an adopted OR/IPW score in its official implementation')
+            method_quantity = 'E[Y_post(1)-Y_post(0)|D=1] under conditional parallel trends'
+            if request['dependence'] in ('cluster','clustered'):
+                method = 'staggered_did'
         else: raise ValueError('DID treatment_pattern must identify two_period, absorbing_staggered, reversals, changing_dose or treatment_histories')
         conditions = ['specified untreated-trend scale and comparison eligibility', 'adopted anticipation and reference period', 'cohort or switcher population and horizon weights', 'assignment-matched clustering and interval family']
+        required_inputs = ['entity and time','cohort or complete treatment history','eligible control population',
+            'anticipation periods','outcome and pretreatment covariates','event window and base period',
+            'aggregation weights and population at each horizon']
+        if pattern == 'two_period' and method == 'staggered_did':
+            required_inputs.append('common adoption cohort and clustervars/bstrap for the adopted cluster-level two-period score')
+        alternatives = [{'method':'staggered_did','difference':'group-time ATT with explicit never-treated or not-yet-treated controls'},
+            {'method':'sunab','difference':'cohort-interacted regression with explicit reference cohorts and event aggregation'},
+            {'method':'did_imputation','difference':'untreated-outcome imputation with separately estimated pretreatment diagnostics'},
+            {'method':'did2s','difference':'two-stage residualization with correction for first-stage estimation'},
+            {'method':'did_multiplegt_dyn','difference':'observed treatment-path effects for switchers sharing baseline treatment'}]
+        anticipation = facts.get('anticipation', forward_options.get('anticipation',0))
+        if isinstance(anticipation,bool) or not isinstance(anticipation,int) or anticipation < 0:
+            raise ValueError('anticipation must be a nonnegative number of periods')
+        if anticipation and method in ('sunab','did_imputation','did2s'):
+            required_inputs.append('explicit announcement/exposure coding implementing the adopted anticipation window')
+        if pattern in ('continuous','changing_dose'):
+            conditions.append('baseline-dose-specific trends and the adopted restriction across continuous baseline doses')
     elif design == 'rdd':
+        if facts.get('continuity') is False:
+            raise ValueError('local-polynomial RD requires the adopted continuity restrictions; a local-randomization design needs its own assignment conditions')
         method = 'rdrobust_r'; conditions = ['cutoff and running-variable support', 'sharp, fuzzy or derivative target', 'adopted bandwidth, bias correction and dependence']
+        fuzzy = facts.get('discontinuity', 'sharp') == 'fuzzy'
+        if facts.get('discontinuity','sharp') not in ('sharp','fuzzy'):
+            raise ValueError('conditions.discontinuity must be sharp or fuzzy')
+        method_quantity = ('local complier effect: outcome discontinuity divided by treatment-receipt discontinuity' if fuzzy
+            else 'lim E[Y|X=c+] - lim E[Y|X=c-] at the assignment cutoff')
+        if fuzzy: conditions += ['nonzero treatment jump','exclusion and local monotonicity']
+        if fuzzy: required_native_options['columns.fuzzy'] = 'adopted treatment-receipt column'
+        required_inputs = ['running variable','cutoff','outcome','bandwidth and polynomial orders','treatment receipt for fuzzy RD']
+        alternatives = [{'method':'rdd_localrand','difference':'assignment-based local effect within an adopted randomization window'}]
     elif design == 'density_at_cutoff':
         method = 'rddensity'; conditions = ['adopted cutoff', 'running-variable measurement and mass points']
     elif design == 'rd_power':
         method = 'rdpower'; conditions = ['adopted alternative effect, sample size and bandwidth', 'same RD estimator and dependence as the research design']
     elif design in ('iv','instrumental_variables'):
-        method = 'iv_gmm'
+        method = 'iv_ar' if facts.get('weak_instruments') or target_kind == 'confidence_set' else 'iv_gmm'
         conditions = ['specified endogenous regressors and excluded instruments', 'instrument exclusion and rank identify the adopted moment coefficient', 'robust or adopted cluster covariance and the same moment weighting']
         method_quantity = 'linear IV moment coefficient estimated by two-step GMM'
+        if method == 'iv_ar':
+            if facts.get('homoskedastic_normal_errors') is not True or request['dependence'] in ('cluster','clustered','heteroskedastic','robust'):
+                method = 'iv_ar_robust'
+            conditions = ['one endogenous regressor','instrument exclusion',
+                'independent homoskedastic normal errors with fixed instruments' if method=='iv_ar' else 'independent observations or the adopted independent clusters',
+                'inversion of the adopted Anderson-Rubin test']
+            method_quantity = 'Anderson-Rubin confidence set for the endogenous-regressor coefficient'
+        required_inputs = ['endogenous regressors','excluded instruments','exogenous controls','moment weighting','independent inference unit']
+        alternatives = [{'method':'iv_gmm','difference':'conventional GMM point and covariance require the adopted rank condition'},
+            {'method':'iv_ar','difference':'test inversion remains defined under weak first-stage relevance and returns a possibly disconnected set'}]
     elif design == 'weak_instrument_inference':
-        method = 'iv_ar'
-        conditions = ['one endogenous regressor and the adopted excluded instruments', 'independent homoskedastic normal outcome errors with fixed instruments', 'adopted alpha and inversion of the Anderson-Rubin F test']
+        method = ('iv_ar' if facts.get('homoskedastic_normal_errors') is True and request['dependence'] not in ('cluster','clustered','heteroskedastic','robust') else 'iv_ar_robust')
+        conditions = ['one endogenous regressor and the adopted excluded instruments',
+            'independent homoskedastic normal errors with fixed instruments' if method=='iv_ar' else 'independent observations or the adopted independent clusters',
+            'adopted alpha and inversion of the Anderson-Rubin test']
         method_quantity = 'Anderson-Rubin confidence set for the specified endogenous-regressor coefficient'
     elif design == 'synthetic_control':
-        method = 'synthetic_control'
+        method = 'synthdid' if facts.get('counterfactual_model') == 'synthetic_did' or target_kind == 'treated_block_att' else 'synthetic_control'
+        if facts.get('counterfactual_model') == 'interactive_fixed_effects': method = 'generalized_synth'
         conditions = ['one treated unit and at least two balanced eligible donors', 'adopted training, untreated validation and post-treatment periods', 'nonnegative donor weights summing to one and held-out gap inference']
         method_quantity = 'post-treatment treated-minus-synthetic gap relative to its held-out untreated validation mean'
+        if method == 'synthdid':
+            if facts.get('common_treatment_block') is False:
+                raise ValueError('synthdid requires a common treated block')
+            method_quantity = 'average treatment effect over the common treated unit-time block'
+            conditions = ['balanced outcome panel with a common treatment block','eligible untreated donor units','unit and time weights selected by synthdid','adopted bootstrap, jackknife or placebo inference']
+        elif method == 'generalized_synth':
+            method_quantity = 'treated-block average relative to the interactive fixed-effects counterfactual'
+            conditions = ['stable factor counterfactual','identified factor rank and untreated support','adopted gsynth bootstrap']
+        required_inputs = ['treated units','eligible donors','pre/post periods','balanced outcome panel','target aggregation and inference method']
+        alternatives = [{'method':'synthetic_control','difference':'convex donor combination for a treated trajectory'},
+            {'method':'synthdid','difference':'joint unit and time weighting for a common treated block'},
+            {'method':'generalized_synth','difference':'low-rank interactive-effects untreated counterfactual'}]
     elif design == 'generalized_synth':
         method = 'generalized_synth'
         conditions = ['balanced panel with never-treated controls and one common absorbing adoption date', 'adopted factor rank and two-way interactive-effects specification', 'parametric bootstrap under the adopted error model']
         method_quantity = 'treated-block average and event-time effects relative to the interactive fixed-effects counterfactual'
     elif design == 'orthogonal_score':
-        score = request.get('score')
-        if score not in ('plr','did'): raise ValueError('this DoubleML owner supports score plr or did')
+        if score is None:
+            score = 'irm' if target_kind in ('ate','att') else 'iivm' if target_kind=='late' else 'plr'
+        if score in ('plr','irm') and facts.get('conditional_exchangeability') is False:
+            raise ValueError('an unconfounded-treatment score requires conditional exchangeability; use the identified instrument score for endogeneity')
+        if score=='irm' and facts.get('overlap') is False:
+            raise ValueError('the interactive-regression ATE/ATT score requires overlap in its target population')
+        if score not in ('plr','did','irm','pliv','iivm'):
+            raise ValueError('score must be plr, did, irm, pliv or iivm')
         method = 'dml_' + score; owner = 'skills/econ-data/scripts/research.py estimate'
         conditions = ['score identifies the stated target', 'folds preserve independent sampling units', 'nuisance fitting and tuning use training folds']
+        method_quantity = {'plr':'partially linear structural slope with residual-treatment weighting',
+            'did':'two-period ATT under the adopted DoubleML DID score',
+            'irm':'E[Y(1)-Y(0)|D=1]' if target_kind=='att' else 'E[Y(1)-Y(0)]',
+            'pliv':'partially linear instrumental-variable moment coefficient',
+            'iivm':'local average treatment effect among instrument compliers'}[score]
+        if score == 'plr' and (target_kind in ('att','late','cate','policy_value') or
+                (target_kind == 'ate' and facts.get('effect_heterogeneity') != 'constant')):
+            raise ValueError('PLR targets its partially linear slope; choose a score identifying the requested target')
+        required_inputs = ['mathematical score','outcome/treatment/covariates','fold assignment at independent units','nuisance learner and training-only tuning']
+        if score in ('irm','pliv','iivm'):
+            class_name = {'irm':'DoubleMLIRM','pliv':'DoubleMLPLIV','iivm':'DoubleMLIIVM'}[score]
+            owner = 'external official Python entry: doubleml.' + class_name
+            required_native_options['score'] = ('ATTE' if target_kind=='att' else 'ATE') if score=='irm' else 'LATE' if score=='iivm' else 'partialling out'
+            external_implementation = {'language':'Python','function':'doubleml.'+class_name,
+                'source':'https://github.com/DoubleML/doubleml-for-py/blob/a3493c3b7a444b6ddd730ad05c2c0e6c67ac19c3/doubleml/'+('plm/' if score=='pliv' else 'irm/')+score+'.py',
+                'inputs':['DoubleMLData or supported cluster data','named nuisance learners','adopted folds and score'],
+                'outputs':['coef','se','pval','confint','bootstrap/joint confint when requested'],
+                'execution':'fit the official class in the adopted project analysis; this runner performs no external fit'}
+        if score in ('pliv','iivm'):
+            conditions += ['valid excluded instruments and the specified instrument score']
+            required_inputs += ['instrument columns and instrument/treatment support']
+        alternatives = [{'method':'DoubleMLIRM','difference':'interactive-regression score targets configured ATE or ATTE under overlap'},
+            {'method':'DoubleMLIIVM','difference':'instrument score targets LATE under exclusion and compliance restrictions'}]
     elif design == 'heterogeneous_effect':
         implementation = request.get('implementation', 'grf')
         if implementation not in ('grf','econml'):
@@ -135,10 +339,19 @@ def select_method(request):
             'binary treatment with cross-fitted nuisance learners' if implementation == 'econml' else 'binary CATE or continuous covariance-to-variance target',
             'adopted effect covariates, independent sampling units and averaging population']
         method_quantity = 'conditional treatment effects and their adopted target-population aggregate'
+        required_inputs = ['effect covariates','treatment support','outcome','overlap population','honesty and independent sampling folds','target aggregation weights']
+        if facts.get('conditional_exchangeability') is False or facts.get('overlap') is False:
+            raise ValueError('the selected forest requires conditional exchangeability and overlap')
+        alternatives = [{'method':'dml_plr','difference':'a partially linear slope averages residual-treatment variation'},
+            {'method':'policy_tree','difference':'learns an allocation rule and evaluates its held-out value'}]
     elif design == 'policy_learning':
+        if facts.get('conditional_exchangeability') is False or facts.get('overlap') is False:
+            raise ValueError('policy evaluation requires conditional exchangeability and overlap in its evaluation population')
         method = 'policy_tree'
         conditions = ['binary treatment and known assignment propensities', 'distinct training and evaluation samples', 'adopted effect covariates and the untreated-all baseline']
         method_quantity = 'held-out policy value gain relative to assigning treatment zero to every evaluation unit'
+        required_inputs = ['known assignment propensities','separate training/evaluation partitions','effect covariates','treatment cost and capacity in the adopted objective']
+        alternatives = [{'method':'grf','difference':'conditional effect estimates require an additional allocation rule and independent value evaluation'}]
     elif design == 'parallel_trend_sensitivity':
         method = 'honest_did'; conditions = ['saved coefficients and joint covariance', 'ordered pre/post terms with universal reference', 'adopted restriction, magnitude grid and post-treatment contrast']
     elif design == 'wild_cluster_inference':
@@ -147,6 +360,8 @@ def select_method(request):
         method = 'club_sandwich'; conditions = ['saved supported model fit', 'adopted CR correction, coefficient contrast and degrees-of-freedom approximation']
     elif design == 'structural':
         model = request.get('structural_model')
+        if not model:
+            model = {'differentiated_products':'blp','replacement':'replacement','dynamic_game':'dynamic_game'}.get(facts.get('market_structure'))
         if model in ('blp','auction','auction_fit','search','bargaining','platform','matching'):
             method = model; owner = 'skills/econ-data/scripts/research_markets.py run'
         elif model in ('replacement','latent_replacement','discrete_entry','dynamic_adoption_blp','continuous_time_entry','capacity_product_game'):
@@ -156,19 +371,133 @@ def select_method(request):
         else:
             raise ValueError('structural_model must name a documented existing market, replacement, entry, adoption or dynamic-game model')
         conditions = ['adopted primitives, timing, moments and excluded variation', 'normalizations and equilibrium selection', 'counterfactual re-solves affected endogenous choices']
+        method_quantity = ('identified utility/cost parameters and scenario-specific equilibrium prices, choices and welfare' if model == 'blp'
+            else 'identified payoff/transition parameters and the re-solved policy or equilibrium under the adopted intervention')
+        algorithms = {'blp':('gmm',), 'replacement':('nfxp','ccp','smm','mpec'),
+            'latent_replacement':('em',),'discrete_entry':('moment_inequalities','npl','epl','slc'),
+            'dynamic_adoption_blp':('share_inversion',),'continuous_time_entry':('nfxp',),
+            'capacity_product_game':('nfxp',),'dynamic_game':('nfxp','mpec'),
+            'auction_fit':('maximum_likelihood',),'auction':('equilibrium',),
+            'search':('equilibrium',),'bargaining':('equilibrium',),
+            'platform':('equilibrium',),'matching':('deferred_acceptance',)}
+        algorithm = numerical.get('estimation_method', algorithms[model][0])
+        if algorithm not in algorithms[model]:
+            raise ValueError(f'{model} implements numerical.estimation_method in {algorithms[model]}')
+        required_native_options['estimation_component'] = algorithm
+        if model == 'dynamic_game':
+            required_native_options['estimation_method'] = algorithm
+        if model == 'replacement' and algorithm == 'smm':
+            required_native_options['options.smm'] = 'adopted seed, replications, initial_costs, bounds and tolerance'
+        if model == 'replacement' and algorithm == 'mpec':
+            method = 'replacement_mpec'
+            owner = 'external official Python entry: ruspy.estimation.criterion_function.get_criterion_function'
+            required_native_options = {'init_dict.method':'MPEC','constraints':'returned constraint and constraint_derivative'}
+            external_implementation = {'language':'Python',
+                'function':'ruspy.estimation.criterion_function.get_criterion_function',
+                'source':'https://github.com/OpenSourceEconomics/ruspy/blob/414e9f98e3b1cf19544b1ca3b1e544ac5751c1e9/ruspy/estimation/criterion_function.py',
+                'numerical_method':'joint parameter and value-function optimization subject to the returned Bellman constraints',
+                'inputs':['init_dict with model parameters and method=MPEC','observed state/decision/transition dataframe'],
+                'outputs':['criterion_function','criterion_derivative','constraint','constraint_derivative','transition_results'],
+                'execution':'pass the returned official criterion/constraints to the adopted constrained optimizer in project analysis'}
+        required_inputs = ['actors/objectives/feasible actions/information and timing','states and transition law',
+            'shock distribution and payoff normalization','moments or likelihood and excluded variation',
+            'parameter order and fixed/calibrated values','equilibrium selection','intervention and welfare aggregation']
+        alternatives = [{'method':'nfxp','difference':'solves the Bellman/equilibrium system inside each parameter evaluation'},
+            {'method':'mpec','difference':'joint parameter and value/policy optimization subject to the same equilibrium equations'},
+            {'method':'ccp','difference':'uses identified first-stage choices/transitions and their sampling contribution'},
+            {'method':'gmm','difference':'matches economically identified moments with an adopted weighting matrix'}]
     else:
         raise ValueError('unsupported design; use the documented selection contracts')
+    if method == 'iv_ar_robust':
+        owner = 'external official R entry: ivDiag::AR_test'
+        required_inputs = ['data','Y: outcome column','D: one endogenous treatment column',
+            'Z: excluded instrument columns','controls: exogenous control columns',
+            'FE: adopted fixed effects','cl: adopted cluster columns','weights: adopted weight column','alpha']
+        adopted_inference = request.get('inference',adopted_spec.get('inference',{}))
+        alpha = adopted_inference.get('alpha') if isinstance(adopted_inference,dict) else None
+        level = comparison.get('confidence_level')
+        if level is not None:
+            if isinstance(level,bool) or not isinstance(level,(int,float)) or not 0<level<1:
+                raise ValueError('comparison.confidence_level must be between zero and one')
+            if alpha is not None and abs(alpha-(1-level))>1e-12:
+                raise ValueError('inference.alpha and comparison.confidence_level must agree')
+            alpha = 1-level
+        if alpha is None: alpha = forward_options.get('args',{}).get('alpha',.05)
+        if isinstance(alpha,bool) or not isinstance(alpha,(int,float)) or not 0<alpha<1:
+            raise ValueError('the selected AR alpha must be between zero and one')
+        native_alpha = forward_options.get('args',{}).get('alpha')
+        if native_alpha is not None and abs(native_alpha-alpha)>1e-12:
+            raise ValueError('options.args.alpha must agree with the selected inference level')
+        required_native_options = {'CI':True,'alpha':alpha}
+        external_implementation = {'language':'R','function':'ivDiag::AR_test','version':'1.0.8',
+            'source':'https://github.com/apoorvalal/ivDiag/blob/cbc391f4b1013c837743593bcde54efd5d733fb7/R/AR_test.R',
+            'covariance':'heteroskedastic without cl; clustered with cl',
+            'numerical_method':'official quadratic inversion for one instrument; transformed whole-line search with root refinement for multiple instruments',
+            'outputs':['Fstat','ci','ci.print','bounded'],
+            'confidence_level':1-alpha,
+            'execution':'invoke the official function from the adopted project analysis; this runner performs no external fit'}
+    if method == 'fixes_event_study' and target_kind == 'att':
+        method = 'fixes_att'; owner = 'external official R entry: fixes::att'
+        required_native_options = {'aggregation':'simple','estimator':'adopted cs or bjs'}
+        external_implementation = {'language':'R','function':'fixes::att','version':'1.0.0',
+            'source':'https://github.com/yo5uke/fixes/blob/0a1e1cbba31bd344b7599273f973f9c850247c92/R/att.R',
+            'inputs':['formula','data','time','timing with never-treated coded NA','unit','estimator','aggregation','comparison and anticipation'],
+            'outputs':['aggregate estimates','standard errors','confidence intervals','aggregation/sample attributes'],
+            'execution':'invoke the official aggregate function in project analysis; the event-study runner retains dynamic effects'}
+    compatible = {
+        'rct':{'ate','itt'},'fixest_ols':{'linear_projection','conditional_mean','ate','itt'},
+        'hdfe':{'linear_projection','conditional_mean'},'fixest_ppml':{'conditional_mean'},
+        'negative_binomial_r':{'count_distribution','conditional_mean'},
+        'staggered_did':{'att','group_time_att','event_time_att'},
+        'drdid_panel':{'att'},'drdid_rc':{'att'},'sunab':{'att','event_time_att'},
+        'did2s':{'att','event_time_att'},'did_imputation':{'att','event_time_att'},
+        'fixes_event_study':{'event_time_att'},'fixes_att':{'att'},
+        'did_multiplegt_dyn':{'treatment_path_effect','dose_response'},
+        'nonabs_did':{'treatment_path_effect','dose_response'},
+        'rdrobust_r':{'local_effect','late'} if facts.get('discontinuity')=='fuzzy' else {'local_effect'},
+        'rddensity':{'density_discontinuity'},'rdpower':{'power'},
+        'iv_gmm':{'structural_parameter','late'},'iv_ar':{'confidence_set','structural_parameter','late'},'iv_ar_robust':{'confidence_set','structural_parameter','late'},
+        'synthetic_control':{'treated_trajectory'},'synthdid':{'treated_block_att','att'},
+        'generalized_synth':{'treated_trajectory','treated_block_att','att','event_time_att'},
+        'dml_plr':{'linear_projection','conditional_mean','structural_parameter','ate'},'dml_did':{'att'},
+        'dml_irm':{'ate','att'},'dml_pliv':{'structural_parameter'},'dml_iivm':{'late'},
+        'grf':{'cate','ate','att'},'causal_forest':{'cate','ate'},'policy_tree':{'policy_value'},
+        'honest_did':{'sensitivity','confidence_set'}}
+    accepted_targets = {'structural_parameter','equilibrium','welfare'} if design=='structural' else compatible.get(method)
+    if target_kind is not None and accepted_targets is not None and target_kind not in accepted_targets:
+        raise ValueError(f'{method} implements target.kind in {sorted(accepted_targets)}; received {target_kind}')
+    if design=='conditional_mean' and method=='fixest_ols' and target_kind in ('ate','itt'):
+        raise ValueError('causal ATE/ITT selection requires the assignment branch and its identifying conditions')
+    if method in ('iv_gmm','iv_ar','iv_ar_robust','dml_pliv','dml_iivm') and facts.get('exclusion') is False:
+        raise ValueError('the selected IV moment and its test inversion require instrument exclusion')
+    if method=='rdrobust_r' and facts.get('discontinuity')=='fuzzy':
+        if facts.get('exclusion') is False or facts.get('monotonicity') is False:
+            raise ValueError('the fuzzy RD complier effect requires exclusion and local monotonicity')
+    if target_kind=='late':
+        if facts.get('exclusion') is False or facts.get('monotonicity') is False:
+            raise ValueError('LATE requires exclusion and monotonicity for the adopted instrument/receipt comparison')
+        conditions += ['binary assignment/receipt compliance population','exclusion and monotonicity','nonzero first-stage receipt response']
+    if target_kind=='att' and method=='sunab': required_native_options['aggregation'] = 'att'
+    if target_kind=='event_time_att' and method=='sunab': required_native_options['aggregation'] = 'period'
+    if method=='grf' and target_kind in ('ate','att'):
+        required_native_options['aggregation.target.sample'] = 'treated' if target_kind=='att' else 'all'
     if method in R_METHODS:
         package, function = R_METHODS[method]; engine = f'{package}::{function}'
     else:
         engine = {'staggered_did':'did::att_gt + did::aggte','dml_plr':'doubleml.DoubleMLPLR',
                   'dml_did':'doubleml.did.DoubleMLDID','blp':'pyblp.Problem.solve',
+                  'dml_irm':'doubleml.DoubleMLIRM','dml_pliv':'doubleml.DoubleMLPLIV','dml_iivm':'doubleml.DoubleMLIIVM',
                   'iv_gmm':'linearmodels.iv.IVGMM',
+                  'iv_ar_robust':'ivDiag::AR_test',
+                  'fixes_att':'fixes::att',
+                  'replacement_mpec':'ruspy.estimation.criterion_function.get_criterion_function',
                   'iv_ar':'linearmodels.iv.IV2SLS + statsmodels.OLS + scipy.stats.f',
                   'synthetic_control':'pysyncon.Synth + statsmodels.OLS',
                   'generalized_synth':'gsynth::gsynth',
                   'causal_forest':'econml.dml.CausalForestDML',
                   'policy_tree':'econml.policy.DRPolicyTree + statsmodels.OLS',
+                  'rct':'scipy.stats.permutation_test + statsmodels.OLS',
+                  'hdfe':'pyfixest.feols',
                   'bargaining':'research_markets.bargain','dynamic_game':'equity_io.dynamic_game'}.get(method)
         if engine is None:
             engine = 'research_dynamic.observed_run' if owner.startswith('skills/econ-data/scripts/research_dynamic.py') else 'research_markets.'+method
@@ -185,14 +514,40 @@ def select_method(request):
         changes.append({'field':'options','adopted':adopted_spec['options'],'selected':forward_options})
     relation = {'adopted_estimand':adopted_spec.get('estimand'),
                 'requested_estimand':request['estimand'],'selected_method_quantity':method_quantity}
-    return {'status':'design_change' if changes else 'selected','question':request['question'],
+    if 'target' in adopted_spec and target and adopted_spec['target'] != target:
+        relation['target_change'] = {'adopted':adopted_spec['target'],'selected':target}
+    inference_contract = {'dependence':request['dependence'],
+        'unit':request.get('assignment_unit',request.get('observation_unit')),
+        'specification':request.get('inference',adopted_spec.get('inference')),
+        'interval_type':comparison.get('interval_type','pointwise'),
+        'family':comparison.get('inference_family'),
+        'official_output_required':True}
+    economic_fields = ('actors','objectives','choices','constraints','information','interactions','equilibrium','welfare')
+    if not required_inputs:
+        required_inputs = ['adopted target/population/period','model-specific columns or saved fitted object','matching inference unit and contrast']
+    selection = {'selected_method':method,'estimand':method_quantity,'target':target,
+        'economic_model':economic_model,'structured_conditions':facts,
+        'required_inputs':required_inputs,'assumptions':conditions,'inference':inference_contract,
+        'official_implementation':{'function':engine,'entry_point':owner,'options':forward_options,
+            'required_options':required_native_options,'execution_mode':'external_official_entry' if external_implementation else 'existing_runner',
+            'external_contract':external_implementation},
+        'reason':{'target':method_quantity,'design':design,'assignment_mechanism':mechanism,
+            'data_structure':structure,'treatment_pattern':pattern,'outcome_scale':request['outcome_scale']},
+        'alternatives':[x for x in alternatives if x['method'] != method],
+        'economic_chain':{'decision':economic_model,'target':target or {'expression':request['estimand']},
+            'population_and_observations':proposed_contract,'identification':{'statement':request['identification'],'conditions':facts,'comparison':comparison},
+            'estimator':{'method':method,'weights':request.get('weights'),'numerical':numerical,'inference':inference_contract},
+            'implementation':{'function':engine,'options':forward_options}},
+        'model_inputs_to_supply':[k for k in economic_fields if economic_model and k not in economic_model],
+        'adoption_status':'proposal_retaining_adopted_specification' if changes else 'selected_for_requested_target'}
+    return {'result_format_version':1,'status':'design_change' if changes else 'selected','question':request['question'],
         'estimand':request['estimand'],'identification':request['identification'],
         'method':method,'engine':engine,'entry_point':owner,'determining_conditions':conditions,
         'forward_options':forward_options,'design_contract':proposed_contract,
         'adopted_specification':adopted_spec,'estimand_relation':relation,
         'design_change':{'adopted_method':adopted,'selected_method':method,'changes':changes,'estimand_relation':relation} if changes else None,
         'requested_design':{k:request[k] for k in ('outcome_scale','data_structure','treatment_pattern','dependence')},
-        'executed':False}
+        'method_selection':selection,'executed':False}
 
 
 def _network(spec_path, filename, ids):
@@ -350,9 +705,9 @@ if (is.null(wp)) stop('did did not retain aggregation sampling weights')
 mass <- vapply(a$group, function(g) sum(wp[gpop == g]), numeric(1))
 cell_role <- function(g,t) {
   if (ap$base_period == 'universal' && t == max(grid[grid < g-ap$anticipation])) 'reference'
-  else if (t >= g) 'post_treatment_att'
+  else if (t >= g) 'att'
   else if (t >= g-ap$anticipation) 'anticipation'
-  else 'pretreatment_diagnostic'
+  else 'pre_diagnostic'
 }
 cells <- lapply(seq_along(a$att), function(j) {
   g <- a$group[j]; t <- a$t[j]
@@ -442,7 +797,13 @@ def _official_r(spec, spec_path):
 
     method = spec['method']; opt = spec['options']
     required = {
-        'ols_r': set(), 'fixest_ols': set(), 'fixest_ppml': set(),
+        'ols_r': set(), 'fixest_ols': set(), 'fixest_ppml': set(), 'negative_binomial_r': set(),
+        'sunab': {'entity','time','cohort'},
+        'did2s': {'treatment','first_stage','second_stage','cluster_var'},
+        'did_imputation': {'entity','time','cohort'},
+        'fixes_event_study': {'entity','time','cohort','estimator'},
+        'nonabs_did': {'entity','time','treatment','estimator'},
+        'synthdid': {'entity','time','treatment','variance'},
         'drdid_panel': {'entity','time','pre','post','treatment'},
         'drdid_rc': {'time','pre','post','treatment'},
         'did_multiplegt_dyn': {'entity','time','treatment'},
@@ -450,15 +811,39 @@ def _official_r(spec, spec_path):
         'wild_cluster_bootstrap': set(), 'club_sandwich': set(),
         'rdrobust_r': {'running'}, 'rddensity': {'running'}, 'rdpower': {'running'}, 'grf': {'treatment'},
     }[method]
-    optional = {'args','columns','seed'}
-    if method in ('ols_r','fixest_ols','fixest_ppml'): optional.add('fixed_effects')
+    optional = {'args','columns','seed','definitions'}
+    if method in ('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab','fixes_event_study'): optional.add('fixed_effects')
+    if method == 'sunab': optional |= {'sunab','aggregation','never_treated','confidence_level'}
+    if method == 'did2s': optional |= {'event_variable','reference_event_time','confidence_level'}
+    if method == 'fixes_event_study': optional |= {'never_treated'}
+    if method == 'synthdid': optional |= {'confidence_level'}
     if method == 'grf': optional.add('aggregation')
+    if method == 'rdrobust_r': optional.add('plot')
     if not required <= opt.keys() or set(opt)-required-optional:
         raise ValueError(f'{method} options require {sorted(required)} and accept {sorted(optional)}')
     if spec['inference'] != {'type':'official'}:
         raise ValueError('official R methods require inference={"type":"official"}; specify inference options in options.args')
     if not isinstance(opt.get('args', {}), dict) or not isinstance(opt.get('columns', {}), dict):
         raise ValueError('options.args and options.columns must be objects')
+    if not isinstance(opt.get('definitions', {}), dict):
+        raise ValueError('options.definitions must contain the adopted comparison and inference definitions')
+    if method == 'rdrobust_r' and 'plot' in opt:
+        plot_options = {'p','nbins','binselect','scale','kernel','h','covs_eval','covs_drop',
+                        'ginv.tol','support','masspoints','ci'}
+        if not isinstance(opt['plot'],dict) or set(opt['plot'])-plot_options:
+            raise ValueError('options.plot must be an object of rdplot options: ' + ', '.join(sorted(plot_options)))
+    if method == 'fixes_event_study' and opt['estimator'] not in ('cs','sa','bjs','twm','flex','twfe'):
+        raise ValueError('fixes estimator must be cs, sa, bjs, twm, flex or twfe')
+    if method == 'fixes_event_study' and opt['estimator'] == 'cs':
+        if spec['regressors'] or any(k in opt.get('args',{}) or k in opt.get('columns',{}) for k in ('weights','cluster')):
+            raise ValueError('the inspected fixes CS implementation uses unadjusted unit-level comparisons; covariates, sampling weights or higher-level clusters use did::att_gt')
+    if method == 'fixes_event_study' and opt['estimator'] == 'sa':
+        if spec['regressors'] or 'weights' in opt.get('args',{}) or 'weights' in opt.get('columns',{}):
+            raise ValueError('the inspected fixes SA implementation does not pass covariates or sampling weights to its interaction fit; use fixest::sunab for that specification')
+    if method == 'nonabs_did' and opt['estimator'] not in ('DCDH','PanelMatch','IFE','FE','MC'):
+        raise ValueError('nonabsdid estimator must be DCDH, PanelMatch, IFE, FE or MC')
+    if method == 'sunab' and opt.get('aggregation','period') not in ('period','cohort','att'):
+        raise ValueError('sunab aggregation must be period, cohort or att')
     if 'seed' in opt and (isinstance(opt['seed'], bool) or not isinstance(opt['seed'], int) or opt['seed'] < 0):
         raise ValueError('seed must be a nonnegative integer')
     path = Path(spec['data']); path = (path if path.is_absolute() else spec_path.parent/path).resolve()
@@ -481,6 +866,9 @@ def _official_r(spec, spec_path):
             raise ValueError('HonestDiD requires distinct saved pre_terms and post_terms in their adopted order')
         if source.get('method') == 'staggered_did' and source['options'].get('base_period','varying') != 'universal':
             raise ValueError('HonestDiD event studies require an adopted universal reference period')
+        covariance = source.get('covariance', {})
+        if any(t not in covariance or any(u not in covariance[t] or covariance[t][u] is None for u in terms) for t in terms):
+            raise ValueError('HonestDiD requires the saved full joint covariance for every ordered pre/post term')
     rcode = r'''
 args <- commandArgs(trailingOnly=TRUE)
 suppressPackageStartupMessages(library(jsonlite))
@@ -516,23 +904,90 @@ if(length(o$columns)) for(k in names(o$columns)) {
   call_args[[k]] <- if(length(cols)==1L) d[[cols]] else as.matrix(d[,cols,drop=FALSE])
 }
 owned <- list(); diagnostics <- list(); estimates <- NULL; intervals <- NULL; covariance <- NULL; rows <- NULL
+covariance_terms <- NULL; display_metadata <- list(); extra_displays <- list(); plot_options <- NULL
+confidence_level <- if(is.null(o$confidence_level)) .95 else o$confidence_level
+if(!is.numeric(confidence_level) || length(confidence_level)!=1L || confidence_level<=0 || confidence_level>=1) stop('confidence_level must be between zero and one')
 kind <- 'regression'
-if(method %in% c('ols_r','fixest_ols','fixest_ppml')) {
+if(method %in% c('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab')) {
   model_columns <- c(s$outcome,s$regressors,o$fixed_effects)
   if(!all(grepl('^[A-Za-z_][A-Za-z0-9_]*$',model_columns))) stop('Model columns must use simple names')
   rhs <- if(length(s$regressors)) paste(s$regressors,collapse='+') else '1'
-  if(method=='ols_r') {
+  if(method %in% c('ols_r','negative_binomial_r')) {
     if(length(o$fixed_effects)) rhs <- paste(rhs,paste0('factor(',o$fixed_effects,')',collapse='+'),sep='+')
     owned <- list(formula=as.formula(paste(s$outcome,'~',rhs)),data=d)
   } else {
+    if(method=='sunab') {
+      if(!all(c(o$entity,o$time,o$cohort) %in% names(d))) stop('Missing Sun-Abraham panel columns')
+      if(anyDuplicated(d[,c(o$entity,o$time)])) stop('Sun-Abraham requires unique entity-time pairs')
+      sa <- if(is.null(o$sunab)) list() else o$sunab
+      unknown <- setdiff(names(sa),setdiff(names(formals(fixest::sunab)),c('cohort','period')))
+      if(length(unknown)) stop(paste('Unsupported sunab option:',paste(unknown,collapse=', ')))
+      if(isTRUE(sa$no_agg)) stop('Use the saved cohort coefficients for no_agg; this branch reports an adopted aggregate')
+      if(isTRUE(sa$att) && !identical(o$aggregation,'att')) stop('sunab att=TRUE requires aggregation=att')
+      never <- if(is.null(o$never_treated)) 0 else o$never_treated
+      d[[o$cohort]][d[[o$cohort]]==never] <- max(d[[o$time]],na.rm=TRUE)+1
+      sa_call <- as.call(c(list(as.name('sunab'),as.name(o$cohort),as.name(o$time)),sa))
+      rhs <- paste(paste(deparse(sa_call,width.cutoff=500),collapse=''),rhs,sep='+')
+      if(is.null(o$fixed_effects)) o$fixed_effects <- c(o$entity,o$time)
+      diagnostics$cohort_coding <- list(input_never_treated=never,engine_never_treated=max(d[[o$time]],na.rm=TRUE)+1)
+      display_metadata$reference_event_time <- if(is.null(sa$ref.p)) -1 else sa$ref.p
+      display_metadata$reference_cohort <- sa$ref.c
+      display_metadata$aggregation <- if(is.null(o$aggregation)) 'period' else o$aggregation
+      kind <- 'event-study'
+    }
     fml <- paste(s$outcome,'~',rhs)
     if(length(o$fixed_effects)) fml <- paste(fml,'|',paste(o$fixed_effects,collapse='+'))
-    owned <- list(fml=as.formula(fml),data=d,data.save=TRUE)
+    owned <- list(fml=as.formula(fml,env=asNamespace('fixest')),data=d,data.save=TRUE)
     for(k in intersect(c('vcov','weights','offset','cluster','panel.id'),names(call_args))) {
       if(is.character(call_args[[k]]) && length(call_args[[k]])==1L && startsWith(call_args[[k]],'~')) call_args[[k]] <- as.formula(call_args[[k]])
     }
     if(is.list(call_args$ssc)) call_args$ssc <- invoke(fixest::ssc,call_args$ssc)
   }
+} else if(method=='did2s') {
+  owned <- list(data=d,yname=s$outcome,treatment=o$treatment,
+    first_stage=as.formula(o$first_stage),second_stage=as.formula(o$second_stage),cluster_var=o$cluster_var)
+  if(isTRUE(call_args$return_bootstrap)) stop('Native bootstrap draws are retained by the package; return_bootstrap must be FALSE for the fixest result contract')
+  display_metadata$reference_event_time <- o$reference_event_time
+  display_metadata$event_variable <- o$event_variable
+  display_metadata$inference_unit <- o$cluster_var
+  kind <- if(is.null(o$event_variable)) 'regression' else 'event-study'
+} else if(method=='did_imputation') {
+  owned <- list(data=d,yname=s$outcome,gname=o$cohort,tname=o$time,idname=o$entity)
+  if(!is.null(call_args$first_stage)) call_args$first_stage <- as.formula(call_args$first_stage)
+  if(length(s$regressors) && is.null(call_args$first_stage)) owned$first_stage <- as.formula(paste('~',paste(s$regressors,collapse='+'),'|',o$entity,'+',o$time))
+  display_metadata$base_period <- 'untreated outcome model; pretrend regression uses omitted pretreatment event times'
+  display_metadata$inference_unit <- if(is.null(call_args$cluster_var)) o$entity else call_args$cluster_var
+  kind <- 'event-study'
+} else if(method=='fixes_event_study') {
+  never <- if(is.null(o$never_treated)) 0 else o$never_treated
+  d[[o$cohort]][!is.na(d[[o$cohort]]) & d[[o$cohort]]==never] <- NA
+  diagnostics$cohort_coding <- list(input_never_treated=never,engine_never_treated='NA')
+  fe <- if(is.null(o$fixed_effects)) c(o$entity,o$time) else o$fixed_effects
+  o$fixed_effects <- fe
+  rhs <- if(length(s$regressors)) paste(s$regressors,collapse='+') else '1'
+  fml <- paste(s$outcome,'~',rhs)
+  if(length(fe)) fml <- paste(fml,'|',paste(fe,collapse='+'))
+  owned <- list(formula=as.formula(fml),data=d,time=o$time,timing=o$cohort,unit=o$entity,estimator=o$estimator)
+  if(!is.null(call_args$cluster) && startsWith(call_args$cluster,'~')) call_args$cluster <- as.formula(call_args$cluster)
+  if(is.null(call_args$conf_level)) call_args$conf_level <- confidence_level
+  if(length(call_args$conf_level)!=1L) stop('Save one adopted confidence level per result')
+  kind <- 'event-study'
+} else if(method=='nonabs_did') {
+  owned <- list(data=d,outcome=s$outcome,treatment=o$treatment,unit=o$entity,time=o$time,method=o$estimator,controls=s$regressors)
+  if(is.null(call_args$conf.level)) call_args$conf.level <- confidence_level
+  if(o$estimator=='DCDH') {
+    if(isTRUE(call_args$graph_off)) stop('nonabsdid DCDH extraction requires the official plot data')
+    if(is.null(call_args$ci_level)) call_args$ci_level <- 100*call_args$conf.level
+    if(call_args$ci_level != 100*call_args$conf.level) stop('DCDH ci_level must match conf.level')
+  }
+  kind <- 'event-study'
+} else if(method=='synthdid') {
+  if(length(s$regressors)) stop('The long-panel synthdid contract supplies outcomes; its X tensor requires the direct official matrix interface')
+  setup <- synthdid::panel.matrices(d,unit=o$entity,time=o$time,outcome=s$outcome,treatment=o$treatment)
+  owned <- list(Y=setup$Y,N0=setup$N0,T0=setup$T0)
+  diagnostics$panel <- list(units=rownames(setup$Y),periods=colnames(setup$Y),control_units=rownames(setup$Y)[seq_len(setup$N0)],pre_periods=colnames(setup$Y)[seq_len(setup$T0)])
+  display_metadata$treatment_time <- colnames(setup$Y)[setup$T0+1L]
+  display_metadata$aggregation <- 'uniform treated unit-time block'
 } else if(method %in% c('drdid_panel','drdid_rc')) {
   if(!all(c(s$outcome,s$regressors,o$time,o$treatment) %in% names(d))) stop('Missing DRDID columns')
     if(length(unique(d[[o$time]]))!=2L || !all(sort(unique(d[[o$time]])) == c(o$pre,o$post)) || o$pre>=o$post) stop('DRDID requires exactly the adopted pre and post periods')
@@ -596,16 +1051,98 @@ if(method=='club_sandwich' && is.character(call_args$vcov)) {
   if(is.null(covariance_method)) stop('clubSandwich has no vcovCR method for this saved model class')
   additional <- names(formals(covariance_method))
 }
+if(method=='nonabs_did') {
+  underlying <- switch(o$estimator,DCDH=list('DIDmultiplegtDYN','did_multiplegt_dyn'),PanelMatch=list('PanelMatch','PanelMatch'),list('fect','fect'))
+  if(!requireNamespace(underlying[[1]],quietly=TRUE)) stop(paste('Install selected nonabsdid engine:',underlying[[1]]))
+  additional <- names(formals(getExportedValue(underlying[[1]],underlying[[2]])))
+}
 invisible(capture.output(fit <- invoke(fun,all_args,additional)))
-if(method %in% c('ols_r','fixest_ols','fixest_ppml')) {
+if(method %in% c('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab','did2s')) {
   if(inherits(fit,'fixest_multi')) stop('This result contract requires one fitted model')
-  table <- if(method=='ols_r') coef(summary(fit)) else fixest::coeftable(fit)
-  intervals <- confint(fit); covariance <- vcov(fit)
+  if(method=='sunab') {
+    diagnostics$cohort_coefficients <- coef(fit,agg=FALSE)
+    diagnostics$cohort_covariance <- vcov(fit)
+    diagnostics$cohort_covariance_terms <- rownames(vcov(fit))
+    fit <- summary(fit,agg=if(is.null(o$aggregation)) 'period' else o$aggregation)
+  }
+  table <- if(method %in% c('ols_r','negative_binomial_r')) coef(summary(fit)) else fixest::coeftable(fit)
+  intervals <- confint(fit,level=confidence_level)
+  if(method!='sunab') covariance <- vcov(fit)
   estimates <- data.frame(term=rownames(table),estimate=table[,1],se=table[,2],p_value=table[,4],ci_low=intervals[,1],ci_high=intervals[,2],row.names=NULL)
-  used <- if(method=='ols_r') as.integer(rownames(model.frame(fit))) else fixest::obs(fit)
+  used <- if(method %in% c('ols_r','negative_binomial_r')) as.integer(rownames(model.frame(fit))) else fixest::obs(fit)
+  if(method=='did2s' && length(used)!=nrow(d)) stop('did2s changed the sample; supply the adopted complete estimation sample and rerun')
   ids <- ids[used]; d <- d[used,,drop=FALSE]
-  diagnostics <- list(observations=nobs(fit),fixed_effects=o$fixed_effects)
+  diagnostics$observations <- nobs(fit); diagnostics$fixed_effects <- o$fixed_effects
   if(inherits(fit,'fixest')) diagnostics$n_clusters <- attr(fit$cov.scaled,'G')
+  if(method=='negative_binomial_r') diagnostics$dispersion <- list(theta=fit$theta,theta_se=fit$SE.theta,variance='mu + mu^2/theta')
+  if(method %in% c('sunab','did2s') && kind=='event-study') {
+    event_terms <- if(method=='sunab') startsWith(estimates$term,paste0(o$time,'::')) else startsWith(estimates$term,paste0(o$event_variable,'::'))
+    estimates$event_time <- suppressWarnings(as.numeric(sub('.*::','',estimates$term)))
+    estimates$role <- ifelse(!event_terms,'adjustment',ifelse(estimates$event_time<0,'pre_diagnostic','att'))
+  }
+} else if(method=='did_imputation') {
+  estimates <- data.frame(term=as.character(fit$term),estimate=fit$estimate,se=fit$std.error,
+    ci_low=fit$conf.low,ci_high=fit$conf.high,event_time=suppressWarnings(as.numeric(fit$term)))
+  estimates$role <- ifelse(is.na(estimates$event_time),'att',ifelse(estimates$event_time<0,'pre_diagnostic','att'))
+  if(all(is.na(estimates$event_time))) kind <- 'regression'
+  diagnostics$sample_mapping <- 'official did_imputation returns an aggregate table; fitted row identities are not exported'
+  diagnostics$input_ids <- ids; ids <- character()
+  diagnostics$observations <- NULL
+} else if(method=='fixes_event_study') {
+  confidence_level <- call_args$conf_level
+  suffix <- sprintf('%.0f',100*confidence_level)
+  estimates <- data.frame(term=as.character(fit$term),estimate=fit$estimate,se=fit$std.error,
+    event_time=fit$relative_time,ci_low=fit[[paste0('conf_low_',suffix)]],ci_high=fit[[paste0('conf_high_',suffix)]])
+  if('p.value' %in% names(fit)) estimates$p_value <- fit$p.value
+  estimates$role <- ifelse(fit$is_baseline,'reference',ifelse(fit$relative_time<0,'pre_diagnostic','att'))
+  covariance <- attr(fit,'es_vcov')
+  if(!is.null(covariance)) covariance_terms <- rownames(covariance)
+  diagnostics$official_attributes <- attributes(fit)[setdiff(names(attributes(fit)),c('class','row.names','names','call'))]
+  diagnostics$observations <- attr(fit,'N')
+  diagnostics$sample_mapping <- 'fixes aggregate result exports sample counts and estimator metadata; row identities are retained in native fit when supplied'
+  diagnostics$input_ids <- ids; ids <- character()
+  display_metadata$reference_event_time <- attr(fit,'baseline')
+  display_metadata$aggregation <- list(estimator=o$estimator,control_group=attr(fit,'cs_control_group'))
+  if(all(c('conf_low_sim','conf_high_sim') %in% names(fit))) {
+    simultaneous <- estimates
+    simultaneous$ci_low <- fit$conf_low_sim; simultaneous$ci_high <- fit$conf_high_sim
+    extra_displays$simultaneous <- list(kind='event-study',rows=simultaneous,metadata=list(interval_type='simultaneous',confidence_level=1-attr(fit,'boot_alpha')))
+  }
+} else if(method=='nonabs_did') {
+  tab <- fit$tidy
+  estimates <- data.frame(term=as.character(tab$time),estimate=tab$estimate,se=tab$std.error,
+    event_time=tab$time,ci_low=tab$conf.low,ci_high=tab$conf.high)
+  estimates$role <- ifelse(tab$time<0,'pre_diagnostic','att')
+  if(o$estimator=='DCDH') estimates$role[tab$time == -1] <- 'reference'
+  confidence_level <- call_args$conf.level
+  diagnostics$observations <- NULL
+  diagnostics$sample_mapping <- 'native nonabsdid fit retains its engine sample; aggregate tibble does not export row identities'
+  diagnostics$input_ids <- ids; ids <- character()
+  display_metadata$reference_event_time <- if(o$estimator=='DCDH') -1 else NULL
+  display_metadata$aggregation <- list(engine=o$estimator,method='native estimator aggregation')
+  display_metadata$event_time_convention <- if(o$estimator=='DCDH') 'native DIDmultiplegtDYN Time minus one' else 'native engine event time'
+  if(o$estimator=='DCDH') {
+    diagnostics$official_covariance <- fit$fit$coef$vcov
+    if(is.null(call_args$bootstrap) && !is.null(fit$fit$coef$vcov)) {
+      covariance <- fit$fit$coef$vcov
+      native_terms <- rownames(covariance)
+      covariance_terms <- vapply(native_terms,function(x) {
+        if(startsWith(x,'Effect_')) as.character(as.integer(sub('Effect_','',x))-1L)
+        else if(startsWith(x,'Placebo_')) as.character(-as.integer(sub('Placebo_','',x))-1L)
+        else stop('Unsupported native DCDH covariance term')
+      },character(1))
+    }
+  }
+} else if(method=='synthdid') {
+  variance_fun <- getS3method('vcov','synthdid_estimate',envir=asNamespace('synthdid'))
+  covariance <- invoke(variance_fun,c(list(object=fit),o$variance))
+  dimnames(covariance) <- list('ATT','ATT')
+  estimates <- data.frame(term='ATT',estimate=as.numeric(fit),se=sqrt(covariance[1,1]))
+  diagnostics$weights <- attr(fit,'weights'); diagnostics$effective_options <- attr(fit,'opts')
+  diagnostics$effect_curve <- synthdid::synthdid_effect_curve(fit)
+  diagnostics$observations <- nrow(d)
+  diagnostics$inference_function <- 'synthdid::vcov.synthdid_estimate'
+  display_metadata$interval_type <- 'variance_only'
 } else if(method %in% c('drdid_panel','drdid_rc')) {
   estimates <- data.frame(term='ATT',estimate=fit$ATT,se=fit$se,p_value=2*pnorm(-abs(fit$ATT/fit$se)),ci_low=fit$lci,ci_high=fit$uci)
   covariance <- matrix(fit$se^2,1,1,dimnames=list('ATT','ATT'))
@@ -629,12 +1166,82 @@ if(method %in% c('ols_r','fixest_ols','fixest_ppml')) {
   diagnostics$effects <- fit$results$Effects
   diagnostics$placebos <- fit$results$Placebos
   if(!is.null(fit$save_sample) && all(c(s$id,'_did_sample') %in% names(fit$save_sample))) ids <- as.character(fit$save_sample[[s$id]][!is.na(fit$save_sample[['_did_sample']])])
+  parts <- if(!is.null(fit$results)) list(overall=fit) else fit[startsWith(names(fit),'by_level_')]
+  if(!length(parts)) stop('The official treatment-path result contains no saved effect groups')
+  tables <- lapply(names(parts),function(group_name) {
+    part <- parts[[group_name]]
+    effect <- as.data.frame(part$results$Effects,check.names=FALSE)
+    if(!all(c('Estimate','SE','LB.CI','UB.CI') %in% names(effect))) stop('Unsupported DIDmultiplegtDYN effect-table interface')
+    out <- data.frame(term=paste0(group_name,':Effect_',seq_len(nrow(effect))),
+      estimate=effect$Estimate,se=effect$SE,ci_low=effect$LB.CI,ci_high=effect$UB.CI,
+      event_time=seq_len(nrow(effect))-1L,role='att',group=group_name)
+    if('Switchers' %in% names(effect)) out$population_count <- effect$Switchers
+    placebo <- as.data.frame(part$results$Placebos,check.names=FALSE)
+    if(nrow(placebo)) {
+      pre <- data.frame(term=paste0(group_name,':Placebo_',seq_len(nrow(placebo))),
+        estimate=placebo$Estimate,se=placebo$SE,ci_low=placebo$LB.CI,ci_high=placebo$UB.CI,
+        event_time=-seq_len(nrow(placebo))-1L,role='pre_diagnostic',group=group_name)
+      if('population_count' %in% names(out)) pre$population_count <- placebo$Switchers
+      out <- rbind(pre,out)
+    }
+    out
+  })
+  estimates <- do.call(rbind,tables)
+  if(length(parts)==1L && is.null(call_args$bootstrap)) {
+    covariance <- parts[[1]]$coef$vcov
+    covariance_terms <- paste0(names(parts)[1],':',rownames(covariance))
+  }
+  diagnostics$official_covariance <- lapply(parts,function(x) x$coef$vcov)
+  diagnostics$covariance_kind <- 'official analytical covariance; bootstrap standard errors retained in effect tables'
+  diagnostics$observations <- length(ids)
+  confidence_level <- if(is.null(call_args$ci_level)) .95 else call_args$ci_level/100
+  display_metadata$reference_event_time <- -1
+  display_metadata$event_time_convention <- 'native horizon minus one; first treatment change is event time zero'
+  display_metadata$aggregation <- list(normalized=isTRUE(call_args$normalized),same_switchers=isTRUE(call_args$same_switchers),
+    same_switchers_pl=isTRUE(call_args$same_switchers_pl),only_never_switchers=isTRUE(call_args$only_never_switchers))
 } else if(method=='rdrobust_r') {
   estimates <- data.frame(term='treatment_effect',estimate=fit$coef['Robust',1],se=fit$se['Robust',1],p_value=fit$pv['Robust',1],ci_low=fit$ci['Robust',1],ci_high=fit$ci['Robust',2])
   covariance <- matrix(fit$se['Robust',1]^2,1,1,dimnames=list('treatment_effect','treatment_effect'))
   cutoff <- if(is.null(call_args$c)) 0 else call_args$c
   local <- d[[o$running]] >= cutoff-fit$bws['h',1] & d[[o$running]] <= cutoff+fit$bws['h',2]
   diagnostics <- list(bandwidths=fit$bws,effective_counts=fit$N_h,local_ids=I(ids[local]))
+  if('plot' %in% names(o)) {
+    plot_fun <- getExportedValue('rdrobust','rdplot')
+    shared <- intersect(names(call_args),c('weights','covs','subset'))
+    plot_args <- c(list(y=d[[s$outcome]],x=d[[o$running]],c=cutoff,hide=TRUE),call_args[shared],o$plot)
+    invisible(capture.output(plot_fit <- invoke(plot_fun,plot_args)))
+    bins <- plot_fit$vars_bins; poly <- plot_fit$vars_poly
+    # rdplot returns the left grid followed by the equally sized right grid.
+    # Each grid includes the cutoff, so assigning side from x alone loses a curve endpoint.
+    nside <- nrow(poly)%/%2L
+    if(nrow(poly)%%2L || nside<2L || any(poly$rdplot_x[seq_len(nside)]>plot_fit$c) ||
+       any(poly$rdplot_x[nside+seq_len(nside)]<plot_fit$c) ||
+       poly$rdplot_x[nside]!=plot_fit$c || poly$rdplot_x[nside+1L]!=plot_fit$c)
+      stop('rdplot polynomial output does not preserve the official left/right grid contract')
+    bin_rows <- data.frame(component='points',side=ifelse(bins$rdplot_mean_x<plot_fit$c,'left','right'),
+      x=bins$rdplot_mean_bin,estimate=bins$rdplot_mean_y,mean_x=bins$rdplot_mean_x,
+      bin_low=bins$rdplot_min_bin,bin_high=bins$rdplot_max_bin,n=bins$rdplot_N,
+      se=bins$rdplot_se_y,ci_low=bins$rdplot_ci_l,ci_high=bins$rdplot_ci_r)
+    line_rows <- data.frame(component='line',side=rep(c('left','right'),each=nside),
+      x=poly$rdplot_x,estimate=poly$rdplot_y,mean_x=NA_real_,bin_low=NA_real_,bin_high=NA_real_,
+      n=NA_integer_,se=NA_real_,ci_low=NA_real_,ci_high=NA_real_)
+    plot_options <- list(args=o$plot,inherited_args=call_args[shared],
+      columns=o$columns[intersect(names(o$columns),shared)],c=cutoff,hide=TRUE,
+      returned=plot_fit[c('p','c','h','N','N_h','J','binselect','kernel','scale')])
+    extra_displays$rdd <- list(kind='rdd',rows=rbind(bin_rows,line_rows),metadata=list(
+      estimand='Binned outcome means and left/right polynomial conditional means',effect_estimand=s$estimand,
+      running_variable=o$running,cutoff=plot_fit$c,bandwidth=I(plot_fit$h),
+      estimation_bandwidth=fit$bws,polynomial_order=plot_fit$p,kernel=plot_fit$kernel,
+      binselect=plot_fit$binselect,bin_counts=I(plot_fit$J),side_counts=I(plot_fit$N),
+      effective_side_counts=I(plot_fit$N_h),interval_type='pointwise',interval_target='binned means',
+      confidence_level=if(is.null(o$plot$ci)) .95 else o$plot$ci/100,
+      polynomial_interval_available=FALSE,side_definition='source order: left grid followed by right grid; both include cutoff',
+      sample=list(input_rows=length(ids),observations=sum(plot_fit$N),included_ids_available=FALSE),
+      sample_policy='official rdplot preprocessing with returned side counts',
+      producer=list(`function`='rdrobust::rdplot',version=as.character(packageVersion('rdrobust')),
+        signature=names(formals(plot_fun)),function_defaults=lapply(formals(plot_fun),function(x) paste(deparse(x),collapse=' '))),
+      effective_options=plot_options))
+  }
 } else if(method=='club_sandwich') {
   rows <- as.data.frame(fit)
 } else if(method=='wild_cluster_bootstrap') {
@@ -658,11 +1265,15 @@ cleaned <- clean(fit)
 if(is.null(rows)) rows <- data.frame(result=names(cleaned),value=vapply(cleaned,function(x) paste(capture.output(str(x,give.attr=FALSE,max.level=1)),collapse=' '),character(1)))
 obj <- list(engine=paste0(pkg,'::',fname),versions=setNames(list(as.character(packageVersion(pkg))),pkg),
   R=as.character(getRversion()),signature=formal_names,official_result=cleaned,
+  function_defaults=lapply(formals(fun),function(x) paste(deparse(x),collapse=' ')),
+  effective_options=list(args=clean(call_args),columns=o$columns,returned=clean(diagnostics$effective_options),
+    formula=if(!is.null(all_args$fml)) paste(deparse(all_args$fml),collapse=' ') else if(!is.null(all_args$formula)) paste(deparse(all_args$formula),collapse=' ') else NULL,
+    fixed_effects=o$fixed_effects,aggregation=display_metadata$aggregation,cohort_coding=diagnostics$cohort_coding,plot=plot_options),
   runtime=list(library_paths=I(.libPaths()),working_directory=getwd(),profile_user=Sys.getenv('R_PROFILE_USER',unset=NA_character_)),
-  estimates=estimates,covariance=covariance,diagnostics=clean(diagnostics),
-  sample=list(included_ids=I(as.character(ids))),display=list(kind=kind,rows=rows),
+  estimates=estimates,covariance=covariance,covariance_terms=if(is.null(covariance_terms)) rownames(covariance) else covariance_terms,diagnostics=clean(diagnostics),
+  sample=list(included_ids=I(as.character(ids))),display=list(kind=kind,rows=rows,metadata=display_metadata),displays=extra_displays,
   native_fit=list(format='R-serialize-v3',data=base64_enc(native)))
-obj$confidence_level <- if(method=='rdrobust_r' && !is.null(call_args$level)) call_args$level/100 else if(method=='wild_cluster_bootstrap' && !is.null(call_args$sign_level)) 1-call_args$sign_level else if(method=='honest_did' && !is.null(call_args$alpha)) 1-call_args$alpha else .95
+obj$confidence_level <- if(method=='rdrobust_r' && !is.null(call_args$level)) call_args$level/100 else if(method=='wild_cluster_bootstrap' && !is.null(call_args$sign_level)) 1-call_args$sign_level else if(method=='honest_did' && !is.null(call_args$alpha)) 1-call_args$alpha else confidence_level
 write_json(obj,args[5],auto_unbox=TRUE,digits=16,na='null',null='null',dataframe='rows')
 '''
     with tempfile.TemporaryDirectory(prefix='causal-official-r-') as tmp:
@@ -671,35 +1282,67 @@ write_json(obj,args[5],auto_unbox=TRUE,digits=16,na='null',null='null',dataframe
                               input=rcode,text=True,capture_output=True,env=os.environ.copy())
         if proc.returncode: raise ArithmeticError(f'{package} engine failed: ' + proc.stderr[-4000:])
         result = json.loads((tmp/'result.json').read_text())
-    result.update(method=method, options=opt, adopted={k:spec[k] for k in ('population','period','unit','estimand','identification','assignment','inference')},
-        provenance={'data_path':str(path),'data_sha256':_hash(path),'spec_path':str(spec_path.resolve()),'spec_sha256':_hash(spec_path)})
+    result.update(result_format_version=1, method=method, options=opt, adopted={k:spec[k] for k in ('population','period','unit','estimand','identification','assignment','inference')},
+        provenance={'data_path':str(path),'data_sha256':_hash(path),'spec_path':str(spec_path.resolve()),'spec_sha256':_hash(spec_path),
+                    'producer_path':str(Path(__file__).resolve()),'producer_sha256':_hash(Path(__file__).resolve())})
+    result['producer'] = {'entry_point':'research_causal.py run','function':result['engine'],
+                          'signature':result['signature'],'versions':result['versions']}
     result['versions']['R'] = result.pop('R')
     result['native_fit']['sha256'] = hashlib.sha256(base64.b64decode(result['native_fit']['data'])).hexdigest()
     result['sample']['id_column'] = spec['id']
     if not result['diagnostics']: result['diagnostics'] = {}
     result['sample']['observations'] = result['diagnostics'].get('observations')
-    display_sample = {'id_column':spec['id'],'included_rows':len(result['sample']['included_ids']),
+    ids_available = 'sample_mapping' not in result['diagnostics']
+    result['sample']['included_ids_available'] = ids_available
+    if result['diagnostics'].get('input_ids'):
+        result['sample']['input_ids'] = result['diagnostics']['input_ids']
+    display_sample = {'id_column':spec['id'],'included_rows':len(result['sample']['included_ids']) if ids_available else None,
                       'observations':result['sample']['observations']}
-    result['display']['metadata'] = {'unit':spec['unit'],'population':spec['population'],'estimand':spec['estimand'],
+    native_metadata = result['display'].get('metadata') or {}
+    definitions = opt.get('definitions', {})
+    fixed_effects = result['effective_options'].get('fixed_effects') or opt.get('fixed_effects',[])
+    result['display']['metadata'] = {**definitions,'unit':spec['unit'],'population':spec['population'],'estimand':spec['estimand'],
         'sample':display_sample,'engine':result['engine'],'inference':spec['inference'],
         'n':result['sample']['observations'],'n_clusters':result['diagnostics'].get('n_clusters'),
-        'fixed_effects':opt.get('fixed_effects',[]),'controls':spec['regressors'],
+        'fixed_effects':fixed_effects,'controls':spec['regressors'],
         'period':spec['period'],'weights':{k:v for k,v in {**opt.get('args',{}),**opt.get('columns',{})}.items() if k in ('weights','i.weights','sample.weights','weight')},
         'estimator':result['engine'],'sample_policy':'official estimator preprocessing with saved observation IDs',
-        'specification':{'outcome':spec['outcome'],'regressors':spec['regressors'],'fixed_effects':opt.get('fixed_effects',[]),'options':opt},
-        'confidence_level':result['confidence_level']}
+        'specification':{'outcome':spec['outcome'],'regressors':spec['regressors'],'fixed_effects':fixed_effects,'options':opt},
+        'producer':result['producer'],'effective_options':result['effective_options'],
+        'treatment':opt.get('treatment',definitions.get('treatment')),
+        'cohort':opt.get('cohort',definitions.get('cohort')),
+        'observation_unit':definitions.get('observation_unit',opt.get('entity')),
+        'inference_unit':definitions.get('inference_unit',opt.get('cluster_var',opt.get('args',{}).get('cluster'))),
+        'control_group':opt.get('args',{}).get('control_group',definitions.get('control_group')),
+        'result_format_version':1,'interval_type':'pointwise','confidence_level':result['confidence_level'],**native_metadata}
+    if not ids_available:
+        result['display']['metadata']['sample_policy'] = result['diagnostics']['sample_mapping']
+    for block in (result.get('displays') or {}).values():
+        block['metadata'] = {**result['display']['metadata'],**block.get('metadata',{})}
     result['diagnostics']['engine_messages'] = proc.stderr.strip()
     result['statistics'] = {}
     if result['estimates']:
         estimates = result.pop('estimates')
+        if any(r.get('estimate') is None or not np.isfinite(r['estimate']) for r in estimates):
+            raise ArithmeticError(f'{result["engine"]} returned a nonfinite requested estimate')
         result['coefficients'] = {r['term']:r['estimate'] for r in estimates}
-        result['standard_errors'] = {r['term']:r['se'] for r in estimates}
-        result['inference'] = {'confidence_level':result['confidence_level'],'p_values':{r['term']:r['p_value'] for r in estimates},
-            'confidence_intervals':{r['term']:[r['ci_low'],r['ci_high']] for r in estimates}}
-        if result['confidence_level'] == .95:
+        result['standard_errors'] = {r['term']:r['se'] for r in estimates if r.get('se') is not None}
+        result['inference'] = {'confidence_level':result['confidence_level'],
+            'p_values':{r['term']:r['p_value'] for r in estimates if r.get('p_value') is not None},
+            'confidence_intervals':{r['term']:[r['ci_low'],r['ci_high']] for r in estimates if r.get('ci_low') is not None and r.get('ci_high') is not None},
+            'interval_type':result['display']['metadata']['interval_type'],'source':result['engine']}
+        if result['confidence_level'] == .95 and result['inference']['confidence_intervals']:
             result['inference']['confidence_intervals_95'] = result['inference']['confidence_intervals']
-        terms = list(result['coefficients']); matrix = np.atleast_2d(result['covariance'])
-        result['covariance'] = {a:{b:float(matrix[i,j]) for j,b in enumerate(terms)} for i,a in enumerate(terms)}
+        if result['covariance'] is not None:
+            terms = result.pop('covariance_terms') or list(result['coefficients'])
+            if isinstance(terms,str): terms = [terms]
+            matrix = np.atleast_2d(result['covariance'])
+            if matrix.shape != (len(terms),len(terms)):
+                raise ArithmeticError('Official covariance dimensions do not match the saved term ordering')
+            result['covariance'] = {a:{b:float(matrix[i,j]) if matrix[i,j] is not None else None for j,b in enumerate(terms)} for i,a in enumerate(terms)}
+        else:
+            result.pop('covariance'); result.pop('covariance_terms',None)
+        result['inference']['covariance_available'] = 'covariance' in result
         result['statistics'] = {f'coefficient.{r["term"]}':{'value':r['estimate'],'unit':spec['unit']} for r in estimates}
     return result
 
@@ -941,7 +1584,7 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
         if min(int(tr.sum()),int(validation.sum()),int(post.sum()))<4: raise ValueError('each synthetic control period partition needs at least four periods')
         donor_names=[x for x in matrix.columns if x!=treated]; controls=matrix[donor_names]; target=matrix[treated]
         model=Synth(); model.fit(X0=controls.loc[tr],X1=target.loc[tr],Z0=controls.loc[tr],Z1=target.loc[tr],custom_V=np.ones(int(tr.sum())))
-        weights=np.asarray(model.W,dtype=float); gaps=target.to_numpy()-controls.to_numpy()@weights
+        weights=np.asarray(model.W,dtype=float); synthetic=controls.to_numpy()@weights; gaps=target.to_numpy()-synthetic
         if not np.isfinite(weights).all() or weights.min() < -1e-7 or abs(weights.sum()-1)>1e-6: raise ArithmeticError('synthetic control optimizer produced invalid donor weights')
         held=validation|post; hold_gap=gaps[held]; post_indicator=np.asarray(post[held],dtype=float); XX=pd.DataFrame({'const':1.0,'post':post_indicator})
         fit=sm.OLS(hold_gap,XX).fit(cov_type='HC1'); fit_n=len(hold_gap); coef=fit.params; cov=fit.cov_params(); se=fit.bse; pv=fit.pvalues; ci=fit.conf_int(); reference='normal'; engine='pysyncon.Synth + statsmodels.OLS'
@@ -1194,8 +1837,8 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
             index = component['index']
             term = prefix + ('_m' + str(abs(int(index))) if index < 0 else '_p' + str(int(index)))
             role = ('reference' if aggregation['type'] == 'dynamic' and baseline and index == -opt.get('anticipation',0)-1
-                    else 'post_treatment_att' if aggregation['type'] != 'dynamic' or index >= 0
-                    else 'anticipation' if index >= -opt.get('anticipation',0) else 'pretreatment_diagnostic')
+                    else 'att' if aggregation['type'] != 'dynamic' or index >= 0
+                    else 'anticipation' if index >= -opt.get('anticipation',0) else 'pre_diagnostic')
             row = {'term':term,'estimate':component['estimate'],'se':component['se'],
                    'ci_low':component['ci_low'],'ci_high':component['ci_high'],
                    'p_value':result['inference']['p_values'].get(term),
@@ -1206,7 +1849,7 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
             rows = [{'term':'overall','estimate':result['coefficients']['overall'],
                      'se':result['standard_errors']['overall'],'ci_low':float(ci.loc['overall'].iloc[0]),
                      'ci_high':float(ci.loc['overall'].iloc[1]),'p_value':float(pv.loc['overall']),
-                     'n':fit_n,'unit':spec['unit'],'role':'post_treatment_att'}]
+                     'n':fit_n,'unit':spec['unit'],'role':'att'}]
         result['display'] = {'kind':'event-study' if aggregation['type'] == 'dynamic' else 'coefficient',
             'rows':rows,'metadata':{'aggregation':aggregation['type'],'confidence_level':confidence_level,
             'interval_type':result['inference']['interval_type'],
@@ -1214,6 +1857,37 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
             'cohort_contributions':[{k:v for k,v in component.items() if k != 'treated_sample_ids'} for component in did_values['components']],
             'unit':spec['unit'],'population':spec['population'],
             'sample':{k:v for k,v in result['sample'].items() if not isinstance(v,list)}}}
+    result['result_format_version'] = 1
+    if method == 'synthetic_control':
+        treatment_time = float(matrix.index[post][0])
+        metadata = {'population':spec['population'],'period':spec['period'],'unit':spec['unit'],
+            'treatment':treated,'control_group':donor_names,'treatment_time':treatment_time,
+            'training_end':end,'validation_end':pre,'weights':diagnostics['donor_weights'],
+            'observation_unit':entity,'time_variable':time,'engine':engine,
+            'effect_estimand':spec['estimand'],'inference':spec['inference'],
+            'producer':{'function':engine,'versions':versions},
+            'interval_type':'none','result_format_version':1}
+        series_rows = [{'time':float(t),'estimate':float(value),'component':component}
+            for component, values in (('actual',target.to_numpy()),('synthetic',synthetic))
+            for t,value in zip(matrix.index,values)]
+        result['display'] = {'kind':'scm','rows':series_rows,
+            'metadata':{**metadata,'estimand':'Treated outcome and its fitted synthetic-control trajectory'}}
+        result['displays'] = {'scm_gap':{'kind':'scm_gap',
+            'rows':[{'time':float(t),'estimate':float(gap)} for t,gap in zip(matrix.index,gaps)],
+            'metadata':{**metadata,'estimand':'Treated-minus-synthetic outcome gap'}}}
+    if method == 'iv_ar':
+        ar = diagnostics['anderson_rubin']
+        ar_rows = [{'term':spec['endogenous'][0],**interval,
+                    'lower_unbounded':interval['lower'] is None,
+                    'upper_unbounded':interval['upper'] is None,
+                    'set_type':'interval'} for interval in ar['intervals']]
+        if not ar_rows:
+            ar_rows = [{'term':spec['endogenous'][0],'set_type':'empty'}]
+        result['display'] = {'kind':'iv_confidence_set','rows':ar_rows,
+            'metadata':{'estimand':spec['estimand'],'population':spec['population'],
+                'unit':spec['unit'],'confidence_level':ar['confidence_level'],
+                'interval_type':'Anderson-Rubin test inversion','inference':spec['inference'],
+                'engine':engine,'assignment':spec['assignment']}}
     return result
 
 

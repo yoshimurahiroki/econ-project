@@ -71,6 +71,11 @@ def _(artifacts, catalogue, mo):
         'time_series': '時系列', 'group_comparison': '群間比較', 'coefficient': '係数',
         'event_study': 'イベントスタディ', 'robustness': '頑健性',
         'alternative_specification': '別仕様', 'table': '表', 'figure': '図',
+        'att_gt': 'ATT(g,t)', 'cohort_event': '導入群別イベント', 'parallel_trends': '群別平均の推移',
+        'rdd': '回帰不連続', 'iv_first_stage': 'IV 第一段階', 'iv_reduced_form': 'IV 誘導形',
+        'iv_confidence_set': 'IV 信頼集合', 'scm': '実測・合成対照', 'scm_gap': '合成対照の差',
+        'scm_placebo': '合成対照のプラセボ', 'binned_scatter': '階級別散布図', 'smd': '標準化平均差',
+        'structural': '構造モデル', 'geo': '地理分布',
     }
     query = mo.ui.text(label='結果・変数・標本・解釈を検索', full_width=True)
     kinds = mo.ui.multiselect(options={kind_names[_key]: _key for _key in artifacts.GALLERY_KINDS}, label='種類')
@@ -112,22 +117,29 @@ def _(artifacts, catalogue, json, mo, registry_data, registry_path, result_table
     )
     _previews = [mo.Html(artifacts.gallery_preview(registry_data['items'][_id])) for _id in selected_ids]
     comparison_panel = mo.vstack(_previews) if _previews else mo.md('表の行を選ぶと、保存済みの図表を表示します。')
-    if len(selected_ids) > 1:
+    if selected_ids:
         _comparison = artifacts.gallery_compare(root, registry_path, selected_ids)
         _regression = _comparison['regression_table']
-        if _regression['rows']:
+        if len(selected_ids) > 1 and _regression['rows']:
             comparison_panel = mo.vstack([
                 mo.md('### 保存済み推定結果の比較'),
-                mo.ui.table(_regression['rows'], selection=None, show_column_summaries=False,
-                            show_data_types=False), comparison_panel,
+                mo.Html('<section class="research-display">' + artifacts.gallery_presentation(_regression['presentation']) + '</section>'),
+                mo.accordion({'比較表の説明': mo.md('\n\n'.join(_regression['presentation']['notes']))}), comparison_panel,
             ])
         _definitions = [{'定義': _key, **{_id: json.dumps(_value, ensure_ascii=False) for _id, _value in _values.items()}}
-                        for _key, _values in _comparison['definition_differences'].items()]
+                        for _key, _values in _comparison['result_definition_differences'].items()]
         if _definitions:
             comparison_panel = mo.vstack([
-                mo.md('### 選択結果の定義'),
+                mo.md('### 結果ごとの研究定義'),
                 mo.ui.table(_definitions, selection=None, show_column_summaries=False, show_data_types=False),
                 comparison_panel,
+            ])
+        _unrecorded = _comparison['comparison_contract']['unrecorded_fields']
+        if _unrecorded:
+            comparison_panel = mo.vstack([
+                mo.accordion({'保存定義の項目': mo.ui.table([
+                    {'結果': _key, '未保存の項目': ', '.join(_values)} for _key, _values in _unrecorded.items()
+                ], selection=None, show_column_summaries=False, show_data_types=False)}), comparison_panel,
             ])
     return comparison_panel, selected_entries, selected_ids, selection_download
 
@@ -149,7 +161,12 @@ def _(artifacts, copy, item_picker, json, mo, registry_data):
     _available = {'選択なし': None, **{_key: _key for _key in _keys}}
     _plot_names = {'表': 'table', '棒': 'bar', '折れ線': 'line', '散布図': 'scatter',
                    '階段': 'step', '面': 'area', '係数': 'coefficient', 'イベントスタディ': 'event_study',
-                   '密度': 'density', '累積分布': 'ecdf', '箱ひげ': 'box'}
+                   '密度': 'density', '累積分布': 'ecdf', '箱ひげ': 'box',
+                   'ATT(g,t)': 'att_gt', '導入群別イベント': 'cohort_event', '群別平均の推移': 'parallel_trends',
+                   '回帰不連続': 'rdd', 'IV 第一段階': 'iv_first_stage', 'IV 誘導形': 'iv_reduced_form',
+                   'IV 信頼集合': 'iv_confidence_set', '実測・合成対照': 'scm', '合成対照の差': 'scm_gap',
+                   '合成対照のプラセボ': 'scm_placebo', '階級別散布図': 'binned_scatter',
+                   '標準化平均差': 'smd', '構造モデルの保存結果': 'structural', '地理分布': 'geo'}
     _numeric_keys = [_key for _key in _keys if editing_item and
                      any(type(_row.get(_key)) in (int, float) for _row in editing_item['rows'])]
     title_input = mo.ui.text(value=_display.get('title', editing_item['title'] if editing_item else ''), label='表題', full_width=True)
@@ -203,6 +220,37 @@ def _(artifacts, copy, item_picker, json, mo, registry_data):
 
 
 @app.cell
+def _(editing_item, mo):
+    _display = editing_item.get('display', {}) if editing_item else {}
+    _keys = [_column['key'] for _column in editing_item['columns']] if editing_item else []
+    _available = {'選択なし': None, **{_key: _key for _key in _keys}}
+    regression_controls = mo.ui.dictionary({
+        'digits': mo.ui.number(start=0, stop=10, value=_display.get('digits', 3), label='小数桁数'),
+        'show_se': mo.ui.switch(value=_display.get('show_se', True), label='標準誤差を次の行に表示'),
+        'show_ci': mo.ui.switch(value=_display.get('show_ci', False), label='保存区間を表示'),
+        'show_p': mo.ui.switch(value=_display.get('show_p', False), label='保存 p 値を表示'),
+        'show_stars': mo.ui.switch(value=_display.get('show_stars', False), label='有意記号を表示'),
+        'table_number': mo.ui.text(value=str(_display.get('table_number', '')), label='表番号'),
+        'latex_label': mo.ui.text(value=_display.get('latex_label', ''), label='LaTeX 参照名'),
+        'model_column': mo.ui.dropdown(_available, value=_display.get('model_column') or '選択なし', label='モデルを区別する保存列'),
+        'outcome_column': mo.ui.dropdown(_available, value=_display.get('outcome_column') or '選択なし', label='アウトカムの保存列'),
+        'model_order': mo.ui.text_area(value='\n'.join(_display.get('model_order', [])), label='モデルの順序（1 行 1 ID）', full_width=True),
+        'term_order': mo.ui.text_area(value='\n'.join(_display.get('term_order', [])), label='係数の順序（1 行 1 term）', full_width=True),
+        'model_labels': mo.ui.text_area(value='\n'.join(key + ' = ' + value for key, value in _display.get('model_labels', {}).items()), label='モデル名（ID = 表示名）', full_width=True),
+        'term_labels': mo.ui.text_area(value='\n'.join(key + ' = ' + value for key, value in _display.get('term_labels', {}).items()), label='係数名（term = 表示名）', full_width=True),
+        'column_groups': mo.ui.text_area(value='\n'.join(row['label'] + ' = ' + ' | '.join(row['models']) for row in _display.get('column_groups', [])), label='列グループ（見出し = ID | ID）', full_width=True),
+        'panels': mo.ui.text_area(value='\n'.join(row['label'] + ' = ' + ' | '.join(row['terms']) for row in _display.get('panels', [])), label='パネル（見出し = term | term）', full_width=True),
+    })
+    chart_controls = mo.ui.dictionary({
+        _key: mo.ui.dropdown(_available, value=_display.get(_key) or '選択なし', label=_label)
+        for _key, _label in {'component': '点・曲線の種類を示す列', 'cohort': '導入群の列', 'time': '暦時点の列',
+                            'value': 'ヒートマップ・地図の値', 'geometry': '保存 GeoJSON の列',
+                            'x_lower': '横方向区間の下端', 'x_upper': '横方向区間の上端', 'facet': 'パネルを分ける列'}.items()
+    })
+    return chart_controls, regression_controls
+
+
+@app.cell
 def _(editing_item, mo, series_column):
     _display = editing_item.get('display', {}) if editing_item else {}
     _series = list(dict.fromkeys(str(_row.get(series_column.value)) for _row in editing_item['rows'])) if editing_item and series_column.value else []
@@ -224,6 +272,7 @@ def _(
     orientation, plot_type, row_order, selected_specs, series_column, sort_column,
     title_input, upper_column, visible_series, width, x_column, x_label, x_limits,
     x_scale, y_column, y_label, y_limits, y_scale, presentation_style, font_size, series_labels, series_order,
+    chart_controls, regression_controls,
 ):
     candidate_item = copy.deepcopy(editing_item)
     display_changes = None
@@ -248,9 +297,31 @@ def _(
                 'colors': colors.value, 'legend': legend.value, 'legend_location': legend_location.value,
                 'width': int(width.value), 'height': int(height.value),
                 'style': presentation_style.value, 'font_size': font_size.value,
+                'preset': 'meeting' if presentation_style.value == 'presentation' else 'paper',
                 'series_order': [value.strip() for value in series_order.value.splitlines() if value.strip()],
                 'series_labels': series_labels.value,
             }
+            display_changes.update(chart_controls.value)
+            _table_settings = regression_controls.value
+            display_changes.update({key: _table_settings[key] for key in
+                                    ('show_se', 'show_ci', 'show_p', 'show_stars', 'table_number', 'latex_label', 'model_column', 'outcome_column')})
+            display_changes['digits'] = int(_table_settings['digits'])
+            for _key in ('model_order', 'term_order'):
+                display_changes[_key] = [value.strip() for value in _table_settings[_key].splitlines() if value.strip()]
+            for _key in ('model_labels', 'term_labels', 'column_groups', 'panels'):
+                _pairs = []
+                for _line in _table_settings[_key].splitlines():
+                    if not _line.strip():
+                        continue
+                    if '=' not in _line:
+                        raise ValueError('見出しの設定は「キー = 表示名」で入力してください。')
+                    _left, _right = _line.split('=', 1)
+                    _pairs.append((_left.strip(), _right.strip()))
+                if _key in ('column_groups', 'panels'):
+                    _member = 'models' if _key == 'column_groups' else 'terms'
+                    display_changes[_key] = [{'label': label, _member: [value.strip() for value in values.split('|') if value.strip()]} for label, values in _pairs]
+                else:
+                    display_changes[_key] = dict(_pairs)
             candidate_item['display'].update(display_changes)
             preview_panel = mo.Html(artifacts.gallery_preview(candidate_item))
         except (ValueError, TypeError, KeyError) as _error:
@@ -329,7 +400,7 @@ def _(
     series_column, sort_column, status_input, statuses, task_links, title_input,
     upper_column, visible_series, width, x_column, x_label, x_limits, x_scale,
     y_column, y_label, y_limits, y_scale, search_filters, presentation_style, font_size,
-    series_labels, series_order, findings_input, issues_input, adoption_input,
+    series_labels, series_order, findings_input, issues_input, adoption_input, chart_controls, regression_controls,
 ):
     header = mo.vstack([
         mo.md('# Research workspace\n保存済みの結果を選び、比較・表示編集・会議資料に使います。'),
@@ -346,8 +417,10 @@ def _(
             mo.accordion({
                 '列・行・説明': mo.vstack([columns_order, column_labels, column_formats, row_order,
                                           mo.hstack([sort_column, ascending]), notes_input]),
+                '経済学の回帰表': regression_controls,
                 '系列と区間': mo.vstack([mo.hstack([x_column, y_column]), series_column, visible_series,
                                          series_order, series_labels, mo.hstack([lower_column, upper_column]), colors]),
+                '専門図の保存列': chart_controls,
                 '軸・凡例・サイズ': mo.vstack([mo.hstack([x_label, y_label]), mo.hstack([x_limits, y_limits]),
                                               mo.hstack([x_scale, y_scale]), mo.hstack([legend, legend_location]),
                                               mo.hstack([width, height]), mo.hstack([presentation_style, font_size])]),

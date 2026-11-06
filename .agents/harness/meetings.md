@@ -24,11 +24,15 @@ python .agents/harness/research.py meeting create --root "$PROJECT" \
 | `brief` | 研究質問、データ・標本、分析仕様、保存結果、解釈、次の作業 | 文書 / Econometrica |
 | `progress` | 前回判断、完了成果、現在の作業、結果、次の作業 | スライド / Beamer |
 | `proposal` | 研究質問・推定対象、採用計画、記述統計、設計相談、判断 | スライド / Beamer |
-| `results` | 主要結果、仕様比較、発見、解釈、次の作業 | スライド / Beamer |
+| `results` | 研究質問、デザイン、標本、Table 1、主結果、イベントスタディ、追加結果、解釈、今回の判断、次の作業 | スライド / Beamer |
 | `meeting` | 前回の決定とTo Do、今回の作業・結果・解釈・判断、次回To Do | スライド / Beamer |
 | `manuscript` | Data、Empirical specification、Results、図表、Interpretation | 文書 / Econometrica |
 
 テンプレートは既存の `.agents/tex/slides/meeting_templates.json` に置く。原稿の Data・仕様・Results は `project-view` に渡す `data_description`、`specification_description`、`results_summary` から初期化できる。本文は `content.md` で編集する。図表は選択した結果 ID と保存値を引き継ぐ。
+
+テンプレートの `artifact_role` が記述統計、主結果、イベントスタディ、追加結果の挿入位置を指定する。選択結果の `metadata.report_role` で `descriptive`、`main`、`event_study`、`additional` を明示できる。指定がない結果は保存済みの図表種類で配置する。主結果の要約本文は図表の前に保持する。`project-view` に対応する文章がない場合は、選択結果の発見・解釈・検討事項・採用判断を各セクションへ引き継ぐ。
+
+標準回帰表はギャラリーが保存値から組み立てた `presentation` を引き継ぐ。MarkdownとGoogle Slidesのネイティブ表は、同じ列グループ、係数行、括弧付き標準誤差行、モデル情報、表注を使用する。元の数値行と結果IDも資料に保持する。
 
 `project-view` は既存の `project-bind` に登録した GitHub Issues / Projects を読む。`--github` にはコネクタが取得したスナップショットを渡せる。資料内の `task_snapshot` は当該ミーティング時点の記録であり、現在の担当・期限・優先順位・進捗は GitHub で編集する。研究仕様と科学的結果は既存 ERS の正本に置く。
 
@@ -57,7 +61,7 @@ python .agents/harness/research.py meeting render --root "$PROJECT" \
 
 `--format markdown` は Markdown、`--format pdf` は LuaLaTeX 出力を作る。文書は既存の `.agents/tex/paper/pandoc_template.latex` と Econometrica の class・設定を使い、スライドは既存の `.agents/tex/slides/pandoc_template.latex`、metropolis、早稲田色、日本語フォントを使う。PDF用には保存済みPDF・PNG・JPEGを優先し、SVGだけを保存した図には `rsvg-convert` を使う。
 
-PDFの図表注記には、母集団・変数・結果別定義・生成元の識別子も入れる。セクションの `caption` は最後の図表の注記に続けて表示し、発表者ノートは別に保持する。図の高さとテンプレートの注記サイズでスライド内に配置し、文書では短い表の全行と注記を同じページに置く。
+図表注記は母集団、標本、重み、分母、基準期、区間種類、集計規則、処置履歴と推論単位を保存値から表示する。PDFには変数・結果別定義・生成元の識別子も入れる。セクションの `caption` は最後の図表の注記に続けて表示し、発表者ノートは別に保持する。図の高さとテンプレートの注記サイズでスライド内に配置し、文書では短い表の全行と注記を同じページに置く。
 
 Quarto は独立した作業ディレクトリで `engine: markdown` と `--no-execute` により本文・保存図表を描画する。図は `sections[].artifacts` で選び、本文は文章・数式・箇条書き・リンクに使う。保存済み図表のハッシュを照合し、新しい出力ディレクトリへ完成版を保存する。`render.json` は入力版、消費した図表・テンプレートのハッシュ、実行したコマンド、Quartoの版、出力ハッシュを保持する。
 
