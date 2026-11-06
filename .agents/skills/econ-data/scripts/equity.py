@@ -297,10 +297,34 @@ def fit(spec: dict) -> dict:
     elif "counterfactual" in spec:
         cf = spec["counterfactual"]
         new_products = products.copy()
-        for name, values in cf.get("product_changes", {}).items():
+        product_changes = cf.get("product_changes", {})
+        ownership_names = {name for name in (*products.columns, *product_changes)
+                           if isinstance(name, str) and
+                           (name == "ownership" or (name.startswith("ownership") and name[9:].isdigit()))}
+        original_ownership = ownership_names.intersection(products.columns)
+        changed_ownership = ownership_names.intersection(product_changes)
+        # An explicit matrix takes precedence over numbered columns in PyBLP.
+        if "ownership" in changed_ownership:
+            new_products = new_products.drop(columns=sorted(original_ownership))
+            ownership = np.asarray(product_changes["ownership"], dtype=float)
+            if ownership.ndim != 2 or ownership.shape[0] != len(products) or ownership.shape[1] == 0:
+                raise ValueError("counterfactual ownership requires one nonempty matrix row per product")
+            for column in range(ownership.shape[1]):
+                new_products[f"ownership{column}"] = ownership[:, column]
+        elif changed_ownership and "ownership" in original_ownership:
+            new_products = new_products.drop(columns="ownership")
+        for name, values in product_changes.items():
             if name in {"market_ids", "product_ids", "shares", "prices"}:
                 raise ValueError(f"counterfactual product_changes cannot change {name}")
+            if "ownership" in changed_ownership and name in changed_ownership:
+                continue
             new_products[name] = values
+        if (original_ownership and not changed_ownership and
+                not np.array_equal(new_products.firm_ids.to_numpy(), products.firm_ids.to_numpy())):
+            if not np.array_equal(problem.products.ownership, pyblp.build_ownership(products), equal_nan=True):
+                raise ValueError("counterfactual firm_ids changes with custom ownership require explicit "
+                                 "ownership columns in product_changes")
+            new_products = new_products.drop(columns=sorted(original_ownership))
         new_costs = np.asarray(cf.get("costs", costs), dtype=float).reshape(-1, 1)
         if len(new_costs) != len(products) or not np.isfinite(new_costs).all():
             raise ValueError("counterfactual costs must give one finite cost per product")
@@ -309,13 +333,30 @@ def fit(spec: dict) -> dict:
         # preserved when Simulation uses the unabsorbed design matrix.
         raw_x1 = pyblp.build_matrix(pyblp.Formulation(linear), products)
         xi = result.delta - raw_x1 @ result.beta + utility_shift[:, None]
+        simulation_agents = None
+        simulation_agent_formula = agent_formula
+        if nonlinear:
+            simulation_agents = {name: problem.agents[name].copy()
+                                 for name in ("market_ids", "nodes", "weights", "agent_ids", "availability")
+                                 if problem.agents[name].shape[1]}
+            if agent_formula is not None:
+                # Keep fitted demographic columns, including categorical coding and product-specific values.
+                demographics = problem.agents.demographics
+                names = [f"demographic_{i}_" for i in range(demographics.shape[1])]
+                simulation_agent_formula = pyblp.Formulation("0" + "".join(f" + {name}" for name in names))
+                for i, name in enumerate(names):
+                    if demographics.ndim == 2:
+                        simulation_agents[name] = demographics[:, i].copy()
+                    else:
+                        for j in range(demographics.shape[2]):
+                            simulation_agents[f"{name}{j}"] = demographics[:, i, j].copy()
         simulation = pyblp.Simulation(
             (pyblp.Formulation(linear), pyblp.Formulation(nonlinear) if nonlinear else None),
             new_products, beta=result.beta, sigma=result.sigma if nonlinear else None,
             pi=result.pi if agent_formula is not None else None,
             rho=result.rho if nested else None, xi=xi,
-            agent_formulation=agent_formula, agent_data=agent_data,
-            integration=integration, rc_types=spec.get("rc_types"),
+            agent_formulation=simulation_agent_formula, agent_data=simulation_agents,
+            rc_types=spec.get("rc_types"),
         )
         changed = simulation.replace_endogenous(
             costs=new_costs, prices=products.prices.to_numpy()[:, None],

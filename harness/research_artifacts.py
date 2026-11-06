@@ -31,7 +31,7 @@ GALLERY_KINDS = ('descriptive', 'sample_composition', 'distribution', 'time_seri
 PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study', 'density', 'ecdf', 'box',
               'att_gt', 'cohort_event', 'parallel_trends', 'rdd', 'iv_first_stage', 'iv_reduced_form',
               'iv_confidence_set', 'scm', 'scm_gap', 'scm_placebo', 'binned_scatter', 'smd', 'structural', 'geo')
-GALLERY_RENDER_VERSION = 6
+GALLERY_RENDER_VERSION = 7
 DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_order',
                   'sort_by', 'ascending', 'notes', 'plot_type', 'x', 'y', 'lower', 'upper',
                   'series', 'visible_series', 'selected_result_ids', 'x_label', 'y_label',
@@ -441,10 +441,16 @@ def saved_display_definitions(result_id, saved):
                 y = 'cohort'
             elif kind == 'smd' and 'smd' in keys:
                 y = 'smd'
+            elif kind == 'rdd':
+                x = next((key for key in ('running', 'x', 'bin_mid', 'mean_x') if key in keys), None)
             if (x is None or y is None) and not (kind == 'geo' and 'geometry' in keys) and kind != 'iv_confidence_set':
                 plot_type = 'table'
             display = {'plot_type': plot_type, 'style': 'paper',
                        'formats': {key: '.3g' for key in keys if any(type(row.get(key)) in (int, float) for row in rows)}}
+            if kind == 'rdd' and plot_type == 'table':
+                order = ('term', 'estimate', 'se', 'ci_low', 'ci_high', 'p_value')
+                display['column_order'] = [key for key in order if key in keys] + [key for key in keys if key not in order]
+                display['height'] = max(300, min(1600, 160 + len(rows) * 34))
             if source_kind == 'table1':
                 display['column_order'] = [key for key in keys if key in ('variable', 'group', 'period', 'mean', 'sd', 'median', 'min', 'max', 'n', 'unit') or key.startswith('q')]
                 display['height'] = max(300, min(1600, 160 + len(rows) * 34))
@@ -1002,6 +1008,8 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
         return
     if not xkey or not ykey:
         raise ValueError('plot display requires x and y saved column keys')
+    for name in ('x', 'y'):
+        getattr(axis, 'set_' + name + 'scale')(display.get(name + '_scale', 'linear'))
     units = {row.get('unit') for row in rows if row.get(ykey) is not None and row.get('unit')}
     if len(units) > 1:
         raise ValueError('One plot axis requires one saved unit; select matching saved series or a facet')
@@ -1009,6 +1017,8 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
         raise ValueError('plot y column must contain numeric saved values or null')
     labels = list(dict.fromkeys(row[xkey] for row in rows if row.get(xkey) is not None))
     categorical = any(type(value) not in (int, float) for value in labels)
+    if plot_type == 'rdd' and categorical:
+        raise ValueError('RDD plots require numeric saved running-variable coordinates')
     horizontal = display.get('orientation') == 'horizontal'
     component_key = display.get('component', 'component')
     series_key = display.get('series')
@@ -1148,7 +1158,6 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
         if reference.get('axis') in ('x', 'y') and type(reference.get('value')) in (int, float):
             (axis.axvline if reference['axis'] == 'x' else axis.axhline)(reference['value'], color='#73808c', linestyle=':', linewidth=.8, label=reference.get('label'))
     for name in ('x', 'y'):
-        getattr(axis, 'set_' + name + 'scale')(display.get(name + '_scale', 'linear'))
         if display.get(name + '_limits') is not None:
             getattr(axis, 'set_' + name + 'lim')(*display[name + '_limits'])
     axis.spines[['top', 'right']].set_visible(False)

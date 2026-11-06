@@ -113,7 +113,11 @@ class EvidenceTests(unittest.TestCase):
                                                'columns': {'weights': 'sampling_weight'}}}},
             'displays': {'simultaneous': {'kind': 'event-study', 'rows': [
                 {'event_time': 0, 'estimate': 1.0, 'ci_low': -0.7, 'ci_high': 2.7}],
-                'metadata': {'interval_type': 'simultaneous', 'confidence_level': 0.9}}},
+                'metadata': {'interval_type': 'simultaneous', 'confidence_level': 0.9}},
+                'rdd_summary': {'kind': 'rdd', 'rows': [{'term': 'treatment_effect', 'estimate': 1.4}]},
+                'rdd_coordinates': {'kind': 'rdd', 'rows': [
+                    {'x': -0.1, 'estimate': 0.4, 'component': 'bin', 'side': 'left'},
+                    {'x': 0.1, 'estimate': 1.8, 'component': 'bin', 'side': 'right'}]}},
             'diagnostics': {'group_time': {'cells': [
                 {'group': 2021, 'time': 2022, 'event_time': 1, 'estimate': 1.4, 'se': 0.2,
                  'ci_low': 0.9, 'ci_high': 1.9, 'role': 'att', 'sample_ids': ['private-row']} ]}}}
@@ -124,6 +128,9 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(source['display']['metadata']['effective_options']['args']['weights'], [11, 17])
         self.assertEqual(items['saved-displays-simultaneous']['metadata']['interval_type'], 'simultaneous')
         self.assertEqual(items['saved-displays-simultaneous']['rows'][0]['ci_low'], -0.7)
+        self.assertEqual(items['saved-displays-rdd_summary']['display']['plot_type'], 'table')
+        self.assertEqual(items['saved-displays-rdd_coordinates']['display']['x'], 'x')
+        self.assertEqual(items['saved-displays-rdd_coordinates']['display']['plot_type'], 'rdd')
         cell = items['saved-group_time']['rows'][0]
         self.assertEqual((cell['cohort'], cell['time'], cell['estimate'], cell['ci_high']), (2021, 2022, 1.4, 1.9))
         self.assertNotIn('sample_ids', cell)

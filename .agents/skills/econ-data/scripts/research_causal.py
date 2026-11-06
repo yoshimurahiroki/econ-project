@@ -5,6 +5,7 @@ See econ-design/references/causal-models.md for the supported model contracts.
 """
 from __future__ import annotations
 import argparse
+from copy import deepcopy
 import hashlib
 import json
 import sys
@@ -41,6 +42,7 @@ R_METHODS = {
     'rddensity': ('rddensity', 'rddensity'),
     'rdpower': ('rdpower', 'rdpower'),
     'grf': ('grf', 'causal_forest'),
+    'iv_ar_robust': ('ivDiag', 'AR_test'),
 }
 
 
@@ -55,7 +57,7 @@ def select_method(request):
     request. Existing flat specifications remain readable at this boundary.
     """
     required = {'question','estimand','identification','design','outcome_scale','data_structure','treatment_pattern','dependence'}
-    contract_fields = ('population','comparison_group','observation_unit','assignment_unit',
+    contract_fields = ('population','comparison_group','observation_unit','assignment_unit','inference_unit',
                        'unit','period','assignment','weights','inference',
                        'economic_model','target','conditions','comparison','numerical')
     optional = {'adopted_method','adopted_specification','options','score','structural_model','implementation',*contract_fields}
@@ -99,19 +101,32 @@ def select_method(request):
     def scientific_contract(s):
         fields = {k:s[k] for k in contract_fields if k in s}
         o = s.get('options', {})
+        definitions = o.get('definitions', {})
+        if not isinstance(definitions, dict):
+            raise ValueError('options.definitions must be an object')
+        for key in contract_fields:
+            if key not in fields and key in definitions:
+                fields[key] = definitions[key]
+        for key in ('population','weights'):
+            if key not in fields and key in s.get('target',{}):
+                fields[key] = s['target'][key]
+        for group in ('args','columns'):
+            if not isinstance(o.get(group, {}), dict):
+                raise ValueError('native args and columns must be objects')
         if 'comparison_group' not in fields and 'control_group' in o:
             fields['comparison_group'] = o['control_group']
         if 'weights' not in fields:
             weights = {k:o[k] for k in ('weightsname','fix_weights') if k in o}
             for group in ('args','columns'):
-                if not isinstance(o.get(group, {}), dict):
-                    raise ValueError('native args and columns must be objects')
                 selected = {k:v for k,v in o.get(group, {}).items() if k in ('weights','i.weights','sample.weights','weight')}
                 if selected: weights[group] = selected
             if weights: fields['weights'] = weights
         return fields
     adopted_contract = scientific_contract(adopted_spec)
     proposed_contract = scientific_contract({**adopted_spec, **request})
+    for key in ('population','weights'):
+        if key not in request and key in request.get('target',{}):
+            proposed_contract[key] = request['target'][key]
     forward_options = request.get('options', adopted_spec.get('options', {}))
     design = request['design']; structure = request['data_structure']; pattern = request['treatment_pattern']
     mechanism = facts.get('assignment_mechanism')
@@ -164,8 +179,17 @@ def select_method(request):
             method = 'fixest_ols'
             conditions = ['randomized cluster assignment','assignment-level covariance','assignment contrast with the adopted cluster/population weights']
             required_inputs.append('cluster column bound to official vcov')
-        alternatives = [{'method':'fixest_ols','difference':'covariate-adjusted assignment contrast with assignment-matched covariance'},
-            {'method':'iv_gmm','difference':'receipt LATE additionally uses assignment as an instrument and the compliance restrictions'}]
+        alternatives = [
+            {'method':'fixest_ols','difference':'covariate-adjusted assignment contrast',
+             'estimand':'average assignment effect under the adopted regression adjustment and population weights',
+             'conditions':['random assignment','prespecified adjustment implementing the target contrast'],
+             'data_fit':{'required':['assignment, outcome and pretreatment adjustment variables']},
+             'inference':{'procedure':'official linear-model covariance at the independent assignment unit'}},
+            {'method':'iv_gmm','difference':'assignment instruments actual treatment receipt',
+             'estimand':'receipt LATE for assignment compliers under binary assignment and receipt',
+             'conditions':['assignment exclusion','instrument independence','monotonic receipt response','nonzero first stage'],
+             'data_fit':{'required':['assignment instrument, actual receipt, outcome and exogenous controls']},
+             'inference':{'procedure':'robust or clustered GMM covariance; weak-IV inference requires test inversion'}}]
     elif design == 'conditional_mean':
         if target_kind == 'count_distribution' or facts.get('conditional_distribution') == 'nb2':
             if facts.get('conditional_distribution') != 'nb2':
@@ -181,9 +205,22 @@ def select_method(request):
         if method == 'fixest_ppml':
             method_quantity = 'log-mean coefficient beta in E[Y|X,FE]=exp(X beta+FE+offset)'
         required_inputs = ['outcome scale and support','regressors and fixed effects','sampling or analytic weights','exposure/offset when a rate is targeted']
-        alternatives = [{'method':'fixest_ols','difference':'additive outcome-unit contrast'},
-            {'method':'fixest_ppml','difference':'exponential conditional mean, including observed zeros'},
-            {'method':'negative_binomial_r','difference':'NB2 count likelihood estimates dispersion; marginal overdispersion does not select it'}]
+        alternatives = [
+            {'method':'fixest_ols','difference':'additive outcome-unit contrast',
+             'estimand':'weighted linear projection or additive conditional-mean coefficient',
+             'conditions':['specified projection population or additive conditional mean','full-rank residual variation'],
+             'data_fit':{'required':['numeric outcomes, regressors, fixed effects and adopted weights'], 'outcome_scales':['level']},
+             'inference':{'procedure':'adopted fixest covariance and small-sample convention'}},
+            {'method':'fixest_ppml','difference':'exponential conditional mean with observed zeros retained',
+             'estimand':'beta in E[Y|X,FE]=exp(X beta+FE+offset)',
+             'conditions':['exponential conditional mean','exogenous regressors','identified nonseparated coefficients'],
+             'data_fit':{'required':['nonnegative outcomes and positive exposure for a log offset'], 'outcome_scales':['proportional_nonnegative']},
+             'inference':{'procedure':'heteroskedastic or cluster covariance for the PPML score'}},
+            {'method':'negative_binomial_r','difference':'NB2 count likelihood jointly estimates dispersion',
+             'estimand':'log-mean coefficients and alpha in Var(Y|X)=mu+alpha*mu^2',
+             'conditions':['adopted NB2 conditional distribution','specified unconditional group heterogeneity'],
+             'data_fit':{'required':['nonnegative integer counts and an identified likelihood design'], 'conditional_distribution':'nb2'},
+             'inference':{'procedure':'MASS likelihood coefficient covariance and official dispersion standard error'}}]
     elif design == 'did':
         if facts.get('parallel_trends') is False:
             raise ValueError('DID requires the adopted parallel-trend restriction; use saved-event-study sensitivity for a bounded departure')
@@ -206,10 +243,10 @@ def select_method(request):
             method_quantity = ('weighted current and lagged per-unit dose effects' if facts.get('effect_normalization') == 'per_unit_dose'
                 else 'switcher effect of the realized treatment path relative to maintaining the baseline dose')
             normalized = facts.get('effect_normalization') == 'per_unit_dose'
-            native_normalized = forward_options.get('args',{}).get('normalized')
-            if native_normalized is not None and native_normalized != normalized:
-                raise ValueError('native normalized option must match the selected treatment-path estimand')
-            required_native_options['args.normalized'] = normalized
+            if method == 'nonabs_did' and normalized:
+                required_native_options['estimator'] = 'DCDH'
+            if method == 'did_multiplegt_dyn' or normalized or forward_options.get('estimator') == 'DCDH':
+                required_native_options['args.normalized'] = normalized
         elif pattern == 'two_period':
             if structure == 'panel': method = 'drdid_panel'
             elif structure == 'repeated_cross_section': method = 'drdid_rc'
@@ -226,11 +263,42 @@ def select_method(request):
             'aggregation weights and population at each horizon']
         if pattern == 'two_period' and method == 'staggered_did':
             required_inputs.append('common adoption cohort and clustervars/bstrap for the adopted cluster-level two-period score')
-        alternatives = [{'method':'staggered_did','difference':'group-time ATT with explicit never-treated or not-yet-treated controls'},
-            {'method':'sunab','difference':'cohort-interacted regression with explicit reference cohorts and event aggregation'},
-            {'method':'did_imputation','difference':'untreated-outcome imputation with separately estimated pretreatment diagnostics'},
-            {'method':'did2s','difference':'two-stage residualization with correction for first-stage estimation'},
-            {'method':'did_multiplegt_dyn','difference':'observed treatment-path effects for switchers sharing baseline treatment'}]
+        alternatives = [
+            {'method':'drdid_panel','difference':'one treated-group pre/post contrast using paired outcomes',
+             'estimand':'two-period ATT with treated-population sampling weights',
+             'conditions':['conditional parallel trends','no anticipation','overlap','correct propensity or untreated-outcome nuisance model'],
+             'data_fit':{'required':['paired pre/post outcomes and pretreatment covariates'], 'data_structures':['panel'], 'treatment_patterns':['two_period']},
+             'inference':{'procedure':'official DRDID influence-function or bootstrap inference for independent sampled units'}},
+            {'method':'drdid_rc','difference':'period-specific outcomes from stationary repeated cross sections',
+             'estimand':'two-period ATT for the stable treated population',
+             'conditions':['conditional parallel trends','no anticipation','overlap','stationary sampling composition','adopted doubly robust nuisance conditions'],
+             'data_fit':{'required':['pre/post cross sections, treatment-group membership and period covariates'], 'data_structures':['repeated_cross_section'], 'treatment_patterns':['two_period']},
+             'inference':{'procedure':'official repeated-cross-section influence-function or bootstrap inference'}},
+            {'method':'staggered_did','difference':'group-time comparisons and target-specific aggregation',
+             'estimand':'ATT(g,t), aggregated using the adopted cohort/event/calendar weights',
+             'conditions':['conditional parallel trends against eligible never-treated or not-yet-treated units','no anticipation beyond the adopted window','comparison overlap'],
+             'data_fit':{'required':['cohort, time, unit and comparison eligibility'], 'data_structures':['panel','repeated_cross_section'], 'treatment_patterns':['absorbing_staggered','two_period']},
+             'inference':{'procedure':'official influence functions or multiplier bootstrap with adopted clustering and simultaneous family'}},
+            {'method':'sunab','difference':'cohort-interacted regression with designated reference cohorts',
+             'estimand':'cohort-event ATT combined with the fitted sample cohort shares',
+             'conditions':['parallel untreated trends for the designated reference cohorts','absorbing adoption','adopted anticipation and covariate restriction'],
+             'data_fit':{'required':['cohort-period interactions, reference cohorts, fixed effects and horizon support'], 'data_structures':['panel'], 'treatment_patterns':['absorbing_staggered','two_period']},
+             'inference':{'procedure':'fixest fitted covariance and covariance-aware cohort aggregation'}},
+            {'method':'did_imputation','difference':'fit the untreated outcome model before imputing treated outcomes',
+             'estimand':'weighted average of treated-minus-imputed outcomes at the adopted horizons',
+             'conditions':['specified untreated conditional mean','no anticipation','untreated observations identify each imputed component'],
+             'data_fit':{'required':['unit-period panel and untreated support for the first-stage design'], 'data_structures':['panel'], 'treatment_patterns':['absorbing_staggered','two_period']},
+             'inference':{'procedure':'official imputation standard errors at the adopted cluster level; pretrend regression has a separate target'}},
+            {'method':'did2s','difference':'untreated-sample residualization followed by the adopted treatment regression',
+             'estimand':'second-stage treatment coefficients under the adopted residualization and weighting',
+             'conditions':['specified untreated outcome model','no anticipation','identified first-stage fixed effects and covariates'],
+             'data_fit':{'required':['unit-period panel, treatment status and explicit first/second-stage formulas'], 'data_structures':['panel'], 'treatment_patterns':['absorbing_staggered','two_period']},
+             'inference':{'procedure':'official clustered variance correction for first-stage estimation'}},
+            {'method':'did_multiplegt_dyn','difference':'switcher comparisons preserve the observed treatment history',
+             'estimand':'effect of the realized path relative to its baseline dose, or normalized weighted current/lagged dose effects',
+             'conditions':['baseline-dose-specific parallel trends','no anticipation','eligible not-yet-switching comparisons','adopted continuous-dose trend restriction'],
+             'data_fit':{'required':['complete group treatment histories, shared baseline-dose support and horizon-specific switchers'], 'data_structures':['panel'], 'treatment_patterns':['absorbing_staggered','two_period','reversals','changing_dose','treatment_histories','continuous']},
+             'inference':{'procedure':'official horizon-specific covariance or bootstrap with the adopted cluster and switcher population'}}]
         anticipation = facts.get('anticipation', forward_options.get('anticipation',0))
         if isinstance(anticipation,bool) or not isinstance(anticipation,int) or anticipation < 0:
             raise ValueError('anticipation must be a nonnegative number of periods')
@@ -250,7 +318,11 @@ def select_method(request):
         if fuzzy: conditions += ['nonzero treatment jump','exclusion and local monotonicity']
         if fuzzy: required_native_options['columns.fuzzy'] = 'adopted treatment-receipt column'
         required_inputs = ['running variable','cutoff','outcome','bandwidth and polynomial orders','treatment receipt for fuzzy RD']
-        alternatives = [{'method':'rdd_localrand','difference':'assignment-based local effect within an adopted randomization window'}]
+        alternatives = [{'method':'rdd_localrand','difference':'assignment-based comparison within a fixed window',
+            'estimand':'average assignment contrast in the adopted local-randomization window',
+            'conditions':['complete randomization conditional on arm counts within the window','consistency and the adopted interference mapping'],
+            'data_fit':{'required':['prespecified window, binary assignment and outcome observations']},
+            'inference':{'procedure':'sharp-null permutation test and separate HC1 average-contrast interval'}}]
     elif design == 'density_at_cutoff':
         method = 'rddensity'; conditions = ['adopted cutoff', 'running-variable measurement and mass points']
     elif design == 'rd_power':
@@ -267,8 +339,22 @@ def select_method(request):
                 'inversion of the adopted Anderson-Rubin test']
             method_quantity = 'Anderson-Rubin confidence set for the endogenous-regressor coefficient'
         required_inputs = ['endogenous regressors','excluded instruments','exogenous controls','moment weighting','independent inference unit']
-        alternatives = [{'method':'iv_gmm','difference':'conventional GMM point and covariance require the adopted rank condition'},
-            {'method':'iv_ar','difference':'test inversion remains defined under weak first-stage relevance and returns a possibly disconnected set'}]
+        alternatives = [
+            {'method':'iv_gmm','difference':'point estimation and conventional GMM covariance',
+             'estimand':'coefficient identified by the adopted linear IV moments',
+             'conditions':['instrument exclusion and exogeneity','rank condition for conventional inference'],
+             'data_fit':{'required':['endogenous regressors, excluded instruments and exogenous controls']},
+             'inference':{'procedure':'two-step robust or cluster GMM covariance'}},
+            {'method':'iv_ar','difference':'exact F-test inversion under the adopted disturbance model',
+             'estimand':'Anderson-Rubin confidence set for one endogenous-regressor coefficient',
+             'conditions':['valid excluded instruments','independent homoskedastic normal errors and fixed instruments'],
+             'data_fit':{'required':['one endogenous regressor, excluded instruments and exogenous controls'], 'dependence':['independent','iid','homoskedastic']},
+             'inference':{'procedure':'analytic F inversion retaining disconnected, empty and unbounded sets'}},
+            {'method':'iv_ar_robust','difference':'robust or clustered Anderson-Rubin test inversion',
+             'estimand':'Anderson-Rubin confidence set for one endogenous-regressor coefficient',
+             'conditions':['valid excluded instruments','independent observations or independent clusters'],
+             'data_fit':{'required':['one endogenous regressor, instruments, controls and any adopted cluster/weight columns']},
+             'inference':{'procedure':'official ivDiag::AR_test confidence-set inversion'}}]
     elif design == 'weak_instrument_inference':
         method = ('iv_ar' if facts.get('homoskedastic_normal_errors') is True and request['dependence'] not in ('cluster','clustered','heteroskedastic','robust') else 'iv_ar_robust')
         conditions = ['one endogenous regressor and the adopted excluded instruments',
@@ -289,9 +375,22 @@ def select_method(request):
             method_quantity = 'treated-block average relative to the interactive fixed-effects counterfactual'
             conditions = ['stable factor counterfactual','identified factor rank and untreated support','adopted gsynth bootstrap']
         required_inputs = ['treated units','eligible donors','pre/post periods','balanced outcome panel','target aggregation and inference method']
-        alternatives = [{'method':'synthetic_control','difference':'convex donor combination for a treated trajectory'},
-            {'method':'synthdid','difference':'joint unit and time weighting for a common treated block'},
-            {'method':'generalized_synth','difference':'low-rank interactive-effects untreated counterfactual'}]
+        alternatives = [
+            {'method':'synthetic_control','difference':'convex donor combination learned on pretreatment outcomes',
+             'estimand':'post-treatment gap relative to its held-out untreated validation mean',
+             'conditions':['eligible untreated donors','stable expected untreated gaps','independent held-out time errors for the implemented covariance'],
+             'data_fit':{'required':['one treated unit, balanced donors and distinct training/validation/post periods'], 'data_structures':['panel']},
+             'inference':{'procedure':'HC1 covariance across held-out time gaps conditional on trained donor weights'}},
+            {'method':'synthdid','difference':'joint unit and time weighting for a common treatment block',
+             'estimand':'average effect over the adopted treated unit-time block',
+             'conditions':['common treatment block','eligible untreated donor panel','identified weighted counterfactual'],
+             'data_fit':{'required':['balanced unit-period outcomes and common treatment timing'], 'data_structures':['panel']},
+             'inference':{'procedure':'official bootstrap, jackknife or placebo variance chosen for the adopted assignment model'}},
+            {'method':'generalized_synth','difference':'interactive fixed-effects untreated counterfactual',
+             'estimand':'treated-block average and event-time effects relative to the fitted factor counterfactual',
+             'conditions':['stable factor structure','identified rank and untreated support','adopted error model'],
+             'data_fit':{'required':['balanced panel, never-treated units and at least five pretreatment periods'], 'data_structures':['panel']},
+             'inference':{'procedure':'seeded official parametric bootstrap'}}]
     elif design == 'generalized_synth':
         method = 'generalized_synth'
         conditions = ['balanced panel with never-treated controls and one common absorbing adoption date', 'adopted factor rank and two-way interactive-effects specification', 'parametric bootstrap under the adopted error model']
@@ -328,8 +427,17 @@ def select_method(request):
         if score in ('pliv','iivm'):
             conditions += ['valid excluded instruments and the specified instrument score']
             required_inputs += ['instrument columns and instrument/treatment support']
-        alternatives = [{'method':'DoubleMLIRM','difference':'interactive-regression score targets configured ATE or ATTE under overlap'},
-            {'method':'DoubleMLIIVM','difference':'instrument score targets LATE under exclusion and compliance restrictions'}]
+        alternatives = [
+            {'method':'dml_irm','difference':'interactive-regression score for the specified treatment population',
+             'estimand':'ATE or ATT selected by the official ATE/ATTE score',
+             'conditions':['conditional exchangeability','overlap','orthogonal-score nuisance rate conditions'],
+             'data_fit':{'required':['binary treatment, outcome, covariates and independent scoring folds']},
+             'inference':{'procedure':'official cross-fitted score inference with the adopted independent units'}},
+            {'method':'dml_iivm','difference':'instrument score identifies the complier population',
+             'estimand':'LATE for binary-instrument compliers',
+             'conditions':['instrument independence and exclusion','monotonicity','nonzero first stage','instrument overlap'],
+             'data_fit':{'required':['binary treatment and instrument, outcome, covariates and independent scoring folds']},
+             'inference':{'procedure':'official cross-fitted instrumental score inference; weak-IV sets require their own procedure'}}]
     elif design == 'heterogeneous_effect':
         implementation = request.get('implementation', 'grf')
         if implementation not in ('grf','econml'):
@@ -342,8 +450,17 @@ def select_method(request):
         required_inputs = ['effect covariates','treatment support','outcome','overlap population','honesty and independent sampling folds','target aggregation weights']
         if facts.get('conditional_exchangeability') is False or facts.get('overlap') is False:
             raise ValueError('the selected forest requires conditional exchangeability and overlap')
-        alternatives = [{'method':'dml_plr','difference':'a partially linear slope averages residual-treatment variation'},
-            {'method':'policy_tree','difference':'learns an allocation rule and evaluates its held-out value'}]
+        alternatives = [
+            {'method':'dml_plr','difference':'partially linear slope weighted by residual treatment variation',
+             'estimand':'partially linear coefficient; ATE under the explicit constant-effect restriction',
+             'conditions':['partially linear conditional mean','exogenous residual treatment','cross-fitted nuisance rate conditions'],
+             'data_fit':{'required':['outcome, treatment, covariates and independent scoring folds']},
+             'inference':{'procedure':'official DoubleMLPLR orthogonal-score covariance'}},
+            {'method':'policy_tree','difference':'learn an assignment rule and evaluate its held-out gain',
+             'estimand':'policy value relative to assigning treatment zero to the evaluation population',
+             'conditions':['known propensities','conditional exchangeability and overlap','independent policy training and evaluation'],
+             'data_fit':{'required':['binary treatment, propensities and explicit train/evaluation partitions']},
+             'inference':{'procedure':'HC1 holdout-value covariance conditional on the trained policy'}}]
     elif design == 'policy_learning':
         if facts.get('conditional_exchangeability') is False or facts.get('overlap') is False:
             raise ValueError('policy evaluation requires conditional exchangeability and overlap in its evaluation population')
@@ -351,7 +468,11 @@ def select_method(request):
         conditions = ['binary treatment and known assignment propensities', 'distinct training and evaluation samples', 'adopted effect covariates and the untreated-all baseline']
         method_quantity = 'held-out policy value gain relative to assigning treatment zero to every evaluation unit'
         required_inputs = ['known assignment propensities','separate training/evaluation partitions','effect covariates','treatment cost and capacity in the adopted objective']
-        alternatives = [{'method':'grf','difference':'conditional effect estimates require an additional allocation rule and independent value evaluation'}]
+        alternatives = [{'method':'grf','difference':'conditional effects preceding a separate allocation decision',
+            'estimand':'binary-treatment CATE or the continuous-treatment covariance-to-variance slope',
+            'conditions':['conditional exchangeability and overlap','honest estimation and the adopted nuisance restrictions'],
+            'data_fit':{'required':['outcome, treatment, effect covariates and target-population weights']},
+            'inference':{'procedure':'official forest prediction variance and target-population aggregation'}}]
     elif design == 'parallel_trend_sensitivity':
         method = 'honest_did'; conditions = ['saved coefficients and joint covariance', 'ordered pre/post terms with universal reference', 'adopted restriction, magnitude grid and post-treatment contrast']
     elif design == 'wild_cluster_inference':
@@ -368,8 +489,10 @@ def select_method(request):
             method = model; owner = 'skills/econ-data/scripts/research_dynamic.py run'
         elif model == 'dynamic_game':
             method = model; owner = 'skills/econ-data/scripts/equity.py dynamic'
+        elif model in ('finite_horizon_choice','lifecycle_choice'):
+            method = model
         else:
-            raise ValueError('structural_model must name a documented existing market, replacement, entry, adoption or dynamic-game model')
+            raise ValueError('structural_model must name a documented market, replacement, entry, adoption, dynamic-game, finite_horizon_choice or lifecycle_choice model')
         conditions = ['adopted primitives, timing, moments and excluded variation', 'normalizations and equilibrium selection', 'counterfactual re-solves affected endogenous choices']
         method_quantity = ('identified utility/cost parameters and scenario-specific equilibrium prices, choices and welfare' if model == 'blp'
             else 'identified payoff/transition parameters and the re-solved policy or equilibrium under the adopted intervention')
@@ -379,7 +502,9 @@ def select_method(request):
             'capacity_product_game':('nfxp',),'dynamic_game':('nfxp','mpec'),
             'auction_fit':('maximum_likelihood',),'auction':('equilibrium',),
             'search':('equilibrium',),'bargaining':('equilibrium',),
-            'platform':('equilibrium',),'matching':('deferred_acceptance',)}
+            'platform':('equilibrium',),'matching':('deferred_acceptance',),
+            'finite_horizon_choice':('smm','maximum_likelihood'),
+            'lifecycle_choice':('backward_induction',)}
         algorithm = numerical.get('estimation_method', algorithms[model][0])
         if algorithm not in algorithms[model]:
             raise ValueError(f'{model} implements numerical.estimation_method in {algorithms[model]}')
@@ -402,14 +527,101 @@ def select_method(request):
         required_inputs = ['actors/objectives/feasible actions/information and timing','states and transition law',
             'shock distribution and payoff normalization','moments or likelihood and excluded variation',
             'parameter order and fixed/calibrated values','equilibrium selection','intervention and welfare aggregation']
-        alternatives = [{'method':'nfxp','difference':'solves the Bellman/equilibrium system inside each parameter evaluation'},
-            {'method':'mpec','difference':'joint parameter and value/policy optimization subject to the same equilibrium equations'},
-            {'method':'ccp','difference':'uses identified first-stage choices/transitions and their sampling contribution'},
-            {'method':'gmm','difference':'matches economically identified moments with an adopted weighting matrix'}]
+        if model == 'finite_horizon_choice':
+            smm = algorithm == 'smm'
+            function = 'respy.get_moment_errors_func' if smm else 'respy.get_log_like_func'
+            owner = 'external official Python entry: ' + function
+            method_quantity = ('structural parameters minimizing the adopted weighted finite-horizon simulated-moment distance' if smm
+                else 'structural parameters maximizing the mean log likelihood of the adopted finite-horizon observed histories')
+            conditions = ['finite decision horizon, adopted terminal values and feasible state/action support',
+                'payoff and shock normalizations, information timing and transition law',
+                'parameter-to-moment identification' if smm else 'identified choice/wage likelihood on the adopted observed sample',
+                'fixed solution and simulation draws across parameter evaluations']
+            required_inputs = ['params: ordered parameter dataframe/series with free and fixed parameters, normalizations and adopted bounds',
+                'options: horizon, state/choice definitions, covariates, transitions, integration and simulation settings',
+                'observed population, sample selection, measurement units and target weights',
+                'solution, simulation and estimation seeds and draw counts',
+                'adopted optimizer and structural-parameter inference at the independent sampling unit']
+            required_inputs += (['calc_moments and ordered empirical_moments with matching labels',
+                'replace_nans rule, weighting_matrix and n_simulation_periods'] if smm
+                else ['df: observed choice/wage histories in the official estimation-data format'])
+            required_native_options = {'return_scalar':False}
+            external_implementation = {'language':'Python','function':function,'version':'2.1.1',
+                'source':'https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/'+('method_of_simulated_moments.py' if smm else 'likelihood.py'),
+                'signature':['params','options','calc_moments','replace_nans','empirical_moments','weighting_matrix','n_simulation_periods','return_scalar'] if smm else ['params','options','df','return_scalar'],
+                'parameter_operation':'estimate free structural parameters with adopted fixed values and normalizations',
+                'optimization_direction':'minimize' if smm else 'maximize',
+                'numerical_method':'finite-horizon solution and simulation at each parameter evaluation' if smm else 'finite-horizon solution and mean log-likelihood evaluation at each parameter vector',
+                'inputs':required_inputs,
+                'outputs':['parameter-only criterion callable','value','moment_errors','root_contributions','simulated_moments','comparison_plot_data'] if smm else ['parameter-only log-likelihood callable','value: mean log likelihood','contributions','comparison_plot_data'],
+                'execution':'construct the official criterion with return_scalar=False and pass its value to the adopted project optimizer; retain returned contributions and the adopted parameter-inference calculation'}
+        elif model == 'lifecycle_choice':
+            if facts.get('parameter_status') not in (None,'fixed','estimated'):
+                raise ValueError('lifecycle_choice uses conditions.parameter_status=fixed or estimated')
+            owner = 'external official Python entry: lcm.Model.solve + lcm.Model.simulate'
+            method_quantity = ('target-population aggregation of lifecycle values under the adopted welfare weights and utility or monetary conversion' if target_kind == 'welfare'
+                else 'lifecycle policies, values and simulated outcomes at the adopted fixed or previously estimated parameters')
+            conditions = ['fixed or previously estimated structural parameters and adopted utility/shock normalizations',
+                'finite horizon and terminal regimes with feasible states, actions, constraints and transition laws',
+                'declared information, perceived/realized regime transitions and initial-population distribution',
+                'policy scenarios hold the adopted exogenous paths fixed and re-solve affected household choices',
+                'welfare aggregation uses the adopted population weights and value units']
+            required_inputs = ['lcm.Model: regimes, regime_id_class, initial_nodes and edges',
+                'exactly one of ages and n_periods; states, actions, state_transitions, utility functions, constraints and shocks',
+                'fixed_params and params matching get_params_template(), including discounting and normalizations',
+                'regime-specific official solver, grids, integration and numerical precision',
+                'initial_conditions, seed and adopted taste_shock_seed or shock_paths for scenario comparisons',
+                'policy intervention, exogenous price paths, target population, weights and welfare aggregation/conversion']
+            required_native_options = {'solve.params':'adopted fixed or previously estimated values',
+                'simulate.params':'same canonical values as solve','simulate.solution':'complete SolutionResult',
+                'simulate.seed':'adopted integer seed'}
+            external_implementation = {'language':'Python','function':'lcm.Model.solve + lcm.Model.simulate',
+                'source':'https://github.com/OpenSourceEconomics/pylcm/blob/0fb55673b0be4eb52d270b2585047faa38c4e930/src/lcm/model.py',
+                'signature':{'solve':['params','log_level','runtime_checks','retention','max_compilation_workers','log_path','log_keep_n_latest','period_capture','use_categorical_codes'],
+                    'simulate':['params','initial_conditions','solution','log_level','runtime_checks','seed','taste_shock_seed','shock_paths','log_path','log_keep_n_latest','max_compilation_workers','use_categorical_codes']},
+                'parameter_operation':'hold adopted fixed or previously estimated parameters; solve household choices',
+                'numerical_method':'backward induction through the declared regimes followed by forward simulation',
+                'inputs':required_inputs,
+                'outputs':['SolutionResult values, model/parameter identity and retained policy-replay artifacts',
+                    'SimulationResult and to_dataframe() outcomes','project aggregation of saved scenario values and outcomes'],
+                'execution':'construct the official Model, solve with params and log_level, then simulate with the complete solution, matching params and adopted seeds; aggregate saved outcomes in the existing project analysis',
+                'equilibrium_contract':'household choices conditional on adopted exogenous paths; market clearing requires its own equilibrium owner'}
+        alternatives = [
+            {'method':'nfxp','difference':'solve the Bellman/equilibrium system within each parameter evaluation',
+             'estimand':'parameters of the adopted dynamic likelihood and equilibrium selection',
+             'conditions':['specified payoff/shock/transition law','identified likelihood and normalization'],
+             'data_fit':{'required':['observed states, actions and transitions in the model support']},
+             'inference':{'procedure':'adopted likelihood curvature or refitted sampling procedure'}},
+            {'method':'mpec','difference':'jointly optimize parameters and values or policies under equilibrium constraints',
+             'estimand':'the same structural likelihood parameters under the imposed equilibrium equations',
+             'conditions':['the adopted likelihood and normalization','original Bellman or equilibrium constraints'],
+             'data_fit':{'required':['the same state/action observations and an identified constrained system']},
+             'inference':{'procedure':'structural parameter inference accounting for equilibrium constraints'}},
+            {'method':'ccp','difference':'use first-stage choice probabilities and transition estimates',
+             'estimand':'payoff parameters identified by the adopted CCP inversion and second-stage criterion',
+             'conditions':['shock distribution giving the CCP inversion','choice support and transition identification'],
+             'data_fit':{'required':['supported conditional choices and transitions for each evaluated state']},
+             'inference':{'procedure':'sampling procedure carrying first-stage CCP and transition estimation'}},
+            {'method':'smm','difference':'match observed and simulated moments under fixed simulation draws',
+             'estimand':'structural parameters identified by the adopted moment vector and weighting matrix',
+             'conditions':['parameter-to-moment identification','adopted initial-state and transition law'],
+             'data_fit':{'required':['ordered empirical moments and observed histories in the adopted support']},
+             'inference':{'procedure':'adopted moment covariance with the specified simulation contribution'}},
+            {'method':'gmm','difference':'match economically identified moments using the adopted weighting matrix',
+             'estimand':'parameters satisfying the adopted population moment restrictions',
+             'conditions':['moment exclusion and rank','adopted integration and normalization'],
+             'data_fit':{'required':['moment observations, instruments and adopted population weights']},
+             'inference':{'procedure':'moment covariance matched to the independent market or sampling unit'}},
+            {'method':'maximum_likelihood','difference':'maximize the mean log likelihood of the observed finite-horizon histories',
+             'estimand':'structural parameters identified by the adopted choice/wage likelihood',
+             'conditions':['identified likelihood and utility/shock normalizations','adopted information, state support and transition law'],
+             'data_fit':{'required':['observed choice/wage histories and their adopted sampling population']},
+             'inference':{'procedure':'adopted likelihood curvature or refitted sampling procedure with the recorded integration draws'}}]
+        alternatives = [candidate for candidate in alternatives
+                        if candidate['method'] in algorithms[model] and candidate['method'] != algorithm]
     else:
         raise ValueError('unsupported design; use the documented selection contracts')
     if method == 'iv_ar_robust':
-        owner = 'external official R entry: ivDiag::AR_test'
         required_inputs = ['data','Y: outcome column','D: one endogenous treatment column',
             'Z: excluded instrument columns','controls: exogenous control columns',
             'FE: adopted fixed effects','cl: adopted cluster columns','weights: adopted weight column','alpha']
@@ -428,14 +640,7 @@ def select_method(request):
         native_alpha = forward_options.get('args',{}).get('alpha')
         if native_alpha is not None and abs(native_alpha-alpha)>1e-12:
             raise ValueError('options.args.alpha must agree with the selected inference level')
-        required_native_options = {'CI':True,'alpha':alpha}
-        external_implementation = {'language':'R','function':'ivDiag::AR_test','version':'1.0.8',
-            'source':'https://github.com/apoorvalal/ivDiag/blob/cbc391f4b1013c837743593bcde54efd5d733fb7/R/AR_test.R',
-            'covariance':'heteroskedastic without cl; clustered with cl',
-            'numerical_method':'official quadratic inversion for one instrument; transformed whole-line search with root refinement for multiple instruments',
-            'outputs':['Fstat','ci','ci.print','bounded'],
-            'confidence_level':1-alpha,
-            'execution':'invoke the official function from the adopted project analysis; this runner performs no external fit'}
+        required_native_options = {'args.CI':True,'args.alpha':alpha}
     if method == 'fixes_event_study' and target_kind == 'att':
         method = 'fixes_att'; owner = 'external official R entry: fixes::att'
         required_native_options = {'aggregation':'simple','estimator':'adopted cs or bjs'}
@@ -455,15 +660,17 @@ def select_method(request):
         'did_multiplegt_dyn':{'treatment_path_effect','dose_response'},
         'nonabs_did':{'treatment_path_effect','dose_response'},
         'rdrobust_r':{'local_effect','late'} if facts.get('discontinuity')=='fuzzy' else {'local_effect'},
-        'rddensity':{'density_discontinuity'},'rdpower':{'power'},
+        'rdd_localrand':{'local_effect','ate','itt'},'rddensity':{'density_discontinuity'},'rdpower':{'power'},
         'iv_gmm':{'structural_parameter','late'},'iv_ar':{'confidence_set','structural_parameter','late'},'iv_ar_robust':{'confidence_set','structural_parameter','late'},
         'synthetic_control':{'treated_trajectory'},'synthdid':{'treated_block_att','att'},
         'generalized_synth':{'treated_trajectory','treated_block_att','att','event_time_att'},
         'dml_plr':{'linear_projection','conditional_mean','structural_parameter','ate'},'dml_did':{'att'},
         'dml_irm':{'ate','att'},'dml_pliv':{'structural_parameter'},'dml_iivm':{'late'},
         'grf':{'cate','ate','att'},'causal_forest':{'cate','ate'},'policy_tree':{'policy_value'},
-        'honest_did':{'sensitivity','confidence_set'}}
-    accepted_targets = {'structural_parameter','equilibrium','welfare'} if design=='structural' else compatible.get(method)
+        'honest_did':{'sensitivity','confidence_set'},
+        'finite_horizon_choice':{'structural_parameter'},'lifecycle_choice':{'policy_value','welfare'},
+        'smm':{'structural_parameter'},'maximum_likelihood':{'structural_parameter'}}
+    accepted_targets = compatible.get(method, {'structural_parameter','equilibrium','welfare'} if design=='structural' else None)
     if target_kind is not None and accepted_targets is not None and target_kind not in accepted_targets:
         raise ValueError(f'{method} implements target.kind in {sorted(accepted_targets)}; received {target_kind}')
     if design=='conditional_mean' and method=='fixest_ols' and target_kind in ('ate','itt'):
@@ -481,7 +688,35 @@ def select_method(request):
     if target_kind=='event_time_att' and method=='sunab': required_native_options['aggregation'] = 'period'
     if method=='grf' and target_kind in ('ate','att'):
         required_native_options['aggregation.target.sample'] = 'treated' if target_kind=='att' else 'all'
-    if method in R_METHODS:
+    if method == 'staggered_did':
+        if structure not in ('panel','repeated_cross_section'):
+            raise ValueError('group-time DID requires panel or repeated_cross_section data_structure')
+        required_native_options['panel'] = structure == 'panel'
+        if target_kind in ('att','event_time_att'):
+            required_native_options['aggregation.type'] = 'simple' if target_kind == 'att' else 'dynamic'
+    # Keep the supplied options intact and expose target-implied changes as a
+    # reviewable proposal. Selection never amends or executes the adopted fit.
+    selected_options = deepcopy(forward_options)
+    option_changes = []
+    if method in ('sunab','grf','staggered_did','did_multiplegt_dyn','nonabs_did','iv_ar_robust','finite_horizon_choice'):
+        for field, value in required_native_options.items():
+            cursor = selected_options
+            path = field.split('.', 1)
+            if len(path) == 2:
+                if not isinstance(cursor.get(path[0], {}), dict):
+                    raise ValueError(f'options.{path[0]} must be an object')
+                cursor = cursor.setdefault(path[0], {})
+            key = path[-1]
+            defaults = {'panel':True,'aggregation.type':'dynamic','aggregation':'period',
+                        'aggregation.target.sample':'all','args.normalized':False,
+                        'args.CI':True,'args.alpha':.05,'return_scalar':True}
+            supplied = cursor.get(key, defaults.get(field))
+            if supplied != value:
+                option_changes.append({'field':'options.'+field,'supplied':supplied,'selected':value})
+            cursor[key] = value
+    if external_implementation:
+        engine = external_implementation['function']
+    elif method in R_METHODS:
         package, function = R_METHODS[method]; engine = f'{package}::{function}'
     else:
         engine = {'staggered_did':'did::att_gt + did::aggte','dml_plr':'doubleml.DoubleMLPLR',
@@ -510,34 +745,94 @@ def select_method(request):
     for key in contract_fields:
         if key in adopted_contract and proposed_contract.get(key) != adopted_contract[key]:
             changes.append({'field':key,'adopted':adopted_contract[key],'selected':proposed_contract.get(key)})
-    if 'options' in adopted_spec and forward_options != adopted_spec['options']:
-        changes.append({'field':'options','adopted':adopted_spec['options'],'selected':forward_options})
+    if adopted_spec and (forward_options != adopted_spec.get('options', {}) or option_changes):
+        changes.append({'field':'options','adopted':adopted_spec.get('options', {}),'selected':selected_options})
     relation = {'adopted_estimand':adopted_spec.get('estimand'),
                 'requested_estimand':request['estimand'],'selected_method_quantity':method_quantity}
     if 'target' in adopted_spec and target and adopted_spec['target'] != target:
         relation['target_change'] = {'adopted':adopted_spec['target'],'selected':target}
+    inherited_inference = proposed_contract.get('inference', {})
+    if not isinstance(inherited_inference, dict):
+        inherited_inference = {}
     inference_contract = {'dependence':request['dependence'],
-        'unit':request.get('assignment_unit',request.get('observation_unit')),
-        'specification':request.get('inference',adopted_spec.get('inference')),
-        'interval_type':comparison.get('interval_type','pointwise'),
-        'family':comparison.get('inference_family'),
+        'unit':proposed_contract.get('inference_unit',proposed_contract.get('assignment_unit',proposed_contract.get('observation_unit'))),
+        'assignment_unit':proposed_contract.get('assignment_unit'),
+        'specification':proposed_contract.get('inference'),
+        'interval_type':comparison.get('interval_type',comparison.get('ci_kind',
+            inherited_inference.get('interval_type',inherited_inference.get('ci_kind','pointwise')))),
+        'confidence_level':comparison.get('confidence_level',inherited_inference.get('confidence_level')),
+        'family':comparison.get('inference_family',comparison.get('family',
+            inherited_inference.get('inference_family',inherited_inference.get('family')))),
         'official_output_required':True}
+    if method == 'iv_ar_robust':
+        inference_contract['confidence_level'] = 1-alpha
+    elif method == 'finite_horizon_choice':
+        inference_contract['procedure'] = ('adopted moment covariance with simulation contribution' if algorithm == 'smm'
+            else 'adopted likelihood curvature or refitted sampling procedure')
+        inference_contract['parameter_operation'] = 'estimate structural parameters'
+    elif method == 'lifecycle_choice':
+        inference_contract['procedure'] = 'adopted simulation precision and parameter-draw propagation when requested'
+        inference_contract['parameter_operation'] = 'hold fixed or previously estimated parameters'
+        inference_contract['interval_type'] = comparison.get('interval_type',comparison.get('ci_kind',
+            inherited_inference.get('interval_type',inherited_inference.get('ci_kind'))))
+        inference_contract['official_output_required'] = False
+    candidate_comparisons = []
+    for candidate in alternatives:
+        if candidate['method'] == method:
+            continue
+        fit = candidate['data_fit']
+        dimensions = {'data_structures':('data_structure',structure),
+                      'treatment_patterns':('treatment_pattern',pattern),
+                      'outcome_scales':('outcome_scale',request['outcome_scale']),
+                      'dependence':('dependence',request['dependence'])}
+        fit['declared'] = {name:value for name,value in dimensions.values()}
+        fit['matches_declared_dimensions'] = {
+            name:value in fit[allowed] for allowed,(name,value) in dimensions.items() if allowed in fit}
+        if 'conditional_distribution' in fit:
+            fit['matches_declared_dimensions']['conditional_distribution'] = facts.get('conditional_distribution') == fit['conditional_distribution']
+        fit['basis'] = 'declared specification'
+        fit['data_inspected'] = False
+        candidate_targets = compatible.get(candidate['method'])
+        candidate['target_comparison'] = {'requested':target or {'expression':request['estimand']},
+            'candidate_estimand':candidate['estimand'],
+            'supported_kinds':sorted(candidate_targets) if candidate_targets is not None else None,
+            'matches_requested_kind':target_kind in candidate_targets if target_kind and candidate_targets is not None else None}
+        if candidate['method'] == 'dml_plr' and target_kind == 'ate':
+            candidate['target_comparison']['matches_requested_kind'] = facts.get('effect_heterogeneity') == 'constant'
+        candidate['inference']['adopted_dependence'] = request['dependence']
+        candidate['inference']['adopted_unit'] = inference_contract['unit']
+        candidate['adopted_specification_changes'] = {
+            'method':{'adopted':adopted,'candidate':candidate['method'],
+                      'change_required':adopted is not None and adopted != candidate['method']},
+            'estimand':{'adopted':adopted_spec.get('estimand'),'candidate':candidate['estimand']},
+            'identification':{'adopted':adopted_spec.get('identification'),'candidate_conditions':candidate['conditions']},
+            'sample_weights_aggregation':{'adopted':{k:adopted_contract[k] for k in ('population','comparison_group','weights','comparison') if k in adopted_contract},
+                                          'candidate_requirements':fit['required']},
+            'inference':{'adopted':adopted_contract.get('inference'),'candidate_procedure':candidate['inference']['procedure']}}
+        if design == 'structural':
+            candidate['adopted_specification_changes']['method'] = {
+                'adopted':adopted,'candidate':model,'change_required':adopted is not None and adopted != model}
+            candidate['adopted_specification_changes']['numerical.estimation_method'] = {
+                'adopted':adopted_contract.get('numerical',{}).get('estimation_method'),
+                'selected':algorithm,'candidate':candidate['method']}
+        candidate_comparisons.append(candidate)
     economic_fields = ('actors','objectives','choices','constraints','information','interactions','equilibrium','welfare')
     if not required_inputs:
         required_inputs = ['adopted target/population/period','model-specific columns or saved fitted object','matching inference unit and contrast']
     selection = {'selected_method':method,'estimand':method_quantity,'target':target,
         'economic_model':economic_model,'structured_conditions':facts,
         'required_inputs':required_inputs,'assumptions':conditions,'inference':inference_contract,
-        'official_implementation':{'function':engine,'entry_point':owner,'options':forward_options,
+        'official_implementation':{'function':engine,'entry_point':owner,'options':selected_options,
             'required_options':required_native_options,'execution_mode':'external_official_entry' if external_implementation else 'existing_runner',
             'external_contract':external_implementation},
+        'option_changes':option_changes,
         'reason':{'target':method_quantity,'design':design,'assignment_mechanism':mechanism,
             'data_structure':structure,'treatment_pattern':pattern,'outcome_scale':request['outcome_scale']},
-        'alternatives':[x for x in alternatives if x['method'] != method],
+        'alternatives':candidate_comparisons,
         'economic_chain':{'decision':economic_model,'target':target or {'expression':request['estimand']},
             'population_and_observations':proposed_contract,'identification':{'statement':request['identification'],'conditions':facts,'comparison':comparison},
-            'estimator':{'method':method,'weights':request.get('weights'),'numerical':numerical,'inference':inference_contract},
-            'implementation':{'function':engine,'options':forward_options}},
+            'estimator':{'method':method,'weights':proposed_contract.get('weights'),'numerical':numerical,'inference':inference_contract},
+            'implementation':{'function':engine,'options':selected_options}},
         'model_inputs_to_supply':[k for k in economic_fields if economic_model and k not in economic_model],
         'adoption_status':'proposal_retaining_adopted_specification' if changes else 'selected_for_requested_target'}
     return {'result_format_version':1,'status':'design_change' if changes else 'selected','question':request['question'],
@@ -637,8 +932,14 @@ def _staggered_did(spec, data):
 args <- commandArgs(trailingOnly=TRUE)
 suppressPackageStartupMessages(library(did))
 suppressPackageStartupMessages(library(jsonlite))
-if (packageVersion('did') < '2.5.1') stop('did >= 2.5.1 is required')
+did_version <- packageVersion('did')
+if (did_version < '2.5.1') stop('did >= 2.5.1 is required')
+updated_aggregation_rules <- did_version >= '2.5.1.906'
 s <- fromJSON(args[2], simplifyVector=TRUE); o <- s$options
+agg_args <- list(type='dynamic')
+if (length(o$aggregation)) for(k in names(o$aggregation)) agg_args[k] <- o$aggregation[k]
+if (!updated_aggregation_rules && agg_args$type == 'group' && isTRUE(agg_args$min_e > 0))
+  stop('Positive group min_e requires did >= 2.5.1.906; this did version does not apply that aggregation window')
 classes <- setNames('character', s$id)
 d <- read.csv(args[1], check.names=FALSE, colClasses=classes)
 unit <- o$entity; tm <- o$time; gn <- o$cohort
@@ -655,8 +956,7 @@ forward <- c('panel','allow_unbalanced_panel','anticipation','weightsname',
 for (k in intersect(names(o), forward)) call_args[k] <- o[k]
 if (!is.null(o$seed)) set.seed(o$seed)
 invisible(capture.output(a <- do.call(did::att_gt, call_args)))
-agg_args <- list(MP=a, type='dynamic')
-if (length(o$aggregation)) for(k in names(o$aggregation)) agg_args[k] <- o$aggregation[k]
+agg_args$MP <- a
 invisible(capture.output(e <- do.call(did::aggte, agg_args)))
 ap <- a$DIDparams; ep <- e$DIDparams
 if (isTRUE(call_args$cband) && !isTRUE(ap$cband)) stop('did did not retain the requested group-time simultaneous band')
@@ -741,12 +1041,31 @@ cells <- lapply(seq_along(a$att), function(j) {
     sampling_weights=I(sampling),raw_sampling_weights=I(raw_sampling),sampling_weight_period=weight_period)
 })
 
+component_support <- !is.na(a$att)
+balance_rule <- NULL
+if (e$type == 'dynamic' && !is.null(e$balance_e) && updated_aggregation_rules) {
+  # Match compute.aggte: balance on the original cell support before trimming
+  # the displayed window, retaining only cohorts with every required ATT.
+  event_time <- a$t-a$group
+  eligible <- max(a$t)-a$group >= e$balance_e
+  eligible_groups <- unique(a$group[eligible])
+  required_events <- unique(event_time[eligible & event_time >= 0 & event_time <= e$balance_e])
+  complete <- vapply(eligible_groups, function(g) {
+    length(required_events) > 0L && all(required_events %in% event_time[a$group == g & component_support])
+  }, logical(1))
+  component_support <- component_support & a$group %in% eligible_groups[complete]
+  balance_rule <- 'common_nonmissing_event_support'
+} else if (e$type == 'dynamic' && !is.null(e$balance_e)) {
+  # did 2.5.1 balances by calendar reach after removing missing ATT cells.
+  component_support <- component_support & max(a$t[component_support])-a$group >= e$balance_e
+  balance_rule <- 'calendar_reach_after_na_removal'
+}
 components <- lapply(seq_along(e$egt), function(k) {
   z <- e$egt[k]
   keep <- switch(e$type, dynamic=(a$t-a$group == z), group=(a$group == z & a$t >= a$group), calendar=(a$t == z & a$group <= a$t))
-  if (e$type == 'dynamic' && !is.null(e$balance_e)) keep <- keep & max(grid)-a$group >= e$balance_e
+  if (e$type == 'group' && updated_aggregation_rules && isTRUE(is.finite(agg_args$min_e))) keep <- keep & a$t >= a$group+agg_args$min_e
   if (e$type == 'group' && isTRUE(is.finite(agg_args$max_e))) keep <- keep & a$t <= a$group+agg_args$max_e
-  keep <- which(keep & !is.na(a$att))
+  keep <- which(keep & component_support)
   weights <- mass[keep] / sum(mass[keep])
   ids <- unique(unlist(lapply(cells[keep], function(x) x$treated_ids), use.names=FALSE))
   list(index=z,cohorts=I(as.numeric(a$group[keep])),times=I(as.numeric(a$t[keep])),
@@ -761,11 +1080,15 @@ settings <- function(params) {
     'fix_weights','alp','bstrap','biters','clustervars','cband','est_method','base_period','faster_mode')
   params[intersect(keys,names(params))]
 }
-obj <- list(r_version=as.character(getRversion()), did_version=as.character(packageVersion('did')),
+aggregation_conditions <- list(group_min_e_supported=updated_aggregation_rules,
+  group_event_time_min=if(e$type == 'group') {
+    if(updated_aggregation_rules && !is.null(agg_args$min_e)) max(0,agg_args$min_e) else 0
+  } else NULL, balance_e_rule=balance_rule)
+obj <- list(r_version=as.character(getRversion()), did_version=as.character(did_version),
   drdid_version=as.character(packageVersion('DRDID')),
   runtime=list(library_paths=I(.libPaths()),working_directory=getwd(),profile_user=Sys.getenv('R_PROFILE_USER',unset=NA_character_)),
   signatures=list(att_gt=names(formals(did::att_gt)),aggte=names(formals(did::aggte))),
-  att_gt_options=settings(ap),aggregate_options=c(settings(ep), list(type=e$type,balance_e=agg_args$balance_e,min_e=agg_args$min_e,max_e=agg_args$max_e,na.rm=isTRUE(agg_args$na.rm))),
+  att_gt_options=settings(ap),aggregate_options=c(settings(ep), list(type=e$type,balance_e=agg_args$balance_e,min_e=agg_args$min_e,max_e=agg_args$max_e,na.rm=isTRUE(agg_args$na.rm),effective_conditions=aggregation_conditions)),
   event_times=e$egt,coef=c(e$overall.att,e$att.egt),engine_se=c(e$overall.se,e$se.egt),
   critical_values=c(qnorm(1-ep$alp/2),rep(e$crit.val.egt,length(e$egt))),
   cov=vv,group_cov=gv,groups=a$group,times=a$t,att=a$att,group_se=a$se,n=a$n,
@@ -810,9 +1133,10 @@ def _official_r(spec, spec_path):
         'honest_did': {'pre_terms','post_terms','restriction'},
         'wild_cluster_bootstrap': set(), 'club_sandwich': set(),
         'rdrobust_r': {'running'}, 'rddensity': {'running'}, 'rdpower': {'running'}, 'grf': {'treatment'},
+        'iv_ar_robust': set(),
     }[method]
     optional = {'args','columns','seed','definitions'}
-    if method in ('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab','fixes_event_study'): optional.add('fixed_effects')
+    if method in ('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab','fixes_event_study','iv_ar_robust'): optional.add('fixed_effects')
     if method == 'sunab': optional |= {'sunab','aggregation','never_treated','confidence_level'}
     if method == 'did2s': optional |= {'event_variable','reference_event_time','confidence_level'}
     if method == 'fixes_event_study': optional |= {'never_treated'}
@@ -827,6 +1151,11 @@ def _official_r(spec, spec_path):
         raise ValueError('options.args and options.columns must be objects')
     if not isinstance(opt.get('definitions', {}), dict):
         raise ValueError('options.definitions must contain the adopted comparison and inference definitions')
+    if method == 'iv_ar_robust':
+        if opt.get('columns'):
+            raise ValueError('ivDiag takes column names in options.args.cl and options.args.weights')
+        if opt.get('args', {}).get('CI', True) is not True:
+            raise ValueError('iv_ar_robust requires CI=true to save the Anderson-Rubin confidence set')
     if method == 'rdrobust_r' and 'plot' in opt:
         plot_options = {'p','nbins','binselect','scale','kernel','h','covs_eval','covs_drop',
                         'ginv.tol','support','masspoints','ci'}
@@ -840,6 +1169,9 @@ def _official_r(spec, spec_path):
     if method == 'fixes_event_study' and opt['estimator'] == 'sa':
         if spec['regressors'] or 'weights' in opt.get('args',{}) or 'weights' in opt.get('columns',{}):
             raise ValueError('the inspected fixes SA implementation does not pass covariates or sampling weights to its interaction fit; use fixest::sunab for that specification')
+    if method == 'fixes_event_study' and opt['estimator'] in ('bjs','twm','flex'):
+        if 'weights' in opt.get('args',{}) or 'weights' in opt.get('columns',{}):
+            raise ValueError(f"the inspected fixes {opt['estimator'].upper()} implementation does not pass sampling weights to its fit")
     if method == 'nonabs_did' and opt['estimator'] not in ('DCDH','PanelMatch','IFE','FE','MC'):
         raise ValueError('nonabsdid estimator must be DCDH, PanelMatch, IFE, FE or MC')
     if method == 'sunab' and opt.get('aggregation','period') not in ('period','cohort','att'):
@@ -875,6 +1207,7 @@ suppressPackageStartupMessages(library(jsonlite))
 s <- fromJSON(args[1], simplifyVector=TRUE); o <- s$options; method <- s$method
 pkg <- args[3]; fname <- args[4]
 if(!requireNamespace(pkg,quietly=TRUE)) stop(paste('Install the selected official package:',pkg))
+if(method=='iv_ar_robust' && packageVersion('ivDiag') < '1.0.8') stop('iv_ar_robust requires ivDiag >= 1.0.8 for whole-line confidence-set inversion')
 fun <- getExportedValue(pkg,fname)
 formal_names <- names(formals(fun))
 invoke <- function(f, a, additional=character()) {
@@ -1038,6 +1371,26 @@ if(method %in% c('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab
 } else if(method=='grf') {
   owned <- list(X=as.matrix(d[,s$regressors,drop=FALSE]),Y=d[[s$outcome]],W=d[[o$treatment]])
   kind <- 'heterogeneity'
+} else if(method=='iv_ar_robust') {
+  model_columns <- unique(c(s$outcome,s$endogenous,s$instruments,s$regressors,o$fixed_effects,call_args$cl,call_args$weights))
+  if(!all(model_columns %in% names(d))) stop('Missing adopted IV outcome, treatment, instrument, control, effect, cluster or weight columns')
+  if(length(intersect(c(s$outcome,s$endogenous),c(s$instruments,s$regressors)))) stop('IV outcome and endogenous treatment must be distinct from instruments and controls')
+  if(length(intersect(s$instruments,s$regressors))) stop('Excluded instruments must be distinct from exogenous controls')
+  keep <- complete.cases(d[,model_columns,drop=FALSE])
+  diagnostics$excluded_missing_ids <- I(ids[!keep])
+  diagnostics$input_rows <- length(ids)
+  d <- d[keep,,drop=FALSE]; ids <- ids[keep]
+  if(!nrow(d)) stop('The adopted IV sample contains no complete observations')
+  owned <- list(data=d,Y=s$outcome,D=s$endogenous[[1]],Z=s$instruments,controls=s$regressors,FE=o$fixed_effects)
+  if(is.null(call_args$CI)) call_args$CI <- TRUE
+  if(is.null(call_args$alpha)) call_args$alpha <- .05
+  if(is.null(call_args$prec)) call_args$prec <- 12L
+  if(!is.numeric(call_args$alpha) || length(call_args$alpha)!=1L || !is.finite(call_args$alpha) || call_args$alpha<=0 || call_args$alpha>=1) stop('AR alpha must be between zero and one')
+  confidence_level <- 1-call_args$alpha
+  kind <- 'iv_confidence_set'
+  display_metadata$interval_type <- 'Anderson-Rubin test inversion'
+  display_metadata$inference_unit <- if(is.null(call_args$cl)) s$id else call_args$cl
+  display_metadata$covariance <- if(is.null(call_args$cl)) 'heteroskedastic robust' else 'cluster robust'
 }
 if(length(intersect(names(owned),names(call_args)))) stop(paste('options.args cannot replace owned model inputs:',paste(intersect(names(owned),names(call_args)),collapse=', ')))
 all_args <- c(owned,call_args)
@@ -1247,10 +1600,59 @@ if(method %in% c('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab
 } else if(method=='wild_cluster_bootstrap') {
   rows <- data.frame(term=paste(fit$param,collapse='+'),p_value=fit$p_val)
   if(length(fit$conf_int)==2) { rows$ci_low <- fit$conf_int[1]; rows$ci_high <- fit$conf_int[2] }
+} else if(method=='iv_ar_robust') {
+  stage_args <- c(all_args[intersect(names(all_args),c('data','Y','D','Z','controls','FE','cl','weights','prec'))],
+    list(bootstrap=FALSE,run.AR=FALSE,parallel=FALSE))
+  stage_fit <- invoke(ivDiag::ivDiag,stage_args)
+  if(stage_fit$N != length(ids)) stop('Official IV stages changed the complete-case sample')
+  ends <- fit$ci
+  empty <- length(ends)==1L && is.na(ends)
+  if(empty) {
+    rows <- data.frame(term=s$endogenous[[1]],set_type='empty')
+    intervals <- list(); set_type <- 'empty'
+  } else {
+    if(!length(ends) || length(ends)%%2L || anyNA(ends)) stop('Unsupported official AR confidence-set endpoint structure')
+    lower <- ends[seq.int(1L,length(ends),by=2L)]
+    upper <- ends[seq.int(2L,length(ends),by=2L)]
+    rows <- data.frame(term=s$endogenous[[1]],lower=ifelse(is.finite(lower),lower,NA_real_),upper=ifelse(is.finite(upper),upper,NA_real_),
+      lower_unbounded=is.infinite(lower),upper_unbounded=is.infinite(upper),set_type='interval')
+    intervals <- lapply(seq_along(lower),function(j) list(lower=if(is.finite(lower[j])) lower[j] else NULL,
+      upper=if(is.finite(upper[j])) upper[j] else NULL))
+    set_type <- if(length(ends)>2L) 'disconnected' else if(all(is.infinite(ends))) 'real_line' else if(any(is.infinite(ends))) 'unbounded' else 'bounded'
+  }
+  diagnostics$anderson_rubin <- list(confidence_level=confidence_level,intervals=intervals,set_type=set_type,
+    null_endpoint='unbounded',null_test=as.list(fit$Fstat),printed_set=fit$ci.print,bounded=fit$bounded)
+  diagnostics$observations <- stage_fit$N
+  diagnostics$n_clusters <- stage_fit$N_cl
+  diagnostics$cluster_columns <- call_args$cl
+  diagnostics$cluster_counts <- setNames(lapply(call_args$cl,function(column) length(unique(d[[column]]))),call_args$cl)
+  diagnostics$stages <- stage_fit
+  diagnostics$stage_function <- 'ivDiag::ivDiag'
+  diagnostics$stage_arguments <- stage_args[setdiff(names(stage_args),'data')]
+  for(stage in c('first_stage','reduced_form','2sls')) {
+    tab <- switch(stage,first_stage=stage_fit$est_fs,reduced_form=stage_fit$est_rf,`2sls`=stage_fit$est_2sls)
+    names_interval <- if(stage=='2sls') c('CI 2.5%','CI 97.5%') else c('CI.2.5%','CI.97.5%')
+    stage_rows <- data.frame(term=if(stage=='2sls') s$endogenous[[1]] else rownames(tab),estimate=tab[,'Coef'],
+      se=tab[,'SE'],p_value=tab[,'p.value'],ci_low=tab[,names_interval[1]],ci_high=tab[,names_interval[2]],stage=stage)
+    stage_unit <- switch(stage,first_stage=o$definitions$first_stage_unit,reduced_form=o$definitions$reduced_form_unit,`2sls`=s$unit)
+    if(is.null(stage_unit)) stage_unit <- paste(if(stage=='first_stage') s$endogenous[[1]] else s$outcome,'per instrument unit')
+    extra_displays[[paste0('iv_',stage)]] <- list(kind=switch(stage,first_stage='iv_first_stage',reduced_form='iv_reduced_form',`2sls`='regression'),
+      rows=stage_rows,metadata=list(stage=stage,unit=stage_unit,confidence_level=.95,interval_type='conventional Wald',
+        estimand=switch(stage,first_stage=paste('First-stage linear-projection coefficients for',s$endogenous[[1]]),
+          reduced_form=paste('Reduced-form linear-projection coefficients for',s$outcome),`2sls`=paste('2SLS coefficient on',s$endogenous[[1]])),
+        interval_constant=1.96,instruments=I(s$instruments),outcome=if(stage=='first_stage') s$endogenous[[1]] else s$outcome,
+        estimator=if(stage=='2sls') '2SLS' else 'OLS',engine='ivDiag::ivDiag',
+        producer=list(`function`='ivDiag::ivDiag',version=as.character(packageVersion('ivDiag')),signature=names(formals(ivDiag::ivDiag))),
+        effective_options=diagnostics$stage_arguments,
+        sample=list(observations=stage_fit$N,included_ids_ref='sample.included_ids'),
+        inference_unit=display_metadata$inference_unit,covariance=display_metadata$covariance))
+  }
 }
 if(!is.null(estimates)) rows <- estimates
 # Retain the native package result for subsequent official post-estimation.
-native <- serialize(list(fit=fit,data=d,ids=ids),NULL,version=3)
+native_record <- list(fit=fit,data=d,ids=ids)
+if(method=='iv_ar_robust') native_record$stages <- stage_fit
+native <- serialize(native_record,NULL,version=3)
 clean <- function(x) {
   if(is.null(x) || is.atomic(x)) return(x)
   if(is.data.frame(x)) return(x)
@@ -1273,6 +1675,7 @@ obj <- list(engine=paste0(pkg,'::',fname),versions=setNames(list(as.character(pa
   estimates=estimates,covariance=covariance,covariance_terms=if(is.null(covariance_terms)) rownames(covariance) else covariance_terms,diagnostics=clean(diagnostics),
   sample=list(included_ids=I(as.character(ids))),display=list(kind=kind,rows=rows,metadata=display_metadata),displays=extra_displays,
   native_fit=list(format='R-serialize-v3',data=base64_enc(native)))
+if(method=='iv_ar_robust') obj$versions$lfe <- as.character(packageVersion('lfe'))
 obj$confidence_level <- if(method=='rdrobust_r' && !is.null(call_args$level)) call_args$level/100 else if(method=='wild_cluster_bootstrap' && !is.null(call_args$sign_level)) 1-call_args$sign_level else if(method=='honest_did' && !is.null(call_args$alpha)) 1-call_args$alpha else confidence_level
 write_json(obj,args[5],auto_unbox=TRUE,digits=16,na='null',null='null',dataframe='rows')
 '''
@@ -1321,6 +1724,18 @@ write_json(obj,args[5],auto_unbox=TRUE,digits=16,na='null',null='null',dataframe
         block['metadata'] = {**result['display']['metadata'],**block.get('metadata',{})}
     result['diagnostics']['engine_messages'] = proc.stderr.strip()
     result['statistics'] = {}
+    if method == 'iv_ar_robust':
+        ar = result['diagnostics']['anderson_rubin']
+        result['inference'] = {'confidence_level':ar['confidence_level'],
+            'confidence_sets':{spec['endogenous'][0]:ar['intervals']},
+            'set_type':ar['set_type'],'null_test':ar['null_test'],
+            'interval_type':'Anderson-Rubin test inversion','source':result['engine']}
+        result['sample']['input_rows'] = result['diagnostics']['input_rows']
+        result['sample']['excluded_missing_ids'] = result['diagnostics']['excluded_missing_ids']
+        for name, display in result['displays'].items():
+            for row in display['rows']:
+                result['statistics'][f'{name}.coefficient.{row["term"]}'] = {
+                    'value':row['estimate'],'unit':display['metadata']['unit']}
     if result['estimates']:
         estimates = result.pop('estimates')
         if any(r.get('estimate') is None or not np.isfinite(r['estimate']) for r in estimates):
@@ -1365,13 +1780,13 @@ def run(spec, spec_path):
             raise ValueError(f'{key} must be a list of distinct column names')
     if method == 'shift_share':
         if len(spec['endogenous']) != 1 or spec['instruments']: raise ValueError('shift_share requires one endogenous regressor and no input instruments')
-    elif method in ('iv_gmm','iv_ar'):
+    elif method in ('iv_gmm','iv_ar','iv_ar_robust'):
         if not spec['endogenous'] or len(spec['instruments']) < len(spec['endogenous']):
             raise ValueError('IV GMM requires endogenous regressors and at least as many instruments')
     elif spec['endogenous'] or spec['instruments']:
         raise ValueError('endogenous and instruments are reserved for IV methods')
-    if method == 'iv_ar' and len(spec['endogenous']) != 1:
-        raise ValueError('iv_ar requires one endogenous regressor')
+    if method in ('iv_ar','iv_ar_robust') and len(spec['endogenous']) != 1:
+        raise ValueError('Anderson-Rubin methods require one endogenous regressor')
     if not isinstance(spec['options'],dict):
         raise ValueError('options must be an object')
     if method in R_METHODS:
