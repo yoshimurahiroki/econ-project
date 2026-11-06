@@ -925,6 +925,7 @@ def generate_entries(root):
         body = replace_generated_section(body, 'Registered operations', block, 'MODES')
         if owner == 'econ-review':
             body = re.sub(r'^Mode `assess`.*?\n\n', '', body, flags=re.M)
+        body = transform_entry_references(routes, owner, body, 'source')
         path.write_text(body, encoding='utf-8')
     modes = [op['mode'] for op in routes['operations'] if op['owner_skill'] == 'econ-writing']
     ui = 'interface:\n  display_name: "Economics Writing"\n  short_description: "Write, explain and revise natural academic prose"\n  default_prompt: "Use $econ-writing in ' + ', '.join(modes) + ' mode. Read CORE, PROSE and the selected mode; build the explanation before shortening and complete the integrated review."\npolicy:\n  allow_implicit_invocation: true\n'

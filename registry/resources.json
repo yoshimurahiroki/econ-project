@@ -35,37 +35,37 @@
       "resource_id": "econ-design",
       "source_path": "skills/econ-design/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.50.0"
+      "content_version": "0.54.1"
     },
     "econ-data": {
       "resource_id": "econ-data",
       "source_path": "skills/econ-data/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.41.0"
+      "content_version": "0.54.1"
     },
     "econ-literature": {
       "resource_id": "econ-literature",
       "source_path": "skills/econ-literature/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.45.0"
+      "content_version": "0.54.1"
     },
     "econ-writing": {
       "resource_id": "econ-writing",
       "source_path": "skills/econ-writing/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.53.0"
+      "content_version": "0.54.1"
     },
     "econ-review": {
       "resource_id": "econ-review",
       "source_path": "skills/econ-review/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.45.0"
+      "content_version": "0.54.1"
     },
     "design-methods": {
       "resource_id": "design-methods",
       "source_path": "skills/econ-design/references/designs.md",
       "resource_kind": "rule",
-      "content_version": "0.54.0"
+      "content_version": "0.54.1"
     },
     "data-implementation": {
       "resource_id": "data-implementation",
@@ -185,7 +185,7 @@
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.46.0"
+      "content_version": "0.54.1"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
@@ -301,7 +301,7 @@
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.53.2"
+      "content_version": "0.54.1"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -358,13 +358,13 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.54.0"
+      "content_version": "0.54.1"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
       "source_path": "quality/policy_manifest.json",
       "resource_kind": "support",
-      "content_version": "0.49.0",
+      "content_version": "0.54.1",
       "sync": false
     },
     "codex-hooks": {
@@ -481,7 +481,7 @@
       "resource_id": "equity-guide",
       "source_path": "skills/econ-data/references/equity.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0",
+      "content_version": "0.54.1",
       "required_resources": [
         "equity-calculator",
         "equity-sources",
@@ -494,7 +494,7 @@
       "resource_id": "equity-calculator",
       "source_path": "skills/econ-data/scripts/equity.py",
       "resource_kind": "support",
-      "content_version": "0.8.0",
+      "content_version": "0.54.1",
       "required_resources": [
         "equity-io"
       ]
@@ -701,7 +701,7 @@
       "resource_id": "research-evidence-tests",
       "source_path": "harness/test_research_evidence.py",
       "resource_kind": "support",
-      "content_version": "0.54.0",
+      "content_version": "0.54.1",
       "required_resources": [
         "research-evidence"
       ],
@@ -728,7 +728,7 @@
       "resource_id": "research-causal",
       "source_path": "skills/econ-data/scripts/research_causal.py",
       "resource_kind": "support",
-      "content_version": "0.54.0",
+      "content_version": "0.54.1",
       "required_resources": [
         "research-causal-dependencies",
         "research-causal-r-dependencies"
@@ -738,7 +738,7 @@
       "resource_id": "models-causal",
       "source_path": "skills/econ-design/references/causal-models.md",
       "resource_kind": "rule",
-      "content_version": "0.54.0",
+      "content_version": "0.54.1",
       "required_resources": [
         "research-causal"
       ]
@@ -789,7 +789,7 @@
       "resource_id": "models-dynamic",
       "source_path": "skills/econ-design/references/dynamic-models.md",
       "resource_kind": "rule",
-      "content_version": "0.20.0",
+      "content_version": "0.54.1",
       "required_resources": [
         "research-dynamic"
       ]
@@ -930,7 +930,7 @@
       "resource_id": "research-artifacts",
       "source_path": "harness/research_artifacts.py",
       "resource_kind": "support",
-      "content_version": "0.54.0",
+      "content_version": "0.54.1",
       "required_resources": [
         "research-evidence",
         "team-state-helper",
@@ -945,7 +945,7 @@
       "resource_id": "result-artifacts",
       "source_path": "skills/econ-writing/references/result-artifacts.md",
       "resource_kind": "rule",
-      "content_version": "0.54.0",
+      "content_version": "0.54.1",
       "required_resources": [
         "research-artifacts",
         "research-runner",
@@ -970,13 +970,13 @@
       "resource_id": "research-causal-r-dependencies",
       "source_path": "skills/econ-data/scripts/requirements-causal-r.json",
       "resource_kind": "support",
-      "content_version": "0.54.0"
+      "content_version": "0.54.1"
     },
     "econ-knowledge": {
       "resource_id": "econ-knowledge",
       "source_path": "skills/econ-knowledge/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.50.0"
+      "content_version": "0.54.1"
     },
     "knowledge-retrieval": {
       "resource_id": "knowledge-retrieval",
@@ -1356,7 +1356,7 @@
         "knowledge-retrieval",
         "research-evidence"
       ],
-      "content_version": "0.51.0"
+      "content_version": "0.54.1"
     },
     "project-practice": {
       "resource_id": "project-practice",
