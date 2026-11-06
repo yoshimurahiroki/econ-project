@@ -9,7 +9,7 @@
     "chapters/06-contracts-organization.md": "6d27581e2d9dbd41ad31d1b34f92889667d82503d19a4dec8b978503cb78d7ca",
     "chapters/07-market-design.md": "4be072d54bf8ff2443b41f024b03a235cdd1c04f4a2845f1024a5a8f734df141",
     "chapters/08-networks.md": "eaa4c06c5fdc30349ef4029d39d20b6f6db6c59eb5c7e24d367f6a13e13dd3ef",
-    "chapters/09-dynamic-computation.md": "28633f53f8861fb4ddd48a3f72e35353eab123e8a00ac14cd731f01ba7676aef",
+    "chapters/09-dynamic-computation.md": "78f070edf887e318cdf759cd6c8e67b6c8c371cd2e7d24fba76a92bd8c99ce8a",
     "chapters/10-econometrics.md": "7d444820833f2a7ee1c9b10d26ba06e38f33121d6595cae389511e0333b2154a",
     "chapters/11-causal-designs.md": "68032c4a80317e983af3bbcfe52f2653a8431f3534681f635cf21d6cc9744b10",
     "chapters/12-causal-extensions.md": "42b564033b3066dbba4c88600f8dbdc85752ece405530cc031d2df4dc6bc31c7",
@@ -583,7 +583,7 @@
       "chapter": "chapters/09-dynamic-computation.md",
       "domain": "動学計算",
       "path": "units/DYN-02.md",
-      "sha256": "cf540d5a582fcb4f6fec45da2bb8042ceafcc565e5836f04cfbc773f83a1a314"
+      "sha256": "06b91cce0552e485b52d54ff5fe7a742046a0dae6a307ed429f479cfc5a0d437"
     },
     "DYN-03": {
       "chapter": "chapters/09-dynamic-computation.md",

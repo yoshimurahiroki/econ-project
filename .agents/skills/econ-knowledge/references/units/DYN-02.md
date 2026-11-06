@@ -6,6 +6,8 @@
 
 有限期間の価値関数は $V_t(s)=\max_{a\in A(s)}\{r_t(s,a)+\beta E[V_{t+1}(s')\mid s,a]\}$、終端価値は $V_T(s)=g(s)$ である。終端から逆向きに各期の最大値と行動を求める。有限の状態・行動、空でない可行行動集合、無限期間、$0<\beta<1$、有界報酬の下では $V=TV$、$(TV)(s)=\max_a\{r(s,a)+\beta E[V(s')\mid s,a]\}$ であり、$T$ は上限ノルムで係数 $\beta$ の収縮となる。
 
+有限期間のモデルを実装へ渡すときは、主体、状態、選択、遷移、終端条件と求める計算を[有限期間・ライフサイクルの選択表](https://github.com/yoshimurahiroki/econ-project-mini/blob/main/skills/econ-design/references/dynamic-models.md#official-finite-horizon-and-lifecycle-selection)へ対応させる。代表家計の成長経路はSTRUCT-06の既存 `solve`、消費・貯蓄は所得過程に応じたHARK、就業・退職を含む状態とレジームの選択はpylcm、観測された動学的選択からの構造パラメータ推定はrespyへ接続する。推定済みrespyモデルの反実仮想は、同じパラメータとモデル指定を `get_simulate_func` に渡す。選択が返すモデル仕様と実行先を、求解、シミュレーション、推定の実行記録へ引き継ぐ。
+
 価値関数反復では任意の初期値から $V_{k+1}=TV_k$ を繰り返す。残差 $\|TV_k-V_k\|_\infty\le\epsilon$ のとき、真の価値との距離は $\epsilon/(1-\beta)$ 以下である。方策反復では方策 $\pi$ を固定し $V^\pi=r^\pi+\beta P^\pi V^\pi$ を解き、その価値に対して各状態の行動を最大化する。有限の状態と行動では、同値な最適行動に現在の方策が含まれるときそれを維持し、方策が変わらなくなるまで更新する。
 
 有限状態で固定方策 $\pi$ の価値を計算するには、報酬ベクトル $r^\pi$ と遷移行列 $P^\pi$ を作り、$(I-\beta P^\pi)V^\pi=r^\pi$ を解く。次に各状態で代替行動 $a$ の一回逸脱価値 $r(s,a)+\beta\sum_{s'}P(s'\mid s,a)V^\pi(s')$ を求める。すべての代替が $V^\pi(s)$ 以下なら、Bellman 最適条件を満たす。方策と価値を別々に評価することで、更新が止まった理由を経済的な行動比較として表せる。停止を行動に含む二状態の具体的なBellman式と最適行動はDYN-09で解く。

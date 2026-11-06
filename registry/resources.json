@@ -65,7 +65,7 @@
       "resource_id": "design-methods",
       "source_path": "skills/econ-design/references/designs.md",
       "resource_kind": "rule",
-      "content_version": "0.54.1"
+      "content_version": "0.54.2"
     },
     "data-implementation": {
       "resource_id": "data-implementation",
@@ -301,7 +301,7 @@
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.54.1"
+      "content_version": "0.54.2"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -358,13 +358,13 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.54.1"
+      "content_version": "0.54.2"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
       "source_path": "quality/policy_manifest.json",
       "resource_kind": "support",
-      "content_version": "0.54.1",
+      "content_version": "0.54.2",
       "sync": false
     },
     "codex-hooks": {
@@ -728,7 +728,7 @@
       "resource_id": "research-causal",
       "source_path": "skills/econ-data/scripts/research_causal.py",
       "resource_kind": "support",
-      "content_version": "0.54.1",
+      "content_version": "0.54.2",
       "required_resources": [
         "research-causal-dependencies",
         "research-causal-r-dependencies"
@@ -789,9 +789,12 @@
       "resource_id": "models-dynamic",
       "source_path": "skills/econ-design/references/dynamic-models.md",
       "resource_kind": "rule",
-      "content_version": "0.54.1",
+      "content_version": "0.54.2",
       "required_resources": [
-        "research-dynamic"
+        "research-dynamic",
+        "research-causal",
+        "research-macro",
+        "research-macro-extended"
       ]
     },
     "research-numerics-dependencies": {

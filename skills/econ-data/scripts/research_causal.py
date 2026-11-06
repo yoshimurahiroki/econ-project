@@ -154,6 +154,8 @@ def select_method(request):
     alternatives = []
     required_native_options = {}
     external_implementation = None
+    computation = None
+    respy_simulation = False
     method_quantity = request['estimand']
     score = facts.get('score', request.get('score'))
     if 'score' in facts and 'score' in request and facts['score'] != request['score']:
@@ -481,21 +483,31 @@ def select_method(request):
         method = 'club_sandwich'; conditions = ['saved supported model fit', 'adopted CR correction, coefficient contrast and degrees-of-freedom approximation']
     elif design == 'structural':
         model = request.get('structural_model')
+        if not model and adopted == 'finite_horizon_choice' and numerical.get('operation') in ('simulate','counterfactual'):
+            model = adopted
         if not model:
             model = {'differentiated_products':'blp','replacement':'replacement','dynamic_game':'dynamic_game'}.get(facts.get('market_structure'))
+        if not model:
+            model = {'representative_household_growth':'finite_horizon_growth',
+                'household_consumption_saving':'consumption_saving',
+                'individual_dynamic_choice':'finite_horizon_choice' if target_kind == 'structural_parameter' else 'lifecycle_choice',
+                'employment_retirement_regimes':'lifecycle_choice'}.get(facts.get('economic_object'))
         if model in ('blp','auction','auction_fit','search','bargaining','platform','matching'):
             method = model; owner = 'skills/econ-data/scripts/research_markets.py run'
         elif model in ('replacement','latent_replacement','discrete_entry','dynamic_adoption_blp','continuous_time_entry','capacity_product_game'):
             method = model; owner = 'skills/econ-data/scripts/research_dynamic.py run'
         elif model == 'dynamic_game':
             method = model; owner = 'skills/econ-data/scripts/equity.py dynamic'
-        elif model in ('finite_horizon_choice','lifecycle_choice'):
+        elif model == 'finite_horizon_growth':
+            method = model; owner = 'skills/econ-data/scripts/research_macro.py solve'
+        elif model in ('finite_horizon_choice','lifecycle_choice','consumption_saving'):
             method = model
         else:
-            raise ValueError('structural_model must name a documented market, replacement, entry, adoption, dynamic-game, finite_horizon_choice or lifecycle_choice model')
+            raise ValueError('structural_model must name a documented market, replacement, entry, adoption, dynamic-game, finite_horizon_growth, consumption_saving, finite_horizon_choice or lifecycle_choice model')
         conditions = ['adopted primitives, timing, moments and excluded variation', 'normalizations and equilibrium selection', 'counterfactual re-solves affected endogenous choices']
         method_quantity = ('identified utility/cost parameters and scenario-specific equilibrium prices, choices and welfare' if model == 'blp'
             else 'identified payoff/transition parameters and the re-solved policy or equilibrium under the adopted intervention')
+        respy_simulation = model == 'finite_horizon_choice' and numerical.get('operation') in ('simulate','counterfactual')
         algorithms = {'blp':('gmm',), 'replacement':('nfxp','ccp','smm','mpec'),
             'latent_replacement':('em',),'discrete_entry':('moment_inequalities','npl','epl','slc'),
             'dynamic_adoption_blp':('share_inversion',),'continuous_time_entry':('nfxp',),
@@ -503,12 +515,35 @@ def select_method(request):
             'auction_fit':('maximum_likelihood',),'auction':('equilibrium',),
             'search':('equilibrium',),'bargaining':('equilibrium',),
             'platform':('equilibrium',),'matching':('deferred_acceptance',),
-            'finite_horizon_choice':('smm','maximum_likelihood'),
-            'lifecycle_choice':('backward_induction',)}
-        algorithm = numerical.get('estimation_method', algorithms[model][0])
+            'finite_horizon_choice':('backward_induction',) if respy_simulation else ('smm','maximum_likelihood'),
+            'lifecycle_choice':('backward_induction',),
+            'finite_horizon_growth':('slsqp',),'consumption_saving':('backward_induction',)}
+        solution_model = model in ('finite_horizon_growth','consumption_saving','lifecycle_choice') or respy_simulation
+        numerical_key = 'solution_method' if solution_model else 'estimation_method'
+        algorithm = numerical.get(numerical_key, numerical.get('estimation_method', algorithms[model][0]))
+        if solution_model and 'solution_method' in numerical and 'estimation_method' in numerical and numerical['solution_method'] != numerical['estimation_method']:
+            raise ValueError('numerical.solution_method and the legacy estimation_method must agree')
         if algorithm not in algorithms[model]:
-            raise ValueError(f'{model} implements numerical.estimation_method in {algorithms[model]}')
-        required_native_options['estimation_component'] = algorithm
+            raise ValueError(f'{model} implements numerical.{numerical_key} in {algorithms[model]}')
+        required_native_options['solution_component' if solution_model else 'estimation_component'] = algorithm
+        if solution_model or model == 'finite_horizon_choice':
+            if respy_simulation:
+                available_operations = ['simulate','counterfactual']
+            elif model == 'finite_horizon_growth':
+                available_operations = ['solve','counterfactual']
+            else:
+                available_operations = ['solve','simulate','counterfactual'] if solution_model else ['estimate']
+            operation = numerical.get('operation', 'solve' if solution_model else 'estimate')
+            if operation not in available_operations:
+                raise ValueError(f'{model} supports numerical.operation in {available_operations}')
+            if solution_model and facts.get('parameter_status') not in (None,'fixed','calibrated','estimated'):
+                raise ValueError(f'{model} requires fixed, calibrated or previously estimated parameters')
+            computation = {'requested_operation':operation,'available_operations':available_operations,
+                'numerical_method':algorithm,'operations_executed':[],
+                'parameter_operation':'reuse fixed, calibrated or previously estimated values' if solution_model else 'estimate identified free parameters',
+                'identification_target':target or {'expression':request['estimand']},
+                'observation_map':economic_model.get('observed_data'),
+                'identified_parameters':economic_model.get('identified_parameters')}
         if model == 'dynamic_game':
             required_native_options['estimation_method'] = algorithm
         if model == 'replacement' and algorithm == 'smm':
@@ -527,7 +562,92 @@ def select_method(request):
         required_inputs = ['actors/objectives/feasible actions/information and timing','states and transition law',
             'shock distribution and payoff normalization','moments or likelihood and excluded variation',
             'parameter order and fixed/calibrated values','equilibrium selection','intervention and welfare aggregation']
-        if model == 'finite_horizon_choice':
+        if model == 'finite_horizon_growth':
+            method_quantity = 'optimal finite-horizon capital and consumption paths and discounted log-consumption welfare conditional on initial and terminal capital'
+            conditions = ['representative household, log utility and Cobb-Douglas production',
+                'positive consumption and capital; fixed initial and terminal capital with no continuation utility',
+                'deterministic productivity and output-tax paths; tax revenue finances government absorption',
+                'fixed or previously estimated alpha, beta and delta; original Euler/resource residuals within tolerance']
+            required_inputs = ['alpha, beta, delta, initial_capital and terminal_capital',
+                'baseline and scenario, each with equal-horizon productivity and output_tax paths',
+                'population, period, unit, sources and tolerance']
+            computation['outputs'] = ['baseline and scenario capital, consumption, output and government_absorption paths',
+                'discounted log-consumption welfare and scenario-minus-baseline welfare_change',
+                'original Euler/resource residuals and analytic-derivative comparisons']
+            computation['solution_object'] = 'optimal trajectories at the supplied endpoints; a feedback policy function requires the corresponding state-space model'
+        elif model == 'consumption_saving':
+            income_process = facts.get('income_process')
+            classes = {'perfect_foresight':'PerfForesightConsumerType','idiosyncratic_shocks':'IndShockConsumerType'}
+            if income_process not in classes:
+                raise ValueError('consumption_saving requires conditions.income_process=perfect_foresight or idiosyncratic_shocks')
+            function = 'HARK.ConsumptionSaving.ConsIndShockModel.' + classes[income_process]
+            owner = 'external official Python entry: ' + function
+            method_quantity = 'age-specific consumption policies, normalized value functions and simulated asset/income paths at adopted parameters'
+            conditions = ['finite lifecycle with cycles=1 and T_cycle periods plus the terminal solution',
+                'CRRA utility, adopted discounting, survival, income growth, returns and borrowing constraints',
+                'terminal consumption equals cash on hand in these consumer classes',
+                'initial population and income/shock timing match the adopted model',
+                'prices are exogenous; welfare uses declared value units, population weights and scenario contrast']
+            required_inputs = ['T_cycle, CRRA, DiscFac, Rfree, LivPrb, PermGroFac and BoroCnstArt with matching age profiles',
+                'initial asset/permanent-income distributions, AgentCount, T_sim, seed and track_vars',
+                'target population, period, normalization, weights and fixed or fitted parameter provenance',
+                'scenario changes and utility-to-money conversion when monetary welfare is requested']
+            if income_process == 'idiosyncratic_shocks':
+                required_inputs += ['PermShkStd, TranShkStd, shock distributions, integration counts and asset grid']
+            required_native_options = {'cycles':1}
+            if income_process == 'idiosyncratic_shocks':
+                required_native_options['vFuncBool'] = True
+            external_implementation = {'language':'Python','function':function,'version':'0.17.2',
+                'source':'https://github.com/econ-ark/HARK/blob/269085077b84cb50feb49d0cd54bbf4da5fa3199/HARK/ConsumptionSaving/ConsIndShockModel.py',
+                'signature':{'solve':['verbose','presolve','postsolve','from_solution','from_t'],
+                    'initialize_sim':[],'simulate':['sim_periods']},
+                'parameter_operation':computation['parameter_operation'],
+                'numerical_method':'finite-horizon backward induction using the official consumer solver',
+                'inputs':required_inputs,
+                'outputs':['solve() stores T_cycle+1 ConsumerSolution objects in consumer.solution',
+                    'solution[t].cFunc(mNrm) and vFunc(mNrm), with permanent-income normalization',
+                    'simulate() stores each track_vars history as a (T_sim, AgentCount) array',
+                    'scenario-specific values and outcomes aggregated with the adopted population weights'],
+                'execution':'construct the selected consumer with cycles=1, solve(), then set track_vars and call initialize_sim() and simulate() for requested histories; re-solve each changed scenario at the same fitted primitives',
+                'equilibrium_contract':'individual consumption-saving conditional on prices; market clearing uses the existing macro equilibrium owner'}
+        elif respy_simulation:
+            simulation_method = numerical.get('simulation_method')
+            if simulation_method not in ('n_step_ahead_with_sampling','n_step_ahead_with_data','one_step_ahead'):
+                raise ValueError('respy simulation requires numerical.simulation_method=n_step_ahead_with_sampling, n_step_ahead_with_data or one_step_ahead')
+            if facts.get('parameter_status') not in ('fixed','calibrated','estimated'):
+                raise ValueError('respy simulation requires explicit fixed, calibrated or estimated parameter_status')
+            owner = 'external official Python entry: respy.get_simulate_func'
+            method_quantity = ('scenario contrast of adopted discounted chosen-flow utility for the same initial population' if target_kind == 'welfare'
+                else 'scenario-specific choices, rewards and state paths from the same respy structural primitives')
+            if simulation_method == 'one_step_ahead':
+                if target_kind == 'welfare':
+                    raise ValueError('respy lifecycle welfare requires an n-step simulation of the counterfactual state path')
+                method_quantity = 'one-period choices and rewards conditional on each observed state under the adopted respy scenario'
+            conditions = ['reuse the fitted respy parameter ordering, normalizations, model options and invariant primitives',
+                'declare sampled initial conditions, fixed observed initial states or observed one-step states',
+                'hold the adopted population, scenario draws, choice ordering and horizon comparison fixed',
+                'aggregate chosen flow utility with adopted discounting, present-bias interpretation and terminal evaluation']
+            required_inputs = ['params: fixed or saved estimated parameter dataframe/series with provenance',
+                'options: the same structural model, decision horizon, initial distributions, solution/simulation seeds and draws',
+                'numerical.simulation_method and the adopted scenario changes',
+                'target population, identifiers, weights, value units and welfare aggregation']
+            if simulation_method != 'n_step_ahead_with_sampling':
+                required_inputs += ['df with Identifier/Period MultiIndex and the adopted state columns; initial-data simulation uses zero-based consecutive IDs at Period=0']
+            required_native_options = {'method':simulation_method,'n_simulation_periods':None}
+            external_implementation = {'language':'Python','function':'respy.get_simulate_func','version':'2.1.1',
+                'source':'https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/simulate.py',
+                'signature':['params','options','method','df','n_simulation_periods'],
+                'parameter_operation':computation['parameter_operation'],
+                'numerical_method':'solve at the supplied parameter vector and simulate with retained base draws',
+                'inputs':required_inputs,
+                'outputs':['parameter-only simulate callable; simulate(params_hat) returns an Identifier/Period-indexed dataframe',
+                    'Choice, Wage, state columns, Discount_Rate and Present_Bias',
+                    'choice-specific Flow_Utility, Value_Function, Continuation_Value and reward columns'],
+                'effective_simulation_horizon':'max observed Period + 1' if simulation_method == 'one_step_ahead' else "options['n_periods']",
+                'horizon_contract':'this pinned implementation replaces an explicit n_simulation_periods with options.n_periods; pass None and match the requested output to the recorded effective horizon',
+                'welfare_contract':'aggregate chosen Flow_Utility under adopted discounting and terminal conditions; Value_Function already contains continuation value',
+                'execution':'construct get_simulate_func from the saved structural specification and call simulate(params_hat) for each adopted scenario; retain actual outputs and aggregate them in project analysis'}
+        elif model == 'finite_horizon_choice':
             smm = algorithm == 'smm'
             function = 'respy.get_moment_errors_func' if smm else 'respy.get_log_like_func'
             owner = 'external official Python entry: ' + function
@@ -556,8 +676,6 @@ def select_method(request):
                 'outputs':['parameter-only criterion callable','value','moment_errors','root_contributions','simulated_moments','comparison_plot_data'] if smm else ['parameter-only log-likelihood callable','value: mean log likelihood','contributions','comparison_plot_data'],
                 'execution':'construct the official criterion with return_scalar=False and pass its value to the adopted project optimizer; retain returned contributions and the adopted parameter-inference calculation'}
         elif model == 'lifecycle_choice':
-            if facts.get('parameter_status') not in (None,'fixed','estimated'):
-                raise ValueError('lifecycle_choice uses conditions.parameter_status=fixed or estimated')
             owner = 'external official Python entry: lcm.Model.solve + lcm.Model.simulate'
             method_quantity = ('target-population aggregation of lifecycle values under the adopted welfare weights and utility or monetary conversion' if target_kind == 'welfare'
                 else 'lifecycle policies, values and simulated outcomes at the adopted fixed or previously estimated parameters')
@@ -668,7 +786,8 @@ def select_method(request):
         'dml_irm':{'ate','att'},'dml_pliv':{'structural_parameter'},'dml_iivm':{'late'},
         'grf':{'cate','ate','att'},'causal_forest':{'cate','ate'},'policy_tree':{'policy_value'},
         'honest_did':{'sensitivity','confidence_set'},
-        'finite_horizon_choice':{'structural_parameter'},'lifecycle_choice':{'policy_value','welfare'},
+        'finite_horizon_choice':{'policy_value','welfare'} if respy_simulation else {'structural_parameter'},'lifecycle_choice':{'policy_value','welfare'},
+        'finite_horizon_growth':{'policy_value','welfare'},'consumption_saving':{'policy_value','welfare'},
         'smm':{'structural_parameter'},'maximum_likelihood':{'structural_parameter'}}
     accepted_targets = compatible.get(method, {'structural_parameter','equilibrium','welfare'} if design=='structural' else None)
     if target_kind is not None and accepted_targets is not None and target_kind not in accepted_targets:
@@ -698,7 +817,7 @@ def select_method(request):
     # reviewable proposal. Selection never amends or executes the adopted fit.
     selected_options = deepcopy(forward_options)
     option_changes = []
-    if method in ('sunab','grf','staggered_did','did_multiplegt_dyn','nonabs_did','iv_ar_robust','finite_horizon_choice'):
+    if method in ('sunab','grf','staggered_did','did_multiplegt_dyn','nonabs_did','iv_ar_robust','finite_horizon_choice','consumption_saving'):
         for field, value in required_native_options.items():
             cursor = selected_options
             path = field.split('.', 1)
@@ -709,7 +828,7 @@ def select_method(request):
             key = path[-1]
             defaults = {'panel':True,'aggregation.type':'dynamic','aggregation':'period',
                         'aggregation.target.sample':'all','args.normalized':False,
-                        'args.CI':True,'args.alpha':.05,'return_scalar':True}
+                        'args.CI':True,'args.alpha':.05,'return_scalar':True,'vFuncBool':False}
             supplied = cursor.get(key, defaults.get(field))
             if supplied != value:
                 option_changes.append({'field':'options.'+field,'supplied':supplied,'selected':value})
@@ -733,6 +852,7 @@ def select_method(request):
                   'policy_tree':'econml.policy.DRPolicyTree + statsmodels.OLS',
                   'rct':'scipy.stats.permutation_test + statsmodels.OLS',
                   'hdfe':'pyfixest.feols',
+                  'finite_horizon_growth':'scipy.optimize.minimize/SLSQP',
                   'bargaining':'research_markets.bargain','dynamic_game':'equity_io.dynamic_game'}.get(method)
         if engine is None:
             engine = 'research_dynamic.observed_run' if owner.startswith('skills/econ-data/scripts/research_dynamic.py') else 'research_markets.'+method
@@ -766,12 +886,13 @@ def select_method(request):
         'official_output_required':True}
     if method == 'iv_ar_robust':
         inference_contract['confidence_level'] = 1-alpha
-    elif method == 'finite_horizon_choice':
+    elif method == 'finite_horizon_choice' and not respy_simulation:
         inference_contract['procedure'] = ('adopted moment covariance with simulation contribution' if algorithm == 'smm'
             else 'adopted likelihood curvature or refitted sampling procedure')
         inference_contract['parameter_operation'] = 'estimate structural parameters'
-    elif method == 'lifecycle_choice':
-        inference_contract['procedure'] = 'adopted simulation precision and parameter-draw propagation when requested'
+    elif method in ('lifecycle_choice','consumption_saving','finite_horizon_growth') or respy_simulation:
+        inference_contract['procedure'] = ('original Euler/resource residuals at the adopted deterministic numerical tolerance' if method == 'finite_horizon_growth'
+            else 'adopted simulation precision and parameter-draw propagation when requested')
         inference_contract['parameter_operation'] = 'hold fixed or previously estimated parameters'
         inference_contract['interval_type'] = comparison.get('interval_type',comparison.get('ci_kind',
             inherited_inference.get('interval_type',inherited_inference.get('ci_kind'))))
@@ -817,6 +938,12 @@ def select_method(request):
                 'selected':algorithm,'candidate':candidate['method']}
         candidate_comparisons.append(candidate)
     economic_fields = ('actors','objectives','choices','constraints','information','interactions','equilibrium','welfare')
+    if computation is not None:
+        economic_fields = ('actors','objectives','states','choices','constraints','information',
+            'transitions','shocks','discount','horizon','terminal_conditions','observed_data',
+            'identified_parameters','computation_target','equilibrium','welfare')
+        if external_implementation:
+            computation['outputs'] = external_implementation['outputs']
     if not required_inputs:
         required_inputs = ['adopted target/population/period','model-specific columns or saved fitted object','matching inference unit and contrast']
     selection = {'selected_method':method,'estimand':method_quantity,'target':target,
@@ -833,8 +960,10 @@ def select_method(request):
             'population_and_observations':proposed_contract,'identification':{'statement':request['identification'],'conditions':facts,'comparison':comparison},
             'estimator':{'method':method,'weights':proposed_contract.get('weights'),'numerical':numerical,'inference':inference_contract},
             'implementation':{'function':engine,'options':selected_options}},
-        'model_inputs_to_supply':[k for k in economic_fields if economic_model and k not in economic_model],
+        'model_inputs_to_supply':[k for k in economic_fields if (economic_model or computation is not None) and k not in economic_model],
         'adoption_status':'proposal_retaining_adopted_specification' if changes else 'selected_for_requested_target'}
+    if computation is not None:
+        selection['computation'] = computation
     return {'result_format_version':1,'status':'design_change' if changes else 'selected','question':request['question'],
         'estimand':request['estimand'],'identification':request['identification'],
         'method':method,'engine':engine,'entry_point':owner,'determining_conditions':conditions,
