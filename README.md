@@ -23,6 +23,19 @@ make r-install
 
 Notebook では登録済みの Python または R カーネルを選びます。データ用の `data/` は Docker volume に保存され、Git 管理から除外されています。
 
+### 選択した推定器の環境
+
+Pixi と rv はこのプロジェクトの基盤環境を管理します。各研究ランナーが使用する版は、`skills/econ-data/scripts/requirements-*.txt` と `requirements-causal-r.json` が定義します。`research_causal.py select` の選択結果から必要なファイルを特定し、その手法用の環境に復元します。たとえば拡張因果推論は次の Python 環境を使います。
+
+```sh
+python3.12 -m venv outputs/causal-env
+outputs/causal-env/bin/python -m pip install -r skills/econ-data/scripts/requirements-causal.txt
+```
+
+因果推論の pandas 3 と、需要・動学モデルの pandas 2 は別の環境に置きます。R の分析も、選択した requirements の R・パッケージ版に一致する実行環境を指定します。既存 `rv.lock` の `did`・`DRDID` などと手法別の固定版は異なります。
+
+研究 DAG の `runtime.executable` に使用する Python または Rscript を、`runtime.requirements` にその手法の既存 requirements ファイルを指定します。同じファイルをステージの `inputs` に含めます。Python から R を呼ぶ場合は `runtime.companions` に R の定義を置きます。[研究実行ガイド](harness/research.md)の環境照合が、パッケージ版・Git コミット・公式関数の引数を計算前に確認し、requirements の変更を保存結果の再利用条件に反映します。Pixi の NumPy は conda 側の定義で管理します。
+
 ## 研究と執筆
 
 | スキル | 担当する作業 |
@@ -36,7 +49,7 @@ Notebook では登録済みの Python または R カーネルを選びます。
 
 依頼には対象資料、成果物、変更を許す範囲を添えます。[操作一覧](docs/ai/compiled_ai_skills.md)からモードを選び、指定されたスキルと適用規則を読みます。文章・コード・成果物と実操作は [CORE](runtime/CORE.md) と [PROSE](runtime/PROSE.md) に沿って一体でレビューします。
 
-条件付きの [econ-knowledge](skills/econ-knowledge/SKILL.md) は知識ライブラリ 2.3 の 250 ID を提供します。概念や JEL 分類から候補を探し、選択した項目とその前提を読みます。`project-work:contribute` と `project-work:manage` は、研究上の判断、作業、資源、成果を専門スキルと状態管理に接続します。
+条件付きの [econ-knowledge](skills/econ-knowledge/SKILL.md) は、[知識カタログ](skills/econ-knowledge/references/catalog.json)の概念・型付き関係・モデル契約を提供します。概念や JEL 分類から候補を探し、選択した項目とその前提を読みます。`project-work:contribute` と `project-work:manage` は、研究上の判断、作業、資源、成果を専門スキルと状態管理に接続します。
 
 [研究実行ガイド](harness/research.md)は、因果推論、需要・供給、動学選択・ゲーム、市場設計、一般均衡、異質主体と数値計算の仕様・実行入口を示します。保存した結果から表・図・本文・スライドと再現パッケージを生成します。文献コーパスは複数の命題と原文位置を保持し、設計・計算・執筆・査読に渡します。
 
