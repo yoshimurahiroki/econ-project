@@ -1,5 +1,5 @@
 % !TEX program = lualatex
-\documentclass[unicode, mathserif, m, $if(fontsize)$$fontsize$$else$12pt$endif$, unknownkeysallowed$if(aspectratio)$,aspectratio=$aspectratio$$endif$]{beamer}
+\documentclass[unicode, mathserif, m, $if(fontsize)$$fontsize$$else$12pt$endif$, unknownkeysallowed$if(babel-lang)$,$babel-lang$$endif$$if(aspectratio)$,aspectratio=$aspectratio$$endif$]{beamer}
 %\includeonlyframes{current}
 
 \usepackage{color}

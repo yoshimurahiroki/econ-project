@@ -65,13 +65,13 @@
       "resource_id": "design-methods",
       "source_path": "skills/econ-design/references/designs.md",
       "resource_kind": "rule",
-      "content_version": "0.53.2"
+      "content_version": "0.54.0"
     },
     "data-implementation": {
       "resource_id": "data-implementation",
       "source_path": "skills/econ-data/references/implementation.md",
       "resource_kind": "rule",
-      "content_version": "0.53.2"
+      "content_version": "0.54.0"
     },
     "data-results": {
       "resource_id": "data-results",
@@ -358,7 +358,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.53.2"
+      "content_version": "0.54.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -701,7 +701,7 @@
       "resource_id": "research-evidence-tests",
       "source_path": "harness/test_research_evidence.py",
       "resource_kind": "support",
-      "content_version": "0.48.0",
+      "content_version": "0.54.0",
       "required_resources": [
         "research-evidence"
       ],
@@ -728,7 +728,7 @@
       "resource_id": "research-causal",
       "source_path": "skills/econ-data/scripts/research_causal.py",
       "resource_kind": "support",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "required_resources": [
         "research-causal-dependencies",
         "research-causal-r-dependencies"
@@ -738,7 +738,7 @@
       "resource_id": "models-causal",
       "source_path": "skills/econ-design/references/causal-models.md",
       "resource_kind": "rule",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "required_resources": [
         "research-causal"
       ]
@@ -909,7 +909,7 @@
       "resource_id": "research-data",
       "source_path": "skills/econ-data/scripts/research_data.py",
       "resource_kind": "support",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "required_resources": [
         "research-sources",
         "research-estimator",
@@ -921,7 +921,7 @@
       "resource_id": "research-data-guide",
       "source_path": "skills/econ-data/references/research-data.md",
       "resource_kind": "rule",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "required_resources": [
         "research-data"
       ]
@@ -930,7 +930,7 @@
       "resource_id": "research-artifacts",
       "source_path": "harness/research_artifacts.py",
       "resource_kind": "support",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "required_resources": [
         "research-evidence",
         "team-state-helper",
@@ -945,7 +945,7 @@
       "resource_id": "result-artifacts",
       "source_path": "skills/econ-writing/references/result-artifacts.md",
       "resource_kind": "rule",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "required_resources": [
         "research-artifacts",
         "research-runner",
@@ -970,7 +970,7 @@
       "resource_id": "research-causal-r-dependencies",
       "source_path": "skills/econ-data/scripts/requirements-causal-r.json",
       "resource_kind": "support",
-      "content_version": "0.53.2"
+      "content_version": "0.54.0"
     },
     "econ-knowledge": {
       "resource_id": "econ-knowledge",
@@ -1294,7 +1294,7 @@
       "resource_id": "latex-slides-pandoc",
       "source_path": "tex/slides/pandoc_template.latex",
       "resource_kind": "support",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "required_resources": [
         "latex-slides-template"
       ]
@@ -1399,7 +1399,7 @@
       "resource_id": "research-gallery",
       "source_path": "harness/research_gallery.py",
       "resource_kind": "support",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "required_resources": [
         "research-artifacts",
         "research-meetings",
@@ -1410,7 +1410,7 @@
       "resource_id": "research-meetings",
       "source_path": "harness/research_meetings.py",
       "resource_kind": "support",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "required_resources": [
         "meeting-quarto-template",
         "meeting-templates",
@@ -1422,7 +1422,7 @@
       "resource_id": "meeting-materials",
       "source_path": "harness/meetings.md",
       "resource_kind": "rule",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "required_resources": [
         "research-meetings",
         "research-gallery"
@@ -1438,13 +1438,13 @@
       "resource_id": "meeting-templates",
       "source_path": "tex/slides/meeting_templates.json",
       "resource_kind": "support",
-      "content_version": "0.53.2"
+      "content_version": "0.54.0"
     },
     "meeting-cloud-workflow": {
       "resource_id": "meeting-cloud-workflow",
       "source_path": ".github/workflows/meetings.yml",
       "resource_kind": "maintenance",
-      "content_version": "0.53.2",
+      "content_version": "0.54.0",
       "source_distribution_only": true
     },
     "research-task-form": {

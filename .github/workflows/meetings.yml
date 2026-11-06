@@ -114,7 +114,7 @@ jobs:
           tinytex: ${{ matrix.format == 'pdf' }}
       - name: Install the selected PDF template dependencies
         if: matrix.format == 'pdf'
-        run: tlmgr install beamertheme-metropolis appendixnumberbeamer luatexja haranoaji lmodern needspace comment natbib booktabs footnotehyper selnolig
+        run: tlmgr install beamer beamertheme-metropolis appendixnumberbeamer luatexja haranoaji lm fira caption needspace comment natbib booktabs footnotehyper selnolig
       - name: Render saved text, tables and figures
         env:
           MEETING_BUNDLE: ${{ matrix.bundle }}
