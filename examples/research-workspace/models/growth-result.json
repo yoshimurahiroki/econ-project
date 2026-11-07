@@ -1,0 +1,1609 @@
+{
+  "model": "finite-horizon deterministic household growth",
+  "engine": "scipy.optimize.minimize/SLSQP",
+  "versions": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0"
+  },
+  "definition": {
+    "population": "one representative household",
+    "period": "20 model periods",
+    "unit": "goods",
+    "sources": [
+      {
+        "description": "Synthetic log-utility Cobb-Douglas growth calculation in STRUCT-06"
+      }
+    ],
+    "terminal_condition": "fixed terminal capital; no continuation utility",
+    "tax": "output tax funds government absorption and leaves household resources"
+  },
+  "baseline": {
+    "capital": [
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171,
+      4.43383571372171
+    ],
+    "consumption": [
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287,
+      1.2799901484663287
+    ],
+    "output": [
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657,
+      1.6346970055640657
+    ],
+    "government_absorption": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "welfare": 3.4435757001844176,
+    "steady_state_at_first_period_productivity_and_tax": 4.43383571372171,
+    "euler_max_abs_error": 0.0,
+    "resource_max_abs_error": 0.0,
+    "objective_gradient_max_abs_error": 4.006354839346775e-11,
+    "resource_jacobian_max_abs_error": 8.925304939566558e-12,
+    "derivative_tolerance": 0.0001,
+    "optimizer_iterations": 1
+  },
+  "scenario": {
+    "capital": [
+      4.43383571372171,
+      4.388483483228041,
+      4.347808096879595,
+      4.311049588756146,
+      4.277512527571623,
+      4.24655087580262,
+      4.217553883871439,
+      4.189931715800606,
+      4.163101606273705,
+      4.1364733608726425,
+      4.109434557178685,
+      4.15358420788474,
+      4.193454685606538,
+      4.229730747062969,
+      4.263052702783451,
+      4.294026571756115,
+      4.323235526588103,
+      4.351248377008108,
+      4.378632788086045,
+      4.405963509126929,
+      4.43383571372171
+    ],
+    "consumption": [
+      1.2436075286817951,
+      1.2372988358967962,
+      1.2318873194135662,
+      1.227289490233761,
+      1.2234367540503142,
+      1.220274346040716,
+      1.217761462581759,
+      1.215870457827898,
+      1.2145871379303212,
+      1.2139105666105623,
+      1.2213149587580787,
+      1.2276940043262847,
+      1.233150401411745,
+      1.237770742107415,
+      1.2416263015530644,
+      1.2447729073764933,
+      1.2472549218373903,
+      1.2491012405929371,
+      1.2503310966554135,
+      1.25094943558216
+    ],
+    "output": [
+      1.6346970055640657,
+      1.6291601349543088,
+      1.624161535832089,
+      1.619617259104979,
+      1.6154485310389908,
+      1.6115804464986785,
+      1.607940637074359,
+      1.6044577742789952,
+      1.601060022138058,
+      1.5976732966172793,
+      1.5942193740384283,
+      1.5998512186788616,
+      1.604902837716699,
+      1.6094711575929346,
+      1.6136443867484045,
+      1.6175039879489705,
+      1.6211266143844432,
+      1.6245855218315226,
+      1.6279524407431816,
+      1.631298720907096
+    ],
+    "government_absorption": [
+      0.08173485027820329,
+      0.08145800674771544,
+      0.08120807679160447,
+      0.08098086295524895,
+      0.08077242655194955,
+      0.08057902232493393,
+      0.08039703185371795,
+      0.08022288871394977,
+      0.0800530011069029,
+      0.07988366483086397,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "welfare": 2.8999705698212916,
+    "steady_state_at_first_period_productivity_and_tax": 4.107061885758157,
+    "euler_max_abs_error": 3.1359950825038396e-07,
+    "resource_max_abs_error": 0.0,
+    "objective_gradient_max_abs_error": 4.347989845677215e-11,
+    "resource_jacobian_max_abs_error": 1.8263168755083825e-11,
+    "derivative_tolerance": 0.0001,
+    "optimizer_iterations": 27
+  },
+  "welfare_change": -0.543605130363126,
+  "statistics": {
+    "welfare_change": {
+      "value": -0.543605130363126,
+      "unit": "discounted log consumption"
+    }
+  },
+  "displays": {
+    "parameters": {
+      "kind": "table",
+      "title": "Preferences, technology and endpoints",
+      "columns": [
+        {
+          "key": "parameter",
+          "label": "Parameter",
+          "unit": ""
+        },
+        {
+          "key": "value",
+          "label": "Specified value",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "Unit",
+          "unit": ""
+        }
+      ],
+      "rows": [
+        {
+          "parameter": "alpha",
+          "value": 0.33,
+          "unit": "capital elasticity"
+        },
+        {
+          "parameter": "beta",
+          "value": 0.96,
+          "unit": "discount factor"
+        },
+        {
+          "parameter": "delta",
+          "value": 0.08,
+          "unit": "depreciation rate"
+        },
+        {
+          "parameter": "initial_capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "parameter": "terminal_capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        }
+      ],
+      "metadata": {
+        "model_contract": "MC-ramsey-cf",
+        "population": "one representative household",
+        "period": "20 model periods",
+        "terminal_condition": "fixed terminal capital; no continuation utility",
+        "report_role": "parameters",
+        "parameter_status": "specified",
+        "unit": "see row-specific unit"
+      },
+      "display": {
+        "plot_type": "table"
+      }
+    },
+    "model_fit": {
+      "kind": "table",
+      "title": "Euler and resource diagnostics",
+      "rows": [
+        {
+          "scenario": "baseline",
+          "diagnostic": "euler_max_abs_error",
+          "value": 0.0,
+          "unit": "inverse consumption"
+        },
+        {
+          "scenario": "baseline",
+          "diagnostic": "resource_max_abs_error",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "diagnostic": "objective_gradient_max_abs_error",
+          "value": 4.006354839346775e-11,
+          "unit": "utility per capital unit"
+        },
+        {
+          "scenario": "baseline",
+          "diagnostic": "resource_jacobian_max_abs_error",
+          "value": 8.925304939566558e-12,
+          "unit": "resource per capital unit"
+        },
+        {
+          "scenario": "scenario",
+          "diagnostic": "euler_max_abs_error",
+          "value": 3.1359950825038396e-07,
+          "unit": "inverse consumption"
+        },
+        {
+          "scenario": "scenario",
+          "diagnostic": "resource_max_abs_error",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "diagnostic": "objective_gradient_max_abs_error",
+          "value": 4.347989845677215e-11,
+          "unit": "utility per capital unit"
+        },
+        {
+          "scenario": "scenario",
+          "diagnostic": "resource_jacobian_max_abs_error",
+          "value": 1.8263168755083825e-11,
+          "unit": "resource per capital unit"
+        }
+      ],
+      "columns": [
+        {
+          "key": "scenario",
+          "label": "Scenario",
+          "unit": ""
+        },
+        {
+          "key": "diagnostic",
+          "label": "Diagnostic",
+          "unit": ""
+        },
+        {
+          "key": "value",
+          "label": "Value",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "Unit",
+          "unit": ""
+        }
+      ],
+      "metadata": {
+        "model_contract": "MC-ramsey-cf",
+        "population": "one representative household",
+        "period": "20 model periods",
+        "terminal_condition": "fixed terminal capital; no continuation utility",
+        "report_role": "model_fit",
+        "unit": "see row-specific unit"
+      },
+      "display": {
+        "plot_type": "table"
+      }
+    },
+    "allocation_paths": {
+      "kind": "structural",
+      "title": "Household growth paths",
+      "rows": [
+        {
+          "scenario": "baseline",
+          "period": 0,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 1,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 2,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 3,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 4,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 5,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 6,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 7,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 8,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 9,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 10,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 11,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 12,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 13,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 14,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 15,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 16,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 17,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 18,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 19,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 20,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 0,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 1,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 2,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 3,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 4,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 5,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 6,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 7,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 8,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 9,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 10,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 11,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 12,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 13,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 14,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 15,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 16,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 17,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 18,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 19,
+          "quantity": "consumption",
+          "value": 1.2799901484663287,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 0,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 1,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 2,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 3,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 4,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 5,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 6,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 7,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 8,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 9,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 10,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 11,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 12,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 13,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 14,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 15,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 16,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 17,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 18,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 19,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 0,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 1,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 2,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 3,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 4,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 5,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 6,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 7,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 8,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 9,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 10,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 11,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 12,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 13,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 14,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 15,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 16,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 17,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 18,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "baseline",
+          "period": 19,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 0,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 1,
+          "quantity": "capital",
+          "value": 4.388483483228041,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 2,
+          "quantity": "capital",
+          "value": 4.347808096879595,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 3,
+          "quantity": "capital",
+          "value": 4.311049588756146,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 4,
+          "quantity": "capital",
+          "value": 4.277512527571623,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 5,
+          "quantity": "capital",
+          "value": 4.24655087580262,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 6,
+          "quantity": "capital",
+          "value": 4.217553883871439,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 7,
+          "quantity": "capital",
+          "value": 4.189931715800606,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 8,
+          "quantity": "capital",
+          "value": 4.163101606273705,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 9,
+          "quantity": "capital",
+          "value": 4.1364733608726425,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 10,
+          "quantity": "capital",
+          "value": 4.109434557178685,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 11,
+          "quantity": "capital",
+          "value": 4.15358420788474,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 12,
+          "quantity": "capital",
+          "value": 4.193454685606538,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 13,
+          "quantity": "capital",
+          "value": 4.229730747062969,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 14,
+          "quantity": "capital",
+          "value": 4.263052702783451,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 15,
+          "quantity": "capital",
+          "value": 4.294026571756115,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 16,
+          "quantity": "capital",
+          "value": 4.323235526588103,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 17,
+          "quantity": "capital",
+          "value": 4.351248377008108,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 18,
+          "quantity": "capital",
+          "value": 4.378632788086045,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 19,
+          "quantity": "capital",
+          "value": 4.405963509126929,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 20,
+          "quantity": "capital",
+          "value": 4.43383571372171,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 0,
+          "quantity": "consumption",
+          "value": 1.2436075286817951,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 1,
+          "quantity": "consumption",
+          "value": 1.2372988358967962,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 2,
+          "quantity": "consumption",
+          "value": 1.2318873194135662,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 3,
+          "quantity": "consumption",
+          "value": 1.227289490233761,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 4,
+          "quantity": "consumption",
+          "value": 1.2234367540503142,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 5,
+          "quantity": "consumption",
+          "value": 1.220274346040716,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 6,
+          "quantity": "consumption",
+          "value": 1.217761462581759,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 7,
+          "quantity": "consumption",
+          "value": 1.215870457827898,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 8,
+          "quantity": "consumption",
+          "value": 1.2145871379303212,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 9,
+          "quantity": "consumption",
+          "value": 1.2139105666105623,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 10,
+          "quantity": "consumption",
+          "value": 1.2213149587580787,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 11,
+          "quantity": "consumption",
+          "value": 1.2276940043262847,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 12,
+          "quantity": "consumption",
+          "value": 1.233150401411745,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 13,
+          "quantity": "consumption",
+          "value": 1.237770742107415,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 14,
+          "quantity": "consumption",
+          "value": 1.2416263015530644,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 15,
+          "quantity": "consumption",
+          "value": 1.2447729073764933,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 16,
+          "quantity": "consumption",
+          "value": 1.2472549218373903,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 17,
+          "quantity": "consumption",
+          "value": 1.2491012405929371,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 18,
+          "quantity": "consumption",
+          "value": 1.2503310966554135,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 19,
+          "quantity": "consumption",
+          "value": 1.25094943558216,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 0,
+          "quantity": "output",
+          "value": 1.6346970055640657,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 1,
+          "quantity": "output",
+          "value": 1.6291601349543088,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 2,
+          "quantity": "output",
+          "value": 1.624161535832089,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 3,
+          "quantity": "output",
+          "value": 1.619617259104979,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 4,
+          "quantity": "output",
+          "value": 1.6154485310389908,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 5,
+          "quantity": "output",
+          "value": 1.6115804464986785,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 6,
+          "quantity": "output",
+          "value": 1.607940637074359,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 7,
+          "quantity": "output",
+          "value": 1.6044577742789952,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 8,
+          "quantity": "output",
+          "value": 1.601060022138058,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 9,
+          "quantity": "output",
+          "value": 1.5976732966172793,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 10,
+          "quantity": "output",
+          "value": 1.5942193740384283,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 11,
+          "quantity": "output",
+          "value": 1.5998512186788616,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 12,
+          "quantity": "output",
+          "value": 1.604902837716699,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 13,
+          "quantity": "output",
+          "value": 1.6094711575929346,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 14,
+          "quantity": "output",
+          "value": 1.6136443867484045,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 15,
+          "quantity": "output",
+          "value": 1.6175039879489705,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 16,
+          "quantity": "output",
+          "value": 1.6211266143844432,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 17,
+          "quantity": "output",
+          "value": 1.6245855218315226,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 18,
+          "quantity": "output",
+          "value": 1.6279524407431816,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 19,
+          "quantity": "output",
+          "value": 1.631298720907096,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 0,
+          "quantity": "government_absorption",
+          "value": 0.08173485027820329,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 1,
+          "quantity": "government_absorption",
+          "value": 0.08145800674771544,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 2,
+          "quantity": "government_absorption",
+          "value": 0.08120807679160447,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 3,
+          "quantity": "government_absorption",
+          "value": 0.08098086295524895,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 4,
+          "quantity": "government_absorption",
+          "value": 0.08077242655194955,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 5,
+          "quantity": "government_absorption",
+          "value": 0.08057902232493393,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 6,
+          "quantity": "government_absorption",
+          "value": 0.08039703185371795,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 7,
+          "quantity": "government_absorption",
+          "value": 0.08022288871394977,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 8,
+          "quantity": "government_absorption",
+          "value": 0.0800530011069029,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 9,
+          "quantity": "government_absorption",
+          "value": 0.07988366483086397,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 10,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 11,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 12,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 13,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 14,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 15,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 16,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 17,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 18,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        },
+        {
+          "scenario": "scenario",
+          "period": 19,
+          "quantity": "government_absorption",
+          "value": 0.0,
+          "unit": "goods"
+        }
+      ],
+      "columns": [
+        {
+          "key": "scenario",
+          "label": "Scenario",
+          "unit": ""
+        },
+        {
+          "key": "period",
+          "label": "Period",
+          "unit": ""
+        },
+        {
+          "key": "quantity",
+          "label": "Quantity",
+          "unit": ""
+        },
+        {
+          "key": "value",
+          "label": "Value",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "Unit",
+          "unit": ""
+        }
+      ],
+      "metadata": {
+        "model_contract": "MC-ramsey-cf",
+        "population": "one representative household",
+        "period": "20 model periods",
+        "terminal_condition": "fixed terminal capital; no continuation utility",
+        "report_role": "counterfactual",
+        "time_definition": "Capital is the start-of-period stock, including the terminal endpoint; other quantities are period flows",
+        "unit": "see row-specific unit"
+      },
+      "display": {
+        "plot_type": "line",
+        "x": "period",
+        "y": "value",
+        "series": "scenario",
+        "facet": "quantity"
+      }
+    },
+    "welfare": {
+      "kind": "counterfactual",
+      "title": "Discounted household welfare",
+      "columns": [
+        {
+          "key": "scenario",
+          "label": "Scenario",
+          "unit": ""
+        },
+        {
+          "key": "value",
+          "label": "Welfare",
+          "unit": ""
+        },
+        {
+          "key": "unit",
+          "label": "Unit",
+          "unit": ""
+        }
+      ],
+      "rows": [
+        {
+          "scenario": "baseline",
+          "value": 3.4435757001844176,
+          "unit": "discounted log consumption"
+        },
+        {
+          "scenario": "scenario",
+          "value": 2.8999705698212916,
+          "unit": "discounted log consumption"
+        }
+      ],
+      "metadata": {
+        "model_contract": "MC-ramsey-cf",
+        "population": "one representative household",
+        "period": "20 model periods",
+        "terminal_condition": "fixed terminal capital; no continuation utility",
+        "report_role": "welfare",
+        "estimand": "Sum of beta^t log(c_t) over the stated horizon",
+        "unit": "discounted log consumption"
+      },
+      "display": {
+        "plot_type": "bar",
+        "x": "scenario",
+        "y": "value"
+      }
+    }
+  },
+  "input": {
+    "spec_path": "/workspace/scratch/1bfbc6aea0af/model-examples/growth-spec.json",
+    "spec_sha256": "6ab1f0c1cd1ff412de9ea7218cddca58e7b41dc4e58a8838d94739c69261823d"
+  }
+}

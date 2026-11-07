@@ -558,7 +558,7 @@ def _render_repository_inputs(source, inputs, entries=None, *, write_manifest=Tr
         policy.select_manifest(catalog, assets, operation['canonical_operation'])
     if write_manifest:
         replace(manifest_path, (json.dumps(catalog, ensure_ascii=False, indent=2) + '\n').encode('utf-8'))
-    contents = {path: state['data'].decode('utf-8') for path, state in rendered.items() if state['data'] is not None}
+    contents = {path: state['data'] for path, state in rendered.items() if state['data'] is not None}
     # Validate every entry link against the same candidate bytes to be published.
     # Other documents can include optional source-distribution links outside scope.
     from export_project import rewrite_markdown, markdown_sections
@@ -571,10 +571,10 @@ def _render_repository_inputs(source, inputs, entries=None, *, write_manifest=Tr
             target = Path(os.path.normpath(str(Path(path).parent / unquote(parsed.path)))).as_posix() if parsed.path else path
             if target not in contents:
                 raise ValueError('Missing synchronized entry dependency: ' + path + ': ' + link)
-            if parsed.fragment and parsed.fragment not in {h['id'] for h in markdown_sections(contents[target])[1]}:
+            if parsed.fragment and parsed.fragment not in {h['id'] for h in markdown_sections(contents[target].decode('utf-8'))[1]}:
                 raise ValueError('Missing synchronized entry section: ' + path + ': ' + link)
             return link
-        rewrite_markdown(contents[path], check)
+        rewrite_markdown(contents[path].decode('utf-8'), check)
     return rendered
 
 

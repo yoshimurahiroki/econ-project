@@ -1,0 +1,31 @@
+{
+  "assignment": "independent excluded normal cost shifter",
+  "data": "weak-iv.csv",
+  "endogenous": [
+    "d"
+  ],
+  "estimand": "Anderson-Rubin confidence set for the linear structural investment coefficient",
+  "id": "id",
+  "identification": "E[Z u|X]=0, common linear investment coefficient and independent firms with heteroskedastic errors",
+  "inference": {
+    "type": "official"
+  },
+  "instruments": [
+    "z"
+  ],
+  "method": "iv_ar_robust",
+  "options": {
+    "args": {
+      "CI": true,
+      "alpha": 0.050000000000000044,
+      "prec": 12
+    }
+  },
+  "outcome": "y",
+  "period": "one simulated choice occasion",
+  "population": "1000 simulated firms",
+  "regressors": [
+    "x"
+  ],
+  "unit": "output units per investment unit"
+}

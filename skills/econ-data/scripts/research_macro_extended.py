@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Overlapping generations macro model: run SPEC --output FILE or case --output NEWDIR."""
+"""Macro equilibria: run SPEC --output FILE or case --model olg|aiyagari --output NEWDIR."""
 import argparse
 import csv
 import io
@@ -13,7 +13,7 @@ import tempfile
 
 import numpy as np
 import scipy
-from scipy.optimize import least_squares
+from scipy.optimize import brentq, least_squares
 from importlib.metadata import version
 
 
@@ -130,6 +130,11 @@ def publish_observed_case(output, generator, runner):
 
 
 def solve(spec, base_dir=Path.cwd()):
+    model = spec.get('model', 'olg')
+    if model == 'aiyagari':
+        return solve_aiyagari(spec)
+    if model != 'olg':
+        raise ValueError('model must be olg or aiyagari')
     p = spec['parameters']
     alpha, beta, delta = (float(p[k]) for k in ('alpha','beta','delta'))
     shares = np.asarray(p['household_weights'], dtype=float)
@@ -264,6 +269,231 @@ def solve(spec, base_dir=Path.cwd()):
         'provenance':{'python':sys.version.split()[0],'numpy':np.__version__,'scipy':scipy.__version__, 'sequence_jacobian':version('sequence-jacobian'), 'HARK':version('econ-ark')}}
 
 
+def solve_aiyagari(spec):
+    """Solve finite-grid household choices and their stationary capital market."""
+    from quantecon import MarkovChain
+    from quantecon.markov import DiscreteDP
+    from scipy.sparse import csr_matrix
+
+    p, options = spec['parameters'], spec['solver']
+    alpha, beta, delta, crra = (float(p[key]) for key in ('alpha', 'beta', 'delta', 'crra'))
+    if not (0 < alpha < 1 and 0 < beta < 1 and 0 <= delta < 1 and np.isfinite(crra) and crra > 0):
+        raise ValueError('Aiyagari requires alpha and beta in (0,1), delta in [0,1), and positive finite crra')
+    assets = np.asarray(p['asset_grid'], dtype=float)
+    income = np.asarray(p['income_states'], dtype=float)
+    transition = np.asarray(p['income_transition'], dtype=float)
+    if (assets.ndim != 1 or len(assets) < 3 or not np.isfinite(assets).all() or
+            np.any(np.diff(assets) <= 0) or assets[-1] <= 0):
+        raise ValueError('asset_grid requires at least three finite increasing points and a positive maximum')
+    if income.ndim != 1 or len(income) < 2 or not np.isfinite(income).all() or np.any(income <= 0):
+        raise ValueError('income_states requires at least two positive finite labor efficiencies')
+    if (transition.shape != (len(income), len(income)) or not np.isfinite(transition).all() or
+            np.any(transition < 0) or np.max(np.abs(transition.sum(axis=1)-1)) > 1e-12):
+        raise ValueError('income_transition must be a finite nonnegative row-stochastic matrix')
+    income_chain = MarkovChain(transition)
+    if not income_chain.is_irreducible:
+        raise ValueError('income_transition must be irreducible')
+    income_distribution = income_chain.stationary_distributions[0]
+    labor = float(income_distribution @ income)
+    bracket = np.asarray(options['capital_bracket'], dtype=float)
+    if bracket.shape != (2,) or not np.isfinite(bracket).all() or not 0 < bracket[0] < bracket[1]:
+        raise ValueError('capital_bracket requires two increasing positive finite values')
+    tolerance_names = ('capital_tolerance', 'bellman_tolerance', 'distribution_tolerance', 'resource_tolerance')
+    tolerances = {key: float(options[key]) for key in tolerance_names}
+    if not all(np.isfinite(value) and value > 0 for value in tolerances.values()):
+        raise ValueError('solver tolerances must be positive and finite')
+    max_iterations = options['max_iterations']
+    if isinstance(max_iterations, bool) or not isinstance(max_iterations, int) or max_iterations < 2:
+        raise ValueError('max_iterations must be an integer of at least two')
+    if not isinstance(spec['calibration_source'], str) or not spec['calibration_source'].strip():
+        raise ValueError('calibration_source must identify the supplied calibrated primitives')
+    na, nz = len(assets), len(income)
+    state_assets = np.repeat(assets, nz)
+    state_income = np.tile(np.arange(nz), na)
+    nstates = na*nz
+    equations = {
+        'utility': 'log(c)' if crra == 1 else 'c**(1-crra)/(1-crra)',
+        'budget': 'c(a,z) + g(a,z) = w*z + (1+r)*a; c>0; g in asset_grid',
+        'bellman': 'V(a,z) = max_a_prime {u(w*z+(1+r)*a-a_prime) + beta*sum_z_prime P[z,z_prime]*V(a_prime,z_prime)}',
+        'distribution': 'mu(a_prime,z_prime) = sum_a,z mu(a,z)*1[g(a,z)=a_prime]*P[z,z_prime]',
+        'firm': 'Y=A*K**alpha*L**(1-alpha); r=alpha*Y/K-delta; w=(1-alpha)*Y/L',
+        'capital_market': 'K = sum_a,z mu(a,z)*a',
+        'resource': 'Y = C + delta*K',
+        'welfare': 'sum_a,z mu(a,z)*V(a,z), using each scenario stationary distribution',
+    }
+
+    def equilibrium(productivity):
+        if not np.isfinite(productivity) or productivity <= 0:
+            raise ValueError('scenario productivity must be positive and finite')
+        evaluations = []
+
+        def household(capital):
+            output = productivity*capital**alpha*labor**(1-alpha)
+            rate = alpha*output/capital-delta
+            wage = (1-alpha)*output/labor
+            consumption = wage*income[state_income, None] + (1+rate)*state_assets[:, None] - assets[None, :]
+            feasible = consumption > 0
+            if not feasible.any(axis=1).all():
+                raise ValueError(f'positive consumption is infeasible in a household state at capital {capital}')
+            state_indices, action_indices = np.nonzero(feasible)
+            flow = np.full(consumption.shape, -np.inf)
+            positive = consumption[feasible]
+            flow[feasible] = np.log(positive) if crra == 1 else positive**(1-crra)/(1-crra)
+            if not np.isfinite(flow[feasible]).all():
+                raise ArithmeticError('household utility is nonfinite at the supplied calibration')
+            rows = np.repeat(np.arange(len(state_indices)), nz)
+            columns = (action_indices[:, None]*nz + np.arange(nz)).ravel()
+            probabilities = transition[state_income[state_indices]].ravel()
+            kernel = csr_matrix((probabilities, (rows, columns)), shape=(len(state_indices), nstates))
+            problem = DiscreteDP(flow[feasible], kernel, beta, state_indices, action_indices)
+            fitted = problem.solve(method='policy_iteration', max_iter=max_iterations)
+            value, policy = fitted.v, fitted.sigma
+            expected_value = value.reshape(na, nz) @ transition.T
+            objective = flow + beta*expected_value[:, state_income].T
+            bellman = float(np.max(np.abs(value-objective.max(axis=1))))
+            chosen = objective[np.arange(nstates), policy]
+            policy_residual = float(np.max(np.abs(value-chosen)))
+            if not np.isfinite(value).all() or max(bellman, policy_residual) > tolerances['bellman_tolerance']:
+                raise ArithmeticError(f'household Bellman residual {bellman}, policy residual {policy_residual}')
+            stationary = fitted.mc.stationary_distributions
+            if len(stationary) != 1:
+                raise ArithmeticError(f'household policy induces {len(stationary)} recurrent classes; a unique stationary distribution is required')
+            distribution = stationary[0]
+            propagated = np.zeros(nstates)
+            next_states = policy[:, None]*nz+np.arange(nz)
+            np.add.at(propagated, next_states.ravel(), (distribution[:, None]*transition[state_income]).ravel())
+            stationarity = float(np.max(np.abs(propagated-distribution)))
+            mass = float(abs(distribution.sum()-1))
+            income_residual = float(np.max(np.abs(distribution.reshape(na, nz).sum(axis=0)-income_distribution)))
+            if (not np.isfinite(distribution).all() or distribution.min() < 0 or
+                    max(stationarity, mass, income_residual) > tolerances['distribution_tolerance']):
+                raise ArithmeticError(f'stationary distribution residual {stationarity}, mass residual {mass}, income marginal residual {income_residual}')
+            chosen_consumption = consumption[np.arange(nstates), policy]
+            capital_supply = float(distribution @ state_assets)
+            aggregate_consumption = float(distribution @ chosen_consumption)
+            aggregate_flow = float(distribution @ flow[np.arange(nstates), policy])
+            welfare = float(distribution @ value)
+            diagnostics = {'bellman_max_residual': bellman, 'policy_value_max_residual': policy_residual,
+                'stationarity_max_residual': stationarity, 'mass_residual': mass,
+                'income_marginal_max_residual': income_residual,
+                'household_budget_max_residual': float(np.max(np.abs(chosen_consumption + assets[policy] -
+                    wage*income[state_income] - (1+rate)*state_assets))),
+                'capital_market_residual': float(capital-capital_supply),
+                'resource_residual': float(output-aggregate_consumption-delta*capital),
+                'minimum_consumption': float(chosen_consumption.min()),
+                'upper_grid_mass': float(distribution.reshape(na, nz)[-1].sum()),
+                'lower_grid_mass': float(distribution.reshape(na, nz)[0].sum()),
+                'stationary_welfare_identity_residual': float(abs(welfare-aggregate_flow/(1-beta)))}
+            result = {'productivity': productivity, 'capital': float(capital), 'capital_supply': capital_supply,
+                'labor': labor, 'output': float(output), 'consumption': aggregate_consumption,
+                'investment': float(delta*capital), 'interest_rate': float(rate), 'wage': float(wage),
+                'policy_indices': policy.reshape(na, nz).tolist(), 'asset_policy': assets[policy].reshape(na, nz).tolist(),
+                'consumption_policy': chosen_consumption.reshape(na, nz).tolist(),
+                'value': value.reshape(na, nz).tolist(), 'distribution': distribution.reshape(na, nz).tolist(),
+                'stationary_mean_value': welfare, 'stationary_mean_flow_utility': aggregate_flow,
+                'diagnostics': diagnostics, 'policy_iterations': int(fitted.num_iter),
+                'stationary_recurrent_classes': len(stationary)}
+            evaluations.append({'capital': float(capital), 'capital_supply': capital_supply,
+                                'capital_market_residual': diagnostics['capital_market_residual']})
+            return result
+
+        candidates = {}
+
+        def clearing(capital):
+            if capital not in candidates:
+                candidates[capital] = household(capital)
+            return candidates[capital]['diagnostics']['capital_market_residual']
+
+        # The finite-grid supply curve has jumps; acceptance uses its actual market residual.
+        endpoint_residuals = [clearing(float(capital)) for capital in bracket]
+        if 0. in endpoint_residuals:
+            root = float(bracket[endpoint_residuals.index(0.)])
+            converged, termination, iterations = True, 'exact equilibrium at bracket endpoint', 0
+        else:
+            root, solved = brentq(clearing, *bracket, xtol=1e-12, rtol=1e-12,
+                                  maxiter=max_iterations, full_output=True, disp=False)
+            converged, termination, iterations = bool(solved.converged), solved.flag, int(solved.iterations)
+        clearing(root)
+        result = min(candidates.values(), key=lambda row: abs(row['diagnostics']['capital_market_residual']))
+        diagnostic = result['diagnostics']
+        if (not converged or abs(diagnostic['capital_market_residual']) > tolerances['capital_tolerance'] or
+                abs(diagnostic['resource_residual']) > tolerances['resource_tolerance']):
+            raise ArithmeticError(f'Aiyagari equilibrium failed: capital residual {diagnostic["capital_market_residual"]}, resource residual {diagnostic["resource_residual"]}, root termination {termination}')
+        result['market_solver'] = {'method': 'scipy.optimize.brentq', 'converged': converged,
+            'termination': termination, 'iterations': iterations, 'evaluations': evaluations,
+            'returned_root': float(root), 'selected_capital': result['capital'], 'xtol': 1e-12, 'rtol': 1e-12}
+        return result
+
+    baseline = equilibrium(float(spec['baseline']['productivity']))
+    scenario = equilibrium(float(spec['scenario']['productivity']))
+    if crra == 1:
+        equivalent = np.expm1((1-beta)*(scenario['stationary_mean_value']-baseline['stationary_mean_value']))
+    else:
+        equivalent = (scenario['stationary_mean_value']/baseline['stationary_mean_value'])**(1/(1-crra))-1
+    equilibrium_rows, policy_rows, distribution_rows, welfare_rows, diagnostic_rows = [], [], [], [], []
+    aggregate_units = {'capital': 'goods per household', 'capital_supply': 'goods per household',
+        'output': 'goods per household per period', 'consumption': 'goods per household per period',
+        'investment': 'goods per household per period', 'interest_rate': 'net return per period',
+        'wage': 'goods per efficiency unit of labor'}
+    for name, solution in (('baseline', baseline), ('scenario', scenario)):
+        equilibrium_rows.extend({'scenario': name, 'statistic': key, 'value': solution[key], 'unit': unit}
+                                for key, unit in aggregate_units.items())
+        welfare_rows.append({'scenario': name, 'statistic': 'stationary_mean_value',
+                             'value': solution['stationary_mean_value'], 'unit': 'expected discounted utility per household'})
+        for key, value in solution['diagnostics'].items():
+            unit = ('goods per household' if key == 'capital_market_residual' else
+                    'goods per household per period' if key in ('resource_residual', 'minimum_consumption', 'household_budget_max_residual') else
+                    'utility' if key in ('bellman_max_residual', 'policy_value_max_residual', 'stationary_welfare_identity_residual') else 'probability')
+            diagnostic_rows.append({'scenario': name, 'statistic': key, 'value': value, 'unit': unit})
+        for ia, asset in enumerate(assets):
+            for iz, efficiency in enumerate(income):
+                state = {'scenario': name, 'asset': float(asset), 'income_state': iz,
+                         'income': float(efficiency), 'series': f'{name}: income {efficiency:g}'}
+                policy_rows.append({**state, 'value': solution['asset_policy'][ia][iz], 'unit': 'goods per household'})
+                distribution_rows.append({**state, 'value': solution['distribution'][ia][iz], 'unit': 'population probability'})
+    welfare_rows.append({'scenario': 'scenario versus baseline', 'statistic': 'stationary_consumption_equivalent',
+                         'value': float(equivalent), 'unit': 'fraction of baseline consumption'})
+    common = {'model_contract': 'MC-aiyagari-stationary', 'population': 'Unit mass of infinitely lived households',
+              'parameter_status': 'calibrated', 'asset_grid': assets.tolist(), 'income_states': income.tolist()}
+    displays = {}
+    for name, rows, title, curve in (
+        ('equilibrium', equilibrium_rows, 'Stationary general equilibrium', False),
+        ('asset_policy', policy_rows, 'Saving policy by asset and income state', True),
+        ('distribution', distribution_rows, 'Stationary joint asset and income distribution', True),
+        ('welfare', welfare_rows, 'Stationary expected lifetime welfare', False),
+        ('diagnostics', diagnostic_rows, 'Original-equation and grid diagnostics', False)):
+        columns = [('scenario', 'Scenario'), ('asset', 'Current assets'), ('income_state', 'Income state'), ('income', 'Labor efficiency'), ('series', 'Series'), ('value', title), ('unit', 'Unit')] if curve else [('scenario', 'Scenario'), ('statistic', 'Statistic'), ('value', 'Value'), ('unit', 'Unit')]
+        displays[name] = {'kind': 'structural' if curve else 'table', 'title': title, 'rows': rows,
+            'columns': [{'key': key, 'label': label, 'unit': ''} for key, label in columns],
+            'metadata': {**common, 'report_role': 'model_fit' if name == 'diagnostics' else 'counterfactual',
+                         'unit': rows[0]['unit'] if curve else 'see row-specific unit'},
+            'display': {'plot_type': 'line', 'x': 'asset', 'y': 'value', 'series': 'series'} if curve else {'plot_type': 'table'}}
+    displays['welfare']['metadata'].update({'value_definition': equations['welfare'],
+        'consumption_equivalent': 'Permanent uniform scaling of baseline consumption giving the scenario stationary expected utility; each economy uses its own stationary distribution'})
+    statistics = {name+'_capital': {'value': result['capital'], 'unit': 'goods per household'}
+                  for name, result in (('baseline', baseline), ('scenario', scenario))}
+    statistics['stationary_consumption_equivalent'] = {'value': float(equivalent), 'unit': 'fraction of baseline consumption'}
+    return {'model': 'aiyagari', 'adopted': spec, 'model_contract': 'MC-aiyagari-stationary',
+        'engine': 'quantecon.markov.DiscreteDP.solve; MarkovChain.stationary_distributions; scipy.optimize.brentq',
+        'calibration': {'source': spec['calibration_source'], 'parameters': p, 'estimated_parameters': []},
+        'equations': equations, 'options': options, 'income_stationary_distribution': income_distribution.tolist(),
+        'state_order': 'asset-major, income-minor; all policies and distributions have shape (assets,incomes)',
+        'baseline': baseline, 'scenario': scenario, 'statistics': statistics, 'displays': displays,
+        'provenance': {'python': sys.version.split()[0], 'numpy': np.__version__, 'scipy': scipy.__version__,
+                       'quantecon': version('quantecon')}}
+
+
+def aiyagari_example():
+    return {'model': 'aiyagari', 'calibration_source': 'Synthetic stationary Aiyagari calibration',
+        'parameters': {'alpha': .36, 'beta': .96, 'delta': .08, 'crra': 2.,
+            'asset_grid': np.linspace(0., 30., 301).tolist(), 'income_states': [.5, 1.5],
+            'income_transition': [[.9, .1], [.1, .9]]},
+        'baseline': {'productivity': 1.}, 'scenario': {'productivity': 1.05},
+        'solver': {'capital_bracket': [3., 15.], 'capital_tolerance': .005,
+            'bellman_tolerance': 1e-9, 'distribution_tolerance': 1e-10,
+            'resource_tolerance': .0005, 'max_iterations': 200}}
+
+
 def example(stage):
     rng = np.random.default_rng(39020)
     obs = [.1]
@@ -280,11 +510,13 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('operation',choices=['run','case'])
     parser.add_argument('spec',nargs='?',type=Path)
+    parser.add_argument('--model',choices=['olg','aiyagari'],help='model for the generated case (default: olg)')
     parser.add_argument('--output',type=Path,required=True)
     args = parser.parse_args(argv)
     try:
         if args.operation == 'run':
             if args.spec is None: raise ValueError('run requires a specification')
+            if args.model is not None: raise ValueError('run selects its model from the specification')
             raw = args.spec.read_bytes()
             result = solve(json.loads(raw),args.spec.resolve().parent)
             result['provenance']['spec_sha256'] = hashlib.sha256(raw).hexdigest()
@@ -292,7 +524,10 @@ def main(argv=None):
             atomic_write(args.output,result)
         else:
             if args.spec is not None: raise ValueError('case takes no specification')
-            publish_observed_case(args.output,example,solve)
+            if args.model == 'aiyagari':
+                publish_case(args.output,aiyagari_example(),solve)
+            else:
+                publish_observed_case(args.output,example,solve)
     except (ValueError,KeyError,TypeError,OSError,ArithmeticError) as exc:
         parser.exit(2,f'error: {exc}\n')
 

@@ -44,5 +44,7 @@ HET-03の一般均衡を sequence_jacobian 1.0.0 の一資産HANKで実行する
 
 80点を代表ケースとすると初期の線形産出応答は \(-.0001043004\)、同じショックを非線形に解いた値は \(-.0001040433\) である。30期の資産市場、財市場、価格式の最大絶対残差は \(3.24\times10^{-10}\)、\(2.74\times10^{-10}\)、\(1.26\times10^{-11}\)、家計予算は \(2.89\times10^{-14}\)、分布質量誤差は \(1.12\times10^{-16}\) である。定常家計の内点Euler残差は消費限界効用で割った最大絶対値 \(1.33\times10^{-6}\)、借入境界の同じ符号付き残差の最小値 .02410、労働一階条件の最大絶対残差 \(8.91\times10^{-5}\) である。定常政策と分布の固定点、元の家計条件と均衡方程式を検査した後にJacobianを用いる。
 
-`sequence_jacobian.examples.hank.dag` から10点と80点のモデルを構築し、30期と60期の線形・非線形均衡、家計予算、Euler条件と分布を元の式で直接照合する。
+[現行の`sequence_jacobian.examples.hank.dag`](https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/examples/hank.py)は10点の公開校正で定常状態を解き、`(hank_model_ss, ss, hank_model, unknowns, targets, exogenous)`を返す。別の資産格子や校正値を使う場合は、同じ公式ブロックから採択済みのモデルを構築する。定常モデルの`nkpc_ss`は\(w=Z/\mu\)を与え、移行モデルの`nkpc`は価格式の残差を返す。
+
+`MC-hank-one-asset`の選択は、[公式`Block`の4操作](https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/blocks/block.py)を分ける。`solve_steady_state(calibration,unknowns,targets)`は定常条件を解き、`solve_jacobian(ss,unknowns,targets,inputs,T=...)`は一般均衡Jacobianを返す。`solve_impulse_linear`と`solve_impulse_nonlinear`はショック名から配列への辞書を受け、線形・非線形の均衡経路を返す。移行の内生変数は`[w,Y,pi]`、目標は`[asset_mkt,goods_mkt,nkpc_res]`、外生入力は`rstar`と`Z`である。非線形操作は元の目標残差を各反復で判定する。実行結果には労働清算、家計予算、Euler条件、分布と終端条件も対応する経済量とともに保存する。
 

@@ -31,7 +31,7 @@ GALLERY_KINDS = ('descriptive', 'sample_composition', 'distribution', 'time_seri
 PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study', 'density', 'ecdf', 'box',
               'att_gt', 'cohort_event', 'parallel_trends', 'rdd', 'iv_first_stage', 'iv_reduced_form',
               'iv_confidence_set', 'scm', 'scm_gap', 'scm_placebo', 'binned_scatter', 'smd', 'structural', 'geo')
-GALLERY_RENDER_VERSION = 10
+GALLERY_RENDER_VERSION = 11
 DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_order',
                   'sort_by', 'ascending', 'notes', 'plot_type', 'x', 'y', 'lower', 'upper',
                   'series', 'visible_series', 'selected_result_ids', 'x_label', 'y_label',
@@ -621,11 +621,12 @@ def gallery_regression_comparison(items):
     display = items[0].get('display', {}) if items else {}
     models, definitions, model_info, formats = {}, {}, {}, {}
     for item in items:
+        item_display = item.get('display', {})
         for row in item['rows']:
             if 'term' in row and 'estimate' in row:
                 definition = {**item.get('metadata', {}), **item.get('metadata', {}).get('result_definitions', {}).get(row['result_id'], {})}
-                model = str(row.get(display.get('model_column'), row['result_id']))
-                outcome = row.get(display.get('outcome_column') or 'outcome', definition.get('outcome'))
+                model = str(row.get(item_display.get('model_column'), row['result_id']))
+                outcome = row.get(item_display.get('outcome_column') or 'outcome', definition.get('outcome'))
                 stage = row.get('stage', definition.get('stage'))
                 identity = (row['result_id'], model, gallery_cell(outcome, '', {}), gallery_cell(stage, '', {}))
                 panel = row.get('panel', ' / '.join(str(row[key]) for key in ('subgroup', 'group', 'period') if row.get(key) is not None))
@@ -637,7 +638,7 @@ def gallery_regression_comparison(items):
                 definitions[identity] = definition
                 model_info[identity] = {'result_id': row['result_id'], 'model': model,
                                         'outcome': outcome, 'stage': stage}
-                formats[identity] = item.get('display', {})
+                formats[identity] = item_display
     identities = list(models)
     def matches(identity, name):
         info = model_info[identity]
@@ -665,8 +666,10 @@ def gallery_regression_comparison(items):
     current_panel = None
     def saved(row, names):
         return next((row[key] for key in names if key in row), None)
-    def number(value, key, identity):
-        settings = {**formats[identity], **display}
+    def number(row, names, identity):
+        key = next((key for key in names if key in row), names[0])
+        value = row.get(key)
+        settings = formats[identity]
         if value is None:
             return ''
         if type(value) in (int, float):
@@ -683,19 +686,21 @@ def gallery_regression_comparison(items):
         estimates, errors, intervals, probabilities = [], [], [], []
         for identity in identities:
             row = models[identity].get(term, {})
-            estimate = number(row.get('estimate'), 'estimate', identity)
+            estimate = number(row, ('estimate',), identity)
             if display.get('show_stars', False) and estimate:
                 symbol = saved(row, ('significance', 'stars'))
-                p = row.get('p_value')
+                p = saved(row, ('p_value', 'pvalue', 'p.value'))
                 if symbol is None and type(p) in (int, float):
                     symbol = '***' if p < .01 else '**' if p < .05 else '*' if p < .1 else ''
                 estimate += str(symbol or '')
             estimates.append(estimate)
-            se = number(saved(row, ('se', 'standard_error', 'std.error')), 'se', identity)
+            se = number(row, ('se', 'standard_error', 'std.error'), identity)
             errors.append('(' + se + ')' if se else '')
             low, high = saved(row, ('ci_low', 'lower', 'conf.low')), saved(row, ('ci_high', 'upper', 'conf.high'))
-            intervals.append('[' + number(low, 'ci_low', identity) + ', ' + number(high, 'ci_high', identity) + ']' if low is not None and high is not None else '')
-            p = number(row.get('p_value'), 'p_value', identity)
+            intervals.append('[' + number(row, ('ci_low', 'lower', 'conf.low'), identity) + ', ' +
+                             number(row, ('ci_high', 'upper', 'conf.high'), identity) + ']'
+                             if low is not None and high is not None else '')
+            p = number(row, ('p_value', 'pvalue', 'p.value'), identity)
             probabilities.append(p)
         body.append({'kind': 'coefficient', 'label': term_label, 'cells': estimates})
         if display.get('show_se', True) and any(errors):
@@ -706,7 +711,7 @@ def gallery_regression_comparison(items):
             body.append({'kind': 'p', 'label': 'p 値', 'cells': probabilities})
         for names, label in [(('estimate',), '推定値'), (('se', 'standard_error', 'std.error'), '標準誤差'),
                              (('ci_low', 'lower', 'conf.low'), '区間下端'), (('ci_high', 'upper', 'conf.high'), '区間上端'),
-                             (('p_value',), 'p 値'), (('unit',), '単位')]:
+                             (('p_value', 'pvalue', 'p.value'), 'p 値'), (('unit',), '単位')]:
             if any(any(key in model.get(term, {}) for key in names) for model in models.values()):
                 label = ' / '.join(value for value in (*term, label) if value)
                 rows.append({'quantity': label, **{model_info[identity]['key']: saved(models[identity].get(term, {}), names) for identity in identities}})
@@ -734,7 +739,7 @@ def gallery_regression_comparison(items):
         saved_weight = key == 'weights' and any('weights' in definitions[identity] for identity in identities)
         if any(value is not None for value in values.values()) or saved_weight or 'statistic_rows' in display:
             rows.append({'quantity': label, **{key: gallery_cell(value, '', {}) if isinstance(value, (dict, list)) else value for key, value in values.items()}})
-            footer.append({'label': label, 'cells': [gallery_cell(values[name], key, display) if values[name] is not None else
+            footer.append({'label': label, 'cells': [gallery_cell(values[name], key, formats[identity]) if values[name] is not None else
                                                     'なし' if key == 'weights' and 'weights' in definitions[identity] else ''
                                                     for name, identity in zip(keys, identities)]})
     headers = []

@@ -253,6 +253,83 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(native['images'], [])
         self.assertTrue(native['new_independent_edition'])
 
+    def test_regression_comparison_preserves_model_formats_and_saved_values(self):
+        registry = {'schema': 'research-artifact-registry-v1', 'statistics': {}, 'records': {}}
+        items = []
+        for result_id, se, low, high, p, digits, formats in [
+            ('a', 'standard_error', 'lower', 'upper', 'pvalue', 1,
+             {'estimate': '.1f', 'standard_error': '.2f', 'lower': '.2f',
+              'pvalue': '.2e', 'degrees_of_freedom': '.2f'}),
+            ('b', 'std.error', 'conf.low', 'conf.high', 'p.value', 5,
+             {'estimate': '.5f', 'std.error': '.4f', 'conf.low': '.4f',
+              'p.value': '.5f', 'degrees_of_freedom': '.4f'}),
+        ]:
+            registry['records'][result_id] = {'source_result': {'n': 40}}
+            zero = 0.0 if result_id == 'a' else None
+            rows = [{'result_id': result_id, 'term': 'x', 'estimate': 1.234567,
+                     se: .123456, low: 1.0, high: 1.5, p: .00012345,
+                     'degrees_of_freedom': 17.12345},
+                    {'result_id': result_id, 'term': 'zero', 'estimate': zero,
+                     se: zero, low: zero, high: zero, p: zero,
+                     'degrees_of_freedom': 17.12345}]
+            items.append({'id': result_id, 'title': result_id, 'kind': 'table',
+                          'result_ids': [result_id], 'rows': rows,
+                          'columns': [{'key': key, 'label': key, 'unit': ''}
+                                      for key in rows[0] if key != 'result_id'],
+                          'metadata': {'table_type': 'regression'},
+                          'display': {'digits': digits, 'formats': formats,
+                                      'show_ci': True, 'show_p': True, 'show_stars': True}})
+        registry['items'] = artifacts.prepare_gallery_items(registry, items)
+        self.write('gallery.json', json.dumps(registry))
+        original = (self.root / 'gallery.json').read_bytes()
+        expected = {
+            'a': ['1.2***', '(0.12)', '[1.00, 1.5]', '1.23e-04',
+                  '0.0***', '(0.00)', '[0.00, 0.0]', '0.00e+00'],
+            'b': ['1.23457***', '(0.1235)', '[1.0000, 1.50000]', '0.00012', '', '', '', ''],
+        }
+        for order in [('a', 'b'), ('b', 'a')]:
+            comparison = artifacts.gallery_compare(self.root, 'gallery.json', list(order))
+            table = comparison['regression_table']
+            for index, result_id in enumerate(order):
+                self.assertEqual([row['cells'][index] for row in table['presentation']['body']],
+                                 expected[result_id])
+                df = next(row for row in table['presentation']['footer'] if row['label'] == '自由度')
+                self.assertEqual(df['cells'][index], '17.12' if result_id == 'a' else '17.1234')
+                n = next(row for row in table['presentation']['footer'] if row['label'] == '観測数')
+                self.assertEqual(n['cells'][index], '40')
+            values = {row['quantity']: row for row in table['rows']}
+            for quantity, value in [('x / 推定値', 1.234567), ('x / 標準誤差', .123456),
+                                    ('x / 区間下端', 1.0), ('x / 区間上端', 1.5),
+                                    ('x / p 値', .00012345)]:
+                self.assertEqual([values[quantity][result_id] for result_id in order], [value, value])
+            self.assertEqual(values['zero / 推定値']['a'], 0.0)
+            self.assertIsNone(values['zero / 推定値']['b'])
+            self.assertFalse(comparison['comparison_contract']['analysis_executed'])
+        self.assertEqual((self.root / 'gallery.json').read_bytes(), original)
+
+        for item in items:
+            model_key = item['id'] + '_model'
+            outcome_key = item['id'] + '_outcome'
+            item['display'].update(model_column=model_key, outcome_column=outcome_key)
+            item['columns'].extend({'key': key, 'label': key, 'unit': ''}
+                                   for key in (model_key, outcome_key))
+            models = [('main', 'hours')] if item['id'] == 'a' else [('first', 'hours'), ('second', 'earnings')]
+            item['rows'] = [{**row, model_key: model, outcome_key: outcome}
+                            for model, outcome in models for row in item['rows']]
+        registry['items'] = artifacts.prepare_gallery_items(registry, items)
+        self.write('multiple.json', json.dumps(registry))
+        for order, columns, outcomes in [
+            (['a', 'b'], ['main', 'first', 'second'], ['hours', 'hours', 'earnings']),
+            (['b', 'a'], ['first', 'second', 'main'], ['hours', 'earnings', 'hours']),
+        ]:
+            table = artifacts.gallery_compare(self.root, 'multiple.json', order)['regression_table']
+            self.assertEqual([column['key'] for column in table['columns'][1:]], columns)
+            self.assertEqual([cell['text'] for cell in table['presentation']['headers'][0][1:]
+                              for _ in range(cell['colspan'])], outcomes)
+            for index, model in enumerate(columns):
+                self.assertEqual([row['cells'][index] for row in table['presentation']['body']],
+                                 expected['a' if model == 'main' else 'b'])
+
 
 if __name__ == '__main__':
     unittest.main()

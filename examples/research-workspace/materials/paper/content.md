@@ -1,0 +1,99 @@
+<!-- section:data -->
+
+8つの合成経済は、それぞれの研究質問に対応する入力仕様、推定・較正、比較条件を持つ。各ケースの表図は、同じ結果 ID の推定値・政策・均衡・厚生を示す。
+
+<!-- section:result-1 -->
+
+政策を第3期・第5期に導入する主体について、導入後の成果がいつ変化するかを問う。対象は360主体・7期、2,520行の合成パネルである。未処置群を対照とし、共変量 x を条件とする平行トレンド、重なり、先行反応ゼロを採用する。群・時点別 ATT を did::att_gt の二重頑健法で推定し、did::aggte で導入からの期数別に集計した。推論は解析標準誤差、正規参照、点別95%区間である。基準期の指定は varying である。
+
+[入力仕様](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/did-spec.json)・[計算結果](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/did-result.json)。
+
+<!-- section:result-2 -->
+
+導入後の平均 ATT は 1.6588、標準誤差は 0.1094、95%区間は [1.4442, 1.8733] となる。導入期の ATT は 1.6110、翌期は 1.8491 である。導入から0–2期は2導入群、3–4期は第3期導入群を集計する。処置前の共同検定は統計量7.3359、p値 0.11917 を返した。
+
+<!-- section:result-3 -->
+
+1,000企業の合成データから、投資 d が成果 y に与える共通の線形係数を求める。共変量 x と除外費用シフター z を使い、条件付き直交条件 E[z u | x]=0 と企業間独立を採用する。ivDiag::AR_test は候補係数ごとに y−βd に対する操作変数の検定を行い、95% Anderson–Rubin 集合を返す。第一段階、誘導形、2SLS は ivDiag::ivDiag の保存結果である。2SLS の区間は異分散頑健な標準誤差を使う。
+
+[入力仕様](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/weak-iv-spec.json)・[計算結果](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/weak-iv-result.json)。
+
+<!-- section:result-4 -->
+
+第一段階の z の係数は 0.008497、頑健 F 統計量は 0.045499 である。2SLS 係数は -1.262133、標準誤差は 15.672721 となる。Anderson–Rubin の95%集合は実数全体である。係数ゼロの検定は F=0.016128、p=0.898969 を返した。
+
+<!-- section:result-5 -->
+
+資格スコアが0以上の申請者を処置する制度について、閾値での成果の不連続を求める。対象は独立した1,600申請者の合成データである。潜在成果の条件付き平均の連続性と、スコアによる決定的な処置割当を採用する。rdrobust::rdrobust に局所線形 p=1、バイアス補正 q=2、三角カーネル、MSE帯域選択、最近傍分散推定、信頼水準90%を指定した。
+
+[入力仕様](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/rdd-spec.json)・[計算結果](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/rdd-result.json)。
+
+<!-- section:result-6 -->
+
+バイアス補正後の局所効果は 1.905903、頑健標準誤差は 0.107552、90%区間は [1.728995, 2.082811] である。推定帯域は左右とも0.285551、有効標本は左245人・右252人である。図は rdplot が保存した81区間平均と左右の2次曲線1,000座標を示す。図示帯域は左0.999028、右0.998783である。
+
+<!-- section:result-7 -->
+
+消費者は4製品か外部選択肢を選び、企業は所有製品の利潤を最大化する価格を選ぶ。120市場・480製品観測の合成データに、平均効用 1+prices+x と限界費用 1+z を指定し、需要・供給の操作変数を用いる1段階 GMM で5母数を推定した。比較する介入は企業0と1の所有統合である。推定需要、各製品の推定限界費用、製品集合を固定する。統合企業は製品0・1の利潤を合わせて価格を決める。表の標準誤差は PyBLP の保存値である。
+
+[入力仕様](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/blp-supply-spec.json)・[計算結果](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/blp-supply-result.json)。
+
+<!-- section:result-8 -->
+
+市場0の製品0の価格は2.141261から2.216112へ上昇する。潜在消費者1人当たりの消費者余剰は 0.550028 から 0.538838、生産者余剰は 0.471959 から 0.476527 となる。総余剰は 1.021988 から 1.015365 へ変化する。図は市場0–2の市場別の水準を示す。保存診断の GMM 勾配ノルムは 3.9e-10、利潤の価格勾配の最大絶対値は 7.52e-14 である。
+
+<!-- section:result-9 -->
+
+12市場・各3製品の合成データに、ランダム係数需要を当てはめる。平均効用は 1+prices+x、異質性を持つ項は 1+prices である。ランダム係数の Cholesky 因子の3要素を0.2・0.05・0.1に固定し、平均効用の3係数を GMM で推定した。PyBLP の積型積分 size=5 を採用する。表は推定係数とその保存標準誤差、固定した異質性係数を示す。市場0の製品シェアを図に示す。
+
+[入力仕様](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/blp-fixed-spec.json)・[計算結果](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/blp-fixed-result.json)。
+
+<!-- section:result-10 -->
+
+価格係数は −0.998107、標準誤差は0.018909である。市場0の製品0・1・2のシェアは0.102363・0.140231・0.168351となる。保存された GMM 目的関数は 0.011881、観測シェアとの最大絶対差は 5.55e-17 である。異質性係数の固定値と平均係数の推定値を合わせて、この需要系を定義する。
+
+<!-- section:result-11 -->
+
+運行主体が走行距離状態を観察し、維持と更新を選ぶ。合成パネルは250主体・10,000観測、状態は5点、割引因子は0.9である。観測した状態・行動・次状態から遷移を推定し、ruspy の NFXP 最尤法と同じ費用定義の CCP 推定を比較した。維持費用は走行距離状態に比例し、更新には固定費用を払う。比較状態では更新費用を0.5効用単位増やす。EV1ショックの尺度は1、Euler定数の正規化は0である。
+
+[入力仕様](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/replacement-spec.json)・[計算結果](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/replacement-result.json)。
+
+<!-- section:result-12 -->
+
+NFXP の更新費用は 2.104201、CCP は 2.105925 を返した。更新費用が上がると、走行状態0の更新確率は0.154458から0.106191へ低下する。同じ初期状態の期待割引効用は−2.363660から−3.616894となる。公式尤度との差は 1.82e-12、基準状態の Bellman 残差は 8.83e-13、費用上昇後は 8.62e-13 である。
+
+<!-- section:result-13 -->
+
+代表的家計が20期の割引対数効用を最大化する。資本弾力性0.33、割引因子0.96、減耗率0.08を較正し、初期・終端資本を4.4338357137に固定する。生産性は全期1である。基準状態の税率は0、比較状態は最初の10期が5%、残り10期が0であり、税収は政府吸収に充てる。資源制約は $c_t+k_{t+1}=(1-\tau_t)A_t k_t^{\alpha}+(1-\delta)k_t$。SciPy SLSQP が正の消費と資本の経路を計算した。
+
+[入力仕様](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/growth-spec.json)・[計算結果](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/growth-result.json)。
+
+<!-- section:result-14 -->
+
+期0の消費は1.279990から1.243608へ変化する。家計は課税期間に資本を取り崩し、終端に向けて資本を積み戻す。20期の割引対数効用は 3.443576 から 2.899971、保存された厚生差は -0.543605 である。変更後の Euler 式の最大絶対残差は 3.14e-07、資源制約の残差は 0 で、採用許容値は 1e-5 である。
+
+<!-- section:result-15 -->
+
+所得が変動する家計は、現在資産と所得を観察して消費と次期資産を選ぶ。資産は0–30の301点、労働効率は0.5と1.5、同じ所得状態に留まる確率は0.9である。資本弾力性0.36、割引因子0.96、減耗率0.08、相対的危険回避度2を較正した。QuantEcon DiscreteDP の政策反復と定常分布を用い、家計の資産供給と企業の資本需要を整合させる。比較する生産性は1と1.05である。各シナリオの定常分布で状態価値を平均し、定常均衡間の厚生を比較する。
+
+[入力仕様](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/aiyagari-spec.json)・[計算結果](https://github.com/yoshimurahiroki/econ-project-mini/blob/f9093ba87cabce7bee1fdf3391656544617a8cb9/examples/research-workspace/models/aiyagari-result.json)。
+
+<!-- section:result-16 -->
+
+家計当たり資本は 6.940198 から 7.496708、各期消費は 1.453476 から 1.568680 へ増える。消費等価変分は基準消費の比率で 0.079544 となる。基準の資本市場残差は -0.003703、許容値は0.005である。両均衡の Bellman 最大残差は1.07e-14、定常分布残差は1.73e-18となる。図は現在資産と所得状態ごとの次期資産を示す。
+
+<!-- section:specification -->
+
+
+
+<!-- section:table1 -->
+
+
+
+<!-- section:additional -->
+
+
+
+<!-- section:interpretation -->
+
+

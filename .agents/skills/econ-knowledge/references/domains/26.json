@@ -62,7 +62,9 @@
         "C-TERM-WEALTH-DISTRIBUTION",
         "C-METHOD-KRUSELL-SMITH"
       ],
-      "contract_ids": [],
+      "contract_ids": [
+        "MC-aiyagari-stationary"
+      ],
       "domain": "異質マクロ",
       "file": "chapters/19-heterogeneous-macro.md",
       "id": "HET-02",

@@ -31,6 +31,14 @@ CONTRACT_LOCATORS = ('assumptions', 'identification', 'equations', 'selection',
                      'numerical_diagnostics', 'examples')
 ANCHOR = re.compile(r'^<a id="([a-z]+-[0-9]{2})"></a>\s*\n\s*## ([A-Z]+-[0-9]{2})[^\S\r\n]+(.+?)\s*$', re.M)
 BASE = Path(__file__).resolve().parents[1] / 'references'
+_script = Path(__file__).resolve()
+if (_script.parent / 'RESOURCES.json').is_file():
+    BASE = _script.parent / 'knowledge/references'
+elif len(_script.parents) > 6 and _script.parents[3].name == 'bundle' and _script.parents[3].parent.name == 'references':
+    # Plugin skills share the collection held by the knowledge skill.
+    BASE = _script.parents[6] / 'econ-knowledge/references/bundle/skills/econ-knowledge/references'
+elif not (BASE / 'catalog.json').is_file() and (BASE / 'bundle/skills/econ-knowledge/references/runtime.json').is_file():
+    BASE = BASE / 'bundle/skills/econ-knowledge/references'
 # Lexical aliases only: the research owner chooses the method and IDs.
 ALIASES = (
     ('graph', 'グラフ'), ('centrality', '中心性'), ('network', 'ネットワーク'),
@@ -319,9 +327,17 @@ def normalize_semantics(catalog, base):
         expected = {'id', 'owner', 'units', 'inputs', 'parameters', 'outputs', 'assumptions',
                     'identification', 'equations', 'implementation', 'checks', 'results', 'counterfactual_inputs'}
         if (not expected <= set(contract)
-                or set(contract) - expected - {'selection', 'numerical_diagnostics', 'examples'}
+                or set(contract) - expected - {'selection', 'numerical_diagnostics', 'examples', 'selection_binding'}
                 or contract['owner'] not in by_unit):
             raise ValueError('Invalid model contract')
+        binding = contract.get('selection_binding')
+        if binding is not None and (not isinstance(binding, dict)
+                or set(binding) != {'design', 'structural_model'}
+                or binding['design'] != 'structural'
+                or not isinstance(binding['structural_model'], str)
+                or not binding['structural_model'].isidentifier()
+                or not contract['implementation']):
+            raise ValueError('Invalid model contract selection binding')
         strings(contract['units'], 'contract units', nonempty=True)
         strings(contract['counterfactual_inputs'], 'counterfactual inputs')
         if set(contract['units']) - by_unit.keys() or contract['owner'] not in contract['units']:
@@ -341,12 +357,16 @@ def normalize_semantics(catalog, base):
                             and {'module', 'symbol'} <= set(row)
                             and bool({'version', 'revision'} & set(row))
                             and not set(row) - {'module', 'symbol', 'version', 'revision', 'source_url'})
-                valid_fields = isinstance(row, dict) and (set(row) == fields or external)
+                internal = (key == 'implementation' and isinstance(row, dict)
+                            and fields <= set(row) and not set(row) - fields - {'command'})
+                valid_fields = isinstance(row, dict) and (set(row) == fields or external or internal)
                 if (not valid_fields
                         or any(not isinstance(v, str) or not v.strip() for v in row.values())):
                     raise ValueError(f'Invalid {key} record')
                 if 'symbol' in row and not dotted_identifier(row['symbol']):
                     raise ValueError('Invalid contract symbol')
+                if 'command' in row and not row['command'].isidentifier():
+                    raise ValueError('Invalid contract command')
                 if 'module' in row:
                     if not dotted_identifier(row['module']):
                         raise ValueError('Invalid contract module')
@@ -401,8 +421,10 @@ def normalize_semantics(catalog, base):
         projected['availability'] = ['theory_reference']
         if examples or any(row.get('source_only') for row in projected['implementation']):
             projected['availability'].append('numerical_example')
-        if any('path' in row and not row['source_only'] for row in projected['implementation']):
+        if any('path' in row and not row['source_only'] and 'command' in row for row in projected['implementation']):
             projected['availability'].append('internal_runner')
+        if any('path' in row and not row['source_only'] and 'command' not in row for row in projected['implementation']):
+            projected['availability'].append('internal_function')
         if any('module' in row for row in projected['implementation']):
             projected['availability'].append('external_official_api')
         contract_views.append(projected)
@@ -932,11 +954,17 @@ class Reader:
         if not self.semantic_available(item):
             raise ValueError(f'Contract outside exported selection: {item}')
         result = dict(contract)
-        result['unit_locators'] = [{'id': unit, 'body_readable': self.semantic_available(unit)}
+        result['unit_locators'] = [{'id': unit, 'path': self.manifest['units'][unit]['path'],
+                                   'sha256': self.manifest['units'][unit]['sha256'],
+                                   'body_readable': self.semantic_available(unit)}
                                    for unit in contract['units']]
         for key in CONTRACT_LOCATORS:
-            result[key] = [{**locator, 'body_readable': not self.selection
+            result[key] = [{**locator, 'path': self.manifest['units'][locator['unit']]['path'],
+                            'sha256': self.manifest['units'][locator['unit']]['sha256'],
+                            'body_readable': not self.selection
                             or locator['unit'] in self.selection['closure_ids']} for locator in contract.get(key, [])]
+        result['selection_status'] = ('selector_bound' if contract.get('selection_binding') else
+                                      'implementation_only' if contract['implementation'] else 'theory_only')
         return result
 
     def plan(self, selected, context=None):

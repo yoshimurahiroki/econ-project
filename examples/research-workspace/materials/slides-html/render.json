@@ -1,0 +1,56 @@
+{
+  "source_revision": "f41a65dfcb2c6562edffbe36fa468934b1a4ab8d20a8a31ec6dbd0a1a5f942e6",
+  "format": "html",
+  "command": [
+    "/workspace/scratch/1bfbc6aea0af/render-tools/quarto-1.11.9/bin/quarto",
+    "render",
+    "index.qmd",
+    "--to",
+    "revealjs",
+    "--no-execute"
+  ],
+  "artifact": "index.html",
+  "artifact_sha256": "4d9254747afca78be8c6df6b716166e997b3fc5798ac23d63d6bba0d6850cc33",
+  "consumed_assets": [
+    "assets/exhibit-1-2.png",
+    "assets/exhibit-1-4.pdf",
+    "assets/exhibit-2-2.png",
+    "assets/exhibit-2-4.pdf",
+    "assets/exhibit-3-2.png",
+    "assets/exhibit-3-4.pdf",
+    "assets/exhibit-4-2.png",
+    "assets/exhibit-4-4.pdf",
+    "assets/exhibit-5-2.png",
+    "assets/exhibit-5-4.pdf",
+    "assets/exhibit-6-2.png",
+    "assets/exhibit-6-4.pdf",
+    "assets/exhibit-7-2.png",
+    "assets/exhibit-7-4.pdf",
+    "assets/exhibit-8-2.png",
+    "assets/exhibit-8-4.pdf"
+  ],
+  "asset_versions": {
+    "assets/exhibit-1-2.png": "dd320d9120f34495ba36fbc7fc8aa4f511a08b0b8a98ba89e7ff73aed22b6f5f",
+    "assets/exhibit-1-4.pdf": "df6f68e918ce1534e3f316e7aaac0e22bbfb449c19c1fe5814c84c134791c28b",
+    "assets/exhibit-2-2.png": "e29ac31a53693e10d64b6c80d53f4adb308e9416abfd0ac48fc4651e99a54cf1",
+    "assets/exhibit-2-4.pdf": "2d04e0ddf780a8faf453d7afeca058cc108f9edcdd260f4be5f4b3be17752dbe",
+    "assets/exhibit-3-2.png": "69a4632c6aa7e92ec0c870c46ae74b6d23e790497046b3b6fa962c06fa71b078",
+    "assets/exhibit-3-4.pdf": "06fd53a5335714e041feb8b9633eb1714cf47b1b089c5141184dd5eedb433990",
+    "assets/exhibit-4-2.png": "66359a817ff9f0e77705164e681a7c9930f821f322fe7d62076c50e7a0c81b49",
+    "assets/exhibit-4-4.pdf": "650f0e8bfcf29342e2408657b174dbc1fe624824175e5b094c06e050831d6db7",
+    "assets/exhibit-5-2.png": "abd2eabcf505eb1e5d2b3c97c467a73432273bd30458fa31c3b4a47ea8636335",
+    "assets/exhibit-5-4.pdf": "497c8297c2004c3c423b0c64c1cde5be2cbbc6a113f8d0178f0d380c3aaee4c1",
+    "assets/exhibit-6-2.png": "ce5d330e3b07ccab1df65fc177016d9541c96fc9bbaa25bbbdb5bee2f6d2b55e",
+    "assets/exhibit-6-4.pdf": "2a36382e2f0da12732498487f62edd6cb240debb965a0450bc5f01f2bb3df4ae",
+    "assets/exhibit-7-2.png": "394347954ba01d3cd5da5238a487bdb145a783af64b2f92739dcf49432227b5f",
+    "assets/exhibit-7-4.pdf": "787fc515fb4d5f47fad0418ae889d8cb8eaa1b2c87bd2ba1366c92e3caee4ad8",
+    "assets/exhibit-8-2.png": "9a46a98c8d6736dc568ea8ad85b862a5df1d9931a9d53cc8691d45de923d7fcc",
+    "assets/exhibit-8-4.pdf": "e83b759ccc8ef1dc17993607b72e82b2831c3345396a65a47bd78858948ce542"
+  },
+  "latex_files": {},
+  "template_versions": {
+    "/workspace/scratch/1bfbc6aea0af/econ-project-mini/tex/slides/meeting_template.qmd": "51a7c5529e0787dea84f33eec347f49f50c4fe51e6b238e05cc735aa9edafbb2"
+  },
+  "analysis_executed": false,
+  "renderer": "1.11.9"
+}

@@ -1,0 +1,34 @@
+{
+  "assignment": "eligible exactly when running>=0",
+  "data": "rdd.csv",
+  "endogenous": [],
+  "estimand": "outcome discontinuity at score zero",
+  "id": "id",
+  "identification": "continuous conditional potential outcomes at the cutoff, deterministic sharp assignment and independent observations",
+  "inference": {
+    "type": "official"
+  },
+  "instruments": [],
+  "method": "rdrobust_r",
+  "options": {
+    "args": {
+      "bwselect": "mserd",
+      "c": 0,
+      "kernel": "tri",
+      "level": 90.0,
+      "p": 1,
+      "q": 2,
+      "vce": "nn"
+    },
+    "plot": {
+      "ci": 90,
+      "p": 2
+    },
+    "running": "running"
+  },
+  "outcome": "y",
+  "period": "one simulated choice occasion",
+  "population": "1600 simulated applicants near the eligibility cutoff",
+  "regressors": [],
+  "unit": "outcome units"
+}

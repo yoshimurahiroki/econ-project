@@ -1,0 +1,29 @@
+{
+  "model": "replacement",
+  "adopted": {
+    "source": "Existing seeded replacement case, seed 20020"
+  },
+  "scenario": {
+    "description": "replacement cost rises by 0.5 utility units"
+  },
+  "options": {
+    "discount_factor": 0.9,
+    "states": 5,
+    "initial_costs": [
+      0.2,
+      1.6
+    ],
+    "finite_horizon": 8,
+    "replacement_cost_change": 0.5
+  },
+  "data": {
+    "path": "replacement-data.csv",
+    "columns": {
+      "id": "id",
+      "period": "period",
+      "state": "state",
+      "action": "action",
+      "next_state": "next_state"
+    }
+  }
+}

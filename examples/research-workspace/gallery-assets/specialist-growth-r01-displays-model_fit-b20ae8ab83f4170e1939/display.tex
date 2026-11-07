@@ -1,0 +1,24 @@
+\begingroup
+\begin{table}[htbp]
+\centering
+\caption{産出税と成長経路：モデルの診断}
+\label{tab:specialist-growth-r01-displays-model_fit}
+\begin{tabular}{lccc}
+\toprule
+シナリオ & 診断項目 & 値 & 単位 \\
+\midrule
+baseline & euler\_max\_abs\_error & 0 & inverse consumption \\
+baseline & resource\_max\_abs\_error & 0 & goods \\
+baseline & objective\_gradient\_max\_abs\_error & 4.01e-11 & utility per capital unit \\
+baseline & resource\_jacobian\_max\_abs\_error & 8.93e-12 & resource per capital unit \\
+scenario & euler\_max\_abs\_error & 3.14e-07 & inverse consumption \\
+scenario & resource\_max\_abs\_error & 0 & goods \\
+scenario & objective\_gradient\_max\_abs\_error & 4.35e-11 & utility per capital unit \\
+scenario & resource\_jacobian\_max\_abs\_error & 1.83e-11 & resource per capital unit \\
+\bottomrule
+\end{tabular}
+\par\medskip\begin{minipage}{\linewidth}\footnotesize
+単位: see row-specific unit
+\end{minipage}
+\end{table}
+\endgroup

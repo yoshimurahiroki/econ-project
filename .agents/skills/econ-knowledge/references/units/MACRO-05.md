@@ -30,3 +30,7 @@ Blanchard–Kahn条件は、先決変数の初期値から有界な経路を一�
 
 厳密な非線形条件付きEuler残差を25点Gauss–Hermite積分で評価する。状態 \((x,z)=(.03,.04)\) と革新標準偏差を同時に1、1/2、1/4、1/8倍すると、残差は順に \(-6.91996\times10^{-5},-1.75019\times10^{-5},-4.40103\times10^{-6},-1.10347\times10^{-6}\) であり、縮尺を半分にするとおよそ4分の1になる。これは一次近似の局所的な二次残差であり、任意の大きなショックに対する大域解には非線形政策を求める。
 
+`MC-stochastic-rbc`はこの固定労働・対数効用・Cobb-Douglas生産・Gaussian AR(1)技術の実行契約である。既存の`research_dsge.py run`は観測された技術系列からAR(1)を推定し、校正済みの選好と技術係数で局所政策を解く。`structural_model="stochastic_rbc"`に`implementation="dolo"`を指定すると、同じ経済方程式を持つ採択済みYAMLの[公式Dolo時間反復](https://github.com/EconForge/dolo.py/blob/33f873eef42d9644b5a0705a63fb3a34de5c2825/src/dolo/algos/time_iteration.py)へ渡す。別の経済モデルのYAMLは`structural_model="dolo_yaml"`でその原始的要素と均衡条件を指定する。
+
+Doloでは`yaml_import`でモデルを読み、`find_steady_state`と`residuals`で定常条件を照合し、`time_iteration(details=True)`の`dr`、`error_res`、`error_step`、`iterations`と`converged`を保存する。`converged`は更新幅または反復時の残差の終了条件を満たした状態である。最終政策を採択した格子と外生状態で評価し、同じ離散モデルを[公式`dolo.numeric.residuals.F`](https://github.com/EconForge/dolo.py/blob/33f873eef42d9644b5a0705a63fb3a34de5c2825/src/dolo/numeric/residuals.py)へ渡して最終政策の元Euler残差を保存する。内点の等式と、拘束点の境界・相補性をそれぞれモデルの条件で判定する。この外部入口は校正値を保持して政策関数を求める。
+

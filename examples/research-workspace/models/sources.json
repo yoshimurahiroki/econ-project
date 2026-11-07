@@ -1,0 +1,124 @@
+{
+  "sources": [
+    {
+      "id": "specialist-did-r01",
+      "result": "examples/research-workspace/models/did-result.json",
+      "specification": "examples/research-workspace/models/did-spec.json",
+      "code": "examples/research-workspace/models/historical-producers/research_causal-registration.py",
+      "metadata": {
+        "research_question": "段階的な導入後に成果はどの時点で変化するか。",
+        "example_type": "independently specified synthetic economic setting",
+        "specification_revision": "r01",
+        "result_id": "specialist-did-r01"
+      },
+      "data": "examples/research-workspace/models/staggered.csv",
+      "expected_hashes": {
+        "code": "eca370a50d3dbfd2dfeab97f9ca4e476b0433b8a006c122fcf2f312878c35638"
+      }
+    },
+    {
+      "id": "specialist-weak-iv-r01",
+      "result": "examples/research-workspace/models/weak-iv-result.json",
+      "specification": "examples/research-workspace/models/weak-iv-spec.json",
+      "code": "examples/research-workspace/models/historical-producers/research_causal-weak-executed.py",
+      "metadata": {
+        "research_question": "費用シフターを用いる投資効果の Anderson–Rubin 信頼集合はどの範囲を含むか。",
+        "example_type": "independently specified synthetic economic setting",
+        "specification_revision": "r01",
+        "result_id": "specialist-weak-iv-r01"
+      },
+      "data": "examples/research-workspace/models/weak-iv.csv",
+      "expected_hashes": {}
+    },
+    {
+      "id": "specialist-rdd-r01",
+      "result": "examples/research-workspace/models/rdd-result.json",
+      "specification": "examples/research-workspace/models/rdd-spec.json",
+      "code": "examples/research-workspace/models/historical-producers/research_causal-rdd-executed.py",
+      "metadata": {
+        "research_question": "申請資格の閾値で成果がどれだけ変わるか。",
+        "example_type": "independently specified synthetic economic setting",
+        "specification_revision": "r01",
+        "result_id": "specialist-rdd-r01"
+      },
+      "data": "examples/research-workspace/models/rdd.csv",
+      "expected_hashes": {}
+    },
+    {
+      "id": "specialist-blp-supply-r01",
+      "result": "examples/research-workspace/models/blp-supply-result.json",
+      "specification": "examples/research-workspace/models/blp-supply-spec.json",
+      "code": "examples/research-workspace/models/historical-producers/research_markets-registration.py",
+      "metadata": {
+        "research_question": "企業 0 と 1 の合併が価格・シェア・厚生をどう変えるか。",
+        "example_type": "independently specified synthetic economic setting",
+        "specification_revision": "r01",
+        "result_id": "specialist-blp-supply-r01"
+      },
+      "expected_hashes": {
+        "code": "0c5cccaf1337e6cbe0cc55f426fce8418f892321919b38e896fcb50cb1baebee"
+      }
+    },
+    {
+      "id": "specialist-blp-fixed-r01",
+      "result": "examples/research-workspace/models/blp-fixed-result.json",
+      "specification": "examples/research-workspace/models/blp-fixed-spec.json",
+      "code": "examples/research-workspace/models/historical-producers/research_markets-registration.py",
+      "metadata": {
+        "research_question": "異質性の係数を固定した需要モデルは製品シェアをどう再現するか。",
+        "example_type": "independently specified synthetic economic setting",
+        "specification_revision": "r01",
+        "result_id": "specialist-blp-fixed-r01"
+      },
+      "expected_hashes": {
+        "code": "0c5cccaf1337e6cbe0cc55f426fce8418f892321919b38e896fcb50cb1baebee"
+      }
+    },
+    {
+      "id": "specialist-ddc-r01",
+      "result": "examples/research-workspace/models/replacement-result.json",
+      "specification": "examples/research-workspace/models/replacement-spec.json",
+      "code": "examples/research-workspace/models/historical-producers/research_dynamic-executed.py",
+      "metadata": {
+        "research_question": "更新費用の上昇が走行距離別の更新確率と状態価値をどう変えるか。",
+        "example_type": "independently specified synthetic economic setting",
+        "specification_revision": "r01",
+        "result_id": "specialist-ddc-r01"
+      },
+      "data": "examples/research-workspace/models/replacement-data.csv",
+      "expected_hashes": {
+        "data": "73acd2e83534e7c5ed00c88c95b89f3c46d80b67f255d256994197356906437b"
+      }
+    },
+    {
+      "id": "specialist-growth-r01",
+      "result": "examples/research-workspace/models/growth-result.json",
+      "specification": "examples/research-workspace/models/growth-spec.json",
+      "code": "examples/research-workspace/models/historical-producers/research_macro-registration.py",
+      "metadata": {
+        "research_question": "一時的な産出税が消費・資本の経路と厚生をどう変えるか。",
+        "example_type": "independently specified synthetic economic setting",
+        "specification_revision": "r01",
+        "result_id": "specialist-growth-r01"
+      },
+      "expected_hashes": {
+        "specification": "6ab1f0c1cd1ff412de9ea7218cddca58e7b41dc4e58a8838d94739c69261823d",
+        "code": "2eefe06e9d276bf4d6f94a2ed48d780583b5155f5370f25bddc2744f798dfa9e"
+      }
+    },
+    {
+      "id": "specialist-aiyagari-r01",
+      "result": "examples/research-workspace/models/aiyagari-result.json",
+      "specification": "examples/research-workspace/models/aiyagari-spec.json",
+      "code": "examples/research-workspace/models/historical-producers/research_macro_extended-72019b6.py",
+      "metadata": {
+        "research_question": "生産性の恒久的な上昇が定常均衡、貯蓄政策、資産分布、厚生をどう変えるか。",
+        "example_type": "independently specified synthetic economic setting",
+        "specification_revision": "r01",
+        "result_id": "specialist-aiyagari-r01"
+      },
+      "expected_hashes": {}
+    }
+  ],
+  "bindings": {}
+}

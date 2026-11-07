@@ -1,0 +1,26 @@
+{
+  "assignment": "staggered adoption with never-treated controls",
+  "data": "staggered.csv",
+  "endogenous": [],
+  "estimand": "group-time ATT and event-time average effects",
+  "id": "id",
+  "identification": "conditional parallel trends, overlap and no anticipation",
+  "inference": {
+    "type": "did"
+  },
+  "instruments": [],
+  "method": "staggered_did",
+  "options": {
+    "cohort": "cohort",
+    "control_group": "nevertreated",
+    "entity": "entity",
+    "time": "time"
+  },
+  "outcome": "y",
+  "period": "simulated",
+  "population": "seeded simulated units",
+  "regressors": [
+    "x"
+  ],
+  "unit": "outcome units"
+}

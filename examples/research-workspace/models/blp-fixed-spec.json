@@ -1,0 +1,457 @@
+{
+  "model": "blp",
+  "baseline": {
+    "products": [
+      {
+        "market_ids": "0",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.75,
+        "shares": 0.10236252422959254,
+        "x": 0.0,
+        "demand_instruments0": 1.0,
+        "demand_instruments1": 0.0,
+        "demand_instruments2": 1.0
+      },
+      {
+        "market_ids": "0",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.8315477006970764,
+        "shares": 0.14023062830755362,
+        "x": 0.9320390859672263,
+        "demand_instruments0": -0.12884449429552464,
+        "demand_instruments1": 0.4528862853790683,
+        "demand_instruments2": 0.9523335698857134
+      },
+      {
+        "market_ids": "0",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.5518691487030485,
+        "shares": 0.16835119160853923,
+        "x": 0.675463180551151,
+        "demand_instruments0": -0.9667981925794611,
+        "demand_instruments1": 0.8075581004051142,
+        "demand_instruments2": 0.8138784566625339
+      },
+      {
+        "market_ids": "1",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.951589081988888,
+        "shares": 0.11002272911685176,
+        "x": 0.644217687237691,
+        "demand_instruments0": 0.6967067093471654,
+        "demand_instruments1": 0.9871001010138504,
+        "demand_instruments2": 0.5978339822872983
+      },
+      {
+        "market_ids": "1",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.674533865102059,
+        "shares": 0.16302821702399767,
+        "x": 0.9463000876874145,
+        "demand_instruments0": -0.8011436155469337,
+        "demand_instruments1": 0.9525761942715953,
+        "demand_instruments2": 0.32479628443877623
+      },
+      {
+        "market_ids": "1",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.404020994200799,
+        "shares": 0.14540761332297755,
+        "x": 0.041580662433290935,
+        "demand_instruments0": -0.4902608213406994,
+        "demand_instruments1": 0.7114733527908447,
+        "demand_instruments2": 0.020794827803092428
+      },
+      {
+        "market_ids": "2",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.8792647811037844,
+        "shares": 0.1330809881278507,
+        "x": 0.9854497299884601,
+        "demand_instruments0": -0.029199522301288815,
+        "demand_instruments1": 0.3160779642170538,
+        "demand_instruments2": -0.28518905924502064
+      },
+      {
+        "market_ids": "2",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.42189246987521,
+        "shares": 0.16975603297583816,
+        "x": 0.5155013718214645,
+        "demand_instruments0": -0.9874797699088649,
+        "demand_instruments1": -0.14786317380431852,
+        "demand_instruments2": -0.5639850575694101
+      },
+      {
+        "market_ids": "2",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.3116779295521983,
+        "shares": 0.11858245910407245,
+        "x": -0.6118578909427189,
+        "demand_instruments0": 0.28366218546322625,
+        "demand_instruments1": -0.5797381977287428,
+        "demand_instruments2": -0.7890147472295311
+      },
+      {
+        "market_ids": "3",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.5887263819153374,
+        "shares": 0.16390822300793847,
+        "x": 0.8632093666488739,
+        "demand_instruments0": -0.7373937155412458,
+        "demand_instruments1": -0.8858892112966023,
+        "demand_instruments2": -0.9388254042737362
+      },
+      {
+        "market_ids": "3",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.233290055592916,
+        "shares": 0.15402408771123438,
+        "x": -0.1577456941432482,
+        "demand_instruments0": -0.5748239465332685,
+        "demand_instruments1": -0.9999232575641008,
+        "demand_instruments2": -0.9991351502732795
+      },
+      {
+        "market_ids": "3",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.3322284164694866,
+        "shares": 0.10186223321707254,
+        "x": -0.977530117665097,
+        "demand_instruments0": 0.8855195169413194,
+        "demand_instruments1": -0.8971105228496424,
+        "demand_instruments2": -0.9641944846423657
+      },
+      {
+        "market_ids": "4",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.275242501567291,
+        "shares": 0.18339761989974449,
+        "x": 0.3349881501559051,
+        "demand_instruments0": -0.9982947757947531,
+        "demand_instruments1": -0.5997473287940438,
+        "demand_instruments2": -0.8373344009738802
+      },
+      {
+        "market_ids": "4",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.2236949162969517,
+        "shares": 0.12742483657682996,
+        "x": -0.7568024953079282,
+        "demand_instruments0": 0.18651236942257576,
+        "demand_instruments1": -0.17232087571561114,
+        "demand_instruments2": -0.6306488338927753
+      },
+      {
+        "market_ids": "4",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.444580201453694,
+        "shares": 0.09959928615920453,
+        "x": -0.8834546557201536,
+        "demand_instruments0": 0.9502325919585296,
+        "demand_instruments1": 0.2924756724298697,
+        "demand_instruments2": -0.3638417096768584
+      },
+      {
+        "market_ids": "5",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.135461699010897,
+        "shares": 0.17141093912034186,
+        "x": -0.35078322768961984,
+        "demand_instruments0": -0.6536436208636119,
+        "demand_instruments1": 0.6938449449297637,
+        "demand_instruments2": -0.06234851460699166
+      },
+      {
+        "market_ids": "5",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.3807596691206676,
+        "shares": 0.10559568275891806,
+        "x": -0.9999232575641008,
+        "demand_instruments0": 0.8347127848391598,
+        "demand_instruments1": 0.9447446272181538,
+        "demand_instruments2": 0.24508854269136174
+      },
+      {
+        "market_ids": "5",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.5631724923164056,
+        "shares": 0.11303835812079048,
+        "x": -0.373876664830236,
+        "demand_instruments0": 0.43854732757439036,
+        "demand_instruments1": 0.9907637552114836,
+        "demand_instruments2": 0.5291606082056949
+      },
+      {
+        "market_ids": "6",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.232460464315893,
+        "shares": 0.1331426957983096,
+        "x": -0.8715757724135877,
+        "demand_instruments0": 0.08749898343944727,
+        "demand_instruments1": 0.8219224632616032,
+        "demand_instruments2": 0.7627862794194885
+      },
+      {
+        "market_ids": "6",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.578016220037088,
+        "shares": 0.0970593831468628,
+        "x": -0.7727644875559877,
+        "demand_instruments0": 0.9765876257280233,
+        "demand_instruments1": 0.47483625198738716,
+        "demand_instruments2": 0.92369335287311
+      },
+      {
+        "market_ids": "6",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.607609518470393,
+        "shares": 0.1417880235296834,
+        "x": 0.31154136351337786,
+        "demand_instruments0": -0.33915486098383624,
+        "demand_instruments1": 0.02477542545335954,
+        "demand_instruments2": 0.9965420970232175
+      },
+      {
+        "market_ids": "7",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.4648543457121415,
+        "shares": 0.09765980416180142,
+        "x": -0.9824526126243326,
+        "demand_instruments0": 0.7755658785102502,
+        "demand_instruments1": -0.43065828466586326,
+        "demand_instruments2": 0.9743876327259212
+      },
+      {
+        "market_ids": "7",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.6758064527259853,
+        "shares": 0.1061401515739184,
+        "x": -0.18216250427209588,
+        "demand_instruments0": 0.5260775173811045,
+        "demand_instruments1": -0.79269796476672,
+        "demand_instruments2": 0.8593420084295141
+      },
+      {
+        "market_ids": "7",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.5685602692415754,
+        "shares": 0.17617957451625726,
+        "x": 0.850436620628564,
+        "demand_instruments0": -0.9111302618846769,
+        "demand_instruments1": -0.9828304503401075,
+        "demand_instruments2": 0.6623728525549553
+      },
+      {
+        "market_ids": "8",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.65785206299019,
+        "shares": 0.08486626683646596,
+        "x": -0.6312666378723216,
+        "demand_instruments0": 0.9931849187581926,
+        "demand_instruments1": -0.9598229596252282,
+        "demand_instruments2": 0.40225779810857365
+      },
+      {
+        "market_ids": "8",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.62855981543181,
+        "shares": 0.1365560490241984,
+        "x": 0.49411335113860816,
+        "demand_instruments0": -0.2435441537357911,
+        "demand_instruments1": -0.72866497582717,
+        "demand_instruments2": 0.10379435721925297
+      },
+      {
+        "market_ids": "8",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.509798794871889,
+        "shares": 0.190846191530817,
+        "x": 0.9893582466233818,
+        "demand_instruments0": -0.9304262721047533,
+        "demand_instruments1": -0.3394862107070145,
+        "demand_instruments2": -0.2045640966193654
+      },
+      {
+        "market_ids": "9",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.698343847302544,
+        "shares": 0.10009374208998918,
+        "x": 0.016813900484349713,
+        "demand_instruments0": 0.6083513145322546,
+        "demand_instruments1": 0.12331469633522812,
+        "demand_instruments2": -0.4934208700271838
+      },
+      {
+        "market_ids": "9",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.5106390796332065,
+        "shares": 0.17877974349439885,
+        "x": 0.9379999767747389,
+        "demand_instruments0": -0.8654352092411123,
+        "demand_instruments1": 0.5593731561488667,
+        "demand_instruments2": -0.7352384205988414
+      },
+      {
+        "market_ids": "9",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.5025572006766272,
+        "shares": 0.16522843757593098,
+        "x": 0.6629692300821833,
+        "demand_instruments0": -0.3853381907718296,
+        "demand_instruments1": 0.8741240382448977,
+        "demand_instruments2": -0.9069635895848724
+      },
+      {
+        "market_ids": "10",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.6063188600745466,
+        "shares": 0.14375688249805008,
+        "x": 0.6569865987187891,
+        "demand_instruments0": -0.14550003380861354,
+        "demand_instruments1": 0.9993093887479176,
+        "demand_instruments2": -0.9922253254526034
+      },
+      {
+        "market_ids": "10",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.441628926391034,
+        "shares": 0.19303399003770333,
+        "x": 0.9407305566797731,
+        "demand_instruments0": -0.9623648798313102,
+        "demand_instruments1": 0.9077810839621054,
+        "demand_instruments2": -0.982895383053711
+      },
+      {
+        "market_ids": "10",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.5521480524229365,
+        "shares": 0.11915825052901305,
+        "x": 0.024775425453357765,
+        "demand_instruments0": 0.3934908663478909,
+        "demand_instruments1": 0.6193882654204708,
+        "demand_instruments2": -0.8798632124828492
+      },
+      {
+        "market_ids": "11",
+        "product_ids": "0",
+        "firm_ids": "0",
+        "prices": 2.4936781959926155,
+        "shares": 0.19253961105475728,
+        "x": 0.9881682338770003,
+        "demand_instruments0": -0.811093014061656,
+        "demand_instruments1": 0.19667278709630065,
+        "demand_instruments2": -0.692951165256096
+      },
+      {
+        "market_ids": "11",
+        "product_ids": "1",
+        "firm_ids": "1",
+        "prices": 2.477764733138324,
+        "shares": 0.15859364164665055,
+        "x": 0.5010208564578862,
+        "demand_instruments0": -0.4755369279959925,
+        "demand_instruments1": -0.2686938251683629,
+        "demand_instruments2": -0.4399781014467581
+      },
+      {
+        "market_ids": "11",
+        "product_ids": "2",
+        "firm_ids": "2",
+        "prices": 2.5879039200334586,
+        "shares": 0.08820955810513224,
+        "x": -0.6250706488928821,
+        "demand_instruments0": 0.9336336440746379,
+        "demand_instruments1": -0.6757905746043268,
+        "demand_instruments2": -0.1450606667885619
+      }
+    ],
+    "linear": "1 + prices + x",
+    "nonlinear": "1 + prices",
+    "supply": null,
+    "integration": {
+      "method": "product",
+      "size": 5,
+      "options": {}
+    },
+    "solve": {
+      "method": "1s",
+      "sigma": [
+        [
+          0.2,
+          0.0
+        ],
+        [
+          0.05,
+          0.1
+        ]
+      ],
+      "sigma_bounds": [
+        [
+          [
+            0.2,
+            0.0
+          ],
+          [
+            0.05,
+            0.1
+          ]
+        ],
+        [
+          [
+            0.2,
+            0.0
+          ],
+          [
+            0.05,
+            0.1
+          ]
+        ]
+      ]
+    },
+    "optimal_instruments": false,
+    "add_exogenous": true,
+    "counterfactual": null
+  },
+  "scenario": null,
+  "unit": "model units",
+  "sources": [
+    {
+      "kind": "synthetic",
+      "description": "Analytical distributions, preferences and parameters defined in market-models.md"
+    }
+  ]
+}

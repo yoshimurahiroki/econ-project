@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.64",
+  "version": "2.3.66",
   "language": "ja",
-  "date": "2026-11-06",
+  "date": "2026-11-07",
   "chapter_count": 35,
   "unit_count": 256,
   "worked_example_unit_count": 39,
@@ -5464,7 +5464,9 @@
         "D31",
         "E32"
       ],
-      "contract_ids": []
+      "contract_ids": [
+        "MC-aiyagari-stationary"
+      ]
     },
     {
       "id": "HET-03",
@@ -31766,11 +31768,22 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_macro.py",
-          "symbol": "solve"
+          "symbol": "solve",
+          "command": "solve"
         }
       ],
-      "checks": [],
-      "results": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_macro.py",
+          "symbol": "_solve_path"
+        }
+      ],
+      "results": [
+        {
+          "path": "examples/research-workspace/models/growth-result.json",
+          "meaning": "Actual saved synthetic growth result, with its producing specification and numerical output."
+        }
+      ],
       "counterfactual_inputs": [
         "scenario"
       ],
@@ -31791,7 +31804,11 @@
           "unit": "STRUCT-06",
           "anchor": "struct-06"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "finite_horizon_growth"
+      }
     },
     {
       "id": "MC-replacement-ddc",
@@ -31878,7 +31895,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_dynamic.py",
-          "symbol": "replacement"
+          "symbol": "replacement",
+          "command": "run"
         },
         {
           "path": "skills/econ-data/scripts/research_dynamic.py",
@@ -31896,8 +31914,26 @@
           "source_url": "https://github.com/OpenSourceEconomics/ruspy/blob/414e9f98e3b1cf19544b1ca3b1e544ac5751c1e9/ruspy/estimation/criterion_function.py"
         }
       ],
-      "checks": [],
-      "results": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_dynamic.py",
+          "symbol": "replacement"
+        },
+        {
+          "path": "skills/econ-data/scripts/research_dynamic.py",
+          "symbol": "fit_replacement"
+        },
+        {
+          "path": "skills/econ-data/scripts/research_dynamic.py",
+          "symbol": "ccp_fit"
+        }
+      ],
+      "results": [
+        {
+          "path": "examples/research-workspace/models/replacement-result.json",
+          "meaning": "Actual saved synthetic replacement result, with its producing specification and numerical output."
+        }
+      ],
       "counterfactual_inputs": [
         "costs"
       ],
@@ -31922,7 +31958,11 @@
           "unit": "STRUCT-04",
           "anchor": "struct-04"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "replacement"
+      }
     },
     {
       "id": "MC-pyblp-bertrand",
@@ -32058,7 +32098,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_markets.py",
-          "symbol": "blp"
+          "symbol": "blp",
+          "command": "run"
         },
         {
           "module": "pyblp",
@@ -32067,8 +32108,22 @@
           "source_url": "https://pyblp.readthedocs.io/en/stable/_api/pyblp.Problem.solve.html"
         }
       ],
-      "checks": [],
-      "results": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_markets.py",
+          "symbol": "blp"
+        }
+      ],
+      "results": [
+        {
+          "path": "examples/research-workspace/models/blp-supply-result.json",
+          "meaning": "Actual saved synthetic blp-supply result, with its producing specification and numerical output."
+        },
+        {
+          "path": "examples/research-workspace/models/blp-fixed-result.json",
+          "meaning": "Actual saved synthetic blp-fixed result, with its producing specification and numerical output."
+        }
+      ],
       "counterfactual_inputs": [
         "counterfactual"
       ],
@@ -32097,7 +32152,11 @@
           "unit": "DEMAND-03",
           "anchor": "demand-03"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "blp"
+      }
     },
     {
       "id": "MC-cournot-fcff",
@@ -32199,7 +32258,12 @@
           "symbol": "value"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/equity_io.py",
+          "symbol": "cournot.solve"
+        }
+      ],
       "results": [],
       "counterfactual_inputs": [
         "counterfactual"
@@ -32359,10 +32423,55 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_dsge.py",
-          "symbol": "solve"
+          "symbol": "solve",
+          "command": "run"
+        },
+        {
+          "module": "dolo.compiler.model_import",
+          "symbol": "yaml_import",
+          "revision": "33f873eef42d9644b5a0705a63fb3a34de5c2825",
+          "source_url": "https://github.com/EconForge/dolo.py/blob/33f873eef42d9644b5a0705a63fb3a34de5c2825/src/dolo/compiler/model_import.py",
+          "version": "0.4.9.20"
+        },
+        {
+          "module": "dolo.algos.steady_state",
+          "symbol": "find_steady_state",
+          "revision": "33f873eef42d9644b5a0705a63fb3a34de5c2825",
+          "source_url": "https://github.com/EconForge/dolo.py/blob/33f873eef42d9644b5a0705a63fb3a34de5c2825/src/dolo/algos/steady_state.py",
+          "version": "0.4.9.20"
+        },
+        {
+          "module": "dolo.algos.steady_state",
+          "symbol": "residuals",
+          "revision": "33f873eef42d9644b5a0705a63fb3a34de5c2825",
+          "source_url": "https://github.com/EconForge/dolo.py/blob/33f873eef42d9644b5a0705a63fb3a34de5c2825/src/dolo/algos/steady_state.py",
+          "version": "0.4.9.20"
+        },
+        {
+          "module": "dolo.algos.time_iteration",
+          "symbol": "time_iteration",
+          "revision": "33f873eef42d9644b5a0705a63fb3a34de5c2825",
+          "source_url": "https://github.com/EconForge/dolo.py/blob/33f873eef42d9644b5a0705a63fb3a34de5c2825/src/dolo/algos/time_iteration.py",
+          "version": "0.4.9.20"
+        },
+        {
+          "module": "dolo.numeric.residuals",
+          "symbol": "F",
+          "revision": "33f873eef42d9644b5a0705a63fb3a34de5c2825",
+          "source_url": "https://github.com/EconForge/dolo.py/blob/33f873eef42d9644b5a0705a63fb3a34de5c2825/src/dolo/numeric/residuals.py",
+          "version": "0.4.9.20"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_dsge.py",
+          "symbol": "solve"
+        },
+        {
+          "path": "skills/econ-data/scripts/research_dsge.py",
+          "symbol": "solve.euler_error"
+        }
+      ],
       "results": [],
       "counterfactual_inputs": [
         "technology_shock"
@@ -32378,7 +32487,11 @@
           "unit": "MACRO-05",
           "anchor": "macro-05"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "stochastic_rbc"
+      }
     },
     {
       "id": "MC-sdf-moments",
@@ -32817,13 +32930,44 @@
         {
           "module": "sequence_jacobian.examples.hank",
           "symbol": "dag",
-          "version": "1.0.0"
+          "version": "1.0.0",
+          "revision": "eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9",
+          "source_url": "https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/examples/hank.py"
+        },
+        {
+          "module": "sequence_jacobian.blocks.block",
+          "symbol": "Block.solve_steady_state",
+          "version": "1.0.0",
+          "revision": "eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9",
+          "source_url": "https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/blocks/block.py"
+        },
+        {
+          "module": "sequence_jacobian.blocks.block",
+          "symbol": "Block.solve_jacobian",
+          "version": "1.0.0",
+          "revision": "eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9",
+          "source_url": "https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/blocks/block.py"
+        },
+        {
+          "module": "sequence_jacobian.blocks.block",
+          "symbol": "Block.solve_impulse_linear",
+          "version": "1.0.0",
+          "revision": "eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9",
+          "source_url": "https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/blocks/block.py"
+        },
+        {
+          "module": "sequence_jacobian.blocks.block",
+          "symbol": "Block.solve_impulse_nonlinear",
+          "version": "1.0.0",
+          "revision": "eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9",
+          "source_url": "https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/blocks/block.py"
         }
       ],
       "checks": [],
       "results": [],
       "counterfactual_inputs": [
-        "rstar"
+        "rstar",
+        "Z"
       ],
       "selection": [
         {
@@ -32854,7 +32998,11 @@
           "unit": "HET-05",
           "anchor": "het-05"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "hank_one_asset"
+      }
     },
     {
       "id": "MC-physician-enforcement",
@@ -33058,7 +33206,12 @@
           "symbol": "correlated_equilibrium"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_numerics.py",
+          "symbol": "correlated_equilibrium"
+        }
+      ],
       "results": [],
       "counterfactual_inputs": [],
       "selection": [
@@ -33129,7 +33282,12 @@
           "symbol": "tu_shapley_core"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_numerics.py",
+          "symbol": "tu_shapley_core"
+        }
+      ],
       "results": [],
       "counterfactual_inputs": [
         "values"
@@ -33226,7 +33384,12 @@
           "symbol": "clearing_payments"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_numerics.py",
+          "symbol": "clearing_payments"
+        }
+      ],
       "results": [],
       "counterfactual_inputs": [
         "external_assets",
@@ -33344,7 +33507,12 @@
           "symbol": "finite_policy_sir"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_numerics.py",
+          "symbol": "finite_policy_sir"
+        }
+      ],
       "results": [],
       "counterfactual_inputs": [
         "schedule",
@@ -33528,7 +33696,12 @@
           "symbol": "multitask_incentives"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_numerics.py",
+          "symbol": "multitask_incentives"
+        }
+      ],
       "results": [],
       "counterfactual_inputs": [
         "b",
@@ -33636,7 +33809,12 @@
           "symbol": "decision_rights"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_numerics.py",
+          "symbol": "decision_rights"
+        }
+      ],
       "results": [],
       "counterfactual_inputs": [
         "holder",
@@ -33755,7 +33933,12 @@
           "symbol": "state_price_bounds"
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_numerics.py",
+          "symbol": "state_price_bounds"
+        }
+      ],
       "results": [],
       "counterfactual_inputs": [
         "prices",
@@ -33891,7 +34074,11 @@
           "unit": "HET-01",
           "anchor": "het-01"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "consumption_saving"
+      }
     },
     {
       "id": "MC-respy-finite-choice",
@@ -34028,7 +34215,11 @@
           "unit": "STRUCT-02",
           "anchor": "struct-02"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "finite_horizon_choice"
+      }
     },
     {
       "id": "MC-lifecycle-regimes",
@@ -34149,7 +34340,168 @@
           "unit": "DYN-02",
           "anchor": "dyn-02"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "lifecycle_choice"
+      }
+    },
+    {
+      "id": "MC-aiyagari-stationary",
+      "owner": "HET-02",
+      "units": [
+        "HET-02"
+      ],
+      "inputs": [
+        {
+          "name": "parameters",
+          "unit": "declared goods, labor and preference coordinates",
+          "meaning": "alpha, beta, delta, crra, finite increasing asset_grid, positive income_states and irreducible income_transition."
+        },
+        {
+          "name": "baseline",
+          "unit": "productivity",
+          "meaning": "Baseline Cobb-Douglas productivity."
+        },
+        {
+          "name": "scenario",
+          "unit": "productivity",
+          "meaning": "Scenario productivity for a separately solved stationary equilibrium."
+        },
+        {
+          "name": "solver",
+          "unit": "capital bracket, residual tolerances and iteration limit",
+          "meaning": "capital_bracket, capital_tolerance, bellman_tolerance, distribution_tolerance, resource_tolerance and max_iterations."
+        },
+        {
+          "name": "calibration_source",
+          "unit": "source identity",
+          "meaning": "Provenance of the supplied calibrated primitives."
+        }
+      ],
+      "parameters": [
+        {
+          "name": "alpha",
+          "meaning": "Competitive production capital elasticity."
+        },
+        {
+          "name": "beta",
+          "meaning": "Household time discount factor."
+        },
+        {
+          "name": "delta",
+          "meaning": "Capital depreciation per period."
+        },
+        {
+          "name": "crra",
+          "meaning": "CRRA curvature, with log utility at one."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "capital",
+          "unit": "goods per household",
+          "meaning": "Scenario-specific stationary capital clearing against the household asset distribution."
+        },
+        {
+          "name": "prices",
+          "unit": "net interest per period and wage per efficiency unit",
+          "meaning": "Competitive prices at each scenario equilibrium."
+        },
+        {
+          "name": "policies",
+          "unit": "goods per household",
+          "meaning": "Next assets and consumption on the asset-major, income-minor grid."
+        },
+        {
+          "name": "distribution",
+          "unit": "population probability",
+          "meaning": "Unique joint invariant distribution induced by the solved household policy."
+        },
+        {
+          "name": "stationary_mean_value",
+          "unit": "expected discounted utility per household",
+          "meaning": "Lifetime value averaged over each scenario own stationary distribution."
+        },
+        {
+          "name": "stationary_consumption_equivalent",
+          "unit": "fraction of baseline consumption",
+          "meaning": "Permanent uniform scaling of baseline consumption equalizing stationary expected utility."
+        },
+        {
+          "name": "diagnostics",
+          "unit": "original-equation residuals",
+          "meaning": "Bellman, chosen-policy value, household budget, distribution, mass, income marginal, capital, resources and stationary welfare identity."
+        }
+      ],
+      "assumptions": [
+        {
+          "unit": "HET-01",
+          "anchor": "het-01"
+        },
+        {
+          "unit": "HET-02",
+          "anchor": "het-02"
+        }
+      ],
+      "identification": [
+        {
+          "unit": "HET-02",
+          "anchor": "het-02"
+        }
+      ],
+      "equations": [
+        {
+          "unit": "HET-01",
+          "anchor": "het-01"
+        },
+        {
+          "unit": "HET-02",
+          "anchor": "het-02"
+        }
+      ],
+      "implementation": [
+        {
+          "path": "skills/econ-data/scripts/research_macro_extended.py",
+          "symbol": "solve_aiyagari",
+          "command": "run"
+        }
+      ],
+      "checks": [
+        {
+          "path": "skills/econ-data/scripts/research_macro_extended.py",
+          "symbol": "solve_aiyagari.equilibrium.household"
+        },
+        {
+          "path": "skills/econ-data/scripts/research_macro_extended.py",
+          "symbol": "solve_aiyagari.equilibrium"
+        }
+      ],
+      "results": [
+        {
+          "path": "examples/research-workspace/models/aiyagari-result.json",
+          "meaning": "Actual saved synthetic aiyagari result, with its producing specification and numerical output."
+        }
+      ],
+      "counterfactual_inputs": [
+        "scenario.productivity"
+      ],
+      "selection": [
+        {
+          "unit": "HET-02",
+          "anchor": "het-02"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "HET-02",
+          "anchor": "het-02"
+        }
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "aiyagari"
+      }
     }
   ],
   "source_repository": {
