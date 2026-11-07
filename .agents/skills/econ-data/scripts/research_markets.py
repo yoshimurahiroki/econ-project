@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Execute explicitly specified structural market models and synthetic cases."""
+"""Execute explicitly specified structural market models."""
 from __future__ import annotations
 import argparse
 import hashlib
@@ -559,177 +559,6 @@ def solve(spec):
     return output
 
 
-def _synthetic_bertrand(nested):
-    """Generate prices from the stated single-product-firm Bertrand conditions."""
-    from scipy.optimize import root
-    rng = np.random.default_rng(20261101)
-    products = []
-    rho = .4 if nested else 0.
-    alpha = -1.1
-    for t in range(120):
-        x = rng.normal(0, .7, 4); z = rng.uniform(-.7, .7, 4)
-        xi = rng.normal(0, .025, 4); omega = rng.normal(0, .025, 4)
-        cost = 1.3+.3*z+omega
-        count = [1,2,3][t % 3]
-        groups = np.array([0 if j < count else 1 for j in range(4)])
-        def shares(prices):
-            util = (1+.5*x+alpha*prices+xi)/(1-rho)
-            e = np.exp(util)
-            sums = np.array([e[groups == g].sum() for g in (0,1)])
-            term = sums**(1-rho)
-            within = e/sums[groups]
-            return within*term[groups]/(1+term.sum()), within
-        def conditions(prices):
-            share, within = shares(prices)
-            derivative = alpha/(1-rho)*share*(1-rho*within-(1-rho)*share)
-            return prices-cost+share/derivative
-        solution = root(conditions, cost+1.2, tol=1e-11)
-        if np.max(np.abs(conditions(solution.x))) > 1e-9:
-            raise ArithmeticError('synthetic Bertrand first-order equations failed')
-        share, _ = shares(solution.x)
-        for j in range(4):
-            product = {'market_ids':str(t), 'product_ids':str(j), 'firm_ids':str(j),
-                       'prices':float(solution.x[j]), 'shares':float(share[j]), 'x':float(x[j]), 'z':float(z[j]),
-                       'demand_instruments0':float(z[j]), 'demand_instruments1':float(sum(groups == groups[j])),
-                       'demand_instruments2':float(sum(z[groups == groups[j]])-z[j]),
-                       'supply_instruments0':float(x[j]), 'supply_instruments1':float(sum(x[groups == groups[j]])-x[j])}
-            if nested: product['nesting_ids'] = str(groups[j])
-            products.append(product)
-    return products
-
-
-def random_merger_case():
-    """Create an original heterogeneous-demand example with observed market sizes."""
-    import pandas as pd
-    import pyblp
-    pyblp.options.verbose = False
-    rng = np.random.default_rng(20261107)
-    markets, products_per_market = 80, 4
-    n = markets * products_per_market
-    data = pd.DataFrame({'market_ids': np.repeat(np.arange(markets), products_per_market),
-                         'product_ids': np.tile(np.arange(products_per_market), markets),
-                         'firm_ids': np.tile(np.arange(products_per_market), markets),
-                         'x': rng.uniform(-1, 1, n), 'z': rng.uniform(-1, 1, n)})
-    xi, omega = rng.normal(0, .03, (2, n))
-    forms = [pyblp.Formulation('1 + prices + x'), pyblp.Formulation('0 + x'),
-             pyblp.Formulation('1 + z')]
-    integration = {'method': 'product', 'size': 7, 'options': {}}
-    simulation = pyblp.Simulation(forms, data, beta=[1., -1.2, .6], sigma=[[.7]],
-                                  gamma=[1.4, .3], xi=xi, omega=omega,
-                                  integration=pyblp.Integration('product', 7), seed=20261107)
-    generated = simulation.replace_endogenous(
-        iteration=pyblp.Iteration('simple', {'atol': 1e-12}), error_behavior='raise')
-    if not np.asarray(generated.fp_converged).all():
-        raise ArithmeticError('synthetic random-coefficient equilibrium did not converge')
-    data['prices'] = np.asarray(generated.product_data.prices).ravel()
-    data['shares'] = np.asarray(generated.product_data.shares).ravel()
-    grouped = data.groupby('market_ids')
-    data['demand_instruments0'] = data.z
-    data['demand_instruments1'] = grouped.x.transform('sum') - data.x
-    data['demand_instruments2'] = data.x.pow(2).groupby(data.market_ids).transform('sum') - data.x.pow(2)
-    data['demand_instruments3'] = grouped.z.transform('sum') - data.z
-    data['supply_instruments0'] = data.x
-    data['supply_instruments1'] = data.demand_instruments1
-    baseline = {'products': data.to_dict('records'), 'linear': '1 + prices + x', 'nonlinear': '0 + x',
-                'supply': '1 + z', 'integration': integration, 'add_exogenous': True,
-                'optimal_instruments': False, 'market_sizes': {str(t): 1000 + 500*(t % 4) for t in range(markets)},
-                'report_agent_surplus': True,
-                'solve': {'method': '1s', 'beta': [None, -1., None], 'sigma': [[.4]],
-                          'sigma_bounds': [[[.01]], [[2.]]],
-                          'optimization': {'method': 'l-bfgs-b', 'options': {'gtol': 1e-8, 'maxiter': 500}}},
-                'counterfactual': {'keep_product_ids': [0, 1, 2, 3],
-                                   'firm_ids': data.firm_ids.replace({1: 0}).tolist(),
-                                   'costs': None, 'utility_shifts': [0.]*n}}
-    return {'model': 'blp', 'baseline': baseline, 'scenario': None, 'unit': 'synthetic currency units',
-            'sources': [{'kind': 'synthetic', 'description':
-                         'Seed 20261107; 80 four-product markets. Independent uniform [-1,1] quality and cost shifters; independent N(0,0.03^2) demand and cost shocks. Utility 1-1.2p+(0.6+0.7nu)x+xi+epsilon with standard normal nu and standard extreme-value epsilon; marginal cost 1.4+0.3z+omega. Seven-node product quadrature and Bertrand prices generate the observed shares. Merge firms 0 and 1 at fitted marginal costs; retain every product, consumer type, and market population.'}]}
-
-
-def cases():
-    source = [{'kind':'synthetic','description':'Analytical distributions, preferences and parameters defined in market-models.md'}]
-    def wrap(model,b,cf): return {'model':model,'baseline':b,'scenario':cf,'unit':'model units','sources':source}
-    a = {'n':3,'format':'first','information':'private','reserve':0.,'bids':[.1,.3,.5]}
-    common = {'n':3,'format':'first','information':'common','reserve':0.,'bids':[]}
-    search0 = {'offers':3,'search_cost':.08,'outside_option':0.}
-    bargaining0 = {'buyer_value':10.,'seller_cost':2.,'buyer_outside':1.,'seller_outside':1.,'buyer_weight':.4,'tax':0.}
-    platform0 = {'intercepts':[4.,3.], 'cross_effects':[.3,.4], 'costs':[1.,1.]}
-    match0 = {'proposers':['a','b','c'], 'receivers':['x','y','z'],
-              'proposer_preferences':{'a':['x','y','z'],'b':['x','y','z'],'c':['y','z','x']},
-              'receiver_preferences':{'x':['b','a','c'],'y':['a','c','b'],'z':['c','b','a']},
-              'proposer_values':{'a':{'x':3,'y':2,'z':1},'b':{'x':3,'y':2,'z':1},'c':{'y':3,'z':2,'x':1}},
-              'receiver_values':{'x':{'b':3,'a':2,'c':1},'y':{'a':3,'c':2,'b':1},'z':{'c':3,'b':2,'a':1}}}
-    match1 = json.loads(json.dumps(match0)); match1['receiver_preferences']['x']=['a','b','c']; match1['receiver_values']['x']={'a':3,'b':2,'c':1}
-    firms = [{'firm_ids':'A','unit_cost':20.,'capacity':100.},{'firm_ids':'B','unit_cost':20.,'capacity':100.}]
-    market = {'market_ids':'synthetic','controls':{},'firms':firms}
-    cournot = {'model':'cournot','market':'synthetic','as_of':'2026-11-01','currency':'units','price_unit':1.,'quantity_unit':'units',
-               'sources':source, 'identification':{'parameters':[{'name':'inverse demand','role':'demand','moments':['calibration'],'variation':'supplied slope','exclusion':'calibrated model','source':'synthetic'}]},
-               'inverse_demand':{'coefficients':{'intercept':100.,'quantity':-2.}},'markets':[market],
-               'counterfactual':{'markets':[{**market,'firms':[{**firms[0],'capacity':5.},firms[1]]}]}}
-    products = []
-    for t in range(12):
-        rows = []
-        for j in range(3):
-            x = math.sin(.7*t+1.2*j); z = math.cos(.8*t+1.7*j)
-            price = 2.5+.3*x+.25*z+.1*math.sin(t+j)
-            xi = .03*math.sin(t*1.3+j*.9)
-            rows.append((x,z,price,1+.4*x-price+xi))
-        den = 1+sum(math.exp(row[-1]) for row in rows)
-        for j,(x,z,price,delta) in enumerate(rows):
-            i = 3*t+j
-            products.append({'market_ids':str(t),'product_ids':str(j),'firm_ids':str(j),
-                             'prices':price,'shares':math.exp(delta)/den,'x':x,
-                             'demand_instruments0':z,'demand_instruments1':math.sin(i*.47),
-                             'demand_instruments2':math.cos(i*.31)})
-    basic = {'products':products,'linear':'1 + prices + x','nonlinear':None,'supply':None,
-             'integration':None,'solve':{'method':'1s'},'optimal_instruments':True,'add_exogenous':True,
-             'counterfactual':{'keep_product_ids':['0','1'],'firm_ids':['merged']*24,
-                               'costs':[1.]*24,'utility_shifts':[0.]*24}}
-    endogenous = json.loads(json.dumps(basic)); endogenous['add_exogenous'] = False; endogenous['optimal_instruments'] = False; endogenous['counterfactual'] = None
-    for product in endogenous['products']: product['demand_instruments3'] = 1.
-    entry = json.loads(json.dumps(basic)); entry['optimal_instruments'] = False
-    entrants = []
-    for t in range(12):
-        row = dict(products[3*t]); row.update(product_ids='entrant', firm_ids='entrant', prices=2.5, shares=.05, x=.2)
-        entrants.append(row)
-    entry['counterfactual'] = {'keep_product_ids':['0','1','2'], 'firm_ids':['incumbent']*36+['entrant']*12,
-                               'costs':[1.]*48, 'utility_shifts':[0.]*48, 'entry_products':entrants,'entry_xi':[0.]*12}
-    nested = json.loads(json.dumps(basic)); nested['optimal_instruments'] = False; nested['counterfactual'] = None
-    for product in nested['products']: product['nesting_ids'] = 'nest' if product['product_ids'] != '2' else 'other'
-    nested['solve'] = {'method':'1s','rho':.2,'rho_bounds':[[.2],[.2]]}
-    random = json.loads(json.dumps(basic)); random['optimal_instruments'] = False; random['counterfactual'] = None
-    random['nonlinear'] = '0 + prices'; random['integration'] = {'method':'product','size':5,'options':{}}
-    random['solve'] = {'method':'1s','sigma':[[.2]], 'optimization':{'method':'l-bfgs-b','options':{'maxiter':100}}}
-    supply = json.loads(json.dumps(basic)); supply['optimal_instruments'] = False; supply['counterfactual'] = None
-    supply['supply'] = '1 + costx'
-    for product in supply['products']:
-        product['costx'] = product['demand_instruments0']; product['supply_instruments0'] = product['x']
-    supply['solve'] = {'method':'1s','beta':[None,-1.,None], 'beta_bounds':[[None,-1.,None],[None,-1.,None]]}
-    nested_free = json.loads(json.dumps(nested)); nested_free['products'] = _synthetic_bertrand(True)
-    nested_free['solve'] = {'method':'1s','rho':.2,'rho_bounds':[[.01],[.9]],
-                            'optimization':{'method':'l-bfgs-b','options':{'gtol':1e-8,'maxiter':500}}}
-    supply_free = json.loads(json.dumps(supply)); supply_free['products'] = _synthetic_bertrand(False)
-    supply_free['supply'] = '1 + z'
-    supply_free['solve'] = {'method':'1s','beta':[None,-.9,None],
-                            'optimization':{'method':'l-bfgs-b','options':{'gtol':1e-8,'maxiter':500}}}
-    rng = np.random.default_rng(20261101)
-    records = []
-    for i in range(200):
-        values = rng.uniform(0, 2.5, 3); bids = values*2/3; winner = int(np.argmax(bids))
-        records.append({'auction_id':str(i), 'bids':[{'bidder_id':str(j),'amount':float(bids[j])} for j in range(3)],
-                        'winner_id':str(winner), 'payment':float(bids[winner])})
-    auction_records = {'n':3,'format':'first','records':records,'counterfactual_reserve':0.}
-    return {'blp-nested-free':wrap('blp',nested_free,None), 'blp-supply-free':wrap('blp',supply_free,None),
-            'auction-records':wrap('auction_fit',auction_records,{**auction_records,'counterfactual_reserve':1.25}),
-            'blp-entry':wrap('blp',entry,None),'blp-logit':wrap('blp',basic,None),'blp-endogenous-characteristic':wrap('blp',endogenous,None),'blp-nested':wrap('blp',nested,None),
-            'blp-random':wrap('blp',random,None),'blp-supply':wrap('blp',supply,None),
-            'cournot':wrap('equity',cournot,None), 'auction-private':wrap('auction',a,{**a,'format':'second','reserve':.5,'bids':[]}),
-            'auction-common':wrap('auction',common,{**common,'format':'second'}),
-            'search':wrap('search',search0,{**search0,'search_cost':.02}),
-            'bargaining':wrap('bargaining',bargaining0,{**bargaining0,'tax':2.}),
-            'platform':wrap('platform',platform0,{**platform0,'cross_effects':[.1,.1]}),
-            'matching':wrap('matching',match0,match1)}
-
-
 def _write(path, data):
     payload = json.dumps(data, indent=2, allow_nan=False)+'\n'; path = Path(path)
     temp = None
@@ -744,21 +573,9 @@ def _write(path, data):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__); sub = p.add_subparsers(dest='operation',required=True)
     run = sub.add_parser('run'); run.add_argument('spec',type=Path); run.add_argument('--output',type=Path,required=True)
-    case = sub.add_parser('case'); case.add_argument('--output',type=Path,required=True)
-    case.add_argument('--name', help='Execute one named example; blp-random-merger includes heterogeneous demand and market populations')
     args = p.parse_args(argv)
     try:
-        if args.operation == 'run':
-            raw = args.spec.read_bytes(); result = solve(json.loads(raw)); result['provenance'] = {'spec_path':str(args.spec.resolve()), 'spec_sha256':hashlib.sha256(raw).hexdigest()}; _write(args.output,result)
-        else:
-            args.output.mkdir(parents=True, exist_ok=False)
-            selected = ({args.name: random_merger_case()} if args.name == 'blp-random-merger' else cases())
-            if args.name:
-                if args.name not in selected:
-                    raise ValueError('unknown market example: '+args.name)
-                selected = {args.name: selected[args.name]}
-            for name,spec in selected.items():
-                path=args.output/(name+'.json'); _write(path,spec); result=solve(spec); result['provenance']={'spec_path':str(path.resolve()),'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest()}; _write(args.output/(name+'-result.json'),result)
+        raw = args.spec.read_bytes(); result = solve(json.loads(raw)); result['provenance'] = {'spec_path':str(args.spec.resolve()), 'spec_sha256':hashlib.sha256(raw).hexdigest()}; _write(args.output,result)
     except (ValueError, TypeError, KeyError, OSError, ArithmeticError) as exc: p.exit(2,f'error: {exc}\n')
 
 if __name__ == '__main__': main()

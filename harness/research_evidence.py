@@ -46,13 +46,27 @@ def rows(value, context):
     return value
 
 
-def file_bytes(root, ref, context):
+def file_bytes(root, ref, context, *, cache=None):
     obj(ref, context)
     path = state.relative(root, text(ref.get('path'), context + '.path'))
     expected = text(ref.get('sha256'), context + '.sha256')
-    raw = (root / path).read_bytes()
-    require(paragraph.sha(raw) == expected, context + ' hash differs: ' + path)
+    files = cache.setdefault('files', {}) if cache is not None else {}
+    if path not in files:
+        raw = (root / path).read_bytes()
+        files[path] = (raw, paragraph.sha(raw))
+    raw, digest = files[path]
+    require(digest == expected, context + ' hash differs: ' + path)
     return raw
+
+
+def result_json(root, ref, context, *, cache):
+    """Read each pinned result once during this binding operation."""
+    raw = file_bytes(root, ref, context, cache=cache)
+    results = cache.setdefault('results', {})
+    key = ref['sha256']
+    if key not in results:
+        results[key] = read_json(raw, context)
+    return results[key]
 
 
 def utf8(raw, context):
@@ -82,7 +96,7 @@ def lookup(data, keys, context):
     return data
 
 
-def check_registered_inputs(result, root, key=None):
+def check_registered_inputs(result, root, key=None, *, cache=None):
     """Recheck the selected producing record, or the whole registry when required."""
     if not isinstance(result, dict) or result.get('schema') != 'research-artifact-registry-v1':
         return
@@ -99,7 +113,7 @@ def check_registered_inputs(result, root, key=None):
         refs = obj(obj(record, 'registry record').get('references'), 'registry references')
         require('result' in refs and 'code' in refs, 'registry source needs result and code references')
         for kind, reference in refs.items():
-            file_bytes(root, reference, f'registry {name} {kind}')
+            file_bytes(root, reference, f'registry {name} {kind}', cache=cache)
 
 
 def check_identity(result, keys, adopted, context):
@@ -110,11 +124,14 @@ def check_identity(result, keys, adopted, context):
         require(type(actual) is type(expected) and actual == expected, context + ' identity differs: ' + name)
 
 
-def check_judgment(value, context):
+def check_judgment(value, context, *, require_support=False):
     obj(value, context)
     text(value.get('reviewer'), context + '.reviewer')
     text(value.get('rationale'), context + '.rationale')
-    require(value.get('decision') == 'supported', context + ' decision must be supported')
+    require(value.get('decision') in {'supported', 'revision-required', 'unresolved'},
+            context + ' decision must name the actual assessment')
+    if require_support:
+        require(value['decision'] == 'supported', context + ' needs support for this coverage account')
 
 
 def span(value, original, context):
@@ -163,7 +180,7 @@ def claim_coverage(manuscript, claims, coverage=None):
     accounts = coverage.get('claim_accounts', [])
     for account in accounts:
         span(account['target'], manuscript, 'claim account')
-        check_judgment(account['judgment'], 'claim account judgment')
+        check_judgment(account['judgment'], 'claim account judgment', require_support=True)
     patterns = {
         'citation': r'\\cite\w*\{|\[@[^\]]+\]|\([^\n)]*\b(?:19|20)\d{2}[a-z]?[^\n)]*\)',
         'quantity': paragraph.QUANTITY.pattern,
@@ -427,6 +444,7 @@ def review_round(contract, root, packet, *, writing=None):
 def review(contract, root, *, claim_ids=None, writing=None):
     """Supply the actual claim and source context for the selected specialist judgment."""
     root = Path(root).resolve(strict=True)
+    cache = {}
     if writing is not None:
         require(claim_ids is None and 'response_draft' in contract.get('review', {}),
                 'response writing requires the current complete review and response_draft selection')
@@ -441,9 +459,9 @@ def review(contract, root, *, claim_ids=None, writing=None):
             if not contract['corpus']['proposition_ids']:
                 contract.pop('corpus')
     contract, selected = literature_bindings(contract, root)
-    manuscript = utf8(file_bytes(root, contract['manuscript'], 'manuscript'), 'manuscript')
+    manuscript = utf8(file_bytes(root, contract['manuscript'], 'manuscript', cache=cache), 'manuscript')
     used_sources = {anchor['id'] for claim in contract.get('claims', []) for anchor in claim.get('sources', [])}
-    sources = {key: utf8(file_bytes(root, ref, 'source ' + key), 'source ' + key)
+    sources = {key: utf8(file_bytes(root, ref, 'source ' + key, cache=cache), 'source ' + key)
                for key, ref in contract.get('sources', {}).items() if key in used_sources}
     claims, source_context, seen = [], {}, set()
     for claim in rows(contract.get('claims'), 'claims'):
@@ -472,9 +490,9 @@ def review(contract, root, *, claim_ids=None, writing=None):
                 continue
             require(row['id'] not in binding_context, 'duplicate result binding')
             ref = row['result']
-            data = read_json(file_bytes(root, ref, 'review result'), 'review result')
+            data = result_json(root, ref, 'review result', cache=cache)
             key = ref.get('key') or ref.get('residual_key') or (ref.get('quantity') or {}).get('key')
-            check_registered_inputs(data, root, key)
+            check_registered_inputs(data, root, key, cache=cache)
             check_identity(data, ref.get('identity_keys', {}), contract.get('adopted', {}), 'review result')
             context = {'kind': kind, 'binding': copy.deepcopy(row), 'selected_result': lookup(data, key, 'review result') if key else None}
             context['producing_inputs'] = {name: data[name] for name in
@@ -487,7 +505,7 @@ def review(contract, root, *, claim_ids=None, writing=None):
                 context['producing_inputs']['references'] = {name: ref for name, ref in record['references'].items()
                                                             if name != 'result'}
             if 'code' in row:
-                code = utf8(file_bytes(root, row['code'], 'review code'), 'review code')
+                code = utf8(file_bytes(root, row['code'], 'review code', cache=cache), 'review code')
                 context['code_quote'] = span(row['code']['span'], code, 'review code')
             binding_context[row['id']] = context
     require(needed <= set(binding_context), 'claim refers to an unknown result binding')
@@ -507,12 +525,13 @@ def review(contract, root, *, claim_ids=None, writing=None):
     packet = {'status': 'review-required', 'manuscript': contract['manuscript'], 'adopted': contract.get('adopted', {}),
             'claims': claims, 'source_context': source_context,
             'binding_context': binding_context, 'claim_fingerprints': fingerprints,
-            'claim_coverage': claim_coverage(manuscript, claims, contract.get('coverage')),
             'evidence_sha256': state.content_hash({key: value for key, value in contract.items() if key != 'review'}),
             'source_knowledge': [{key: row[key] for key in ('document_id', 'paper_id', 'version', 'id',
                                    'kind', 'attribution', 'proposition_sha256')} for row in selected['propositions']] if selected else [],
             'comparison': 'Compare each actual claim with its original conditions, identified object, inference and scope. '
                           'Return the supported finding and its exact source; retain a correct claim when no defect follows.'}
+    if contract.get('coverage', {}).get('claims') is True:
+        packet['claim_coverage'] = claim_coverage(manuscript, claims, contract['coverage'])
     if claim_ids is None:
         packet['manuscript_text'] = manuscript
         packet = review_round(contract, root, packet, writing=writing)
@@ -521,17 +540,18 @@ def review(contract, root, *, claim_ids=None, writing=None):
         # This is input identity, never a new review or a partial replacement
         # for the fixed initial criteria and full prior review history.
         packet['status'] = 'binding-only'
-        packet.pop('claim_coverage')
+        packet.pop('claim_coverage', None)
     return packet
 
 
 def bind(contract, root):
-    """Return a verified binding map, raising on any failed correspondence."""
+    """Bind exact source/result correspondences without pre-approving their claims."""
     root = Path(root).resolve(strict=True)
+    cache = {}
     obj(contract, 'contract')
     contract, literature = literature_bindings(contract, root)
     manuscript_ref = obj(contract.get('manuscript'), 'manuscript')
-    manuscript = utf8(file_bytes(root, manuscript_ref, 'manuscript'), 'manuscript')
+    manuscript = utf8(file_bytes(root, manuscript_ref, 'manuscript', cache=cache), 'manuscript')
     adopted = obj(contract.get('adopted', {}), 'adopted')
     for name, value in adopted.items():
         text(name, 'adopted identity name')
@@ -542,7 +562,7 @@ def bind(contract, root):
     source_texts = {}
     for name, ref in source_refs.items():
         text(name, 'source id')
-        source_texts[name] = {'text': utf8(file_bytes(root, ref, 'source ' + name), 'source ' + name),
+        source_texts[name] = {'text': utf8(file_bytes(root, ref, 'source ' + name, cache=cache), 'source ' + name),
                               'sha256': ref['sha256']}
         metadata = obj(ref.get('metadata'), 'source ' + name + '.metadata')
         identities = obj(metadata.get('identities', {}), 'source ' + name + ' identities')
@@ -581,8 +601,9 @@ def bind(contract, root):
             span(anchor.get('span'), source_texts[sid]['text'], 'source anchor ' + sid)
             if 'role' in anchor:
                 text(anchor['role'], 'source evidence role')
-        check_judgment(claim.get('judgment'), 'claim ' + name + ' judgment')
-        if claim.get('literature'):
+        if 'judgment' in claim:
+            check_judgment(claim['judgment'], 'claim ' + name + ' judgment')
+        if claim.get('literature') and 'judgment' in claim:
             comparison = obj(claim['judgment'].get('comparison'), 'literature support comparison')
             for key in ('claim_meaning', 'source_meaning', 'inference'):
                 text(comparison.get(key), 'literature support comparison.' + key)
@@ -594,8 +615,8 @@ def bind(contract, root):
         require(name not in ids, 'duplicate binding id: ' + name)
         ids.add(name)
         ref = obj(row.get('result'), 'number result')
-        result = read_json(file_bytes(root, ref, 'number result'), 'number result')
-        check_registered_inputs(result, root, ref.get('key'))
+        result = result_json(root, ref, 'number result', cache=cache)
+        check_registered_inputs(result, root, ref.get('key'), cache=cache)
         check_identity(result, ref.get('identity_keys', {}), adopted, 'number result')
         statistic = obj(lookup(result, ref.get('key'), 'statistic'), 'statistic')
         unit = text(ref.get('unit'), 'number result.unit')
@@ -624,12 +645,13 @@ def bind(contract, root):
         ids.add(name)
         span(row.get('equation'), manuscript, 'model ' + name + ' equation')
         code = obj(row.get('code'), 'model code')
-        code_text = utf8(file_bytes(root, code, 'model code'), 'model code')
+        code_text = utf8(file_bytes(root, code, 'model code', cache=cache), 'model code')
         span(code.get('span'), code_text, 'model ' + name + ' code')
-        check_judgment(row.get('judgment'), 'model ' + name + ' judgment')
+        if 'judgment' in row:
+            check_judgment(row['judgment'], 'model ' + name + ' judgment')
         ref = obj(row.get('result'), 'model result')
-        result = read_json(file_bytes(root, ref, 'model result'), 'model result')
-        check_registered_inputs(result, root, ref.get('residual_key'))
+        result = result_json(root, ref, 'model result', cache=cache)
+        check_registered_inputs(result, root, ref.get('residual_key'), cache=cache)
         check_identity(result, ref.get('identity_keys', {}), adopted, 'model result')
         residual = lookup(result, ref.get('residual_key'), 'model residual')
         tolerance = ref.get('tolerance')
@@ -649,12 +671,13 @@ def bind(contract, root):
         require(row.get('status') in ('derived', 'fixed', 'calibrated', 'estimated'), 'invalid mapping status')
         span(row.get('target'), manuscript, 'mapping ' + name + ' manuscript')
         code = obj(row.get('code'), 'mapping code')
-        code_text = utf8(file_bytes(root, code, 'mapping code'), 'mapping code')
+        code_text = utf8(file_bytes(root, code, 'mapping code', cache=cache), 'mapping code')
         span(code.get('span'), code_text, 'mapping ' + name + ' code')
-        check_judgment(row.get('judgment'), 'mapping ' + name + ' judgment')
+        if 'judgment' in row:
+            check_judgment(row['judgment'], 'mapping ' + name + ' judgment')
         ref = obj(row.get('result'), 'mapping result')
-        result = read_json(file_bytes(root, ref, 'mapping result'), 'mapping result')
-        check_registered_inputs(result, root, (ref.get('quantity') or {}).get('key'))
+        result = result_json(root, ref, 'mapping result', cache=cache)
+        check_registered_inputs(result, root, (ref.get('quantity') or {}).get('key'), cache=cache)
         check_identity(result, ref.get('identity_keys', {}), adopted, 'mapping result')
         origin = obj(row.get('origin'), 'mapping origin')
         require(set(origin) in ({'source'}, {'specification'}), 'mapping needs one source or specification origin')
@@ -665,7 +688,7 @@ def bind(contract, root):
             span(source.get('span'), source_texts[sid]['text'], 'mapping source ' + sid)
         else:
             spec = obj(origin['specification'], 'mapping specification')
-            spec_data = read_json(file_bytes(root, spec, 'mapping specification'), 'mapping specification')
+            spec_data = result_json(root, spec, 'mapping specification', cache=cache)
             require(spec['sha256'] == adopted['specification'], 'mapping specification identity differs')
             actual = lookup(spec_data, spec.get('key'), 'mapping specification')
             expected = spec.get('value')
@@ -725,10 +748,10 @@ def bind(contract, root):
         if coverage.get('claims') is True:
             checked_claims = claim_coverage(manuscript, claims, coverage)
             require(not checked_claims['unregistered'], 'unregistered important claim candidates')
-            check_judgment(coverage.get('claim_judgment'), 'whole-scope claim coverage judgment')
+            check_judgment(coverage.get('claim_judgment'), 'whole-scope claim coverage judgment', require_support=True)
             coverage_result['claims'] = checked_claims
 
-    return {'version': 1, 'status': 'verified', 'bindings': copy.deepcopy(contract),
+    return {'version': 1, 'status': 'bound', 'bindings': copy.deepcopy(contract),
             'statistic_checks': statistic_checks, 'residual_checks': residuals,
             'mapping_checks': mapping_checks, 'coverage': coverage_result,
             'source_knowledge': literature['propositions'] if literature else []}

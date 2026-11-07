@@ -1,248 +1,34 @@
-# Selected task operations
+# Economics operation index
 
-Read the included common rules once. Support inherits this task and returns to its owner. Run documentation command examples from this snapshot root.
+Generated from registry/operations.json. Read runtime/CORE.md once; select the final operation below. Support continues the same task.
 
-- econ-design / design: design
-- econ-data / execute: execute
-- econ-data / equity: equity
-- econ-literature / investigate: investigate
-- econ-writing / compose: compose
-- econ-writing / revise: revise
-- econ-writing / translate: translate
-- econ-writing / convert: convert
-- econ-writing / guidance: guidance
-- econ-writing / explain: explain
-- econ-writing / profile: profile
-- econ-review / assess: assess
-- econ-review / assess+repair: assess+repair
-- econ-knowledge / lookup: lookup
-- project-work / contribute: contribute
-- project-work / manage: manage
-- project-work / clarify: clarify
-- project-work / prompt: prompt
+- econ-design / design: Choose a research question, model, identification strategy, study design or policy action.
+- econ-data / execute: Acquire, transform, join, calculate, estimate or change research data and code.
+- econ-data / equity: Evaluate Japanese, US and overseas equities from public filings, IR and market observations; estimate competition, compute sustainable cash flows, reverse valuation, after-tax investment decisions and news-driven changes.
+- econ-literature / investigate: Find and select source information that resolves a research question or citation task.
+- econ-writing / compose: Compose academic prose and research materials from the adopted sources.
+- econ-writing / revise: Revise supplied prose, including natural Japanese, spoken explanations and requests such as 自然な日本語に, 何を言いたいの, 直訳っぽい, 口頭で説明して and わかりやすく短く.
+- econ-writing / translate: Translate supplied prose into natural Japanese or English while preserving its claims and sources.
+- econ-writing / convert: Convert adopted content into a paper, slides, research site or requested format.
+- econ-writing / guidance: Explain a concrete writing decision and show the needed revision.
+- econ-writing / explain: Explain a paper, theory, institution, method or result through its question, mechanism, evidence and answer.
+- econ-writing / profile: Create or revise a reusable writing profile only when explicitly requested.
+- econ-review / assess: Assess the specified claim or artifact and return findings and proposed repairs.
+- econ-review / assess+repair: Assess the specified target and repair it within the requested change scope.
+- econ-knowledge / lookup: Retrieve the economics definitions, derivations, model conditions or worked examples needed by the current specialist.
+- project-work / contribute: Complete an assigned project contribution from its adopted economic model through research, calculations, consultation drafts and actual artifacts.
+- project-work / manage: Manage a project or shared portfolio through its economic decision, evidence, work, resources, authorized changes, outcomes and handover.
+- project-work / clarify: Clarify requested task requirements, scope or work approaches; compare consequential alternatives and complete the adopted brief or specification.
+- project-work / prompt: Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request.
 
-Included resources:
+Compatibility names:
 
-- [adaptive-research](.agents/skills/econ-design/references/adaptive-research.md)
-- [argument-engine](.agents/harness/argument.py)
-- [argument-schema](.agents/harness/argument.schema.json)
-- [capabilities-helper](.agents/harness/capabilities.py)
-- [codex-hooks](.agents/harness/codex_hooks.py)
-- [config-template-claude-mcp-example-json](docs/ai/config-templates/claude-mcp.example.json)
-- [config-template-codex-example-toml](docs/ai/config-templates/codex.example.toml)
-- [config-template-mcp-example-json](docs/ai/config-templates/mcp.example.json)
-- [config-template-readme-md](docs/ai/config-templates/README.md)
-- [core](.agents/runtime/CORE.md)
-- [data-implementation](.agents/skills/econ-data/references/implementation.md)
-- [data-results](.agents/skills/econ-data/references/reproducible-workflow.md)
-- [default-micro](.agents/profiles/default-micro/PROFILE.md)
-- [design-methods](.agents/skills/econ-design/references/designs.md)
-- [econ-data](.agents/skills/econ-data/SKILL.md)
-- [econ-design](.agents/skills/econ-design/SKILL.md)
-- [econ-knowledge](.agents/skills/econ-knowledge/SKILL.md)
-- [econ-literature](.agents/skills/econ-literature/SKILL.md)
-- [econ-review](.agents/skills/econ-review/SKILL.md)
-- [econ-writing](.agents/skills/econ-writing/SKILL.md)
-- [equity-airline-case](.agents/skills/econ-data/scripts/equity_airline_case.py)
-- [equity-calculator](.agents/skills/econ-data/scripts/equity.py)
-- [equity-company-case](.agents/skills/econ-data/scripts/equity_company_case.py)
-- [equity-dependencies](.agents/skills/econ-data/scripts/requirements-equity.txt)
-- [equity-guide](.agents/skills/econ-data/references/equity.md)
-- [equity-io](.agents/skills/econ-data/scripts/equity_io.py)
-- [equity-models](.agents/skills/econ-data/references/equity-models.md)
-- [equity-sources](.agents/skills/econ-data/scripts/equity_sources.py)
-- [examples-en](.agents/profiles/default-micro/short-examples-en.md)
-- [examples-ja](.agents/profiles/default-micro/short-examples-ja.md)
-- [execution](.agents/runtime/EXECUTION.md)
-- [extended-en](.agents/profiles/default-micro/extended-introduction-en.md)
-- [extended-ja](.agents/profiles/default-micro/extended-introduction-ja.md)
-- [hook-registration](.agents/hooks/hooks.json)
-- [hook-wrapper](.agents/hooks/check.py)
-- [integration](docs/ai/integration.md)
-- [knowledge-retrieval](.agents/skills/econ-knowledge/scripts/knowledge.py)
-- [latex-bibliography-style](.agents/tex/paper/ecta-fullname.bst)
-- [latex-build-helper](.agents/scripts/build_latex.py)
-- [latex-paper-class](.agents/tex/paper/econsocart.cls)
-- [latex-paper-config](.agents/tex/paper/econsocart.cfg)
-- [latex-paper-pandoc](.agents/tex/paper/pandoc_template.latex)
-- [latex-paper-quarto](.agents/tex/paper/quarto_template.qmd)
-- [latex-paper-template](.agents/tex/paper/ecta_template.tex)
-- [latex-quarto-project](.agents/_quarto.yml)
-- [latex-slides-pandoc](.agents/tex/slides/pandoc_template.latex)
-- [latex-slides-quarto](.agents/tex/slides/quarto_template.qmd)
-- [latex-slides-template](.agents/tex/slides/main.tex)
-- [local-checks](.agents/harness/local_checks.py)
-- [local-checks-guide](.agents/harness/local_checks.md)
-- [meeting-materials](.agents/harness/meetings.md)
-- [meeting-quarto-template](.agents/tex/slides/meeting_template.qmd)
-- [meeting-templates](.agents/tex/slides/meeting_templates.json)
-- [models-abm](.agents/skills/econ-design/references/agent-models.md)
-- [models-causal](.agents/skills/econ-design/references/causal-models.md)
-- [models-dsge](.agents/skills/econ-design/references/dsge-models.md)
-- [models-dynamic](.agents/skills/econ-design/references/dynamic-models.md)
-- [models-macro-extended](.agents/skills/econ-design/references/macro-models.md)
-- [models-markets](.agents/skills/econ-design/references/market-models.md)
-- [models-numerics](.agents/skills/econ-design/references/numerical-models.md)
-- [native-check](.agents/harness/native_check.py)
-- [native-index](docs/ai/compiled_ai_skills.md)
-- [package-notices](.agents/THIRD_PARTY_NOTICES.md)
-- [paper-workflow](.agents/skills/econ-writing/references/paper-workflow.md)
-- [paragraph-engine](.agents/harness/paragraph.py)
-- [paragraph-schema](.agents/harness/paragraph.schema.json)
-- [paragraph-workflow](.agents/skills/econ-writing/references/paragraph-workflow.md)
-- [plugin-integration-guide](docs/ai/plugin-integration.md)
-- [policy-agents-agentsmd](.agents/AGENTS.md)
-- [policy-agentsmd](AGENTS.md)
-- [policy-antigravityrules](.antigravityrules)
-- [policy-assets](.agents/harness/policy_assets.py)
-- [policy-claude-agentsmd](.claude/AGENTS.md)
-- [policy-claudemd](CLAUDE.md)
-- [policy-clinerules](.clinerules)
-- [policy-codex-agent-astra](.codex/agents/astra.toml)
-- [policy-codex-agent-implementer](.codex/agents/implementer.toml)
-- [policy-codex-agent-lead](.codex/agents/lead.toml)
-- [policy-codex-agent-luna](.codex/agents/luna.toml)
-- [policy-codex-agent-retriever](.codex/agents/retriever.toml)
-- [policy-codex-agent-specialist](.codex/agents/specialist.toml)
-- [policy-codex-agent-terra](.codex/agents/terra.toml)
-- [policy-codexmd](CODEX.md)
-- [policy-cursor-rules-01_project_policymdc](.cursor/rules/01_project_policy.mdc)
-- [policy-gemini-geminimd](.gemini/GEMINI.md)
-- [policy-github-copilot-instructionsmd](.github/copilot-instructions.md)
-- [policy-manifest](.agents/quality/policy_manifest.json)
-- [policy-windsurfrules](.windsurfrules)
-- [project-context](docs/ai/repo_context.md)
-- [project-instructions](docs/ai/project_instructions.txt)
-- [project-practice](.agents/skills/project-work/references/practice.md)
-- [project-work](.agents/skills/project-work/SKILL.md)
-- [prose](.agents/runtime/PROSE.md)
-- [prose-check-guide](.agents/quality/prose_rules.md)
-- [prose-check-rules](.agents/quality/prose_rules.json)
-- [publication](.agents/harness/publication.md)
-- [registry-operations](.agents/registry/operations.json)
-- [registry-placements](.agents/registry/placements.json)
-- [registry-resources](.agents/registry/resources.json)
-- [repository-policy](.cursorrules)
-- [requirements-check](.agents/harness/requirements_check.py)
-- [requirements-check-guide](.agents/harness/requirements_check.md)
-- [research](.agents/runtime/DECIDE.md)
-- [research-abm](.agents/skills/econ-data/scripts/research_abm.py)
-- [research-artifacts](.agents/harness/research_artifacts.py)
-- [research-case](.agents/skills/econ-data/scripts/research_case.py)
-- [research-causal](.agents/skills/econ-data/scripts/research_causal.py)
-- [research-causal-dependencies](.agents/skills/econ-data/scripts/requirements-causal.txt)
-- [research-causal-r-dependencies](.agents/skills/econ-data/scripts/requirements-causal-r.json)
-- [research-data](.agents/skills/econ-data/scripts/research_data.py)
-- [research-data-guide](.agents/skills/econ-data/references/research-data.md)
-- [research-dependencies](.agents/skills/econ-data/scripts/requirements-research.txt)
-- [research-design](.agents/skills/econ-design/scripts/research_design.py)
-- [research-dsge](.agents/skills/econ-data/scripts/research_dsge.py)
-- [research-dynamic](.agents/skills/econ-data/scripts/research_dynamic.py)
-- [research-dynamic-dependencies](.agents/skills/econ-data/scripts/requirements-dynamic.txt)
-- [research-estimator](.agents/skills/econ-data/scripts/research.py)
-- [research-evidence](.agents/harness/research_evidence.py)
-- [research-execution](.agents/harness/research.md)
-- [research-experience](.agents/harness/experience.py)
-- [research-gallery](.agents/harness/research_gallery.py)
-- [research-gallery-example](.agents/examples/research-workspace/gallery.json)
-- [research-julia](.agents/skills/econ-data/scripts/research_numerics.jl)
-- [research-macro](.agents/skills/econ-data/scripts/research_macro.py)
-- [research-macro-dependencies](.agents/skills/econ-data/scripts/requirements-macro.txt)
-- [research-macro-extended](.agents/skills/econ-data/scripts/research_macro_extended.py)
-- [research-markets](.agents/skills/econ-data/scripts/research_markets.py)
-- [research-markets-dependencies](.agents/skills/econ-data/scripts/requirements-markets.txt)
-- [research-meetings](.agents/harness/research_meetings.py)
-- [research-numerics](.agents/skills/econ-data/scripts/research_numerics.py)
-- [research-numerics-dependencies](.agents/skills/econ-data/scripts/requirements-numerics.txt)
-- [research-reproduction](.agents/harness/reproduction.py)
-- [research-runner](.agents/harness/research.py)
-- [research-search](.agents/skills/econ-literature/scripts/research_search.py)
-- [research-sources](.agents/skills/econ-literature/scripts/research_sources.py)
-- [research-structural-case](.agents/skills/econ-data/scripts/research_structural_case.py)
-- [resource-guide](docs/ai/resources.md)
-- [result-artifacts](.agents/skills/econ-writing/references/result-artifacts.md)
-- [review-methods](.agents/skills/econ-review/references/oversight.md)
-- [source-discovery](.agents/skills/econ-literature/references/source-discovery.md)
-- [state-contract](.agents/harness/state.md)
-- [team](.agents/runtime/TEAM.md)
-- [team-state-helper](.agents/harness/state.py)
-- [tool-pack-context-sh](scripts/pack_context.sh)
-- [tool-route-registry-py](.agents/scripts/route_registry.py)
-- [writing-ui](.agents/skills/econ-writing/agents/openai.yaml)
-
-Optional resources are requested only when their function becomes necessary. See [optional inputs](OPTIONAL_INPUTS.md).
-
-Operation contract:
-
-- Selector: econ-design:design; owner: econ-design; canonical operation: econ-design:design.
-- Inputs: Use the requested target and authorized inputs. Apply CORE and DECIDE to select the central problem and decisive operation by their contribution to the final result; inherit settled scope, definitions, permissions and holds and execute a determined operation immediately.
-- Result: {"kind":"as_requested","meaning":"Choose a research question, model, identification strategy, study design or policy action.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-data:execute; owner: econ-data; canonical operation: econ-data:execute.
-- Inputs: Use the requested target and authorized inputs. Apply CORE and DECIDE to select the central problem and decisive operation by their contribution to the final result; inherit settled scope, definitions, permissions and holds and execute a determined operation immediately.
-- Result: {"kind":"as_requested","meaning":"Acquire, transform, join, calculate, estimate or change research data and code.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-data:equity; owner: econ-data; canonical operation: econ-data:equity.
-- Inputs: Use the requested target and authorized inputs. Apply CORE and DECIDE to select the central problem and decisive operation by their contribution to the final result; inherit settled scope, definitions, permissions and holds and execute a determined operation immediately.
-- Result: {"kind":"as_requested","meaning":"Executed market definition, source observations, identification and estimates, competitive equilibrium, sustainable cash-flow and net-cash bridge, fair and market-implied value, attainable after-tax investment decision and attributed news update. Uncomputed real-company stages remain unfinished.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-literature:investigate; owner: econ-literature; canonical operation: econ-literature:investigate.
-- Inputs: Use the requested target and authorized inputs. Apply CORE and DECIDE to select the central problem and decisive operation by their contribution to the final result; inherit settled scope, definitions, permissions and holds and execute a determined operation immediately.
-- Result: {"kind":"as_requested","meaning":"Find and select source information that resolves a research question or citation task.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-writing:compose; owner: econ-writing; canonical operation: econ-writing:compose.
-- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
-- Result: {"kind":"as_requested","meaning":"Compose academic prose and research materials from the adopted sources.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-writing:revise; owner: econ-writing; canonical operation: econ-writing:revise.
-- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
-- Result: {"kind":"as_requested","meaning":"Revise supplied prose, including natural Japanese, spoken explanations and requests such as 自然な日本語に, 何を言いたいの, 直訳っぽい, 口頭で説明して and わかりやすく短く.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-writing:translate; owner: econ-writing; canonical operation: econ-writing:translate.
-- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
-- Result: {"kind":"as_requested","meaning":"Translate supplied prose into natural Japanese or English while preserving its claims and sources.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-writing:convert; owner: econ-writing; canonical operation: econ-writing:convert.
-- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
-- Result: {"kind":"as_requested","meaning":"Convert adopted content into a paper, slides, research site or requested format.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-writing:guidance; owner: econ-writing; canonical operation: econ-writing:guidance.
-- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
-- Result: {"kind":"as_requested","meaning":"Explain a concrete writing decision and show the needed revision.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-writing:explain; owner: econ-writing; canonical operation: econ-writing:explain.
-- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
-- Result: {"kind":"as_requested","meaning":"Explain a paper, theory, institution, method or result through its question, mechanism, evidence and answer.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-writing:profile; owner: econ-writing; canonical operation: econ-writing:profile.
-- Inputs: Respect the requested text, audience, source claims, language, original quantities and authorized editing scope.
-- Result: {"kind":"as_requested","meaning":"Create or revise a reusable writing profile only when explicitly requested.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-review:assess; owner: econ-review; canonical operation: econ-review:assess.
-- Inputs: Use the requested target and authorized inputs. Apply CORE and DECIDE to select the central problem and decisive operation by their contribution to the final result; inherit settled scope, definitions, permissions and holds and execute a determined operation immediately.
-- Result: {"kind":"as_requested","meaning":"Assess the specified claim or artifact and return findings and proposed repairs.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-review:assess+repair; owner: econ-review; canonical operation: econ-review:assess+repair.
-- Inputs: Use the requested target and authorized inputs. Apply CORE and DECIDE to select the central problem and decisive operation by their contribution to the final result; inherit settled scope, definitions, permissions and holds and execute a determined operation immediately.
-- Result: {"kind":"as_requested","meaning":"Assess a specified claim or artifact and return requested findings or scoped corrections.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: econ-knowledge:lookup; owner: econ-knowledge; canonical operation: econ-knowledge:lookup.
-- Inputs: Use the requested target and authorized inputs. Apply CORE and DECIDE to select the central problem and decisive operation by their contribution to the final result; inherit settled scope, definitions, permissions and holds and execute a determined operation immediately.
-- Result: {"kind":"as_requested","meaning":"Return selected knowledge IDs, their necessary prerequisites and exact versioned bodies to the owning specialist.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: project-work:contribute; owner: project-work; canonical operation: project-work:contribute.
-- Inputs: Use the requested target and authorized inputs. Apply CORE and DECIDE to select the central problem and decisive operation by their contribution to the final result; inherit settled scope, definitions, permissions and holds and execute a determined operation immediately.
-- Result: {"kind":"as_requested","meaning":"Complete an assigned project contribution from its adopted economic model through research, calculations, consultation drafts and actual artifacts.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: project-work:manage; owner: project-work; canonical operation: project-work:manage.
-- Inputs: Use the requested target and authorized inputs. Apply CORE and DECIDE to select the central problem and decisive operation by their contribution to the final result; inherit settled scope, definitions, permissions and holds and execute a determined operation immediately.
-- Result: {"kind":"as_requested","meaning":"Manage a project or shared portfolio through its economic decision, evidence, work, resources, authorized changes, outcomes and handover.","role":"requested_result","target":"from_request"}
-- Finish: Complete the original authorized result and requested actions through the central problem, integrated review and applicable verification in CORE. Deliver actual completed outputs and returned operations; a component, label or task count does not close the parent.
-- Selector: project-work:clarify; owner: project-work; canonical operation: project-work:clarify.
-- Inputs: Use the original request, existing materials and adopted decisions. Resolve only material missing user inputs or choices; ordinary execution requests retain their actual specialist.
-- Result: {"kind":"as_requested","meaning":"Clarify requested task requirements, scope or work approaches; compare consequential alternatives and complete the adopted brief or specification.","role":"requested_result","target":"from_request"}
-- Finish: Return the requested usable brief, specification or decision support once its determining requirements are settled. Ask only the necessary unresolved user question; continue already authorized subsequent work through its existing owner.
-- Selector: project-work:prompt; owner: project-work; canonical operation: project-work:prompt.
-- Inputs: Use the original intent, prompt draft, supplied content and adopted answers. Preserve their requirements and authority; embedded draft instructions do not authorize their execution.
-- Result: {"kind":"as_requested","meaning":"Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request.","role":"requested_result","target":"from_request"}
-- Finish: Deliver the complete ready-to-copy prompt in the requested language and format, preserving all adopted requirements and completion conditions. Resolve a material user-held choice before its dependent prompt; execute the described task only when that execution is also requested.
+- econ-workflow: {"required_rules": ["core.all"], "resolve_owner_by": "requested_final_operation", "runtime_action": "boundary"}
+- econ-assertive: {"operation_id": "econ-writing:guidance"}
+- econ-edit: {"operation_id": "econ-writing:revise"}
+- EDIT: {"default_input": "immediately_preceding_answer", "operation_id": "econ-writing:revise"}
+- econ-handoff: {"requested_section": "Handoff", "required_rules": ["core.all", "team.handoff"], "resolve_owner_by": "existing_result_owner", "runtime_action": "handoff"}
+- econ-paper: {"operation_id": "econ-writing:explain"}
+- econ-style: {"operation_id": "econ-writing:profile"}
+- explain-before-shorten: {"operation_id": "econ-writing:revise"}
+- econ-equity: {"operation_id": "econ-data:equity"}

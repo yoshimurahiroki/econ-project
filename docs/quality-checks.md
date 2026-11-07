@@ -1,19 +1,16 @@
-# Changed-work verification
+# Verify the changed result
 
-Use a check when the changed mechanism or an explicit requirement creates an evidence gap and the result decides acceptance or repair. Reuse completed checks for unchanged inputs. Keep explicitly selected independent certification and its existing evidence requirements.
+Use CORE’s three conditions to choose a consequential check. Inspect the changed operation’s actual output and reuse an established result for unchanged inputs. Run the owning command directly.
 
-`python harness/local_checks.py check-changed --base <commit>` selects and executes existing commands from changed paths. It includes tracked edits and new files. Python paths select syntax compilation, Ruff and mypy. Owning implementation paths select the retained named tests. Registry inputs select the existing entry generator; registered distribution sources select the existing distribution producer, which already includes entry generation. An unrelated document change selects neither tests nor generation.
-
-Select only the remaining evidence gaps with repeated `--check syntax`, `--check lint`, `--check typecheck`, `--check tests`, `--check registry` or `--check distribution`. Use repeated `--path path` for an explicitly bounded changed scope. `--list` prints the selected commands without executing them. Ordinary invocation executes the commands and propagates the first failing exit status. It writes no audit record or separate test state.
+The retained tests address permission holds (`harness/test_state.py`) and failed result replacement, no-arbitrage price bounds and equation-defined equilibria (`harness/test_research.py`). Their assertions concern authorization, preservation of saved data and independent numerical identities. Select a named method only when its mechanism changed and direct execution has not established it. They use Python’s standard-library `unittest`.
 
 ```sh
-python harness/local_checks.py check-changed --base HEAD --check syntax
-python harness/local_checks.py check-changed --path harness/codex_hooks.py --check tests
-python harness/local_checks.py check-changed --base <release-base> --check distribution
+python -m unittest harness.test_state.TeamStateTests.test_permission_hold_needs_recorded_release
+python -m unittest harness.test_research.ResearchPipelineTest.test_failed_replacement_preserves_previous_and_blocks_descendant
 ```
 
-The retained Python tests cover changed external inputs and permission holds (`harness/test_state.py`), actual hook callbacks and instruction restoration in the same owning test file, failed research replacement (`harness/test_research.py`), and changed numerical identities or units (`harness/test_research_evidence.py`). The private distribution retains `scripts/test_equity_isolation.cjs` for its private boundary. For a changed numerical calculation, compare the named output with an independent calculation or official implementation on the adopted inputs. Inspect the actual generated output when distribution changes.
+Numerical changes use the adopted inputs and the official implementation or the defining equations. Compare the estimate and its requested inference, units and sample. Writing uses the adopted evidence and one integrated substantive review.
 
-Manual `make lint FILE=...`, `make format FILE=...`, `make typecheck FILE=...` and `make test TEST=path::Class::method` remain available. The CI workflow runs only through manual dispatch. It accepts a comparison base and a selected check, or an exact existing test node. Push and pull requests start no test suite.
+Distribution changes use the existing producer, `python scripts/export_project.py --generate-entries`, and the actual Git or plugin update. Inspect the affected generated entry and returned destination. Keep explicitly selected independent certification and its source evidence.
 
-The existing `harness.local_checks` pytest plugin requires passing calls for the selected tests. It rejects skipped collection or phases, deselected tests, empty collection and collected tests without a passing call. Existing failures and exit codes propagate. The selector and `make test` both load that plugin explicitly.
+Formatting tools remain available for an explicitly named file. Test suites, static checks and distribution builds have no automatic trigger from ordinary edits or GitHub pushes.

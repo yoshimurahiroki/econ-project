@@ -240,8 +240,7 @@
             "mandatory_claims",
             "evidence_correspondence",
             "logical_coherence",
-            "prose_compliance",
-            "local_review"
+            "prose_compliance"
           ]
         },
         "argument_node_id": {
@@ -1077,7 +1076,16 @@
                 "type": "object"
               },
               "review": {
-                "type": "object"
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "binding": {
+                "type": [
+                  "object",
+                  "null"
+                ]
               }
             },
             "required": [
@@ -1133,11 +1141,7 @@
             "text",
             "sha256",
             "status",
-            "execution",
-            "reverse_outline",
-            "outline_execution",
-            "outline_comparison",
-            "argument_comparison"
+            "execution"
           ]
         },
         "events": {
@@ -1167,7 +1171,14 @@
           "minLength": 1
         },
         "argument_review": {
-          "$ref": "#/$defs/ArgumentReview"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArgumentReview"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "packet_encoding": {
           "const": "observed-record-blobs-v1"
@@ -1229,7 +1240,45 @@
         "required": [
           "execution_blobs"
         ]
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "execution_kind": {
+                "const": "independent-subagent"
+              }
+            },
+            "required": [
+              "execution_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "argument_review": {
+                "$ref": "#/$defs/ArgumentReview"
+              },
+              "manuscript": {
+                "required": [
+                  "reverse_outline",
+                  "outline_execution",
+                  "outline_comparison",
+                  "argument_comparison"
+                ]
+              },
+              "paragraphs": {
+                "additionalProperties": {
+                  "properties": {
+                    "review": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "CompactParagraphPacket": {
       "type": "object",
@@ -1349,7 +1398,10 @@
           "minLength": 1
         },
         "argument_review": {
-          "type": "object"
+          "type": [
+            "object",
+            "null"
+          ]
         },
         "packet_encoding": {
           "const": "observed-record-blobs-v1"

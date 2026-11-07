@@ -144,10 +144,33 @@ def fit(spec: dict) -> dict:
         conditions = _identification_conditions(spec.get("identification"), roles=["demand"])
         if conditions:
             raise ValueError("; ".join(conditions))
-        return {**cournot(spec), "market": spec["market"], "as_of": spec["as_of"],
-                "currency": spec["currency"], "price_unit": spec["price_unit"],
-                "quantity_unit": spec["quantity_unit"], "sources": sources,
-                "identification": spec["identification"]}
+        result = cournot(spec)
+        statistics = {}
+        quantity_unit, currency = spec["quantity_unit"], spec["currency"]
+        for scenario in ("baseline", "counterfactual"):
+            if scenario not in result:
+                continue
+            for index, market in enumerate(result[scenario]["markets"]):
+                for name, unit in (("quantity", quantity_unit), ("price", currency + " per " + quantity_unit),
+                                   ("best_response_max_abs_error", quantity_unit)):
+                    statistics[f"{scenario}.market_{index}.{name}"] = {"value": market[name], "unit": unit}
+            for index, firm in enumerate(result[scenario]["market_firms"]):
+                for name, unit in (("quantity", quantity_unit), ("capacity", quantity_unit),
+                                   ("price", currency + " per " + quantity_unit),
+                                   ("marginal_cost", currency + " per " + quantity_unit),
+                                   ("capacity_shadow_price", currency + " per " + quantity_unit),
+                                   ("revenue", currency), ("variable_cost", currency), ("gross_profit", currency)):
+                    statistics[f"{scenario}.firm_{index}.{name}"] = {"value": firm[name], "unit": unit}
+        return {**result, "market": spec["market"], "as_of": spec["as_of"],
+                "currency": currency, "price_unit": spec["price_unit"],
+                "quantity_unit": quantity_unit, "sources": sources,
+                "identification": spec["identification"], "result_format_version": 1,
+                "specification": copy.deepcopy(spec), "statistics": statistics,
+                "model_contract": "MC-cournot-fcff", "knowledge_ids": ["CASE-01", "FINANCE-03"],
+                "equations": ["P=A-b*Q; b>0; Q=sum_i q_i",
+                    "q_i=clip((A-c_i-b*Q)/(b+cost_slope_i),0,capacity_i)",
+                    "gross_profit_i=(P*q_i-c_i*q_i-cost_slope_i*q_i^2/2)*price_unit"],
+                "equilibrium_selection": "capacity-constrained Nash quantities with decreasing linear demand and convex variable costs"}
     import pyblp
     products = records(spec["products"])
     required = {"market_ids", "product_ids", "firm_ids", "prices", "shares", "market_size"}

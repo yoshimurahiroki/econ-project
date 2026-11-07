@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bounded-learning goods market: run SPEC --output FILE or case --output NEWDIR."""
+"""Bounded-learning goods market: run SPEC --output FILE."""
 import argparse
 import hashlib
 import importlib.util
@@ -111,33 +111,19 @@ def run(spec):
             'statistics': stats, 'provenance': {'python': sys.version.split()[0], 'numpy': np.__version__, 'scipy': scipy.__version__, 'seed': seed}}
 
 
-def example():
-    return {'seed': 29020, 'model': {'households': 20, 'firms': 4, 'periods': 24, 'firm_supply': 3.,
-        'household_cash': 10., 'reservation_value': 4., 'initial_price': 2., 'learning_rate': .2,
-        'sales_tax': 0., 'bargaining_weight': .3}, 'candidates': [
-        {'id': 'baseline', 'changes': {}}, {'id': 'tax', 'changes': {'sales_tax': .15}},
-        {'id': 'slow_learning', 'changes': {'learning_rate': .05}}], 'next_rate_step': .05}
-
-
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('operation', choices=['run', 'case'])
-    parser.add_argument('spec', nargs='?', type=Path)
+    parser.add_argument('operation', choices=['run'])
+    parser.add_argument('spec', type=Path)
     parser.add_argument('--output', required=True, type=Path)
     args = parser.parse_args(argv)
     try:
-        if args.operation == 'run':
-            if args.spec is None: raise ValueError('run requires a specification')
-            raw = args.spec.read_bytes()
-            result = run(json.loads(raw))
-            result['provenance']['spec_sha256'] = hashlib.sha256(raw).hexdigest()
-            result['provenance']['producer_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
-            from research_macro_extended import atomic_write
-            atomic_write(args.output, result)
-        else:
-            if args.spec is not None: raise ValueError('case takes no specification')
-            from research_macro_extended import publish_case
-            publish_case(args.output, example(), run)
+        raw = args.spec.read_bytes()
+        result = run(json.loads(raw))
+        result['provenance']['spec_sha256'] = hashlib.sha256(raw).hexdigest()
+        result['provenance']['producer_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+        from research_macro_extended import atomic_write
+        atomic_write(args.output, result)
     except (ValueError, KeyError, TypeError, OSError, ArithmeticError) as exc:
         parser.exit(2, f'error: {exc}\n')
 

@@ -452,15 +452,17 @@ def reconcile_requirements(contract, request_bytes, artifacts, events, *, tasks=
         contract_sha256=contract_sha256, candidate_bytes=candidate_bytes)
     findings = list(analysis['findings']) + list(fulfillment['unmet'])
     outcomes = []
+    if any(row['code'] == 'invalid_input' for row in fulfillment['unmet']):
+        return {'status': 'fail', 'findings': findings, 'analysis': analysis,
+                'fulfillment': fulfillment, 'operation_outcomes': outcomes}
     try:
-        reqs = requirements.validate_contract(contract, request_bytes)
         if not isinstance(events, list) or not isinstance(action_results if action_results is not None else [], list):
             raise ValueError('events and action_results must be arrays')
         records = action_results if action_results is not None else []
         known_event_ids = {e.get('event_id') for e in events if isinstance(e, dict)}
         if any(not isinstance(r, dict) or r.get('event_id') not in known_event_ids for r in records):
             raise ValueError('action result references an unknown event')
-        for req in reqs:
+        for req in contract['requirements']:
             if req['kind'] != 'action':
                 continue
             matched = [e for e in events if isinstance(e, dict) and e.get('requirement_id') == req['id']]

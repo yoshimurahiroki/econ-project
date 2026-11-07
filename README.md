@@ -63,7 +63,7 @@ pixi run research-ui -- --root . \
   --meeting meetings/workspace-demo
 ```
 
-marimo の画面で、保存した記述統計表・図表を検索、比較、編集します。`--registry` に自分の結果ギャラリーを指定します。[結果ギャラリー](skills/econ-writing/references/result-artifacts.md)は保存済みの表示用行データと定義を読み、表示変更には既存の推定結果を使います。[公開用の合成表示例](examples/research-workspace/README.md)を同梱しています。
+marimo の画面で、保存した記述統計表・図表を検索、比較、編集します。`--registry` に自分の結果ギャラリーを指定します。[結果ギャラリー](skills/econ-writing/references/result-artifacts.md)は保存済みの表示用行データと定義を読み、表示変更には既存の推定結果を使います。[保存済みのモデル計算](examples/research-workspace/README.md)は、入力・採用仕様・実行結果を保持しています。
 
 研究計画、採用仕様、発見・解釈・判断は既存 ERS の記録から編集します。`--project CASE` で登録済みの案件を開き、計画の版、比較、変更の影響を確認できます。担当、期限、依存、優先順位、進捗は [GitHub Issues / Projects](harness/state.md#project-work) で管理します。
 

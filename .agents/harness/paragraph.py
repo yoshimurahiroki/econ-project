@@ -197,7 +197,7 @@ def instruction_packet(request, rules, *, paragraph_id=None, event='task-start',
         'short_text': PRIMARY_RULE + '\n' + JAPANESE_RULE,
         'original_request': request, 'request_sha256': sha(request), 'policy_id': rules['policy_id'],
         'rules_sha256': content_hash(rules), 'paragraph_id': paragraph_id,
-        'unmet': list(unmet), 'next_action': 'Complete the assigned contract and obtain the required current-version review.',
+        'unmet': list(unmet), 'next_action': 'Complete the requested text with its source bindings and integrated substantive review.',
         'rule_texts': copy.deepcopy(rules['texts']), 'dictionary': copy.deepcopy(rules['dictionary']),
         'profile': copy.deepcopy(rules['profile']),
     }
@@ -248,7 +248,7 @@ def observed_return(task, returned, observe, *, execution_kind, author_id=None):
     return value, record
 
 
-def invoke_host(host, task, observe, *, execution_kind='independent-subagent', author_id=None):
+def invoke_host(host, task, observe, *, execution_kind='single-agent-sequential', author_id=None):
     require(callable(host), 'host executor must be callable')
     return observed_return(task, host(copy.deepcopy(task)), observe, execution_kind=execution_kind, author_id=author_id)
 
@@ -392,7 +392,7 @@ def validate_specification(spec, blueprint, sources=None):
         'terminology': ('adopted_definitions', 'fixed_quantities', 'required_terms'),
         'scope': ('included', 'excluded', 'content_change_authority'),
         'writing': ('language', 'profile', 'paragraph_rules', 'prohibited_functions', 'instruction_packet', 'source_references'),
-        'completion': ('mandatory_claims', 'evidence_correspondence', 'logical_coherence', 'prose_compliance', 'local_review'),
+        'completion': ('mandatory_claims', 'evidence_correspondence', 'logical_coherence', 'prose_compliance'),
     }.items():
         require(field in spec, 'specification missing field: ' + field)
         _fields(spec[field], keys, field)
@@ -431,8 +431,6 @@ def validate_specification(spec, blueprint, sources=None):
     if sources is not None:
         require(set(source_ids) | set(bp['source_ids']) <= set(sources),
                 'paragraph references an absent source')
-        checked = argument.validate_argument(graph, sources)
-        require(checked['valid'], 'paragraph argument source bindings differ')
     require(PRIMARY_RULE in str(spec['writing']['instruction_packet']) and JAPANESE_RULE in str(spec['writing']['instruction_packet']),
             'canonical instruction literals missing from paragraph contract')
     return content_hash(spec)
@@ -449,7 +447,7 @@ def _completed_body(sources, completed_run, paragraph_ids):
     return context
 
 
-def generate_blueprint(brief, sources, rules, host, observe, *, execution_kind='independent-subagent', author_id=None,
+def generate_blueprint(brief, sources, rules, host, observe, *, execution_kind='single-agent-sequential', author_id=None,
                        completed_run=None, paragraph_ids=()):
     _texts(brief, ('original_request', 'authority', 'purpose', 'reader'), 'writing brief')
     sources = normalize_sources(sources, research_results=brief.get('research_results'))
@@ -467,7 +465,7 @@ def generate_blueprint(brief, sources, rules, host, observe, *, execution_kind='
 
 
 def generate_specifications(blueprint, sources, rules, host, observe, *, request, authority,
-                            execution_kind='independent-subagent', author_id=None,
+                            execution_kind='single-agent-sequential', author_id=None,
                             completed_run=None, paragraph_ids=(), brief=None):
     sources = normalize_sources(sources, research_results=brief.get('research_results') if brief is not None else None)
     blueprint = seal_blueprint(blueprint, sources)
@@ -520,12 +518,19 @@ def _check_rows(rows, required, text, context):
     return all(row['verdict'] == 'pass' for row in rows)
 
 
-def validate_local_review(review, spec, text, sources, hits):
+def validate_local_review(review, spec, text, sources, hits, *, independent=True):
     """Validate concrete paragraph assessments; preserve their original meaning decisions."""
-    _fields(review, ('paragraph_id', 'text_sha256', 'spec_sha256', 'checks', 'claim_evidence',
-                      'reasoning', 'quantity_evidence', 'findings'), 'local review')
+    _fields(review, ('paragraph_id', 'text_sha256', 'spec_sha256', 'findings'), 'local review')
     require(review['paragraph_id'] == spec['paragraph_id'], 'local review paragraph differs')
     require(review['text_sha256'] == sha(text) and review['spec_sha256'] == content_hash(spec), 'local review is stale')
+    require(isinstance(review['findings'], list), 'local review findings missing')
+    if not independent:
+        _texts(review, ('assessment',), 'local review')
+        for finding in review['findings']:
+            _texts(finding, ('problem', 'repair'), 'local finding')
+            _span(finding['span'], text, 'local finding')
+        return {'passed': not review['findings'], 'semantic_review_performed': True}
+    _fields(review, ('checks', 'claim_evidence', 'reasoning', 'quantity_evidence'), 'independent local review')
     passed = _check_rows(review['checks'], LOCAL_CHECKS, text, 'paragraph')
     require(isinstance(review['findings'], list), 'local review findings missing')
     for finding in review['findings']:
@@ -591,7 +596,7 @@ class ParagraphRun:
 
     @classmethod
     def create(cls, *, run_id, request, authority, author_id, operation, blueprint, specifications,
-               sources, rules, execution_kind='independent-subagent', original_paragraphs=None,
+               sources, rules, execution_kind='single-agent-sequential', original_paragraphs=None,
                editable_ids=None, design_records=()):
         require(operation in OPERATIONS, 'operation requires a registered writing route')
         require(execution_kind in EXECUTION_KINDS, 'execution kind missing')
@@ -621,7 +626,7 @@ class ParagraphRun:
                             'spec_sha256': content_hash(spec), 'text': original.get(pid),
                             'text_sha256': sha(original[pid]) if pid in original else None,
                             'writer': None, 'assignment': None, 'review': None, 'history': [],
-                            'instruction_delivery': [], 'generation': 0, 'repair_count': 0}
+                            'instruction_delivery': [], 'generation': 0, 'repair_count': 0, 'binding': None}
         state = {'schema_version': SCHEMA_VERSION, 'run_id': run_id, 'request': request, 'request_sha256': sha(request),
                  'authority': authority, 'author_id': author_id, 'operation': operation, 'blueprint': blueprint,
                  'sources': sources, 'rules': copy.deepcopy(rules), 'rules_sha256': content_hash(rules),
@@ -637,6 +642,7 @@ class ParagraphRun:
                 records[pid]['status'] = 'drafted'
                 records[pid]['writer'] = {'execution_kind': 'preserved-original', 'worker_id': author_id,
                                          'original_sha256': sha(original[pid])}
+                records[pid]['binding'] = run._binding(pid)
         return run
 
     def _active(self):
@@ -659,6 +665,7 @@ class ParagraphRun:
         require(structural['valid'], 'argument semantic review failed: repair current structural source bindings first')
         adapter = _ArgumentHost(host, observe, self.state['execution_kind'], self.state['author_id'])
         result = argument.review_argument(self.state['blueprint']['argument_structure'], self.state['sources'], adapter,
+            independent=self.state['execution_kind'] == 'independent-subagent',
             instructions=instruction_packet(self.state['request'], self.state['rules'], event='argument-review'))
         self.state['argument_review'] = result
         self._event('argument-reviewed' if result['valid'] else 'argument-review-failed', self.state['paragraphs'],
@@ -684,6 +691,18 @@ class ParagraphRun:
         row = self.state['paragraphs'][pid]
         return ({item['source_id'] for item in row['spec']['required_content']} |
                 set(row['spec']['writing']['source_references']) | set(self._bp(pid)['source_ids']))
+
+    def _current_draft(self, pid):
+        row = self.state['paragraphs'][pid]
+        binding = row.get('binding')
+        # Older saved runs keep this same binding in the review or assignment.
+        if 'binding' not in row:
+            binding = (row.get('review') or {}).get('binding')
+            if binding is None:
+                binding = (row.get('assignment') or {}).get('payload', {}).get('binding')
+        return (row['status'] in ('drafted', 'locally-reviewed', 'integrated', 'globally-reviewed') and
+                _text(row['text']) and row['text_sha256'] == sha(row['text']) and
+                row['spec_sha256'] == content_hash(row['spec']) and binding == self._binding(pid))
 
     def composition_context(self, paragraph_ids):
         """Read selected completed prose and its current dependencies without mutation."""
@@ -712,12 +731,12 @@ class ParagraphRun:
                 continue
             row = self.state['paragraphs'][pid]
             review = row.get('review')
-            require(row['status'] in ('locally-reviewed', 'integrated', 'globally-reviewed') and
-                    isinstance(review, dict) and review['result']['passed'] and
-                    review['binding'] == self._binding(pid) and review['text_sha256'] == row['text_sha256'] and
-                    _text(row['text']) and row['text_sha256'] == sha(row['text']) and
-                    row['spec_sha256'] == content_hash(row['spec']),
+            require(self._current_draft(pid),
                     'composition paragraph requires current completed dependencies: ' + pid)
+            if self.state['execution_kind'] == 'independent-subagent':
+                require(isinstance(review, dict) and review['result']['passed'] and
+                        review['binding'] == self._binding(pid) and review['text_sha256'] == row['text_sha256'],
+                        'selected independent paragraph review is not current: ' + pid)
             source_ids.update(self._source_ids(pid))
             paragraphs[pid] = {'text': row['text'], 'text_sha256': row['text_sha256'],
                                'status': row['status'], 'binding': self._binding(pid),
@@ -747,10 +766,7 @@ class ParagraphRun:
             pid, row = bp['paragraph_id'], self.state['paragraphs'][bp['paragraph_id']]
             if row['status'] != 'source-ready' or pid not in self.state['editable_ids']:
                 continue
-            if not all(self.state['paragraphs'][dep]['text'] and
-                       self.state['paragraphs'][dep]['status'] in
-                       ('drafted', 'locally-reviewed', 'integrated', 'globally-reviewed')
-                       for dep in bp['depends_on']):
+            if not all(self._current_draft(dep) for dep in bp['depends_on']):
                 continue
             packet = instruction_packet(self.state['request'], self.state['rules'], paragraph_id=pid, event='worker-start')
             payload = {'run_id': self.state['run_id'], 'original_request': self.state['request'], 'authority': self.state['authority'],
@@ -766,7 +782,8 @@ class ParagraphRun:
 
     def assign(self, task):
         self._active()
-        require(self._argument_review_current(), 'current argument semantic review is required before assignment')
+        if self.state['execution_kind'] == 'independent-subagent':
+            require(self._argument_review_current(), 'selected independent argument review is required before assignment')
         pid = task['payload']['specification']['paragraph_id']
         row = self.state['paragraphs'][pid]
         require(row['status'] == 'source-ready', 'paragraph is not ready for assignment')
@@ -788,7 +805,8 @@ class ParagraphRun:
         require(_text(value.get('text')), 'writer returned no paragraph text')
         require(pid in self.state['editable_ids'], 'writer changed a retained paragraph')
         row.update({'text': value['text'], 'text_sha256': sha(value['text']), 'writer': record,
-                    'status': 'drafted', 'review': None, 'generation': row['generation'] + 1})
+                    'status': 'drafted', 'review': None, 'generation': row['generation'] + 1,
+                    'binding': copy.deepcopy(value['binding'])})
         row['instruction_delivery'].append({'state': 'received', 'input_sha256': task['input_sha256'], 'event_id': record['event_id']})
         if value.get('read_instruction_sha256') == content_hash(task['instruction_context']):
             row['instruction_delivery'].append({'state': 'read', 'instruction_sha256': value['read_instruction_sha256'], 'event_id': record['event_id']})
@@ -797,7 +815,7 @@ class ParagraphRun:
 
     def write(self, host, observe, *, max_workers=1):
         self._active()
-        if not self._argument_review_current():
+        if self.state['execution_kind'] == 'independent-subagent' and not self._argument_review_current():
             require(self.review_argument(host, observe)['valid'], 'argument semantic review failed')
         if any(row['status'] == 'assigned' for row in self.state['paragraphs'].values()):
             self.recover_assignments(host, observe)
@@ -805,8 +823,18 @@ class ParagraphRun:
                 'host assignments are still running; restore their original returns before continuation')
         require(type(max_workers) is int and max_workers > 0, 'writer capacity must be positive')
         capacity = max_workers if self.state['execution_kind'] == 'independent-subagent' else 1
+        retained = [pid for layer in _layers({p['paragraph_id']: p['depends_on']
+                    for p in self.state['blueprint']['paragraphs']}) for pid in layer
+                    if pid not in self.state['editable_ids']]
         produced = []
         while True:
+            for pid in retained:
+                if self._current_draft(pid) or not all(self._current_draft(dep) for dep in self._bp(pid)['depends_on']):
+                    continue
+                row = self.state['paragraphs'][pid]
+                require(row['text'] == self.state['original_paragraphs'][pid], 'retained paragraph changed')
+                validate_specification(row['spec'], self.state['blueprint'], self.state['sources'])
+                row.update(status='drafted', binding=self._binding(pid))
             tasks = self.tasks()
             if not tasks:
                 break
@@ -889,11 +917,16 @@ class ParagraphRun:
         self._active()
         row = self.state['paragraphs'][pid]
         require(row['status'] in ('drafted', 'locally-reviewed') and row['text'], 'paragraph has no current draft')
-        hits = scan_paragraph(row['text'], self.state['rules']['dictionary'])
+        independent = self.state['execution_kind'] == 'independent-subagent'
+        hits = scan_paragraph(row['text'], self.state['rules']['dictionary']) if independent else []
         binding = self._binding(pid)
         task = _task('writing:paragraph-review', {'paragraph_id': pid, 'text': row['text'], 'text_sha256': row['text_sha256'],
                      'specification': row['spec'], 'sources': self.state['sources'], 'binding': binding,
-                     'required_checks': list(LOCAL_CHECKS), 'lexical_hits': hits,
+                     'required_checks': list(LOCAL_CHECKS) if independent else [], 'lexical_hits': hits,
+                     **({} if independent else {'review_instruction':
+                         'Assess this paragraph against its adopted specification and sources in one substantive review. '
+                         'Return paragraph_id, text_sha256, spec_sha256, binding, a concrete assessment and findings. '
+                         'Each remaining finding supplies its exact span, problem and repair.'}),
                      'original_text': self.state['original_paragraphs'].get(pid)},
                      instruction_packet(self.state['request'], self.state['rules'], paragraph_id=pid))
         value, record = invoke_host(host, task, observe, execution_kind=self.state['execution_kind'])
@@ -901,7 +934,8 @@ class ParagraphRun:
             require(record['worker_id'] != row['writer']['worker_id'], 'local independent reviewer is the paragraph writer')
         require(value.get('binding') == binding, 'local review input bindings differ')
         try:
-            result = validate_local_review(value, row['spec'], row['text'], self.state['sources'], hits)
+            result = validate_local_review(value, row['spec'], row['text'], self.state['sources'], hits,
+                                           independent=independent)
         except ParagraphError as exc:
             result = {'passed': False, 'structural_errors': [str(exc)], 'semantic_review_performed': True,
                       'lexical_hits': len(hits)}
@@ -932,12 +966,16 @@ class ParagraphRun:
 
     def _integration(self, ids, host, observe, *, section_id=None):
         self._active()
-        require(all(self.state['paragraphs'][pid]['status'] in ('locally-reviewed', 'integrated') for pid in ids), 'integration requires locally reviewed paragraphs')
+        independent = self.state['execution_kind'] == 'independent-subagent'
+        require(all(self._current_draft(pid) for pid in ids), 'integration requires current source-bound paragraphs')
+        if independent:
+            require(all(self.state['paragraphs'][pid]['status'] in ('locally-reviewed', 'integrated') for pid in ids),
+                    'selected independent integration requires locally reviewed paragraphs')
         texts = {pid: self.state['paragraphs'][pid]['text'] for pid in ids}
         hashes = {pid: sha(text) for pid, text in texts.items()}
         operation = 'writing:section-integrate' if section_id is not None else 'writing:manuscript-integrate'
         outline_record, outline, argument_comparison = None, None, None
-        if section_id is None:
+        if section_id is None and independent:
             if not self._argument_review_current():
                 require(self.review_argument(host, observe)['valid'], 'argument semantic review failed')
             argument = _argument_io()
@@ -948,6 +986,7 @@ class ParagraphRun:
             outline_record = outline['record']
             argument_comparison = argument.compare_outline(self.state['blueprint']['argument_structure'], outline,
                 self.state['sources'], adapter,
+                independent=True,
                 instructions=instruction_packet(self.state['request'], self.state['rules'], event='argument-compare'))
             if not argument_comparison['valid']:
                 result = {'status': 'failed', 'paragraph_ids': ids, 'paragraph_hashes': hashes,
@@ -961,11 +1000,21 @@ class ParagraphRun:
                      'sources': self.state['sources'], 'paragraph_hashes': hashes,
                      'section_id': section_id, 'reverse_outline': outline if section_id is None else None,
                      'argument_comparison': argument_comparison,
-                     'required_checks': list(INTEGRATION_CHECKS if section_id is not None else GLOBAL_CHECKS)},
+                     'required_checks': list(INTEGRATION_CHECKS if section_id is not None else GLOBAL_CHECKS) if independent else [],
+                     **({} if independent else {'review_instruction':
+                         'Complete one integrated substantive review of meaning, inference, source/result support, '
+                         'paragraph connections and PROSE. Return the completed paragraphs and their joined text, '
+                         'the supplied paragraph_hashes and any remaining concrete findings. Repair authorized wording '
+                         'in this return. Preserve the adopted economic specification and uneditable passages.'})},
                      instruction_packet(self.state['request'], self.state['rules']))
         value, record = invoke_host(host, task, observe, execution_kind=self.state['execution_kind'])
         require(value.get('paragraph_hashes') == hashes, 'integration input changed')
         require(isinstance(value.get('paragraphs'), dict) and set(value['paragraphs']) == set(ids), 'integration changed paragraph coverage')
+        require(all(_text(text) for text in value['paragraphs'].values()), 'integration removed a paragraph')
+        manuscript = '\n\n'.join(value['paragraphs'][pid] for pid in ids)
+        if not independent:
+            require(value.get('text') == manuscript, 'integration text does not match its paragraph map')
+            require(isinstance(value.get('findings'), list), 'integration findings missing')
         changed = [pid for pid in ids if value['paragraphs'][pid] != texts[pid]]
         if changed:
             require(set(changed) <= set(self.state['editable_ids']), 'integration changed retained text')
@@ -976,32 +1025,41 @@ class ParagraphRun:
                 row = self.state['paragraphs'][pid]
                 row.update({'text': value['paragraphs'][pid], 'text_sha256': sha(value['paragraphs'][pid]),
                             'status': 'drafted', 'writer': record, 'generation': row['generation'] + 1})
-            return {'status': 'recheck-required', 'changed_paragraph_ids': changed, 'execution': record}
-        manuscript = '\n\n'.join(texts[pid] for pid in ids)
-        require(value.get('text') == manuscript, 'integration text does not match its paragraph map')
-        passed = _check_rows(value.get('checks'), INTEGRATION_CHECKS if section_id is not None else GLOBAL_CHECKS, manuscript, 'integration')
-        require(isinstance(value.get('findings'), list), 'integration findings missing')
+            if independent:
+                for pid in changed:
+                    self.state['paragraphs'][pid]['binding'] = self._binding(pid)
+                return {'status': 'recheck-required', 'changed_paragraph_ids': changed, 'execution': record}
+        if independent:
+            require(value.get('text') == manuscript, 'integration text does not match its paragraph map')
+            require(isinstance(value.get('findings'), list), 'integration findings missing')
+            passed = _check_rows(value.get('checks'), INTEGRATION_CHECKS if section_id is not None else GLOBAL_CHECKS,
+                                 manuscript, 'integration')
+        else:
+            passed = not value['findings']
+        hashes = {pid: self.state['paragraphs'][pid]['text_sha256'] for pid in ids}
         result = {'status': 'integrated' if passed and not value['findings'] else 'failed',
                   'text': manuscript, 'sha256': sha(manuscript), 'paragraph_ids': ids, 'paragraph_hashes': hashes,
                   'execution': record, 'findings': value['findings']}
         if result['status'] == 'integrated':
             for pid in ids:
                 self.state['paragraphs'][pid]['status'] = 'integrated'
+                self.state['paragraphs'][pid]['binding'] = self._binding(pid)
             if section_id is not None:
                 self.state['sections'][section_id] = result
             else:
-                comparison = value.get('outline_comparison')
-                require(isinstance(comparison, list) and [r.get('paragraph_id') for r in comparison] == ids, 'outline comparison coverage differs')
-                for item in comparison:
-                    _texts(item, ('assessment',), 'outline comparison')
-                    pid = item['paragraph_id']
-                    require(item.get('spec_sha256') == self.state['paragraphs'][pid]['spec_sha256'], 'outline comparison specification differs')
-                    require(item.get('outline_sha256') == content_hash(outline), 'outline comparison source differs')
-                    require(item.get('verdict') == 'pass', 'outline comparison failed')
-                result['reverse_outline'] = outline
-                result['outline_execution'] = outline_record
-                result['outline_comparison'] = comparison
-                result['argument_comparison'] = argument_comparison
+                if independent:
+                    comparison = value.get('outline_comparison')
+                    require(isinstance(comparison, list) and [r.get('paragraph_id') for r in comparison] == ids, 'outline comparison coverage differs')
+                    for item in comparison:
+                        _texts(item, ('assessment',), 'outline comparison')
+                        pid = item['paragraph_id']
+                        require(item.get('spec_sha256') == self.state['paragraphs'][pid]['spec_sha256'], 'outline comparison specification differs')
+                        require(item.get('outline_sha256') == content_hash(outline), 'outline comparison source differs')
+                        require(item.get('verdict') == 'pass', 'outline comparison failed')
+                    result['reverse_outline'] = outline
+                    result['outline_execution'] = outline_record
+                    result['outline_comparison'] = comparison
+                    result['argument_comparison'] = argument_comparison
                 self.state['manuscript'] = result
         self._event(result['status'], ids, event_id=record['event_id'], section_id=section_id)
         return copy.deepcopy(result)
@@ -1013,7 +1071,8 @@ class ParagraphRun:
 
     def integrate_manuscript(self, host, observe):
         sections = {p['section_id'] for p in self.state['blueprint']['paragraphs']}
-        require(sections <= set(self.state['sections']), 'section integration missing')
+        if self.state['execution_kind'] == 'independent-subagent':
+            require(sections <= set(self.state['sections']), 'selected independent section integration missing')
         ids = [p['paragraph_id'] for p in self.state['blueprint']['paragraphs']]
         return self._integration(ids, host, observe)
 
@@ -1033,7 +1092,8 @@ class ParagraphRun:
                                    'spec_sha256': row['spec_sha256'], 'writer': row['writer'], 'review': row['review']})
             row['review'] = None
             row['assignment'] = None
-            row['status'] = 'drafted' if row['text'] else 'specified'
+            row['binding'] = None
+            row['status'] = 'source-ready' if pid in self.state['editable_ids'] else 'specified'
         for key in list(self.state['sections']):
             if affected & set(self.state['sections'][key]['paragraph_ids']):
                 del self.state['sections'][key]
@@ -1062,7 +1122,7 @@ class ParagraphRun:
             self.state['publication_status'] = 'incomplete'
             for pid, row in self.state['paragraphs'].items():
                 if pid not in invalidated and row['status'] in ('integrated', 'globally-reviewed'):
-                    row['status'] = 'locally-reviewed'
+                    row['status'] = 'locally-reviewed' if row.get('review') else 'drafted'
         for pid in invalidated:
             row = self.state['paragraphs'][pid]
             try:
@@ -1219,10 +1279,65 @@ def validate_packet(packet, candidate_text=None, text_artifacts=None, *, observe
         ids = [p['paragraph_id'] for p in blueprint['paragraphs']]
         require(set(ids) == set(packet['paragraphs']), 'packet paragraph coverage differs')
         execution_kind = packet['execution_kind']
+        require(execution_kind in EXECUTION_KINDS, 'packet execution kind differs')
+        if execution_kind == 'single-agent-sequential':
+            run = ParagraphRun(packet)
+            for pid in ids:
+                row = packet['paragraphs'][pid]
+                require(row['status'] == 'integrated' and run._current_draft(pid),
+                        'integrated paragraph binding differs: ' + pid)
+                validate_specification(row['spec'], blueprint, sources)
+                writer = row['writer']
+                if writer.get('execution_kind') == 'preserved-original':
+                    require(pid not in packet['editable_ids'] and row['text'] == packet['original_paragraphs'][pid]
+                            and writer.get('original_sha256') == row['text_sha256'], 'preserved original differs')
+                else:
+                    original = validate_execution_record(writer, execution_kind=execution_kind, observe=observe)
+                    task, _ = _record_parts(writer)
+                    if task['operation'] == 'writing:paragraph':
+                        require(original.get('paragraph_id') == pid and original.get('text') == row['text'],
+                                'paragraph differs from its writer return')
+                    else:
+                        require(task['operation'] in ('writing:section-integrate', 'writing:manuscript-integrate')
+                                and original.get('paragraphs', {}).get(pid) == row['text'],
+                                'paragraph differs from its integration return')
+                if pid not in packet['editable_ids']:
+                    require(row['text'] == packet['original_paragraphs'][pid], 'retained paragraph changed')
+            texts = {pid: packet['paragraphs'][pid]['text'] for pid in ids}
+            manuscript = '\n\n'.join(texts.values())
+            integration = packet['manuscript']
+            require(integration['status'] == 'integrated' and integration['text'] == manuscript and
+                    integration['sha256'] == packet['candidate_sha256'] == sha(manuscript),
+                    'integrated manuscript differs')
+            original = validate_execution_record(integration['execution'], execution_kind=execution_kind, observe=observe)
+            task, _ = _record_parts(integration['execution'])
+            payload = task['payload']
+            require(task['operation'] == 'writing:manuscript-integrate' and payload['blueprint'] == blueprint and
+                    payload['sources'] == sources and payload['specifications'] ==
+                    {pid: packet['paragraphs'][pid]['spec'] for pid in ids},
+                    'integration source or specification binding differs')
+            require(task['instruction_context'] == instruction_packet(packet['request'], packet['rules']),
+                    'integration instructions differ')
+            require(set(payload['paragraphs']) == set(ids) and payload['paragraph_hashes'] ==
+                    {pid: sha(text) for pid, text in payload['paragraphs'].items()} and
+                    original.get('paragraph_hashes') == payload['paragraph_hashes'],
+                    'integration input paragraphs differ')
+            require(original.get('paragraphs') == texts and original.get('text') == manuscript and
+                    original.get('findings') == [], 'integrated return differs or has remaining findings')
+            target = packet['target']
+            require(target == 'message://final' or target.startswith('artifact://'), 'paragraph target is invalid')
+            target_text = candidate_text if target == 'message://final' else (text_artifacts or {}).get(target[len('artifact://'):])
+            if isinstance(target_text, bytes):
+                target_text = target_text.decode('utf-8')
+            require(target_text == manuscript, 'candidate target differs from integrated text')
+            return {'valid': True, 'issues': [], 'paragraph_count': len(ids),
+                    'bundle_sha256': content_hash(submitted_packet),
+                    'execution_assurance': 'host-observed' if observe is not None else 'stored-record-consistent'}
         argument = _argument_io()
         argument_record = packet['argument_review']['record']
         argument_review = argument.review_argument(blueprint['argument_structure'], sources,
             _RecordedArgumentHost(argument_record, execution_kind, packet['author_id'], observe),
+            independent=True,
             instructions=instruction_packet(packet['request'], packet['rules'], event='argument-review'))
         require(argument_review['valid'] and argument_review['argument_sha256'] == packet['argument_review']['argument_sha256'],
                 'adopted argument review failed or differs')
@@ -1309,6 +1424,7 @@ def validate_packet(packet, candidate_text=None, text_artifacts=None, *, observe
         comparison_record = packet['manuscript']['argument_comparison']['record']
         comparison = argument.compare_outline(blueprint['argument_structure'], outline, sources,
             _RecordedArgumentHost(comparison_record, execution_kind, packet['author_id'], observe),
+            independent=True,
             instructions=instruction_packet(packet['request'], packet['rules'], event='argument-compare'))
         require(comparison['valid'] and comparison == packet['manuscript']['argument_comparison'],
                 'reverse argument comparison differs or failed')
@@ -1367,6 +1483,8 @@ def execute_operation(run, operation, host, observe, *, paragraph_id=None, secti
     require(operation in ('review', 'full'), 'paragraph execution operation differs')
     if operation == 'full':
         run.write(host, observe, max_workers=max_workers)
+        if run.state['execution_kind'] == 'single-agent-sequential':
+            return run.state['manuscript'] or run.integrate_manuscript(host, observe)
     ids = [paragraph_id] if paragraph_id is not None else list(run.state['paragraphs'])
     require(set(ids) <= set(run.state['paragraphs']), 'review paragraph absent')
     reviews = {}
@@ -1412,7 +1530,7 @@ def main(argv=None):
     for key in ('brief', 'sources', 'rules', 'host', 'output'):
         design.add_argument('--' + key, type=Path, required=True)
     design.add_argument('--author-id', required=True)
-    design.add_argument('--execution-kind', choices=EXECUTION_KINDS, default='independent-subagent')
+    design.add_argument('--execution-kind', choices=EXECUTION_KINDS, default='single-agent-sequential')
     design.add_argument('--reuse-state', type=Path)
     design.add_argument('--reuse-paragraph', action='append', default=[], help='Completed body paragraph; repeat to select several')
     execute = sub.add_parser('execute')

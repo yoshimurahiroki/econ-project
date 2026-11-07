@@ -50,6 +50,7 @@ R_METHODS = {
 
 RUN_FIELDS = {'method','data','id','outcome','regressors','endogenous','instruments',
               'population','period','unit','estimand','identification','assignment','inference','options'}
+DML_METHODS = {'dml_irm':'DoubleMLIRM', 'dml_pliv':'DoubleMLPLIV', 'dml_iivm':'DoubleMLIIVM'}
 
 
 def _hash(path):
@@ -487,14 +488,12 @@ def select_method(request):
             raise ValueError('PLR targets its partially linear slope; choose a score identifying the requested target')
         required_inputs = ['mathematical score','outcome/treatment/covariates','fold assignment at independent units','nuisance learner and training-only tuning']
         if score in ('irm','pliv','iivm'):
-            class_name = {'irm':'DoubleMLIRM','pliv':'DoubleMLPLIV','iivm':'DoubleMLIIVM'}[score]
-            owner = 'external official Python entry: doubleml.' + class_name
-            required_native_options['score'] = ('ATTE' if target_kind=='att' else 'ATE') if score=='irm' else 'LATE' if score=='iivm' else 'partialling out'
-            external_implementation = {'language':'Python','function':'doubleml.'+class_name,
-                'source':'https://github.com/DoubleML/doubleml-for-py/blob/a3493c3b7a444b6ddd730ad05c2c0e6c67ac19c3/doubleml/'+('plm/' if score=='pliv' else 'irm/')+score+'.py',
-                'inputs':['DoubleMLData or supported cluster data','named nuisance learners','adopted folds and score'],
-                'outputs':['coef','se','pval','confint','bootstrap/joint confint when requested'],
-                'execution':'fit the official class in the adopted project analysis; this runner performs no external fit'}
+            owner = 'skills/econ-data/scripts/research_causal.py run'
+            selected_score = (('ATTE' if target_kind=='att' else 'ATE') if score=='irm'
+                else 'LATE' if score=='iivm' else forward_options.get('score','partialling out'))
+            if score == 'pliv' and selected_score not in ('partialling out','IV-type'):
+                raise ValueError('DoubleMLPLIV score must be partialling out or IV-type')
+            required_native_options['score'] = selected_score
             if score == 'irm' and target_kind == 'att' and forward_options.get('weights') is not None:
                 raise ValueError('DoubleMLIRM weights implements a weighted ATE and is incompatible with score=ATTE')
         if score in ('pliv','iivm'):
@@ -556,7 +555,8 @@ def select_method(request):
         model = request.get('structural_model')
         if not model and adopted == 'finite_horizon_choice' and numerical.get('operation') in ('simulate','counterfactual'):
             model = adopted
-        condition_model = {'differentiated_products':'blp','replacement':'replacement','dynamic_game':'dynamic_game'}.get(facts.get('market_structure'))
+        condition_model = {'differentiated_products':'blp','replacement':'replacement','dynamic_game':'dynamic_game',
+            'quantity_competition':'cournot'}.get(facts.get('market_structure'))
         economic_object_model = {'representative_household_growth':'finite_horizon_growth',
                 'household_consumption_saving':'consumption_saving',
                 'stationary_incomplete_markets':'aiyagari', 'one_asset_hank':'hank_one_asset',
@@ -566,6 +566,9 @@ def select_method(request):
                 'interbank_liabilities':'interbank_clearing',
                 'quantity_quality_effort':'multitask_incentives',
                 'finite_state_claim':'state_price_bounds',
+                'capacity_constrained_quantity_competition':'cournot',
+                'binary_logit_moments':'binary_logit','finite_policy_sir':'finite_policy_sir',
+                'queue_capacity':'queue_capacity','decision_rights':'decision_rights',
                 'individual_dynamic_choice':'finite_horizon_choice' if target_kind == 'structural_parameter' else 'lifecycle_choice',
                 'employment_retirement_regimes':'lifecycle_choice'}.get(facts.get('economic_object'))
         if condition_model and economic_object_model and condition_model != economic_object_model:
@@ -584,15 +587,18 @@ def select_method(request):
             method = model; owner = 'skills/econ-data/scripts/research_dynamic.py run'
         elif model == 'dynamic_game':
             method = model; owner = 'skills/econ-data/scripts/equity.py dynamic'
+        elif model == 'cournot':
+            method = model; owner = 'skills/econ-data/scripts/equity.py fit'
         elif model == 'finite_horizon_growth':
             method = model; owner = 'skills/econ-data/scripts/research_macro.py solve'
         elif model == 'aiyagari':
             method = model; owner = 'skills/econ-data/scripts/research_macro_extended.py run'
         elif model == 'stochastic_rbc':
             method = model; owner = 'skills/econ-data/scripts/research_dsge.py run'
-        elif model in ('correlated_equilibrium','tu_shapley_core','interbank_clearing','multitask_incentives','state_price_bounds'):
+        elif model in ('correlated_equilibrium','tu_shapley_core','interbank_clearing','multitask_incentives','state_price_bounds',
+                       'binary_logit','finite_policy_sir','queue_capacity','decision_rights'):
             method = model; owner = 'skills/econ-data/scripts/research_numerics.py run'
-            numerical_kernel = 'clearing_payments' if model == 'interbank_clearing' else model
+            numerical_kernel = {'interbank_clearing':'clearing_payments','binary_logit':'moment_map'}.get(model,model)
         elif model in ('finite_horizon_choice','lifecycle_choice','consumption_saving','hank_one_asset','dolo_yaml'):
             method = model
         else:
@@ -619,9 +625,11 @@ def select_method(request):
             'stochastic_rbc':('time_iteration','linearized_euler') if request.get('implementation') == 'dolo' else ('linearized_euler','time_iteration'),
             'dolo_yaml':('time_iteration',), 'correlated_equilibrium':('linear_program',),
             'tu_shapley_core':('exact_enumeration',), 'interbank_clearing':('greatest_fixed_point',),
-            'multitask_incentives':('kkt',), 'state_price_bounds':('linear_program',)}
+            'multitask_incentives':('kkt',), 'state_price_bounds':('linear_program',),
+            'binary_logit':('analytic_moments',),'finite_policy_sir':('solve_ivp',),
+            'queue_capacity':('closed_form',),'decision_rights':('active_set',),'cournot':('equilibrium',)}
         solution_model = model in ('finite_horizon_growth','consumption_saving','lifecycle_choice',
-            'aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml') or respy_simulation or numerical_kernel is not None
+            'aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml','cournot') or respy_simulation or numerical_kernel is not None
         numerical_key = 'solution_method' if solution_model else 'estimation_method'
         algorithm = numerical.get(numerical_key, numerical.get('estimation_method', algorithms[model][0]))
         if solution_model and 'solution_method' in numerical and 'estimation_method' in numerical and numerical['solution_method'] != numerical['estimation_method']:
@@ -636,7 +644,7 @@ def select_method(request):
                 available_operations = list(ssj_operations)
             elif respy_simulation:
                 available_operations = ['simulate','counterfactual']
-            elif model in ('finite_horizon_growth','aiyagari','stochastic_rbc','dolo_yaml'):
+            elif model in ('finite_horizon_growth','aiyagari','stochastic_rbc','dolo_yaml','cournot'):
                 available_operations = ['solve','counterfactual']
             else:
                 available_operations = ['solve','simulate','counterfactual'] if solution_model else ['estimate']
@@ -721,6 +729,23 @@ def select_method(request):
                     'at least one traded asset pays strictly positively in every state',
                     'existing asset prices admit strictly positive state prices',
                     'an unspanned claim has an open price interval; a replicated claim has its unique replication price']
+            elif model == 'binary_logit':
+                method_quantity = 'mean logit probability and regressor-weighted probability, with their parameter Jacobian'
+                conditions = ['supplied intercept and slope held fixed','finite observed covariate support',
+                    'logistic response probability and its analytic derivatives']
+            elif model == 'finite_policy_sir':
+                method_quantity = 'SIR state trajectory and integrated loss under the supplied finite policy schedule'
+                conditions = ['nonnegative susceptible, infected and recovered initial states',
+                    'fixed transmission and recovery rates and finite dated controls',
+                    'population conservation and the supplied infection, control and terminal loss weights']
+            elif model == 'queue_capacity':
+                method_quantity = 'stationary M/M/1 utilization, mean system/queue length and mean system/queue waiting time'
+                conditions = ['Poisson arrivals and exponential single-server service',
+                    'nonnegative arrival rate and positive service rate with arrival rate below service rate']
+            elif model == 'decision_rights':
+                method_quantity = 'principal and agent information effort and payoffs under the specified authority holder'
+                conditions = ['supplied project payoffs, effort costs and preference alignment',
+                    'principal or agent holds formal authority','efforts satisfy the original best-response bounds']
             else:
                 method_quantity = 'quantity and quality effort and both principal and agent payoffs at the supplied contract'
                 conditions = ['fixed nonnegative salary, quantity reward and private quality benefit',
@@ -730,6 +755,17 @@ def select_method(request):
             computation.update(parameter_operation='hold supplied model inputs fixed; estimate no parameters',
                 solution_object=method_quantity,
                 outputs=[row['name'] for row in model_contract['outputs']] if model_contract else [method_quantity])
+        elif model == 'cournot':
+            required_native_options = {}
+            method_quantity = 'capacity-constrained firm quantities, market prices and profits under baseline and changed market inputs'
+            conditions = ['decreasing linear inverse demand and convex variable costs',
+                'nonnegative quantities within firm capacities','Nash best responses at the adopted equilibrium tolerance',
+                'supplied demand coefficients or excluded cost instruments identifying aggregate quantity']
+            required_inputs = ['sources','identification','market','as_of','currency','price_unit','quantity_unit',
+                'inverse_demand','markets']
+            computation.update(solution_object=method_quantity,
+                parameter_operation='estimate inverse demand by 2SLS when observations are supplied; otherwise reuse supplied coefficients',
+                outputs=['baseline and counterfactual market and firm quantities, prices, costs, profits and capacity shadow prices'])
         elif model == 'finite_horizon_growth':
             method_quantity = 'optimal finite-horizon capital and consumption paths and discounted log-consumption welfare conditional on initial and terminal capital'
             conditions = ['representative household, log utility and Cobb-Douglas production',
@@ -864,40 +900,31 @@ def select_method(request):
                     outputs=['AR(1) estimates and covariance','linearized Euler/resource coefficients and residuals',
                         'conditional impulse responses, stochastic paths and forecast moments','finite-horizon welfare with terminal continuation'])
         elif model == 'consumption_saving':
-            income_process = facts.get('income_process')
+            income_process = facts.get('income_process', adopted_spec.get('income_process'))
             classes = {'perfect_foresight':'PerfForesightConsumerType','idiosyncratic_shocks':'IndShockConsumerType'}
             if income_process not in classes:
                 raise ValueError('consumption_saving requires conditions.income_process=perfect_foresight or idiosyncratic_shocks')
             function = 'HARK.ConsumptionSaving.ConsIndShockModel.' + classes[income_process]
-            owner = 'external official Python entry: ' + function
+            owner = 'skills/econ-data/scripts/research_macro_extended.py run'
             method_quantity = 'age-specific consumption policies, normalized value functions and simulated asset/income paths at adopted parameters'
             conditions = ['finite lifecycle with cycles=1 and T_cycle periods plus the terminal solution',
                 'CRRA utility, adopted discounting, survival, income growth, returns and borrowing constraints',
                 'terminal consumption equals cash on hand in these consumer classes',
                 'initial population and income/shock timing match the adopted model',
                 'prices are exogenous; welfare uses declared value units, population weights and scenario contrast']
-            required_inputs = ['T_cycle, CRRA, DiscFac, Rfree, LivPrb, PermGroFac and BoroCnstArt with matching age profiles',
-                'initial asset/permanent-income distributions, AgentCount, T_sim, seed and track_vars',
-                'target population, period, normalization, weights and fixed or fitted parameter provenance',
-                'scenario changes and utility-to-money conversion when monetary welfare is requested']
+            required_inputs = ['income_process','consumer_options with cycles, T_cycle, CRRA, DiscFac, Rfree, LivPrb, PermGroFac and BoroCnstArt',
+                'evaluation.mNrm with adopted periods and optional population weights','calibration_source',
+                'simulation for requested histories; scenario.consumer_options for a requested counterfactual']
             if income_process == 'idiosyncratic_shocks':
                 required_inputs += ['PermShkStd, TranShkStd, shock distributions, integration counts and asset grid']
-            required_native_options = {'cycles':1}
+            required_native_options = {'consumer_options.cycles':1}
             if income_process == 'idiosyncratic_shocks':
-                required_native_options['vFuncBool'] = True
-            external_implementation = {'language':'Python','function':function,'version':'0.17.2',
-                'source':'https://github.com/econ-ark/HARK/blob/269085077b84cb50feb49d0cd54bbf4da5fa3199/HARK/ConsumptionSaving/ConsIndShockModel.py',
-                'signature':{'solve':['verbose','presolve','postsolve','from_solution','from_t'],
-                    'initialize_sim':[],'simulate':['sim_periods']},
-                'parameter_operation':computation['parameter_operation'],
-                'numerical_method':'finite-horizon backward induction using the official consumer solver',
-                'inputs':required_inputs,
-                'outputs':['solve() stores T_cycle+1 ConsumerSolution objects in consumer.solution',
+                required_native_options['consumer_options.vFuncBool'] = True
+            computation.update(solution_object=method_quantity,
+                outputs=['solve() stores T_cycle+1 ConsumerSolution objects in consumer.solution',
                     'solution[t].cFunc(mNrm) and vFunc(mNrm), with permanent-income normalization',
                     'simulate() stores each track_vars history as a (T_sim, AgentCount) array',
-                    'scenario-specific values and outcomes aggregated with the adopted population weights'],
-                'execution':'construct the selected consumer with cycles=1, solve(), then set track_vars and call initialize_sim() and simulate() for requested histories; re-solve each changed scenario at the same fitted primitives',
-                'equilibrium_contract':'individual consumption-saving conditional on prices; market clearing uses the existing macro equilibrium owner'}
+                    'scenario-specific values and outcomes aggregated with the adopted population weights'])
         elif respy_simulation:
             simulation_method = numerical.get('simulation_method')
             if simulation_method not in ('n_step_ahead_with_sampling','n_step_ahead_with_data','one_step_ahead'):
@@ -1090,6 +1117,9 @@ def select_method(request):
         'correlated_equilibrium':{'equilibrium','welfare'}, 'tu_shapley_core':{'allocation'},
         'interbank_clearing':{'equilibrium'}, 'multitask_incentives':{'policy_value'},
         'state_price_bounds':{'price_bounds'},
+        'binary_logit':{'conditional_mean'},'finite_policy_sir':{'policy_value','welfare'},
+        'queue_capacity':{'equilibrium','policy_value'},'decision_rights':{'equilibrium','policy_value','welfare'},
+        'cournot':{'equilibrium','welfare'},
         'smm':{'structural_parameter'},'maximum_likelihood':{'structural_parameter'}}
     accepted_targets = compatible.get(method, {'structural_parameter','equilibrium','welfare'} if design=='structural' else None)
     if target_kind is not None and accepted_targets is not None and target_kind not in accepted_targets:
@@ -1106,6 +1136,13 @@ def select_method(request):
             raise ValueError('LATE requires exclusion and monotonicity for the adopted instrument/receipt comparison')
         conditions += ['binary assignment/receipt compliance population','exclusion and monotonicity','nonzero first-stage receipt response']
     if target_kind=='att' and method=='sunab': required_native_options['aggregation'] = 'att'
+    if method in DML_METHODS:
+        if level is not None:
+            required_native_options['confidence_level'] = level
+        if interval_type is not None:
+            if interval_type not in ('pointwise','simultaneous','joint'):
+                raise ValueError('DoubleML intervals must be pointwise or simultaneous')
+            required_native_options['joint'] = interval_type in ('simultaneous','joint')
     if target_kind=='event_time_att' and method=='sunab': required_native_options['aggregation'] = 'period'
     if method=='grf' and target_kind in ('ate','att'):
         required_native_options['aggregation.target.sample'] = 'treated' if target_kind=='att' else 'all'
@@ -1176,6 +1213,14 @@ def select_method(request):
     # Keep the supplied options intact and expose target-implied changes as a
     # reviewable proposal. Selection never amends or executes the adopted fit.
     selected_options = deepcopy(forward_options)
+    if method == 'consumption_saving':
+        if 'consumer_options' in selected_options:
+            if set(selected_options) != {'consumer_options'}:
+                raise ValueError('HARK selection options must contain the native consumer_options object')
+        else:
+            selected_options = {'consumer_options':deepcopy(forward_options or adopted_spec.get('consumer_options',{}))}
+        if not isinstance(selected_options['consumer_options'],dict):
+            raise ValueError('consumer_options must be an object of native HARK arguments')
     option_changes = []
     if method in ('fixest_ols', 'fixest_ppml', 'sunab') and cluster_columns is not None:
         # fixest accepts one covariance specification. The vcov formula binds
@@ -1204,11 +1249,22 @@ def select_method(request):
                         'vcov':{'CRV1':cluster_columns[0]} if method == 'hdfe' and cluster_columns else 'hetero'}
             supplied = cursor.get(key, defaults.get(field))
             if supplied != value:
-                option_changes.append({'field':'options.'+field,'supplied':supplied,'selected':value})
+                option_changes.append({'field':('' if method=='consumption_saving' else 'options.')+field,
+                    'supplied':supplied,'selected':value})
             cursor[key] = value
     unbound_inputs = []
+    if method in DML_METHODS:
+        for field in ('n_folds','seed','learners'):
+            if field not in selected_options:
+                unbound_inputs.append('options.'+field)
+        if method == 'dml_irm' and not selected_options.get('treatment'):
+            unbound_inputs.append('options.treatment: binary treatment column')
+        if selected_options.get('joint') and not selected_options.get('bootstrap'):
+            unbound_inputs.append('options.bootstrap: method and n_rep_boot for joint intervals')
     if request['dependence'] in ('cluster', 'clustered'):
-        if method == 'hdfe' and not cluster_columns:
+        if method in DML_METHODS and not cluster_columns:
+            unbound_inputs.append('inference.cluster/clusters: independent cluster columns')
+        elif method == 'hdfe' and not cluster_columns:
             unbound_inputs.append('inference.cluster: one independent cluster column')
         elif method == 'staggered_did' and not selected_options.get('clustervars'):
             unbound_inputs.append('inference.cluster/clusters or options.clustervars')
@@ -1228,6 +1284,8 @@ def select_method(request):
         unbound_inputs.append('options.columns.fuzzy: actual treatment-receipt column')
     if external_implementation:
         engine = external_implementation['function']
+    elif method == 'consumption_saving':
+        engine = function
     elif method in R_METHODS:
         package, function = R_METHODS[method]; engine = f'{package}::{function}'
     else:
@@ -1253,6 +1311,10 @@ def select_method(request):
                   'interbank_clearing':'research_numerics.clearing_payments',
                   'multitask_incentives':'research_numerics.multitask_incentives',
                   'state_price_bounds':'research_numerics.state_price_bounds + scipy.optimize.linprog',
+                  'binary_logit':'research_numerics.moment_map + research_numerics.moment_jacobian',
+                  'finite_policy_sir':'research_numerics.finite_policy_sir + scipy.integrate.solve_ivp',
+                  'queue_capacity':'research_numerics.queue_capacity','decision_rights':'research_numerics.decision_rights',
+                  'cournot':'equity_io.cournot',
                   'bargaining':'research_markets.bargain','dynamic_game':'equity_io.dynamic_game'}.get(method)
         if engine is None:
             engine = 'research_dynamic.observed_run' if owner.startswith('skills/econ-data/scripts/research_dynamic.py') else 'research_markets.'+method
@@ -1260,12 +1322,22 @@ def select_method(request):
     if adopted and adopted != method:
         changes.append({'field':'method','adopted':adopted,'selected':method})
     for key in ('estimand','identification','data','id','outcome','regressors','endogenous','instruments'):
+        if key == 'identification' and method == 'cournot' and isinstance(adopted_spec.get(key),dict):
+            # The equity owner consumes its structured identification object;
+            # the selector's required prose describes that unchanged object.
+            continue
         if key in adopted_spec and key in request and adopted_spec[key] != request[key]:
             changes.append({'field':key,'adopted':adopted_spec[key],'selected':request[key]})
     for key in contract_fields:
         if key in adopted_contract and proposed_contract.get(key) != adopted_contract[key]:
             changes.append({'field':key,'adopted':adopted_contract[key],'selected':proposed_contract.get(key)})
-    if adopted_spec and (forward_options != adopted_spec.get('options', {}) or option_changes):
+    if method == 'consumption_saving' and adopted_spec:
+        if selected_options['consumer_options'] != adopted_spec.get('consumer_options',{}):
+            changes.append({'field':'consumer_options','adopted':adopted_spec.get('consumer_options',{}),
+                'selected':selected_options['consumer_options']})
+        if 'income_process' in adopted_spec and adopted_spec['income_process'] != income_process:
+            changes.append({'field':'income_process','adopted':adopted_spec['income_process'],'selected':income_process})
+    elif adopted_spec and (forward_options != adopted_spec.get('options', {}) or option_changes):
         changes.append({'field':'options','adopted':adopted_spec.get('options', {}),'selected':selected_options})
     relation = {'adopted_estimand':adopted_spec.get('estimand'),
                 'requested_estimand':request['estimand'],'selected_method_quantity':method_quantity}
@@ -1290,7 +1362,7 @@ def select_method(request):
         inference_contract['procedure'] = ('adopted moment covariance with simulation contribution' if algorithm == 'smm'
             else 'adopted likelihood curvature or refitted sampling procedure')
         inference_contract['parameter_operation'] = 'estimate structural parameters'
-    elif method in ('lifecycle_choice','consumption_saving','finite_horizon_growth','aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml') or respy_simulation or numerical_kernel is not None:
+    elif method in ('lifecycle_choice','consumption_saving','finite_horizon_growth','aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml','cournot') or respy_simulation or numerical_kernel is not None:
         inference_contract['procedure'] = ('original Euler/resource residuals at the adopted deterministic numerical tolerance' if method == 'finite_horizon_growth'
             else 'adopted simulation precision and parameter-draw propagation when requested')
         inference_contract['parameter_operation'] = 'hold fixed or previously estimated parameters'
@@ -1302,6 +1374,15 @@ def select_method(request):
             inference_contract['parameter_operation'] = computation['parameter_operation']
             if method == 'state_price_bounds':
                 inference_contract['procedure'] = 'original state-price equations, hedge inequalities, primal-dual gaps and replication residual'
+            elif method == 'binary_logit':
+                inference_contract['procedure'] = 'analytic model quantities and derivatives at the supplied fixed parameters'
+            elif method == 'queue_capacity':
+                inference_contract['procedure'] = 'stationary M/M/1 utilization, system and queue identities at the supplied rates'
+            elif method == 'finite_policy_sir':
+                inference_contract['procedure'] = 'population conservation and the adopted integration tolerance'
+        if method == 'cournot':
+            inference_contract['procedure'] = 'firm best-response residuals and capacity complementarity at the adopted equilibrium tolerance'
+            inference_contract['parameter_operation'] = computation['parameter_operation']
         if method in ('aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml'):
             inference_contract['procedure'] = 'original economic-equation residuals and the adopted grid, horizon and integration comparisons'
             inference_contract['parameter_operation'] = computation['parameter_operation']
@@ -1437,8 +1518,6 @@ def select_method(request):
     dependency_path = owner.split(' ', 1)[0]
     if method == 'hank_one_asset' and external_implementation:
         dependency_path = 'skills/econ-data/scripts/research_macro_extended.py'
-    if method in ('dml_irm', 'dml_pliv', 'dml_iivm'):
-        dependency_path = 'skills/econ-data/scripts/research.py'
     resource = next((r for rid, r in resources.items() if dependency_path in
         (r['source_path'], placements[rid]['deployment_path'], placements[rid]['export_alias'])), None)
     is_causal_runner = owner == 'skills/econ-data/scripts/research_causal.py run'
@@ -1480,7 +1559,15 @@ def select_method(request):
         inputs = {**adopted_spec, **request}
         execution_spec = {key:deepcopy(inputs[key]) for key in RUN_FIELDS if key in inputs}
         execution_spec.update(method=method, options=deepcopy(selected_options))
-        if method in R_METHODS:
+        if method in DML_METHODS:
+            execution_spec['inference'] = ({'type':'cluster','clusters':cluster_columns} if cluster_columns
+                else {'type':'official'})
+            for field in ('endogenous','instruments'):
+                if method == 'dml_irm':
+                    execution_spec.setdefault(field, [])
+                elif not execution_spec.get(field):
+                    unbound_inputs.append(field+': adopted treatment/instrument columns')
+        elif method in R_METHODS:
             execution_spec['inference'] = {'type':'official'}
         elif method == 'staggered_did':
             execution_spec['inference'] = {'type':'did'}
@@ -1497,19 +1584,27 @@ def select_method(request):
             'specification':execution_spec, 'missing_fields':missing_fields,
             'unbound_inputs':unbound_inputs, 'adoption_required':bool(changes),
             'command':['python',*owner.split(' '),'SPEC.json','--output','RESULT.json']}
-    elif resource and external_implementation is None and resource['resource_id'] in (
-            'research-macro', 'research-markets', 'research-dynamic', 'research-macro-extended', 'research-dsge', 'research-numerics'):
+    elif resource and external_implementation is None and (resource['resource_id'] in (
+            'research-macro', 'research-markets', 'research-dynamic', 'research-macro-extended', 'research-dsge', 'research-numerics')
+            or resource['resource_id'] == 'equity-calculator' and method == 'cournot'):
         # Project a matching adopted specification into its existing owner's
         # public input. Numerical validation stays in that owner.
         resource_id = resource['resource_id']
         if resource_id == 'research-numerics':
             owner_fields = required_fields = {'model','inputs','unit'}
+        elif resource_id == 'equity-calculator' and method == 'cournot':
+            required_fields = {'model','sources','identification','market','as_of','currency','price_unit','quantity_unit',
+                'inverse_demand','markets'}
+            owner_fields = required_fields | {'observations','counterfactual','equilibrium_tolerance'}
         elif resource_id == 'research-macro':
             owner_fields = {'alpha','beta','delta','initial_capital','terminal_capital','baseline','scenario',
                 'population','period','unit','sources','tolerance'}
             required_fields = owner_fields
         elif resource_id == 'research-macro-extended' and method == 'aiyagari':
             owner_fields = required_fields = {'model','calibration_source','parameters','baseline','scenario','solver'}
+        elif resource_id == 'research-macro-extended' and method == 'consumption_saving':
+            required_fields = {'model','income_process','consumer_options','evaluation','calibration_source'}
+            owner_fields = required_fields | {'scenario','simulation'}
         elif resource_id == 'research-dsge':
             owner_fields = required_fields = {'parameters','observations','horizon','simulation_paths','seed','technology_shock'}
         elif resource_id == 'research-markets':
@@ -1522,11 +1617,24 @@ def select_method(request):
         execution_spec = {key:deepcopy(adopted_spec[key]) for key in owner_fields if key in adopted_spec}
         if resource_id not in ('research-macro','research-dsge'):
             execution_spec['model'] = model
+        if method == 'consumption_saving':
+            execution_spec['income_process'] = income_process
+            execution_spec['consumer_options'] = deepcopy(selected_options['consumer_options'])
+            if computation['requested_operation'] == 'simulate' and 'simulation' not in execution_spec:
+                unbound_inputs.append('simulation: adopted AgentCount, T_sim, seed and track_vars')
+            if computation['requested_operation'] == 'counterfactual' and 'scenario' not in execution_spec:
+                unbound_inputs.append('scenario.consumer_options: adopted changed parameters')
         if resource_id == 'research-dynamic' and 'options' in adopted_spec:
             execution_spec['options'] = deepcopy(selected_options)
             if method == 'replacement' and algorithm == 'smm' and 'smm' not in execution_spec['options']:
                 unbound_inputs.append('options.smm: adopted seed, replications, initial_costs, bounds and tolerance')
         missing_fields = sorted(required_fields - execution_spec.keys())
+        if method == 'consumption_saving':
+            missing_fields.extend('consumer_options.'+key for key in
+                ('T_cycle','CRRA','DiscFac','Rfree','LivPrb','PermGroFac','BoroCnstArt')
+                if key not in execution_spec['consumer_options'])
+            if isinstance(execution_spec.get('evaluation'),dict) and 'mNrm' not in execution_spec['evaluation']:
+                missing_fields.append('evaluation.mNrm')
         if resource_id == 'research-numerics' and 'inputs' in execution_spec:
             if not isinstance(execution_spec['inputs'], dict):
                 raise ValueError('adopted_specification.inputs must be an object')
@@ -2475,11 +2583,206 @@ write_json(obj,args[5],auto_unbox=TRUE,digits=16,na='null',null='null',dataframe
         result['statistics'] = {f'coefficient.{r["term"]}':{'value':r['estimate'],'unit':spec['unit']} for r in estimates}
     return result
 
+def _doubleml(spec, data, cluster_columns, input_rows):
+    """Fit the declared official score on the common complete-case sample."""
+    import warnings
+    import doubleml
+    import sklearn
+    from sklearn.ensemble import (RandomForestRegressor, RandomForestClassifier,
+                                  HistGradientBoostingRegressor, HistGradientBoostingClassifier)
+    from sklearn.exceptions import ConvergenceWarning
+    from sklearn.linear_model import LinearRegression, Ridge, Lasso, LogisticRegression
+
+    opt = spec['options']
+    method = spec['method']
+    if not isinstance(opt.get('definitions',{}),dict):
+        raise ValueError('DoubleML definitions must be an object')
+    if method == 'dml_iivm' and opt.get('normalize_ipw') and doubleml.__version__ == '0.11.4':
+        raise ValueError('DoubleML 0.11.4 normalizes IIVM instrument propensities with treatment d; '
+            'normalize_ipw=True requires the official correction e31e61efe8864c160c04488d91f1306e1e25c129 '
+            '(normalization with instrument z). Install an official release containing that correction.')
+    treatment = opt['treatment'] if method == 'dml_irm' else spec['endogenous'][0]
+    n_rep = opt.get('n_rep', 1)
+    for name, value, lower in (('n_folds',opt['n_folds'],2),('n_rep',n_rep,1),('seed',opt['seed'],0)):
+        if isinstance(value,bool) or not isinstance(value,int) or value < lower:
+            raise ValueError(f'DoubleML {name} must be an integer >= {lower}')
+    level = opt.get('confidence_level', .95)
+    joint = opt.get('joint', False)
+    if isinstance(level,bool) or not isinstance(level,(int,float)) or not 0 < level < 1:
+        raise ValueError('DoubleML confidence_level must be between zero and one')
+    if not isinstance(joint,bool):
+        raise ValueError('DoubleML joint must be boolean')
+    bootstrap = opt.get('bootstrap')
+    if bootstrap is not None and (not isinstance(bootstrap,dict) or set(bootstrap) != {'method','n_rep_boot'}
+            or bootstrap['method'] not in ('normal','Bayes','wild')
+            or isinstance(bootstrap['n_rep_boot'],bool) or not isinstance(bootstrap['n_rep_boot'],int)
+            or bootstrap['n_rep_boot'] < 1):
+        raise ValueError('bootstrap requires method normal/Bayes/wild and positive integer n_rep_boot')
+    if joint and bootstrap is None:
+        raise ValueError('joint DoubleML intervals require options.bootstrap')
+    if cluster_columns and bootstrap is not None:
+        raise ValueError('the official DoubleML multiplier bootstrap requires independent observations')
+    if not spec['regressors']:
+        raise ValueError('DoubleML requires named covariate columns')
+    if method in ('dml_irm','dml_iivm') and set(data[treatment].unique()) != {0,1}:
+        raise ValueError('IRM and IIVM require one treatment containing both 0 and 1')
+    if method == 'dml_iivm' and set(data[spec['instruments'][0]].unique()) != {0,1}:
+        raise ValueError('IIVM requires one instrument containing both 0 and 1')
+    valid_scores = {'dml_irm':{'ATE','ATTE'},'dml_pliv':{'partialling out','IV-type'},'dml_iivm':{'LATE'}}
+    if opt['score'] not in valid_scores[method]:
+        raise ValueError(f'{method} score must be one of {sorted(valid_scores[method])}')
+    learner_names = ({'ml_l','ml_m','ml_r'} | ({'ml_g'} if opt['score']=='IV-type' else set())
+        if method == 'dml_pliv' else {'ml_g','ml_m'} | ({'ml_r'} if method == 'dml_iivm' else set()))
+    if not isinstance(opt['learners'],dict) or set(opt['learners']) != learner_names:
+        raise ValueError(f'{method} learners must contain exactly {sorted(learner_names)}')
+    classes = {'linear':LinearRegression,'ridge':Ridge,'lasso':Lasso,'logistic':LogisticRegression,
+        'random_forest_regressor':RandomForestRegressor,'random_forest_classifier':RandomForestClassifier,
+        'hist_gradient_boosting_regressor':HistGradientBoostingRegressor,
+        'hist_gradient_boosting_classifier':HistGradientBoostingClassifier}
+    learners = {}
+    effective_learners = {}
+    for name, config in opt['learners'].items():
+        if (not isinstance(config,dict) or not {'type'} <= config.keys() or set(config)-{'type','params'}
+                or config['type'] not in classes or not isinstance(config.get('params',{}),dict)):
+            raise ValueError('each nuisance learner requires a supported type and optional native params')
+        cls = classes[config['type']]
+        params = deepcopy(config.get('params',{}))
+        signature = inspect.signature(cls)
+        if 'random_state' in signature.parameters:
+            params.setdefault('random_state', opt['seed'])
+        if 'n_jobs' in signature.parameters:
+            params.setdefault('n_jobs', 1)
+        signature.bind(**params)
+        learners[name] = cls(**params)
+        effective_learners[name] = {'class':cls.__module__+'.'+cls.__name__,
+            'params':learners[name].get_params(deep=False)}
+    constructor_options = {key:deepcopy(opt[key]) for key in
+        ('score','normalize_ipw','trimming_rule','trimming_threshold','subgroups') if key in opt}
+    if 'ps_processor_config' in opt:
+        from doubleml.utils import PSProcessorConfig
+        constructor_options['ps_processor_config'] = PSProcessorConfig(**opt['ps_processor_config'])
+    if 'weights' in opt:
+        if opt['score'] != 'ATE':
+            raise ValueError('DoubleMLIRM constructor weights require score=ATE')
+        weights = opt['weights']
+        if isinstance(weights,str):
+            constructor_options['weights'] = data[weights].to_numpy(dtype=float)
+        else:
+            arrays = weights if isinstance(weights,dict) else {'weights':weights}
+            if set(arrays) not in ({'weights'},{'weights','weights_bar'}):
+                raise ValueError('IRM weights use weights and optional weights_bar')
+            converted = {}
+            for key, values in arrays.items():
+                values = np.asarray(values,dtype=float)
+                expected = (input_rows,n_rep) if key=='weights_bar' else (input_rows,)
+                if values.shape != expected or not np.isfinite(values).all():
+                    raise ValueError(f'{key} must be finite with input-row shape {expected}')
+                converted[key] = values[data.index.to_numpy()]
+            constructor_options['weights'] = converted if isinstance(weights,dict) else converted['weights']
+    frame = data.reset_index(drop=True)
+    backend = doubleml.DoubleMLData(frame, y_col=spec['outcome'], d_cols=treatment,
+        x_cols=spec['regressors'], z_cols=spec['instruments'] or None, cluster_cols=cluster_columns or None)
+    cls = getattr(doubleml, DML_METHODS[method])
+    fit = cls(backend, **learners, n_folds=opt['n_folds'], n_rep=n_rep,
+        draw_sample_splitting=False, **constructor_options)
+    ids = frame[spec['id']].astype(str).tolist()
+    positions = {value:i for i,value in enumerate(ids)}
+    random_state = np.random.get_state()
+    try:
+        np.random.seed(opt['seed'])
+        specified = opt.get('sample_splitting')
+        if specified is None:
+            fit.draw_sample_splitting()
+        else:
+            if not isinstance(specified,list) or len(specified) != n_rep:
+                raise ValueError('sample_splitting must contain one fold list per repetition')
+            splits = []
+            cluster_splits = []
+            for repetition in specified:
+                if not isinstance(repetition,list) or len(repetition) != opt['n_folds']**max(1,len(cluster_columns)):
+                    raise ValueError('sample_splitting fold count must match n_folds and cluster dimensions')
+                row_splits = []
+                row_cluster_splits = []
+                for fold in repetition:
+                    keys = {'train_ids','test_ids'} | ({'train_clusters','test_clusters'} if cluster_columns else set())
+                    if not isinstance(fold,dict) or set(fold) != keys:
+                        raise ValueError(f'each sample fold requires {sorted(keys)}')
+                    for key in ('train_ids','test_ids'):
+                        if not isinstance(fold[key],list) or any(value not in positions for value in fold[key]):
+                            raise ValueError(f'{key} must name complete-case observation IDs')
+                    row_splits.append(tuple(np.array([positions[value] for value in fold[key]],dtype=int)
+                        for key in ('train_ids','test_ids')))
+                    if cluster_columns:
+                        for key in ('train_clusters','test_clusters'):
+                            if not isinstance(fold[key],dict) or set(fold[key]) != set(cluster_columns):
+                                raise ValueError(f'{key} must map each cluster column to its labels')
+                        for col in cluster_columns:
+                            train_labels, test_labels = fold['train_clusters'][col], fold['test_clusters'][col]
+                            if not isinstance(train_labels,list) or not isinstance(test_labels,list):
+                                raise ValueError('cluster labels must be lists')
+                            if (len(set(train_labels)) != len(train_labels) or len(set(test_labels)) != len(test_labels)
+                                    or set(train_labels) & set(test_labels)
+                                    or set(train_labels) | set(test_labels) != set(frame[col])):
+                                raise ValueError(f'each fold must partition the complete {col} cluster labels')
+                        for j,key in enumerate(('train_clusters','test_clusters')):
+                            membership = np.ones(len(frame),dtype=bool)
+                            for col in cluster_columns:
+                                membership &= frame[col].isin(fold[key][col]).to_numpy()
+                            if not np.array_equal(np.sort(row_splits[-1][j]), np.flatnonzero(membership)):
+                                raise ValueError('sample fold IDs must equal the intersection of their declared cluster sets')
+                        row_cluster_splits.append(tuple([np.asarray(fold[key][col]) for col in cluster_columns]
+                            for key in ('train_clusters','test_clusters')))
+                splits.append(row_splits)
+                cluster_splits.append(row_cluster_splits)
+            fit.set_sample_splitting(splits, cluster_splits if cluster_columns else None)
+        with warnings.catch_warnings():
+            warnings.simplefilter('error', ConvergenceWarning)
+            fit.fit(n_jobs_cv=1, store_predictions=True)
+        if bootstrap is not None:
+            fit.bootstrap(**bootstrap)
+        intervals = fit.confint(joint=joint, level=float(level))
+    except ConvergenceWarning as exc:
+        raise ArithmeticError(f'DoubleML nuisance fit did not converge: {exc}') from exc
+    finally:
+        np.random.set_state(random_state)
+    folds = []
+    for rep, repetition in enumerate(fit.smpls):
+        saved = []
+        for fold_no, (train,test) in enumerate(repetition):
+            fold = {'train_ids':[ids[i] for i in train], 'test_ids':[ids[i] for i in test]}
+            if cluster_columns:
+                native = fit.smpls_cluster[rep][fold_no]
+                fold.update({key:{col:np.asarray(values).tolist() for col,values in zip(cluster_columns,native[j])}
+                    for j,key in enumerate(('train_clusters','test_clusters'))})
+            saved.append(fold)
+        folds.append(saved)
+    diagnostics = {'score':fit.score,'n_folds':fit.n_folds,'n_rep':fit.n_rep,
+        'folds_per_cluster':opt['n_folds'] if cluster_columns else None,
+        'cluster_columns':cluster_columns,'cluster_counts':{col:int(frame[col].nunique()) for col in cluster_columns},
+        'effective_learners':effective_learners,'all_coef':fit.all_coef.tolist(),'all_se':fit.all_se.tolist(),
+        'nuisance_predictions':{key:values.tolist() for key,values in fit.predictions.items()},
+        'score_elements':{key:values.tolist() for key,values in fit.psi_elements.items()},
+        'array_order':{'nuisance_predictions':['included_id','repetition','treatment'],
+            'score_elements':['included_id','repetition','treatment'],'all_coef':['treatment','repetition']},
+        'official_interface':{'constructor':str(inspect.signature(cls)),'fit':str(inspect.signature(fit.fit)),
+            'confint':str(inspect.signature(fit.confint))}}
+    if hasattr(fit,'weights'):
+        diagnostics['score_weights'] = {key:value.tolist() for key,value in fit.weights.items()}
+    if method in ('dml_irm','dml_iivm'):
+        diagnostics['normalize_ipw'] = fit.normalize_ipw
+        diagnostics['propensity_score_processing'] = vars(fit.ps_processor_config)
+    if method == 'dml_iivm':
+        diagnostics['subgroups'] = fit.subgroups
+    if bootstrap is not None:
+        diagnostics['bootstrap'] = {**bootstrap,'t_statistics':fit.boot_t_stat.tolist()}
+    return fit, intervals, folds, diagnostics, {'doubleml':doubleml.__version__,'scikit-learn':sklearn.__version__}
+
+
 def run(spec, spec_path):
     if not isinstance(spec, dict) or set(spec) != RUN_FIELDS:
         raise ValueError('specification must contain exactly the documented fields')
     method = spec['method']
-    methods = {'gls','iv_gmm','iv_ar','panel_fe','quantile','poisson','logit','rct','rdd_sharp','rdd_fuzzy','hdfe','causal_forest','spatial_lag','rdd_localrand','shift_share','policy_tree','network_spillover','tobit','dynamic_panel','synthetic_control','staggered_did','generalized_synth','multitreatment_did','distribution_effect'} | set(R_METHODS)
+    methods = {'gls','iv_gmm','iv_ar','panel_fe','quantile','poisson','logit','rct','rdd_sharp','rdd_fuzzy','hdfe','causal_forest','spatial_lag','rdd_localrand','shift_share','policy_tree','network_spillover','tobit','dynamic_panel','synthetic_control','staggered_did','generalized_synth','multitreatment_did','distribution_effect'} | set(R_METHODS) | set(DML_METHODS)
     if method not in methods:
         raise ValueError('unsupported method')
     for key in ('data','id','outcome','population','period','unit','estimand','identification','assignment'):
@@ -2489,7 +2792,10 @@ def run(spec, spec_path):
         v = spec[key]
         if not isinstance(v, list) or any(not isinstance(x,str) or not x for x in v) or len(set(v)) != len(v):
             raise ValueError(f'{key} must be a list of distinct column names')
-    if method == 'shift_share':
+    if method in ('dml_pliv','dml_iivm'):
+        if len(spec['endogenous']) != 1 or not spec['instruments'] or (method=='dml_iivm' and len(spec['instruments'])!=1):
+            raise ValueError('PLIV requires one endogenous treatment and instruments; IIVM requires exactly one instrument')
+    elif method == 'shift_share':
         if len(spec['endogenous']) != 1 or spec['instruments']: raise ValueError('shift_share requires one endogenous regressor and no input instruments')
     elif method in ('iv_gmm','iv_ar','iv_ar_robust'):
         if not spec['endogenous'] or len(spec['instruments']) < len(spec['endogenous']):
@@ -2503,19 +2809,39 @@ def run(spec, spec_path):
     if method in R_METHODS:
         return _official_r(spec, spec_path)
     opt = spec['options']
-    required = {'gls': {'variance'}, 'iv_gmm': set(), 'iv_ar': {'alpha'}, 'panel_fe': {'entity','time','entity_effects','time_effects'},
-                'quantile': {'quantile'}, 'poisson': set(), 'logit': set(), 'rct': {'treatment','permutations','seed'}, 'rdd_sharp': {'running','cutoff','bandwidth'}, 'rdd_fuzzy': {'running','cutoff','bandwidth','treatment'}, 'hdfe': {'fixed_effects'}, 'causal_forest': {'treatment','seed','trees','min_leaf'}, 'spatial_lag': {'weights'}, 'rdd_localrand': {'running','cutoff','bandwidth','permutations','seed'}, 'shift_share': {'shares','shocks'}, 'policy_tree': {'treatment','propensity','partition','seed'}, 'network_spillover': {'weights','treatment'}, 'tobit': {'lower'}, 'dynamic_panel': {'entity','time'}, 'synthetic_control': {'entity','time','treated','training_end','pre_end'}, 'staggered_did': {'entity','time','cohort','control_group'}, 'generalized_synth': {'entity','time','treatment','factors','bootstraps','seed'}, 'multitreatment_did': {'entity','time','pre','post','treatments'}, 'distribution_effect': {'treatment','threshold'}}[method]
+    required = ({'score','n_folds','seed','learners'} | ({'treatment'} if method=='dml_irm' else set()) if method in DML_METHODS else
+        {'gls': {'variance'}, 'iv_gmm': set(), 'iv_ar': {'alpha'}, 'panel_fe': {'entity','time','entity_effects','time_effects'},
+                'quantile': {'quantile'}, 'poisson': set(), 'logit': set(), 'rct': {'treatment','permutations','seed'}, 'rdd_sharp': {'running','cutoff','bandwidth'}, 'rdd_fuzzy': {'running','cutoff','bandwidth','treatment'}, 'hdfe': {'fixed_effects'}, 'causal_forest': {'treatment','seed','trees','min_leaf'}, 'spatial_lag': {'weights'}, 'rdd_localrand': {'running','cutoff','bandwidth','permutations','seed'}, 'shift_share': {'shares','shocks'}, 'policy_tree': {'treatment','propensity','partition','seed'}, 'network_spillover': {'weights','treatment'}, 'tobit': {'lower'}, 'dynamic_panel': {'entity','time'}, 'synthetic_control': {'entity','time','treated','training_end','pre_end'}, 'staggered_did': {'entity','time','cohort','control_group'}, 'generalized_synth': {'entity','time','treatment','factors','bootstraps','seed'}, 'multitreatment_did': {'entity','time','pre','post','treatments'}, 'distribution_effect': {'treatment','threshold'}}[method])
     optional = ({'panel','allow_unbalanced_panel','anticipation','weightsname','fix_weights',
                  'alp','bstrap','biters','clustervars','cband','est_method','base_period',
                  'faster_mode','seed','aggregation'} if method == 'staggered_did' else set())
     if method == 'hdfe':
         optional = {'weights','weights_type','ssc','vcov','confidence_level'}
+    if method in DML_METHODS:
+        optional = {'n_rep','confidence_level','joint','bootstrap','sample_splitting','definitions'}
+        if method in ('dml_irm','dml_iivm'):
+            optional |= {'normalize_ipw','trimming_rule','trimming_threshold','ps_processor_config'}
+        optional |= {'weights'} if method=='dml_irm' else {'subgroups'} if method=='dml_iivm' else set()
     if not required <= set(opt) or set(opt) - required - optional:
         raise ValueError(f'{method} options must contain exactly {sorted(required)}')
     inf = spec['inference']
-    if not isinstance(inf,dict) or inf.get('type') not in ('robust','cluster','homoskedastic','randomization','rdrobust','forest','spatial_ml','policy','likelihood','dynamic_gmm','synthetic_holdout','did','gsynth'):
+    if not isinstance(inf,dict) or inf.get('type') not in ('official','robust','cluster','homoskedastic','randomization','rdrobust','forest','spatial_ml','policy','likelihood','dynamic_gmm','synthetic_holdout','did','gsynth'):
         raise ValueError('unsupported inference type; see causal-models.md')
-    if set(inf) != ({'type','cluster'} if inf['type']=='cluster' else {'type'}):
+    dml_clusters = []
+    if method in DML_METHODS:
+        if inf['type'] == 'cluster':
+            if set(inf) not in ({'type','cluster'},{'type','clusters'}):
+                raise ValueError('DoubleML cluster inference requires cluster or clusters')
+            dml_clusters = inf.get('clusters',[inf.get('cluster')])
+            if (not isinstance(dml_clusters,list) or not 1 <= len(dml_clusters) <= 2
+                    or any(not isinstance(col,str) or not col for col in dml_clusters)
+                    or len(set(dml_clusters)) != len(dml_clusters)):
+                raise ValueError('DoubleML requires one or two distinct cluster columns')
+        elif inf != {'type':'official'}:
+            raise ValueError('DoubleML uses official orthogonal-score inference or declared clustering')
+    elif inf['type'] == 'official':
+        raise ValueError('official inference is reserved for official estimator calls')
+    elif set(inf) != ({'type','cluster'} if inf['type']=='cluster' else {'type'}):
         raise ValueError('cluster inference requires exactly type and cluster')
     if (method == 'generalized_synth') != (inf['type'] == 'gsynth'):
         raise ValueError('generalized_synth alone requires gsynth inference')
@@ -2556,7 +2882,7 @@ def run(spec, spec_path):
              [opt['treatment']] if method == 'network_spillover' else
              [opt['treatment'],opt['propensity'],opt['partition']] if method == 'policy_tree' else
              opt['shares'] if method == 'shift_share' else
-             [opt['treatment']] if method == 'causal_forest' else
+             [opt['treatment']] if method in ('causal_forest','dml_irm') else
              opt['fixed_effects'] if method == 'hdfe' else
              [opt['treatment']] if method == 'rdd_fuzzy' else
              [opt['variance']] if method == 'gls' else
@@ -2569,9 +2895,16 @@ def run(spec, spec_path):
         if 'weightsname' in opt: columns.append(opt['weightsname'])
     if method == 'hdfe' and opt.get('weights') is not None:
         columns.append(opt['weights'])
-    if inf['type']=='cluster': columns += [inf['cluster']]
+    if method == 'dml_irm' and isinstance(opt.get('weights'),str):
+        columns.append(opt['weights'])
+    if method in DML_METHODS:
+        columns += dml_clusters
+    elif inf['type']=='cluster': columns += [inf['cluster']]
     if any(not isinstance(x,str) or not x for x in columns): raise ValueError('column names must be nonempty strings')
     roles = [spec['id'],spec['outcome'],*spec['regressors'],*spec['endogenous'],*spec['instruments']]
+    if method == 'dml_irm': roles.append(opt['treatment'])
+    if method in DML_METHODS and set(dml_clusters) & set(roles[1:]):
+        raise ValueError('DoubleML cluster columns must be distinct from model columns')
     if len(set(roles)) != len(roles) or 'const' in roles: raise ValueError('model column roles must be distinct; const is reserved')
     p = Path(spec['data']); p = (p if p.is_absolute() else spec_path.parent / p).resolve()
     df = pd.read_csv(p, dtype={spec['id']:'string'})
@@ -2589,7 +2922,8 @@ def run(spec, spec_path):
     if method == 'policy_tree': numeric.extend([opt['treatment'],opt['propensity']])
     if method == 'shift_share': numeric.extend(opt['shares'])
     if method == 'gls': numeric.append(opt['variance'])
-    if method in ('rdd_fuzzy','causal_forest'): numeric.append(opt['treatment'])
+    if method in ('rdd_fuzzy','causal_forest','dml_irm'): numeric.append(opt['treatment'])
+    if method == 'dml_irm' and isinstance(opt.get('weights'),str): numeric.append(opt['weights'])
     for c in numeric: df[c] = pd.to_numeric(df[c], errors='raise')
     selected = np.isfinite(df[numeric].to_numpy(dtype=float)).all(axis=1)
     for c in set(columns)-set(numeric): selected &= df[c].notna() & df[c].astype('string').str.strip().ne('').fillna(False)
@@ -2602,15 +2936,23 @@ def run(spec, spec_path):
         local=(d[running]>=cutoff-bandwidth)&(d[running]<=cutoff+bandwidth)
         outside=d.loc[~local,spec['id']].astype(str).tolist(); d=d.loc[local].copy()
     if len(d)<4: raise ValueError('at least four complete observations required')
-    X = sm.add_constant(d[spec['regressors']],has_constant='add')
-    if np.linalg.matrix_rank(X.to_numpy()) != X.shape[1] or len(d)<=X.shape[1]: raise ValueError('design must have full rank and residual degrees of freedom')
+    X = None if method in DML_METHODS else sm.add_constant(d[spec['regressors']],has_constant='add')
+    if X is not None and (np.linalg.matrix_rank(X.to_numpy()) != X.shape[1] or len(d)<=X.shape[1]): raise ValueError('design must have full rank and residual degrees of freedom')
     groups = None
-    if inf['type']=='cluster':
+    if inf['type']=='cluster' and method not in DML_METHODS:
         groups = d[inf['cluster']]
         if groups.nunique()<2: raise ValueError('at least two clusters required')
     versions = {'python':sys.version.split()[0], 'numpy':np.__version__, 'pandas':pd.__version__, 'scipy':scipy.__version__, 'statsmodels':statsmodels.__version__}
     diagnostics = {}; fit_n=None; did_values=None; confidence_level=0.95
-    if method == 'distribution_effect':
+    if method in DML_METHODS:
+        fit, ci, dml_folds, diagnostics, dml_versions = _doubleml(spec, d, dml_clusters, input_rows)
+        versions.update(dml_versions)
+        term = opt['treatment'] if method=='dml_irm' else spec['endogenous'][0]
+        coef = pd.Series(fit.coef,index=[term]); se = pd.Series(fit.se,index=[term])
+        pv = pd.Series(fit.pval,index=[term]); cov = pd.DataFrame([[float(fit.se[0]**2)]],index=[term],columns=[term])
+        reference = 'normal'; engine = 'doubleml.'+DML_METHODS[method]
+        confidence_level = opt.get('confidence_level',.95)
+    elif method == 'distribution_effect':
         treatment=opt['treatment']; threshold=opt['threshold']
         if spec['regressors']!=[treatment] or set(d[treatment].unique())!={0,1} or isinstance(threshold,bool) or not isinstance(threshold,(int,float)) or not np.isfinite(threshold): raise ValueError('distribution effect requires a binary treatment regressor and finite threshold')
         indicator=(d[spec['outcome']]<=threshold).astype(int); fit=sm.OLS(indicator,X).fit(**({'cov_type':'HC1'} if groups is None else {'cov_type':'cluster','cov_kwds':{'groups':groups,'use_correction':True},'use_t':True}))
@@ -2982,6 +3324,8 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
     if any(not np.isfinite(z).all() for z in arrays): raise ArithmeticError('estimator returned nonfinite inference')
     names=list(coef.index); vals=[float(v) for v in coef]; std=[float(v) for v in se]
     units={k:(spec['unit'] if k in ('const','treatment_effect','sample_ate','policy_value_gain','overall','post') or k.startswith(('event_','cohort_','time_')) else 'dimensionless' if k in ('spatial_lag','log_sigma','L1.'+spec['outcome']) else f"{spec['unit']} per one unit of {k}") for k in names}
+    if method in DML_METHODS:
+        units = {key:spec['unit'] for key in names}
     stats={f'coefficient.{k}':{'value':v,'unit':units[k]} for k,v in zip(names,vals)}
     stats.update({f'standard_error.{k}':{'value':v,'unit':units[k]} for k,v in zip(names,std)})
     stats.update({f'p_value.{k}':{'value':float(pv.loc[k]),'unit':'probability'} for k in names})
@@ -2993,6 +3337,22 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
     result = {'method':method,'engine':engine,'versions':versions,'options':opt,'adopted':{k:spec[k] for k in ('population','period','unit','estimand','identification','assignment','inference')},'sample':{'id_column':spec['id'],'included_ids':d[spec['id']].astype(str).tolist(),'excluded_incomplete_ids':excluded,'excluded_outside_window_ids':outside,'training_ids':training,'excluded_initial_lag_ids':initial_lags,'input_rows':int(input_rows),'observations':int(fit_n)},'coefficients':dict(zip(names,vals)),'standard_errors':dict(zip(names,std)),'covariance_kind':'upper bound on scalar variance' if method=='causal_forest' else 'estimator covariance','covariance':{a:{b:float(cov.loc[a,b]) for b in names} for a in names},'inference':{'reference':reference,'p_values':{k:float(pv.loc[k]) for k in names},'confidence_level':confidence_level,'confidence_intervals':{k:[float(x) for x in ci.loc[k]] for k in names}},'diagnostics':diagnostics,'statistics':stats,'provenance':{'data_path':str(p),'data_sha256':_hash(p),'spec_path':str(spec_path.resolve()),'spec_sha256':_hash(spec_path)}}
     if confidence_level == 0.95:
         result['inference']['confidence_intervals_95'] = result['inference']['confidence_intervals']
+    if method in DML_METHODS:
+        result['folds'] = dml_folds
+        result['sample']['complete_case_columns'] = list(dict.fromkeys(columns))
+        result['design'] = {'outcome':spec['outcome'],'treatment':term,'covariates':spec['regressors'],
+            'instruments':spec['instruments'],'score':opt['score'],'cluster_columns':dml_clusters}
+        result['inference'].update(procedure='official cross-fitted orthogonal-score inference',
+            interval_type='joint multiplier bootstrap' if opt.get('joint') else 'pointwise',
+            standard_error_method='official clustered score variance' if dml_clusters else 'official score variance',
+            repetitions=fit.n_rep, coefficient_aggregation='median over sample-splitting repetitions')
+        result['display'] = {'kind':'coefficient','rows':[{'term':term,'estimate':vals[0],'se':std[0],
+            'p_value':float(pv.iloc[0]),'ci_low':float(ci.iloc[0,0]),'ci_high':float(ci.iloc[0,1]),
+            'n':int(fit_n),'unit':spec['unit']}],
+            'metadata':{**opt.get('definitions',{}),'estimand':spec['estimand'],'population':spec['population'],
+                'period':spec['period'],'unit':spec['unit'],'score':opt['score'],'engine':engine,
+                'confidence_level':confidence_level,'interval_type':result['inference']['interval_type'],
+                'inference':spec['inference'],'producer':{'function':engine,'versions':versions}}}
     if did_values is not None:
         aggregation = did_values['aggregate_options']
         result['covariance_kind'] = 'analytical covariance from official influence functions with adopted clustering'
@@ -3059,114 +3419,16 @@ cat(toJSON(obj,auto_unbox=TRUE,digits=16,na='null',null='null'))
     return result
 
 
-def case(output, methods=None):
-    """Execute selected original seeded examples with their unchanged specifications."""
-    rng=np.random.default_rng(10198)
-    n=1200; x=rng.normal(size=n); z=rng.normal(size=n); z2=rng.normal(size=n)
-    e=rng.normal(size=n); var=0.5+x*x; treatment=0.9*z+0.6*z2+0.7*e+rng.normal(size=n)
-    frame=pd.DataFrame({'id':[f'r{i}' for i in range(n)],'x':x,'z':z,'z2':z2,'d':treatment,'variance':var,
-        'y_gls':1+2*x+np.sqrt(var)*rng.normal(size=n),
-        'y_iv':1+1.5*treatment+0.5*x+e,
-        'y_quantile':1+2*x+rng.normal(size=n),
-        'y_tobit':np.maximum(0,1+2*x+rng.normal(size=n)),
-        'y_poisson':rng.poisson(np.exp(0.2+0.4*x)),
-        'y_logit':rng.binomial(1,1/(1+np.exp(-(-0.3+0.8*x))))})
-    frame['assigned']=rng.permutation(np.r_[np.zeros(n//2,dtype=int),np.ones(n-n//2,dtype=int)])
-    frame['y_rct']=1+1.5*frame['assigned']+rng.normal(size=n)
-    shares=rng.dirichlet([1,1,1,1],size=n); shocks=np.array([-1.5,-.5,.5,1.5]); shift=shares@shocks; shift_error=rng.normal(size=n); frame['shift_d']=1.5*shift+0.5*shift_error+rng.normal(scale=.5,size=n); frame['y_shift']=1+1.5*frame['shift_d']+.5*x+shift_error
-    for j in range(4): frame[f'share{j}']=shares[:,j]
-    frame['y_cate']=x+(1+x)*frame['assigned']+rng.normal(size=n)
-    frame['y_dist']=frame['assigned']+rng.normal(size=n)
-    frame['policy_d']=rng.binomial(1,0.5,n); frame['policy_p']=0.5; frame['partition']=np.where(np.arange(n)%2==0,'train','evaluation'); frame['y_policy']=1+x+1.5*x*frame['policy_d']+rng.normal(scale=.5,size=n)
-    frame['running']=rng.uniform(-1,1,n); above=(frame['running']>=0); frame['received']=rng.binomial(1,0.15+0.7*above); frame['y_sharp']=1+frame['running']+2*above+rng.normal(scale=.5,size=n); frame['y_local']=1+2*above+rng.normal(scale=.5,size=n); frame['y_fuzzy']=1+frame['running']+2*frame['received']+rng.normal(scale=.5,size=n)
-    datasets={'cross.csv':frame}
-    units=200; periods=6
-    u=np.repeat(np.arange(units),periods); t=np.tile(np.arange(periods),units)
-    px=rng.normal(size=len(u)); alpha=np.repeat(rng.normal(size=units),periods)
-    panel=pd.DataFrame({'id':[f'p{i}' for i in range(len(u))],'entity':u,'time':t,'x':px,'y':2*px+alpha+0.3*t+rng.normal(size=len(u))})
-    datasets['panel.csv']=panel
-    nd=250; td=10; dx=rng.normal(size=(nd,td)); dy=np.zeros((nd,td)); da=rng.normal(size=nd)
-    for j in range(1,td): dy[:,j]=.55*dy[:,j-1]+.7*dx[:,j]+da+rng.normal(size=nd)
-    datasets['dynamic.csv']=pd.DataFrame({'id':[f'd{i}' for i in range(nd*td)],'entity':np.repeat(np.arange(nd),td),'time':np.tile(np.arange(td),nd),'x':dx.ravel(),'y':dy.ravel()})
-    ns=160; spatial_x=rng.normal(size=ns); shock=rng.normal(size=ns); W=np.zeros((ns,ns)); idx=np.arange(ns); W[idx,(idx-1)%ns]=0.5; W[idx,(idx+1)%ns]=0.5
-    spatial_y=np.linalg.solve(np.eye(ns)-.35*W,1+1.7*spatial_x+shock); nt=rng.binomial(1,.5,ns); network_y=1+.5*spatial_x+.8*nt+1.2*(W@nt)+rng.normal(scale=.5,size=ns); datasets['spatial.csv']=pd.DataFrame({'id':[f's{i}' for i in idx],'x':spatial_x,'y':spatial_y,'assigned':nt,'network_y':network_y})
-    nsc=52; sc_t=np.arange(nsc); donor=rng.normal(size=(nsc,4))+0.02*sc_t[:,None]; true_weights=np.array([.1,.2,.3,.4]); sc_y=donor@true_weights+rng.normal(scale=.08,size=nsc)+2*(sc_t>=40)
-    sc_rows=[{'id':f'c{t}_{u}','entity':f'u{u}','time':t,'y':float(sc_y[t] if u==0 else donor[t,u-1])} for t in sc_t for u in range(5)]; datasets['synthetic.csv']=pd.DataFrame(sc_rows)
-    nn=360; nt=7; cohort_values=np.resize(np.array([0,3,5]),nn); rng.shuffle(cohort_values); did_u=rng.normal(size=nn); did_x=rng.normal(size=nn*nt); did_entity=np.repeat(np.arange(nn),nt); did_time=np.tile(np.arange(1,nt+1),nn); did_g=np.repeat(cohort_values,nt); did_y=did_u[did_entity]+.3*did_time+.4*did_x+1.5*((did_g>0)&(did_time>=did_g))+rng.normal(size=nn*nt)
-    datasets['staggered.csv']=pd.DataFrame({'id':[f'g{i}' for i in range(nn*nt)],'entity':did_entity,'time':did_time,'cohort':did_g,'x':did_x,'y':did_y})
-    ng=70; tg=12; gunit=np.repeat(np.arange(ng),tg); gtime=np.tile(np.arange(1,tg+1),ng); gx=rng.normal(size=ng*tg); galpha=rng.normal(size=ng); gloading=rng.normal(size=ng); gd=((gunit<10)&(gtime>=9)).astype(int); gy=galpha[gunit]+.2*gtime+gloading[gunit]*np.sin(gtime/2)+.4*gx+1.4*gd+rng.normal(scale=.2,size=ng*tg)
-    datasets['gsynth.csv']=pd.DataFrame({'id':[f'h{i}' for i in range(ng*tg)],'entity':gunit,'time':gtime,'treated':gd,'x':gx,'y':gy})
-    nm=1200; mb=rng.normal(size=nm); mu=rng.normal(size=nm); md1=rng.binomial(1,.4,nm); md2=rng.binomial(1,.35,nm); dose=rng.binomial(2,.3,nm)*.5; my0=mu+.3*mb+rng.normal(size=nm); my1=mu+.3*mb+.5+1.2*md1+.6*md2+.7*dose+rng.normal(size=nm)
-    mtrows=[{'id':f'm{i}_{t}','entity':i,'time':t,'x':mb[i],'d1':int(md1[i]) if t else 0,'d2':int(md2[i]) if t else 0,'dose':dose[i] if t else 0,'y':my1[i] if t else my0[i]} for i in range(nm) for t in range(2)]; datasets['multitreatment.csv']=pd.DataFrame(mtrows)
-    datasets['weights.csv']=pd.DataFrame([{'source':f's{i}','target':f's{j}','weight':0.5} for i in idx for j in ((i-1)%ns,(i+1)%ns)])
-    common={'id':'id','regressors':['x'],'endogenous':[],'instruments':[],
-      'population':'seeded simulated units','period':'simulated','unit':'outcome units',
-      'estimand':'specified conditional model coefficient','identification':'exogeneity holds by construction',
-      'assignment':'independent simulated units','inference':{'type':'robust'},'options':{}}
-    specs={
-      'distribution_effect':{'data':'cross.csv','outcome':'y_dist','regressors':['assigned'],'options':{'treatment':'assigned','threshold':0.0},'unit':'probability','estimand':'treatment minus control outcome CDF at zero','identification':'randomized treatment assignment','assignment':'complete randomization'},
-      'multitreatment_did':{'data':'multitreatment.csv','outcome':'y','options':{'entity':'entity','time':'time','pre':0,'post':1,'treatments':['d1','d2','dose']},'estimand':'additive effects of two binary interventions and continuous dose','identification':'conditional parallel trends, no anticipation and additive linear treatment response','assignment':'independent simulated interventions'},
-      'generalized_synth':{'data':'gsynth.csv','outcome':'y','options':{'entity':'entity','time':'time','treatment':'treated','factors':1,'bootstraps':50,'seed':42},'inference':{'type':'gsynth'},'estimand':'average and event-time treated effects','identification':'interactive fixed-effects counterfactual and untreated donor stability','assignment':'ten units adopt in period 9'},
-      'staggered_did':{'data':'staggered.csv','outcome':'y','options':{'entity':'entity','time':'time','cohort':'cohort','control_group':'nevertreated'},'inference':{'type':'did'},'estimand':'group-time ATT and event-time average effects','identification':'conditional parallel trends, overlap and no anticipation','assignment':'staggered adoption with never-treated controls'},
-      'synthetic_control':{'data':'synthetic.csv','outcome':'y','regressors':['time'],'options':{'entity':'entity','time':'time','treated':'u0','training_end':23,'pre_end':39},'inference':{'type':'synthetic_holdout'},'estimand':'post effect relative to validation-period gap','identification':'stable untreated mean gap and independent time errors conditional on training weights','assignment':'one treated unit, treatment begins after period 39'},
-      'dynamic_panel':{'data':'dynamic.csv','outcome':'y','options':{'entity':'entity','time':'time'},'inference':{'type':'dynamic_gmm'},'estimand':'lagged outcome persistence and exogenous covariate slope','identification':'valid lagged levels and serially uncorrelated level disturbances','assignment':'independent simulated panel entities'},
-      'tobit':{'data':'cross.csv','outcome':'y_tobit','options':{'lower':0.0},'inference':{'type':'likelihood'},'estimand':'latent outcome slope','identification':'normal homoskedastic errors and censoring at known threshold','assignment':'independent simulated observations'},
-      'network_spillover':{'data':'spatial.csv','outcome':'network_y','options':{'weights':'weights.csv','treatment':'assigned'},'estimand':'direct and neighbor-exposure effects','identification':'random assignments, correct exposure mapping and conditionally independent errors','assignment':'independent Bernoulli treatment on known ring'},
-      'policy_tree':{'data':'cross.csv','outcome':'y_policy','options':{'treatment':'policy_d','propensity':'policy_p','partition':'partition','seed':512},'inference':{'type':'policy'},'estimand':'holdout policy value minus treat-none policy','identification':'randomized treatment with known propensity and independent holdout','assignment':'independent Bernoulli treatment'},
-      'shift_share':{'data':'cross.csv','outcome':'y_shift','endogenous':['shift_d'],'options':{'shares':['share0','share1','share2','share3'],'shocks':[-1.5,-0.5,0.5,1.5]},'estimand':'linear effect of shift-induced treatment','identification':'share-weighted shock exogeneity, relevance and independent unit errors conditional on fixed shocks','assignment':'independent units with fixed simulated shocks'},
-      'rdd_localrand':{'data':'cross.csv','outcome':'y_local','regressors':['running'],'options':{'running':'running','cutoff':0.0,'bandwidth':0.15,'permutations':1999,'seed':202},'inference':{'type':'randomization'},'estimand':'local difference in assignment means','identification':'as-if complete randomization and no variation in potential outcome distribution inside the declared window','assignment':'cutoff assignment within fixed window'},
-      'spatial_lag':{'data':'spatial.csv','outcome':'y','options':{'weights':'weights.csv'},'inference':{'type':'spatial_ml'},'estimand':'spatial autoregressive coefficient and direct covariate coefficient','identification':'known weights and exogenous covariates with iid Gaussian disturbances','assignment':'160 units on a ring'},
-      'causal_forest':{'data':'cross.csv','outcome':'y_cate','regressors':['x'],'options':{'treatment':'assigned','seed':404,'trees':100,'min_leaf':10},'inference':{'type':'forest'},'estimand':'sample average treatment effect and conditional treatment effects','identification':'random treatment assignment and overlap','assignment':'complete randomization'},
-      'hdfe':{'data':'panel.csv','outcome':'y','options':{'fixed_effects':['entity','time']},'inference':{'type':'cluster','cluster':'entity'},'assignment':'independent entities observed in six periods'},
-      'rdd_sharp':{'data':'cross.csv','outcome':'y_sharp','regressors':['running'],'options':{'running':'running','cutoff':0.0,'bandwidth':'mserd'},'inference':{'type':'rdrobust'},'estimand':'outcome jump at cutoff','identification':'conditional potential outcomes continuous at cutoff','assignment':'sharp cutoff assignment'},
-      'rdd_fuzzy':{'data':'cross.csv','outcome':'y_fuzzy','regressors':['running'],'options':{'running':'running','cutoff':0.0,'bandwidth':'mserd','treatment':'received'},'inference':{'type':'rdrobust'},'estimand':'local complier treatment effect','identification':'continuity, exclusion, monotonicity and nonzero treatment jump','assignment':'cutoff changes receipt probability'},
-      'rct':{'data':'cross.csv','outcome':'y_rct','regressors':['assigned'],'options':{'treatment':'assigned','permutations':1999,'seed':123},'inference':{'type':'randomization'},'estimand':'average effect of assignment','identification':'complete randomization','assignment':'complete randomization of 600 treated among 1200 units'},
-      'gls':{'data':'cross.csv','outcome':'y_gls','options':{'variance':'variance'}},
-      'iv_ar':{'data':'cross.csv','outcome':'y_iv','endogenous':['d'],'instruments':['z','z2'], 'options':{'alpha':0.05}, 'inference':{'type':'homoskedastic'}, 'estimand':'effect of endogenous d', 'identification':'excluded z and z2 independent of homoskedastic normal outcome error'},
-      'iv_gmm':{'data':'cross.csv','outcome':'y_iv','endogenous':['d'],'instruments':['z','z2'],
-                'estimand':'effect of endogenous d','identification':'excluded z and z2 independent of outcome error'},
-      'panel_fe':{'data':'panel.csv','outcome':'y','options':{'entity':'entity','time':'time','entity_effects':True,'time_effects':True},
-                  'inference':{'type':'cluster','cluster':'entity'},'assignment':'independent entities observed in six periods'},
-      'quantile':{'data':'cross.csv','outcome':'y_quantile','options':{'quantile':0.5},'estimand':'conditional median slope'},
-      'poisson':{'data':'cross.csv','outcome':'y_poisson','unit':'log conditional mean','estimand':'log conditional mean slope'},
-      'logit':{'data':'cross.csv','outcome':'y_logit','unit':'conditional log odds','estimand':'conditional log odds slope'}}
-    targets={'distribution_effect':('assigned',-0.341344746,0.1),'multitreatment_did':('dose',0.7,0.25),'generalized_synth':('overall',1.4,0.3),'staggered_did':('event_p0',1.5,0.35),'synthetic_control':('post',2.0,0.2),'dynamic_panel':('L1.y',0.55,0.2),'tobit':('x',2.0,0.13),'network_spillover':('neighbor_exposure',1.2,0.45),'policy_tree':('policy_value_gain',0.6,0.3),'shift_share':('shift_d',1.5,0.13),'rdd_localrand':('assignment',2.0,0.35),'spatial_lag':('spatial_lag',0.35,0.22),'causal_forest':('sample_ate',1.0,0.3),'hdfe':('x',2.0,0.12),'rdd_sharp':('treatment_effect',2.0,0.4),'rdd_fuzzy':('treatment_effect',2.0,0.6),'rct':('assigned',1.5,0.2),'gls':('x',2.0,0.16),'iv_ar':('d',1.5,0.13),'iv_gmm':('d',1.5,0.13),'panel_fe':('x',2.0,0.12),
-             'quantile':('x',2.0,0.13),'poisson':('x',0.4,0.1),'logit':('x',0.8,0.2)}
-    selected=list(specs) if methods is None else methods
-    if (not isinstance(selected,list) or not selected or len(set(selected)) != len(selected)
-            or any(method not in specs for method in selected)):
-        raise ValueError('select distinct supported example methods: '+', '.join(specs))
-    needed_data={specs[method]['data'] for method in selected}
-    needed_data.update(specs[method]['options']['weights'] for method in selected
-        if method in ('spatial_lag','network_spillover'))
-    output.mkdir(parents=True,exist_ok=False)
-    for name in sorted(needed_data):
-        datasets[name].to_csv(output/name,index=False)
-    checks={}
-    for method in selected:
-        settings=specs[method]
-        s={**common,**settings,'method':method}; sp=output/(method+'.json'); state.save(sp,s)
-        result=run(s,sp); state.save(output/(method+'-result.json'),result)
-        name,truth,tolerance=targets[method]; estimate=result['coefficients'][name]
-        checks[method]={'parameter':name,'benchmark':truth,'benchmark_definition':'population optimal rule value gain under standard normal x' if method=='policy_tree' else 'generating parameter', 'estimate':estimate,'absolute_error':abs(estimate-truth),'tolerance':tolerance,'passed':abs(estimate-truth)<tolerance}
-    state.save(output/'checks.json',checks)
-    if not all(x['passed'] for x in checks.values()): raise ArithmeticError('seeded case failed its prespecified numerical comparison')
-
-
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     sub=parser.add_subparsers(dest='operation',required=True)
     run_parser=sub.add_parser('run'); run_parser.add_argument('spec',type=Path); run_parser.add_argument('--output','-o',required=True,type=Path)
     select_parser=sub.add_parser('select'); select_parser.add_argument('spec',type=Path); select_parser.add_argument('--output','-o',required=True,type=Path)
-    case_parser=sub.add_parser('case'); case_parser.add_argument('--output','-o',required=True,type=Path)
-    case_parser.add_argument('--method',action='append',help='Execute only this original seeded example; repeat for multiple methods')
     a=parser.parse_args()
     try:
-        if a.operation=='case': case(a.output,a.method)
-        else:
-            spec=json.loads(a.spec.read_text(encoding='utf-8'))
-            result=select_method(spec) if a.operation=='select' else run(spec,a.spec)
-            state.save(a.output,result)
+        spec=json.loads(a.spec.read_text(encoding='utf-8'))
+        result=select_method(spec) if a.operation=='select' else run(spec,a.spec)
+        state.save(a.output,result)
     except (ValueError,TypeError,KeyError,OSError,ArithmeticError) as exc: parser.exit(2,f'error: {exc}\n')
 
 if __name__=='__main__': main()

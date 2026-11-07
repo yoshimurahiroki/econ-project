@@ -41,9 +41,9 @@ OPERATIONS = {
     'derive': 'Derive one concrete parent proposition from this classified group. For facts, explain the relation, result, comparison or mechanism jointly established. For actions, identify the directly achieved joint outcome. Preserve scope, conditions, quantities and source identity. Supply an explicit integration or deductive inference. The parent claim must add the meaning jointly established by the children. Return node.',
     'introduction': 'Connect the supplied shared situation and explanation problem to the research question, direct answer and supporting body nodes. Distinguish the research question from reader comprehension questions. Let information dependencies determine paragraph order. Return introduction.',
     'problem': 'Define the system, initial state, change, current result, target result, gap, previous actions and research question. Classify the question. Describe actors, constraints, information, choices and outcomes. For competing mechanisms, derive different observable implications under common conditions and specify the comparison and evidence that distinguish them. Derive a verification_plan from the identified relationships and mechanisms; each task names the question, relation_ids or mechanism_ids, evidence_ids, comparison and acceptance_condition. Return problem.',
-    'review': 'Assess the complete argument against source passages and the requested purpose. Inspect every parent-child link, sibling group, inference, reader question, scope and quantity, evidence relation, causal status, necessary explanation and visual element. Supply each requested check with a concrete assessment and every node ID in its required_node_ids coverage. Record exact findings and repairs at the causal level. Return checks and findings. Apply CORE and PROSE through the same integrated review; preserve exact source, claim and manuscript versions.',
+    'review': 'Assess the complete argument against source passages and the requested purpose. Inspect the parent-child inferences, ordering, economic objects, quantities and source support through one substantive review. Return assessment and findings, each with finding_id, node_ids, cause_level (expression, grouping, inference or global), message and repair. When independent checks are explicitly supplied, include their concrete assessments and required_node_ids and identify each finding by its check_id. Apply CORE and PROSE in that same review; preserve exact source, claim and manuscript versions.',
     'reverse': 'Reconstruct the argument from the supplied completed manuscript alone. Extract each paragraph claim and role using exact text spans. Group paragraphs into section claims and recover the central question and answer. Return paragraphs, sections, central_question and central_answer. Each paragraph record requires paragraph_id, central_claim, role, section_id and text_spans.',
-    'compare': 'Compare the independently reconstructed manuscript argument with the design in both directions. Trace every designed claim to text and every actual claim to its source and design role. Detect omitted reasoning, duplicate or incompatible propositions, scope shifts, abstract-level mismatches and disagreement among introduction, results and conclusion. Return checks and findings against all requested checks and their required_node_ids coverage.',
+    'compare': 'Compare the reconstructed manuscript argument with the design in both directions. Trace each designed claim to text and each actual claim to its source and design role. Resolve omitted reasoning, duplicate or incompatible propositions and changed economic objects. Return assessment and findings, each with finding_id, node_ids, cause_level (expression, grouping, inference or global), message and repair. When independent checks are explicitly supplied, include their assessments and required_node_ids and identify each finding by its check_id.',
     'repair': 'Repair each finding at its producing level: expression, grouping, inference or global argument. Change only authorized affected nodes and required connecting nodes. Preserve other nodes and original sources. Return graph and a changes list tying each changed node to a finding. Rebuild affected descendant specifications and invalidate their old checks.',
 }
 
@@ -289,13 +289,13 @@ def validate_argument(graph, sources=None):
     if not isinstance(graph, dict):
         return {'valid': False, 'issues': [{'check_id': 'schema', 'node_ids': [], 'location': '',
                 'message': 'Argument must be an object', 'repair': 'Supply the argument object'}],
-                'argument_sha256': None, 'semantic_review_required': True}
+                'argument_sha256': None}
     malformed = _shape_errors(graph)
     if malformed:
         return {'valid': False, 'issues': [{'check_id': 'schema', 'node_ids': [],
                 'paragraph_ids': [], 'section_ids': [], 'location': path,
                 'message': 'Invalid argument field: ' + path, 'repair': 'Supply the declared field shape'} for path in malformed],
-                'argument_sha256': argument_sha256(graph), 'semantic_review_required': True}
+                'argument_sha256': argument_sha256(graph)}
     for key in ('version', 'central_question', 'central_answer'):
         if not _text(graph.get(key)):
             issue('schema', [], 'Missing ' + key, 'Provide the adopted ' + key, key)
@@ -548,8 +548,7 @@ def validate_argument(graph, sources=None):
     for finding in issues:
         finding['paragraph_ids'] = sorted({p for nid in finding['node_ids'] for p in nodes.get(nid, {}).get('paragraph_ids', [])})
         finding['section_ids'] = sorted({nodes[nid]['section_id'] for nid in finding['node_ids'] if nid in nodes and _text(nodes[nid].get('section_id'))})
-    return {'valid': not issues, 'issues': issues, 'argument_sha256': digest,
-            'semantic_review_required': True}
+    return {'valid': not issues, 'issues': issues, 'argument_sha256': digest}
 
 
 def _assert_argument(graph, sources):
@@ -774,51 +773,60 @@ def _required_review_nodes(graph):
     return {key: sorted(value) for key, value in targets.items()}
 
 
-def _review_output(output, graph, sources, record):
-    checks, findings = output.get('checks'), output.get('findings')
+def _review_output(output, graph, sources, record, *, independent=False):
+    checks, findings = output.get('checks', []), output.get('findings')
     if not isinstance(checks, list) or not isinstance(findings, list):
         raise ArgumentError('Review requires concrete checks and findings')
     ids = [c.get('check_id') for c in checks if isinstance(c, dict)]
-    if len(ids) != len(checks) or len(set(ids)) != len(ids) or set(ids) != set(SEMANTIC_CHECKS):
-        raise ArgumentError('Review must assess every argument check once')
+    if len(ids) != len(checks) or len(set(ids)) != len(ids) or set(ids) - set(SEMANTIC_CHECKS):
+        raise ArgumentError('Review check IDs must be distinct argument checks')
+    if independent and set(ids) != set(SEMANTIC_CHECKS):
+        raise ArgumentError('Selected independent review must assess every argument check')
+    if not checks and not _text(output.get('assessment')):
+        raise ArgumentError('Review requires its substantive assessment')
     nodes = {n['node_id']: n for n in graph['nodes']}
     inspected = set()
-    required_nodes = _required_review_nodes(graph)
+    required_nodes = _required_review_nodes(graph) if independent else {}
     for check in checks:
         if check.get('verdict') not in {'pass', 'fail'} or not _text(check.get('assessment')):
             raise ArgumentError('Review check requires a concrete assessed verdict')
         if not isinstance(check.get('node_ids'), list) or not check['node_ids'] or set(check['node_ids']) - set(nodes):
             raise ArgumentError('Review check must identify inspected argument nodes')
-        if set(required_nodes[check['check_id']]) - set(check['node_ids']):
+        if independent and set(required_nodes[check['check_id']]) - set(check['node_ids']):
             raise ArgumentError('Review check omits required propositions: ' + check['check_id'])
         inspected.update(check['node_ids'])
         if not isinstance(check.get('source_refs'), list) or any(not _reference(ref, sources) for ref in check['source_refs']):
             raise ArgumentError('Review source correspondence differs from the source')
         if check['check_id'] in {'parent_support', 'source_correspondence', 'scope_quantities'} and not check['source_refs']:
             raise ArgumentError('Evidence check must cite the inspected source ranges')
-    if inspected != set(nodes):
+    if independent and inspected != set(nodes):
         raise ArgumentError('Argument review omits a proposition')
     for finding in findings:
-        if (not isinstance(finding, dict) or finding.get('check_id') not in SEMANTIC_CHECKS
+        if (not isinstance(finding, dict)
+                or ((independent or 'check_id' in finding) and finding.get('check_id') not in SEMANTIC_CHECKS)
                 or not _text(finding.get('finding_id')) or not _text(finding.get('message'))
                 or not _text(finding.get('repair')) or not finding.get('node_ids')
                 or set(finding.get('node_ids', [])) - set(nodes)
                 or finding.get('cause_level') not in {'expression', 'grouping', 'inference', 'global'}):
             raise ArgumentError('Finding requires its exact node, causal level and repair')
     failed = {c['check_id'] for c in checks if c['verdict'] == 'fail'}
-    if {f['check_id'] for f in findings} != failed:
+    finding_checks = {f.get('check_id') for f in findings}
+    if (independent and finding_checks != failed) or failed - finding_checks:
         raise ArgumentError('Failed checks and concrete findings differ')
     return {'argument_sha256': argument_sha256(graph), 'checks': checks, 'findings': findings,
-            'semantic_pass': not failed, 'record': record}
+            'assessment': output.get('assessment'), 'semantic_pass': not failed and not findings, 'record': record}
 
 
-def review_argument(graph, sources, host, *, manuscript=None, instructions=None):
+def review_argument(graph, sources, host, *, manuscript=None, instructions=None, independent=False):
     catalog = source_catalog(sources)
     structural = validate_argument(graph, catalog)
     output, record = _call(host, 'review', {'graph': graph, 'sources': catalog,
         'structural_findings': structural['issues'], 'manuscript': manuscript,
-        'required_checks': list(SEMANTIC_CHECKS), 'required_node_ids': _required_review_nodes(graph)}, instructions or graph.get('context'))
-    result = _review_output(output, graph, catalog, record)
+        'required_checks': list(SEMANTIC_CHECKS) if independent else [],
+        'required_node_ids': _required_review_nodes(graph) if independent else {}}, instructions or graph.get('context'))
+    if independent and record['execution_kind'] != 'independent-subagent':
+        raise ArgumentError('Selected independent review requires an observed independent execution')
+    result = _review_output(output, graph, catalog, record, independent=independent)
     result['structural'] = structural
     result['valid'] = structural['valid'] and result['semantic_pass']
     generation = graph.get('generation_records', [])
@@ -875,7 +883,7 @@ def reverse_outline(manuscript, host, *, instructions=None):
     return output
 
 
-def compare_outline(graph, outline, sources, host, *, instructions=None):
+def compare_outline(graph, outline, sources, host, *, instructions=None, independent=False):
     catalog = source_catalog(sources)
     structural = validate_argument(graph, catalog)
     current = {k: v for k, v in outline.items() if k not in {'record', 'outline_sha256'}}
@@ -884,10 +892,13 @@ def compare_outline(graph, outline, sources, host, *, instructions=None):
     planned = {p for n in graph['nodes'] for p in n.get('paragraph_ids', [])}
     actual = {p['paragraph_id'] for p in outline['paragraphs']}
     output, record = _call(host, 'compare', {'graph': graph, 'outline': outline,
-        'sources': catalog, 'required_checks': list(SEMANTIC_CHECKS), 'required_node_ids': _required_review_nodes(graph),
+        'sources': catalog, 'required_checks': list(SEMANTIC_CHECKS) if independent else [],
+        'required_node_ids': _required_review_nodes(graph) if independent else {},
         'unmapped_paragraphs': sorted(actual - planned), 'missing_paragraphs': sorted(planned - actual)},
         instructions or graph.get('context'))
-    result = _review_output(output, graph, catalog, record)
+    if independent and record['execution_kind'] != 'independent-subagent':
+        raise ArgumentError('Selected independent comparison requires an observed independent execution')
+    result = _review_output(output, graph, catalog, record, independent=independent)
     result.update(outline_sha256=outline['outline_sha256'], manuscript_sha256=outline['manuscript_sha256'],
                   structural=structural, paragraph_coverage=planned == actual,
                   valid=structural['valid'] and planned == actual and result['semantic_pass'])
@@ -1096,51 +1107,6 @@ def composition_context(graph, sources, node_ids):
             'exhibits': deepcopy([exhibit for exhibit in graph.get('exhibits', [])
                                  if set(exhibit['node_ids']) <= selected]),
             'sources': catalog}
-
-
-def metrics(graph, review, *, outline=None, repair_count=0, prohibited_occurrences=0):
-    """Compute comparison metrics from bound judgments and concrete findings."""
-    if review.get('argument_sha256') != argument_sha256(graph):
-        raise ArgumentError('Metrics require the current argument review')
-    checks = {r['check_id']: r for r in review['checks']}
-    findings = review['findings']
-    count = lambda *ids: sum(f['check_id'] in ids for f in findings)
-    required_nodes = _required_review_nodes(graph)
-    coverage_counts = {}
-    def coverage(key):
-        targets = set(required_nodes[key])
-        inspected = set(checks[key].get('node_ids', [])) & targets
-        failed = {nid for f in findings if f['check_id'] == key for nid in f['node_ids']} & targets
-        if checks[key]['verdict'] == 'fail' and not failed:
-            failed = set(targets)
-        passed = inspected - failed
-        coverage_counts[key] = {'passed': len(passed), 'required': len(targets)}
-        return len(passed) / len(targets) if targets else 0.0
-    result = {'direct_answer_coverage': coverage('question_answer'),
-        'mandatory_proposition_coverage': coverage('reverse_alignment') if outline else coverage('parent_support'),
-        'parent_evidence_alignment': coverage('parent_support'),
-        'reader_question_alignment': coverage('reader_questions'), 'grouping_fit': coverage('grouping'),
-        'required_explanation_coverage': coverage('inference_completeness'),
-        'inference_gaps': count('inference_completeness', 'deduction', 'induction'),
-        'empty_summaries': sum(bool(EMPTY_SUMMARY.fullmatch(n['claim'].strip())) for n in graph['nodes']),
-        'paragraph_duplicates_or_contradictions': count('information_density', 'reverse_alignment'),
-        'source_mismatches': count('source_correspondence', 'scope_quantities'),
-        'prohibited_occurrences': prohibited_occurrences, 'repair_count': repair_count,
-        'structural_issues': len(review.get('structural', {}).get('issues', [])),
-        'argument_sha256': argument_sha256(graph), 'coverage_counts': coverage_counts}
-    if outline:
-        result['manuscript_sha256'] = outline['manuscript_sha256']
-    return result
-
-
-def compare_metrics(before, after, before_inputs, after_inputs):
-    keys = ('material_sha256', 'question', 'results_sha256', 'conditions_sha256')
-    if any(not before_inputs.get(k) or before_inputs.get(k) != after_inputs.get(k) for k in keys):
-        raise ArgumentError('Comparison requires identical materials, question, results and writing conditions')
-    measures = {k: {'before': before[k], 'after': after[k], 'change': after[k] - before[k]}
-                for k in before.keys() & after.keys() if type(before[k]) in (int, float) and type(after[k]) in (int, float)}
-    return {'inputs': {k: before_inputs[k] for k in keys}, 'measures': measures,
-            'before_argument_sha256': before.get('argument_sha256'), 'after_argument_sha256': after.get('argument_sha256')}
 
 
 def main(argv=None):

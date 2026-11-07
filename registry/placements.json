@@ -121,11 +121,6 @@
       "deployment_path": ".agents/harness/state.py",
       "export_alias": "state.py"
     },
-    "capabilities-helper": {
-      "resource_id": "capabilities-helper",
-      "deployment_path": ".agents/harness/capabilities.py",
-      "export_alias": "capabilities.py"
-    },
     "project-instructions": {
       "resource_id": "project-instructions",
       "deployment_path": "docs/ai/project_instructions.txt",
@@ -341,11 +336,6 @@
       "deployment_path": "docs/ai/plugin-integration.md",
       "export_alias": "PLUGIN_INTEGRATION.md"
     },
-    "tool-check-instruction-links-py": {
-      "resource_id": "tool-check-instruction-links-py",
-      "deployment_path": "scripts/check_instruction_links.py",
-      "export_alias": "TOOL_check_instruction_links.py"
-    },
     "paragraph-workflow": {
       "resource_id": "paragraph-workflow",
       "deployment_path": ".agents/skills/econ-writing/references/paragraph-workflow.md",
@@ -456,11 +446,6 @@
       "deployment_path": ".agents/skills/econ-data/scripts/requirements-research.txt",
       "export_alias": "requirements-research.txt"
     },
-    "research-case": {
-      "resource_id": "research-case",
-      "deployment_path": ".agents/skills/econ-data/scripts/research_case.py",
-      "export_alias": "research_case.py"
-    },
     "research-sources": {
       "resource_id": "research-sources",
       "deployment_path": ".agents/skills/econ-literature/scripts/research_sources.py",
@@ -470,11 +455,6 @@
       "resource_id": "research-runner-tests",
       "deployment_path": ".agents/harness/test_research.py",
       "export_alias": "test_research.py"
-    },
-    "research-structural-case": {
-      "resource_id": "research-structural-case",
-      "deployment_path": ".agents/skills/econ-data/scripts/research_structural_case.py",
-      "export_alias": "research_structural_case.py"
     },
     "research-experience": {
       "resource_id": "research-experience",
@@ -495,11 +475,6 @@
       "resource_id": "research-macro",
       "deployment_path": ".agents/skills/econ-data/scripts/research_macro.py",
       "export_alias": "research_macro.py"
-    },
-    "research-evidence-tests": {
-      "resource_id": "research-evidence-tests",
-      "deployment_path": ".agents/harness/test_research_evidence.py",
-      "export_alias": "test_research_evidence.py"
     },
     "research-reproduction": {
       "resource_id": "research-reproduction",
@@ -565,11 +540,6 @@
       "resource_id": "models-numerics",
       "deployment_path": ".agents/skills/econ-design/references/numerical-models.md",
       "export_alias": "numerical-models.md"
-    },
-    "research-julia": {
-      "resource_id": "research-julia",
-      "deployment_path": ".agents/skills/econ-data/scripts/research_numerics.jl",
-      "export_alias": "research_numerics.jl"
     },
     "research-macro-dependencies": {
       "resource_id": "research-macro-dependencies",
@@ -970,11 +940,6 @@
       "resource_id": "research-task-form",
       "deployment_path": ".github/ISSUE_TEMPLATE/research-task.yml",
       "export_alias": "research-task.yml"
-    },
-    "research-gallery-example": {
-      "resource_id": "research-gallery-example",
-      "deployment_path": ".agents/examples/research-workspace/gallery.json",
-      "export_alias": "research_gallery_example.json"
     },
     "economics-writing-comparison": {
       "resource_id": "economics-writing-comparison",

@@ -4217,8 +4217,8 @@
       "domain": "構造推定",
       "subdomain": "構造識別",
       "kind": "knowledge",
-      "topic": "構造パラメータの観測同値と識別を判定する",
-      "use_when": "構造パラメータの観測同値と識別を判定する",
+      "topic": "構造パラメータの観測同値と識別; 二値ロジット Binary Logit の選択確率・モーメント・Jacobian",
+      "use_when": "構造識別を判定する、または固定した二値ロジット係数と説明変数から選択モーメントとJacobianを計算する",
       "inputs": [
         "観測分布",
         "正規化",
@@ -7094,7 +7094,7 @@
       "domain": "医療教育",
       "subdomain": "感染動態と接触制御",
       "kind": "knowledge",
-      "topic": "感染動態と接触制御",
+      "topic": "SIR感染動態と接触制御; finite-horizon SIR contact-control policy",
       "use_when": "有限期間の感染経路、接触抑制費用、終端感染を指定して政策候補を比較する",
       "inputs": [
         "初期SIR人数",
@@ -8703,8 +8703,8 @@
       "domain": "分野横断例題",
       "subdomain": "需要と競争から企業価値へ",
       "kind": "worked_example",
-      "topic": "需要と競争から企業価値へ",
-      "use_when": "競争均衡を企業価値と厚生につなぐ",
+      "topic": "Cournot数量競争・クールノー均衡から利益、FCFF、企業価値へ",
+      "use_when": "Cournot数量競争の需要・費用・容量から均衡を解き、企業価値と厚生につなぐ",
       "inputs": [
         "需要",
         "費用",
@@ -31651,7 +31651,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_numerics.py",
-          "symbol": "moment_map"
+          "symbol": "moment_map",
+          "command": "run"
         },
         {
           "path": "skills/econ-data/scripts/research_numerics.py",
@@ -31672,7 +31673,11 @@
           "unit": "STRUCT-01",
           "anchor": "struct-01"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "binary_logit"
+      }
     },
     {
       "id": "MC-ramsey-cf",
@@ -32179,12 +32184,12 @@
         {
           "name": "counterfactual",
           "unit": "market records",
-          "meaning": "Changed market firms or capacities."
+          "meaning": "Optional changed market firms, capacities, costs or demand controls, solved at the same demand coefficients."
         },
         {
           "name": "forecasts",
           "unit": "currency per period",
-          "meaning": "Operating outcomes and accounting inputs for valuation."
+          "meaning": "Operating outcomes and accounting inputs consumed by the separate equity.value valuation operation."
         }
       ],
       "parameters": [
@@ -32223,7 +32228,7 @@
         {
           "name": "calculation",
           "unit": "currency",
-          "meaning": "Discounted business valuation result."
+          "meaning": "Discounted business valuation produced by equity.value from the adopted operating forecasts and accounting inputs."
         }
       ],
       "assumptions": [
@@ -32249,6 +32254,11 @@
         }
       ],
       "implementation": [
+        {
+          "path": "skills/econ-data/scripts/equity.py",
+          "symbol": "fit",
+          "command": "fit"
+        },
         {
           "path": "skills/econ-data/scripts/equity_io.py",
           "symbol": "cournot"
@@ -32283,7 +32293,11 @@
           "unit": "FINANCE-03",
           "anchor": "finance-03"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "cournot"
+      }
     },
     {
       "id": "MC-housing-toy",
@@ -33534,7 +33548,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_numerics.py",
-          "symbol": "finite_policy_sir"
+          "symbol": "finite_policy_sir",
+          "command": "run"
         }
       ],
       "checks": [
@@ -33561,7 +33576,11 @@
           "unit": "HEALTH-08",
           "anchor": "health-08"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "finite_policy_sir"
+      }
     },
     {
       "id": "MC-queue-capacity",
@@ -33625,7 +33644,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_numerics.py",
-          "symbol": "queue_capacity"
+          "symbol": "queue_capacity",
+          "command": "run"
         }
       ],
       "checks": [],
@@ -33645,7 +33665,11 @@
           "unit": "MATH-09",
           "anchor": "math-09"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "queue_capacity"
+      }
     },
     {
       "id": "MC-multitask-incentives",
@@ -33872,7 +33896,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_numerics.py",
-          "symbol": "decision_rights"
+          "symbol": "decision_rights",
+          "command": "run"
         }
       ],
       "checks": [
@@ -33902,7 +33927,11 @@
           "unit": "CONTRACT-08",
           "anchor": "contract-08"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "decision_rights"
+      }
     },
     {
       "id": "MC-state-price-bounds",
@@ -34051,6 +34080,21 @@
           "name": "initial_population",
           "unit": "households and sampling weights",
           "meaning": "Initial assets and permanent income, AgentCount, T_sim, seed and tracked histories for a requested simulation."
+        },
+        {
+          "name": "evaluation",
+          "unit": "normalized resources, ages and population weights",
+          "meaning": "Internal run evaluates mNrm at the declared periods and applies optional probability weights; its finite-life consumer_options require cycles=1."
+        },
+        {
+          "name": "calibration_source",
+          "unit": "parameter provenance",
+          "meaning": "Source of the adopted fixed or previously fitted consumer parameters."
+        },
+        {
+          "name": "scenario",
+          "unit": "native HARK parameter changes",
+          "meaning": "Optional consumer_options changes for the same lifecycle horizon and CRRA normalization."
         }
       ],
       "parameters": [
@@ -34074,6 +34118,11 @@
           "name": "diagnostics",
           "unit": "original-equation residuals",
           "meaning": "Budget, interior Euler equality, borrowing-boundary inequality and complementarity, shock-transition and grid/integration comparisons."
+        },
+        {
+          "name": "statistics and displays",
+          "unit": "named normalized consumption, assets and expected utility",
+          "meaning": "Internal run saves evaluated policies and values, declared population-weighted means, scenario differences, Euler gaps and borrowing complementarity; optional simulation saves official histories."
         }
       ],
       "assumptions": [
@@ -34103,6 +34152,11 @@
         }
       ],
       "implementation": [
+        {
+          "path": "skills/econ-data/scripts/research_macro_extended.py",
+          "symbol": "solve_hark",
+          "command": "run"
+        },
         {
           "module": "HARK.ConsumptionSaving.ConsIndShockModel",
           "symbol": "PerfForesightConsumerType",
