@@ -227,3 +227,14 @@ William Thomson（1999）, “The Young Person's Guide to Writing Economic Theor
 Raj Chetty, John N. Friedman, Nathaniel Hilger, Emmanuel Saez, Diane Whitmore Schanzenbach and Danny Yagan（2011）, “How Does Your Kindergarten Classroom Affect Your Earnings? Evidence from Project STAR,” *Quarterly Journal of Economics* 126(4), 1593–1660。[DOI: 10.1093/qje/qjr041](https://doi.org/10.1093/qje/qjr041)。実読箇所はAbstract・Introductionの1593–1598頁、IV.A Class Sizeの式(1)・Table V・Figure IIを含む1619–1621頁、VI Fade-out, Reemergence, and Noncognitive SkillsのFigure VIの構成を含む1649–1651頁、VII Conclusion冒頭の1655–1656頁。
 
 この読解を、割当て、結果変数、母集団、期間が次の推論を定める段落構成に用いた。[段落ガイド](../../skills/econ-writing/references/paragraph-workflow.md)と[章節ガイド](../../skills/econ-writing/references/paper-workflow.md)に接続し、独自の食品加工団地の[英語](../../profiles/default-micro/extended-introduction-en.md)・[日本語](../../profiles/default-micro/extended-introduction-ja.md)のResultsとDiscussionを追加した。同じ保存数量を使い、ピークMW、日次エネルギー、料金、実施、引渡し、生産量をそれぞれの定義に結び付ける。個別実施と一括実施の比較から、同意の仕組みが電力需要を変える経路を説明する。
+
+## 0.60.0の実行経路と保存結果の完成
+
+PR #16の保存済み比較・実行結果を引き継ぎ、次の3箇所を既存の所有実装で完成させた。
+
+- **無裁定価格境界。** [状態価格の接続](https://github.com/yoshimurahiroki/econ-project-mini/commit/03574b4bd7d3d842b49875f974e6027c2f7feba9)は、既存ASSET-01／MC-state-price-boundsと数値関数を、モデル選択、実行仕様、保存結果へ接続する。3状態の独立計算で未複製請求権の価格集合(0,1)、複製請求権の価格2、正の状態価格、価格式、ヘッジ、時点別単位を確認した。選択CLIが返すコマンドをそのまま実行する検算1件が成功した。
+- **同じ保存結果の再利用。** [生成元情報の共有化](https://github.com/yoshimurahiroki/econ-project-mini/commit/7666f8143fc4e32fb495a4b48a01efd6685a1778)は、完全一致する生成元のoptions等をsource_result内へのsource_fields参照にまとめる。12件の計算記録と49表示の全公開値・content hashを保持し、gallery.jsonを4,299,997から3,660,204 bytesへ縮小した。既存テスト3件と一覧・選択・比較・編集・PNG/SVG描画、原稿入力、研究資料への引渡しが成功した。
+- **査読から実改稿・回答への対応。** [削除claimの指摘保持](https://github.com/yoshimurahiroki/econ-project-mini/commit/115b63fb34d748a6ed9cc266af4a4061e001b9e2)は、再審査時に初回指摘の全IDを保持する。明示的な削除判断を回答作成へ渡し、判断の再利用と原文復帰時の再審査を実CLIで確認した。回帰2件が成功し、元原稿・保存結果・前回reviewのバイトを保持した。
+
+具体例は437 files／54,688,284 bytesから97 files／15,193,290 bytesへ整理した。source_distribution_onlyの例を正本に保持し、旧.agentsギャラリーと各skill bundleの複製を配布対象から外す。七つのWritingモード、採用済み研究仕様、推定結果、既存プラグインのID・接続・設定を継続する。
+

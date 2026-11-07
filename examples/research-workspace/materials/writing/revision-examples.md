@@ -81,3 +81,31 @@ In the model estimated from 120 synthetic markets, we merge firms 0 and 1, hold 
 | 家計厚生 | 第0–19期の割引対数消費和。基準3.4435757、変更後2.8999706、差−0.5436割引対数消費単位。評価期間は第19期まで |
 
 出典：[原稿](growth-paper.md)、[採用仕様](../../models/growth-spec.json)、[保存結果](../../models/growth-result.json)の`definition`、`baseline`、`scenario`、`welfare_change`、`displays.welfare`。図1は保存済みの成長経路図を使用した。
+
+## 4. 嗜好と市場人口を保持した日英改稿
+
+### 原文
+
+80市場について需要・供給を同時推定したモデルにおいて、企業0と1の統合に伴う全企業の価格の再計算を行った。推定した嗜好分布と限界費用は固定した。同じ14万人について消費者余剰の変化は-3081.4357、生産者余剰の変化は906.6882、総余剰の変化は-2174.7475合成通貨単位であった。統合企業の価格設定条件には自社製品間の需要移転が入る。
+
+### 日本語の完成改稿文（revise）
+
+80市場から需要と供給を同時推定し、企業0と1の統合後の均衡価格を全企業について解いた。嗜好分布と限界費用を固定したこの比較では、統合企業が自社製品間の需要移転を利潤に織り込んで価格を設定する。同じ14万人について集計すると、消費者余剰の変化は-3081.4357、生産者余剰の変化は906.6882、総余剰の変化は-2174.7475合成通貨単位となる。
+
+### 英語の完成文（translate）
+
+We jointly estimate demand and supply in 80 markets and solve all firms' equilibrium prices after merging firms 0 and 1. We hold the taste distribution and marginal costs fixed. The merged firm accounts for demand diverted between its products when setting prices. For the same 140,000 potential consumers, the changes in consumer surplus, producer surplus, and total surplus are -3081.4357, 906.6882, and -2174.7475 synthetic currency units.
+
+### 経済学未修読者が指定された場合（explain）
+
+別々の企業が売っていた製品0と1を、一つの企業が売るようになると、製品0の値上げで製品1へ移った買い手も、その企業の収入になる。この変化が値上げの誘因を生み、買い手は競合製品や購入を見送る選択へ移る。競合企業も、変化した需要に応じて価格を調整する。[図2](../../gallery-assets/specialist-blp-random-r01-displays-consumer_types-market0-9abb5634d28400077529/display.png)は市場0について、製品の属性をどれほど好むかと、消費者が購入機会から得る便益を金額に換算した値を示す。統合された製品の属性を強く好む型ほど、値上げ後の便益が大きく下がる。80市場を同じ14万人で集計すると、消費者の便益の変化は-3081.4357、企業の利潤の変化は906.6882であり、その和は-2174.7475合成通貨単位となる。
+
+![図2　市場0の属性評価と消費者余剰](../../gallery-assets/specialist-blp-random-r01-displays-consumer_types-market0-9abb5634d28400077529/display.png)
+
+図2の横軸は製品属性への評価の平均からの偏差、縦軸はその嗜好型の消費者1人当たりの便益を通貨単位で表した値である。7点は正規嗜好分布を計算するための求積点であり、同じ点と重みを統合前後で用いる。本文の人口集計には80市場すべてを含める。
+
+### 保持した研究固有内容
+
+研究者向けの日英の文章は、80市場、同時推定、企業0・1の統合、全企業の価格調整、固定した嗜好分布と限界費用、同じ14万人、三つの余剰変化を保持する。未修読者向けの説明では、同じ価格設定条件を、買い手が製品間を移ることと企業の収入の関係で説明し、市場0の嗜好別図を選択した。
+
+出典：[完成原稿](structural-heterogeneity-paper.md)、[採用仕様](../../models/blp-random-merger.json)、[保存結果](../../models/blp-random-merger-result.json)の`statistics`、`displays.consumer_types`、`displays.welfare_totals`。

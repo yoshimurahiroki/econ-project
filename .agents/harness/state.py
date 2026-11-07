@@ -108,11 +108,12 @@ def locked(path):
         # failed operation; process termination releases the descriptor in the OS.
         os.close(fd)
 
-def save(path, state):
+def save(path, state, *, indent=2):
     fd, temporary = tempfile.mkstemp(prefix='.' + path.name + '-', dir=path.parent)
     try:
         with os.fdopen(fd, 'w', encoding='utf-8') as stream:
-            json.dump(state, stream, ensure_ascii=False, indent=2, sort_keys=True, allow_nan=False)
+            json.dump(state, stream, ensure_ascii=False, indent=indent, sort_keys=True, allow_nan=False,
+                      separators=(',', ':') if indent is None else None)
             stream.write('\n')
             stream.flush()
             os.fsync(stream.fileno())
@@ -2360,7 +2361,7 @@ def _project_references(root, tasks, task, graph, *, resolve=True):
                                 detail['claim_id'] = ident
                             else:
                                 evidence = owner('evidence', 'harness/research_evidence.py')
-                                value = gate.parse_json(target.read_bytes())
+                                value = evidence.read_json(target.read_bytes(), 'project JSON reference')
                                 keys = reference.get('keys')
                                 evidence.check_registered_inputs(value, root, keys)
                                 identity = {'value': evidence.lookup(value, keys, 'project JSON reference')}

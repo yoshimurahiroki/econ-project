@@ -205,7 +205,8 @@ def matching(s):
 
 def blp(s):
     """Estimate observed differentiated demand/supply and solve a new product market."""
-    _keys(s, {'products','linear','nonlinear','supply','integration','solve','counterfactual','optimal_instruments','add_exogenous'})
+    _keys(s, {'products','linear','nonlinear','supply','integration','solve','counterfactual','optimal_instruments','add_exogenous'},
+          {'market_sizes', 'report_agent_surplus'})
     import pandas as pd
     import pyblp
     pyblp.options.verbose = False
@@ -224,6 +225,17 @@ def blp(s):
     required = {'market_ids','product_ids','firm_ids','prices','shares'}
     if not required <= set(data) or data.duplicated(['market_ids','product_ids']).any():
         raise ValueError('products must identify markets, products, firms, prices and shares')
+    market_sizes = s.get('market_sizes')
+    if market_sizes is not None:
+        markets = {str(market) for market in data.market_ids.unique()}
+        if not isinstance(market_sizes, dict) or set(market_sizes) != markets or len(markets) != data.market_ids.nunique():
+            raise ValueError('market_sizes must identify every baseline market by its unique string ID')
+        market_sizes = {market: _num(size, 'market size') for market, size in market_sizes.items()}
+        if any(size <= 0 for size in market_sizes.values()):
+            raise ValueError('market sizes must be positive potential-consumer counts')
+    report_agents = s.get('report_agent_surplus', False)
+    if not isinstance(report_agents, bool):
+        raise ValueError('report_agent_surplus must be boolean')
     if (data.prices <= 0).any() or (data.shares <= 0).any() or (data.groupby('market_ids').shares.sum() >= 1).any():
         raise ValueError('prices and shares must be positive with positive outside shares')
     if not any(c.startswith('demand_instruments') for c in data): raise ValueError('excluded demand instruments required')
@@ -285,6 +297,21 @@ def blp(s):
             return None if isinstance(v, float) and not math.isfinite(v) else v
         return clean(np.asarray(x).tolist())
     consumer_surpluses = result.compute_consumer_surpluses()
+
+    def agent_surpluses(economy, fitted):
+        values = fitted.compute_consumer_surpluses(keep_all=True)
+        rows = []
+        for m, market in enumerate(economy.unique_market_ids):
+            agents = economy.agents[economy.agents.market_ids.ravel() == market]
+            deviations = agents.nodes @ result.sigma.T
+            for i, agent in enumerate(agents):
+                row = {'market': str(market), 'agent': i, 'weight': float(agent.weights[0]),
+                       'consumer_surplus': float(values[m, i])}
+                row.update({f'taste_deviation_{label}': float(deviations[i, k])
+                            for k, label in enumerate(result.sigma_labels)})
+                rows.append(row)
+        return rows
+
     out = {'beta':arr(result.beta),'sigma':arr(result.sigma),'rho':arr(result.rho),'gamma':arr(result.gamma),
            'parameter_labels': {name: [str(label) for label in getattr(result, name+'_labels')]
                                 for name in ('beta', 'sigma', 'rho', 'gamma')},
@@ -306,6 +333,8 @@ def blp(s):
                        'producer_surplus':float(profits[data.market_ids.to_numpy() == market].sum()),
                        'social_welfare':float(cs[i]+profits[data.market_ids.to_numpy() == market].sum())}
                       for i,market in enumerate(market_ids)]
+    if report_agents:
+        out['agent_welfare'] = agent_surpluses(problem, result)
     if s['optimal_instruments']:
         opt = result.compute_optimal_instruments(method='approximate')
         out['optimal_instruments']={'demand':arr(opt.demand_instruments),'supply':arr(opt.supply_instruments)}
@@ -357,6 +386,27 @@ def blp(s):
                                'product_profits':((prices-costs2)*shares).tolist(),
                                'consumer_surpluses':arr(cf_consumer_surpluses),
                                'profit_gradient_max_abs':grad,'profit_hessian_max_eigenvalue':eigen}
+        if report_agents:
+            out['counterfactual']['agent_welfare'] = agent_surpluses(sim, change)
+    if market_sizes is not None:
+        quantities = ('consumer_surplus', 'producer_surplus', 'social_welfare')
+        for fitted in (out, out.get('counterfactual')):
+            if fitted is None:
+                continue
+            welfare = {str(row['market_ids']): row for row in fitted['welfare']}
+            # A market with all inside products removed retains its population
+            # at the normalized outside option, with zero inside profit and surplus.
+            fitted['welfare_totals'] = [
+                {'market': market, 'population': size,
+                 **{key: size * welfare.get(market, {}).get(key, 0.) for key in quantities}}
+                for market, size in market_sizes.items()]
+            fitted['aggregate_welfare'] = {
+                'population': sum(market_sizes.values()),
+                **{key: sum(row[key] for row in fitted['welfare_totals']) for key in quantities}}
+        if out.get('counterfactual') is not None:
+            out['aggregate_welfare_change'] = {
+                key: out['counterfactual']['aggregate_welfare'][key] - out['aggregate_welfare'][key]
+                for key in quantities}
     return out
 
 
@@ -409,7 +459,7 @@ def blp_displays(result, specification, unit):
                 welfare_rows.append({'scenario': scenario, 'market': str(market['market_ids']),
                                      'quantity': quantity, 'value': market[quantity],
                                      'unit': unit+' per potential consumer'})
-    return {
+    displays = {
         'parameters': {'kind': 'table', 'title': 'Demand and supply parameters', 'rows': parameter_rows,
                        'columns': [{'key': key, 'label': label, 'unit': ''} for key, label in
                                    (('parameter', 'Parameter'), ('status', 'Status'), ('value', 'Value'), ('std_error', 'Standard error'), ('unit', 'Unit'))],
@@ -432,6 +482,42 @@ def blp_displays(result, specification, unit):
                     'metadata': {**contract, 'report_role': 'welfare', 'unit': unit+' per potential consumer',
                                  'population': 'Potential consumers within each market'},
                     'display': {'plot_type': 'bar', 'x': 'market', 'y': 'value', 'series': 'scenario', 'facet': 'quantity'}}}
+    if 'aggregate_welfare' in result:
+        rows = []
+        for scenario, fitted in (('baseline', result), ('counterfactual', counterfactual)):
+            if fitted is None:
+                continue
+            for row in [*fitted['welfare_totals'], {'market': 'All markets', **fitted['aggregate_welfare']}]:
+                rows.extend({'scenario': scenario, 'market': row['market'], 'population': row['population'],
+                             'quantity': key, 'value': row[key], 'unit': unit}
+                            for key in ('consumer_surplus', 'producer_surplus', 'social_welfare'))
+        displays['welfare_totals'] = {
+            'kind': 'counterfactual', 'title': 'Population-weighted market welfare', 'rows': rows,
+            'columns': [{'key': key, 'label': label, 'unit': ''} for key, label in
+                        (('scenario', 'Scenario'), ('market', 'Market'), ('population', 'Potential consumers'),
+                         ('quantity', 'Quantity'), ('value', 'Total'), ('unit', 'Unit'))],
+            'metadata': {**contract, 'report_role': 'welfare', 'unit': unit,
+                         'population': 'The same potential consumers in all baseline markets',
+                         'weights': specification['market_sizes'],
+                         'welfare_definition': 'Sum of market population times per-consumer surplus; social welfare equals consumer plus producer surplus'},
+            'display': {'plot_type': 'table', 'formats': {'value': '.4f'}}}
+    if 'agent_welfare' in result:
+        rows = [{**row, 'scenario': scenario} for scenario, fitted in
+                (('baseline', result), ('counterfactual', counterfactual)) if fitted is not None
+                for row in fitted['agent_welfare']]
+        taste_keys = [key for key in rows[0] if key.startswith('taste_deviation_')]
+        displays['consumer_types'] = {
+            'kind': 'counterfactual', 'title': 'Consumer surplus by integration type', 'rows': rows,
+            'columns': [{'key': key, 'label': label, 'unit': units} for key, label, units in
+                        [('scenario', 'Scenario', ''), ('market', 'Market', ''), ('agent', 'Integration type', ''),
+                         ('weight', 'Integration weight', 'share'),
+                         *[(key, key.removeprefix('taste_deviation_')+' taste deviation', 'utility per characteristic unit') for key in taste_keys],
+                         ('consumer_surplus', 'Consumer surplus', unit+' per consumer of this type')]],
+            'metadata': {**contract, 'report_role': 'welfare', 'unit': unit+' per consumer of this type',
+                         'population': 'Model integration types within each market',
+                         'weights': 'Saved integration weights; taste deviations equal Sigma times the integration node'},
+            'display': {'plot_type': 'table', 'formats': {'consumer_surplus': '.4f', 'weight': '.4f'}}}
+    return displays
 
 
 def solve(spec):
@@ -464,6 +550,12 @@ def solve(spec):
             'statistics': {key:{'value':float(indicator),'unit':('dimensionless' if key in {'objective','gmm_objective','bid_slope'} else spec['unit'])}}, 'baseline':base, 'scenario':changed}
     if model == 'blp':
         output['displays'] = blp_displays(base, spec['baseline'], spec['unit'])
+        for scenario, fitted in (('baseline', base), ('counterfactual', base.get('counterfactual'))):
+            if fitted is not None and 'aggregate_welfare' in fitted:
+                output['statistics'].update({f'{scenario}_total_{key}': {'value': value, 'unit': spec['unit']}
+                                             for key, value in fitted['aggregate_welfare'].items() if key != 'population'})
+        output['statistics'].update({f'total_{key}_change': {'value': value, 'unit': spec['unit']}
+                                     for key, value in base.get('aggregate_welfare_change', {}).items()})
     return output
 
 
@@ -504,6 +596,53 @@ def _synthetic_bertrand(nested):
             if nested: product['nesting_ids'] = str(groups[j])
             products.append(product)
     return products
+
+
+def random_merger_case():
+    """Create an original heterogeneous-demand example with observed market sizes."""
+    import pandas as pd
+    import pyblp
+    pyblp.options.verbose = False
+    rng = np.random.default_rng(20261107)
+    markets, products_per_market = 80, 4
+    n = markets * products_per_market
+    data = pd.DataFrame({'market_ids': np.repeat(np.arange(markets), products_per_market),
+                         'product_ids': np.tile(np.arange(products_per_market), markets),
+                         'firm_ids': np.tile(np.arange(products_per_market), markets),
+                         'x': rng.uniform(-1, 1, n), 'z': rng.uniform(-1, 1, n)})
+    xi, omega = rng.normal(0, .03, (2, n))
+    forms = [pyblp.Formulation('1 + prices + x'), pyblp.Formulation('0 + x'),
+             pyblp.Formulation('1 + z')]
+    integration = {'method': 'product', 'size': 7, 'options': {}}
+    simulation = pyblp.Simulation(forms, data, beta=[1., -1.2, .6], sigma=[[.7]],
+                                  gamma=[1.4, .3], xi=xi, omega=omega,
+                                  integration=pyblp.Integration('product', 7), seed=20261107)
+    generated = simulation.replace_endogenous(
+        iteration=pyblp.Iteration('simple', {'atol': 1e-12}), error_behavior='raise')
+    if not np.asarray(generated.fp_converged).all():
+        raise ArithmeticError('synthetic random-coefficient equilibrium did not converge')
+    data['prices'] = np.asarray(generated.product_data.prices).ravel()
+    data['shares'] = np.asarray(generated.product_data.shares).ravel()
+    grouped = data.groupby('market_ids')
+    data['demand_instruments0'] = data.z
+    data['demand_instruments1'] = grouped.x.transform('sum') - data.x
+    data['demand_instruments2'] = data.x.pow(2).groupby(data.market_ids).transform('sum') - data.x.pow(2)
+    data['demand_instruments3'] = grouped.z.transform('sum') - data.z
+    data['supply_instruments0'] = data.x
+    data['supply_instruments1'] = data.demand_instruments1
+    baseline = {'products': data.to_dict('records'), 'linear': '1 + prices + x', 'nonlinear': '0 + x',
+                'supply': '1 + z', 'integration': integration, 'add_exogenous': True,
+                'optimal_instruments': False, 'market_sizes': {str(t): 1000 + 500*(t % 4) for t in range(markets)},
+                'report_agent_surplus': True,
+                'solve': {'method': '1s', 'beta': [None, -1., None], 'sigma': [[.4]],
+                          'sigma_bounds': [[[.01]], [[2.]]],
+                          'optimization': {'method': 'l-bfgs-b', 'options': {'gtol': 1e-8, 'maxiter': 500}}},
+                'counterfactual': {'keep_product_ids': [0, 1, 2, 3],
+                                   'firm_ids': data.firm_ids.replace({1: 0}).tolist(),
+                                   'costs': None, 'utility_shifts': [0.]*n}}
+    return {'model': 'blp', 'baseline': baseline, 'scenario': None, 'unit': 'synthetic currency units',
+            'sources': [{'kind': 'synthetic', 'description':
+                         'Seed 20261107; 80 four-product markets. Independent uniform [-1,1] quality and cost shifters; independent N(0,0.03^2) demand and cost shocks. Utility 1-1.2p+(0.6+0.7nu)x+xi+epsilon with standard normal nu and standard extreme-value epsilon; marginal cost 1.4+0.3z+omega. Seven-node product quadrature and Bertrand prices generate the observed shares. Merge firms 0 and 1 at fitted marginal costs; retain every product, consumer type, and market population.'}]}
 
 
 def cases():
@@ -606,13 +745,19 @@ def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__); sub = p.add_subparsers(dest='operation',required=True)
     run = sub.add_parser('run'); run.add_argument('spec',type=Path); run.add_argument('--output',type=Path,required=True)
     case = sub.add_parser('case'); case.add_argument('--output',type=Path,required=True)
+    case.add_argument('--name', help='Execute one named example; blp-random-merger includes heterogeneous demand and market populations')
     args = p.parse_args(argv)
     try:
         if args.operation == 'run':
             raw = args.spec.read_bytes(); result = solve(json.loads(raw)); result['provenance'] = {'spec_path':str(args.spec.resolve()), 'spec_sha256':hashlib.sha256(raw).hexdigest()}; _write(args.output,result)
         else:
             args.output.mkdir(parents=True, exist_ok=False)
-            for name,spec in cases().items():
+            selected = ({args.name: random_merger_case()} if args.name == 'blp-random-merger' else cases())
+            if args.name:
+                if args.name not in selected:
+                    raise ValueError('unknown market example: '+args.name)
+                selected = {args.name: selected[args.name]}
+            for name,spec in selected.items():
                 path=args.output/(name+'.json'); _write(path,spec); result=solve(spec); result['provenance']={'spec_path':str(path.resolve()),'spec_sha256':hashlib.sha256(path.read_bytes()).hexdigest()}; _write(args.output/(name+'-result.json'),result)
     except (ValueError, TypeError, KeyError, OSError, ArithmeticError) as exc: p.exit(2,f'error: {exc}\n')
 

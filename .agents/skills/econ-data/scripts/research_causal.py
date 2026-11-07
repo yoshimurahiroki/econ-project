@@ -8,6 +8,7 @@ import argparse
 from copy import deepcopy
 import hashlib
 import importlib.util
+import inspect
 import json
 import sys
 from pathlib import Path
@@ -107,7 +108,9 @@ def select_method(request):
                 'conditional_exchangeability','overlap','parallel_trends',
                 'exclusion','monotonicity','continuity','common_treatment_block',
                 'equilibrium_counterfactual','independent_units','no_interference',
-                'aggregate_shocks','stationary_equilibrium','nominal_rigidity'):
+                'aggregate_shocks','stationary_equilibrium','nominal_rigidity',
+                'complete_information','transferable_utility','coalition_externalities',
+                'free_trading','all_states_possible'):
         if key in facts and not isinstance(facts[key], bool):
             raise ValueError(f'conditions.{key} must be boolean')
     target_kind = target.get('kind')
@@ -115,7 +118,7 @@ def select_method(request):
         'conditional_mean','count_distribution','group_time_att','event_time_att',
         'treatment_path_effect','dose_response','local_effect','confidence_set',
         'treated_trajectory','treated_block_att','structural_parameter','equilibrium',
-        'welfare','sensitivity','density_discontinuity','power'}
+        'welfare','allocation','price_bounds','sensitivity','density_discontinuity','power'}
     if target_kind is not None and target_kind not in allowed_targets:
         raise ValueError(f'target.kind must be one of {sorted(allowed_targets)}')
     if any(not isinstance(s.get('options', {}), dict) for s in (request, adopted_spec)):
@@ -218,6 +221,7 @@ def select_method(request):
     required_native_options = {}
     external_implementation = None
     computation = None
+    numerical_kernel = None
     respy_simulation = False
     method_quantity = request['estimand']
     score = facts.get('score', request.get('score'))
@@ -557,6 +561,11 @@ def select_method(request):
                 'household_consumption_saving':'consumption_saving',
                 'stationary_incomplete_markets':'aiyagari', 'one_asset_hank':'hank_one_asset',
                 'stochastic_representative_growth':'stochastic_rbc',
+                'finite_complete_information_game':'correlated_equilibrium',
+                'transferable_utility_game':'tu_shapley_core',
+                'interbank_liabilities':'interbank_clearing',
+                'quantity_quality_effort':'multitask_incentives',
+                'finite_state_claim':'state_price_bounds',
                 'individual_dynamic_choice':'finite_horizon_choice' if target_kind == 'structural_parameter' else 'lifecycle_choice',
                 'employment_retirement_regimes':'lifecycle_choice'}.get(facts.get('economic_object'))
         if condition_model and economic_object_model and condition_model != economic_object_model:
@@ -581,10 +590,13 @@ def select_method(request):
             method = model; owner = 'skills/econ-data/scripts/research_macro_extended.py run'
         elif model == 'stochastic_rbc':
             method = model; owner = 'skills/econ-data/scripts/research_dsge.py run'
+        elif model in ('correlated_equilibrium','tu_shapley_core','interbank_clearing','multitask_incentives','state_price_bounds'):
+            method = model; owner = 'skills/econ-data/scripts/research_numerics.py run'
+            numerical_kernel = 'clearing_payments' if model == 'interbank_clearing' else model
         elif model in ('finite_horizon_choice','lifecycle_choice','consumption_saving','hank_one_asset','dolo_yaml'):
             method = model
         else:
-            raise ValueError('structural_model must name a documented market, dynamic, growth, consumption-saving, Aiyagari, HANK, stochastic RBC or declared Dolo model')
+            raise ValueError('structural_model must name a documented market, dynamic, macro, finite-game, clearing, multitask, state-price or declared Dolo model')
         conditions = ['adopted primitives, timing, moments and excluded variation', 'normalizations and equilibrium selection', 'counterfactual re-solves affected endogenous choices']
         method_quantity = ('identified utility/cost parameters and scenario-specific equilibrium prices, choices and welfare' if model == 'blp'
             else 'identified payoff/transition parameters and the re-solved policy or equilibrium under the adopted intervention')
@@ -605,9 +617,11 @@ def select_method(request):
             'finite_horizon_growth':('slsqp',),'consumption_saving':('backward_induction',),
             'aiyagari':('policy_iteration_brentq',),'hank_one_asset':(ssj_operation,),
             'stochastic_rbc':('time_iteration','linearized_euler') if request.get('implementation') == 'dolo' else ('linearized_euler','time_iteration'),
-            'dolo_yaml':('time_iteration',)}
+            'dolo_yaml':('time_iteration',), 'correlated_equilibrium':('linear_program',),
+            'tu_shapley_core':('exact_enumeration',), 'interbank_clearing':('greatest_fixed_point',),
+            'multitask_incentives':('kkt',), 'state_price_bounds':('linear_program',)}
         solution_model = model in ('finite_horizon_growth','consumption_saving','lifecycle_choice',
-            'aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml') or respy_simulation
+            'aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml') or respy_simulation or numerical_kernel is not None
         numerical_key = 'solution_method' if solution_model else 'estimation_method'
         algorithm = numerical.get(numerical_key, numerical.get('estimation_method', algorithms[model][0]))
         if solution_model and 'solution_method' in numerical and 'estimation_method' in numerical and numerical['solution_method'] != numerical['estimation_method']:
@@ -616,7 +630,9 @@ def select_method(request):
             raise ValueError(f'{model} implements numerical.{numerical_key} in {algorithms[model]}')
         required_native_options['solution_component' if solution_model else 'estimation_component'] = algorithm
         if solution_model or model == 'finite_horizon_choice':
-            if model == 'hank_one_asset':
+            if numerical_kernel is not None:
+                available_operations = ['solve']
+            elif model == 'hank_one_asset':
                 available_operations = list(ssj_operations)
             elif respy_simulation:
                 available_operations = ['simulate','counterfactual']
@@ -658,7 +674,63 @@ def select_method(request):
         required_inputs = ['actors/objectives/feasible actions/information and timing','states and transition law',
             'shock distribution and payoff normalization','moments or likelihood and excluded variation',
             'parameter order and fixed/calibrated values','equilibrium selection','intervention and welfare aggregation']
-        if model == 'finite_horizon_growth':
+        if numerical_kernel is not None:
+            if forward_options:
+                raise ValueError('numerical model arguments belong in adopted_specification.inputs')
+            rid = 'research-numerics'
+            numerical_relative = resources[rid]['source_path'] if layout_path == 'source_path' else placements[rid][layout_path]
+            numerical_path = (ROOT.parent if ROOT.name == '.agents' else ROOT) / numerical_relative
+            numerical_spec = importlib.util.spec_from_file_location('selected_numerical_model', numerical_path)
+            numerical_module = importlib.util.module_from_spec(numerical_spec)
+            numerical_spec.loader.exec_module(numerical_module)
+            numerical_signature = inspect.signature(getattr(numerical_module, numerical_kernel))
+            required_inputs = ['inputs.'+name for name, parameter in numerical_signature.parameters.items()
+                               if parameter.default is inspect.Parameter.empty] + ['unit']
+            required_native_options = {}
+            if model == 'correlated_equilibrium':
+                if facts.get('recommendation_timing') not in (None,'private_before_action'):
+                    raise ValueError('correlated equilibrium requires private recommendations before actions')
+                if facts.get('complete_information') is False:
+                    raise ValueError('correlated equilibrium requires complete-information payoffs')
+                method_quantity = 'joint action probabilities maximizing the supplied weighted expected payoff subject to every conditional deviation inequality'
+                conditions = ['finite complete-information game with one action axis per player',
+                    'each player observes only its own recommendation before choosing',
+                    'supplied weights define the common-unit payoff objective and equilibrium selection']
+            elif model == 'tu_shapley_core':
+                if facts.get('transferable_utility') is False or facts.get('coalition_externalities') is True:
+                    raise ValueError('Shapley/core requires transferable coalition values with fixed outside terms')
+                method_quantity = 'exact Shapley allocation and every coalition slack for that allocation'
+                conditions = ['finite transferable-utility game with empty-coalition value zero',
+                    'coalition values in bit-mask order with fixed outside transaction terms',
+                    'core membership evaluates the returned Shapley allocation']
+            elif model == 'interbank_clearing':
+                if facts.get('repayment_priority') not in (None,'equal_pro_rata'):
+                    raise ValueError('interbank clearing requires equal-priority pro-rata repayment')
+                if facts.get('bankruptcy_costs') not in (None,False,0):
+                    raise ValueError('interbank clearing implements zero bankruptcy resource costs')
+                method_quantity = 'greatest clearing payments, outside-creditor recoveries and residual bank equity'
+                conditions = ['nonnegative debtor-row liabilities, zero self-liabilities and nonnegative external assets',
+                    'one simultaneous clearing period with equal-priority pro-rata repayment and limited liability',
+                    'greatest fixed point selected by iteration from nominal payments',
+                    'outside payments plus equity equal external assets at the adopted residual tolerance']
+            elif model == 'state_price_bounds':
+                if facts.get('free_trading') is False or facts.get('all_states_possible') is False:
+                    raise ValueError('state-price bounds require freely traded assets and every supplied state to be possible')
+                method_quantity = 'no-arbitrage claim-price bounds, endpoint inclusion and the subhedge, superhedge or replicating portfolio'
+                conditions = ['finite possible states and freely traded assets with unrestricted portfolio holdings',
+                    'at least one traded asset pays strictly positively in every state',
+                    'existing asset prices admit strictly positive state prices',
+                    'an unspanned claim has an open price interval; a replicated claim has its unique replication price']
+            else:
+                method_quantity = 'quantity and quality effort and both principal and agent payoffs at the supplied contract'
+                conditions = ['fixed nonnegative salary, quantity reward and private quality benefit',
+                    'nonnegative efforts and quadratic cost with absolute interaction coefficient below one',
+                    'agent best response satisfies both original KKT conditions',
+                    'principal values quantity and quality at the supplied coefficients']
+            computation.update(parameter_operation='hold supplied model inputs fixed; estimate no parameters',
+                solution_object=method_quantity,
+                outputs=[row['name'] for row in model_contract['outputs']] if model_contract else [method_quantity])
+        elif model == 'finite_horizon_growth':
             method_quantity = 'optimal finite-horizon capital and consumption paths and discounted log-consumption welfare conditional on initial and terminal capital'
             conditions = ['representative household, log utility and Cobb-Douglas production',
                 'positive consumption and capital; fixed initial and terminal capital with no continuation utility',
@@ -1015,6 +1087,9 @@ def select_method(request):
         'aiyagari':{'equilibrium','welfare'}, 'hank_one_asset':{'equilibrium'},
         'stochastic_rbc':{'equilibrium'} if external_implementation else {'equilibrium','welfare','structural_parameter'},
         'dolo_yaml':{'equilibrium'},
+        'correlated_equilibrium':{'equilibrium','welfare'}, 'tu_shapley_core':{'allocation'},
+        'interbank_clearing':{'equilibrium'}, 'multitask_incentives':{'policy_value'},
+        'state_price_bounds':{'price_bounds'},
         'smm':{'structural_parameter'},'maximum_likelihood':{'structural_parameter'}}
     accepted_targets = compatible.get(method, {'structural_parameter','equilibrium','welfare'} if design=='structural' else None)
     if target_kind is not None and accepted_targets is not None and target_kind not in accepted_targets:
@@ -1173,6 +1248,11 @@ def select_method(request):
                   'finite_horizon_growth':'scipy.optimize.minimize/SLSQP',
                   'aiyagari':'quantecon.markov.DiscreteDP.solve + scipy.optimize.brentq',
                   'stochastic_rbc':'statsmodels.tsa.arima.model.ARIMA + research_dsge.solve',
+                  'correlated_equilibrium':'research_numerics.correlated_equilibrium + scipy.optimize.linprog',
+                  'tu_shapley_core':'research_numerics.tu_shapley_core',
+                  'interbank_clearing':'research_numerics.clearing_payments',
+                  'multitask_incentives':'research_numerics.multitask_incentives',
+                  'state_price_bounds':'research_numerics.state_price_bounds + scipy.optimize.linprog',
                   'bargaining':'research_markets.bargain','dynamic_game':'equity_io.dynamic_game'}.get(method)
         if engine is None:
             engine = 'research_dynamic.observed_run' if owner.startswith('skills/econ-data/scripts/research_dynamic.py') else 'research_markets.'+method
@@ -1210,13 +1290,18 @@ def select_method(request):
         inference_contract['procedure'] = ('adopted moment covariance with simulation contribution' if algorithm == 'smm'
             else 'adopted likelihood curvature or refitted sampling procedure')
         inference_contract['parameter_operation'] = 'estimate structural parameters'
-    elif method in ('lifecycle_choice','consumption_saving','finite_horizon_growth','aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml') or respy_simulation:
+    elif method in ('lifecycle_choice','consumption_saving','finite_horizon_growth','aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml') or respy_simulation or numerical_kernel is not None:
         inference_contract['procedure'] = ('original Euler/resource residuals at the adopted deterministic numerical tolerance' if method == 'finite_horizon_growth'
             else 'adopted simulation precision and parameter-draw propagation when requested')
         inference_contract['parameter_operation'] = 'hold fixed or previously estimated parameters'
         inference_contract['interval_type'] = comparison.get('interval_type',comparison.get('ci_kind',
             inherited_inference.get('interval_type',inherited_inference.get('ci_kind'))))
         inference_contract['official_output_required'] = False
+        if numerical_kernel is not None:
+            inference_contract['procedure'] = 'original feasibility, obedience, allocation, clearing or KKT residuals'
+            inference_contract['parameter_operation'] = computation['parameter_operation']
+            if method == 'state_price_bounds':
+                inference_contract['procedure'] = 'original state-price equations, hedge inequalities, primal-dual gaps and replication residual'
         if method in ('aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml'):
             inference_contract['procedure'] = 'original economic-equation residuals and the adopted grid, horizon and integration comparisons'
             inference_contract['parameter_operation'] = computation['parameter_operation']
@@ -1310,7 +1395,7 @@ def select_method(request):
                 'selected':algorithm,'candidate':candidate['method']}
         candidate_comparisons.append(candidate)
     economic_fields = ('actors','objectives','choices','constraints','information','interactions','equilibrium','welfare')
-    if computation is not None:
+    if computation is not None and numerical_kernel is None:
         economic_fields = ('actors','objectives','states','choices','constraints','information',
             'transitions','shocks','discount','horizon','terminal_conditions','observed_data',
             'identified_parameters','computation_target','equilibrium','welfare')
@@ -1413,11 +1498,13 @@ def select_method(request):
             'unbound_inputs':unbound_inputs, 'adoption_required':bool(changes),
             'command':['python',*owner.split(' '),'SPEC.json','--output','RESULT.json']}
     elif resource and external_implementation is None and resource['resource_id'] in (
-            'research-macro', 'research-markets', 'research-dynamic', 'research-macro-extended', 'research-dsge'):
+            'research-macro', 'research-markets', 'research-dynamic', 'research-macro-extended', 'research-dsge', 'research-numerics'):
         # Project a matching adopted specification into its existing owner's
         # public input. Numerical validation stays in that owner.
         resource_id = resource['resource_id']
-        if resource_id == 'research-macro':
+        if resource_id == 'research-numerics':
+            owner_fields = required_fields = {'model','inputs','unit'}
+        elif resource_id == 'research-macro':
             owner_fields = {'alpha','beta','delta','initial_capital','terminal_capital','baseline','scenario',
                 'population','period','unit','sources','tolerance'}
             required_fields = owner_fields
@@ -1440,6 +1527,12 @@ def select_method(request):
             if method == 'replacement' and algorithm == 'smm' and 'smm' not in execution_spec['options']:
                 unbound_inputs.append('options.smm: adopted seed, replications, initial_costs, bounds and tolerance')
         missing_fields = sorted(required_fields - execution_spec.keys())
+        if resource_id == 'research-numerics' and 'inputs' in execution_spec:
+            if not isinstance(execution_spec['inputs'], dict):
+                raise ValueError('adopted_specification.inputs must be an object')
+            numerical_signature.bind_partial(**execution_spec['inputs'])
+            missing_fields.extend('inputs.'+name for name, parameter in numerical_signature.parameters.items()
+                if parameter.default is inspect.Parameter.empty and name not in execution_spec['inputs'])
         implementation['execution_specification'] = {
             'status':'inputs_required' if missing_fields or unbound_inputs else 'specified',
             'specification':execution_spec, 'missing_fields':missing_fields,

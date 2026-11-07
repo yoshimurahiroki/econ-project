@@ -79,7 +79,7 @@ python .agents/harness/research.py meeting render --root "$PROJECT" \
   --bundle meetings/current --output outputs/current-html --format html
 ```
 
-`--format markdown` は Markdown、`--format pdf` は LuaLaTeX 出力を作る。文書は既存の `.agents/tex/paper/pandoc_template.latex` と Econometrica の class・設定を使い、スライドは既存の `.agents/tex/slides/pandoc_template.latex`、metropolis、早稲田色、日本語フォントを使う。PDFとともに生成した `index.tex`、文書で使うclass・設定・文献スタイルも出力先へ保存し、`render.json` の `latex_files` が各版を記録する。PDF用には保存済みPDF・PNG・JPEGを優先し、SVGだけを保存した図には `rsvg-convert` を使う。
+`--format markdown` は Markdown、`--format pdf` は LuaLaTeX 出力を作る。文書は既存の `.agents/tex/paper/pandoc_template.latex` と Econometrica の class・設定を使い、スライドは既存の `.agents/tex/slides/pandoc_template.latex`、metropolis、早稲田色、日本語フォントを使う。HTML・PDFの出力先には完成ファイルと `render.json` を保存する。Markdownには本文が参照する画像も保存する。編集元の本文・構成・図表は元の資料bundleに保持し、中間のQuarto・TeX・スタイルファイルは描画時に再生成する。`render.json` の `latex_files` は生成に使った各版のハッシュを記録する。PDF用には保存済みPDF・PNG・JPEGを優先し、SVGだけを保存した図には `rsvg-convert` を使う。
 
 図表注記は母集団、標本、重み、分母、基準期、区間種類、集計規則、処置履歴と推論単位を保存値から表示する。推論の数値は図表のセルに置き、注記は推論方法と設定を表示する。保存メタデータは区間端点、検定統計量、p値の全値を保持する。PDFには変数・結果別定義・生成元の識別子も入れる。生成元の SHA-256 は先頭12桁で表示し、完全な値を資料の保存メタデータに保持する。セクションの `caption` は最後の図表の注記に続けて表示し、発表者ノートは別に保持する。図の高さとテンプレートの注記サイズでスライド内に配置し、文書では短い表の見出し・全行・注記を同じページに置く。表の長い識別子はアンダースコアで改行する。PandocアダプターはQuartoの `include-in-header` を引き継ぎ、日本語文書のPDF設定も同じ経路で適用する。
 

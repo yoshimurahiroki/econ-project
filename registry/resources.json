@@ -732,6 +732,7 @@
       "content_version": "0.56.0",
       "required_resources": [
         "econ-knowledge",
+        "research-numerics",
         "research-causal-dependencies",
         "research-causal-r-dependencies",
         "team-state-helper",
@@ -959,8 +960,7 @@
         "research-runner",
         "research-causal",
         "research-markets",
-        "research-gallery",
-        "research-gallery-example"
+        "research-gallery"
       ]
     },
     "adaptive-research": {
@@ -1469,7 +1469,8 @@
       "resource_id": "research-gallery-example",
       "source_path": "examples/research-workspace/gallery.json",
       "resource_kind": "support",
-      "content_version": "0.56.0"
+      "content_version": "0.60.0",
+      "source_distribution_only": true
     },
     "economics-writing-comparison": {
       "resource_id": "economics-writing-comparison",

@@ -1,208 +1,22 @@
 {
-  "operation": "econ-writing:compose",
-  "revision_operation": "econ-writing:revise",
-  "execution": "native conversation composition followed by saved-result rendering",
-  "source_commit": "b8bab73702776df3e87513ad9bfd33b6e0afc8ad",
-  "outputs": {
-    "causal-paper": {
-      "manuscript": {
-        "path": "examples/research-workspace/materials/writing/causal-paper.md",
-        "sha256": "0c877a76788e499ed42f537ffb7e3c8429f7bcb622a12a998f352557e5d04f76"
-      },
-      "result_id": "specialist-did-r01",
-      "producing_references": {
-        "code": {
-          "path": "examples/research-workspace/models/historical-producers/research_causal-registration.py",
-          "sha256": "eca370a50d3dbfd2dfeab97f9ca4e476b0433b8a006c122fcf2f312878c35638"
-        },
-        "data": {
-          "path": "examples/research-workspace/models/staggered.csv",
-          "sha256": "1a663a02861c2e5686f29f7f84fadf4a56654fd625f6f65cc1c302b99f081b3e"
-        },
-        "result": {
-          "path": "examples/research-workspace/models/did-result.json",
-          "sha256": "ec5a1f6c8ccc32c7de61ca04781e3fa525ba2c3f90838dcd844f4786e76fbfbd"
-        },
-        "specification": {
-          "path": "examples/research-workspace/models/did-spec.json",
-          "sha256": "079364a19e0d4189f61ae2ff1583c59dbb7d85127e621b87f5a6704701ff81d0"
-        }
-      },
-      "bindings": [
-        {
-          "alias": "overall",
-          "registry_key": "specialist-did-r01.coefficient.overall",
-          "formatted": "1.6588",
-          "unit": "outcome units",
-          "source_occurrences": 5,
-          "rendered_occurrences": 5
-        },
-        {
-          "alias": "low",
-          "registry_key": "specialist-did-r01.confidence_95_lower.overall",
-          "formatted": "1.4442",
-          "unit": "outcome units",
-          "source_occurrences": 1,
-          "rendered_occurrences": 1
-        },
-        {
-          "alias": "high",
-          "registry_key": "specialist-did-r01.confidence_95_upper.overall",
-          "formatted": "1.8733",
-          "unit": "outcome units",
-          "source_occurrences": 1,
-          "rendered_occurrences": 1
-        },
-        {
-          "alias": "p0",
-          "registry_key": "specialist-did-r01.coefficient.event_p0",
-          "formatted": "1.6110",
-          "unit": "outcome units",
-          "source_occurrences": 3,
-          "rendered_occurrences": 3
-        },
-        {
-          "alias": "p1",
-          "registry_key": "specialist-did-r01.coefficient.event_p1",
-          "formatted": "1.8491",
-          "unit": "outcome units",
-          "source_occurrences": 3,
-          "rendered_occurrences": 3
-        },
-        {
-          "alias": "p2",
-          "registry_key": "specialist-did-r01.coefficient.event_p2",
-          "formatted": "1.4534",
-          "unit": "outcome units",
-          "source_occurrences": 1,
-          "rendered_occurrences": 1
-        },
-        {
-          "alias": "p3",
-          "registry_key": "specialist-did-r01.coefficient.event_p3",
-          "formatted": "1.8230",
-          "unit": "outcome units",
-          "source_occurrences": 1,
-          "rendered_occurrences": 1
-        },
-        {
-          "alias": "p4",
-          "registry_key": "specialist-did-r01.coefficient.event_p4",
-          "formatted": "1.5573",
-          "unit": "outcome units",
-          "source_occurrences": 1,
-          "rendered_occurrences": 1
-        },
-        {
-          "alias": "m1",
-          "registry_key": "specialist-did-r01.coefficient.event_m1",
-          "formatted": "-0.2648",
-          "unit": "outcome units",
-          "source_occurrences": 1,
-          "rendered_occurrences": 1
-        },
-        {
-          "alias": "m1low",
-          "registry_key": "specialist-did-r01.confidence_95_lower.event_m1",
-          "formatted": "-0.5189",
-          "unit": "outcome units",
-          "source_occurrences": 1,
-          "rendered_occurrences": 1
-        },
-        {
-          "alias": "m1high",
-          "registry_key": "specialist-did-r01.confidence_95_upper.event_m1",
-          "formatted": "-0.0106",
-          "unit": "outcome units",
-          "source_occurrences": 1,
-          "rendered_occurrences": 1
-        }
-      ],
-      "definition_bindings": {}
-    },
-    "growth-paper": {
-      "manuscript": {
-        "path": "examples/research-workspace/materials/writing/growth-paper.md",
-        "sha256": "d7047ef7ef3839e472820bd10510a71c5f2291bafa2a1a7b1a7c40aeeb18ec5e"
-      },
-      "result_id": "specialist-growth-r01",
-      "producing_references": {
-        "code": {
-          "path": "examples/research-workspace/models/historical-producers/research_macro-registration.py",
-          "sha256": "2eefe06e9d276bf4d6f94a2ed48d780583b5155f5370f25bddc2744f798dfa9e"
-        },
-        "result": {
-          "path": "examples/research-workspace/models/growth-result.json",
-          "sha256": "e40f366c68476165244f8e94aac1c133ac67487b721ab53119cffe839d92f9a6"
-        },
-        "specification": {
-          "path": "examples/research-workspace/models/growth-spec.json",
-          "sha256": "6ab1f0c1cd1ff412de9ea7218cddca58e7b41dc4e58a8838d94739c69261823d"
-        }
-      },
-      "bindings": [
-        {
-          "alias": "change",
-          "registry_key": "specialist-growth-r01.welfare_change",
-          "formatted": "-0.5436",
-          "unit": "discounted log consumption",
-          "source_occurrences": 5,
-          "rendered_occurrences": 5
-        }
-      ],
-      "definition_bindings": {}
-    },
-    "structural-paper": {
-      "manuscript": {
-        "path": "examples/research-workspace/materials/writing/structural-paper.md",
-        "sha256": "74f06188bcae1744859e4093a0109148d8a8e5e701d5343b83f25cf330fe1d65"
-      },
-      "result_id": "specialist-blp-supply-r01",
-      "producing_references": {
-        "code": {
-          "path": "examples/research-workspace/models/historical-producers/research_markets-registration.py",
-          "sha256": "0c5cccaf1337e6cbe0cc55f426fce8418f892321919b38e896fcb50cb1baebee"
-        },
-        "result": {
-          "path": "examples/research-workspace/models/blp-supply-result.json",
-          "sha256": "876ac6e473508b4cdf12deab6f424107f705de01c374b5063e9aea5d28707a77"
-        },
-        "specification": {
-          "path": "examples/research-workspace/models/blp-supply-spec.json",
-          "sha256": "3f5761bc470fd306c973143440599ed1142c6a1985e96c4d1e0925bfcae3bf9d"
-        }
-      },
-      "selected_items": [
-        "specialist-blp-supply-r01-displays-parameters",
-        "specialist-blp-supply-r01-displays-equilibrium_products",
-        "specialist-blp-supply-r01-displays-welfare"
-      ]
-    }
-  },
-  "registry": {
-    "path": "examples/research-workspace/saved-results.json",
-    "sha256": "37552361fa3c9a97a3a9ce41932389ac8aa5745de1979bb6b2635b5968ea2930"
-  },
-  "gallery": {
-    "path": "examples/research-workspace/gallery.json",
-    "sha256": "6c04614f5b0b5b304cbb606cf34bc6fd9f68eb2b3c6afa7e739e73f2c988e4d0"
-  },
-  "referee_response": {
+  "causal_referee_response": {
+    "authoring": "Native conversation composition from two original comments, preserved old manuscript and actual assessed revision.",
+    "binding_status": "verified",
     "command": [
       "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
       "harness/research_evidence.py",
       "review",
-      "examples/research-workspace/materials/writing/referee-contract.json",
+      "examples/research-workspace/materials/writing/causal-referee-contract.json",
       "--root",
       ".",
       "--output",
-      "examples/research-workspace/materials/writing/referee-review.json",
+      "examples/research-workspace/materials/writing/causal-referee-review.json",
       "--host",
-      ".agents/cache/writing-059/native-response-host.py",
+      ".agents/cache/writing-060/causal-response-host.py",
       "--rules",
-      ".agents/cache/writing-059/rules.json",
+      ".agents/cache/writing-060/causal-response-rules.json",
       "--request",
-      "査読指摘と実際の修正本文から、厚生の定義・期間・政府吸収・結果を説明する完成回答文を書く。",
+      "二つの査読指摘に、実際の改稿箇所、保存結果、帰無仮説、集約対象を用いて具体的に回答する。",
       "--writing-mode",
       "compose",
       "--execution-kind",
@@ -210,37 +24,407 @@
       "--author-id",
       "native-root",
       "--response-output",
-      "examples/research-workspace/materials/writing/referee-response.md"
+      "examples/research-workspace/materials/writing/causal-referee-response.md"
     ],
-    "returncode": 0,
-    "status": "reviewed",
     "contract": {
-      "path": "examples/research-workspace/materials/writing/referee-contract.json",
-      "sha256": "5f65b75318b6cd9f2f321411d299225d4c7c37d34d56b7f33bebb02e1419a22a"
+      "path": "examples/research-workspace/materials/writing/causal-referee-contract.json",
+      "sha256": "2fb44884c0ad69d733926846f23e0647af9c40d4d4a0ef787dcd6fe64a20d48f"
     },
+    "event_id": "08e686ec-71de-4d0e-912a-b01787d44a0c",
+    "finding_ids": [
+      "diagnostics-1",
+      "aggregation-2"
+    ],
     "manuscript": {
-      "path": "examples/research-workspace/materials/writing/growth-paper.md",
-      "sha256": "d7047ef7ef3839e472820bd10510a71c5f2291bafa2a1a7b1a7c40aeeb18ec5e"
+      "path": "examples/research-workspace/materials/writing/causal-paper.md",
+      "sha256": "7ca821ec426ce5e03d20c541c952d47c8756bf6e6b0f237e72e1be5d920dd088"
     },
     "output": {
-      "path": "examples/research-workspace/materials/writing/referee-response.md",
-      "sha256": "f1b22db56b1d11f2a5cd792a1f40db074f72c0ba11b1706c989eb7882be0d58c"
+      "path": "examples/research-workspace/materials/writing/causal-referee-response.md",
+      "sha256": "4f8dc1cdaf033a9280ee041cb64ab887ddc9b11e8f463bd67b1738a7ab3db6bf"
     },
-    "event_id": "18087b03-fe1b-44ed-8dd7-b6e26c4f78d8",
-    "authoring": "Native conversation composition from the actual comment and assessed revised manuscript.",
+    "returncode": 0,
+    "status": "reviewed",
     "transport": "local callback carrying the current native conversation wording"
+  },
+  "common_regressions": {
+    "commands": [
+      {
+        "argv": [
+          "/workspace/scratch/1bfbc6aea0af/venv-causal/bin/python",
+          "/workspace/scratch/5ba55db80052/econ-project-mini/skills/econ-data/scripts/research.py",
+          "estimate",
+          "/workspace/scratch/5ba55db80052/econ-project-mini/examples/research-workspace/models/common-ols-spec.json",
+          "--output",
+          "/workspace/scratch/5ba55db80052/econ-project-mini/examples/research-workspace/models/common-ols-result.json"
+        ],
+        "returncode": 0
+      },
+      {
+        "argv": [
+          "/workspace/scratch/1bfbc6aea0af/venv-causal/bin/python",
+          "/workspace/scratch/5ba55db80052/econ-project-mini/skills/econ-data/scripts/research.py",
+          "estimate",
+          "/workspace/scratch/5ba55db80052/econ-project-mini/examples/research-workspace/models/common-iv2sls-spec.json",
+          "--output",
+          "/workspace/scratch/5ba55db80052/econ-project-mini/examples/research-workspace/models/common-iv2sls-result.json"
+        ],
+        "returncode": 0
+      }
+    ],
+    "data": {
+      "path": "examples/research-workspace/models/common-regression-data.csv",
+      "sha256": "0ceba8f038605e2df8e30115c3dac7a49cd1773d146304dfdbb33986a2cdeac5"
+    },
+    "gallery": {
+      "estimation_reused": true,
+      "files": [
+        "examples/research-workspace/gallery-assets/specialist-common-ols-iv-table-c9bb966e20d1eba138d3/display.svg",
+        "examples/research-workspace/gallery-assets/specialist-common-ols-iv-table-c9bb966e20d1eba138d3/display.png",
+        "examples/research-workspace/gallery-assets/specialist-common-ols-iv-table-c9bb966e20d1eba138d3/display.html",
+        "examples/research-workspace/gallery-assets/specialist-common-ols-iv-table-c9bb966e20d1eba138d3/display.pdf",
+        "examples/research-workspace/gallery-assets/specialist-common-ols-iv-table-c9bb966e20d1eba138d3/display.tex"
+      ],
+      "operation": "normalize; merge_registries; register_gallery; gallery_regression_comparison",
+      "presentation": {
+        "body": [
+          {
+            "cells": [
+              "2.0898",
+              "1.8321"
+            ],
+            "kind": "coefficient",
+            "label": "Investment"
+          },
+          {
+            "cells": [
+              "(0.0249)",
+              "(0.0440)"
+            ],
+            "kind": "se",
+            "label": ""
+          },
+          {
+            "cells": [
+              "0.3488",
+              "0.4602"
+            ],
+            "kind": "coefficient",
+            "label": "Initial productivity"
+          },
+          {
+            "cells": [
+              "(0.0418)",
+              "(0.0459)"
+            ],
+            "kind": "se",
+            "label": ""
+          },
+          {
+            "cells": [
+              "0.0390",
+              "0.0672"
+            ],
+            "kind": "coefficient",
+            "label": "Constant"
+          },
+          {
+            "cells": [
+              "(0.0391)",
+              "(0.0409)"
+            ],
+            "kind": "se",
+            "label": ""
+          }
+        ],
+        "caption": "Investment and output on a common sample",
+        "footer": [
+          {
+            "cells": [
+              "1200",
+              "1200"
+            ],
+            "label": "Observations"
+          },
+          {
+            "cells": [
+              "Initial productivity; constant",
+              "Initial productivity; constant"
+            ],
+            "label": "Controls"
+          },
+          {
+            "cells": [
+              "None",
+              "Investment incentive z"
+            ],
+            "label": "Excluded instrument"
+          },
+          {
+            "cells": [
+              "HC1",
+              "Robust; debiased"
+            ],
+            "label": "Covariance"
+          },
+          {
+            "cells": [
+              "statsmodels OLS",
+              "linearmodels IV2SLS"
+            ],
+            "label": "Official estimator"
+          }
+        ],
+        "headers": [
+          [
+            {
+              "colspan": 1,
+              "text": "アウトカム"
+            },
+            {
+              "colspan": 2,
+              "text": "Output"
+            }
+          ],
+          [
+            {
+              "colspan": 1,
+              "text": "項目"
+            },
+            {
+              "colspan": 1,
+              "text": "OLS projection"
+            },
+            {
+              "colspan": 1,
+              "text": "IV response"
+            }
+          ],
+          [
+            {
+              "colspan": 1,
+              "text": ""
+            },
+            {
+              "colspan": 1,
+              "text": "(1)"
+            },
+            {
+              "colspan": 1,
+              "text": "(2)"
+            }
+          ]
+        ],
+        "label": "tab:common-ols-iv",
+        "notes": [
+          "括弧内は保存された標準誤差。",
+          "Both models use the same 1,200 producer IDs and equal observation weights.",
+          "Investment slopes are in output units per investment unit. Standard errors retain each estimator's saved covariance."
+        ],
+        "number": "1",
+        "preset": "paper"
+      },
+      "selection": {
+        "item_ids": [
+          "specialist-common-ols-iv-table"
+        ],
+        "registry": "examples/research-workspace/gallery.json"
+      },
+      "visual_inspection": "Final PNG inspected: coefficients, parenthesized SEs, same sample, instruments and covariance are readable and match saved results."
+    },
+    "independent_coefficient_checks": {
+      "absolute_tolerance": 1e-12,
+      "iv2sls": 1.8320521183077378,
+      "ols": 2.0898299909969404
+    },
+    "manuscript": {
+      "binding_status": "verified",
+      "bindings": {
+        "iv_b": {
+          "display_unit": "生産単位／投資単位",
+          "format": ".4f",
+          "key": "specialist-common-iv2sls-r01.coefficient.investment",
+          "label": "iv_b",
+          "unit": "output units per investment unit"
+        },
+        "iv_se": {
+          "display_unit": "生産単位／投資単位",
+          "format": ".4f",
+          "key": "specialist-common-iv2sls-r01.standard_error.investment",
+          "label": "iv_se",
+          "unit": "output units per investment unit"
+        },
+        "ols_b": {
+          "display_unit": "生産単位／投資単位",
+          "format": ".4f",
+          "key": "specialist-common-ols-r01.coefficient.investment",
+          "label": "ols_b",
+          "unit": "output units per investment unit"
+        },
+        "ols_se": {
+          "display_unit": "生産単位／投資単位",
+          "format": ".4f",
+          "key": "specialist-common-ols-r01.standard_error.investment",
+          "label": "ols_se",
+          "unit": "output units per investment unit"
+        }
+      },
+      "captures": [
+        {
+          "alias": "ols_b",
+          "id": "ols_b-1",
+          "target": {
+            "end": 488,
+            "quote": "2.0898",
+            "start": 482
+          },
+          "unit_target": {
+            "end": 498,
+            "quote": "生産単位／投資単位",
+            "start": 489
+          }
+        },
+        {
+          "alias": "iv_b",
+          "id": "iv_b-2",
+          "target": {
+            "end": 511,
+            "quote": "1.8321",
+            "start": 505
+          },
+          "unit_target": {
+            "end": 521,
+            "quote": "生産単位／投資単位",
+            "start": 512
+          }
+        },
+        {
+          "alias": "ols_se",
+          "id": "ols_se-3",
+          "target": {
+            "end": 541,
+            "quote": "0.0249",
+            "start": 535
+          },
+          "unit_target": {
+            "end": 551,
+            "quote": "生産単位／投資単位",
+            "start": 542
+          }
+        },
+        {
+          "alias": "iv_se",
+          "id": "iv_se-4",
+          "target": {
+            "end": 558,
+            "quote": "0.0440",
+            "start": 552
+          },
+          "unit_target": {
+            "end": 568,
+            "quote": "生産単位／投資単位",
+            "start": 559
+          }
+        }
+      ],
+      "diagnostic": {
+        "keys": [
+          "first_stage",
+          "investment",
+          "f.stat"
+        ],
+        "reference": "chi2(1)",
+        "result_id": "specialist-common-iv2sls-r01",
+        "value": 635.6580652991126
+      },
+      "gallery_repair": {
+        "cause": "Gallery definition field selection omitted instruments and covariance_type",
+        "completed": {
+          "Controls": [
+            "Initial productivity; constant",
+            "Initial productivity; constant"
+          ],
+          "Covariance": [
+            "HC1",
+            "Robust; debiased"
+          ],
+          "Excluded instrument": [
+            "None",
+            "Investment incentive z"
+          ],
+          "Observations": [
+            "1200",
+            "1200"
+          ],
+          "Official estimator": [
+            "statsmodels OLS",
+            "linearmodels IV2SLS"
+          ]
+        },
+        "observed": "Excluded-instrument and covariance footer cells were empty"
+      },
+      "operation": "econ-writing:compose; research_artifacts.render; research_evidence.bind",
+      "path": "examples/research-workspace/materials/writing/common-regression-results.md",
+      "projection_repair": "Rebuilt only the new common-result display metadata after extending the selected definition fields; saved scientific records and statistics were preserved",
+      "render_environment_repair": {
+        "completed": "Rendered saved rows with the existing primary Python and matplotlib 3.10.8",
+        "observed": "Selected PyBLP environment lacked matplotlib"
+      },
+      "sha256": "2ff33cb026f0d2bbf0c79a99954c4de94ab9ef6e6fc2630110bc91a65d67cff4"
+    },
+    "observations": 1200,
+    "result": {
+      "iv2sls": {
+        "coefficient": 1.8320521183077358,
+        "engine": "linearmodels.iv.IV2SLS",
+        "inference": {
+          "degrees_of_freedom": 1197,
+          "reference": "Student t"
+        },
+        "standard_error": 0.04403316763283068,
+        "versions": {
+          "linearmodels": "7.0",
+          "numpy": "2.3.5",
+          "pandas": "3.1.0",
+          "python": "3.12.14",
+          "scipy": "1.17.0",
+          "statsmodels": "0.14.6"
+        }
+      },
+      "ols": {
+        "coefficient": 2.089829990996941,
+        "engine": "statsmodels.OLS",
+        "inference": {
+          "degrees_of_freedom": null,
+          "reference": "normal"
+        },
+        "standard_error": 0.024912823993351884,
+        "versions": {
+          "numpy": "2.3.5",
+          "pandas": "3.1.0",
+          "python": "3.12.14",
+          "scipy": "1.17.0",
+          "statsmodels": "0.14.6"
+        }
+      }
+    },
+    "result_paths": [
+      "examples/research-workspace/models/common-ols-result.json",
+      "examples/research-workspace/models/common-iv2sls-result.json"
+    ],
+    "same_fitted_ids": true,
+    "source": {
+      "description": "Original independent cross-section, seed 20261108, n=1200. z,x,u,v,e are independent standard normal draws. Investment I=.9z+.4x+.7u+v; output Y=1.8I+.5x+u+e. I and Y are deviations from a common reference. z shifts investment and is excluded from the output error; u jointly raises investment and output."
+    }
   },
   "composition_context": [
     {
-      "result_id": "specialist-did-r01",
-      "statistic": "coefficient.overall",
-      "unit": "outcome units",
-      "value": 1.6587557615188664,
+      "context_sha256": "241182ce9f53072de2fc086b6272049c1c812bd453638d2aa91b353cffe4c419",
       "matches_saved_result": true,
+      "result_id": "specialist-did-r01",
       "selected_displays": [
         {
           "item_id": "specialist-did-r01-event-study",
-          "selected_rows": 8,
           "row_indices": [
             0,
             1,
@@ -250,21 +434,21 @@
             5,
             6,
             7
-          ]
+          ],
+          "selected_rows": 8
         }
       ],
-      "context_sha256": "241182ce9f53072de2fc086b6272049c1c812bd453638d2aa91b353cffe4c419"
+      "statistic": "coefficient.overall",
+      "unit": "outcome units",
+      "value": 1.6587557615188664
     },
     {
-      "result_id": "specialist-growth-r01",
-      "statistic": "welfare_change",
-      "unit": "discounted log consumption",
-      "value": -0.543605130363126,
+      "context_sha256": "742f3ede45eed3c9e88ea6de5fb2933f05eb2340c7f0215ddadf1220eeefbd24",
       "matches_saved_result": true,
+      "result_id": "specialist-growth-r01",
       "selected_displays": [
         {
           "item_id": "specialist-growth-r01-displays-allocation_paths",
-          "selected_rows": 162,
           "row_indices": [
             0,
             1,
@@ -428,29 +612,29 @@
             159,
             160,
             161
-          ]
+          ],
+          "selected_rows": 162
         },
         {
           "item_id": "specialist-growth-r01-displays-welfare",
-          "selected_rows": 2,
           "row_indices": [
             0,
             1
-          ]
+          ],
+          "selected_rows": 2
         }
       ],
-      "context_sha256": "742f3ede45eed3c9e88ea6de5fb2933f05eb2340c7f0215ddadf1220eeefbd24"
+      "statistic": "welfare_change",
+      "unit": "discounted log consumption",
+      "value": -0.543605130363126
     },
     {
-      "result_id": "specialist-blp-supply-r01",
-      "statistic": "objective",
-      "unit": "dimensionless",
-      "value": 0.010954556681228125,
+      "context_sha256": "aa4fe53ca038f1251b09837658e344426079a89d576366f6866908b545c79cb4",
       "matches_saved_result": true,
+      "result_id": "specialist-blp-supply-r01",
       "selected_displays": [
         {
           "item_id": "specialist-blp-supply-r01-displays-equilibrium_products",
-          "selected_rows": 8,
           "row_indices": [
             0,
             1,
@@ -460,11 +644,11 @@
             481,
             482,
             483
-          ]
+          ],
+          "selected_rows": 8
         },
         {
           "item_id": "specialist-blp-supply-r01-displays-welfare",
-          "selected_rows": 18,
           "row_indices": [
             0,
             1,
@@ -484,37 +668,1408 @@
             456,
             457,
             458
-          ]
+          ],
+          "selected_rows": 18
         }
       ],
-      "context_sha256": "aa4fe53ca038f1251b09837658e344426079a89d576366f6866908b545c79cb4"
+      "statistic": "objective",
+      "unit": "dimensionless",
+      "value": 0.010954556681228125
     }
   ],
+  "execution": "native conversation composition followed by saved-result rendering",
+  "gallery": {
+    "path": "examples/research-workspace/gallery.json",
+    "sha256": "6c04614f5b0b5b304cbb606cf34bc6fd9f68eb2b3c6afa7e739e73f2c988e4d0"
+  },
   "language_and_reader_examples": {
-    "path": "examples/research-workspace/materials/writing/revision-examples.md",
-    "sha256": "9f4bbdb6cf01e4c2bd24181f11a80a6ab79be34b421214114658f10f3ba5022d",
     "operations": [
       "econ-writing:revise",
       "econ-writing:translate",
       "econ-writing:compose",
       "econ-writing:explain"
-    ]
+    ],
+    "path": "examples/research-workspace/materials/writing/revision-examples.md",
+    "sha256": "9f4bbdb6cf01e4c2bd24181f11a80a6ab79be34b421214114658f10f3ba5022d"
+  },
+  "market_population_and_types": {
+    "code": {
+      "path": "skills/econ-data/scripts/research_markets.py",
+      "sha256": "792cf3958dd74767f8c931d861fe0c97f16bec9a5bd59ec6b26f8cbfc2bab1ed"
+    },
+    "command": [
+      ".agents/cache/writing-060/markets-env/bin/python",
+      "skills/econ-data/scripts/research_markets.py",
+      "case",
+      "--name",
+      "blp-random-merger",
+      "--output",
+      ".agents/cache/writing-060/random-merger-run"
+    ],
+    "operation": "econ-data:execute",
+    "requirements": {
+      "path": "skills/econ-data/scripts/requirements-markets.txt",
+      "sha256": "584f46abfb55edb865b3c64912e80880e80a3fd7c763560ec951d40bedc6ea2e"
+    },
+    "result": {
+      "path": "examples/research-workspace/models/blp-random-merger-result.json",
+      "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+    },
+    "result_summary": {
+      "estimated_quality_taste_sd": 0.6265280088900336,
+      "markets": 80,
+      "potential_consumers": 140000,
+      "products": 320,
+      "total_consumer_surplus_change": -3081.435701372073,
+      "total_producer_surplus_change": 906.6881677798374,
+      "total_social_welfare_change": -2174.7475335922354
+    },
+    "returncode": 0,
+    "source_commit_before_change": "5dd02ca4bbbabc32e095180a817d0a322fbf23b9",
+    "specification": {
+      "path": "examples/research-workspace/models/blp-random-merger.json",
+      "sha256": "de5f204e3e7acc56f03eb16956114c6915cd2edeb03b5478b3d0745c485ad0cd"
+    },
+    "verification": {
+      "counterfactual_profit_gradient_max_abs": 5.2628040814184374e-14,
+      "counterfactual_profit_hessian_max_eigenvalue": -0.05418969386969193,
+      "max_agent_to_market_surplus_error": 1.1102230246251565e-16,
+      "method": "Direct population-weighted sums and weighted official type-specific surplus compared with official market surplus; original pricing and share equations evaluated by the runner.",
+      "population_sum_absolute_tolerance": 1e-09,
+      "population_sum_relative_tolerance": 1e-12,
+      "share_max_abs_error": 9.71445146547012e-16
+    }
+  },
+  "operation": "econ-writing:compose",
+  "outputs": {
+    "causal-paper": {
+      "bindings": [
+        {
+          "alias": "overall",
+          "formatted": "1.6588",
+          "registry_key": "specialist-did-r01.coefficient.overall",
+          "rendered_occurrences": 4,
+          "source_occurrences": 4,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "low",
+          "formatted": "1.4442",
+          "registry_key": "specialist-did-r01.confidence_95_lower.overall",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "high",
+          "formatted": "1.8733",
+          "registry_key": "specialist-did-r01.confidence_95_upper.overall",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "p0",
+          "formatted": "1.6110",
+          "registry_key": "specialist-did-r01.coefficient.event_p0",
+          "rendered_occurrences": 2,
+          "source_occurrences": 2,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "p1",
+          "formatted": "1.8491",
+          "registry_key": "specialist-did-r01.coefficient.event_p1",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "p2",
+          "formatted": "1.4534",
+          "registry_key": "specialist-did-r01.coefficient.event_p2",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "p3",
+          "formatted": "1.8230",
+          "registry_key": "specialist-did-r01.coefficient.event_p3",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "p4",
+          "formatted": "1.5573",
+          "registry_key": "specialist-did-r01.coefficient.event_p4",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "m1",
+          "formatted": "-0.2648",
+          "registry_key": "specialist-did-r01.coefficient.event_m1",
+          "rendered_occurrences": 4,
+          "source_occurrences": 4,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "m1low",
+          "formatted": "-0.5189",
+          "registry_key": "specialist-did-r01.confidence_95_lower.event_m1",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "m1high",
+          "formatted": "-0.0106",
+          "registry_key": "specialist-did-r01.confidence_95_upper.event_m1",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "mp",
+          "formatted": "0.04117",
+          "registry_key": "specialist-did-r01.p_value.event_m1",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "probability"
+        }
+      ],
+      "definition_bindings": {},
+      "diagnostics": {
+        "joint_p_value": 0.11917,
+        "joint_restrictions": 4,
+        "joint_statistic": 7.3359194097693825,
+        "pointwise_p_value": 0.04117337752969135,
+        "selected_paths": [
+          [
+            "diagnostics",
+            "pretreatment_test"
+          ],
+          [
+            "diagnostics",
+            "group_time"
+          ],
+          [
+            "diagnostics",
+            "aggregation_components"
+          ],
+          [
+            "diagnostics",
+            "base_period"
+          ]
+        ],
+        "source": "examples/research-workspace/models/did-result.json"
+      },
+      "manuscript": {
+        "path": "examples/research-workspace/materials/writing/causal-paper.md",
+        "sha256": "7ca821ec426ce5e03d20c541c952d47c8756bf6e6b0f237e72e1be5d920dd088"
+      },
+      "producing_references": {
+        "code": {
+          "path": "examples/research-workspace/models/historical-producers/research_causal-registration.py",
+          "sha256": "eca370a50d3dbfd2dfeab97f9ca4e476b0433b8a006c122fcf2f312878c35638"
+        },
+        "data": {
+          "path": "examples/research-workspace/models/staggered.csv",
+          "sha256": "1a663a02861c2e5686f29f7f84fadf4a56654fd625f6f65cc1c302b99f081b3e"
+        },
+        "result": {
+          "path": "examples/research-workspace/models/did-result.json",
+          "sha256": "ec5a1f6c8ccc32c7de61ca04781e3fa525ba2c3f90838dcd844f4786e76fbfbd"
+        },
+        "specification": {
+          "path": "examples/research-workspace/models/did-spec.json",
+          "sha256": "079364a19e0d4189f61ae2ff1583c59dbb7d85127e621b87f5a6704701ff81d0"
+        }
+      },
+      "result_id": "specialist-did-r01",
+      "revision": {
+        "estimation_reused": true,
+        "operation": "econ-writing:revise",
+        "reason": "Connect pretreatment nulls, covariance, cohort composition and maintained identification to the paper conclusion.",
+        "source_commit_before_change": "6e1d43b6568a52ee244a1a046cb187944145511f"
+      }
+    },
+    "growth-paper": {
+      "bindings": [
+        {
+          "alias": "change",
+          "formatted": "-0.5436",
+          "registry_key": "specialist-growth-r01.welfare_change",
+          "rendered_occurrences": 5,
+          "source_occurrences": 5,
+          "unit": "discounted log consumption"
+        }
+      ],
+      "definition_bindings": {},
+      "manuscript": {
+        "path": "examples/research-workspace/materials/writing/growth-paper.md",
+        "sha256": "d7047ef7ef3839e472820bd10510a71c5f2291bafa2a1a7b1a7c40aeeb18ec5e"
+      },
+      "producing_references": {
+        "code": {
+          "path": "examples/research-workspace/models/historical-producers/research_macro-registration.py",
+          "sha256": "2eefe06e9d276bf4d6f94a2ed48d780583b5155f5370f25bddc2744f798dfa9e"
+        },
+        "result": {
+          "path": "examples/research-workspace/models/growth-result.json",
+          "sha256": "e40f366c68476165244f8e94aac1c133ac67487b721ab53119cffe839d92f9a6"
+        },
+        "specification": {
+          "path": "examples/research-workspace/models/growth-spec.json",
+          "sha256": "6ab1f0c1cd1ff412de9ea7218cddca58e7b41dc4e58a8838d94739c69261823d"
+        }
+      },
+      "result_id": "specialist-growth-r01"
+    },
+    "structural-paper": {
+      "manuscript": {
+        "path": "examples/research-workspace/materials/writing/structural-paper.md",
+        "sha256": "74f06188bcae1744859e4093a0109148d8a8e5e701d5343b83f25cf330fe1d65"
+      },
+      "producing_references": {
+        "code": {
+          "path": "examples/research-workspace/models/historical-producers/research_markets-registration.py",
+          "sha256": "0c5cccaf1337e6cbe0cc55f426fce8418f892321919b38e896fcb50cb1baebee"
+        },
+        "result": {
+          "path": "examples/research-workspace/models/blp-supply-result.json",
+          "sha256": "876ac6e473508b4cdf12deab6f424107f705de01c374b5063e9aea5d28707a77"
+        },
+        "specification": {
+          "path": "examples/research-workspace/models/blp-supply-spec.json",
+          "sha256": "3f5761bc470fd306c973143440599ed1142c6a1985e96c4d1e0925bfcae3bf9d"
+        }
+      },
+      "result_id": "specialist-blp-supply-r01",
+      "selected_items": [
+        "specialist-blp-supply-r01-displays-parameters",
+        "specialist-blp-supply-r01-displays-equilibrium_products",
+        "specialist-blp-supply-r01-displays-welfare"
+      ]
+    }
+  },
+  "previous_outputs": {
+    "causal-paper-0.59.0": {
+      "bindings": [
+        {
+          "alias": "overall",
+          "formatted": "1.6588",
+          "registry_key": "specialist-did-r01.coefficient.overall",
+          "rendered_occurrences": 5,
+          "source_occurrences": 5,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "low",
+          "formatted": "1.4442",
+          "registry_key": "specialist-did-r01.confidence_95_lower.overall",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "high",
+          "formatted": "1.8733",
+          "registry_key": "specialist-did-r01.confidence_95_upper.overall",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "p0",
+          "formatted": "1.6110",
+          "registry_key": "specialist-did-r01.coefficient.event_p0",
+          "rendered_occurrences": 3,
+          "source_occurrences": 3,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "p1",
+          "formatted": "1.8491",
+          "registry_key": "specialist-did-r01.coefficient.event_p1",
+          "rendered_occurrences": 3,
+          "source_occurrences": 3,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "p2",
+          "formatted": "1.4534",
+          "registry_key": "specialist-did-r01.coefficient.event_p2",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "p3",
+          "formatted": "1.8230",
+          "registry_key": "specialist-did-r01.coefficient.event_p3",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "p4",
+          "formatted": "1.5573",
+          "registry_key": "specialist-did-r01.coefficient.event_p4",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "m1",
+          "formatted": "-0.2648",
+          "registry_key": "specialist-did-r01.coefficient.event_m1",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "m1low",
+          "formatted": "-0.5189",
+          "registry_key": "specialist-did-r01.confidence_95_lower.event_m1",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        },
+        {
+          "alias": "m1high",
+          "formatted": "-0.0106",
+          "registry_key": "specialist-did-r01.confidence_95_upper.event_m1",
+          "rendered_occurrences": 1,
+          "source_occurrences": 1,
+          "unit": "outcome units"
+        }
+      ],
+      "definition_bindings": {},
+      "manuscript": {
+        "path": "examples/research-workspace/materials/writing/causal-original.md",
+        "sha256": "0c877a76788e499ed42f537ffb7e3c8429f7bcb622a12a998f352557e5d04f76"
+      },
+      "producing_references": {
+        "code": {
+          "path": "examples/research-workspace/models/historical-producers/research_causal-registration.py",
+          "sha256": "eca370a50d3dbfd2dfeab97f9ca4e476b0433b8a006c122fcf2f312878c35638"
+        },
+        "data": {
+          "path": "examples/research-workspace/models/staggered.csv",
+          "sha256": "1a663a02861c2e5686f29f7f84fadf4a56654fd625f6f65cc1c302b99f081b3e"
+        },
+        "result": {
+          "path": "examples/research-workspace/models/did-result.json",
+          "sha256": "ec5a1f6c8ccc32c7de61ca04781e3fa525ba2c3f90838dcd844f4786e76fbfbd"
+        },
+        "specification": {
+          "path": "examples/research-workspace/models/did-spec.json",
+          "sha256": "079364a19e0d4189f61ae2ff1583c59dbb7d85127e621b87f5a6704701ff81d0"
+        }
+      },
+      "result_id": "specialist-did-r01"
+    }
+  },
+  "referee_response": {
+    "authoring": "Native conversation composition from the actual comment and assessed revised manuscript.",
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+      "harness/research_evidence.py",
+      "review",
+      "examples/research-workspace/materials/writing/referee-contract.json",
+      "--root",
+      ".",
+      "--output",
+      "examples/research-workspace/materials/writing/referee-review.json",
+      "--host",
+      ".agents/cache/writing-059/native-response-host.py",
+      "--rules",
+      ".agents/cache/writing-059/rules.json",
+      "--request",
+      "査読指摘と実際の修正本文から、厚生の定義・期間・政府吸収・結果を説明する完成回答文を書く。",
+      "--writing-mode",
+      "compose",
+      "--execution-kind",
+      "single-agent-sequential",
+      "--author-id",
+      "native-root",
+      "--response-output",
+      "examples/research-workspace/materials/writing/referee-response.md"
+    ],
+    "contract": {
+      "path": "examples/research-workspace/materials/writing/referee-contract.json",
+      "sha256": "5f65b75318b6cd9f2f321411d299225d4c7c37d34d56b7f33bebb02e1419a22a"
+    },
+    "event_id": "18087b03-fe1b-44ed-8dd7-b6e26c4f78d8",
+    "manuscript": {
+      "path": "examples/research-workspace/materials/writing/growth-paper.md",
+      "sha256": "d7047ef7ef3839e472820bd10510a71c5f2291bafa2a1a7b1a7c40aeeb18ec5e"
+    },
+    "output": {
+      "path": "examples/research-workspace/materials/writing/referee-response.md",
+      "sha256": "f1b22db56b1d11f2a5cd792a1f40db074f72c0ba11b1706c989eb7882be0d58c"
+    },
+    "returncode": 0,
+    "status": "reviewed",
+    "transport": "local callback carrying the current native conversation wording"
+  },
+  "registry": {
+    "path": "examples/research-workspace/saved-results.json",
+    "sha256": "37552361fa3c9a97a3a9ce41932389ac8aa5745de1979bb6b2635b5968ea2930"
+  },
+  "revision_060": {
+    "audience_selection": "research audience: pricing condition and aggregation; non-economist audience: diverted demand, price responses and market 0 taste figure",
+    "operations": [
+      "econ-writing:revise",
+      "econ-writing:translate",
+      "econ-writing:explain"
+    ],
+    "path": "examples/research-workspace/materials/writing/revision-examples.md",
+    "preserved_existing_examples": true,
+    "previous_sha256": "9f4bbdb6cf01e4c2bd24181f11a80a6ab79be34b421214114658f10f3ba5022d",
+    "sha256": "3df7bd679d92eabb74b21f9ac77ce357748e3fe8246f35bc071c01b4615ac9e7",
+    "source_result": "examples/research-workspace/models/blp-random-merger-result.json",
+    "source_statistics": {
+      "total_consumer_surplus_change": {
+        "unit": "synthetic currency units",
+        "value": -3081.435701372073
+      },
+      "total_producer_surplus_change": {
+        "unit": "synthetic currency units",
+        "value": 906.6881677798374
+      },
+      "total_social_welfare_change": {
+        "unit": "synthetic currency units",
+        "value": -2174.7475335922354
+      }
+    }
+  },
+  "revision_operation": "econ-writing:revise",
+  "source_commit": "b8bab73702776df3e87513ad9bfd33b6e0afc8ad",
+  "structural_displays": {
+    "estimation_reused": true,
+    "files": {
+      "specialist-blp-random-r01-displays-consumer_types-market0": [
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-consumer_types-market0-9abb5634d28400077529/display.svg",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-consumer_types-market0-9abb5634d28400077529/display.png",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-consumer_types-market0-9abb5634d28400077529/display.html",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-consumer_types-market0-9abb5634d28400077529/display.pdf",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-consumer_types-market0-9abb5634d28400077529/display.tex"
+      ],
+      "specialist-blp-random-r01-displays-parameters": [
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-parameters-125a6c06be2eb2001f46/display.svg",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-parameters-125a6c06be2eb2001f46/display.png",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-parameters-125a6c06be2eb2001f46/display.html",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-parameters-125a6c06be2eb2001f46/display.pdf",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-parameters-125a6c06be2eb2001f46/display.tex"
+      ],
+      "specialist-blp-random-r01-displays-welfare-markets0to3": [
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare-markets0to3-0d3ba5c5715c2fa3a57d/display.svg",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare-markets0to3-0d3ba5c5715c2fa3a57d/display.png",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare-markets0to3-0d3ba5c5715c2fa3a57d/display.html",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare-markets0to3-0d3ba5c5715c2fa3a57d/display.pdf",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare-markets0to3-0d3ba5c5715c2fa3a57d/display.tex"
+      ],
+      "specialist-blp-random-r01-displays-welfare_totals-main": [
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare_totals-main-edac9bd3b70d2b030620/display.svg",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare_totals-main-edac9bd3b70d2b030620/display.png",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare_totals-main-edac9bd3b70d2b030620/display.html",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare_totals-main-edac9bd3b70d2b030620/display.pdf",
+        "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare_totals-main-edac9bd3b70d2b030620/display.tex"
+      ]
+    },
+    "operation": "research_artifacts.normalize; merge_registries; register_gallery",
+    "repair": {
+      "cause": "row_order requires a permutation of all saved rows",
+      "completed_repair": "Selected rows retained as named presentation views with original source_row_indices; source result unchanged",
+      "failed_selection": "row_order supplied a subset of source rows"
+    },
+    "result_id": "specialist-blp-random-r01",
+    "selection": {
+      "item_ids": [
+        "specialist-blp-random-r01-displays-parameters",
+        "specialist-blp-random-r01-displays-welfare_totals-main",
+        "specialist-blp-random-r01-displays-consumer_types-market0",
+        "specialist-blp-random-r01-displays-welfare-markets0to3"
+      ],
+      "registry": "examples/research-workspace/gallery.json"
+    },
+    "source": {
+      "code": "skills/econ-data/scripts/research_markets.py",
+      "expected_hashes": {
+        "code": "792cf3958dd74767f8c931d861fe0c97f16bec9a5bd59ec6b26f8cbfc2bab1ed"
+      },
+      "id": "specialist-blp-random-r01",
+      "metadata": {
+        "assumptions": [
+          "Price-affine quasilinear utility with a common negative price coefficient",
+          "Multiproduct Bertrand pricing",
+          "Invariant tastes and marginal costs across ownership scenarios"
+        ],
+        "comparison": "Firms 0 and 1 merge at fitted incumbent marginal costs; all products and consumer types remain available",
+        "equations": {
+          "consumer_surplus": "CS_t = sum_i w_i log(1 + sum_j exp(delta_jt + sigma_x nu_i x_jt))/(-beta_p)",
+          "cost": "mc_jt = gamma_0 + gamma_z z_jt + omega_jt",
+          "pricing": "s_j + sum_{k in F(j)} (p_k-mc_k) ds_k/dp_j = 0",
+          "utility": "u_ijt = beta_0 + beta_p p_jt + (beta_x + sigma_x nu_i)x_jt + xi_jt + epsilon_ijt",
+          "welfare": "W = sum_t M_t [CS_t + sum_j (p_jt-mc_jt)s_jt]"
+        },
+        "equilibrium_selection": "PyBLP price iteration from observed prices at fitted marginal costs, with saved profit first-order and curvature checks",
+        "estimand": "Population-weighted equilibrium consumer, producer and social surplus after ownership consolidation",
+        "horizon": "one static market occasion",
+        "identification": "Demand moments use own cost shifter and rival characteristic/cost sums; supply moments use own and rival characteristics. The synthetic shifters are independent of demand and cost shocks.",
+        "model_contract": "MC-pyblp-bertrand",
+        "normalization": "Outside deterministic utility equals zero; epsilon is standard extreme value; nu is standard normal",
+        "observation_unit": "product-market",
+        "parameter_roles": {
+          "beta_0": {
+            "meaning": "mean utility intercept",
+            "role": "estimated",
+            "source": "joint PyBLP demand and supply GMM"
+          },
+          "beta_p": {
+            "meaning": "common marginal utility of price",
+            "role": "estimated",
+            "unit": "utility per currency unit"
+          },
+          "beta_x": {
+            "meaning": "mean taste for x",
+            "role": "estimated"
+          },
+          "gamma": {
+            "meaning": "marginal-cost intercept and excluded cost-shifter slope",
+            "role": "estimated"
+          },
+          "market_sizes": {
+            "meaning": "1000,1500,2000,2500 potential consumers repeated across 80 markets",
+            "role": "fixed"
+          },
+          "sigma_x": {
+            "meaning": "standard deviation of the taste coefficient for x",
+            "role": "estimated"
+          },
+          "taste_distribution": {
+            "meaning": "standard normal nu; seven-node product quadrature",
+            "role": "fixed"
+          }
+        },
+        "period": "one static market occasion",
+        "population": "140000 potential consumers in 80 independently generated four-product markets",
+        "run_id": "blp-random-merger-20261107",
+        "sample": "320 product-market observations",
+        "scenario": "Merge firms 0 and 1 in every market; recompute all four product prices and shares",
+        "specification_id": "blp-random-merger-r01",
+        "unit": "synthetic currency units",
+        "welfare_definition": "Expected log-sum consumer surplus plus variable profit, population-weighted by the same M_t in each scenario; no taxes, fixed costs or adjustment costs in this specification"
+      },
+      "result": "examples/research-workspace/models/blp-random-merger-result.json",
+      "specification": "examples/research-workspace/models/blp-random-merger.json"
+    }
+  },
+  "structural_manuscript": {
+    "aggregate_bindings": {
+      "cs_after": {
+        "display_unit": "合成通貨単位",
+        "format": ".4f",
+        "key": "specialist-blp-random-r01.counterfactual_total_consumer_surplus",
+        "label": "cs_after",
+        "unit": "synthetic currency units"
+      },
+      "cs_before": {
+        "display_unit": "合成通貨単位",
+        "format": ".4f",
+        "key": "specialist-blp-random-r01.baseline_total_consumer_surplus",
+        "label": "cs_before",
+        "unit": "synthetic currency units"
+      },
+      "cs_change": {
+        "display_unit": "合成通貨単位",
+        "format": ".4f",
+        "key": "specialist-blp-random-r01.total_consumer_surplus_change",
+        "label": "cs_change",
+        "unit": "synthetic currency units"
+      },
+      "ps_after": {
+        "display_unit": "合成通貨単位",
+        "format": ".4f",
+        "key": "specialist-blp-random-r01.counterfactual_total_producer_surplus",
+        "label": "ps_after",
+        "unit": "synthetic currency units"
+      },
+      "ps_before": {
+        "display_unit": "合成通貨単位",
+        "format": ".4f",
+        "key": "specialist-blp-random-r01.baseline_total_producer_surplus",
+        "label": "ps_before",
+        "unit": "synthetic currency units"
+      },
+      "ps_change": {
+        "display_unit": "合成通貨単位",
+        "format": ".4f",
+        "key": "specialist-blp-random-r01.total_producer_surplus_change",
+        "label": "ps_change",
+        "unit": "synthetic currency units"
+      },
+      "w_after": {
+        "display_unit": "合成通貨単位",
+        "format": ".4f",
+        "key": "specialist-blp-random-r01.counterfactual_total_social_welfare",
+        "label": "w_after",
+        "unit": "synthetic currency units"
+      },
+      "w_before": {
+        "display_unit": "合成通貨単位",
+        "format": ".4f",
+        "key": "specialist-blp-random-r01.baseline_total_social_welfare",
+        "label": "w_before",
+        "unit": "synthetic currency units"
+      },
+      "w_change": {
+        "display_unit": "合成通貨単位",
+        "format": ".4f",
+        "key": "specialist-blp-random-r01.total_social_welfare_change",
+        "label": "w_change",
+        "unit": "synthetic currency units"
+      }
+    },
+    "aggregate_trace": [
+      {
+        "alias": "cs_change",
+        "id": "cs_change-1",
+        "target": {
+          "end": 184,
+          "quote": "-3081.4357",
+          "start": 174
+        },
+        "unit_target": {
+          "end": 191,
+          "quote": "合成通貨単位",
+          "start": 185
+        }
+      },
+      {
+        "alias": "ps_change",
+        "id": "ps_change-2",
+        "target": {
+          "end": 209,
+          "quote": "906.6882",
+          "start": 201
+        },
+        "unit_target": {
+          "end": 216,
+          "quote": "合成通貨単位",
+          "start": 210
+        }
+      },
+      {
+        "alias": "w_change",
+        "id": "w_change-3",
+        "target": {
+          "end": 234,
+          "quote": "-2174.7475",
+          "start": 224
+        },
+        "unit_target": {
+          "end": 241,
+          "quote": "合成通貨単位",
+          "start": 235
+        }
+      },
+      {
+        "alias": "cs_before",
+        "id": "cs_before-4",
+        "target": {
+          "end": 3678,
+          "quote": "66057.5670",
+          "start": 3668
+        },
+        "unit_target": {
+          "end": 3685,
+          "quote": "合成通貨単位",
+          "start": 3679
+        }
+      },
+      {
+        "alias": "cs_after",
+        "id": "cs_after-5",
+        "target": {
+          "end": 3697,
+          "quote": "62976.1313",
+          "start": 3687
+        },
+        "unit_target": {
+          "end": 3704,
+          "quote": "合成通貨単位",
+          "start": 3698
+        }
+      },
+      {
+        "alias": "ps_before",
+        "id": "ps_before-6",
+        "target": {
+          "end": 3722,
+          "quote": "57660.7345",
+          "start": 3712
+        },
+        "unit_target": {
+          "end": 3729,
+          "quote": "合成通貨単位",
+          "start": 3723
+        }
+      },
+      {
+        "alias": "ps_after",
+        "id": "ps_after-7",
+        "target": {
+          "end": 3741,
+          "quote": "58567.4226",
+          "start": 3731
+        },
+        "unit_target": {
+          "end": 3748,
+          "quote": "合成通貨単位",
+          "start": 3742
+        }
+      },
+      {
+        "alias": "w_before",
+        "id": "w_before-8",
+        "target": {
+          "end": 3769,
+          "quote": "123718.3015",
+          "start": 3758
+        },
+        "unit_target": {
+          "end": 3776,
+          "quote": "合成通貨単位",
+          "start": 3770
+        }
+      },
+      {
+        "alias": "w_after",
+        "id": "w_after-9",
+        "target": {
+          "end": 3789,
+          "quote": "121543.5540",
+          "start": 3778
+        },
+        "unit_target": {
+          "end": 3796,
+          "quote": "合成通貨単位",
+          "start": 3790
+        }
+      },
+      {
+        "alias": "w_change",
+        "id": "w_change-10",
+        "target": {
+          "end": 4915,
+          "quote": "-2174.7475",
+          "start": 4905
+        },
+        "unit_target": {
+          "end": 4922,
+          "quote": "合成通貨単位",
+          "start": 4916
+        }
+      }
+    ],
+    "authoring": "Native conversation develops the economic argument; selected saved cells and research_artifacts.render insert quantities.",
+    "binding_status": "verified",
+    "definition_source": {
+      "content_version": "0b0efe826d29dab527c9b55c53f7abf316d8550cc91e73b3116652c6639e992e",
+      "keys": [
+        "records",
+        "specialist-blp-random-r01"
+      ],
+      "kind": "json",
+      "path": "examples/research-workspace/saved-results.json"
+    },
+    "estimation_reused": true,
+    "gallery": {
+      "path": "examples/research-workspace/gallery.json",
+      "sha256": "bce7e8967828a78ad47bf68915c6e6237fc6e56623411d66360bfbef0c24976f"
+    },
+    "manuscript": {
+      "path": "examples/research-workspace/materials/writing/structural-heterogeneity-paper.md",
+      "sha256": "570fdc0122c5bbcd925b2b4344cabee7b9e8dbfea20bd0767ea538d90332a7a7"
+    },
+    "operation": "econ-writing:compose",
+    "registry": {
+      "path": "examples/research-workspace/saved-results.json",
+      "sha256": "ee616d4e7ecd28c8e215e44856198357d3131428b49404137b704175e41fee28"
+    },
+    "result": {
+      "path": "examples/research-workspace/models/blp-random-merger-result.json",
+      "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+    },
+    "result_id": "specialist-blp-random-r01",
+    "selected_cell_bindings": {
+      "beta_price": {
+        "format": ".4f",
+        "key": [
+          "baseline",
+          "beta",
+          1,
+          0
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "utility per currency unit",
+        "value": -1.199877926402886
+      },
+      "beta_x": {
+        "format": ".4f",
+        "key": [
+          "baseline",
+          "beta",
+          2,
+          0
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "utility per attribute unit",
+        "value": 0.5903048929970012
+      },
+      "cs_high_after": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "consumer_types",
+          "rows",
+          566,
+          "consumer_surplus"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units per consumer of this type",
+        "value": 1.1935875237621583
+      },
+      "cs_high_before": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "consumer_types",
+          "rows",
+          6,
+          "consumer_surplus"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units per consumer of this type",
+        "value": 1.2454624499392637
+      },
+      "cs_low_after": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "consumer_types",
+          "rows",
+          560,
+          "consumer_surplus"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units per consumer of this type",
+        "value": 0.4351085239085122
+      },
+      "cs_low_before": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "consumer_types",
+          "rows",
+          0,
+          "consumer_surplus"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units per consumer of this type",
+        "value": 0.44942164145653035
+      },
+      "cs_mean_after": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "consumer_types",
+          "rows",
+          563,
+          "consumer_surplus"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units per consumer of this type",
+        "value": 0.4880416142352171
+      },
+      "cs_mean_before": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "consumer_types",
+          "rows",
+          3,
+          "consumer_surplus"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units per consumer of this type",
+        "value": 0.5260068728296052
+      },
+      "en_cs_change": {
+        "format": ".4f",
+        "key": [
+          "statistics",
+          "total_consumer_surplus_change",
+          "value"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": -3081.435701372073
+      },
+      "en_ps_change": {
+        "format": ".4f",
+        "key": [
+          "statistics",
+          "total_producer_surplus_change",
+          "value"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": 906.6881677798374
+      },
+      "en_w_change": {
+        "format": ".4f",
+        "key": [
+          "statistics",
+          "total_social_welfare_change",
+          "value"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": -2174.7475335922354
+      },
+      "foc_error": {
+        "format": ".4e",
+        "key": [
+          "baseline",
+          "counterfactual",
+          "profit_gradient_max_abs"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "profit per price unit",
+        "value": 5.2628040814184374e-14
+      },
+      "gamma_z": {
+        "format": ".4f",
+        "key": [
+          "baseline",
+          "gamma",
+          1,
+          0
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "currency units per cost-shifter unit",
+        "value": 0.30264153816193196
+      },
+      "hessian": {
+        "format": ".4f",
+        "key": [
+          "baseline",
+          "counterfactual",
+          "profit_hessian_max_eigenvalue"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "profit per squared price unit",
+        "value": -0.05418969386969193
+      },
+      "market_cs_after": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "welfare",
+          "rows",
+          240,
+          "value"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units per potential consumer",
+        "value": 0.5113555757395756
+      },
+      "market_cs_before": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "welfare",
+          "rows",
+          0,
+          "value"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units per potential consumer",
+        "value": 0.5489532446025713
+      },
+      "p00": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          0,
+          "price"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": 2.1014929457630664
+      },
+      "p01": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          320,
+          "price"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": 2.2201467853285606
+      },
+      "p10": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          1,
+          "price"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": 2.2334480722846717
+      },
+      "p11": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          321,
+          "price"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": 2.3999409413211485
+      },
+      "p20": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          2,
+          "price"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": 2.444024763760086
+      },
+      "p21": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          322,
+          "price"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": 2.446375552249472
+      },
+      "p30": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          3,
+          "price"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": 2.3545349144532004
+      },
+      "p31": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          323,
+          "price"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "synthetic currency units",
+        "value": 2.362856224225122
+      },
+      "s00": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          0,
+          "share"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "share",
+        "value": 0.15903186373792355
+      },
+      "s01": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          320,
+          "share"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "share",
+        "value": 0.14452528778122753
+      },
+      "s10": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          1,
+          "share"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "share",
+        "value": 0.11818430372102905
+      },
+      "s11": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          321,
+          "share"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "share",
+        "value": 0.10132723868667264
+      },
+      "s20": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          2,
+          "share"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "share",
+        "value": 0.05806891630728681
+      },
+      "s21": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          322,
+          "share"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "share",
+        "value": 0.060331126012792544
+      },
+      "s30": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          3,
+          "share"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "share",
+        "value": 0.1425208368107609
+      },
+      "s31": {
+        "format": ".4f",
+        "key": [
+          "displays",
+          "equilibrium_products",
+          "rows",
+          323,
+          "share"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "share",
+        "value": 0.1480054275798534
+      },
+      "share_error": {
+        "format": ".4e",
+        "key": [
+          "baseline",
+          "share_max_abs_error"
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "market share",
+        "value": 9.71445146547012e-16
+      },
+      "sigma_x": {
+        "format": ".4f",
+        "key": [
+          "baseline",
+          "sigma",
+          0,
+          0
+        ],
+        "source": {
+          "path": "examples/research-workspace/models/blp-random-merger-result.json",
+          "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9"
+        },
+        "unit": "utility per attribute unit",
+        "value": 0.6265280088900336
+      }
+    },
+    "selected_item_ids": [
+      "specialist-blp-random-r01-displays-parameters",
+      "specialist-blp-random-r01-displays-welfare_totals-main",
+      "specialist-blp-random-r01-displays-consumer_types-market0",
+      "specialist-blp-random-r01-displays-welfare-markets0to3"
+    ],
+    "source_reading": {
+      "application": "Parameter restrictions are stated before the equilibrium and welfare inference; example equations and wording are original.",
+      "public_reference": "https://doi.org/10.1257/mic.20230024",
+      "sections": "Abstract and Introduction, pages 238–241"
+    },
+    "visual_inspection": {
+      "consumer_types": "seven matching taste nodes and two scenario curves",
+      "markets": "same per-consumer scale; three readable surplus panels",
+      "parameters": "readable three-column parameter table",
+      "welfare_totals": "readable six-row total table"
+    }
   },
   "verification": {
-    "response_tests": {
-      "suite": "harness.test_research_evidence.EvidenceReviewTests",
-      "tests": 4,
-      "status": "passed"
-    },
     "composition_tests": {
+      "status": "passed",
       "tests": [
         "harness.test_research_evidence.EvidenceTests.test_registration_preserves_saved_inference_without_derivation",
         "harness.test_research_evidence.EvidenceTests.test_comparison_retains_definitions_within_one_display",
         "harness.test_research_evidence.EvidenceTests.test_saved_results_reach_design_draft_and_completed_body"
-      ],
-      "status": "passed"
+      ]
     },
     "manuscript_review": "Completed native integrated review of quantities, economic mechanism, section consistency and Japanese/English prose.",
-    "numerical_inputs": "Existing executed DID, growth and BLP results consumed unchanged."
+    "numerical_inputs": "Existing executed DID, growth and BLP results consumed unchanged.",
+    "response_tests": {
+      "status": "passed",
+      "suite": "harness.test_research_evidence.EvidenceReviewTests",
+      "tests": 4
+    }
   }
 }

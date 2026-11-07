@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "29ee8fb1888c19603b29ce9d69b1e4b684a7debb",
+  "source_base_commit": "e0e23ce18644e5fa7a7fabd0cad9c1b9d6708d0d",
   "source_state": "committed",
-  "common_content_id": "d72de0a2b1fffaad0d4be7f83b4df1501c872143568a64864ec6c7bf0c0ce6dc",
+  "common_content_id": "2967f0bc98bfc18e919b81af1ad4263fd458ad3db13ba41e3ecf0163d7d1a66c",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -31,18 +31,10 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": ".agents/examples/research-workspace/gallery.json",
-      "state": "present",
-      "sha256": "6c04614f5b0b5b304cbb606cf34bc6fd9f68eb2b3c6afa7e739e73f2c988e4d0",
-      "git_blob": "9c99435bac63dc63c084482f9eff893b88105052",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
       "path": ".agents/harness/argument.py",
       "state": "present",
-      "sha256": "f6841bbbf4d63fc55d32e41b8b27c088aebded19e0de5970f7a56553a3c0dad4",
-      "git_blob": "599b6d56242580a46959d557cf266d9c41490da7",
+      "sha256": "74866014ffd037012a6ec5bc3ae6e080ed35efb6be278b05e45519d38af839d9",
+      "git_blob": "0ed29255abd5a7b2182449718d9fae116f4926e6",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -97,8 +89,8 @@
     {
       "path": ".agents/harness/meetings.md",
       "state": "present",
-      "sha256": "6762117dc5e2081e14282337c3db5205c992d215d2b7c5af45a1d0023d627447",
-      "git_blob": "817728c6f3a2fcba883823c6a5d98b103a76bc1b",
+      "sha256": "5baad68c4cc135c1768899a27e05a4df8e74ee96d293ffa6ab275aa9b9ef3c16",
+      "git_blob": "305f9181724917f6f2a96912b0e3d3fa36ae0a93",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -113,8 +105,8 @@
     {
       "path": ".agents/harness/paragraph.py",
       "state": "present",
-      "sha256": "458db96e7f7db41699c11e683cf9b5b756305abe3d3d897cc1a507e72dd0d08b",
-      "git_blob": "9f51509fb768533fab78cdce5628289e721b72e0",
+      "sha256": "9ddd3b78077759c0e596cd46c4b1b5604a0bbb8ab63599a6e7315523db5cafae",
+      "git_blob": "3a1d866de300c4ff6e99e5502f4b0223fd3e5578",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -129,8 +121,8 @@
     {
       "path": ".agents/harness/policy_assets.py",
       "state": "present",
-      "sha256": "58b4aecc2ed325d66cbd65b3c0d369061c320b1ac57cc8bb5cb0c7d851fdd402",
-      "git_blob": "3256facbe43bf63828b437905430af8f7cdd4b4d",
+      "sha256": "cc7025cacc6ab25de839c36ee811a6509063fbe92aea2d033452c1fa507cd2e8",
+      "git_blob": "7dc731487050e8d7c0b539981495f0ada57d7f66",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -169,32 +161,32 @@
     {
       "path": ".agents/harness/research.md",
       "state": "present",
-      "sha256": "cbc5a36bce8cccf583c5090bcf4eda578fd6e0d0991ea56b9558f3e0df9a57a4",
-      "git_blob": "2072a7e8cba7d9da72ac58790b67ddfe6e5b93f9",
+      "sha256": "04273a8aa8687566ffb94602520a059f060f4404443c5147fda9d35e31a1eb63",
+      "git_blob": "90d83290aafd5d218e7a72a6e36c39b9c5d6848a",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/harness/research.py",
       "state": "present",
-      "sha256": "dec8c96489ec41ff6bda44e95c5e1c02984764d657387b4c67e8b5712dca993d",
-      "git_blob": "f5a50ae24ecf87dcf0f07644535a8a9051997d70",
+      "sha256": "f0976a13a4f8f78ee56cf2fce62a48d6d02a000fad3e17d4569b249d9d083ba0",
+      "git_blob": "554e98d188fe0d254ae76ba577d5459d22b520a5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/harness/research_artifacts.py",
       "state": "present",
-      "sha256": "241ecf99578ea5d265c0fae033907605786b5489c5e558a5274de0331e7312f8",
-      "git_blob": "1aad832e033e83ab69a5c83bd5c7c833a950a518",
+      "sha256": "a8d5352afb78f1971049e171e28d5457c55223d3c6033ac3d798c79b465193ef",
+      "git_blob": "95431a6b23cc7e44bd96f109428c55f83b40ade0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/harness/research_evidence.py",
       "state": "present",
-      "sha256": "b4f327a84a4bb0f459fab1bdd492f99c7eb70c299b363eaa3c033ba4c8017a0d",
-      "git_blob": "626aae0d6b095ec616c8625ac39e5c15777aa8eb",
+      "sha256": "edfb7651bbc06edc5f2528d0e2cb5b7cf00cb11c9f2f4702e0bd9aec54d6530e",
+      "git_blob": "e092510640ed72e6f2c7a121de3a311c4dfc27ad",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -209,8 +201,8 @@
     {
       "path": ".agents/harness/research_meetings.py",
       "state": "present",
-      "sha256": "13f570256cbad476aa3165fd95802c2d4e853a627635b43c1295fbb005573e30",
-      "git_blob": "df347ece491e004327bacd73a19af3505b3960a6",
+      "sha256": "9daefa05fe0cb8661fb1af22aec5d6e96e3936ac8adb3f551f9f4d1ce7efcb7c",
+      "git_blob": "d9c440a4812014c7de5ac40aaa8cfec204af55c8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -225,8 +217,8 @@
     {
       "path": ".agents/harness/state.py",
       "state": "present",
-      "sha256": "62b909c7ce7c5600c1f5314eb3745d3463dca1aac035b6bf3dbebebe6ff27699",
-      "git_blob": "43027f8579b5bb2298d89ccbb310407ffe7ab5d7",
+      "sha256": "8d2f8f48ce4ef8be2e32018b255a58507e0619a21ceb1fd4749bdbaf7630f0de",
+      "git_blob": "69a6d0c3302475a97a1541e3f077dc2d1a22df78",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -249,40 +241,40 @@
     {
       "path": ".agents/profiles/default-micro/PROFILE.md",
       "state": "present",
-      "sha256": "59dc68c793bae24b311bfeed31cdd40980d33a7434cafcbafd491314d9cf93b7",
-      "git_blob": "f6e0840c0735417fb1d4745a3c63a7264b18aa1f",
+      "sha256": "67acdd9a32bf21bb4bc4a332466bb35e52f0061824615ae1c201ecdd96632fe9",
+      "git_blob": "bb01ca201ebd3919683c6c6cab2a05d2395f2b5a",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/profiles/default-micro/extended-introduction-en.md",
       "state": "present",
-      "sha256": "8f75d542256e0d3d32967dc8798c368585ee098e1161afcb67e7fb98490311c3",
-      "git_blob": "e9a1d4a8486590d30e572b5269e82a03fa2729c8",
+      "sha256": "5ba80dbb6811c3b426c837bf00cce5b8536c02f10262ec70d5711a893c702611",
+      "git_blob": "8b4740e5650819ac39f22a994c7b5410a1037502",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/profiles/default-micro/extended-introduction-ja.md",
       "state": "present",
-      "sha256": "523d79aaa2e279722e529f9011d09e0c9f3ae80b956e9f42b50105db66ba15a3",
-      "git_blob": "04829b8d9d24e93dfc538bf55672442af115a540",
+      "sha256": "bcf0bb14b3f620870f4a14a410506a0dbca3da74f43938b6ac46a58cefcbc217",
+      "git_blob": "587dbfe787486bda280b823e0c2cf69b9c7e323f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/profiles/default-micro/short-examples-en.md",
       "state": "present",
-      "sha256": "dca38056b2368229c602c955bee47af556eff70cafbdb8467c742c3d2ce3fdf8",
-      "git_blob": "3c02bbc780bf0c59b1975d91a86d1a4b684d344a",
+      "sha256": "c31e4f532165d0351971c0a55b9f53fa420e906cc3d91a1a37d3403912185b5e",
+      "git_blob": "dcc25d7f2b6ffa821907c7de6d95b8e10c70d3c0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/profiles/default-micro/short-examples-ja.md",
       "state": "present",
-      "sha256": "0ac15553ee63a18894df3ce1860bc0e98b4577f4f81ecfb99e4e7cb6566334d1",
-      "git_blob": "19897fb1ffbc81fcc9bdc490f6dd8861821602af",
+      "sha256": "4baf5fd7cadb91a51b3e99c05f4d389846254293c0f1636e2db75255b5c379f6",
+      "git_blob": "7b355dfbb893671b62929b13dec90c6fd168915b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -313,16 +305,16 @@
     {
       "path": ".agents/registry/placements.json",
       "state": "present",
-      "sha256": "c42f6a0836d7bd5570b5830217cdd59579cf6e7fb81be2620c4394c4b434e553",
-      "git_blob": "9303ec04622680fad2246b1781e676cb36b6a4ea",
+      "sha256": "d3a88ae832576066a9299691ee467c97a06efc0fd6190155efc5f68b2090ba94",
+      "git_blob": "9afe59e0b88a682e786deb80f29a5697fc983349",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/registry/resources.json",
       "state": "present",
-      "sha256": "18e1264d5d4012d589ae9a6f97db205cd8f151e0457b2ce7afdfe273034eb9e3",
-      "git_blob": "6d95bf0169f0374979d59bd376285b7bf1ff73b1",
+      "sha256": "eca03fe1d3d261fb5ba32843c59c98db39ae56c16bae4482f2dc878454b9fad6",
+      "git_blob": "2abd3cbae0117c1c98b0cad6fafe6044ba711b7b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -353,8 +345,8 @@
     {
       "path": ".agents/runtime/PROSE.md",
       "state": "present",
-      "sha256": "e76b9c6deb5bb0532161b8fb7c571fd3f6a98f8e2918bc9d22c1e46f0ed20f10",
-      "git_blob": "02fb227cf85de9fbc4a00cd277dcfc1dc197d1f3",
+      "sha256": "0cb6b46bb4a351de2cc3c58e18e177e5888b520eecc03a5f3df8e5a326f51408",
+      "git_blob": "33c19beefe8dbd4d7dba6c69da82d1d20e64650f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -409,16 +401,16 @@
     {
       "path": ".agents/skills/econ-data/references/implementation.md",
       "state": "present",
-      "sha256": "44994c1cff7fab838975c3301a7135e71243f53b9286ab0564661023ea09a5f8",
-      "git_blob": "e8547dee96f19cbed4779d26d49451991ed894e5",
+      "sha256": "94792f103b12db81fd1d0bce5b539bef32ee3d9e21bcde893871e4a720018483",
+      "git_blob": "fb44652bf435e2c690b053d54d45638057af4111",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/skills/econ-data/references/reproducible-workflow.md",
       "state": "present",
-      "sha256": "8e354ec4f56202d55e7d82776de4c4858c01d0d39879b8d9e095e4ca7b78177d",
-      "git_blob": "125c30224656b7329e1051714b4e333f2e6fae62",
+      "sha256": "10a2ee8f1d47d7b7a9a728fc1ede3bd4040198817202fb3873ccbfa990fc0891",
+      "git_blob": "0190fb5213bb01c8edcaff9a53559182ad774503",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -561,8 +553,8 @@
     {
       "path": ".agents/skills/econ-data/scripts/research_causal.py",
       "state": "present",
-      "sha256": "eca370a50d3dbfd2dfeab97f9ca4e476b0433b8a006c122fcf2f312878c35638",
-      "git_blob": "82c6e7f9b9b595b596b2028ca980bfc312bf6306",
+      "sha256": "4e2fc819110745fa948226662a87a09bb681074f034f9654edcc28408c52e5d5",
+      "git_blob": "46250557cf193e7242231debaf60956d1f6da60f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -609,8 +601,8 @@
     {
       "path": ".agents/skills/econ-data/scripts/research_markets.py",
       "state": "present",
-      "sha256": "0c5cccaf1337e6cbe0cc55f426fce8418f892321919b38e896fcb50cb1baebee",
-      "git_blob": "ab133eb65408eec2471d465997044d11a67953bd",
+      "sha256": "792cf3958dd74767f8c931d861fe0c97f16bec9a5bd59ec6b26f8cbfc2bab1ed",
+      "git_blob": "be5404b915be4dd0cb4ecc06ba62607306aacd72",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -625,8 +617,8 @@
     {
       "path": ".agents/skills/econ-data/scripts/research_numerics.py",
       "state": "present",
-      "sha256": "a369061617a2e308084a798734c597acf6f5aec436b8ffbbb73b63c649116f04",
-      "git_blob": "f7af05973988cd72e396d57ae0cae0095a1b3c0f",
+      "sha256": "2485fd859ae7b78545abfda573ae0531b45ae5ad5e038df21776d156b115d27a",
+      "git_blob": "361660f935428f3d5dece39603ac9d552dff8c8c",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -665,16 +657,16 @@
     {
       "path": ".agents/skills/econ-design/references/causal-models.md",
       "state": "present",
-      "sha256": "1a827324b404f5b8cd09692e16fb38a5bccbe9c2fd7f2fb600200f0b24b8162f",
-      "git_blob": "352049e6154ad8bdafc4600e70563e523963dab2",
+      "sha256": "84b7d7333e317a2376bb4a363e69379ac1c0d1da0d601f0dc706c9b433f7116b",
+      "git_blob": "75de5173677925f7537bdd0802dc0baf792f4de4",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/skills/econ-design/references/designs.md",
       "state": "present",
-      "sha256": "b9e03f74ce515f12bf3e255a2c9f361ca206f992744b87b1028790a29ad66d2d",
-      "git_blob": "8c084ca6f387dbbc8663518a8d145e177164eb28",
+      "sha256": "c2ed302f4b411b9c93e5645e8f16737d4e9d161768697ec9fa5bdb0babe0541b",
+      "git_blob": "ac49c359e333ee9d934c04b4f1b54d0f38d50648",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -705,16 +697,16 @@
     {
       "path": ".agents/skills/econ-design/references/market-models.md",
       "state": "present",
-      "sha256": "b74d51220a7643e343122a6282ac05236e447d097b465fd9874a21da7ee92b40",
-      "git_blob": "3bee0b0c6a8f1ac65ea7260ecdfc5d733fcada64",
+      "sha256": "d54201513e8443b7718167e50d7688267ea4f3eb9ff0696d43230b7f4911f05e",
+      "git_blob": "85b85f2b6143ec2e1e91cdd120be794cc9ed2bea",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/skills/econ-design/references/numerical-models.md",
       "state": "present",
-      "sha256": "b33bd6831e2a63d9337fd92883564db7bb527954d6df279dd5c3a5b8885f9a2b",
-      "git_blob": "77fc1395c2a1872d46c5549da1faf14e0550ea78",
+      "sha256": "60eb3ccfd3a626c40b79c02b6e10abd5c07cca6a7db4c3581071540382c1c098",
+      "git_blob": "d0ae409e7d3cacf40782c0918febc02bf09cb9df",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1033,16 +1025,16 @@
     {
       "path": ".agents/skills/econ-knowledge/references/manifest.json",
       "state": "present",
-      "sha256": "35b594e9199251f7fe8886757dda5d6a4c2b965f28f7ec3bdbc2dac12320a482",
-      "git_blob": "4c83c46aed4954435c5fc0db5753fd3d189dbe46",
+      "sha256": "31390950ae3cf1212af9b4a34935956499e54fca01986106650185258d1a1247",
+      "git_blob": "32094a17825051a24ba6c8ba453e00802ed0c9e0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/skills/econ-knowledge/references/model-contracts.json",
       "state": "present",
-      "sha256": "4ab3cc387d1bb86f1698bb3a1e6c75b982c68b0c16ffb5f71186ccd01d25a504",
-      "git_blob": "1e03c3450928c4a2f6f55684f44a33d41dbb2ee0",
+      "sha256": "fc32d8dd58a237ecee0d1e5cce89217285ec9b9a70a08361bf2aec3ea7f5ed4b",
+      "git_blob": "9d6f0ec9b2b8d2e5a05a16710de898b42a839bd3",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1057,8 +1049,8 @@
     {
       "path": ".agents/skills/econ-knowledge/references/runtime.json",
       "state": "present",
-      "sha256": "4d98fac532811052c618bb6bc72be3593dd066a3afc901f3305c63a3237e47d6",
-      "git_blob": "2cb33e5dd1f8019b2e3fe70e39b98e6f680400c5",
+      "sha256": "8feb2e744b8c399aef863cb2edd9dbba2aed4bc65d55ec3eccc0aba6bf6cb5aa",
+      "git_blob": "5d89bd2fc3917009cf9e203437d25aa986934a45",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -3153,8 +3145,8 @@
     {
       "path": ".agents/skills/econ-review/SKILL.md",
       "state": "present",
-      "sha256": "5b025dc0536b6a543785f59f3b0fc1fa72b10d19cd6946ae1d453631d5adc1a9",
-      "git_blob": "439a591872e6afb7706123c95023e0e887695e7f",
+      "sha256": "9af61d3f90df2c699b19b6e83d13f7824f347c6d899a654869c7e92f6f454a5d",
+      "git_blob": "aab76b3b0c9ce087522684a524f992fc8206bba5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -3169,8 +3161,8 @@
     {
       "path": ".agents/skills/econ-writing/SKILL.md",
       "state": "present",
-      "sha256": "14cb5f117fdebe8a012208a6f01156f67c58bfc5955a9648878b44e9600c3ad3",
-      "git_blob": "68ceb4880e86b917f2ca073ccaa89388e1ec882a",
+      "sha256": "33ca0dac3e004cb6c28097798deb93c37ee0165bef281b5c949664e7054aafe4",
+      "git_blob": "79c8261640b0332955a9a4b0d3d2f3ab6ade4e31",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -3185,24 +3177,24 @@
     {
       "path": ".agents/skills/econ-writing/references/paper-workflow.md",
       "state": "present",
-      "sha256": "00a52ef2b3a731fd306ff787b83b5e477d852e3ac7b4ac68421aff1154be0b20",
-      "git_blob": "ba31b4fdf92801589f26c40ea1d4b67111ad1bfc",
+      "sha256": "f719fd8860bbef36d869e5b471d5038b3993f95e797b355212b46ad492120796",
+      "git_blob": "521d8cf638218fb53f0b62f30dee4519beaf912f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/skills/econ-writing/references/paragraph-workflow.md",
       "state": "present",
-      "sha256": "22457d99f1bd57eaf0b9e0a3702cc98d4fcc1a7d9d1223e0ddd9665ddc4dfc0f",
-      "git_blob": "815e93a4e16513ed8fea789ab4c5b148f85129a6",
+      "sha256": "735ca0a66df599aca26a66883f6b84da4e6a19c27cace0cda500f4f3ee5e974d",
+      "git_blob": "ca53a764517dfd43dbd15664ae39c7148648aee9",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": ".agents/skills/econ-writing/references/result-artifacts.md",
       "state": "present",
-      "sha256": "efcf4857625032499308f459be12fdeed0a138516b9d168900f62ac3909fb948",
-      "git_blob": "84fec8acb35b1ac7ae4120a253d3645c9952ce65",
+      "sha256": "3d454c3f9ec03702aca35d86a8cbfed474c680b5a63221a5b0e192cab455b6b2",
+      "git_blob": "c375f5a8590d26707168c293ba519eccda73aa95",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -3337,8 +3329,8 @@
     {
       "path": ".codex-plugin/plugin.json",
       "state": "present",
-      "sha256": "372221069d136268c2277db3b164152be39e06b8ce87c15296126642e8268e39",
-      "git_blob": "30efa0726bd12a4cf4be8d788fcf609462a611f5",
+      "sha256": "32c8e342d0c852fc1563f11ffc7dd270f4e657341778cf2750b0fbdaa2ee1702",
+      "git_blob": "cde28861ec91cf65370e3511a2e2009906bd274a",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -3521,16 +3513,16 @@
     {
       "path": "docs/ai/economics-writing-comparison.md",
       "state": "present",
-      "sha256": "5f36013d87668204d7f4b3abf1e6c910393691d4215c08c093dac8cf427d80c5",
-      "git_blob": "159a57d847d10c09faaf02c49be9bffcdbcc7999",
+      "sha256": "15fa9047cf7eaa1f47270714abad6c657f7d10bb94005debe9d79904ebab72ab",
+      "git_blob": "059fd502e485729230ab0ab7af6bb0630d6bd264",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "docs/ai/plugin-integration.md",
       "state": "present",
-      "sha256": "c959761cb0ff23ec75b175f4cab08129ed74b0347dd459230a8ceccc54061e57",
-      "git_blob": "2c043543f589443c1ddc9b79d5fdc124c3132444",
+      "sha256": "46fbb14497302073bc19cd3f9f3e33840e1d9548d6e46d949f90ebc753d7da05",
+      "git_blob": "844940b52226c94c98065cb79769dd9ad42021a1",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -3545,8 +3537,8 @@
     {
       "path": "docs/ai/resources.md",
       "state": "present",
-      "sha256": "cdbb2bc7a2440679bf49feacf4d64dfbc2d9bf4baa59e18af949fb73363e795c",
-      "git_blob": "a3c15e209b46d7f7c2caff922e3d36092f642e27",
+      "sha256": "817288f941c88c008886ae90141864720378b4359dc6790e9903a1b356a7634a",
+      "git_blob": "052833b3bc6306bc60f959383d39047b5d73dfc8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -3561,8 +3553,8 @@
     {
       "path": "examples/research-workspace/README.md",
       "state": "present",
-      "sha256": "edc2d9a3b897164904e228807308c5f960d434b7ee84e3cfa98c4faf418ac494",
-      "git_blob": "9137327dd45e7b8de24642b90ff7201cac09002b",
+      "sha256": "73e229981db9ac2f00ea9792ad1ee0851008c592a1a90d2fb697ee465c865c46",
+      "git_blob": "f1f41a23694453dee26ccba9393406665880147e",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -3583,530 +3575,10 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-balance-c8d63f8a927ee7cd8515/display.html",
-      "state": "present",
-      "sha256": "9c641a1cb541af293a9ee95621ddfd54a4b21b24b9e0d5ab281efbed71f28cd6",
-      "git_blob": "95bad806cb1867dad64fbeb63936536d2ab905b6",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-balance-c8d63f8a927ee7cd8515/display.pdf",
-      "state": "present",
-      "sha256": "5a37c63c3e819f6bd8f0b1cb1cac35f5c4812d252f73315d9eb40637cd8ba8de",
-      "git_blob": "d620e562020ec42a3a3a519a9ffd8d5fd5338c6e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-balance-c8d63f8a927ee7cd8515/display.png",
-      "state": "present",
-      "sha256": "0b0e289fd0d821737bc2df3caf2de557b49df95b6f3986f1bdacb9ecd2a0b5b2",
-      "git_blob": "d48e97b8f889bf3799c7e938fcb960703b773923",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-balance-c8d63f8a927ee7cd8515/display.svg",
-      "state": "present",
-      "sha256": "c6b1674a5b0bee8bca5e330fe0d3bcd14e1f2932420c8de58438bb1bc9d936c0",
-      "git_blob": "4b413bc698d5f3c66534215230f41178af16b8c7",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-balance-c8d63f8a927ee7cd8515/display.tex",
-      "state": "present",
-      "sha256": "e04e7b32bcc5f929918cf512b5a3908d845833741b4fd87196fc1d55ef0298c3",
-      "git_blob": "49e571680d6abd78404ea063f2e2f17d6bb4e056",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-box-3465c8fd8e63fd6fb230/display.html",
-      "state": "present",
-      "sha256": "672b4c9365dec872b26e069e3bc3d3e9d31ea4e081a2dc1cf75002d159a9a269",
-      "git_blob": "28d19c19c2820fab877ba3aa0c33710c0873eb8b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-box-3465c8fd8e63fd6fb230/display.pdf",
-      "state": "present",
-      "sha256": "799ab0e7de416587ec993eef11fbfa62bcb75af66fa709067fd01d4a0a965ee5",
-      "git_blob": "d9838de0039421a8a8c02fdc537fe0e3cec8a30e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-box-3465c8fd8e63fd6fb230/display.png",
-      "state": "present",
-      "sha256": "a6ac1c8aa07cad7cbf00eddf7774c8f9c2783dac32c636189d4ef088db554dfd",
-      "git_blob": "7592f6ee85fae7f554ad6b979b1543412a0627eb",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-box-3465c8fd8e63fd6fb230/display.svg",
-      "state": "present",
-      "sha256": "4b1a40f848e37b907f4e4dba249f12df9e89d14c4f2504671ae62e6d35078cb1",
-      "git_blob": "04b8f726eec27a94062a99b80dcae8dbe80568de",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-box-3465c8fd8e63fd6fb230/display.tex",
-      "state": "present",
-      "sha256": "574abf6114c5a9f05368420848ae067ca1d40be3c3b57429c43e7654ecf0fe1c",
-      "git_blob": "29cf664aeddd6d32b334d8de578269ab8214f37c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-density-f03ebdd9dd8627ffb3c9/display.html",
-      "state": "present",
-      "sha256": "aca1f75668b1ba47e348c53a7c021c6d64a87c87dabff4dbf324f765951eaade",
-      "git_blob": "2664e792534f26abe8331029b5f05fe604ab8ba6",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-density-f03ebdd9dd8627ffb3c9/display.pdf",
-      "state": "present",
-      "sha256": "a871ee6127f1d17d292e02806d6ac6edc80770f14b71e695831dfe7baf0013fa",
-      "git_blob": "a69d637f7d2dd467981f01ad3949a7e0ce21136a",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-density-f03ebdd9dd8627ffb3c9/display.png",
-      "state": "present",
-      "sha256": "dac0c63ffa4ef9550cbd7789bfd42c68b0165201451c7df7f9186a7dc52895fa",
-      "git_blob": "a839d2944d71d2c974c5fa5a116cd0e1d94bcb16",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-density-f03ebdd9dd8627ffb3c9/display.svg",
-      "state": "present",
-      "sha256": "d018bf4a236785a503ac2cea5be7705513c25470dcfbc46114ad66a0dc811b2f",
-      "git_blob": "5893ac42fd082cd2cd1e57d455be28c3ab78c3df",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-density-f03ebdd9dd8627ffb3c9/display.tex",
-      "state": "present",
-      "sha256": "351195b2cbaa67fb15843397457acb2db7bc56b9cef7faa3a997181ffd4f5dfc",
-      "git_blob": "62b05ffe406a7987d1ce4621cadef82afdadd43f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-ecdf-490d5648ee827964f178/display.html",
-      "state": "present",
-      "sha256": "33524410a6fc4c23a8e2846c5317f130cbf2d6b3fa0356df33c98345e972e8c0",
-      "git_blob": "96bf806a5fa1b906f4c2709f07588b121b5ba971",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-ecdf-490d5648ee827964f178/display.pdf",
-      "state": "present",
-      "sha256": "c0f94b4fcd1f0c3ead3dc5d103e7c636de5a8a8a4961f38518d7522f5f67d3d8",
-      "git_blob": "ae857e103ff2122eec954292a2b5680917765daa",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-ecdf-490d5648ee827964f178/display.png",
-      "state": "present",
-      "sha256": "98623a1b74e7471b656db9bc2ff743f282defe4aec62684a54f8625d913ad1ce",
-      "git_blob": "0b9adf69012a9311d621718fd9ebdf4727990651",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-ecdf-490d5648ee827964f178/display.svg",
-      "state": "present",
-      "sha256": "3608d49c8b4ad705aef6910fc306373f38f5a1033c0d893218647c9bb582be93",
-      "git_blob": "ef40987ce3173f16ddfd2e92b5b3e48ac237b874",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-ecdf-490d5648ee827964f178/display.tex",
-      "state": "present",
-      "sha256": "5ae9f0c3b2f2970a74a005e3d83010f8d69151c0915867e43ea4482c1b109c3f",
-      "git_blob": "72196a6837c08e952354150c31aa66f7a505dfe0",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-histogram-0ad7a3b3d5c6bb9732b3/display.html",
-      "state": "present",
-      "sha256": "81d4a958dbbaa86410a9af561ed43a869d5f74616b5d53d87e9ca869b40d7a01",
-      "git_blob": "dd37b553a0f513edddc90ae5d1507451d3e8694c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-histogram-0ad7a3b3d5c6bb9732b3/display.pdf",
-      "state": "present",
-      "sha256": "731089564c2ccf2cc76187617ce5e44cb994dbbdea605ff3de7d24c67d70771c",
-      "git_blob": "4f65faeda942bbe73ebd9bbd9234c312ecf8f58b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-histogram-0ad7a3b3d5c6bb9732b3/display.png",
-      "state": "present",
-      "sha256": "ec6c697fa794d7ed68bb48ae9b5fd92652a524ba45cf3fb78b7529c53cac8e9c",
-      "git_blob": "2aad1b9eec378f3edcec8cef0b36f82eb98cf405",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-histogram-0ad7a3b3d5c6bb9732b3/display.svg",
-      "state": "present",
-      "sha256": "04953a81f3d28f749e85dafa69180ab3a13bf06754586dfa4ba2e6d6d756f22d",
-      "git_blob": "76b72663acb2301e50844bddea217b2f2a0ad0b0",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-distributions-hours-histogram-0ad7a3b3d5c6bb9732b3/display.tex",
-      "state": "present",
-      "sha256": "73fd2abd860bb57dae33e22d26fc31a42509c16699b4cee6c674eb9cd8faebfc",
-      "git_blob": "e3912f2443281b85a7881ebbbcc9f493eba9f39f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-sample_flow-4c801feb7ab046c3c558/display.html",
-      "state": "present",
-      "sha256": "440461f98a573b4916910899a6b981b08275fe959efeaa16daeed8db5598a84c",
-      "git_blob": "4c089ce9f9b8b9b7417e01015bd4af54f4abf4ca",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-sample_flow-4c801feb7ab046c3c558/display.pdf",
-      "state": "present",
-      "sha256": "f8ea33cfadbf3c6a331910428b2875fd4d6309750172ba4c7f8a340764b02d9a",
-      "git_blob": "1e9f15256f20acab83ee5d1b9f2d36125c0fa0a5",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-sample_flow-4c801feb7ab046c3c558/display.png",
-      "state": "present",
-      "sha256": "5dbe1038ad62c6497b9418cccd862a116a1a6e0ddf35d01e6a0005836b50533b",
-      "git_blob": "1d4ab89e528ad42ba4946fa939773a136296f3cc",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-sample_flow-4c801feb7ab046c3c558/display.svg",
-      "state": "present",
-      "sha256": "c2b60a7b3453acd687644ad196f5e8f9f36947af7191406dc23ab42df0a9a58e",
-      "git_blob": "3376b9e0dc53e4ac4ea289d83844b56552791a1d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-sample_flow-4c801feb7ab046c3c558/display.tex",
-      "state": "present",
-      "sha256": "5639c5a3e3e1affe08bed311d94546fbee1dc813cab7c2a5a26dce7773f9436b",
-      "git_blob": "b445724f4cd6ed96545a5eb7eabf36b629bbd4f0",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-table1-52fade64e4988625504f/display.html",
-      "state": "present",
-      "sha256": "56646f8424f5fe564c40f7ed41480afa9863ef89b11649893f18d9af8fefb223",
-      "git_blob": "1cd2a1c0bcad279bcfc1bae627367763e6ab9b50",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-table1-52fade64e4988625504f/display.pdf",
-      "state": "present",
-      "sha256": "aa43f9f380a3b59cc95f85a5922e1932b0938dbaa56630099c3aa3742a28b97f",
-      "git_blob": "f753e308f57ca1d8054a96946dd12ea2bcb28b6a",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-table1-52fade64e4988625504f/display.png",
-      "state": "present",
-      "sha256": "2e3348a872a61ca40558766287d609eae3982a870889ee5a17782998bb5d90e0",
-      "git_blob": "d662745fb88dd19765ff4f0fb1c8c791ac4d92b2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
       "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-table1-52fade64e4988625504f/display.svg",
       "state": "present",
       "sha256": "fbf7014652adafd463e4372edc3bc8a88ba28abeb8f685737826e862f497fca3",
       "git_blob": "05e9674fadaf6ba61304013dae819a4431bb161c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-table1-52fade64e4988625504f/display.tex",
-      "state": "present",
-      "sha256": "a32ca35429aa9197d850d9b0595797e6a847eaed13ed023d201f4d62a06ba63a",
-      "git_blob": "3296e672cda3d64346ab15d5d6aca664f4e86dc8",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-trends-age-eccebf8dd3892021fdd8/display.html",
-      "state": "present",
-      "sha256": "e385932cb5643aa0d09382b03ae43fc35807615129b6d46c050ed041da6a0221",
-      "git_blob": "9db8468a92d0acaad759f0e06ff7e83302236493",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-trends-age-eccebf8dd3892021fdd8/display.pdf",
-      "state": "present",
-      "sha256": "3df87c8a7d242c78e52d36968a413e64286a10ce8719cc2360ecb344f4b59a30",
-      "git_blob": "5e7017a4223579be9d2c1240e1741f45fdebcf08",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-trends-age-eccebf8dd3892021fdd8/display.png",
-      "state": "present",
-      "sha256": "d809dd75331163dd32e2af2cbfd05399901a95a89042d42b4ed5f5e06cd3c967",
-      "git_blob": "31b6f11b7f432142c9c81dbe2221e514e0a19a9c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-trends-age-eccebf8dd3892021fdd8/display.svg",
-      "state": "present",
-      "sha256": "b5208a1b629734744266263a1a4a202d28f155af3b9c99c9c1101c2ea4e3877d",
-      "git_blob": "ed6ff35fd75391f943c7e21c6b9ab9c8d4298747",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-trends-age-eccebf8dd3892021fdd8/display.tex",
-      "state": "present",
-      "sha256": "1f31c336a01451f950dfa9f8f0e18d6a1ffc661c1fed70ea08b0dec6492f8bc2",
-      "git_blob": "eab46e3e041c2f3a026258b3cd444777af1f26d1",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-trends-hours-62c867a20a04e27f73e5/display.html",
-      "state": "present",
-      "sha256": "d55d1b98338ddf193b2140d62d57480154bde9262c07f16ec2accc3cdea1c70a",
-      "git_blob": "2698e2bfe9e45601f03edc48002432dfbbda10a3",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-trends-hours-62c867a20a04e27f73e5/display.pdf",
-      "state": "present",
-      "sha256": "1eb2b40fcbf1a27e7639f3ed1236183c4f5b206d288ec6d1f9f25fe318bbd7fe",
-      "git_blob": "22ddb47a17d45fc7a3fc298b626d57ced6701574",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-trends-hours-62c867a20a04e27f73e5/display.png",
-      "state": "present",
-      "sha256": "b8f85fed09fa3f574c8ae1d2027e1fed9bf40a28956ff59a2633602797c3f7fc",
-      "git_blob": "c75883b360b685ee4f1d64f5ee7405cf30776ae8",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-trends-hours-62c867a20a04e27f73e5/display.svg",
-      "state": "present",
-      "sha256": "7e1130d5c0a058cd9663e5df2ed81c3bf4d88f09497ac61224b5c51956004e93",
-      "git_blob": "e2f3ed80288fc39617af28b2dd7326bb48de20db",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/descriptive-demo-r01-trends-hours-62c867a20a04e27f73e5/display.tex",
-      "state": "present",
-      "sha256": "12328075124657851a4f802c57af9134b766944394a54cb9633eaa7aaff8a0b4",
-      "git_blob": "6908b3b77edbad2474d25ab61e197a43b8d68237",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/event-study-72856ebf8c1d89b3b91b/display.html",
-      "state": "present",
-      "sha256": "36b64b4129acfd120bcc586faf06b77be1a968e3844c050c9db21e36166bfbb1",
-      "git_blob": "70f2763b217e819c0ab308e79f4ff0fb6eb2561b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/event-study-72856ebf8c1d89b3b91b/display.png",
-      "state": "present",
-      "sha256": "d634057f2c3bc6bb301936d2b0ffddbea15db3853fce48cabdeb6245d08e93de",
-      "git_blob": "2a414292bab9c63b3e47f0bd24b7c379fc0f9492",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/event-study-72856ebf8c1d89b3b91b/display.svg",
-      "state": "present",
-      "sha256": "8137fe7cad53f920e26b252545a9d92084f02ba0fec25e43bf7c10fd9b8c9970",
-      "git_blob": "6df70352a9fc6026c8d6b1270da783c2f371f0ec",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/event-study-72856ebf8c1d89b3b91b/table.md",
-      "state": "present",
-      "sha256": "c714ce9ab76cf365acb278f40294aafffac0e3595505a7189b23b3fc3e03cb07",
-      "git_blob": "acd78a4b9483d41e940a18ab195021ba808015b5",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/event-study-d71faa6a0a2b1052a928/display.html",
-      "state": "present",
-      "sha256": "b5af02c3f3257042e7a0a619290107054e02d409ddf3be258426e9ac6838db34",
-      "git_blob": "05cc97155863fe65c1160b03b7b3e37e4d503a12",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/event-study-d71faa6a0a2b1052a928/display.pdf",
-      "state": "present",
-      "sha256": "fe5e4c851c481238faccd5d5209964579be77364beb2db9afe5565a217d2a03a",
-      "git_blob": "af91f5a98ecaef9c7d361c8de4fe3a3c8cc9faea",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/event-study-d71faa6a0a2b1052a928/display.png",
-      "state": "present",
-      "sha256": "b050833939e6502620defdcaa13a334029df456263abc76db2417b7cb5377958",
-      "git_blob": "e37705149d47e2bedc2780f8528b60fdbbe7e431",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/event-study-d71faa6a0a2b1052a928/display.svg",
-      "state": "present",
-      "sha256": "10f7451df9e6485a95e2fa007ac60495dcbd18d33e88ede265a5e434f90b3c31",
-      "git_blob": "ce5655ce36c805c1f1ad17cee13903008064585f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/event-study-d71faa6a0a2b1052a928/display.tex",
-      "state": "present",
-      "sha256": "1141d5f54a690c4b40027e359f3f916ae544f5d6088d8a5484032643b3489184",
-      "git_blob": "5508b07a78dc8b2961c25676177a2fa92620f67c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/sample-composition-440da9c5d12143b21a6b/display.html",
-      "state": "present",
-      "sha256": "47a925214df3fbf7dff005473ae67062be18a190d818cd4a2ba88495f459551a",
-      "git_blob": "1df2dd5d15c5efc7390a5ad65e95fbff48569339",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/sample-composition-440da9c5d12143b21a6b/display.png",
-      "state": "present",
-      "sha256": "5f8474df3b7c716f071a15f6610ee4fce1e3b20217d88bbc2e236bdfbff7efac",
-      "git_blob": "da8c09a2e905ab588b13dddede05922b2708ec8f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/sample-composition-440da9c5d12143b21a6b/display.svg",
-      "state": "present",
-      "sha256": "d4d8c646a9f4f752674d18030fdc6d670578720ed34677bcc6a049faa72b0335",
-      "git_blob": "3c6160e25f4333770c7da61729ffdef0b2678d6d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/sample-composition-440da9c5d12143b21a6b/table.md",
-      "state": "present",
-      "sha256": "739875e503ea914870f129e9c34ba9c2bd3d8c03f21f1e2c1d82ff9999ee8e5c",
-      "git_blob": "2155b51f8dfe9807a5336c0cd797ec836f3390cf",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/sample-composition-cdc255e33f74dae6be89/display.html",
-      "state": "present",
-      "sha256": "bf6b128482168c43c74a761cc01855674b8aee2b6f098acc6171c02091236b66",
-      "git_blob": "78e60bcfa5ee49390ce44618416532637ce9f3a9",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/sample-composition-cdc255e33f74dae6be89/display.pdf",
-      "state": "present",
-      "sha256": "fbf28e6885f20cb593a015428a43f99e816e998103af887c66b3b32fe4cde4e9",
-      "git_blob": "45f1dc8b0e4494df972d04869916828093423a44",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/sample-composition-cdc255e33f74dae6be89/display.png",
-      "state": "present",
-      "sha256": "2efb49d0500781af6e374a16f249ba4c0cb113a6db3a37809702782b29c3a531",
-      "git_blob": "7f3f61cf6e6a8a308463e028ac087c0a648bd22e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/sample-composition-cdc255e33f74dae6be89/display.svg",
-      "state": "present",
-      "sha256": "a6bd4619325d2dff03b4cde6d76a42edd1fd4cd87b25bb85f0cb14bc02f91f63",
-      "git_blob": "0fbefa7bd6ad3c604e69d74d6c1b730a6ca9c7b8",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/sample-composition-cdc255e33f74dae6be89/display.tex",
-      "state": "present",
-      "sha256": "a328cc794cfa7541005344cb7de2c67246dd2973f9b016f73938b504e5d7da4b",
-      "git_blob": "ad7a4e5fbc14b038f9f119e45b4594216d52b9e4",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-asset_policy-68bf1e617f2f0dd0d502/display.html",
-      "state": "present",
-      "sha256": "9ab90f5cfa5679e80eee9fc620b66202a6491b38ef4027b96f8f0318e9c4d1ac",
-      "git_blob": "c194171d8c6c857760d72fb082ce75a3e763ea1c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-asset_policy-68bf1e617f2f0dd0d502/display.pdf",
-      "state": "present",
-      "sha256": "e83b759ccc8ef1dc17993607b72e82b2831c3345396a65a47bd78858948ce542",
-      "git_blob": "ccef5bf7065758a9353451fe092edc9ebb269c9b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-asset_policy-68bf1e617f2f0dd0d502/display.png",
-      "state": "present",
-      "sha256": "9a46a98c8d6736dc568ea8ad85b862a5df1d9931a9d53cc8691d45de923d7fcc",
-      "git_blob": "2237cc9f56afc26a9e36b91b9ce7c9b3d8b346b4",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -4119,194 +3591,10 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-asset_policy-68bf1e617f2f0dd0d502/display.tex",
-      "state": "present",
-      "sha256": "c3bd367c2918b3c6b334516c3969afa345292118ff393a61e30dcf37de40c86b",
-      "git_blob": "eded19b2c1831dde6cf14bb16afb57fccde76db2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-diagnostics-f73e215024a97b037b39/display.html",
-      "state": "present",
-      "sha256": "d855e5f3ef97b3ed800406381b1a3ebe5c81240fcdd2e474ad9b75e7e5204cc4",
-      "git_blob": "d8593274cc5cb5699bdb83d8f4d8bc8407326701",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-diagnostics-f73e215024a97b037b39/display.pdf",
-      "state": "present",
-      "sha256": "bcb53fb8d182ff84be1fdd29ae0d1dde0b0953988ff72aa3820ad2e737e859c8",
-      "git_blob": "5fa016ad571c2c8e144117a485b1ecc4b87843e1",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-diagnostics-f73e215024a97b037b39/display.png",
-      "state": "present",
-      "sha256": "ababed81cb87ba9b55acece9ed84161795bd8eef8af4720ec18996991d8dfbb0",
-      "git_blob": "052384cb75866abea3594d98ccb53f5d12d50086",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-diagnostics-f73e215024a97b037b39/display.svg",
-      "state": "present",
-      "sha256": "5653aa4b58a15001f1375e322a8c0613c382aba965832b33e786c8458c54ca96",
-      "git_blob": "6af79454e9c864e6fcb1aa7cfd991487e8080105",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-diagnostics-f73e215024a97b037b39/display.tex",
-      "state": "present",
-      "sha256": "e1e5ef84ea8ed3419c8ca6b524faf779b9e63c275f366540fd17381b10f1817b",
-      "git_blob": "448beb2c860562344cf69f5c33a4cb938c3eae6c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-distribution-5225fc38fb147d97adec/display.html",
-      "state": "present",
-      "sha256": "3ae355d4a0e6f4912aaab566f4be5cacb34d6ec8c7a9f514ae65654f1a0d8cb6",
-      "git_blob": "ef7e25f0f4a195474919ffe9e3d84615f2b8da41",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-distribution-5225fc38fb147d97adec/display.pdf",
-      "state": "present",
-      "sha256": "2a97acc1a33ac1886ea95bf6d125e8e184d996ed39f06f656569c8252c8d6cc4",
-      "git_blob": "789f563d9d67c9b85e69a982b5c8eee9936b2671",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-distribution-5225fc38fb147d97adec/display.png",
-      "state": "present",
-      "sha256": "964ed609ab3e149f6964f34dac74ed97148490de7118c3c4d80e991b56b36366",
-      "git_blob": "e687a63824eba75890906e5b71a249736567899c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
       "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-distribution-5225fc38fb147d97adec/display.svg",
       "state": "present",
       "sha256": "7d9e0045fdd09e9ef543279fac60629c4de41f17c2e5b1c84e6ac11682b4e164",
       "git_blob": "984ed6b9df5f6e7a7e7aa016dc7d219447290e2b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-distribution-5225fc38fb147d97adec/display.tex",
-      "state": "present",
-      "sha256": "d3795539c2a18f16483f5553c2aa3e76f21e9e1f8edb5f824ce47533e3eb71ea",
-      "git_blob": "599a50e516c24edae4030f002c8b7eb0e941ad73",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-equilibrium-fc0089076b4652d491ed/display.html",
-      "state": "present",
-      "sha256": "38c150872542b628e74cd52599eda2382a2db6859276087c7b27089dcb23e1cf",
-      "git_blob": "fefe832046382a171c5bedcdf8e02e2f3873071c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-equilibrium-fc0089076b4652d491ed/display.pdf",
-      "state": "present",
-      "sha256": "d73e9b37f19c178d8cb16caaade10ffb13f063cd96d0647ddf136d82d3210cf8",
-      "git_blob": "68e08e9ee177d27aff58ff3b53f5729f8935ce67",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-equilibrium-fc0089076b4652d491ed/display.png",
-      "state": "present",
-      "sha256": "bca063d55921d24b4b3dc96546e0c90389abfce2ee0314dbb6883001c0e8a9c2",
-      "git_blob": "b398300df6756908c34c070967bb410303ffd90e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-equilibrium-fc0089076b4652d491ed/display.svg",
-      "state": "present",
-      "sha256": "7c0a6a59a3657c52d408066f8ff37208ec9de751acd66aeb539c07bfb1656103",
-      "git_blob": "fa8aa7e616adbe4cd85f7770afcc79d222b672eb",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-equilibrium-fc0089076b4652d491ed/display.tex",
-      "state": "present",
-      "sha256": "eced9a5a27bc286f89b036eb6cba5a3803fd57cf22e31bbece4eab6a0aa65e9b",
-      "git_blob": "808018cc10191fbadb548b0349cb46ecd181f9d1",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-welfare-55bec4f09bc03eeeda83/display.html",
-      "state": "present",
-      "sha256": "fc92a36ca3d4fa22e0ebcf73ab60b7ce8fa9d4b3ad3619e0dffe117146ed2fc8",
-      "git_blob": "e51fe68d7d12b7dd49e9cdaaf858961a8fa65529",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-welfare-55bec4f09bc03eeeda83/display.pdf",
-      "state": "present",
-      "sha256": "832220047287f467831571b3f76c05c632b60dc2bcf654d1cba7c0bd8e72b1b1",
-      "git_blob": "b7325e57ca779e4086eca9b3235a662fed8ea8c3",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-welfare-55bec4f09bc03eeeda83/display.png",
-      "state": "present",
-      "sha256": "de8a5932ed630576f2daa88756b775f4b8af530ff021f6c8507a73b28feb60dc",
-      "git_blob": "c7b729693f61a9090fe78bfe783ff93a601a7f6c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-welfare-55bec4f09bc03eeeda83/display.svg",
-      "state": "present",
-      "sha256": "891df80b0cb1c988097333b51287e95bf2d8fec50019df00f79afbddfe8cdd1f",
-      "git_blob": "1194a41581b2cfade88d47a7e888c9267cea9dc7",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-aiyagari-r01-displays-welfare-55bec4f09bc03eeeda83/display.tex",
-      "state": "present",
-      "sha256": "8b752a7dfdbd01aa5da2a6e5cb10737b661142923e963e803ffbee7655dd9add",
-      "git_blob": "05c8221f29c200ca182261397139075d4469ef91",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-equilibrium_products-719cb47e7d9bcd693299/display.html",
-      "state": "present",
-      "sha256": "a2c2975a1b70de7280d796e9c29ab785eec6585d3082e07d0585929b3a148165",
-      "git_blob": "e1c29152b6d304841b6fdcdbe240b9e39ca1cea6",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-equilibrium_products-719cb47e7d9bcd693299/display.pdf",
-      "state": "present",
-      "sha256": "497c8297c2004c3c423b0c64c1cde5be2cbbc6a113f8d0178f0d380c3aaee4c1",
-      "git_blob": "ca8c7c3bf4b57460f93d18b1f0f1cc266327a5fa",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-equilibrium_products-719cb47e7d9bcd693299/display.png",
-      "state": "present",
-      "sha256": "abd2eabcf505eb1e5d2b3c97c467a73432273bd30458fa31c3b4a47ea8636335",
-      "git_blob": "9651c2f5cbeea426b3e920b73c6bb43229edd157",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -4319,274 +3607,26 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-equilibrium_products-719cb47e7d9bcd693299/display.tex",
+      "path": "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-consumer_types-market0-9abb5634d28400077529/display.svg",
       "state": "present",
-      "sha256": "8e23e78cbdd80aebcdb157ddff2f66636d375d94d1d51da59e4b7578226dbc9e",
-      "git_blob": "255159c741ca18dd255990bf15ca366e2b99a18a",
+      "sha256": "d8efa4923c8fea4f723cb28996223d354fd6ea807b8e40e34a0d42210228619a",
+      "git_blob": "515e4a1736ef13b882833d57e721a4b83a37a802",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-model_fit-27ad09abb818e39b5ede/display.html",
+      "path": "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare-markets0to3-0d3ba5c5715c2fa3a57d/display.svg",
       "state": "present",
-      "sha256": "c6ea07321f380e663d71bdac227bf2aa0198ea544c45b67c43ecb65946fc7dae",
-      "git_blob": "157a474f55751f3709e0839cf3797dd71645fe29",
+      "sha256": "4e97466bd5a7fe9966a15bfbbec21eeabd9d9f7271a0577b2dd7997bcadcdba7",
+      "git_blob": "6f7024623160678035d020ef7a085b496c02e228",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-model_fit-27ad09abb818e39b5ede/display.pdf",
+      "path": "examples/research-workspace/gallery-assets/specialist-blp-random-r01-displays-welfare_totals-main-edac9bd3b70d2b030620/display.svg",
       "state": "present",
-      "sha256": "1c94453c5f8eb4099456ab0683c9c9ecb4c7d6f4a34469826b1d5666d66d781f",
-      "git_blob": "e94b6ab449a922245f0496308b9443e057c15fd6",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-model_fit-27ad09abb818e39b5ede/display.png",
-      "state": "present",
-      "sha256": "b375e8ff735a93dba852b345837b64d30c455f0e54e1c01930598c0408cc90ed",
-      "git_blob": "dfc2a922a6d8353bf445a68eb054a3e55b26bb97",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-model_fit-27ad09abb818e39b5ede/display.svg",
-      "state": "present",
-      "sha256": "9bb3a42aa25dd62e4447053828a454cad49d47a2aff9458152baa60f204f3f29",
-      "git_blob": "afbb0c2c88510420d87c4f7d8cb148241dbe020a",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-model_fit-27ad09abb818e39b5ede/display.tex",
-      "state": "present",
-      "sha256": "47cdba7a5f33bf2f282e83c3e2dd98274163c0e5681c19778fc4f6180947ade2",
-      "git_blob": "bacf78b0190cb87081330cbd3a3e99a006911ab4",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-parameters-f645ce606fea2ca7096e/display.html",
-      "state": "present",
-      "sha256": "b2b1813c37de9efa131037a3e2931a1ed54fb1e8d92eeec1822495f46231e907",
-      "git_blob": "2bae86bed400a312677f742732ca35fff5461ef2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-parameters-f645ce606fea2ca7096e/display.pdf",
-      "state": "present",
-      "sha256": "8d9a3ca9a178bf5e8f1f506e89b52a8f6ecf6c9dd939e7fb82daa220a9f21fe6",
-      "git_blob": "390ecbe23a382e8a430d2ddec85f9cb2d05f1251",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-parameters-f645ce606fea2ca7096e/display.png",
-      "state": "present",
-      "sha256": "04c2ff17959f8b598ee6d21563c71364313b461e09f8a32c81e21b33cdc7e7de",
-      "git_blob": "a4adf6ac8d7ce02d622d28db7084ab6ee69c70f2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-parameters-f645ce606fea2ca7096e/display.svg",
-      "state": "present",
-      "sha256": "6dbbd5eade5cba2c11641c0f69b21ae4aab3997883d40e8e221d33a4d25b203d",
-      "git_blob": "54d70e414e6a1e6095c619c17128b39b3e149808",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-parameters-f645ce606fea2ca7096e/display.tex",
-      "state": "present",
-      "sha256": "d72c49a3035da550995b8b10d04255bb921870ac1e817826a159bfdedc313f21",
-      "git_blob": "e4b17a5e55d2d4fe622e51a2baa222880280af71",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-welfare-73496b5181ec19038059/display.html",
-      "state": "present",
-      "sha256": "86f3186c1548a5e7422685938d24cb7162060bb91620c882a48b096057253f7f",
-      "git_blob": "aa7c6694505b986ca119b346e686f89d8c5e78a2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-welfare-73496b5181ec19038059/display.pdf",
-      "state": "present",
-      "sha256": "bd5e080bf806ab94e9022f38895a159e470dad9a2cb46685a6682a3b52bd50ab",
-      "git_blob": "f31a1f4784cba7dcab91635e507ce1cbd97abe7f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-welfare-73496b5181ec19038059/display.png",
-      "state": "present",
-      "sha256": "84e55895877a8b01db0bc2952dd08c1926d67ec26bf0d64d8e4a06243566e72b",
-      "git_blob": "4fd3c1e0f785b404b240b7e0764698659518307f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-welfare-73496b5181ec19038059/display.svg",
-      "state": "present",
-      "sha256": "ffc056633aca88848d34894bb88192308df94b32444d14ffc10e482e6833ef28",
-      "git_blob": "33062a88beabfb9a12a32c2a1330c9d799d84594",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-fixed-r01-displays-welfare-73496b5181ec19038059/display.tex",
-      "state": "present",
-      "sha256": "8a12d85164f9a2ba1faa9a72d1993acb0118fdc70841437024bef437a8f63e10",
-      "git_blob": "9fa5c4e792457bca8b9fb3c61bf6d70a1d38e36f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-equilibrium_products-e5d745f125cd756df70f/display.html",
-      "state": "present",
-      "sha256": "b5987df5bcc75ca038dc0ce12d5d737eab116f966819d6bc9303497bd939454f",
-      "git_blob": "1de2b9ee35737a0b7a155c951b660faca043ee42",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-equilibrium_products-e5d745f125cd756df70f/display.pdf",
-      "state": "present",
-      "sha256": "075f93ac064f0bf0a2f5b83561efabc4dec02d9aace553a4981008e370151da0",
-      "git_blob": "610d4cff04744f24fe2fd6d39c189af0fbfeb642",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-equilibrium_products-e5d745f125cd756df70f/display.png",
-      "state": "present",
-      "sha256": "c1a468680d6997dbbb8d659ed7c6ae6d9b0f6a067c577150ac0385165d9bf957",
-      "git_blob": "4471efba2adfaf266ee81b21bce68ecb48be1afc",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-equilibrium_products-e5d745f125cd756df70f/display.svg",
-      "state": "present",
-      "sha256": "520a0bbf65da4424c20376cd4742377666a765e129a878b34d551e0c8645783d",
-      "git_blob": "cbfff7f2e55bf798480c618576c13b88060344c4",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-equilibrium_products-e5d745f125cd756df70f/display.tex",
-      "state": "present",
-      "sha256": "c3d8121d5b6449813e86e7de224c5388121a9c92772ae026ebf3e0ea501e0556",
-      "git_blob": "10473e0c90c637f343ee38c36d67e5d7a8c3f241",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-model_fit-fc8ef035c3bb83ed12ca/display.html",
-      "state": "present",
-      "sha256": "fc26f637f3e55bb7f0c42c87b4fdca39881d388c20fef4fefc08075842edd93a",
-      "git_blob": "39cc513121d4b9e3f0c7af8eaf47f4cf58eecb2f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-model_fit-fc8ef035c3bb83ed12ca/display.pdf",
-      "state": "present",
-      "sha256": "4368e93425a994480b6c3f2ab8773306bffca6ce13467c721093774d66958465",
-      "git_blob": "169455163542279a68cdd2b7e663a12c0cb60ded",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-model_fit-fc8ef035c3bb83ed12ca/display.png",
-      "state": "present",
-      "sha256": "90c6e8e1835d7098cf83c9cc0ce8e7796b4996207d4bd90e1066a7b059ec7142",
-      "git_blob": "bd42390c8a727202fb47abcef35449fd3d5791de",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-model_fit-fc8ef035c3bb83ed12ca/display.svg",
-      "state": "present",
-      "sha256": "c16d29b75e7ff0e6d5b5a3a4b698a642f3520b0fc89f1636437bab12da2e17b9",
-      "git_blob": "9fe281c2708dd52b3bde536a513a18da47a4a86e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-model_fit-fc8ef035c3bb83ed12ca/display.tex",
-      "state": "present",
-      "sha256": "8c228bf9682e0508e2b8f1fe49678b686238d7ddde16165998d1ee033bd3af5a",
-      "git_blob": "8143606340ec7ffde246f6eba5733a8635de09a2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-parameters-90883ce21126ca2b5ec3/display.html",
-      "state": "present",
-      "sha256": "9fa6bb3b58b957e090c167ad2314c921dd0c172291f36e5f9e2ed5bd29b9eb02",
-      "git_blob": "c23cb817f043f44c87492448633935a17913399b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-parameters-90883ce21126ca2b5ec3/display.pdf",
-      "state": "present",
-      "sha256": "f6bf0db2f45fe6b44ce8671773bbe3f487466cadeddbff213ff6f852407a54a2",
-      "git_blob": "800484ec558d315911fa7e8f15e88fe4cad0f200",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-parameters-90883ce21126ca2b5ec3/display.png",
-      "state": "present",
-      "sha256": "c8b0aa5c6ed3be20595f5f7333eb91a2fc2ff3f22754e4e5606c9ad0ef426f74",
-      "git_blob": "2c35ca5a8524958be1c370114b3924baaf38a3a7",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-parameters-90883ce21126ca2b5ec3/display.svg",
-      "state": "present",
-      "sha256": "e5b83855651480873c5441d19f64c32d2e68a36085e853902b66e99cca4459ce",
-      "git_blob": "b1f90b5a10888d747f3ade2b79136b6d31055002",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-parameters-90883ce21126ca2b5ec3/display.tex",
-      "state": "present",
-      "sha256": "c0ca1c9b462a39513e0366db827243feeeb1ea5af9d94134c0f6185a6144a7c8",
-      "git_blob": "4ddd2a4af5278564baaf95523e1528aa62e7adc1",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-welfare-ead0f481e0472510b90a/display.html",
-      "state": "present",
-      "sha256": "daad42716ee4a3a6a16c0b399c1299757a50213f13147c9a74fbd5f03708fbe7",
-      "git_blob": "eb8c09f23b3d6910e6784542610e7c86ffc5bde1",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-welfare-ead0f481e0472510b90a/display.pdf",
-      "state": "present",
-      "sha256": "650f0e8bfcf29342e2408657b174dbc1fe624824175e5b094c06e050831d6db7",
-      "git_blob": "5789eeb3911ce2b3fb5d3023c07eb03d64b6b7ef",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-welfare-ead0f481e0472510b90a/display.png",
-      "state": "present",
-      "sha256": "66359a817ff9f0e77705164e681a7c9930f821f322fe7d62076c50e7a0c81b49",
-      "git_blob": "d8e7fc8cf6712647f85b250a22b9444c2edad621",
+      "sha256": "8e2c33ed4615c95216c81ce9297fd411197724be0493d6821a3935366be25b9e",
+      "git_blob": "135196db019cd47b8d8f0595bbdd7479eea5f6e8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -4599,114 +3639,18 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/gallery-assets/specialist-blp-supply-r01-displays-welfare-ead0f481e0472510b90a/display.tex",
+      "path": "examples/research-workspace/gallery-assets/specialist-common-ols-iv-table-c9bb966e20d1eba138d3/display.svg",
       "state": "present",
-      "sha256": "b8cd441ecc9a0d23f2f254bdcab8f40f6e250d3c751a52ff6979f96ca0533cad",
-      "git_blob": "bfbe3300114b5f5ccb45b0db90042aee350a75e0",
+      "sha256": "276d41d83a8bca82a4e9136d1328f89d9dc13fb783e5b8f4ef6dfe12a2ed46d3",
+      "git_blob": "4605713922350757001e75e3a50c609dbbf4b362",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-model_fit-ccd0496222beeb627aa2/display.html",
+      "path": "examples/research-workspace/gallery-assets/specialist-common-ols-iv-table-c9bb966e20d1eba138d3/display.tex",
       "state": "present",
-      "sha256": "eff68e04e5c0cc7016ce2f9f076607208e204ef1e8902bf48ac7767f059b889f",
-      "git_blob": "fd330dad10cf1e03dd0ce31afc7eb3a59f50d36a",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-model_fit-ccd0496222beeb627aa2/display.pdf",
-      "state": "present",
-      "sha256": "694a98f820f642d1e8dd30502cfd02e43bc6c9bae918dcdbfadbd5ac86653cf2",
-      "git_blob": "7bd6883832966cc12760225a3d5fe5a9052e40d7",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-model_fit-ccd0496222beeb627aa2/display.png",
-      "state": "present",
-      "sha256": "7125df576f71c546f9ed18cd96f57d22a9c7ca99d54ca3d0c1a57265bca999d1",
-      "git_blob": "4b08c778e0aa4d54be26121f05964f9596c67c48",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-model_fit-ccd0496222beeb627aa2/display.svg",
-      "state": "present",
-      "sha256": "cec2c57e8c5353e2bfe131f30c5beebe091970adf09e08e513f1927ee1c44175",
-      "git_blob": "dd27ebcf593215a5eb7138edc26fbc9741f24cf4",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-model_fit-ccd0496222beeb627aa2/display.tex",
-      "state": "present",
-      "sha256": "b36e04947fa2dc41f2a451218677a2051bdeb4dadc2f3775780af7a4c0c3874d",
-      "git_blob": "d5ca49c63851b59c02b684fa1b23323df4d0c893",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-parameters-f827b82c00f95c90a393/display.html",
-      "state": "present",
-      "sha256": "25fdce621581ab886a78336da4dabed7db3832368349c95e3185a72b2b2f5b3c",
-      "git_blob": "148520dcaa2641e29692b121160fb20c170e9600",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-parameters-f827b82c00f95c90a393/display.pdf",
-      "state": "present",
-      "sha256": "fe77b04e31d5dbc573b1113ff4a3d8964f146e28650c18ea11c8a971dcabdb8c",
-      "git_blob": "2fb89dbcfc5347dde9b094f0ded6f785990e7e1e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-parameters-f827b82c00f95c90a393/display.png",
-      "state": "present",
-      "sha256": "4d70fdf535f8e0091ded9f269200ac390d8cdae8713c47b3909588a134506d62",
-      "git_blob": "4a633227028704386b0c208c89dc298a32ca2d0d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-parameters-f827b82c00f95c90a393/display.svg",
-      "state": "present",
-      "sha256": "d72a7ab7ef7ab5f439000a99ecc4282df16fcdce7f80575a5f93d9a5850baa09",
-      "git_blob": "25e67bc1e7730e82d654c3852264e6a20b225a8f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-parameters-f827b82c00f95c90a393/display.tex",
-      "state": "present",
-      "sha256": "900a77caa49f0d3345b30663a0adf6c05ef7350af766b7dc7e6331c8af81c513",
-      "git_blob": "44d0d6fa4715e59186a9e3eae8fd47165d1665e3",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-replacement_policy-7b378531a9394474b1f8/display.html",
-      "state": "present",
-      "sha256": "2b90f62d8c57e7f52e3077c2d7e7de59f137b11d7ba929aaf1cf1c3d4b97602d",
-      "git_blob": "ec396f6116d2d51461808f3e24e55a4a5983197b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-replacement_policy-7b378531a9394474b1f8/display.pdf",
-      "state": "present",
-      "sha256": "2a36382e2f0da12732498487f62edd6cb240debb965a0450bc5f01f2bb3df4ae",
-      "git_blob": "e3375c6c6c58d352d25ff284f4920d11355c5322",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-replacement_policy-7b378531a9394474b1f8/display.png",
-      "state": "present",
-      "sha256": "ce5d330e3b07ccab1df65fc177016d9541c96fc9bbaa25bbbdb5bee2f6d2b55e",
-      "git_blob": "38c955a41d86206ec93e6b21b2970bfe3d4fd141",
+      "sha256": "13a40095d24096cf0347dfd99b4c1d38a5454b5a5f34fc234b64a4b7a8b1ea8a",
+      "git_blob": "669f63d907134b9f8d9170f9dbdd550716b195bd",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -4719,234 +3663,10 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-replacement_policy-7b378531a9394474b1f8/display.tex",
-      "state": "present",
-      "sha256": "dc0e6e8b1413d34765825473811ae4c53a13097a165ff3d77d5d99bab7479b63",
-      "git_blob": "aeab31488b283964d8ed4eb364ca58db1f967e30",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-state_values-3f014284feea9ee2ca0c/display.html",
-      "state": "present",
-      "sha256": "384a722ee0a7f3d3bc853401de952a5c5f029759fc994231e793f1f4887f19f4",
-      "git_blob": "1fd161d3dc7691a06e19f9253293b1b9b6dfad2f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-state_values-3f014284feea9ee2ca0c/display.pdf",
-      "state": "present",
-      "sha256": "2b5f2bb0d7cc6782b3fddde296e9ec393c54afaa5fbc9d9d0edb2932b125f106",
-      "git_blob": "efca9e584ae4412118ab1eccff533fee93e94b63",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-state_values-3f014284feea9ee2ca0c/display.png",
-      "state": "present",
-      "sha256": "b0957ef36a77c37e343cdc1ebdb18611c06d50e0c50011d4fb01e0c22c653540",
-      "git_blob": "bc7afa86b818db78f3bcdd0978638243f56ee94e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-state_values-3f014284feea9ee2ca0c/display.svg",
-      "state": "present",
-      "sha256": "36ca950a4ac767123c3dfc62283149b81c61cf904512f95714ed79e99b20b008",
-      "git_blob": "9eb9046680098bb30acc1cb3e8e9ed196637aa42",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-ddc-r01-displays-state_values-3f014284feea9ee2ca0c/display.tex",
-      "state": "present",
-      "sha256": "b21a9018e152d5294f170e9408682432bc0101735ec4ea835b8f47c45c476f43",
-      "git_blob": "05523118308fc41ef479fe8997e87f1f2b9879dc",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-event-study-3a3ea95b1042de8457d5/display.html",
-      "state": "present",
-      "sha256": "f6cb9b6df696ed854f4cd0e7c091a6d6e930d8088e6e302892eb02db86eff046",
-      "git_blob": "c4245e4f23456077fcbd4ef00c3c9a51f891ecc1",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-event-study-3a3ea95b1042de8457d5/display.pdf",
-      "state": "present",
-      "sha256": "df6f68e918ce1534e3f316e7aaac0e22bbfb449c19c1fe5814c84c134791c28b",
-      "git_blob": "0efec7f41fec6c41b256595efe598a894c8e4289",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-event-study-3a3ea95b1042de8457d5/display.png",
-      "state": "present",
-      "sha256": "dd320d9120f34495ba36fbc7fc8aa4f511a08b0b8a98ba89e7ff73aed22b6f5f",
-      "git_blob": "dcbe348cfaea55b589dc8087ae3024af6817d985",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
       "path": "examples/research-workspace/gallery-assets/specialist-did-r01-event-study-3a3ea95b1042de8457d5/display.svg",
       "state": "present",
       "sha256": "3b7378b6f914bf608059d8e01087d95742a62d2c796ee89d5232ed578af55cf4",
       "git_blob": "7df8af1e7b434b4a0ab173d87b17f1bf3a102fc2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-event-study-3a3ea95b1042de8457d5/display.tex",
-      "state": "present",
-      "sha256": "04fcf24d58e9818b7636cd0595e148503a2d9932379492085244132902109800",
-      "git_blob": "822f4b5614c2a54d98135d633022d15a9c1c80ea",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-group_time-40f8fb9b91ce1fd6a878/display.html",
-      "state": "present",
-      "sha256": "15f09ab68647c8bc2ecd618593a2b13f516798ff13976980fedeb590f0498ff0",
-      "git_blob": "a1071502064987bea6c8830fb0814c4fe1eade67",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-group_time-40f8fb9b91ce1fd6a878/display.pdf",
-      "state": "present",
-      "sha256": "26815905afa59f7d83016c2c34524788656e0590fa16a0c49e1c1e525bc7e83d",
-      "git_blob": "07fa6955b277a775088e8c72ad573e56ba491d42",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-group_time-40f8fb9b91ce1fd6a878/display.png",
-      "state": "present",
-      "sha256": "b29411553880845ba2d6a17c8c588553e873a2bbb78fc2290285217837bee7d9",
-      "git_blob": "23564779aeb0a4a1492a398c807dcb348f11cc35",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-group_time-40f8fb9b91ce1fd6a878/display.svg",
-      "state": "present",
-      "sha256": "465b0cec94ccf1119c55899cb75580f4d90ef5846043153ef21eeec230d61ecb",
-      "git_blob": "868196cb427c7dd77354fa454cf00e6d34724aa6",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-group_time-40f8fb9b91ce1fd6a878/display.tex",
-      "state": "present",
-      "sha256": "6d9296403e5e49c626af0b673d59b84aec7b7dc24ef2a1151ff24209c8966377",
-      "git_blob": "292f97c662d091012c280d343ba96e89756fe462",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-group_time-cohort-event-1f9881f44d3c8fddc5dd/display.html",
-      "state": "present",
-      "sha256": "e3ea7498ac10aa84678fd5d1e79e1e3fdd73bf6c9de4f684bc266185321249a8",
-      "git_blob": "9249cc4f81ddc358a5c75412b70486e0b7d53a1c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-group_time-cohort-event-1f9881f44d3c8fddc5dd/display.pdf",
-      "state": "present",
-      "sha256": "0d6174e80ea8f40f4e7372cf067d69f993e9abd78cbb92e848902583c09d9184",
-      "git_blob": "bd24ad0df16c5b9a84565e1264036229c5d05de5",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-group_time-cohort-event-1f9881f44d3c8fddc5dd/display.png",
-      "state": "present",
-      "sha256": "64739b82ef76552005f8ec7fffc38b8d38ca4d785c923541440c0cf2cabd59d0",
-      "git_blob": "099fd08962e50eb5a6c7eb4a0d0e26fdb732b00d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-group_time-cohort-event-1f9881f44d3c8fddc5dd/display.svg",
-      "state": "present",
-      "sha256": "54026d9d95a46eda997eaf710d5995ae8456a28bb5c1a64cd8cab586a4da8c1f",
-      "git_blob": "6cf9e14593101b14641717f9e017b8d277bed105",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-group_time-cohort-event-1f9881f44d3c8fddc5dd/display.tex",
-      "state": "present",
-      "sha256": "f0672f65c09326d7972aa91326ccfc6b30a6f7df82ed7c56bc313c76b9285868",
-      "git_blob": "c35b33714ef4bf95c6b5aa04f53153b1ae9aff19",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-overall-1e4e68dbfb95f5bb8b3d/display.html",
-      "state": "present",
-      "sha256": "8de68c9076f6536052dbf866eff06529087c6755e4b7a665d85b4de2f885ed54",
-      "git_blob": "036604ff2a0895856201428bc70b18a394664701",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-overall-1e4e68dbfb95f5bb8b3d/display.pdf",
-      "state": "present",
-      "sha256": "74eee62c5c936cd3e938e3928f5f4c3b6977e9406f5c2b7993a92beca08f925e",
-      "git_blob": "f812799cbd0a8fc9d887a0467b597f12218a2022",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-overall-1e4e68dbfb95f5bb8b3d/display.png",
-      "state": "present",
-      "sha256": "05299b43a96217db2719db40f4878e3da25898c8bc110cdec01bfc1b67964a8d",
-      "git_blob": "4fa87e8f426e9ce7a9869648556afb7359eb3d35",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-overall-1e4e68dbfb95f5bb8b3d/display.svg",
-      "state": "present",
-      "sha256": "0b979397c491a761c4f8ad8bfc03cd7bd789899afe1b4ab7ddd3c1c12d0fcbee",
-      "git_blob": "8fe90549c2595d9d791cdcef2b356376fc10b8a0",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-did-r01-overall-1e4e68dbfb95f5bb8b3d/display.tex",
-      "state": "present",
-      "sha256": "84765184548a4338033333475759514fcd2e3f00500f03724ec55b5d576222a4",
-      "git_blob": "bb960d2e823e1d1b4f4d2d9e5d70a39772c6e19a",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-allocation_paths-d55459efb1b0d349b220/display.html",
-      "state": "present",
-      "sha256": "ed3635cbf83216b3b06e10ae1d629877520acb0120f92d1e378145bd22d1a02e",
-      "git_blob": "001bf43958867f4482b6df16f3e0085706e7980c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-allocation_paths-d55459efb1b0d349b220/display.pdf",
-      "state": "present",
-      "sha256": "787fc515fb4d5f47fad0418ae889d8cb8eaa1b2c87bd2ba1366c92e3caee4ad8",
-      "git_blob": "5162d3f4d90907a9636dde16283a3a795cfc9412",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-allocation_paths-d55459efb1b0d349b220/display.png",
-      "state": "present",
-      "sha256": "394347954ba01d3cd5da5238a487bdb145a783af64b2f92739dcf49432227b5f",
-      "git_blob": "a197d9c033cd5f2469185d71ed87632a9722a4b0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -4959,354 +3679,10 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-allocation_paths-d55459efb1b0d349b220/display.tex",
-      "state": "present",
-      "sha256": "b8f5dc72acd4b8e2ccc6ec110799d3a91289e393c859ac7eebf711a49f7dbbff",
-      "git_blob": "b6ca27d316676daaf20e31af9034092694292422",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-model_fit-b20ae8ab83f4170e1939/display.html",
-      "state": "present",
-      "sha256": "4db86448e5c48e62b844ba44ba3568f104d12141a52c8d9bd54d7b21ebf9dec0",
-      "git_blob": "af8ac75a25ffda544c0db155a39363bf03b6add1",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-model_fit-b20ae8ab83f4170e1939/display.pdf",
-      "state": "present",
-      "sha256": "5507f20370b4603f58147d8d51141110bd461c08024d760d8c3c017193e9a6fa",
-      "git_blob": "a85402be4c9ac27eab2a06bdf33fc2352b1fe1ae",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-model_fit-b20ae8ab83f4170e1939/display.png",
-      "state": "present",
-      "sha256": "d0008e9716ff4a9fe65598309da6926388e367ae98689da25d6362f0f6359ae6",
-      "git_blob": "74f703707925809080fb6ae72755988adbad306d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-model_fit-b20ae8ab83f4170e1939/display.svg",
-      "state": "present",
-      "sha256": "08e1e49ef0d3bbc0d4dc9fe8688d05afa2b9aaaeb38d14a96e8ce7c5a73dddbd",
-      "git_blob": "300383208f8134c05fdad21db00db44d21bf0c1a",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-model_fit-b20ae8ab83f4170e1939/display.tex",
-      "state": "present",
-      "sha256": "4508953ec1e9c38e5acb6fb00c97f76211b12db881fb4b7c87d02e03506ae778",
-      "git_blob": "f96df4dcd4dcf56aed524884abef0cc13e3a0514",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-parameters-f987a920f3fcf289a352/display.html",
-      "state": "present",
-      "sha256": "37fa30f3ad11f27ef9ff23bde6ace2afc4571e37fd37917d8c51495c408c46cd",
-      "git_blob": "6445f5ab6f573a93d83e883a43c4d448103762ac",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-parameters-f987a920f3fcf289a352/display.pdf",
-      "state": "present",
-      "sha256": "2fcd64074eb18e477062c3545c7a5db3c72cd6ad3cd77be2495ae53178751c79",
-      "git_blob": "7795801616fff72e111ace29db855434752806b2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-parameters-f987a920f3fcf289a352/display.png",
-      "state": "present",
-      "sha256": "d720a4e3617c8131fcb5103b87819553dbdd196a80986604b8783eb3b7245adb",
-      "git_blob": "82de84c1e37a616a4e21857919f252d74b688217",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-parameters-f987a920f3fcf289a352/display.svg",
-      "state": "present",
-      "sha256": "96e7b3065e1fc387d2fe9f0e09733832004fc2e3cc4270b1415c287e808d161b",
-      "git_blob": "65bef4e465591a8e9cdaf701ca80d9ae10de020f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-parameters-f987a920f3fcf289a352/display.tex",
-      "state": "present",
-      "sha256": "c7dcec684c0ddf43b0a7e28324c3b01c7a3fa2bb32e71dceb4a6d0a7a38de2dc",
-      "git_blob": "b6b387fdf26d9a54b7d921e09d601ac16d747177",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-welfare-72bfe3ae90c11b2c3a95/display.html",
-      "state": "present",
-      "sha256": "7d06714da950aeed165b98395c2da15388ace17204f5f73091a00a3684314ac9",
-      "git_blob": "b584124057d0ddea2091ea5c9d04ab712f7d8e98",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-welfare-72bfe3ae90c11b2c3a95/display.pdf",
-      "state": "present",
-      "sha256": "7eac4f132ce9480d520fc9a501891a8f41d26f5e67001e33fe92b928dc88a53d",
-      "git_blob": "5106afd018957508b0ea8003eb890720957e5d07",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-welfare-72bfe3ae90c11b2c3a95/display.png",
-      "state": "present",
-      "sha256": "ada581c27c673e64961ee4007f641d5affc4e234bb26d3a886c2a3b35b6859f7",
-      "git_blob": "313fd16c6c97c0e9eaea69e296df89485084d1bf",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-welfare-72bfe3ae90c11b2c3a95/display.svg",
-      "state": "present",
-      "sha256": "d849794e852e1c1074c42a3aab632317029cd016bc00aba464f136d7d9d99e4b",
-      "git_blob": "9fcf16e7d261d6ccad8e97d046ef06cba2af24d5",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-growth-r01-displays-welfare-72bfe3ae90c11b2c3a95/display.tex",
-      "state": "present",
-      "sha256": "fb53c4f6c5a1b79604e7a97282616b9dbc6e7b47fbe1cc5868592f8ff27e19b7",
-      "git_blob": "92cf1249298865891663cb5ce30a38293f88ce37",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-rdd-r01-displays-rdd-2fdae635505758ee449d/display.html",
-      "state": "present",
-      "sha256": "2c5e702e1e62602b0aab77a9a6af6ee1e92cabfe56d4b3bfcab4c9468f7f2865",
-      "git_blob": "e65d1f472d5d6d41cab9b75b5b9af40c82e8bc66",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-rdd-r01-displays-rdd-2fdae635505758ee449d/display.pdf",
-      "state": "present",
-      "sha256": "06fd53a5335714e041feb8b9633eb1714cf47b1b089c5141184dd5eedb433990",
-      "git_blob": "68f1704870356992154f20e69c10737c0b245137",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-rdd-r01-displays-rdd-2fdae635505758ee449d/display.png",
-      "state": "present",
-      "sha256": "69a4632c6aa7e92ec0c870c46ae74b6d23e790497046b3b6fa962c06fa71b078",
-      "git_blob": "53d2199df8da4914ce38ae3a74f4614883218c1f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
       "path": "examples/research-workspace/gallery-assets/specialist-rdd-r01-displays-rdd-2fdae635505758ee449d/display.svg",
       "state": "present",
       "sha256": "a77a99ccff42695d3f2a6a8bd086a630c0ebdb19f1b5f73ac1fa4a2792e479c6",
       "git_blob": "8765790067902dd1faedb1909242934dea65a11e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-rdd-r01-displays-rdd-2fdae635505758ee449d/display.tex",
-      "state": "present",
-      "sha256": "27d41cd798df07a56eef3201352bfb24e6d9586b7b1eb02fc38d175e2b5c6b1d",
-      "git_blob": "aa3aca2622658b5674218c13ea7503cc53738d5f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-rdd-r01-rdd-4697a6a3f0e80e8ff6bd/display.html",
-      "state": "present",
-      "sha256": "b489d271a043b64b79abc97419b22b69383d7e61fb51db585aff891686c26d78",
-      "git_blob": "c76b456998a425e9406a1901a3280c7407f43ac8",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-rdd-r01-rdd-4697a6a3f0e80e8ff6bd/display.pdf",
-      "state": "present",
-      "sha256": "4b33760c2dccf6e2003d41636a2b4d910bd5f6bf505bdf1ce98d788db303e5e5",
-      "git_blob": "8d06329a74f3aca47404ee4b2dcf258973de7765",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-rdd-r01-rdd-4697a6a3f0e80e8ff6bd/display.png",
-      "state": "present",
-      "sha256": "d892971ada0f94237aec114943c247e8563bef2582a08075f499e9bd4fe09190",
-      "git_blob": "901c6d9838bb912772b4abb43c0dc4697db68c7d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-rdd-r01-rdd-4697a6a3f0e80e8ff6bd/display.svg",
-      "state": "present",
-      "sha256": "acab95067dd79bdf376172010d5fc8d6e514913acefd27ecc685aca4a550f1dc",
-      "git_blob": "654d7e8294f159da210cd416550bbbf3d386f650",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-rdd-r01-rdd-4697a6a3f0e80e8ff6bd/display.tex",
-      "state": "present",
-      "sha256": "7d3abf8b3500db95c00f859218b10348c84d53afb8e84a5b87eaedf2e9f0b25a",
-      "git_blob": "1322f46e36d2fa0346eaaeb3da0ccf70cc3b4fd3",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_2sls-8de65875726fe6063aa7/display.html",
-      "state": "present",
-      "sha256": "52f13c79ad92927c134a0a3d0932e7c36ff1e4602566bb8dfb31bd2ef6922892",
-      "git_blob": "511e26819558f063b6e4951cdb5dc4003f5d1aa8",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_2sls-8de65875726fe6063aa7/display.pdf",
-      "state": "present",
-      "sha256": "d05620c6caafad67dbda010aada09d586da9a32526875e020fe92c719d6b0220",
-      "git_blob": "8255c4aa71c42bcc56bc03ec92be8ad9946079e9",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_2sls-8de65875726fe6063aa7/display.png",
-      "state": "present",
-      "sha256": "a82ac0f75325379c837e93f40af9046851d27568ab367a7ae062058a7d8acfc9",
-      "git_blob": "82540a5d0a6694b9aa7d405e3f42718a233d20a8",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_2sls-8de65875726fe6063aa7/display.svg",
-      "state": "present",
-      "sha256": "e95434e5fc4f6d5561979d5a37251bdff9604094071c21f6158601967495c6b6",
-      "git_blob": "a05c1e3749d4bac4146c797074f389aa4c247891",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_2sls-8de65875726fe6063aa7/display.tex",
-      "state": "present",
-      "sha256": "b2f9c21cf772e953875c148e5e2e2adb37acf86da118626e7c560896644542a4",
-      "git_blob": "86134dbda815f9f5a684d98f49ab0f8fc6794ba8",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_first_stage-7f91486c9689c5a6e97b/display.html",
-      "state": "present",
-      "sha256": "c972b15e629115ceca949abf8bba9a636cae1f7e9604b7c3356ebcb25e60cd6a",
-      "git_blob": "4ce241b2f7d1013f5e1e80c1a07a81799c20eeeb",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_first_stage-7f91486c9689c5a6e97b/display.pdf",
-      "state": "present",
-      "sha256": "cf2c351f99579ce5748707de426a3de447da009916a8e9e850f31e34f2363546",
-      "git_blob": "09cf7b23f184830c1e9d663a2e7373211a93a7fd",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_first_stage-7f91486c9689c5a6e97b/display.png",
-      "state": "present",
-      "sha256": "e2226fddbdebfe071f972a78c7ac2fb3ba1f2008d42d24f5e7f7b817d00156d5",
-      "git_blob": "4657c5dbaba37257159f1081bc5b5483780534d5",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_first_stage-7f91486c9689c5a6e97b/display.svg",
-      "state": "present",
-      "sha256": "6f4967a3c7044d2a5424ec710125fa94e1ab95ae4d24b98943a8468ba9871386",
-      "git_blob": "b1707531814bdca1a2d849cbdd16b91874b91753",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_first_stage-7f91486c9689c5a6e97b/display.tex",
-      "state": "present",
-      "sha256": "e6eaf9c3ad2a593153e822d344bb56e1d92e34eb2cf1689c7aaa85c2d68d73b6",
-      "git_blob": "ee020659e2448f96b50db8716e4a3309d399b616",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_reduced_form-a79117aedb00e26a7a7c/display.html",
-      "state": "present",
-      "sha256": "a5c8fd17bf7b67027a29817251449b95e26746f28a1a17133cd0d8f271a984b8",
-      "git_blob": "5433059561572571b8af048544d81ed1c9f3b21a",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_reduced_form-a79117aedb00e26a7a7c/display.pdf",
-      "state": "present",
-      "sha256": "2788fb3470c119a1de4dcb497ec93280e08d73c10c6dc2da2d4116d3aba5802e",
-      "git_blob": "3e5ec439ae4ad8c18286e4448de72570d3ea0172",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_reduced_form-a79117aedb00e26a7a7c/display.png",
-      "state": "present",
-      "sha256": "4dff0e650d6a39828420c42a34887faf7ee5c3060cab75c0be68d163a4390796",
-      "git_blob": "0227ec61196f008f289bb9353f7746e415f1c4c9",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_reduced_form-a79117aedb00e26a7a7c/display.svg",
-      "state": "present",
-      "sha256": "743d38e29b373d6f0c8a358750692d0559d4ca9a278d827a479d564ca83b2b0c",
-      "git_blob": "8ca4a8b2e74ab42d4c13cad1886a2ddfc6ee3805",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-displays-iv_reduced_form-a79117aedb00e26a7a7c/display.tex",
-      "state": "present",
-      "sha256": "4ada6c5b042becb9484ea4f32570b3ca6fb946f0c9c8715491ffdb530afa4066",
-      "git_blob": "6ade9aa65c93cacb28f3eb2252e513baa8ba6941",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-iv_confidence_set-e3855029eb27e7802941/display.html",
-      "state": "present",
-      "sha256": "afeeec3b10b64996839b21b7fe65662c5708341157e9dd74f67450739e4a845d",
-      "git_blob": "01cdacd2ef72a7b81fd8f1c6b3c27af85dd39bb6",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-iv_confidence_set-e3855029eb27e7802941/display.pdf",
-      "state": "present",
-      "sha256": "2d04e0ddf780a8faf453d7afeca058cc108f9edcdd260f4be5f4b3be17752dbe",
-      "git_blob": "b16237c3c35343dc1a3eb7b32ae9f2c5ce1c17cf",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-iv_confidence_set-e3855029eb27e7802941/display.png",
-      "state": "present",
-      "sha256": "e29ac31a53693e10d64b6c80d53f4adb308e9416abfd0ac48fc4651e99a54cf1",
-      "git_blob": "4355ad4b834475ecb5fef54cc4056ea4f9fb2e9b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -5319,1242 +3695,26 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/gallery-assets/specialist-weak-iv-r01-iv_confidence_set-e3855029eb27e7802941/display.tex",
-      "state": "present",
-      "sha256": "46a0c52c647f78ae488da05791a8ed01554644a879e4bd0ae38c3007aeec231e",
-      "git_blob": "fb950e5aff575e19828c8f9f979edcfa4752b811",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
       "path": "examples/research-workspace/gallery.json",
       "state": "present",
-      "sha256": "6c04614f5b0b5b304cbb606cf34bc6fd9f68eb2b3c6afa7e739e73f2c988e4d0",
-      "git_blob": "9c99435bac63dc63c084482f9eff893b88105052",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-1-2.png",
-      "state": "present",
-      "sha256": "05299b43a96217db2719db40f4878e3da25898c8bc110cdec01bfc1b67964a8d",
-      "git_blob": "4fa87e8f426e9ce7a9869648556afb7359eb3d35",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-1-4.pdf",
-      "state": "present",
-      "sha256": "74eee62c5c936cd3e938e3928f5f4c3b6977e9406f5c2b7993a92beca08f925e",
-      "git_blob": "f812799cbd0a8fc9d887a0467b597f12218a2022",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-10-2.png",
-      "state": "present",
-      "sha256": "abd2eabcf505eb1e5d2b3c97c467a73432273bd30458fa31c3b4a47ea8636335",
-      "git_blob": "9651c2f5cbeea426b3e920b73c6bb43229edd157",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-10-4.pdf",
-      "state": "present",
-      "sha256": "497c8297c2004c3c423b0c64c1cde5be2cbbc6a113f8d0178f0d380c3aaee4c1",
-      "git_blob": "ca8c7c3bf4b57460f93d18b1f0f1cc266327a5fa",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-11-2.png",
-      "state": "present",
-      "sha256": "4d70fdf535f8e0091ded9f269200ac390d8cdae8713c47b3909588a134506d62",
-      "git_blob": "4a633227028704386b0c208c89dc298a32ca2d0d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-11-4.pdf",
-      "state": "present",
-      "sha256": "fe77b04e31d5dbc573b1113ff4a3d8964f146e28650c18ea11c8a971dcabdb8c",
-      "git_blob": "2fb89dbcfc5347dde9b094f0ded6f785990e7e1e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-12-2.png",
-      "state": "present",
-      "sha256": "ce5d330e3b07ccab1df65fc177016d9541c96fc9bbaa25bbbdb5bee2f6d2b55e",
-      "git_blob": "38c955a41d86206ec93e6b21b2970bfe3d4fd141",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-12-4.pdf",
-      "state": "present",
-      "sha256": "2a36382e2f0da12732498487f62edd6cb240debb965a0450bc5f01f2bb3df4ae",
-      "git_blob": "e3375c6c6c58d352d25ff284f4920d11355c5322",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-13-2.png",
-      "state": "present",
-      "sha256": "d720a4e3617c8131fcb5103b87819553dbdd196a80986604b8783eb3b7245adb",
-      "git_blob": "82de84c1e37a616a4e21857919f252d74b688217",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-13-4.pdf",
-      "state": "present",
-      "sha256": "2fcd64074eb18e477062c3545c7a5db3c72cd6ad3cd77be2495ae53178751c79",
-      "git_blob": "7795801616fff72e111ace29db855434752806b2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-14-2.png",
-      "state": "present",
-      "sha256": "394347954ba01d3cd5da5238a487bdb145a783af64b2f92739dcf49432227b5f",
-      "git_blob": "a197d9c033cd5f2469185d71ed87632a9722a4b0",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-14-4.pdf",
-      "state": "present",
-      "sha256": "787fc515fb4d5f47fad0418ae889d8cb8eaa1b2c87bd2ba1366c92e3caee4ad8",
-      "git_blob": "5162d3f4d90907a9636dde16283a3a795cfc9412",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-15-2.png",
-      "state": "present",
-      "sha256": "bca063d55921d24b4b3dc96546e0c90389abfce2ee0314dbb6883001c0e8a9c2",
-      "git_blob": "b398300df6756908c34c070967bb410303ffd90e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-15-4.pdf",
-      "state": "present",
-      "sha256": "d73e9b37f19c178d8cb16caaade10ffb13f063cd96d0647ddf136d82d3210cf8",
-      "git_blob": "68e08e9ee177d27aff58ff3b53f5729f8935ce67",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-16-2.png",
-      "state": "present",
-      "sha256": "9a46a98c8d6736dc568ea8ad85b862a5df1d9931a9d53cc8691d45de923d7fcc",
-      "git_blob": "2237cc9f56afc26a9e36b91b9ce7c9b3d8b346b4",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-16-4.pdf",
-      "state": "present",
-      "sha256": "e83b759ccc8ef1dc17993607b72e82b2831c3345396a65a47bd78858948ce542",
-      "git_blob": "ccef5bf7065758a9353451fe092edc9ebb269c9b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-2-2.png",
-      "state": "present",
-      "sha256": "dd320d9120f34495ba36fbc7fc8aa4f511a08b0b8a98ba89e7ff73aed22b6f5f",
-      "git_blob": "dcbe348cfaea55b589dc8087ae3024af6817d985",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-2-4.pdf",
-      "state": "present",
-      "sha256": "df6f68e918ce1534e3f316e7aaac0e22bbfb449c19c1fe5814c84c134791c28b",
-      "git_blob": "0efec7f41fec6c41b256595efe598a894c8e4289",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-3-2.png",
-      "state": "present",
-      "sha256": "a82ac0f75325379c837e93f40af9046851d27568ab367a7ae062058a7d8acfc9",
-      "git_blob": "82540a5d0a6694b9aa7d405e3f42718a233d20a8",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-3-4.pdf",
-      "state": "present",
-      "sha256": "d05620c6caafad67dbda010aada09d586da9a32526875e020fe92c719d6b0220",
-      "git_blob": "8255c4aa71c42bcc56bc03ec92be8ad9946079e9",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-4-2.png",
-      "state": "present",
-      "sha256": "e29ac31a53693e10d64b6c80d53f4adb308e9416abfd0ac48fc4651e99a54cf1",
-      "git_blob": "4355ad4b834475ecb5fef54cc4056ea4f9fb2e9b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-4-4.pdf",
-      "state": "present",
-      "sha256": "2d04e0ddf780a8faf453d7afeca058cc108f9edcdd260f4be5f4b3be17752dbe",
-      "git_blob": "b16237c3c35343dc1a3eb7b32ae9f2c5ce1c17cf",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-5-2.png",
-      "state": "present",
-      "sha256": "d892971ada0f94237aec114943c247e8563bef2582a08075f499e9bd4fe09190",
-      "git_blob": "901c6d9838bb912772b4abb43c0dc4697db68c7d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-5-4.pdf",
-      "state": "present",
-      "sha256": "4b33760c2dccf6e2003d41636a2b4d910bd5f6bf505bdf1ce98d788db303e5e5",
-      "git_blob": "8d06329a74f3aca47404ee4b2dcf258973de7765",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-6-2.png",
-      "state": "present",
-      "sha256": "69a4632c6aa7e92ec0c870c46ae74b6d23e790497046b3b6fa962c06fa71b078",
-      "git_blob": "53d2199df8da4914ce38ae3a74f4614883218c1f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-6-4.pdf",
-      "state": "present",
-      "sha256": "06fd53a5335714e041feb8b9633eb1714cf47b1b089c5141184dd5eedb433990",
-      "git_blob": "68f1704870356992154f20e69c10737c0b245137",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-7-2.png",
-      "state": "present",
-      "sha256": "c8b0aa5c6ed3be20595f5f7333eb91a2fc2ff3f22754e4e5606c9ad0ef426f74",
-      "git_blob": "2c35ca5a8524958be1c370114b3924baaf38a3a7",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-7-4.pdf",
-      "state": "present",
-      "sha256": "f6bf0db2f45fe6b44ce8671773bbe3f487466cadeddbff213ff6f852407a54a2",
-      "git_blob": "800484ec558d315911fa7e8f15e88fe4cad0f200",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-8-2.png",
-      "state": "present",
-      "sha256": "66359a817ff9f0e77705164e681a7c9930f821f322fe7d62076c50e7a0c81b49",
-      "git_blob": "d8e7fc8cf6712647f85b250a22b9444c2edad621",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-8-4.pdf",
-      "state": "present",
-      "sha256": "650f0e8bfcf29342e2408657b174dbc1fe624824175e5b094c06e050831d6db7",
-      "git_blob": "5789eeb3911ce2b3fb5d3023c07eb03d64b6b7ef",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-9-2.png",
-      "state": "present",
-      "sha256": "04c2ff17959f8b598ee6d21563c71364313b461e09f8a32c81e21b33cdc7e7de",
-      "git_blob": "a4adf6ac8d7ce02d622d28db7084ab6ee69c70f2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/assets/exhibit-9-4.pdf",
-      "state": "present",
-      "sha256": "8d9a3ca9a178bf5e8f1f506e89b52a8f6ecf6c9dd939e7fb82daa220a9f21fe6",
-      "git_blob": "390ecbe23a382e8a430d2ddec85f9cb2d05f1251",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/index.html",
-      "state": "present",
-      "sha256": "3c973528a5387bf9e3a01e57f08204bf11d910970c23e14270aa28143771bcf6",
-      "git_blob": "3f215c44d56294a95a3eb4f48eb1f0ca5848e76b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/index.qmd",
-      "state": "present",
-      "sha256": "4bb6a578b83f7011292af028f08d459da8093c6ce435edd06cb158ab8e788fdc",
-      "git_blob": "6fcc04b8bcf6b51c5d8e085ef0364b21d585032e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/preview.md",
-      "state": "present",
-      "sha256": "cf6272b7aa1e44d30a05967e2fee9bcd9247dfcf668b309626f0520efa105903",
-      "git_blob": "fcaedd656641dd2ebe04f256b02104abcf060446",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-html/render.json",
-      "state": "present",
-      "sha256": "24bc5ff031826592cec373b6c8734df93c9c4dc3415b0a3d54d5c3f151c9054a",
-      "git_blob": "89039bbc75cfecf2e88ec8ac96f3ea9dda491c6c",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-1-2.png",
-      "state": "present",
-      "sha256": "05299b43a96217db2719db40f4878e3da25898c8bc110cdec01bfc1b67964a8d",
-      "git_blob": "4fa87e8f426e9ce7a9869648556afb7359eb3d35",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-1-4.pdf",
-      "state": "present",
-      "sha256": "74eee62c5c936cd3e938e3928f5f4c3b6977e9406f5c2b7993a92beca08f925e",
-      "git_blob": "f812799cbd0a8fc9d887a0467b597f12218a2022",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-10-2.png",
-      "state": "present",
-      "sha256": "abd2eabcf505eb1e5d2b3c97c467a73432273bd30458fa31c3b4a47ea8636335",
-      "git_blob": "9651c2f5cbeea426b3e920b73c6bb43229edd157",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-10-4.pdf",
-      "state": "present",
-      "sha256": "497c8297c2004c3c423b0c64c1cde5be2cbbc6a113f8d0178f0d380c3aaee4c1",
-      "git_blob": "ca8c7c3bf4b57460f93d18b1f0f1cc266327a5fa",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-11-2.png",
-      "state": "present",
-      "sha256": "4d70fdf535f8e0091ded9f269200ac390d8cdae8713c47b3909588a134506d62",
-      "git_blob": "4a633227028704386b0c208c89dc298a32ca2d0d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-11-4.pdf",
-      "state": "present",
-      "sha256": "fe77b04e31d5dbc573b1113ff4a3d8964f146e28650c18ea11c8a971dcabdb8c",
-      "git_blob": "2fb89dbcfc5347dde9b094f0ded6f785990e7e1e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-12-2.png",
-      "state": "present",
-      "sha256": "ce5d330e3b07ccab1df65fc177016d9541c96fc9bbaa25bbbdb5bee2f6d2b55e",
-      "git_blob": "38c955a41d86206ec93e6b21b2970bfe3d4fd141",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-12-4.pdf",
-      "state": "present",
-      "sha256": "2a36382e2f0da12732498487f62edd6cb240debb965a0450bc5f01f2bb3df4ae",
-      "git_blob": "e3375c6c6c58d352d25ff284f4920d11355c5322",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-13-2.png",
-      "state": "present",
-      "sha256": "d720a4e3617c8131fcb5103b87819553dbdd196a80986604b8783eb3b7245adb",
-      "git_blob": "82de84c1e37a616a4e21857919f252d74b688217",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-13-4.pdf",
-      "state": "present",
-      "sha256": "2fcd64074eb18e477062c3545c7a5db3c72cd6ad3cd77be2495ae53178751c79",
-      "git_blob": "7795801616fff72e111ace29db855434752806b2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-14-2.png",
-      "state": "present",
-      "sha256": "394347954ba01d3cd5da5238a487bdb145a783af64b2f92739dcf49432227b5f",
-      "git_blob": "a197d9c033cd5f2469185d71ed87632a9722a4b0",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-14-4.pdf",
-      "state": "present",
-      "sha256": "787fc515fb4d5f47fad0418ae889d8cb8eaa1b2c87bd2ba1366c92e3caee4ad8",
-      "git_blob": "5162d3f4d90907a9636dde16283a3a795cfc9412",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-15-2.png",
-      "state": "present",
-      "sha256": "bca063d55921d24b4b3dc96546e0c90389abfce2ee0314dbb6883001c0e8a9c2",
-      "git_blob": "b398300df6756908c34c070967bb410303ffd90e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-15-4.pdf",
-      "state": "present",
-      "sha256": "d73e9b37f19c178d8cb16caaade10ffb13f063cd96d0647ddf136d82d3210cf8",
-      "git_blob": "68e08e9ee177d27aff58ff3b53f5729f8935ce67",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-16-2.png",
-      "state": "present",
-      "sha256": "9a46a98c8d6736dc568ea8ad85b862a5df1d9931a9d53cc8691d45de923d7fcc",
-      "git_blob": "2237cc9f56afc26a9e36b91b9ce7c9b3d8b346b4",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-16-4.pdf",
-      "state": "present",
-      "sha256": "e83b759ccc8ef1dc17993607b72e82b2831c3345396a65a47bd78858948ce542",
-      "git_blob": "ccef5bf7065758a9353451fe092edc9ebb269c9b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-2-2.png",
-      "state": "present",
-      "sha256": "dd320d9120f34495ba36fbc7fc8aa4f511a08b0b8a98ba89e7ff73aed22b6f5f",
-      "git_blob": "dcbe348cfaea55b589dc8087ae3024af6817d985",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-2-4.pdf",
-      "state": "present",
-      "sha256": "df6f68e918ce1534e3f316e7aaac0e22bbfb449c19c1fe5814c84c134791c28b",
-      "git_blob": "0efec7f41fec6c41b256595efe598a894c8e4289",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-3-2.png",
-      "state": "present",
-      "sha256": "a82ac0f75325379c837e93f40af9046851d27568ab367a7ae062058a7d8acfc9",
-      "git_blob": "82540a5d0a6694b9aa7d405e3f42718a233d20a8",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-3-4.pdf",
-      "state": "present",
-      "sha256": "d05620c6caafad67dbda010aada09d586da9a32526875e020fe92c719d6b0220",
-      "git_blob": "8255c4aa71c42bcc56bc03ec92be8ad9946079e9",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-4-2.png",
-      "state": "present",
-      "sha256": "e29ac31a53693e10d64b6c80d53f4adb308e9416abfd0ac48fc4651e99a54cf1",
-      "git_blob": "4355ad4b834475ecb5fef54cc4056ea4f9fb2e9b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-4-4.pdf",
-      "state": "present",
-      "sha256": "2d04e0ddf780a8faf453d7afeca058cc108f9edcdd260f4be5f4b3be17752dbe",
-      "git_blob": "b16237c3c35343dc1a3eb7b32ae9f2c5ce1c17cf",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-5-2.png",
-      "state": "present",
-      "sha256": "d892971ada0f94237aec114943c247e8563bef2582a08075f499e9bd4fe09190",
-      "git_blob": "901c6d9838bb912772b4abb43c0dc4697db68c7d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-5-4.pdf",
-      "state": "present",
-      "sha256": "4b33760c2dccf6e2003d41636a2b4d910bd5f6bf505bdf1ce98d788db303e5e5",
-      "git_blob": "8d06329a74f3aca47404ee4b2dcf258973de7765",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-6-2.png",
-      "state": "present",
-      "sha256": "69a4632c6aa7e92ec0c870c46ae74b6d23e790497046b3b6fa962c06fa71b078",
-      "git_blob": "53d2199df8da4914ce38ae3a74f4614883218c1f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-6-4.pdf",
-      "state": "present",
-      "sha256": "06fd53a5335714e041feb8b9633eb1714cf47b1b089c5141184dd5eedb433990",
-      "git_blob": "68f1704870356992154f20e69c10737c0b245137",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-7-2.png",
-      "state": "present",
-      "sha256": "c8b0aa5c6ed3be20595f5f7333eb91a2fc2ff3f22754e4e5606c9ad0ef426f74",
-      "git_blob": "2c35ca5a8524958be1c370114b3924baaf38a3a7",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-7-4.pdf",
-      "state": "present",
-      "sha256": "f6bf0db2f45fe6b44ce8671773bbe3f487466cadeddbff213ff6f852407a54a2",
-      "git_blob": "800484ec558d315911fa7e8f15e88fe4cad0f200",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-8-2.png",
-      "state": "present",
-      "sha256": "66359a817ff9f0e77705164e681a7c9930f821f322fe7d62076c50e7a0c81b49",
-      "git_blob": "d8e7fc8cf6712647f85b250a22b9444c2edad621",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-8-4.pdf",
-      "state": "present",
-      "sha256": "650f0e8bfcf29342e2408657b174dbc1fe624824175e5b094c06e050831d6db7",
-      "git_blob": "5789eeb3911ce2b3fb5d3023c07eb03d64b6b7ef",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-9-2.png",
-      "state": "present",
-      "sha256": "04c2ff17959f8b598ee6d21563c71364313b461e09f8a32c81e21b33cdc7e7de",
-      "git_blob": "a4adf6ac8d7ce02d622d28db7084ab6ee69c70f2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/assets/exhibit-9-4.pdf",
-      "state": "present",
-      "sha256": "8d9a3ca9a178bf5e8f1f506e89b52a8f6ecf6c9dd939e7fb82daa220a9f21fe6",
-      "git_blob": "390ecbe23a382e8a430d2ddec85f9cb2d05f1251",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/econsocart.cfg",
-      "state": "present",
-      "sha256": "be1620424e9f65e15bfb983c058c6b1f8824bd62458cc825aa5e51dc473d9bf4",
-      "git_blob": "4636e2ac0f4556be61172b5a7669b0a09c1e7639",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/econsocart.cls",
-      "state": "present",
-      "sha256": "d5a8c14ac17dd95317f6c781f4936d0312bfdc09bd05a8989e583376cb2168be",
-      "git_blob": "371fa79f9055c350ae523c7b447e2c9ff2b16650",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/ecta-fullname.bst",
-      "state": "present",
-      "sha256": "7bedb399c97e7754e4b227b47ed80ef1e865428b50a0618140926f04d17b4ed9",
-      "git_blob": "316cc3300f1b85321494cf9d426628bb1652cc1b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/index.pdf",
-      "state": "present",
-      "sha256": "843e80a7414b9d443aa46466e8c8a421ed5bc38b7e58ff3a8675999289250af3",
-      "git_blob": "d9da2faf2d99185f99064a50c0230403a7ed76ed",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/index.qmd",
-      "state": "present",
-      "sha256": "14343c860a3276bcfcb848c404d65393a598b841ef559b9c41c518b05bb07daf",
-      "git_blob": "8dba1a8ddacca8d1ca37676b23c9c339f711e16a",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/index.tex",
-      "state": "present",
-      "sha256": "0be208f3fdc97efe16ae4b526e8656dfef859d90866739bb875124a4972b0dba",
-      "git_blob": "3d904fbe6d19166360f8cb0d3a68dd81686d7d08",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/preview.md",
-      "state": "present",
-      "sha256": "cf6272b7aa1e44d30a05967e2fee9bcd9247dfcf668b309626f0520efa105903",
-      "git_blob": "fcaedd656641dd2ebe04f256b02104abcf060446",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper-pdf/render.json",
-      "state": "present",
-      "sha256": "50ffefb160ef0a6288c7dbe5cb338bfea1bc13f400950b4aa87cba442f8a10be",
-      "git_blob": "f9ff2f277bc86cc1fe75cf4add98985be86c4bf1",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-1-2.png",
-      "state": "present",
-      "sha256": "05299b43a96217db2719db40f4878e3da25898c8bc110cdec01bfc1b67964a8d",
-      "git_blob": "4fa87e8f426e9ce7a9869648556afb7359eb3d35",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-1-4.pdf",
-      "state": "present",
-      "sha256": "74eee62c5c936cd3e938e3928f5f4c3b6977e9406f5c2b7993a92beca08f925e",
-      "git_blob": "f812799cbd0a8fc9d887a0467b597f12218a2022",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-10-2.png",
-      "state": "present",
-      "sha256": "abd2eabcf505eb1e5d2b3c97c467a73432273bd30458fa31c3b4a47ea8636335",
-      "git_blob": "9651c2f5cbeea426b3e920b73c6bb43229edd157",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-10-4.pdf",
-      "state": "present",
-      "sha256": "497c8297c2004c3c423b0c64c1cde5be2cbbc6a113f8d0178f0d380c3aaee4c1",
-      "git_blob": "ca8c7c3bf4b57460f93d18b1f0f1cc266327a5fa",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-11-2.png",
-      "state": "present",
-      "sha256": "4d70fdf535f8e0091ded9f269200ac390d8cdae8713c47b3909588a134506d62",
-      "git_blob": "4a633227028704386b0c208c89dc298a32ca2d0d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-11-4.pdf",
-      "state": "present",
-      "sha256": "fe77b04e31d5dbc573b1113ff4a3d8964f146e28650c18ea11c8a971dcabdb8c",
-      "git_blob": "2fb89dbcfc5347dde9b094f0ded6f785990e7e1e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-12-2.png",
-      "state": "present",
-      "sha256": "ce5d330e3b07ccab1df65fc177016d9541c96fc9bbaa25bbbdb5bee2f6d2b55e",
-      "git_blob": "38c955a41d86206ec93e6b21b2970bfe3d4fd141",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-12-4.pdf",
-      "state": "present",
-      "sha256": "2a36382e2f0da12732498487f62edd6cb240debb965a0450bc5f01f2bb3df4ae",
-      "git_blob": "e3375c6c6c58d352d25ff284f4920d11355c5322",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-13-2.png",
-      "state": "present",
-      "sha256": "d720a4e3617c8131fcb5103b87819553dbdd196a80986604b8783eb3b7245adb",
-      "git_blob": "82de84c1e37a616a4e21857919f252d74b688217",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-13-4.pdf",
-      "state": "present",
-      "sha256": "2fcd64074eb18e477062c3545c7a5db3c72cd6ad3cd77be2495ae53178751c79",
-      "git_blob": "7795801616fff72e111ace29db855434752806b2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-14-2.png",
-      "state": "present",
-      "sha256": "394347954ba01d3cd5da5238a487bdb145a783af64b2f92739dcf49432227b5f",
-      "git_blob": "a197d9c033cd5f2469185d71ed87632a9722a4b0",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-14-4.pdf",
-      "state": "present",
-      "sha256": "787fc515fb4d5f47fad0418ae889d8cb8eaa1b2c87bd2ba1366c92e3caee4ad8",
-      "git_blob": "5162d3f4d90907a9636dde16283a3a795cfc9412",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-15-2.png",
-      "state": "present",
-      "sha256": "bca063d55921d24b4b3dc96546e0c90389abfce2ee0314dbb6883001c0e8a9c2",
-      "git_blob": "b398300df6756908c34c070967bb410303ffd90e",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-15-4.pdf",
-      "state": "present",
-      "sha256": "d73e9b37f19c178d8cb16caaade10ffb13f063cd96d0647ddf136d82d3210cf8",
-      "git_blob": "68e08e9ee177d27aff58ff3b53f5729f8935ce67",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-16-2.png",
-      "state": "present",
-      "sha256": "9a46a98c8d6736dc568ea8ad85b862a5df1d9931a9d53cc8691d45de923d7fcc",
-      "git_blob": "2237cc9f56afc26a9e36b91b9ce7c9b3d8b346b4",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-16-4.pdf",
-      "state": "present",
-      "sha256": "e83b759ccc8ef1dc17993607b72e82b2831c3345396a65a47bd78858948ce542",
-      "git_blob": "ccef5bf7065758a9353451fe092edc9ebb269c9b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-2-2.png",
-      "state": "present",
-      "sha256": "dd320d9120f34495ba36fbc7fc8aa4f511a08b0b8a98ba89e7ff73aed22b6f5f",
-      "git_blob": "dcbe348cfaea55b589dc8087ae3024af6817d985",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-2-4.pdf",
-      "state": "present",
-      "sha256": "df6f68e918ce1534e3f316e7aaac0e22bbfb449c19c1fe5814c84c134791c28b",
-      "git_blob": "0efec7f41fec6c41b256595efe598a894c8e4289",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-3-2.png",
-      "state": "present",
-      "sha256": "a82ac0f75325379c837e93f40af9046851d27568ab367a7ae062058a7d8acfc9",
-      "git_blob": "82540a5d0a6694b9aa7d405e3f42718a233d20a8",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-3-4.pdf",
-      "state": "present",
-      "sha256": "d05620c6caafad67dbda010aada09d586da9a32526875e020fe92c719d6b0220",
-      "git_blob": "8255c4aa71c42bcc56bc03ec92be8ad9946079e9",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-4-2.png",
-      "state": "present",
-      "sha256": "e29ac31a53693e10d64b6c80d53f4adb308e9416abfd0ac48fc4651e99a54cf1",
-      "git_blob": "4355ad4b834475ecb5fef54cc4056ea4f9fb2e9b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-4-4.pdf",
-      "state": "present",
-      "sha256": "2d04e0ddf780a8faf453d7afeca058cc108f9edcdd260f4be5f4b3be17752dbe",
-      "git_blob": "b16237c3c35343dc1a3eb7b32ae9f2c5ce1c17cf",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-5-2.png",
-      "state": "present",
-      "sha256": "d892971ada0f94237aec114943c247e8563bef2582a08075f499e9bd4fe09190",
-      "git_blob": "901c6d9838bb912772b4abb43c0dc4697db68c7d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-5-4.pdf",
-      "state": "present",
-      "sha256": "4b33760c2dccf6e2003d41636a2b4d910bd5f6bf505bdf1ce98d788db303e5e5",
-      "git_blob": "8d06329a74f3aca47404ee4b2dcf258973de7765",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-6-2.png",
-      "state": "present",
-      "sha256": "69a4632c6aa7e92ec0c870c46ae74b6d23e790497046b3b6fa962c06fa71b078",
-      "git_blob": "53d2199df8da4914ce38ae3a74f4614883218c1f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-6-4.pdf",
-      "state": "present",
-      "sha256": "06fd53a5335714e041feb8b9633eb1714cf47b1b089c5141184dd5eedb433990",
-      "git_blob": "68f1704870356992154f20e69c10737c0b245137",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-7-2.png",
-      "state": "present",
-      "sha256": "c8b0aa5c6ed3be20595f5f7333eb91a2fc2ff3f22754e4e5606c9ad0ef426f74",
-      "git_blob": "2c35ca5a8524958be1c370114b3924baaf38a3a7",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-7-4.pdf",
-      "state": "present",
-      "sha256": "f6bf0db2f45fe6b44ce8671773bbe3f487466cadeddbff213ff6f852407a54a2",
-      "git_blob": "800484ec558d315911fa7e8f15e88fe4cad0f200",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-8-2.png",
-      "state": "present",
-      "sha256": "66359a817ff9f0e77705164e681a7c9930f821f322fe7d62076c50e7a0c81b49",
-      "git_blob": "d8e7fc8cf6712647f85b250a22b9444c2edad621",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-8-4.pdf",
-      "state": "present",
-      "sha256": "650f0e8bfcf29342e2408657b174dbc1fe624824175e5b094c06e050831d6db7",
-      "git_blob": "5789eeb3911ce2b3fb5d3023c07eb03d64b6b7ef",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-9-2.png",
-      "state": "present",
-      "sha256": "04c2ff17959f8b598ee6d21563c71364313b461e09f8a32c81e21b33cdc7e7de",
-      "git_blob": "a4adf6ac8d7ce02d622d28db7084ab6ee69c70f2",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/assets/exhibit-9-4.pdf",
-      "state": "present",
-      "sha256": "8d9a3ca9a178bf5e8f1f506e89b52a8f6ecf6c9dd939e7fb82daa220a9f21fe6",
-      "git_blob": "390ecbe23a382e8a430d2ddec85f9cb2d05f1251",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/content.md",
-      "state": "present",
-      "sha256": "5b4e3585b0e2923430df393ff070858742b97d29f0f4e871a3206ec8fb1a64af",
-      "git_blob": "c61c8fe06caf2f591ced6416cf89ea72e93f773d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/paper/meeting.json",
-      "state": "present",
-      "sha256": "ae5db13db18c31ea28b735c4148edf2506832f57042573bc16d9d2a28773853b",
-      "git_blob": "a3f6954fa53e51b75f09f7065b65241849ec6b0d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/selected-paper.json",
-      "state": "present",
-      "sha256": "0ff00993cdbf86cce952f7eb28e53bfac37c4e52fd2e64499ed1e5babd141ebd",
-      "git_blob": "51659225ba7472a7340c5ded7fc6969048403f67",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/selected-slides.json",
-      "state": "present",
-      "sha256": "75f5484f60f1c8b5b51f6c8cc7fa84247b233fa37e91b67d0ea6a87c60e62e8f",
-      "git_blob": "c75934af1c42a81fe3e15bbe2df244292c082d57",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-1-2.png",
-      "state": "present",
-      "sha256": "dd320d9120f34495ba36fbc7fc8aa4f511a08b0b8a98ba89e7ff73aed22b6f5f",
-      "git_blob": "dcbe348cfaea55b589dc8087ae3024af6817d985",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-1-4.pdf",
-      "state": "present",
-      "sha256": "df6f68e918ce1534e3f316e7aaac0e22bbfb449c19c1fe5814c84c134791c28b",
-      "git_blob": "0efec7f41fec6c41b256595efe598a894c8e4289",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-2-2.png",
-      "state": "present",
-      "sha256": "e29ac31a53693e10d64b6c80d53f4adb308e9416abfd0ac48fc4651e99a54cf1",
-      "git_blob": "4355ad4b834475ecb5fef54cc4056ea4f9fb2e9b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-2-4.pdf",
-      "state": "present",
-      "sha256": "2d04e0ddf780a8faf453d7afeca058cc108f9edcdd260f4be5f4b3be17752dbe",
-      "git_blob": "b16237c3c35343dc1a3eb7b32ae9f2c5ce1c17cf",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-3-2.png",
-      "state": "present",
-      "sha256": "69a4632c6aa7e92ec0c870c46ae74b6d23e790497046b3b6fa962c06fa71b078",
-      "git_blob": "53d2199df8da4914ce38ae3a74f4614883218c1f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-3-4.pdf",
-      "state": "present",
-      "sha256": "06fd53a5335714e041feb8b9633eb1714cf47b1b089c5141184dd5eedb433990",
-      "git_blob": "68f1704870356992154f20e69c10737c0b245137",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-4-2.png",
-      "state": "present",
-      "sha256": "66359a817ff9f0e77705164e681a7c9930f821f322fe7d62076c50e7a0c81b49",
-      "git_blob": "d8e7fc8cf6712647f85b250a22b9444c2edad621",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-4-4.pdf",
-      "state": "present",
-      "sha256": "650f0e8bfcf29342e2408657b174dbc1fe624824175e5b094c06e050831d6db7",
-      "git_blob": "5789eeb3911ce2b3fb5d3023c07eb03d64b6b7ef",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-5-2.png",
-      "state": "present",
-      "sha256": "abd2eabcf505eb1e5d2b3c97c467a73432273bd30458fa31c3b4a47ea8636335",
-      "git_blob": "9651c2f5cbeea426b3e920b73c6bb43229edd157",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-5-4.pdf",
-      "state": "present",
-      "sha256": "497c8297c2004c3c423b0c64c1cde5be2cbbc6a113f8d0178f0d380c3aaee4c1",
-      "git_blob": "ca8c7c3bf4b57460f93d18b1f0f1cc266327a5fa",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-6-2.png",
-      "state": "present",
-      "sha256": "ce5d330e3b07ccab1df65fc177016d9541c96fc9bbaa25bbbdb5bee2f6d2b55e",
-      "git_blob": "38c955a41d86206ec93e6b21b2970bfe3d4fd141",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-6-4.pdf",
-      "state": "present",
-      "sha256": "2a36382e2f0da12732498487f62edd6cb240debb965a0450bc5f01f2bb3df4ae",
-      "git_blob": "e3375c6c6c58d352d25ff284f4920d11355c5322",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-7-2.png",
-      "state": "present",
-      "sha256": "394347954ba01d3cd5da5238a487bdb145a783af64b2f92739dcf49432227b5f",
-      "git_blob": "a197d9c033cd5f2469185d71ed87632a9722a4b0",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-7-4.pdf",
-      "state": "present",
-      "sha256": "787fc515fb4d5f47fad0418ae889d8cb8eaa1b2c87bd2ba1366c92e3caee4ad8",
-      "git_blob": "5162d3f4d90907a9636dde16283a3a795cfc9412",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-8-2.png",
-      "state": "present",
-      "sha256": "9a46a98c8d6736dc568ea8ad85b862a5df1d9931a9d53cc8691d45de923d7fcc",
-      "git_blob": "2237cc9f56afc26a9e36b91b9ce7c9b3d8b346b4",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/assets/exhibit-8-4.pdf",
-      "state": "present",
-      "sha256": "e83b759ccc8ef1dc17993607b72e82b2831c3345396a65a47bd78858948ce542",
-      "git_blob": "ccef5bf7065758a9353451fe092edc9ebb269c9b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/index.html",
-      "state": "present",
-      "sha256": "4d9254747afca78be8c6df6b716166e997b3fc5798ac23d63d6bba0d6850cc33",
-      "git_blob": "5b9d2a3efdb51dad571e82407b1fd6036f1191d6",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/index.qmd",
-      "state": "present",
-      "sha256": "51287e79ef306fb8bd0674ca75f86585c5f96a57ae8a016f5a23a3007f3cc1e9",
-      "git_blob": "20834ab570e18516d431fc2309f42427e2e38918",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/preview.md",
-      "state": "present",
-      "sha256": "10a7b6b6f89be555cb3996542c22efd686cbb30e97c7c22919b6991023c3b10a",
-      "git_blob": "ec328e2205e844bbd77f5e1420bdf5291cdba3e1",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-html/render.json",
-      "state": "present",
-      "sha256": "80f59cb5334de7103cbd401a2b6baa34bf310e4a447548d161b4d1bbc8046c85",
-      "git_blob": "d636366b4fb6d814184cdfed2455471693d4a0d0",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-1-2.png",
-      "state": "present",
-      "sha256": "dd320d9120f34495ba36fbc7fc8aa4f511a08b0b8a98ba89e7ff73aed22b6f5f",
-      "git_blob": "dcbe348cfaea55b589dc8087ae3024af6817d985",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-1-4.pdf",
-      "state": "present",
-      "sha256": "df6f68e918ce1534e3f316e7aaac0e22bbfb449c19c1fe5814c84c134791c28b",
-      "git_blob": "0efec7f41fec6c41b256595efe598a894c8e4289",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-2-2.png",
-      "state": "present",
-      "sha256": "e29ac31a53693e10d64b6c80d53f4adb308e9416abfd0ac48fc4651e99a54cf1",
-      "git_blob": "4355ad4b834475ecb5fef54cc4056ea4f9fb2e9b",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-2-4.pdf",
-      "state": "present",
-      "sha256": "2d04e0ddf780a8faf453d7afeca058cc108f9edcdd260f4be5f4b3be17752dbe",
-      "git_blob": "b16237c3c35343dc1a3eb7b32ae9f2c5ce1c17cf",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-3-2.png",
-      "state": "present",
-      "sha256": "69a4632c6aa7e92ec0c870c46ae74b6d23e790497046b3b6fa962c06fa71b078",
-      "git_blob": "53d2199df8da4914ce38ae3a74f4614883218c1f",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-3-4.pdf",
-      "state": "present",
-      "sha256": "06fd53a5335714e041feb8b9633eb1714cf47b1b089c5141184dd5eedb433990",
-      "git_blob": "68f1704870356992154f20e69c10737c0b245137",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-4-2.png",
-      "state": "present",
-      "sha256": "66359a817ff9f0e77705164e681a7c9930f821f322fe7d62076c50e7a0c81b49",
-      "git_blob": "d8e7fc8cf6712647f85b250a22b9444c2edad621",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-4-4.pdf",
-      "state": "present",
-      "sha256": "650f0e8bfcf29342e2408657b174dbc1fe624824175e5b094c06e050831d6db7",
-      "git_blob": "5789eeb3911ce2b3fb5d3023c07eb03d64b6b7ef",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-5-2.png",
-      "state": "present",
-      "sha256": "abd2eabcf505eb1e5d2b3c97c467a73432273bd30458fa31c3b4a47ea8636335",
-      "git_blob": "9651c2f5cbeea426b3e920b73c6bb43229edd157",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-5-4.pdf",
-      "state": "present",
-      "sha256": "497c8297c2004c3c423b0c64c1cde5be2cbbc6a113f8d0178f0d380c3aaee4c1",
-      "git_blob": "ca8c7c3bf4b57460f93d18b1f0f1cc266327a5fa",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-6-2.png",
-      "state": "present",
-      "sha256": "ce5d330e3b07ccab1df65fc177016d9541c96fc9bbaa25bbbdb5bee2f6d2b55e",
-      "git_blob": "38c955a41d86206ec93e6b21b2970bfe3d4fd141",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-6-4.pdf",
-      "state": "present",
-      "sha256": "2a36382e2f0da12732498487f62edd6cb240debb965a0450bc5f01f2bb3df4ae",
-      "git_blob": "e3375c6c6c58d352d25ff284f4920d11355c5322",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-7-2.png",
-      "state": "present",
-      "sha256": "394347954ba01d3cd5da5238a487bdb145a783af64b2f92739dcf49432227b5f",
-      "git_blob": "a197d9c033cd5f2469185d71ed87632a9722a4b0",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-7-4.pdf",
-      "state": "present",
-      "sha256": "787fc515fb4d5f47fad0418ae889d8cb8eaa1b2c87bd2ba1366c92e3caee4ad8",
-      "git_blob": "5162d3f4d90907a9636dde16283a3a795cfc9412",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-8-2.png",
-      "state": "present",
-      "sha256": "9a46a98c8d6736dc568ea8ad85b862a5df1d9931a9d53cc8691d45de923d7fcc",
-      "git_blob": "2237cc9f56afc26a9e36b91b9ce7c9b3d8b346b4",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/assets/exhibit-8-4.pdf",
-      "state": "present",
-      "sha256": "e83b759ccc8ef1dc17993607b72e82b2831c3345396a65a47bd78858948ce542",
-      "git_blob": "ccef5bf7065758a9353451fe092edc9ebb269c9b",
+      "sha256": "c940060eab651e075ba87d2111420a30b42232cbddc889fb7f6cf078e4df9d87",
+      "git_blob": "4e6b7b21b35fc732cfb2d258b7b81e85fdc81904",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "examples/research-workspace/materials/slides-pdf/index.pdf",
       "state": "present",
-      "sha256": "90528bf005fa6e47e84f9f1201fe5dd80607a5b1866094621bb952a3596b667e",
-      "git_blob": "47230a5c44f531cf12e6ef1db64b86497e3561ae",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/index.qmd",
-      "state": "present",
-      "sha256": "78798e64550dfe6cdc84313f2cec0d6db248a4d9a831016d1ff9d5a5f42e42e9",
-      "git_blob": "e3d650d33c430ce5e376519847446779799a1b0a",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/index.tex",
-      "state": "present",
-      "sha256": "c7d0def39800721124fd154000dfba7fdbbc13dbdeb50bf9b57fac3ad8397f97",
-      "git_blob": "2812f7248ec5561b8111bbcb372eef0d90f45110",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/materials/slides-pdf/preview.md",
-      "state": "present",
-      "sha256": "10a7b6b6f89be555cb3996542c22efd686cbb30e97c7c22919b6991023c3b10a",
-      "git_blob": "ec328e2205e844bbd77f5e1420bdf5291cdba3e1",
+      "sha256": "186b17bb3ce53487eb8070880d672ce0e2dbca367da4b3ace98323dcf9ca3b5f",
+      "git_blob": "bc271034f9b652e1784f34a26bff236bff36ee35",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "examples/research-workspace/materials/slides-pdf/render.json",
       "state": "present",
-      "sha256": "8237af417609e4cccb2d2240d470e069911bd65c8d8e5d4e138c2a3bb357a1ba",
-      "git_blob": "cd3a7c882c20c08b41296d9078b7ebeae98eee6c",
+      "sha256": "2621236473f5814fb689e686b38ac90bcfe21b3716571f3348504470e26a276c",
+      "git_blob": "de2717c99dca85a1e57af22597b3dc8d6dcde779",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -6697,13 +3857,13 @@
     {
       "path": "examples/research-workspace/materials/slides/meeting.json",
       "state": "present",
-      "sha256": "2fc553aff6529fed7c92d2b920f3b73a2e3c4e3664f6f63761f15c63dc67aefb",
-      "git_blob": "172fd76a45872e9b7445ec8f7944b52534fc0f0d",
+      "sha256": "6bf9ffe1359131f1014c84e1104f1a89afd2e39ff20172e5dc1884e7937473dd",
+      "git_blob": "8b85049bc339f1644935e8bd86865fbe7f3badcf",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "examples/research-workspace/materials/writing/causal-paper.md",
+      "path": "examples/research-workspace/materials/writing/causal-original.md",
       "state": "present",
       "sha256": "0c877a76788e499ed42f537ffb7e3c8429f7bcb622a12a998f352557e5d04f76",
       "git_blob": "301812cc2a14dc225a41adfa1805fb2cdf732c0f",
@@ -6711,10 +3871,66 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
+      "path": "examples/research-workspace/materials/writing/causal-paper.md",
+      "state": "present",
+      "sha256": "ddf26b355933d16b3a2002f560f1a06ef5d8524b17e19e6ec77023a84d51324a",
+      "git_blob": "cc2de6ada3ed2d789ae4db7541a1fcdc8f643f03",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/materials/writing/causal-referee-comments.md",
+      "state": "present",
+      "sha256": "d2f30360ffe0cd7e145ad8aad2a27feac472ff250138fd2deaec498a1961c002",
+      "git_blob": "71772cc3fcb3bb267bf6c7d999225f6f5a793347",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/materials/writing/causal-referee-contract.json",
+      "state": "present",
+      "sha256": "acde19d46b1a1c93752702e18fd85790f0d620e66a3696c85b5edc4ef96e0e0c",
+      "git_blob": "cd84b369878d2eaf3e38ae1fb6f28b7613e3357a",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/materials/writing/causal-referee-initial-review.json",
+      "state": "present",
+      "sha256": "76e524aae8b38b3b8a7918852a03487ee92e603f62d6f79d882de077762bc28e",
+      "git_blob": "df1eacb7b71bf64fd5d17d2565c38434041058f8",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/materials/writing/causal-referee-response.md",
+      "state": "present",
+      "sha256": "4f8dc1cdaf033a9280ee041cb64ab887ddc9b11e8f463bd67b1738a7ab3db6bf",
+      "git_blob": "517d5599decd6d74e507c6c1edb0ec0ca61948be",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/materials/writing/causal-referee-review.json",
+      "state": "present",
+      "sha256": "a4b0b67074c2ba12a249a1e2ba764de855a34bc563fc78dc244f1924c66e89ea",
+      "git_blob": "c8b7c9e4bc98f3a7a220d097c819a5324c4f89c8",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/materials/writing/common-regression-results.md",
+      "state": "present",
+      "sha256": "2ff33cb026f0d2bbf0c79a99954c4de94ab9ef6e6fc2630110bc91a65d67cff4",
+      "git_blob": "d1927709c4434597ac3b78e6f276dc2592161199",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
       "path": "examples/research-workspace/materials/writing/execution.json",
       "state": "present",
-      "sha256": "4c69e43564c6c3bf6ddad8b1b5c9772ca1bda320a6871ccd7e3235504965fbac",
-      "git_blob": "4b942450ea5978416e284b21497b1f07a0b01b97",
+      "sha256": "2a3affeadf34997007419e04ed3d79d973a09fbaf45d0072e0fc37a37e01e21b",
+      "git_blob": "a3ef02f6026955ba4c157ace14911f6681ed9fc1",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -6729,8 +3945,8 @@
     {
       "path": "examples/research-workspace/materials/writing/growth-paper.md",
       "state": "present",
-      "sha256": "d7047ef7ef3839e472820bd10510a71c5f2291bafa2a1a7b1a7c40aeeb18ec5e",
-      "git_blob": "4d5fe61ed5ba89449d0fa22c1c1c50e8fe9028ce",
+      "sha256": "78087e675f6e6afc976e8d71cac3d24ed9c075bf1d05e1ad2cc77d74c0a8bc04",
+      "git_blob": "91b004593851a7d8b61f9331075bd54cc6790791",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -6745,8 +3961,8 @@
     {
       "path": "examples/research-workspace/materials/writing/referee-contract.json",
       "state": "present",
-      "sha256": "5f65b75318b6cd9f2f321411d299225d4c7c37d34d56b7f33bebb02e1419a22a",
-      "git_blob": "f3b5cf6c89b65fef270da35faebf0ba2c31ccb29",
+      "sha256": "2fdbfd0e5009a838c74150c13c760068f8be5d1647c59c59182c2c3dcd89da6c",
+      "git_blob": "5b2ad30984887839f665208a0cf56ef167919378",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -6777,8 +3993,16 @@
     {
       "path": "examples/research-workspace/materials/writing/revision-examples.md",
       "state": "present",
-      "sha256": "9f4bbdb6cf01e4c2bd24181f11a80a6ab79be34b421214114658f10f3ba5022d",
-      "git_blob": "591d1b1918b42a6b0598ad9dda74250486f4c6d0",
+      "sha256": "3df7bd679d92eabb74b21f9ac77ce357748e3fe8246f35bc071c01b4615ac9e7",
+      "git_blob": "e1ab6f390efdad694e5ed5d5b1b2909c30ae7b9f",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/materials/writing/structural-heterogeneity-paper.md",
+      "state": "present",
+      "sha256": "570fdc0122c5bbcd925b2b4344cabee7b9e8dbfea20bd0767ea538d90332a7a7",
+      "git_blob": "a682032dd1f71ecec6bdc16a735946854fdce2e0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -6823,6 +4047,22 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
+      "path": "examples/research-workspace/models/blp-random-merger-result.json",
+      "state": "present",
+      "sha256": "2ee59125761f52b0b2693d0fa975864bb199c68de6460fb9a1eeae0daea96fd9",
+      "git_blob": "6ca635a4d78688edd629dc32723e240731181364",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/models/blp-random-merger.json",
+      "state": "present",
+      "sha256": "de5f204e3e7acc56f03eb16956114c6915cd2edeb03b5478b3d0745c485ad0cd",
+      "git_blob": "e927ba028a4da60de87c62f55ee97e1e58998eae",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
       "path": "examples/research-workspace/models/blp-supply-result.json",
       "state": "present",
       "sha256": "876ac6e473508b4cdf12deab6f424107f705de01c374b5063e9aea5d28707a77",
@@ -6835,6 +4075,46 @@
       "state": "present",
       "sha256": "3f5761bc470fd306c973143440599ed1142c6a1985e96c4d1e0925bfcae3bf9d",
       "git_blob": "c6e478fe454f60507898575c71dbe5bf3b7e8d2c",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/models/common-iv2sls-result.json",
+      "state": "present",
+      "sha256": "b237b6b6d9f4a18bfb3ecc1ca3cfa507ec6a3ce1a7c1f3150738a492f9220cd8",
+      "git_blob": "592af3d99a020da6b95948ef2a9cac81e35dab92",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/models/common-iv2sls-spec.json",
+      "state": "present",
+      "sha256": "98a25c4534ef78ff51b2600ee67f6a31fd8fb90d06b4dab7b7f3b64b612f527d",
+      "git_blob": "ff6f81912f888f786c0e04be1a9bc1e370e89bf8",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/models/common-ols-result.json",
+      "state": "present",
+      "sha256": "bd41866b29f6cb06f145c0a60030487e5bfa7999555d8dffaf7fbd99edf1e643",
+      "git_blob": "d4c5545f0e6a5d7ea755e058f93cb50c01a01c51",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/models/common-ols-spec.json",
+      "state": "present",
+      "sha256": "bb8d279b327a57b62aab97b56629d53497ff27eb633d0ac123a3ef739c90fb50",
+      "git_blob": "3e9e5c76f159da16661013e761450d55f85f689d",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": "examples/research-workspace/models/common-regression-data.csv",
+      "state": "present",
+      "sha256": "0ceba8f038605e2df8e30115c3dac7a49cd1773d146304dfdbb33986a2cdeac5",
+      "git_blob": "271c0d9c7644420d5e8dda57e067e843a07a324b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -6857,8 +4137,8 @@
     {
       "path": "examples/research-workspace/models/display-items.json",
       "state": "present",
-      "sha256": "5e0ea3ade1874e9d847f994f3cb1f0dc37d63607b427ab66bec1c4504fcaef65",
-      "git_blob": "6ec791749f964147c22749af5c4a83a9a1e11c5c",
+      "sha256": "117e3820647cbe9f0712500ea18365457a93273bba58c6d78e68d76268a3b2d8",
+      "git_blob": "a3ac3a0d812a018d53b85320317842eb20c1f618",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -6985,8 +4265,8 @@
     {
       "path": "examples/research-workspace/models/sources.json",
       "state": "present",
-      "sha256": "47423767e519cdeb47c6cddc884bf8cb033eb36280a772e0b5fbc371621fdf23",
-      "git_blob": "9b577c4e71d81d08712b65d5f3a81d505409ad55",
+      "sha256": "5fc224dc80a98c9dd0b0533c32682548525ca350dcd2af42afd1f9e9cde25362",
+      "git_blob": "7245b583f912f4c95b54a727a2c4168227d5f91a",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7043,14 +4323,6 @@
       "state": "present",
       "sha256": "74418bc75dcbb53c566c5ec0a660c12777b3e96b2f3321315ec278d9efc9b844",
       "git_blob": "a87598cf9cc195a2cc5cfe32b0f1945be61d87cb",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "examples/research-workspace/saved-results.json",
-      "state": "present",
-      "sha256": "37552361fa3c9a97a3a9ce41932389ac8aa5745de1979bb6b2635b5968ea2930",
-      "git_blob": "0f5e918e889ede20027576a846a138a5a04da671",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7113,8 +4385,8 @@
     {
       "path": "harness/meetings.md",
       "state": "present",
-      "sha256": "2ef8e6980bd80fd3292edb22459af74b25525f9941b266adada4538709d84b24",
-      "git_blob": "b248f1fcf9960449a438c2f59d0339ac8ab2669c",
+      "sha256": "474a0760e100ba6d3f355c4216a5b18e59180d8230b4bf39471b2c98b8fa9843",
+      "git_blob": "2df823152d2584d1abb5a1098f1efbcefc00d063",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7145,8 +4417,8 @@
     {
       "path": "harness/policy_assets.py",
       "state": "present",
-      "sha256": "3cdb4ad0d56189ed5e7c62885c7a0377ca9ec86e31533a156dabf4a93ae24713",
-      "git_blob": "89e2ae224febf14dc2917d32d779d75057609e76",
+      "sha256": "cc7025cacc6ab25de839c36ee811a6509063fbe92aea2d033452c1fa507cd2e8",
+      "git_blob": "7dc731487050e8d7c0b539981495f0ada57d7f66",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7193,24 +4465,24 @@
     {
       "path": "harness/research.py",
       "state": "present",
-      "sha256": "3d22cc3fbb27ebc6187b2b62146c49a567e5b7ad257ffc2c7fcfe19db81cb12c",
-      "git_blob": "e8a492c2dcb532088d6cedd94aff1d9a0e985638",
+      "sha256": "f0976a13a4f8f78ee56cf2fce62a48d6d02a000fad3e17d4569b249d9d083ba0",
+      "git_blob": "554e98d188fe0d254ae76ba577d5459d22b520a5",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "harness/research_artifacts.py",
       "state": "present",
-      "sha256": "420d0400c7b97950d62324ebe2bb6e89493ae57b1327a94f8603e97f7a45914f",
-      "git_blob": "6b39a88718887a98368fd599efa29519a1bc1784",
+      "sha256": "a8d5352afb78f1971049e171e28d5457c55223d3c6033ac3d798c79b465193ef",
+      "git_blob": "95431a6b23cc7e44bd96f109428c55f83b40ade0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "harness/research_evidence.py",
       "state": "present",
-      "sha256": "da21b4e97ea078c52d3773a9a323ed6139eb2089fd3fc1bd6b77d523ebc12917",
-      "git_blob": "8adfe0cf2df1af5337f7617cbd6ab2b85614897a",
+      "sha256": "edfb7651bbc06edc5f2528d0e2cb5b7cf00cb11c9f2f4702e0bd9aec54d6530e",
+      "git_blob": "e092510640ed72e6f2c7a121de3a311c4dfc27ad",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7225,8 +4497,8 @@
     {
       "path": "harness/research_meetings.py",
       "state": "present",
-      "sha256": "13f570256cbad476aa3165fd95802c2d4e853a627635b43c1295fbb005573e30",
-      "git_blob": "df347ece491e004327bacd73a19af3505b3960a6",
+      "sha256": "9daefa05fe0cb8661fb1af22aec5d6e96e3936ac8adb3f551f9f4d1ce7efcb7c",
+      "git_blob": "d9c440a4812014c7de5ac40aaa8cfec204af55c8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7241,24 +4513,24 @@
     {
       "path": "harness/state.py",
       "state": "present",
-      "sha256": "62b909c7ce7c5600c1f5314eb3745d3463dca1aac035b6bf3dbebebe6ff27699",
-      "git_blob": "43027f8579b5bb2298d89ccbb310407ffe7ab5d7",
+      "sha256": "8d2f8f48ce4ef8be2e32018b255a58507e0619a21ceb1fd4749bdbaf7630f0de",
+      "git_blob": "69a6d0c3302475a97a1541e3f077dc2d1a22df78",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "harness/test_research.py",
       "state": "present",
-      "sha256": "9c0b99f9b5e392f07d11acec5f922c16f16087fdb3b1a7773f4ee5aa5a1e779d",
-      "git_blob": "b694e39f2e955c3d4ec96c0140e787f414c63549",
+      "sha256": "ba6e6f167802e053dd4c698893e80af5612fb73fec6cd74a8f3dc10f5f623421",
+      "git_blob": "516e9b6c8c1ac68991055f28df0bd1ed30895b51",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "harness/test_research_evidence.py",
       "state": "present",
-      "sha256": "88f8a902334d3cbc3cd1ad4867ebba8f6d4dc41a5b93f4dfef769742ebc20e5d",
-      "git_blob": "99e366165305932e9728eb898d13d64caf84cc29",
+      "sha256": "bc8622631bf9c8a14d49ac28358bcf2707fe8bc04493225f1b12ee5d08999520",
+      "git_blob": "a2f563179679c6f879088d56b38a7f62174ccff0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7369,8 +4641,8 @@
     {
       "path": "plugin.json",
       "state": "present",
-      "sha256": "36bb50435ef1cada5f68be7df31ec891edacac89c64027297d1b8ec745e49a4a",
-      "git_blob": "e9f53b698d19bef7fc17d4ecc6309bbb381cb3e1",
+      "sha256": "3e8af56dde0435aed055f5c72ac2d8d08cbd728854e374fd453d5f6ea53a89ba",
+      "git_blob": "8d558bf40181d46af8fcee7fadf95621eedd1050",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7601,8 +4873,8 @@
     {
       "path": "registry/resources.json",
       "state": "present",
-      "sha256": "0adab7199c0edff256b096324d6d580a4ebe06a31f7e4b0f680908ec678af79b",
-      "git_blob": "6ed3a61063d2017e643dbee37faa62fb7eda07ac",
+      "sha256": "eca03fe1d3d261fb5ba32843c59c98db39ae56c16bae4482f2dc878454b9fad6",
+      "git_blob": "2abd3cbae0117c1c98b0cad6fafe6044ba711b7b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7905,8 +5177,8 @@
     {
       "path": "skills/econ-data/scripts/research_causal.py",
       "state": "present",
-      "sha256": "eca370a50d3dbfd2dfeab97f9ca4e476b0433b8a006c122fcf2f312878c35638",
-      "git_blob": "82c6e7f9b9b595b596b2028ca980bfc312bf6306",
+      "sha256": "4e2fc819110745fa948226662a87a09bb681074f034f9654edcc28408c52e5d5",
+      "git_blob": "46250557cf193e7242231debaf60956d1f6da60f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7953,8 +5225,8 @@
     {
       "path": "skills/econ-data/scripts/research_markets.py",
       "state": "present",
-      "sha256": "0c5cccaf1337e6cbe0cc55f426fce8418f892321919b38e896fcb50cb1baebee",
-      "git_blob": "ab133eb65408eec2471d465997044d11a67953bd",
+      "sha256": "792cf3958dd74767f8c931d861fe0c97f16bec9a5bd59ec6b26f8cbfc2bab1ed",
+      "git_blob": "be5404b915be4dd0cb4ecc06ba62607306aacd72",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -7969,8 +5241,8 @@
     {
       "path": "skills/econ-data/scripts/research_numerics.py",
       "state": "present",
-      "sha256": "a369061617a2e308084a798734c597acf6f5aec436b8ffbbb73b63c649116f04",
-      "git_blob": "f7af05973988cd72e396d57ae0cae0095a1b3c0f",
+      "sha256": "2485fd859ae7b78545abfda573ae0531b45ae5ad5e038df21776d156b115d27a",
+      "git_blob": "361660f935428f3d5dece39603ac9d552dff8c8c",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -8009,8 +5281,8 @@
     {
       "path": "skills/econ-design/references/causal-models.md",
       "state": "present",
-      "sha256": "0eb2e5533f51c752ba11e5e30ddd1673ab6e9d4bcf8042332b755c9a6002b7f0",
-      "git_blob": "4aa4191451dd4c3dd2cb7b33763b1ebdafdd476d",
+      "sha256": "c2b865a0f34365e49ca9ab8d950eb433d7460688f913559b050f8af9fa2a0aa6",
+      "git_blob": "acc8bf81167608416468f68d90d33bd997a4dec8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -8049,16 +5321,16 @@
     {
       "path": "skills/econ-design/references/market-models.md",
       "state": "present",
-      "sha256": "75b0fcc90626384f353ed7dfc3438969952b42545e6b93bf75cbf146fcb922ee",
-      "git_blob": "1dd52d05525da1e9ddefe781724e34428d740f85",
+      "sha256": "0f321244f6321e2b377ce8dde541b4aacac8a6ad2b2be1e9787fecfa345c34f0",
+      "git_blob": "4a80cbd427f18d5ff93529f643c310d12a27f399",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "skills/econ-design/references/numerical-models.md",
       "state": "present",
-      "sha256": "673fcee56f16a4ff73a028ea80a926c871d9ada59ebc458f76edaa1e2d9a593f",
-      "git_blob": "db64e533aaeb9fe44672d0877d5b20fa3909a6c5",
+      "sha256": "ca34fc833229017aaf3dca3a0f75157b8f99a4e964647e698a7e3e7074987eba",
+      "git_blob": "d925a99a56bf6690f0219b15af1ac3424421536d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -8081,8 +5353,8 @@
     {
       "path": "skills/econ-knowledge/references/catalog.json",
       "state": "present",
-      "sha256": "ecef9d71b867607941225938b35f9bcc85cb8d0fa1fb1cb923ff633310f96e14",
-      "git_blob": "d525aaab19b49b7da9f492179f9aaf651e127fc3",
+      "sha256": "af007b271111efa2c66a7afed669a36b26f709657a25daee57ed30bb35daa4d9",
+      "git_blob": "c46c4262c112180176c10846a430c33316b047aa",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -8665,16 +5937,16 @@
     {
       "path": "skills/econ-knowledge/references/manifest.json",
       "state": "present",
-      "sha256": "35b594e9199251f7fe8886757dda5d6a4c2b965f28f7ec3bdbc2dac12320a482",
-      "git_blob": "4c83c46aed4954435c5fc0db5753fd3d189dbe46",
+      "sha256": "31390950ae3cf1212af9b4a34935956499e54fca01986106650185258d1a1247",
+      "git_blob": "32094a17825051a24ba6c8ba453e00802ed0c9e0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "skills/econ-knowledge/references/model-contracts.json",
       "state": "present",
-      "sha256": "4ab3cc387d1bb86f1698bb3a1e6c75b982c68b0c16ffb5f71186ccd01d25a504",
-      "git_blob": "1e03c3450928c4a2f6f55684f44a33d41dbb2ee0",
+      "sha256": "fc32d8dd58a237ecee0d1e5cce89217285ec9b9a70a08361bf2aec3ea7f5ed4b",
+      "git_blob": "9d6f0ec9b2b8d2e5a05a16710de898b42a839bd3",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -10793,8 +8065,8 @@
     {
       "path": "skills/econ-writing/SKILL.md",
       "state": "present",
-      "sha256": "5b97b51e98065018b69b3a2e71cf74fd4ef5b290f393d02c21ead4f757817664",
-      "git_blob": "c1e8b72809c9697907f77cfad8735e10c507cbb0",
+      "sha256": "a495822f5e4529cc40299c37532576a9b8ef91b6a75c14742feecb1f23face3d",
+      "git_blob": "7dd241a767433303699cc7f0e3a22d9660a92129",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -10809,24 +8081,24 @@
     {
       "path": "skills/econ-writing/references/paper-workflow.md",
       "state": "present",
-      "sha256": "62f68d8f1fe742742e436d7c4c14f5f10f0035736f1997e8a97a62235ca65904",
-      "git_blob": "01fd960b7c93fc1b317d9d1f01310d3b6c6ceb29",
+      "sha256": "f719fd8860bbef36d869e5b471d5038b3993f95e797b355212b46ad492120796",
+      "git_blob": "521d8cf638218fb53f0b62f30dee4519beaf912f",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "skills/econ-writing/references/paragraph-workflow.md",
       "state": "present",
-      "sha256": "3570aaccd056e6acdd55400eb40a5d17145ab122242d0fbb59a5f171bccc27d4",
-      "git_blob": "d9c94570e4a79b6493fcf94142e0e4b81ad86c0e",
+      "sha256": "5b042d1a4b99266667cc82c625f1016f6d336b0958c2f3bdd1059f4ccfd4ff81",
+      "git_blob": "2e5eedef902f2cc3d332ee18431e3c553da20c54",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
       "path": "skills/econ-writing/references/result-artifacts.md",
       "state": "present",
-      "sha256": "28dd705fb1a02d0b5a12c7c64a5c69625d40b96a62c9b18e9d2c804121d7733d",
-      "git_blob": "4cb03586e56da6de96c51a9c7f68fd54f011cda7",
+      "sha256": "1caee2e10453d25126e7ea0be6706f17e374a683dd3aac872a743feb1f51d2c1",
+      "git_blob": "89441ced23957bec80f91b01870e90f649b9d3c0",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },

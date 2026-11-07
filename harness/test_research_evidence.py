@@ -114,11 +114,26 @@ class EvidenceTests(unittest.TestCase):
                  'equilibrium_selection': 'unique maximizer', 'horizon': 'one period'}
         saved['adopted'] = {**model, 'sample_ids': ['individual-1']}
         saved['effective_options'] = {'raw_records': [{'private_row': index} for index in range(50)]}
+        saved['options'] = copy.deepcopy(saved['effective_options'])
         saved['run_id'] = 'saved-fit-run'
         spec['sources'][0]['metadata'] = {'welfare_definition': 'net benefit in currency per person'}
         self.write('saved.json', json.dumps(saved))
         registry = artifacts.normalize(self.root, spec)
-        self.write('gallery.json', json.dumps(registry))
+        registry['items']['fit-alternative-view'] = copy.deepcopy(registry['items']['fit-coefficients'])
+        registry['items']['fit-alternative-view']['id'] = 'fit-alternative-view'
+        registry['items']['fit-alternative-view']['metadata']['interval_type'] = 'saved-pointwise'
+        artifacts.save_registry(self.root / 'gallery.json', registry)
+        self.assertEqual(artifacts.load(self.root / 'gallery.json'), registry)
+        stored = json.loads((self.root / 'gallery.json').read_text())
+        self.assertIn('shared_metadata', stored)
+        self.assertEqual(stored['records']['fit']['source_fields']['options'], ['options'])
+        self.assertNotIn('options', stored['records']['fit'])
+        shared = next(iter(stored['shared_metadata'].values()))
+        self.assertEqual(shared['producers']['fit']['source_fields']['effective_options'], ['effective_options'])
+        self.assertEqual(stored['records']['fit']['source_result'], saved)
+        stored['records']['fit']['source_fields']['options'] = ['missing_options']
+        with self.assertRaisesRegex(ValueError, 'missing JSON key'):
+            artifacts.expand_registry(stored)
         (self.root / 'saved.json').unlink()
         (self.root / 'code.py').unlink()
         selected = artifacts.gallery_items(self.root, 'gallery.json', item_ids=['fit-coefficients'])[0]
@@ -194,6 +209,24 @@ class EvidenceTests(unittest.TestCase):
         self.assertNotIn('sample_ids', cell)
         self.assertIsNone(items['saved-group_time']['metadata']['interval_type'])
         self.assertEqual(items['saved-group_time-cohort-event']['metadata']['display_source']['key'], ['diagnostics', 'group_time'])
+        registry = {'schema': 'research-artifact-registry-v1', 'records': {'saved': {'source_result': source}},
+                    'statistics': {}, 'items': items}
+        items['saved-subset'] = {**copy.deepcopy(outcomes), 'id': 'saved-subset', 'rows': outcomes['rows'][:1]}
+        artifacts.save_registry(self.root / 'gallery.json', registry)
+        stored = json.loads((self.root / 'gallery.json').read_text())
+        self.assertIn('rows_ref', stored['items']['saved-displays-outcomes'])
+        self.assertNotIn('rows', stored['items']['saved-displays-outcomes'])
+        self.assertEqual(stored['items']['saved-subset']['rows'], outcomes['rows'][:1])
+        self.assertEqual(artifacts.load(self.root / 'gallery.json'), registry)
+        registry['items'] = {'saved-displays-outcomes': outcomes}
+        artifacts.save_registry(self.root / 'single.json', registry)
+        self.assertEqual(artifacts.load(self.root / 'single.json'), registry)
+        selected = artifacts.gallery_items(self.root, 'single.json')[0]
+        self.assertEqual(selected['rows'], outcomes['rows'])
+        stored = json.loads((self.root / 'single.json').read_text())
+        stored['items']['saved-displays-outcomes']['rows_ref']['key'] = ['displays', 'absent']
+        with self.assertRaisesRegex(ValueError, 'missing JSON key'):
+            artifacts.expand_registry(stored)
 
     def test_comparison_retains_definitions_within_one_display(self):
         definitions = {'estimand': 'ATT(g,t)', 'population': 'eligible people', 'sample': 'sample-v1',
@@ -328,6 +361,11 @@ class EvidenceTests(unittest.TestCase):
                                     {'display': {'title': 'Main results'}}, expected_revision=revision)
         saved = json.loads((self.root / 'gallery.json').read_text())
         self.assertEqual(saved['items']['regression']['rows'], rows)
+        self.assertEqual([Path(path).suffix for path in saved['items']['regression']['files']], ['.png'])
+        files = artifacts.render_gallery_item(self.root, artifacts.load(self.root / 'gallery.json')['items']['regression'],
+                                              'gallery-assets', formats=('pdf', 'tex'))
+        self.assertEqual([Path(path).suffix for path in files], ['.pdf', '.tex'])
+        self.assertTrue(all((self.root / path).stat().st_size > 0 for path in files))
         entries = artifacts.gallery_items(self.root, 'gallery.json')
         self.assertEqual(entries[0]['presentation']['body'][0]['cells'], ['0.000', '2.000'])
         self.assertEqual(entries[0]['presentation']['body'][1]['cells'], ['(0.250)', '(0.250)'])
@@ -450,6 +488,11 @@ class EvidenceTests(unittest.TestCase):
         common = ['--root', str(self.root), '--spec', str(self.root / 'artifacts.json')]
         registry_path = self.root / 'registry.json'
         self.assertEqual(artifacts.main(['normalize', *common, '--output', str(registry_path)]), 0)
+        registry = artifacts.load(registry_path)
+        registry['items']['fit-equation-view'] = copy.deepcopy(registry['items']['fit-statistics'])
+        registry['items']['fit-equation-view']['id'] = 'fit-equation-view'
+        artifacts.save_registry(registry_path, registry)
+        self.assertIn('shared_metadata', json.loads(registry_path.read_text()))
         registry_bytes = registry_path.read_bytes()
         for name in templates:
             manuscript = self.root / (name + '-rendered.qmd')
@@ -474,6 +517,25 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(registry_path.read_bytes(), registry_bytes)
         self.assertEqual((self.root / 'saved.json').read_bytes(), source_bytes)
 
+        import research
+        stage = {'inputs': ['article.qmd'], 'render': {'template': 'article.qmd', 'output': 'article',
+                 'statistics': {'effect': {'stage': 'fit', 'output': 'registry',
+                     'key': ['statistics', 'fit.effect'], 'unit': 'hours', 'format': '.2f'}},
+                 'definitions': {name: {'stage': 'fit', 'output': 'registry', 'key': value['key']}
+                                 for name, value in spec['definitions'].items()}}}
+        native = self.root / 'native.qmd'
+        research.render(self.root, stage, {'article': native}, {('fit', 'registry'): registry_path})
+        self.assertEqual(native.read_text(), comparison + '\n1.25\n' + equation + '\n1.25')
+        reference = {'kind': 'json', 'id': 'comparison', 'path': 'registry.json',
+                     'keys': spec['definitions']['comparison']['key'], 'relation': 'supports',
+                     'basis': 'Saved comparison defining the manuscript quantity',
+                     'version': evidence.state.content_hash({'value': comparison,
+                         'references': {'fit': registry['records']['fit']['references']}})}
+        references, _, changes = evidence.state._project_references(
+            self.root, {}, {}, {'nodes': [{'node_id': 'comparison', 'references': [reference]}]})
+        self.assertEqual(references[0]['status'], 'current')
+        self.assertEqual(changes, {})
+
         invalid = copy.deepcopy(spec)
         invalid['definitions'].pop('comparison')
         with self.assertRaisesRegex(ValueError, 'unknown definition binding'):
@@ -491,6 +553,9 @@ class EvidenceTests(unittest.TestCase):
 
         saved = {'statistics': {'effect': {'value': 1.249, 'unit': 'hours'}},
                  'adopted': {'comparison': '地区Aと地区B'},
+                 'diagnostics': {'joint_test': {'statistic': 4.5, 'p_value': 0.105,
+                                               'null': 'both selected pretreatment contrasts equal zero'},
+                                 'sample_ids': ['private-observation-1']},
                  'provenance': {'producer_sha256': self.ref('code.py')['sha256']}}
         self.write('saved.json', json.dumps(saved, ensure_ascii=False))
         registry = artifacts.normalize(self.root, {'sources': [
@@ -499,13 +564,24 @@ class EvidenceTests(unittest.TestCase):
         brief = {'original_request': '保存された地区間比較を文章にする。', 'authority': '保存値と比較を保持する。',
                  'purpose': '地区間比較を伝える。', 'reader': '経済学博士課程のコア科目を履修した読者',
                  'language': 'ja', 'research_results': {'root': str(self.root), 'registry_path': 'registry.json',
-                     'result_ids': ['fit'], 'item_ids': ['fit-statistics']}}
+                     'result_ids': ['fit'], 'item_ids': ['fit-statistics'],
+                     'evidence_paths': {'fit': [['diagnostics', 'joint_test']]}}}
         repo = Path(__file__).resolve().parent.parent
         rules = {'policy_id': 'fixture', 'texts': {key: 'Synthetic callback fixture.' for key in
                  ('CORE', 'PROSE', 'econ-writing', 'prose-guide')}, 'profile': 'fixture',
                  'dictionary': json.loads((repo / 'quality/prose_rules.json').read_text())}
         sources = paragraph.normalize_sources({}, research_results=brief['research_results'])
         source = sources['result:fit']
+        selected_evidence = source['research_result']['evidence']
+        self.assertEqual(selected_evidence[0]['value'], saved['diagnostics']['joint_test'])
+        self.assertEqual(selected_evidence[0]['source_reference']['keys'],
+                         ['records', 'fit', 'source_result', 'diagnostics', 'joint_test'])
+        self.assertEqual(selected_evidence[0]['source_reference']['content_version'],
+                         artifacts.state.content_hash(saved['diagnostics']['joint_test']))
+        self.assertNotIn('private-observation-1', source['text'])
+        with self.assertRaisesRegex(ValueError, 'missing JSON key'):
+            artifacts.composition_context(self.root, 'registry.json', result_ids=['fit'],
+                                          evidence_paths={'fit': [['diagnostics', 'absent']]})
         ref = {'source_id': 'result:fit', 'source_sha256': source['sha256'],
                **selection(source['text'], source['text'])}
         claim = '地区Aと地区Bの労働時間差は1.249時間である。'
@@ -550,6 +626,7 @@ class EvidenceTests(unittest.TestCase):
             seen.append(task)
             self.assertEqual(payload['sources']['result:fit']['research_result']['statistics']['fit.effect'],
                              {'value': 1.249, 'unit': 'hours'})
+            self.assertEqual(payload['sources']['result:fit']['research_result']['evidence'], selected_evidence)
             self.assertEqual(payload['sources']['display:fit-statistics']['display_item']['rows'],
                              registry['items']['fit-statistics']['rows'])
             if task['operation'] == 'writing:architect':
@@ -795,6 +872,80 @@ class EvidenceReviewTests(unittest.TestCase):
         self.assertEqual(entry['passages'], [selection(moved, revised)])
         self.assertEqual(entry['rationale'], rationale)
         self.assertEqual(entry['origin']['manuscript']['path'], 'original.md')
+
+    def test_removed_claim_requires_explicit_finding_before_response(self):
+        contract, _, revised, _ = self.revision()
+        effect = 'The assignment effect is 8 percentage points.'
+        outcome = 'The outcome is household application completion within eight weeks.'
+        contract['claims'][0]['target'] = selection(revised, effect)
+        effect_finding = contract['review']['assessment']['findings'][0]
+        effect_finding['changes'] = [selection(revised, effect)]
+        effect_finding['rationale'] = 'The manuscript reports the saved assignment effect of 8 percentage points.'
+        contract['claims'].append({'id': 'outcome', 'target': selection(revised, outcome),
+                                   'sources': copy.deepcopy(contract['claims'][0]['sources'])})
+        outcome_finding = {'id': 'outcome-definition', 'claim_id': 'outcome', 'criterion_id': 'definition',
+                           'decision': 'supported', 'rationale': 'The outcome matches the trial protocol.',
+                           'references': copy.deepcopy(effect_finding['references'])}
+        contract['review']['assessment']['findings'].append(outcome_finding)
+        contract['review'].pop('response_draft')
+        previous = evidence.review(contract, self.root)
+        self.assertEqual(previous['status'], 'reviewed')
+        previous_ref = self.write('completed-review.json', previous)
+        preserved = {name: (self.root / name).read_bytes()
+                     for name in ('completed-review.json', 'revised.md', 'saved-result.json')}
+
+        shortened = revised.replace(outcome + ' ', '')
+        contract['manuscript'] = self.write('shortened.md', shortened)
+        contract['claims'] = contract['claims'][:1]
+        contract['claims'][0]['target'] = selection(shortened, effect)
+        contract['numbers'][0]['target'] = selection(shortened, '8')
+        contract['numbers'][0]['unit_target'] = selection(shortened, 'percentage points')
+        contract['review'].pop('assessment')
+        contract['review']['previous'] = previous_ref
+        pending = evidence.review(contract, self.root)
+        self.assertEqual(pending['status'], 'review-required')
+        self.assertEqual(pending['changes']['reusable_claims'], ['effect'])
+        self.assertEqual(pending['changes']['removed_claims'], ['outcome'])
+        self.assertEqual(pending['review']['findings'][0]['reused_from'], previous_ref)
+        contract['review']['response_draft'] = {'language': 'en', 'finding_ids': ['definition-1']}
+        with self.assertRaisesRegex(ValueError, 'completed current assessment'):
+            evidence.review(contract, self.root)
+
+        outcome_finding.update(decision='removed', rationale='The outcome definition was removed from the manuscript.')
+        contract['review']['assessment'] = {'reviewer': 'owner', 'findings': [outcome_finding]}
+        contract['review']['response_draft']['finding_ids'].append('outcome-definition')
+        self.write('contract.json', contract)
+        self.assertEqual(evidence.main(['review', 'contract.json', '--root', str(self.root),
+                                        '--output', 'current-review.json', '--response-output', 'response.md']), 0)
+        result = json.loads((self.root / 'current-review.json').read_text(encoding='utf-8'))
+        self.assertEqual(result['status'], 'reviewed')
+        findings = {row['id']: row for row in result['review']['findings']}
+        self.assertEqual(set(findings), {'definition-1', 'outcome-definition'})
+        self.assertEqual(findings['definition-1']['reused_from'], previous_ref)
+        self.assertEqual(findings['outcome-definition']['decision'], 'removed')
+        entries = result['response_draft']['entries']
+        self.assertEqual(entries[0]['passages'], [selection(shortened, effect)])
+        self.assertEqual(entries[0]['bindings']['effect-number']['selected_result']['value'], 8)
+        self.assertEqual(entries[1]['origin']['target']['quote'], outcome)
+        self.assertEqual(entries[1]['passages'], [])
+        self.assertIn(outcome_finding['rationale'], (self.root / 'response.md').read_text(encoding='utf-8'))
+        contract['review']['previous'] = {'path': 'current-review.json',
+                                         'sha256': paragraph.sha((self.root / 'current-review.json').read_bytes())}
+        contract['review'].pop('assessment')
+        reused = evidence.review(contract, self.root)
+        self.assertEqual(reused['status'], 'reviewed')
+        self.assertEqual([row['id'] for row in reused['review']['findings']],
+                         ['definition-1', 'outcome-definition'])
+        self.assertTrue(all(row['reused_from'] == contract['review']['previous']
+                            for row in reused['review']['findings']))
+        contract['manuscript'] = self.write('restored.md', revised)
+        contract['claims'][0]['target'] = selection(revised, effect)
+        start = revised.index('8 percentage')
+        contract['numbers'][0]['target'] = {'start': start, 'end': start + 1, 'quote': '8'}
+        contract['numbers'][0]['unit_target'] = selection(revised, 'percentage points')
+        contract['review'].pop('response_draft')
+        self.assertEqual(evidence.review(contract, self.root)['status'], 'review-required')
+        self.assertEqual({name: (self.root / name).read_bytes() for name in preserved}, preserved)
 
     def test_cli_preserves_review_manuscript_and_evidence_inputs(self):
         import contextlib

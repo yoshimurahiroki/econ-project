@@ -1,0 +1,1083 @@
+{
+  "status": "reviewed",
+  "manuscript": {
+    "path": "examples/research-workspace/materials/writing/causal-original.md",
+    "sha256": "0c877a76788e499ed42f537ffb7e3c8429f7bcb622a12a998f352557e5d04f76"
+  },
+  "adopted": {},
+  "claims": [
+    {
+      "id": "pretreatment-inference",
+      "target": {
+        "start": 1261,
+        "end": 1378,
+        "quote": "図1は、各経過期のATTと点別95%区間を示す。横軸は導入からの期数、縦軸は成果単位である。導入前1期の推定値は-0.2648であり、その区間は[-0.5189, -0.0106]である。導入前の共同検定のp値は0.11917である。"
+      },
+      "sources": [
+        {
+          "id": "design",
+          "span": {
+            "start": 194,
+            "end": 270,
+            "quote": "\"identification\": \"conditional parallel trends, overlap and no anticipation\""
+          },
+          "role": "identification"
+        }
+      ],
+      "bindings": [],
+      "literature": []
+    },
+    {
+      "id": "dynamic-aggregation",
+      "target": {
+        "start": 1640,
+        "end": 1759,
+        "quote": "段階的な導入後の平均ATTは1.6588成果単位であり、成果の増加は導入期から現れる。経過0–2期は二つの導入群を、経過3–4期は第3期導入群を表す。両導入群で成果の増加が導入期から現れ、第3期導入群では経過4期まで正の応答が観測される。"
+      },
+      "sources": [
+        {
+          "id": "design",
+          "span": {
+            "start": 194,
+            "end": 270,
+            "quote": "\"identification\": \"conditional parallel trends, overlap and no anticipation\""
+          },
+          "role": "identification"
+        }
+      ],
+      "bindings": [],
+      "literature": []
+    }
+  ],
+  "source_context": {
+    "design": {
+      "path": "examples/research-workspace/models/did-spec.json",
+      "sha256": "079364a19e0d4189f61ae2ff1583c59dbb7d85127e621b87f5a6704701ff81d0",
+      "metadata": {
+        "identities": {}
+      },
+      "text": "{\n  \"assignment\": \"staggered adoption with never-treated controls\",\n  \"data\": \"staggered.csv\",\n  \"endogenous\": [],\n  \"estimand\": \"group-time ATT and event-time average effects\",\n  \"id\": \"id\",\n  \"identification\": \"conditional parallel trends, overlap and no anticipation\",\n  \"inference\": {\n    \"type\": \"did\"\n  },\n  \"instruments\": [],\n  \"method\": \"staggered_did\",\n  \"options\": {\n    \"cohort\": \"cohort\",\n    \"control_group\": \"nevertreated\",\n    \"entity\": \"entity\",\n    \"time\": \"time\"\n  },\n  \"outcome\": \"y\",\n  \"period\": \"simulated\",\n  \"population\": \"seeded simulated units\",\n  \"regressors\": [\n    \"x\"\n  ],\n  \"unit\": \"outcome units\"\n}\n"
+    }
+  },
+  "binding_context": {},
+  "claim_fingerprints": {
+    "pretreatment-inference": "8c2722e333a2843f1fc76a5f9f18d22862d79a49e6318ab4c17ac7d93eac271e",
+    "dynamic-aggregation": "3521e13313b9e814fe2e7d1440ed8bb53563ad0e387b6596507488115e009963"
+  },
+  "claim_coverage": {
+    "candidates": [
+      {
+        "target": {
+          "start": 32,
+          "end": 72,
+          "quote": "本稿は、導入時期が異なる処置の成果を、独自に生成されたパネルの推定結果から示す。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 72,
+          "end": 132,
+          "quote": "未処置群を比較対象とする群・時点別ATTを導入からの経過期別に集約すると、導入後の平均効果は1.6588成果単位である。"
+        },
+        "signals": [
+          "quantity",
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 132,
+          "end": 175,
+          "quote": "導入期の効果は1.6110、1期後は1.8491であり、成果の増加は導入期から現れる。"
+        },
+        "signals": [
+          "quantity",
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 175,
+          "end": 221,
+          "quote": "経過0–2期には第3期導入群と第5期導入群が寄与し、経過3–4期には第3期導入群が寄与する。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 221,
+          "end": 252,
+          "quote": "この対応によって、導入後の成果と各時点の推定対象を一緒に示す。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 344,
+          "end": 389,
+          "quote": "推定結果では、導入後の平均ATTは1.6588成果単位であり、導入期から正の推定値を示す。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 389,
+          "end": 438,
+          "quote": "導入期とその後の効果を同じ成果単位で比較することで、平均効果を構成する時間的な応答を明らかにする。"
+        },
+        "signals": [
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 440,
+          "end": 482,
+          "quote": "この比較は、処置開始が第3期または第5期の主体と、全期間未処置の主体から構成される。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 482,
+          "end": 538,
+          "quote": "条件付き平行トレンド、共通支持、先取り行動がないという採用済みの識別条件の下で、群・時点別ATTを推定している。"
+        },
+        "signals": [
+          "inference",
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 584,
+          "end": 617,
+          "quote": "各経過期の推定対象は、寄与する導入群と集約ウェイトによって定まる。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 619,
+          "end": 677,
+          "quote": "本稿がこの計算例で示す知見は、平均的な成果の増加が導入期から観測され、その後の経過期にも正の推定値が続くことである。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 677,
+          "end": 722,
+          "quote": "各点に寄与する導入群を併記することによって、推定値の時間的な配置と対象集団の対応が分かる。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 722,
+          "end": 755,
+          "quote": "経過期ごとの効果と導入群の対応が、平均効果の時間的な内容を定める。"
+        },
+        "signals": [
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 757,
+          "end": 774,
+          "quote": "## Identification"
+        },
+        "signals": [
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 776,
+          "end": 802,
+          "quote": "分析は360主体を7期間観測した人工データを用いる。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 838,
+          "end": 877,
+          "quote": "共変量xを用いた二重頑健な群・時点別推定を、未処置群を対照として実行している。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 921,
+          "end": 980,
+          "quote": "経過0–2期の集約では二つの導入群にそれぞれ0.5のウェイトを与え、経過3–4期では第3期導入群のウェイトが1となる。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 994,
+          "end": 1046,
+          "quote": "導入後の平均ATTは1.6588成果単位であり、点別95%区間は[1.4442, 1.8733]である。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1046,
+          "end": 1086,
+          "quote": "導入期の推定値は1.6110、1期後は1.8491、2期後は1.4534である。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1115,
+          "end": 1149,
+          "quote": "経過3期と4期の推定値は、それぞれ1.8230と1.5573である。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1151,
+          "end": 1259,
+          "quote": "![図1　段階的な導入からの経過期別ATT](../../gallery-assets/specialist-did-r01-event-study-3a3ea95b1042de8457d5/display.png)"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1261,
+          "end": 1285,
+          "quote": "図1は、各経過期のATTと点別95%区間を示す。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [
+          "pretreatment-inference"
+        ],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1307,
+          "end": 1355,
+          "quote": "導入前1期の推定値は-0.2648であり、その区間は[-0.5189, -0.0106]である。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [
+          "pretreatment-inference"
+        ],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1355,
+          "end": 1378,
+          "quote": "導入前の共同検定のp値は0.11917である。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [
+          "pretreatment-inference"
+        ],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1395,
+          "end": 1443,
+          "quote": "経過0–2期の結果は、二つの導入群に共通する観測期間で、成果の増加が導入期から現れることを示す。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1443,
+          "end": 1475,
+          "quote": "経過3–4期の結果が示すのは、第3期導入群のその後の成果である。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1475,
+          "end": 1514,
+          "quote": "経過3–4期の推定対象は第3期導入群であり、経過0–2期から対象集団が変わる。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1516,
+          "end": 1560,
+          "quote": "成果変数yの正の応答は、採用済み識別条件の下で処置が成果を増加させるという答えを与える。"
+        },
+        "signals": [
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1560,
+          "end": 1593,
+          "quote": "両導入群が寄与する経過0–2期では、導入時点から正の推定値が続く。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1593,
+          "end": 1623,
+          "quote": "第3期導入群では、その後の2期間にも正の推定値が観測される。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1640,
+          "end": 1683,
+          "quote": "段階的な導入後の平均ATTは1.6588成果単位であり、成果の増加は導入期から現れる。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [
+          "dynamic-aggregation"
+        ],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1683,
+          "end": 1715,
+          "quote": "経過0–2期は二つの導入群を、経過3–4期は第3期導入群を表す。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [
+          "dynamic-aggregation"
+        ],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1715,
+          "end": 1759,
+          "quote": "両導入群で成果の増加が導入期から現れ、第3期導入群では経過4期まで正の応答が観測される。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [
+          "dynamic-aggregation"
+        ],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1884,
+          "end": 2067,
+          "quote": "Group-time effects, estimated against never-treated units under conditional parallel trends, overlap, and no anticipation, imply an average post-treatment ATT of 1.6588 outcome units."
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 2068,
+          "end": 2139,
+          "quote": "The estimated effect is 1.6110 at adoption and 1.8491 one period later."
+        },
+        "signals": [
+          "quantity",
+          "inference",
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 2140,
+          "end": 2267,
+          "quote": "Cohorts treated in periods 3 and 5 both contribute to event times 0–2; only the period-3 cohort contributes to event times 3–4."
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 2268,
+          "end": 2409,
+          "quote": "Reporting cohort composition alongside each estimate links the timing of the outcome response to the population represented by that estimate."
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 2527,
+          "end": 2629,
+          "quote": "- [Saved figure](../../gallery-assets/specialist-did-r01-event-study-3a3ea95b1042de8457d5/display.svg)"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      }
+    ],
+    "unregistered": [
+      {
+        "target": {
+          "start": 32,
+          "end": 72,
+          "quote": "本稿は、導入時期が異なる処置の成果を、独自に生成されたパネルの推定結果から示す。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 72,
+          "end": 132,
+          "quote": "未処置群を比較対象とする群・時点別ATTを導入からの経過期別に集約すると、導入後の平均効果は1.6588成果単位である。"
+        },
+        "signals": [
+          "quantity",
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 132,
+          "end": 175,
+          "quote": "導入期の効果は1.6110、1期後は1.8491であり、成果の増加は導入期から現れる。"
+        },
+        "signals": [
+          "quantity",
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 175,
+          "end": 221,
+          "quote": "経過0–2期には第3期導入群と第5期導入群が寄与し、経過3–4期には第3期導入群が寄与する。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 221,
+          "end": 252,
+          "quote": "この対応によって、導入後の成果と各時点の推定対象を一緒に示す。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 344,
+          "end": 389,
+          "quote": "推定結果では、導入後の平均ATTは1.6588成果単位であり、導入期から正の推定値を示す。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 389,
+          "end": 438,
+          "quote": "導入期とその後の効果を同じ成果単位で比較することで、平均効果を構成する時間的な応答を明らかにする。"
+        },
+        "signals": [
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 440,
+          "end": 482,
+          "quote": "この比較は、処置開始が第3期または第5期の主体と、全期間未処置の主体から構成される。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 482,
+          "end": 538,
+          "quote": "条件付き平行トレンド、共通支持、先取り行動がないという採用済みの識別条件の下で、群・時点別ATTを推定している。"
+        },
+        "signals": [
+          "inference",
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 584,
+          "end": 617,
+          "quote": "各経過期の推定対象は、寄与する導入群と集約ウェイトによって定まる。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 619,
+          "end": 677,
+          "quote": "本稿がこの計算例で示す知見は、平均的な成果の増加が導入期から観測され、その後の経過期にも正の推定値が続くことである。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 677,
+          "end": 722,
+          "quote": "各点に寄与する導入群を併記することによって、推定値の時間的な配置と対象集団の対応が分かる。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 722,
+          "end": 755,
+          "quote": "経過期ごとの効果と導入群の対応が、平均効果の時間的な内容を定める。"
+        },
+        "signals": [
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 757,
+          "end": 774,
+          "quote": "## Identification"
+        },
+        "signals": [
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 776,
+          "end": 802,
+          "quote": "分析は360主体を7期間観測した人工データを用いる。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 838,
+          "end": 877,
+          "quote": "共変量xを用いた二重頑健な群・時点別推定を、未処置群を対照として実行している。"
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 921,
+          "end": 980,
+          "quote": "経過0–2期の集約では二つの導入群にそれぞれ0.5のウェイトを与え、経過3–4期では第3期導入群のウェイトが1となる。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 994,
+          "end": 1046,
+          "quote": "導入後の平均ATTは1.6588成果単位であり、点別95%区間は[1.4442, 1.8733]である。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1046,
+          "end": 1086,
+          "quote": "導入期の推定値は1.6110、1期後は1.8491、2期後は1.4534である。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1115,
+          "end": 1149,
+          "quote": "経過3期と4期の推定値は、それぞれ1.8230と1.5573である。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1151,
+          "end": 1259,
+          "quote": "![図1　段階的な導入からの経過期別ATT](../../gallery-assets/specialist-did-r01-event-study-3a3ea95b1042de8457d5/display.png)"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1395,
+          "end": 1443,
+          "quote": "経過0–2期の結果は、二つの導入群に共通する観測期間で、成果の増加が導入期から現れることを示す。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1443,
+          "end": 1475,
+          "quote": "経過3–4期の結果が示すのは、第3期導入群のその後の成果である。"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1475,
+          "end": 1514,
+          "quote": "経過3–4期の推定対象は第3期導入群であり、経過0–2期から対象集団が変わる。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1516,
+          "end": 1560,
+          "quote": "成果変数yの正の応答は、採用済み識別条件の下で処置が成果を増加させるという答えを与える。"
+        },
+        "signals": [
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1560,
+          "end": 1593,
+          "quote": "両導入群が寄与する経過0–2期では、導入時点から正の推定値が続く。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1593,
+          "end": 1623,
+          "quote": "第3期導入群では、その後の2期間にも正の推定値が観測される。"
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 1884,
+          "end": 2067,
+          "quote": "Group-time effects, estimated against never-treated units under conditional parallel trends, overlap, and no anticipation, imply an average post-treatment ATT of 1.6588 outcome units."
+        },
+        "signals": [
+          "quantity",
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 2068,
+          "end": 2139,
+          "quote": "The estimated effect is 1.6110 at adoption and 1.8491 one period later."
+        },
+        "signals": [
+          "quantity",
+          "inference",
+          "causal"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 2140,
+          "end": 2267,
+          "quote": "Cohorts treated in periods 3 and 5 both contribute to event times 0–2; only the period-3 cohort contributes to event times 3–4."
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 2268,
+          "end": 2409,
+          "quote": "Reporting cohort composition alongside each estimate links the timing of the outcome response to the population represented by that estimate."
+        },
+        "signals": [
+          "inference"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      },
+      {
+        "target": {
+          "start": 2527,
+          "end": 2629,
+          "quote": "- [Saved figure](../../gallery-assets/specialist-did-r01-event-study-3a3ea95b1042de8457d5/display.svg)"
+        },
+        "signals": [
+          "quantity"
+        ],
+        "claim_ids": [],
+        "accounted": false
+      }
+    ],
+    "semantic_completeness": "owner-judgment-required"
+  },
+  "evidence_sha256": "ea2242cc3922897a0f0c632a1b7b8b10a76220026a3123a71032ce8408e9990e",
+  "source_knowledge": [],
+  "comparison": "Compare each actual claim with its original conditions, identified object, inference and scope. Return the supported finding and its exact source; retain a correct claim when no defect follows.",
+  "changes": {
+    "reusable_claims": [],
+    "claims_to_reassess": [
+      "dynamic-aggregation",
+      "pretreatment-inference"
+    ],
+    "removed_claims": []
+  },
+  "review": {
+    "criteria": [
+      {
+        "id": "diagnostics-1",
+        "text": "導入前1期の点別95%区間がゼロを含まず、導入前の共同検定はp=0.11917です。それぞれの帰無仮説、基準期、集約、共分散の扱いを説明し、識別条件と導入後の結論に反映してください。"
+      },
+      {
+        "id": "aggregation-2",
+        "text": "導入後平均の平均化の対象を定義してください。経過期ごとに寄与する群と重みを示し、Conclusionの「両導入群で成果の増加が導入期から現れる」という記述を、集約推定値が示す内容に対応させてください。"
+      }
+    ],
+    "previous": null,
+    "findings": [
+      {
+        "id": "diagnostics-1",
+        "claim_id": "pretreatment-inference",
+        "criterion_id": "diagnostics-1",
+        "decision": "revision-required",
+        "rationale": "点別検定と共同検定の帰無仮説と集約対象が省かれている。varying基準の処置前対比、4制約のWald検定、採用済み識別条件を本文の結論へ接続する。",
+        "comment": {
+          "path": "examples/research-workspace/materials/writing/causal-referee-comments.md",
+          "sha256": "d2f30360ffe0cd7e145ad8aad2a27feac472ff250138fd2deaec498a1961c002",
+          "span": {
+            "start": 18,
+            "end": 109,
+            "quote": "導入前1期の点別95%区間がゼロを含まず、導入前の共同検定はp=0.11917です。それぞれの帰無仮説、基準期、集約、共分散の扱いを説明し、識別条件と導入後の結論に反映してください。"
+          }
+        },
+        "references": [
+          {
+            "path": "examples/research-workspace/models/did-result.json",
+            "sha256": "ec5a1f6c8ccc32c7de61ca04781e3fa525ba2c3f90838dcd844f4786e76fbfbd",
+            "span": {
+              "start": 486273,
+              "end": 486445,
+              "quote": "\"pretreatment_test\": {\n      \"p_value\": [\n        [\n          0.11917\n        ]\n      ],\n      \"statistic\": [\n        [\n          7.3359194097693825\n        ]\n      ]\n    }"
+            }
+          },
+          {
+            "path": "examples/research-workspace/models/did-spec.json",
+            "sha256": "079364a19e0d4189f61ae2ff1583c59dbb7d85127e621b87f5a6704701ff81d0"
+          }
+        ],
+        "reviewer": "native-root",
+        "origin": {
+          "manuscript": {
+            "path": "examples/research-workspace/materials/writing/causal-original.md",
+            "sha256": "0c877a76788e499ed42f537ffb7e3c8429f7bcb622a12a998f352557e5d04f76"
+          },
+          "target": {
+            "start": 1261,
+            "end": 1378,
+            "quote": "図1は、各経過期のATTと点別95%区間を示す。横軸は導入からの期数、縦軸は成果単位である。導入前1期の推定値は-0.2648であり、その区間は[-0.5189, -0.0106]である。導入前の共同検定のp値は0.11917である。"
+          },
+          "rationale": "点別検定と共同検定の帰無仮説と集約対象が省かれている。varying基準の処置前対比、4制約のWald検定、採用済み識別条件を本文の結論へ接続する。",
+          "comment": {
+            "path": "examples/research-workspace/materials/writing/causal-referee-comments.md",
+            "sha256": "d2f30360ffe0cd7e145ad8aad2a27feac472ff250138fd2deaec498a1961c002",
+            "span": {
+              "start": 18,
+              "end": 109,
+              "quote": "導入前1期の点別95%区間がゼロを含まず、導入前の共同検定はp=0.11917です。それぞれの帰無仮説、基準期、集約、共分散の扱いを説明し、識別条件と導入後の結論に反映してください。"
+            }
+          }
+        }
+      },
+      {
+        "id": "aggregation-2",
+        "claim_id": "dynamic-aggregation",
+        "criterion_id": "aggregation-2",
+        "decision": "revision-required",
+        "rationale": "経過期の重みはIdentificationに示されている。導入後平均の5経過期平均という定義を加え、Conclusionの各群についての記述を等重み集約が示す内容へ改稿する。",
+        "comment": {
+          "path": "examples/research-workspace/materials/writing/causal-referee-comments.md",
+          "sha256": "d2f30360ffe0cd7e145ad8aad2a27feac472ff250138fd2deaec498a1961c002",
+          "span": {
+            "start": 129,
+            "end": 229,
+            "quote": "導入後平均の平均化の対象を定義してください。経過期ごとに寄与する群と重みを示し、Conclusionの「両導入群で成果の増加が導入期から現れる」という記述を、集約推定値が示す内容に対応させてください。"
+          }
+        },
+        "references": [
+          {
+            "path": "examples/research-workspace/models/did-result.json",
+            "sha256": "ec5a1f6c8ccc32c7de61ca04781e3fa525ba2c3f90838dcd844f4786e76fbfbd",
+            "span": {
+              "start": 486273,
+              "end": 486445,
+              "quote": "\"pretreatment_test\": {\n      \"p_value\": [\n        [\n          0.11917\n        ]\n      ],\n      \"statistic\": [\n        [\n          7.3359194097693825\n        ]\n      ]\n    }"
+            }
+          },
+          {
+            "path": "examples/research-workspace/models/did-spec.json",
+            "sha256": "079364a19e0d4189f61ae2ff1583c59dbb7d85127e621b87f5a6704701ff81d0"
+          }
+        ],
+        "reviewer": "native-root",
+        "origin": {
+          "manuscript": {
+            "path": "examples/research-workspace/materials/writing/causal-original.md",
+            "sha256": "0c877a76788e499ed42f537ffb7e3c8429f7bcb622a12a998f352557e5d04f76"
+          },
+          "target": {
+            "start": 1640,
+            "end": 1759,
+            "quote": "段階的な導入後の平均ATTは1.6588成果単位であり、成果の増加は導入期から現れる。経過0–2期は二つの導入群を、経過3–4期は第3期導入群を表す。両導入群で成果の増加が導入期から現れ、第3期導入群では経過4期まで正の応答が観測される。"
+          },
+          "rationale": "経過期の重みはIdentificationに示されている。導入後平均の5経過期平均という定義を加え、Conclusionの各群についての記述を等重み集約が示す内容へ改稿する。",
+          "comment": {
+            "path": "examples/research-workspace/materials/writing/causal-referee-comments.md",
+            "sha256": "d2f30360ffe0cd7e145ad8aad2a27feac472ff250138fd2deaec498a1961c002",
+            "span": {
+              "start": 129,
+              "end": 229,
+              "quote": "導入後平均の平均化の対象を定義してください。経過期ごとに寄与する群と重みを示し、Conclusionの「両導入群で成果の増加が導入期から現れる」という記述を、集約推定値が示す内容に対応させてください。"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

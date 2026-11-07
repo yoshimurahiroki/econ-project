@@ -63,12 +63,14 @@ def utf8(raw, context):
 
 
 def read_json(raw, context):
-    def invalid(value):
-        raise EvidenceError(context + ' contains nonfinite JSON: ' + value)
     try:
-        return json.loads(utf8(raw, context), parse_constant=invalid)
-    except json.JSONDecodeError as exc:
-        raise EvidenceError(context + ' is invalid JSON') from exc
+        data = state.gate.parse_json(raw)
+        if isinstance(data, dict) and data.get('schema') == 'research-artifact-registry-v1':
+            from research_artifacts import expand_registry
+            return expand_registry(data)
+        return data
+    except state.gate.GateError as exc:
+        raise EvidenceError(context + ': ' + str(exc)) from exc
 
 
 def lookup(data, keys, context):
@@ -336,20 +338,29 @@ def review_round(contract, root, packet, *, writing=None):
     assessment = settings.get('assessment')
     supplied = rows(obj(assessment, 'assessment').get('findings'), 'review findings') if assessment is not None else []
     replacement_ids = {row.get('id') for row in supplied}
+    old_findings = {row['id']: row for row in previous['review']['findings']} if previous else {}
     findings = []
-    for row in previous['review']['findings'] if previous else []:
-        if row['claim_id'] not in reusable or row['id'] in replacement_ids:
+    for row in old_findings.values():
+        if row['id'] in replacement_ids:
             continue
+        if row['claim_id'] not in reusable:
+            if (row['decision'] != 'removed' or row['claim_id'] in fingerprints or not row.get('origin')
+                    or row['origin']['target']['quote'] in packet['manuscript_text']):
+                continue
         reused = {**copy.deepcopy(row), 'reused_from': previous_ref}
-        old_target = next(c['target'] for c in previous['claims'] if c['id'] == row['claim_id'])
-        current_target = next(c['target'] for c in packet['claims'] if c['id'] == row['claim_id'])
-        reused.setdefault('origin', {'manuscript': copy.deepcopy(previous['manuscript']),
-                                     'target': copy.deepcopy(old_target), 'rationale': row['rationale'],
-                                     **({'comment': copy.deepcopy(row['comment'])} if row.get('comment') else {})})
+        old_target = next((c['target'] for c in previous['claims'] if c['id'] == row['claim_id']), None)
+        current_target = next((c['target'] for c in packet['claims'] if c['id'] == row['claim_id']), None)
+        if old_target:
+            reused.setdefault('origin', {'manuscript': copy.deepcopy(previous['manuscript']),
+                                         'target': copy.deepcopy(old_target), 'rationale': row['rationale'],
+                                         **({'comment': copy.deepcopy(row['comment'])} if row.get('comment') else {})})
         for changed in reused.get('changes', []):
-            shift = current_target['start'] - old_target['start']
-            start, end = changed['start'] + shift, changed['end'] + shift
-            overlaps = old_target['start'] < changed['end'] and changed['start'] < old_target['end']
+            start, end = changed['start'], changed['end']
+            overlaps = True
+            if old_target and current_target:
+                shift = current_target['start'] - old_target['start']
+                start, end = start + shift, end + shift
+                overlaps = old_target['start'] < changed['end'] and changed['start'] < old_target['end']
             if not (overlaps and start >= 0 and packet['manuscript_text'][start:end] == changed['quote']):
                 start = packet['manuscript_text'].find(changed['quote'])
                 require(start >= 0 and packet['manuscript_text'].find(changed['quote'], start + 1) < 0,
@@ -360,7 +371,6 @@ def review_round(contract, root, packet, *, writing=None):
     if assessment is not None:
         reviewer = text(assessment.get('reviewer'), 'reviewer')
         supplied_ids = set()
-        old_findings = {row['id']: row for row in previous['review']['findings']} if previous else {}
         for row in supplied:
             ident = text(row.get('id'), 'finding id')
             require(ident not in supplied_ids, 'duplicate review finding')
@@ -406,8 +416,9 @@ def review_round(contract, root, packet, *, writing=None):
         if previous:
             require(set(old_findings) <= {row['id'] for row in findings}, 're-review omitted an initial finding')
     covered = {row['claim_id'] for row in findings}
+    retained = set(old_findings) <= {row['id'] for row in findings}
     packet['review'] = {'criteria': copy.deepcopy(criteria), 'previous': previous_ref, 'findings': findings}
-    packet['status'] = 'reviewed' if set(fingerprints) <= covered and findings else 'review-required'
+    packet['status'] = 'reviewed' if set(fingerprints) <= covered and findings and retained else 'review-required'
     if 'response_draft' in settings:
         packet['response_draft'] = response_draft(settings['response_draft'], root, packet, writing=writing)
     return packet

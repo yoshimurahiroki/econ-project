@@ -572,7 +572,7 @@ def render_bundle(root, bundle, output, *, quarto="quarto", output_format="html"
             for key in section.get("artifacts", []):
                 entry = meeting["artifacts"][key]
                 for role, relative in entry.get("files", {}).items():
-                    if relative in consumed:
+                    if relative in consumed or "(" + relative + ")" not in source:
                         continue
                     source_asset = bundled_path(bundle, relative)
                     asset_version = hashlib.sha256(source_asset.read_bytes()).hexdigest()
@@ -614,16 +614,13 @@ def render_bundle(root, bundle, output, *, quarto="quarto", output_format="html"
         published = stage / "completed"
         published.mkdir()
         shutil.copyfile(completed, published / completed.name)
-        shutil.copyfile(stage / "index.qmd", published / "index.qmd")
         latex_files = {}
         if output_format == "pdf":
             latex_names = ["index.tex"] + (["econsocart.cls", "econsocart.cfg", "ecta-fullname.bst"] if article else [])
             for name in latex_names:
                 source_file = stage / name
-                shutil.copyfile(source_file, published / name)
                 latex_files[name] = hashlib.sha256(source_file.read_bytes()).hexdigest()
-        (published / "preview.md").write_text(preview_markdown(bundle), encoding="utf-8")
-        if (stage / "assets").exists():
+        if output_format == "markdown" and (stage / "assets").exists():
             shutil.copytree(stage / "assets", published / "assets")
         record = {"source_revision": revision, "format": output_format, "command": command,
                   "artifact": completed.name, "artifact_sha256": hashlib.sha256(completed.read_bytes()).hexdigest(),

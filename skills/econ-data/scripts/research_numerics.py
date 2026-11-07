@@ -7,6 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 from fractions import Fraction
 import hashlib
 import importlib.util
+import inspect
 import itertools
 import json
 import math
@@ -487,6 +488,89 @@ def write_json(path, value):
 
 
 def run(spec):
+    if isinstance(spec, dict) and 'model' in spec:
+        if set(spec) != {'model', 'inputs', 'unit'} or not isinstance(spec['inputs'], dict):
+            raise ValueError('model run requires model, inputs object and unit')
+        if not isinstance(spec['unit'], str) or not spec['unit'].strip():
+            raise ValueError('unit must name the common payoff or currency unit')
+        model = spec['model']; unit = spec['unit']
+        functions = {'correlated_equilibrium': correlated_equilibrium, 'tu_shapley_core': tu_shapley_core,
+                     'interbank_clearing': clearing_payments, 'multitask_incentives': multitask_incentives,
+                     'state_price_bounds': state_price_bounds}
+        if not isinstance(model, str) or model not in functions:
+            raise ValueError('model must be one of ' + ', '.join(functions))
+        function = functions[model]
+        arguments = inspect.signature(function).bind(**spec['inputs'])
+        arguments.apply_defaults()
+        result = function(**arguments.arguments)
+        stat = lambda value, measure: {'value': float(value), 'unit': measure}
+        statistics = {}
+        if model == 'correlated_equilibrium':
+            contract, knowledge = 'MC-finite-correlated-equilibrium', 'GAME-07'
+            engine = 'scipy.optimize.linprog(method=highs)'
+            equations = ['sum_a q(a)=1; q(a)>=0',
+                'sum_a_-i q(r,a_-i)*(u_i(r,a_-i)-u_i(d,a_-i))>=0 for each i,r,d',
+                'max_q sum_a q(a)*sum_i weights_i*u_i(a)']
+            statistics = {'weighted_payoff': stat(result['weighted_payoff'], unit),
+                'mass_error': stat(result['mass_error'], 'probability'),
+                'minimum_probability': stat(result['minimum_probability'], 'probability'),
+                'minimum_obedience': stat(min((row['slack'] for row in result['obedience']), default=0.), unit)}
+            statistics.update({f'payoff_player_{i}': stat(value, unit) for i, value in enumerate(result['payoffs'])})
+            selection = 'maximize the supplied weighted payoff over conditional-obedience distributions'
+        elif model == 'tu_shapley_core':
+            contract, knowledge = 'MC-finite-tu-shapley-core', 'GAME-09'
+            engine = 'fractions.Fraction'
+            equations = ['phi_i=sum_S subset N\\{i} |S|!*(n-|S|-1)!/n!*(v(S union {i})-v(S))',
+                'sum_i phi_i=v(N); core_slack(S)=sum_i in S phi_i-v(S)']
+            statistics = {f'allocation_player_{i}': stat(Fraction(value), unit)
+                          for i, value in enumerate(result['allocation'])}
+            statistics['efficiency_residual'] = stat(Fraction(result['efficiency_residual']), unit)
+            statistics['minimum_core_slack'] = stat(min(map(Fraction, result['core_slacks'])), unit)
+            selection = 'Shapley allocation with every coalition evaluated for core membership'
+        elif model == 'interbank_clearing':
+            contract, knowledge = 'MC-interbank-clearing', 'FINANCE-08'
+            engine = 'research_numerics.clearing_payments'
+            equations = ['nominal_i=outside_liabilities_i+sum_j liabilities_ij',
+                'Pi_ij=liabilities_ij/nominal_i, with zero rows when nominal_i=0',
+                'payments=min(nominal,external_assets+Pi.T@payments)',
+                'sum(outside_payments)+sum(equity)=sum(external_assets)']
+            for name in ('payments', 'nominal', 'outside_payments', 'equity'):
+                statistics.update({f'{name}_bank_{i}': stat(value, unit) for i, value in enumerate(result[name])})
+                statistics['total_'+name] = stat(sum(result[name]), unit)
+            for name in ('fixed_point_residual', 'resource_residual'):
+                statistics[name] = stat(result[name], unit)
+            selection = 'greatest clearing fixed point from nominal payments under equal-priority pro-rata repayment'
+        elif model == 'state_price_bounds':
+            contract, knowledge = 'MC-state-price-bounds', 'ASSET-01'
+            engine = 'scipy.optimize.linprog(method=highs)'
+            equations = ['X.T@q=p; q>0',
+                'L=min_{q>=0,X.T@q=p} h@q; U=max_{q>=0,X.T@q=p} h@q',
+                'L=max_{X@theta<=h} p@theta; U=min_{X@theta>=h} p@theta',
+                'price_set=(L,U) for unspanned h; price_set={p@theta} when X@theta=h']
+            statistics = {name: stat(result[name], unit+' today') for name in
+                ('lower_bound', 'upper_bound', 'pricing_residual', 'lower_duality_gap', 'upper_duality_gap')}
+            statistics.update({name: stat(result[name], unit+' at payoff date') for name in
+                ('subhedge_violation', 'superhedge_violation', 'replication_residual')})
+            statistics['state_price_violation'] = stat(result['state_price_violation'], unit+' today per state payoff unit')
+            selection = 'strictly positive state prices; open price interval for an unspanned claim and unique replication price for a spanned claim'
+        else:
+            contract, knowledge = 'MC-multitask-incentives', 'CONTRACT-07'
+            engine = 'research_numerics.multitask_incentives'
+            equations = ['max_x,y>=0 U_A=a+b*x+m*y-(x*x+y*y+2*rho*x*y)/2',
+                'U_P=vq*x+vqly*y-a-b*x',
+                'g=(b-x-rho*y,m-y-rho*x); g<=0; (x,y)*g=0']
+            statistics = {name: stat(result[name], 'normalized effort') for name in ('x', 'y')}
+            statistics.update({name: stat(result[name], unit) for name in ('principal_payoff', 'agent_payoff')})
+            statistics['kkt_residual'] = stat(result['kkt_residual'], unit+' per normalized effort')
+            selection = 'unique nonnegative agent best response at the supplied contract and strictly convex effort cost'
+        return {'result_format_version': 1, 'model': model, 'specification': spec,
+            'effective_inputs': dict(arguments.arguments), 'engine': engine, 'unit': unit,
+            'model_contract': contract, 'knowledge_ids': [knowledge], 'equations': equations,
+            'equilibrium_selection': selection, 'statistics': statistics, 'fullresults': result,
+            'provenance': {'python': sys.version.split()[0], 'numpy': np.__version__, 'scipy': scipy.__version__,
+                'function': 'research_numerics.'+function.__name__,
+                'precision': 'exact rational arithmetic' if model == 'tu_shapley_core' else 'float64',
+                'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}}
     if set(spec) != {'seed', 'theta', 'grid_size', 'mc_replications', 'mc_sample_size', 'julia', 'jax_backend'}:
         raise ValueError('spec requires seed, theta, grid_size, mc_replications, mc_sample_size, julia, jax_backend')
     seed = int(spec['seed']); theta = np.asarray(spec['theta'], dtype=float)
@@ -684,7 +768,7 @@ def main(argv=None):
             if args.spec.resolve()==args.output.resolve(): raise ValueError('output must differ from specification')
             raw=args.spec.read_bytes(); result=run(json.loads(raw)); result['provenance']['spec_sha256']=hashlib.sha256(raw).hexdigest()
             write_json(args.output,result)
-    except (ValueError, TypeError, KeyError, OSError, ArithmeticError, subprocess.SubprocessError) as exc:
+    except (ValueError, TypeError, KeyError, OSError, ArithmeticError, RuntimeError, subprocess.SubprocessError) as exc:
         parser.exit(2,'error: '+str(exc)+'\n')
 
 if __name__=='__main__': main()

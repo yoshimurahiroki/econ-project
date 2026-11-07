@@ -33174,12 +33174,17 @@
         {
           "name": "weighted_payoff",
           "unit": "weighted utility",
-          "meaning": "Maximum specified linear welfare objective, without a general equilibrium-selection claim."
+          "meaning": "Maximum supplied linear welfare objective under the declared common payoff unit and weights."
         },
         {
           "name": "obedience",
           "unit": "probability times utility",
           "meaning": "Each recommendation/deviation slack; distinct from coarse obedience."
+        },
+        {
+          "name": "payoffs",
+          "unit": "utility",
+          "meaning": "Expected utility of each player under the returned joint recommendation distribution."
         }
       ],
       "assumptions": [
@@ -33203,7 +33208,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_numerics.py",
-          "symbol": "correlated_equilibrium"
+          "symbol": "correlated_equilibrium",
+          "command": "run"
         }
       ],
       "checks": [
@@ -33225,7 +33231,11 @@
           "unit": "GAME-07",
           "anchor": "game-07"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "correlated_equilibrium"
+      }
     },
     {
       "id": "MC-finite-tu-shapley-core",
@@ -33256,6 +33266,11 @@
           "name": "core_slacks",
           "unit": "transferable utility",
           "meaning": "Allocation sum less worth for each nonempty coalition; negativity refutes core membership."
+        },
+        {
+          "name": "in_core",
+          "unit": "boolean",
+          "meaning": "Whether this Shapley allocation satisfies every coalition inequality."
         }
       ],
       "assumptions": [
@@ -33279,7 +33294,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_numerics.py",
-          "symbol": "tu_shapley_core"
+          "symbol": "tu_shapley_core",
+          "command": "run"
         }
       ],
       "checks": [
@@ -33303,7 +33319,11 @@
           "unit": "GAME-09",
           "anchor": "game-09"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "tu_shapley_core"
+      }
     },
     {
       "id": "MC-interbank-clearing",
@@ -33358,6 +33378,11 @@
           "name": "resource_residual",
           "unit": "currency",
           "meaning": "Outside payments plus equity less external assets; injection financing is counted separately."
+        },
+        {
+          "name": "fixed_point_residual",
+          "unit": "currency",
+          "meaning": "Maximum absolute residual after substituting the returned payments into the original clearing equation."
         }
       ],
       "assumptions": [
@@ -33381,7 +33406,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_numerics.py",
-          "symbol": "clearing_payments"
+          "symbol": "clearing_payments",
+          "command": "run"
         }
       ],
       "checks": [
@@ -33407,7 +33433,11 @@
           "unit": "FINANCE-08",
           "anchor": "finance-08"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "interbank_clearing"
+      }
     },
     {
       "id": "MC-sir-finite-policy",
@@ -33623,7 +33653,38 @@
       "units": [
         "CONTRACT-07"
       ],
-      "inputs": [],
+      "inputs": [
+        {
+          "name": "b",
+          "meaning": "Nonnegative reward per unit x.",
+          "unit": "payoff per normalized effort"
+        },
+        {
+          "name": "m",
+          "meaning": "Nonnegative private marginal benefit of y.",
+          "unit": "payoff per normalized effort"
+        },
+        {
+          "name": "rho",
+          "meaning": "Cost interaction with absolute value strictly below one.",
+          "unit": "dimensionless"
+        },
+        {
+          "name": "a",
+          "meaning": "Nonnegative fixed salary.",
+          "unit": "payoff"
+        },
+        {
+          "name": "vq",
+          "meaning": "Principal value per x.",
+          "unit": "payoff per normalized effort"
+        },
+        {
+          "name": "vqly",
+          "meaning": "Principal value per y.",
+          "unit": "payoff per normalized effort"
+        }
+      ],
       "parameters": [
         {
           "name": "b",
@@ -33693,7 +33754,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_numerics.py",
-          "symbol": "multitask_incentives"
+          "symbol": "multitask_incentives",
+          "command": "run"
         }
       ],
       "checks": [
@@ -33722,7 +33784,11 @@
           "unit": "CONTRACT-07",
           "anchor": "contract-07"
         }
-      ]
+      ],
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "multitask_incentives"
+      }
     },
     {
       "id": "MC-decision-rights",
@@ -33840,6 +33906,10 @@
     },
     {
       "id": "MC-state-price-bounds",
+      "selection_binding": {
+        "design": "structural",
+        "structural_model": "state_price_bounds"
+      },
       "owner": "ASSET-01",
       "units": [
         "ASSET-01"
@@ -33930,7 +34000,8 @@
       "implementation": [
         {
           "path": "skills/econ-data/scripts/research_numerics.py",
-          "symbol": "state_price_bounds"
+          "symbol": "state_price_bounds",
+          "command": "run"
         }
       ],
       "checks": [

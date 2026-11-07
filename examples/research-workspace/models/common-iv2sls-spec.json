@@ -1,0 +1,38 @@
+{
+  "data": "common-regression-data.csv",
+  "id": "id",
+  "outcome": "output",
+  "population": "1200 independently generated producers with complete common observations",
+  "period": "one static production occasion",
+  "unit": "output units per investment unit",
+  "sources": [
+    {
+      "description": "Original independent cross-section, seed 20261108, n=1200. z,x,u,v,e are independent standard normal draws. Investment I=.9z+.4x+.7u+v; output Y=1.8I+.5x+u+e. I and Y are deviations from a common reference. z shifts investment and is excluded from the output error; u jointly raises investment and output."
+    }
+  ],
+  "question": "How does endogenous investment change the projection coefficient relative to the response identified by an exogenous investment incentive?",
+  "identification": "The synthetic incentive z is independent of u and e, shifts investment with coefficient .9, and affects output through investment; the structural output response is constant at 1.8.",
+  "sample_columns": [
+    "incentive",
+    "initial_productivity",
+    "investment",
+    "output"
+  ],
+  "covariance": {
+    "type": "HC1"
+  },
+  "require_versions": {
+    "statsmodels": "0.14.6",
+    "linearmodels": "7.0"
+  },
+  "method": "iv2sls",
+  "exog": [
+    "initial_productivity"
+  ],
+  "endog": [
+    "investment"
+  ],
+  "instruments": [
+    "incentive"
+  ]
+}

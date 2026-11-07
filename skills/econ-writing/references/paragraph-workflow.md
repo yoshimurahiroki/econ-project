@@ -16,7 +16,9 @@ Identify what makes each supporting result usable by the next claim. Measurement
 
 Give each necessary paragraph one central proposition and the reader question it answers. Decide which evidence or mechanism establishes that proposition and how it connects to the surrounding paragraphs. Allocate space by the work each step performs. Express these choices in the ordinary draft; use the existing paragraph specifications when resumable composition requires them.
 
-For a result-based passage, connect the economic object and its population to the named estimand, proposition or counterfactual; recover the identifying variation, equation and determining conditions; interpret the direction and magnitude against the adopted comparison; derive the mechanism or implication established by that evidence; and identify the resulting claim used by the next paragraph. Keep units, denominators, periods and scenario definitions with their quantities. A mechanism comes from the study's intermediate evidence or model argument. A magnitude's economic meaning comes from its supported baseline, scale or allocation consequence.
+For a result-based passage, connect the economic object and its population to the named estimand, proposition or counterfactual; recover the identifying variation, equation and determining conditions; interpret the direction and magnitude against the adopted comparison; and establish the claim used by the next paragraph. Keep units, denominators, periods and scenario definitions with their quantities. Select the equation, direct contrast or aggregation that makes the proposed inference valid before choosing which saved values to include. A mechanism uses the study's intermediate evidence or model derivation; an economic magnitude uses its baseline, scale or allocation consequence.
+
+Select the supporting inputs for that inference through the same source/result bindings. A paragraph using a joint diagnostic needs its tested vector, covariance-based statistic and reference distribution; a paragraph comparing groups needs the direct contrast and its saved inference; a welfare paragraph needs the allocation, valuation and population weights used in its total. Read those selected objects through the relevant [paper guidance](paper-workflow.md#identification-and-empirical-method) and [model argument](paper-workflow.md#theory-model-and-proof). State the resulting economic proposition in the paragraph and carry its defining relation into any abstract or conclusion that uses it.
 
 Begin where the reader's established premises end. Turn those relations into the sentences needed to establish the paragraph's proposition, selecting their order and length from its inferential task. Combine sentences establishing one relation and give a distinct proposition its own paragraph. Retain the actor and economic object through the transition so a change of population, time or choice margin is explicit. Reuse these choices in the existing paragraph specification when versioned composition is requested.
 
@@ -60,13 +62,21 @@ To begin from saved results, add `research_results` to the existing writing brie
 "research_results": {
   "root": "/absolute/project/root",
   "registry_path": "examples/research-workspace/saved-results.json",
-  "result_ids": ["specialist-growth-r01"],
-  "gallery_path": "examples/research-workspace/gallery.json",
-  "item_ids": ["specialist-growth-r01-displays-welfare"]
+  "result_ids": ["specialist-did-r01"],
+  "evidence_paths": {
+    "specialist-did-r01": [
+      ["diagnostics", "pretreatment_test"],
+      ["inference", "p_values", "event_m1"]
+    ]
+  }
 }
 ```
 
-The existing `design` command resolves this selection through `research_artifacts.composition_context`. Its architecture and specification callbacks receive named quantities, units, adopted definitions, producing references and the selected display rows. The returned `sources` contain `result:<ID>` and `display:<ID>` entries with exact text hashes, structured content and original quantity keys or row indices. Pass the design output's `blueprint`, `specifications`, `sources` and `design_records` into the existing `ParagraphRun.create` input. The writer then develops the evidence-to-claim explanation above; completed paragraphs retain these same sources for later section design. An initial sources file can contain `{}` when the brief supplies the selected results.
+The existing `design` command resolves this selection through `research_artifacts.composition_context(root, registry_path, result_ids=..., item_ids=..., gallery_path=..., evidence_paths=...)`. Add `gallery_path` and `item_ids` when the paragraph uses saved displays. Its architecture and specification callbacks receive named quantities, units, adopted definitions, producing references, selected evidence and display rows. The returned `sources` contain `result:<ID>` and selected `display:<ID>` entries with exact text hashes, structured content and original quantity keys or row indices.
+
+`evidence_paths` maps a selected result ID to a nonempty list of distinct key paths relative to that record's `source_result`; each path is a nonempty list of nonempty strings. Each selected value is returned in `research_result.evidence` with its `keys`, original structured `value` and `source_reference`. That reference contains the registry `path`, `keys:["records", RESULT_ID, "source_result", ...]` and the selected value's `content_version`. The example passes the saved joint test and the event-minus-one p value with their original shapes. The writer recovers their tested contrasts and interval family from the adopted design and selected source definitions, then explains their relation in the manuscript. Select additional saved paths when that explanation requires their contents.
+
+Pass the design output's `blueprint`, `specifications`, `sources` and `design_records` into the existing `ParagraphRun.create` input. The writer develops the evidence-to-claim explanation above; completed paragraphs retain these same sources for later section design and reuse. An initial sources file can contain `{}` when the brief supplies the selected results.
 
 To design a requested section from completed body paragraphs, use the existing `design` entry with the saved run and explicit paragraph IDs:
 

@@ -32,7 +32,8 @@ def path(root, value, exists=True):
 
 
 def read_json(target):
-    return state.gate.parse_json(target.read_bytes())
+    import research_evidence
+    return research_evidence.read_json(target.read_bytes(), str(target))
 
 
 def bind_runtime_requirements(root, config, inputs):
