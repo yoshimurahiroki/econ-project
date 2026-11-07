@@ -4,6 +4,7 @@
     "did": "2.5.1",
     "DRDID": "1.4.0",
     "gsynth": "1.4.0",
+    "grf": "2.6.1",
     "jsonlite": "2.0.0",
     "modelsummary": "2.6.0",
     "ggplot2": "4.0.3",
@@ -24,6 +25,7 @@
     "rdrobust": "4.1.1"
   },
   "sources": {
+    "grf": {"repository": "grf-labs/grf", "ref": "5bee99b51471f76cb2d63acbc8a9b0ffec408ba0", "subdir": "r-package/grf"},
     "fixest": {"repository": "lrberge/fixest", "ref": "cf9461331033e6f7276ad39d8203751690e619d4"},
     "did2s": {"repository": "kylebutts/did2s", "ref": "3adaf985980d4b46205de2e1856f93ba075baefe"},
     "didimputation": {"repository": "kylebutts/didimputation", "ref": "5645e6b14bfb3fe3faa88a1c14a2339bbb03fbc3"},

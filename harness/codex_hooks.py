@@ -582,57 +582,6 @@ def _restoration(root, directory, state, manifest=None):
     return text
 
 
-def _changed(directory, state):
-    """Changes to adopted task state require a fresh restoration."""
-    view = {key: state.get(key) for key in ('status', 'candidate_file_sha256',
-            'request_sha256', 'policy_id', 'policy_manifest_sha256', 'current_policy_manifest_sha256',
-            'task_binding_sha256', 'operation_binding_sha256', 'unbound_operations_sha256',
-            'needed_actions', 'unmet_requirement_ids')}
-    view['task_state_sha256'] = state.get('task_state_semantic_sha256', state.get('task_state_sha256'))
-    view['unresolved_ids'] = _ids(state)
-    signature = gate.sha(gate.canonical(view))
-    old = _read(directory / 'reinjection.json', {})
-    saved = {'state_sha256': signature, 'raw_task_state_sha256': state.get('task_state_sha256')}
-    if 'compactions' in old:
-        saved['compactions'] = old['compactions']
-    for key in ('policy_verification', 'instruction_policy_sha256', 'instruction_binding_sha256', 'instruction_sources'):
-        if key in old:
-            saved[key] = old[key]
-    if saved != old:
-        save_record(directory / 'reinjection.json', saved)
-    return old.get('state_sha256') != signature
-
-
-def _relevant_state_hash(data, task):
-    """Keep task dependencies and descendants while excluding telemetry and unrelated tasks."""
-    tasks = data['tasks']
-    descendants, pending = set(), [task['task_id']]
-    while pending:
-        key = pending.pop()
-        if key in descendants:
-            continue
-        gate.require(key in tasks, 'task dependency is missing')
-        descendants.add(key)
-        pending.extend(child for child, value in tasks.items() if value.get('parent') == key)
-    selected, pending = set(), list(descendants)
-    while pending:
-        key = pending.pop()
-        if key in selected:
-            continue
-        selected.add(key)
-        if key not in tasks:
-            continue
-        row = tasks[key]
-        if row.get('parent'):
-            pending.append(row['parent'])
-        pending.extend(value for value in row.get('after', []) if isinstance(value, str))
-        pending.extend(item['producer_id'] for item in row.get('consumes', [])
-                       if isinstance(item, dict) and isinstance(item.get('producer_id'), str))
-    relevant = {key: ({field: value for field, value in tasks[key].items() if field != 'usage'}
-                      if key in tasks else {'missing': True}) for key in sorted(selected)}
-    return gate.sha(gate.canonical(relevant))
-
-
 def _hook_usage_source(module, task, item, directory):
     """Match an imported fact to its saved hook-owned source and task binding."""
     identity, operation = item.get('identity') or {}, item.get('operation') or {}
@@ -2248,13 +2197,6 @@ def dispatch(event, expected_event):
             state['request_sha256'] = context['prompt_sha256']
             text = coordinator
             text += '\n' + _restoration(root, directory, state)
-            _, _, policy_raw, _, _ = _policy_snapshot(root, directory)
-            state['current_policy_manifest_sha256'] = gate.sha(policy_raw)
-            state['task_binding_sha256'] = gate.sha(gate.canonical(None))
-            state['operation_binding_sha256'] = gate.sha(gate.canonical(None))
-            state['task_state_sha256'] = None
-            state['unbound_operations_sha256'] = gate.sha(gate.canonical([]))
-            _changed(directory, state)
             text += ('\nApply the registered operation and all applicable instructions. '
                      'Bind existing task state through state.py for authorized writes and external operations. '
                      'After selecting a specialist operation, use codex_hooks.py --root ' + json.dumps(str(cwd)) +
@@ -2268,8 +2210,6 @@ def dispatch(event, expected_event):
         state, manifest = {'status': 'ordinary-active', 'needed_actions': []}, None
         context = _read(context_path, {})
         state['request_sha256'] = context.get('prompt_sha256')
-        if expected_event == 'SessionStart' and event.get('source') == 'compact':
-            _bound_state(directory, root)
         if expected_event == 'PostCompact':
             gate.require(context.get('session_id') == event['session_id'] and absolute(context['cwd']) == cwd,
                          'compaction task identity changed')
@@ -2332,8 +2272,8 @@ def dispatch(event, expected_event):
         if expected_event in ('SubagentStart', 'SubagentStop'):
             return _child(event, root, directory, state, manifest)
         if expected_event in ('PostToolUse', 'SessionStart'):
-            pending = []
             if expected_event == 'PostToolUse':
+                pending = []
                 gate.require(isinstance(event.get('tool_name'), str) and event['tool_name']
                              and isinstance(event.get('tool_use_id'), str) and event['tool_use_id'], 'missing host tool identity')
                 _capture_child_launch(directory, event)
@@ -2390,46 +2330,23 @@ def dispatch(event, expected_event):
                     scoped = _scoped_instructions(event, directory, context, changed_paths=changed_paths,
                         available=_scoped_available(root, expected_event, text, policy))
                 return feedback(expected_event, (scoped + '\n' if scoped else '') + text) if scoped or text else {}
-            policy, _, policy_raw, _, _ = _policy_snapshot(root, directory)
-            state['current_policy_manifest_sha256'] = gate.sha(policy_raw)
-            current_context = _read(context_path, {})
-            state['task_binding_sha256'] = gate.sha(gate.canonical(current_context.get('state_binding')))
-            state['operation_binding_sha256'] = gate.sha(gate.canonical(current_context.get('operation_binding')))
-            if current_context.get('state_binding'):
-                state['task_state_sha256'] = gate.file_snapshot(absolute(current_context['state_binding']['state_file'])).sha256
-                bound = _bound_state(directory, root)
-                if bound is not None:
-                    _, bound_data, bound_task, _ = bound
-                    state['task_state_semantic_sha256'] = _relevant_state_hash(bound_data, bound_task)
-            state['unbound_operations_sha256'] = gate.sha(gate.canonical([row for row in
-                current_context.get('unbound_operations', []) if not row.get('callback_path')]))
-            changed = _changed(directory, state)
-            failed = expected_event == 'PostToolUse' and _tool_failed(event)
-            needs_restoration = expected_event == 'SessionStart' or changed or failed or bool(pending)
-            text = ''
-            if needs_restoration:
-                text = _coordinator(directory)
-                text += '\n' + _restoration(root, directory, state, manifest)
-                if pending:
-                    text += ('\nReturned child scopes awaiting parent integration: '
-                             + json.dumps(pending, ensure_ascii=False)
-                             + '\nCompare each actual return with its assignment and integrate the result.')
-                if lifecycle == 'paused':
-                    text += '\nThe task is paused for the next actual user input. Preserve its holds; do not start dependent operations automatically.'
+            # PostToolUse has returned; SessionStart restores the governing text.
+            policy, _, _, _, _ = _policy_snapshot(root, directory)
+            if context.get('state_binding'):
+                _bound_state(directory, root)
+            text = _coordinator(directory)
+            text += '\n' + _restoration(root, directory, state, manifest)
+            if lifecycle == 'paused':
+                text += '\nThe task is paused for the next actual user input. Preserve its holds; do not start dependent operations automatically.'
             available = _scoped_available(root, expected_event, text, policy)
-            scoped = _scoped_instructions(event, directory, context, restore=expected_event == 'SessionStart',
-                                          available=available)
-            if not scoped and not text:
-                return {}
+            scoped = _scoped_instructions(event, directory, context, restore=True, available=available)
             result = feedback(expected_event, (scoped + '\n' if scoped else '') + text)
-            if expected_event == 'SessionStart' and event.get('source') == 'compact':
+            if event.get('source') == 'compact':
                 record = _read(directory / 'reinjection.json', {})
                 compactions = record.get('compactions') or {}
                 if isinstance(compactions.get(compaction_key), dict):
                     compactions[compaction_key]['pending_restoration'] = False
                     save_record(directory / 'reinjection.json', record)
-            if pending:
-                save_record(directory / 'pending-parent-returns.json', {'returns': []})
             return result
         gate.require(type(event.get('stop_hook_active')) is bool, 'missing Stop re-entry state')
         try:

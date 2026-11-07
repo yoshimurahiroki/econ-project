@@ -220,6 +220,21 @@ def gallery_display_metadata(value):
     return copy.deepcopy(value)
 
 
+def gallery_inference(inference, metadata):
+    """Carry executed inference into a display of the same saved interval family."""
+    declared = metadata.get('inference', {})
+    if not isinstance(inference, dict) or not isinstance(declared, dict):
+        return copy.deepcopy(declared or inference)
+    for field in ('confidence_level', 'interval_type'):
+        selected = metadata.get(field, declared.get(field))
+        if field == 'interval_type':
+            selected = metadata.get('ci_kind', declared.get('ci_kind', selected))
+        if selected is not None and field in inference and selected != inference[field]:
+            # A separately saved display owns its own interval definition and rows.
+            return copy.deepcopy(declared)
+    return {**copy.deepcopy(declared), **copy.deepcopy(inference)}
+
+
 def gallery_metadata(registry, result_ids):
     """Capture economic definitions and producer identities from saved results once."""
     producers = {}
@@ -235,6 +250,8 @@ def gallery_metadata(registry, result_ids):
             adopted = {}
         metadata = {key: copy.deepcopy(saved.get(key, adopted.get(key))) for key in fields
                     if key in saved or key in adopted}
+        if isinstance(saved.get('inference'), dict):
+            metadata['inference'] = copy.deepcopy(adopted.get('inference', {}))
         # A structural result's scenario can contain the complete solved paths.
         # Display its adopted definition; keep calculated arrays in source_result.
         if isinstance(metadata.get('scenario'), dict):
@@ -248,6 +265,8 @@ def gallery_metadata(registry, result_ids):
                          if key in fields})
         if isinstance(saved.get('display'), dict):
             metadata.update(copy.deepcopy(saved['display'].get('metadata', {})))
+        if 'inference' in saved:
+            metadata['inference'] = gallery_inference(saved['inference'], metadata)
         for key in ('interval_type', 'confidence_level', 'reference_distribution',
                     'degrees_of_freedom', 'inference_unit', 'cluster', 'n_clusters'):
             inference = saved.get('inference') or {}
@@ -744,6 +763,7 @@ def saved_display_definitions(result_id, saved):
 
 def prepare_gallery_items(registry, definitions=None):
     """Register authored display rows, or project named quantities from saved results."""
+    supplied_definitions = definitions is not None
     if definitions is None:
         definitions = list(registry.get('items', {}).values())
         if not definitions:
@@ -797,6 +817,24 @@ def prepare_gallery_items(registry, definitions=None):
         supplied = gallery_display_metadata(item.get('metadata', {}))
         if not isinstance(supplied, dict):
             raise ValueError('display metadata must be an object')
+        if supplied_definitions:
+            previous = registry.get('items', {}).get(item['id'], {}).get('metadata', metadata)
+            for field in ('confidence_level', 'interval_type'):
+                previous_inference = previous.get('inference') or {}
+                selected_inference = supplied.get('inference') or {}
+                original = previous.get(field, previous_inference.get(field) if isinstance(previous_inference, dict) else None)
+                selected = [supplied.get(field)]
+                if isinstance(selected_inference, dict):
+                    selected.append(selected_inference.get(field))
+                if field == 'interval_type':
+                    original = previous.get('ci_kind', original)
+                    selected.append(supplied.get('ci_kind'))
+                    if isinstance(selected_inference, dict):
+                        selected.append(selected_inference.get('ci_kind'))
+                if original is not None and any(value is not None and value != original for value in selected):
+                    raise ValueError('changed interval definition requires its separately saved display: ' + item['id'])
+        if 'inference' in metadata:
+            supplied['inference'] = gallery_inference(metadata['inference'], supplied)
         item['metadata'] = {**metadata, **supplied, 'producers': metadata['producers'],
                             'result_definitions': metadata['result_definitions']}
         if len(ids) == 1:
