@@ -319,14 +319,15 @@ def gallery_projection(item):
     """Apply display selection while retaining unrounded saved cells and units."""
     view = copy.deepcopy(item)
     display = item.get('display', {})
-    rows = [item['rows'][i] for i in (display.get('row_order') or range(len(item['rows'])))]
+    rows = [(i, item['rows'][i]) for i in (display.get('row_order') or range(len(item['rows'])))]
     chosen = display.get('selected_result_ids', item['result_ids'])
-    rows = [row for row in rows if row['result_id'] in chosen]
+    rows = [(i, row) for i, row in rows if row['result_id'] in chosen]
     series = display.get('series')
     if series and 'visible_series' in display:
-        rows = [row for row in rows if str(row.get(series)) in display['visible_series']]
+        rows = [(i, row) for i, row in rows if str(row.get(series)) in display['visible_series']]
     if display.get('sort_by'):
-        def sort_key(row):
+        def sort_key(indexed_row):
+            _, row = indexed_row
             value = row.get(display['sort_by'])
             return (value is None, type(value).__name__, value if value is not None else '')
         rows = sorted(rows, key=sort_key, reverse=not display.get('ascending', True))
@@ -334,10 +335,15 @@ def gallery_projection(item):
     view['columns'] = [copy.deepcopy(by_key[key]) for key in display.get('column_order', by_key)]
     for column in view['columns']:
         column['label'] = display.get('column_labels', {}).get(column['key'], column['label'])
-    view['rows'] = [{key: row.get(key) for key in [*(col['key'] for col in view['columns']), 'result_id']}
-                    for row in rows]
+    view['rows'] = []
+    for _, row in rows:
+        selected = {key: row.get(key) for key in [*(col['key'] for col in view['columns']), 'result_id']}
+        if 'unit' in row:
+            selected['unit'] = row['unit']
+        view['rows'].append(selected)
+    view['row_indices'] = [i for i, _ in rows]
     view['title'] = display.get('title', item['title'])
-    used = {row['result_id'] for row in rows}
+    used = {row['result_id'] for _, row in rows}
     view['result_ids'] = [result_id for result_id in chosen if result_id in used]
     for field in ('producers', 'result_definitions'):
         if field in view['metadata']:
@@ -386,6 +392,81 @@ def gallery_items(root, gallery_spec_path, query='', filters=None, *, item_ids=N
                 'fields': ['rows', 'columns', 'metadata', 'display', 'interpretation', 'files']}
             items.append(view)
     return items
+
+
+def composition_context(root, registry_path, *, result_ids, item_ids=(), gallery_path=None):
+    """Select saved quantities and displays as sources for the existing writing host."""
+    import argument
+
+    root = Path(root).resolve(strict=True)
+    path, registry = gallery_registry(root, registry_path)
+    if (not isinstance(result_ids, (list, tuple)) or not result_ids
+            or any(not isinstance(rid, str) or rid not in registry['records'] for rid in result_ids)
+            or len(set(result_ids)) != len(result_ids)):
+        raise ValueError('composition requires distinct existing result IDs')
+    if (not isinstance(item_ids, (list, tuple)) or any(not isinstance(iid, str) or not iid for iid in item_ids)
+            or len(set(item_ids)) != len(item_ids)):
+        raise ValueError('composition requires distinct gallery item IDs')
+    metadata = gallery_metadata(registry, result_ids)
+    sources = {}
+    for rid in result_ids:
+        record = registry['records'][rid]
+        definitions = gallery_display_metadata(record.get('adopted') or {})
+        definitions.update(metadata['result_definitions'][rid])
+        definitions.pop('effective_options', None)
+        definitions.pop('options', None)
+        statistics = {key: copy.deepcopy(value) for key, value in registry['statistics'].items()
+                      if key.split('.', 1)[0] == rid}
+        quantities = {key: {'source_key': copy.deepcopy(record.get('quantity_origins', {}).get(key[len(rid) + 1:])),
+                            'registry_key': ['statistics', key]}
+                      for key in statistics}
+        producer = {key: copy.deepcopy(value) for key, value in metadata['producers'][rid].items()
+                    if key != 'effective_options'}
+        reference = {'kind': 'json', 'path': path.relative_to(root).as_posix(),
+                     'keys': ['records', rid], 'content_version': state.content_hash(record)}
+        result = {'result_id': rid, 'statistics': statistics, 'quantity_origins': quantities,
+                  'definitions': definitions, 'producer': producer, 'source_reference': reference}
+        sources['result:' + rid] = {'text': json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False),
+                                   'origin_id': rid, 'location': reference['path'], 'research_result': result}
+    selected = gallery_items(root, gallery_path or path, item_ids=list(item_ids)) if item_ids else []
+    for item in selected:
+        admitted = [rid for rid in result_ids if rid in item['result_ids']]
+        if not admitted:
+            raise ValueError('selected display has no selected result: ' + item['id'])
+        for rid in admitted:
+            producer = item['metadata'].get('producers', {}).get(rid, {})
+            expected = sources['result:' + rid]['research_result']['producer']
+            if any(producer.get(key) != expected.get(key) for key in ('identity', 'references', 'run_id')):
+                raise ValueError('display and result producer differ: ' + item['id'] + '/' + rid)
+        metadata = {key: copy.deepcopy(value) for key, value in item['metadata'].items()
+                    if key not in ('producers', 'result_definitions', 'effective_options', 'options')}
+        metadata['result_definitions'] = {
+            rid: {key: copy.deepcopy(value) for key, value in item['metadata'].get('result_definitions', {}).get(rid, {}).items()
+                  if key not in ('effective_options', 'options')}
+            for rid in admitted}
+        display = {key: copy.deepcopy(item[key]) for key in
+                   ('id', 'title', 'kind', 'columns', 'display', 'interpretation', 'status', 'links', 'files', 'source_reference')}
+        display['result_ids'] = admitted
+        display['display']['selected_result_ids'] = admitted
+        if 'model_labels' in display['display']:
+            display['display']['model_labels'] = {rid: label for rid, label in display['display']['model_labels'].items()
+                                                 if rid in admitted}
+        display['metadata'] = metadata
+        display['rows'] = []
+        display['row_indices'] = []
+        for index, row in zip(item['row_indices'], item['rows']):
+            if row['result_id'] in admitted:
+                display['rows'].append(copy.deepcopy(row))
+                display['row_indices'].append(index)
+        for key in ('findings', 'issues', 'adoption_decision'):
+            if key in item:
+                display[key] = copy.deepcopy(item[key])
+        sources['display:' + item['id']] = {
+            'text': json.dumps(display, ensure_ascii=False, indent=2, allow_nan=False),
+            'origin_id': admitted[0] if len(admitted) == 1 else item['id'],
+            'location': item['source_reference']['path'], 'display_item': display}
+    return {'result_ids': list(result_ids), 'item_ids': list(item_ids),
+            'sources': argument.source_catalog(sources)}
 
 
 def gallery_compare(root, gallery_spec_path, item_ids):

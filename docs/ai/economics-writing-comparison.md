@@ -2,16 +2,29 @@
 
 比較日：2026年11月7日。
 
-指定された19件と追加探索の2件を、ERSの論証構築、モデル・推定結果の受渡し、図表生成、改稿・翻訳・査読対応と照合した。指定19件の最新HEADを確認し、0.57.0の比較記録にある17件は同じ固定SHAであることを確認した。JuliaErrorとshuangchenfinanceの2件を追加で読み、以下に記録した。各項目のリンクは実読した固定コミットの本文を指す。
+指定された19件と既存の追加比較2件を、ERSの論証構築、モデル・推定結果の受渡し、図表生成、改稿・翻訳・査読対応と照合した。2026年11月7日に21件すべての公開リポジトリへ `git ls-remote https://github.com/<owner>/<repository>.git HEAD` を実行し、全件で終了コード0を得た。取得したHEADは以下の固定SHAとすべて一致し、公開原典の変更は0件だった。指定19件にはjuliaErrorとshuangchenfinanceを含み、追加2件はzbsayginとviplee110である。各項目の固定コミット、実読箇所、比較判断を再利用した。
 
-## 保存結果と完成本文を使う実行接続（0.58.0）
+## 今回完成したWritingの接続
+
+公開実装との実質差分は、保存された数量・根拠・修正箇所を既存の執筆処理へ渡し、経済的な答えを持つ原稿と回答文を完成させる接続にある。以下は0.58.0の既存機能を起点に選んだ改修である。原典の本文位置と固定SHAは各比較項目に記載した。
+
+| 解決する作業と利用条件 | 公開実装の根拠 | ERSの既存機能と改修箇所 | 今回の状態 |
+| --- | --- | --- | --- |
+| 保存結果から最初の章節・段落を設計する。入力は採用した研究質問、結果ID、定義、表図、出典。 | [juliaError](#20-juliaerrorecon-topjournal-writing-skill)の結果から構成への接続と論証・執筆課題、[JonasWeinert](#3-jonasweinerteconagentskills)のResults・Reproducibility Discipline。 | [paragraph.py](../../harness/paragraph.py)の `generate_blueprint`・`generate_specifications` は完成段落の `composition_context` を再利用する。保存結果を読む入口から同じ執筆入力へ、選択した数量、定義、図表、出典を渡す。論証の依存関係は [argument.py](../../harness/argument.py) が担う。 | `b8bab737`に保存。既存design入口から執筆・改稿・保存・完成段落の再利用まで実行し、担当3テストが成功した。 |
+| 数量から経済的な主張を組み立てる。入力は結果の主体・母集団・期間・単位・比較基準・識別条件と、採用したモデルの定義。 | [changxiangxu](#10-changxiangxuecon-research-skills)のResults_Manager Task A・E、[did](#16-bcallaway11did)の集計対象とイベント窓、[modelsummary](#18-vincentarelbundockmodelsummary)の保存された項・群・推論。 | [paper-workflow](../../skills/econ-writing/references/paper-workflow.md#establish-the-argument-from-the-research)と [paragraph-workflow](../../skills/econ-writing/references/paragraph-workflow.md)で、保存数量が示す行動・配分・均衡・厚生の関係を段落の主張へ結ぶ。[result-artifacts](../../skills/econ-writing/references/result-artifacts.md)から同じ結果定義を渡す。 | `4806b74d`にWriting手順を保存。DIDの時間的応答、成長モデルの資源配分、所有統合の価格調整と厚生を完成原稿へ反映した。 |
+| Introductionと結論を、本文が支持する答えと先行研究の実際の知見から構成する。 | [mimaowang](#2-mimaowangecon-writing-skills)のIntroductionとMixed Papers、[juliaError](#20-juliaerrorecon-topjournal-writing-skill)の中心結果と本文位置の対応。 | [paper-workflow](../../skills/econ-writing/references/paper-workflow.md#introduction)で引用先の知見と本研究の支持結果を結ぶ。`composition_context` にある中心質問・答え・貢献を、Title・Abstract・Introduction・Conclusionで共有する。 | 研究7類型の推論を既存手順へ統合。3原稿のTitle・Abstract・Introduction・Results・Discussion・Conclusionを同じ結果から構成し、主要数値と対象・期間・単位を照合した。 |
+| 修正済み本文から査読回答を完成させる。入力は解決済みの指摘、現行assessment、旧本文、実際の修正箇所、根拠と計算結果。 | [hanlulongの査読実装](#6-hanlulongecon-paper-review-skill)のrevision-cycle・review-actions-handoff、[shuangchenfinance](#21-shuangchenfinanceresearch-skills)のREFEREE RESPONSE・REWRITE。 | [research_evidence.py](../../harness/research_evidence.py)の `response_draft` が既存のWriting hostへ `econ-writing:compose`・`revise`・`translate` を渡す。各findingに採用理由と修正本文・位置を付し、返った完成回答を出力する。 | `45419eb8`に保存し、既存4テストが成功。成長モデルの実際の修正本文から完成回答を書き、既存review CLIの `--response-output` で保存した。 |
+
+完成した[因果実証原稿](../../examples/research-workspace/materials/writing/causal-paper.md)、[成長モデル原稿](../../examples/research-workspace/materials/writing/growth-paper.md)、[構造推定原稿](../../examples/research-workspace/materials/writing/structural-paper.md)は、既存の保存結果を用いた独自の計算例である。[日英改稿・翻訳と読者別説明](../../examples/research-workspace/materials/writing/revision-examples.md)、[査読回答](../../examples/research-workspace/materials/writing/referee-response.md)、[実行結果](../../examples/research-workspace/materials/writing/execution.json)も保存した。文章はnative会話で構成し、数量・表図・査読対応の受渡しを既存コードで実行した。
+
+## 0.58.0で保存済みの実行接続
 
 | 完了した接続 | 登録済み入口と入力 | 生成される内容 |
 | --- | --- | --- |
 | 完成本文から章節を設計 | `paragraph.py design --reuse-state … --reuse-paragraph …` に既存の段落IDと現在の執筆依頼を渡す | 完成した主張、根拠、数量、採用図表、前提依存を `writing:architect` と `writing:specify` へ渡す。Title・Abstract・Introduction・Conclusionは同じ中心的な答えから構成する。 |
 | 数量と定義を本文へ渡す | `research.py` の既存 `render` に `statistics` と `definitions` を指定する | 保存された値・単位と、比較群・期間・数式などの文字列を同じ節へ挿入する。節の編集は既存DAGの対応する出力を更新する。 |
 | 論文・スライドへ同じ定義を渡す | `research_evidence.py artifacts materialize` の既存仕様に `definitions` を指定する | 選択した結果・図表の定義をarticle/slidesへ挿入し、数値・単位の実際の文字位置を既存binderへ渡す。 |
-| 改稿から査読回答を作る | `research_evidence.py review` に現行assessmentと `review.response_draft` を渡す | 当初の指摘、旧本文、修正済み本文、根拠、選択計算と回答文を同じ返却結果にまとめる。日英の説明は既存の改稿・翻訳モードから渡す。 |
+| 査読回答の材料をそろえる | `research_evidence.py review` に現行assessmentと `review.response_draft` を渡す | 当初の指摘、旧本文、修正済み本文、根拠、選択計算と採用理由を同じ返却結果にまとめる。完成回答への執筆接続は上表に記載した。 |
 
 各経路は既存の状態、結果ID、図表、公式計算結果を再利用する。論文本文の出力例には、保存済みDiD結果と20期の成長モデル結果を使用した。主図の選択例では、成長モデルの配分経路・厚生を主本文へ、パラメータと方程式の診断を付録へ接続した。読者、言語、研究類型、節の機能は既存7モードの共通処理と現在の執筆依頼が定める。
 
@@ -199,7 +212,7 @@
 
 **利用条件と実装。** 実証論文の査読、改稿、経済的な大きさの説明に用いる。各指摘へ本文・表図の根拠を付し、回答では変更内容、その掲載箇所、変更の理由を対応させる。改稿は著者の経済的な意味を保持する。
 
-**ERSとの対応と判断。** [research_evidence.py](../../harness/research_evidence.py)の既存 `review` に `response_draft` を追加した。固定した指摘・基準、保存された旧本文、現行の修正箇所、根拠ファイルと計算結果を同じ回答へ接続する。根拠の説明は現行の `rationale` から受け取り、[econ-review](../../skills/econ-review/SKILL.md)と既存のWriting改稿・翻訳へ戻す。周辺追記で段落位置が移った場合も、同じ主張の判断を再利用して現行箇所を引用する。
+**ERSとの対応と判断。** [research_evidence.py](../../harness/research_evidence.py)の既存 `review` と `response_draft` は、固定した指摘・基準、保存された旧本文、現行の修正箇所、根拠ファイルと計算結果を対応させる。今回の `45419eb8` は、現行の `rationale` を根拠説明として、修正本文・位置・出典とともに既存のWriting hostへ渡す。compose・revise・translateがfindingごとの完成回答を返し、回答欄へ出力する。周辺追記で段落位置が移った場合も、同じ主張の判断を再利用して現行箇所を引用する。
 
 ## 論文資料から具体化したWriting判断
 

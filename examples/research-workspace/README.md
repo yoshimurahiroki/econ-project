@@ -25,6 +25,22 @@ Aiyagari の `asset_policy` と `distribution` は、表示用コピーの `colu
 
 配布版の `gallery.json` は `source_result` 全体と表示行を同梱する。元入力と履歴コードは mini／project の同じ `examples/research-workspace/models/` を正本とし、registry の記録から URL とハッシュを参照する。保存行を使う `gallery register` → `gallery select` → `meeting create` → `meeting render` が、表図から研究資料までの表示経路である。
 
+## 完成原稿と査読対応
+
+採用済みの保存結果から、因果推論・成長モデル・構造推定の3本の原稿を作成した。各稿は Title、Abstract、Introduction、Results、Discussion、Conclusion と英語 Abstract を持ち、識別条件やモデルの式から結果の経済的意味を説明する。執筆には native 会話で既存の `compose`、`revise`、`explain`、`translate` を適用し、数値と表図には既存の研究 renderer / gallery と保存結果を使った。
+
+| 完成原稿 | 中心となる結果 |
+| --- | --- |
+| [段階的な導入と成果の時間的推移](materials/writing/causal-paper.md) | 導入後の平均ATTは1.6588成果単位。経過期ごとの導入群と集約ウェイトを保持。 |
+| [一時的な産出税と消費・資本の移行経路](materials/writing/growth-paper.md) | 初期・終端資本を固定した20期間の家計厚生差は−0.5436割引対数消費単位。 |
+| [企業統合による価格調整と市場厚生](materials/writing/structural-paper.md) | 市場0の総余剰は1.0220から1.0154へ低下。単位は潜在消費者1人当たりの人工データ通貨単位。 |
+
+[日英改稿・翻訳と読者別説明](materials/writing/revision-examples.md)には、独自原文、完成改稿文、翻訳、保持した研究内容を収録した。同じ成長モデル結果を研究者向けと経済学未修読者向けに説明し、既存の成長経路図へ接続している。
+
+査読対応では、[修正前原稿](materials/writing/growth-original.md)を改稿して[本文](materials/writing/growth-paper.md)を完成し、その修正に基づく[回答文](materials/writing/referee-response.md)を作成した。家計厚生の目的関数、20期間の評価範囲、政府吸収の扱いを本文に明記し、結果と結論へ反映した。[対応契約](materials/writing/referee-contract.json)、[初回評価](materials/writing/referee-initial-review.json)、[修正後評価と回答実行記録](materials/writing/referee-review.json)が、元の指摘、修正箇所、保存結果、回答を対応させる。
+
+回答文は既存 CLI `harness/research_evidence.py review` の `--writing-mode compose` と `--response-output` を通じて保存した。`referee-review.json` の `response_draft.execution` は、native 会話で作成した文面を渡した local callback の完了記録を持つ。
+
 ## 論文と研究スライド
 
 同じ8つの結果 ID から、論文形式の資料と研究スライドを作成した。各ケースは研究質問、対象母集団、採用した推定・較正・固定パラメータ、推論、比較シナリオ、結果の経済的意味、数値解の診断を説明する。原結果へのリンクは保存コミット `f9093ba87cabce7bee1fdf3391656544617a8cb9` に固定している。

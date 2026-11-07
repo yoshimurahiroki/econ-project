@@ -157,9 +157,18 @@ def _span(value, text, context):
     return text[a:b]
 
 
-def normalize_sources(sources):
-    require(isinstance(sources, dict) and sources, 'sources must be a nonempty mapping')
+def normalize_sources(sources, *, research_results=None):
+    require(isinstance(sources, dict), 'sources must be a mapping')
     result = copy.deepcopy(sources)
+    if research_results is not None:
+        from research_artifacts import composition_context
+        require(isinstance(research_results, dict), 'research result selection must be an object')
+        context = composition_context(**research_results)
+        for sid, source in context['sources'].items():
+            require(sid not in result or result[sid] == source,
+                    'selected research source differs from the supplied source: ' + sid)
+            result[sid] = source
+    require(result, 'sources must be a nonempty mapping')
     for key, source in result.items():
         require(_text(key), 'source id must contain text')
         _texts(source, ('text',), 'source ' + key)
@@ -442,8 +451,8 @@ def _completed_body(sources, completed_run, paragraph_ids):
 
 def generate_blueprint(brief, sources, rules, host, observe, *, execution_kind='independent-subagent', author_id=None,
                        completed_run=None, paragraph_ids=()):
-    sources = normalize_sources(sources)
     _texts(brief, ('original_request', 'authority', 'purpose', 'reader'), 'writing brief')
+    sources = normalize_sources(sources, research_results=brief.get('research_results'))
     payload = {'brief': brief, 'sources': sources}
     completed = _completed_body(sources, completed_run, paragraph_ids)
     if completed is not None:
@@ -454,13 +463,13 @@ def generate_blueprint(brief, sources, rules, host, observe, *, execution_kind='
     if completed is not None:
         for key in ('central_question', 'central_answer', 'contribution'):
             require(result['blueprint'].get(key) == completed[key], 'architecture changes the adopted ' + key)
-    return {'blueprint': seal_blueprint(result['blueprint'], sources), 'execution': record}
+    return {'blueprint': seal_blueprint(result['blueprint'], sources), 'execution': record, 'sources': sources}
 
 
 def generate_specifications(blueprint, sources, rules, host, observe, *, request, authority,
                             execution_kind='independent-subagent', author_id=None,
                             completed_run=None, paragraph_ids=(), brief=None):
-    sources = normalize_sources(sources)
+    sources = normalize_sources(sources, research_results=brief.get('research_results') if brief is not None else None)
     blueprint = seal_blueprint(blueprint, sources)
     payload = {'blueprint': blueprint, 'sources': sources, 'original_request': request, 'authority': authority}
     if brief is not None:
@@ -480,7 +489,7 @@ def generate_specifications(blueprint, sources, rules, host, observe, *, request
     require([p.get('paragraph_id') for p in specs] == ids, 'designer specification order or coverage differs')
     for spec in specs:
         validate_specification(spec, blueprint, sources)
-    return {'specifications': specs, 'execution': record, 'blueprint_sha256': blueprint['sha256']}
+    return {'specifications': specs, 'execution': record, 'blueprint_sha256': blueprint['sha256'], 'sources': sources}
 
 
 def _local_io():
@@ -1437,13 +1446,14 @@ def main(argv=None):
         blueprint = generate_blueprint(brief, sources, rules, host, observe,
                                       execution_kind=args.execution_kind, author_id=args.author_id,
                                       completed_run=completed_run, paragraph_ids=args.reuse_paragraph)
+        sources = blueprint['sources']
         specifications = generate_specifications(blueprint['blueprint'], sources, rules, host, observe,
                             request=brief['original_request'], authority=brief['authority'],
                             execution_kind=args.execution_kind, author_id=args.author_id,
                             completed_run=completed_run, paragraph_ids=args.reuse_paragraph, brief=brief)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_bytes(canonical({'blueprint': blueprint['blueprint'], 'specifications': specifications['specifications'],
-                                          'design_records': [blueprint['execution'], specifications['execution']]}))
+                                          'sources': sources, 'design_records': [blueprint['execution'], specifications['execution']]}))
         print(json.dumps({'status': 'specified', 'output': str(args.output)}))
         return 0
     if args.command == 'create':

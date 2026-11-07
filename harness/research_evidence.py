@@ -10,9 +10,11 @@ import argparse
 import copy
 import json
 import math
+import os
 from pathlib import Path
 import re
 import sys
+import tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'skills/econ-literature/scripts'))
@@ -191,8 +193,8 @@ def claim_coverage(manuscript, claims, coverage=None):
     return {'candidates': candidates, 'unregistered': missing, 'semantic_completeness': 'owner-judgment-required'}
 
 
-def response_draft(settings, root, packet):
-    """Render the owner's current explanation with its original and revised passages."""
+def response_draft(settings, root, packet, *, writing=None):
+    """Compose a response from the assessed revision through the existing writer."""
     obj(settings, 'response_draft')
     language = settings.get('language', 'en')
     require(language in {'ja', 'en'}, 'response_draft language must be ja or en')
@@ -206,7 +208,7 @@ def response_draft(settings, root, packet):
     manuscript = packet['manuscript_text']
     labels = ('査読コメント', '回答', '本文', '根拠') if language == 'ja' else (
         'Referee comment', 'Response', 'Manuscript', 'Evidence')
-    entries, sections = [], []
+    entries = []
     for ident in selected:
         finding = findings[ident]
         require(finding['decision'] in {'supported', 'removed'},
@@ -245,23 +247,55 @@ def response_draft(settings, root, packet):
                  'bindings': {key: copy.deepcopy(packet['binding_context'][key])
                               for key in current['bindings']} if current else {}}
         entries.append(entry)
-        body = [f'## {ident}', f'**{labels[0]}**', comment, f'**{labels[1]}**', finding['rationale']]
-        if passages:
+    execution = None
+    if writing is not None:
+        obj(writing, 'response writing')
+        mode = writing.get('mode', 'compose')
+        require(mode in {'compose', 'revise', 'translate'}, 'response writing uses compose, revise or translate')
+        request = text(writing.get('request'), 'response writing request')
+        source_ids = {anchor['id'] for entry in entries
+                      for anchor in claims.get(entry['claim_id'], {}).get('sources', [])}
+        payload = {'original_request': request, 'language': language,
+                   'adopted': copy.deepcopy(packet['adopted']),
+                   'manuscript': copy.deepcopy(packet['manuscript']),
+                   'entries': copy.deepcopy(entries),
+                   'source_context': {key: copy.deepcopy(packet['source_context'][key]) for key in sorted(source_ids)},
+                   'output_contract': {'responses': 'Map each finding_id to its completed response text. '
+                       'Answer the economic issue using the assessed decision, actual revised passages, '
+                       'evidence and manuscript location. Preserve quantities, definitions and citations.'}}
+        task = paragraph._task('econ-writing:' + mode, payload,
+                              paragraph.instruction_packet(request, writing['rules']))
+        result, execution = paragraph.invoke_host(
+            writing['host'], task, writing['observe'],
+            execution_kind=writing.get('execution_kind', 'single-agent-sequential'),
+            author_id=writing.get('author_id'))
+        responses = obj(result.get('responses'), 'written responses')
+        require(set(responses) == set(selected), 'written responses must cover the selected findings exactly')
+        for entry in entries:
+            entry['response'] = text(responses[entry['finding_id']], 'written response')
+    sections = []
+    for entry in entries:
+        body = [f"## {entry['finding_id']}", f'**{labels[0]}**', entry['comment'],
+                f'**{labels[1]}**', entry.get('response', entry['rationale'])]
+        if writing is None and entry['passages']:
             body.append(f'**{labels[2]}**')
-            for passage in passages:
+            for passage in entry['passages']:
                 body.append('\n'.join('> ' + line for line in passage['quote'].split('\n')))
-        quoted_evidence = [ref for ref in references if 'span' in ref]
-        if quoted_evidence:
+        quoted_evidence = [ref for ref in entry['references'] if 'span' in ref]
+        if writing is None and quoted_evidence:
             body.append(f'**{labels[3]}**')
             for ref in quoted_evidence:
                 body.extend([ref['path'], '\n'.join('> ' + line for line in ref['span']['quote'].split('\n'))])
         sections.append('\n\n'.join(body))
-    return {'language': language, 'manuscript': copy.deepcopy(packet['manuscript']),
-            'evidence_sha256': packet['evidence_sha256'], 'entries': entries,
-            'text': '\n\n'.join(sections) + '\n'}
+    draft = {'language': language, 'manuscript': copy.deepcopy(packet['manuscript']),
+             'evidence_sha256': packet['evidence_sha256'], 'entries': entries,
+             'text': '\n\n'.join(sections) + '\n'}
+    if execution is not None:
+        draft['execution'] = execution
+    return draft
 
 
-def review_round(contract, root, packet):
+def review_round(contract, root, packet, *, writing=None):
     """Bind requested review rounds to existing evidence results, never release authority."""
     settings = obj(contract.get('review', {}), 'review')
     if not settings:
@@ -375,13 +409,16 @@ def review_round(contract, root, packet):
     packet['review'] = {'criteria': copy.deepcopy(criteria), 'previous': previous_ref, 'findings': findings}
     packet['status'] = 'reviewed' if set(fingerprints) <= covered and findings else 'review-required'
     if 'response_draft' in settings:
-        packet['response_draft'] = response_draft(settings['response_draft'], root, packet)
+        packet['response_draft'] = response_draft(settings['response_draft'], root, packet, writing=writing)
     return packet
 
 
-def review(contract, root, *, claim_ids=None):
+def review(contract, root, *, claim_ids=None, writing=None):
     """Supply the actual claim and source context for the selected specialist judgment."""
     root = Path(root).resolve(strict=True)
+    if writing is not None:
+        require(claim_ids is None and 'response_draft' in contract.get('review', {}),
+                'response writing requires the current complete review and response_draft selection')
     if claim_ids is not None:
         require(isinstance(claim_ids, list) and claim_ids and len(set(claim_ids)) == len(claim_ids)
                 and set(claim_ids) <= {c['id'] for c in contract.get('claims', [])}, 'Select existing distinct claim IDs')
@@ -467,7 +504,7 @@ def review(contract, root, *, claim_ids=None):
                           'Return the supported finding and its exact source; retain a correct claim when no defect follows.'}
     if claim_ids is None:
         packet['manuscript_text'] = manuscript
-        packet = review_round(contract, root, packet)
+        packet = review_round(contract, root, packet, writing=writing)
         packet.pop('manuscript_text')
     else:
         # This is input identity, never a new review or a partial replacement
@@ -698,6 +735,15 @@ def main(argv=None):
         command.add_argument('contract')
         command.add_argument('--root', required=True)
         command.add_argument('--output', required=True)
+        if name == 'review':
+            command.add_argument('--host')
+            command.add_argument('--rules')
+            command.add_argument('--request')
+            command.add_argument('--writing-mode', choices=('compose', 'revise', 'translate'), default='compose')
+            command.add_argument('--execution-kind', choices=paragraph.EXECUTION_KINDS,
+                                 default='single-agent-sequential')
+            command.add_argument('--author-id')
+            command.add_argument('--response-output')
     args = parser.parse_args(argv)
     try:
         root = Path(args.root).resolve(strict=True)
@@ -707,12 +753,27 @@ def main(argv=None):
         contract_path = state.relative(root, contract_path.as_posix())
         raw = (root / contract_path).read_bytes()
         contract = read_json(raw, 'contract')
+        writing, writing_inputs = None, []
+        if args.command == 'review':
+            require(bool(args.host) == bool(args.rules) == bool(args.request),
+                    'response writing requires --host, --rules and --request together')
+            if args.host:
+                for value in (args.host, args.rules):
+                    selected = Path(value)
+                    if selected.is_absolute():
+                        selected = selected.relative_to(root)
+                    writing_inputs.append(state.relative(root, selected.as_posix()))
+                host, observe = paragraph.load_host_adapter(root / writing_inputs[0])
+                writing = {'host': host, 'observe': observe,
+                           'rules': read_json((root / writing_inputs[1]).read_bytes(), 'writing rules'),
+                           'request': args.request, 'mode': args.writing_mode,
+                           'execution_kind': args.execution_kind, 'author_id': args.author_id}
         output = Path(args.output)
         if output.is_absolute():
             output = output.relative_to(root)
         output = state.relative(root, output.as_posix(), exists=False)
-        result = (bind if args.command == 'bind' else review)(contract, root)
-        refs = [contract_path, contract.get('manuscript', {}).get('path')]
+        result = bind(contract, root) if args.command == 'bind' else review(contract, root, writing=writing)
+        refs = [contract_path, contract.get('manuscript', {}).get('path'), *writing_inputs]
         refs += [x.get('path') for x in contract.get('sources', {}).values()]
         refs += [x.get('result', {}).get('path') for x in contract.get('numbers', [])]
         refs += [x.get(k, {}).get('path') for x in contract.get('models', []) for k in ('result', 'code')]
@@ -729,9 +790,33 @@ def main(argv=None):
             refs.append((finding.get('comment') or {}).get('path'))
         actual_sources = result['bindings'].get('sources', {}) if args.command == 'bind' else result['source_context']
         refs += [source['path'] for source in actual_sources.values()]
-        require(output not in {state.relative(root, ref) for ref in refs if isinstance(ref, str) and ref},
+        protected = {state.relative(root, ref) for ref in refs if isinstance(ref, str) and ref}
+        require(output not in protected,
                 'output cannot overwrite a binding input')
         result['contract'] = {'path': contract_path, 'sha256': paragraph.sha(raw)}
+        response_output = getattr(args, 'response_output', None)
+        if response_output:
+            require('response_draft' in result, '--response-output requires response_draft')
+            destination = Path(response_output)
+            if destination.is_absolute():
+                destination = destination.relative_to(root)
+            response_output = state.relative(root, destination.as_posix(), exists=False)
+            require(response_output not in protected | {output},
+                    'response output cannot overwrite a binding input or review output')
+            destination = root / response_output
+            response_text = result['response_draft']['text']
+            fd, temporary = tempfile.mkstemp(prefix='.' + destination.name + '-', dir=destination.parent)
+            try:
+                with os.fdopen(fd, 'w', encoding='utf-8') as stream:
+                    stream.write(response_text)
+                    stream.flush()
+                    os.fsync(stream.fileno())
+                state.gate.replace_path(temporary, destination)
+                state.gate.sync_directory(destination.parent)
+            finally:
+                if os.path.exists(temporary):
+                    os.unlink(temporary)
+            result['response_draft']['output'] = {'path': response_output, 'sha256': paragraph.sha(response_text)}
         state.save(root / output, result)
         return 0
     except (EvidenceError, paragraph.ParagraphError, ValueError, TypeError, OSError, KeyError) as exc:

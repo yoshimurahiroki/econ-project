@@ -199,3 +199,16 @@ The manuscript's whole-file hash pins the delivered version. Each claim fingerpr
 Supply the author letter only through `review.author_response` together with `review.response_after`, a hash-pinned separately saved assessment of the current evidence. The command validates that assessment and its criteria before reading the letter, and returns `response-comparison-required` with unchanged evidence findings. Compare the letter's assertions with those findings. A new determining fact returns to the same evidence and assessment path; a response alone never silently changes the verdict. This selected file dependency controls the packet contents; it does not attest to unseen host inputs or create another reviewer Agent.
 
 To generate a requested response from the completed revision, supply the current assessment with each finding's `changes` and `references`, then select `review.response_draft` through the same review entry point. It returns the original comment and passage, current revision, supporting evidence and response text. Use [econ-review's response contract](../../econ-review/SKILL.md#locate-and-repair-the-cause) for the language, finding selection and source correspondence.
+
+Compose the finished response with the existing writing host after revising the actual manuscript and assessing its changed claims:
+
+```sh
+python .agents/harness/research_evidence.py review writing/current-contract.json \
+  --root "$PROJECT" --output writing/current-review.json \
+  --host writing/host-adapter.py --rules writing/rules.json \
+  --request 'Compose the referee response from the assessed manuscript revision.' \
+  --writing-mode compose --execution-kind single-agent-sequential \
+  --author-id author --response-output writing/response.md
+```
+
+The host and rule files use the existing [paragraph callback interface](paragraph-workflow.md#command-entry-points). The task's operation is `econ-writing:compose`, `econ-writing:revise` or `econ-writing:translate`. Its payload carries the requested language, adopted scientific identities, selected original comments and passages, actual revised spans, assessment reasons, source text and saved quantities. The host returns `{"responses":{"FINDING_ID":"completed response text"}}` for exactly the selected findings. The same host observer binds that returned wording to its actual invocation. The response explains what the revision establishes, why its economic reasoning answers the comment, and where the revision appears. The packet retains the full evidence correspondence and execution; the Markdown letter contains the comments and completed responses. Ordinary direct writing uses the same composition procedure and saves its finished text in the requested destination.

@@ -16,13 +16,15 @@ Identify what makes each supporting result usable by the next claim. Measurement
 
 Give each necessary paragraph one central proposition and the reader question it answers. Decide which evidence or mechanism establishes that proposition and how it connects to the surrounding paragraphs. Allocate space by the work each step performs. Express these choices in the ordinary draft; use the existing paragraph specifications when resumable composition requires them.
 
-Begin where the reader's established premises end. Supply the new observation, definition or derivation, explain its bearing on the proposition, and carry the resulting fact into the next dependent paragraph. Choose the sentence order from that inferential task. Combine sentences establishing one relation and give a distinct proposition its own paragraph. Retain the actor and economic object through the transition so a change of population, time or choice margin is explicit.
+For a result-based passage, connect the economic object and its population to the named estimand, proposition or counterfactual; recover the identifying variation, equation and determining conditions; interpret the direction and magnitude against the adopted comparison; derive the mechanism or implication established by that evidence; and identify the resulting claim used by the next paragraph. Keep units, denominators, periods and scenario definitions with their quantities. A mechanism comes from the study's intermediate evidence or model argument. A magnitude's economic meaning comes from its supported baseline, scale or allocation consequence.
+
+Begin where the reader's established premises end. Turn those relations into the sentences needed to establish the paragraph's proposition, selecting their order and length from its inferential task. Combine sentences establishing one relation and give a distinct proposition its own paragraph. Retain the actor and economic object through the transition so a change of population, time or choice margin is explicit. Reuse these choices in the existing paragraph specification when versioned composition is requested.
 
 Carry the applicable purpose, scope, source identity, adopted definitions and settled decisions into any delegated passage through the existing TEAM handoff. State the unresolved relation the writer must establish and the neighboring claim that will use it. Preserve the authoritative instructions in their existing owners and read them at execution; a paragraph assignment supplies the specific work to perform.
 
 ## C. Paragraph Writers
 
-Write a coherent paragraph that establishes its assigned claim and connects with neighboring paragraphs. For Japanese, reconstruct the complete explanation aloud in natural wording before compression. Preserve source-supported actors, operations, quantities and relations while applying PROSE's language rules.
+Write the completed paragraph that establishes its assigned claim and connects with neighboring paragraphs. Develop the evidence-to-claim inference in the actual wording, using the selected source passages, saved quantities and adopted equations. For Japanese, reconstruct the complete explanation aloud in natural wording before compression. Preserve source-supported actors, operations, quantities and relations while applying PROSE's language rules.
 
 ## D. Local Quality Control
 
@@ -51,6 +53,20 @@ Use the smallest existing check that can change a material acceptance decision u
 ## Command entry points
 
 Use `harness/paragraph.py` and `harness/argument.py` for requested versioned composition and argument operations. Actual final artifacts and authorized destination returns establish delivery.
+
+To begin from saved results, add `research_results` to the existing writing brief:
+
+```json
+"research_results": {
+  "root": "/absolute/project/root",
+  "registry_path": "examples/research-workspace/saved-results.json",
+  "result_ids": ["specialist-growth-r01"],
+  "gallery_path": "examples/research-workspace/gallery.json",
+  "item_ids": ["specialist-growth-r01-displays-welfare"]
+}
+```
+
+The existing `design` command resolves this selection through `research_artifacts.composition_context`. Its architecture and specification callbacks receive named quantities, units, adopted definitions, producing references and the selected display rows. The returned `sources` contain `result:<ID>` and `display:<ID>` entries with exact text hashes, structured content and original quantity keys or row indices. Pass the design output's `blueprint`, `specifications`, `sources` and `design_records` into the existing `ParagraphRun.create` input. The writer then develops the evidence-to-claim explanation above; completed paragraphs retain these same sources for later section design. An initial sources file can contain `{}` when the brief supplies the selected results.
 
 To design a requested section from completed body paragraphs, use the existing `design` entry with the saved run and explicit paragraph IDs:
 
