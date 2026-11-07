@@ -197,3 +197,4 @@ Generated from the resource and placement registries. Use this catalog only for 
 - meeting-cloud-workflow: .github/workflows/meetings.yml (complete source distribution only)
 - research-task-form: .github/ISSUE_TEMPLATE/research-task.yml (complete source distribution only)
 - research-gallery-example: examples/research-workspace/gallery.json
+- economics-writing-comparison: docs/ai/economics-writing-comparison.md (complete source distribution only)

@@ -4,7 +4,9 @@ Profile ID: default-micro. Languages: English and Japanese. Apply [PROSE](../../
 
 ## Principles
 
-Write for the requested reader and medium. The default reader has doctoral core-course training in economics; explain another field's institutions and specialized terms in ordinary language. Japanese academic passages use natural 常体. Build a connected spoken explanation before shaping its academic wording.
+Write for the requested reader and medium under [PROSE's audience rule](../../runtime/PROSE.md#select-the-profile). Japanese academic passages use natural 常体. Build a connected spoken explanation before shaping its academic wording.
+
+For the default research audience, begin the explanation at the study-specific institution, restriction or result needed for the inference. Use established economic terminology and the manuscript's notation consistently. For an explicitly named non-economist audience, choose the passage and saved diagram that make the actors' choice and resulting adjustment visible. Preserve the economic relation when changing the words, equation density or figure labels.
 
 Choose the relation that answers the reader's question. An empirical passage connects institutions, observed variation, comparison and finding. A theoretical passage connects defined objects, assumptions, feasible choices and the decisive derivation. A decision passage connects the objective, feasible actions, their consequences and the selected action. Develop the passage from its own sources and adopted definitions.
 

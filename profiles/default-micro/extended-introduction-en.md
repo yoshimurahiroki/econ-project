@@ -21,3 +21,21 @@ Delivery and output records measure the production consequences of these timing 
 
 **Generalizable operation:**
 Lead with the central comparison and express 1.3 MW as the difference between reductions of 1.8 and 0.5 MW. Connect processing stages, handoffs and plant choices to the joint-change mechanism. Establish feasible schedules before explaining the activation rule and estate-level assignment. Develop the argument through implementation, load timing and production outcomes, using each finding as a premise for the next inference.
+
+## Results and Discussion from the same experiment
+
+**Input:**
+Use the original fictional study and saved quantities above. In this example, Table 2 reports peak demand, daily energy use and bills; Table 3 reports implementation, delivery and output. Write the Results and Discussion from those exhibits. Keep the estate-level assignment, private-versus-joint comparison, outcome definitions and 18-week horizon.
+
+**Results:**
+Joint activation reduces daily peak demand by 1.8 MW relative to the control mean of 10 MW; private activation reduces it by 0.5 MW (Table 2). The additional reduction under joint activation is 1.3 MW. Full-day readings place the displaced morning load in adjacent cheaper hours. Joint activation raises daily energy use by 0.3 percent and lowers bills by 5.2 percent over the 18-week intervention.
+
+Implementation among linked plants reaches 76 percent under joint activation and 34 percent under private activation (Table 3). Among stand-alone plants, the corresponding rates are 81 and 79 percent. Delivery records connect these schedule changes to the handoffs between plants. Relative to a 7 percent control mean, late deliveries rise by 0.1 percentage point under joint activation and 3.6 percentage points under private activation. Joint activation changes saleable output valued at pre-intervention prices by 0.2 percent.
+
+**Discussion:**
+The experiment establishes the effect of making linked schedule changes contingent on complete agreement. Each plant's production time affects the arrival of inputs at the next stage. Joint activation gives all required partners a common implementation condition, allowing accepted schedules to preserve those handoffs. The higher implementation rate among linked plants connects this rule to the observed movement of electricity use across hours.
+
+This change in timing lowers the estate's maximum concurrent load and electricity bill under the common tariff. Daily energy use rises by 0.3 percent and saleable output by 0.2 percent. Together with the delivery outcomes, these quantities connect the demand response to the production process. The comparison includes the plants' acceptance decisions and identifies how the agreement required for implementation changes electricity demand.
+
+**Generalizable operation:**
+Use Results to establish the exhibit's comparisons and magnitudes. Use Discussion to connect those established findings through the institution and production links supplied by the study. Keep peak power, daily energy, bills, deliveries and output attached to their own definitions throughout the argument. The 1.3 MW contrast equals the saved reductions \(1.8-0.5\).

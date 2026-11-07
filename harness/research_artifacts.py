@@ -31,7 +31,7 @@ GALLERY_KINDS = ('descriptive', 'sample_composition', 'distribution', 'time_seri
 PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study', 'density', 'ecdf', 'box',
               'att_gt', 'cohort_event', 'parallel_trends', 'rdd', 'iv_first_stage', 'iv_reduced_form',
               'iv_confidence_set', 'scm', 'scm_gap', 'scm_placebo', 'binned_scatter', 'smd', 'structural', 'geo')
-GALLERY_RENDER_VERSION = 11
+GALLERY_RENDER_VERSION = 12
 DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_order',
                   'sort_by', 'ascending', 'notes', 'plot_type', 'x', 'y', 'lower', 'upper',
                   'series', 'visible_series', 'selected_result_ids', 'x_label', 'y_label',
@@ -41,7 +41,8 @@ DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_orde
                   'model_column', 'model_labels', 'model_order', 'outcome_column', 'column_groups',
                   'term_labels', 'term_order', 'panels', 'statistic_rows', 'show_se', 'show_ci',
                   'show_p', 'show_stars', 'digits', 'component', 'cohort', 'time', 'value',
-                  'geometry', 'x_lower', 'x_upper', 'color_label', 'facet', 'note_fields'}
+                  'geometry', 'x_lower', 'x_upper', 'color_label', 'facet', 'note_fields',
+                  'path_order', 'point_label'}
 GALLERY_FILTERS = ('result_id', 'sample', 'comparison', 'outcome', 'specification', 'period', 'adoption')
 RESULT_DEFINITION_FIELDS = (
     'run_id', 'specification_id', 'sample', 'population', 'observation_unit',
@@ -57,7 +58,9 @@ RESULT_DEFINITION_FIELDS = (
     'anticipation', 'treatment_time', 'treatment_event_time', 'cutoff', 'bandwidth', 'weight_type',
     'weight_normalization', 'covariance_kind', 'official_function', 'effective_options',
     'result_format_version', 'scenario', 'parameter_definition', 'identification', 'reference_lines',
-    'report_role', 'selection_status', 'method_selection')
+    'report_role', 'selection_status', 'method_selection',
+    'model_contract', 'knowledge_ids', 'equations', 'notation', 'parameter_roles',
+    'assumptions', 'normalization', 'equilibrium_selection', 'welfare_definition', 'horizon')
 COMPARISON_FIELDS = (
     'estimand', 'population', 'sample', 'observation_unit', 'assignment_unit',
     'comparison', 'comparison_group', 'treatment_group', 'control_group', 'period',
@@ -95,7 +98,7 @@ def gallery_display_metadata(value):
     """Keep sample membership in the scientific record, outside display metadata."""
     if isinstance(value, dict):
         metadata = {key: gallery_display_metadata(item) for key, item in value.items()
-                    if not (key.endswith('_ids') and key not in ('result_ids', 'specification_ids', 'cohort_ids'))}
+                    if not (key.endswith('_ids') and key not in ('result_ids', 'specification_ids', 'cohort_ids', 'knowledge_ids'))}
         # Official calls retain resolved column vectors in the source result.
         # Exhibits retain their column bindings and scalar options.
         if isinstance(value.get('columns'), dict):
@@ -206,7 +209,8 @@ def validate_gallery_item(item):
     if display.get('plot_type', 'table') not in PLOT_TYPES:
         raise ValueError('unsupported saved-data plot type')
     for field in ('x', 'y', 'lower', 'upper', 'series', 'sort_by', 'model_column', 'outcome_column',
-                  'component', 'cohort', 'time', 'value', 'geometry', 'x_lower', 'x_upper', 'facet'):
+                  'component', 'cohort', 'time', 'value', 'geometry', 'x_lower', 'x_upper', 'facet',
+                  'path_order', 'point_label'):
         if display.get(field) is not None and display[field] not in keys:
             raise ValueError(field + ' must name a saved column')
     for field in ('column_order', 'selected_result_ids', 'visible_series'):
@@ -342,15 +346,21 @@ def gallery_projection(item):
     return view
 
 
-def gallery_items(root, gallery_spec_path, query='', filters=None):
+def gallery_items(root, gallery_spec_path, query='', filters=None, *, item_ids=None):
     """List/search saved displays; no producer reads, checks or calculation runs."""
     path, registry = gallery_registry(root, gallery_spec_path)
     terms = query.casefold().split()
+    if item_ids is not None:
+        if not item_ids or len(set(item_ids)) != len(item_ids) or set(item_ids) - set(registry.get('items', {})):
+            raise ValueError('selection requires distinct existing gallery item IDs')
+        candidates = [registry['items'][item_id] for item_id in item_ids]
+    else:
+        candidates = registry.get('items', {}).values()
     items = []
-    for item in registry.get('items', {}).values():
+    for item in candidates:
         searchable = json.dumps({key: item.get(key) for key in
                                 ('id', 'title', 'kind', 'result_ids', 'metadata', 'interpretation', 'findings', 'issues', 'adoption_decision', 'status', 'links', 'display')},
-                               ensure_ascii=False).casefold()
+                               ensure_ascii=False).casefold() if terms else ''
         matched = True
         for key, value in (filters or {}).items():
             if not value:
@@ -380,10 +390,7 @@ def gallery_items(root, gallery_spec_path, query='', filters=None):
 
 def gallery_compare(root, gallery_spec_path, item_ids):
     """Return explicitly selected saved displays and their defining differences."""
-    items = {item['id']: item for item in gallery_items(root, gallery_spec_path)}
-    if not item_ids or len(set(item_ids)) != len(item_ids) or set(item_ids) - set(items):
-        raise ValueError('compare requires distinct existing gallery item IDs')
-    selected = [items[item_id] for item_id in item_ids]
+    selected = gallery_items(root, gallery_spec_path, item_ids=item_ids)
     fields = (*COMPARISON_FIELDS, 'variables', 'specification', 'sample_policy', 'estimator', 'ci_kind')
     differences = {key: {item['id']: item['metadata'].get(key) for item in selected}
                    for key in fields if any(item['metadata'].get(key) != selected[0]['metadata'].get(key)
@@ -1085,7 +1092,12 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
             for segment_number, segment in enumerate(segments):
                 if not segment:
                     continue
-                if not categorical:
+                path_order = display.get('path_order') if component == 'path' else None
+                if path_order:
+                    if any(type(row.get(path_order)) not in (int, float) for row in segment):
+                        raise ValueError('a saved path requires numeric ordering coordinates')
+                    segment = sorted(segment, key=lambda row: row[path_order])
+                elif not categorical:
                     segment = sorted(segment, key=lambda row: row[xkey])
                 xs = [labels.index(row[xkey]) if categorical else row[xkey] for row in segment]
                 if plot_type in ('coefficient', 'smd') and len(groups) > 1:
@@ -1108,7 +1120,17 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
                     point = component not in ('fit', 'fitted', 'line', 'curve', 'band')
                 if plot_type == 'rdd' and component not in ('fit', 'fitted', 'line', 'curve', 'local_fit', 'band'):
                     point = True
-                if plot_type == 'box':
+                if component == 'region':
+                    low_key, high_key = display.get('lower'), display.get('upper')
+                    if not low_key or not high_key:
+                        raise ValueError('a saved economic region requires lower and upper boundary columns')
+                    bounds = [(row.get(low_key), row.get(high_key)) for row in segment]
+                    if any(type(low) not in (int, float) or type(high) not in (int, float) or low > high
+                           for low, high in bounds):
+                        raise ValueError('saved economic region boundaries must be ordered numeric values')
+                    low, high = zip(*bounds)
+                    (axis.fill_betweenx if horizontal else axis.fill_between)(xs, low, high, alpha=.25, **kwargs)
+                elif plot_type == 'box':
                     aliases = [('whislo', 'ymin'), ('q1', 'lower'), ('median', 'middle'), ('q3', 'upper'), ('whishi', 'ymax')]
                     for x, row in zip(xs, segment):
                         stats = [row.get(first, row.get(second)) for first, second in aliases]
@@ -1124,6 +1146,13 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
                     (axis.barh if horizontal else axis.bar)(positions, ys, **({'height': width} if horizontal else {'width': width}), alpha=.65 if histogram else 1, **kwargs)
                 elif point:
                     axis.scatter(ys if horizontal else xs, xs if horizontal else ys, s=32, **kwargs)
+                    label_key = display.get('point_label')
+                    if label_key:
+                        for x, y, row in zip(xs, ys, segment):
+                            if row.get(label_key) and math.isfinite(y):
+                                axis.annotate(str(row[label_key]), (y, x) if horizontal else (x, y),
+                                              xytext=(5, 5), textcoords='offset points',
+                                              fontfamily=family, fontsize=font_size)
                 elif plot_type == 'area':
                     (axis.fill_betweenx if horizontal else axis.fill_between)(xs, ys, alpha=.3, **kwargs)
                 else:
@@ -1140,7 +1169,7 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
                               drawstyle='steps-post' if plot_type in ('step', 'ecdf') else 'default', **kwargs)
                 lower_key, upper_key = display.get('lower'), display.get('upper')
                 intervals = []
-                if lower_key and upper_key:
+                if lower_key and upper_key and component != 'region':
                     for x, row in zip(xs, segment):
                         low, high = row.get(lower_key), row.get(upper_key)
                         if low is None or high is None:
@@ -1967,10 +1996,10 @@ def gallery_main(argv=None):
             filters = {key: getattr(args, key) for key in GALLERY_FILTERS}
             result = [item for item in gallery_items(root, path, args.query, filters)
                       if (not args.kind or item['kind'] == args.kind) and (not args.status or item['status'] == args.status)]
-        elif args.command in ('compare', 'select'):
+        elif args.command == 'compare':
             result = gallery_compare(root, path, args.item_ids)
-            if args.command == 'select':
-                result = result['items']
+        elif args.command == 'select':
+            result = gallery_items(root, path, item_ids=args.item_ids)
         else:
             if args.item_id not in registry.get('items', {}):
                 raise ValueError('unknown gallery item: ' + args.item_id)

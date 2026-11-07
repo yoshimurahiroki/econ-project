@@ -975,6 +975,11 @@
       "resource_id": "research-gallery-example",
       "deployment_path": ".agents/examples/research-workspace/gallery.json",
       "export_alias": "research_gallery_example.json"
+    },
+    "economics-writing-comparison": {
+      "resource_id": "economics-writing-comparison",
+      "deployment_path": "docs/ai/economics-writing-comparison.md",
+      "export_alias": "ECONOMICS_WRITING_COMPARISON.md"
     }
   },
   "source": {

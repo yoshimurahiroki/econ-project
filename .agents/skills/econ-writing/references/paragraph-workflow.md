@@ -10,9 +10,13 @@ Identify the reader's question, the central answer, its premises and evidence. W
 
 Derive each parent proposition from the concrete relation among its supporting claims. Start from the actual findings when the parent is unclear, compare their common objects and conditions, and locate the additional premise or discriminating observation needed for the inference. Send that precise dependency to its existing research or analysis owner within the task's authority. Integrate the returned result into the argument and retain unaffected work.
 
+Identify what makes each supporting result usable by the next claim. Measurement defines the compared object; an identifying condition maps variation to the estimand; an optimality or equilibrium relation determines a model response; an aggregation rule maps individual responses into a total. Recover the particular relation from the adopted source. Use it to decide the order and content of the paragraphs carrying that inference.
+
 ## B. Paragraph Specification Designer
 
 Give each necessary paragraph one central proposition and the reader question it answers. Decide which evidence or mechanism establishes that proposition and how it connects to the surrounding paragraphs. Allocate space by the work each step performs. Express these choices in the ordinary draft; use the existing paragraph specifications when resumable composition requires them.
+
+Begin where the reader's established premises end. Supply the new observation, definition or derivation, explain its bearing on the proposition, and carry the resulting fact into the next dependent paragraph. Choose the sentence order from that inferential task. Combine sentences establishing one relation and give a distinct proposition its own paragraph. Retain the actor and economic object through the transition so a change of population, time or choice margin is explicit.
 
 Carry the applicable purpose, scope, source identity, adopted definitions and settled decisions into any delegated passage through the existing TEAM handoff. State the unresolved relation the writer must establish and the neighboring claim that will use it. Preserve the authoritative instructions in their existing owners and read them at execution; a paragraph assignment supplies the specific work to perform.
 
@@ -32,7 +36,7 @@ Integrate returned passages by matching their actors, population, period, estima
 
 ## F. Global Integration
 
-Perform the one substantive integrated editorial review on the finished long argument. Assess the central answer, source support, logical order, section and paragraph connections, prohibited rhetoric and natural language together. Reconcile the title, opening, exhibits and body. Repair each defect found and reread the affected passages with their connections until complete.
+Perform the one substantive integrated editorial review on the finished long argument. Assess the central answer, source support, logical order, section and paragraph connections, prohibited rhetoric and natural language together. Reconcile the title, abstract, introduction, exhibits and conclusion with the body. Trace each compressed claim through the paragraph that establishes its necessary relation, preserving that relation in the finished wording. Repair each defect found and reread the affected passages with their connections until complete.
 
 ## State, changes and resumption
 

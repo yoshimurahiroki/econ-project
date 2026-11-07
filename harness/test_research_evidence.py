@@ -106,6 +106,27 @@ class EvidenceTests(unittest.TestCase):
         self.assertNotIn('fit.confidence_95_lower.effect', registry['statistics'])
         self.assertEqual(registry['items']['fit-coefficients']['metadata']['confidence_level'], 0.90)
 
+        model = {'model_contract': 'MC-choice', 'knowledge_ids': ['CHOICE-01'],
+                 'equations': {'choice': 'a = max(0, b / c)'},
+                 'notation': {'a': 'hours of chosen activity'},
+                 'parameter_roles': {'c': {'role': 'calibrated', 'unit': 'currency per hour squared'}},
+                 'assumptions': ['c > 0'], 'normalization': 'outside-option utility is zero',
+                 'equilibrium_selection': 'unique maximizer', 'horizon': 'one period'}
+        saved['adopted'] = {**model, 'sample_ids': ['individual-1']}
+        spec['sources'][0]['metadata'] = {'welfare_definition': 'net benefit in currency per person'}
+        self.write('saved.json', json.dumps(saved))
+        registry = artifacts.normalize(self.root, spec)
+        self.write('gallery.json', json.dumps(registry))
+        (self.root / 'saved.json').unlink()
+        (self.root / 'code.py').unlink()
+        selected = artifacts.gallery_items(self.root, 'gallery.json', item_ids=['fit-coefficients'])[0]
+        definitions = selected['metadata']['result_definitions']['fit']
+        self.assertEqual({key: definitions[key] for key in model}, model)
+        self.assertEqual(definitions['welfare_definition'], 'net benefit in currency per person')
+        self.assertNotIn('sample_ids', definitions)
+        self.assertEqual(registry['records']['fit']['source_result'], saved)
+        self.assertEqual(selected['source_reference']['keys'], ['items', 'fit-coefficients'])
+
     def test_saved_specialist_blocks_keep_interval_family_and_cell_coordinates(self):
         source = {'display': {'kind': 'iv_confidence_set', 'rows': [
             {'term': 'effect', 'lower': None, 'upper': 0.25, 'lower_unbounded': True, 'upper_unbounded': False},
@@ -175,6 +196,41 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(compared['comparison_contract']['unrecorded_fields'], {})
         self.assertFalse(compared['comparison_contract']['analysis_executed'])
         self.assertEqual(compared['items'][0]['source_reference']['keys'], ['items', 'effects'])
+
+    def test_selected_theory_displays_preserve_regions_paths_and_point_labels(self):
+        columns = [{'key': key, 'label': key, 'unit': ''}
+                   for key in ('x', 'y', 'lower', 'upper', 'component', 'series', 'time', 'label')]
+        rows = [{'x': q, 'y': 12-q, 'lower': 2+q, 'upper': 12-q,
+                 'component': 'region', 'series': 'Surplus'} for q in (0, 5)]
+        rows += [{'x': 5, 'y': 7, 'component': 'equilibrium', 'series': 'Equilibrium', 'label': 'E'}]
+        rows += [{'x': x, 'y': y, 'time': time, 'component': 'path', 'series': 'Adjustment'}
+                 for time, x, y in [(0, 8, 4), (1, 6.8, 5), (2, 5.82, 4.8), (3, 5.528, 4.23)]]
+        registry = {'schema': 'research-artifact-registry-v1', 'statistics': {},
+                    'records': {'theory': {'source_result': {}}}}
+        registry['items'] = artifacts.prepare_gallery_items(registry, [{
+            'id': 'theory', 'title': 'Saved model relationships', 'kind': 'structural',
+            'result_ids': ['theory'], 'columns': columns, 'rows': rows,
+            'display': {'plot_type': 'structural', 'x': 'x', 'y': 'y', 'series': 'series',
+                        'lower': 'lower', 'upper': 'upper', 'path_order': 'time', 'point_label': 'label'}}])
+        original = copy.deepcopy(registry['items']['theory'])
+        # Selection must not compose presentations for the rest of a saved catalogue.
+        registry['items']['unselected'] = {'id': 'unselected'}
+        self.write('gallery.json', json.dumps(registry))
+        selected = artifacts.gallery_items(self.root, 'gallery.json', item_ids=['theory'])
+        self.assertEqual([item['id'] for item in selected], ['theory'])
+        figure = artifacts.gallery_plot(selected[0])
+        axis = figure.axes[0]
+        path = next(line for line in axis.lines if line.get_label().startswith('Adjustment'))
+        self.assertEqual(list(path.get_xdata()), [8, 6.8, 5.82, 5.528])
+        self.assertEqual(list(path.get_ydata()), [4, 5, 4.8, 4.23])
+        polygon = axis.collections[0].get_paths()[0].vertices
+        self.assertEqual(set(map(tuple, polygon)), {(0, 2), (0, 12), (5, 7)})
+        self.assertIn('E', [text.get_text() for text in axis.texts])
+        self.assertEqual(registry['items']['theory'], original)
+        invalid = copy.deepcopy(selected[0])
+        invalid['rows'][0]['lower'] = 13
+        with self.assertRaisesRegex(ValueError, 'region boundaries'):
+            artifacts.gallery_plot(invalid)
 
     def test_result_materials_place_saved_exhibits_and_keep_summary(self):
         root = Path(__file__).resolve().parent.parent

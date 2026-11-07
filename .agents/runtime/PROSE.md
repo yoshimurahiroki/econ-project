@@ -24,6 +24,10 @@ Express a determining comparison through its actual objects, common units, popul
 
 Use the requested profile, then the adopted project profile or [default-micro](../profiles/default-micro/PROFILE.md). Read an example when it resolves an actual writing choice. Preserve the requested audience and medium.
 
+For economics prose, assume doctoral core-course knowledge of microeconomics, macroeconomics, econometrics, games, optimization, equilibrium and causal inference. Start at the study's economic question and use that shared knowledge directly. Explain the institution, specialized concept, model restriction or measurement operation at the step where it determines the argument. A request for clearer, shorter or spoken wording changes expression while retaining this audience. Keep assessments of the reader's ability out of the passage.
+
+When the user explicitly names readers without economics training, build the explanation from the actors, their available choices, the tradeoff they face and the change in their incentives or constraints. Follow the resulting behavior through prices, quantities and adjustment to the outcome. Introduce each needed technical term through that relation. Select equations and diagrams for the inference they make visible; explain a diagram's choices, movement and equilibrium in ordinary language. Preserve the study's actual question, defining conditions, comparison and result across the audience change.
+
 Create profile rules and worked passages from independently specified economic settings and source-bound writing operations. Keep a synthetic example's inputs with its example; the inputs establish its illustrative status and every quantity used. Read published writing and public implementations for their reasoning, then compose original rules and examples for this project. Preserve ordinary package dependencies and their licenses. Keep private readings and document identifiers in their existing private source records.
 
 <a id="revise-for-the-requested-language"></a>
@@ -32,7 +36,7 @@ Create profile rules and worked passages from independently specified economic s
 
 For Japanese, develop a connected explanation that can be spoken aloud: actor, change, mechanism and result. Repair translated word order, ambiguous modification, distant subjects and predicates, excessive nominalization and unnatural inanimate agency. Use natural 常体 for academic prose. In English, use precise ordinary words and direct verbs. Preserve effective source wording and established technical terms.
 
-Choose sentence and paragraph length from the argument. Join fragments that establish one relation and divide sentences that contain distinct claims. Remove mechanical triples, repeated openings, uniform templates, decorative emphasis and empty connectors. Use a list for parallel objects or steps and a table for comparisons. Explain another field's institutions and terms for the requested reader; the default profile assumes doctoral core-course economics. Add no invented finding, source, experience, opinion or causal step.
+Choose sentence and paragraph length from the argument. Join fragments that establish one relation and divide sentences that contain distinct claims. Remove mechanical triples, repeated openings, uniform templates, decorative emphasis and empty connectors. Use a list for parallel objects or steps and a table for comparisons. Apply the audience rule above to the explanation of institutions and terms. Add no invented finding, source, experience, opinion or causal step.
 
 ## Finish the passage
 

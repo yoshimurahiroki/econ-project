@@ -50,6 +50,20 @@ Each firm supplies (a-c)/(3b) in the unique Cournot equilibrium, and the market 
 **Generalizable operation:**
 Present the economic object, derive it from the firms' optimal choices and explain the comparative static through the same equations. Preserve the parameter domain and the equilibrium concept in the surrounding model.
 
+### The same model for two requested audiences
+
+**Input:**
+Use the original Cournot model above with \(a=90,\ b=2\) and common marginal cost falling from 30 to 18. The model gives each firm's output as 10 and 12, total output as 20 and 24, and price as 50 and 42. Prices and costs use the same currency unit. A best-response diagram places \(q_1\) on the horizontal axis and \(q_2\) on the vertical axis. Write a clear, short passage for economics researchers and a second passage explicitly requested for readers without economics training.
+
+**Research audience:**
+The common cost reduction moves the Cournot equilibrium from \((q_1,q_2,p)=(10,10,50)\) to \((12,12,42)\). Each firm's output rises according to \(dq_i/dc=-1/(3b)\), and the price response is \(dp/dc=2/3\). In the best-response diagram, both curves shift outward and their intersection moves from \((10,10)\) to \((12,12)\).
+
+**Explicitly requested non-economist audience:**
+Each producer chooses how much to sell, accounting for the price reduction caused by greater total supply. Lowering both producers' unit costs from 30 to 18 makes extra production more profitable. Each raises output from 10 to 12, and the resulting increase in total supply lowers the price from 50 to 42. In the diagram, the axes show the two producers' quantities. Each line gives one producer's choice for a given quantity supplied by the other. Lower costs move both lines outward; their intersection shifts from 10 units per producer to 12.
+
+**Generalizable operation:**
+Use the same model and quantities for both readers. A request for clarity retains the research audience's comparative-static language. The explicit audience change introduces the firms' choice and price tradeoff, then explains the diagram's curves and moving intersection.
+
 ## Quantities and relationship
 
 Example ID: default-micro.en.quantities.
@@ -89,6 +103,23 @@ Name the model operation, show the quantity response and carry all transfers thr
 
 Example ID: default-micro.en.translation.
 
+### Preserve an author's objects, notation and citation
+
+**Input:**
+Original fictional study: 90 food-processing estates are randomly assigned to private activation, joint activation or control. The saved comparison gives a 1.3 MW larger reduction in estate peak demand under joint activation than under private activation. The author uses the terms *joint activation*, *private activation* and *estate peak demand*. Each \(L_{it}\) is plant \(i\)'s load in MW at common 15-minute time \(t\); \(e\) denotes an estate. The citation key `activation-protocol` identifies the fictional protocol supplied in this input.
+
+Revise this passage while preserving its adopted content:
+
+> Relative to private activation, a reduction of 1.3 MW in estate peak demand is produced by joint activation. The definition of estate peak demand is \(P_e=\max_t\sum_{i\in e}L_{it}\). Joint activation means that linked schedule changes enter into operation on complete agreement of the required plants \citep{activation-protocol}.
+
+**Ideal output:**
+Joint activation implements linked schedule changes once every required plant agrees \citep{activation-protocol}. Estate peak demand is \(P_e=\max_t\sum_{i\in e}L_{it}\), where \(L_{it}\) measures plant \(i\)'s load in MW at the common 15-minute time \(t\). The randomized comparison shows that joint activation lowers estate peak demand by 1.3 MW relative to private activation.
+
+**Generalizable operation:**
+Put the implementation rule and the measured object before the comparison. Preserve the author's terms, the aggregate-at-a-common-time equation, the MW unit and the citation's attachment to the rule. Compare the meaning of each relation across the two passages.
+
+### Translate a joint eligibility condition
+
 **Input:**
 Translate this renewal rule into natural English: 各借主は、家賃を全額支払い、建物の使用許可が有効である場合に、賃貸借を1年間更新できる。 Full payment and a valid occupancy permit jointly establish the right to renew.
 
@@ -108,6 +139,17 @@ Section 3 now defines the outcome as household application completion within eig
 
 **Generalizable operation:**
 Answer the requested substantive point with the completed change, its location and the retained result. Preserve actual revision status when applying this operation to a real manuscript.
+
+### Retain a supported equilibrium result in a referee response
+
+**Input:**
+Original fictional model and revision record: two firms choose quantities simultaneously, inverse demand is \(p=a-b(q_1+q_2)\), both firms have marginal cost \(c\), and \(a>c\geq0,\ b>0\). A referee asks why the reported derivative is \(-1/(3b)\) when a firm's best response has derivative \(-1/(2b)\) with respect to its own cost while its rival's quantity is fixed. Section 2 now states that the comparison changes both firms' common cost. The proof of Proposition 1 now differentiates both best responses. Proposition 1 and the Figure 1 caption retain the equilibrium derivative \(-1/(3b)\).
+
+**Ideal output:**
+Section 2 now specifies a change in the common marginal cost of both firms. Each firm's best response satisfies \(q_i=(a-c-bq_j)/(2b)\). Along the symmetric equilibrium, differentiating this relation gives \(dq_i/dc=-1/(2b)-(1/2)dq_j/dc\), so each firm's equilibrium output changes by \(-1/(3b)\). The proof of Proposition 1 now includes this derivation, and the Figure 1 caption states the same common-cost comparison.
+
+**Generalizable operation:**
+Recover the referee's comparison and the model's adopted change. Use the best-response equations to establish the retained result, then identify the completed changes to its definition, proof and figure. Keep this one comparison consistent across the response and manuscript.
 
 ## Abstract and Introduction
 

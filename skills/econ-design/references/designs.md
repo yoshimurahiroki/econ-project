@@ -277,3 +277,16 @@ For a welfare comparison, write the valuation equation, express the included out
 ## Deliver the selected result
 
 For a requested model, connect its assumptions and features to the economic parameter or counterfactual. Identify internally estimated, externally calibrated and imposed quantities. Deliver descriptive and causal-effect tasks at their requested results. For a decision, compare the objective across options and state the choice determined by that comparison or its parameter conditions.
+
+Pass the requested mathematical object from design to execution and writing with its defining equations. A selected knowledge or model-contract ID locates the derivation; the adopted specification fixes the actors, information, timing, parameter roles and solution concept used in this study. Map each requested quantity to the equation that defines it and the named output that supplies it. Use the following objects for the handoff:
+
+| Requested result | Definitions and derivation carried to its consumer |
+| --- | --- |
+| A theoretical proposition or comparative static | State the claim on its parameter domain and feasible set, then retain the optimality or equilibrium relation and the sign, threshold or ordering that establishes it. Give existence, uniqueness and global-ranking claims their corresponding assumptions and derivation. |
+| A dynamic policy, path or value | Identify the policy's action and state coordinates, the value's payoff unit, and the path's initial and terminal conditions. Carry discounting, decision timing and normalization. Define the population weights when aggregating state-specific values or histories. |
+| A game equilibrium | Retain each player's contingent strategy, information set, feasible deviations and equilibrium selection. Connect the joint strategy to the resulting actions, payoffs and allocation. |
+| A structural estimate and intervention | Match each estimated parameter to its observed choice or moment and each fixed or calibrated parameter to its source. Carry invariant primitives and the intervention into the separately solved prices, quantities, policies and profits. |
+| A general-equilibrium comparison | Carry the household or firm policy, distribution and market-clearing prices from each scenario together. A transition comparison uses the adopted common initial distribution and each scenario's subsequent law of motion. |
+| A welfare result | Define the valuation equation, reference population, horizon, discounting, resource and transfer accounting, and utility-to-money conversion. Identify whether the result averages values over the initial population or each scenario's stationary distribution. |
+
+Use the paper's adopted symbols in this mapping. Bind each symbol to its economic role, indices, unit and normalization, and distinguish a parameter, its estimate and its scenario value through their defined notation. Preserve those meanings through the existing [saved-result lifecycle](../../econ-data/references/reproducible-workflow.md#carry-analysis-results-into-tables-figures-and-prose). The returned equation, named quantity and defining conditions provide writing with the premises for its economic conclusion.
