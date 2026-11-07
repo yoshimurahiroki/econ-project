@@ -41,7 +41,7 @@
       "resource_id": "econ-data",
       "source_path": "skills/econ-data/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.61.0"
+      "content_version": "0.63.0"
     },
     "econ-literature": {
       "resource_id": "econ-literature",
@@ -65,7 +65,7 @@
       "resource_id": "design-methods",
       "source_path": "skills/econ-design/references/designs.md",
       "resource_kind": "rule",
-      "content_version": "0.61.0"
+      "content_version": "0.63.0"
     },
     "data-implementation": {
       "resource_id": "data-implementation",
@@ -83,7 +83,7 @@
       "resource_id": "paper-workflow",
       "source_path": "skills/econ-writing/references/paper-workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.61.0"
+      "content_version": "0.63.0"
     },
     "review-methods": {
       "resource_id": "review-methods",
@@ -295,13 +295,13 @@
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.61.0"
+      "content_version": "0.63.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
       "source_path": "registry/placements.json",
       "resource_kind": "registry",
-      "content_version": "0.61.0"
+      "content_version": "0.63.0"
     },
     "prose-check-guide": {
       "resource_id": "prose-check-guide",
@@ -352,7 +352,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.62.0"
+      "content_version": "0.63.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -682,7 +682,7 @@
       "resource_id": "research-causal",
       "source_path": "skills/econ-data/scripts/research_causal.py",
       "resource_kind": "support",
-      "content_version": "0.62.0",
+      "content_version": "0.63.0",
       "required_resources": [
         "econ-knowledge",
         "research-numerics",
@@ -738,17 +738,18 @@
       "resource_id": "research-dynamic",
       "source_path": "skills/econ-data/scripts/research_dynamic.py",
       "resource_kind": "support",
-      "content_version": "0.61.0",
+      "content_version": "0.63.0",
       "required_resources": [
         "research-dynamic-dependencies",
-        "equity-io"
+        "equity-io",
+        "research-respy-dependencies"
       ]
     },
     "models-dynamic": {
       "resource_id": "models-dynamic",
       "source_path": "skills/econ-design/references/dynamic-models.md",
       "resource_kind": "rule",
-      "content_version": "0.61.0",
+      "content_version": "0.63.0",
       "required_resources": [
         "research-dynamic",
         "research-causal",
@@ -785,22 +786,23 @@
       "resource_id": "research-macro-dependencies",
       "source_path": "skills/econ-data/scripts/requirements-macro.txt",
       "resource_kind": "support",
-      "content_version": "0.56.0"
+      "content_version": "0.63.0"
     },
     "research-macro-extended": {
       "resource_id": "research-macro-extended",
       "source_path": "skills/econ-data/scripts/research_macro_extended.py",
       "resource_kind": "support",
-      "content_version": "0.61.0",
+      "content_version": "0.63.0",
       "required_resources": [
-        "research-macro-dependencies"
+        "research-macro-dependencies",
+        "research-lifecycle-dependencies"
       ]
     },
     "models-macro-extended": {
       "resource_id": "models-macro-extended",
       "source_path": "skills/econ-design/references/macro-models.md",
       "resource_kind": "rule",
-      "content_version": "0.61.0",
+      "content_version": "0.63.0",
       "required_resources": [
         "research-macro-extended"
       ]
@@ -809,17 +811,19 @@
       "resource_id": "research-dsge",
       "source_path": "skills/econ-data/scripts/research_dsge.py",
       "resource_kind": "support",
-      "content_version": "0.61.0",
+      "content_version": "0.63.0",
       "required_resources": [
         "research-macro-dependencies",
-        "research-macro-extended"
+        "research-macro-extended",
+        "research-dolo-dependencies",
+        "research-dynamic"
       ]
     },
     "models-dsge": {
       "resource_id": "models-dsge",
       "source_path": "skills/econ-design/references/dsge-models.md",
       "resource_kind": "rule",
-      "content_version": "0.61.0",
+      "content_version": "0.63.0",
       "required_resources": [
         "research-dsge"
       ]
@@ -884,7 +888,7 @@
       "resource_id": "research-artifacts",
       "source_path": "harness/research_artifacts.py",
       "resource_kind": "support",
-      "content_version": "0.62.0",
+      "content_version": "0.63.0",
       "required_resources": [
         "research-evidence",
         "team-state-helper",
@@ -899,7 +903,7 @@
       "resource_id": "result-artifacts",
       "source_path": "skills/econ-writing/references/result-artifacts.md",
       "resource_kind": "rule",
-      "content_version": "0.62.0",
+      "content_version": "0.63.0",
       "required_resources": [
         "research-artifacts",
         "research-runner",
@@ -947,7 +951,7 @@
       "resource_id": "knowledge-catalog",
       "source_path": "skills/econ-knowledge/references/catalog.json",
       "resource_kind": "support",
-      "content_version": "0.61.0",
+      "content_version": "0.63.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-01": {
@@ -1414,8 +1418,26 @@
       "resource_id": "economics-writing-comparison",
       "source_path": "docs/ai/economics-writing-comparison.md",
       "resource_kind": "support",
-      "content_version": "0.61.0",
+      "content_version": "0.63.0",
       "source_distribution_only": true
+    },
+    "research-respy-dependencies": {
+      "resource_id": "research-respy-dependencies",
+      "source_path": "skills/econ-data/scripts/requirements-respy.txt",
+      "resource_kind": "support",
+      "content_version": "0.63.0"
+    },
+    "research-lifecycle-dependencies": {
+      "resource_id": "research-lifecycle-dependencies",
+      "source_path": "skills/econ-data/scripts/requirements-lifecycle.txt",
+      "resource_kind": "support",
+      "content_version": "0.63.0"
+    },
+    "research-dolo-dependencies": {
+      "resource_id": "research-dolo-dependencies",
+      "source_path": "skills/econ-data/scripts/requirements-dolo.txt",
+      "resource_kind": "support",
+      "content_version": "0.63.0"
     }
   },
   "sections": {
@@ -2802,6 +2824,21 @@
       }
     },
     "meeting-templates": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "research-respy-dependencies": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "research-lifecycle-dependencies": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "research-dolo-dependencies": {
       "all": {
         "whole_resource": true
       }
@@ -5459,7 +5496,8 @@
       "section_id": "all",
       "requires": [
         "research-dynamic-dependencies.all",
-        "equity-io.all"
+        "equity-io.all",
+        "research-respy-dependencies.all"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -5516,7 +5554,8 @@
       "resource_id": "research-macro-extended",
       "section_id": "all",
       "requires": [
-        "research-macro-dependencies.all"
+        "research-macro-dependencies.all",
+        "research-lifecycle-dependencies.all"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -5537,7 +5576,9 @@
       "section_id": "all",
       "requires": [
         "research-macro-dependencies.all",
-        "research-macro-extended.all"
+        "research-macro-extended.all",
+        "research-dolo-dependencies.all",
+        "research-dynamic.all"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -6012,6 +6053,30 @@
     "meeting-templates.all": {
       "rule_id": "meeting-templates.all",
       "resource_id": "meeting-templates",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-respy-dependencies.all": {
+      "rule_id": "research-respy-dependencies.all",
+      "resource_id": "research-respy-dependencies",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-lifecycle-dependencies.all": {
+      "rule_id": "research-lifecycle-dependencies.all",
+      "resource_id": "research-lifecycle-dependencies",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-dolo-dependencies.all": {
+      "rule_id": "research-dolo-dependencies.all",
+      "resource_id": "research-dolo-dependencies",
       "section_id": "all",
       "requires": [],
       "conditional_requires": [],

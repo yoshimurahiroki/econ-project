@@ -6,6 +6,7 @@ Use ``run SPEC --output RESULT`` with the adopted inputs.
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import hashlib
 import importlib.util
@@ -23,6 +24,467 @@ from scipy.optimize import minimize, minimize_scalar, root
 from scipy.special import expit, logsumexp, softmax
 from scipy.sparse import csr_matrix, eye
 from scipy.linalg import expm
+
+
+def official_package(name, version, revision):
+    """Bind the producing installed distribution to its adopted source revision."""
+    import importlib.metadata
+    import subprocess
+    from urllib.parse import unquote, urlparse
+    distribution = importlib.metadata.distribution(name)
+    direct = distribution.read_text('direct_url.json')
+    source = json.loads(direct) if direct else {}
+    actual = source.get('vcs_info', {}).get('commit_id')
+    if source.get('url', '').startswith('file:'):
+        directory = Path(unquote(urlparse(source['url']).path))
+        check = subprocess.run(['git', '-C', str(directory), 'rev-parse', 'HEAD'],
+                               capture_output=True, text=True)
+        actual = check.stdout.strip() if check.returncode == 0 else None
+    if distribution.version != version or actual != revision:
+        raise ValueError(f'{name} {version} at official revision {revision} is required')
+    return {'package': name, 'version': distribution.version, 'source_revision': actual,
+            'direct_url': source}
+
+
+def native_json(value):
+    """Retain native coordinates and missing observations in the common JSON result."""
+    import pandas as pd
+    if isinstance(value, pd.DataFrame):
+        return {'kind': 'dataframe', 'index_names': list(value.index.names),
+                'index': native_json(value.index.tolist()), 'columns': native_json(value.columns.tolist()),
+                'data': native_json(value.to_numpy().tolist())}
+    if isinstance(value, pd.Series):
+        return {'kind': 'series', 'index_names': list(value.index.names),
+                'index': native_json(value.index.tolist()), 'name': native_json(value.name),
+                'data': native_json(value.tolist())}
+    if isinstance(value, dict):
+        return {str(k): native_json(v) for k, v in value.items()}
+    if isinstance(value, (list, tuple, np.ndarray)):
+        return [native_json(v) for v in value]
+    if isinstance(value, np.generic):
+        return native_json(value.item())
+    if isinstance(value, Path):
+        return str(value)
+    if value is None or value is pd.NA or (isinstance(value, float) and np.isnan(value)):
+        return None
+    if isinstance(value, float) and not np.isfinite(value):
+        raise ArithmeticError('native result contains an infinite value')
+    return value
+
+
+def restore_frame(value):
+    import pandas as pd
+    names = value['index_names']
+    index = (pd.MultiIndex.from_tuples([tuple(x) for x in value['index']], names=names)
+             if len(names) > 1 else pd.Index(value['index'], name=names[0]))
+    return pd.DataFrame(value['data'], index=index, columns=value['columns'])
+
+
+def source_file(value, base):
+    path = Path(value)
+    path = path if path.is_absolute() else base / path
+    path = path.resolve()
+    return path, {'path': str(path), 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
+
+
+def respy_data(data_spec, base):
+    import pandas as pd
+    path, source = source_file(data_spec['path'], base)
+    frame = pd.read_csv(path)
+    if data_spec.get('columns'):
+        frame = frame.rename(columns={v: k for k, v in data_spec['columns'].items()})
+    frame = frame.set_index(['Identifier', 'Period']).sort_index()
+    if frame.empty or not frame.index.is_unique:
+        raise ValueError('respy observations require unique Identifier/Period keys')
+    keys = frame.index.to_frame(index=False).to_numpy()
+    if not np.isfinite(keys).all() or not np.equal(keys, np.floor(keys)).all() or (keys < 0).any():
+        raise ValueError('Identifier and Period must be nonnegative integers')
+    source.update(rows=len(frame), columns=list(frame.columns), index_names=list(frame.index.names))
+    return frame, source
+
+
+def respy_callbacks(config, base, observed):
+    """Load the adopted moment definitions; preserve their native nesting and labels."""
+    path, source = source_file(config['module'], base)
+    module_spec = importlib.util.spec_from_file_location('adopted_respy_moments', path)
+    module = importlib.util.module_from_spec(module_spec)
+    module_spec.loader.exec_module(module)
+    def resolve(value):
+        if value is None:
+            return None
+        if isinstance(value, list):
+            return [resolve(x) for x in value]
+        if isinstance(value, dict):
+            return {k: resolve(v) for k, v in value.items()}
+        function = getattr(module, value)
+        if not callable(function):
+            raise TypeError('moment definitions must be callable')
+        return function
+    def apply(functions):
+        if isinstance(functions, list):
+            return [apply(x) for x in functions]
+        if isinstance(functions, dict):
+            return {k: apply(v) for k, v in functions.items()}
+        return functions(observed.copy())
+    calculate = resolve(config['calc_moments'])
+    return calculate, resolve(config.get('replace_nans')), apply(calculate), source
+
+
+def respy_welfare(frame, config, method, horizon):
+    """Aggregate chosen native flow utilities for the adopted initial population."""
+    if method == 'one_step_ahead':
+        raise ValueError('lifecycle welfare requires n-step simulation')
+    discounting = config['discounting']
+    if discounting not in ('exponential', 'quasi_hyperbolic_initial_self'):
+        raise ValueError('welfare.discounting must name exponential or quasi_hyperbolic_initial_self')
+    rows = []
+    for identifier, panel in frame.groupby(level='Identifier', sort=True):
+        periods = panel.index.get_level_values('Period').to_numpy()
+        if not np.array_equal(periods, np.arange(horizon)):
+            raise ValueError('welfare requires the complete simulated decision horizon')
+        delta = panel['Discount_Rate'].to_numpy(dtype=float)
+        present_bias = panel['Present_Bias'].to_numpy(dtype=float)
+        if not np.equal(delta, delta[0]).all() or not np.equal(present_bias, present_bias[0]).all():
+            raise ValueError('welfare requires the declared constant individual discount parameters')
+        if discounting == 'exponential' and present_bias[0] != 1:
+            raise ValueError('present-biased choices require an explicit welfare discounting definition')
+        columns = {c[len('Flow_Utility_'):].lower(): c for c in panel.columns if c.startswith('Flow_Utility_')}
+        flows = np.array([row[columns[str(row['Choice']).lower()]] for _, row in panel.iterrows()], dtype=float)
+        factors = delta[0] ** periods
+        if discounting == 'quasi_hyperbolic_initial_self':
+            factors[periods > 0] *= present_bias[0]
+        rows.append({'identifier': int(identifier), 'discounted_utility': float(factors @ flows)})
+    weights = config['population_weights']
+    if weights == 'equal':
+        weights = np.ones(len(rows)) / len(rows)
+    elif isinstance(weights, dict):
+        if set(weights) != {str(r['identifier']) for r in rows}:
+            raise ValueError('welfare weights must match every simulated identifier')
+        weights = np.array([weights[str(r['identifier'])] for r in rows], dtype=float)
+    else:
+        weights = np.asarray(weights, dtype=float)
+    if weights.shape != (len(rows),) or not np.isfinite(weights).all() or (weights < 0).any() or weights.sum() <= 0:
+        raise ValueError('invalid welfare population weights')
+    weights = weights / weights.sum()
+    for row, weight in zip(rows, weights):
+        row['population_weight'] = float(weight)
+    if config.get('terminal_value', 0) != 0:
+        raise ValueError('respy finite-horizon welfare uses its zero terminal continuation value')
+    return {'value': float(weights @ [r['discounted_utility'] for r in rows]),
+            'unit': config.get('unit', 'utility'), 'individuals': rows,
+            'definition': 'Population-weighted sum of chosen Flow_Utility over the full decision horizon',
+            'discounting': discounting, 'terminal_value': 0, 'horizon': horizon}
+
+
+def respy_run(spec, base):
+    """Estimate and reuse the adopted finite-horizon model through official respy."""
+    import pandas as pd
+    import respy
+    from respy.config import DEFAULT_OPTIONS
+    from respy.pre_processing.model_processing import process_params_and_options
+    from respy.shared import create_state_space_columns, rename_labels_from_internal
+    identity = official_package('respy', '2.1.1', '91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb')
+    operation = spec['operation']
+    if operation not in ('estimate', 'simulate', 'counterfactual'):
+        raise ValueError('respy operation must be estimate, simulate or counterfactual')
+    sources = {}
+    if 'fit_path' in spec:
+        if operation == 'estimate':
+            raise ValueError('fit_path reuses a fit; a new estimate requires explicit params and options')
+        path, sources['fit'] = source_file(spec['fit_path'], base)
+        saved = json.loads(path.read_text())
+        if saved.get('model') != 'finite_horizon_choice':
+            raise ValueError('fit_path must identify a finite_horizon_choice result')
+        fit = copy.deepcopy(saved['fit'])
+        params = restore_frame(fit['params'])
+        options = copy.deepcopy(fit['options'])
+        adopted = copy.deepcopy(fit['adopted'])
+        for key, expected in (('options', options), ('adopted', adopted)):
+            if key in spec and spec[key] != expected:
+                raise ValueError(f'{key} must preserve the saved fit')
+        if 'params' in spec:
+            raise ValueError('fit_path already supplies the saved parameters')
+        observed = restore_frame(fit['observed_data']) if fit.get('observed_data') else None
+        sources = {**fit.get('sources', {}), **sources}
+    else:
+        parameter_input = spec['params']
+        if isinstance(parameter_input, dict) and 'path' in parameter_input:
+            path, sources['params'] = source_file(parameter_input['path'], base)
+            params = pd.read_csv(path).set_index(['category', 'name'])
+        else:
+            params = pd.DataFrame(parameter_input).set_index(['category', 'name'])
+        options = {**copy.deepcopy(DEFAULT_OPTIONS), **copy.deepcopy(spec['options'])}
+        adopted = copy.deepcopy(spec['adopted'])
+        observed = None
+        fit = {'parameter_status': spec.get('parameter_status', 'fixed'), 'adopted': adopted}
+    if not params.index.is_unique or 'value' not in params or not np.isfinite(params['value'].to_numpy(dtype=float)).all():
+        raise ValueError('respy parameters require unique category/name and finite values')
+    if 'data' in spec:
+        observed, sources['data'] = respy_data(spec['data'], base)
+    if operation == 'estimate' and observed is None:
+        raise ValueError('respy estimation requires adopted observed data')
+    if operation == 'estimate' and spec.get('inference', {}).get('method', 'retain_inputs') != 'retain_inputs':
+        raise ValueError('this operation retains inference inputs; select the adopted covariance through its inference owner')
+    horizon = int(options['n_periods'])
+    if horizon < 1:
+        raise ValueError('n_periods must be positive')
+    # Each invocation owns its native disk cache. It is an execution location, not a primitive.
+    with tempfile.TemporaryDirectory(prefix='ers-respy-') as cache:
+        native_options = copy.deepcopy(options)
+        native_options['cache_path'] = cache
+        statistics, parameter_rows, diagnostics = {}, [], []
+        free = [tuple(x) for x in fit.get('free_parameters', [])]
+        if operation == 'estimate':
+            estimation = spec['estimation']
+            method = estimation['method']
+            free = [tuple(x) for x in estimation['free_parameters']]
+            if not free or len(free) != len(set(free)) or any(x not in params.index for x in free):
+                raise ValueError('free_parameters must identify distinct adopted parameter coordinates')
+            bounds = estimation['bounds']
+            if len(bounds) != len(free) or any(len(x) != 2 for x in bounds):
+                raise ValueError('bounds must match free_parameters')
+            initial = params.loc[free, 'value'].to_numpy(dtype=float)
+            for x, (lo, hi) in zip(initial, bounds):
+                if (lo is not None and x < lo) or (hi is not None and x > hi) or (lo is not None and hi is not None and lo >= hi):
+                    raise ValueError('initial parameters must lie in adopted bounds')
+            optimizer = estimation['optimizer']
+            if optimizer['method'] not in ('L-BFGS-B', 'Powell', 'Nelder-Mead', 'SLSQP'):
+                raise ValueError('select a supported bounded scipy optimizer')
+            def parameter_frame(values):
+                candidate = params.copy(deep=True)
+                candidate.loc[free, 'value'] = values
+                return candidate
+            sign = -1. if method == 'maximum_likelihood' else 1.
+            if method == 'maximum_likelihood':
+                criterion = respy.get_log_like_func(params, native_options, observed, return_scalar=False)
+                criterion_definition = 'Mean individual log likelihood; the optimizer minimizes its negative'
+                empirical = weighting = None
+            elif method == 'smm':
+                moments = spec['moments']
+                calculate, replace, empirical, sources['moments'] = respy_callbacks(moments, base, observed)
+                flat = respy.get_flat_moments(empirical)
+                weighting = np.asarray(moments['weighting_matrix'], dtype=float)
+                if (weighting.shape != (len(flat), len(flat)) or not np.isfinite(weighting).all()
+                        or not np.allclose(weighting, weighting.T, rtol=0, atol=1e-12)
+                        or np.linalg.eigvalsh(weighting).min() < -1e-12):
+                    raise ValueError('SMM weighting matrix must be symmetric positive semidefinite in moment order')
+                if not flat.index.is_unique or not np.isfinite(flat.to_numpy()).all():
+                    raise ValueError('empirical moments must have unique labels and finite values')
+                criterion = respy.get_moment_errors_func(params, native_options, calculate, replace,
+                    empirical, weighting_matrix=weighting,
+                    n_simulation_periods=moments.get('n_simulation_periods'), return_scalar=False)
+                criterion_definition = 'e.T @ W @ e, with e = empirical moments - simulated moments'
+            else:
+                raise ValueError('estimation.method must be maximum_likelihood or smm')
+            def evaluate(values):
+                # The native root output takes an elementwise square root of W. Only value
+                # defines the general-W objective; roots are retained solely for diagonal W.
+                with np.errstate(invalid='ignore'):
+                    result = criterion(parameter_frame(values))
+                if not np.isfinite(result['value']):
+                    raise ArithmeticError('official respy criterion is nonfinite')
+                return result
+            optimization = minimize(lambda x: sign * float(evaluate(x)['value']), initial,
+                bounds=bounds, method=optimizer['method'], options=optimizer.get('options', {}),
+                tol=optimizer.get('tolerance'))
+            if not optimization.success:
+                raise ArithmeticError('respy optimization: ' + str(optimization.message))
+            final = evaluate(optimization.x)
+            params.loc[free, 'value'] = optimization.x
+            raw_criterion = {k: v for k, v in final.items() if k != 'root_contributions'}
+            if method == 'smm' and np.array_equal(weighting, np.diag(np.diag(weighting))):
+                raw_criterion['root_contributions'] = final['root_contributions']
+            inferential = {'independent_unit': spec.get('inference', {}).get('independent_unit', 'Identifier'),
+                'procedure': copy.deepcopy(spec.get('inference', {'method': 'retain_inputs'})),
+                'sample_ids': observed.index.get_level_values('Identifier').unique().tolist(),
+                'sample_keys': observed.index.tolist(), 'free_parameter_order': free,
+                'draw_settings': {k: options[k] for k in options if 'seed' in k or 'draws' in k}}
+            if method == 'maximum_likelihood':
+                inferential['individual_log_likelihood_contributions'] = final['contributions']
+                statistics['respy_mean_log_likelihood'] = {'value': float(final['value']), 'unit': 'mean log likelihood'}
+            else:
+                errors = final['moment_errors']
+                if list(errors.index) != list(flat.index) or not np.isfinite(errors.to_numpy()).all():
+                    raise ArithmeticError('official moment order or finiteness differs from adopted moments')
+                difference = abs(float(errors.to_numpy() @ weighting @ errors.to_numpy()) - float(final['value']))
+                if difference > max(1e-10, abs(float(final['value'])) * 1e-12):
+                    raise ArithmeticError('official SMM value differs from the adopted weighted criterion')
+                inferential.update(moment_order=flat.index.tolist(), weighting_matrix=weighting,
+                                   empirical_moments=empirical, moment_errors=errors)
+                statistics['respy_smm_criterion'] = {'value': float(final['value']), 'unit': 'weighted squared moment error'}
+            derivative_step = spec.get('inference', {}).get('derivative_step')
+            if derivative_step is not None:
+                step = np.broadcast_to(np.asarray(derivative_step, dtype=float), optimization.x.shape)
+                if not np.isfinite(step).all() or (step <= 0).any():
+                    raise ValueError('inference derivative steps must be positive')
+                columns = []
+                target = 'contributions' if method == 'maximum_likelihood' else 'moment_errors'
+                for j, h in enumerate(step):
+                    plus, minus = optimization.x.copy(), optimization.x.copy()
+                    plus[j] += h; minus[j] -= h
+                    lo, hi = bounds[j]
+                    if (lo is not None and minus[j] < lo) or (hi is not None and plus[j] > hi):
+                        raise ValueError('central inference differences must remain inside the adopted bounds')
+                    columns.append((np.asarray(evaluate(plus)[target]) - np.asarray(evaluate(minus)[target])) / (2*h))
+                inferential['derivative_step'] = step
+                inferential['individual_score' if method == 'maximum_likelihood' else 'moment_error_jacobian'] = np.column_stack(columns)
+            simulation_error = {'component': 'simulated_likelihood' if method == 'maximum_likelihood' else 'simulated_moments',
+                'criterion_seed': options['estimation_seed'] if method == 'maximum_likelihood' else options['simulation_seed'],
+                'solution_seed': options['solution_seed'], 'independent_replications': 1}
+            if method == 'smm' and spec['moments'].get('simulation_seeds'):
+                seeds = spec['moments']['simulation_seeds']
+                if len(set(seeds)) != len(seeds) or len(seeds) < 2:
+                    raise ValueError('simulation_seeds requires at least two distinct seeds')
+                replicas = []
+                for seed in seeds:
+                    repeated_options = {**native_options, 'simulation_seed': int(seed)}
+                    repeated = respy.get_moment_errors_func(params, repeated_options, calculate, replace,
+                        empirical, weighting_matrix=weighting, n_simulation_periods=spec['moments'].get('n_simulation_periods'),
+                        return_scalar=False)
+                    with np.errstate(invalid='ignore'):
+                        value = repeated(params)
+                    replicas.append(respy.get_flat_moments(value['simulated_moments']).reindex(flat.index).to_numpy())
+                replica_values = np.asarray(replicas)
+                if not np.isfinite(replica_values).all():
+                    raise ArithmeticError('simulation replication contains nonfinite moments')
+                simulation_error.update(seeds=seeds, independent_replications=len(seeds),
+                    moment_order=flat.index.tolist(), replicated_simulated_moments=replica_values,
+                    standard_deviation=replica_values.std(axis=0, ddof=1),
+                    mean_standard_error=replica_values.std(axis=0, ddof=1)/np.sqrt(len(seeds)))
+            fit.update(parameter_status='estimated', estimation_method=method, free_parameters=free,
+                bounds=bounds, criterion_definition=criterion_definition, criterion=raw_criterion,
+                optimization={'method': optimizer['method'], 'options': optimizer.get('options', {}),
+                    'tolerance': optimizer.get('tolerance'), 'initial_parameters': initial,
+                    'parameters': optimization.x, 'objective': float(optimization.fun),
+                    'success': bool(optimization.success), 'status': int(optimization.status),
+                    'message': str(optimization.message), 'iterations': int(optimization.nit),
+                    'evaluations': int(optimization.nfev)},
+                inferential_information=inferential, simulation_error=simulation_error)
+        fit.update(params=native_json(params), options=options, adopted=adopted,
+                   observed_data=native_json(observed) if observed is not None else None, sources=sources,
+                   official_source=identity)
+        simulations, policy_rows = {}, []
+        invariants = {}
+        simulation_config = spec.get('simulation')
+        if operation in ('simulate', 'counterfactual') and simulation_config is None:
+            raise ValueError('simulation.method is required')
+        if simulation_config is not None:
+            method = simulation_config['method']
+            if method not in ('n_step_ahead_with_sampling', 'n_step_ahead_with_data', 'one_step_ahead'):
+                raise ValueError('unsupported native simulation method')
+            if method != 'n_step_ahead_with_sampling' and observed is None:
+                raise ValueError('the selected simulation method requires data')
+            requested_periods = simulation_config.get('n_simulation_periods')
+            if requested_periods is not None and requested_periods != horizon:
+                raise ValueError('the pinned respy simulator uses n_periods; retain that horizon and select display periods afterward')
+            native_parameters, _ = process_params_and_options(params, native_options)
+            state_columns = [rename_labels_from_internal(x) for x in create_state_space_columns(native_parameters)]
+            if method == 'n_step_ahead_with_data':
+                initial = observed.loc[observed.index.get_level_values('Period') == 0]
+                ids = initial.index.get_level_values('Identifier').to_numpy()
+                if not np.array_equal(ids, np.arange(len(initial))) or len(initial) != observed.index.get_level_values('Identifier').nunique():
+                    raise ValueError('n-step data simulation requires consecutive zero-based IDs at Period 0')
+                required = [c for c in state_columns if c not in ('Identifier', 'Period', 'Type')]
+                if any(c not in initial for c in required) or initial[required].isna().any().any():
+                    raise ValueError('n-step data simulation requires all adopted initial observed states')
+            scenarios = [('baseline', params)]
+            if operation == 'counterfactual':
+                changed = params.copy(deep=True)
+                changes = spec['scenario']['parameter_changes']
+                if not changes:
+                    raise ValueError('counterfactual requires adopted utility parameter changes')
+                for change in changes:
+                    coordinate = (change['category'], change['name'])
+                    if coordinate not in params.index or not coordinate[0].startswith(('wage_', 'nonpec_')):
+                        raise ValueError('counterfactual parameter changes must name wage/nonpec utility parameters')
+                    if not np.isfinite(change['value']):
+                        raise ValueError('counterfactual parameter values must be finite')
+                    changed.loc[coordinate, 'value'] = change['value']
+                scenarios.append(('scenario', changed))
+            for scenario_name, scenario_params in scenarios:
+                simulator = respy.get_simulate_func(scenario_params, native_options, method=method,
+                    df=observed, n_simulation_periods=requested_periods)
+                frame = simulator(scenario_params)
+                statistics['respy_'+scenario_name+'_simulation_rows'] = {'value': len(frame), 'unit': 'person periods'}
+                statistics['respy_'+scenario_name+'_simulation_individuals'] = {
+                    'value': int(frame.index.get_level_values('Identifier').nunique()), 'unit': 'individuals'}
+                for (period, choice), share in frame.groupby(level='Period')['Choice'].value_counts(normalize=True).items():
+                    policy_rows.append({'scenario': scenario_name, 'period': int(period), 'choice': str(choice),
+                                        'value': float(share), 'unit': 'simulated choice share'})
+                initial_frame = frame.loc[frame.index.get_level_values('Period') == 0,
+                    [c for c in state_columns if c in frame]]
+                simulation = {'data': native_json(frame), 'params': native_json(scenario_params),
+                    'method': method, 'requested_n_simulation_periods': requested_periods,
+                    'effective_n_simulation_periods': int(frame.index.get_level_values('Period').max()+1),
+                    'individuals': int(frame.index.get_level_values('Identifier').nunique()),
+                    'initial_states': native_json(initial_frame),
+                    'base_draws_sha256': {key: hashlib.sha256(simulator.keywords[key].tobytes()).hexdigest()
+                                         for key in ('base_draws_sim', 'base_draws_wage')}}
+                if spec.get('welfare'):
+                    simulation['welfare'] = respy_welfare(frame, spec['welfare'], method, horizon)
+                    statistics['respy_'+scenario_name+'_welfare'] = {
+                        'value': simulation['welfare']['value'], 'unit': simulation['welfare']['unit']}
+                simulations[scenario_name] = simulation
+            if operation == 'counterfactual':
+                for key in ('initial_states', 'base_draws_sha256'):
+                    if simulations['baseline'][key] != simulations['scenario'][key]:
+                        raise ArithmeticError('counterfactual must preserve the initial population and scenario draws')
+                invariants = {'initial_states_equal': True, 'simulation_base_draws_equal': True,
+                    'structural_options_equal': True,
+                    'unchanged_parameters': native_json(params.loc[
+                        [x for x in params.index if x[0].startswith(('wage_', 'nonpec_')) is False]]),
+                    'transition_definition': adopted.get('transitions', 'Native respy options and state-transition parameters'),
+                    'shock_definition': adopted.get('shocks', 'Native shock parameters and fixed seeded normal base draws')}
+                if spec.get('welfare'):
+                    statistics['respy_welfare_change'] = {
+                        'value': simulations['scenario']['welfare']['value'] - simulations['baseline']['welfare']['value'],
+                        'unit': simulations['baseline']['welfare']['unit']}
+        for coordinate, row in params.iterrows():
+            role = 'estimated' if coordinate in free else fit['parameter_status'] if not free else 'fixed'
+            parameter_rows.append({'category': coordinate[0], 'parameter': coordinate[1],
+                                   'value': float(row['value']), 'role': role})
+        for key, value in statistics.items():
+            diagnostics.append({'quantity': key, **value})
+        displays = {
+            'parameters': {'kind': 'table', 'title': 'Finite-horizon structural parameters', 'rows': parameter_rows,
+                'columns': [{'key': x, 'label': x.replace('_', ' ').title(), 'unit': ''}
+                            for x in ('category', 'parameter', 'value', 'role')],
+                'metadata': {'model_contract': 'MC-respy-finite-choice', 'report_role': 'parameters'},
+                'display': {'plot_type': 'table'}},
+            'model_fit': {'kind': 'table', 'title': 'Criterion and scenario welfare', 'rows': diagnostics,
+                'columns': [{'key': x, 'label': x.title(), 'unit': ''} for x in ('quantity', 'value', 'unit')],
+                'metadata': {'model_contract': 'MC-respy-finite-choice', 'report_role': 'model_fit'},
+                'display': {'plot_type': 'table'}}}
+        if policy_rows:
+            displays['choice_shares'] = {'kind': 'structural', 'title': 'Simulated choices by period', 'rows': policy_rows,
+                'columns': [{'key': x, 'label': x.title(), 'unit': ''} for x in ('scenario', 'period', 'choice', 'value', 'unit')],
+                'metadata': {'model_contract': 'MC-respy-finite-choice', 'report_role': 'counterfactual',
+                             'unit': 'simulated choice share'}, 'display': {'plot_type': 'table'}}
+        executed = ['solve', operation]
+        if simulations and 'simulate' not in executed:
+            executed.insert(1, 'simulate')
+        return native_json({'model': 'finite_horizon_choice', 'operation': operation, 'adopted': adopted,
+            'scenario': spec.get('scenario', {}), 'options': options,
+            'computation': {'requested_operation': operation, 'operations_executed': executed,
+                'parameter_operation': 'estimate' if operation == 'estimate' else 'reuse_'+fit['parameter_status']},
+            'parameter_definition': {'coordinates': ['category', 'name'], 'free_parameters': free,
+                'structural_parameters': 'Native utility, transition, shock and discount parameter dataframe',
+                'optimization': 'Numerical minimization return; structural parameters retain native coordinates',
+                'inference': 'Saved likelihood contributions or ordered moments and W; optional derivatives',
+                'simulation_error': 'Independent-seed moment dispersion at the saved parameter vector'},
+            'normalization': adopted.get('normalization', adopted.get('normalizations', 'Native params and options')),
+            'equilibrium_selection': 'Individual finite-horizon backward induction at the adopted exogenous primitives',
+            'welfare_definition': spec.get('welfare', adopted.get('welfare', {})),
+            'horizon': horizon, 'solver': 'respy backward induction with adopted simulation integration',
+            'engine': 'respy', 'fit': fit, 'fullresults': {'simulations': simulations,
+                                                       'counterfactual_invariants': invariants},
+            'statistics': statistics, 'displays': displays,
+            'provenance': {'official_source': identity, 'sources': sources, 'python': sys.version.split()[0],
+                'numpy': np.__version__, 'pandas': pd.__version__, 'scipy': scipy.__version__,
+                'official_functions': (['get_log_like_func' if fit.get('estimation_method') == 'maximum_likelihood'
+                    else 'get_moment_errors_func'] if operation == 'estimate' else [])
+                    + (['get_simulate_func'] if simulations else []),
+                'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}})
 
 
 def _transition(n):
@@ -120,6 +582,251 @@ def fit_replacement(data, beta, n, start):
             'ruspy_direct_url': distribution.read_text('direct_url.json'),
             'official_parameters': official_parameters(fit.x).tolist(),
             'original_likelihood_abs_difference': difference}
+
+
+def fit_replacement_mpec(data, beta, n, start, config):
+    """Fit the same reset model with official ruspy MPEC variables and constraints."""
+    import pandas as pd
+    from ruspy.estimation.criterion_function import get_criterion_function
+    identity = official_package('ruspy', '2.0', '414e9f98e3b1cf19544b1ca3b1e544ac5751c1e9')
+    frame = pd.DataFrame({'id': data[:, 0], 'period': data[:, 1]+1,
+                         'state': data[:, 2], 'decision': data[:, 3],
+                         'usage': np.ones(len(data), dtype=int)}).set_index(['id', 'period']).sort_index()
+    init = {'method': 'MPEC', 'model_specifications': {'discount_factor': beta, 'num_states': n,
+                                                    'maint_cost_func': 'linear', 'cost_scale': 1.}}
+    with np.errstate(divide='ignore', invalid='ignore'):
+        functions, transitions = get_criterion_function(init, frame)
+    if not np.array_equal(transitions['x'], [0., 1.]):
+        raise ArithmeticError('official transition differs from the adopted deterministic increment')
+    # EV(s)=V(min(s+1,S-1)). At zero, V(0)=beta*EV(0)+log(1+exp(-R_official)).
+    # Hence R=R_official-beta*(EV(0)-V(0)); this preserves reset-to-zero utility.
+    def reset_cost(x):
+        return x[n] - beta*(1-beta)*x[0] + beta*np.logaddexp(0., -x[n])
+    def reset_cost_gradient(x):
+        out = np.zeros(n+2)
+        out[0] = -beta*(1-beta)
+        out[n] = 1-beta*expit(-x[n])
+        return out
+    bounds = config.get('bounds', [[.001, 4.], [.001, 10.]])
+    bounds = np.asarray(bounds, dtype=float)
+    if (bounds.shape != (2, 2) or not np.isfinite(bounds).all()
+            or (bounds[:, 0] >= bounds[:, 1]).any() or (bounds[:, 0] <= 0).any()
+            or (np.asarray(start) < bounds[:, 0]).any() or (np.asarray(start) > bounds[:, 1]).any()):
+        raise ValueError('MPEC requires positive [maintenance, reset replacement] bounds containing initial costs')
+    initial_value = replacement(beta, start, n)['value']
+    initial = np.r_[initial_value[np.minimum(np.arange(n)+1, n-1)],
+                    start[1]+beta*(initial_value[1]-initial_value[0]), start[0]]
+    constraints = [
+        {'type': 'eq', 'fun': functions['constraint'], 'jac': functions['constraint_derivative']},
+        {'type': 'ineq', 'fun': lambda x: reset_cost(x)-bounds[1, 0], 'jac': reset_cost_gradient},
+        {'type': 'ineq', 'fun': lambda x: bounds[1, 1]-reset_cost(x),
+         'jac': lambda x: -reset_cost_gradient(x)}]
+    optimizer = config.get('optimizer', {'method': 'SLSQP', 'options': {'ftol': 1e-10, 'maxiter': 400}})
+    if optimizer['method'] != 'SLSQP':
+        raise ValueError('official replacement MPEC uses the adopted SLSQP constrained optimizer')
+    fit = minimize(functions['criterion_function'], initial, jac=functions['criterion_derivative'],
+        method='SLSQP', bounds=[(None, None)]*(n+1)+[tuple(bounds[0])], constraints=constraints,
+        options=optimizer.get('options', {}), tol=optimizer.get('tolerance'))
+    if not fit.success:
+        raise ArithmeticError('official replacement MPEC: '+str(fit.message))
+    residuals = np.asarray(functions['constraint'](fit.x))
+    tolerance = float(config.get('constraint_tolerance', 1e-8))
+    if tolerance <= 0 or not np.isfinite(tolerance) or np.max(np.abs(residuals)) > tolerance:
+        raise ArithmeticError('official MPEC EV residual exceeds adopted tolerance')
+    parameters = np.array([fit.x[-1], reset_cost(fit.x)])
+    if (parameters < bounds[:, 0]-tolerance).any() or (parameters > bounds[:, 1]+tolerance).any():
+        raise ArithmeticError('MPEC structural parameters violate adopted bounds')
+    model = replacement(beta, parameters, n)
+    independent = -float(np.log(model['policy'][data[:, 2], data[:, 3]]).sum())
+    difference = abs(independent-float(fit.fun))
+    if difference > max(1e-7, len(data)*tolerance*10):
+        raise ArithmeticError('official MPEC likelihood differs from the original reset model')
+    gradient = np.asarray(functions['criterion_derivative'](fit.x))
+    jacobian = np.asarray(functions['constraint_derivative'](fit.x))
+    native_sensitivity = -np.linalg.solve(jacobian[:, :n], jacobian[:, n:])
+    concentrated_score = gradient[n:] + native_sensitivity.T @ gradient[:n]
+    return {'parameters': parameters.tolist(), 'negative_log_likelihood': float(fit.fun),
+        'success': bool(fit.success), 'iterations': int(fit.nit), 'optimizer_status': int(fit.status),
+        'optimizer_message': str(fit.message), 'optimizer': optimizer, 'bounds': bounds.tolist(),
+        'engine': 'ruspy.estimation.criterion_function.get_criterion_function/MPEC',
+        'ruspy_version': identity['version'], 'ruspy_source_revision': identity['source_revision'],
+        'official_parameters': fit.x[n:].tolist(), 'official_expected_values': fit.x[:n].tolist(),
+        'official_variable_order': [f'EV_{s}' for s in range(n)]+['replacement_cost_official', 'maintenance_cost'],
+        'structural_parameter_order': ['maintenance_cost', 'replacement_cost_reset_to_zero'],
+        'parameter_transformation': 'R=R_official-beta*(1-beta)*EV_0+beta*log(1+exp(-R_official))',
+        'official_ev_residuals': residuals.tolist(), 'official_ev_max_residual': float(np.max(np.abs(residuals))),
+        'original_bellman_residual': model['bellman_residual'],
+        'original_likelihood_abs_difference': difference,
+        'official_original_ev_max_difference': float(np.max(np.abs(fit.x[:n]-model['value'][np.minimum(np.arange(n)+1, n-1)]))),
+        'transition_estimates': transitions['x'].tolist(), 'transition_counts': transitions['trans_count'].tolist(),
+        'inferential_information': {'criterion_gradient': gradient.tolist(), 'ev_constraint_jacobian': jacobian.tolist(),
+            'concentrated_native_cost_score': concentrated_score.tolist(),
+            'observation_keys': data[:, :2].tolist(), 'independent_unit': 'id'},
+        'constraint_tolerance': tolerance}
+
+
+def ruspy_native_run(spec, base):
+    """Estimate the explicitly adopted reset-then-usage model on its native panel."""
+    import pandas as pd
+    from ruspy.estimation.criterion_function import get_criterion_function
+    from ruspy.estimation.estimation_transitions import create_transition_matrix
+    from ruspy.model_code.cost_functions import calc_obs_costs, lin_cost
+    from ruspy.model_code.fix_point_alg import calc_fixp
+    from ruspy.model_code.choice_probabilities import choice_prob_gumbel
+    identity = official_package('ruspy', '2.0', '414e9f98e3b1cf19544b1ca3b1e544ac5751c1e9')
+    options = spec['options']; native = options['ruspy']; data_spec = spec['data']
+    mapping = data_spec['columns']
+    if set(mapping) != {'id', 'period', 'state', 'action', 'usage'} or len(set(mapping.values())) != 5:
+        raise ValueError('reset_then_usage requires unique id, period, state, action and usage columns')
+    path, source = source_file(data_spec['path'], base)
+    frame = pd.read_csv(path).rename(columns={v: k for k, v in mapping.items()})
+    frame = frame[list(mapping)].rename(columns={'action': 'decision'}).set_index(['id', 'period']).sort_index()
+    if frame.empty or not frame.index.is_unique:
+        raise ValueError('native replacement panel requires unique id/period keys')
+    index_values = frame.index.to_frame(index=False).to_numpy(dtype=float)
+    if not np.isfinite(index_values).all() or (index_values < 0).any() or not np.equal(index_values, np.floor(index_values)).all():
+        raise ValueError('native replacement panel keys must be nonnegative integers')
+    model = copy.deepcopy(native['model_specifications'])
+    if model['maint_cost_func'] != 'linear':
+        raise ValueError('the replacement contract uses the native linear maintenance-cost function')
+    beta = float(model['discount_factor']); n = int(model['num_states']); scale = float(model['cost_scale'])
+    if not 0 < beta < 1 or n < 3 or not np.isfinite(scale) or scale <= 0:
+        raise ValueError('invalid native replacement state count, discount or cost scale')
+    for key in ('state', 'decision'):
+        values = pd.to_numeric(frame[key], errors='raise').to_numpy(dtype=float)
+        if not np.isfinite(values).all() or not np.equal(values, np.floor(values)).all():
+            raise ValueError('native states and decisions must be finite integers')
+        frame[key] = values.astype(int)
+    if ((frame.state < 0) | (frame.state >= n)).any() or not frame.decision.isin([0, 1]).all():
+        raise ValueError('native observations must lie in the adopted state/action support')
+    usage = pd.to_numeric(frame.usage, errors='raise').to_numpy(dtype=float)
+    observed_usage = usage[~np.isnan(usage)]
+    if not len(observed_usage) or not np.isfinite(observed_usage).all() or (observed_usage < 0).any() or not np.equal(observed_usage, np.floor(observed_usage)).all():
+        raise ValueError('observed native usage must be nonnegative integers')
+    frame['usage'] = usage
+    sample = frame.loc[(slice(None), slice(1, None)), :]
+    if sample.empty:
+        raise ValueError('official choice likelihood requires observations at period 1 or later')
+    method = options.get('estimation_method', 'nfxp')
+    if method not in ('mpec', 'nfxp'):
+        raise ValueError('native replacement estimation_method must be nfxp or mpec')
+    init = {'method': method.upper(), 'model_specifications': model, 'alg_details': native.get('alg_details', {})}
+    functions, transitions = get_criterion_function(init, frame)
+    transition = create_transition_matrix(n, np.asarray(transitions['x']))
+    start = np.asarray(native['initial_parameters'], dtype=float)
+    bounds = native['bounds']
+    if start.shape != (2,) or not np.isfinite(start).all() or len(bounds) != 2:
+        raise ValueError('native initial_parameters and bounds use [replacement_cost, maintenance_coefficient]')
+    for value, pair in zip(start, bounds):
+        if len(pair) != 2 or (pair[0] is not None and value < pair[0]) or (pair[1] is not None and value > pair[1]):
+            raise ValueError('native initial parameters must satisfy their adopted bounds')
+    optimizer = native['optimizer']
+    if optimizer['method'] != ('SLSQP' if method == 'mpec' else 'L-BFGS-B'):
+        raise ValueError('native MPEC uses SLSQP and native NFXP uses L-BFGS-B')
+    tolerance = float(native.get('constraint_tolerance', 1e-8))
+    if not np.isfinite(tolerance) or tolerance <= 0:
+        raise ValueError('constraint_tolerance must be positive')
+    initial_ev = calc_fixp(transition, calc_obs_costs(n, lin_cost, start, scale), beta,
+                           **native.get('alg_details', {}))[0]
+    if method == 'mpec':
+        initial = np.r_[initial_ev, start]
+        constraints = [{'type': 'eq', 'fun': functions['constraint'], 'jac': functions['constraint_derivative']}]
+        optimization_bounds = [(None, None)]*n + bounds
+    else:
+        initial, constraints, optimization_bounds = start, (), bounds
+    optimization = minimize(functions['criterion_function'], initial, jac=functions['criterion_derivative'],
+        method=optimizer['method'], bounds=optimization_bounds, constraints=constraints,
+        options=optimizer.get('options', {}), tol=optimizer.get('tolerance'))
+    if not optimization.success:
+        raise ArithmeticError('official native '+method.upper()+': '+str(optimization.message))
+    parameters = optimization.x[n:] if method == 'mpec' else optimization.x
+    ev_residuals = functions['constraint'](optimization.x) if method == 'mpec' else None
+    if ev_residuals is not None and np.max(np.abs(ev_residuals)) > tolerance:
+        raise ArithmeticError('official native MPEC violates its original EV constraints')
+    initial_states = frame.groupby(level='id', sort=True).head(1)['state'].to_numpy(dtype=int)
+    def solution(cost_parameters):
+        costs = calc_obs_costs(n, lin_cost, cost_parameters, scale)
+        ev, contractions, newton_steps = calc_fixp(transition, costs, beta, **native.get('alg_details', {}))
+        policy = choice_prob_gumbel(ev, costs, beta)
+        flows = np.column_stack((-costs[:, 0], np.repeat(-costs[0, 1], n)))
+        action_transition = np.stack((transition, np.repeat(transition[[0]], n, axis=0)))
+        values = logsumexp(flows + beta*np.column_stack((ev, np.repeat(ev[0], n))), axis=1)
+        original_rhs = logsumexp(flows + beta*np.einsum('ask,k->sa', action_transition, values), axis=1)
+        residual = float(np.max(np.abs(values-original_rhs)))
+        if residual > tolerance:
+            raise ArithmeticError('native replacement solution violates the original Bellman equation')
+        return {'value': values.tolist(), 'policy': policy.tolist(), 'expected_value': ev.tolist(),
+            'transition': action_transition.tolist(), 'flow': flows.tolist(),
+            'bellman_residual': residual, 'ev_residual': float(np.max(np.abs(transition @ values-ev))),
+            'contractions': int(contractions), 'newton_steps': int(newton_steps),
+            'initial_population_value': float(values[initial_states].mean()),
+            'parameters_native': cost_parameters.tolist()}
+    baseline = solution(parameters)
+    scenario_parameters = parameters.copy()
+    change = float(options['replacement_cost_change'])
+    if not np.isfinite(change):
+        raise ValueError('replacement cost change must be finite')
+    scenario_parameters[0] += change
+    scenario = solution(scenario_parameters)
+    probabilities = np.asarray(baseline['policy'])[sample.state.to_numpy(), sample.decision.to_numpy()]
+    original_likelihood = -float(np.log(probabilities).sum())
+    difference = abs(original_likelihood-float(optimization.fun))
+    if difference > max(1e-7, len(sample)*tolerance*10):
+        raise ArithmeticError('official native criterion differs from the original observation likelihood')
+    inferential = {'independent_unit': 'id', 'observation_keys': sample.index.tolist(),
+        'criterion_gradient': functions['criterion_derivative'](optimization.x),
+        'transition_counts': transitions['trans_count'], 'choice_log_likelihood_contributions': np.log(probabilities)}
+    if method == 'mpec':
+        jacobian = np.asarray(functions['constraint_derivative'](optimization.x))
+        gradient = np.asarray(inferential['criterion_gradient'])
+        sensitivity = -np.linalg.solve(jacobian[:, :n], jacobian[:, n:])
+        inferential.update(ev_constraint_jacobian=jacobian,
+                          concentrated_native_cost_score=gradient[n:]+sensitivity.T@gradient[:n])
+    estimate = {'parameters': [float(parameters[1]*scale), float(parameters[0])],
+        'structural_parameter_order': ['maintenance_cost_per_state', 'replacement_cost_reset_then_usage'],
+        'official_parameters': parameters.tolist(), 'official_parameter_order': ['replacement_cost', 'maintenance_coefficient'],
+        'official_expected_values': optimization.x[:n].tolist() if method == 'mpec' else baseline['expected_value'],
+        'official_variable_order': [f'EV_{s}' for s in range(n)]+['replacement_cost', 'maintenance_coefficient']
+                                 if method == 'mpec' else ['replacement_cost', 'maintenance_coefficient'],
+        'negative_log_likelihood': float(optimization.fun), 'original_likelihood_abs_difference': difference,
+        'success': bool(optimization.success), 'iterations': int(optimization.nit), 'evaluations': int(optimization.nfev),
+        'optimizer_status': int(optimization.status), 'optimizer_message': str(optimization.message),
+        'optimizer': optimizer, 'bounds': bounds, 'initial_parameters': start.tolist(),
+        'engine': 'ruspy.estimation.criterion_function.get_criterion_function/'+method.upper(),
+        'official_ev_residuals': ev_residuals,
+        'official_ev_max_residual': float(np.max(np.abs(ev_residuals))) if ev_residuals is not None else baseline['ev_residual'],
+        'transition_estimates': transitions['x'], 'transition_counts': transitions['trans_count'],
+        'transition_negative_log_likelihood': float(transitions['fun']), 'inferential_information': inferential,
+        'ruspy_version': identity['version'], 'ruspy_source_revision': identity['source_revision']}
+    results = {method: estimate, 'baseline': baseline, 'scenario': scenario}
+    source.update(rows=len(frame), choice_rows=len(sample), columns=mapping,
+                  choice_sample_keys=sample.index.tolist(), initial_states=initial_states.tolist())
+    return native_json({'model': 'replacement', 'adopted': spec.get('adopted', {}), 'scenario': spec.get('scenario', {}),
+        'options': options, 'transition': 'Reset mileage to zero, then draw observed-usage transition; cap at last state',
+        'engine': estimate['engine'], 'fullresults': results, 'displays': replacement_displays(results),
+        'statistics': {'replacement_cost_'+method: {'value': float(parameters[0]), 'unit': 'utility'},
+            'maintenance_cost_per_state_'+method: {'value': float(parameters[1]*scale), 'unit': 'utility per mileage state'},
+            'replacement_bellman_residual': {'value': baseline['bellman_residual'], 'unit': 'utility'},
+            'replacement_baseline_value': {'value': baseline['initial_population_value'], 'unit': 'utility'},
+            'replacement_scenario_value': {'value': scenario['initial_population_value'], 'unit': 'utility'},
+            'replacement_value_change': {'value': scenario['initial_population_value']-baseline['initial_population_value'], 'unit': 'utility'}},
+        'computation': {'requested_operation': 'estimate', 'operations_executed': ['estimate', 'solve', 'counterfactual'],
+                        'parameter_operation': 'estimate', 'estimation_method': method},
+        'parameter_definition': {'structural_order': estimate['structural_parameter_order'],
+            'native_cost_order': estimate['official_parameter_order'], 'maintenance_cost_scale': scale,
+            'native_expected_values': 'EV=P_usage V; replacement continuation uses EV(0)',
+            'replacement_cost': 'Native replacement payoff cost before the common usage draw',
+            'optimization_variables': estimate['official_variable_order']},
+        'normalization': 'Unit-scale EV1 action shocks; Euler constant normalized to zero',
+        'equilibrium_selection': 'Unique discounted single-agent Bellman fixed point',
+        'welfare_definition': {'quantity': 'Mean initial-state inclusive value across observed individuals',
+                               'initial_states': initial_states.tolist(), 'population_weights': 'equal',
+                               'unit': 'utility', 'includes': 'Unit-scale normalized EV1 action shocks'},
+        'horizon': 'infinite', 'solver': 'Official ruspy '+method.upper()+' and calc_fixp',
+        'provenance': {'data': source, 'official_source': identity, 'python': sys.version.split()[0],
+            'numpy': np.__version__, 'pandas': pd.__version__, 'scipy': scipy.__version__,
+            'official_functions': ['get_criterion_function', 'calc_fixp', 'choice_prob_gumbel'],
+            'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}})
 
 
 def fit_replacement_smm(data, beta, n, config, source_sha256):
@@ -852,19 +1559,22 @@ def replacement_displays(result):
     """Expose saved replacement estimates, policy curves and value comparisons."""
     contract = {'model_contract': 'MC-replacement-ddc', 'unit': 'see row-specific unit'}
     parameter_rows = []
-    for estimator in ('nfxp', 'ccp', 'smm'):
+    for estimator in ('nfxp', 'mpec', 'ccp', 'smm'):
         if estimator not in result:
             continue
         for i, (parameter, unit) in enumerate((('maintenance_cost', 'utility per mileage state'),
                                                ('replacement_cost', 'utility'))):
             parameter_rows.append({'estimator': estimator, 'parameter': parameter,
                                    'value': result[estimator]['parameters'][i], 'unit': unit})
+    selected = 'mpec' if 'mpec' in result else 'nfxp'
     diagnostic_rows = [
-        {'diagnostic': 'nfxp_negative_log_likelihood', 'value': result['nfxp']['negative_log_likelihood'], 'unit': 'negative log likelihood'},
-        {'diagnostic': 'official_likelihood_abs_difference', 'value': result['nfxp']['original_likelihood_abs_difference'], 'unit': 'log likelihood'},
-        {'diagnostic': 'ccp_rank', 'value': result['ccp']['rank'], 'unit': 'rank'},
-        {'diagnostic': 'ccp_inversion_max_residual', 'value': result['ccp']['inversion_max_residual'], 'unit': 'utility'},
+        {'diagnostic': selected+'_negative_log_likelihood', 'value': result[selected]['negative_log_likelihood'], 'unit': 'negative log likelihood'},
+        {'diagnostic': 'official_likelihood_abs_difference', 'value': result[selected]['original_likelihood_abs_difference'], 'unit': 'log likelihood'},
     ]
+    if 'ccp' in result:
+        diagnostic_rows.extend([
+            {'diagnostic': 'ccp_rank', 'value': result['ccp']['rank'], 'unit': 'rank'},
+            {'diagnostic': 'ccp_inversion_max_residual', 'value': result['ccp']['inversion_max_residual'], 'unit': 'utility'}])
     policy_rows, value_rows = [], []
     for scenario in ('baseline', 'scenario'):
         solution = result[scenario]
@@ -901,6 +1611,12 @@ def replacement_displays(result):
 
 
 def observed_run(spec, base):
+    if spec['model'] == 'finite_horizon_choice':
+        return respy_run(spec, base)
+    if spec['model'] == 'replacement' and spec['options'].get('replacement_timing', 'reset_to_zero') not in ('reset_to_zero', 'reset_then_usage'):
+        raise ValueError('replacement_timing must be reset_to_zero or reset_then_usage')
+    if spec['model'] == 'replacement' and spec['options'].get('replacement_timing') == 'reset_then_usage':
+        return ruspy_native_run(spec, base)
     mode = spec['model']; options = spec['options']
     if mode == 'capacity_product_game' and 'data' in spec:
         data, source = capacity_panel(spec['data'], base)
@@ -947,7 +1663,11 @@ def observed_run(spec, base):
             horizon = int(options['finite_horizon'])
             if start.shape != (2,) or not np.isfinite(start).all() or (start <= 0).any() or horizon < 1:
                 raise ValueError('positive initial costs and finite horizon required')
-            estimate = fit_replacement(data, beta, n, start)
+            method = options.get('estimation_method', 'nfxp')
+            if method not in ('nfxp', 'mpec'):
+                raise ValueError('replacement estimation_method must be nfxp or mpec')
+            estimate = (fit_replacement_mpec(data, beta, n, start, options.get('mpec', {}))
+                        if method == 'mpec' else fit_replacement(data, beta, n, start))
             ccp = ccp_fit(data, beta, n)
             costs = np.asarray(estimate['parameters'])
             if costs[1]+change <= 0:
@@ -958,9 +1678,9 @@ def observed_run(spec, base):
             def clean(m):
                 return {k: v.tolist() if isinstance(v, np.ndarray) else v for k, v in m.items()}
             result = {'baseline': clean(baseline), 'scenario': clean(scenario), 'finite_horizon': clean(finite),
-                      'nfxp': estimate, 'ccp': ccp}
+                      method: estimate, 'ccp': ccp}
             stats = {'replacement_bellman_residual': {'value': baseline['bellman_residual'], 'unit': 'utility'},
-                     'replacement_cost_nfxp': {'value': estimate['parameters'][1], 'unit': 'utility'},
+                     'replacement_cost_'+method: {'value': estimate['parameters'][1], 'unit': 'utility'},
                      'replacement_cost_ccp': {'value': ccp['parameters'][1], 'unit': 'utility'}}
             if 'smm' in options:
                 smm = fit_replacement_smm(data, beta, n, options['smm'], source['sha256'])
@@ -1025,8 +1745,22 @@ def observed_run(spec, base):
             'provenance': {'data': source, 'python': sys.version.split()[0], 'numpy': np.__version__,
                            'scipy': scipy.__version__, 'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}}
     if mode == 'replacement':
-        output['engine'] = result['nfxp']['engine']+'; NumPy/SciPy CCP'
+        method = options.get('estimation_method', 'nfxp')
+        output['engine'] = result[method]['engine']+'; NumPy/SciPy CCP'
         output['displays'] = replacement_displays(result)
+        output.update(computation={'requested_operation': 'estimate',
+            'operations_executed': ['estimate', 'solve', 'counterfactual'], 'parameter_operation': 'estimate',
+            'estimation_method': method},
+            parameter_definition={'structural_order': ['maintenance_cost', 'replacement_cost_reset_to_zero'],
+                'native_ruspy_order': ['replacement_cost_official', 'maintenance_cost'],
+                'native_expected_values': 'EV(s)=V(min(s+1,S-1)) under the same reset-to-zero structural value',
+                'replacement_cost_mapping': 'R_official=R+beta*(V(1)-V(0))',
+                'mpec_variables': 'EV and official costs are optimization variables; reported costs use the structural order'},
+            normalization='Unit-scale EV1 action shocks; Euler constant normalized to zero',
+            equilibrium_selection='Unique discounted single-agent Bellman fixed point',
+            welfare_definition='State-specific expected discounted utility including normalized action shocks',
+            horizon={'baseline': 'infinite', 'finite_comparison': int(options['finite_horizon'])},
+            solver='Official ruspy '+method.upper()+'; original reset Bellman recursion')
     return output
 
 

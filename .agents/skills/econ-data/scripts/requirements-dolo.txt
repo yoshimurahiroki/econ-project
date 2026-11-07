@@ -1,0 +1,14 @@
+# Dolo uses a separate stage environment: its QuantEcon range differs from macro.
+numpy==2.3.5
+scipy==1.17.0
+statsmodels==0.14.6
+dolo @ git+https://github.com/EconForge/dolo.py@33f873eef42d9644b5a0705a63fb3a34de5c2825
+dolang==0.0.21
+dynopy==0.1.15
+interpolation==2.2.7
+numba==0.68.1
+quantecon==0.7.2
+jax==0.4.38
+jaxlib==0.4.38
+pyyaml==6.0.3
+xarray==2024.11.0

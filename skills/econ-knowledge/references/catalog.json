@@ -31858,7 +31858,7 @@
         {
           "name": "parameters",
           "unit": "cost coefficients",
-          "meaning": "NFXP or CCP cost coefficients."
+          "meaning": "NFXP, CCP or adopted constrained MPEC cost coefficients, with native and original-model parameter ordering."
         },
         {
           "name": "bellman_residual",
@@ -31906,6 +31906,10 @@
         {
           "path": "skills/econ-data/scripts/research_dynamic.py",
           "symbol": "fit_replacement"
+        },
+        {
+          "path": "skills/econ-data/scripts/research_dynamic.py",
+          "symbol": "fit_replacement_mpec"
         },
         {
           "path": "skills/econ-data/scripts/research_dynamic.py",
@@ -32821,27 +32825,27 @@
         {
           "name": "nA",
           "unit": "grid points",
-          "meaning": "Asset grid size: 10 or 80."
+          "meaning": "Adopted number of asset grid points."
         },
         {
           "name": "nS",
           "unit": "income states",
-          "meaning": "Two Markov income states."
+          "meaning": "Adopted number of Markov income states."
         },
         {
           "name": "amax",
           "unit": "assets",
-          "meaning": "Maximum asset grid value 150."
+          "meaning": "Adopted maximum asset grid value."
         },
         {
           "name": "B",
           "unit": "assets",
-          "meaning": "Government debt 5.6."
+          "meaning": "Government debt entering asset-market clearing."
         },
         {
           "name": "rstar",
           "unit": "rate",
-          "meaning": "Impulse 0.0001 times 0.7 raised to elapsed period."
+          "meaning": "Adopted monetary-policy shock path as deviations from the saved steady state."
         }
       ],
       "parameters": [
@@ -32855,23 +32859,23 @@
         },
         {
           "name": "eis",
-          "meaning": "Intertemporal substitution elasticity 0.5."
+          "meaning": "Adopted intertemporal substitution elasticity."
         },
         {
           "name": "frisch",
-          "meaning": "Frisch elasticity 0.5."
+          "meaning": "Adopted Frisch elasticity."
         },
         {
           "name": "mu",
-          "meaning": "Steady markup 1.2."
+          "meaning": "Adopted steady markup."
         },
         {
           "name": "kappa",
-          "meaning": "Phillips-curve slope 0.1."
+          "meaning": "Adopted Phillips-curve slope."
         },
         {
           "name": "phi",
-          "meaning": "Monetary policy coefficient 1.5."
+          "meaning": "Adopted monetary-policy coefficient."
         }
       ],
       "outputs": [
@@ -32941,6 +32945,11 @@
         }
       ],
       "implementation": [
+        {
+          "path": "skills/econ-data/scripts/research_dsge.py",
+          "symbol": "solve",
+          "command": "run"
+        },
         {
           "module": "sequence_jacobian.examples.hank",
           "symbol": "dag",
@@ -34290,6 +34299,11 @@
       ],
       "implementation": [
         {
+          "path": "skills/econ-data/scripts/research_dynamic.py",
+          "symbol": "respy_run",
+          "command": "run"
+        },
+        {
           "module": "respy",
           "symbol": "get_log_like_func",
           "version": "2.1.1",
@@ -34425,6 +34439,11 @@
         }
       ],
       "implementation": [
+        {
+          "path": "skills/econ-data/scripts/research_macro_extended.py",
+          "symbol": "lifecycle_run",
+          "command": "run"
+        },
         {
           "module": "lcm",
           "symbol": "Model.solve",

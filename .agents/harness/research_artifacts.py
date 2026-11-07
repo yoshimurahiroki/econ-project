@@ -58,7 +58,8 @@ RESULT_DEFINITION_FIELDS = (
     'result_format_version', 'scenario', 'parameter_definition', 'identification', 'reference_lines',
     'report_role', 'selection_status', 'method_selection',
     'model_contract', 'knowledge_ids', 'equations', 'notation', 'parameter_roles',
-    'assumptions', 'normalization', 'equilibrium_selection', 'welfare_definition', 'horizon')
+    'assumptions', 'normalization', 'equilibrium_selection', 'welfare_definition', 'horizon',
+    'computation')
 COMPARISON_FIELDS = (
     'estimand', 'population', 'sample', 'observation_unit', 'assignment_unit',
     'comparison', 'comparison_group', 'treatment_group', 'control_group', 'period',
@@ -66,7 +67,9 @@ COMPARISON_FIELDS = (
     'weights', 'weight_type', 'weight_normalization', 'aggregation',
     'aggregation_weights', 'cohort', 'cohort_contributions', 'base_period',
     'reference_time', 'reference_event_time', 'anticipation', 'inference_unit',
-    'cluster', 'clustering', 'inference', 'interval_type', 'confidence_level')
+    'cluster', 'clustering', 'inference', 'interval_type', 'confidence_level',
+    'model_contract', 'parameter_definition', 'parameter_roles', 'normalization',
+    'equilibrium_selection', 'welfare_definition', 'horizon', 'computation')
 GALLERY_LABELS = {'variable': '変数', 'term': '項目', 'group': '群', 'period': '期間',
                   'event_time': '導入からの期数', 'mean': '平均', 'sd': '標準偏差', 'median': '中央値',
                   'q25': '25%点', 'q50': '50%点', 'q75': '75%点', 'estimate': '推定値',
@@ -265,6 +268,8 @@ def gallery_metadata(registry, result_ids):
                          if key in fields})
         if isinstance(saved.get('display'), dict):
             metadata.update(copy.deepcopy(saved['display'].get('metadata', {})))
+        if isinstance(saved.get('computation'), dict):
+            metadata['computation'] = copy.deepcopy(saved['computation'])
         if 'inference' in saved:
             metadata['inference'] = gallery_inference(saved['inference'], metadata)
         for key in ('interval_type', 'confidence_level', 'reference_distribution',
@@ -835,6 +840,8 @@ def prepare_gallery_items(registry, definitions=None):
                     raise ValueError('changed interval definition requires its separately saved display: ' + item['id'])
         if 'inference' in metadata:
             supplied['inference'] = gallery_inference(metadata['inference'], supplied)
+        if 'computation' in metadata:
+            supplied['computation'] = copy.deepcopy(metadata['computation'])
         item['metadata'] = {**metadata, **supplied, 'producers': metadata['producers'],
                             'result_definitions': metadata['result_definitions']}
         if len(ids) == 1:
