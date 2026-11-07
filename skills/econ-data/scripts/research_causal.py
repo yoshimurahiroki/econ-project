@@ -221,6 +221,7 @@ def select_method(request):
     alternatives = []
     required_native_options = {}
     external_implementation = None
+    native_function = None
     computation = None
     numerical_kernel = None
     respy_simulation = False
@@ -552,8 +553,9 @@ def select_method(request):
     elif design == 'small_cluster_inference':
         method = 'club_sandwich'; conditions = ['saved supported model fit', 'adopted CR correction, coefficient contrast and degrees-of-freedom approximation']
     elif design == 'structural':
+        requested_operation = numerical.get('operation', adopted_spec.get('operation'))
         model = request.get('structural_model')
-        if not model and adopted == 'finite_horizon_choice' and numerical.get('operation') in ('simulate','counterfactual'):
+        if not model and adopted == 'finite_horizon_choice' and requested_operation in ('simulate','counterfactual'):
             model = adopted
         condition_model = {'differentiated_products':'blp','replacement':'replacement','dynamic_game':'dynamic_game',
             'quantity_competition':'cournot'}.get(facts.get('market_structure'))
@@ -569,11 +571,19 @@ def select_method(request):
                 'capacity_constrained_quantity_competition':'cournot',
                 'binary_logit_moments':'binary_logit','finite_policy_sir':'finite_policy_sir',
                 'queue_capacity':'queue_capacity','decision_rights':'decision_rights',
-                'individual_dynamic_choice':'finite_horizon_choice' if target_kind == 'structural_parameter' else 'lifecycle_choice',
                 'employment_retirement_regimes':'lifecycle_choice'}.get(facts.get('economic_object'))
+        if facts.get('economic_object') == 'individual_dynamic_choice':
+            # The adopted state/action domain governs estimation and welfare
+            # simulation through the same model.
+            economic_object_model = (model or
+                (contract_binding['structural_model'] if contract_binding else None) or adopted)
+            if economic_object_model not in ('finite_horizon_choice', 'lifecycle_choice', 'consumption_saving'):
+                raise ValueError('individual_dynamic_choice requires the adopted structural_model or model_contract_id for its state/action domain')
         if condition_model and economic_object_model and condition_model != economic_object_model:
             raise ValueError('market_structure and economic_object identify different structural models')
         condition_model = condition_model or economic_object_model
+        if model and condition_model and model != condition_model:
+            raise ValueError('structural_model and declared economic conditions identify different models')
         if contract_binding:
             bound_model = contract_binding['structural_model']
             if any(value is not None and value != bound_model for value in (model, condition_model)):
@@ -606,9 +616,9 @@ def select_method(request):
         conditions = ['adopted primitives, timing, moments and excluded variation', 'normalizations and equilibrium selection', 'counterfactual re-solves affected endogenous choices']
         method_quantity = ('identified utility/cost parameters and scenario-specific equilibrium prices, choices and welfare' if model == 'blp'
             else 'identified payoff/transition parameters and the re-solved policy or equilibrium under the adopted intervention')
-        respy_simulation = model == 'finite_horizon_choice' and numerical.get('operation') in ('simulate','counterfactual')
+        respy_simulation = model == 'finite_horizon_choice' and requested_operation in ('simulate','counterfactual')
         ssj_operations = ('solve_steady_state','solve_jacobian','solve_impulse_linear','solve_impulse_nonlinear')
-        ssj_operation = numerical.get('operation', 'solve_steady_state') if model == 'hank_one_asset' else None
+        ssj_operation = (requested_operation or 'solve_steady_state') if model == 'hank_one_asset' else None
         if ssj_operation is not None and ssj_operation not in ssj_operations:
             raise ValueError(f'hank_one_asset requires numerical.operation in {ssj_operations}')
         algorithms = {'blp':('gmm',), 'replacement':('nfxp','ccp','smm','mpec'),
@@ -631,7 +641,13 @@ def select_method(request):
         solution_model = model in ('finite_horizon_growth','consumption_saving','lifecycle_choice',
             'aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml','cournot') or respy_simulation or numerical_kernel is not None
         numerical_key = 'solution_method' if solution_model else 'estimation_method'
-        algorithm = numerical.get(numerical_key, numerical.get('estimation_method', algorithms[model][0]))
+        default_algorithm = (adopted_spec.get('estimation', {}).get('method', algorithms[model][0])
+            if model == 'finite_horizon_choice' and not respy_simulation else algorithms[model][0])
+        if model == 'replacement':
+            default_algorithm = adopted_spec.get('options', {}).get('estimation_method', default_algorithm)
+        if model == 'stochastic_rbc' and adopted_spec.get('options', {}).get('algorithm') == 'dolo_time_iteration':
+            default_algorithm = 'time_iteration'
+        algorithm = numerical.get(numerical_key, numerical.get('estimation_method', default_algorithm))
         if solution_model and 'solution_method' in numerical and 'estimation_method' in numerical and numerical['solution_method'] != numerical['estimation_method']:
             raise ValueError('numerical.solution_method and the legacy estimation_method must agree')
         if algorithm not in algorithms[model]:
@@ -644,11 +660,15 @@ def select_method(request):
                 available_operations = list(ssj_operations)
             elif respy_simulation:
                 available_operations = ['simulate','counterfactual']
-            elif model in ('finite_horizon_growth','aiyagari','stochastic_rbc','dolo_yaml','cournot'):
+            elif model == 'dolo_yaml' or model == 'stochastic_rbc' and algorithm == 'time_iteration':
+                available_operations = ['time_iteration','reuse_solution']
+            elif model in ('finite_horizon_growth','aiyagari','stochastic_rbc','cournot'):
                 available_operations = ['solve','counterfactual']
             else:
                 available_operations = ['solve','simulate','counterfactual'] if solution_model else ['estimate']
-            operation = numerical.get('operation', ssj_operation or ('solve' if solution_model else 'estimate'))
+            operation = requested_operation or ssj_operation or (
+                'time_iteration' if model == 'dolo_yaml' or model == 'stochastic_rbc' and algorithm == 'time_iteration'
+                else 'solve' if solution_model else 'estimate')
             if operation not in available_operations:
                 raise ValueError(f'{model} supports numerical.operation in {available_operations}')
             if solution_model and facts.get('parameter_status') not in (None,'fixed','calibrated','estimated'):
@@ -664,21 +684,11 @@ def select_method(request):
         if model == 'replacement' and algorithm == 'smm':
             required_native_options['options.smm'] = 'adopted seed, replications, initial_costs, bounds and tolerance'
         if model == 'replacement' and algorithm == 'mpec':
-            method = 'replacement_mpec'
-            owner = 'external official Python entry: ruspy.estimation.criterion_function.get_criterion_function'
-            required_native_options = {'init_dict.method':'MPEC','constraints':'returned constraint and constraint_derivative'}
-            external_implementation = {'language':'Python',
-                'function':'ruspy.estimation.criterion_function.get_criterion_function',
-                'source':'https://github.com/OpenSourceEconomics/ruspy/blob/414e9f98e3b1cf19544b1ca3b1e544ac5751c1e9/ruspy/estimation/criterion_function.py',
-                'numerical_method':'joint parameter and value-function optimization subject to the returned Bellman constraints',
-                'inputs':['init_dict with model parameters and method=MPEC','observed state/decision/transition dataframe'],
-                'outputs':['criterion_function','criterion_derivative','constraint','constraint_derivative','transition_results'],
-                'return_contract':'get_criterion_function returns (func_dict, transition_results); func_dict owns the four MPEC callables',
-                'parameter_order':'concatenate EV[0:num_states] and the cost parameters',
-                'optimization_direction':'minimize the negative partial log likelihood',
-                'constraint':'constraint(params) returns EV_new - EV; retain its Jacobian and the original Bellman residual',
-                'observation_timing':'estimate transitions from the supplied usage records; criterion state/decision rows begin at period 1; preserve the adopted reset and transition timing',
-                'execution':'unpack the factory return and pass func_dict criterion, derivatives and constraints to the adopted constrained optimizer in project analysis'}
+            owner = 'skills/econ-data/scripts/research_dynamic.py run'
+            required_native_options = {'estimation_method':'mpec'}
+            native_function = 'ruspy.estimation.criterion_function.get_criterion_function'
+        if contract_id == 'MC-replacement-ddc' and forward_options.get('replacement_timing', 'reset_to_zero') != 'reset_to_zero':
+            raise ValueError('MC-replacement-ddc fixes reset-to-zero transitions; select the explicitly adopted native replacement model without that contract')
         required_inputs = ['actors/objectives/feasible actions/information and timing','states and transition law',
             'shock distribution and payoff normalization','moments or likelihood and excluded variation',
             'parameter order and fixed/calibrated values','equilibrium selection','intervention and welfare aggregation']
@@ -802,8 +812,10 @@ def select_method(request):
         elif model == 'hank_one_asset':
             if facts.get('nominal_rigidity') is False:
                 raise ValueError('hank_one_asset requires the declared nominal-price and general-equilibrium conditions')
+            if target_kind == 'welfare' and ssj_operation in ('solve_jacobian','solve_impulse_linear'):
+                raise ValueError('HANK transition welfare requires solve_impulse_nonlinear with the saved household policies and distribution')
             function = 'sequence_jacobian.blocks.block.Block.' + ssj_operation
-            owner = 'external official Python entry: ' + function
+            owner = 'skills/econ-data/scripts/research_dsge.py run'
             method_quantity = ('calibrated one-asset HANK steady state satisfying the adopted targets' if ssj_operation == 'solve_steady_state'
                 else 'one-asset HANK general-equilibrium Jacobian' if ssj_operation == 'solve_jacobian'
                 else 'linear one-asset HANK equilibrium impulse paths' if ssj_operation == 'solve_impulse_linear'
@@ -818,22 +830,7 @@ def select_method(request):
                 'transition unknowns [w,Y,pi] and targets [asset_mkt,goods_mkt,nkpc_res]',
                 'inputs: shock names for solve_jacobian, or adopted rstar/Z shock arrays for impulse operations',
                 'horizon, requested outputs, original residuals and household internals needed by the target']
-            external_implementation = {'language':'Python','function':function,'version':'1.0.0',
-                'revision':'eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9',
-                'source':'https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/blocks/block.py',
-                'model_source':'https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/examples/hank.py',
-                'signature':(['calibration','unknowns','targets','dissolve','options','kwargs'] if ssj_operation == 'solve_steady_state'
-                    else ['ss','unknowns','targets','inputs','outputs','T','Js','options','H_U_factored','kwargs'] if ssj_operation == 'solve_jacobian'
-                    else ['ss','unknowns','targets','inputs','outputs','internals','Js','options','H_U_factored','ss_initial','kwargs'] if ssj_operation == 'solve_impulse_nonlinear'
-                    else ['ss','unknowns','targets','inputs','outputs','Js','options','H_U_factored','kwargs']),
-                'inputs':required_inputs,
-                'outputs':['SteadyStateDict with target residuals'] if ssj_operation == 'solve_steady_state' else
-                    ['JacobianDict mapping exogenous shocks to the requested equilibrium quantities'] if ssj_operation == 'solve_jacobian' else
-                    ['ImpulseDict with the requested endogenous and output paths; save original target residuals and requested household internals'],
-                'example_factory':'hank.dag() solves its public calibration and returns (hank_model_ss, ss, hank_model, unknowns, targets, exogenous)',
-                'model_construction':'use the official household, firm, monetary, fiscal and market blocks; the steady-state model uses nkpc_ss and the transition model uses nkpc',
-                'nonlinear_acceptance':'solve_impulse_nonlinear tests every original target max-absolute residual against tol (default 1e-8), and raises after maxit (default 30)',
-                'execution':'invoke only the selected official operation on the adopted model and saved inputs; retain its actual returned object and residuals in project analysis'}
+            native_function = function
             computation['parameter_operation'] = ('calibrate the declared steady-state unknowns to the adopted targets' if ssj_operation == 'solve_steady_state'
                 else 'reuse the matching steady-state parameters, policy and distribution')
             required_native_options = {}
@@ -855,38 +852,14 @@ def select_method(request):
             if dolo_entry:
                 function = ('dolo.compiler.model_import.yaml_import + dolo.algos.steady_state.find_steady_state + '
                     'dolo.algos.steady_state.residuals + dolo.algos.time_iteration.time_iteration + dolo.numeric.residuals.F')
-                owner = 'external official Python entry: ' + function
+                owner = 'skills/econ-data/scripts/research_dsge.py run'
                 method_quantity = 'decision rule for the adopted dynamic model, with steady-state equations and original final-policy arbitrage residuals'
                 required_inputs = ['native Dolo YAML filename with the adopted equations, calibration, state/control/shock timing and bounds',
                     'same DiscretizedModel, grids and shock-process discretization throughout solution and residual evaluation',
                     'adopted interpolation, backend, initial decision rule and convergence tolerances',
                     'final decision rule evaluated on the same grid/regimes for original residuals.F']
-                required_native_options = {'details':True}
-                external_implementation = {'language':'Python','function':function,
-                    'version':'0.4.9.20',
-                    'revision':'33f873eef42d9644b5a0705a63fb3a34de5c2825',
-                    'source':'https://github.com/EconForge/dolo.py/blob/33f873eef42d9644b5a0705a63fb3a34de5c2825/src/dolo/algos/time_iteration.py',
-                    'environment':{
-                        'requirement':'dolo @ git+https://github.com/EconForge/dolo.py@33f873eef42d9644b5a0705a63fb3a34de5c2825',
-                        'requires_python':'>=3.12,<3.14',
-                        'metadata_source':'https://github.com/EconForge/dolo.py/blob/33f873eef42d9644b5a0705a63fb3a34de5c2825/pyproject.toml',
-                        'dependency_resolution':'resolve the pinned package dependencies from its official pyproject.toml in the selected project-stage environment',
-                        'quantecon_requirement':'>=0.7.2,<0.8',
-                        'runtime_binding':'Dolo uses its project-stage environment; the existing macro family pins quantecon==0.13.1'},
-                    'signature':{'yaml_import':['fname','check','check_only'],
-                        'find_steady_state':['model','m'], 'residuals':['model','calib'],
-                        'time_iteration':['model','engine','backend','dr0','tol_eps','tol_eta','maxit','inner','accelerate',
-                            'interpolation','verbose','details','trace','ignore_constraints','hook','dprocess','kwargs'],
-                        'F':['model','args','engine','backend','interp_method','device','kwargs']},
-                    'final_policy_residual_call':'F(dmodel, controls, final_dr, engine=engine, interp_method=interpolation)',
-                    'inputs':required_inputs,
-                    'outputs':['native Model and CalibrationDict with transition/arbitrage steady-state residuals',
-                        'TimeIterationResult.dr, error_res, error_step, iterations and converged',
-                        'original final-policy Euler/arbitrage residuals from F on the adopted grid and shock process'],
-                    'termination_contract':'converged means error_step < tol_eta OR error_res < tol_eps; error_res is measured before the last policy update',
-                    'original_equation_check':'evaluate final_dr at each adopted grid/regime and pass those controls plus final_dr to F on the same DiscretizedModel; check interior arbitrage and declared complementarity at bounds',
-                    'execution':'import the native YAML, compute and check its steady state, call time_iteration(details=True), and save the returned rule with final-policy residuals; no parameter estimation is performed',
-                    'model_scope':'MC-stochastic-rbc applies only to its log-utility, Cobb-Douglas, fixed-labor and Gaussian-AR(1) equations; a general YAML model keeps its own declared economic specification'}
+                required_native_options = {}
+                native_function = function
                 computation.update(parameter_operation='reuse the adopted calibration; estimate no parameters',
                     solution_object='dynamic decision rule of the explicitly supplied model')
             else:
@@ -926,12 +899,12 @@ def select_method(request):
                     'simulate() stores each track_vars history as a (T_sim, AgentCount) array',
                     'scenario-specific values and outcomes aggregated with the adopted population weights'])
         elif respy_simulation:
-            simulation_method = numerical.get('simulation_method')
+            simulation_method = numerical.get('simulation_method', adopted_spec.get('simulation', {}).get('method'))
             if simulation_method not in ('n_step_ahead_with_sampling','n_step_ahead_with_data','one_step_ahead'):
                 raise ValueError('respy simulation requires numerical.simulation_method=n_step_ahead_with_sampling, n_step_ahead_with_data or one_step_ahead')
             if facts.get('parameter_status') not in ('fixed','calibrated','estimated'):
                 raise ValueError('respy simulation requires explicit fixed, calibrated or estimated parameter_status')
-            owner = 'external official Python entry: respy.get_simulate_func'
+            owner = 'skills/econ-data/scripts/research_dynamic.py run'
             method_quantity = ('scenario contrast of adopted discounted chosen-flow utility for the same initial population' if target_kind == 'welfare'
                 else 'scenario-specific choices, rewards and state paths from the same respy structural primitives')
             if simulation_method == 'one_step_ahead':
@@ -948,24 +921,15 @@ def select_method(request):
                 'target population, identifiers, weights, value units and welfare aggregation']
             if simulation_method != 'n_step_ahead_with_sampling':
                 required_inputs += ['df with Identifier/Period MultiIndex and the adopted state columns; initial-data simulation uses zero-based consecutive IDs at Period=0']
-            required_native_options = {'method':simulation_method,'n_simulation_periods':None}
-            external_implementation = {'language':'Python','function':'respy.get_simulate_func','version':'2.1.1',
-                'source':'https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/simulate.py',
-                'signature':['params','options','method','df','n_simulation_periods'],
-                'parameter_operation':computation['parameter_operation'],
-                'numerical_method':'solve at the supplied parameter vector and simulate with retained base draws',
-                'inputs':required_inputs,
-                'outputs':['parameter-only simulate callable; simulate(params_hat) returns an Identifier/Period-indexed dataframe',
-                    'Choice, Wage, state columns, Discount_Rate and Present_Bias',
-                    'choice-specific Flow_Utility, Value_Function, Continuation_Value and reward columns'],
-                'effective_simulation_horizon':'max observed Period + 1' if simulation_method == 'one_step_ahead' else "options['n_periods']",
-                'horizon_contract':'this pinned implementation replaces an explicit n_simulation_periods with options.n_periods; pass None and match the requested output to the recorded effective horizon',
-                'welfare_contract':'aggregate chosen Flow_Utility under adopted discounting and terminal conditions; Value_Function already contains continuation value',
-                'execution':'construct get_simulate_func from the saved structural specification and call simulate(params_hat) for each adopted scenario; retain actual outputs and aggregate them in project analysis'}
+            required_native_options = {}
+            native_function = 'respy.get_simulate_func'
+            computation['outputs'] = ['saved ordered parameters and native model options',
+                'Identifier/Period-indexed simulated choices, states and rewards',
+                'adopted discounted chosen-flow utility and scenario contrasts']
         elif model == 'finite_horizon_choice':
             smm = algorithm == 'smm'
             function = 'respy.get_moment_errors_func' if smm else 'respy.get_log_like_func'
-            owner = 'external official Python entry: ' + function
+            owner = 'skills/econ-data/scripts/research_dynamic.py run'
             method_quantity = ('structural parameters minimizing the adopted weighted finite-horizon simulated-moment distance' if smm
                 else 'structural parameters maximizing the mean log likelihood of the adopted finite-horizon observed histories')
             conditions = ['finite decision horizon, adopted terminal values and feasible state/action support',
@@ -980,24 +944,13 @@ def select_method(request):
             required_inputs += (['calc_moments and ordered empirical_moments with matching labels',
                 'replace_nans rule, weighting_matrix and n_simulation_periods'] if smm
                 else ['df: observed choice/wage histories in the official estimation-data format'])
-            required_native_options = {'return_scalar':False}
-            external_implementation = {'language':'Python','function':function,'version':'2.1.1',
-                'source':'https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/'+('method_of_simulated_moments.py' if smm else 'likelihood.py'),
-                'signature':['params','options','calc_moments','replace_nans','empirical_moments','weighting_matrix','n_simulation_periods','return_scalar'] if smm else ['params','options','df','return_scalar'],
-                'parameter_operation':'estimate free structural parameters with adopted fixed values and normalizations',
-                'optimization_direction':'minimize' if smm else 'maximize',
-                'numerical_method':'finite-horizon solution and simulation at each parameter evaluation' if smm else 'finite-horizon solution and mean log-likelihood evaluation at each parameter vector',
-                'inputs':required_inputs,
-                'outputs':['parameter-only criterion callable','value','moment_errors','root_contributions','simulated_moments','comparison_plot_data'] if smm else ['parameter-only log-likelihood callable','value: mean log likelihood','contributions','comparison_plot_data'],
-                'execution':'construct the official criterion with return_scalar=False and pass its value to the adopted project optimizer; retain returned contributions and the adopted parameter-inference calculation'}
-            if smm:
-                external_implementation['weighting_contract'] = {
-                    'criterion':'value = moment_errors.T @ weighting_matrix @ moment_errors',
-                    'root_contributions':'the official return is moment_errors @ np.sqrt(weighting_matrix), an elementwise square root',
-                    'residual_optimizer_condition':'its squared norm equals value for diagonal nonnegative weights; for general weights optimize the returned scalar value',
-                    'inference_inputs':['ordered moment_errors','weighting_matrix','the adopted moment covariance and simulation contribution']}
+            required_native_options = {}
+            native_function = function
+            computation['outputs'] = ['fitted ordered structural parameters and optimizer return',
+                'official weighted moment criterion and moment errors' if smm else 'official mean log likelihood and contributions',
+                'adopted parameter-inference inputs and simulation design']
         elif model == 'lifecycle_choice':
-            owner = 'external official Python entry: lcm.Model.solve + lcm.Model.simulate'
+            owner = 'skills/econ-data/scripts/research_macro_extended.py run'
             method_quantity = ('target-population aggregation of lifecycle values under the adopted welfare weights and utility or monetary conversion' if target_kind == 'welfare'
                 else 'lifecycle policies, values and simulated outcomes at the adopted fixed or previously estimated parameters')
             conditions = ['fixed or previously estimated structural parameters and adopted utility/shock normalizations',
@@ -1011,24 +964,8 @@ def select_method(request):
                 'regime-specific official solver, grids, integration and numerical precision',
                 'initial_conditions, seed and adopted taste_shock_seed or shock_paths for scenario comparisons',
                 'policy intervention, exogenous price paths, target population, weights and welfare aggregation/conversion']
-            required_native_options = {'solve.params':'adopted fixed or previously estimated values',
-                'simulate.params':'same canonical values as solve','simulate.solution':'complete SolutionResult',
-                'simulate.seed':'adopted integer seed'}
-            external_implementation = {'language':'Python','function':'lcm.Model.solve + lcm.Model.simulate',
-                'source':'https://github.com/OpenSourceEconomics/pylcm/blob/0fb55673b0be4eb52d270b2585047faa38c4e930/src/lcm/model.py',
-                'signature':{'solve':['params','log_level','runtime_checks','retention','max_compilation_workers','log_path','log_keep_n_latest','period_capture','use_categorical_codes'],
-                    'simulate':['params','initial_conditions','solution','log_level','runtime_checks','seed','taste_shock_seed','shock_paths','log_path','log_keep_n_latest','max_compilation_workers','use_categorical_codes']},
-                'parameter_operation':'hold adopted fixed or previously estimated parameters; solve household choices',
-                'numerical_method':'backward induction through the declared regimes followed by forward simulation',
-                'inputs':required_inputs,
-                'outputs':['SolutionResult values, model/parameter identity and retained policy-replay artifacts',
-                    'SimulationResult and to_dataframe() outcomes','project aggregation of saved scenario values and outcomes'],
-                'execution':'construct the official Model, solve with params and log_level, then simulate with the complete solution, matching params and adopted seeds; aggregate saved outcomes in the existing project analysis',
-                'equilibrium_contract':'household choices conditional on adopted exogenous paths; market clearing requires its own equilibrium owner'}
-            external_implementation['solver_inputs'] = {
-                'GridSearch':'Regime with native states, actions, constraints and utility',
-                'EGM_DCEGM_NBEGM':'ConsumptionSavingsRegime with LiquidMargin(state, action, resources, post_decision_state)',
-                'NEGM_NNBEGM':'NestedConsumptionSavingsRegime additionally supplies OuterContinuousMargin(state, action, post_decision_state, no_adjustment, adjustment_cost=None)'}
+            required_native_options = {}
+            native_function = 'lcm.Model.solve + lcm.Model.simulate'
         alternatives = [
             {'method':'nfxp','difference':'solve the Bellman/equilibrium system within each parameter evaluation',
              'estimand':'parameters of the adopted dynamic likelihood and equilibrium selection',
@@ -1111,8 +1048,8 @@ def select_method(request):
         'honest_did':{'sensitivity','confidence_set'},
         'finite_horizon_choice':{'policy_value','welfare'} if respy_simulation else {'structural_parameter'},'lifecycle_choice':{'policy_value','welfare'},
         'finite_horizon_growth':{'policy_value','welfare'},'consumption_saving':{'policy_value','welfare'},
-        'aiyagari':{'equilibrium','welfare'}, 'hank_one_asset':{'equilibrium'},
-        'stochastic_rbc':{'equilibrium'} if external_implementation else {'equilibrium','welfare','structural_parameter'},
+        'aiyagari':{'equilibrium','welfare'}, 'hank_one_asset':{'equilibrium','welfare'},
+        'stochastic_rbc':{'equilibrium'} if native_function else {'equilibrium','welfare','structural_parameter'},
         'dolo_yaml':{'equilibrium'},
         'correlated_equilibrium':{'equilibrium','welfare'}, 'tu_shapley_core':{'allocation'},
         'interbank_clearing':{'equilibrium'}, 'multitask_incentives':{'policy_value'},
@@ -1246,7 +1183,7 @@ def select_method(request):
             if 'cluster' in selected_options.get(container, {}):
                 previous = selected_options[container].pop('cluster')
                 option_changes.append({'field':f'options.{container}.cluster','supplied':previous,'selected':None})
-    if method in ('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab','did2s','grf','staggered_did','did_multiplegt_dyn','nonabs_did','iv_ar','iv_ar_robust','rdrobust_r','hdfe','dml_irm','dml_pliv','dml_iivm','finite_horizon_choice','consumption_saving','stochastic_rbc','dolo_yaml'):
+    if method in ('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab','did2s','grf','staggered_did','did_multiplegt_dyn','nonabs_did','iv_ar','iv_ar_robust','rdrobust_r','hdfe','dml_irm','dml_pliv','dml_iivm','finite_horizon_choice','consumption_saving','stochastic_rbc','dolo_yaml','replacement'):
         for field, value in required_native_options.items():
             cursor = selected_options
             path = field.split('.', 1)
@@ -1311,6 +1248,8 @@ def select_method(request):
         unbound_inputs.append('options.columns.fuzzy: actual treatment-receipt column')
     if external_implementation:
         engine = external_implementation['function']
+    elif native_function:
+        engine = native_function
     elif method == 'consumption_saving':
         engine = function
     elif method in R_METHODS:
@@ -1322,7 +1261,6 @@ def select_method(request):
                   'iv_gmm':'linearmodels.iv.IVGMM',
                   'iv_ar_robust':'ivDiag::AR_test',
                   'fixes_att':'fixes::att',
-                  'replacement_mpec':'ruspy.estimation.criterion_function.get_criterion_function',
                   'iv_ar':'linearmodels.iv.IV2SLS + statsmodels.OLS + scipy.stats.f',
                   'synthetic_control':'pysyncon.Synth + statsmodels.OLS',
                   'generalized_synth':'gsynth::gsynth',
@@ -1413,7 +1351,7 @@ def select_method(request):
         if method in ('aiyagari','hank_one_asset','stochastic_rbc','dolo_yaml'):
             inference_contract['procedure'] = 'original economic-equation residuals and the adopted grid, horizon and integration comparisons'
             inference_contract['parameter_operation'] = computation['parameter_operation']
-        if method == 'stochastic_rbc' and external_implementation is None:
+        if method == 'stochastic_rbc' and native_function is None:
             inference_contract['procedure'] = 'Gaussian AR(1) maximum-likelihood covariance and original RBC equation residuals'
             inference_contract['official_output_required'] = True
     if request['dependence'] in ('cluster', 'clustered'):
@@ -1543,8 +1481,6 @@ def select_method(request):
     # Reuse the registered dependency owners; requirements remain their sole
     # version authority and can be passed to the research harness runtime.
     dependency_path = owner.split(' ', 1)[0]
-    if method == 'hank_one_asset' and external_implementation:
-        dependency_path = 'skills/econ-data/scripts/research_macro_extended.py'
     resource = next((r for rid, r in resources.items() if dependency_path in
         (r['source_path'], placements[rid]['deployment_path'], placements[rid]['export_alias'])), None)
     is_causal_runner = owner == 'skills/econ-data/scripts/research_causal.py run'
@@ -1574,7 +1510,16 @@ def select_method(request):
         candidate['entry_point'] = causal_path + ' run'
     implementation['dependencies'] = []
     if resource:
-        for resource_id in resource.get('required_resources', []):
+        dependency_ids = resource.get('required_resources', [])
+        if method == 'finite_horizon_choice':
+            dependency_ids = ['research-respy-dependencies']
+        elif method == 'lifecycle_choice':
+            dependency_ids = ['research-lifecycle-dependencies']
+        elif method == 'dolo_yaml' or method == 'stochastic_rbc' and native_function:
+            dependency_ids = ['research-dolo-dependencies']
+        elif method in ('hank_one_asset','stochastic_rbc','aiyagari','consumption_saving'):
+            dependency_ids = ['research-macro-dependencies']
+        for resource_id in dependency_ids:
             dependency = resources[resource_id]
             path = dependency['source_path']
             if Path(path).name.startswith('requirements-'):
@@ -1632,6 +1577,45 @@ def select_method(request):
         elif resource_id == 'research-macro-extended' and method == 'consumption_saving':
             required_fields = {'model','income_process','consumer_options','evaluation','calibration_source'}
             owner_fields = required_fields | {'scenario','simulation'}
+        elif resource_id == 'research-macro-extended' and method == 'lifecycle_choice':
+            required_fields = {'model','operation','model_definition','parameters','calibration_source'}
+            owner_fields = required_fields | {'n_periods','solver','solution_path','saved_solution',
+                'simulation','scenario','outcomes','welfare','evaluation','definitions','parameter_status'}
+            if computation['requested_operation'] in ('simulate','counterfactual'):
+                required_fields |= {'saved_solution','simulation'}
+            else:
+                required_fields.add('solution_path')
+            if computation['requested_operation'] == 'counterfactual':
+                required_fields.add('scenario')
+        elif resource_id == 'research-dynamic' and method == 'finite_horizon_choice':
+            required_fields = {'model', 'operation'}
+            owner_fields = required_fields | {'params', 'options', 'adopted', 'data', 'estimation',
+                'moments', 'fit_path', 'simulation', 'scenario', 'welfare', 'inference', 'parameter_status'}
+            if 'fit_path' not in adopted_spec:
+                required_fields |= {'params', 'options', 'adopted'}
+            if not respy_simulation:
+                required_fields |= {'data', 'estimation'}
+                if algorithm == 'smm':
+                    required_fields.add('moments')
+            elif computation['requested_operation'] == 'counterfactual':
+                required_fields.add('scenario')
+        elif resource_id == 'research-dsge' and method == 'hank_one_asset':
+            required_fields = {'model','operation'}
+            owner_fields = required_fields | {'calibration_source','parameters','steady_state','saved_solution',
+                'transition','horizon','inputs','shocks','outputs','solver_options','scenario','equilibrium_tolerance'}
+            if 'saved_solution' not in adopted_spec:
+                required_fields |= {'calibration_source','parameters','steady_state'}
+            if computation['requested_operation'] != 'solve_steady_state':
+                required_fields.add('horizon')
+                required_fields.add('inputs' if ssj_operation == 'solve_jacobian' else 'shocks')
+        elif resource_id == 'research-dsge' and native_function:
+            required_fields = {'model','operation'}
+            owner_fields = required_fields | {'yaml_model','calibration_source','calibration','discretization',
+                'solver','validation','saved_solution','options','units','normalization'}
+            if 'saved_solution' not in adopted_spec:
+                required_fields |= {'yaml_model','calibration_source'}
+            if computation['requested_operation'] == 'reuse_solution':
+                required_fields.add('saved_solution')
         elif resource_id == 'research-dsge':
             owner_fields = required_fields = {'parameters','observations','horizon','simulation_paths','seed','technology_shock'}
         elif resource_id == 'research-markets':
@@ -1642,8 +1626,16 @@ def select_method(request):
             if method in ('replacement','latent_replacement','discrete_entry','dynamic_adoption_blp'):
                 required_fields = required_fields | {'data'}
         execution_spec = {key:deepcopy(adopted_spec[key]) for key in owner_fields if key in adopted_spec}
-        if resource_id not in ('research-macro','research-dsge'):
+        if resource_id != 'research-macro' and (resource_id != 'research-dsge' or native_function):
             execution_spec['model'] = model
+        if method in ('lifecycle_choice','hank_one_asset','dolo_yaml') or method == 'stochastic_rbc' and native_function:
+            execution_spec['operation'] = computation['requested_operation']
+        if method == 'stochastic_rbc' and native_function:
+            execution_spec.setdefault('options', {})['algorithm'] = 'dolo_time_iteration'
+        if method == 'lifecycle_choice' and 'parameter_status' in facts:
+            if execution_spec.get('parameter_status', facts['parameter_status']) != facts['parameter_status']:
+                raise ValueError('lifecycle parameter_status must agree with the adopted specification')
+            execution_spec['parameter_status'] = facts['parameter_status']
         if method == 'consumption_saving':
             execution_spec['income_process'] = income_process
             execution_spec['consumer_options'] = deepcopy(selected_options['consumer_options'])
@@ -1651,7 +1643,14 @@ def select_method(request):
                 unbound_inputs.append('simulation: adopted AgentCount, T_sim, seed and track_vars')
             if computation['requested_operation'] == 'counterfactual' and 'scenario' not in execution_spec:
                 unbound_inputs.append('scenario.consumer_options: adopted changed parameters')
-        if resource_id == 'research-dynamic' and 'options' in adopted_spec:
+        if method == 'finite_horizon_choice':
+            execution_spec['operation'] = computation['requested_operation']
+            if respy_simulation:
+                execution_spec.setdefault('simulation', {})['method'] = simulation_method
+                execution_spec['parameter_status'] = facts['parameter_status']
+            else:
+                execution_spec.setdefault('estimation', {})['method'] = algorithm
+        if resource_id == 'research-dynamic' and method != 'finite_horizon_choice' and 'options' in adopted_spec:
             execution_spec['options'] = deepcopy(selected_options)
             if method == 'replacement' and algorithm == 'smm' and 'smm' not in execution_spec['options']:
                 unbound_inputs.append('options.smm: adopted seed, replications, initial_costs, bounds and tolerance')
@@ -1676,7 +1675,11 @@ def select_method(request):
             'validation':'The selected owner validates numerical inputs when its command executes.',
             'command':['python',*owner.split(' '),'SPEC.json','--output','RESULT.json']}
         if method == 'replacement':
-            implementation['execution_components'] = ['nfxp','ccp','baseline and scenario policy solution','finite-horizon solution']
+            replacement_options = execution_spec.get('options', {})
+            implementation['execution_components'] = [replacement_options.get('estimation_method', 'nfxp'),
+                'baseline and scenario policy solution']
+            if replacement_options.get('replacement_timing', 'reset_to_zero') == 'reset_to_zero':
+                implementation['execution_components'] += ['ccp','finite-horizon solution']
             if 'smm' in execution_spec.get('options', {}):
                 implementation['execution_components'].append('smm')
     return {'result_format_version':1,'status':'design_change' if changes else 'selected','question':request['question'],

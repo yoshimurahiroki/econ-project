@@ -2,6 +2,8 @@
 
 本資料は、公開実装の関数・API・Skill本文を、ERSの既存所有箇所、採用した変更、実行結果に対応させる。固定リンクは比較に用いた版を指す。採用した変更は正本の既存ランナー、知識catalog、Writing、binderへ実装した。
 
+0.63.0は0.62.0の成果を継承し、構造・動学モデルの公式計算、保存解の再利用、モデル選択から実行への接続を追加した。2026年11月7日の再取得ではStatsPAIが`f4f0a05ed135914510b7be9a04762657deb9b406`へ進んでいた。差分11コミットのbunching、survival、decomposition、policy_learning、dml各ディレクトリは比較に用いた固定版と同じ内容だった。既存の採否を維持した。
+
 ## 推定対象から公式推定器へ
 
 | 比較元と実読箇所 | 計算を決める仕組み | ERSの既存経路と今回の採用 |
@@ -24,9 +26,18 @@ GRFのselectorから実行仕様へ移る際に、標本重み・cluster列・�
 | --- | --- | --- |
 | [HARK `AgentType.solve`](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/HARK/core.py)、[消費貯蓄モデル](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/HARK/ConsumptionSaving/ConsIndShockModel.py) | 消費者の効用、所得過程、価格、借入制約を受け、年齢・状態ごとの`cFunc`・`vFunc`を返す。 | 外部handoffで止まるselectorを既存macro runnerへ接続した。固定二期間例の自動実行を撤去し、採用されたconsumer class・parameters・評価gridから公式`solve()`を実行する。政策、価値、正規化、状態・年齢・scenario、指定したsimulationを保存する。実行版は[HARK 0.17.2](https://github.com/econ-ark/HARK/tree/269085077b84cb50feb49d0cd54bbf4da5fa3199)。 |
 | [QuantEcon `DiscreteDP.solve`](https://github.com/QuantEcon/QuantEcon.py/blob/d30c9000a96d7ae1d434bdecb4aa63d285a18599/quantecon/markov/ddp.py) | 報酬、遷移、割引から価値、政策添字、政策下のMarkov連鎖を返す。有限期間では終端価値が必要になる。 | 既存Aiyagari経路で公式の動学計画を使う。状態座標・行動値・政策・価値を既存結果へ保存する構造を保持した。 |
-| [dcegm `backward_induction.py`](https://github.com/OpenSourceEconomics/dcegm/blob/6914875e57f4fe3a6de50c2f3ddb9e56cba7f93c/src/dcegm/backward_induction.py) | 終端、状態間の依存、内生grid、上包絡線から離散・連続選択の価値と政策を計算する。 | ERSの`lifecycle_choice`はpylcmの`Model.solve`・`Model.simulate`への仕様引継ぎを返す。状態、期間、離散・連続選択のタイミングをこの既存入口に対応させ、今回の固定モデル契約ではHARKの実行接続を採用した。 |
-| [respy `get_solve_func`・`solve`](https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/solve.py) | 採用状態空間、報酬、遷移、ショックから後ろ向きに期待価値を求める。 | `finite_horizon_choice`はrespyの公式criterion・simulation入口と必要引数を返す。既存の仕様引継ぎを保持し、ERS内の動学runnerから固定模擬panel・case生成を削除した。 |
+| [dcegm `backward_induction.py`](https://github.com/OpenSourceEconomics/dcegm/blob/6914875e57f4fe3a6de50c2f3ddb9e56cba7f93c/src/dcegm/backward_induction.py) | 終端、状態間の依存、内生grid、上包絡線から離散・連続選択の価値と政策を計算する。 | `MC-lifecycle-regimes`ではpylcm内の公式DCEGMを実行する。採用したモデルfactoryをsource hashで固定し、solver・grid・状態・終端条件を既存macro runnerへ渡す。公式`solve`、native解の保存・再読込、`simulate`、`lookup_policy`から価値・政策・履歴を保存する。GridSearchとDC-EGMを公開モデルで実行した。 |
+| [respy `get_solve_func`・`solve`](https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/solve.py) | 採用状態空間、報酬、遷移、ショックから後ろ向きに期待価値を求める。 | 既存dynamic runnerが公式ML／SMM criterionと採用optimizerを実行する。一般重み行列のSMMは公式`value=e'We`を最小化する。パラメータ、目的関数、moment errors、推論入力、simulation errorを保存し、保存fitから同じ人口・乱数・遷移で政策反実仮想と割引効用を計算する。 |
 | [PyBLP `Problem.solve`](https://github.com/jeffgortmaker/pyblp/blob/16536807004b16c24fb40b931531b45b33884e00/pyblp/economies/problem.py)、[`ProblemResults.to_pickle`](https://github.com/jeffgortmaker/pyblp/blob/16536807004b16c24fb40b931531b45b33884e00/pyblp/results/problem_results.py) | 需要・供給のmoment、instrument、重み、最適化から構造parametersと推論を得る。native fitは積分点・重み・推定パラメータを保持し、変更後の所有・費用で均衡を解く。 | 0.61.0では別の反実仮想を実行するたびに`Problem.solve`を呼んでいた。既存market runnerの結果JSONに公式fitを保存し、`counterfactual`入口から再利用する経路を加えた。入力の版とfitのhashを対応させ、同じパラメータ・消費者分布から価格・数量・利益・余剰・共通displayを返す。 |
+
+0.63.0では次の公式計算も既存ownerへ接続した。
+
+| 比較元と実読箇所 | 経済的対象と解消した不足 |
+| --- | --- |
+| [pylcm Model](https://github.com/OpenSourceEconomics/pylcm/blob/0fb55673b0be4eb52d270b2585047faa38c4e930/src/lcm/model.py) | 任意の採用model factoryが状態・行動・効用・制約・遷移・solverを定める。完全なnative archiveとモデル／パラメータfingerprintから前向きシミュレーションを再開し、同じ初期人口・seedで政策を比較する。 |
+| [Sequence-Jacobian HANK](https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/examples/hank.py) | 家計、分布、企業、金融政策、財政、市場清算を同じモデルへ接続した。既存DSGE runnerで定常解・Jacobian・線形／非線形応答を実行し、定常解とpartial Jacobianを保存して再利用する。厚生は共通初期分布と終端の定常政策価値から求める。 |
+| [Dolo time iteration](https://github.com/EconForge/dolo.py/blob/33f873eef42d9644b5a0705a63fb3a34de5c2825/src/dolo/algos/time_iteration.py) | 採用YAML、外生過程、grid、制約、補間からdecision ruleを求める。返却`error_res`は最終政策更新前の値なので、最終decision ruleを公式`F`へ戻して元の裁定条件と相補性を評価する。保存解からnative decision ruleを復元する。 |
+| [ruspy MPEC](https://github.com/OpenSourceEconomics/ruspy/blob/414e9f98e3b1cf19544b1ca3b1e544ac5751c1e9/ruspy/estimation/mpec.py) | 公式尤度・勾配・Bellman制約・Jacobianを既存replacement入口へ接続した。既存reset-to-zeroの費用と境界を同値写像で保持する。明示的なreset-then-usage入力は公式の観測遷移推定とperiod 1以降の標本を使う。 |
 
 ### 既存モデル契約の実行接続
 
@@ -91,3 +102,22 @@ Writingの段落host経路は実装と保存形式を更新した。実行記録
 PyBLP 1.3.0の[Nevo製品データ](https://github.com/jeffgortmaker/pyblp/blob/16536807004b16c24fb40b931531b45b33884e00/pyblp/data/nevo_products.csv)2256観測・94市場でfit保存と再利用を実行した。線形効用は`1 + prices + sugar + mushy`、random coefficientは定数項に固定標準偏差0.2、Monte Carlo積分は15点・seed 726、GMMは一段階とした。企業1と2の合併を、回収した限界費用を保持して計算した。再利用中の`Problem.solve`呼出しは0回で、価格・シェア・利潤・消費者余剰は保存fitの公式result methodsによる別計算と最大1.39×10⁻¹⁶の差だった。利潤勾配の最大絶対値は8.96×10⁻¹⁴で、元の推定結果、パラメータ、積分typeの基準余剰・重みを保持した。
 
 GRFの接続は[AER CASchoolsの公開観測](https://github.com/vincentarelbundock/Rdatasets/blob/cc03c29690889dbe83089f5206e2422db8c3f71f/csv/AER/CASchools.csv)420学校区・45 countyで確認した。処置を生徒数／教員数が20未満の239地区と定義し、生徒数重み、county cluster、treated集計、seed 72608、400 trees、点別90%区間を指定した。R 4.5.3・GRF 2.6.1の公式関数を別に構築した計算と、既存CLIのselect→runが返した推定値・SE・p値・区間端点の最大差は0だった。対象行、正規化重み、cluster数、保存fitと表示定義も一致した。
+
+
+### 0.63.0の選択・解釈・実計算
+
+個人動学問題の対象がパラメータから厚生へ変わると、respyからpylcmへモデルが切り替わる選択条件を修正した。主体の状態・行動・制約から選んだモデル契約を、推定・シミュレーション・厚生まで保持する。採用済みMPEC、保存解、パラメータの役割、数値許容値、単位を同じ実行仕様へ渡す。HANKの移行厚生は非線形の家計政策・分布から計算する。
+
+実結果の`computation`を既存表図定義と`composition_context`へ渡した。表示metadataも実行済みの計算定義を保持する。構造Writingは、尤度／重み付きmoment、パラメータ推論、政策・価値関数、履歴、厚生をそれぞれの生成式から説明する。動学厚生は共通初期人口と採用された継続価値に対応させ、線形応答は定常点からの偏差として説明する。7つのWritingモードを維持した。
+
+selectorに重複していた5経路の外部API仕様を既存runner・モデル契約・参照へ集約した。respy、pylcm、Doloの互換Pythonと依存pinを既存stageの個別requirementsへ分け、公式revisionの確認には既存関数を共用した。計算結果は既存JSON、native archive、registry、galleryで保存・再利用する。
+
+respyの公式`robinson_crusoe_basic`シミュレータによる1,000人・5期間で、賃金経験係数のML推定値は0.3079669961、平均個人対数尤度は−6.1268374582だった。一般重み行列`[[1,.4],[.4,1]]`のSMM推定値は0.3009162366、公式目的関数は7.0590560×10⁻⁸。公式criterionとの最大差は0だった。保存MLパラメータからhammockのflow効用を0.1増やすと、平均割引効用は9.7036094543から9.9515615381へ変わった。直接集計との差は3.55×10⁻¹⁵で、初期状態・共通乱数が一致した。この保存結果を既存registry、gallery、Writingの結果・表示sourceへ渡した。
+
+ruspyの公開Rust group 4データ4,329行を保持し、公式のperiod 1以降4,292件でMPECを実行した。取替費用は10.0748488173、保守費用係数は2.2930544897、cost scaleは0.001、負の対数尤度は163.5842836593だった。EV制約の最大残差は6.82×10⁻¹³、同じパラメータでの公式NFXP尤度との差は3.72×10⁻¹²。既存reset-to-zeroの費用写像と元の境界は、同じBellman式・尤度による直接比較で確認した。
+
+公開pylcm退職モデルをDC-EGMで解き、保存解から同じ5人の初期資産・年齢・重み・seedで賃金20と25を比較した。平均初期価値は13.0623944301と13.5040260144、初期平均消費は23.2194554082と26.5459517671、就業率は0.6と0.8。wealth遷移残差と最終生存期の貯蓄は0だった。公式mortalityモデルをproject factoryとしてGridSearchへ渡す経路も実行し、死亡した人・期間を維持した。公式直接呼出しとの全価値配列・消費・資産・就業・所得・効用の比較は一致した。
+
+HANKは資産80点・所得2状態の公式校正で4操作を実行した。資産市場残差は−1.51×10⁻¹⁴、財市場残差は−4.76×10⁻¹⁰、労働市場残差は2.22×10⁻¹⁶。全Jacobianの公式計算との差は最大8.88×10⁻¹⁶、各線形・非線形応答の公式直接計算との差は最大2.39×10⁻¹⁸だった。40期間の`rstar[t]=.0001*.7^t`で当期産出の線形偏差は−0.0001043038、非線形偏差は−0.0001040468。厚生差は−0.0004253760、消費等価は−6.5930508×10⁻⁶。独立の政策価値計算との差は9.79×10⁻¹²だった。家計gridのEuler相補性残差2.98×10⁻⁴と労働一階条件残差8.90×10⁻⁵も保存した。
+
+Doloの公式`rbc_iid.yaml`を250点gridで解いた。定常資本は9.3549782901、労働は0.33、投資は0.2338744573。242反復後の最終政策で再評価した元の裁定条件の残差は9.93×10⁻⁹だった。保存解の再利用は`yaml_import`、`residuals`、`F`を実行する。政策値の最大差は2.22×10⁻¹⁶で、定常点探索とtime iterationの呼出しは0回だった。

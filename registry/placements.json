@@ -945,6 +945,21 @@
       "resource_id": "economics-writing-comparison",
       "deployment_path": "docs/ai/economics-writing-comparison.md",
       "export_alias": "ECONOMICS_WRITING_COMPARISON.md"
+    },
+    "research-respy-dependencies": {
+      "resource_id": "research-respy-dependencies",
+      "deployment_path": ".agents/skills/econ-data/scripts/requirements-respy.txt",
+      "export_alias": "requirements-respy.txt"
+    },
+    "research-lifecycle-dependencies": {
+      "resource_id": "research-lifecycle-dependencies",
+      "deployment_path": ".agents/skills/econ-data/scripts/requirements-lifecycle.txt",
+      "export_alias": "requirements-lifecycle.txt"
+    },
+    "research-dolo-dependencies": {
+      "resource_id": "research-dolo-dependencies",
+      "deployment_path": ".agents/skills/econ-data/scripts/requirements-dolo.txt",
+      "export_alias": "requirements-dolo.txt"
     }
   },
   "source": {

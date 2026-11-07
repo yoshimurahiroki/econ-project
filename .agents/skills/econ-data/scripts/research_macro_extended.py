@@ -4,6 +4,7 @@ import argparse
 import csv
 import io
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -182,6 +183,337 @@ def atomic_write(path, obj):
         if temp is not None: temp.unlink(missing_ok=True)
 
 
+def lifecycle_run(spec, base_dir=Path.cwd()):
+    """Construct an official pylcm model, save its solution, and replay policies."""
+    import jax
+    jax.config.update('jax_enable_x64', True)
+    import jax.numpy as jnp
+    import pandas as pd
+    from lcm import DiscreteGrid, Model
+    from lcm.persistence import load_solution, save_solution
+
+    package_version = version('pylcm')
+    if package_version != '0.0.2.dev261+g0fb55673b':
+        raise ValueError('lifecycle_choice requires the pylcm revision in requirements-lifecycle.txt')
+    operation = spec['operation']
+    if operation not in ('solve', 'simulate', 'counterfactual'):
+        raise ValueError('lifecycle operation must be solve, simulate or counterfactual')
+    if not spec.get('calibration_source'):
+        raise ValueError('calibration_source must identify the supplied parameter values')
+    parameter_status = spec.get('parameter_status', 'fixed')
+    if parameter_status not in ('fixed', 'calibrated', 'estimated'):
+        raise ValueError('parameter_status must be fixed, calibrated or estimated')
+    if operation != 'solve' and 'saved_solution' not in spec:
+        raise ValueError('simulate and counterfactual require saved_solution.path and sha256')
+    if operation == 'solve' and 'saved_solution' in spec:
+        raise ValueError('use operation=simulate to reuse a saved solution')
+    if operation != 'counterfactual' and 'scenario' in spec:
+        raise ValueError('scenario requires operation=counterfactual')
+
+    def local_path(name):
+        path = Path(name)
+        return path if path.is_absolute() else Path(base_dir) / path
+
+    def merge_parameters(base, changes):
+        result = dict(base)
+        for key, value in changes.items():
+            result[key] = merge_parameters(result[key], value) if isinstance(value, dict) and isinstance(result.get(key), dict) else value
+        return result
+
+    def construct(definition, parameters):
+        if definition == 'iskhakov_et_al_2017':
+            from lcm_examples import iskhakov_et_al_2017 as example
+            if spec['solver'] not in ('grid_search', 'dcegm'):
+                raise ValueError('the retirement example requires solver=grid_search or dcegm')
+            required = {'discount_factor', 'disutility_of_work', 'interest_rate', 'wage'}
+            if set(parameters) != required:
+                raise ValueError('retirement parameters require discount_factor, disutility_of_work, interest_rate and wage')
+            if type(spec['n_periods']) is not int or spec['n_periods'] < 3:
+                raise ValueError('retirement n_periods must be an integer of at least three, including death')
+            factory = example.get_dcegm_model if spec['solver'] == 'dcegm' else example.get_model
+            model = factory(n_periods=spec['n_periods'])
+            native_params = example.get_params(n_periods=spec['n_periods'], **parameters)
+            source_path = Path(example.__file__)
+            source = {'module': 'lcm_examples.iskhakov_et_al_2017', 'factory': factory.__name__,
+                'sha256': hashlib.sha256(source_path.read_bytes()).hexdigest(),
+                'kwargs': {'n_periods': spec['n_periods']},
+                'revision': '0fb55673b0be4eb52d270b2585047faa38c4e930'}
+            settings = {'wealth_grid': np.asarray(example.WEALTH_GRID.to_jax()).tolist(),
+                'consumption_grid': np.asarray(example.CONSUMPTION_GRID.to_jax()).tolist()}
+            if spec['solver'] == 'dcegm':
+                settings.update(savings_grid=np.asarray(example.SAVINGS_GRID.to_jax()).tolist(),
+                    n_constrained_points=example.DCEGM_SOLVER.n_constrained_points,
+                    envelope=type(example.DCEGM_SOLVER.envelope).__name__,
+                    refined_grid_factor=example.DCEGM_SOLVER.refined_grid_factor)
+        elif isinstance(definition, dict):
+            source_path = local_path(definition['module']).resolve()
+            digest = hashlib.sha256(source_path.read_bytes()).hexdigest()
+            if digest != definition['sha256']:
+                raise ValueError('model_definition.module SHA-256 does not match the adopted source')
+            name = 'ers_lifecycle_model_' + digest
+            module_spec = importlib.util.spec_from_file_location(name, source_path)
+            if module_spec is None or module_spec.loader is None:
+                raise ValueError('model_definition.module must identify a Python source file')
+            module = importlib.util.module_from_spec(module_spec)
+            sys.modules[name] = module
+            sys.path.insert(0, str(source_path.parent))
+            try:
+                module_spec.loader.exec_module(module)
+            finally:
+                sys.path.pop(0)
+            model = getattr(module, definition['factory'])(**definition.get('kwargs', {}))
+            if not isinstance(model, Model):
+                raise TypeError('model_definition.factory must return lcm.Model')
+            native_params = jax.tree.map(lambda value: jnp.asarray(value) if isinstance(value, list) else value,
+                parameters, is_leaf=lambda value: isinstance(value, list))
+            source = {**definition, 'module': str(source_path), 'sha256': digest}
+            settings = {'source': source, 'regime_solvers': {
+                name: repr(regime.solver) for name, regime in model.user_regimes.items()}}
+        else:
+            raise ValueError('model_definition requires iskhakov_et_al_2017 or a hash-pinned module/factory/kwargs object')
+        return model, native_params, source, settings
+
+    builtin = spec['model_definition'] == 'iskhakov_et_al_2017'
+    if builtin:
+        equations = {'utility': 'u(c,d)=log(c)-disutility_of_work*1[d=work]',
+            'budget': 'a=wealth-consumption>=0; wealth_next=(1+interest_rate)*a+wage*1[d=work]',
+            'bellman': 'V_t(wealth,regime)=max_(c,d) {u(c,d)+discount_factor*V_(t+1)(wealth_next,regime_next)}',
+            'terminal': 'retirement is absorbing; the final alive period consumes all wealth; V_dead=0'}
+        definitions = {'equations': equations,
+            'normalization': 'log consumption utility; additive work disutility; goods in the published model units',
+            'equilibrium_selection': 'individual optimum at the supplied wage and interest rate; official solver tie rule',
+            'welfare_definition': 'population-weighted initial decision value; separately report the weighted sum of discounted simulated utility',
+            'shocks': 'deterministic income and death; no taste or state shock in this published model',
+            'parameter_definition': {key: {'value': value, 'source': spec['calibration_source'], 'status': parameter_status,
+                'unit': 'goods per model period' if key == 'wage' else 'utility' if key == 'disutility_of_work' else 'dimensionless'}
+                for key, value in spec['parameters'].items()}}
+        beta = float(spec['parameters']['discount_factor'])
+        outcome_units = {'consumption': 'goods per model period', 'assets': 'goods after consumption',
+            'employment': 'working share', 'income': 'goods per model period', 'utility': 'flow log utility'}
+    else:
+        definitions = dict(spec['definitions'])
+        required = {'equations', 'normalization', 'equilibrium_selection', 'welfare_definition', 'parameter_definition'}
+        if required - definitions.keys():
+            raise ValueError('definitions requires ' + ', '.join(sorted(required)))
+        beta = float(spec['welfare']['discount_factor'])
+        if set(spec['outcomes']) != {'consumption', 'assets', 'employment', 'income', 'utility'}:
+            raise ValueError('outcomes must bind consumption, assets, employment, income and utility to native columns and units')
+        outcome_units = {key: binding['unit'] for key, binding in spec['outcomes'].items()}
+    if not np.isfinite(beta) or not 0 < beta <= 1:
+        raise ValueError('the welfare discount factor must lie in (0,1]')
+
+    simulation = spec.get('simulation')
+    if operation in ('simulate', 'counterfactual') and simulation is None:
+        raise ValueError('simulation requires initial_conditions, weights, seed and taste_shock_seed')
+    if operation == 'solve' and simulation is not None:
+        raise ValueError('save the solve, then select operation=simulate for forward histories')
+    if simulation is not None:
+        initial = {name: jnp.asarray(values) for name, values in simulation['initial_conditions'].items()}
+        weights = np.asarray(simulation['weights'], dtype=float)
+        if (weights.ndim != 1 or not weights.size or not np.isfinite(weights).all() or
+                (weights < 0).any() or abs(weights.sum()-1) > 1e-12 or
+                any(values.ndim != 1 or len(values) != len(weights) for values in initial.values())):
+            raise ValueError('initial_conditions requires equally sized vectors and weights requires nonnegative masses summing to one')
+        if any(type(simulation[key]) is not int for key in ('seed', 'taste_shock_seed')):
+            raise ValueError('simulation seed and taste_shock_seed must be integers')
+        shock_paths = {key: jnp.asarray(values) for key, values in simulation.get('shock_paths', {}).items()}
+    scenarios = {'baseline': {'parameters': spec['parameters'], 'model_definition': spec['model_definition']}}
+    if operation == 'counterfactual':
+        change = spec['scenario']
+        scenarios['scenario'] = {'parameters': merge_parameters(spec['parameters'], change['parameters']),
+            'model_definition': change.get('model_definition', spec['model_definition'])}
+        if builtin and scenarios['scenario']['model_definition'] != spec['model_definition']:
+            raise ValueError('the published retirement comparison retains its model_definition; declare a project factory for another model')
+        if builtin and any(scenarios['scenario']['parameters'][key] != spec['parameters'][key]
+                for key in ('discount_factor', 'disutility_of_work')):
+            raise ValueError('retirement welfare comparisons retain discount_factor and disutility_of_work')
+
+    results, statistics, value_rows, policy_rows, history_rows, welfare_rows = {}, {}, [], [], [], []
+    executed, native_calls = [], []
+    horizon = None
+    for scenario_name, scenario_spec in scenarios.items():
+        model, params, model_source, settings = construct(scenario_spec['model_definition'], scenario_spec['parameters'])
+        if horizon is not None and model.n_periods != horizon:
+            raise ValueError('counterfactuals must retain the adopted horizon')
+        horizon = model.n_periods
+        actions = []
+        reuse = spec.get('saved_solution') if scenario_name == 'baseline' else spec['scenario'].get('saved_solution')
+        if reuse is not None:
+            solution_path = local_path(reuse['path'])
+            if hashlib.sha256(solution_path.read_bytes()).hexdigest() != reuse['sha256']:
+                raise ValueError('saved_solution SHA-256 does not match the adopted native archive')
+            solution = load_solution(path=solution_path, verify_checksums=True)
+            actions.append('load_solution')
+            native_calls.append({'scenario': scenario_name, 'function': 'lcm.persistence.load_solution', 'path': str(solution_path)})
+        else:
+            solution_path = local_path(spec['solution_path'] if scenario_name == 'baseline' else spec['scenario']['solution_path'])
+            if solution_path.exists():
+                raise FileExistsError('solution_path already exists; reuse it through saved_solution or select a new output path')
+            solution = model.solve(params=params, log_level='off', runtime_checks=True)
+            save_solution(solution=solution, path=solution_path)
+            actions.append('solve')
+            native_calls.extend([{'scenario': scenario_name, 'function': 'lcm.Model.solve'},
+                {'scenario': scenario_name, 'function': 'lcm.persistence.save_solution', 'path': str(solution_path)}])
+        native_identity = solution.metadata
+        value_functions = []
+        for period, regimes in solution.values.items():
+            for regime in regimes:
+                array = solution.value_array(period=period, regime=regime)
+                values = np.asarray(array)
+                value_functions.append({'period': period, 'regime': regime, 'axes': list(array.dims),
+                    'coordinates': {name: np.asarray(array.coords[name]).tolist() for name in array.dims},
+                    'values': np.where(np.isfinite(values), values, None).tolist(),
+                    'finite': np.isfinite(values).tolist()})
+                # Infeasible states retain their native nonfinite values in the archive.
+                # The JSON/reporting projection selects the finite solved states.
+                frame = solution.value_frame(period=period, regime=regime)
+                for row in frame.loc[np.isfinite(frame['V'])].to_dict('records'):
+                    value_rows.append({'scenario': scenario_name, 'period': period, 'regime': regime,
+                        **row, 'unit': 'expected discounted utility'})
+        evaluations = []
+        for query in spec.get('evaluation', []):
+            policy = model.lookup_policy(params=params, solution=solution, period=query['period'],
+                regime_name=query['regime'], states={name: jnp.asarray(values) for name, values in query['states'].items()})
+            evaluation = {**query, 'value': np.asarray(policy.value).tolist(),
+                'actions': None if policy.actions is None else {key: np.asarray(value).tolist() for key, value in policy.actions.items()},
+                'conditional_actions': None if policy.conditional_actions is None else {
+                    key: np.asarray(value).tolist() for key, value in policy.conditional_actions.items()},
+                'choice_probabilities': None if policy.choice_probabilities is None else np.asarray(policy.choice_probabilities).tolist()}
+            evaluation['action_categories'] = {key: {'codes': list(grid.codes), 'labels': list(grid.categories)}
+                for key, grid in model.user_regimes[query['regime']].actions.items() if isinstance(grid, DiscreteGrid)}
+            evaluations.append(evaluation)
+            for index, value in enumerate(evaluation['value']):
+                coordinate = {'scenario': scenario_name, 'period': query['period'], 'regime': query['regime'],
+                    **{key: values[index] for key, values in query['states'].items()}}
+                policy_rows.append({**coordinate, 'quantity': 'value', 'value': value, 'unit': 'expected discounted utility'})
+                for key, values in (evaluation['actions'] or {}).items():
+                    native_units = outcome_units if builtin else {
+                        binding['column']: binding['unit'] for binding in spec['outcomes'].values()}
+                    unit = query.get('action_units', {}).get(key, native_units.get(key))
+                    if key in evaluation['action_categories']:
+                        unit = 'category code'
+                    if unit is None:
+                        raise ValueError(f'evaluation.action_units requires the unit of action {key}')
+                    policy_rows.append({**coordinate, 'quantity': key, 'value': values[index],
+                        'unit': unit})
+        saved_params = jax.tree.map(lambda value: np.asarray(value).tolist() if isinstance(value, (jax.Array, np.ndarray)) else value, params)
+        outcome = {'parameters': scenario_spec['parameters'], 'native_parameters': saved_params, 'model_source': model_source,
+            'numerical_settings': settings, 'operations_executed': actions,
+            'solution': {'path': str(solution_path.resolve()), 'sha256': hashlib.sha256(solution_path.read_bytes()).hexdigest(),
+                'model_fingerprint': native_identity.model_fingerprint, 'params_fingerprint': native_identity.params_fingerprint,
+                'solver_types': dict(native_identity.solver_types), 'solution_schema_version': native_identity.solution_schema_version,
+                'solver_api_version': native_identity.solver_api_version, 'reused': reuse is not None},
+            'value_functions': value_functions, 'policy_evaluation': evaluations}
+        if simulation is not None:
+            native_simulation = model.simulate(params=params, initial_conditions=initial, solution=solution,
+                log_level='off', runtime_checks=True, seed=simulation['seed'], taste_shock_seed=simulation['taste_shock_seed'],
+                shock_paths=shock_paths or None)
+            targets = ['utility', 'labor_income', 'is_working'] if builtin else [
+                binding['column'] for binding in spec['outcomes'].values() if binding['column'] in native_simulation.available_targets]
+            frame = native_simulation.to_dataframe(additional_targets=list(dict.fromkeys(targets)),
+                use_categorical_codes=True, terminal_rows='all')
+            reported = frame[['subject_id', 'period', 'regime_name', 'value']].copy()
+            if 'age' in frame:
+                reported['age'] = frame['age']
+            if builtin:
+                dead = frame['regime_name'] == 'dead'
+                reported['consumption'] = frame['consumption'].where(~dead, 0.)
+                reported['assets'] = (frame['wealth']-frame['consumption']).where(~dead, 0.)
+                reported['employment'] = frame['is_working'].where(frame['regime_name'] == 'working_life', False).astype(float)
+                reported['income'] = frame['labor_income'].where(frame['regime_name'] == 'working_life', 0.)
+                reported['utility'] = frame['utility']
+            else:
+                for quantity, binding in spec['outcomes'].items():
+                    values = frame[binding['column']].copy()
+                    for regime, value in binding.get('fill_by_regime', {}).items():
+                        values = values.mask(values.isna() & (frame['regime_name'] == regime), value)
+                    reported[quantity] = values.astype(float)
+            if not np.isfinite(reported[list(outcome_units)].to_numpy(dtype=float)).all():
+                raise ArithmeticError('each reported outcome must be finite in every simulated regime; bind its terminal or inactive value explicitly')
+            ordered = reported.sort_values(['subject_id', 'period'])
+            entry = ordered.groupby('subject_id', sort=True).first()
+            if list(entry.index) != list(range(len(weights))):
+                raise ArithmeticError('native simulation subject IDs must preserve the complete supplied population')
+            first_period = reported['subject_id'].map(entry['period'])
+            discounted_flow = reported['utility'] * beta ** (reported['period']-first_period)
+            individual_utility = discounted_flow.groupby(reported['subject_id']).sum().reindex(entry.index).to_numpy()
+            expected_welfare = float(weights @ entry['value'].to_numpy())
+            realized_welfare = float(weights @ individual_utility)
+            outcome.update(native_simulation=frame.astype(object).where(pd.notna(frame), None).to_dict('records'),
+                histories=reported.to_dict('records'), randomness=dict(native_simulation.randomness),
+                individual_discounted_utility=individual_utility.tolist(),
+                welfare={'initial_value': expected_welfare, 'discounted_simulated_utility': realized_welfare})
+            for quantity, value in outcome['welfare'].items():
+                statistics[f'{scenario_name}.{quantity}'] = {'value': value, 'unit': 'discounted utility per initial person'}
+                welfare_rows.append({'scenario': scenario_name, 'quantity': quantity, 'value': value,
+                    'unit': 'discounted utility per initial person'})
+            for period, rows in reported.groupby('period', sort=True):
+                period_weights = weights[rows['subject_id'].to_numpy(dtype=int)]
+                mass = float(period_weights.sum())
+                if mass == 0:
+                    continue
+                for quantity, unit in outcome_units.items():
+                    average = float(period_weights @ rows[quantity].to_numpy(dtype=float) / mass)
+                    statistics[f'{scenario_name}.period_{period}.{quantity}'] = {'value': average, 'unit': unit}
+                    history_rows.append({'scenario': scenario_name, 'period': int(period), 'quantity': quantity,
+                        'value': average, 'population_mass': mass, 'unit': unit})
+            if builtin:
+                alive = frame.loc[frame['regime_name'] != 'dead'].copy()
+                saving = alive['wealth'].to_numpy()-alive['consumption'].to_numpy()
+                income = reported.loc[alive.index, 'income'].to_numpy()
+                current = alive.set_index(['subject_id', 'period'])
+                residuals = []
+                for index, row in enumerate(alive.itertuples()):
+                    following = (row.subject_id, row.period+1)
+                    if following in current.index:
+                        residuals.append(float(current.loc[following, 'wealth'] - ((1+scenario_spec['parameters']['interest_rate'])*saving[index]+income[index])))
+                residual = max(map(abs, residuals), default=0.)
+                terminal_saving = saving[alive['period'].to_numpy() == horizon-2]
+                outcome['diagnostics'] = {'max_wealth_transition_residual': residual,
+                    'minimum_savings': float(saving.min()), 'max_final_alive_savings': float(np.max(np.abs(terminal_saving)))}
+                if residual > 1e-9 or saving.min() < -1e-9 or np.max(np.abs(terminal_saving)) > 1e-9:
+                    raise ArithmeticError('the simulated retirement path violates its wealth transition, borrowing bound or terminal condition')
+            actions.append('simulate')
+            native_calls.append({'scenario': scenario_name, 'function': 'lcm.Model.simulate', 'solution': str(solution_path),
+                'seed': simulation['seed'], 'taste_shock_seed': simulation['taste_shock_seed']})
+        results[scenario_name] = outcome
+        executed.extend(action for action in actions if action not in executed)
+    if operation == 'counterfactual':
+        for key, value in list(statistics.items()):
+            if key.startswith('scenario.'):
+                name = key[len('scenario.'):]
+                statistics['change.'+name] = {'value': value['value']-statistics['baseline.'+name]['value'], 'unit': value['unit']}
+        for name in ('initial_value', 'discounted_simulated_utility'):
+            welfare_rows.append({'scenario': 'change', 'quantity': name, **statistics['change.'+name]})
+    computation = {'requested_operation': operation, 'available_operations': ['solve', 'simulate', 'counterfactual'],
+        'operations_executed': executed, 'native_calls': native_calls,
+        'parameter_status': parameter_status,
+        'parameter_operation': {
+            'fixed': 'hold supplied fixed parameters; estimate no parameters',
+            'calibrated': 'hold supplied calibrated parameters; estimate no parameters',
+            'estimated': 'reuse supplied previously estimated parameters; estimate no parameters',
+        }[parameter_status]}
+    definitions.update(horizon={'n_periods': horizon, 'discount_factor': beta, 'time_unit': 'model period'},
+        computation=computation, model_contract='MC-lifecycle-regimes')
+    displays = {}
+    for name, rows, title in (('value_functions', value_rows, 'Solved lifecycle values'),
+            ('policies', policy_rows, 'Lifecycle policy evaluations'), ('histories', history_rows, 'Lifecycle population outcomes'),
+            ('welfare', welfare_rows, 'Lifecycle welfare')):
+        if rows:
+            displays[name] = {'kind': 'table' if name != 'histories' else 'structural', 'title': title,
+                'rows': rows, 'columns': [{'key': key, 'label': key, 'unit': ''} for key in dict.fromkeys(key for row in rows for key in row)],
+                'metadata': {**definitions, 'report_role': 'counterfactual' if operation == 'counterfactual' else 'model_fit'},
+                'display': {'plot_type': 'line', 'x': 'period', 'y': 'value', 'series': 'scenario', 'facet': 'quantity'}
+                    if name == 'histories' else {'plot_type': 'table'}}
+    return {'result_format_version': 1, 'model': 'lifecycle_choice', 'model_contract': 'MC-lifecycle-regimes',
+        'knowledge_ids': ['DYN-02'], 'engine': 'lcm.Model.solve; lcm.persistence.load_solution; lcm.Model.simulate',
+        'adopted': spec, 'calibration': {'source': spec['calibration_source'], 'estimated_parameters': []},
+        **definitions, **results, 'simulation_inputs': simulation, 'statistics': statistics, 'displays': displays,
+        'provenance': {'python': sys.version.split()[0], 'numpy': np.__version__, 'scipy': scipy.__version__,
+            'pylcm': package_version, 'pylcm_revision': '0fb55673b0be4eb52d270b2585047faa38c4e930',
+            'jax': jax.__version__, 'jaxlib': version('jaxlib'), 'backend': jax.default_backend(), 'jax_enable_x64': True}}
+
+
 def read_productivity(observations, base_dir):
     """Read the identified, equally spaced observed series from a hash-checked CSV."""
     path = Path(observations['path'])
@@ -212,12 +544,14 @@ def read_productivity(observations, base_dir):
 
 def solve(spec, base_dir=Path.cwd()):
     model = spec.get('model', 'olg')
+    if model == 'lifecycle_choice':
+        return lifecycle_run(spec, base_dir)
     if model == 'consumption_saving':
         return solve_hark(spec)
     if model == 'aiyagari':
         return solve_aiyagari(spec)
     if model != 'olg':
-        raise ValueError('model must be olg, aiyagari or consumption_saving')
+        raise ValueError('model must be olg, aiyagari, consumption_saving or lifecycle_choice')
     p = spec['parameters']
     alpha, beta, delta = (float(p[k]) for k in ('alpha','beta','delta'))
     shares = np.asarray(p['household_weights'], dtype=float)
