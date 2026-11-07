@@ -191,6 +191,76 @@ def claim_coverage(manuscript, claims, coverage=None):
     return {'candidates': candidates, 'unregistered': missing, 'semantic_completeness': 'owner-judgment-required'}
 
 
+def response_draft(settings, root, packet):
+    """Render the owner's current explanation with its original and revised passages."""
+    obj(settings, 'response_draft')
+    language = settings.get('language', 'en')
+    require(language in {'ja', 'en'}, 'response_draft language must be ja or en')
+    require(packet['status'] == 'reviewed', 'response draft requires a completed current assessment')
+    findings = {row['id']: row for row in packet['review']['findings']}
+    selected = settings.get('finding_ids', list(findings))
+    require(isinstance(selected, list) and selected and all(isinstance(key, str) for key in selected)
+            and len(selected) == len(set(selected)) and set(selected) <= set(findings),
+            'response_draft must select distinct current finding IDs')
+    claims = {row['id']: row for row in packet['claims']}
+    manuscript = packet['manuscript_text']
+    labels = ('査読コメント', '回答', '本文', '根拠') if language == 'ja' else (
+        'Referee comment', 'Response', 'Manuscript', 'Evidence')
+    entries, sections = [], []
+    for ident in selected:
+        finding = findings[ident]
+        require(finding['decision'] in {'supported', 'removed'},
+                'response draft requires a resolved finding: ' + ident)
+        origin = obj(finding.get('origin'), 'finding origin')
+        original = utf8(file_bytes(root, origin['manuscript'], 'original manuscript'), 'original manuscript')
+        span(origin['target'], original, 'original passage')
+        comment = origin['rationale']
+        if origin.get('comment'):
+            ref = origin['comment']
+            comment = span(ref['span'], utf8(file_bytes(root, ref, 'referee comment'), 'referee comment'),
+                           'referee comment')
+        current = claims.get(finding['claim_id'])
+        require(current is not None or finding['decision'] == 'removed',
+                'supported response finding requires its current claim: ' + ident)
+        changes = copy.deepcopy(finding.get('changes', []))
+        if current and current['target']['quote'] != origin['target']['quote']:
+            require(changes and any(row['start'] < current['target']['end']
+                                    and current['target']['start'] < row['end'] for row in changes),
+                    'changed claim requires its current revised passage: ' + ident)
+        passages = changes or ([copy.deepcopy(current['target'])] if current else [])
+        for passage in passages:
+            span(passage, manuscript, 'response manuscript passage')
+        references = copy.deepcopy(finding['references'])
+        for ref in references:
+            raw = file_bytes(root, ref, 'response evidence')
+            if 'span' in ref:
+                span(ref['span'], utf8(raw, 'response evidence'), 'response evidence')
+        entry = {'finding_id': ident, 'claim_id': finding['claim_id'],
+                 'criterion': next(copy.deepcopy(row) for row in packet['review']['criteria']
+                                   if row['id'] == finding['criterion_id']),
+                 'decision': finding['decision'], 'comment': comment,
+                 'origin': copy.deepcopy(origin), 'rationale': finding['rationale'],
+                 'manuscript': copy.deepcopy(packet['manuscript']), 'passages': passages,
+                 'changes': changes, 'references': references,
+                 'bindings': {key: copy.deepcopy(packet['binding_context'][key])
+                              for key in current['bindings']} if current else {}}
+        entries.append(entry)
+        body = [f'## {ident}', f'**{labels[0]}**', comment, f'**{labels[1]}**', finding['rationale']]
+        if passages:
+            body.append(f'**{labels[2]}**')
+            for passage in passages:
+                body.append('\n'.join('> ' + line for line in passage['quote'].split('\n')))
+        quoted_evidence = [ref for ref in references if 'span' in ref]
+        if quoted_evidence:
+            body.append(f'**{labels[3]}**')
+            for ref in quoted_evidence:
+                body.extend([ref['path'], '\n'.join('> ' + line for line in ref['span']['quote'].split('\n'))])
+        sections.append('\n\n'.join(body))
+    return {'language': language, 'manuscript': copy.deepcopy(packet['manuscript']),
+            'evidence_sha256': packet['evidence_sha256'], 'entries': entries,
+            'text': '\n\n'.join(sections) + '\n'}
+
+
 def review_round(contract, root, packet):
     """Bind requested review rounds to existing evidence results, never release authority."""
     settings = obj(contract.get('review', {}), 'review')
@@ -213,13 +283,12 @@ def review_round(contract, root, packet):
     fingerprints = packet['claim_fingerprints']
     old_fingerprints = previous.get('claim_fingerprints', {}) if previous else {}
     reusable = {key for key in fingerprints if fingerprints[key] == old_fingerprints.get(key)}
-    findings = [{**copy.deepcopy(row), 'reused_from': previous_ref} for row in previous['review']['findings']
-                if row['claim_id'] in reusable] if previous else []
     packet['changes'] = {'reusable_claims': sorted(reusable),
                          'claims_to_reassess': sorted(set(fingerprints) - reusable),
                          'removed_claims': sorted(set(old_fingerprints) - set(fingerprints))}
     response_after = settings.get('response_after')
     if response_after or 'author_response' in settings:
+        require('response_draft' not in settings, 'draft a response from the current assessment before comparing an author response')
         require(response_after and 'author_response' in settings and 'assessment' not in settings,
                 'author response requires a separately saved completed evidence assessment')
         assessed = read_json(file_bytes(root, response_after, 'evidence-first review'), 'evidence-first review')
@@ -231,9 +300,31 @@ def review_round(contract, root, packet):
                       evidence_first_review=response_after, author_response={**response, 'text': body})
         return packet
     assessment = settings.get('assessment')
+    supplied = rows(obj(assessment, 'assessment').get('findings'), 'review findings') if assessment is not None else []
+    replacement_ids = {row.get('id') for row in supplied}
+    findings = []
+    for row in previous['review']['findings'] if previous else []:
+        if row['claim_id'] not in reusable or row['id'] in replacement_ids:
+            continue
+        reused = {**copy.deepcopy(row), 'reused_from': previous_ref}
+        old_target = next(c['target'] for c in previous['claims'] if c['id'] == row['claim_id'])
+        current_target = next(c['target'] for c in packet['claims'] if c['id'] == row['claim_id'])
+        reused.setdefault('origin', {'manuscript': copy.deepcopy(previous['manuscript']),
+                                     'target': copy.deepcopy(old_target), 'rationale': row['rationale'],
+                                     **({'comment': copy.deepcopy(row['comment'])} if row.get('comment') else {})})
+        for changed in reused.get('changes', []):
+            shift = current_target['start'] - old_target['start']
+            start, end = changed['start'] + shift, changed['end'] + shift
+            overlaps = old_target['start'] < changed['end'] and changed['start'] < old_target['end']
+            if not (overlaps and start >= 0 and packet['manuscript_text'][start:end] == changed['quote']):
+                start = packet['manuscript_text'].find(changed['quote'])
+                require(start >= 0 and packet['manuscript_text'].find(changed['quote'], start + 1) < 0,
+                        'reused revised passage requires its current span: ' + row['id'])
+                end = start + len(changed['quote'])
+            changed.update(start=start, end=end)
+        findings.append(reused)
     if assessment is not None:
         reviewer = text(assessment.get('reviewer'), 'reviewer')
-        supplied = rows(assessment.get('findings'), 'review findings')
         supplied_ids = set()
         old_findings = {row['id']: row for row in previous['review']['findings']} if previous else {}
         for row in supplied:
@@ -256,18 +347,35 @@ def review_round(contract, root, packet):
             if ident in old_findings:
                 require(all(row[key] == old_findings[ident][key] for key in ('claim_id', 'criterion_id')),
                         'a re-review finding cannot replace its initial target or criterion')
+            old = old_findings.get(ident)
+            origin = copy.deepcopy(old.get('origin')) if old else None
+            if origin is None:
+                source = previous if old or claim_id not in fingerprints else packet
+                original_claim = next(c for c in source['claims'] if c['id'] == claim_id)
+                origin = {'manuscript': copy.deepcopy(source['manuscript']),
+                          'target': copy.deepcopy(original_claim['target']),
+                          'rationale': (old or row)['rationale']}
+                if (old or row).get('comment'):
+                    origin['comment'] = copy.deepcopy((old or row)['comment'])
+            if 'comment' in row:
+                require(not old or row['comment'] == origin.get('comment'), 'initial referee comment changed')
+                comment = row['comment']
+                span(comment['span'], utf8(file_bytes(root, comment, 'referee comment'), 'referee comment'),
+                     'referee comment')
             if row['decision'] == 'removed':
                 require(claim_id not in fingerprints and previous is not None,
                         'removed finding requires an actually removed claim')
                 old_claim = next(c for c in previous['claims'] if c['id'] == claim_id)
                 require(old_claim['target']['quote'] not in packet['manuscript_text'], 'removed claim remains in manuscript')
             findings = [old for old in findings if old['id'] != ident]
-            findings.append({**copy.deepcopy(row), 'reviewer': reviewer})
+            findings.append({**copy.deepcopy(row), 'reviewer': reviewer, 'origin': origin})
         if previous:
             require(set(old_findings) <= {row['id'] for row in findings}, 're-review omitted an initial finding')
     covered = {row['claim_id'] for row in findings}
     packet['review'] = {'criteria': copy.deepcopy(criteria), 'previous': previous_ref, 'findings': findings}
     packet['status'] = 'reviewed' if set(fingerprints) <= covered and findings else 'review-required'
+    if 'response_draft' in settings:
+        packet['response_draft'] = response_draft(settings['response_draft'], root, packet)
     return packet
 
 
@@ -611,6 +719,14 @@ def main(argv=None):
         refs += [x.get(k, {}).get('path') for x in contract.get('mappings', []) for k in ('result', 'code')]
         refs += [x.get('origin', {}).get('specification', {}).get('path') for x in contract.get('mappings', [])]
         refs += [(contract.get('corpus') or {}).get('path')]
+        review_settings = contract.get('review', {})
+        refs += [(review_settings.get(key) or {}).get('path')
+                 for key in ('previous', 'response_after', 'author_response')]
+        for finding in result.get('review', {}).get('findings', []):
+            refs += [ref.get('path') for ref in finding.get('references', [])]
+            origin = finding.get('origin', {})
+            refs += [(origin.get(key) or {}).get('path') for key in ('manuscript', 'comment')]
+            refs.append((finding.get('comment') or {}).get('path'))
         actual_sources = result['bindings'].get('sources', {}) if args.command == 'bind' else result['source_context']
         refs += [source['path'] for source in actual_sources.values()]
         require(output not in {state.relative(root, ref) for ref in refs if isinstance(ref, str) and ref},

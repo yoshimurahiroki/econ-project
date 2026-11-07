@@ -386,6 +386,220 @@ class EvidenceTests(unittest.TestCase):
                 self.assertEqual([row['cells'][index] for row in table['presentation']['body']],
                                  expected['a' if model == 'main' else 'b'])
 
+    def test_artifact_definitions_preserve_saved_text_and_numeric_spans(self):
+        comparison = '地区Aと地区B、2024–2025年。文字列 {{stat:effect}} を保持。'
+        equation = r'c_t + k_{t+1} = (1-\tau_t)k_t^\alpha + (1-\delta)k_t'
+        saved = {'statistics': {'effect': {'value': 1.249, 'unit': 'hours'}},
+                 'adopted': {'comparison': comparison, 'equations': {'resource': equation}},
+                 'provenance': {'producer_sha256': self.ref('code.py')['sha256']}}
+        self.write('saved.json', json.dumps(saved, ensure_ascii=False))
+        source_bytes = (self.root / 'saved.json').read_bytes()
+        templates = {
+            'article': '{{definition:comparison}}\n{{stat:effect}}\n{{definition:equation}}\n{{stat:effect}}',
+            'slides': '{{definition:equation}}\n{{stat:effect}}\n{{definition:comparison}}\n{{stat:effect}}'}
+        for name, text in templates.items():
+            self.write(name + '.qmd', text)
+        spec = {'pipeline': 'saved-definitions',
+                'sources': [{'id': 'fit', 'result': 'saved.json', 'code': 'code.py'}],
+                'bindings': {'effect': {'key': 'fit.effect', 'unit': 'hours', 'format': '.2f',
+                                        'display_unit': '時間', 'label': 'Effect'}},
+                'definitions': {
+                    'comparison': {'key': ['items', 'fit-statistics', 'metadata',
+                                           'result_definitions', 'fit', 'comparison']},
+                    'equation': {'key': ['records', 'fit', 'source_result', 'adopted',
+                                        'equations', 'resource']}},
+                'article_template': 'article.qmd', 'slides_template': 'slides.qmd', 'figure': ['effect']}
+        self.write('artifacts.json', json.dumps(spec))
+        common = ['--root', str(self.root), '--spec', str(self.root / 'artifacts.json')]
+        registry_path = self.root / 'registry.json'
+        self.assertEqual(artifacts.main(['normalize', *common, '--output', str(registry_path)]), 0)
+        registry_bytes = registry_path.read_bytes()
+        for name in templates:
+            manuscript = self.root / (name + '-rendered.qmd')
+            trace = self.root / (name + '-trace.json')
+            self.assertEqual(artifacts.main([
+                'render', *common, '--registry', str(registry_path),
+                '--template', str(self.root / (name + '.qmd')),
+                '--output', str(manuscript), '--trace', str(trace)]), 0)
+            text = manuscript.read_text(encoding='utf-8')
+            self.assertIn(comparison, text)
+            self.assertIn(equation, text)
+            self.assertEqual(text.count('1.25 時間'), 2)
+            self.assertEqual(text.count('{{stat:effect}}'), 1)
+            captures = artifacts.load(trace)
+            self.assertEqual(len(captures), 2)
+            for capture in captures:
+                for key in ('target', 'unit_target'):
+                    span = capture[key]
+                    self.assertEqual(text[span['start']:span['end']], span['quote'])
+            contract = artifacts.make_contract(self.root, spec, registry_path, manuscript, captures)
+            self.assertEqual(evidence.bind(contract, self.root)['status'], 'verified')
+        self.assertEqual(registry_path.read_bytes(), registry_bytes)
+        self.assertEqual((self.root / 'saved.json').read_bytes(), source_bytes)
+
+        invalid = copy.deepcopy(spec)
+        invalid['definitions'].pop('comparison')
+        with self.assertRaisesRegex(ValueError, 'unknown definition binding'):
+            artifacts.validate_spec(self.root, invalid)
+        registry = artifacts.load(registry_path)
+        for value in (' ', {'period': '2024'}, 2024):
+            registry['records']['fit']['source_result']['adopted']['equations']['resource'] = value
+            with self.assertRaisesRegex(ValueError, 'saved nonempty text'):
+                artifacts.render(self.root, spec, registry, 'article.qmd', None, None)
+
+
+class EvidenceReviewTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+
+    def write(self, name, value):
+        raw = value if isinstance(value, str) else json.dumps(value, ensure_ascii=False)
+        (self.root / name).write_text(raw, encoding='utf-8')
+        return {'path': name, 'sha256': paragraph.sha((self.root / name).read_bytes())}
+
+    def revision(self, language='en'):
+        if language == 'ja':
+            original = '割当て効果は8パーセントポイントである。'
+            revised = ('アウトカムは世帯による8週間以内の申請完了である。割当てとクラスタリングの単位は自治体である。'
+                       '割当て効果は8パーセントポイントである。')
+            comment = 'アウトカムの定義と推論の単位を示してください。'
+            rationale = ('第3節に、世帯による8週間以内の申請完了をアウトカムとして記載しました。'
+                         '割当てとクラスタリングの単位を自治体と明記しました。割当て効果は8パーセントポイントです。')
+            unit = 'パーセントポイント'
+        else:
+            original = 'The assignment effect is 8 percentage points.'
+            revised = ('The outcome is household application completion within eight weeks. '
+                       'Assignment and clustering are at the municipality level. '
+                       'The assignment effect is 8 percentage points.')
+            comment = 'Define the outcome and identify the inference unit.'
+            rationale = ('Section 3 now defines the outcome as household application completion within eight weeks. '
+                         'It states the municipality-level assignment and clustering. '
+                         'The assignment effect remains 8 percentage points.')
+            unit = 'percentage points'
+        fixed = r' \(Y_{im}=\alpha+\tau D_m+u_{im}\) \citep{trial-protocol}.'
+        original += fixed
+        revised += fixed
+        original_ref = self.write('original.md', original)
+        revised_ref = self.write('revised.md', revised)
+        source_ref = self.write('protocol.txt', revised)
+        comment_ref = {**self.write('referee.txt', comment), 'span': selection(comment, comment)}
+        result_ref = self.write('saved-result.json', {'sample': 'households', 'statistics': {
+            'assignment_effect': {'value': 8, 'unit': 'percentage_points'}}})
+        judgment = {'reviewer': 'owner', 'decision': 'supported', 'rationale': rationale}
+        contract = {'manuscript': original_ref, 'adopted': {'sample': 'households'},
+                    'sources': {'protocol': {**source_ref, 'metadata': {'identities': {'sample': 'households'}}}},
+                    'claims': [{'id': 'effect', 'target': selection(original, original), 'judgment': judgment,
+                                'sources': [{'id': 'protocol', 'span': selection(revised, revised)}],
+                                'bindings': ['effect-number']}],
+                    'numbers': [{'id': 'effect-number', 'target': selection(original, '8'),
+                                 'unit_target': selection(original, unit), 'unit_display': unit,
+                                 'result': {**result_ref, 'key': ['statistics', 'assignment_effect'],
+                                            'identity_keys': {'sample': ['sample']},
+                                            'unit': 'percentage_points', 'format': '.0f'}}],
+                    'review': {'criteria': [{'id': 'definition', 'text': comment}],
+                               'assessment': {'reviewer': 'owner', 'findings': [
+                                   {'id': 'definition-1', 'claim_id': 'effect', 'criterion_id': 'definition',
+                                    'decision': 'revision-required', 'rationale': comment, 'comment': comment_ref,
+                                    'references': [{**source_ref, 'span': selection(revised, revised)}, result_ref]}]}}}
+        initial = evidence.review(contract, self.root)
+        previous_ref = self.write('initial-review.json', initial)
+        contract['manuscript'] = revised_ref
+        contract['claims'][0]['target'] = selection(revised, revised)
+        start = revised.index('8' + ('パーセントポイント' if language == 'ja' else ' percentage points'))
+        contract['numbers'][0]['target'] = {'start': start, 'end': start + 1, 'quote': '8'}
+        contract['numbers'][0]['unit_target'] = selection(revised, unit)
+        contract['review']['previous'] = previous_ref
+        finding = contract['review']['assessment']['findings'][0]
+        finding.update(decision='supported', rationale=rationale, changes=[selection(revised, revised)])
+        contract['review']['response_draft'] = {'language': language, 'finding_ids': ['definition-1']}
+        return contract, original, revised, rationale
+
+    def test_current_revision_generates_bilingual_response_through_cli(self):
+        for language in ('ja', 'en'):
+            with self.subTest(language=language):
+                contract, original, revised, rationale = self.revision(language)
+                evidence.bind(contract, self.root)
+                before = {name: (self.root / name).read_bytes() for name in ('original.md', 'initial-review.json')}
+                self.write('contract.json', contract)
+                self.assertEqual(evidence.main(['review', 'contract.json', '--root', str(self.root),
+                                                '--output', 'current-review.json']), 0)
+                result = json.loads((self.root / 'current-review.json').read_text(encoding='utf-8'))
+                draft = result['response_draft']
+                entry = draft['entries'][0]
+                self.assertEqual(entry['origin']['target']['quote'], original)
+                self.assertEqual(entry['passages'][0]['quote'], revised)
+                self.assertEqual(entry['changes'], contract['review']['assessment']['findings'][0]['changes'])
+                self.assertEqual(entry['rationale'], rationale)
+                self.assertIn(rationale, draft['text'])
+                self.assertIn(revised, draft['text'])
+                self.assertIn('**回答**' if language == 'ja' else '**Response**', draft['text'])
+                self.assertEqual(entry['bindings']['effect-number']['selected_result'],
+                                 {'value': 8, 'unit': 'percentage_points'})
+                self.assertEqual(draft['evidence_sha256'], result['evidence_sha256'])
+                comparison = copy.deepcopy(contract)
+                comparison['review'].pop('assessment')
+                comparison['review'].pop('response_draft')
+                comparison['review']['response_after'] = {
+                    'path': 'current-review.json',
+                    'sha256': paragraph.sha((self.root / 'current-review.json').read_bytes())}
+                comparison['review']['author_response'] = self.write('response.md', draft['text'])
+                compared = evidence.review(comparison, self.root)
+                self.assertEqual(compared['status'], 'response-comparison-required')
+                self.assertEqual(compared['review']['findings'], result['review']['findings'])
+                self.assertEqual({name: (self.root / name).read_bytes() for name in before}, before)
+
+    def test_response_uses_preserved_original_current_changes_and_evidence(self):
+        contract, original, revised, _ = self.revision()
+        finding = contract['review']['assessment']['findings'][0]
+        finding['changes'] = []
+        with self.assertRaisesRegex(ValueError, 'changed claim requires'):
+            evidence.review(contract, self.root)
+        finding['changes'] = [selection(revised, revised)]
+        self.write('original.md', original + ' altered')
+        with self.assertRaisesRegex(ValueError, 'original manuscript hash differs'):
+            evidence.review(contract, self.root)
+        self.write('original.md', original)
+        self.write('protocol.txt', revised + ' altered')
+        with self.assertRaisesRegex(ValueError, 'hash differs'):
+            evidence.review(contract, self.root)
+
+    def test_reused_finding_relocates_passage_after_peripheral_edit(self):
+        contract, _, revised, rationale = self.revision()
+        claim = 'The assignment effect is 8 percentage points.'
+        contract['claims'][0]['target'] = selection(revised, claim)
+        previous = evidence.review(contract, self.root)
+        previous_ref = self.write('current-review.json', previous)
+        moved = '# Paper\n\n' + revised
+        contract['manuscript'] = self.write('moved.md', moved)
+        contract['claims'][0]['target'] = selection(moved, claim)
+        contract['numbers'][0]['target'] = selection(moved, '8')
+        contract['numbers'][0]['unit_target'] = selection(moved, 'percentage points')
+        contract['review'].pop('assessment')
+        contract['review']['previous'] = previous_ref
+        result = evidence.review(contract, self.root)
+        self.assertEqual(result['changes']['reusable_claims'], ['effect'])
+        entry = result['response_draft']['entries'][0]
+        self.assertEqual(entry['passages'], [selection(moved, revised)])
+        self.assertEqual(entry['rationale'], rationale)
+        self.assertEqual(entry['origin']['manuscript']['path'], 'original.md')
+
+    def test_cli_preserves_review_manuscript_and_evidence_inputs(self):
+        import contextlib
+        import io
+        contract, _, _, _ = self.revision()
+        self.write('contract.json', contract)
+        for target in ('original.md', 'initial-review.json', 'protocol.txt', 'referee.txt'):
+            with self.subTest(target=target):
+                before = (self.root / target).read_bytes()
+                error = io.StringIO()
+                with contextlib.redirect_stderr(error):
+                    status = evidence.main(['review', 'contract.json', '--root', str(self.root), '--output', target])
+                self.assertEqual(status, 1)
+                self.assertIn('output cannot overwrite', error.getvalue())
+                self.assertEqual((self.root / target).read_bytes(), before)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,8 +1,19 @@
-# 経済学Writing・研究実装19件の比較とERSへの反映
+# 経済学Writing・研究実装21件の比較とERSへの反映
 
 比較日：2026年11月7日。
 
-公開19件の実装本文を、ERSの論証構築、モデル・推定結果の受渡し、図表生成、改稿・翻訳・査読対応と照合した。改善の中心は、研究上の主張を成立させる関係を文章に残し、その数式・数量・条件を保存結果から引き継ぐことである。各項目のリンクは実読した固定コミットの本文を指す。
+指定された19件と追加探索の2件を、ERSの論証構築、モデル・推定結果の受渡し、図表生成、改稿・翻訳・査読対応と照合した。指定19件の最新HEADを確認し、0.57.0の比較記録にある17件は同じ固定SHAであることを確認した。JuliaErrorとshuangchenfinanceの2件を追加で読み、以下に記録した。各項目のリンクは実読した固定コミットの本文を指す。
+
+## 保存結果と完成本文を使う実行接続（0.58.0）
+
+| 完了した接続 | 登録済み入口と入力 | 生成される内容 |
+| --- | --- | --- |
+| 完成本文から章節を設計 | `paragraph.py design --reuse-state … --reuse-paragraph …` に既存の段落IDと現在の執筆依頼を渡す | 完成した主張、根拠、数量、採用図表、前提依存を `writing:architect` と `writing:specify` へ渡す。Title・Abstract・Introduction・Conclusionは同じ中心的な答えから構成する。 |
+| 数量と定義を本文へ渡す | `research.py` の既存 `render` に `statistics` と `definitions` を指定する | 保存された値・単位と、比較群・期間・数式などの文字列を同じ節へ挿入する。節の編集は既存DAGの対応する出力を更新する。 |
+| 論文・スライドへ同じ定義を渡す | `research_evidence.py artifacts materialize` の既存仕様に `definitions` を指定する | 選択した結果・図表の定義をarticle/slidesへ挿入し、数値・単位の実際の文字位置を既存binderへ渡す。 |
+| 改稿から査読回答を作る | `research_evidence.py review` に現行assessmentと `review.response_draft` を渡す | 当初の指摘、旧本文、修正済み本文、根拠、選択計算と回答文を同じ返却結果にまとめる。日英の説明は既存の改稿・翻訳モードから渡す。 |
+
+各経路は既存の状態、結果ID、図表、公式計算結果を再利用する。論文本文の出力例には、保存済みDiD結果と20期の成長モデル結果を使用した。主図の選択例では、成長モデルの配分経路・厚生を主本文へ、パラメータと方程式の診断を付録へ接続した。読者、言語、研究類型、節の機能は既存7モードの共通処理と現在の執筆依頼が定める。
 
 ## 反映した変更と既存の所有箇所
 
@@ -173,6 +184,22 @@
 **利用条件と実装。** 理論・構造研究の中心命題と根拠を評価する際に用いる。理論では原始的要素から結果への関係、構造研究ではモデルと観測、パラメータとモーメントの対応を調べる。evidence_groundingはその判断を研究の根拠に結び付ける。
 
 **ERSとの対応と判断。** 既存の[econ-review](../../skills/econ-review/SKILL.md)と[evidence binder](../../harness/research_evidence.py)を継続する。今回追加した保存モデル定義により、WritingとReviewが同じ式、条件、パラメータの役割を使う。[CORE](../../runtime/CORE.md#completion-and-reporting)の統合レビューと[TEAM](../../runtime/TEAM.md)の既存役割で、採用した研究と実際の成果物を評価する。
+
+### 20. juliaError/econ-TopJournal-writing-Skill
+
+固定版：`1dd28fd41d24ae2565b424bd7a1d3edb8d910c3f`。実読：[README](https://github.com/juliaError/econ-TopJournal-writing-Skill/blob/1dd28fd41d24ae2565b424bd7a1d3edb8d910c3f/README.md)、[WritingのSKILL.md](https://github.com/juliaError/econ-TopJournal-writing-Skill/blob/1dd28fd41d24ae2565b424bd7a1d3edb8d910c3f/skills/econ-writing-workflow/SKILL.md)、[結果から構成への接続](https://github.com/juliaError/econ-TopJournal-writing-Skill/blob/1dd28fd41d24ae2565b424bd7a1d3edb8d910c3f/skills/econ-writing-workflow/references/full-paper-drafting/02_from_results_to_outline.md)、[論証と執筆課題](https://github.com/juliaError/econ-TopJournal-writing-Skill/blob/1dd28fd41d24ae2565b424bd7a1d3edb8d910c3f/skills/econ-writing-workflow/references/outlines/01_argument_and_writing_task_outlines.md)。
+
+**利用条件と実装。** 結果を持つ論文の構成と改稿に用いる。表図の経済的対象・役割・標本・仕様を研究質問へ結び、中心結果を運ぶ表図を主本文へ配置する。各主張には説明を完成させる本文位置を与え、冒頭と結論ではその主張が果たす機能に合わせて再利用する。
+
+**ERSとの対応と判断。** [argument.py](../../harness/argument.py)と[paragraph.py](../../harness/paragraph.py)に、指定した完成段落から支持する主張・前提依存・採用図表を選ぶ `composition_context` を追加した。既存の `design` 入口が同じ中央質問・答え・貢献と保存結果の参照を章節設計へ渡す。[result-artifacts](../../skills/econ-writing/references/result-artifacts.md#browse-compare-and-edit-saved-results)では、中心的な推論に必要な表図を選び、ResultsとDiscussionへ接続する操作を具体化した。
+
+### 21. shuangchenfinance/research-skills
+
+固定版：`615de14afdbdf4b5789734959633a32420764f40`。実読：[README](https://github.com/shuangchenfinance/research-skills/blob/615de14afdbdf4b5789734959633a32420764f40/README.md)、[econ-referee/SKILL.md](https://github.com/shuangchenfinance/research-skills/blob/615de14afdbdf4b5789734959633a32420764f40/skills/econ-referee/SKILL.md)、[specialized-tasks.mdのREFEREE RESPONSE](https://github.com/shuangchenfinance/research-skills/blob/615de14afdbdf4b5789734959633a32420764f40/skills/econ-write/specialized-tasks.md)、[econ-write/SKILL.mdのREWRITE](https://github.com/shuangchenfinance/research-skills/blob/615de14afdbdf4b5789734959633a32420764f40/skills/econ-write/SKILL.md)、[econ-writing-plus/SKILL.mdのECONOMIC SIGNIFICANCE](https://github.com/shuangchenfinance/research-skills/blob/615de14afdbdf4b5789734959633a32420764f40/skills/econ-writing-plus/SKILL.md)。
+
+**利用条件と実装。** 実証論文の査読、改稿、経済的な大きさの説明に用いる。各指摘へ本文・表図の根拠を付し、回答では変更内容、その掲載箇所、変更の理由を対応させる。改稿は著者の経済的な意味を保持する。
+
+**ERSとの対応と判断。** [research_evidence.py](../../harness/research_evidence.py)の既存 `review` に `response_draft` を追加した。固定した指摘・基準、保存された旧本文、現行の修正箇所、根拠ファイルと計算結果を同じ回答へ接続する。根拠の説明は現行の `rationale` から受け取り、[econ-review](../../skills/econ-review/SKILL.md)と既存のWriting改稿・翻訳へ戻す。周辺追記で段落位置が移った場合も、同じ主張の判断を再利用して現行箇所を引用する。
 
 ## 論文資料から具体化したWriting判断
 

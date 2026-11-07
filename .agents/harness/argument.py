@@ -1055,6 +1055,49 @@ def paragraph_argument(graph, node_id):
             'global_question': graph['central_question'], 'argument_sha256': argument_sha256(graph)}}
 
 
+def composition_context(graph, sources, node_ids):
+    """Select adopted claims and their supporting hierarchy and prerequisites."""
+    _assert_argument(graph, None)
+    nodes = {node['node_id']: node for node in graph['nodes']}
+    if (not _ids(node_ids) or not node_ids or len(node_ids) != len(set(node_ids))
+            or set(node_ids) - set(nodes)):
+        raise ArgumentError('Composition requires unique adopted node IDs')
+    selected, pending = set(), list(node_ids)
+    prerequisites = {nid: list(node['child_ids']) for nid, node in nodes.items()}
+    for dependency in graph['dependencies']:
+        if (dependency.get('effect') == 'reference' or
+                dependency['relation'].strip().casefold() in {'related', 'alternative', 'alternative_under'}):
+            continue
+        prerequisites[dependency['to']].append(dependency['from'])
+    while pending:
+        nid = pending.pop()
+        if nid in selected:
+            continue
+        selected.add(nid)
+        pending.extend(prerequisites[nid])
+    rows = [deepcopy(node) for node in graph['nodes'] if node['node_id'] in selected]
+    references = [ref for node in rows for ref in
+                  node['source_refs'] + node.get('causal_basis', []) +
+                  [quantity['source_ref'] for quantity in node.get('quantities', [])]]
+    source_ids = {ref.get('source_id') for ref in references}
+    if source_ids - set(sources):
+        raise ArgumentError('Composition source is absent')
+    catalog = source_catalog({sid: sources[sid] for sid in sorted(source_ids)})
+    for sid, source in catalog.items():
+        if graph['source_manifest'].get(sid) != source['sha256']:
+            raise ArgumentError('Composition source version differs: ' + sid)
+    if any(not _reference(ref, catalog) for ref in references):
+        raise ArgumentError('Composition source range differs from its adopted claim')
+    return {'argument_sha256': argument_sha256(graph),
+            'central_question': graph['central_question'], 'central_answer': graph['central_answer'],
+            'selected_node_ids': list(node_ids), 'nodes': rows,
+            'dependencies': deepcopy([dep for dep in graph['dependencies']
+                                      if dep['from'] in selected and dep['to'] in selected]),
+            'exhibits': deepcopy([exhibit for exhibit in graph.get('exhibits', [])
+                                 if set(exhibit['node_ids']) <= selected]),
+            'sources': catalog}
+
+
 def metrics(graph, review, *, outline=None, repair_count=0, prohibited_occurrences=0):
     """Compute comparison metrics from bound judgments and concrete findings."""
     if review.get('argument_sha256') != argument_sha256(graph):

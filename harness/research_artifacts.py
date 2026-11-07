@@ -22,7 +22,7 @@ import research_evidence as evidence
 
 NAME=re.compile(r'^[A-Za-z][A-Za-z0-9_-]*$')
 FMT=re.compile(r'^(?:\.[0-9]{1,2})?[fge]$')
-TOKEN=re.compile(r'\{\{stat:([A-Za-z][A-Za-z0-9_-]*)\}\}|\{\{(table|figure)\}\}')
+TOKEN=re.compile(r'\{\{stat:([A-Za-z][A-Za-z0-9_-]*)\}\}|\{\{(table|figure)\}\}|\{\{definition:([A-Za-z][A-Za-z0-9_-]*)\}\}')
 GALLERY_KINDS = ('descriptive', 'sample_composition', 'distribution', 'time_series',
                  'group_comparison', 'coefficient', 'event_study', 'robustness',
                  'alternative_specification', 'table', 'figure', 'att_gt', 'cohort_event',
@@ -1607,7 +1607,7 @@ def ref(root,path):
 
 
 def validate_spec(root, spec):
-    if not isinstance(spec,dict) or set(spec)-{'pipeline','sources','bindings','article_template','slides_template','figure','models'} or not {'pipeline','sources','bindings','article_template','slides_template','figure'}<=set(spec): raise ValueError('artifact specification has invalid fields')
+    if not isinstance(spec,dict) or set(spec)-{'pipeline','sources','bindings','definitions','article_template','slides_template','figure','models'} or not {'pipeline','sources','bindings','article_template','slides_template','figure'}<=set(spec): raise ValueError('artifact specification has invalid fields')
     if not isinstance(spec['pipeline'],str) or not NAME.fullmatch(spec['pipeline']): raise ValueError('pipeline must be a simple name')
     if not isinstance(spec['sources'],list) or not spec['sources']: raise ValueError('at least one source is required')
     seen=set()
@@ -1623,6 +1623,13 @@ def validate_spec(root, spec):
     if not isinstance(spec['bindings'],dict) or not spec['bindings']: raise ValueError('bindings must be nonempty')
     for name,b in spec['bindings'].items():
         if not NAME.fullmatch(name) or not isinstance(b,dict) or set(b)!={'key','unit','format','display_unit','label'} or any(not isinstance(v,str) or not v for v in b.values()) or not FMT.fullmatch(b['format']): raise ValueError('binding requires key, unit, format, display_unit and label')
+    definitions=spec.get('definitions',{})
+    if not isinstance(definitions,dict): raise ValueError('definitions must be an object')
+    for name,b in definitions.items():
+        if (not isinstance(name,str) or not NAME.fullmatch(name) or not isinstance(b,dict)
+                or set(b)!={'key'} or not isinstance(b['key'],list) or not b['key']
+                or any(not isinstance(key,str) or not key for key in b['key'])):
+            raise ValueError('definition requires a named nonempty JSON key path')
     for path in (spec['article_template'],spec['slides_template']): checked(root,path)
     if any('.' not in b['key'] or b['key'].split('.',1)[0] not in seen for b in spec['bindings'].values()): raise ValueError('each binding must name a selected source and statistic')
     if not isinstance(spec['figure'],list) or not spec['figure'] or len(set(spec['figure']))!=len(spec['figure']) or set(spec['figure'])-set(spec['bindings']): raise ValueError('figure must select distinct binding names')
@@ -1636,8 +1643,10 @@ def validate_spec(root, spec):
         text=checked(root,path).read_text(encoding='utf-8')
         names={m.group(1) for m in TOKEN.finditer(text) if m.group(1)}
         if names-set(spec['bindings']): raise ValueError('template has an unknown statistic binding')
+        names_definitions={m.group(3) for m in TOKEN.finditer(text) if m.group(3)}
+        if names_definitions-set(definitions): raise ValueError('template has an unknown definition binding')
         rest=TOKEN.sub('',text)
-        if any(token in rest for token in ('{{stat:', '{{table', '{{figure')): raise ValueError('malformed artifact placeholder')
+        if any(token in rest for token in ('{{stat:', '{{definition:', '{{table', '{{figure')): raise ValueError('malformed artifact placeholder')
         if not names: raise ValueError('each template must use at least one statistic')
     return spec
 
@@ -1764,10 +1773,14 @@ def render(root,spec,registry,template,table_path,figure_path):
         nonlocal length
         parts.append(x); length+=len(x)
     for m in TOKEN.finditer(raw):
-        append(raw[cursor:m.start()]); alias=m.group(1); special=m.group(2)
+        append(raw[cursor:m.start()]); alias=m.group(1); special=m.group(2); definition=m.group(3)
         if alias:
             b=spec['bindings'][alias]; item=registry['statistics'][b['key']]; value=format(item['value'],b['format']); start=length; append(value); stop=length; append(' '); ustart=length; append(b['display_unit']); uend=length
             captures.append({'id':alias+'-'+str(len(captures)+1),'alias':alias,'target':{'start':start,'end':stop,'quote':value},'unit_target':{'start':ustart,'end':uend,'quote':b['display_unit']}})
+        elif definition:
+            value=evidence.lookup(registry,spec['definitions'][definition]['key'],'definition '+definition)
+            if not isinstance(value,str) or not value.strip(): raise ValueError('definition must select saved nonempty text: '+definition)
+            append(value)
         elif special=='table': append(Path(table_path).read_text(encoding='utf-8'))
         else: append('![Selected quantities]('+str(Path(figure_path).resolve())+')')
         cursor=m.end()

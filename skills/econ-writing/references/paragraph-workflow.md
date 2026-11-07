@@ -51,3 +51,20 @@ Use the smallest existing check that can change a material acceptance decision u
 ## Command entry points
 
 Use `harness/paragraph.py` and `harness/argument.py` for requested versioned composition and argument operations. Actual final artifacts and authorized destination returns establish delivery.
+
+To design a requested section from completed body paragraphs, use the existing `design` entry with the saved run and explicit paragraph IDs:
+
+```bash
+python harness/paragraph.py design \
+  --brief writing-brief.json --sources sources.json --rules writing-rules.json \
+  --host host-adapter.py --author-id author --execution-kind single-agent-sequential \
+  --reuse-state writing/paragraph-state.json \
+  --reuse-paragraph results-main --reuse-paragraph mechanism \
+  --output section-design.json
+```
+
+Use the actual paths and paragraph IDs from the project. The current brief retains the request, authority, reader, language, research type and section function. Both architecture and specification callbacks receive that brief and `completed_body`: the selected paragraphs' original text and specifications, supporting argument nodes, prerequisite relations, adopted exhibits, exact source spans, saved-result references and current version bindings. The canonical central question, answer and contribution stay fixed in the returned design. Use the paper guidance's research-type and section operations to express them in the requested language.
+
+Selection expands through the argument's supporting claims and incoming prerequisites and through each paragraph's `depends_on`. Reuse requires every selected paragraph and prerequisite to have its existing completed review bound to the current text, specification, sources, rules and dependencies. A changed binding identifies the paragraph whose producing work must finish. Unrelated paragraphs stay outside `completed_body`. The design operation reads the saved run without a resume event and writes its new design to the specified output.
+
+For an existing Python caller, use `ParagraphRun.load(path, resume=False).composition_context(paragraph_ids)` to read the same selected context. Pass the loaded run and `paragraph_ids` to `generate_blueprint` and `generate_specifications`; pass the current `brief` to the specification call. These operations consume the existing state and actual saved evidence.

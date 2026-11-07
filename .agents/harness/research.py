@@ -19,7 +19,7 @@ import zipfile
 import state
 
 TOKEN = re.compile(r'\{(root|out:[A-Za-z0-9_.-]+|dep:[A-Za-z0-9_.-]+:[A-Za-z0-9_.-]+)\}')
-STAT = re.compile(r'\{\{stat:([A-Za-z0-9_.-]+)\}\}')
+MANUSCRIPT_TOKEN = re.compile(r'\{\{(stat|definition):([A-Za-z0-9_.-]+)\}\}')
 NAME = re.compile(r'^[A-Za-z0-9_-]+$')
 
 
@@ -686,26 +686,29 @@ def choose(root, stage, destinations, deps, failed_candidates):
 
 def render(root, stage, destinations, deps):
     spec = stage['render']
-    if not isinstance(spec, dict) or set(spec) != {'template', 'output', 'statistics'}:
-        fail('render requires template, output and statistics')
+    if (not isinstance(spec, dict) or not {'template', 'output', 'statistics'} <= set(spec)
+            or set(spec) - {'template', 'output', 'statistics', 'definitions'}):
+        fail('render requires template, output and statistics, with optional definitions')
     template = path(root, spec['template'])
-    if template not in stage['inputs'] or spec['output'] not in destinations or not isinstance(spec['statistics'], dict):
+    definitions = spec.get('definitions', {})
+    if (template not in stage['inputs'] or spec['output'] not in destinations
+            or not isinstance(spec['statistics'], dict) or not isinstance(definitions, dict)):
         fail('Render template must be an input and output must be declared')
     text = (root / template).read_text(encoding='utf-8')
-    keys = set(STAT.findall(text))
-    if keys != set(spec['statistics']):
-        fail('Template and statistic bindings must match exactly')
+    tokens = set(MANUSCRIPT_TOKEN.findall(text))
+    if tokens != {('stat', key) for key in spec['statistics']} | {('definition', key) for key in definitions}:
+        fail('Template and statistic/definition bindings must match exactly')
+    saved = {}
+    replacements = {}
     for key, binding in spec['statistics'].items():
         if not isinstance(binding, dict) or set(binding) != {'stage', 'output', 'key', 'unit', 'format'}:
             fail('Statistic binding requires stage, output, key, unit and format')
         ref = (binding['stage'], binding['output'])
         if ref not in deps or not isinstance(binding['key'], list) or not binding['key']:
             fail('Statistic must select a declared dependency and JSON key path')
-        value = read_json(deps[ref])
-        for part in binding['key']:
-            if not isinstance(part, str) or not isinstance(value, dict) or part not in value:
-                fail('Missing statistic key')
-            value = value[part]
+        if ref not in saved:
+            saved[ref] = read_json(deps[ref])
+        value = key_value(saved[ref], binding['key'])
         if not isinstance(value, dict) or set(value) != {'value', 'unit'} or value['unit'] != binding['unit']:
             fail('Statistic unit or shape mismatch')
         number = value['value']
@@ -713,8 +716,22 @@ def render(root, stage, destinations, deps):
             fail('Statistic value must be finite and numeric')
         if not isinstance(binding['format'], str) or not re.fullmatch(r'(?:\.[0-9]{1,2})?[fge]', binding['format']):
             fail('Use a numeric format such as .2f')
-        text = text.replace('{{stat:' + key + '}}', format(number, binding['format']))
-    destinations[spec['output']].write_text(text, encoding='utf-8')
+        replacements[('stat', key)] = format(number, binding['format'])
+    for key, binding in definitions.items():
+        if not isinstance(binding, dict) or set(binding) != {'stage', 'output', 'key'}:
+            fail('Definition binding requires stage, output and key')
+        ref = (binding['stage'], binding['output'])
+        if ref not in deps or not isinstance(binding['key'], list) or not binding['key']:
+            fail('Definition must select a declared dependency and JSON key path')
+        if ref not in saved:
+            saved[ref] = read_json(deps[ref])
+        value = key_value(saved[ref], binding['key'])
+        if not isinstance(value, str) or not value.strip():
+            fail('Definition must select saved nonempty text: ' + key)
+        replacements[('definition', key)] = value
+    # Substitute once so the saved equation or prose remains literal source text.
+    rendered = MANUSCRIPT_TOKEN.sub(lambda match: replacements[match.groups()], text)
+    destinations[spec['output']].write_text(rendered, encoding='utf-8')
 
 
 def capture_learning(root, store, stage, producer, mapping):
