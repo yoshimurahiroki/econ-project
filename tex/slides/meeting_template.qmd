@@ -30,6 +30,9 @@ format:
     keep-tex: true
     CJKmainfont: HaranoAjiMincho
     CJKsansfont: HaranoAjiGothic
+    include-in-header:
+      text: |
+        \babeladjust{bidi.text=off}
   revealjs:
     theme: simple
     width: 1280

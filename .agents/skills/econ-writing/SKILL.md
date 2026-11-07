@@ -28,6 +28,8 @@ Preserve adopted research claims, numbers, comparison groups, citations, formatt
 
 Select `research_result_artifacts` and use [result artifacts](references/result-artifacts.md) to register named quantities and units from saved estimates, preserve their covariance and inference, and generate the article, table, figure and slide sources through the existing research DAG. Its portable example executes the scientific engines and produces LaTeX, Quarto, HTML and PDF outputs. Bind the adopted equations and parameters to their actual code, specification and result. A changed producer or result rebuilds its affected consumers while preserving completed generations. Use the same selected quantities when revising article and slide arguments. Select `research_meeting_materials` for [meeting materials](../../harness/meetings.md) assembled from saved displays and GitHub progress, with editable Markdown, Quarto rendering and independent native Google Slides editions.
 
+For a theory or structural presentation, select the existing `model` or `structural` material template; use `appendix` for derivations, proofs and additional results. Supply adopted equations and explanations through `project-view.section_content` and select the saved parameter, fit, equilibrium and welfare displays by their result IDs. Their `metadata.report_role` places each display in the corresponding section. CLI and gallery read these templates from the same `.agents/tex/slides/meeting_templates.json`; presentation edits reuse the saved scientific result.
+
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations
 

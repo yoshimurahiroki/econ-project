@@ -1,5 +1,5 @@
 {
-  "catalog_sha256": "7b1ee2745e624d950c59673541f09d14dca46c18ea200be352143a20d960a762",
+  "catalog_sha256": "4e3b0c966c5bb94c5765e4dbea2e90d5dcf740b5ec9ef14ddf48ae64337d6fd8",
   "chapters": {
     "chapters/01-mathematics.md": "73d962357ecd347e34359d8a973e80fcecfbf755251ae1ab4d1ad13dfc8ba46a",
     "chapters/02-probability-statistics.md": "57fa00ebec9aec9af6459a944d283052a9c80f0d76ae30cb37b4a300109b1958",
@@ -9,17 +9,17 @@
     "chapters/06-contracts-organization.md": "6d27581e2d9dbd41ad31d1b34f92889667d82503d19a4dec8b978503cb78d7ca",
     "chapters/07-market-design.md": "4be072d54bf8ff2443b41f024b03a235cdd1c04f4a2845f1024a5a8f734df141",
     "chapters/08-networks.md": "eaa4c06c5fdc30349ef4029d39d20b6f6db6c59eb5c7e24d367f6a13e13dd3ef",
-    "chapters/09-dynamic-computation.md": "78f070edf887e318cdf759cd6c8e67b6c8c371cd2e7d24fba76a92bd8c99ce8a",
+    "chapters/09-dynamic-computation.md": "eefe59fda082645ee8d1b901ecada5d04ef59c081dbd6f416f9d96c84ec07f94",
     "chapters/10-econometrics.md": "7d444820833f2a7ee1c9b10d26ba06e38f33121d6595cae389511e0333b2154a",
     "chapters/11-causal-designs.md": "68032c4a80317e983af3bbcfe52f2653a8431f3534681f635cf21d6cc9744b10",
     "chapters/12-causal-extensions.md": "42b564033b3066dbba4c88600f8dbdc85752ece405530cc031d2df4dc6bc31c7",
     "chapters/13-time-series.md": "6961162455411b116527807deaac4f4e98e470db39dcc4851c82e701f70bfaac",
-    "chapters/14-structural-estimation.md": "d90ce56a11e205e587da21a510d355b6b80ce90ff8011fe78f9f581887cd5980",
-    "chapters/15-demand-production.md": "6d9e6e263765cbe9dc7ca3d84424b50727db512ec5eb1bf1808859ea1c51d6b9",
+    "chapters/14-structural-estimation.md": "411f8ba8498b6ca055bb8197026977d7cbcb9f9f04f8b4c1084f5ac92c60283f",
+    "chapters/15-demand-production.md": "9cebda01d7e3b00c2e49fa40911ea3adea11371bb02e2d710323a1618541b39f",
     "chapters/16-competition-platforms.md": "9abe70b98f776006104243559c259b0fbc8dc85974db1b2f41399e91458bedcf",
     "chapters/17-growth-macro.md": "6a3b3108373af6d0e17fe2816b08d728ef7c89a618db48525bf23628c7ff0371",
     "chapters/18-monetary-open-macro.md": "5cbf585da44c1ec745d37f275ba5df0c465187149da85f399638517a4f32a107",
-    "chapters/19-heterogeneous-macro.md": "8c5d3c028a7a227da7ef2a02289652b21011893f594e3c9a13c6afbffbf029a4",
+    "chapters/19-heterogeneous-macro.md": "286063dcb44dc67ef7d323bd4757bf9a4369a62d55c34450423d25955959542c",
     "chapters/20-asset-pricing.md": "71de5e585ef265cb7044c9e2f0d8846139b01f8c962dcaf9b7daafe271f497d2",
     "chapters/21-corporate-banking.md": "fd9b06cb1bce7721b04ef12d0ed8572355f1d1654025cd60ea1c12a4b2232b18",
     "chapters/22-labor-demography.md": "f240acd3e1155914479c3b80450caee7ffb1fa7626e2d5adc44fdbd67d4a2971",
@@ -37,7 +37,7 @@
     "chapters/34-integrated-cases.md": "ae04b1e82b0520e50dd59f287d4fae70968a1a2ecfd53bc49fb1559f2b75d1af",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "6f8481bc5571e04978048e7b7279d720e6844e3d6b10f85fa29bfe6f810f50ee",
+  "domain_listing_sha256": "182d6e755faa1e02828ba19453c434f79cac0c7b142bd0047ad01ba901199caf",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -82,7 +82,7 @@
     "動学計算": {
       "count": 9,
       "path": "domains/09.json",
-      "sha256": "12d1789f36fc379c25ddf89a865b7f2b95d5579ff5b7230499a7500e135df640"
+      "sha256": "3abb4c99eda958291dd145709d0eb809f1a4e088427cf7d33e31757c18d5a538"
     },
     "医療教育": {
       "count": 7,
@@ -147,7 +147,7 @@
     "構造推定": {
       "count": 7,
       "path": "domains/22.json",
-      "sha256": "fe6e062a4e4d9043a6c953670210a92863286345444782166ed2b95edc39f929"
+      "sha256": "3db3de6c1fa246a6c90895daf879ba95e047b2ca53824361edc0f49d1d0d9839"
     },
     "測定集計": {
       "count": 7,
@@ -167,7 +167,7 @@
     "異質マクロ": {
       "count": 6,
       "path": "domains/26.json",
-      "sha256": "dc7fa4d6d41ecfab3224963baa9fa56a39cccba3469c21fbc73a1d970d909cdd"
+      "sha256": "8585136885657922266752c0df7a915440e911daad522ead768c398141741562"
     },
     "確率統計": {
       "count": 9,
@@ -222,11 +222,11 @@
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
-      "sha256": "64d2f346c95a6412b6356ce96315a4d205b098c752fe6c62e9d7f8cdf56a3737"
+      "sha256": "3c1ae4d4ff1e1fcac1ea8a39b0ad4c62cefe195c20373ea4a7b8fcd7496d95fb"
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "1fededba693992b95faa9a65cef3055cd3b297430cb292cdc9bab4bc98ae9545"
+      "sha256": "0883c825bba7ae83997ef2a0b66d04f11701f4722aa8fcff3f13ce19942cf6ed"
     }
   },
   "spec_version": "knowledge-v2",
@@ -451,7 +451,7 @@
       "chapter": "chapters/15-demand-production.md",
       "domain": "需要生産",
       "path": "units/DEMAND-02.md",
-      "sha256": "70f125e6ec26fd8c175231b4489a654217b0aa79523ae8f8876016d5cbaa78ee"
+      "sha256": "7b6188f90f30010f626434bd4253e6674fb848da47cd3e8835a84c76a856a02c"
     },
     "DEMAND-03": {
       "chapter": "chapters/15-demand-production.md",
@@ -583,7 +583,7 @@
       "chapter": "chapters/09-dynamic-computation.md",
       "domain": "動学計算",
       "path": "units/DYN-02.md",
-      "sha256": "06b91cce0552e485b52d54ff5fe7a742046a0dae6a307ed429f479cfc5a0d437"
+      "sha256": "dcfd288816f6550b3c58d1241ffaa722f80a6127698b8625e960a1dae5037134"
     },
     "DYN-03": {
       "chapter": "chapters/09-dynamic-computation.md",
@@ -919,7 +919,7 @@
       "chapter": "chapters/19-heterogeneous-macro.md",
       "domain": "異質マクロ",
       "path": "units/HET-01.md",
-      "sha256": "9a56faf5a250ce86b3e98a325efa184a4a7c9887e7b8f57f0eb91f247940de5e"
+      "sha256": "02d67279856d97ef2e02dc88c7b47bc54a4db94732890a988f51f82a81385ce9"
     },
     "HET-02": {
       "chapter": "chapters/19-heterogeneous-macro.md",
@@ -1615,7 +1615,7 @@
       "chapter": "chapters/14-structural-estimation.md",
       "domain": "構造推定",
       "path": "units/STRUCT-03.md",
-      "sha256": "821a6320fa3d32532e0893b2cf70addbea2212e57c499918b749145386361bc0"
+      "sha256": "7c37a8a5c65627650d15da18425a58e19e7814093bb27be415a4d720708251a0"
     },
     "STRUCT-04": {
       "chapter": "chapters/14-structural-estimation.md",
@@ -1633,7 +1633,7 @@
       "chapter": "chapters/14-structural-estimation.md",
       "domain": "構造推定",
       "path": "units/STRUCT-06.md",
-      "sha256": "3ecf4910a6a5afde56a3995e58cd4c6ed367ea1f11e29a8e9c8f93b4f122afb5"
+      "sha256": "5d6ac3b21227d67e9c8c6531500731ea03c95d2dc58489da64b25bb3cfc66f69"
     },
     "STRUCT-07": {
       "chapter": "chapters/14-structural-estimation.md",

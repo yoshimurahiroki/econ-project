@@ -50,7 +50,10 @@
         "C-TERM-VALUE-ITERATION",
         "C-TERM-POLICY-ITERATION"
       ],
-      "contract_ids": [],
+      "contract_ids": [
+        "MC-respy-finite-choice",
+        "MC-lifecycle-regimes"
+      ],
       "domain": "動学計算",
       "file": "chapters/09-dynamic-computation.md",
       "id": "DYN-02",
@@ -80,8 +83,8 @@
       ],
       "subdomain": "Bellman 方程式",
       "title": "Bellman 方程式",
-      "topic": "Bellman 方程式; contraction convergence; 収縮写像と収束",
-      "use_when": "遷移法則が既知ならBellman式を解き、固定方策の軌跡しかないときはTDまたは実現収益で価値を推定する"
+      "topic": "Bellman 方程式; contraction convergence; 収縮写像と収束; finite horizon backward induction; lifecycle regimes; 退職と消費貯蓄の制度選択; pylcm",
+      "use_when": "状態・行動・情報・期間・終端からBellman固定点、有限期間の後退帰納、制度別の離散連続選択を選ぶ"
     },
     {
       "alternatives": [],
@@ -93,7 +96,10 @@
         "C-TERM-TIME-DISCOUNT",
         "C-METHOD-COLEMAN-REFFETT"
       ],
-      "contract_ids": [],
+      "contract_ids": [
+        "MC-hark-consumption-saving",
+        "MC-lifecycle-regimes"
+      ],
       "domain": "動学計算",
       "file": "chapters/09-dynamic-computation.md",
       "id": "DYN-03",

@@ -12,7 +12,9 @@
         "C-OBJ-MPC",
         "C-TERM-WEALTH-DISTRIBUTION"
       ],
-      "contract_ids": [],
+      "contract_ids": [
+        "MC-hark-consumption-saving"
+      ],
       "domain": "異質マクロ",
       "file": "chapters/19-heterogeneous-macro.md",
       "id": "HET-01",
@@ -45,7 +47,7 @@
       ],
       "subdomain": "異質家計貯蓄",
       "title": "不完全市場の貯蓄",
-      "topic": "所得リスクと借入制約の家計政策を解く; endogenous grid method; EGM; 内生的格子法; 借入制約; 相関した所得ショック; joint shock support and natural borrowing limit",
+      "topic": "所得リスクと借入制約の家計政策を解く; endogenous grid method; EGM; 内生的格子法; 借入制約; 相関した所得ショック; joint shock support and natural borrowing limit; HARK PerfForesightConsumerType IndShockConsumerType; exogenous prices versus market clearing",
       "use_when": "所得リスクと借入制約の家計政策を解く"
     },
     {

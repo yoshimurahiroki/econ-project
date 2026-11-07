@@ -50,7 +50,9 @@
         "C-CH-14",
         "C-TERM-SMM"
       ],
-      "contract_ids": [],
+      "contract_ids": [
+        "MC-respy-finite-choice"
+      ],
       "domain": "構造推定",
       "file": "chapters/14-structural-estimation.md",
       "id": "STRUCT-02",
@@ -95,7 +97,8 @@
         "C-TERM-DDC"
       ],
       "contract_ids": [
-        "MC-replacement-ddc"
+        "MC-replacement-ddc",
+        "MC-respy-finite-choice"
       ],
       "domain": "構造推定",
       "file": "chapters/14-structural-estimation.md",
@@ -128,7 +131,7 @@
       ],
       "subdomain": "動学離散選択",
       "title": "動学離散選択とNFXP",
-      "topic": "Bellman解を尤度の各候補で求める; latent type dynamic discrete choice; initial conditions likelihood; 潜在型動学離散選択; 初期条件尤度; 遷移変更と状態別利得の識別; transition counterfactual identification",
+      "topic": "Bellman解を尤度の各候補で求める; latent type dynamic discrete choice; initial conditions likelihood; 潜在型動学離散選択; 初期条件尤度; 遷移変更と状態別利得の識別; transition counterfactual identification; respy finite horizon choice wage likelihood; ruspy stationary replacement; shock distribution and normalization",
       "use_when": "Bellman解を尤度の各候補で求める"
     },
     {
@@ -232,7 +235,8 @@
         "C-ASSUMP-EQUILIBRIUM-SELECTION"
       ],
       "contract_ids": [
-        "MC-ramsey-cf"
+        "MC-ramsey-cf",
+        "MC-lifecycle-regimes"
       ],
       "domain": "構造推定",
       "file": "chapters/14-structural-estimation.md",

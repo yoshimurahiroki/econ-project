@@ -74,6 +74,69 @@
       {"id": "next", "title": "次の作業"}
     ]
   },
+  "model": {
+    "label": "理論モデル・数値解",
+    "sections": [
+      {"id": "question", "title": "研究質問と説明する経済機構"},
+      {"id": "model", "title": "主体・選択・目的・制約"},
+      {"id": "information", "title": "情報・タイミング・状態遷移"},
+      {"id": "notation", "title": "記号と定義", "artifact_role": "notation"},
+      {"id": "parameters", "title": "指定・較正パラメータ", "artifact_role": "parameters"},
+      {"id": "optimality", "title": "最適化条件"},
+      {"id": "equilibrium", "title": "均衡・存在・一意性・均衡選択"},
+      {"id": "propositions", "title": "命題と導出"},
+      {"id": "mechanism", "title": "経済機構", "artifact_role": "mechanism"},
+      {"id": "comparative-statics", "title": "比較静学", "artifact_role": "comparative_statics"},
+      {"id": "numerical", "title": "数値解法と収束条件", "artifact_role": "model_fit"},
+      {"id": "counterfactual", "title": "反実仮想の配分と選択", "artifact_role": "counterfactual"},
+      {"id": "welfare", "title": "厚生・政策効果", "artifact_role": "welfare"},
+      {"id": "sensitivity", "title": "感度分析", "artifact_role": "additional"},
+      {"id": "exhibits", "title": "モデルの計算結果"},
+      {"id": "interpretation", "title": "経済的含意"},
+      {"id": "discussion", "title": "今回判断する事項"},
+      {"id": "next", "title": "次の作業"}
+    ]
+  },
+  "structural": {
+    "label": "構造推定・反実仮想",
+    "sections": [
+      {"id": "question", "title": "研究質問と政策比較"},
+      {"id": "model", "title": "主体・選択・情報・均衡"},
+      {"id": "identification", "title": "観測変動と識別する構造パラメータ"},
+      {"id": "data", "title": "母集団・観測単位・測定"},
+      {"id": "table1", "title": "標本と記述統計", "artifact_role": "descriptive"},
+      {"id": "specification", "title": "尤度・モーメント・推論"},
+      {"id": "numerical", "title": "解法・収束・均衡選択"},
+      {"id": "parameters", "title": "推定・較正・固定パラメータ", "artifact_role": "parameters"},
+      {"id": "model-fit", "title": "適合度・モーメント・方程式残差", "artifact_role": "model_fit"},
+      {"id": "counterfactual", "title": "反実仮想の価格・数量・利潤", "artifact_role": "counterfactual"},
+      {"id": "welfare", "title": "厚生・政策効果", "artifact_role": "welfare"},
+      {"id": "sensitivity", "title": "識別・較正・数値設定への感度", "artifact_role": "additional"},
+      {"id": "exhibits", "title": "追加の構造結果"},
+      {"id": "interpretation", "title": "経済的含意"},
+      {"id": "decisions", "title": "採用した判断"},
+      {"id": "next", "title": "次の作業"}
+    ]
+  },
+  "appendix": {
+    "label": "論文付録・導出・追加結果",
+    "document_type": "article",
+    "sections": [
+      {"id": "notation", "title": "Notation and definitions", "artifact_role": "notation"},
+      {"id": "model", "title": "Model primitives and equilibrium"},
+      {"id": "derivation", "title": "Derivations and proofs"},
+      {"id": "identification", "title": "Identification and observation map"},
+      {"id": "data", "title": "Data construction and sample"},
+      {"id": "specification", "title": "Estimation and inference"},
+      {"id": "numerical", "title": "Algorithms and numerical conditions"},
+      {"id": "parameters", "title": "Parameter estimates", "artifact_role": "parameters"},
+      {"id": "model-fit", "title": "Model fit and numerical diagnostics", "artifact_role": "model_fit"},
+      {"id": "counterfactual", "title": "Counterfactual equilibrium", "artifact_role": "counterfactual"},
+      {"id": "welfare", "title": "Welfare and policy effects", "artifact_role": "welfare"},
+      {"id": "additional", "title": "Additional estimates and sensitivity", "artifact_role": "additional"},
+      {"id": "exhibits", "title": "Additional tables and figures"}
+    ]
+  },
   "manuscript": {
     "label": "論文 Data・Results・図表",
     "document_type": "article",

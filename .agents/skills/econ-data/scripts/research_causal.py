@@ -16,8 +16,9 @@ import scipy
 import statsmodels
 import statsmodels.api as sm
 
-ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT / 'harness'))
+FLAT_EXPORT = (Path(__file__).resolve().parent / 'RESOURCES.json').is_file()
+ROOT = Path(__file__).resolve().parent if FLAT_EXPORT else Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT if FLAT_EXPORT else ROOT / 'harness'))
 import state
 
 
@@ -45,6 +46,9 @@ R_METHODS = {
     'iv_ar_robust': ('ivDiag', 'AR_test'),
 }
 
+RUN_FIELDS = {'method','data','id','outcome','regressors','endogenous','instruments',
+              'population','period','unit','estimand','identification','assignment','inference','options'}
+
 
 def _hash(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -60,7 +64,8 @@ def select_method(request):
     contract_fields = ('population','comparison_group','observation_unit','assignment_unit','inference_unit',
                        'unit','period','assignment','weights','inference',
                        'economic_model','target','conditions','comparison','numerical')
-    optional = {'adopted_method','adopted_specification','options','score','structural_model','implementation',*contract_fields}
+    optional = {'adopted_method','adopted_specification','options','score','structural_model','implementation',
+                'data','id','outcome','regressors','endogenous','instruments',*contract_fields}
     if not isinstance(request, dict) or not required <= request.keys() or set(request)-required-optional:
         raise ValueError(f'selection requires {sorted(required)} and accepts {sorted(optional)}')
     if any(not isinstance(request[k], str) or not request[k].strip() for k in required):
@@ -128,6 +133,27 @@ def select_method(request):
         if key not in request and key in request.get('target',{}):
             proposed_contract[key] = request['target'][key]
     forward_options = request.get('options', adopted_spec.get('options', {}))
+    requested_inference = proposed_contract.get('inference', {})
+    if not isinstance(requested_inference, dict):
+        raise ValueError('inference must be a structured object')
+    level = comparison.get('confidence_level', requested_inference.get('confidence_level'))
+    requested_alpha = requested_inference.get('alpha')
+    for key, value in (('confidence_level', level), ('alpha', requested_alpha)):
+        if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 < value < 1):
+            raise ValueError(f'inference {key} must lie strictly between zero and one')
+    if level is not None and requested_alpha is not None and abs(level + requested_alpha - 1) > 1e-12:
+        raise ValueError('confidence_level and inference.alpha must agree')
+    if level is None and requested_alpha is not None:
+        level = 1 - requested_alpha
+    interval_type = comparison.get('interval_type', comparison.get('ci_kind',
+        requested_inference.get('interval_type', requested_inference.get('ci_kind'))))
+    cluster_columns = requested_inference.get('clusters', requested_inference.get('cluster'))
+    if isinstance(cluster_columns, str):
+        cluster_columns = [cluster_columns]
+    if cluster_columns is not None and (not isinstance(cluster_columns, list) or not cluster_columns or
+            any(not isinstance(column, str) or not column.strip() for column in cluster_columns) or
+            len(set(cluster_columns)) != len(cluster_columns)):
+        raise ValueError('inference.cluster/clusters must name distinct analysis columns')
     design = request['design']; structure = request['data_structure']; pattern = request['treatment_pattern']
     mechanism = facts.get('assignment_mechanism')
     if design == 'auto':
@@ -256,7 +282,8 @@ def select_method(request):
             if score not in (None,'dr','doubly_robust'):
                 raise ValueError('the two-period runner implements the doubly robust score; preserve an adopted OR/IPW score in its official implementation')
             method_quantity = 'E[Y_post(1)-Y_post(0)|D=1] under conditional parallel trends'
-            if request['dependence'] in ('cluster','clustered'):
+            if (request['dependence'] in ('cluster','clustered') or interval_type == 'simultaneous' or
+                    (level is not None and abs(level - .95) > 1e-12)):
                 method = 'staggered_did'
         else: raise ValueError('DID treatment_pattern must identify two_period, absorbing_staggered, reversals, changing_dose or treatment_histories')
         conditions = ['specified untreated-trend scale and comparison eligibility', 'adopted anticipation and reference period', 'cohort or switcher population and horizon weights', 'assignment-matched clustering and interval family']
@@ -264,17 +291,17 @@ def select_method(request):
             'anticipation periods','outcome and pretreatment covariates','event window and base period',
             'aggregation weights and population at each horizon']
         if pattern == 'two_period' and method == 'staggered_did':
-            required_inputs.append('common adoption cohort and clustervars/bstrap for the adopted cluster-level two-period score')
+            required_inputs.append('common adoption cohort and native inference settings for the adopted two-period score')
         alternatives = [
             {'method':'drdid_panel','difference':'one treated-group pre/post contrast using paired outcomes',
              'estimand':'two-period ATT with treated-population sampling weights',
              'conditions':['conditional parallel trends','no anticipation','overlap','correct propensity or untreated-outcome nuisance model'],
-             'data_fit':{'required':['paired pre/post outcomes and pretreatment covariates'], 'data_structures':['panel'], 'treatment_patterns':['two_period']},
+             'data_fit':{'required':['paired pre/post outcomes and pretreatment covariates'], 'data_structures':['panel'], 'treatment_patterns':['two_period'], 'dependence':['independent','iid','heteroskedastic','robust']},
              'inference':{'procedure':'official DRDID influence-function or bootstrap inference for independent sampled units'}},
             {'method':'drdid_rc','difference':'period-specific outcomes from stationary repeated cross sections',
              'estimand':'two-period ATT for the stable treated population',
              'conditions':['conditional parallel trends','no anticipation','overlap','stationary sampling composition','adopted doubly robust nuisance conditions'],
-             'data_fit':{'required':['pre/post cross sections, treatment-group membership and period covariates'], 'data_structures':['repeated_cross_section'], 'treatment_patterns':['two_period']},
+             'data_fit':{'required':['pre/post cross sections, treatment-group membership and period covariates'], 'data_structures':['repeated_cross_section'], 'treatment_patterns':['two_period'], 'dependence':['independent','iid','heteroskedastic','robust']},
              'inference':{'procedure':'official repeated-cross-section influence-function or bootstrap inference'}},
             {'method':'staggered_did','difference':'group-time comparisons and target-specific aggregation',
              'estimand':'ATT(g,t), aggregated using the adopted cohort/event/calendar weights',
@@ -318,7 +345,8 @@ def select_method(request):
         method_quantity = ('local complier effect: outcome discontinuity divided by treatment-receipt discontinuity' if fuzzy
             else 'lim E[Y|X=c+] - lim E[Y|X=c-] at the assignment cutoff')
         if fuzzy: conditions += ['nonzero treatment jump','exclusion and local monotonicity']
-        if fuzzy: required_native_options['columns.fuzzy'] = 'adopted treatment-receipt column'
+        if fuzzy and 'fuzzy' in forward_options.get('columns', {}):
+            required_native_options['columns.fuzzy'] = forward_options['columns']['fuzzy']
         required_inputs = ['running variable','cutoff','outcome','bandwidth and polynomial orders','treatment receipt for fuzzy RD']
         alternatives = [{'method':'rdd_localrand','difference':'assignment-based comparison within a fixed window',
             'estimand':'average assignment contrast in the adopted local-randomization window',
@@ -426,6 +454,8 @@ def select_method(request):
                 'inputs':['DoubleMLData or supported cluster data','named nuisance learners','adopted folds and score'],
                 'outputs':['coef','se','pval','confint','bootstrap/joint confint when requested'],
                 'execution':'fit the official class in the adopted project analysis; this runner performs no external fit'}
+            if score == 'irm' and target_kind == 'att' and forward_options.get('weights') is not None:
+                raise ValueError('DoubleMLIRM weights implements a weighted ATE and is incompatible with score=ATTE')
         if score in ('pliv','iivm'):
             conditions += ['valid excluded instruments and the specified instrument score']
             required_inputs += ['instrument columns and instrument/treatment support']
@@ -743,9 +773,7 @@ def select_method(request):
         required_inputs = ['data','Y: outcome column','D: one endogenous treatment column',
             'Z: excluded instrument columns','controls: exogenous control columns',
             'FE: adopted fixed effects','cl: adopted cluster columns','weights: adopted weight column','alpha']
-        adopted_inference = request.get('inference',adopted_spec.get('inference',{}))
-        alpha = adopted_inference.get('alpha') if isinstance(adopted_inference,dict) else None
-        level = comparison.get('confidence_level')
+        alpha = requested_alpha
         if level is not None:
             if isinstance(level,bool) or not isinstance(level,(int,float)) or not 0<level<1:
                 raise ValueError('comparison.confidence_level must be between zero and one')
@@ -813,11 +841,60 @@ def select_method(request):
         required_native_options['panel'] = structure == 'panel'
         if target_kind in ('att','event_time_att'):
             required_native_options['aggregation.type'] = 'simple' if target_kind == 'att' else 'dynamic'
+        if cluster_columns is not None:
+            if len(set(cluster_columns) - {forward_options.get('entity')}) > 1:
+                raise ValueError('did clustering accepts the entity column and one additional cluster column')
+            required_native_options['clustervars'] = cluster_columns
+            required_native_options['aggregation.clustervars'] = cluster_columns
+        if level is not None:
+            required_native_options['alp'] = 1 - level
+            required_native_options['aggregation.alp'] = 1 - level
+        if interval_type is not None:
+            if interval_type not in ('pointwise', 'simultaneous'):
+                raise ValueError('did interval_type must be pointwise or simultaneous')
+            required_native_options['cband'] = interval_type == 'simultaneous'
+            required_native_options['aggregation.cband'] = interval_type == 'simultaneous'
+            if interval_type == 'simultaneous':
+                required_native_options['bstrap'] = True
+                required_native_options['aggregation.bstrap'] = True
+        for field in ('anticipation', 'base_period'):
+            if field in facts:
+                required_native_options[field] = facts[field]
+        if proposed_contract.get('comparison_group') in ('nevertreated', 'notyettreated'):
+            required_native_options['control_group'] = proposed_contract['comparison_group']
+    if method == 'iv_ar':
+        required_native_options['alpha'] = 1 - level if level is not None else forward_options.get('alpha', .05)
+    if method == 'iv_ar_robust' and cluster_columns is not None:
+        required_native_options['args.cl'] = cluster_columns
+    if method == 'rdrobust_r':
+        if interval_type not in (None, 'pointwise'):
+            raise ValueError('rdrobust supplies pointwise robust bias-corrected intervals for the adopted cutoff target')
+        if level is not None:
+            required_native_options['args.level'] = 100 * level
+        if cluster_columns is not None:
+            if len(cluster_columns) != 1:
+                raise ValueError('rdrobust.cluster requires one adopted independent cluster partition')
+            required_native_options['columns.cluster'] = cluster_columns[0]
+    if method in ('fixest_ols', 'fixest_ppml', 'sunab') and cluster_columns is not None:
+        quoted_columns = ['`' + name.replace('\\', '\\\\').replace('`', '\\`') + '`' for name in cluster_columns]
+        required_native_options['args.vcov'] = '~' + '+'.join(quoted_columns)
+    if method in ('ols_r', 'fixest_ols', 'fixest_ppml', 'negative_binomial_r', 'sunab', 'did2s'):
+        if interval_type not in (None, 'pointwise'):
+            raise ValueError('the selected fitted-model confint interface supplies pointwise intervals')
+        if level is not None:
+            required_native_options['confidence_level'] = level
     # Keep the supplied options intact and expose target-implied changes as a
     # reviewable proposal. Selection never amends or executes the adopted fit.
     selected_options = deepcopy(forward_options)
     option_changes = []
-    if method in ('sunab','grf','staggered_did','did_multiplegt_dyn','nonabs_did','iv_ar_robust','finite_horizon_choice','consumption_saving'):
+    if method in ('fixest_ols', 'fixest_ppml', 'sunab') and cluster_columns is not None:
+        # fixest accepts one covariance specification. The vcov formula binds
+        # the adopted clusters without also passing its legacy cluster option.
+        for container in ('args', 'columns'):
+            if 'cluster' in selected_options.get(container, {}):
+                previous = selected_options[container].pop('cluster')
+                option_changes.append({'field':f'options.{container}.cluster','supplied':previous,'selected':None})
+    if method in ('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab','did2s','grf','staggered_did','did_multiplegt_dyn','nonabs_did','iv_ar','iv_ar_robust','rdrobust_r','dml_irm','dml_pliv','dml_iivm','finite_horizon_choice','consumption_saving'):
         for field, value in required_native_options.items():
             cursor = selected_options
             path = field.split('.', 1)
@@ -828,11 +905,34 @@ def select_method(request):
             key = path[-1]
             defaults = {'panel':True,'aggregation.type':'dynamic','aggregation':'period',
                         'aggregation.target.sample':'all','args.normalized':False,
-                        'args.CI':True,'args.alpha':.05,'return_scalar':True,'vFuncBool':False}
+                        'args.CI':True,'args.alpha':.05,'args.level':95,'alpha':.05,'confidence_level':.95,
+                        'alp':.05,'aggregation.alp':forward_options.get('alp',.05),
+                        'cband':False,'aggregation.cband':forward_options.get('cband',False),
+                        'bstrap':False,'aggregation.bstrap':forward_options.get('bstrap',False),
+                        'score':'ATE' if method == 'dml_irm' else 'LATE' if method == 'dml_iivm' else 'partialling out',
+                        'return_scalar':True,'vFuncBool':False}
             supplied = cursor.get(key, defaults.get(field))
             if supplied != value:
                 option_changes.append({'field':'options.'+field,'supplied':supplied,'selected':value})
             cursor[key] = value
+    unbound_inputs = []
+    if request['dependence'] in ('cluster', 'clustered'):
+        if method == 'staggered_did' and not selected_options.get('clustervars'):
+            unbound_inputs.append('inference.cluster/clusters or options.clustervars')
+        elif method == 'iv_ar_robust' and not selected_options.get('args', {}).get('cl'):
+            unbound_inputs.append('inference.cluster/clusters or options.args.cl')
+        elif method == 'rdrobust_r' and not (selected_options.get('columns', {}).get('cluster') or
+                selected_options.get('args', {}).get('cluster') is not None):
+            unbound_inputs.append('inference.cluster or options.columns.cluster')
+        elif method in ('fixest_ols', 'fixest_ppml', 'sunab') and cluster_columns is None:
+            native = selected_options.get('args', {})
+            vcov = native.get('vcov')
+            if not (native.get('cluster') or selected_options.get('columns', {}).get('cluster') or
+                    isinstance(vcov, str) and '~' in vcov):
+                unbound_inputs.append('inference.cluster/clusters or an explicit native cluster binding')
+    if method == 'rdrobust_r' and facts.get('discontinuity') == 'fuzzy' and not (
+            selected_options.get('columns', {}).get('fuzzy') or selected_options.get('args', {}).get('fuzzy') is not None):
+        unbound_inputs.append('options.columns.fuzzy: actual treatment-receipt column')
     if external_implementation:
         engine = external_implementation['function']
     elif method in R_METHODS:
@@ -859,8 +959,8 @@ def select_method(request):
     changes = []
     if adopted and adopted != method:
         changes.append({'field':'method','adopted':adopted,'selected':method})
-    for key in ('estimand','identification'):
-        if key in adopted_spec and adopted_spec[key] != request[key]:
+    for key in ('estimand','identification','data','id','outcome','regressors','endogenous','instruments'):
+        if key in adopted_spec and key in request and adopted_spec[key] != request[key]:
             changes.append({'field':key,'adopted':adopted_spec[key],'selected':request[key]})
     for key in contract_fields:
         if key in adopted_contract and proposed_contract.get(key) != adopted_contract[key]:
@@ -880,7 +980,7 @@ def select_method(request):
         'specification':proposed_contract.get('inference'),
         'interval_type':comparison.get('interval_type',comparison.get('ci_kind',
             inherited_inference.get('interval_type',inherited_inference.get('ci_kind','pointwise')))),
-        'confidence_level':comparison.get('confidence_level',inherited_inference.get('confidence_level')),
+        'confidence_level':level,
         'family':comparison.get('inference_family',comparison.get('family',
             inherited_inference.get('inference_family',inherited_inference.get('family')))),
         'official_output_required':True}
@@ -897,6 +997,40 @@ def select_method(request):
         inference_contract['interval_type'] = comparison.get('interval_type',comparison.get('ci_kind',
             inherited_inference.get('interval_type',inherited_inference.get('ci_kind'))))
         inference_contract['official_output_required'] = False
+    if request['dependence'] in ('cluster', 'clustered'):
+        cluster_count = facts.get('cluster_count')
+        treated_cluster_count = facts.get('treated_cluster_count')
+        for name, count, minimum in (('cluster_count', cluster_count, 2),
+                ('treated_cluster_count', treated_cluster_count, 0)):
+            if count is not None and (isinstance(count, bool) or not isinstance(count, int) or count < minimum):
+                raise ValueError(f'conditions.{name} must be an integer >= {minimum}')
+        if cluster_count is not None and treated_cluster_count is not None and treated_cluster_count > cluster_count:
+            raise ValueError('treated_cluster_count cannot exceed cluster_count')
+        inference_contract['cluster_design'] = {
+            'columns':cluster_columns, 'independent_unit':inference_contract['unit'],
+            'declared_cluster_count':cluster_count, 'declared_treated_cluster_count':treated_cluster_count,
+            'common_shocks':facts.get('common_shocks'), 'counts_basis':'declared design; confirm on the fitted sample',
+            'required_conditions':['independence across the specified clusters',
+                'assignment and common shocks represented by the adopted clustering',
+                'cluster size, leverage and treated/control cluster support for the chosen reference distribution']}
+        inference_contract['comparisons'] = []
+        for candidate, supported, model_class, native, source in (
+            ('wild_cluster_bootstrap', method in ('ols_r','fixest_ols','sunab','did2s'),
+             'saved lm or linear fixest fit', {'conf_int':True},
+             'https://s3alfisc.github.io/fwildclusterboot/reference/boottest.fixest.html'),
+            ('club_sandwich', method == 'ols_r', 'saved lm fit with vcovCR.lm support',
+             {'vcov':'CR2','test':'Satterthwaite'},
+             'https://jepusto.github.io/clubSandwich/reference/coef_test.html')):
+            package, function = R_METHODS[candidate]
+            inference_contract['comparisons'].append({
+                'method':candidate,'function':f'{package}::{function}',
+                'entry_point':'skills/econ-data/scripts/research_causal.py run',
+                'model_contract':model_class,'compatible_saved_fit':supported,
+                'excluded_by':[] if supported else ['the selected result does not provide this supported native linear-model fit'],
+                'native_options':native,'source':source,
+                'required_inputs':['saved fit and exact analysis-sample cluster vector','coefficient contrast and null',
+                    'adopted cluster reference model and bootstrap weights/repetitions when used'],
+                'adoption_status':'comparison_preserving_current_inference','executed':False})
     candidate_comparisons = []
     for candidate in alternatives:
         if candidate['method'] == method:
@@ -910,7 +1044,8 @@ def select_method(request):
         fit['matches_declared_dimensions'] = {
             name:value in fit[allowed] for allowed,(name,value) in dimensions.items() if allowed in fit}
         if 'conditional_distribution' in fit:
-            fit['matches_declared_dimensions']['conditional_distribution'] = facts.get('conditional_distribution') == fit['conditional_distribution']
+            fit['matches_declared_dimensions']['conditional_distribution'] = (
+                facts['conditional_distribution'] == fit['conditional_distribution'] if 'conditional_distribution' in facts else None)
         fit['basis'] = 'declared specification'
         fit['data_inspected'] = False
         candidate_targets = compatible.get(candidate['method'])
@@ -919,7 +1054,18 @@ def select_method(request):
             'supported_kinds':sorted(candidate_targets) if candidate_targets is not None else None,
             'matches_requested_kind':target_kind in candidate_targets if target_kind and candidate_targets is not None else None}
         if candidate['method'] == 'dml_plr' and target_kind == 'ate':
-            candidate['target_comparison']['matches_requested_kind'] = facts.get('effect_heterogeneity') == 'constant'
+            candidate['target_comparison']['matches_requested_kind'] = (
+                facts['effect_heterogeneity'] == 'constant' if 'effect_heterogeneity' in facts else None)
+        exclusions = [f'{dimension}={fit["declared"].get(dimension, facts.get(dimension))}'
+            for dimension, matches in fit['matches_declared_dimensions'].items() if matches is False]
+        if candidate['target_comparison']['matches_requested_kind'] is False:
+            exclusions.append(f'target.kind={target_kind} is outside the candidate estimand')
+        if candidate['method'] == 'iv_ar' and facts.get('homoskedastic_normal_errors') is False:
+            exclusions.append('exact F inversion requires explicit independent homoskedastic normal errors')
+        if candidate['method'] == 'synthdid' and facts.get('common_treatment_block') is False:
+            exclusions.append('the observed treatment histories do not form a common treated block')
+        candidate['eligibility'] = {'status':'incompatible' if exclusions else 'requires_identifying_conditions',
+            'excluded_by':exclusions, 'conditions_to_establish':candidate['conditions']}
         candidate['inference']['adopted_dependence'] = request['dependence']
         candidate['inference']['adopted_unit'] = inference_contract['unit']
         candidate['adopted_specification_changes'] = {
@@ -951,6 +1097,7 @@ def select_method(request):
         'required_inputs':required_inputs,'assumptions':conditions,'inference':inference_contract,
         'official_implementation':{'function':engine,'entry_point':owner,'options':selected_options,
             'required_options':required_native_options,'execution_mode':'external_official_entry' if external_implementation else 'existing_runner',
+            'unbound_inputs':unbound_inputs,
             'external_contract':external_implementation},
         'option_changes':option_changes,
         'reason':{'target':method_quantity,'design':design,'assignment_mechanism':mechanism,
@@ -964,6 +1111,52 @@ def select_method(request):
         'adoption_status':'proposal_retaining_adopted_specification' if changes else 'selected_for_requested_target'}
     if computation is not None:
         selection['computation'] = computation
+    implementation = selection['official_implementation']
+    # Reuse the registered dependency owners; requirements remain their sole
+    # version authority and can be passed to the research harness runtime.
+    dependency_path = owner.split(' ', 1)[0]
+    if method in ('dml_irm', 'dml_pliv', 'dml_iivm'):
+        dependency_path = 'skills/econ-data/scripts/research.py'
+    resources = json.loads((ROOT / ('RESOURCES.json' if FLAT_EXPORT else 'registry/resources.json')).read_text())['resources']
+    placements = json.loads((ROOT / ('PLACEMENTS.json' if FLAT_EXPORT else 'registry/placements.json')).read_text())['resources']
+    resource = next((r for rid, r in resources.items() if dependency_path in
+        (r['source_path'], placements[rid]['deployment_path'], placements[rid]['export_alias'])), None)
+    layout_path = 'export_alias' if FLAT_EXPORT else 'deployment_path' if ROOT.name == '.agents' else 'source_path'
+    is_causal_runner = owner == 'skills/econ-data/scripts/research_causal.py run'
+    if resource and not external_implementation:
+        resource_id = resource['resource_id']
+        script_path = resource['source_path'] if layout_path == 'source_path' else placements[resource_id][layout_path]
+        owner = script_path + ' ' + owner.split(' ', 1)[1]
+        implementation['entry_point'] = owner
+    for candidate in inference_contract.get('comparisons', []):
+        causal_path = resources['research-causal']['source_path'] if layout_path == 'source_path' else placements['research-causal'][layout_path]
+        candidate['entry_point'] = causal_path + ' run'
+    implementation['dependencies'] = []
+    if resource:
+        for resource_id in resource.get('required_resources', []):
+            dependency = resources[resource_id]
+            path = dependency['source_path']
+            if Path(path).name.startswith('requirements-'):
+                if path.endswith('-r.json') and method not in R_METHODS and method not in ('staggered_did','generalized_synth'):
+                    continue
+                implementation['dependencies'].append({'resource_id':resource_id,
+                    'path':path if layout_path == 'source_path' else placements[resource_id][layout_path]})
+    if is_causal_runner and external_implementation is None:
+        inputs = {**adopted_spec, **request}
+        execution_spec = {key:deepcopy(inputs[key]) for key in RUN_FIELDS if key in inputs}
+        execution_spec.update(method=method, options=deepcopy(selected_options))
+        if method in R_METHODS:
+            execution_spec['inference'] = {'type':'official'}
+        elif method == 'staggered_did':
+            execution_spec['inference'] = {'type':'did'}
+        elif method == 'iv_ar':
+            execution_spec['inference'] = {'type':'homoskedastic'}
+        missing_fields = sorted(RUN_FIELDS - execution_spec.keys())
+        implementation['execution_specification'] = {
+            'status':'inputs_required' if missing_fields or unbound_inputs else 'specified',
+            'specification':execution_spec, 'missing_fields':missing_fields,
+            'unbound_inputs':unbound_inputs, 'adoption_required':bool(changes),
+            'command':['python',*owner.split(' '),'SPEC.json','--output','RESULT.json']}
     return {'result_format_version':1,'status':'design_change' if changes else 'selected','question':request['question'],
         'estimand':request['estimand'],'identification':request['identification'],
         'method':method,'engine':engine,'entry_point':owner,'determining_conditions':conditions,
@@ -1266,6 +1459,7 @@ def _official_r(spec, spec_path):
     }[method]
     optional = {'args','columns','seed','definitions'}
     if method in ('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab','fixes_event_study','iv_ar_robust'): optional.add('fixed_effects')
+    if method in ('ols_r','fixest_ols','fixest_ppml','negative_binomial_r'): optional.add('confidence_level')
     if method == 'sunab': optional |= {'sunab','aggregation','never_treated','confidence_level'}
     if method == 'did2s': optional |= {'event_variable','reference_event_time','confidence_level'}
     if method == 'fixes_event_study': optional |= {'never_treated'}
@@ -1297,7 +1491,7 @@ def _official_r(spec, spec_path):
             raise ValueError('the inspected fixes CS implementation uses unadjusted unit-level comparisons; covariates, sampling weights or higher-level clusters use did::att_gt')
     if method == 'fixes_event_study' and opt['estimator'] == 'sa':
         if spec['regressors'] or 'weights' in opt.get('args',{}) or 'weights' in opt.get('columns',{}):
-            raise ValueError('the inspected fixes SA implementation does not pass covariates or sampling weights to its interaction fit; use fixest::sunab for that specification')
+            raise ValueError('the inspected fixes SA implementation does not pass covariates or sampling weights to its interaction fit; use the sunab formula term in fixest::feols for that specification')
     if method == 'fixes_event_study' and opt['estimator'] in ('bjs','twm','flex'):
         if 'weights' in opt.get('args',{}) or 'weights' in opt.get('columns',{}):
             raise ValueError(f"the inspected fixes {opt['estimator'].upper()} implementation does not pass sampling weights to its fit")
@@ -1382,7 +1576,7 @@ if(method %in% c('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab
       if(!all(c(o$entity,o$time,o$cohort) %in% names(d))) stop('Missing Sun-Abraham panel columns')
       if(anyDuplicated(d[,c(o$entity,o$time)])) stop('Sun-Abraham requires unique entity-time pairs')
       sa <- if(is.null(o$sunab)) list() else o$sunab
-      unknown <- setdiff(names(sa),setdiff(names(formals(fixest::sunab)),c('cohort','period')))
+      unknown <- setdiff(names(sa),setdiff(names(formals(getFromNamespace('sunab','fixest'))),c('cohort','period')))
       if(length(unknown)) stop(paste('Unsupported sunab option:',paste(unknown,collapse=', ')))
       if(isTRUE(sa$no_agg)) stop('Use the saved cohort coefficients for no_agg; this branch reports an adopted aggregate')
       if(isTRUE(sa$att) && !identical(o$aggregation,'att')) stop('sunab att=TRUE requires aggregation=att')
@@ -1686,7 +1880,9 @@ if(method %in% c('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab
   covariance <- matrix(fit$se['Robust',1]^2,1,1,dimnames=list('treatment_effect','treatment_effect'))
   cutoff <- if(is.null(call_args$c)) 0 else call_args$c
   local <- d[[o$running]] >= cutoff-fit$bws['h',1] & d[[o$running]] <= cutoff+fit$bws['h',2]
-  diagnostics <- list(bandwidths=fit$bws,effective_counts=fit$N_h,local_ids=I(ids[local]))
+  diagnostics <- list(bandwidths=fit$bws,effective_counts=fit$N_h,observations=sum(fit$N),side_counts=fit$N,
+    bandwidth_input_ids=I(ids[which(local)]),input_ids=I(ids),input_rows=length(ids),
+    sample_mapping='official rdrobust reports post-preprocessing side counts; fitted row identities are not exported')
   if('plot' %in% names(o)) {
     plot_fun <- getExportedValue('rdrobust','rdplot')
     shared <- intersect(names(call_args),c('weights','covs','subset'))
@@ -1724,6 +1920,7 @@ if(method %in% c('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab
         signature=names(formals(plot_fun)),function_defaults=lapply(formals(plot_fun),function(x) paste(deparse(x),collapse=' '))),
       effective_options=plot_options))
   }
+  ids <- character()
 } else if(method=='club_sandwich') {
   rows <- as.data.frame(fit)
 } else if(method=='wild_cluster_bootstrap') {
@@ -1756,6 +1953,7 @@ if(method %in% c('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab
   diagnostics$cluster_columns <- call_args$cl
   diagnostics$cluster_counts <- setNames(lapply(call_args$cl,function(column) length(unique(d[[column]]))),call_args$cl)
   diagnostics$stages <- stage_fit
+  diagnostics$first_stage_tests <- as.list(stage_fit$F_stat)
   diagnostics$stage_function <- 'ivDiag::ivDiag'
   diagnostics$stage_arguments <- stage_args[setdiff(names(stage_args),'data')]
   for(stage in c('first_stage','reduced_form','2sls')) {
@@ -1891,10 +2089,7 @@ write_json(obj,args[5],auto_unbox=TRUE,digits=16,na='null',null='null',dataframe
     return result
 
 def run(spec, spec_path):
-    allowed = {'method','data','id','outcome','regressors','endogenous','instruments',
-               'population','period','unit','estimand','identification','assignment',
-               'inference','options'}
-    if not isinstance(spec, dict) or set(spec) != allowed:
+    if not isinstance(spec, dict) or set(spec) != RUN_FIELDS:
         raise ValueError('specification must contain exactly the documented fields')
     method = spec['method']
     methods = {'gls','iv_gmm','iv_ar','panel_fe','quantile','poisson','logit','rct','rdd_sharp','rdd_fuzzy','hdfe','causal_forest','spatial_lag','rdd_localrand','shift_share','policy_tree','network_spillover','tobit','dynamic_panel','synthetic_control','staggered_did','generalized_synth','multitreatment_did','distribution_effect'} | set(R_METHODS)

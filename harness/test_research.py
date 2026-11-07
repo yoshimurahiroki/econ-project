@@ -1,5 +1,6 @@
 """Exercise the research CLI using a small calculation and its consumers."""
 import json
+import importlib.metadata
 from pathlib import Path
 import subprocess
 import sys
@@ -59,6 +60,35 @@ pathlib.Path(sys.argv[3]).write_text(json.dumps({'estimate': {'value': x * y, 'u
         tasks = json.loads((self.root / '.agents/state/team.json').read_text())['tasks']
         self.assertEqual(tasks[failed['estimate']['task']]['status'], 'failed')
         self.assertEqual(tasks[failed['estimate']['task']]['outputs']['research:execution']['value']['returncode'], 7)
+
+    def test_requirement_pins_class_api_and_changed_environment(self):
+        version = importlib.metadata.version('packaging')
+        (self.root / 'requirements.txt').write_text('packaging==' + version + '\n')
+        stage = self.spec['stages'][0]
+        stage['inputs'].append('requirements.txt')
+        stage['runtime'] = {'language': 'python', 'probe_argv': [sys.executable],
+                            'requirements': ['requirements.txt'],
+                            'apis': [{'package': 'packaging',
+                                      'symbol': 'packaging.specifiers.SpecifierSet.contains',
+                                      'positional': 2, 'keywords': ['prereleases']}]}
+        self.write_spec()
+        first = self.cli()
+        self.assertEqual(first['estimate']['status'], 'executed')
+        saved = json.loads((self.root / '.agents/state/team.json').read_text())['tasks'][first['estimate']['task']]
+        runtime = saved['outputs']['research:execution']['value']['runtime']
+        self.assertEqual(runtime['observed']['packages']['packaging']['version'], version)
+        self.assertIn('prereleases', runtime['observed']['apis'][0]['signature'])
+        self.assertIn('requirements.txt', runtime['files'])
+        self.assertEqual(self.cli()['estimate']['status'], 'reused')
+        (self.root / 'requirements.txt').write_text('packaging==0.0.0\n')
+        blocked = self.cli(1)
+        self.assertEqual(blocked['estimate']['status'], 'blocked')
+        self.assertIn('version mismatch', blocked['estimate']['reason'])
+        self.assertEqual(blocked['paper']['status'], 'blocked')
+        self.assertEqual(blocked['independent']['status'], 'reused')
+        stage['runtime']['packages'] = {'packaging': version}
+        self.write_spec()
+        self.assertIn('Conflicting runtime versions', self.cli(2))
 
 
 if __name__ == '__main__':

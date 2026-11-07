@@ -908,6 +908,58 @@ def simulate_capacity(model, markets, periods, seed):
     return rows
 
 
+def replacement_displays(result):
+    """Expose saved replacement estimates, policy curves and value comparisons."""
+    contract = {'model_contract': 'MC-replacement-ddc', 'unit': 'see row-specific unit'}
+    parameter_rows = []
+    for estimator in ('nfxp', 'ccp', 'smm'):
+        if estimator not in result:
+            continue
+        for i, (parameter, unit) in enumerate((('maintenance_cost', 'utility per mileage state'),
+                                               ('replacement_cost', 'utility'))):
+            parameter_rows.append({'estimator': estimator, 'parameter': parameter,
+                                   'value': result[estimator]['parameters'][i], 'unit': unit})
+    diagnostic_rows = [
+        {'diagnostic': 'nfxp_negative_log_likelihood', 'value': result['nfxp']['negative_log_likelihood'], 'unit': 'negative log likelihood'},
+        {'diagnostic': 'official_likelihood_abs_difference', 'value': result['nfxp']['original_likelihood_abs_difference'], 'unit': 'log likelihood'},
+        {'diagnostic': 'ccp_rank', 'value': result['ccp']['rank'], 'unit': 'rank'},
+        {'diagnostic': 'ccp_inversion_max_residual', 'value': result['ccp']['inversion_max_residual'], 'unit': 'utility'},
+    ]
+    policy_rows, value_rows = [], []
+    for scenario in ('baseline', 'scenario'):
+        solution = result[scenario]
+        diagnostic_rows.append({'diagnostic': scenario+'_bellman_residual',
+                                'value': solution['bellman_residual'], 'unit': 'utility'})
+        for state, (policy, value) in enumerate(zip(solution['policy'], solution['value'])):
+            policy_rows.append({'scenario': scenario, 'state': state, 'value': policy[1], 'unit': 'replacement probability'})
+            value_rows.append({'scenario': scenario, 'state': state, 'value': value, 'unit': 'discounted utility'})
+    return {
+        'parameters': {'kind': 'table', 'title': 'Replacement costs by estimator', 'rows': parameter_rows,
+                       'columns': [{'key': key, 'label': label, 'unit': ''} for key, label in
+                                   (('estimator', 'Estimator'), ('parameter', 'Parameter'), ('value', 'Estimate'), ('unit', 'Unit'))],
+                       'metadata': {**contract, 'report_role': 'parameters'},
+                       'display': {'plot_type': 'table', 'formats': {'value': '.4f'}}},
+        'model_fit': {'kind': 'table', 'title': 'Choice fit and Bellman diagnostics', 'rows': diagnostic_rows,
+                      'columns': [{'key': key, 'label': label, 'unit': ''} for key, label in
+                                  (('diagnostic', 'Diagnostic'), ('value', 'Value'), ('unit', 'Unit'))],
+                      'metadata': {**contract, 'report_role': 'model_fit'}, 'display': {'plot_type': 'table'}},
+        'replacement_policy': {'kind': 'structural', 'title': 'Replacement policy by mileage state', 'rows': policy_rows,
+                               'columns': [{'key': key, 'label': label, 'unit': unit} for key, label, unit in
+                                           (('scenario', 'Scenario', ''), ('state', 'Mileage state', 'state'),
+                                            ('value', 'Replacement probability', 'probability'), ('unit', 'Unit', ''))],
+                               'metadata': {**contract, 'report_role': 'counterfactual', 'unit': 'replacement probability',
+                                            'estimand': 'Optimal replacement probability conditional on mileage state'},
+                               'display': {'plot_type': 'line', 'x': 'state', 'y': 'value', 'series': 'scenario'}},
+        'state_values': {'kind': 'counterfactual', 'title': 'Expected discounted value by mileage state', 'rows': value_rows,
+                         'columns': [{'key': key, 'label': label, 'unit': unit} for key, label, unit in
+                                     (('scenario', 'Scenario', ''), ('state', 'Mileage state', 'state'),
+                                      ('value', 'Expected discounted value', 'utility'), ('unit', 'Unit', ''))],
+                         'metadata': {**contract, 'report_role': 'counterfactual', 'unit': 'discounted utility',
+                                      'population': 'Initial state-specific agents; no cross-state population aggregation',
+                                      'value_definition': 'Inclusive expected discounted utility under unit-scale EV1 shocks with Euler constant normalized to zero'},
+                         'display': {'plot_type': 'line', 'x': 'state', 'y': 'value', 'series': 'scenario'}}}
+
+
 def observed_run(spec, base):
     mode = spec['model']; options = spec['options']
     if mode == 'capacity_product_game' and 'data' in spec:
@@ -1028,10 +1080,14 @@ def observed_run(spec, base):
                                        options['type_weights'], float(options['price_change']))
         stats = {'dynamic_blp_price_coefficient': {'value': result['linear_coefficients'][1], 'unit': 'utility per price unit'},
                  'dynamic_blp_share_inversion_residual': {'value': result['inversion_residual'], 'unit': 'probability'}}
-    return {'model': mode, 'adopted': spec.get('adopted', {}), 'scenario': spec.get('scenario', {}), 'options': options,
+    output = {'model': mode, 'adopted': spec.get('adopted', {}), 'scenario': spec.get('scenario', {}), 'options': options,
             'transition': 'declared in specification', 'engine': 'NumPy/SciPy', 'statistics': stats, 'fullresults': result,
             'provenance': {'data': source, 'python': sys.version.split()[0], 'numpy': np.__version__,
                            'scipy': scipy.__version__, 'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}}
+    if mode == 'replacement':
+        output['engine'] = result['nfxp']['engine']+'; NumPy/SciPy CCP'
+        output['displays'] = replacement_displays(result)
+    return output
 
 
 def local_checks():

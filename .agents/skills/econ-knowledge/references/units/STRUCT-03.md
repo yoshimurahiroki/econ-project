@@ -37,3 +37,13 @@ L_i=\sum_k\omega_k f_k(s_{i0})
 
 低・高の二状態、二行動、$\beta=.5$、尺度1の独立な極値ショックを置き、期待値の共通定数を吸収する。基準ではどちらの行動でも同じ状態にとどまる。両行動の状態別利得がモデルAでは $(0,0)$、モデルBでは $(0,1)$ でも、各状態での行動1の選択率はともに .5 である。政策で行動1だけが次期に高状態へ移ると、低状態での選択率はAで .5 のまま、Bでは .653338 となる。Bの高状態価値は $V_H=2(1+\log2)$、低状態で $z=\exp(V_L/2)$ と置けば $z^2=z+2e$ で、行動1の選択率は $2e/z^2$ である。状態別利得の観測または政策後にも維持する経済的制約が両モデルを分ける。どちらも基準データと整合する場合は、候補ごとに政策後の選択率を計算する。
 
+### 期間・ショック構造と公式推定器の対応
+
+定常的な設備置換では、状態を劣化、選択を維持・更新、利得を費用、遷移を使用・更新後の劣化として固定する。有限状態・定常的な情報と推移・独立極値ショックが上のlog-sum Bellman式を定める。[ruspyの公式criterion](https://ruspy.readthedocs.io/en/latest/estimation.html)はNFXP用の尤度・微分、またはMPEC用の目的関数・制約を返し、パラメータの最適化はそれらを受け取るoptimizerが行う。ERSの置換ランナーは`ruspy.estimation.criterion_function.get_criterion_function`を呼び、元のreset-to-zeroモデルと公式の置換後増分の時点を対応させ、同じ観測上の尤度を照合する。STRUCT-04の支持と第一段階推論の条件がCCPを選ぶ境界となる。
+
+年齢と経験が将来の就業・教育選択を変える有限期間モデルでは、各年齢の終端までを後退帰納する。respy 2.1.1の[公式利得関数](https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/shared.py)は就業選択の賃金に乗法的ショックを、非就業選択の利得に加法的ショックを入れ、正規乱数をCholesky因子で変換して期待最大価値を積分する。選択別価値は \(v_{ta}(s,\varepsilon)=r_{ta}(s,\varepsilon)+\beta E[V_{t+1}(s')\mid s,a]\)、選択前価値は \(V_t(s)=E_\varepsilon[\max_{a\in A_t(s)}v_{ta}(s,\varepsilon)]\) である。上の独立極値ショックのlog-sum式を使う条件は、採択した誤差分布と一致させる。
+
+[respy `get_log_like_func(params, options, df, return_scalar=False)`](https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/likelihood.py)は、パラメータだけを引数とする平均対数尤度の関数を返す。optimizerでこの値を最大化し、`contributions`と`comparison_plot_data`を保存する。`get_moment_errors_func`はSTRUCT-02の同じ観測・模擬モーメントの距離を最小化する。推定する係数ごとに、年齢・経験・選択と観測賃金のどの変動が、流量利得、将来機会、ショック分散または恒久型を分けるかを指定する。終端価値、初期状態と型の分布、可能な選択、係数・尺度の正規化、観測賃金の測定誤差を同じ仕様に固定する。
+
+数値計算では`solution_seed`、`simulation_seed`、`estimation_seed`と積分点数を保存し、目的値・パラメータ・政策対象を比較する際は同じ乱数を使う。元の目的関数、自由係数の勾配・境界条件、モーメントJacobianのrank、模擬回数と解法精度を変えた係数・政策対象を照合する。推論は独立個体を単位とし、遷移・初期分布・補助推定を推定して使う場合は同じ再標本で全段階を更新する。有限期間のterminal、定常置換のreset、ゲームの相手企業の政策はそれぞれ異なる状態遷移を定める。対象に対応する契約を`MC-respy-finite-choice`、`MC-replacement-ddc`、STRUCT-05から選ぶ。
+

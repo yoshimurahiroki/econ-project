@@ -41,3 +41,5 @@ s_{jt}(\delta,\theta_2)=\sum_rw_r\frac{\exp(\delta_{jt}+\mu_{jtr})}{1+\sum_k\exp
 
 実行例は \(t=0,\ldots,7\)、\(j=0,1,2\) の8市場×3製品で、\(x_{jt}=.5(j-1)+.06t\)、\(p_{jt}=1+.13j+.03t+.02jt\)、追加操作変数 \(z_1=(j-1)^2+.1tj\)、\(z_2=.1(j-1)(t+1)\) を使う。15点の正規Gauss積分、\(\delta=.1+.7x-1.2p\)、\(\mu=.45x\nu\) で作ったシェアを使う。PyBLP 1.3.0の `Problem`、`Integration('product', size=15)`、`solve` の1段階GMMは \(\hat\sigma=.45000003\)、\(\hat\beta=(.10000006,.70000002,-1.20000005)\)、PyBLP既定の \(nQ\) に尺度を合わせた目的値 \(1.30\times10^{-17}\)、シェア最大残差 \(8.33\times10^{-17}\) を返した。価格と特性に加え2本の操作変数を使った人工例であり、実データの除外制約はその制度に基づき定める。
 
+[PyBLP 1.3.0 `Problem.solve`](https://pyblp.readthedocs.io/en/stable/_api/pyblp.Problem.solve.html)の`sigma`は嗜好共分散の下三角Cholesky因子で、共分散は \(\Sigma\Sigma'\) である。上三角の入力は使わず、初期値0または上下限が等しい成分は固定する。保存パラメータ表は下三角の固定0も保持し、固定成分の標準誤差は値のないセルとして保存する。推定・固定の別を仕様のboundsと照合し、共分散の成分、Cholesky係数、線形価格係数をそれぞれの意味と単位で解釈する。
+

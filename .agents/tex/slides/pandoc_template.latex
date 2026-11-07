@@ -32,11 +32,9 @@ $if(bibliography)$$else$\let\econbibstyle\bibliographystyle
 \renewcommand{\bibliographystyle}[1]{}
 $endif$$common.latex()$
 $if(bibliography)$$else$\let\bibliographystyle\econbibstyle
-$endif$$if(standalone-renderer)$
-$for(header-includes)$
+$endif$$for(header-includes)$
 $header-includes$
 $endfor$
-$endif$
 \setbeamerfont{caption}{size=\scriptsize}
 \AtBeginEnvironment{longtable}{\footnotesize\setlength{\tabcolsep}{2pt}}
 \begin{document}

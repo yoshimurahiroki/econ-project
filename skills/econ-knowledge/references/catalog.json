@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.63",
+  "version": "2.3.64",
   "language": "ja",
-  "date": "2026-11-05",
+  "date": "2026-11-06",
   "chapter_count": 35,
   "unit_count": 256,
   "worked_example_unit_count": 39,
@@ -2818,8 +2818,8 @@
       "domain": "動学計算",
       "subdomain": "Bellman 方程式",
       "kind": "knowledge",
-      "topic": "Bellman 方程式; contraction convergence; 収縮写像と収束",
-      "use_when": "遷移法則が既知ならBellman式を解き、固定方策の軌跡しかないときはTDまたは実現収益で価値を推定する",
+      "topic": "Bellman 方程式; contraction convergence; 収縮写像と収束; finite horizon backward induction; lifecycle regimes; 退職と消費貯蓄の制度選択; pylcm",
+      "use_when": "状態・行動・情報・期間・終端からBellman固定点、有限期間の後退帰納、制度別の離散連続選択を選ぶ",
       "inputs": [
         "状態",
         "行動",
@@ -2846,7 +2846,10 @@
         "C61",
         "C63"
       ],
-      "contract_ids": []
+      "contract_ids": [
+        "MC-respy-finite-choice",
+        "MC-lifecycle-regimes"
+      ]
     },
     {
       "id": "DYN-03",
@@ -2882,7 +2885,10 @@
         "C61",
         "D15"
       ],
-      "contract_ids": []
+      "contract_ids": [
+        "MC-hark-consumption-saving",
+        "MC-lifecycle-regimes"
+      ]
     },
     {
       "id": "DYN-04",
@@ -4269,7 +4275,9 @@
         "C51",
         "C52"
       ],
-      "contract_ids": []
+      "contract_ids": [
+        "MC-respy-finite-choice"
+      ]
     },
     {
       "id": "STRUCT-03",
@@ -4278,7 +4286,7 @@
       "domain": "構造推定",
       "subdomain": "動学離散選択",
       "kind": "knowledge",
-      "topic": "Bellman解を尤度の各候補で求める; latent type dynamic discrete choice; initial conditions likelihood; 潜在型動学離散選択; 初期条件尤度; 遷移変更と状態別利得の識別; transition counterfactual identification",
+      "topic": "Bellman解を尤度の各候補で求める; latent type dynamic discrete choice; initial conditions likelihood; 潜在型動学離散選択; 初期条件尤度; 遷移変更と状態別利得の識別; transition counterfactual identification; respy finite horizon choice wage likelihood; ruspy stationary replacement; shock distribution and normalization",
       "use_when": "Bellman解を尤度の各候補で求める",
       "inputs": [
         "状態",
@@ -4310,7 +4318,8 @@
         "C61"
       ],
       "contract_ids": [
-        "MC-replacement-ddc"
+        "MC-replacement-ddc",
+        "MC-respy-finite-choice"
       ]
     },
     {
@@ -4421,7 +4430,8 @@
         "D61"
       ],
       "contract_ids": [
-        "MC-ramsey-cf"
+        "MC-ramsey-cf",
+        "MC-lifecycle-regimes"
       ]
     },
     {
@@ -5380,7 +5390,7 @@
       "domain": "異質マクロ",
       "subdomain": "異質家計貯蓄",
       "kind": "knowledge",
-      "topic": "所得リスクと借入制約の家計政策を解く; endogenous grid method; EGM; 内生的格子法; 借入制約; 相関した所得ショック; joint shock support and natural borrowing limit",
+      "topic": "所得リスクと借入制約の家計政策を解く; endogenous grid method; EGM; 内生的格子法; 借入制約; 相関した所得ショック; joint shock support and natural borrowing limit; HARK PerfForesightConsumerType IndShockConsumerType; exogenous prices versus market clearing",
       "use_when": "所得リスクと借入制約の家計政策を解く",
       "inputs": [
         "所得遷移",
@@ -5410,7 +5420,9 @@
         "C61",
         "D52"
       ],
-      "contract_ids": []
+      "contract_ids": [
+        "MC-hark-consumption-saving"
+      ]
     },
     {
       "id": "HET-02",
@@ -31466,6 +31478,122 @@
         }
       ],
       "version": "2.3.59"
+    },
+    {
+      "id": "R-HARK-PRICE-CLEARING",
+      "source": "HET-01",
+      "target": "HET-02",
+      "type": "related",
+      "conditions": [
+        "Household choices change aggregate savings and prices; the requested target requires household distribution and market clearing."
+      ],
+      "when": {
+        "calculation_target": [
+          "market_equilibrium"
+        ]
+      },
+      "use": "For a market-equilibrium target, add HET-02 to the selected plan and solve prices and the household distribution jointly.",
+      "evidence": [
+        {
+          "unit": "HET-01",
+          "anchor": "het-01"
+        }
+      ],
+      "version": "2.3.64"
+    },
+    {
+      "id": "R-HARK-REGIME-CHOICE",
+      "source": "HET-01",
+      "target": "DYN-02",
+      "type": "alternative_under",
+      "conditions": [
+        "Employment or retirement regimes change feasible actions, income or continuation values in addition to continuous saving."
+      ],
+      "when": {
+        "choice_structure": [
+          "discrete_continuous_regimes"
+        ]
+      },
+      "use": "Compare regime-specific values and constraints before choosing the lifecycle implementation.",
+      "evidence": [
+        {
+          "unit": "DYN-02",
+          "anchor": "dyn-02"
+        }
+      ],
+      "version": "2.3.64"
+    },
+    {
+      "id": "R-RESPY-FINITE-ESTIMATION",
+      "source": "STRUCT-03",
+      "target": "MC-respy-finite-choice",
+      "type": "estimated_by",
+      "conditions": [
+        "Finite lived discrete choices, wages, feasible states, shock distribution and observed histories match the respy model and its adopted identification."
+      ],
+      "when": {
+        "horizon": [
+          "finite"
+        ],
+        "economic_object": [
+          "individual_dynamic_choice"
+        ]
+      },
+      "use": "Use the pinned respy criterion and adopted optimizer for likelihood or simulated moments.",
+      "evidence": [
+        {
+          "unit": "STRUCT-03",
+          "anchor": "struct-03"
+        }
+      ],
+      "version": "2.3.64"
+    },
+    {
+      "id": "R-HARK-HOUSEHOLD-SOLUTION",
+      "source": "HET-01",
+      "target": "MC-hark-consumption-saving",
+      "type": "produces",
+      "conditions": [
+        "The household chooses consumption and saving under the specified exogenous prices, income process and borrowing restriction."
+      ],
+      "when": {
+        "economic_object": [
+          "household_consumption_saving"
+        ]
+      },
+      "use": "Use the corresponding HARK consumer class and preserve normalized and level quantities.",
+      "evidence": [
+        {
+          "unit": "HET-01",
+          "anchor": "het-01"
+        }
+      ],
+      "version": "2.3.64"
+    },
+    {
+      "id": "R-LIFECYCLE-REGIME-SOLUTION",
+      "source": "DYN-02",
+      "target": "MC-lifecycle-regimes",
+      "type": "produces",
+      "conditions": [
+        "Finite-lived regimes have specified constraints, transitions, terminal values and fixed or fitted primitives."
+      ],
+      "when": {
+        "choice_structure": [
+          "discrete_continuous_regimes"
+        ],
+        "horizon": [
+          "finite"
+        ]
+      },
+      "use": "Solve all feasible regime choices and simulate the same initial population with the complete solution.",
+      "evidence": [
+        {
+          "unit": "DYN-02",
+          "anchor": "dyn-02"
+        }
+      ],
+      "version": "2.3.64"
     }
   ],
   "model_contracts": [
@@ -31530,7 +31658,19 @@
       ],
       "checks": [],
       "results": [],
-      "counterfactual_inputs": []
+      "counterfactual_inputs": [],
+      "selection": [
+        {
+          "unit": "STRUCT-01",
+          "anchor": "struct-01"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "STRUCT-01",
+          "anchor": "struct-01"
+        }
+      ]
     },
     {
       "id": "MC-ramsey-cf",
@@ -31633,6 +31773,24 @@
       "results": [],
       "counterfactual_inputs": [
         "scenario"
+      ],
+      "selection": [
+        {
+          "unit": "STRUCT-06",
+          "anchor": "struct-06"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "STRUCT-06",
+          "anchor": "struct-06"
+        }
+      ],
+      "examples": [
+        {
+          "unit": "STRUCT-06",
+          "anchor": "struct-06"
+        }
       ]
     },
     {
@@ -31729,12 +31887,41 @@
         {
           "path": "skills/econ-data/scripts/research_dynamic.py",
           "symbol": "ccp_fit"
+        },
+        {
+          "module": "ruspy.estimation.criterion_function",
+          "symbol": "get_criterion_function",
+          "version": "2.0",
+          "revision": "414e9f98e3b1cf19544b1ca3b1e544ac5751c1e9",
+          "source_url": "https://github.com/OpenSourceEconomics/ruspy/blob/414e9f98e3b1cf19544b1ca3b1e544ac5751c1e9/ruspy/estimation/criterion_function.py"
         }
       ],
       "checks": [],
       "results": [],
       "counterfactual_inputs": [
         "costs"
+      ],
+      "selection": [
+        {
+          "unit": "STRUCT-03",
+          "anchor": "struct-03"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "STRUCT-03",
+          "anchor": "struct-03"
+        },
+        {
+          "unit": "STRUCT-04",
+          "anchor": "struct-04"
+        }
+      ],
+      "examples": [
+        {
+          "unit": "STRUCT-04",
+          "anchor": "struct-04"
+        }
       ]
     },
     {
@@ -31798,7 +31985,7 @@
         },
         {
           "name": "sigma",
-          "meaning": "Random-coefficient matrix."
+          "meaning": "Lower-triangular Cholesky factor of random-coefficient covariance; starting zeros and equal lower/upper bounds are fixed."
         },
         {
           "name": "rho",
@@ -31872,12 +32059,44 @@
         {
           "path": "skills/econ-data/scripts/research_markets.py",
           "symbol": "blp"
+        },
+        {
+          "module": "pyblp",
+          "symbol": "Problem.solve",
+          "version": "1.3.0",
+          "source_url": "https://pyblp.readthedocs.io/en/stable/_api/pyblp.Problem.solve.html"
         }
       ],
       "checks": [],
       "results": [],
       "counterfactual_inputs": [
         "counterfactual"
+      ],
+      "selection": [
+        {
+          "unit": "DEMAND-02",
+          "anchor": "demand-02"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "DEMAND-02",
+          "anchor": "demand-02"
+        },
+        {
+          "unit": "DEMAND-03",
+          "anchor": "demand-03"
+        }
+      ],
+      "examples": [
+        {
+          "unit": "DEMAND-02",
+          "anchor": "demand-02"
+        },
+        {
+          "unit": "DEMAND-03",
+          "anchor": "demand-03"
+        }
       ]
     },
     {
@@ -31984,6 +32203,22 @@
       "results": [],
       "counterfactual_inputs": [
         "counterfactual"
+      ],
+      "selection": [
+        {
+          "unit": "CASE-01",
+          "anchor": "case-01"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "CASE-01",
+          "anchor": "case-01"
+        },
+        {
+          "unit": "FINANCE-03",
+          "anchor": "finance-03"
+        }
       ]
     },
     {
@@ -32036,6 +32271,12 @@
       "results": [],
       "counterfactual_inputs": [
         "housing"
+      ],
+      "selection": [
+        {
+          "unit": "CASE-03",
+          "anchor": "case-03"
+        }
       ]
     },
     {
@@ -32125,6 +32366,18 @@
       "results": [],
       "counterfactual_inputs": [
         "technology_shock"
+      ],
+      "selection": [
+        {
+          "unit": "MACRO-05",
+          "anchor": "macro-05"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "MACRO-05",
+          "anchor": "macro-05"
+        }
       ]
     },
     {
@@ -32189,7 +32442,13 @@
       "implementation": [],
       "checks": [],
       "results": [],
-      "counterfactual_inputs": []
+      "counterfactual_inputs": [],
+      "selection": [
+        {
+          "unit": "ASSET-02",
+          "anchor": "asset-02"
+        }
+      ]
     },
     {
       "id": "MC-bank-run",
@@ -32262,7 +32521,13 @@
       "implementation": [],
       "checks": [],
       "results": [],
-      "counterfactual_inputs": []
+      "counterfactual_inputs": [],
+      "selection": [
+        {
+          "unit": "FINANCE-05",
+          "anchor": "finance-05"
+        }
+      ]
     },
     {
       "id": "MC-exchange-two-goods",
@@ -32318,6 +32583,12 @@
       "results": [],
       "counterfactual_inputs": [
         "endowments"
+      ],
+      "selection": [
+        {
+          "unit": "MICRO-05",
+          "anchor": "micro-05"
+        }
       ]
     },
     {
@@ -32403,7 +32674,13 @@
       "implementation": [],
       "checks": [],
       "results": [],
-      "counterfactual_inputs": []
+      "counterfactual_inputs": [],
+      "selection": [
+        {
+          "unit": "FORECAST-04",
+          "anchor": "forecast-04"
+        }
+      ]
     },
     {
       "id": "MC-hank-one-asset",
@@ -32547,6 +32824,36 @@
       "results": [],
       "counterfactual_inputs": [
         "rstar"
+      ],
+      "selection": [
+        {
+          "unit": "HET-04",
+          "anchor": "het-04"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "HET-03",
+          "anchor": "het-03"
+        },
+        {
+          "unit": "HET-04",
+          "anchor": "het-04"
+        },
+        {
+          "unit": "HET-05",
+          "anchor": "het-05"
+        }
+      ],
+      "examples": [
+        {
+          "unit": "HET-04",
+          "anchor": "het-04"
+        },
+        {
+          "unit": "HET-05",
+          "anchor": "het-05"
+        }
       ]
     },
     {
@@ -32598,6 +32905,12 @@
       "results": [],
       "counterfactual_inputs": [
         "probability"
+      ],
+      "selection": [
+        {
+          "unit": "CASE-02",
+          "anchor": "case-02"
+        }
       ]
     },
     {
@@ -32673,6 +32986,12 @@
       "results": [],
       "counterfactual_inputs": [
         "probabilities"
+      ],
+      "selection": [
+        {
+          "unit": "POL-03",
+          "anchor": "pol-03"
+        }
       ]
     },
     {
@@ -32741,7 +33060,19 @@
       ],
       "checks": [],
       "results": [],
-      "counterfactual_inputs": []
+      "counterfactual_inputs": [],
+      "selection": [
+        {
+          "unit": "GAME-07",
+          "anchor": "game-07"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "GAME-07",
+          "anchor": "game-07"
+        }
+      ]
     },
     {
       "id": "MC-finite-tu-shapley-core",
@@ -32802,6 +33133,18 @@
       "results": [],
       "counterfactual_inputs": [
         "values"
+      ],
+      "selection": [
+        {
+          "unit": "GAME-09",
+          "anchor": "game-09"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "GAME-09",
+          "anchor": "game-09"
+        }
       ]
     },
     {
@@ -32889,6 +33232,18 @@
         "external_assets",
         "liabilities",
         "outside_liabilities"
+      ],
+      "selection": [
+        {
+          "unit": "FINANCE-08",
+          "anchor": "finance-08"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "FINANCE-08",
+          "anchor": "finance-08"
+        }
       ]
     },
     {
@@ -32996,6 +33351,18 @@
         "infection_cost",
         "control_cost",
         "terminal_cost"
+      ],
+      "selection": [
+        {
+          "unit": "HEALTH-08",
+          "anchor": "health-08"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "HEALTH-08",
+          "anchor": "health-08"
+        }
       ]
     },
     {
@@ -33068,6 +33435,18 @@
       "counterfactual_inputs": [
         "arrival_rate",
         "service_rate"
+      ],
+      "selection": [
+        {
+          "unit": "MATH-09",
+          "anchor": "math-09"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "MATH-09",
+          "anchor": "math-09"
+        }
       ]
     },
     {
@@ -33158,6 +33537,18 @@
         "a",
         "vq",
         "vqly"
+      ],
+      "selection": [
+        {
+          "unit": "CONTRACT-07",
+          "anchor": "contract-07"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "CONTRACT-07",
+          "anchor": "contract-07"
+        }
       ]
     },
     {
@@ -33255,6 +33646,18 @@
         "kA",
         "alpha",
         "beta"
+      ],
+      "selection": [
+        {
+          "unit": "CONTRACT-08",
+          "anchor": "contract-08"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "CONTRACT-08",
+          "anchor": "contract-08"
+        }
       ]
     },
     {
@@ -33358,6 +33761,394 @@
         "prices",
         "claim",
         "payoffs"
+      ],
+      "selection": [
+        {
+          "unit": "ASSET-01",
+          "anchor": "asset-01"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "ASSET-01",
+          "anchor": "asset-01"
+        }
+      ]
+    },
+    {
+      "id": "MC-hark-consumption-saving",
+      "owner": "HET-01",
+      "units": [
+        "HET-01",
+        "DYN-03"
+      ],
+      "inputs": [
+        {
+          "name": "consumer_options",
+          "unit": "native HARK parameters",
+          "meaning": "CRRA, DiscFac, return, survival, income-growth and borrowing profiles; cycles=1 and T_cycle for finite life or cycles=0 for stationary infinite life."
+        },
+        {
+          "name": "income_shocks",
+          "unit": "joint shock support and probability",
+          "meaning": "IndShockConsumerType permanent/transitory income distribution, integration counts and asset grid; PerfForesightConsumerType uses deterministic income."
+        },
+        {
+          "name": "initial_population",
+          "unit": "households and sampling weights",
+          "meaning": "Initial assets and permanent income, AgentCount, T_sim, seed and tracked histories for a requested simulation."
+        }
+      ],
+      "parameters": [
+        {
+          "name": "preferences_and_processes",
+          "meaning": "Fixed, calibrated or previously estimated preferences, income distribution and exogenous prices with their adopted observation mapping."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "consumer.solution",
+          "unit": "normalized policy and utility functions",
+          "meaning": "Age-specific cFunc and vFunc; solve updates the consumer object. Request vFuncBool=True for IndShockConsumerType values."
+        },
+        {
+          "name": "consumer.history",
+          "unit": "period by household arrays",
+          "meaning": "Requested consumption, assets, resources and permanent-income histories after initialize_sim and simulate."
+        },
+        {
+          "name": "diagnostics",
+          "unit": "original-equation residuals",
+          "meaning": "Budget, interior Euler equality, borrowing-boundary inequality and complementarity, shock-transition and grid/integration comparisons."
+        }
+      ],
+      "assumptions": [
+        {
+          "unit": "HET-01",
+          "anchor": "het-01"
+        },
+        {
+          "unit": "DYN-03",
+          "anchor": "dyn-03"
+        }
+      ],
+      "identification": [
+        {
+          "unit": "HET-01",
+          "anchor": "het-01"
+        }
+      ],
+      "equations": [
+        {
+          "unit": "HET-01",
+          "anchor": "het-01"
+        },
+        {
+          "unit": "DYN-03",
+          "anchor": "dyn-03"
+        }
+      ],
+      "implementation": [
+        {
+          "module": "HARK.ConsumptionSaving.ConsIndShockModel",
+          "symbol": "PerfForesightConsumerType",
+          "version": "0.17.2",
+          "revision": "269085077b84cb50feb49d0cd54bbf4da5fa3199",
+          "source_url": "https://github.com/econ-ark/HARK/blob/269085077b84cb50feb49d0cd54bbf4da5fa3199/HARK/ConsumptionSaving/ConsIndShockModel.py"
+        },
+        {
+          "module": "HARK.ConsumptionSaving.ConsIndShockModel",
+          "symbol": "IndShockConsumerType",
+          "version": "0.17.2",
+          "revision": "269085077b84cb50feb49d0cd54bbf4da5fa3199",
+          "source_url": "https://github.com/econ-ark/HARK/blob/269085077b84cb50feb49d0cd54bbf4da5fa3199/HARK/ConsumptionSaving/ConsIndShockModel.py"
+        }
+      ],
+      "checks": [],
+      "results": [],
+      "counterfactual_inputs": [
+        "consumer_options",
+        "income_shocks"
+      ],
+      "selection": [
+        {
+          "unit": "HET-01",
+          "anchor": "het-01"
+        },
+        {
+          "unit": "DYN-03",
+          "anchor": "dyn-03"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "HET-01",
+          "anchor": "het-01"
+        }
+      ],
+      "examples": [
+        {
+          "unit": "HET-01",
+          "anchor": "het-01"
+        }
+      ]
+    },
+    {
+      "id": "MC-respy-finite-choice",
+      "owner": "STRUCT-03",
+      "units": [
+        "STRUCT-03",
+        "STRUCT-02",
+        "DYN-02"
+      ],
+      "inputs": [
+        {
+          "name": "params",
+          "unit": "ordered dataframe or series",
+          "meaning": "Native respy parameter order, free/fixed coefficients, bounds, utility/shock normalizations and initial-type distribution."
+        },
+        {
+          "name": "options",
+          "unit": "native respy options",
+          "meaning": "Decision horizon, terminal values, feasible choices and states, transitions, observed-information timing, solution/simulation/estimation seeds and draws."
+        },
+        {
+          "name": "df",
+          "unit": "individual by period observations",
+          "meaning": "Observed choices and wages in the official estimation format for likelihood; observed initial states for data-initialized n-step simulation."
+        },
+        {
+          "name": "moment_specification",
+          "unit": "matched moment coordinates",
+          "meaning": "For SMM: calc_moments, replace_nans, empirical_moments, weighting_matrix and the adopted simulation horizon."
+        }
+      ],
+      "parameters": [
+        {
+          "name": "free_parameters",
+          "meaning": "Preference, wage, shock and type coefficients identified by the adopted history likelihood or moments; optimizer varies the declared free coordinates."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "log_likelihood",
+          "unit": "mean log likelihood",
+          "meaning": "get_log_like_func returns a parameter-only criterion to maximize; return_scalar=False also saves contributions and comparison_plot_data."
+        },
+        {
+          "name": "moment_criterion",
+          "unit": "weighted squared moment discrepancy",
+          "meaning": "get_moment_errors_func returns a parameter-only criterion to minimize; retain errors, contributions and empirical/simulated comparisons."
+        },
+        {
+          "name": "simulation",
+          "unit": "individual by period native dataframe",
+          "meaning": "get_simulate_func evaluates the fixed or fitted parameters and returns scenario states, choices, rewards and continuation values."
+        }
+      ],
+      "assumptions": [
+        {
+          "unit": "STRUCT-03",
+          "anchor": "struct-03"
+        },
+        {
+          "unit": "DYN-02",
+          "anchor": "dyn-02"
+        }
+      ],
+      "identification": [
+        {
+          "unit": "STRUCT-03",
+          "anchor": "struct-03"
+        },
+        {
+          "unit": "STRUCT-02",
+          "anchor": "struct-02"
+        }
+      ],
+      "equations": [
+        {
+          "unit": "STRUCT-03",
+          "anchor": "struct-03"
+        },
+        {
+          "unit": "STRUCT-02",
+          "anchor": "struct-02"
+        }
+      ],
+      "implementation": [
+        {
+          "module": "respy",
+          "symbol": "get_log_like_func",
+          "version": "2.1.1",
+          "revision": "91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb",
+          "source_url": "https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/likelihood.py"
+        },
+        {
+          "module": "respy",
+          "symbol": "get_moment_errors_func",
+          "version": "2.1.1",
+          "revision": "91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb",
+          "source_url": "https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/method_of_simulated_moments.py"
+        },
+        {
+          "module": "respy",
+          "symbol": "get_simulate_func",
+          "version": "2.1.1",
+          "revision": "91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb",
+          "source_url": "https://github.com/OpenSourceEconomics/respy/blob/91e8a193fb7d5cf7212c15e50ae43f810bb9b1eb/respy/simulate.py"
+        }
+      ],
+      "checks": [],
+      "results": [],
+      "counterfactual_inputs": [
+        "options",
+        "params"
+      ],
+      "selection": [
+        {
+          "unit": "STRUCT-03",
+          "anchor": "struct-03"
+        },
+        {
+          "unit": "STRUCT-02",
+          "anchor": "struct-02"
+        },
+        {
+          "unit": "DYN-02",
+          "anchor": "dyn-02"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "STRUCT-03",
+          "anchor": "struct-03"
+        },
+        {
+          "unit": "STRUCT-02",
+          "anchor": "struct-02"
+        }
+      ]
+    },
+    {
+      "id": "MC-lifecycle-regimes",
+      "owner": "DYN-02",
+      "units": [
+        "DYN-02",
+        "DYN-03",
+        "STRUCT-06"
+      ],
+      "inputs": [
+        {
+          "name": "model",
+          "unit": "lcm.Model",
+          "meaning": "Regimes, regime_id_class, initial_nodes, edges, states, actions, constraints, state_transitions, utility, shocks and terminal conditions; exactly one of ages and n_periods."
+        },
+        {
+          "name": "params",
+          "unit": "native parameter mapping",
+          "meaning": "Fixed or previously estimated parameters matching the model template and declared discounting."
+        },
+        {
+          "name": "initial_conditions",
+          "unit": "original population rows",
+          "meaning": "Initial state and regime arrays, population weights, seed, and adopted taste_shock_seed or shock_paths for a scenario comparison."
+        }
+      ],
+      "parameters": [
+        {
+          "name": "model_primitives",
+          "meaning": "Preferences, state transition and income/price paths held at their specified values during solve/simulate."
+        }
+      ],
+      "outputs": [
+        {
+          "name": "solution",
+          "unit": "SolutionResult",
+          "meaning": "Labelled values and complete retained replay artifacts bound to the same model and parameter values."
+        },
+        {
+          "name": "simulation",
+          "unit": "SimulationResult",
+          "meaning": "Scenario-specific state and choice paths; to_dataframe provides saved outcomes."
+        },
+        {
+          "name": "policy_value",
+          "unit": "adopted utility or currency",
+          "meaning": "Initial-population weighted policy values with the specified discount, horizon, terminal evaluation and conversion."
+        }
+      ],
+      "assumptions": [
+        {
+          "unit": "DYN-02",
+          "anchor": "dyn-02"
+        },
+        {
+          "unit": "DYN-03",
+          "anchor": "dyn-03"
+        }
+      ],
+      "identification": [
+        {
+          "unit": "STRUCT-06",
+          "anchor": "struct-06"
+        }
+      ],
+      "equations": [
+        {
+          "unit": "DYN-02",
+          "anchor": "dyn-02"
+        },
+        {
+          "unit": "DYN-03",
+          "anchor": "dyn-03"
+        },
+        {
+          "unit": "STRUCT-06",
+          "anchor": "struct-06"
+        }
+      ],
+      "implementation": [
+        {
+          "module": "lcm",
+          "symbol": "Model.solve",
+          "revision": "0fb55673b0be4eb52d270b2585047faa38c4e930",
+          "source_url": "https://github.com/OpenSourceEconomics/pylcm/blob/0fb55673b0be4eb52d270b2585047faa38c4e930/src/lcm/model.py"
+        },
+        {
+          "module": "lcm",
+          "symbol": "Model.simulate",
+          "revision": "0fb55673b0be4eb52d270b2585047faa38c4e930",
+          "source_url": "https://github.com/OpenSourceEconomics/pylcm/blob/0fb55673b0be4eb52d270b2585047faa38c4e930/src/lcm/model.py"
+        }
+      ],
+      "checks": [],
+      "results": [],
+      "counterfactual_inputs": [
+        "model",
+        "params"
+      ],
+      "selection": [
+        {
+          "unit": "DYN-02",
+          "anchor": "dyn-02"
+        }
+      ],
+      "numerical_diagnostics": [
+        {
+          "unit": "DYN-02",
+          "anchor": "dyn-02"
+        },
+        {
+          "unit": "DYN-03",
+          "anchor": "dyn-03"
+        }
+      ],
+      "examples": [
+        {
+          "unit": "DYN-02",
+          "anchor": "dyn-02"
+        }
       ]
     }
   ],

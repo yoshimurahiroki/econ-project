@@ -108,7 +108,9 @@ class EvidenceTests(unittest.TestCase):
 
     def test_saved_specialist_blocks_keep_interval_family_and_cell_coordinates(self):
         source = {'display': {'kind': 'iv_confidence_set', 'rows': [
-            {'term': 'effect', 'lower': None, 'upper': 0.25, 'lower_unbounded': True, 'upper_unbounded': False}],
+            {'term': 'effect', 'lower': None, 'upper': 0.25, 'lower_unbounded': True, 'upper_unbounded': False},
+            {'term': 'effect', 'lower': 2.0, 'upper': None, 'lower_unbounded': False, 'upper_unbounded': True},
+            {'term': 'price', 'lower': 0.1, 'upper': 0.9, 'lower_unbounded': False, 'upper_unbounded': False}],
             'metadata': {'effective_options': {'args': {'weights': [11, 17], 'vcov': 'HC1'},
                                                'columns': {'weights': 'sampling_weight'}}}},
             'displays': {'simultaneous': {'kind': 'event-study', 'rows': [
@@ -117,12 +119,23 @@ class EvidenceTests(unittest.TestCase):
                 'rdd_summary': {'kind': 'rdd', 'rows': [{'term': 'treatment_effect', 'estimate': 1.4}]},
                 'rdd_coordinates': {'kind': 'rdd', 'rows': [
                     {'x': -0.1, 'estimate': 0.4, 'component': 'bin', 'side': 'left'},
-                    {'x': 0.1, 'estimate': 1.8, 'component': 'bin', 'side': 'right'}]}},
+                    {'x': 0.1, 'estimate': 1.8, 'component': 'bin', 'side': 'right'}]},
+                'outcomes': {'kind': 'structural', 'columns': [
+                    {'key': key, 'label': label, 'unit': ''} for key, label in
+                    [('scenario', 'Scenario'), ('quantity', 'Outcome'), ('value', 'Saved value'), ('unit', 'Unit')]],
+                    'rows': [{'scenario': scenario, 'quantity': quantity, 'value': value, 'unit': unit}
+                             for scenario, quantity, value, unit in
+                             [('baseline', 'price', 2.0, 'currency'), ('merger', 'price', 2.4, 'currency'),
+                              ('baseline', 'share', 0.2, 'share'), ('merger', 'share', 0.15, 'share')]],
+                    'metadata': {'report_role': 'counterfactual'},
+                    'display': {'plot_type': 'bar', 'x': 'scenario', 'y': 'value', 'facet': 'quantity', 'legend': False}}},
             'diagnostics': {'group_time': {'cells': [
                 {'group': 2021, 'time': 2022, 'event_time': 1, 'estimate': 1.4, 'se': 0.2,
                  'ci_low': 0.9, 'ci_high': 1.9, 'role': 'att', 'sample_ids': ['private-row']} ]}}}
         items = artifacts.prepare_gallery_items({'records': {'saved': {'source_result': source}}, 'statistics': {}})
         self.assertEqual(items['saved-iv_confidence_set']['display']['plot_type'], 'iv_confidence_set')
+        confidence = artifacts.gallery_plot(items['saved-iv_confidence_set'])
+        self.assertEqual([tick.get_text() for tick in confidence.axes[0].get_yticklabels()], ['effect', 'price'])
         options = items['saved-iv_confidence_set']['metadata']['effective_options']
         self.assertEqual(options, {'args': {'vcov': 'HC1'}, 'columns': {'weights': 'sampling_weight'}})
         self.assertEqual(source['display']['metadata']['effective_options']['args']['weights'], [11, 17])
@@ -131,6 +144,13 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(items['saved-displays-rdd_summary']['display']['plot_type'], 'table')
         self.assertEqual(items['saved-displays-rdd_coordinates']['display']['x'], 'x')
         self.assertEqual(items['saved-displays-rdd_coordinates']['display']['plot_type'], 'rdd')
+        outcomes = items['saved-displays-outcomes']
+        self.assertEqual(outcomes['columns'], source['displays']['outcomes']['columns'])
+        self.assertEqual(outcomes['display']['facet'], 'quantity')
+        self.assertEqual([row['value'] for row in outcomes['rows']], [2.0, 2.4, 0.2, 0.15])
+        figure = artifacts.gallery_plot(outcomes)
+        self.assertEqual([axis.get_ylabel() for axis in figure.axes], ['Saved value (currency)', 'Saved value (share)'])
+        self.assertNotIn('result_id', source['displays']['outcomes']['rows'][0])
         cell = items['saved-group_time']['rows'][0]
         self.assertEqual((cell['cohort'], cell['time'], cell['estimate'], cell['ci_high']), (2021, 2022, 1.4, 1.9))
         self.assertNotIn('sample_ids', cell)
@@ -173,6 +193,27 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(bodies['results'], 'Saved main result')
         self.assertEqual(bodies['findings'], 'main: Saved finding')
         self.assertEqual(meeting['artifacts']['main']['rows'], entries[0]['rows'])
+        structural = [{'id': key, 'title': key, 'kind': 'table', 'result_ids': ['fitted-model'],
+                       'files': [], 'metadata': {'report_role': role, 'model_contract': 'MC-pyblp-bertrand'},
+                       'rows': [{'value': value, 'result_id': 'fitted-model'}],
+                       'columns': [{'key': 'value', 'label': 'Saved value', 'unit': 'currency'}]}
+                      for key, role, value in [('prices', 'counterfactual', 2.4),
+                                               ('moments', 'model_fit', 0.01), ('parameters', 'parameters', -1.1)]]
+        model_text = r'Consumers choose one product. $u_{ij}=x_j\beta-\alpha p_j+\epsilon_{ij}$.'
+        output = self.root / 'structural'
+        meetings.create_bundle(root, output, structural, title='Structural model', kind='structural',
+                               project_view={'section_content': {'model': model_text,
+                                             'identification': 'Excluded cost shifts identify the price response.'}})
+        meeting, bodies, _ = meetings.load_meeting(output)
+        self.assertEqual(bodies['model'], model_text)
+        positions = [section['source_section'] for section in meeting['sections'] if section.get('artifacts')]
+        self.assertEqual(positions, ['parameters', 'model-fit', 'counterfactual'])
+        self.assertEqual(meeting['artifacts']['prices']['rows'], structural[0]['rows'])
+        self.assertIn(model_text, meetings.document_source(root, meeting, bodies))
+        self.assertIn('MC-pyblp-bertrand', meetings.artifact_notes(meeting['artifacts']['prices']))
+        with self.assertRaisesRegex(ValueError, 'outside the selected template'):
+            meetings.create_bundle(root, self.root / 'invalid-materials', [], title='Invalid', kind='model',
+                                   project_view={'section_content': {'unselected-section': 'Text'}})
 
     def test_saved_regression_presentation_survives_edit_and_native_export(self):
         definitions = {'estimand': 'linear projection', 'population': 'synthetic example',

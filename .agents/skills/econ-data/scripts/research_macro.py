@@ -108,12 +108,57 @@ def solve(spec):
         raise ValueError("baseline and scenario must use the same horizon")
     baseline = _solve_path(spec["baseline"], alpha, beta, delta, initial, terminal, tol)
     scenario = _solve_path(spec["scenario"], alpha, beta, delta, initial, terminal, tol)
+    path_rows, diagnostic_rows = [], []
+    for name, allocation in (("baseline", baseline), ("scenario", scenario)):
+        for quantity in ("capital", "consumption", "output", "government_absorption"):
+            path_rows.extend({"scenario": name, "period": period, "quantity": quantity,
+                              "value": value, "unit": spec["unit"]}
+                             for period, value in enumerate(allocation[quantity]))
+        diagnostic_rows.extend({"scenario": name, "diagnostic": diagnostic,
+                                "value": allocation[diagnostic], "unit": unit}
+                               for diagnostic, unit in (("euler_max_abs_error", "inverse consumption"),
+                                                        ("resource_max_abs_error", spec["unit"]),
+                                                        ("objective_gradient_max_abs_error", "utility per capital unit"),
+                                                        ("resource_jacobian_max_abs_error", "resource per capital unit")))
+    model_metadata = {"model_contract": "MC-ramsey-cf", "unit": "see row-specific unit", "population": spec["population"],
+                      "period": spec["period"], "terminal_condition": "fixed terminal capital; no continuation utility"}
+    displays = {
+        "parameters": {"kind": "table", "title": "Preferences, technology and endpoints",
+                       "columns": [{"key": key, "label": label, "unit": ""} for key, label in
+                                   (("parameter", "Parameter"), ("value", "Specified value"), ("unit", "Unit"))],
+                       "rows": [{"parameter": name, "value": spec[name], "unit": unit} for name, unit in
+                                (("alpha", "capital elasticity"), ("beta", "discount factor"),
+                                 ("delta", "depreciation rate"), ("initial_capital", spec["unit"]),
+                                 ("terminal_capital", spec["unit"]))],
+                       "metadata": {**model_metadata, "report_role": "parameters", "parameter_status": "specified"},
+                       "display": {"plot_type": "table"}},
+        "model_fit": {"kind": "table", "title": "Euler and resource diagnostics", "rows": diagnostic_rows,
+                      "columns": [{"key": key, "label": label, "unit": ""} for key, label in
+                                  (("scenario", "Scenario"), ("diagnostic", "Diagnostic"), ("value", "Value"), ("unit", "Unit"))],
+                      "metadata": {**model_metadata, "report_role": "model_fit"}, "display": {"plot_type": "table"}},
+        "allocation_paths": {"kind": "structural", "title": "Household growth paths", "rows": path_rows,
+                             "columns": [{"key": key, "label": label, "unit": ""} for key, label in
+                                         (("scenario", "Scenario"), ("period", "Period"), ("quantity", "Quantity"),
+                                          ("value", "Value"), ("unit", "Unit"))],
+                             "metadata": {**model_metadata, "report_role": "counterfactual",
+                                          "time_definition": "Capital is the start-of-period stock, including the terminal endpoint; other quantities are period flows"},
+                             "display": {"plot_type": "line", "x": "period", "y": "value", "series": "scenario", "facet": "quantity"}},
+        "welfare": {"kind": "counterfactual", "title": "Discounted household welfare",
+                    "columns": [{"key": key, "label": label, "unit": ""} for key, label in
+                                (("scenario", "Scenario"), ("value", "Welfare"), ("unit", "Unit"))],
+                    "rows": [{"scenario": name, "value": allocation["welfare"], "unit": "discounted log consumption"}
+                             for name, allocation in (("baseline", baseline), ("scenario", scenario))],
+                    "metadata": {**model_metadata, "report_role": "welfare", "unit": "discounted log consumption",
+                                 "estimand": "Sum of beta^t log(c_t) over the stated horizon"},
+                    "display": {"plot_type": "bar", "x": "scenario", "y": "value"}}}
     return {"model": "finite-horizon deterministic household growth", "engine": "scipy.optimize.minimize/SLSQP",
             "versions": {"python": sys.version.split()[0], "numpy": np.__version__, "scipy": scipy.__version__},
             "definition": {"population": spec["population"], "period": spec["period"], "unit": spec["unit"],
                            "sources": spec["sources"], "terminal_condition": "fixed terminal capital; no continuation utility",
                            "tax": "output tax funds government absorption and leaves household resources"},
-            "baseline": baseline, "scenario": scenario, "welfare_change": scenario["welfare"] - baseline["welfare"]}
+            "baseline": baseline, "scenario": scenario, "welfare_change": scenario["welfare"] - baseline["welfare"],
+            "statistics": {"welfare_change": {"value": scenario["welfare"]-baseline["welfare"], "unit": "discounted log consumption"}},
+            "displays": displays}
 
 
 def main(argv=None):

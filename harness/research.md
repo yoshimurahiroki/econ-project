@@ -212,6 +212,14 @@ The implementation supplies analytic objective gradients and resource Jacobians 
 
 An argv stage can declare `runtime` with `language:"python"|"r"`, `probe_argv`, `version`, `packages` and `files`. The literal `probe_argv` is the leading interpreter/options prefix of the stage's actual argv. `version` enforces the selected runtime version when supplied. `packages` maps installed package names to exact required versions or `null` to record their actual versions. Every `files` entry is a declared stage input, such as a pinned requirements file or the project's existing Pixi/rv lock.
 
+Use `runtime.requirements` to name the existing selected family's requirement files, also listed in that stage's `inputs`. Python files contain exact `name==version` pins or `name @ git+https://repository@FULL_COMMIT_SHA`; R uses the existing JSON with `r_version` and `packages`. The runner derives its package pins and tracked hashes from those sources. Conflicting explicit `packages` values or conflicting requirement files stop before calculation. A Python Git requirement also checks the installed distribution's direct-source URL and full commit. R source references retain their existing acquisition role; the runtime checks the installed R/package versions. `runtime.files` tracks Pixi/rv locks without treating the lock contents as the selected runtime's installed versions.
+
+```json
+{"runtime":{"language":"python","probe_argv":["/path/to/ers-causal/bin/python"],"requirements":["skills/econ-data/scripts/requirements-causal.txt"]}}
+```
+
+Restore the selected family into its own Python 3.12 environment. For example, run `python3.12 -m venv .venv/ers-causal`, then `.venv/ers-causal/bin/python -m pip install -r skills/econ-data/scripts/requirements-causal.txt`. In `econ-project`, the existing Pixi Python can create this environment. Point both `argv` and `runtime.probe_argv` to its absolute interpreter. Select the R companion and its `R_LIBS_USER` from the adopted rv project. The research and market families pin pandas 2.2.3; the causal family pins pandas 3.1.0. Use separate environments for those families. Exact versions stay in their existing requirement owners.
+
 Before reuse and after execution, the runner records the actual runtime version, interpreter/wrapper identities, selected installed dependency closure and library locations, tracked environment-file hashes and selected environment. Python package discovery uses the chosen interpreter's `packaging` interface; the [research requirements](../skills/econ-data/scripts/requirements-research.txt) declare its pinned version for the worked case. R uses its base package-discovery interfaces. Install the dependencies selected for the actual project in its adopted environment; the mini template retains its lightweight infrastructure definition. The full project retains its existing fixed dependency and lock definitions.
 
 ```json
@@ -227,6 +235,8 @@ For a consequential selected interface, add `apis` to a Python or R runtime, inc
 ```
 
 Each API's package has an explicit version in that runtime's `packages`. Python resolves the distribution-owned callable and binds the proposed positional count and keyword names to its actual signature; it records that signature, installed documentation hash and available source identity. R resolves the package export, checks its formals and records the version-matched installed help identity. An unavailable symbol, signature or adopted call stops the affected stage. The runtime identity includes these observations, so a changed API or documentation version invalidates its consumers. Explicitly acquired official reference files use the existing tracked `runtime.files` inputs.
+
+Python API symbols can traverse classes after the importable module, including `pyblp.Problem.solve` and `doubleml.DoubleMLPLR.fit`. The declared positional count includes the receiver for an unbound instance method. Pins derived from `requirements` supply the same explicit version contract. Method selection returns the official entry; this probe checks the callable in the interpreter that will execute that entry.
 
 ## Select a named execution profile
 

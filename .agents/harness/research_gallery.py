@@ -935,11 +935,15 @@ def _(mo, options):
 
 
 @app.cell
-def _(datetime, mo, project_saved_summary):
+def _(datetime, meetings, mo, project_saved_summary, root):
+    _template_source = meetings.template_path(root, 'meeting_templates.json')
+    if _template_source is None:
+        raise ValueError('Missing tex/slides/meeting_templates.json')
+    _templates = meetings.read_json(_template_source)
+    _template_options = {definition['label']: key for key, definition in _templates.items()}
     meeting_create_form = mo.ui.dictionary({
         'title': mo.ui.text(value='研究ミーティング', label='資料の表題', full_width=True),
-        'kind': mo.ui.dropdown({'研究ミーティング': 'meeting', '進捗報告': 'progress',
-                               '研究計画相談': 'proposal', '主要結果報告': 'results'}, value='研究ミーティング', label='テンプレート'),
+        'kind': mo.ui.dropdown(_template_options, value=_templates['meeting']['label'], label='テンプレート'),
         'date': mo.ui.text(value=datetime.date.today().isoformat(), label='日付'),
         'output': mo.ui.text(value='meetings/' + datetime.date.today().isoformat(), label='新しい資料の保存先', full_width=True),
         'previous': mo.ui.text(label='前回資料のディレクトリ', full_width=True),

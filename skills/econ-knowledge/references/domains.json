@@ -43,7 +43,7 @@
     {
       "domain": "動学計算",
       "path": "domains/09.json",
-      "sha256": "12d1789f36fc379c25ddf89a865b7f2b95d5579ff5b7230499a7500e135df640"
+      "sha256": "3abb4c99eda958291dd145709d0eb809f1a4e088427cf7d33e31757c18d5a538"
     },
     {
       "domain": "医療教育",
@@ -108,7 +108,7 @@
     {
       "domain": "構造推定",
       "path": "domains/22.json",
-      "sha256": "fe6e062a4e4d9043a6c953670210a92863286345444782166ed2b95edc39f929"
+      "sha256": "3db3de6c1fa246a6c90895daf879ba95e047b2ca53824361edc0f49d1d0d9839"
     },
     {
       "domain": "測定集計",
@@ -128,7 +128,7 @@
     {
       "domain": "異質マクロ",
       "path": "domains/26.json",
-      "sha256": "dc7fa4d6d41ecfab3224963baa9fa56a39cccba3469c21fbc73a1d970d909cdd"
+      "sha256": "8585136885657922266752c0df7a915440e911daad522ead768c398141741562"
     },
     {
       "domain": "確率統計",

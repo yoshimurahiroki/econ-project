@@ -195,6 +195,13 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
         if not bodies.get(section_id):
             bodies[section_id] = "\n\n".join(entry.get("title", entry["id"]) + ": " + entry[field]
                                                for entry in entries if entry.get(field))
+    section_content = view.get("section_content", {})
+    if (not isinstance(section_content, dict) or
+            any(not isinstance(value, str) for value in section_content.values())):
+        raise ValueError("section_content must map template section IDs to adopted Markdown text")
+    if set(section_content) - {section["id"] for section in sections}:
+        raise ValueError("section_content contains a section outside the selected template")
+    bodies.update(section_content)
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=".meeting-", dir=output.parent) as temporary:
         stage = Path(temporary) / "bundle"
@@ -343,7 +350,10 @@ def artifact_notes(entry, *, output_format="html"):
               "reference_event_time": "基準期", "base_period": "基準期の定義", "interval_type": "区間の種類",
               "aggregation": "集計", "treatment_history": "処置履歴", "treatment_time": "処置時点",
               "treatment_group": "処置群", "control_group": "対照群", "inference_unit": "推論単位",
-              "cutoff": "cutoff", "bandwidth": "bandwidth"}
+              "cutoff": "cutoff", "bandwidth": "bandwidth", "model_contract": "モデル契約",
+              "scenario": "シナリオ", "parameter_definition": "パラメータ定義",
+              "parameter_status": "パラメータの扱い", "value_definition": "価値の定義",
+              "terminal_condition": "終端条件", "time_definition": "時点の定義"}
     if output_format == "pdf":
         labels.update({"population": "母集団", "variables": "変数"})
     parts = []
@@ -361,6 +371,12 @@ def artifact_notes(entry, *, output_format="html"):
             value = definition.get(key)
             if value is None or value == "" or (identity and value == metadata.get(key)):
                 continue
+            if key == "inference" and isinstance(value, dict):
+                # Saved endpoints and test statistics belong to the exhibit's
+                # cells. Its caption retains the method and defining settings.
+                value = {name: item for name, item in value.items()
+                         if not name.startswith(("confidence_interval", "confidence_set", "p_value", "pvalue", "critical_value"))
+                         and name not in {"statistic", "test_statistic"}}
             if isinstance(value, dict):
                 value = ", ".join(str(name) + ": " + str(item) for name, item in value.items() if item not in (None, "", []))
             elif isinstance(value, list):
@@ -376,6 +392,8 @@ def artifact_notes(entry, *, output_format="html"):
             origin = dict(producer.get("identity") or {})
             if producer.get("run_id"):
                 origin["run_id"] = producer["run_id"]
+            origin = {name: str(value)[:12] if re.fullmatch(r"[0-9a-f]{64}", str(value)) else value
+                      for name, value in origin.items()}
             if origin:
                 parts.append(identity + " 生成元: " + ", ".join(str(name) + ": " + str(value)
                                                                for name, value in origin.items()))
@@ -446,8 +464,8 @@ def exhibit_markdown(entry, output_format="html", *, slides=False, caption=""):
         caption = entry.get("title", "")
         if output_format == "pdf" and notes:
             caption += ". " + notes
-        size = " height=1.4in" if output_format == "pdf" and slides else ""
-        content = "![" + caption.replace("]", "\\]") + "](" + image + "){fig-alt=" + json.dumps(entry.get("title", ""), ensure_ascii=False) + size + "}"
+        size = (" height=1.5in" if len(caption) > 500 else " height=2in") if output_format == "pdf" and slides else ""
+        content = "![" + caption.replace("[", "\\[").replace("]", "\\]") + "](" + image + "){fig-alt=" + json.dumps(entry.get("title", ""), ensure_ascii=False) + size + "}"
         if output_format == "pdf":
             return content
     else:
@@ -488,7 +506,20 @@ def document_source(root, meeting, bodies, output_format="html"):
         if section.get("speaker_notes") and not article:
             content += "\n\n::: {.notes}\n" + section["speaker_notes"] + "\n:::"
         heading = "# " if article else "## "
-        slides.append(heading + section["title"].replace("\n", " ") + " {#" + section["id"] + "}\n\n" + content)
+        section_text = heading + section["title"].replace("\n", " ") + " {#" + section["id"] + "}\n\n" + content
+        if article and output_format == "pdf" and len(selected) == 1:
+            entry = meeting["artifacts"][selected[0]]
+            headers, rows = table_cells(entry)
+            if is_table(entry) and headers:
+                # Keep a short table, its heading and definition together. Larger
+                # tables retain longtable's ordinary page continuation.
+                cell_width = max(12, 85 // len(headers[0]))
+                lines = sum(max((len(str(cell)) + cell_width - 1) // cell_width for cell in row)
+                            for row in [*headers, *rows])
+                lines += (len(artifact_notes(entry, output_format="pdf")) + len(body) + 84) // 85
+                if lines <= 28:
+                    section_text = "```{=latex}\n\\begin{minipage}{\\linewidth}\n```\n\n" + section_text + "\n\n```{=latex}\n\\end{minipage}\n```"
+        slides.append(section_text)
     substitutions = {"title": json.dumps(meeting["title"], ensure_ascii=False),
                      "date": json.dumps(meeting.get("date", ""), ensure_ascii=False),
                      "body": "\n\n".join(slides)}
@@ -573,7 +604,9 @@ def render_bundle(root, bundle, output, *, quarto="quarto", output_format="html"
                     templates.append(source_style)
         rendered = subprocess.run(command, cwd=stage, capture_output=True, text=True)
         if rendered.returncode:
-            raise RuntimeError("Quarto render failed:\n" + rendered.stdout + rendered.stderr)
+            log = stage / "index.log"
+            detail = "\n" + "\n".join(log.read_text(encoding="utf-8", errors="replace").splitlines()[-60:]) if log.is_file() else ""
+            raise RuntimeError("Quarto render failed:\n" + rendered.stdout + rendered.stderr + detail)
         extension = {"html": "html", "pdf": "pdf", "markdown": "md"}[output_format]
         completed = stage / ("index." + extension)
         if not completed.is_file():
@@ -582,12 +615,20 @@ def render_bundle(root, bundle, output, *, quarto="quarto", output_format="html"
         published.mkdir()
         shutil.copyfile(completed, published / completed.name)
         shutil.copyfile(stage / "index.qmd", published / "index.qmd")
+        latex_files = {}
+        if output_format == "pdf":
+            latex_names = ["index.tex"] + (["econsocart.cls", "econsocart.cfg", "ecta-fullname.bst"] if article else [])
+            for name in latex_names:
+                source_file = stage / name
+                shutil.copyfile(source_file, published / name)
+                latex_files[name] = hashlib.sha256(source_file.read_bytes()).hexdigest()
         (published / "preview.md").write_text(preview_markdown(bundle), encoding="utf-8")
         if (stage / "assets").exists():
             shutil.copytree(stage / "assets", published / "assets")
         record = {"source_revision": revision, "format": output_format, "command": command,
                   "artifact": completed.name, "artifact_sha256": hashlib.sha256(completed.read_bytes()).hexdigest(),
                   "consumed_assets": sorted(consumed), "asset_versions": asset_versions,
+                  "latex_files": latex_files,
                   "template_versions": {str(path): hashlib.sha256(path.read_bytes()).hexdigest() for path in templates},
                   "analysis_executed": False,
                   "renderer": subprocess.run([quarto, "--version"], check=True, capture_output=True, text=True).stdout.strip()}
@@ -764,7 +805,7 @@ def main(argv=None):
     create.add_argument("--selection", type=Path, required=True, help="Explicit saved gallery selection JSON")
     create.add_argument("--output", type=Path, required=True)
     create.add_argument("--title", required=True)
-    create.add_argument("--kind", default="meeting", choices=("brief", "meeting", "progress", "proposal", "results", "manuscript"))
+    create.add_argument("--kind", default="meeting", help="Template key from tex/slides/meeting_templates.json")
     create.add_argument("--project-view", type=Path)
     create.add_argument("--previous", type=Path)
     create.add_argument("--date", default="")

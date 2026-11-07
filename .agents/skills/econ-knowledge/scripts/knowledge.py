@@ -27,6 +27,8 @@ SEMANTIC_TYPES = {'prerequisite_to_understand', 'requires_to_apply', 'requires_a
                   'special_case_of', 'alternative_under', 'identifies', 'estimated_by',
                   'produces', 'consumed_by', 'validated_by', 'used_for_counterfactual', 'related'}
 SEMANTIC_FILES = ('lexicon.json', 'relations.json', 'model-contracts.json')
+CONTRACT_LOCATORS = ('assumptions', 'identification', 'equations', 'selection',
+                     'numerical_diagnostics', 'examples')
 ANCHOR = re.compile(r'^<a id="([a-z]+-[0-9]{2})"></a>\s*\n\s*## ([A-Z]+-[0-9]{2})[^\S\r\n]+(.+?)\s*$', re.M)
 BASE = Path(__file__).resolve().parents[1] / 'references'
 # Lexical aliases only: the research owner chooses the method and IDs.
@@ -316,23 +318,30 @@ def normalize_semantics(catalog, base):
         projected = {**contract, **{key: [] for key in ('implementation', 'checks', 'results')}}
         expected = {'id', 'owner', 'units', 'inputs', 'parameters', 'outputs', 'assumptions',
                     'identification', 'equations', 'implementation', 'checks', 'results', 'counterfactual_inputs'}
-        if set(contract) != expected or contract['owner'] not in by_unit:
+        if (not expected <= set(contract)
+                or set(contract) - expected - {'selection', 'numerical_diagnostics', 'examples'}
+                or contract['owner'] not in by_unit):
             raise ValueError('Invalid model contract')
         strings(contract['units'], 'contract units', nonempty=True)
         strings(contract['counterfactual_inputs'], 'counterfactual inputs')
         if set(contract['units']) - by_unit.keys() or contract['owner'] not in contract['units']:
             raise ValueError('Invalid contract unit references')
-        for key in ('assumptions', 'identification', 'equations'):
-            if not isinstance(contract[key], list): raise ValueError(f'Invalid {key}')
-            for body in contract[key]: locator(body)
+        for key in CONTRACT_LOCATORS:
+            bodies = contract.get(key, [])
+            if not isinstance(bodies, list): raise ValueError(f'Invalid {key}')
+            for body in bodies: locator(body)
+            projected[key] = bodies
         for key in ('inputs', 'outputs', 'parameters', 'implementation', 'checks', 'results'):
             if not isinstance(contract[key], list): raise ValueError(f'Invalid {key}')
             fields = ({'name', 'unit', 'meaning'} if key in ('inputs', 'outputs') else
                       {'name', 'meaning'} if key == 'parameters' else
                       {'path', 'meaning'} if key == 'results' else {'path', 'symbol'})
             for row in contract[key]:
-                valid_fields = (isinstance(row, dict) and (set(row) == fields or
-                                (key == 'implementation' and set(row) == {'module', 'symbol', 'version'})))
+                external = (key == 'implementation' and isinstance(row, dict)
+                            and {'module', 'symbol'} <= set(row)
+                            and bool({'version', 'revision'} & set(row))
+                            and not set(row) - {'module', 'symbol', 'version', 'revision', 'source_url'})
+                valid_fields = isinstance(row, dict) and (set(row) == fields or external)
                 if (not valid_fields
                         or any(not isinstance(v, str) or not v.strip() for v in row.values())):
                     raise ValueError(f'Invalid {key} record')
@@ -341,8 +350,17 @@ def normalize_semantics(catalog, base):
                 if 'module' in row:
                     if not dotted_identifier(row['module']):
                         raise ValueError('Invalid contract module')
-                    if not re.fullmatch(r'[0-9]+(?:\.[0-9]+)*(?:[._-]?(?:a|b|rc|post|dev)[._-]?[0-9]+)?(?:\+[A-Za-z0-9]+(?:[._-][A-Za-z0-9]+)*)?', row['version']):
+                    if 'version' in row and not re.fullmatch(r'[0-9]+(?:\.[0-9]+)*(?:[._-]?(?:a|b|rc|post|dev)[._-]?[0-9]+)?(?:\+[A-Za-z0-9]+(?:[._-][A-Za-z0-9]+)*)?', row['version']):
                         raise ValueError('Invalid pinned module version')
+                    if 'revision' in row and not re.fullmatch(r'[a-f0-9]{40}', row['revision']):
+                        raise ValueError('Invalid pinned module revision')
+                    if 'source_url' in row:
+                        source = urlsplit(row['source_url'])
+                        if (source.scheme != 'https' or not source.netloc or source.username
+                                or source.password or source.query):
+                            raise ValueError('Invalid official module source URL')
+                    if 'revision' in row and 'source_url' not in row:
+                        raise ValueError('A pinned module revision requires its source URL')
                 if 'path' in row:
                     path = row['path']
                     if (Path(path).is_absolute() or any(part in ('', '.', '..') for part in path.split('/'))
@@ -376,6 +394,17 @@ def normalize_semantics(catalog, base):
                 elif key == 'implementation':
                     projected[key].append({**row, 'role': 'execution_binding', 'source_only': False,
                                            'execution_owner': 'econ-data'})
+        examples = projected['examples'] or [
+            {'unit': item, 'anchor': by_unit[item]['anchor']} for item in contract['units']
+            if by_unit[item]['kind'] == 'worked_example']
+        projected['examples'] = examples
+        projected['availability'] = ['theory_reference']
+        if examples or any(row.get('source_only') for row in projected['implementation']):
+            projected['availability'].append('numerical_example')
+        if any('path' in row and not row['source_only'] for row in projected['implementation']):
+            projected['availability'].append('internal_runner')
+        if any('module' in row for row in projected['implementation']):
+            projected['availability'].append('external_official_api')
         contract_views.append(projected)
     for unit in units:
         if any(unit['id'] not in contract_map[x]['units'] for x in unit['contract_ids']):
@@ -905,23 +934,30 @@ class Reader:
         result = dict(contract)
         result['unit_locators'] = [{'id': unit, 'body_readable': self.semantic_available(unit)}
                                    for unit in contract['units']]
-        for key in ('assumptions', 'identification', 'equations'):
+        for key in CONTRACT_LOCATORS:
             result[key] = [{**locator, 'body_readable': not self.selection
-                            or locator['unit'] in self.selection['closure_ids']} for locator in contract[key]]
+                            or locator['unit'] in self.selection['closure_ids']} for locator in contract.get(key, [])]
         return result
 
     def plan(self, selected, context=None):
         context = context or {}
         graph = self.semantic('relations.json')
         contracts = self.semantic('model-contracts.json')
-        if not selected: raise ValueError('Specify at least one knowledge ID')
+        if not selected: raise ValueError('Specify at least one knowledge or model contract ID')
+        seeds = []
         for item in selected:
+            if item.startswith('MC-'):
+                contract = self.contract(item)
+                seeds.extend(contract['units'])
+                seeds.extend(locator['unit'] for key in CONTRACT_LOCATORS for locator in contract.get(key, []))
+                continue
             if item not in self.manifest['units']: raise ValueError(f'Unknown knowledge ID: {item}')
             if self.selection and item not in self.selection['closure_ids']:
                 raise ValueError(f'Knowledge ID outside exported selection: {item}')
+            seeds.append(item)
         edges = {edge['id']: edge for edge in graph['relations']}
         required, visiting, completed, cycles = [], set(), set(), []
-        eligible, unresolved = {}, {}
+        eligible, unresolved, inapplicable = {}, {}, {}
         def visit(item):
             if item in visiting:
                 cycles.append(item)
@@ -934,13 +970,14 @@ class Reader:
                 annotated = {**edge, 'target_available': self.semantic_available(edge['target'])}
                 if state == 'satisfied': eligible[edge_id] = annotated
                 elif state == 'unresolved': unresolved[edge_id] = annotated
+                else: inapplicable[edge_id] = annotated
                 if (edge['type'] in ('prerequisite_to_understand', 'requires_to_apply')
                         and state == 'satisfied' and edge['target'] in self.manifest['units']):
                     visit(edge['target'])
             visiting.remove(item)
             completed.add(item)
             required.append(item)
-        for item in selected: visit(item)
+        for item in dict.fromkeys(seeds): visit(item)
         # An alternative is one authored symmetric comparison. Its reverse
         # lookup supplies the same conditions without creating a dependency.
         for item in required:
@@ -953,6 +990,7 @@ class Reader:
                              'target_available': self.semantic_available(edge['target'])}
                 if state == 'satisfied': eligible[edge_id] = annotated
                 elif state == 'unresolved': unresolved[edge_id] = annotated
+                else: inapplicable[edge_id] = annotated
         selected_contracts = [self.contract(contract['id']) for contract in contracts['contracts']
                               if set(contract['units']) & set(required)
                               and self.semantic_available(contract['id'])]
@@ -961,6 +999,7 @@ class Reader:
                     for item in required]
         return {'selected_ids': selected, 'required_ids': required, 'locators': locators,
                 'eligible_relations': list(eligible.values()), 'unresolved_conditions': list(unresolved.values()),
+                'inapplicable_relations': list(inapplicable.values()),
                 'application_cycles': cycles,
                 'contracts': selected_contracts, **self.report()}
 

@@ -35,6 +35,68 @@ def read_json(target):
     return state.gate.parse_json(target.read_bytes())
 
 
+def bind_runtime_requirements(root, config, inputs):
+    """Use the selected requirement files as the existing runtime's package pins."""
+    requirements = config.get('requirements', [])
+    if (not isinstance(requirements, list)
+            or any(not isinstance(name, str) or name not in inputs for name in requirements)
+            or len(requirements) != len(set(requirements))):
+        fail('Runtime requirements must name distinct declared stage inputs')
+    packages = dict(config.get('packages', {}))
+    canonical = lambda name: re.sub(r'[-_.]+', '-', name).lower() if config['language'] == 'python' else name
+    pins = {canonical(name): (name, version) for name, version in packages.items()}
+    if len(pins) != len(packages):
+        fail('Runtime package names must be distinct after normalization')
+    sources = {}
+    for name in requirements:
+        content = (root / path(root, name)).read_text(encoding='utf-8')
+        if config['language'] == 'python':
+            rows = []
+            for line in content.splitlines():
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+                exact = re.fullmatch(r'([A-Za-z0-9][A-Za-z0-9._-]*)==([A-Za-z0-9][A-Za-z0-9._+!-]*)', line)
+                vcs = re.fullmatch(r'([A-Za-z0-9][A-Za-z0-9._-]*)\s*@\s*git\+(https://[^\s]+)@([0-9a-f]{40})', line)
+                if exact:
+                    rows.append(exact.groups())
+                elif vcs:
+                    package, url, commit = vcs.groups()
+                    source = {'url': url.removesuffix('.git'), 'commit_id': commit}
+                    key = canonical(package)
+                    if key in sources and sources[key] != source:
+                        fail('Conflicting source revisions for ' + package)
+                    sources[key] = source
+                    rows.append((package, None))
+                else:
+                    fail('Runtime requirements need exact versions or full Git commit references: ' + name)
+        elif config['language'] == 'r':
+            declared = json.loads(content)
+            if not isinstance(declared.get('packages'), dict) or not isinstance(declared.get('r_version'), str):
+                fail('R requirements need r_version and packages')
+            if config.get('version', declared['r_version']) != declared['r_version']:
+                fail('R runtime version conflicts with ' + name)
+            config['version'] = declared['r_version']
+            rows = declared['packages'].items()
+        else:
+            fail('Use Julia Project/Manifest files in runtime.files')
+        for package, version in rows:
+            if (not isinstance(package, str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]*', package)
+                    or (version is not None and (not isinstance(version, str) or not version))):
+                fail('Invalid package pin in ' + name)
+            key = canonical(package)
+            if key in pins:
+                previous_name, previous_version = pins[key]
+                if previous_version is not None and version is not None and previous_version != version:
+                    fail('Conflicting runtime versions for ' + package)
+                pins[key] = (previous_name, previous_version or version)
+            else:
+                pins[key] = (package, version)
+    config['packages'] = {name: version for name, version in pins.values()}
+    config['files'] = list(dict.fromkeys([*config.get('files', []), *requirements]))
+    return sources
+
+
 def call(root, store, *args):
     result = subprocess.run([sys.executable, str(Path(state.__file__).resolve()), '--root', str(root), '--store', store, *args],
                             text=True, capture_output=True)
@@ -367,7 +429,7 @@ def validate(root, manifest, profile=None):
             fail('inherit_env must list environment names')
         if 'runtime' in s:
             runtime = s['runtime']
-            if (not isinstance(runtime, dict) or set(runtime) - {'language', 'probe_argv', 'version', 'packages', 'files', 'companions', 'apis'}
+            if (not isinstance(runtime, dict) or set(runtime) - {'language', 'probe_argv', 'version', 'packages', 'files', 'companions', 'apis', 'requirements'}
                     or runtime.get('language') not in {'python', 'r', 'julia'} or 'argv' not in s
                     or not isinstance(runtime.get('probe_argv'), list) or not runtime['probe_argv']
                     or any(not isinstance(a, str) or not a or '{' in a for a in runtime['probe_argv'])
@@ -384,7 +446,7 @@ def validate(root, manifest, profile=None):
                 fail('Runtime companions must be a finite list')
             identities = set()
             for companion in companions:
-                if (not isinstance(companion, dict) or set(companion) - {'language','probe_argv','version','packages','files','apis'}
+                if (not isinstance(companion, dict) or set(companion) - {'language','probe_argv','version','packages','files','apis','requirements'}
                         or companion.get('language') not in {'r','julia'}
                         or not isinstance(companion.get('probe_argv'),list) or not companion['probe_argv']
                         or any(not isinstance(a,str) or not a or '{' in a for a in companion['probe_argv'])
@@ -401,6 +463,7 @@ def validate(root, manifest, profile=None):
                 if key in identities: fail('Runtime companions must be distinct')
                 identities.add(key)
             for selected in [runtime, *companions]:
+                bind_runtime_requirements(root, selected, s['inputs'])
                 apis = selected.get('apis', [])
                 if not isinstance(apis, list) or (apis and selected['language'] not in {'python', 'r'}):
                     fail('Runtime APIs require a Python or R runtime and a list of contracts')
@@ -689,6 +752,7 @@ def capture_learning(root, store, stage, producer, mapping):
 PYTHON_PROBE = r'''
 import hashlib, importlib, importlib.metadata as metadata, inspect, json, pathlib, sys
 wanted = json.loads(sys.argv[1])
+sources = json.loads(sys.argv[4])
 if sys.argv[2]:
     sys.path[0] = sys.argv[2]
 packages = {}
@@ -712,6 +776,13 @@ if wanted:
             raise SystemExit('Missing Python package: ' + name)
         canonical = canonicalize_name(dist.metadata['Name'])
         packages[canonical] = {'version': dist.version, 'path': str(dist.locate_file('').resolve())}
+        if canonical in sources:
+            direct = json.loads(dist.read_text('direct_url.json') or '{}')
+            expected = sources[canonical]
+            if (direct.get('url', '').removesuffix('.git') != expected['url']
+                    or direct.get('vcs_info', {}).get('commit_id') != expected['commit_id']):
+                raise SystemExit('Python source revision mismatch: ' + name)
+            packages[canonical]['source'] = expected
         for raw in dist.requires or []:
             req = Requirement(raw)
             if req.marker and not any(req.marker.evaluate({'extra': extra}) for extra in ({''} | set(extras))):
@@ -734,12 +805,24 @@ if apis:
         actual = packages[canonicalize_name(name)]['version']
         if actual != wanted[name]:
             raise SystemExit(f'Python package version mismatch: {name} expected {wanted[name]}, got {actual}')
-        module, attribute = symbol.rsplit('.', 1)
-        if canonicalize_name(name) not in [canonicalize_name(n) for n in owners.get(module.split('.')[0], [])]:
+        parts = symbol.split('.')
+        if canonicalize_name(name) not in [canonicalize_name(n) for n in owners.get(parts[0], [])]:
             raise SystemExit(f'Unsupported API {symbol}: installed distribution {name} does not own its module')
         try:
-            imported = importlib.import_module(module)
-            function = getattr(imported, attribute)
+            for split in range(len(parts) - 1, 0, -1):
+                module = '.'.join(parts[:split])
+                try:
+                    imported = importlib.import_module(module)
+                except ModuleNotFoundError as exc:
+                    if exc.name != module and not module.startswith(exc.name + '.'):
+                        raise
+                    continue
+                function = imported
+                for attribute in parts[split:]:
+                    function = getattr(function, attribute)
+                break
+            else:
+                raise ImportError('No importable module for ' + symbol)
         except (ImportError, AttributeError) as exc:
             raise SystemExit(f'Unsupported API {symbol}: {exc}')
         dist = metadata.distribution(name)
@@ -884,6 +967,7 @@ def runtime_file(target):
 
 def probe_runtime(root, stage, environment, executable, cwd=None):
     config = stage['runtime']
+    sources = bind_runtime_requirements(root, config, stage.get('inputs', config.get('files', [])))
     for variable in ('PYTHONPATH', 'R_LIBS', 'R_LIBS_USER', 'R_LIBS_SITE', 'JULIA_DEPOT_PATH', 'JULIA_LOAD_PATH'):
         if variable in environment and any(not Path(item).is_absolute() for item in environment[variable].split(os.pathsep)):
             fail('Runtime library paths must be absolute: ' + variable)
@@ -914,7 +998,7 @@ def probe_runtime(root, stage, environment, executable, cwd=None):
         else:
             script = Path(entry).resolve()
             script_dir = str(script if script.is_dir() or zipfile.is_zipfile(script) else script.parent)
-        command = prefix + ['-c', PYTHON_PROBE, json.dumps(config.get('packages', {})), script_dir, json.dumps(config.get('apis', []))]
+        command = prefix + ['-c', PYTHON_PROBE, json.dumps(config.get('packages', {})), script_dir, json.dumps(config.get('apis', [])), json.dumps(sources)]
     elif config['language'] == 'r':
         apiargs = [','.join([api['package'], api['symbol'], str(api['positional']), config['packages'][api['package']], *api['keywords']]) for api in config.get('apis', [])]
         command = prefix + ['-e', R_PROBE, *config.get('packages', {})]

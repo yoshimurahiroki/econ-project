@@ -42,13 +42,10 @@ $if(bibliography)$$else$\let\econbibstyle\bibliographystyle
 \renewcommand{\bibliographystyle}[1]{}
 $endif$$common.latex()$
 $if(bibliography)$$else$\let\bibliographystyle\econbibstyle
-$endif$$if(standalone-renderer)$
-$for(header-includes)$
+$endif$$for(header-includes)$
 $header-includes$
 $endfor$
-$endif$
-\usepackage{needspace}
-\BeforeBeginEnvironment{longtable}{\Needspace{12\baselineskip}}
+\AtBeginEnvironment{longtable}{\def\_{\textunderscore\allowbreak}}
 \newcounter{pandocauthor}
 \newcommand{\pandocauthor}[1]{\stepcounter{pandocauthor}\author[id=au\arabic{pandocauthor},addressref={add1}]{\fnms{}~\snm{#1}\ead[label=e\arabic{pandocauthor}]{}}}
 \ifx\econselectedclass\econjournalclass

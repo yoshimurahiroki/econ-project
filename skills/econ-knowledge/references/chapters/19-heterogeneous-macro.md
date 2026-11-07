@@ -30,6 +30,14 @@ HARKの[公式ノートブック](https://github.com/econ-ark/HARK/blob/4c285e86
 
 数値解は元の条件へ戻して評価する。\(\zeta=1-c^\gamma\beta\ell R E[(\Gamma\psi)^{-\gamma}c'^{-\gamma}]\) と置き、内点で \(\zeta=0\)、借入境界で \(\zeta\ge0\)、相補性 \(\zeta(a-\underline a)=0\) を確認する。各期の予算は \(m-c-a\)、同一家計の次期資源は \(m'-Ra/(\Gamma\psi)-\theta\)、恒久所得は \(p'-\Gamma\psi p\) の残差で評価する。同版の[家計遷移コード](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/HARK/ConsumptionSaving/ConsIndShockModel.py)が記録する `PermShk` には \(\Gamma\) が含まれる。死亡・出生を含む模擬では、新生家計の遷移を初期化後の状態へ対応させる。格子点数、所得分布の離散化、資産領域を変え、対象とする資源での消費とこれらの残差を比較する。
 
+### 家計の問題とHARKの実行契約
+
+モデルを選ぶ基準は価格、所得、選択集合と集計対象である。価格と所得が予見可能で消費・貯蓄だけを選ぶ家計には`PerfForesightConsumerType`、恒久・一時所得ショックと借入制約を持つ家計には`IndShockConsumerType`を使う。両クラスの[HARK 0.17.2の正本](https://github.com/econ-ark/HARK/blob/269085077b84cb50feb49d0cd54bbf4da5fa3199/HARK/ConsumptionSaving/ConsIndShockModel.py)へ、効用曲率、割引、金利、生存、成長、借入下限を渡す。後者ではショックの同時支持と質量、積分点、資産格子も渡す。有限寿命では`cycles=1`と`T_cycle`、定常的な無限期間では`cycles=0`を指定し、有限寿命の終端で全資源を消費する条件を研究仕様へ対応させる。
+
+`solve()`は消費者オブジェクトの`solution`を更新する。有限寿命では`T_cycle+1`個の解を持ち、対象年齢の`cFunc`をその年齢の正規化資源で評価する。値を使う`IndShockConsumerType`には`vFuncBool=True`を指定し、`vFunc`の正規化を効用集計と揃える。模擬では`AgentCount`、`T_sim`、`seed`、`track_vars`、初期資産・恒久所得分布を固定し、`initialize_sim()`の後に`simulate()`を呼ぶ。所得・資産の水準分布を比較する研究では、同じ個体の正規化量と恒久所得を掛けてから人口加重する。
+
+家計の観測消費・資産・所得履歴は価格所与のモデルの当てはまりと選好・所得過程の識別へ対応する。給与税や移転が金利・賃金を動かす一般均衡では、同じ家計をHET-02の価格・分布・市場清算へ接続する。退職や固定費付き就業を選択する研究ではDYN-02の制度別最適化を用いる。価格所与の家計解、分布を集計した市場均衡、制度別の離散選択はそれぞれ別の計算対象を持つ。`MC-hark-consumption-saving`は家計の政策・値・模擬履歴の公式API契約である。
+
 <a id="het-02"></a>
 
 ## HET-02　家計分布と不完全市場均衡
