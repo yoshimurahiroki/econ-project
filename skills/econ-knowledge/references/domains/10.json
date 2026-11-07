@@ -275,7 +275,7 @@
       ],
       "subdomain": "感染動態と接触制御",
       "title": "感染動態と接触制御",
-      "topic": "感染動態と接触制御",
+      "topic": "SIR感染動態と接触制御; finite-horizon SIR contact-control policy",
       "use_when": "有限期間の感染経路、接触抑制費用、終端感染を指定して政策候補を比較する"
     }
   ]

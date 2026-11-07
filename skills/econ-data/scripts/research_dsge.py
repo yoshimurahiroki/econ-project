@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Solve and simulate a stochastic RBC model: run SPEC --output FILE or case --output NEWDIR."""
+"""Solve and simulate a stochastic RBC model: run SPEC --output FILE."""
 import argparse
 import hashlib
 import json
@@ -14,7 +14,7 @@ from scipy.optimize import brentq
 import statsmodels
 from statsmodels.tsa.arima.model import ARIMA
 
-from research_macro_extended import atomic_write, publish_observed_case, read_productivity, write_productivity_case
+from research_macro_extended import atomic_write, read_productivity
 
 
 def solve(spec, base_dir=Path.cwd()):
@@ -163,32 +163,18 @@ def solve(spec, base_dir=Path.cwd()):
             'scipy':scipy.__version__,'statsmodels':statsmodels.__version__}}
 
 
-def example(stage):
-    rng = np.random.default_rng(49020)
-    observations = [0.]
-    for _ in range(600): observations.append(.8*observations[-1]+rng.normal(0,.015))
-    return {'parameters':{'alpha':.36,'beta':.96,'delta':.08},
-        'observations':write_productivity_case(stage, observations, 'seed 49020; Gaussian AR(1), rho 0.8, sigma 0.015'),
-        'horizon':40,'simulation_paths':64,'seed':49021,'technology_shock':.02}
-
-
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('operation',choices=['run','case'])
-    parser.add_argument('spec',nargs='?',type=Path)
+    parser.add_argument('operation',choices=['run'])
+    parser.add_argument('spec',type=Path)
     parser.add_argument('--output',type=Path,required=True)
     args = parser.parse_args(argv)
     try:
-        if args.operation == 'run':
-            if args.spec is None: raise ValueError('run requires a specification')
-            raw = args.spec.read_bytes()
-            result = solve(json.loads(raw),args.spec.resolve().parent)
-            result['provenance']['spec_sha256'] = hashlib.sha256(raw).hexdigest()
-            result['provenance']['producer_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
-            atomic_write(args.output,result)
-        else:
-            if args.spec is not None: raise ValueError('case takes no specification')
-            publish_observed_case(args.output,example,solve)
+        raw = args.spec.read_bytes()
+        result = solve(json.loads(raw),args.spec.resolve().parent)
+        result['provenance']['spec_sha256'] = hashlib.sha256(raw).hexdigest()
+        result['provenance']['producer_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+        atomic_write(args.output,result)
     except (ValueError,KeyError,TypeError,OSError,ArithmeticError) as exc:
         parser.exit(2,f'error: {exc}\n')
 

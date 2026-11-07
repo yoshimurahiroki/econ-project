@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-"""Macro equilibria: run SPEC --output FILE or case --model olg|aiyagari --output NEWDIR."""
+"""Household consumption-saving and macro equilibria: run SPEC --output FILE."""
 import argparse
 import csv
 import io
 import hashlib
-import importlib.util
 import json
 import os
 from pathlib import Path
@@ -23,22 +22,152 @@ def olg_sequence_block(K, Z, effective_a, labor, alpha, save, income_share):
     return Y, clearing
 
 
-def hark_lifecycle(beta):
-    # An independent two-period CRRA=2 example with a unit old-age endowment.
-    from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType
-    gross_return = 1.04
-    assets = 2.0
-    consumer = PerfForesightConsumerType(cycles=1, T_cycle=1, CRRA=2., DiscFac=beta,
-        Rfree=[gross_return], LivPrb=[1.], PermGroFac=[1.], BoroCnstArt=0.)
-    consumer.solve()
-    consumption = float(consumer.solution[0].cFunc(assets))
-    analytic = (gross_return*assets+1)/(gross_return+np.sqrt(beta*gross_return))
-    if abs(consumption-analytic) > 1e-8: raise ArithmeticError('HARK lifecycle Euler check failed')
-    return {'engine':'HARK PerfForesightConsumerType.solve', 'CRRA':2., 'discount_factor':beta,
-        'gross_return':gross_return,'young_resources':assets,'old_endowment':1.,
-        'young_consumption':consumption,'saving':assets-consumption,
-        'old_consumption':gross_return*(assets-consumption)+1.,
-        'analytic_consumption':float(analytic),'analytic_abs_error':abs(consumption-analytic)}
+def solve_hark(spec):
+    """Solve the declared finite-life HARK consumer and save evaluated policies."""
+    from HARK.ConsumptionSaving.ConsIndShockModel import PerfForesightConsumerType, IndShockConsumerType, calc_vp_next
+    from HARK.distributions import expected
+    classes = {'perfect_foresight': PerfForesightConsumerType, 'idiosyncratic_shocks': IndShockConsumerType}
+    if spec['income_process'] not in classes:
+        raise ValueError('income_process must be perfect_foresight or idiosyncratic_shocks')
+    parameters = spec['consumer_options']
+    required = {'cycles', 'T_cycle', 'CRRA', 'DiscFac', 'Rfree', 'LivPrb', 'PermGroFac', 'BoroCnstArt'}
+    if not isinstance(parameters, dict) or required - parameters.keys():
+        raise ValueError('consumer_options requires ' + ', '.join(sorted(required)))
+    if parameters['cycles'] != 1 or type(parameters['T_cycle']) is not int or parameters['T_cycle'] < 1:
+        raise ValueError('finite-life HARK execution requires cycles=1 and positive integer T_cycle')
+    if not spec.get('calibration_source'):
+        raise ValueError('calibration_source must identify the fixed or previously fitted parameters')
+    evaluation = spec['evaluation']
+    grid = np.asarray(evaluation['mNrm'], dtype=float)
+    if grid.ndim != 1 or not grid.size or not np.isfinite(grid).all():
+        raise ValueError('evaluation.mNrm requires a nonempty finite vector of normalized resources')
+    periods = evaluation.get('periods', list(range(parameters['T_cycle']+1)))
+    if (not isinstance(periods, list) or not periods or len(set(periods)) != len(periods) or
+            any(type(t) is not int or not 0 <= t <= parameters['T_cycle'] for t in periods)):
+        raise ValueError('evaluation.periods requires distinct ages from zero through T_cycle')
+    weights = None
+    if 'weights' in evaluation:
+        weights = np.asarray(evaluation['weights'], dtype=float)
+        if weights.shape != grid.shape or not np.isfinite(weights).all() or (weights < 0).any() or not np.isclose(weights.sum(), 1):
+            raise ValueError('evaluation.weights must give nonnegative population masses summing to one on mNrm')
+    simulation = spec.get('simulation')
+    if simulation is not None:
+        if not isinstance(simulation, dict) or set(simulation) != {'AgentCount', 'T_sim', 'seed', 'track_vars'}:
+            raise ValueError('simulation requires AgentCount, T_sim, seed and track_vars')
+        if any(type(simulation[k]) is not int or simulation[k] < 1 for k in ('AgentCount', 'T_sim')) or type(simulation['seed']) is not int:
+            raise ValueError('simulation counts must be positive integers and seed must be an integer')
+        if (not isinstance(simulation['track_vars'], list) or not simulation['track_vars'] or
+                not all(isinstance(k, str) for k in simulation['track_vars']) or
+                len(set(simulation['track_vars'])) != len(simulation['track_vars'])):
+            raise ValueError('simulation.track_vars must name the histories to save')
+        initial = {'kLogInitMean', 'kLogInitStd', 'pLogInitMean', 'pLogInitStd'}
+        if initial - parameters.keys():
+            raise ValueError('consumer_options must specify initial asset and permanent-income log distributions for simulation')
+    scenarios = {'baseline': parameters}
+    if 'scenario' in spec:
+        scenario = spec['scenario']
+        if not isinstance(scenario, dict) or set(scenario) != {'consumer_options'} or not isinstance(scenario['consumer_options'], dict):
+            raise ValueError('scenario requires its consumer_options changes')
+        changed = {**parameters, **scenario['consumer_options']}
+        if any(changed[k] != parameters[k] for k in ('cycles', 'T_cycle', 'CRRA')):
+            raise ValueError('scenario comparisons preserve the lifecycle horizon and CRRA utility normalization')
+        scenarios['scenario'] = changed
+    outcomes, statistics, policy_rows, value_rows = {}, {}, [], []
+    units = {'cNrm': 'goods per unit permanent income', 'aNrm': 'goods per unit permanent income',
+             'value': 'normalized expected discounted CRRA utility'}
+    for name, options in scenarios.items():
+        if spec['income_process'] == 'idiosyncratic_shocks' and options.get('vFuncBool') is not True:
+            raise ValueError(f'{name}: IndShockConsumerType value output requires vFuncBool=true')
+        native = dict(options)
+        if simulation is not None:
+            if set(simulation) & options.keys():
+                raise ValueError(f'{name}: declare simulation settings in simulation')
+            native.update({k: v for k, v in simulation.items() if k != 'track_vars'})
+        consumer = classes[spec['income_process']](**native)
+        consumer.solve()
+        rows = []
+        for t in periods:
+            solution = consumer.solution[t]
+            if (grid <= solution.mNrmMin).any():
+                raise ValueError(f'{name} period {t}: evaluation.mNrm must exceed the solved resource minimum {solution.mNrmMin}')
+            consumption = np.asarray(solution.cFunc(grid), dtype=float)
+            value = np.asarray(solution.vFunc(grid), dtype=float)
+            if consumption.shape != grid.shape or value.shape != grid.shape or not np.isfinite([consumption, value]).all() or (consumption <= 0).any():
+                raise ArithmeticError(f'{name} period {t}: HARK must return positive consumption and finite values at each evaluation point')
+            assets = grid-consumption
+            if t < consumer.T_cycle:
+                rfree, growth = consumer.Rfree[t], consumer.PermGroFac[t]
+                next_value = consumer.solution[t+1].vPfunc
+                if spec['income_process'] == 'idiosyncratic_shocks':
+                    marginal_value = expected(calc_vp_next, consumer.IncShkDstn[t],
+                        args=(assets, rfree, consumer.CRRA, growth, next_value))
+                else:
+                    marginal_value = next_value(rfree*assets/growth+1)
+                euler_gap = 1-consumption**consumer.CRRA * consumer.DiscFac*consumer.LivPrb[t]*rfree*growth**(-consumer.CRRA)*marginal_value
+            for i, m in enumerate(grid):
+                row = {'period': t, 'mNrm': float(m), 'cNrm': float(consumption[i]),
+                       'aNrm': float(assets[i]), 'value': float(value[i]),
+                       'mNrmMin': float(solution.mNrmMin)}
+                if t < consumer.T_cycle:
+                    slack = float(assets[i]-solution.mNrmMin)
+                    row.update(euler_gap=float(euler_gap[i]), borrowing_slack=slack,
+                               complementarity=float(euler_gap[i]*slack))
+                rows.append(row)
+                for quantity, unit in units.items():
+                    statistics[f'{name}.period_{t}.point_{i}.{quantity}'] = {'value': row[quantity], 'unit': unit}
+                coordinate = {'scenario': name, 'period': t, 'mNrm': float(m), 'series': f'{name}: age {t}'}
+                policy_rows.append({**coordinate, 'value': row['cNrm'], 'unit': units['cNrm']})
+                value_rows.append({**coordinate, 'value': row['value'], 'unit': units['value']})
+            if weights is not None:
+                for quantity, values in (('cNrm', consumption), ('value', value)):
+                    statistics[f'{name}.period_{t}.weighted_{quantity}'] = {'value': float(weights @ values), 'unit': units[quantity]}
+        outcome = {'consumer_options': options,
+            'effective_consumer_options': {key: value for key, value in consumer.parameters.items()
+                if key != 'constructors' and key not in consumer.constructors},
+            'policies': rows, 'solution_periods': len(consumer.solution)}
+        if spec['income_process'] == 'idiosyncratic_shocks':
+            outcome['aXtraGrid'] = consumer.aXtraGrid.tolist()
+            outcome['income_distributions'] = []
+            for t in range(consumer.T_cycle):
+                distribution = consumer.IncShkDstn[t]
+                outcome['income_distributions'].append({'period': t,
+                    'PermShk': distribution.atoms[0].tolist(), 'TranShk': distribution.atoms[1].tolist(),
+                    'probability': distribution.pmv.tolist()})
+        if simulation is not None:
+            outcome['initial_distributions'] = {key: {'atoms': getattr(consumer, key).atoms.tolist(),
+                'probability': getattr(consumer, key).pmv.tolist()} for key in ('kNrmInitDstn', 'pLvlInitDstn')}
+            consumer.track_vars = list(simulation['track_vars'])
+            consumer.initialize_sim()
+            consumer.simulate()
+            outcome['history'] = {key: np.asarray(values).tolist() for key, values in consumer.history.items()}
+        outcomes[name] = outcome
+    if 'scenario' in outcomes and weights is not None:
+        for t in periods:
+            for quantity in ('cNrm', 'value'):
+                key = f'period_{t}.weighted_{quantity}'
+                statistics['change.'+key] = {'value': statistics['scenario.'+key]['value']-statistics['baseline.'+key]['value'],
+                                            'unit': units[quantity]}
+    metadata = {'model_contract': 'MC-hark-consumption-saving', 'parameter_source': spec['calibration_source'],
+        'normalization': 'resources, consumption and assets divided by permanent income; HARK normalized CRRA value',
+        'equilibrium': 'individual optimum at the supplied exogenous income and return processes',
+        'euler_gap': '1-c^CRRA*DiscFac*LivPrb*Rfree*E[(PermGroFac*PermShk)^(-CRRA)*c_next^(-CRRA)]; zero at an interior optimum and nonnegative at a binding borrowing limit',
+        'borrowing_slack': 'end-of-period normalized assets minus the solved borrowing minimum',
+        'complementarity': 'euler_gap times borrowing_slack at each nonterminal evaluation point'}
+    displays = {}
+    for name, rows, title in (('consumption_policy', policy_rows, 'Consumption policy'), ('value_function', value_rows, 'Value function')):
+        displays[name] = {'kind': 'structural', 'title': title, 'rows': rows,
+            'columns': [{'key': key, 'label': key, 'unit': ''} for key in ('scenario', 'period', 'mNrm', 'series', 'value', 'unit')],
+            'metadata': {**metadata, 'unit': rows[0]['unit'], 'report_role': 'counterfactual' if 'scenario' in outcomes else 'model_fit'},
+            'display': {'plot_type': 'line', 'x': 'mNrm', 'y': 'value', 'series': 'series'}}
+    return {'result_format_version': 1, 'model': 'consumption_saving', 'adopted': spec,
+        'model_contract': 'MC-hark-consumption-saving', 'knowledge_ids': ['HET-01', 'DYN-03'],
+        'engine': 'HARK.ConsumptionSaving.ConsIndShockModel.'+classes[spec['income_process']].__name__+'.solve',
+        'calibration': {'source': spec['calibration_source'], 'estimated_parameters': []},
+        'equations': ['m_t=c_t+a_t', 'm_next=Rfree*a_t/(PermGroFac*PermShk)+TranShk',
+            'v_t(m)=max_c u(c)+DiscFac*LivPrb*E[(PermGroFac*PermShk)^(1-CRRA)*v_next(m_next)]',
+            'c_terminal=m_terminal'], 'definitions': metadata, **outcomes,
+        'statistics': statistics, 'displays': displays,
+        'provenance': {'python': sys.version.split()[0], 'numpy': np.__version__, 'HARK': version('econ-ark')}}
 
 
 def atomic_write(path, obj):
@@ -51,24 +180,6 @@ def atomic_write(path, obj):
         os.replace(temp, path)
     finally:
         if temp is not None: temp.unlink(missing_ok=True)
-
-
-def publish_case(output, spec, runner):
-    output = output.resolve()
-    if output.exists(): raise FileExistsError(f'output already exists: {output}')
-    source = next((p/'harness/local_checks.py' for p in Path(__file__).resolve().parents if (p/'harness/local_checks.py').is_file()), None)
-    if source is None: raise FileNotFoundError('harness/local_checks.py is required')
-    module_spec = importlib.util.spec_from_file_location('macro_case_local_checks', source)
-    gate = importlib.util.module_from_spec(module_spec)
-    module_spec.loader.exec_module(gate)
-    with tempfile.TemporaryDirectory(prefix='.macro-case-', dir=output.parent) as temp:
-        stage = Path(temp)
-        atomic_write(stage/'spec.json', spec)
-        result = runner(spec)
-        result['provenance']['spec_sha256'] = hashlib.sha256((stage/'spec.json').read_bytes()).hexdigest()
-        result['provenance']['producer_sha256'] = hashlib.sha256(Path(runner.__code__.co_filename).read_bytes()).hexdigest()
-        atomic_write(stage/'result.json', result)
-        gate.atomic_publish(stage, output)
 
 
 def read_productivity(observations, base_dir):
@@ -99,42 +210,14 @@ def read_productivity(observations, base_dir):
         'value_column':value_column, 'first_period':periods[0], 'last_period':periods[-1], 'rows':len(periods)}
 
 
-def write_productivity_case(stage, values, source):
-    path = stage/'observed-productivity.csv'
-    with path.open('w', encoding='utf-8', newline='') as stream:
-        writer = csv.writer(stream, lineterminator='\n')
-        writer.writerow(['period','log_productivity'])
-        writer.writerows((i,repr(float(x))) for i,x in enumerate(values))
-    return {'type':'synthetic','source':source,'path':path.name,
-        'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
-        'period_column':'period','value_column':'log_productivity'}
-
-
-def publish_observed_case(output, generator, runner):
-    output = output.resolve()
-    if output.exists(): raise FileExistsError(f'output already exists: {output}')
-    source = next((p/'harness/local_checks.py' for p in Path(__file__).resolve().parents if (p/'harness/local_checks.py').is_file()), None)
-    if source is None: raise FileNotFoundError('harness/local_checks.py is required')
-    module_spec = importlib.util.spec_from_file_location('macro_observed_local_checks',source)
-    gate = importlib.util.module_from_spec(module_spec)
-    module_spec.loader.exec_module(gate)
-    with tempfile.TemporaryDirectory(prefix='.macro-observed-', dir=output.parent) as temp:
-        stage = Path(temp)
-        specification = generator(stage)
-        atomic_write(stage/'spec.json', specification)
-        result = runner(specification, stage)
-        result['provenance']['spec_sha256'] = hashlib.sha256((stage/'spec.json').read_bytes()).hexdigest()
-        result['provenance']['producer_sha256'] = hashlib.sha256(Path(runner.__code__.co_filename).read_bytes()).hexdigest()
-        atomic_write(stage/'result.json', result)
-        gate.atomic_publish(stage,output)
-
-
 def solve(spec, base_dir=Path.cwd()):
     model = spec.get('model', 'olg')
+    if model == 'consumption_saving':
+        return solve_hark(spec)
     if model == 'aiyagari':
         return solve_aiyagari(spec)
     if model != 'olg':
-        raise ValueError('model must be olg or aiyagari')
+        raise ValueError('model must be olg, aiyagari or consumption_saving')
     p = spec['parameters']
     alpha, beta, delta = (float(p[k]) for k in ('alpha','beta','delta'))
     shares = np.asarray(p['household_weights'], dtype=float)
@@ -244,9 +327,7 @@ def solve(spec, base_dir=Path.cwd()):
     if maxres > 1e-8: raise ArithmeticError(f'resource residual {maxres}')
     wbase = float(shares@np.asarray(baseline[0]['cohort_welfare']))
     wscenario = float(shares@np.asarray(scenario_path[0]['cohort_welfare']))
-    lifecycle = hark_lifecycle(beta)
-    stats = {'hark_young_consumption': {'value':lifecycle['young_consumption'],'unit':'normalized goods per young household'},
-        'sequence_jacobian_analytic_error': {'value':official_error,'unit':'goods per unit log productivity'},
+    stats = {'sequence_jacobian_analytic_error': {'value':official_error,'unit':'goods per unit log productivity'},
         'estimated_technology_persistence': {'value':rho,'unit':'AR(1) coefficient'},
         'steady_capital': {'value':k0,'unit':'goods per young cohort'},
         'impact_output_change': {'value':irf[0]['output'],'unit':'goods per period'},
@@ -262,11 +343,10 @@ def solve(spec, base_dir=Path.cwd()):
             'optimizer_success':bool(fit.success),'optimizer_cost':float(fit.cost),'jacobian_rank':int(np.linalg.matrix_rank(fit.jac)),
             'innovation_residuals':fit.fun.tolist()},
         'sequence_space_jacobian': {'engine':'sequence_jacobian.simple.solve_jacobian', 'output_to_log_productivity':official_jacobian.tolist(), 'analytic_max_abs_error':official_error, 'difference_step':step, 'finite_difference_max_abs_error':sequence_error},
-        'hark_lifecycle_comparison':lifecycle,
         'steady_state':{'baseline_capital':k0,'scenario_capital':parameters(scenario)[4], 'aggregate_productivity':aggregate_a,
             'firm_capital_shares':alloc.tolist()},
         'baseline':baseline,'simulation':scenario_path,'impulse_response':irf,'statistics':stats,
-        'provenance':{'python':sys.version.split()[0],'numpy':np.__version__,'scipy':scipy.__version__, 'sequence_jacobian':version('sequence-jacobian'), 'HARK':version('econ-ark')}}
+        'provenance':{'python':sys.version.split()[0],'numpy':np.__version__,'scipy':scipy.__version__, 'sequence_jacobian':version('sequence-jacobian')}}
 
 
 def solve_aiyagari(spec):
@@ -483,51 +563,20 @@ def solve_aiyagari(spec):
                        'quantecon': version('quantecon')}}
 
 
-def aiyagari_example():
-    return {'model': 'aiyagari', 'calibration_source': 'Synthetic stationary Aiyagari calibration',
-        'parameters': {'alpha': .36, 'beta': .96, 'delta': .08, 'crra': 2.,
-            'asset_grid': np.linspace(0., 30., 301).tolist(), 'income_states': [.5, 1.5],
-            'income_transition': [[.9, .1], [.1, .9]]},
-        'baseline': {'productivity': 1.}, 'scenario': {'productivity': 1.05},
-        'solver': {'capital_bracket': [3., 15.], 'capital_tolerance': .005,
-            'bellman_tolerance': 1e-9, 'distribution_tolerance': 1e-10,
-            'resource_tolerance': .0005, 'max_iterations': 200}}
-
-
-def example(stage):
-    rng = np.random.default_rng(39020)
-    obs = [.1]
-    for _ in range(100): obs.append(.75*obs[-1]+rng.normal(scale=.03))
-    return {'parameters':{'alpha':.36,'beta':.96,'delta':.08,'household_weights':[.5,.5],
-        'household_efficiency':[.6,1.4],'firm_labor_shares':[.4,.6],'firm_productivity':[.8,1.2]},
-        'observations':write_productivity_case(stage, obs, 'synthetic AR(1), seed 39020, rho .75, innovation sd .03'),
-        'baseline':{'markup':1.,'collateral_income_limit':1.,'government_share':0.},
-        'scenario':{'markup':1.2,'collateral_income_limit':.35,'government_share':.03},
-        'horizon':20,'technology_shock':.05}
-
-
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('operation',choices=['run','case'])
-    parser.add_argument('spec',nargs='?',type=Path)
-    parser.add_argument('--model',choices=['olg','aiyagari'],help='model for the generated case (default: olg)')
+    parser.add_argument('operation',choices=['run'])
+    parser.add_argument('spec',type=Path)
     parser.add_argument('--output',type=Path,required=True)
     args = parser.parse_args(argv)
     try:
-        if args.operation == 'run':
-            if args.spec is None: raise ValueError('run requires a specification')
-            if args.model is not None: raise ValueError('run selects its model from the specification')
-            raw = args.spec.read_bytes()
-            result = solve(json.loads(raw),args.spec.resolve().parent)
-            result['provenance']['spec_sha256'] = hashlib.sha256(raw).hexdigest()
-            result['provenance']['producer_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
-            atomic_write(args.output,result)
-        else:
-            if args.spec is not None: raise ValueError('case takes no specification')
-            if args.model == 'aiyagari':
-                publish_case(args.output,aiyagari_example(),solve)
-            else:
-                publish_observed_case(args.output,example,solve)
+        if args.spec.resolve() == args.output.resolve():
+            raise ValueError('output must differ from the specification path')
+        raw = args.spec.read_bytes()
+        result = solve(json.loads(raw),args.spec.resolve().parent)
+        result['provenance']['spec_sha256'] = hashlib.sha256(raw).hexdigest()
+        result['provenance']['producer_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
+        atomic_write(args.output,result)
     except (ValueError,KeyError,TypeError,OSError,ArithmeticError) as exc:
         parser.exit(2,f'error: {exc}\n')
 

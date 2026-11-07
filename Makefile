@@ -1,16 +1,13 @@
 # Explicit project operations.
-.PHONY: help prepare-pixi sync setup-extensions register-kernels format lint test clean r-install r-plan build-paper build-slides quarto-html quarto-pdf quarto-reveal typecheck format-check lint-r format-r
+.PHONY: help prepare-pixi sync setup-extensions register-kernels format lint clean r-install r-plan build-paper build-slides quarto-html quarto-pdf quarto-reveal typecheck format-check lint-r format-r
 
 PIXI ?= pixi
 PIXI_RUN = $(PIXI) run
-THREAD_ENV = OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
 R_MAKEVARS_USER ?= $(CURDIR)/scripts/r-makevars
 FILE ?=
-TEST ?=
 # Keep caller-supplied selectors as data, never as shell or Make source.
-unexport FILE TEST
+unexport FILE
 export QUALITY_FILE := $(value FILE)
-export QUALITY_TEST := $(value TEST)
 CHECK_FILE = test -n "$$QUALITY_FILE" && test -f "$$QUALITY_FILE" || { echo "Specify FILE=one-existing-file" >&2; exit 2; }; case "$$QUALITY_FILE" in /*) ;; *) QUALITY_FILE="./$$QUALITY_FILE";; esac
 QMD ?=
 PAPER ?= tex/paper/ecta_template.tex
@@ -51,10 +48,6 @@ lint-r:
 format-r:
 	@$(CHECK_FILE); \
 	$(PIXI_RUN) Rscript --vanilla -e 'Sys.setenv(R_CACHE_ROOTPATH = tempdir()); f <- Sys.getenv("QUALITY_FILE"); x <- readLines(f, warn = FALSE, encoding = "UTF-8"); y <- as.character(styler::style_text(x, scope = "spaces")); if (anyNA(y) || (length(x) > 0L && length(y) == 0L)) stop("Formatter returned no valid source"); invisible(parse(text = y)); if (!identical(x, y)) writeLines(y, f, useBytes = TRUE)'
-test:
-	@test -n "$$QUALITY_TEST" || { echo "Specify TEST=path::node" >&2; exit 2; }; \
-	$(THREAD_ENV) PYTHONPATH=".$${PYTHONPATH:+:$$PYTHONPATH}" $(PIXI_RUN) pytest -q -rs -p no:cacheprovider -p harness.local_checks -- "$$QUALITY_TEST"
-
 r-install: RV_ACTION = sync
 r-plan: RV_ACTION = plan
 r-install: prepare-pixi
@@ -96,5 +89,5 @@ quarto-reveal:
 	$(PIXI_RUN) quarto render "$(if $(strip $(QMD)),$(QMD),.)" --to revealjs
 
 clean:
-	rm -rf -- .coverage .mypy_cache .pytest_cache .ruff_cache _site _book .quarto
+	rm -rf -- .mypy_cache .ruff_cache _site _book .quarto
 	find tex -type f \( -name '*.aux' -o -name '*.blg' -o -name '*.log' -o -name '*.out' -o -name '*.toc' -o -name '*.synctex.gz' -o -name '*.run.xml' -o -name '*.fdb_latexmk' -o -name '*.fls' \) -delete

@@ -9,14 +9,12 @@ import importlib.util
 import io
 from html.parser import HTMLParser
 import subprocess
-import sys
 import tempfile
 import itertools
 import json
 import math
 from pathlib import Path
 import re
-import random
 import shutil
 from urllib.parse import quote, urlencode
 
@@ -920,102 +918,15 @@ def describe(spec, root, directory, rscript='Rscript'):
                            'rscript_options': ['--vanilla']}}
 
 
-def create_case(root, python):
-    """Prepare one finite synthetic pipeline for the existing research DAG."""
-    root = Path(root).resolve()
-    require(not root.exists(), 'Case directory already exists')
-    python = str(Path(python).absolute())
-    require(Path(python).is_file(), 'Analysis Python is absent')
-    probe = subprocess.check_output([python,'-c',
-        'import sys,json,importlib.metadata as m; print(json.dumps({"version":sys.version.split()[0],"packages":{x:m.version(x) for x in ["numpy","scipy","pandas","statsmodels"]}}))'],text=True)
-    versions=json.loads(probe)
-    root.mkdir(); (root/'code').mkdir(); (root/'data').mkdir()
-    shutil.copyfile(Path(__file__).resolve(),root/'code/research_data.py')
-    shutil.copyfile(Path(sources.__file__).resolve(),root/'code/research_sources.py')
-    base = Path(__file__).resolve().parent
-    estimator = base/'research_estimator.py' if (base/'research_estimator.py').is_file() else base/'research.py'
-    require(estimator.is_file(), 'Existing research estimator is required')
-    shutil.copyfile(estimator,root/'code/research.py')
-    rng=random.Random(59020)
-    observations=[]
-    for person in range(1,21):
-        for year in range(2020,2024):
-            exposure=rng.gauss(0,1)
-            outcome=1+1.4*exposure+.03*person+.05*(year-2020)+rng.gauss(0,.15)
-            observations.append({'record_id':f'P{person:02}-{year}','person_id':f'P{person:02}',
-                'firm_local':f'L{(person-1)%4+1}', 'year':str(year), 'exposure':exposure,'outcome':outcome})
-    base=write_csv(root/'data/raw.csv',list(observations[0]),observations)
-    crosswalk=write_csv(root/'data/crosswalk.csv',['firm_local','firm_id','region_id'],
-        [{'firm_local':f'L{i}','firm_id':f'F{i}','region_id':f'R{i}'} for i in range(1,5)])
-    geo={'type':'FeatureCollection','features':[{'type':'Feature','properties':{'region_id':f'R{i}'},
-         'geometry':{'type':'Point','coordinates':[-100.+i,35.+i]}} for i in range(1,5)]}
-    write_json(root/'data/regions.geojson',geo)
-    definitions={key:{'unit':unit,'definition':definition,'version':'synthetic-v1'} for key,unit,definition in [
-        ('record_id','identifier','unique person-year identifier'),('person_id','identifier','person identifier'),
-        ('firm_local','identifier','local firm identifier'),('year','calendar year','observation year'),
-        ('exposure','synthetic treatment units','seeded exposure'),('outcome','synthetic outcome units','seeded outcome'),
-        ('firm_id','identifier','crosswalked firm identifier'),('region_id','identifier','firm region identifier')]}
-    specification={'base':{'path':'data/raw.csv','sha256':base['sha256']},
-        'joins':[{'table':{'path':'data/crosswalk.csv','sha256':crosswalk['sha256']},'left':['firm_local'],'right':['firm_local'],
-            'columns':['firm_id','region_id'],'cardinality':'many_to_one','unmatched':'error'}],
-        'definitions':definitions,'grain':['person_id','year'],'panel':{'entity':'person_id','time':'year','balanced':True},
-        'numeric':['exposure','outcome'],'geography':{'path':'data/regions.geojson',
-            'sha256':digest((root/'data/regions.geojson').read_bytes()),'data_key':'region_id','feature_key':'region_id'}}
-    write_json(root/'data/assembly.json',specification)
-    write_json(root/'data/source.json',{'kind':'seeded synthetic','seed':59020,'population':'20 persons linked to four firms across four years',
-        'equation':'outcome = 1 + 1.4 exposure + .03 person_id + .05(year-2020) + Normal(0,.15)',
-        'inputs':{'raw':base,'crosswalk':crosswalk,'geo_sha256':digest((root/'data/regions.geojson').read_bytes())}})
-    runtime={'language':'python','probe_argv':[python],'version':versions['version'],'packages':versions['packages'],'files':[]}
-    env={x:'1' for x in ('OMP_NUM_THREADS','OPENBLAS_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS')}
-    def stage(id,inputs,depends,outputs,argv):
-        return {'id':id,'inputs':inputs,'depends':depends,'outputs':outputs,'argv':argv,'runtime':runtime,'env':env}
-    helper='{root}/code/research_data.py'
-    stages=[stage('assemble',['code/research_data.py','code/research_sources.py','data/raw.csv','data/crosswalk.csv','data/regions.geojson','data/assembly.json','data/source.json'],{},
-        {'table':'analysis.csv','record':'data-record.json','geography':'geography.geojson'},
-        [python,helper,'assemble','{root}/data/assembly.json','--root','{root}','--output','{out:record}','--output-record']),
-      stage('fit_spec',['code/research_data.py','code/research_sources.py','data/source.json'],{'assemble':['table','record']},{'spec':'fit.json'},
-        [python,helper,'case-fit-spec','{dep:assemble:table}','--output','{out:spec}']),
-      stage('fit',['code/research.py','data/source.json'],{'fit_spec':['spec'],'assemble':['table','record']},{'result':'fit-result.json'},
-        [python,'{root}/code/research.py','estimate','{dep:fit_spec:spec}','--output','{out:result}']),
-      stage('table',['code/research_data.py','code/research_sources.py'],{'fit':['result']},{'table':'summary.csv'},
-        [python,helper,'case-table','{dep:fit:result}','--output','{out:table}'])]
-    write_json(root/'manifest.json',{'pipeline':'synthetic-data-assembly','stages':stages})
-    return {'root':str(root),'manifest':str(root/'manifest.json'),'source':str(root/'data/source.json')}
-
-
-def case_fit_spec(data, output):
-    write_json(Path(output),{'data':str(Path(data).resolve()),'id':'record_id','outcome':'outcome','exog':['exposure'],
-        'population':'20 synthetic people over four years','period':'2020–2023','unit':'synthetic outcome per exposure unit',
-        'method':'ols','covariance':{'type':'HC1'},'sources':[{'description':'seed 59020 data and crosswalk in declared DAG inputs'}],
-        'question':'Estimate the synthetic exposure–outcome relation',
-        'identification':'seeded exposure is independent of the generated disturbance'})
-
-
-def case_table(result_path, output):
-    result=json.loads(Path(result_path).read_text())
-    write_csv(Path(output),['parameter','estimate','standard_error','observations','unit'],[{
-        'parameter':'exposure','estimate':result['coefficients']['exposure'],
-        'standard_error':result['standard_errors']['exposure'],'observations':result['observations'],
-        'unit':'synthetic outcome per exposure unit'}])
-
-
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=('acquire', 'assemble', 'extract', 'catalog', 'case', 'case-fit-spec', 'case-table', 'dataset-use', 'describe'))
-    parser.add_argument('specification', type=Path, nargs='?')
+    parser.add_argument('command', choices=('acquire', 'assemble', 'extract', 'catalog', 'dataset-use', 'describe'))
+    parser.add_argument('specification', type=Path)
     parser.add_argument('--root', type=Path, default=Path.cwd())
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--output-record', action='store_true')
-    parser.add_argument('--python', default=sys.executable)
     parser.add_argument('--rscript', default='Rscript')
     args = parser.parse_args(argv)
-    if args.command == 'case':
-        print(json.dumps(create_case(args.output,args.python))); return
-    if args.specification is None: parser.error('specification is required')
-    if args.command == 'case-fit-spec':
-        case_fit_spec(args.specification,args.output); return
-    if args.command == 'case-table':
-        case_table(args.specification,args.output); return
     if args.output_record:
         if args.command != 'assemble' or args.output.name != 'data-record.json': parser.error('--output-record requires assemble output named data-record.json')
         args.output = args.output.parent

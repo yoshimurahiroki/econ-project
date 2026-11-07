@@ -2074,7 +2074,7 @@ def _post_tool(event, root, directory):
             output = state_root / target
             if command_action is not None or name == 'write_stdin' or str(output) in affected:
                 changed_paths.add(str(output))
-                binding['output_versions'][target] = (gate.sha(gate.file_snapshot(output))
+                binding['output_versions'][target] = (gate.file_snapshot(output).sha256
                     if output.is_file() and not _tool_failed(event) else None)
                 if not output.exists() and not _tool_failed(event):
                     binding['deleted_targets'].append(target)
@@ -2085,7 +2085,7 @@ def _post_tool(event, root, directory):
     sources = retained.get('instruction_sources', {})
     for target in changed_paths & sources.keys():
         output = Path(target)
-        if not output.is_file() or gate.sha(gate.file_snapshot(output)) != sources[target]:
+        if not output.is_file() or gate.file_snapshot(output).sha256 != sources[target]:
             save_record(directory / 'reinjection.json', {**retained, 'instruction_policy_sha256': None})
             break
     return operation, sorted(changed_paths)
@@ -2396,7 +2396,7 @@ def dispatch(event, expected_event):
             state['task_binding_sha256'] = gate.sha(gate.canonical(current_context.get('state_binding')))
             state['operation_binding_sha256'] = gate.sha(gate.canonical(current_context.get('operation_binding')))
             if current_context.get('state_binding'):
-                state['task_state_sha256'] = gate.sha(gate.file_snapshot(absolute(current_context['state_binding']['state_file'])))
+                state['task_state_sha256'] = gate.file_snapshot(absolute(current_context['state_binding']['state_file'])).sha256
                 bound = _bound_state(directory, root)
                 if bound is not None:
                     _, bound_data, bound_task, _ = bound
@@ -2510,9 +2510,9 @@ def inspect_saved_state(argv=None):
     module = sibling('inspect_state', base / 'state.py')
     store = root / module.relative(root, args.store)
     gate.require(Path(args.store).parts[:2] == ('.agents', 'state'), 'state store is outside its existing area')
-    before = gate.sha(gate.file_snapshot(store))
+    before = gate.file_snapshot(store).sha256
     data = _read_state_store(store)
-    gate.require(before == gate.sha(gate.file_snapshot(store)), 'state store changed during evaluation')
+    gate.require(before == gate.file_snapshot(store).sha256, 'state store changed during evaluation')
     task = data['tasks'][args.task_id]
     if args.command == 'focus-check':
         result = focus_saved_check(module, task, args.check, run_id=args.run_id, view=args.view,

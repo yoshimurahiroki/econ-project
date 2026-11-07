@@ -56,12 +56,14 @@ Use the smallest existing check that can change a material acceptance decision u
 
 Use `harness/paragraph.py` and `harness/argument.py` for requested versioned composition and argument operations. Actual final artifacts and authorized destination returns establish delivery.
 
+The default `single-agent-sequential` path writes source-bound paragraphs and completes one manuscript integration with the substantive review. Its integrator returns the finished paragraphs, joined text, input paragraph hashes and remaining concrete findings. Authorized wording repairs can be returned in that same operation. Source, specification, rule and dependency changes reopen the affected text through the existing state. Local review, argument review and section integration remain explicitly selectable operations. Select `independent-subagent` for the existing independent review path; its observed worker identities and certification requirements remain attached to that selection.
+
 To begin from saved results, add `research_results` to the existing writing brief:
 
 ```json
 "research_results": {
   "root": "/absolute/project/root",
-  "registry_path": "examples/research-workspace/saved-results.json",
+  "registry_path": "analysis/saved-results.json",
   "result_ids": ["specialist-did-r01"],
   "evidence_paths": {
     "specialist-did-r01": [
@@ -91,6 +93,6 @@ python harness/paragraph.py design \
 
 Use the actual paths and paragraph IDs from the project. The current brief retains the request, authority, reader, language, research type and section function. Both architecture and specification callbacks receive that brief and `completed_body`: the selected paragraphs' original text and specifications, supporting argument nodes, prerequisite relations, adopted exhibits, exact source spans, saved-result references and current version bindings. The canonical central question, answer and contribution stay fixed in the returned design. Use the paper guidance's research-type and section operations to express them in the requested language.
 
-Selection expands through the argument's supporting claims and incoming prerequisites and through each paragraph's `depends_on`. Reuse requires every selected paragraph and prerequisite to have its existing completed review bound to the current text, specification, sources, rules and dependencies. A changed binding identifies the paragraph whose producing work must finish. Unrelated paragraphs stay outside `completed_body`. The design operation reads the saved run without a resume event and writes its new design to the specified output.
+Selection expands through the argument's supporting claims and incoming prerequisites and through each paragraph's `depends_on`. Reuse binds every selected paragraph and prerequisite to its current text, specification, sources, rules and dependencies. The ordinary path reads completed text through those bindings. The explicitly selected independent path also retains its completed independent review. A changed binding identifies the paragraph whose producing work must finish. Unrelated paragraphs stay outside `completed_body`. The design operation reads the saved run without a resume event and writes its new design to the specified output.
 
 For an existing Python caller, use `ParagraphRun.load(path, resume=False).composition_context(paragraph_ids)` to read the same selected context. Pass the loaded run and `paragraph_ids` to `generate_blueprint` and `generate_specifications`; pass the current `brief` to the specification call. These operations consume the existing state and actual saved evidence.

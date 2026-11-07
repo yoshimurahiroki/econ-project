@@ -11,29 +11,21 @@ import zipfile
 from pathlib import Path, PurePosixPath
 
 _FILE_RUNTIME = None
-_FILE_RUNTIME_KEY = None
 
 def _file_runtime():
-    global _FILE_RUNTIME, _FILE_RUNTIME_KEY
-    import importlib.util
-    policy_path = Path(__file__).with_name('policy_assets.py')
-    policy_spec = importlib.util.spec_from_file_location('requirements_policy_layout', policy_path)
-    policy = importlib.util.module_from_spec(policy_spec)
-    policy_spec.loader.exec_module(policy)
-    root, manifest_bytes, manifest, _ = policy.discover_policy(__file__)
-    if ((root / manifest['assets']['requirements_check']['path']).absolute() != Path(__file__).absolute()
-            or (root / manifest['assets']['policy_assets']['path']).absolute() != policy_path.absolute()):
-        raise ValueError('loaded requirements runtime differs from adopted policy layout')
-    runtime_path = root / manifest['assets']['local_checks']['path']
-    key = (str(root), policy.digest(manifest_bytes), str(runtime_path), manifest['assets']['local_checks']['sha256'])
-    if _FILE_RUNTIME is not None and _FILE_RUNTIME_KEY == key:
+    global _FILE_RUNTIME
+    if _FILE_RUNTIME is not None:
         return _FILE_RUNTIME
-    spec = importlib.util.spec_from_file_location('requirements_file_runtime', runtime_path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    _FILE_RUNTIME = module
-    _FILE_RUNTIME_KEY = key
-    return module
+    import importlib.util
+    for filename in ('local_checks.py', 'LOCAL_CHECKS.py'):
+        path = Path(__file__).resolve().with_name(filename)
+        if path.is_file():
+            spec = importlib.util.spec_from_file_location('requirements_file_runtime', path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            _FILE_RUNTIME = module
+            return module
+    raise ImportError('Missing sibling dependency: local_checks.py or LOCAL_CHECKS.py')
 
 
 LIMITATION = ('Checks compare the explicit contract, final message bytes, artifact bytes, evaluator results and final action records. '

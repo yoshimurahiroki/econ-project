@@ -26,7 +26,6 @@ Generated from the resource and placement registries. Use this catalog only for 
 - integration: docs/ai/integration.md
 - resource-guide: docs/ai/resources.md
 - team-state-helper: harness/state.py
-- capabilities-helper: harness/capabilities.py
 - project-instructions: docs/ai/project_instructions.txt
 - native-index: docs/ai/compiled_ai_skills.md
 - project-context: docs/ai/repo_context.md
@@ -70,7 +69,6 @@ Generated from the resource and placement registries. Use this catalog only for 
 - config-template-mcp-example-json: docs/ai/config-templates/mcp.example.json
 - state-tests: harness/test_state.py (complete source distribution only)
 - plugin-integration-guide: docs/ai/plugin-integration.md
-- tool-check-instruction-links-py: scripts/check_instruction_links.py (complete source distribution only)
 - paragraph-workflow: skills/econ-writing/references/paragraph-workflow.md
 - paragraph-engine: harness/paragraph.py
 - argument-engine: harness/argument.py
@@ -93,15 +91,12 @@ Generated from the resource and placement registries. Use this catalog only for 
 - research-execution: harness/research.md
 - research-estimator: skills/econ-data/scripts/research.py
 - research-dependencies: skills/econ-data/scripts/requirements-research.txt
-- research-case: skills/econ-data/scripts/research_case.py
 - research-sources: skills/econ-literature/scripts/research_sources.py
 - research-runner-tests: harness/test_research.py (complete source distribution only)
-- research-structural-case: skills/econ-data/scripts/research_structural_case.py
 - research-experience: harness/experience.py
 - research-evidence: harness/research_evidence.py
 - research-design: skills/econ-design/scripts/research_design.py
 - research-macro: skills/econ-data/scripts/research_macro.py
-- research-evidence-tests: harness/test_research_evidence.py (complete source distribution only)
 - research-reproduction: harness/reproduction.py
 - research-causal-dependencies: skills/econ-data/scripts/requirements-causal.txt
 - research-causal: skills/econ-data/scripts/research_causal.py
@@ -115,7 +110,6 @@ Generated from the resource and placement registries. Use this catalog only for 
 - research-numerics-dependencies: skills/econ-data/scripts/requirements-numerics.txt
 - research-numerics: skills/econ-data/scripts/research_numerics.py
 - models-numerics: skills/econ-design/references/numerical-models.md
-- research-julia: skills/econ-data/scripts/research_numerics.jl
 - research-macro-dependencies: skills/econ-data/scripts/requirements-macro.txt
 - research-macro-extended: skills/econ-data/scripts/research_macro_extended.py
 - models-macro-extended: skills/econ-design/references/macro-models.md
@@ -196,5 +190,4 @@ Generated from the resource and placement registries. Use this catalog only for 
 - meeting-templates: tex/slides/meeting_templates.json
 - meeting-cloud-workflow: .github/workflows/meetings.yml (complete source distribution only)
 - research-task-form: .github/ISSUE_TEMPLATE/research-task.yml (complete source distribution only)
-- research-gallery-example: examples/research-workspace/gallery.json (complete source distribution only)
 - economics-writing-comparison: docs/ai/economics-writing-comparison.md (complete source distribution only)

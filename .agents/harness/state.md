@@ -311,23 +311,7 @@ python .agents/harness/state.py --root . verify TASK --check TEST_ID \
 
 Converge stores findings on the same task and registers stable repair children in the same DAG. Each repair identifies its requirement and observed defect; its continuation states the required implementation, execution or verification change. Repeated reconciliation reuses those children. A passing reconciliation resolves them from the current evidence and restores the parent's completion path through `resume`. Run the affected operation, register its actual replacement result and reconcile again until every adopted condition passes. A clean repeated Converge leaves the saved task store unchanged. The existing completed transition requires current convergence and all original output, action, dependency and check conditions.
 
-## Optional execution controls and observed usage
-
-Use `.agents/harness/state.py optimization TASK status` to read the current task's optional controls. New tasks start with all automatic features disabled: `experience`, `tools` and `loops`. Repository maps and focused displays run through their explicit read-only commands. Enable a measured useful automatic feature through the task's existing authority:
-
-```sh
-python .agents/harness/state.py --root . optimization TASK on --feature loops=true
-python .agents/harness/state.py --root . optimization TASK configure --feature experience=true \
-  --experience-plan .agents/state/TASK/experience-plan.json
-python .agents/harness/state.py --root . optimization TASK protect --capability CAPABILITY_OR_PACKAGE_ID
-python .agents/harness/state.py --root . optimization TASK off
-```
-
-The same task record stores these controls and their governing-context identity. A changed governing context disables the prior configuration until the operator adopts its current settings. `off` returns the optional features to the ordinary execution path. Current authority, holds, required instructions, task outputs, scientific definitions and completion checks continue through their existing owners. Imported observations retain their evidence status; configure controls through this explicit interface. `--clear-experience-plan` removes the configured plan reference.
-
-For capability selection, supply `--inventory`, `--observations`, `--required` and `--protection-manifest` to `candidates` or `dry-run`. All paths are project-relative JSON inputs. The inventory declares `host`, `host_version`, `source_kind`, `complete` and `tools:[{id,package,rare}]`. Declaration-level candidates require `source_kind:"model-request-declarations"`. Each observation declares a `session_id`, `prompt_id`, and `exposed`, `attempted`, `completed`, `indirect` ID lists; a missing observation remains unknown. The required input lists current task dependencies. The task owner assigns their protection categories: `mandatory_instruction`, `read`, `state`, `recovery`, `current_skill`, `current_external_write`, `delegation`. The first four categories require IDs; conditional categories contain the IDs needed by the current task. Each protected ID or package also belongs in `required`.
-
-The evaluator compares ten prompts across two sessions or five sessions; rare capabilities require ten sessions. Actual use, incomplete evidence, required unavailable capabilities and protected IDs suppress candidates. A package qualifies only when each member qualifies. `dry-run` evaluates the supplied evidence with selection enabled and preserves the task store. `apply` currently returns `unsupported-declaration-reduction-unverified`; `restore` returns `not-applied`. Both preserve host configuration and task state. Adopt a setting change only through a supported host operation whose actual model request establishes the declaration reduction, cache cost and restoration behavior.
+## Observed execution usage
 
 Import actual app-server notifications or typed usage events through the existing usage command:
 
@@ -345,7 +329,7 @@ Sequence zero identifies the captured cumulative epoch start. Preserve its epoch
 
 An epoch label records a counter reset; stable producer identity persists across labels. Importing the same stable event or exact legacy source observation under another epoch is rejected. Existing overlapping records remain intact and expose the overlap with affected totals set to `null`. Distinct stable event IDs and distinct recorded reset evidence retain their separate observations. Codex 0.159.2's `turn.completed.usage` emits the latest thread total and uses default zeros when its upstream usage notification is absent; the legacy importer retains cumulative semantics and its existing zero-counter checks. Retain `tokenUsage.last` with `total` when the app-server supplies both.
 
-Use actual model-usage returns for token and cache comparisons. Tool-output byte counts, approximate display-token estimates and wrapper execution time describe their own operations. Keep the standard host compaction settings until a comparable completed-task measurement establishes lower actual total tokens and elapsed time with instruction adherence, correctness and completion preserved. The optional controls retain their disabled defaults when those measurements are absent.
+Use actual model-usage returns for token and cache comparisons. Tool-output byte counts, approximate display-token estimates and wrapper execution time describe their own operations. Keep the standard host compaction settings until a comparable completed-task measurement establishes lower actual total tokens and elapsed time with instruction adherence, correctness and completion preserved.
 
 `--counter-mode observation --source-format usage-event` records typed operational events with token counters absent. The hook uses this mode for observed command phases, actual terminal outcomes, source hashes and progress in the existing `usage` field. These observations preserve output/check versions, remain outside numerical token aggregation and carry their source-verification status. Full instructions are restored from the governing task and applicable source bodies when required; metadata-only usage changes preserve an already delivered same-version packet. Inspect actual callback, delivery and source-reading evidence when assessing a host.
 

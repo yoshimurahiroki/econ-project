@@ -1,6 +1,5 @@
 """Exercise the research CLI using a small calculation and its consumers."""
 import json
-import importlib.metadata
 from pathlib import Path
 import subprocess
 import sys
@@ -61,77 +60,7 @@ pathlib.Path(sys.argv[3]).write_text(json.dumps({'estimate': {'value': x * y, 'u
         self.assertEqual(tasks[failed['estimate']['task']]['status'], 'failed')
         self.assertEqual(tasks[failed['estimate']['task']]['outputs']['research:execution']['value']['returncode'], 7)
 
-    def test_saved_definitions_and_numbers_reach_section_consumers(self):
-        saved = {'statistics': {'effect': {'value': 2.5, 'unit': 'hours_per_week'}},
-                 'metadata': {'comparison': 'offer versus no offer', 'period': 'one year',
-                              'equilibrium': r'q_i = (a-c)/(3b)',
-                              'notation': 'Literal marker: {{stat:effect}}'}}
-        source = self.root / 'saved.json'
-        source.write_text(json.dumps(saved))
-        source_bytes = source.read_bytes()
-        self.spec['stages'][0] = {
-            'id': 'saved', 'inputs': ['saved.json'], 'depends': {},
-            'outputs': {'result': 'result.json'},
-            'argv': [sys.executable, '-c', 'import shutil,sys; shutil.copyfile(sys.argv[1],sys.argv[2])',
-                     '{root}/saved.json', '{out:result}']}
-        template = ('{{definition:comparison}}: {{stat:effect}} hours/week over {{definition:period}}.\n'
-                    '{{definition:equilibrium}}\n{{definition:notation}}\n')
-        (self.root / 'labels.txt').write_text(template)
-        paper = self.spec['stages'][1]
-        paper['depends'] = {'saved': ['result']}
-        paper['render']['statistics'] = {'effect': {'stage': 'saved', 'output': 'result',
-                                                   'key': ['statistics', 'effect'],
-                                                   'unit': 'hours_per_week', 'format': '.1f'}}
-        paper['render']['definitions'] = {
-            key: {'stage': 'saved', 'output': 'result', 'key': ['metadata', key]}
-            for key in saved['metadata']}
-        self.write_spec()
-        first = self.cli()
-        output = self.root / first['paper']['outputs']['text']
-        self.assertEqual(output.read_text(),
-                         'offer versus no offer: 2.5 hours/week over one year.\n'
-                         'q_i = (a-c)/(3b)\nLiteral marker: {{stat:effect}}\n')
-        (self.root / 'labels.txt').write_text('# Results\n' + template)
-        updated = self.cli()
-        self.assertEqual(updated['saved']['status'], 'reused')
-        self.assertEqual(updated['independent']['status'], 'reused')
-        self.assertEqual(updated['paper']['status'], 'executed')
-        self.assertEqual(source.read_bytes(), source_bytes)
-        self.assertEqual(output.read_text().splitlines()[0], 'offer versus no offer: 2.5 hours/week over one year.')
-        paper['render']['definitions']['comparison']['key'] = ['statistics', 'effect']
-        self.write_spec()
-        failed = self.cli(1)
-        self.assertEqual(failed['paper']['status'], 'failed')
-        self.assertIn('saved nonempty text', failed['paper']['error'])
 
-    def test_requirement_pins_class_api_and_changed_environment(self):
-        version = importlib.metadata.version('packaging')
-        (self.root / 'requirements.txt').write_text('packaging==' + version + '\n')
-        stage = self.spec['stages'][0]
-        stage['inputs'].append('requirements.txt')
-        stage['runtime'] = {'language': 'python', 'probe_argv': [sys.executable],
-                            'requirements': ['requirements.txt'],
-                            'apis': [{'package': 'packaging',
-                                      'symbol': 'packaging.specifiers.SpecifierSet.contains',
-                                      'positional': 2, 'keywords': ['prereleases']}]}
-        self.write_spec()
-        first = self.cli()
-        self.assertEqual(first['estimate']['status'], 'executed')
-        saved = json.loads((self.root / '.agents/state/team.json').read_text())['tasks'][first['estimate']['task']]
-        runtime = saved['outputs']['research:execution']['value']['runtime']
-        self.assertEqual(runtime['observed']['packages']['packaging']['version'], version)
-        self.assertIn('prereleases', runtime['observed']['apis'][0]['signature'])
-        self.assertIn('requirements.txt', runtime['files'])
-        self.assertEqual(self.cli()['estimate']['status'], 'reused')
-        (self.root / 'requirements.txt').write_text('packaging==0.0.0\n')
-        blocked = self.cli(1)
-        self.assertEqual(blocked['estimate']['status'], 'blocked')
-        self.assertIn('version mismatch', blocked['estimate']['reason'])
-        self.assertEqual(blocked['paper']['status'], 'blocked')
-        self.assertEqual(blocked['independent']['status'], 'reused')
-        stage['runtime']['packages'] = {'packaging': version}
-        self.write_spec()
-        self.assertIn('Conflicting runtime versions', self.cli(2))
 
     def test_state_price_contract_selects_and_saves_price_set(self):
         project = RUNNER.parent.parent

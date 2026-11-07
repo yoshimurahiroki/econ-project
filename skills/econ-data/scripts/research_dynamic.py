@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Solve and estimate specified finite-state dynamic choices and games.
 
-Use ``run SPEC --output RESULT`` or ``case --output NEW_DIRECTORY``.
+Use ``run SPEC --output RESULT`` with the adopted inputs.
 """
 from __future__ import annotations
 
@@ -66,19 +66,6 @@ def replacement(beta, costs, n, horizon=None):
     return {'value': v, 'policy': policy.T, 'transition': p, 'flow': flow,
             'iterations': iterations, 'bellman_residual': bellman,
             'finite_stages_remaining': [{'value': v0.tolist(), 'policy': p0.T.tolist()} for v0, p0 in history] if horizon else None}
-
-
-def simulate_replacement(model, households, periods, seed):
-    rng = np.random.default_rng(seed)
-    data = []
-    for individual in range(households):
-        s = 0
-        for t in range(periods):
-            a = int(rng.random() < model['policy'][s, 1])
-            sp = int(np.argmax(model['transition'][a, s]))
-            data.append((individual, t, s, a, sp))
-            s = sp
-    return np.asarray(data, dtype=int)
 
 
 def fit_replacement(data, beta, n, start):
@@ -427,17 +414,6 @@ def sequential_estimate(data, beta, profit, competition, bounds, method):
             'iterations': iteration+1, 'trace': trace, 'policies': expit(x.reshape(2, 4)).tolist()}
 
 
-def simulate_game(policies, markets, periods, seed):
-    rng = np.random.default_rng(seed); observations = []
-    for market in range(markets):
-        si = 0
-        for period in range(periods):
-            action = tuple(int(rng.random() < policies[i, si]) for i in range(2))
-            observations.append((market, period, si, action[0], action[1]))
-            si = _STATES.index(action)
-    return np.asarray(observations, dtype=int)
-
-
 def bbl_estimate(data, beta, profit, competition, bounds):
     counts = np.zeros((2, 4, 2))
     for row in data:
@@ -480,20 +456,6 @@ def bbl_estimate(data, beta, profit, competition, bounds):
             'deviation_log_odds_shifts': [-.3, -.1, .1, .3],
             'known_primitives': {'discount_factor': beta, 'active_profit': profit, 'competition': competition},
             'estimator': 'squared negative Markov-policy deviation gains'}
-
-
-def simulate_latent(beta, maintenance, costs, share, n, households, periods, seed):
-    rng = np.random.default_rng(seed)
-    models = [replacement(beta, [maintenance, cost], n) for cost in costs]
-    types = (rng.random(households) >= share).astype(int)
-    states = np.zeros((households, periods), dtype=int)
-    actions = np.zeros((households, periods), dtype=int)
-    for t in range(periods):
-        probability = np.array([models[types[j]]['policy'][states[j, t], 1] for j in range(households)])
-        actions[:, t] = (rng.random(households) < probability).astype(int)
-        if t+1 < periods:
-            states[:, t+1] = np.where(actions[:, t] == 1, 0, np.minimum(states[:, t]+1, n-1))
-    return states, actions, types
 
 
 def latent_em(states, actions, beta, maintenance, n, initial_costs, initial_share, bounds):
@@ -824,17 +786,6 @@ def estimate_ct_entry(data, rho, rate, profit, competition, exit_cost, bounds, c
             'baseline': game(cost), 'scenario': game(cost+change)}
 
 
-def simulate_opportunities(model, markets, periods, seed):
-    rng = np.random.default_rng(seed); policies = np.asarray(model['toggle_probabilities']); rows = []
-    for market in range(markets):
-        state = 0
-        for period in range(periods):
-            firm = int(rng.integers(2)); action = int(rng.random() < policies[firm, state])
-            pair = list(_STATES[state]); pair[firm] = (1-pair[firm]) if action else pair[firm]
-            next_state = _STATES.index(tuple(pair)); rows.append((market, period, state, firm, action, next_state)); state = next_state
-    return rows
-
-
 def capacity_panel(data_spec, base):
     fields = ('id', 'period', 'state', 'action_1', 'action_2', 'next_state')
     rows, provenance = read_observations(data_spec, base, fields)
@@ -895,17 +846,6 @@ def estimate_capacity_game(data, beta, demand, competition, switching, bounds, c
                          'choice_information': information, 'choice_response_rank': 1, 'likelihood_score_per_observation': score,
                          'jacobian_step': step, 'bounds': bounds, 'counts': counts.tolist(), 'iterations': int(fit.nfev)},
             'baseline': baseline, 'scenario': game(cost+change)}
-
-
-def simulate_capacity(model, markets, periods, seed):
-    rng = np.random.default_rng(seed); policy = np.asarray(model['policies']); rows = []
-    for market in range(markets):
-        state = 0
-        for period in range(periods):
-            action = [int(rng.choice(4, p=policy[i, state])) for i in range(2)]
-            next_state = 4*action[0]+action[1]
-            rows.append((market, period, state, action[0], action[1], next_state)); state = next_state
-    return rows
 
 
 def replacement_displays(result):
@@ -1115,94 +1055,24 @@ def write_json(path, value):
             os.unlink(tmp)
 
 
-def case(output):
-    checks = local_checks(); output = output.absolute()
-    if output.exists():
-        raise FileExistsError(output)
-    with tempfile.TemporaryDirectory(dir=output.parent, prefix='.dynamic-') as temp:
-        stage = Path(temp) / 'stage'; stage.mkdir()
-        def csv_file(name, fields, rows):
-            with (stage/name).open('w', newline='', encoding='utf-8') as stream:
-                writer = csv.writer(stream); writer.writerow(fields); writer.writerows(rows)
-        def observed(name, mode, options, columns):
-            spec = {'model': mode, 'adopted': {'source': 'seeded independent synthetic case'},
-                    'scenario': {}, 'options': options,
-                    'data': {'path': name+'-data.csv', 'columns': {field: field for field in columns}}}
-            write_json(stage/(name+'-spec.json'), spec)
-            result = observed_run(spec, stage)
-            result['provenance']['data']['path'] = str(output/(name+'-data.csv'))
-            result['provenance']['spec_sha256'] = hashlib.sha256((stage/(name+'-spec.json')).read_bytes()).hexdigest()
-            write_json(stage/(name+'-result.json'), result)
-        panel_cols = ['id', 'period', 'state', 'action', 'next_state']
-        m = replacement(.9, [.25, 2.], 5)
-        panel = simulate_replacement(m, 250, 40, 20020)
-        csv_file('replacement-data.csv', panel_cols, panel.tolist())
-        observed('replacement', 'replacement', {'discount_factor': .9, 'states': 5, 'initial_costs': [.2, 1.6],
-                 'finite_horizon': 8, 'replacement_cost_change': .5, 'smm': {'seed': 20422, 'replications': 32,
-                 'initial_costs': [.2, 1.6], 'bounds': [[.01,1.5],[.05,5.]], 'tolerance': .0002}}, panel_cols)
-        states, actions, _ = simulate_latent(.9, .25, [1., 3.], .45, 5, 700, 30, 20022)
-        rows = [(i, t, int(states[i,t]), int(actions[i,t]),
-                 0 if actions[i,t] else min(int(states[i,t])+1,4)) for i in range(700) for t in range(30)]
-        csv_file('latent_replacement-data.csv', panel_cols, rows)
-        observed('latent_replacement', 'latent_replacement', {'discount_factor': .9, 'states': 5,
-                 'maintenance_cost': .25, 'initial_costs': [1.2, 2.7], 'initial_type_one_share': .5,
-                 'estimation_bounds': [.1, 5.], 'replacement_cost_change': .3}, panel_cols)
-        model = discrete_game(.8, 1., .4, .8); panel = simulate_game(model['policies'], 1000, 50, 20021)
-        game_cols = ['id','period','state','action_1','action_2','next_state']
-        rows = [(int(row[0]), int(row[1]), int(row[2]), int(row[3]), int(row[4]), int(2*row[3]+row[4])) for row in panel]
-        csv_file('discrete_entry-data.csv', game_cols, rows)
-        observed('discrete_entry', 'discrete_entry', {'discount_factor': .8, 'active_profit': 1., 'competition': .4,
-                 'estimation_bounds': [0., 2.], 'entry_cost_change': .3}, game_cols)
-        transition = [[.7,.2,.1],[.15,.7,.15],[.1,.2,.7]]; price = [1.,1.5,2.]
-        share = dynamic_adoption([.9,.35,-.2], price, [-.25,.25], [.5,.5], .85, transition)[0]
-        counts = np.random.default_rng(20023).binomial(100000, share)
-        adoption_cols = ['state','price','adoptions','cohort_size']
-        csv_file('dynamic_adoption_blp-data.csv', adoption_cols, [(i, price[i], int(counts[i]), 100000) for i in range(3)])
-        observed('dynamic_adoption_blp', 'dynamic_adoption_blp', {'discount_factor': .85, 'transition': transition,
-                 'price_taste_types': [-.25,.25], 'type_weights': [.5,.5], 'price_change': .3}, adoption_cols)
-        ct_cols = ['id','period','state','firm','action','next_state']
-        ct_data = simulate_opportunities(ct_game(.1,.6,1.,.4,.8,.2), 250, 50, 20025)
-        csv_file('continuous_time_entry-data.csv', ct_cols, ct_data)
-        observed('continuous_time_entry', 'continuous_time_entry', {'discount_rate': .1, 'revision_rate': .6,
-                 'active_profit': 1., 'competition': .4, 'exit_cost': .2, 'entry_cost_bounds': [.05, 1.5],
-                 'entry_cost_change': .3}, ct_cols)
-        cap_cols = ['id','period','state','action_1','action_2','next_state']
-        cap_data = simulate_capacity(capacity_game(.7, [2.,1.6], .15, .4, .3), 200, 25, 20024)
-        csv_file('capacity_product_game-data.csv', cap_cols, cap_data)
-        observed('capacity_product_game', 'capacity_product_game', {'discount_factor': .7, 'product_margins': [2.,1.6],
-                 'competition': .15, 'product_switching_cost': .3, 'investment_cost_bounds': [.05,1.],
-                 'investment_cost_change': .2}, cap_cols)
-        write_json(stage/'synthetic-design.json', {'replacement': {'costs': [.25,2.], 'seed': 20020},
-                   'latent_replacement': {'costs': [1.,3.], 'type_one_share': .45, 'seed': 20022},
-                   'discrete_entry': {'entry_cost': .8, 'seed': 20021},
-                   'dynamic_adoption_blp': {'mean_utilities': [.9,.35,-.2], 'seed': 20023},
-                   'continuous_time_entry': {'entry_cost': .8, 'seed': 20025},
-                   'capacity_product_game': {'investment_cost': .4, 'seed': 20024}})
-        checks.atomic_publish(stage, output)
-
-
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest='command', required=True)
     solve = sub.add_parser('run'); solve.add_argument('spec', type=Path); solve.add_argument('--output', '-o', required=True, type=Path)
-    demo = sub.add_parser('case'); demo.add_argument('--output', '-o', required=True, type=Path)
     args = parser.parse_args(argv)
     try:
-        if args.command == 'case':
-            case(args.output)
-        else:
-            if args.spec.resolve() == args.output.resolve():
-                raise ValueError('output must differ from the specification path')
-            raw = args.spec.read_bytes(); specification = json.loads(raw)
-            if isinstance(specification.get('data'), dict) and 'path' in specification['data']:
-                input_path = Path(specification['data']['path'])
-                if not input_path.is_absolute():
-                    input_path = args.spec.resolve().parent / input_path
-                if input_path.resolve() == args.output.resolve():
-                    raise ValueError('output must differ from observed data path')
-            result = observed_run(specification, args.spec.resolve().parent)
-            result['provenance']['spec_sha256'] = hashlib.sha256(raw).hexdigest()
-            write_json(args.output, result)
+        if args.spec.resolve() == args.output.resolve():
+            raise ValueError('output must differ from the specification path')
+        raw = args.spec.read_bytes(); specification = json.loads(raw)
+        if isinstance(specification.get('data'), dict) and 'path' in specification['data']:
+            input_path = Path(specification['data']['path'])
+            if not input_path.is_absolute():
+                input_path = args.spec.resolve().parent / input_path
+            if input_path.resolve() == args.output.resolve():
+                raise ValueError('output must differ from observed data path')
+        result = observed_run(specification, args.spec.resolve().parent)
+        result['provenance']['spec_sha256'] = hashlib.sha256(raw).hexdigest()
+        write_json(args.output, result)
     except (ValueError, TypeError, KeyError, OSError, ArithmeticError) as exc:
         parser.exit(2, 'error: ' + str(exc) + '\n')
 

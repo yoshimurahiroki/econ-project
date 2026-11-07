@@ -88,27 +88,6 @@ Use that interpreter for numerical commands and the case's `--python` argument; 
 outputs/research-env/bin/python skills/econ-data/scripts/research.py estimate analysis.json -o result.json
 ```
 
-## Run the independent Python and R case
-
-The [case producer](../skills/econ-data/scripts/research_case.py) creates an original seeded data-generating process, raw observations, a base-R preprocessing script and the adopted OLS/IV specifications. Its nine stages connect R processing and summary, Python estimates, a named-statistic summary, table, SVG, QMD and standalone HTML. The saved source record defines the generated outcome, treatment, instrument, disturbances and true coefficient. These observations and results describe the specified simulation.
-
-```sh
-outputs/research-env/bin/python skills/econ-data/scripts/research_case.py prepare --root /path/to/project --python /path/to/analysis/python --rscript /path/to/Rscript --case-id independent019
-python /path/to/project/.agents/state/independent019/code/runner.py --root /path/to/project .agents/state/independent019/manifest.json
-```
-
-Use a new `--case-id` for each prepared case. Existing directories are preserved. `--parent TASK_ID` on the runner inherits the task's governing context, authority, holds and scope. Optional repeated `--source-record-dir` arguments copy explicitly selected source records after hash verification. The producer works from canonical, deployed and flat layouts. Each command stage declares the actual Python or R runtime, selected package versions and relevant environment inputs. An identical second invocation reuses all nine stages. A figure-label revision redraws the figure and assembled HTML while retaining matching fits.
-
-## Run an independently specified structural example
-
-The [structural producer](../skills/econ-data/scripts/research_structural_case.py) generates six synthetic product markets from its stated utility and cost equations, estimates demand through the existing `equity.fit` PyBLP interface and re-solves an ownership intervention. It saves its original generated observations, model and source specification, package/engine hashes, estimated parameters, changed prices, shares, profits, consumer values and original equilibrium residuals. The synthetic finite-state example uses the existing `equity.dynamic` NFXP and MPEC owners and re-solves the changed payoff policy.
-
-```sh
-outputs/research-env/bin/python skills/econ-data/scripts/research_structural_case.py --output outputs/structural-new
-```
-
-Supply a fresh output directory under an existing parent. The producer uses the existing complete-generation publisher and emits named statistics with units for subsequent tables, figures and prose. Restore the [equity requirements](../skills/econ-data/scripts/requirements-equity.txt) alongside the [research requirements](../skills/econ-data/scripts/requirements-research.txt) in the selected Python 3.12 environment. The current generating run saves its inputs, results and replay bindings in the requested output directory.
-
 ## Choose and execute the next research operation
 
 The lead formulates candidate questions from the requested economic object and the closest inspected answers. For each candidate, state the mechanism, estimand, identifying variation, measurement and population; identify the prediction or knowledge added by its comparison with the closest answer. Retrieve a consequential contrary finding and the actual data documentation when they determine that comparison. Keep these judgments and the candidate ordering in the adopted specification under the existing governing task.
@@ -168,21 +147,6 @@ Capture configuration names `producer_id`, `output_id`, `execution_output_id` (d
 For an observed project command or environment repair, select `operational_procedure_reuse` and capture `execution_kind:"task_check"`. Its `producer_id`, `output_id` and `check_id` identify the completed result and its current verified [run-check](state.md#analyze-and-converge). The six operational condition references are `project`, `runtime`, `schema`, `failure_mechanism`, `package_versions` and `specification_sha256`; each resolves through `{output_id, path}` to that checked output. `steps` references the owner's proposed instruction list in the same output. The specification hash identifies a tracked producing input or consumed output.
 
 Optional `failure_run_id` selects an earlier actual run of the same adopted check command. Its `failure_observation` references `{run_id, reason, observed_output}` in the checked output; the observed text must occur in that earlier run's retained stdout or stderr. A zero exit retains its actual status when the observation identifies a wrong target or another unmet output condition. Capture preserves both original runs and their versions. `find` rechecks the successful producer and receipt. `prepare` requires the current target to track or consume the exact operational identity and specification, then binds the proposed procedure to its current authority and holds. Observations, proposed steps and adopted governing rules retain their existing separate authority.
-
-### Select a version-bound operational fact
-
-For recurring test-launch failures, the same [experience helper](experience.py) can assess explicitly supplied private Codex logs. Its deterministic adapter recognizes the bare `pytest -q` or `unittest -q` command missing with exit 127 and the corresponding successful `python -m` command, with actual pass counts. Exact pre/post environment, package and input checksum observations bind the pair. Keep the source logs, conditions and code inputs in the target task's current consumed/read inputs. Source paths and their content hashes identify the received evidence; `provided-host-log` retains `host_authenticated:false`.
-
-```sh
-python harness/experience.py --root . assess-host-logs --target TASK \
-  --conditions .agents/state/TASK/identity.json --family unittest \
-  --log .agents/state/TASK/session-a.jsonl --log .agents/state/TASK/session-b.jsonl \
-  --log .agents/state/TASK/session-c.jsonl --code code/test_module.py
-```
-
-Conditions use the operational identity above, including the actual Python/package versions and specification hash. Each received log must contain its actual session header, project working directory, turn/policy context and matched tool calls with terminal returns. Running processes and unsupported return encodings require reconciliation. Three distinct source sessions establish the initial eligibility threshold; four or more known opportunities require at least forty percent contribution. A contradictory successful bare command invalidates the fact. Input, specification, environment and authority versions govern subsequent application. `operational-candidates` displays candidates from the existing saved procedure records, including their typed failed-execution or unmet-semantic-output cause. An exit-zero call with a wrong target retains exit zero.
-
-`assess-host-logs --record` explicitly registers its sanitized assessment through the same task store. Automatic feedback uses the existing [task controls](state.md#optional-execution-controls-and-observed-usage). Its private plan contains `conditions`, `logs`, `code`, `family` and optional `current_log` paths. Configure that plan through `optimization ... --experience-plan`; the saved plan hash and current target inputs are checked before a matching pending command. The existing PreToolUse caller appends the selected fact after the mandatory reminder. A received current-session developer message containing the exact version-marked fact supplies repeat-delivery evidence. Constructed callback output retains prepared status until that evidence exists. Task controls, selected scientific specification and current permissions govern the subsequent operation.
 
 ## Bind claims equations and saved results
 
@@ -293,7 +257,7 @@ Select `research_adaptive_experiments` for [proposals and result-dependent searc
 
 ## Generate articles slides and a reproduction package
 
-Select `research_result_artifacts` for [automatic registration and article/slide production](../skills/econ-writing/references/result-artifacts.md). The portable example supplies seeded scientific inputs and an executable manifest. Registration retains the complete fitted result and names quantities, units, covariance, inferential reference, sample counts and intervals. The same bindings generate tables, SVG, Quarto, HTML, LaTeX and PDF. Converters consume the checked model contract; changed model, code or result bytes invalidate dependent exports. The saved-result gallery and [meeting materials](meetings.md) reuse registered display rows and figures without loading raw data or invoking an estimator.
+Select `research_result_artifacts` for [automatic registration and article/slide production](../skills/econ-writing/references/result-artifacts.md). Registration retains the complete fitted result and names quantities, units, covariance, inferential reference, sample counts and intervals. The same bindings generate tables, SVG, Quarto, HTML, LaTeX and PDF. Converters consume the checked model contract; changed model, code or result bytes invalidate dependent exports. The saved-result gallery and [meeting materials](meetings.md) reuse registered display rows and figures without loading raw data or invoking an estimator.
 
 The existing reproduction producer packages completed selection branches, excluded failed candidates, procedure-capture stages and shared declared helpers. `environment PACKAGE --workers N` reports runtime closure and CPU/memory/device bounds. `restore PACKAGE --output NEW_ENV --python PYTHON3.12` creates an independent Python environment from exact pins and commit-pinned sources. `reproduce PACKAGE --python NEW_ENV/bin/python --output NEW_PROJECT` retains a fresh replay and compares its selected outputs with saved quantities and units. R and Julia use the declared project environments and compound identities. Preserve the existing Pixi, R and Julia manifests and locks with the selected inputs.
 

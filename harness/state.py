@@ -28,7 +28,6 @@ _spec.loader.exec_module(gate)
 
 STATES = {'queued', 'running', 'blocked', 'completed', 'failed'}
 TOKEN_FIELDS = ('input_tokens', 'cached_input_tokens', 'cache_write_input_tokens', 'output_tokens', 'reasoning_output_tokens')
-OPTIMIZATION_FEATURES = ('experience', 'tools', 'loops')
 
 def now():
     return datetime.now(timezone.utc).isoformat()
@@ -1351,84 +1350,6 @@ def candidate(task):
         'context_id': context_id(task),
         **({'check_targets': task['check_targets']} if 'check_targets' in task else {})}))
 
-
-def optimization_settings(task):
-    """Read operator configuration; imported execution facts grant no control."""
-    default = {'enabled': False, 'features': {key: False for key in OPTIMIZATION_FEATURES},
-               'protected': [], 'experience_plan': None, 'status': 'unconfigured'}
-    saved = task.get('optimization')
-    if saved is None:
-        return default
-    fields = {'enabled', 'features', 'protected', 'context_sha256'}
-    if (not isinstance(saved, dict) or not fields <= set(saved) or set(saved) - (fields | {'experience_plan'})
-            or type(saved['enabled']) is not bool or not isinstance(saved['features'], dict)
-            or set(saved['features']) != set(OPTIMIZATION_FEATURES)
-            or any(type(value) is not bool for value in saved['features'].values())
-            or not isinstance(saved['protected'], list)
-            or any(not isinstance(value, str) or not value.strip() for value in saved['protected'])
-            or len(set(saved['protected'])) != len(saved['protected'])):
-        raise ValueError('Invalid operator optimization settings')
-    plan = saved.get('experience_plan')
-    if plan is not None and (not isinstance(plan, dict) or set(plan) != {'path', 'sha256'}
-                             or not isinstance(plan['path'], str) or not plan['path'].strip()
-                             or not isinstance(plan['sha256'], str) or len(plan['sha256']) != 64
-                             or any(value not in '0123456789abcdef' for value in plan['sha256'])):
-        raise ValueError('Invalid operator experience plan')
-    if saved['context_sha256'] != context_id(task):
-        return {**default, 'protected': saved['protected'], 'status': 'stale-context'}
-    return {key: saved[key] for key in ('enabled', 'features', 'protected')} | {
-        'experience_plan': plan, 'status': 'configured'}
-
-
-def optimization_control(root, task, args):
-    current = optimization_settings(task)
-    if args.optimization_action in {'on', 'off', 'configure', 'protect'}:
-        if not task.get('authority'):
-            raise ValueError('Operator configuration requires the existing task authority')
-        value = {key: current[key] for key in ('enabled', 'features', 'protected', 'experience_plan')}
-        value = json.loads(json.dumps(value))
-        if args.optimization_action in {'on', 'off'}:
-            value['enabled'] = args.optimization_action == 'on'
-        for setting in args.feature:
-            name, separator, enabled = setting.partition('=')
-            if not separator or name not in OPTIMIZATION_FEATURES or enabled not in {'true', 'false'}:
-                raise ValueError('Use --feature NAME=true|false with a supported feature')
-            value['features'][name] = enabled == 'true'
-        if args.optimization_action == 'protect':
-            if not args.capability or not args.capability.strip():
-                raise ValueError('Protect requires --capability ID')
-            value['protected'] = sorted(set(value['protected']) | {args.capability})
-        if args.experience_plan:
-            plan_path = relative(root, args.experience_plan)
-            raw = gate.regular_bytes(root / plan_path)
-            gate.parse_json(raw)
-            value['experience_plan'] = {'path': plan_path, 'sha256': hashlib.sha256(raw).hexdigest()}
-        if args.clear_experience_plan:
-            value['experience_plan'] = None
-        task['optimization'] = {**value, 'context_sha256': context_id(task)}
-        return {'result': 'configured', 'settings': optimization_settings(task)}
-    if args.feature or args.capability or args.experience_plan or args.clear_experience_plan:
-        raise ValueError('Settings changes require on, off, configure or protect')
-    if args.optimization_action == 'status':
-        return {'result': 'status', 'settings': current}
-    module_spec = importlib.util.spec_from_file_location('state_capabilities', _base / 'capabilities.py')
-    module = importlib.util.module_from_spec(module_spec)
-    module_spec.loader.exec_module(module)
-    policy = {'enabled': current['enabled'] and current['features']['tools'],
-              'protected': current['protected']}
-    if args.optimization_action in {'apply', 'restore'}:
-        return {**module.change(policy, args.optimization_action), 'settings': current}
-    if not all((args.inventory, args.observations, args.required)):
-        raise ValueError('Candidate evaluation requires inventory, observations and required capability files')
-    def input_json(path):
-        return gate.parse_json(gate.regular_bytes(root / relative(root, path)))
-    if args.optimization_action == 'dry-run':
-        policy['enabled'] = True
-    protection = input_json(args.protection_manifest) if args.protection_manifest else None
-    result = module.evaluate(input_json(args.inventory), input_json(args.observations),
-                             policy, input_json(args.required), protection)
-    return {'result': 'evaluated', 'evaluation': result, 'settings': current,
-            'dry_run': args.optimization_action == 'dry-run'}
 
 def validate_worker_result(task, record):
     """Normalize the original worker return and validate its local evidence."""
@@ -3669,7 +3590,7 @@ def main():
     add.add_argument('--parent')
     add.add_argument('--next', required=True)
     add.add_argument('--independent-review', action='store_true')
-    for command in ['start', 'resume', 'set-context', 'bind-writing', 'release-hold', 'set-contract', 'action', 'requeue', 'output', 'verify', 'usage', 'optimization', 'transition', 'bind-specification', 'analyze', 'converge', 'run-check']:
+    for command in ['start', 'resume', 'set-context', 'bind-writing', 'release-hold', 'set-contract', 'action', 'requeue', 'output', 'verify', 'usage', 'transition', 'bind-specification', 'analyze', 'converge', 'run-check']:
         cli = sub.add_parser(command)
         cli.add_argument('id')
         if command == 'run-check':
@@ -3732,18 +3653,6 @@ def main():
             cli.add_argument('--input', action='append')
             cli.add_argument('--result', choices=['passed', 'failed'], help='Required for self-checks; worker results derive this from their returned decision')
             cli.add_argument('--reviewer', required=True)
-        elif command == 'optimization':
-            cli.add_argument('optimization_action', choices=['status', 'on', 'off', 'configure', 'protect',
-                                                            'candidates', 'dry-run', 'apply', 'restore'])
-            cli.add_argument('--feature', action='append', default=[], help='NAME=true|false for an optional feature')
-            cli.add_argument('--capability', help='Capability or package ID to protect')
-            cli.add_argument('--inventory', help='Project-relative observed capability inventory JSON')
-            cli.add_argument('--observations', help='Project-relative observed exposure/use JSON')
-            cli.add_argument('--required', help='Project-relative current request/dependency capability IDs JSON')
-            cli.add_argument('--protection-manifest', help='Project-relative task-owner protection categories JSON')
-            plans = cli.add_mutually_exclusive_group()
-            plans.add_argument('--experience-plan', help='Project-relative private experience assessment inputs JSON')
-            plans.add_argument('--clear-experience-plan', action='store_true')
         elif command == 'usage':
             cli.add_argument('--jsonl', type=Path, required=True)
             cli.add_argument('--source-format', choices=['legacy', 'codex-app-server', 'usage-event'], default='legacy')
@@ -3819,8 +3728,6 @@ def main():
         raise ValueError('Operational store must stay in the local .agents/state directory')
     path = root / args.store
     mutate = args.command not in {'show', 'find', 'summary', 'prepare-context', 'analyze', 'project-view', 'project-impact', 'project-history', 'project-diff', 'project-update'} and not (args.command == 'inspect' and not args.invalidate)
-    if args.command == 'optimization':
-        mutate = args.optimization_action in {'on', 'off', 'configure', 'protect'}
     def execute():
         if args.command == 'init':
             if path.exists():
@@ -3965,9 +3872,7 @@ def main():
                                          references=args.references, changes=changes if args.change else None)
         elif hasattr(args, 'id'):
             task = tasks[args.id]
-            if args.command == 'optimization':
-                output = optimization_control(root, task, args)
-            elif args.command == 'run-check':
+            if args.command == 'run-check':
                 output = run_check(root, args.store, tasks, task, args.check)
             elif args.command == 'bind-specification':
                 bind_specification(root, task, args.requirements, args.request, args.user_change)
@@ -4446,7 +4351,7 @@ def main():
                 for key in tasks:
                     output['tasks'][key]['stages'] = stages(root, tasks, key)
                     output['tasks'][key]['context_id'] = context_id(tasks[key])
-        elif args.command in {'prepare-context', 'analyze', 'converge', 'run-check', 'optimization', 'project-bind', 'project-view', 'project-impact', 'project-history', 'project-diff', 'project-update'}:
+        elif args.command in {'prepare-context', 'analyze', 'converge', 'run-check', 'project-bind', 'project-view', 'project-impact', 'project-history', 'project-diff', 'project-update'}:
             pass
         else:
             output = {'command': args.command, 'tasks': len(tasks)}

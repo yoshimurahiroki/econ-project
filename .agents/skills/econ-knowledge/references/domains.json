@@ -33,7 +33,7 @@
     {
       "domain": "分野横断例題",
       "path": "domains/07.json",
-      "sha256": "e6a71a98092aba68e75945597261def30f33a8763976d50452e803f0c04412d4"
+      "sha256": "9a00443e3e1041c021abd50b4a17f274606e6a4645bd2ce9bd361e120cdec0fe"
     },
     {
       "domain": "労働人口",
@@ -48,7 +48,7 @@
     {
       "domain": "医療教育",
       "path": "domains/10.json",
-      "sha256": "1e6c81a4d7ba89430ec90c525e16469510bcde8fc601d7b2745c20837ebdd2e2"
+      "sha256": "51c5e27d63a418d1d70657a8f0d0d316f55f3524677937ad9b95ccbbec1640df"
     },
     {
       "domain": "厚生政策",
@@ -108,7 +108,7 @@
     {
       "domain": "構造推定",
       "path": "domains/22.json",
-      "sha256": "3db3de6c1fa246a6c90895daf879ba95e047b2ca53824361edc0f49d1d0d9839"
+      "sha256": "7902ae3de49d548be3d66b01837949c9c9e82a03dd1aedbb26283184600ba7a3"
     },
     {
       "domain": "測定集計",

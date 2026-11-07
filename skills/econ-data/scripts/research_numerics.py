@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Shared numerical calculations and an independent synthetic case for research DAGs."""
+"""Shared numerical calculations and finite economic model execution."""
 from __future__ import annotations
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 from fractions import Fraction
 import hashlib
 import importlib.util
@@ -13,18 +12,13 @@ import json
 import math
 import os
 from pathlib import Path
-import platform
-import subprocess
 import sys
 import tempfile
-import time
 
 import numpy as np
 import scipy
 from scipy import integrate, optimize, sparse
-from scipy.sparse.linalg import spsolve
 from scipy.special import expit
-from scipy.stats import qmc
 
 
 def state_price_bounds(payoffs, prices, claim, tolerance=1e-9):
@@ -348,8 +342,9 @@ def clearing_payments(liabilities, outside_liabilities, external_assets, toleran
 
 
 def finite_policy_sir(initial, beta, gamma, schedule, infection_cost=1., control_cost=0., terminal_cost=0.,
-                      rtol=1e-9, atol=1e-11, max_step=np.inf):
+                      rtol=1e-9, atol=1e-11, max_step=None):
     """Integrate piecewise-constant contact controls and price infections and control."""
+    max_step = np.inf if max_step is None else max_step
     y0 = np.asarray(initial, dtype=float)
     if y0.shape != (3,) or not np.isfinite(y0).all() or np.any(y0 < 0) or y0.sum() <= 0:
         raise ValueError('initial S, I and R must be finite, nonnegative and have positive total')
@@ -417,53 +412,6 @@ def birth_death_generator(n, birth, death):
     return sparse.diags([lower, diagonal, upper], [-1, 0, 1], format='csr')
 
 
-def _parallel_draw(item):
-    seed, count = item
-    rng = np.random.default_rng(seed)
-    return float(np.exp(rng.random(count)).mean())
-
-
-def compare_dynamic_algorithms(seed):
-    """Compare existing NFXP, MPEC and SLC on the same game and observations."""
-    import research_dynamic as dynamic
-    import equity_io
-    beta, profit, competition, cost = .8, 1., .4, .8
-    states = [(0, 0), (0, 1), (1, 0), (1, 1)]
-    names = ['00', '01', '10', '11']
-    model = dynamic.discrete_game(beta, profit, competition, cost)
-    data = dynamic.simulate_game(model['policies'], 100, 10, seed)
-    profiles = []
-    for i, state in enumerate(states):
-        for j, action in enumerate(states):
-            profiles.append({'state': names[i], 'actions': list(action),
-                'payoffs': [action[k]*(profit-competition*action[1-k]) for k in range(2)],
-                'payoff_features': {'entry_cost': [-action[k]*(1-state[k]) for k in range(2)]},
-                'transitions': {names[j]: 1.}})
-    observations = [{'market_id': int(row[0]), 'period': int(row[1]), 'state': names[row[2]],
-        'actions': [int(row[3]), int(row[4])], 'next_state': names[states.index((row[3],row[4]))]}
-        for row in data]
-    spec = {'currency': 'synthetic units', 'amount_unit': 1, 'firms': ['A','B'], 'states': names,
-        'profiles': profiles, 'observations': observations, 'discount_factor': beta, 'shock_scale': 1.,
-        'flow_timing': 'current', 'action_timing': 'action determines next state',
-        'shock_role': 'monetary_action_payoff', 'flow_definition': 'current profit less entry cost',
-        'parameters': [{'name':'entry_cost','initial':.9,'bounds':[0.,2.]}],
-        'identification': {'parameters': [{'name':'entry_cost','role':'payoff',
-            'moments':['entry choices'],'variation':'active and inactive states'}]}}
-    results = {}
-    for method in ('nfxp','mpec'):
-        start = time.perf_counter()
-        fitted = equity_io.dynamic_game({**spec, 'estimation_method':method})
-        results[method] = {'seconds':time.perf_counter()-start, 'result':fitted}
-    start = time.perf_counter()
-    fitted = dynamic.sequential_estimate(data,beta,profit,competition,[0.,2.],'slc')
-    results['slc'] = {'seconds':time.perf_counter()-start, 'result':fitted}
-    return {'specification':spec, 'generating_cost':cost,
-            'sample_seed':seed, 'algorithm_results':results,
-            'time_boundary':'one fit, original observed actions and fixed model; excludes data generation',
-            'source_sha256':{name:hashlib.sha256(Path(module.__file__).read_bytes()).hexdigest()
-                             for name,module in [('equity_io',equity_io),('research_dynamic',dynamic)]}}
-
-
 def _local_checks():
     source = Path(__file__).resolve()
     candidates = [source.parent / 'local_checks.py', source.parent / 'LOCAL_CHECKS.py']
@@ -488,287 +436,155 @@ def write_json(path, value):
 
 
 def run(spec):
-    if isinstance(spec, dict) and 'model' in spec:
-        if set(spec) != {'model', 'inputs', 'unit'} or not isinstance(spec['inputs'], dict):
-            raise ValueError('model run requires model, inputs object and unit')
-        if not isinstance(spec['unit'], str) or not spec['unit'].strip():
-            raise ValueError('unit must name the common payoff or currency unit')
-        model = spec['model']; unit = spec['unit']
-        functions = {'correlated_equilibrium': correlated_equilibrium, 'tu_shapley_core': tu_shapley_core,
-                     'interbank_clearing': clearing_payments, 'multitask_incentives': multitask_incentives,
-                     'state_price_bounds': state_price_bounds}
-        if not isinstance(model, str) or model not in functions:
-            raise ValueError('model must be one of ' + ', '.join(functions))
-        function = functions[model]
-        arguments = inspect.signature(function).bind(**spec['inputs'])
-        arguments.apply_defaults()
+    if not isinstance(spec, dict) or set(spec) != {'model', 'inputs', 'unit'} or not isinstance(spec['inputs'], dict):
+        raise ValueError('model run requires model, inputs object and unit')
+    if not isinstance(spec['unit'], str) or not spec['unit'].strip():
+        raise ValueError('unit must name the payoff, currency or queue time unit')
+    model = spec['model']; unit = spec['unit']
+    functions = {'correlated_equilibrium': correlated_equilibrium, 'tu_shapley_core': tu_shapley_core,
+                 'interbank_clearing': clearing_payments, 'multitask_incentives': multitask_incentives,
+                 'state_price_bounds': state_price_bounds, 'binary_logit': moment_map,
+                 'finite_policy_sir': finite_policy_sir, 'queue_capacity': queue_capacity,
+                 'decision_rights': decision_rights}
+    if not isinstance(model, str) or model not in functions:
+        raise ValueError('model must be one of ' + ', '.join(functions))
+    function = functions[model]
+    arguments = inspect.signature(function).bind(**spec['inputs'])
+    arguments.apply_defaults()
+    if model == 'binary_logit':
+        theta = np.asarray(arguments.arguments['theta'], dtype=float)
+        x = np.asarray(arguments.arguments['x'], dtype=float)
+        if theta.shape != (2,) or x.ndim != 1 or not x.size or not np.isfinite(theta).all() or not np.isfinite(x).all():
+            raise ValueError('binary_logit requires finite intercept/slope theta and a nonempty one-dimensional x')
+        result = {'moment_map': moment_map(theta, x).tolist(),
+                  'moment_jacobian': moment_jacobian(theta, x).tolist()}
+    else:
         result = function(**arguments.arguments)
-        stat = lambda value, measure: {'value': float(value), 'unit': measure}
-        statistics = {}
-        if model == 'correlated_equilibrium':
-            contract, knowledge = 'MC-finite-correlated-equilibrium', 'GAME-07'
-            engine = 'scipy.optimize.linprog(method=highs)'
-            equations = ['sum_a q(a)=1; q(a)>=0',
-                'sum_a_-i q(r,a_-i)*(u_i(r,a_-i)-u_i(d,a_-i))>=0 for each i,r,d',
-                'max_q sum_a q(a)*sum_i weights_i*u_i(a)']
-            statistics = {'weighted_payoff': stat(result['weighted_payoff'], unit),
-                'mass_error': stat(result['mass_error'], 'probability'),
-                'minimum_probability': stat(result['minimum_probability'], 'probability'),
-                'minimum_obedience': stat(min((row['slack'] for row in result['obedience']), default=0.), unit)}
-            statistics.update({f'payoff_player_{i}': stat(value, unit) for i, value in enumerate(result['payoffs'])})
-            selection = 'maximize the supplied weighted payoff over conditional-obedience distributions'
-        elif model == 'tu_shapley_core':
-            contract, knowledge = 'MC-finite-tu-shapley-core', 'GAME-09'
-            engine = 'fractions.Fraction'
-            equations = ['phi_i=sum_S subset N\\{i} |S|!*(n-|S|-1)!/n!*(v(S union {i})-v(S))',
-                'sum_i phi_i=v(N); core_slack(S)=sum_i in S phi_i-v(S)']
-            statistics = {f'allocation_player_{i}': stat(Fraction(value), unit)
-                          for i, value in enumerate(result['allocation'])}
-            statistics['efficiency_residual'] = stat(Fraction(result['efficiency_residual']), unit)
-            statistics['minimum_core_slack'] = stat(min(map(Fraction, result['core_slacks'])), unit)
-            selection = 'Shapley allocation with every coalition evaluated for core membership'
-        elif model == 'interbank_clearing':
-            contract, knowledge = 'MC-interbank-clearing', 'FINANCE-08'
-            engine = 'research_numerics.clearing_payments'
-            equations = ['nominal_i=outside_liabilities_i+sum_j liabilities_ij',
-                'Pi_ij=liabilities_ij/nominal_i, with zero rows when nominal_i=0',
-                'payments=min(nominal,external_assets+Pi.T@payments)',
-                'sum(outside_payments)+sum(equity)=sum(external_assets)']
-            for name in ('payments', 'nominal', 'outside_payments', 'equity'):
-                statistics.update({f'{name}_bank_{i}': stat(value, unit) for i, value in enumerate(result[name])})
-                statistics['total_'+name] = stat(sum(result[name]), unit)
-            for name in ('fixed_point_residual', 'resource_residual'):
-                statistics[name] = stat(result[name], unit)
-            selection = 'greatest clearing fixed point from nominal payments under equal-priority pro-rata repayment'
-        elif model == 'state_price_bounds':
-            contract, knowledge = 'MC-state-price-bounds', 'ASSET-01'
-            engine = 'scipy.optimize.linprog(method=highs)'
-            equations = ['X.T@q=p; q>0',
-                'L=min_{q>=0,X.T@q=p} h@q; U=max_{q>=0,X.T@q=p} h@q',
-                'L=max_{X@theta<=h} p@theta; U=min_{X@theta>=h} p@theta',
-                'price_set=(L,U) for unspanned h; price_set={p@theta} when X@theta=h']
-            statistics = {name: stat(result[name], unit+' today') for name in
-                ('lower_bound', 'upper_bound', 'pricing_residual', 'lower_duality_gap', 'upper_duality_gap')}
-            statistics.update({name: stat(result[name], unit+' at payoff date') for name in
-                ('subhedge_violation', 'superhedge_violation', 'replication_residual')})
-            statistics['state_price_violation'] = stat(result['state_price_violation'], unit+' today per state payoff unit')
-            selection = 'strictly positive state prices; open price interval for an unspanned claim and unique replication price for a spanned claim'
-        else:
-            contract, knowledge = 'MC-multitask-incentives', 'CONTRACT-07'
-            engine = 'research_numerics.multitask_incentives'
-            equations = ['max_x,y>=0 U_A=a+b*x+m*y-(x*x+y*y+2*rho*x*y)/2',
-                'U_P=vq*x+vqly*y-a-b*x',
-                'g=(b-x-rho*y,m-y-rho*x); g<=0; (x,y)*g=0']
-            statistics = {name: stat(result[name], 'normalized effort') for name in ('x', 'y')}
-            statistics.update({name: stat(result[name], unit) for name in ('principal_payoff', 'agent_payoff')})
-            statistics['kkt_residual'] = stat(result['kkt_residual'], unit+' per normalized effort')
-            selection = 'unique nonnegative agent best response at the supplied contract and strictly convex effort cost'
-        return {'result_format_version': 1, 'model': model, 'specification': spec,
-            'effective_inputs': dict(arguments.arguments), 'engine': engine, 'unit': unit,
-            'model_contract': contract, 'knowledge_ids': [knowledge], 'equations': equations,
-            'equilibrium_selection': selection, 'statistics': statistics, 'fullresults': result,
-            'provenance': {'python': sys.version.split()[0], 'numpy': np.__version__, 'scipy': scipy.__version__,
-                'function': 'research_numerics.'+function.__name__,
-                'precision': 'exact rational arithmetic' if model == 'tu_shapley_core' else 'float64',
-                'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}}
-    if set(spec) != {'seed', 'theta', 'grid_size', 'mc_replications', 'mc_sample_size', 'julia', 'jax_backend'}:
-        raise ValueError('spec requires seed, theta, grid_size, mc_replications, mc_sample_size, julia, jax_backend')
-    seed = int(spec['seed']); theta = np.asarray(spec['theta'], dtype=float)
-    n = int(spec['grid_size']); reps = int(spec['mc_replications']); sample = int(spec['mc_sample_size'])
-    if theta.shape != (2,) or not np.isfinite(theta).all() or not (-1.8 < theta[0] < 1.8 and .2 < theta[1] < 2.8):
-        raise ValueError('theta must lie inside the surrogate region [-2,2] x [0,3]')
-    if spec['jax_backend'] not in ('cpu', 'gpu'):
-        raise ValueError('jax_backend must be cpu or gpu')
-    if seed < 0 or n < 10 or reps < 2 or sample < 10 or not isinstance(spec['julia'], str):
-        raise ValueError('invalid seed, grid, Monte Carlo dimensions or Julia executable')
-    started = time.perf_counter(); rng = np.random.default_rng(seed)
-    algorithms = compare_dynamic_algorithms(seed)
-    x = np.linspace(-2, 2, n); target = moment_map(theta, x); jac = moment_jacobian(theta, x)
-    svals = np.linalg.svd(jac, compute_uv=False); rank = int(np.linalg.matrix_rank(jac))
-    fdjac = finite_jacobian(lambda t: moment_map(t, x), theta)
-    starts = [[-1.5,.3], [1., 2.5], [0.,1.]]; bounds = [(-2.,2.), (0.,3.)]
-    failed = optimize_moments(target, x, starts[:1], bounds, maxiter=1)
-    t0 = time.perf_counter(); direct = optimize_moments(target, x, starts, bounds); direct_seconds = time.perf_counter()-t0
-    if direct['best'] is None: raise ArithmeticError('multistart optimizer failed')
-    t0 = time.perf_counter(); single = optimize_moments(target, x, [[0.,1.]], bounds); single_seconds = time.perf_counter()-t0
-    if single['best'] is None: raise ArithmeticError('single-start optimizer failed')
-    repaired = optimize_moments(target, x, [failed['attempts'][0]['parameters']], bounds)
-    if repaired['best'] is None: raise ArithmeticError('optimization repair failed')
-
-    # Frozen train, validation and holdout draws are generated before fitting.
-    all_params = rng.uniform([-2.,0.], [2.,3.], size=(900,2))
-    labels = np.array([moment_map(t, x) for t in all_params])
-    from sklearn.neural_network import MLPRegressor
-    import sklearn
-    t0 = time.perf_counter()
-    mlp = MLPRegressor(hidden_layer_sizes=(40,40), activation='tanh', solver='lbfgs',
-                       alpha=1e-6, max_iter=1200, random_state=seed, tol=1e-10, max_fun=50000)
-    mlp.fit(all_params[:600], labels[:600]); train_seconds = time.perf_counter()-t0
-    errors = {}
-    for name, sl in [('train',slice(0,600)),('validation',slice(600,750)),('holdout',slice(750,900))]:
-        error = mlp.predict(all_params[sl])-labels[sl]
-        errors[name] = {'rmse': float(np.sqrt(np.mean(error**2))), 'max_abs_error': float(np.max(np.abs(error))),
-                        'parameter_indices': [sl.start, sl.stop]}
-    t0 = time.perf_counter()
-    surrogate_fit = optimize.minimize(lambda t: float(np.sum((mlp.predict(np.asarray(t)[None,:])[0]-target)**2)),
-                                      [0.,1.], method='L-BFGS-B', bounds=bounds,
-                                      options={'ftol':1e-15, 'gtol':1e-10, 'maxiter':1000})
-    surrogate_seconds = time.perf_counter()-t0
-    if not surrogate_fit.success: raise ArithmeticError('surrogate objective failed: '+str(surrogate_fit.message))
-    t0 = time.perf_counter(); warm = optimize_moments(target, x, [surrogate_fit.x], bounds); warm_seconds = time.perf_counter()-t0
-    if warm['best'] is None: raise ArithmeticError('warm-start original objective failed')
-    surrogate_original_error = float(np.max(np.abs(moment_map(surrogate_fit.x,x)-target)))
-
-    # Contractive scalar map, checked against its original fixed-point equation.
-    mapping = lambda z: np.cos(z)*.8
-    z = 0.; steps = 0
-    while abs(z-mapping(z)) > 1e-11 and steps < 10000:
-        z = float(mapping(z)); steps += 1
-    accelerated = float(optimize.fixed_point(mapping, 0., xtol=1e-11, maxiter=1000, method='del2'))
-    if abs(z-mapping(z)) > 1e-11 or abs(accelerated-mapping(accelerated)) > 1e-10:
-        raise ArithmeticError('fixed-point residual exceeds tolerance')
-
-    truth = float(np.e-1); deterministic, quadrature_error = integrate.quad(lambda u: np.exp(u), 0., 1., epsabs=1e-12)
-    mc = float(np.exp(rng.random(1024)).mean())
-    sobol = float(np.exp(qmc.Sobol(d=1, scramble=True, seed=seed).random_base2(10)).mean())
-    seeds = [int(s.generate_state(1)[0]) for s in np.random.SeedSequence(seed).spawn(8)]
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        parallel = list(pool.map(_parallel_draw, [(s, 4096) for s in seeds]))
-    serial = [_parallel_draw((s,4096)) for s in seeds]
-    generator = birth_death_generator(1000, .7, .5)
-    rhs = np.sin(np.arange(1000)/100)
-    solution = spsolve(sparse.eye(1000, format='csr')-.9*generator, rhs)
-    sparse_error = float(np.max(np.abs((sparse.eye(1000, format='csr')-.9*generator)@solution-rhs)))
-
-    import jax
-    import jaxlib
-    jax.config.update('jax_enable_x64', True)
-    import jax.numpy as jnp
-    kernel = jax_moment_map
-    jax_grid = jnp.asarray(x); jax_theta = jnp.asarray(theta)
-    jac_jax = np.asarray(jax.jacfwd(kernel)(jax_theta, jax_grid))
-    f_jax = lambda t: jnp.sum((kernel(t,jax_grid)-jnp.asarray(target))**2)
-    h_jax = np.asarray(jax.hessian(f_jax)(jax_theta))
-    h_fd = finite_jacobian(lambda t: 2*moment_jacobian(t,x).T@(moment_map(t,x)-target), theta, 1e-4)
-    cpu = jax.devices('cpu')[0]
-    batch = jax.device_put(all_params[:512], cpu); jax_grid = jax.device_put(x, cpu)
-    fn = jax.jit(jax.vmap(kernel, in_axes=(0,None)))
-    t0 = time.perf_counter(); compiled = np.asarray(fn(batch,jax_grid).block_until_ready()); compile_seconds = time.perf_counter()-t0
-    t0 = time.perf_counter(); compiled = np.asarray(fn(batch,jax_grid).block_until_ready()); jax_seconds = time.perf_counter()-t0
-    t0 = time.perf_counter(); reference = np.array([moment_map(t,x) for t in all_params[:512]]); numpy_seconds = time.perf_counter()-t0
-    try:
-        gpu_devices = jax.devices('gpu')
-    except RuntimeError:
-        gpu_devices = []
-    gpu = {'available': bool(gpu_devices), 'devices': [str(d) for d in gpu_devices], 'executed': False}
-    if gpu_devices:
-        gpu_fn = jax.jit(jax.vmap(kernel, in_axes=(0,None)))
-        gpu_output = np.asarray(gpu_fn(jax.device_put(all_params[:512],gpu_devices[0]),
-                                       jax.device_put(x,gpu_devices[0])).block_until_ready())
-        gpu.update({'executed':True, 'max_abs_error_vs_cpu':float(np.max(np.abs(gpu_output-compiled)))})
-
-    if spec['jax_backend'] == 'gpu' and not gpu_devices:
-        raise ValueError('requested JAX GPU backend is unavailable on this host')
-
-    # Every replication generates a binary sample on the same identified grid.
-    estimates=[]; statuses=[]; t0=time.perf_counter()
-    mc_seeds = [int(s.generate_state(1)[0]) for s in np.random.SeedSequence(seed+1).spawn(reps)]
-    probabilities = expit(theta[0]+theta[1]*x)
-    for draw_seed in mc_seeds:
-        rr=np.random.default_rng(draw_seed); idx=rr.integers(0,n,size=sample)
-        xx=x[idx]; yy=rr.binomial(1, probabilities[idx]); observed=np.array([yy.mean(), (xx*yy).mean()])
-        fit=optimize_moments(observed,xx,[[0.,1.]],bounds)
-        statuses.append(fit['best'] is not None)
-        if fit['best'] is not None: estimates.append(fit['best']['parameters'])
-    monte_seconds=time.perf_counter()-t0
-    if len(estimates) != reps: raise ArithmeticError('one or more Monte Carlo fits failed')
-    estimates=np.asarray(estimates); bias=np.mean(estimates-theta,axis=0); rmse=np.sqrt(np.mean((estimates-theta)**2,axis=0))
-
-    julia_script=Path(__file__).with_name('research_numerics.jl')
-    t0=time.perf_counter()
-    proc=subprocess.run([spec['julia'],'--startup-file=no',str(julia_script),'1000','.7','.5','.9'],
-                        check=True,text=True,capture_output=True,timeout=90)
-    julia_seconds=time.perf_counter()-t0
-    lines=proc.stdout.strip().splitlines()
-    if len(lines)!=3: raise ValueError('Julia numerical output malformed')
-    julia_version=lines[0]; julia_metrics=np.array([float(v) for v in lines[1].split(',')]); julia_solution=np.array([float(v) for v in lines[2].split(',')])
-    if len(julia_solution)!=len(solution) or len(julia_metrics)!=2: raise ValueError('Julia sparse output has wrong dimensions')
-    comparison=float(np.max(np.abs(julia_solution-solution)))
-    if (rank < 2 or np.max(np.abs(jac-fdjac)) > 1e-7 or np.max(np.abs(jac-jac_jax)) > 1e-8
-            or np.max(np.abs(h_jax-h_fd)) > 1e-6 or sparse_error > 1e-9 or comparison > 1e-9
-            or np.max(np.abs(moment_map(direct['best']['parameters'],x)-target)) > 1e-7
-            or np.max(np.abs(moment_map(warm['best']['parameters'],x)-target)) > 1e-7):
-        raise ArithmeticError('original equations, identification or derivative comparison failed tolerance')
-    if serial != parallel: raise ArithmeticError('parallel draws changed their independent streams')
-
-    stat = lambda value, unit: {'value':float(value),'unit':unit}
-    alg = algorithms['algorithm_results']
-    stats={'dynamic_nfxp_entry_cost':stat(alg['nfxp']['result']['estimation']['parameters']['entry_cost'],'utility'),
-           'dynamic_mpec_entry_cost':stat(alg['mpec']['result']['estimation']['parameters']['entry_cost'],'utility'),
-           'dynamic_slc_entry_cost':stat(alg['slc']['result']['entry_cost'],'utility'),
-           'dynamic_slc_equilibrium_residual':stat(alg['slc']['result']['equilibrium_logit_residual'],'log odds'),
-           'moment_jacobian_rank':stat(rank,'parameters'), 'moment_jacobian_smallest_singular_value':stat(svals[-1],'moment per parameter'),
-           'moment_jacobian_analytic_fd_error':stat(np.max(np.abs(jac-fdjac)),'moment per parameter'),
-           'moment_jacobian_jax_error':stat(np.max(np.abs(jac-jac_jax)),'moment per parameter'),
-           'objective_hessian_jax_fd_error':stat(np.max(np.abs(h_jax-h_fd)),'objective per parameter squared'),
-           'moment_fit_residual':stat(np.max(np.abs(moment_map(direct['best']['parameters'],x)-target)),'moment'),
-           'fixed_point_residual':stat(abs(z-mapping(z)),'value'), 'accelerated_fixed_point_residual':stat(abs(accelerated-mapping(accelerated)),'value'),
-           'quadrature_abs_error':stat(abs(deterministic-truth),'integral'), 'monte_carlo_integral_abs_error':stat(abs(mc-truth),'integral'),
-           'sobol_integral_abs_error':stat(abs(sobol-truth),'integral'), 'sparse_linear_residual':stat(sparse_error,'value'),
-           'jax_cpu_reference_error':stat(np.max(np.abs(compiled-reference)),'moment'),
-           'julia_python_solution_error':stat(comparison,'value'), 'surrogate_holdout_rmse':stat(errors['holdout']['rmse'],'moment'),
-           'surrogate_original_moment_error':stat(surrogate_original_error,'moment'),
-           'warm_original_moment_error':stat(np.max(np.abs(moment_map(warm['best']['parameters'],x)-target)),'moment'),
-           'monte_carlo_bias_intercept':stat(bias[0],'parameter'), 'monte_carlo_bias_slope':stat(bias[1],'parameter'),
-           'monte_carlo_rmse_intercept':stat(rmse[0],'parameter'), 'monte_carlo_rmse_slope':stat(rmse[1],'parameter'),
-           'monte_carlo_converged':stat(sum(statuses),'replications')}
-    return {'model':'synthetic_binary_choice_moments', 'specification':spec, 'engine':'NumPy/SciPy/scikit-learn/JAX/Julia',
-      'statistics':stats, 'fullresults':{
-        'algorithm_comparison':algorithms,
-        'identification':{'moment_order':['mean_probability','mean_x_probability'], 'parameter_order':['intercept','slope'],
-                          'jacobian':jac.tolist(),'singular_values':svals.tolist(),'rank':rank,'rank_tolerance':float(svals[0]*max(jac.shape)*np.finfo(float).eps)},
-        'derivatives':{'finite_difference_jacobian':fdjac.tolist(),'jax_jacobian':jac_jax.tolist(),'jax_hessian':h_jax.tolist(),'finite_difference_hessian':h_fd.tolist()},
-        'optimization':{'direct':direct,'initial_iteration_limit':failed,'repair_same_objective':repaired,'direct_seconds_all_starts':direct_seconds, 'single_start':single, 'single_start_seconds':single_seconds},
-        'surrogate':{'region':[[-2,2],[0,3]], 'split_seed':seed, 'split_indices':'train 0:600, validation 600:750, holdout 750:900',
-                     'architecture':[2,40,40,2], 'training_seconds':train_seconds,'errors':errors,
-                     'surrogate_fit':{'parameters':surrogate_fit.x.tolist(),'objective':float(surrogate_fit.fun),'success':bool(surrogate_fit.success), 'seconds':surrogate_seconds},
-                     'original_fit_from_surrogate':warm,'warm_original_seconds':warm_seconds,
-                     'timing_boundary':'direct single and multistart times are original fits; warm includes surrogate fit plus one original fit; training is separate'},
-        'fixed_point':{'map':'0.8*cos(x)','plain_iterations':steps,'plain':z,'accelerated':accelerated,'acceleration':'scipy.optimize.fixed_point del2','tolerance':1e-11},
-        'integration':{'integrand':'exp(u), u uniform on [0,1]','exact':truth,'quad':deterministic,'quad_error_estimate':quadrature_error,'monte_carlo':mc,'sobol_scrambled':sobol,'draws':1024,'parallel_draws':parallel,'parallel_matches_serial':serial==parallel,'parallel_seeds':seeds,'workers':4},
-        'sparse':{'dimension':1000,'nnz_generator':int(generator.nnz),'generator_row_sum_max':float(np.max(np.abs(np.asarray(generator.sum(axis=1))))),'linear_residual':sparse_error},
-        'jax':{'reference_backend':'cpu','requested_backend':spec['jax_backend'],'devices':[str(d) for d in jax.devices()],'dtype':str(jax_theta.dtype), 'compile_and_first_call_seconds':compile_seconds,'warm_call_seconds':jax_seconds,'numpy_reference_seconds':numpy_seconds,'batch':512,'gpu':gpu},
-        'monte_carlo':{'replications':reps,'sample_size':sample,'independent_seeds':mc_seeds,'estimates':estimates.tolist(),'converged':statuses,'bias':bias.tolist(),'rmse':rmse.tolist(),'seconds':monte_seconds},
-        'julia':{'executable':spec['julia'],'version':julia_version,'script':str(julia_script.resolve()),'script_sha256':hashlib.sha256(julia_script.read_bytes()).hexdigest(),'metrics':julia_metrics.tolist(),'python_solution_max_abs_error':comparison,'wall_seconds_including_startup':julia_seconds}},
-      'provenance':{'python':sys.version.split()[0], 'numpy':np.__version__,'scipy':scipy.__version__,'sklearn':sklearn.__version__,'jax':jax.__version__,'jaxlib':jaxlib.__version__,
-                    'platform':platform.platform(),'cpu_count':os.cpu_count(),'cpu_affinity_count':len(os.sched_getaffinity(0)) if hasattr(os, 'sched_getaffinity') else os.cpu_count(),'seed':seed,'precision':'float64',
-                    'elapsed_seconds':time.perf_counter()-started,'time_boundary':'run function including Julia startup, compilation, training and all fits',
-                    'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}}
-
-
-def case(output):
-    output=output.absolute()
-    if output.exists(): raise FileExistsError(output)
-    spec={'seed':20261101,'theta':[-.4,1.2],'grid_size':201,'mc_replications':50,'mc_sample_size':1000,
-          'julia':os.environ.get('ECON_JULIA','julia'),'jax_backend':'cpu'}
-    with tempfile.TemporaryDirectory(dir=output.parent,prefix='.numerics-') as tmp:
-        stage=Path(tmp)/'stage'; stage.mkdir()
-        write_json(stage/'numerics-spec.json',spec); write_json(stage/'numerics-result.json',run(spec))
-        _local_checks().atomic_publish(stage,output)
+    stat = lambda value, measure: {'value': float(value), 'unit': measure}
+    statistics = {}
+    if model == 'correlated_equilibrium':
+        contract, knowledge = 'MC-finite-correlated-equilibrium', 'GAME-07'
+        engine = 'scipy.optimize.linprog(method=highs)'
+        equations = ['sum_a q(a)=1; q(a)>=0',
+            'sum_a_-i q(r,a_-i)*(u_i(r,a_-i)-u_i(d,a_-i))>=0 for each i,r,d',
+            'max_q sum_a q(a)*sum_i weights_i*u_i(a)']
+        statistics = {'weighted_payoff': stat(result['weighted_payoff'], unit),
+            'mass_error': stat(result['mass_error'], 'probability'),
+            'minimum_probability': stat(result['minimum_probability'], 'probability'),
+            'minimum_obedience': stat(min((row['slack'] for row in result['obedience']), default=0.), unit)}
+        statistics.update({f'payoff_player_{i}': stat(value, unit) for i, value in enumerate(result['payoffs'])})
+        selection = 'maximize the supplied weighted payoff over conditional-obedience distributions'
+    elif model == 'tu_shapley_core':
+        contract, knowledge = 'MC-finite-tu-shapley-core', 'GAME-09'
+        engine = 'fractions.Fraction'
+        equations = ['phi_i=sum_S subset N\\{i} |S|!*(n-|S|-1)!/n!*(v(S union {i})-v(S))',
+            'sum_i phi_i=v(N); core_slack(S)=sum_i in S phi_i-v(S)']
+        statistics = {f'allocation_player_{i}': stat(Fraction(value), unit)
+                      for i, value in enumerate(result['allocation'])}
+        statistics['efficiency_residual'] = stat(Fraction(result['efficiency_residual']), unit)
+        statistics['minimum_core_slack'] = stat(min(map(Fraction, result['core_slacks'])), unit)
+        selection = 'Shapley allocation with every coalition evaluated for core membership'
+    elif model == 'interbank_clearing':
+        contract, knowledge = 'MC-interbank-clearing', 'FINANCE-08'
+        engine = 'research_numerics.clearing_payments'
+        equations = ['nominal_i=outside_liabilities_i+sum_j liabilities_ij',
+            'Pi_ij=liabilities_ij/nominal_i, with zero rows when nominal_i=0',
+            'payments=min(nominal,external_assets+Pi.T@payments)',
+            'sum(outside_payments)+sum(equity)=sum(external_assets)']
+        for name in ('payments', 'nominal', 'outside_payments', 'equity'):
+            statistics.update({f'{name}_bank_{i}': stat(value, unit) for i, value in enumerate(result[name])})
+            statistics['total_'+name] = stat(sum(result[name]), unit)
+        for name in ('fixed_point_residual', 'resource_residual'):
+            statistics[name] = stat(result[name], unit)
+        selection = 'greatest clearing fixed point from nominal payments under equal-priority pro-rata repayment'
+    elif model == 'state_price_bounds':
+        contract, knowledge = 'MC-state-price-bounds', 'ASSET-01'
+        engine = 'scipy.optimize.linprog(method=highs)'
+        equations = ['X.T@q=p; q>0',
+            'L=min_{q>=0,X.T@q=p} h@q; U=max_{q>=0,X.T@q=p} h@q',
+            'L=max_{X@theta<=h} p@theta; U=min_{X@theta>=h} p@theta',
+            'price_set=(L,U) for unspanned h; price_set={p@theta} when X@theta=h']
+        statistics = {name: stat(result[name], unit+' today') for name in
+            ('lower_bound', 'upper_bound', 'pricing_residual', 'lower_duality_gap', 'upper_duality_gap')}
+        statistics.update({name: stat(result[name], unit+' at payoff date') for name in
+            ('subhedge_violation', 'superhedge_violation', 'replication_residual')})
+        statistics['state_price_violation'] = stat(result['state_price_violation'], unit+' today per state payoff unit')
+        selection = 'strictly positive state prices; open price interval for an unspanned claim and unique replication price for a spanned claim'
+    elif model == 'multitask_incentives':
+        contract, knowledge = 'MC-multitask-incentives', 'CONTRACT-07'
+        engine = 'research_numerics.multitask_incentives'
+        equations = ['max_x,y>=0 U_A=a+b*x+m*y-(x*x+y*y+2*rho*x*y)/2',
+            'U_P=vq*x+vqly*y-a-b*x',
+            'g=(b-x-rho*y,m-y-rho*x); g<=0; (x,y)*g=0']
+        statistics = {name: stat(result[name], 'normalized effort') for name in ('x', 'y')}
+        statistics.update({name: stat(result[name], unit) for name in ('principal_payoff', 'agent_payoff')})
+        statistics['kkt_residual'] = stat(result['kkt_residual'], unit+' per normalized effort')
+        selection = 'unique nonnegative agent best response at the supplied contract and strictly convex effort cost'
+    elif model == 'binary_logit':
+        contract, knowledge = 'MC-binary-logit', 'STRUCT-01'
+        engine = 'research_numerics.moment_map + research_numerics.moment_jacobian'
+        equations = ['p_i=expit(theta_0+theta_1*x_i)',
+            'm(theta)=mean_i (p_i,x_i*p_i)',
+            'G(theta)=mean_i p_i*(1-p_i)*[[1,x_i],[x_i,x_i*x_i]]']
+        statistics = {'mean_choice_probability': stat(result['moment_map'][0], 'probability'),
+            'covariate_choice_moment': stat(result['moment_map'][1], 'dimensionless covariate times probability')}
+        for i, row in enumerate(result['moment_jacobian']):
+            for j, value in enumerate(row):
+                statistics[f'moment_{i}_derivative_theta_{j}'] = stat(value, 'moment per dimensionless parameter')
+        selection = 'evaluate supplied intercept and slope at equally weighted covariates with unit logit scale and zero base-action utility'
+    elif model == 'finite_policy_sir':
+        contract, knowledge = 'MC-sir-finite-policy', 'HEALTH-08'
+        engine = 'scipy.integrate.solve_ivp'
+        equations = ['N=S_0+I_0+R_0; incidence=beta*(1-u)*S*I/N',
+            'dS/dt=-incidence; dI/dt=incidence-gamma*I; dR/dt=gamma*I; dC/dt=incidence',
+            'loss=infection_cost*C_T+integral control_cost*u(t)^2 dt+terminal_cost*I_T',
+            'S+I+R=N; S+C=S_0']
+        statistics = {name: stat(result[name], 'persons') for name in
+            ('new_infections', 'terminal_infected', 'mass_residual', 'infection_flow_residual', 'minimum_state')}
+        statistics.update({name: stat(result[name], unit) for name in
+            ('infection_loss', 'control_loss', 'terminal_loss', 'total_loss')})
+        selection = 'evaluate the supplied finite contact-reduction schedule and its terminal infected population'
+    elif model == 'queue_capacity':
+        contract, knowledge = 'MC-queue-capacity', 'MATH-09'
+        engine = 'research_numerics.queue_capacity'
+        equations = ['rho=lambda/mu<1; pi_n=(1-rho)*rho^n',
+            'W=1/(mu-lambda); L=lambda*W; Wq=rho*W; Lq=lambda*Wq']
+        statistics = {'utilization': stat(result['utilization'], 'ratio')}
+        statistics.update({name: stat(result[name], unit) for name in ('W', 'Wq')})
+        statistics.update({name: stat(result[name], 'events') for name in ('L', 'Lq')})
+        selection = 'stationary first-come-first-served M/M/1 queue with independent Poisson arrivals and exponential service'
+    else:
+        contract, knowledge = 'MC-decision-rights', 'CONTRACT-08'
+        engine = 'research_numerics.decision_rights'
+        equations = (['E=clip(B*(1-alpha*e)/kP,0,1); e=clip(b*(1-E)/kA,0,1)',
+            'U_P=B*(E+(1-E)*alpha*e)-kP*E^2/2; U_A=b*(beta*E+(1-E)*e)-kA*e^2/2']
+            if arguments.arguments['holder'] == 'principal' else
+            ['E=clip(B*(1-e)/kP,0,1); e=clip(b*(1-beta*E)/kA,0,1)',
+            'U_P=B*(alpha*e+(1-e)*E)-kP*E^2/2; U_A=b*(e+(1-e)*beta*E)-kA*e^2/2'])
+        equations.append('kP*kA>B*b*max(alpha,beta)')
+        statistics = {name: stat(result[name], 'unit-interval information effort') for name in
+            ('E', 'e', 'best_response_residual')}
+        statistics.update({name: stat(result[name], unit) for name in ('principal_payoff', 'agent_payoff')})
+        selection = 'unique simultaneous information-effort equilibrium at the supplied decision-right holder under contracting best responses'
+    return {'result_format_version': 1, 'model': model, 'specification': spec,
+        'effective_inputs': dict(arguments.arguments), 'engine': engine, 'unit': unit,
+        'model_contract': contract, 'knowledge_ids': [knowledge], 'equations': equations,
+        'equilibrium_selection': selection, 'statistics': statistics, 'fullresults': result,
+        'provenance': {'python': sys.version.split()[0], 'numpy': np.__version__, 'scipy': scipy.__version__,
+            'function': 'research_numerics.'+function.__name__,
+            'precision': 'exact rational arithmetic' if model == 'tu_shapley_core' else 'float64',
+            'script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}}
 
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__); sub=parser.add_subparsers(dest='command',required=True)
     a=sub.add_parser('run'); a.add_argument('spec',type=Path); a.add_argument('--output','-o',required=True,type=Path)
-    a=sub.add_parser('case'); a.add_argument('--output','-o',required=True,type=Path)
     args=parser.parse_args(argv)
     try:
-        if args.command=='case': case(args.output)
-        else:
-            if args.spec.resolve()==args.output.resolve(): raise ValueError('output must differ from specification')
-            raw=args.spec.read_bytes(); result=run(json.loads(raw)); result['provenance']['spec_sha256']=hashlib.sha256(raw).hexdigest()
-            write_json(args.output,result)
-    except (ValueError, TypeError, KeyError, OSError, ArithmeticError, RuntimeError, subprocess.SubprocessError) as exc:
+        if args.spec.resolve()==args.output.resolve(): raise ValueError('output must differ from specification')
+        raw=args.spec.read_bytes(); result=run(json.loads(raw)); result['provenance']['spec_sha256']=hashlib.sha256(raw).hexdigest()
+        write_json(args.output,result)
+    except (ValueError, TypeError, KeyError, OSError, ArithmeticError, RuntimeError) as exc:
         parser.exit(2,'error: '+str(exc)+'\n')
 
 if __name__=='__main__': main()
