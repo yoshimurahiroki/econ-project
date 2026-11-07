@@ -38,7 +38,7 @@
     },
     "policy_assets": {
       "path": ".agents/harness/policy_assets.py",
-      "sha256": "3a1b6ef8cd842618ab02ef9e2a748c1056c2d357abeb107cdef2886397ee02b4"
+      "sha256": "58b4aecc2ed325d66cbd65b3c0d369061c320b1ac57cc8bb5cb0c7d851fdd402"
     },
     "prose": {
       "path": ".agents/runtime/PROSE.md",
@@ -58,7 +58,7 @@
     },
     "registry_resources": {
       "path": ".agents/registry/resources.json",
-      "sha256": "ebc1f9902cd70dd72d86b86bbcc600d969fce9ca098ea426f815b96182f0e6d9"
+      "sha256": "18e1264d5d4012d589ae9a6f97db205cd8f151e0457b2ce7afdfe273034eb9e3"
     },
     "requirements_check": {
       "path": ".agents/harness/requirements_check.py",
@@ -102,7 +102,7 @@
     },
     "resource:default-micro": {
       "path": ".agents/profiles/default-micro/PROFILE.md",
-      "sha256": "2b3166d221df62ab7e71a581966b5f6b5bd8d7f602b5ad37b6a2947fb3cfd05c"
+      "sha256": "59dc68c793bae24b311bfeed31cdd40980d33a7434cafcbafd491314d9cf93b7"
     },
     "resource:design-methods": {
       "path": ".agents/skills/econ-design/references/designs.md",
@@ -581,7 +581,7 @@
       "sha256": "fed7a898922325fa4e5ddc661efa09b06da0eaa505c2c0df24c4bfb543404b29"
     }
   },
-  "policy_id": "economics-native-0.56.0",
+  "policy_id": "economics-native-0.56.1",
   "profile": {
     "id": "research-full"
   },

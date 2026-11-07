@@ -95,7 +95,7 @@
       "resource_id": "default-micro",
       "source_path": "profiles/default-micro/PROFILE.md",
       "resource_kind": "rule",
-      "content_version": "0.31.0"
+      "content_version": "0.56.1"
     },
     "examples-en": {
       "resource_id": "examples-en",
@@ -359,7 +359,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.56.0"
+      "content_version": "0.56.1"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
