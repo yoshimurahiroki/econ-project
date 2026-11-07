@@ -352,7 +352,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.61.0"
+      "content_version": "0.62.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -365,7 +365,7 @@
       "resource_id": "codex-hooks",
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.61.0",
+      "content_version": "0.62.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -682,7 +682,7 @@
       "resource_id": "research-causal",
       "source_path": "skills/econ-data/scripts/research_causal.py",
       "resource_kind": "support",
-      "content_version": "0.61.0",
+      "content_version": "0.62.0",
       "required_resources": [
         "econ-knowledge",
         "research-numerics",
@@ -697,7 +697,7 @@
       "resource_id": "models-causal",
       "source_path": "skills/econ-design/references/causal-models.md",
       "resource_kind": "rule",
-      "content_version": "0.61.0",
+      "content_version": "0.62.0",
       "required_resources": [
         "research-causal"
       ]
@@ -712,7 +712,7 @@
       "resource_id": "research-markets",
       "source_path": "skills/econ-data/scripts/research_markets.py",
       "resource_kind": "support",
-      "content_version": "0.61.0",
+      "content_version": "0.62.0",
       "required_resources": [
         "research-markets-dependencies",
         "equity-io",
@@ -723,7 +723,7 @@
       "resource_id": "models-markets",
       "source_path": "skills/econ-design/references/market-models.md",
       "resource_kind": "rule",
-      "content_version": "0.61.0",
+      "content_version": "0.62.0",
       "required_resources": [
         "research-markets"
       ]
@@ -884,7 +884,7 @@
       "resource_id": "research-artifacts",
       "source_path": "harness/research_artifacts.py",
       "resource_kind": "support",
-      "content_version": "0.61.0",
+      "content_version": "0.62.0",
       "required_resources": [
         "research-evidence",
         "team-state-helper",
@@ -899,7 +899,7 @@
       "resource_id": "result-artifacts",
       "source_path": "skills/econ-writing/references/result-artifacts.md",
       "resource_kind": "rule",
-      "content_version": "0.61.0",
+      "content_version": "0.62.0",
       "required_resources": [
         "research-artifacts",
         "research-runner",
@@ -923,7 +923,7 @@
       "resource_id": "research-causal-r-dependencies",
       "source_path": "skills/econ-data/scripts/requirements-causal-r.json",
       "resource_kind": "support",
-      "content_version": "0.54.1"
+      "content_version": "0.62.0"
     },
     "econ-knowledge": {
       "resource_id": "econ-knowledge",

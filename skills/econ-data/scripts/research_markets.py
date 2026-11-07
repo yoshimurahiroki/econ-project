@@ -2,11 +2,13 @@
 """Execute explicitly specified structural market models."""
 from __future__ import annotations
 import argparse
+import base64
 import hashlib
 import json
 import math
 import os
 from pathlib import Path
+import pickle
 import sys
 import tempfile
 
@@ -203,7 +205,7 @@ def matching(s):
             'total_welfare': sum(pv[p][partner[p]]+rv[partner[p]][p] for p in ps), 'blocking_pairs': len(blocking), 'proposals': sum(next_choice.values())}
 
 
-def blp(s):
+def blp(s, *, fitted_result=None):
     """Estimate observed differentiated demand/supply and solve a new product market."""
     _keys(s, {'products','linear','nonlinear','supply','integration','solve','counterfactual','optimal_instruments','add_exogenous'},
           {'market_sizes', 'report_agent_surplus'})
@@ -247,14 +249,19 @@ def blp(s):
         integration = pyblp.Integration(s['integration']['method'], s['integration']['size'], s['integration']['options'])
     elif s['integration'] is not None: raise ValueError('integration requires nonlinear coefficients')
     if not isinstance(s['add_exogenous'], bool): raise ValueError('add_exogenous must be boolean')
-    problem = pyblp.Problem(forms, data, integration=integration, add_exogenous=s['add_exogenous'])
-    options = dict(s['solve'])
-    for name in ('optimization','iteration'):
-        if name in options:
-            cfg = options[name]; _keys(cfg, {'method','options'})
-            options[name] = (pyblp.Optimization if name == 'optimization' else pyblp.Iteration)(cfg['method'], cfg['options'])
-    options['error_behavior'] = 'raise'
-    result = problem.solve(**options)
+    if fitted_result is None:
+        problem = pyblp.Problem(forms, data, integration=integration, add_exogenous=s['add_exogenous'])
+        options = dict(s['solve'])
+        for name in ('optimization','iteration'):
+            if name in options:
+                cfg = options[name]; _keys(cfg, {'method','options'})
+                options[name] = (pyblp.Optimization if name == 'optimization' else pyblp.Iteration)(cfg['method'], cfg['options'])
+        options['error_behavior'] = 'raise'
+        result = problem.solve(**options)
+    else:
+        if not isinstance(fitted_result, pyblp.ProblemResults):
+            raise ValueError('saved fit must be an official PyBLP ProblemResults object')
+        result, problem = fitted_result, fitted_result.problem
     if not result.converged or not np.asarray(result.fp_converged).all(): raise ArithmeticError('estimation or contraction did not converge')
 
     def check_surplus_utility(economy):
@@ -327,7 +334,7 @@ def blp(s):
            'shares':arr(fitted), 'product_profits':arr(result.compute_profits(costs=costs)), 'optimal_instruments':None}
     if not isinstance(s['optimal_instruments'], bool): raise ValueError('optimal_instruments must be boolean')
     market_ids = sorted(data.market_ids.unique().tolist())
-    profits = np.asarray(result.compute_profits(costs=costs)).ravel()
+    profits = np.asarray(out['product_profits']).ravel()
     cs = np.asarray(consumer_surpluses).ravel()
     out['welfare'] = [{'market_ids':market, 'consumer_surplus':float(cs[i]),
                        'producer_surplus':float(profits[data.market_ids.to_numpy() == market].sum()),
@@ -407,7 +414,45 @@ def blp(s):
             out['aggregate_welfare_change'] = {
                 key: out['counterfactual']['aggregate_welfare'][key] - out['aggregate_welfare'][key]
                 for key in quantities}
+    if fitted_result is None:
+        # PyBLP's native persistence uses pickle; keep the fit in the same atomic
+        # JSON result as its adopted specification and public numerical outputs.
+        native = pickle.dumps(result, protocol=5)
+        out['native_fit'] = {'format': 'python-pickle-v5', 'package': 'pyblp',
+            'version': pyblp.__version__, 'sha256': hashlib.sha256(native).hexdigest(),
+            'fit_specification_sha256': blp_fit_identity(s),
+            'data': base64.b64encode(native).decode('ascii')}
     return out
+
+
+def blp_fit_identity(specification):
+    """Bind the native fit to the data, model, integration and estimation inputs."""
+    fitted = {key: value for key, value in specification.items()
+              if key not in {'counterfactual', 'market_sizes', 'report_agent_surplus', 'optimal_instruments'}}
+    return hashlib.sha256(json.dumps(fitted, sort_keys=True, allow_nan=False,
+                                    separators=(',', ':')).encode('utf-8')).hexdigest()
+
+
+def blp_counterfactual(saved, scenario):
+    """Reuse a project-generated native fit for a new economic intervention."""
+    import pyblp
+    if saved.get('model') != 'blp' or not isinstance(scenario, dict):
+        raise ValueError('counterfactual requires a saved BLP result and a scenario object')
+    native = saved.get('native_fit', {})
+    baseline = saved['options']['baseline']
+    if (native.get('format') != 'python-pickle-v5' or native.get('package') != 'pyblp'
+            or native.get('version') != pyblp.__version__
+            or native.get('fit_specification_sha256') != blp_fit_identity(baseline)):
+        raise ValueError('saved native fit must match the adopted BLP specification and installed PyBLP version')
+    raw = base64.b64decode(native['data'], validate=True)
+    if hashlib.sha256(raw).hexdigest() != native.get('sha256'):
+        raise ValueError('saved native fit content differs from its result binding')
+    fitted = pickle.loads(raw)
+    specification = {'model': 'blp', 'baseline': {**baseline, 'counterfactual': scenario},
+        'scenario': None, 'unit': saved['adopted']['unit'], 'sources': saved['adopted']['sources']}
+    result = solve(specification, fitted_result=fitted)
+    result['fit_source'] = {key: native[key] for key in ('package', 'version', 'sha256', 'fit_specification_sha256')}
+    return result
 
 
 def blp_displays(result, specification, unit):
@@ -520,9 +565,11 @@ def blp_displays(result, specification, unit):
     return displays
 
 
-def solve(spec):
+def solve(spec, *, fitted_result=None):
     _keys(spec, {'model','baseline','scenario','unit','sources'})
     model = spec['model']; methods = {'auction':auction, 'search':search, 'bargaining':bargain, 'platform':platform, 'matching':matching, 'equity':None, 'blp':blp, 'auction_fit':auction_fit}
+    if fitted_result is not None and model != 'blp':
+        raise ValueError('native BLP reuse requires model=blp')
     if model not in methods or not isinstance(spec['unit'], str) or not spec['unit'] or not isinstance(spec['sources'], list) or not spec['sources']:
         raise ValueError('supply a supported model, unit and sources')
     if any(not isinstance(x, dict) or not (x.get('description') or x.get('path') or x.get('url')) for x in spec['sources']): raise ValueError('each source requires description, path or URL')
@@ -538,7 +585,7 @@ def solve(spec):
         key = 'gmm_objective' if base.get('engine') == 'pyblp' else 'best_response_error'
     elif model == 'blp':
         if spec['scenario'] is not None: raise ValueError('BLP counterfactual belongs in baseline.counterfactual')
-        base, changed = blp(spec['baseline']), None
+        base, changed = blp(spec['baseline'], fitted_result=fitted_result), None
         key, indicator = 'objective', base['objective']
     else:
         if not isinstance(spec['scenario'], dict): raise ValueError('scenario must be a complete model specification')
@@ -549,6 +596,10 @@ def solve(spec):
             'adopted': {'unit':spec['unit'], 'sources':spec['sources']}, 'options': {'baseline':spec['baseline'], 'scenario':spec['scenario']},
             'statistics': {key:{'value':float(indicator),'unit':('dimensionless' if key in {'objective','gmm_objective','bid_slope'} else spec['unit'])}}, 'baseline':base, 'scenario':changed}
     if model == 'blp':
+        if 'native_fit' in base:
+            output['native_fit'] = base.pop('native_fit')
+        output['execution'] = {'estimation': 'executed' if fitted_result is None else 'reused',
+            'counterfactual': 'executed' if spec['baseline']['counterfactual'] is not None else 'not_requested'}
         output['displays'] = blp_displays(base, spec['baseline'], spec['unit'])
         for scenario, fitted in (('baseline', base), ('counterfactual', base.get('counterfactual'))):
             if fitted is not None and 'aggregate_welfare' in fitted:
@@ -573,9 +624,24 @@ def _write(path, data):
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__); sub = p.add_subparsers(dest='operation',required=True)
     run = sub.add_parser('run'); run.add_argument('spec',type=Path); run.add_argument('--output',type=Path,required=True)
+    reuse = sub.add_parser('counterfactual'); reuse.add_argument('result',type=Path)
+    reuse.add_argument('scenario',type=Path); reuse.add_argument('--output',type=Path,required=True)
     args = p.parse_args(argv)
     try:
-        raw = args.spec.read_bytes(); result = solve(json.loads(raw)); result['provenance'] = {'spec_path':str(args.spec.resolve()), 'spec_sha256':hashlib.sha256(raw).hexdigest()}; _write(args.output,result)
-    except (ValueError, TypeError, KeyError, OSError, ArithmeticError) as exc: p.exit(2,f'error: {exc}\n')
+        if args.operation == 'run':
+            raw = args.spec.read_bytes(); result = solve(json.loads(raw))
+            result['provenance'] = {'spec_path':str(args.spec.resolve()), 'spec_sha256':hashlib.sha256(raw).hexdigest()}
+        else:
+            if args.output.resolve() in {args.result.resolve(), args.scenario.resolve()}:
+                raise ValueError('counterfactual output must preserve its saved fit and scenario inputs')
+            raw, scenario = args.result.read_bytes(), args.scenario.read_bytes()
+            result = blp_counterfactual(json.loads(raw), json.loads(scenario))
+            result['fit_source'].update(path=str(args.result.resolve()), result_sha256=hashlib.sha256(raw).hexdigest())
+            result['provenance'] = {'scenario_path':str(args.scenario.resolve()),
+                'scenario_sha256':hashlib.sha256(scenario).hexdigest(),
+                'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+        _write(args.output,result)
+    except (ValueError, TypeError, KeyError, OSError, ArithmeticError, pickle.UnpicklingError, EOFError) as exc:
+        p.exit(2,f'error: {exc}\n')
 
 if __name__ == '__main__': main()

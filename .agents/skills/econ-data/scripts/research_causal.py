@@ -1146,6 +1146,18 @@ def select_method(request):
     if target_kind=='event_time_att' and method=='sunab': required_native_options['aggregation'] = 'period'
     if method=='grf' and target_kind in ('ate','att'):
         required_native_options['aggregation.target.sample'] = 'treated' if target_kind=='att' else 'all'
+    if method == 'grf':
+        if interval_type not in (None, 'pointwise'):
+            raise ValueError('the GRF runner saves pointwise normal intervals from the official aggregate estimate and standard error')
+        if level is not None:
+            required_native_options['confidence_level'] = level
+        if cluster_columns is not None:
+            if len(cluster_columns) != 1:
+                raise ValueError('grf.clusters requires one adopted independent cluster partition')
+            required_native_options['columns.clusters'] = cluster_columns[0]
+        selected_weight = proposed_contract.get('weights')
+        if isinstance(selected_weight, str):
+            required_native_options['columns.sample.weights'] = selected_weight
     if method == 'staggered_did':
         if structure not in ('panel','repeated_cross_section'):
             raise ValueError('group-time DID requires panel or repeated_cross_section data_structure')
@@ -1222,6 +1234,11 @@ def select_method(request):
         if not isinstance(selected_options['consumer_options'],dict):
             raise ValueError('consumer_options must be an object of native HARK arguments')
     option_changes = []
+    if method == 'grf':
+        for argument in ('clusters', 'sample.weights'):
+            if 'columns.' + argument in required_native_options and argument in selected_options.get('args', {}):
+                previous = selected_options['args'].pop(argument)
+                option_changes.append({'field':'options.args.' + argument,'supplied':previous,'selected':None})
     if method in ('fixest_ols', 'fixest_ppml', 'sunab') and cluster_columns is not None:
         # fixest accepts one covariance specification. The vcov formula binds
         # the adopted clusters without also passing its legacy cluster option.
@@ -1253,6 +1270,13 @@ def select_method(request):
                     'supplied':supplied,'selected':value})
             cursor[key] = value
     unbound_inputs = []
+    if method == 'grf':
+        has_weights = (selected_options.get('columns', {}).get('sample.weights') is not None or
+            selected_options.get('args', {}).get('sample.weights') is not None)
+        if proposed_contract.get('weights') is not None and not has_weights:
+            unbound_inputs.append('weights: analysis column, options.columns.sample.weights or options.args.sample.weights')
+        if has_weights and selected_options.get('args', {}).get('equalize.cluster.weights') is True:
+            raise ValueError('GRF sample.weights requires equalize.cluster.weights=false')
     if method in DML_METHODS:
         for field in ('n_folds','seed','learners'):
             if field not in selected_options:
@@ -1273,6 +1297,9 @@ def select_method(request):
         elif method == 'rdrobust_r' and not (selected_options.get('columns', {}).get('cluster') or
                 selected_options.get('args', {}).get('cluster') is not None):
             unbound_inputs.append('inference.cluster or options.columns.cluster')
+        elif method == 'grf' and not (selected_options.get('columns', {}).get('clusters') or
+                selected_options.get('args', {}).get('clusters') is not None):
+            unbound_inputs.append('inference.cluster, options.columns.clusters or options.args.clusters')
         elif method in ('fixest_ols', 'fixest_ppml', 'sunab') and cluster_columns is None:
             native = selected_options.get('args', {})
             vcov = native.get('vcov')
@@ -1959,7 +1986,7 @@ def _official_r(spec, spec_path):
     if method == 'did2s': optional |= {'event_variable','reference_event_time','confidence_level'}
     if method == 'fixes_event_study': optional |= {'never_treated'}
     if method == 'synthdid': optional |= {'confidence_level'}
-    if method == 'grf': optional.add('aggregation')
+    if method == 'grf': optional |= {'aggregation','confidence_level'}
     if method == 'rdrobust_r': optional.add('plot')
     if not required <= opt.keys() or set(opt)-required-optional:
         raise ValueError(f'{method} options require {sorted(required)} and accept {sorted(optional)}')
@@ -2187,6 +2214,7 @@ if(method %in% c('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab
   if(is.null(call_args$tau)) stop('rdpower requires the adopted alternative effect in args.tau')
   owned <- list(data=as.matrix(d[,c(s$outcome,o$running)])); kind <- 'sensitivity'
 } else if(method=='grf') {
+  if(is.character(call_args$clusters)) call_args$clusters <- factor(call_args$clusters)
   owned <- list(X=as.matrix(d[,s$regressors,drop=FALSE]),Y=d[[s$outcome]],W=d[[o$treatment]])
   kind <- 'heterogeneity'
 } else if(method=='iv_ar_robust') {
@@ -2322,12 +2350,34 @@ if(method %in% c('ols_r','fixest_ols','fixest_ppml','negative_binomial_r','sunab
   diagnostics$observations <- length(all_args$D)
   diagnostics$sampling_weights <- if(is.null(all_args$i.weights)) rep(1,length(all_args$D)) else all_args$i.weights/mean(all_args$i.weights)
 } else if(method=='grf') {
-  aggregate_args <- if(is.null(o$aggregation)) list() else o$aggregation
+  aggregate_args <- utils::modifyList(list(target.sample='all',method='AIPW'),if(is.null(o$aggregation)) list() else o$aggregation)
+  aggregate_args$target.sample <- match.arg(aggregate_args$target.sample,c('all','treated','control','overlap'))
+  aggregate_args$method <- match.arg(aggregate_args$method,c('AIPW','TMLE'))
   ate <- invoke(grf::average_treatment_effect,c(list(forest=fit),aggregate_args))
   predictions <- predict(fit,estimate.variance=TRUE)
-  estimates <- data.frame(term='target_ate',estimate=ate[1],se=ate[2],p_value=2*pnorm(-abs(ate[1]/ate[2])),ci_low=ate[1]-qnorm(.975)*ate[2],ci_high=ate[1]+qnorm(.975)*ate[2])
+  critical_value <- qnorm((1+confidence_level)/2)
+  estimates <- data.frame(term='target_ate',estimate=ate[1],se=ate[2],p_value=2*pnorm(-abs(ate[1]/ate[2])),ci_low=ate[1]-critical_value*ate[2],ci_high=ate[1]+critical_value*ate[2])
   covariance <- matrix(ate[2]^2,1,1,dimnames=list('target_ate','target_ate'))
   diagnostics$cate <- data.frame(id=ids,estimate=predictions$predictions,variance=predictions$variance.estimates)
+  aggregate_rows <- getFromNamespace('validate_subset','grf')(fit,aggregate_args$subset)
+  target_rows <- switch(aggregate_args$target.sample,
+    treated=aggregate_rows[fit$W.orig[aggregate_rows]==1],
+    control=aggregate_rows[fit$W.orig[aggregate_rows]==0],aggregate_rows)
+  diagnostics$observations <- nrow(fit$X.orig)
+  diagnostics$n_clusters <- if(length(fit$clusters)) length(unique(fit$clusters)) else NULL
+  diagnostics$aggregation <- list(arguments=aggregate_args,subset_ids=I(ids[aggregate_rows]),
+    target_ids=I(ids[target_rows]),observation_weights=I(getFromNamespace('observation_weights','grf')(fit)),
+    weights_ids_ref='sample.included_ids',weights_definition='normalized observation weights before target.sample and score-specific weighting')
+  diagnostics$effective_options <- list(equalize.cluster.weights=fit$equalize.cluster.weights,
+    seed=fit$seed,num.threads=fit$num.threads,tunable.params=fit$tunable.params)
+  display_metadata$aggregation <- aggregate_args
+  display_metadata$aggregation_target <- aggregate_args$target.sample
+  display_metadata$inference_unit <- if(!is.null(o$definitions$inference_unit)) o$definitions$inference_unit else if(!is.null(o$columns$clusters)) o$columns$clusters else if(length(fit$clusters)) 'native cluster partition' else s$id
+  display_metadata$cluster_columns <- o$columns$clusters
+  display_metadata$equalize_cluster_weights <- fit$equalize.cluster.weights
+  display_metadata$inference_function <- 'grf::average_treatment_effect'
+  display_metadata$reference_distribution <- 'standard_normal'
+  display_metadata$critical_value <- critical_value
 } else if(method=='honest_did') {
   rows <- as.data.frame(fit)
 } else if(method=='did_multiplegt_dyn') {
