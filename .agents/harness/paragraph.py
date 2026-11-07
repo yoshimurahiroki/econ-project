@@ -157,9 +157,18 @@ def _span(value, text, context):
     return text[a:b]
 
 
-def normalize_sources(sources):
-    require(isinstance(sources, dict) and sources, 'sources must be a nonempty mapping')
+def normalize_sources(sources, *, research_results=None):
+    require(isinstance(sources, dict), 'sources must be a mapping')
     result = copy.deepcopy(sources)
+    if research_results is not None:
+        from research_artifacts import composition_context
+        require(isinstance(research_results, dict), 'research result selection must be an object')
+        context = composition_context(**research_results)
+        for sid, source in context['sources'].items():
+            require(sid not in result or result[sid] == source,
+                    'selected research source differs from the supplied source: ' + sid)
+            result[sid] = source
+    require(result, 'sources must be a nonempty mapping')
     for key, source in result.items():
         require(_text(key), 'source id must contain text')
         _texts(source, ('text',), 'source ' + key)
@@ -429,21 +438,50 @@ def validate_specification(spec, blueprint, sources=None):
     return content_hash(spec)
 
 
-def generate_blueprint(brief, sources, rules, host, observe, *, execution_kind='independent-subagent', author_id=None):
-    sources = normalize_sources(sources)
+def _completed_body(sources, completed_run, paragraph_ids):
+    if completed_run is None:
+        require(not paragraph_ids, 'paragraph selection requires a completed run')
+        return None
+    context = completed_run.composition_context(paragraph_ids)
+    for sid, source in context['sources'].items():
+        require(sid in sources and sources[sid] == source,
+                'composition source or saved-result identity differs: ' + sid)
+    return context
+
+
+def generate_blueprint(brief, sources, rules, host, observe, *, execution_kind='independent-subagent', author_id=None,
+                       completed_run=None, paragraph_ids=()):
     _texts(brief, ('original_request', 'authority', 'purpose', 'reader'), 'writing brief')
-    task = _task('writing:architect', {'brief': brief, 'sources': sources}, instruction_packet(brief['original_request'], rules))
+    sources = normalize_sources(sources, research_results=brief.get('research_results'))
+    payload = {'brief': brief, 'sources': sources}
+    completed = _completed_body(sources, completed_run, paragraph_ids)
+    if completed is not None:
+        payload['completed_body'] = completed
+    task = _task('writing:architect', payload, instruction_packet(brief['original_request'], rules))
     result, record = invoke_host(host, task, observe, execution_kind=execution_kind, author_id=author_id)
     require(isinstance(result.get('blueprint'), dict), 'architect did not return a blueprint')
-    return {'blueprint': seal_blueprint(result['blueprint'], sources), 'execution': record}
+    if completed is not None:
+        for key in ('central_question', 'central_answer', 'contribution'):
+            require(result['blueprint'].get(key) == completed[key], 'architecture changes the adopted ' + key)
+    return {'blueprint': seal_blueprint(result['blueprint'], sources), 'execution': record, 'sources': sources}
 
 
 def generate_specifications(blueprint, sources, rules, host, observe, *, request, authority,
-                            execution_kind='independent-subagent', author_id=None):
-    sources = normalize_sources(sources)
+                            execution_kind='independent-subagent', author_id=None,
+                            completed_run=None, paragraph_ids=(), brief=None):
+    sources = normalize_sources(sources, research_results=brief.get('research_results') if brief is not None else None)
     blueprint = seal_blueprint(blueprint, sources)
-    task = _task('writing:specify', {'blueprint': blueprint, 'sources': sources, 'original_request': request,
-                                   'authority': authority}, instruction_packet(request, rules))
+    payload = {'blueprint': blueprint, 'sources': sources, 'original_request': request, 'authority': authority}
+    if brief is not None:
+        require(brief.get('original_request') == request and brief.get('authority') == authority,
+                'composition brief differs from the requested specification')
+        payload['brief'] = copy.deepcopy(brief)
+    completed = _completed_body(sources, completed_run, paragraph_ids)
+    if completed is not None:
+        for key in ('central_question', 'central_answer', 'contribution'):
+            require(blueprint[key] == completed[key], 'specification changes the adopted ' + key)
+        payload['completed_body'] = completed
+    task = _task('writing:specify', payload, instruction_packet(request, rules))
     result, record = invoke_host(host, task, observe, execution_kind=execution_kind, author_id=author_id)
     specs = result.get('specifications')
     require(isinstance(specs, list), 'designer did not return specifications')
@@ -451,7 +489,7 @@ def generate_specifications(blueprint, sources, rules, host, observe, *, request
     require([p.get('paragraph_id') for p in specs] == ids, 'designer specification order or coverage differs')
     for spec in specs:
         validate_specification(spec, blueprint, sources)
-    return {'specifications': specs, 'execution': record, 'blueprint_sha256': blueprint['sha256']}
+    return {'specifications': specs, 'execution': record, 'blueprint_sha256': blueprint['sha256'], 'sources': sources}
 
 
 def _local_io():
@@ -646,6 +684,53 @@ class ParagraphRun:
         row = self.state['paragraphs'][pid]
         return ({item['source_id'] for item in row['spec']['required_content']} |
                 set(row['spec']['writing']['source_references']) | set(self._bp(pid)['source_ids']))
+
+    def composition_context(self, paragraph_ids):
+        """Read selected completed prose and its current dependencies without mutation."""
+        require(isinstance(paragraph_ids, (list, tuple)) and paragraph_ids and
+                all(_text(pid) for pid in paragraph_ids) and len(paragraph_ids) == len(set(paragraph_ids)) and
+                set(paragraph_ids) <= set(self.state['paragraphs']),
+                'composition requires unique paragraph IDs from the saved run')
+        blueprint = self.state['blueprint']
+        require(blueprint['sha256'] == validate_blueprint(blueprint), 'composition blueprint differs')
+        selected = set(paragraph_ids)
+        argument = _argument_io()
+        while True:
+            node_ids = [self.state['paragraphs'][pid]['spec']['argument_node_id']
+                        for pid in self.state['paragraphs'] if pid in selected]
+            context = argument.composition_context(blueprint['argument_structure'], self.state['sources'],
+                                                   list(dict.fromkeys(node_ids)))
+            expanded = selected | {pid for node in context['nodes'] for pid in node['paragraph_ids']}
+            expanded.update(dep for pid in selected for dep in self._bp(pid)['depends_on'])
+            if expanded == selected:
+                break
+            selected = expanded
+        paragraphs, source_ids = {}, set(context['sources'])
+        for bp in blueprint['paragraphs']:
+            pid = bp['paragraph_id']
+            if pid not in selected:
+                continue
+            row = self.state['paragraphs'][pid]
+            review = row.get('review')
+            require(row['status'] in ('locally-reviewed', 'integrated', 'globally-reviewed') and
+                    isinstance(review, dict) and review['result']['passed'] and
+                    review['binding'] == self._binding(pid) and review['text_sha256'] == row['text_sha256'] and
+                    _text(row['text']) and row['text_sha256'] == sha(row['text']) and
+                    row['spec_sha256'] == content_hash(row['spec']),
+                    'composition paragraph requires current completed dependencies: ' + pid)
+            source_ids.update(self._source_ids(pid))
+            paragraphs[pid] = {'text': row['text'], 'text_sha256': row['text_sha256'],
+                               'status': row['status'], 'binding': self._binding(pid),
+                               'specification': copy.deepcopy(row['spec'])}
+        # Keep the original source/result metadata; the graph catalog adds defaults.
+        sources = normalize_sources({sid: self.state['sources'][sid] for sid in sorted(source_ids)})
+        context.pop('sources')
+        return {'run_id': self.state['run_id'], 'request_sha256': self.state['request_sha256'],
+                'blueprint_sha256': blueprint['sha256'], 'rules_sha256': self.state['rules_sha256'],
+                'central_question': blueprint['central_question'], 'central_answer': blueprint['central_answer'],
+                'contribution': blueprint['contribution'], 'reader': blueprint['reader'],
+                'selected_paragraph_ids': list(paragraph_ids), 'paragraphs': paragraphs,
+                'argument': context, 'sources': sources}
 
     def source_ready(self, pid):
         self._active()
@@ -1090,7 +1175,7 @@ class ParagraphRun:
                 temporary.unlink(missing_ok=True)
 
     @classmethod
-    def load(cls, path):
+    def load(cls, path, *, resume=True):
         path = Path(path)
         require(path.is_file() and not path.is_symlink(), 'state file missing or symlink')
         value = json.loads(path.read_text(encoding='utf-8'))
@@ -1110,8 +1195,9 @@ class ParagraphRun:
             if row.get('review'):
                 validate_execution_record(row['review']['record'], execution_kind=state['execution_kind'])
         run = cls(state)
-        run._checkpoint_path = path
-        run._event('resumed', state['paragraphs'], instruction_context=instruction_packet(state['request'], state['rules'], event='task-resume'))
+        if resume:
+            run._checkpoint_path = path
+            run._event('resumed', state['paragraphs'], instruction_context=instruction_packet(state['request'], state['rules'], event='task-resume'))
         return run
 
 
@@ -1327,6 +1413,8 @@ def main(argv=None):
         design.add_argument('--' + key, type=Path, required=True)
     design.add_argument('--author-id', required=True)
     design.add_argument('--execution-kind', choices=EXECUTION_KINDS, default='independent-subagent')
+    design.add_argument('--reuse-state', type=Path)
+    design.add_argument('--reuse-paragraph', action='append', default=[], help='Completed body paragraph; repeat to select several')
     execute = sub.add_parser('execute')
     execute.add_argument('--state', type=Path, required=True)
     execute.add_argument('--host', type=Path, required=True)
@@ -1352,14 +1440,20 @@ def main(argv=None):
     if args.command == 'design':
         host, observe = load_host_adapter(args.host)
         brief, sources, rules = [json.loads(path.read_text(encoding='utf-8')) for path in (args.brief, args.sources, args.rules)]
+        require(not args.reuse_state or args.output.resolve() != args.reuse_state.resolve(),
+                'design output must preserve the reused state')
+        completed_run = ParagraphRun.load(args.reuse_state, resume=False) if args.reuse_state else None
         blueprint = generate_blueprint(brief, sources, rules, host, observe,
-                                      execution_kind=args.execution_kind, author_id=args.author_id)
+                                      execution_kind=args.execution_kind, author_id=args.author_id,
+                                      completed_run=completed_run, paragraph_ids=args.reuse_paragraph)
+        sources = blueprint['sources']
         specifications = generate_specifications(blueprint['blueprint'], sources, rules, host, observe,
                             request=brief['original_request'], authority=brief['authority'],
-                            execution_kind=args.execution_kind, author_id=args.author_id)
+                            execution_kind=args.execution_kind, author_id=args.author_id,
+                            completed_run=completed_run, paragraph_ids=args.reuse_paragraph, brief=brief)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_bytes(canonical({'blueprint': blueprint['blueprint'], 'specifications': specifications['specifications'],
-                                          'design_records': [blueprint['execution'], specifications['execution']]}))
+                                          'sources': sources, 'design_records': [blueprint['execution'], specifications['execution']]}))
         print(json.dumps({'status': 'specified', 'output': str(args.output)}))
         return 0
     if args.command == 'create':

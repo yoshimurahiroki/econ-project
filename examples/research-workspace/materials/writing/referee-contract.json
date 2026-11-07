@@ -1,0 +1,139 @@
+{
+  "manuscript": {
+    "path": "examples/research-workspace/materials/writing/growth-paper.md",
+    "sha256": "d7047ef7ef3839e472820bd10510a71c5f2291bafa2a1a7b1a7c40aeeb18ec5e"
+  },
+  "adopted": {},
+  "sources": {
+    "growth-result": {
+      "path": "examples/research-workspace/models/growth-result.json",
+      "sha256": "e40f366c68476165244f8e94aac1c133ac67487b721ab53119cffe839d92f9a6",
+      "metadata": {
+        "identities": {}
+      }
+    }
+  },
+  "claims": [
+    {
+      "id": "household-welfare",
+      "target": {
+        "start": 1777,
+        "end": 1885,
+        "quote": "家計厚生は基準ケースの3.4435757から変更ケースの2.8999706へ変化する。その差は-0.5436割引対数消費単位である。各期の消費を対数効用に変換し、同じ割引率で20期間について合計した値を比較している。"
+      },
+      "sources": [
+        {
+          "id": "growth-result",
+          "span": {
+            "start": 5328,
+            "end": 5364,
+            "quote": "\"welfare_change\": -0.543605130363126"
+          },
+          "role": "result"
+        }
+      ],
+      "judgment": {
+        "reviewer": "native-root",
+        "decision": "supported",
+        "rationale": "保存された基準・変更後の効用と厚生差に、消費・期間・単位が一致する。"
+      },
+      "bindings": [
+        "welfare-change"
+      ]
+    }
+  ],
+  "review": {
+    "criteria": [
+      {
+        "id": "welfare-definition",
+        "text": "厚生の数値が何を測るかを明示してください。目的関数、評価する期間、政府吸収の扱いを示し、その定義を結果と結論に反映してください。"
+      }
+    ],
+    "assessment": {
+      "reviewer": "native-root",
+      "findings": [
+        {
+          "id": "welfare-1",
+          "claim_id": "household-welfare",
+          "criterion_id": "welfare-definition",
+          "decision": "supported",
+          "rationale": "Modelの目的関数、Introductionの政府吸収、Resultsの効用比較、Conclusionの期間と単位が同じ家計厚生の定義を表す。",
+          "comment": {
+            "path": "examples/research-workspace/materials/writing/referee-comment.md",
+            "sha256": "65661dfd980fee37e9e1588e625e5ff36a04c0b7dc012e70e28ea05a37f912b7",
+            "span": {
+              "start": 0,
+              "end": 64,
+              "quote": "厚生の数値が何を測るかを明示してください。目的関数、評価する期間、政府吸収の扱いを示し、その定義を結果と結論に反映してください。"
+            }
+          },
+          "references": [
+            {
+              "path": "examples/research-workspace/models/growth-result.json",
+              "sha256": "e40f366c68476165244f8e94aac1c133ac67487b721ab53119cffe839d92f9a6"
+            }
+          ],
+          "changes": [
+            {
+              "start": 783,
+              "end": 820,
+              "quote": "$$W=\\sum_{t=0}^{19}\\beta^t\\log c_t.$$"
+            },
+            {
+              "start": 480,
+              "end": 544,
+              "quote": "税収は政府による資源吸収に充てられる。政府吸収と家計消費は資源制約にそれぞれ計上され、家計の目的関数は各期の消費から構成される。"
+            },
+            {
+              "start": 1777,
+              "end": 1885,
+              "quote": "家計厚生は基準ケースの3.4435757から変更ケースの2.8999706へ変化する。その差は-0.5436割引対数消費単位である。各期の消費を対数効用に変換し、同じ割引率で20期間について合計した値を比較している。"
+            },
+            {
+              "start": 2220,
+              "end": 2270,
+              "quote": "初期資本と終端資本を固定した20期間の比較で、家計厚生の変化は-0.5436割引対数消費単位である。"
+            }
+          ]
+        }
+      ]
+    },
+    "previous": {
+      "path": "examples/research-workspace/materials/writing/referee-initial-review.json",
+      "sha256": "309c966693a6f78197487d831dd72a89d28d647e1abbe1644918ff2308da6cd3"
+    },
+    "response_draft": {
+      "language": "ja",
+      "finding_ids": [
+        "welfare-1"
+      ]
+    }
+  },
+  "numbers": [
+    {
+      "id": "welfare-change",
+      "target": {
+        "start": 1824,
+        "end": 1831,
+        "quote": "-0.5436"
+      },
+      "unit_target": {
+        "start": 1831,
+        "end": 1839,
+        "quote": "割引対数消費単位"
+      },
+      "unit_display": "割引対数消費単位",
+      "result": {
+        "path": "examples/research-workspace/models/growth-result.json",
+        "sha256": "e40f366c68476165244f8e94aac1c133ac67487b721ab53119cffe839d92f9a6",
+        "identity_keys": {},
+        "key": [
+          "statistics",
+          "welfare_change"
+        ],
+        "unit": "discounted log consumption",
+        "format": ".4f"
+      }
+    }
+  ]
+}
