@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.87.0",
+  "policy_id": "economics-native-0.87.1",
   "profile": {
     "id": "research-full"
   },
@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "04e161621341902e16e26800125749cadb2df7ec2cb924e6c1109043e85a9019"
+      "sha256": "512cbdd017c565a484e3be29062b01872f7037df01bd370f2f66a3dc173fe546"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -235,11 +235,11 @@
     },
     "resource:knowledge-guide": {
       "path": "skills/econ-knowledge/references/retrieval.md",
-      "sha256": "6eed11ab65d58e8af5b5f64f2ac21a4743cfefec5ab9f98ccd81bfbdbb6d4093"
+      "sha256": "b5757cd5396b8eda56975b312a19441a2d00728ecefa43dea2d87107edb6380f"
     },
     "resource:knowledge-retrieval": {
       "path": "skills/econ-knowledge/scripts/knowledge.py",
-      "sha256": "6c2785842ba6e36a04560fcbe29c615a34cfe106c7f5b3e0831d6210474fd722"
+      "sha256": "5f459a5e2876f044159147ba5a2f1f843db92bbf6e44d6c4491af077579ec6d4"
     },
     "resource:latex-bibliography-style": {
       "path": "tex/paper/ecta-fullname.bst",
@@ -595,7 +595,7 @@
     },
     "resource:research-design": {
       "path": "skills/econ-design/scripts/research_design.py",
-      "sha256": "c2c6da0a0a08b3ff0172a3c34636033c282f0902586682f386c3826e16ce5995"
+      "sha256": "e1c6c65fe64598e8590ffebb11d41fe37d5f9f44c5d4c45f73b62530d74e9171"
     },
     "resource:research-dolo-dependencies": {
       "path": "skills/econ-data/scripts/requirements-dolo.txt",

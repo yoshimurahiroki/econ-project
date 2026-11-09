@@ -1295,7 +1295,9 @@ def _select_method(request, *, spec_path=None):
             raise ValueError('The selected DoubleML family must match the requested design')
         design, score = 'orthogonal_score', selected_family
     project_implementation = None
+    selected_profile = None
     if design == 'bayesian_model' and forward_options.get('engine') in OFFICIAL_PROJECT_IMPLEMENTATIONS:
+        selected_profile = forward_options['engine']
         project_implementation = OFFICIAL_PROJECT_IMPLEMENTATIONS[forward_options['engine']]
         if project_implementation['design'] != design:
             raise ValueError('options.engine must select a Bayesian implementation')
@@ -3413,6 +3415,7 @@ def _select_method(request, *, spec_path=None):
         'economic_model':economic_model,'structured_conditions':facts,
         'required_inputs':required_inputs,'assumptions':conditions,'inference':inference_contract,
         'official_implementation':{'function':engine,'entry_point':owner,'options':selected_options,
+            'implementation':selected_profile,
             'required_options':required_native_options,'execution_mode':'external_official_entry' if external_implementation else 'existing_runner',
             'unbound_inputs':unbound_inputs,
             'external_contract':external_implementation},
@@ -3953,6 +3956,7 @@ def select_method(request, *, spec_path=None, stage='contract', task=None, root=
         cache, external = knowledge.task_knowledge(current)
         reader = knowledge.Reader(knowledge.BASE, external)
     delivered = reader.for_method(result.get('method'), design, stage, model=model, contract_id=contract_id,
+                                  implementation=selection['official_implementation'].get('implementation'),
                                   target=selection.get('target', {}).get('kind'),
                                   context=request.get('conditions', request.get('adopted_specification', {}).get('conditions')),
                                   cached=None if restore else cache, additional_ids=request.get('knowledge_ids', ()))

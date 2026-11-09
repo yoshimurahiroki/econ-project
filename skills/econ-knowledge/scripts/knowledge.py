@@ -1124,7 +1124,7 @@ class Reader:
                 'application_cycles': cycles,
                 'contracts': selected_contracts, **self.report()}
 
-    def for_method(self, method, design, stage, *, model=None, contract_id=None, target=None, context=None, cached=None, additional_ids=()):
+    def for_method(self, method, design, stage, *, implementation=None, model=None, contract_id=None, target=None, context=None, cached=None, additional_ids=()):
         """Resolve the selected method's current-stage bodies, using the saved generation."""
         if stage not in ('entry', 'contract', 'compose', 'review', 'finalize'):
             raise ValueError('Unknown knowledge stage')
@@ -1138,12 +1138,17 @@ class Reader:
                                    for item in row['stages'].get(phase, [])))
         contracts = []
         if contract_id:
-            contracts = [self.contract(contract_id)]
+            contract = self.contract(contract_id)
+            binding = contract.get('selection_binding', {})
+            if 'implementation' in binding and binding['implementation'] != implementation:
+                raise ValueError(f'{contract_id} requires implementation={binding["implementation"]}')
+            contracts = [contract]
         else:
             for item in self.semantic('model-contracts.json')['contracts']:
                 binding = item.get('selection_binding', {})
                 if (binding.get('design') == design and
-                        ('structural_model' not in binding or binding['structural_model'] == model)):
+                        ('structural_model' not in binding or binding['structural_model'] == model) and
+                        ('implementation' not in binding or binding['implementation'] == implementation)):
                     contracts.append(self.contract(item['id']))
         if contracts and design == 'structural':
             # Exact model contracts own their definitions; do not prepend an
@@ -1412,6 +1417,7 @@ def main():
     method.add_argument('--method', required=True)
     method.add_argument('--design', required=True)
     method.add_argument('--model')
+    method.add_argument('--implementation')
     method.add_argument('--contract')
     method.add_argument('--target')
     method.add_argument('--context', action='append', default=[])
@@ -1457,7 +1463,7 @@ def main():
         elif a.action == 'method':
             if task and not a.restore and task['status'] != 'running':
                 raise ValueError('Knowledge caching requires a running task; use --restore')
-            result = reader.for_method(a.method, a.design, a.stage, model=a.model,
+            result = reader.for_method(a.method, a.design, a.stage, implementation=a.implementation, model=a.model,
                                        contract_id=a.contract, target=a.target, context=parse_context(a.context),
                                        cached=None if a.restore else cache, additional_ids=a.knowledge_id)
             if task and not a.restore:
