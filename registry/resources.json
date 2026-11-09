@@ -5,19 +5,19 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.85.0"
     },
     "prose": {
       "resource_id": "prose",
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.85.0"
     },
     "research": {
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.85.0"
     },
     "execution": {
       "resource_id": "execution",
@@ -35,13 +35,13 @@
       "resource_id": "econ-design",
       "source_path": "skills/econ-design/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0"
+      "content_version": "0.85.0"
     },
     "econ-data": {
       "resource_id": "econ-data",
       "source_path": "skills/econ-data/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0"
+      "content_version": "0.85.0"
     },
     "econ-literature": {
       "resource_id": "econ-literature",
@@ -200,7 +200,7 @@
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.84.0"
+      "content_version": "0.85.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
@@ -291,7 +291,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.85.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -310,13 +310,13 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.84.0"
+      "content_version": "0.85.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.84.0"
+      "content_version": "0.85.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -377,7 +377,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.84.0"
+      "content_version": "0.85.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -407,7 +407,7 @@
       "resource_id": "codex-hooks",
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.84.0",
+      "content_version": "0.85.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -1428,7 +1428,7 @@
         "knowledge-retrieval",
         "research-evidence"
       ],
-      "content_version": "0.84.0"
+      "content_version": "0.85.0"
     },
     "project-practice": {
       "resource_id": "project-practice",
@@ -1882,7 +1882,7 @@
       "resource_id": "knowledge-guide",
       "source_path": "skills/econ-knowledge/references/retrieval.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.85.0"
     },
     "data-source": {
       "resource_id": "data-source",
@@ -2004,6 +2004,12 @@
       },
       "investigate-source-claims": {
         "heading": "Investigate source claims"
+      },
+      "deepen-a-consequential-research-problem": {
+        "heading": "Deepen a consequential research problem"
+      },
+      "interpret-a-consequential-result": {
+        "heading": "Interpret a consequential result"
       }
     },
     "execution": {
@@ -4034,6 +4040,18 @@
           "required_rules": [
             "research.separate-explanations-with-a-comparison",
             "research.select-a-feasible-action"
+          ]
+        },
+        {
+          "when": "research_problem_deepening",
+          "required_rules": [
+            "research.deepen-a-consequential-research-problem"
+          ]
+        },
+        {
+          "when": "consequential_result_interpretation",
+          "required_rules": [
+            "research.interpret-a-consequential-result"
           ]
         }
       ],
@@ -8833,6 +8851,22 @@
       ],
       "conditional_requires": [],
       "optional_examples": []
+    },
+    "research.deepen-a-consequential-research-problem": {
+      "rule_id": "research.deepen-a-consequential-research-problem",
+      "resource_id": "research",
+      "section_id": "deepen-a-consequential-research-problem",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research.interpret-a-consequential-result": {
+      "rule_id": "research.interpret-a-consequential-result",
+      "resource_id": "research",
+      "section_id": "interpret-a-consequential-result",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
     }
   },
   "examples": {
@@ -8987,6 +9021,16 @@
       "execution": [
         "select-the-operation-and-working-area",
         "checks-and-completion"
+      ],
+      "research": [
+        "turn-the-question-into-an-operation",
+        "deepen-a-consequential-research-problem",
+        "separate-explanations-with-a-comparison",
+        "select-a-feasible-action",
+        "source-integration-and-method-selection",
+        "investigate-source-claims",
+        "resolve-dependencies-and-integrate-findings",
+        "operational-plans"
       ]
     },
     "compose": {
@@ -8994,6 +9038,13 @@
         "select-the-economic-argument",
         "connect-the-explanation",
         "finish-the-passage"
+      ],
+      "research": [
+        "turn-the-question-into-an-operation",
+        "source-integration-and-method-selection",
+        "investigate-source-claims",
+        "resolve-dependencies-and-integrate-findings",
+        "interpret-a-consequential-result"
       ]
     },
     "review": {
@@ -9002,6 +9053,11 @@
       ],
       "prose": [
         "finish-the-passage"
+      ],
+      "research": [
+        "separate-explanations-with-a-comparison",
+        "interpret-a-consequential-result",
+        "resolve-dependencies-and-integrate-findings"
       ]
     },
     "finalize": {

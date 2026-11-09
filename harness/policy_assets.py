@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.84.0'
+POLICY_ID = 'economics-native-0.85.0'
 PRIMARY_EXPRESSION_RULE = "Apply PROSE's output prohibitions to every answer and generated artifact, without exception."
 PRIMARY_STYLE_RULE = ('Keep scientific conditions, statistical uncertainty and evidence-strength judgments internal; '
                       'deliver the direct economic answer and actual operation result.')
@@ -605,6 +605,7 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
     terminal = status.get('lifecycle')
     if terminal not in {'paused', 'stopped', 'cancelled', 'completed'}:
         terminal = 'completed' if str(status.get('status', '')).startswith('finalized-') else 'active'
+    explicit_stage = stage is not None
     stage = stage or ('finalize' if terminal == 'completed' or status.get('status') in {'ready', 'provisional-ready'} else
                       'review' if status.get('submission_sha256') else
                       'compose' if status.get('status') == 'requirements-fixed' else
@@ -615,7 +616,7 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
     # These are navigation references within the existing closure, not adoption
     # changes or evidence of reading.
     direct_refs = []
-    for rid, sid in (('prose', 'all'),):
+    for rid, sid in (('core', 'all'), ('prose', 'all')):
         adopted = scope['resource_sections'].get(rid, {})
         locator = routes['sections'][rid][sid]
         if resource_key(rid) in scope['assets'] and (adopted.get('whole_resource') or
@@ -740,7 +741,9 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
         selected = scope['resource_sections']
         restored = set()
         restore_refs = list(refs)
-        for rid, selection in selected.items():
+        # Explicit stages restore their complete required bodies. Legacy/default
+        # callers retain the full adopted restoration contract.
+        for rid, selection in (selected.items() if not explicit_stage or stage == 'entry' else ()):
             key = resource_key(rid)
             resource = routes['resources'][rid]
             instruction_dictionary = (rid == 'prose-check-rules'

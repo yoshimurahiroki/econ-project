@@ -13,7 +13,7 @@ Input: Requested data operation, canonical specification, input documentation an
 
 ## Select the operation
 
-Start with the [operation index](../../docs/ai/compiled_ai_skills.md). Select `execute` or `equity`, then use this table to select only the applicable workflow sections and registered method conditions. Read each selected body and its required premises through the end. The table locates the instructions; execution uses their complete text. Reuse complete same-version reads and saved results with matching consumed inputs.
+Select `execute` or `equity` directly under CORE; use the [operation index](../../docs/ai/compiled_ai_skills.md) only when selection is unresolved. Use this table to select only the applicable workflow sections and registered method conditions. Read each selected body and its required premises through the end. The table locates the instructions; execution uses their complete text. Reuse complete same-version reads and saved results with matching consumed inputs.
 
 Use the selected units' knowledge plan to retrieve their shared model contracts. Match the contract's inputs, outputs and equation bodies to the adopted calculation. Resolve a registered execution binding through this skill's engine and dependencies. For a mathematical contract whose `implementation` list is empty, derive or evaluate the stated equations through the existing implementation selector; a closed-form example uses the existing libraries or standard library. Retain the actual specification, producing calculation, returned quantities and requested verification in the result.
 

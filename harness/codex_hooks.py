@@ -106,7 +106,7 @@ def load_context(path, request):
     version = context.get('schema_version') if isinstance(context, dict) else None
     if version == 2:
         fields.add('task_id')
-        fields.update(key for key in ('formal_selected', 'state_binding', 'operation_binding', 'unbound_operations', 'completion_contract') if key in context)
+        fields.update(key for key in ('formal_selected', 'state_binding', 'operation_binding', 'unbound_operations', 'completion_contract', 'reading_stage') if key in context)
     gate.require(isinstance(context, dict) and set(context) == fields
                  and type(version) is int and version in (1, 2),
                  'invalid host hook context')
@@ -219,7 +219,7 @@ def _resolve_operation_binding(root, operation, conditions, profile):
 
 
 def bind_operation(context_path, state_root, operation, conditions=(), profile=None, *,
-                   required_outputs=(), required_actions=(), operation_kind=None, authority='', user_change=None, external_targets=()):
+                   required_outputs=(), required_actions=(), operation_kind=None, authority='', user_change=None, external_targets=(), stage=None):
     """Adopt the explicitly selected operation and its exact source-bound closure."""
     path = absolute(str(context_path))
     with turn_lock(path.parent):
@@ -234,14 +234,26 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
         gate.require(_lifecycle(path.parent) == 'active', 'operation binding requires an active task')
         _effective_request(path.parent)
         root = absolute(context['plugin_root'])
+        previous = context.get('operation_binding') or {}
+        if stage is not None and operation == previous.get('operation'):
+            conditions = conditions or previous['conditions']
+            profile = previous['profile'] if profile is None else profile
         _, selected, contract = _resolve_operation_binding(root, operation, conditions, profile)
+        if stage is not None:
+            routes = sibling(root / 'scripts/route_registry.py').load_routes(root)
+            gate.require(stage in routes.get('reading_stages', {}), 'unknown reading stage')
         binding = {'operation': selected['selection']['operation'],
                    'conditions': selected['selection']['conditions'], 'profile': profile,
                    'policy_id': selected['policy_id'], 'selection_sha256': gate.sha(gate.canonical(selected)),
                    'assets': selected['assets'], 'active_rules': selected['active_rules'],
                    'resource_sections': selected['resource_sections'], 'contract': contract}
         updated = {**context, 'operation_binding': binding}
-        if required_outputs or required_actions or external_targets or context.get('completion_contract') is not None:
+        if stage is not None:
+            updated['reading_stage'] = stage
+        elif binding != context.get('operation_binding'):
+            updated.pop('reading_stage', None)
+        if (required_outputs or required_actions or external_targets
+                or context.get('completion_contract') is not None and context.get('state_binding') is None):
             gate.require(context.get('state_binding') is None,
                          'the bound state owner already owns the completion contract')
             module = sibling(root / 'harness/state.py')
@@ -491,7 +503,7 @@ def _policy_snapshot(root, directory=None, context=None, conditions=()):
     return result
 
 
-def _restoration(root, directory, state, manifest=None, conditions=()):
+def _restoration(root, directory, state, manifest=None, conditions=(), *, restore=True):
     """Restore fixed inputs, never a generated substitute for the host prompt."""
     context = _read(directory / 'context.json', {})
     original = _read(directory / 'original-prompt.json')
@@ -506,12 +518,18 @@ def _restoration(root, directory, state, manifest=None, conditions=()):
     gate.require(Path(policy.__file__).absolute() == (root / 'harness/policy_assets.py').absolute(),
                  'hook policy module does not belong to this runtime')
     gate.require(manifest is None or manifest['policy_id'] == current['policy_id'], 'adopted policy version changed')
+    retained = _read(directory / 'reinjection.json', {})
+    binding_sha = gate.sha(gate.canonical(context.get('operation_binding')))
+    restore = (restore or retained.get('instruction_policy_sha256') != gate.sha(policy_raw)
+               or retained.get('instruction_binding_sha256') != binding_sha
+               or retained.get('instruction_stage') != context.get('reading_stage'))
     source_versions = {str(owner / row['path']): row['sha256']
                        for row in current['assets'].values()}
     packet = policy.instruction_context(owner, manifest=current,
         status={**state, 'request_sha256': gate.sha(request.encode('utf-8')), 'unmet_ids': _ids(state)},
-        request_text=request, restore=True, role='author', reader_id=state.get('author_id'))
-    gate.require(packet.get('restoration', {}).get('included') is True,
+        request_text=request, restore=restore, stage=context.get('reading_stage'),
+        role='author', reader_id=state.get('author_id'))
+    gate.require(packet.get('restoration', {}).get('included') is restore,
                  'canonical original-request/rule restoration is unavailable')
     # The canonical text contains the original and amendment bodies once.
     # Keep only turn/contract metadata here rather than duplicating those bodies.
@@ -519,6 +537,11 @@ def _restoration(root, directory, state, manifest=None, conditions=()):
                 for row in _read(directory / 'task-messages.json', [])]
     text = (packet['text'] + '\nAssociated turn and contract changes: ' + json.dumps(messages, ensure_ascii=False)
             + '\nPartial-stop targets and continuing tasks: ' + json.dumps(_read(directory / 'task-holds.json', []), ensure_ascii=False))
+    if not restore:
+        text += ('\nReuse the unchanged required bodies already read in this active context. '
+                 'The exact original request and amendments remain at ' + str(directory / 'original-prompt.json') +
+                 ' and ' + str(directory / 'task-messages.json') + '; effective_request_sha256=' +
+                 gate.sha(request.encode('utf-8')) + '.')
     if selected is not None:
         text += '\nExplicitly bound operation contract: ' + json.dumps(context['operation_binding']['contract'], ensure_ascii=False)
     if context.get('completion_contract') is not None:
@@ -545,7 +568,8 @@ def _restoration(root, directory, state, manifest=None, conditions=()):
                     state_root, data['tasks'], owner_task['task_id'], output_id) else 'stale')
                 if output['kind'] in {'object', 'message'}:
                     value_hash = module.content_hash(output['value'])
-                    values.setdefault(value_hash, output['value'])
+                    if restore:
+                        values.setdefault(value_hash, output['value'])
                     saved_outputs[output_id]['value_sha256'] = value_hash
             saved_tasks.append({'task_id': owner_task['task_id'], 'next': owner_task.get('next'),
                                 'outputs': saved_outputs})
@@ -560,7 +584,10 @@ def _restoration(root, directory, state, manifest=None, conditions=()):
             for name, source in project['sources'].items():
                 raw = source['text'].encode('utf-8')
                 gate.require(gate.sha(raw) == source['sha256'], 'bound project source changed: ' + source['path'])
-                if source['sha256'] not in included:
+                source_path = str(state_root / source['path'])
+                source_versions[source_path] = source['sha256']
+                changed = retained.get('instruction_sources', {}).get(source_path) != source['sha256']
+                if (restore or changed) and source['sha256'] not in included:
                     text += '\n\n[Bound project ' + name + ' source: ' + source['path'] + ']\n' + source['text']
                     included.add(source['sha256'])
         contexts = {module.content_hash(row['task_context']) for row in constraints['inherited']
@@ -580,13 +607,15 @@ def _restoration(root, directory, state, manifest=None, conditions=()):
                     name = module.relative(state_root, ref['path'])
                     raw = gate.regular_bytes(state_root / name)
                     gate.require(gate.sha(raw) == ref['content_sha256'], 'bound governing source changed: ' + name)
-                    source_versions[str(state_root / name)] = ref['content_sha256']
-                    if ref['content_sha256'] not in included:
+                    source_path = str(state_root / name)
+                    source_versions[source_path] = ref['content_sha256']
+                    changed = retained.get('instruction_sources', {}).get(source_path) != ref['content_sha256']
+                    if (restore or changed) and ref['content_sha256'] not in included:
                         text += '\n\n[Bound governing source: ' + name + ']\n' + raw.decode('utf-8')
                         included.add(ref['content_sha256'])
     reinjection = _read(directory / 'reinjection.json', {})
     reinjection.update(instruction_policy_sha256=gate.sha(policy_raw), instruction_sources=source_versions,
-                       instruction_binding_sha256=gate.sha(gate.canonical(context.get('operation_binding'))))
+                       instruction_binding_sha256=binding_sha, instruction_stage=context.get('reading_stage'))
     save_record(directory / 'reinjection.json', reinjection)
     return text
 
@@ -1484,7 +1513,7 @@ def _instruction_closure(root, observations, retained=()):
     return sorted(sources.values(), key=lambda row: (len(Path(row['directory']).relative_to(root).parts), row['directory']))
 
 
-def _scoped_instructions(event, directory, context, *, restore=False, available=None,
+def _scoped_instructions(event, directory, context, *, restore=False, refresh=False, available=None,
                          changed_paths=(), write_targets=(), read_paths=None):
     """Retain and restore the applicable AGENTS closure for observed read paths."""
     root = Path(context['cwd']).resolve(strict=True)
@@ -1519,7 +1548,7 @@ def _scoped_instructions(event, directory, context, *, restore=False, available=
         for scope in changed_scopes for field in ('path', 'resolved_path')))
     if not observations and not additions:
         return ''
-    if restore:
+    if restore or refresh:
         instructions = _instruction_closure(root, observations)
     else:
         instructions_by_path = {row['path']: row for row in previous['instructions'] if row not in changed_sources}
@@ -1532,7 +1561,6 @@ def _scoped_instructions(event, directory, context, *, restore=False, available=
             len(Path(row['directory']).relative_to(root).parts), row['directory']))
     current = {(row['path'], row['sha256']) for row in instructions}
     old = {(row['path'], row['sha256']) for row in previous['instructions']}
-    restore = restore or previous.get('turn_id') != event.get('turn_id')
     changed = restore or current != old
     header = ('Applicable AGENTS.md instructions are ordered from ancestor to descendant; platform and user authority '
               'continue to govern. Within that authority, more specific instructions apply to their subtree. '
@@ -1981,11 +2009,11 @@ def dispatch(event, expected_event):
                     text += '\nRetained the original request and verbatim additions. Reconcile the governing requirements and current state with the changed request.'
                 if kind == 'partial-stop':
                     text += '\nRecorded a hold for the specified target. Resolve the target IDs, do not execute held operations, and continue the explicitly identified parent task.'
-                text += '\n' + _restoration(root, directory, state, manifest)
+                text += '\n' + _restoration(root, directory, state, manifest, restore=False)
                 if event['turn_id'] != old['turn_id']:
                     policy = sibling(root / 'harness/policy_assets.py')
                     available = _scoped_available(root, expected_event, text, policy)
-                    scoped = _scoped_instructions(event, directory, old, restore=True, available=available)
+                    scoped = _scoped_instructions(event, directory, old, refresh=True, available=available)
                     if scoped:
                         text = scoped + '\n' + text
                 return feedback(expected_event, text)
@@ -2121,6 +2149,7 @@ def dispatch(event, expected_event):
                 retained = _read(directory / 'reinjection.json', {})
                 if (operation == 'state-control' and not _tool_failed(event)
                         and (retained.get('instruction_binding_sha256') != gate.sha(gate.canonical(current_context.get('operation_binding')))
+                             or retained.get('instruction_stage') != current_context.get('reading_stage')
                              or retained.get('instruction_policy_sha256') is None)):
                     text = _restoration(root, directory, state, manifest)
                 elif retained.get('instruction_policy_sha256', True) is None:
@@ -2220,6 +2249,7 @@ def inspect_saved_state(argv=None):
     operation.add_argument('--operation', required=True)
     operation.add_argument('--condition', action='append', default=[])
     operation.add_argument('--profile')
+    operation.add_argument('--stage', help='Registered reading stage within the adopted operation closure')
     operation.add_argument('--required-output', action='append', default=[])
     operation.add_argument('--required-action', action='append', default=[])
     operation.add_argument('--operation-kind', choices=('answer', 'create', 'modify', 'external'))
@@ -2238,7 +2268,7 @@ def inspect_saved_state(argv=None):
                                         conditions=args.condition, profile=args.profile, required_outputs=args.required_output,
                                         required_actions=args.required_action, operation_kind=args.operation_kind,
                                         authority=args.authority, user_change=args.user_change,
-                                        external_targets=args.external_target), ensure_ascii=False, indent=2))
+                                        external_targets=args.external_target, stage=args.stage), ensure_ascii=False, indent=2))
         return 0
     if args.command == 'bind-child-assignment':
         print(json.dumps(bind_child_assignment(args.hook_context, root, args.agent_id,

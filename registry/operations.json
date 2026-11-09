@@ -2658,6 +2658,18 @@
       "required_rules": [
         "data-implementation.operations-and-domain-implementations"
       ]
+    },
+    "research_problem_deepening": {
+      "when": "research_problem_deepening",
+      "required_rules": [
+        "research.deepen-a-consequential-research-problem"
+      ]
+    },
+    "consequential_result_interpretation": {
+      "when": "consequential_result_interpretation",
+      "required_rules": [
+        "research.interpret-a-consequential-result"
+      ]
     }
   },
   "aliases": {

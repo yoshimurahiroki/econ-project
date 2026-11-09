@@ -60,6 +60,8 @@ Use `read ID... --task TASK --root PROJECT --restore` to restore selected bodies
 
 ## Versioned reuse and continuation
 
+Retrieve for the pending question, method or result interpretation, using known IDs directly. Carry its complete selected bodies, model contracts and true prerequisites to that decision. A stage transition alone requires no new search: reuse matching bodies still in context, refresh changed dependencies, and restore originals after actual context loss.
+
 `read ID... --task TASK --root PROJECT` uses the [existing task state](../../../harness/state.md) and its packaged state helper. Activate `requested_local_state_helper_operation` for task-bound acquisition, searches, plans or reads; the state helper and its rules then enter the reading set. Operations without `--task` do not use that helper. Caching requires a running task and saves local bodies as existing object outputs named `knowledge:ID`, with body, catalog, manifest and retrieval-specification versions. A matching saved body is checked and omitted from the repeated result; the return identifies its saved output. A changed version supplies the current body. Reuse a body already available at that version. `--restore` and `--as-sources` read saved bodies without changing the task and also work after task completion.
 
 Restore the original request, adopted choices and every applicable mandatory rule through the existing governing context before continuing. Preserve valid calculations and results. A missing file, stale generation, invalid prerequisite or cyclic dependency requires repair through its canonical owner before the affected use.

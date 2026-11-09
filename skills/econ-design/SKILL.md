@@ -17,7 +17,7 @@ For a design-only request, complete the requested economic object and the assump
 
 ## Select the operation
 
-Start with the [operation index](../../docs/ai/compiled_ai_skills.md), select `design`, and identify the requested economic object from the supplied question and adopted specification. Use this table to choose the applicable workflow and method sections. Read each selected body and its required premises completely before deriving or adopting the result. An index locates the source; the source establishes its conditions and reasoning. Reuse complete same-version reads and matching adopted results.
+Select `design` directly under CORE; use the [operation index](../../docs/ai/compiled_ai_skills.md) only for an unresolved selection. Identify the requested economic object from the supplied question and adopted specification. Use this table to choose the applicable workflow and method sections. Read each selected body and its required premises completely before deriving or adopting the result. An index locates the source; the source establishes its conditions and reasoning. Reuse complete same-version reads and matching adopted results.
 
 | Requested object or decision | Complete workflow | Activation |
 | --- | --- | --- |

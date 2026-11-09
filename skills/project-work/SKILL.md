@@ -7,7 +7,7 @@ description: Clarify task requirements and work approaches; create or improve re
 
 ## Purpose and entry
 
-Use [CORE](../../runtime/CORE.md), [PROSE](../../runtime/PROSE.md) and [TEAM](../../runtime/TEAM.md). Read the complete selected operation contract and activated rule bodies from the [operation index](../../docs/ai/compiled_ai_skills.md). The lead owns the central question, economic model, action selection, integration and completed result.
+Use [CORE](../../runtime/CORE.md), [PROSE](../../runtime/PROSE.md) and [TEAM](../../runtime/TEAM.md). Read the complete selected operation contract and activated rule bodies through CORE; consult the [operation index](../../docs/ai/compiled_ai_skills.md) only for an unresolved selection. The lead owns the central question, economic model, action selection, integration and completed result.
 
 Select `clarify` for requested requirements definition, scoping or work-approach consultation, and `prompt` for requested execution-prompt creation or improvement. Select by the requested result: an ordinary implementation, analysis or writing request continues through its specialist, including any necessary clarification there. Mentioning prompts, requirements or a prompt file does not change that requested result.
 

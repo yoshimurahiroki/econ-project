@@ -268,19 +268,21 @@ def select_reading_sections(routes, manifest, stage, role=None, reader_id=None, 
             selected.setdefault(rid, []).extend(ids)
     # Entry exposes the complete adopted instruction closure before dependent
     # work. Later stages navigate that same closure and reuse covered ranges.
-    if stage in ('entry', 'compose'):
-        managed = set().union(*(set(value) for value in stages.values()))
+    if stage in ('entry', 'contract', 'compose', 'review'):
+        managed = {'core', 'prose', 'research'}
         for rid, scope in adopted.items():
             if (stage == 'entry' or rid not in managed) and routes['resources'][rid]['source_path'].endswith('.md'):
                 selected[rid] = (['all'] if scope.get('whole_resource') else
                     [sid for sid, loc in routes['sections'][rid].items()
                      if loc.get('heading') in scope.get('sections', [])])
-        for rid in ('research', 'prose'):
-            if rid in adopted:
-                scope = adopted[rid]
-                selected[rid] = (['all'] if scope.get('whole_resource') else
-                    [sid for sid, loc in routes['sections'][rid].items()
-                     if loc.get('heading') in scope.get('sections', [])])
+    # Common rules and selected delegation/recovery obligations remain complete
+    # at every stage. Other cases stay inside their adopted stage selection.
+    for rid in ('core', 'prose', 'team'):
+        if rid in adopted:
+            scope = adopted[rid]
+            selected[rid] = (['all'] if scope.get('whole_resource') else
+                [sid for sid, loc in routes['sections'][rid].items()
+                 if loc.get('heading') in scope.get('sections', [])])
     for item in unresolved:
         if isinstance(item, dict):
             for rule_id in item.get('rule_ids', []):
@@ -929,7 +931,7 @@ def load_registry(root, layout='source'):
         if any(type(op[key]) is not bool for key in ('uses_profile', 'explicit_profile_allowed') if key in op):
             raise ValueError('Invalid operation profile flag: ' + op['id'])
         seen.add(op['id'])
-        _, selection = required_closure(routes, op['required_rules'], origin=op['id'])
+        active_rules, selection = required_closure(routes, op['required_rules'], origin=op['id'])
         condition_ids = []
         for edge in op['conditional_rules']:
             cid = edge['when']
@@ -938,6 +940,15 @@ def load_registry(root, layout='source'):
             if cid not in routes['conditions']:
                 raise ValueError('Unknown operation condition: ' + cid)
             condition_ids.append(cid)
+        # Conditions owned by mandatory rules must be discoverable from the
+        # operation index too, without duplicating their declarations per Skill.
+        for rule_id in active_rules:
+            for edge in routes['rules'][rule_id].get('conditional_requires', []):
+                cid = edge['when']
+                if cid not in routes['conditions']:
+                    raise ValueError('Unknown required-rule condition: ' + cid)
+                if cid not in condition_ids:
+                    condition_ids.append(cid)
         routes['operations'].append({**op, 'skill_id': op['owner_skill'], 'operation': op['mode'],
             'description': op['trigger'], 'uses_writing_profile': op.get('uses_profile', False),
             'required_resources': list(selection), 'resource_sections': selection,
