@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.89.0",
+  "policy_id": "economics-native-0.89.1",
   "profile": {
     "id": "research-full"
   },
@@ -11,7 +11,7 @@
     },
     "codex_hooks": {
       "path": "harness/codex_hooks.py",
-      "sha256": "ad38b5bac5ccb320dfc4deb67bb53426c6861510f7adc52ea1b83b84657fcf2d"
+      "sha256": "002c5eda14601f53f2cab494d6f5dca63f6c74a605199ef8ecfb0e6824e4383e"
     },
     "core": {
       "path": "runtime/CORE.md",
@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "220dd32b08cbc689ad2c595e756f9dc324e4221d4e2498acac2c571f268bf952"
+      "sha256": "25aa301c9b66658c40de4aeedf080a88c6ea1fd2762c053f9b2e778274e2a3e1"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -715,7 +715,7 @@
     },
     "resource:state-contract": {
       "path": "harness/state.md",
-      "sha256": "19977634b389d33ff949b5c61d74475c7f75e3558e9cdbfc3d32547ad13d6dc9"
+      "sha256": "f72ef4063aeacde1316e5648e6598c3991c5a3703a661406d8afccc2d4b7c869"
     },
     "resource:tool-pack-context-sh": {
       "path": "scripts/pack_context.sh",
@@ -763,7 +763,7 @@
     },
     "state": {
       "path": "harness/state.py",
-      "sha256": "3dcea9ae9be335750f69ac77827e0e960208c08a09f7f82fe31eaa91e60be74d"
+      "sha256": "05fee5bd9d5d3609829f87611cd083927ced63f31dd8c59ff3acdf45e44a200d"
     },
     "team": {
       "path": "runtime/TEAM.md",

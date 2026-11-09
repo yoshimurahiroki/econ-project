@@ -255,20 +255,23 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
             updated['reading_stage'] = stage
         elif binding != context.get('operation_binding'):
             updated.pop('reading_stage', None)
-        if (required_outputs or required_actions or external_targets
-                or context.get('completion_contract') is not None and context.get('state_binding') is None):
-            gate.require(context.get('state_binding') is None,
-                         'the bound state owner already owns the completion contract')
+        if context.get('state_binding') is None:
             module = sibling(root / 'harness/state.py')
             retained = context.get('completion_contract', {})
-            outputs, actions = module.contract(state_root,
-                list(required_outputs) if required_outputs else [json.dumps(row) for row in retained.get('required_outputs', [])],
-                list(required_actions) if required_actions else [json.dumps(row) for row in retained.get('required_actions', [])])
+            output_args = list(required_outputs) if required_outputs else [json.dumps(row) for row in retained.get('required_outputs', [])]
+            action_args = list(required_actions) if required_actions else [json.dumps(row) for row in retained.get('required_actions', [])]
+            if not output_args:
+                output_args = [json.dumps({'role': 'response', 'kind': 'message', 'target': 'response'})]
+            outputs, actions = module.contract(state_root, output_args, action_args)
             operation_kind = operation_kind or retained.get('operation_kind')
             authority = authority or retained.get('authority', '')
             if not any(row['kind'] == 'message' for row in outputs):
                 outputs.append({'role': 'response', 'kind': 'message', 'target': 'response'})
             gate.require(operation_kind in {'answer', 'create', 'modify', 'external'}, 'declare the operation kind')
+            gate.require(operation_kind != 'answer' or not actions and all(row['kind'] == 'message' for row in outputs),
+                         'answer-only contracts cannot authorize modifications, artifacts or external actions')
+            gate.require(operation_kind == 'answer' or actions,
+                         'verifiable deliverables require their complete producing actions and exact targets')
             gate.require(not actions or isinstance(authority, str) and authority.strip(),
                          'requested actions need their actual task authority')
             gate.require(not any(row['kind'] == 'file' for row in outputs) or actions,
@@ -287,6 +290,12 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
             record.update(operation_kind=operation_kind, authority=authority,
                           request_sha256=gate.sha(_effective_request(path.parent)))
             updated['completion_contract'] = record
+        else:
+            gate.require(not (required_outputs or required_actions or external_targets or operation_kind or authority or user_change),
+                         'the bound state owner already owns the completion contract')
+            bound = _bound_state(path.parent, root)
+            gate.require(bound is not None and bound[2].get('completion_contract') == 1,
+                         'bound state needs the original complete output/action contract')
         if context != updated:
             save_record(path, updated)
         return binding
@@ -324,6 +333,8 @@ def bind_state(context_path, state_file, state_root, task_id):
     session = absolute(context['plugin_data']) / 'economics' / gate.sha(context['session_id'].encode())
     gate.require(path == session / 'tasks' / gate.sha(context['task_id'].encode()) / 'context.json',
                  'state binding is not the active host task context')
+    gate.require(_read(session / 'active-task.json') == {'task_id': context['task_id']}
+                 and _lifecycle(directory) == 'active', 'state binding requires the active original task')
     root = absolute(str(state_root))
     gate.require(root == absolute(context['cwd']), 'state root differs from the original task root')
     store = absolute(str(state_file))
@@ -331,6 +342,7 @@ def bind_state(context_path, state_file, state_root, task_id):
     state_module = sibling(Path(context['plugin_root']) / 'harness/state.py')
     data = _read_state_store(store)
     task = data['tasks'][task_id]
+    gate.require(task.get('completion_contract') == 1, 'state binding requires the complete original output/action contract')
     task_context = task.get('task_context') or {}
     request_sha = gate.sha(_effective_request(directory))
     refs = task_context.get('request_refs', [])
@@ -533,6 +545,9 @@ def _restoration(root, directory, state, manifest=None, conditions=(), *, restor
                        for row in current['assets'].values()}
     request_sha = gate.sha(request.encode('utf-8'))
     restore_request = context_lost or retained.get('instruction_request_sha256') != request_sha
+    if not context.get('state_binding') and not context.get('completion_contract'):
+        state = {**state, 'needed_actions': [*state.get('needed_actions', []),
+                 {'requirement_id': 'task-completion-contract', 'action': 'bind the original complete deliverables and authority before changes or completion'}]}
     packet = policy.instruction_context(owner, manifest=current,
         status={**state, 'lifecycle': _lifecycle(directory), 'request_sha256': request_sha, 'unmet_ids': _ids(state)},
         request_text=request if restore_request else None, restore=restore, stage=context.get('reading_stage'),
@@ -1258,6 +1273,14 @@ def _completion_callback(directory, root, event):
     binding = gate.parse_json(raw)
     if 'callback' not in binding:
         return
+    if binding.get('authorization', {}).get('task_control'):
+        contract = context['completion_contract']
+        requested_files = {row['target'] for row in contract['required_outputs'] if row['kind'] == 'file'}
+        effects = {Path(target).relative_to(context['cwd']).as_posix() for _, target in binding.get('resolved_effects', [])}
+        requested_action = any(row['operation'] == binding['operation'] and row['target_id'] in binding['targets']
+                               for row in contract['required_actions'])
+        if not requested_action and not requested_files.intersection(effects):
+            return  # Incidental bookkeeping cannot replace the original deliverables.
     reference = {'callback_path': relative, 'sha256': gate.sha(raw)}
     observed = context.get('unbound_operations', [])
     if reference not in observed:
@@ -1274,6 +1297,11 @@ def _completion_observations(directory, context):
         raw = gate.regular_bytes(path)
         gate.require(gate.sha(raw) == row['sha256'], 'saved operation callback changed')
         binding = gate.parse_json(raw)
+        if binding.get('effect') != 'read':
+            call = binding.get('callback', {})
+            approval = _read(directory / 'preflight' / ('authorized-' + gate.sha(str(call.get('tool_use_id')).encode()) + '.json'))
+            gate.require(approval is not None and binding.get('authorization') == approval,
+                         'saved modifying result lacks its actual matching preflight authority')
         observed.append({**binding['callback'], 'preflight': binding,
                          'output_versions': binding.get('output_versions', {})})
     return observed
@@ -1321,6 +1349,15 @@ def _ordinary_action_result(directory, requirement, observed, state_root):
                              'continuation needs its current operation authority')
                 outcome = native._operation_return(follow['tool_response'], operation, target, 'command')
                 gate.require(outcome.get('session_id', session) == session, 'continuation session changed')
+        elif target.startswith('agent-call://'):
+            gate.require(target == 'agent-call://' + gate.sha(gate.canonical({'tool_name': tool, 'tool_input': args}))
+                         and operation == name and returned, 'delegation call differs from its fixed authorized input')
+            identity = _spawn_assignment(row) if name == 'spawn_agent' else args.get('target', args.get('agent_id'))
+            gate.require(isinstance(identity, str) and identity, 'delegation result lacks its actual agent identity')
+            if name in {'spawn_agent', 'followup_task'}:
+                child = _read(directory / 'children' / (gate.sha(identity.encode()) + '.json'), {})
+                gate.require(child.get('return_observation') and child.get('return_text'), 'delegated scope has not returned')
+            outcome = {'status': 'success', 'operation': operation, 'target': target, 'agent_id': identity}
         else:
             expected_operation, expected_target = native._connector_call_target(tool, args)
             gate.require((expected_operation, expected_target) == (operation, target), 'connector target changed')
@@ -1380,9 +1417,11 @@ def _verify_ordinary_stop(event, root, directory):
     gate.require(_read(directory / 'reinjection.json', {}).get('instruction_policy_sha256', True) is not None,
                  'a governing source changed; rebind its adopted instructions before completion')
     observed = _completion_observations(directory, _read(directory / 'context.json', {}))
-    bound = _bound_state(directory, root, check_sources=False)
+    bound = _bound_state(directory, root)
     if bound is None:
         gate.require(not _pending_task_holds(directory, None), 'unresolved task hold requires continuation')
+        gate.require(_completion_task(directory, root) is not None,
+                     'bind the original complete deliverables before completion; use an answer-only contract for a conversational response')
         _verify_completion_contract(directory, root, message, observed)
         return 'completed'
     module, data, task, state_root = bound
@@ -1487,6 +1526,36 @@ def _trusted_system_program(name):
         if info.st_uid != 0 or info.st_mode & 0o022:
             return False
     return True
+
+
+def _trusted_python(name):
+    found = shutil.which(name)
+    return bool(found and Path(found).resolve() == Path(sys.executable).resolve()
+                or name in {'python', 'python3'} and _trusted_system_program(name))
+
+
+def _simple_command(command):
+    """Recognize one literal invocation without interpreting quoted JSON as shell code."""
+    quote, escaped = None, False
+    for char in command:
+        if char == '\x00':
+            return False
+        if escaped:
+            escaped = False
+            continue
+        if quote == "'":
+            if char == "'":
+                quote = None
+            continue
+        if char == '\\':
+            escaped = True
+        elif char == '"':
+            quote = None if quote == '"' else '"'
+        elif char == "'" and quote is None:
+            quote = "'"
+        elif char in '$`' or quote is None and char in ';&|<>\n\r#':
+            return False
+    return quote is None and not escaped
 
 
 def _observed_read_paths(event, task_root):
@@ -1708,13 +1777,12 @@ def _tool_effect(event, root, directory, *, enforce_authority=True):
     command_action = None
     opaque_action = None
     input_bound = None
+    state_args = None
     if name == 'write_stdin':
         gate.require(isinstance(arguments.get('session_id'), (str, int)), 'missing interactive session identity')
         if arguments.get('chars') and enforce_authority:
-            input_bound = _bound_state(directory, root, check_sources=False) or _completion_task(directory, root, check_sources=False)
-            gate.require(not _pending_task_holds(directory, input_bound, check_sources=False),
-                         'interactive input has an unresolved task hold')
-        if arguments.get('chars') and enforce_authority and input_bound is not None:
+            input_bound = _bound_state(directory, root) or _completion_task(directory, root)
+            gate.require(input_bound is not None, 'interactive input requires the original task completion contract')
             record = _read(directory / 'sessions' / (gate.sha(str(arguments['session_id']).encode()) + '.json'))
             gate.require(record is not None and not record.get('closed'),
                          'interactive session is unknown or already terminal')
@@ -1728,15 +1796,18 @@ def _tool_effect(event, root, directory, *, enforce_authority=True):
                          and record['command'] in task['external_targets']
                          and any(row['operation'] == 'execute_command' and row['target_id'] == record['command']
                                  for row in task['required_actions'])
-                         and not _pending_task_holds(directory, input_bound, check_sources=False)
+                         and not _pending_task_holds(directory, input_bound)
                          and not module.effective_constraints(data['tasks'], task)['holds'],
                          'interactive input lacks exact current session/input authority or has an unresolved hold')
-        operation, targets, effect = ('write_stdin', [str(arguments['session_id'])], 'local-control') if arguments.get('chars') else (
+        if arguments.get('chars'):
+            record = _read(directory / 'sessions' / (gate.sha(str(arguments['session_id']).encode()) + '.json'), {})
+            command_action = record.get('command')
+        operation, targets, effect = ('write_stdin', [str(arguments['session_id'])], 'write') if arguments.get('chars') else (
                                      'poll', [str(arguments['session_id'])], 'read')
     else:
         targets = [arguments[key] for key in ('path', 'file_path', 'file', 'target', 'url', 'library_file_id', 'project_id')
                    if isinstance(arguments.get(key), str) and arguments[key]]
-        if tool in {'skills__list', 'skills__read'} or name in {
+        if tool in {'skills__list', 'skills__read'} or not tool.startswith('mcp__') and name in {
                     'read', 'read_file', 'read_text_file', 'read_multiple_files', 'list_directory',
                     'directory_tree', 'search_files', 'get_file_info', 'view_image'}:
             operation, effect = 'read', 'read'
@@ -1766,9 +1837,13 @@ def _tool_effect(event, root, directory, *, enforce_authority=True):
             gate.require(isinstance(command, str), 'missing execution command')
             if enforce_authority:
                 gate.require(not arguments.get('env'), 'execution environment override is unresolved')
+                shell = arguments.get('shell')
+                gate.require(shell is None or isinstance(shell, str) and Path(shell).name in {'bash', 'sh', 'zsh'}
+                             and _trusted_system_program(shell), 'execution shell override is unresolved')
+            command_cwd = _tool_target(arguments.get('workdir', cwd), cwd)
             parts = shlex.split(command)
             gate.require(parts, 'empty execution command')
-            if re.search(r'[;&|<>\n`]|\$|[\r\x00]', command):
+            if not _simple_command(command):
                 operation, effect, command_action = 'execute_command', 'write', command
             elif ((_trusted_read_program(parts[0])
                    and not any(part.startswith(('--pre', '--hostname-bin')) for part in parts))
@@ -1777,36 +1852,49 @@ def _tool_effect(event, root, directory, *, enforce_authority=True):
                       and all(not part.startswith('-') for part in parts[3:]))):
                 operation, effect = 'read', 'read'
                 targets = [part for part in parts[1:] if not part.startswith('-')]
-            elif (parts[0] in {'python', 'python3'} and len(parts) >= 3
-                  and _tool_target(parts[2] if parts[1] == '-B' and len(parts) > 3 else parts[1], cwd)
+            elif (_trusted_python(parts[0]) and len(parts) >= 3
+                  and _tool_target(parts[2] if parts[1] == '-B' and len(parts) > 3 else parts[1], command_cwd)
                   == str((root / 'harness/state.py').resolve())):
                 tail = parts[3:] if parts[1] == '-B' else parts[2:]
-                if enforce_authority:
-                    specified = [tail[i + 1] for i, value in enumerate(tail[:-1]) if value == '--root']
-                    specified += [value.split('=', 1)[1] for value in tail if value.startswith('--root=')]
-                    context = _read(directory / 'context.json', {})
-                    task_root = str(absolute(context.get('cwd')).resolve())
-                    selected_root = _tool_target(specified[0], cwd) if specified else str(Path(cwd).resolve())
-                    gate.require(len(specified) <= 1 and selected_root == task_root,
-                                 'state bookkeeping root differs from the original task root')
-                if 'project-update' in tail:
-                    operation, effect, command_action = 'execute_command', 'write', command
+                module = sibling(root / 'harness/state.py')
+                if '--help' in tail or '-h' in tail:
+                    operation, effect = 'read', 'read'
                 else:
-                    operation, effect = 'state-control', 'local-control'
-            elif (parts[0] in {'python', 'python3'} and len(parts) >= 3
-                  and _tool_target(parts[2] if parts[1] == '-B' and len(parts) > 3 else parts[1], cwd)
+                    try:
+                        parsed = module.parse_cli_args(tail, default_root=Path(command_cwd))
+                    except SystemExit as exc:
+                        raise ValueError('state command arguments are unresolved') from exc
+                    effect, files, _ = module.cli_effect(parsed)
+                    state_args = parsed
+                    operation = 'read' if effect == 'read' else 'execute_command'
+                    if effect == 'write':
+                        task_root = absolute(_read(directory / 'context.json', {})['cwd'])
+                        gate.require(_tool_target(str(parsed.root), command_cwd) == str(task_root),
+                                     'state bookkeeping root differs from the original task root')
+                        command_action = command
+                        for name_ in files:
+                            target = task_root / module.relative(task_root, name_, exists=False)
+                            effects.append(('update' if target.exists() else 'create', str(target)))
+            elif (_trusted_python(parts[0]) and len(parts) >= 3
+                  and _tool_target(parts[2] if parts[1] == '-B' and len(parts) > 3 else parts[1], command_cwd)
                   == str((root / 'harness/codex_hooks.py').resolve())):
-                if enforce_authority:
-                    tail = parts[3:] if parts[1] == '-B' else parts[2:]
+                tail = parts[3:] if parts[1] == '-B' else parts[2:]
+                if '--help' in tail or '-h' in tail:
+                    operation, effect = 'read', 'read'
+                    parsed = None
+                else:
+                    try:
+                        parsed = parse_control_args(tail)
+                    except SystemExit as exc:
+                        raise ValueError('hook control arguments are unresolved') from exc
+                    operation, effect = ('read', 'read') if parsed.command == 'focus-research' else ('state-control', 'local-control')
+                if enforce_authority and effect == 'local-control':
                     context = _read(directory / 'context.json', {})
-                    roots = [tail[i+1] for i, value in enumerate(tail[:-1]) if value == '--root']
-                    contexts = [tail[i+1] for i, value in enumerate(tail[:-1]) if value == '--hook-context']
-                    gate.require(any(value in tail for value in ('bind-operation', 'bind-child-assignment'))
-                                 and len(roots) == 1 and len(contexts) == 1
-                                 and _tool_target(roots[0], cwd) == str(absolute(context['cwd']).resolve())
-                                 and _tool_target(contexts[0], cwd) == str((directory / 'context.json').resolve()),
+                    gate.require(parsed.command in {'bind-operation', 'bind-child-assignment'}
+                                 and not event.get('agent_id')
+                                 and _tool_target(str(parsed.root), command_cwd) == str(absolute(context['cwd']).resolve())
+                                 and _tool_target(str(parsed.hook_context), command_cwd) == str((directory / 'context.json').resolve()),
                                  'operation binding must target this task and its original root')
-                operation, effect = 'state-control', 'local-control'
             else:
                 operation, effect, command_action = 'execute_command', 'write', command
         elif tool.startswith('mcp__') and tool in native.CONNECTOR_WRITE_TOOLS:
@@ -1819,9 +1907,11 @@ def _tool_effect(event, root, directory, *, enforce_authority=True):
             targets = [target for _, target in effects]
         elif name in {'write', 'edit', 'multiedit', 'write_file', 'edit_file', 'create_file', 'delete_file', 'update_file'}:
             operation, effect = name.split('_', 1)[0], 'write'
-        elif (name in {'spawn_agent', 'followup_task', 'interrupt_agent', 'close_agent', 'list_agents', 'wait_agent', 'wait'} or
-              name == 'send_message' and tool in {'collaboration.send_message', 'functions.collaboration.send_message'}):
-            operation, effect = name, 'local-control'
+        elif name in {'list_agents', 'wait_agent', 'wait'} and not arguments.get('terminate'):
+            operation, effect = name, 'read'
+        elif name in {'spawn_agent', 'followup_task', 'interrupt_agent', 'close_agent', 'send_message'}:
+            opaque_action = 'agent-call://' + gate.sha(gate.canonical({'tool_name': tool, 'tool_input': arguments}))
+            operation, effect = name, 'write'
         else:
             operation, effect = name, 'unresolved'
     normalized = []
@@ -1830,22 +1920,124 @@ def _tool_effect(event, root, directory, *, enforce_authority=True):
     if opaque_action is not None:
         normalized = [opaque_action]
     resolved_effects = [(verb, _tool_target(target, cwd)) for verb, target in effects]
-    return tool, arguments, name, operation, effect, normalized, resolved_effects, command_action, opaque_action, input_bound
+    return tool, arguments, name, operation, effect, normalized, resolved_effects, command_action, opaque_action, input_bound, state_args
+
+
+def _authorize_call(event, directory, module, task, effects, *, task_control=False):
+    gate.require(isinstance(event.get('tool_use_id'), str) and event['tool_use_id'], 'modifying call needs its host tool identity')
+    approval = {'task_id': _read(directory / 'context.json')['task_id'],
+                'request_sha256': gate.sha(_effective_request(directory)),
+                'tool_name': event['tool_name'], 'tool_use_id': event['tool_use_id'],
+                'input_sha256': gate.sha(gate.canonical(event['tool_input'])),
+                'resolved_effects': effects,
+                'task_control': task_control,
+                'contract_sha256': module.content_hash(module.contract_snapshot(task))}
+    save_record(directory / 'preflight' / ('authorized-' + gate.sha(event['tool_use_id'].encode()) + '.json'), approval, replace=False)
+
+
+def _state_control_preflight(args, root, directory, event):
+    """Validate bounded reconciliation at its existing state owner, including holds."""
+    if args is None or args.command not in {'init', 'add', 'prepare-context', 'set-context', 'set-contract', 'release-hold', 'start', 'resume', 'requeue'}:
+        return None
+    context = _read(directory / 'context.json')
+    binding = context.get('state_binding')
+    gate.require(not event.get('agent_id'), 'only the parent reconciles the bound task state')
+    module = sibling(root / 'harness/state.py')
+    work = absolute(context['cwd'])
+    store = work / module.relative(work, args.store, exists=False)
+    gate.require(store.is_relative_to(work / '.agents/state'), 'state control target exceeds the existing metadata area')
+    if binding is None:
+        if args.command not in {'init', 'add', 'prepare-context'}:
+            return None
+        bound = _completion_task(directory, root)
+        gate.require(bound is not None and bound[2].get('authority') and bound[2]['operation_kind'] != 'answer'
+                     and not _pending_task_holds(directory, bound)
+                     and _read(directory / 'reinjection.json', {}).get('instruction_policy_sha256', True) is not None,
+                     'state bootstrap requires the original complete task contract and authority without unresolved holds')
+        task = bound[2]
+        if args.command == 'add':
+            gate.require(args.hook_context and _tool_target(args.hook_context, str(work)) == str(directory / 'context.json')
+                         and args.authority.strip() and args.task_context, 'state creation must bind this actual host task and authority')
+            outputs, actions = module.contract(work, args.required_output, args.required_action)
+            gate.require(outputs == task['required_outputs'] and actions == task['required_actions']
+                         and set(task['external_targets']) == set(args.external_target),
+                         'state creation must preserve every original output/action and external target')
+            scopes = [module.relative(work, value, exists=False) for value in args.scope]
+            gate.require(all(module.in_scope(value, task['write_scope'] + ['.agents/state']) for value in scopes),
+                         'state creation exceeds the original write scope')
+            value, _ = module.load_task_context(work, args.task_context)
+            request_sha = gate.sha(_effective_request(directory))
+            gate.require(any(row.get('content_sha256') == request_sha and row.get('path')
+                             and module.digest(work / module.relative(work, row['path'])) == request_sha
+                             for row in value['request_refs']), 'state creation lost the actual complete request')
+        elif args.command == 'prepare-context':
+            gate.require(_tool_target(args.hook_context, str(work)) == str(directory / 'context.json')
+                         and args.task_id is None and args.release_hold is None,
+                         'initial context preparation must target this actual host task')
+        return module, task
+    if args.command in {'init', 'add'}:
+        return None  # Additional records require their explicit normal command/file authority.
+    task_id = getattr(args, 'id', getattr(args, 'task_id', None))
+    gate.require(str(store) == binding['state_file'] and str(work) == binding['state_root']
+                 and task_id == binding['task_id'], 'state reconciliation must target the bound task and store')
+    if getattr(args, 'hook_context', None):
+        gate.require(_tool_target(str(args.hook_context), str(work)) == str(directory / 'context.json'),
+                     'state reconciliation hook context differs from this task')
+    data = _read_state_store(store)
+    task = data['tasks'][task_id]
+    gate.require(task.get('authority') and task.get('completion_contract') == 1 and module.contract_current(work, task)
+                 and not module.effective_constraints(data['tasks'], task)['scope_errors'],
+                 'state reconciliation lacks original authority, requirements or scope')
+    refs = (task.get('task_context') or {}).get('request_refs', [])
+    sources = [gate.regular_bytes(work / module.relative(work, row['path'])) for row in refs
+               if row.get('content_sha256') == binding['effective_request_sha256'] and row.get('path')]
+    gate.require(sources and any(gate.sha(raw) == binding['effective_request_sha256'] and _effective_request(directory).startswith(raw)
+                                for raw in sources), 'reconciliation lost the actual original request')
+    messages = [(row['turn_id'], row['text']) for row in _read(directory / 'task-messages.json', [])]
+    messages.append((context['turn_id'], _read(directory / 'original-prompt.json')['text']))
+    for reference in (getattr(args, 'user_change', None), getattr(args, 'user_release', None)):
+        if reference:
+            message = gate.parse_json(gate.regular_bytes(work / module.relative(work, reference)))
+            gate.require(message.get('source') == 'user' and (message.get('message_id'), message.get('text')) in messages,
+                         'state authority must match an actual saved user message')
+    proposed = gate.parse_json(gate.canonical(task))
+    if args.command == 'set-context':
+        value, _ = module.load_task_context(work, args.task_context)
+        module.context_change(work, proposed, value, args.user_change, args.decision_update)
+    elif args.command == 'set-contract':
+        outputs, actions = module.contract(work, args.required_output, args.required_action)
+        module.contract_change(work, proposed, outputs, actions, args.external_target, args.user_change, args.required_check)
+        gate.require(not module.effective_constraints({**data['tasks'], task_id: proposed}, proposed)['scope_errors'],
+                     'replacement contract exceeds ancestor authority')
+    elif args.command == 'release-hold':
+        gate.require(args.user_release, 'hold release needs its actual user instruction')
+        module.hold_release_evidence(work, task, args.hold_id, args.user_release)
+    elif args.command in {'start', 'resume', 'requeue'}:
+        bound = _bound_state(directory, root)
+        gate.require(not _pending_task_holds(directory, bound) and not module.effective_constraints(data['tasks'], task)['holds'],
+                     'restarting task state cannot bypass an unresolved hold')
+    return module, task
 
 
 def _pre_tool(event, root, directory, state):
     """Check only the authority and targets of a modifying operation."""
-    tool, arguments, name, operation, effect, normalized, resolved_effects, command_action, opaque_action, input_bound = (
+    tool, arguments, name, operation, effect, normalized, resolved_effects, command_action, opaque_action, input_bound, state_args = (
         _tool_effect(event, root, directory))
     if effect in {'read', 'local-control'}:
+        return {}
+    control = _state_control_preflight(state_args, root, directory, event)
+    if control is not None:
+        gate.require(_tool_target(arguments.get('workdir', event['cwd']), event['cwd']) == _read(directory / 'context.json')['cwd'],
+                     'state control working directory differs from the original task root')
+        _authorize_call(event, directory, *control, resolved_effects, task_control=True)
         return {}
     gate.require(_read(directory / 'reinjection.json', {}).get('instruction_policy_sha256', True) is not None,
                  'a governing source changed; rebind its adopted instructions before dependent changes')
     cwd = event['cwd']
     rows, prohibitions = [], []
-    bound = input_bound or _bound_state(directory, root, check_sources=False)
+    bound = input_bound or _bound_state(directory, root)
     if bound is None:
-        bound = _completion_task(directory, root, check_sources=False)
+        bound = _completion_task(directory, root)
     if bound is not None:
         state_module, data, task, state_root = bound
         ancestors = state_module.task_ancestors(data['tasks'], task) if task.get('parent') else []
@@ -1863,14 +2055,33 @@ def _pre_tool(event, root, directory, state):
     scoped = _scoped_instructions(event, directory, _read(directory / 'context.json'),
                                   write_targets=normalized if command_action is None and opaque_action is None else ())
     if bound is None:
-        gate.require(not holds, 'task hold requires reconciliation before this operation')
-        return feedback('PreToolUse', scoped) if scoped else {}
+        raise ValueError('bind the original task authority, complete outputs/actions and exact targets before a modifying or unresolved operation')
+    if event.get('agent_id'):
+        gate.require(_read(directory / 'context.json').get('state_binding') is not None,
+                     'child changes require their scoped task in the existing state owner')
+        children = [row for row in data['tasks'].values() if row.get('owner') == event['agent_id']
+                    and any(parent['task_id'] == task['task_id'] for parent in state_module.task_ancestors(data['tasks'], row))]
+        gate.require(len(children) == 1, 'resolve the exact host child identity to its existing bounded task')
+        task = children[0]
+        gate.require(task.get('authority') and task.get('completion_contract') == 1 and task['status'] == 'running'
+                     and not state_module.context_changes(state_root, task), 'child authority or completion contract needs reconciliation')
+        rows = [{'kind': 'action', 'operation': row['operation'], 'target':
+                 str(state_root / row['target_id']) if row['target_kind'] == 'file' else row['target_id'],
+                 'target_kind': row['target_kind']} for row in task['required_actions']]
+        if task.get('specification'):
+            specification, request = state_module._spec_inputs(state_root, task)
+            prohibitions.extend(row for row in state_module._native().requirements.validate_contract(specification, request)
+                                if row.get('evaluator', {}).get('type') == 'forbidden_operation')
+    if name in {'bash', 'exec_command', 'run_command'}:
+        gate.require(_tool_target(arguments.get('workdir', cwd), cwd) == str(state_root),
+                     'modifying command working directory differs from the authorized task root')
     for row in prohibitions:
         forbidden = row['target'] if opaque_action is not None else _tool_target(row['target'], cwd)
         gate.require(not (forbidden in normalized and (row['evaluator']['operation'] in
                          {operation, tool, name} or effect == 'write')),
                      'forbidden operation ' + row['id'] + ' on ' + row['target'])
     constraints = state_module.effective_constraints(data['tasks'], task)
+    gate.require(not constraints['scope_errors'], 'task scope exceeds its governing authority')
     if opaque_action is not None:
         gate.require(not holds, 'task hold requires reconciliation before an external operation')
         gate.require(opaque_action in task.get('external_targets', []) and
@@ -1897,10 +2108,10 @@ def _pre_tool(event, root, directory, state):
         gate.require(zip_hold and normalized and all(not target.casefold().endswith('.zip') for target in normalized),
                      'task hold covers this operation or still needs target resolution')
     gate.require(effect != 'unresolved' and normalized, 'modifying operation or target is unresolved')
-    required = [] if command_action is not None or opaque_action is not None else resolved_effects or [(operation, target) for target in normalized]
+    required = resolved_effects or ([] if command_action is not None or opaque_action is not None else [(operation, target) for target in normalized])
     for verb, target in required:
         allowed_operations = {verb} if resolved_effects else {verb, tool, name}
-        gate.require(any(row['kind'] == 'action' and row['operation'] in allowed_operations
+        gate.require(command_action is not None or any(row['kind'] == 'action' and row['operation'] in allowed_operations
                          and _tool_target(row['target'], cwd) == target for row in rows),
                      'modifying tool lacks current fixed operation/target authority')
         try:
@@ -1915,16 +2126,24 @@ def _pre_tool(event, root, directory, state):
             targets = hold['targets']
             matches_target = not targets or any(item == 'file:' + relative for item in targets)
             gate.require(not (matches_operation and matches_target), 'task state hold covers this operation')
+    _authorize_call(event, directory, state_module, task, resolved_effects)
     return feedback('PreToolUse', scoped) if scoped else {}
 
 
 def _post_tool(event, root, directory):
     """Keep the actual execution result needed by the existing completion contract."""
     context = _read(directory / 'context.json', {})
-    tool, arguments, name, operation, effect, targets, resolved_effects, command_action, opaque_action, _ = (
+    tool, arguments, name, operation, effect, targets, resolved_effects, command_action, opaque_action, _, _ = (
         _tool_effect(event, root, directory, enforce_authority=False))
     if effect not in {'write', 'unresolved'} and name != 'write_stdin':
         return operation, []
+    if effect != 'read':
+        approval = _read(directory / 'preflight' / ('authorized-' + gate.sha(str(event.get('tool_use_id')).encode()) + '.json'))
+        gate.require(isinstance(approval, dict) and approval['task_id'] == context.get('task_id')
+                     and approval['tool_name'] == tool and approval['tool_use_id'] == event.get('tool_use_id')
+                     and approval['input_sha256'] == gate.sha(gate.canonical(event['tool_input'])),
+                     'operation result has no matching authorized preflight for this task and input')
+        resolved_effects = approval['resolved_effects']
     if command_action is not None:
         targets = [command_action]
     affected = {target for _, target in resolved_effects} or set(targets)
@@ -1942,6 +2161,8 @@ def _post_tool(event, root, directory):
                'execution_owner_connected': False, 'callback_sha256': observed_sha,
                'callback': {field: event.get(field) for field in
                             ('tool_name', 'tool_use_id', 'tool_input', 'tool_response')}}
+    if effect != 'read':
+        binding['authorization'] = approval
     if context.get('completion_contract') and not context.get('state_binding'):
         binding['output_versions'] = {}
         binding['deleted_targets'] = []
@@ -1997,6 +2218,12 @@ def dispatch(event, expected_event):
                 session = data / 'economics' / gate.sha(event['session_id'].encode())
                 save_record(session / 'active-task.json', {'task_id': 'recovery-required:' + event['session_id']}, replace=False)
             return feedback(expected_event, _recovery_packet(root))
+        if expected_event == 'PreToolUse':
+            if _tool_effect(event, root, data, enforce_authority=False)[4] == 'read':
+                return {}
+            return failure(expected_event, 'restore the original task and bind its authority before changes')
+        if expected_event in {'Stop', 'SubagentStop'}:
+            return failure(expected_event, 'original task and completion requirements are unavailable')
         return {}
     if expected_event == 'PostCompact' and not (directory / 'context.json').exists():
         session = data / 'economics' / gate.sha(event['session_id'].encode())
@@ -2129,15 +2356,18 @@ def dispatch(event, expected_event):
             state['request_sha256'] = context['prompt_sha256']
             text = coordinator
             text += '\n' + _restoration(root, directory, state, instruction_event='task-start')
-            text += ('\nRead the selected operation and all applicable instruction bodies before dependent work. '
-                     'Use existing task state when persistent continuation is needed. '
-                     'To retain the selected operation in this host context, use codex_hooks.py --root ' + json.dumps(str(cwd)) +
+            text += ('\nRead the selected operation and applicable bodies. Before changes or completion, bind all original '
+                     'outputs/actions, exact targets and authority; an answer-only contract needs no durable task store. '
+                     'Use codex_hooks.py --root ' + json.dumps(str(cwd)) +
                      ' bind-operation --hook-context ' + json.dumps(str(context_path)) +
-                     ' --operation OPERATION with each applicable --condition and optional --profile.')
+                     ' --operation OPERATION --operation-kind KIND with the requested --required-output, --required-action '
+                     'and --authority, applicable --condition and optional --profile. Use state.py only for durable continuation.')
             return feedback(expected_event, text)
         if lifecycle in {'interrupted', 'cancelled'}:
             return failure(expected_event, 'turn ' + lifecycle + '; no automatic restart', failure_class='cancelled')
-        if lifecycle in TERMINAL and expected_event != 'Stop':
+        if lifecycle in TERMINAL and expected_event not in {'Stop', 'SubagentStop'}:
+            if expected_event == 'PreToolUse' and _tool_effect(event, root, directory, enforce_authority=False)[4] != 'read':
+                return failure(expected_event, 'the completed task grants no authority for further changes')
             return {}
         state, manifest = {'status': 'ordinary-active', 'needed_actions': []}, None
         context = _read(context_path, {})
@@ -2210,8 +2440,9 @@ def dispatch(event, expected_event):
                 pending = []
                 gate.require(isinstance(event.get('tool_name'), str) and event['tool_name']
                              and isinstance(event.get('tool_use_id'), str) and event['tool_use_id'], 'missing host tool identity')
-                _capture_child_launch(directory, event)
                 response = event.get('tool_response')
+                operation, changed_paths = _post_tool(event, root, directory)
+                _capture_child_launch(directory, event)
                 if isinstance(response, dict) and isinstance(response.get('session_id'), (str, int)):
                     name = str(event['tool_name']).rsplit('__', 1)[-1].split('.')[-1].lower()
                     if name == 'write_stdin':
@@ -2228,7 +2459,6 @@ def dispatch(event, expected_event):
                         else:
                             gate.require(existing_session['tool_use_id'] == event['tool_use_id'],
                                          'interactive session belongs to another initiating call')
-                operation, changed_paths = _post_tool(event, root, directory)
                 if str(event['tool_name']).rsplit('__', 1)[-1].split('.')[-1].lower() == 'write_stdin':
                     session_id = event.get('tool_input', {}).get('session_id')
                     session_path = directory / 'sessions' / (gate.sha(str(session_id).encode()) + '.json')
@@ -2342,8 +2572,7 @@ def main(expected_event):
     return 0
 
 
-def inspect_saved_state(argv=None):
-    """Read an existing research log or bind the current operation and instructions."""
+def parse_control_args(argv=None):
     parser = argparse.ArgumentParser(description='Bind task instructions or read an existing research execution log')
     parser.add_argument('--root', required=True, type=Path)
     parser.add_argument('--store', default='.agents/state/team.json')
@@ -2370,7 +2599,12 @@ def inspect_saved_state(argv=None):
     child.add_argument('--agent-id', required=True)
     child.add_argument('--source-id', required=True)
     child.add_argument('--source-sha256', required=True)
-    args = parser.parse_args(argv)
+    return parser.parse_args(argv)
+
+
+def inspect_saved_state(argv=None):
+    """Read an existing research log or bind the current operation and instructions."""
+    args = parse_control_args(argv)
     root = absolute(str(args.root))
     if args.command == 'bind-operation':
         print(json.dumps(bind_operation(args.hook_context, root, args.operation,

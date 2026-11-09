@@ -3312,9 +3312,9 @@ def _project_impact(root, tasks, task_id, nodes, resources=(), work_tasks=(), de
                                  and output_current(root, tasks, key, oid)]}
 
 
-def main(argv=None):
+def parse_cli_args(argv=None, *, default_root=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--root', type=Path, default=Path.cwd(), help='Project root; defaults to current working directory')
+    parser.add_argument('--root', type=Path, default=default_root or Path.cwd(), help='Project root; defaults to current working directory')
     parser.add_argument('--store', default='.agents/state/team.json')
     sub = parser.add_subparsers(dest='command', required=True)
     init = sub.add_parser('init')
@@ -3486,15 +3486,30 @@ def main(argv=None):
     find.add_argument('--offset', type=int, default=0)
     find.add_argument('--snapshot', help='Prior find store_sha256; rejects pagination across a changed store')
     sub.add_parser('summary')
-    args = parser.parse_args(argv)
+    return parser.parse_args(argv)
+
+
+def cli_effect(args):
+    """Classify the same parsed command used by execution, including saved views."""
+    readonly = {'show', 'context', 'find', 'summary', 'prepare-context', 'project-view',
+                'project-impact', 'project-history', 'project-diff', 'project-update'}
+    store_write = args.command not in readonly and not (args.command == 'inspect' and not args.invalidate)
+    files = [args.store] if store_write else []
+    if args.command == 'project-view' and args.save:
+        files.append(args.save)
+    effect = ('write' if files or args.command in {'prepare-context', 'project-update'} else 'read')
+    return effect, files, store_write
+
+
+def main(argv=None):
+    args = parse_cli_args(argv)
     root = args.root.resolve()
     relative(root, args.store, exists=False)
     if Path(args.store).parts[:2] != ('.agents', 'state'):
         raise ValueError('Operational store must stay in the local .agents/state directory')
     path = root / args.store
-    readonly = {'show', 'context', 'find', 'summary', 'prepare-context', 'project-view', 'project-impact', 'project-history', 'project-diff', 'project-update'}
-    mutate = args.command not in readonly and not (args.command == 'inspect' and not args.invalidate)
-    refresh_state = args.command not in readonly or args.command == 'show'
+    _, _, mutate = cli_effect(args)
+    refresh_state = mutate or args.command in {'inspect', 'show'}
     def execute():
         if args.command == 'init':
             if path.exists():
