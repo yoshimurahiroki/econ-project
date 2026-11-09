@@ -1150,6 +1150,13 @@ class Reader:
                         ('structural_model' not in binding or binding['structural_model'] == model) and
                         ('implementation' not in binding or binding['implementation'] == implementation)):
                     contracts.append(self.contract(item['id']))
+        if design == 'structural' and model is not None and not any(
+                contract.get('selection_binding', {}).get('design') == design and
+                contract.get('selection_binding', {}).get('structural_model') == model
+                for contract in contracts):
+            return {'stage': stage, 'method': method, 'model': model, 'status': 'source_required',
+                    'units': [], 'contracts': [],
+                    'next_action': 'Retrieve the matching contract for the explicitly selected structural model through econ-knowledge.'}
         if contracts and design == 'structural':
             # Exact model contracts own their definitions; do not prepend an
             # empirical-estimation primer to a finite game or accounting model.
