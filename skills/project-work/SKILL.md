@@ -7,50 +7,33 @@ description: Clarify task requirements and work approaches; create or improve re
 
 ## Purpose and entry
 
-Use [CORE](../../runtime/CORE.md), [PROSE](../../runtime/PROSE.md) and [TEAM](../../runtime/TEAM.md). Read the complete selected operation contract and activated rule bodies through CORE; consult the [operation index](../../docs/ai/compiled_ai_skills.md) only for an unresolved selection. The lead owns the central question, economic model, action selection, integration and completed result.
+Use `clarify` for requested requirements/work-approach consultation, `prompt` for an executable prompt, `contribute` for an assigned case contribution and `manage` for case/team/resource ownership. Ordinary analysis, implementation and writing stay with their specialists, including necessary clarification there.
 
-Select `clarify` for requested requirements definition, scoping or work-approach consultation, and `prompt` for requested execution-prompt creation or improvement. Select by the requested result: an ordinary implementation, analysis or writing request continues through its specialist, including any necessary clarification there. Mentioning prompts, requirements or a prompt file does not change that requested result.
-
-Input: the original request, supplied materials, existing specifications and decisions, authority and requested output; include the user's role, adopted model and saved results for an actual case. Recover their current versions before acting. Use the [case connection](references/practice.md#connect-the-current-case) for `contribute` or `manage` and select the applicable section below.
-
-This entry connects the five research specialists. Use econ-design for the model and identifying comparison, econ-literature for source and interview evidence, econ-data for calculations and implementation, econ-writing for the actual report or presentation, and econ-review for a requested assessment. Read each selected specialist's complete contract and activated dependencies when its work begins. Retain the same parent question and authority through those calls.
+Input is the original request, materials, current specifications, decisions, authority and requested output. For a real case, use [case connection](references/practice.md#connect-the-current-case). The lead retains the parent question and final adoption; design, literature, data, writing and review supply their specialist returns.
 
 ## Requirements and work approach
 
-Use `clarify` and read [task definition](references/practice.md#define-the-task). Resolve the consequential open decision from existing context, feasible alternatives and a grounded recommendation. Obtain only the user judgment that remains necessary. When the requirements are settled, return the usable brief or requested specification directly.
+Use [task definition](references/practice.md#define-the-task) to resolve the consequential open decision from existing context and feasible alternatives. Recommend a grounded choice, obtain only the remaining user-held judgment and return the usable brief or specification.
 
 ## Execution prompts
 
-Use `prompt` and read [task definition](references/practice.md#define-the-task) and [prompt composition](references/practice.md#write-the-execution-prompt). Produce or improve the complete executable prompt from the adopted requirements. Prompt drafting completes that requested artifact; executing its described work requires the user's corresponding instruction and the existing specialist route.
+Use task definition and [prompt composition](references/practice.md#write-the-execution-prompt) to produce the complete prompt from adopted requirements. Executing its described work requires the corresponding instruction.
 
 ## Contribute
 
-Select `contribute` when the user joins a case or owns an assigned contribution. Read [contribution](references/practice.md#complete-the-assigned-contribution). Recover the adopted answer, its determining premises, the user's assignment and the next decision that consumes the result. Explain how the assigned work resolves that premise. Reuse the current model, specification and valid results; execute the remaining research, calculation and artifact work through their existing owners.
-
-Use the existing summary/workplan and [contribution procedure](references/practice.md#complete-the-assigned-contribution) for the proposition, priority, input versions, next action and completion contract. Prepare consultation through the selected contact section, apply received corrections to affected calculations and artifacts, and return the completed contribution to its parent case.
+Use [contribution](references/practice.md#complete-the-assigned-contribution). Recover the adopted answer, determining premise, assignment and consuming decision. Complete its research, calculation and actual artifact through existing specialists, reusing valid results. Return its implication and completed output to the parent case.
 
 ## Manage
 
-Select `manage` when the user owns the case, its team or shared resources. Read [management](references/practice.md#manage-the-case). Establish the economic intervention and decision rule before selecting work. Connect the supporting propositions to executable assignments, real capacity, dependencies and completion conditions. Compare feasible allocations through their resulting outcomes and costs.
-
-Use the existing argument and state sources for the current answer and workplan. Read [resources and dates](references/practice.md#resources-and-dates) when comparing allocations, then [change and recovery](references/practice.md#change-and-recovery) when new evidence changes a determining premise. Execute the selected next task through its specialist. Complete the requested operating decisions, implementation support, acceptance evidence and usable handover through [outcomes and handover](references/practice.md#outcomes-and-handover).
+Use [management](references/practice.md#manage-the-case). Establish the economic intervention and decision rule, then connect supporting propositions to assignments, capacity, dependencies and completion conditions. Compare feasible allocations through their outcomes and costs; execute the selected next task. Preserve fixed commitments and authority through changes and handover.
 
 ## Select the pending operation
 
-Read the section that resolves the actual pending operation; its returned result continues the same case.
+For a GitHub-bound case or requested Issue/Project operation, activate `project_github_operations` to read the existing binding and explicit-update procedures. Local cases omit those bodies.
 
-| Pending work | Reference |
-|---|---|
-| Work or shared capacity must be scheduled | [Resources and dates](references/practice.md#resources-and-dates) |
-| A finding, constraint or authorized decision changes the plan | [Change and recovery](references/practice.md#change-and-recovery) |
-| A discussion or interview must resolve a premise | [Discussion and interviews](references/practice.md#discussion-and-interviews) |
-| A person must receive a question or proposed message | [Contact drafts](references/practice.md#contact-drafts) |
-| The requested artifact must be produced or revised | [Artifacts and integration](references/practice.md#artifacts-and-integration) |
-| Delivery, adoption, acceptance or handover must be assessed | [Outcomes and handover](references/practice.md#outcomes-and-handover) |
+Registry conditions select [project practice](references/practice.md): resources/dates for allocations, change/recovery for determining new evidence, discussion/interviews or contact drafts for a needed premise, artifacts/integration for the actual deliverable, and outcomes/handover for adoption and acceptance. Contact drafting grants no authority to send.
 
-Use econ-knowledge for the model needed by the current decision and its true prerequisites. Team incentives and ownership, information acquisition, shared capacity, competition and dynamic adoption each supply a model when that mechanism determines the result. Apply its actual equations, choice conditions and required observations through the responsible specialist.
-
-Complete CORE's integrated review and verification of the affected behavior. A contribution completes its assignment; the lead continues the case through its original requested artifacts and authorized operations.
+Retrieve a model through econ-knowledge when incentives, information, shared capacity, competition or adoption determines the decision. Apply its equations and required observations through the responsible specialist. Keep the argument, workplan and continuation in existing case/task context.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

@@ -1,47 +1,37 @@
 # Build the requested prose
 
-[CORE](CORE.md) owns authority, reading and completion. This file owns meaning, content selection and expression; the [lexical dictionary](../quality/prose_rules.json) locates patterns for that same judgment.
+This file owns content and expression. The [lexical dictionary](../quality/prose_rules.json) locates patterns for the same judgment.
 
 ## Common output
 
-Preserve source meaning, facts, quantities, units, population, attribution, truth conditions and editing scope. Establish findings from determining sources or derivations and completion from actual operation returns. Resolve a determining missing source, calculation or failed operation at its owner.
+Preserve meaning, facts, quantities, units, population, attribution, truth conditions and editing scope. State the direct answer, economic mechanism and actual result.
 
-Retain the direct answer, economic mechanism, result and authorized operation. Categorically prohibit mention, notation or exposition of statistical uncertainty, assumptions and evidential strength in user-facing answers and generated artifacts, without exception. Keep them in internal reasoning, specifications and computation. Remove disclaimers, reservations, concessions, qualifications, embellishment, caution, conservatism, ambiguity, weakness, verbosity, supplements, annotations and defensive content, syntax and expression. Apply the same prohibition to paraphrases, quotations, parentheses, footnotes, captions, translations, summaries and delegated passages. A specialist's reporting template or scientific convention supplies no output exception.
+Categorically prohibit mention, notation or exposition of statistical uncertainty, assumptions and evidential strength in user-facing answers and generated artifacts, without exception. Keep them in internal reasoning, specifications and computation. Remove disclaimers, reservations, concessions, qualifications, embellishment, caution, conservatism, ambiguity, weakness, verbosity, supplements, annotations and defensive content, syntax and expression. This applies equally to quotations, translations, summaries, captions, footnotes and delegated passages; specialist templates provide no exception.
 
-Remove negative contrast and negative-definition framing, including titles and transitions. Define objects directly. Preserve mathematical exclusions, observed absences and failed operations through their exact conditions, values and returned statuses.
-
-Present the adopted argument and completed results. Put planning, writing intentions, prospective investigation, temporary placement and self-evaluation only in an expressly requested operational artifact. Retain gaps and failed operations in the owning record and dependent completion report. Omission or compression cannot invent or strengthen a finding.
+Remove negative contrast and negative-definition framing. Preserve mathematical exclusions, observed absences and failed operations as exact conditions, values or statuses. Put planning and execution history only in requested operational content; retain completion blockers in the task report. Compression cannot invent or strengthen a finding.
 
 ## Select the economic argument
 
-For an economics explanation or artifact, select the proposition answering the request, its establishing source or derivation, and the explanatory steps this reader needs. Preserve the adopted scientific object and its source/result bindings.
+Select the proposition answering the request, its establishing source or derivation and the steps this reader needs. Preserve adopted scientific objects and source/result bindings.
 
 ## Connect the explanation
 
-Give each paragraph one advancing proposition with its premises; define before use and keep decisive steps beside conclusions. Connect actors, information, incentives, constraints and responses when they determine behavior, equilibrium, welfare or action. Support causal links with observations or derivations.
-
-Compare common quantities, units, population, period and denominator, using adopted rounding. Name a source and its finding, connect actions to the requested objective, and match completion claims to saved outputs and returned writes.
+Give each paragraph one advancing proposition. Define before use and keep decisive premises beside conclusions. Explain the actors, incentives, constraints and responses determining behavior, equilibrium, welfare or action. Compare common quantities, units, population, period and denominator with adopted rounding.
 
 ## Select the profile
 
-Use the requested profile, then the adopted project profile or [default-micro](../profiles/default-micro/PROFILE.md). Select examples only for an unresolved writing choice. Preserve audience and medium. For economics exposition, assume doctoral core knowledge and begin at the study-specific question, institution, measurement or specialized restriction needed for its argument; do not re-teach shared basics or assess the reader's ability.
-
-For explicitly non-specialist readers, explain actors' choices, constraints, incentives and resulting prices, quantities or adjustment. Introduce terms through that relation; use and explain an equation or diagram when it clarifies the inference. Clearer or spoken wording preserves the requested audience and substantive relation.
+Use the requested profile, then the project profile or [default-micro](../profiles/default-micro/PROFILE.md). Preserve audience and medium; retrieve examples only for an unresolved writing choice. Economics exposition assumes doctoral core knowledge and starts at the study-specific question or restriction. For explicitly non-specialist readers, introduce terms through actors' choices and their resulting prices, quantities or adjustment. Use equations or diagrams when they clarify that relation.
 
 <a id="revise-for-the-requested-language"></a>
 
 ## Revise for the requested language
 
-Use natural Japanese with explicit actors, consistent terms, clear causal links and one advancing point per sentence; academic prose uses plain form. Repair translated order, ambiguous modifiers, distant subjects and excessive nominalization. Use precise ordinary English, preserving effective source wording and technical terms.
-
-Choose paragraph and sentence length from the argument. Join connected fragments and split distinct claims. Remove mechanical triples, repeated openings, uniform templates, decorative emphasis and empty connectors. Use lists for parallel items or tables for comparisons. Add no invented finding, opinion, experience or causal step.
+Use natural Japanese with explicit actors, consistent terms and clear causal links; academic prose uses plain form. Repair translated order, ambiguous modifiers and excessive nominalization. Use precise ordinary English and preserve effective source wording. Let the argument determine sentence and paragraph length. Remove repetition, decorative emphasis and mechanical templates; use lists or tables for parallel information.
 
 ## Finish the passage
 
-Within CORE's integrated review, judge the entire candidate's evidence, logic, source correspondence, rhetorical function and natural language. Repair a demonstrated defect at its cause and update affected passages or exhibits. Do not repeat full-manuscript checks or fixed rewriting passes after the result is adequate.
-
-Use the lexical scanner only for a requested check or a concrete defect satisfying CORE's verification conditions. A match locates text; the complete proposition decides its function. Return corrected wording and positions when requested.
+Within CORE's single substantive review, correct source correspondence, logic, rhetorical function and natural language. Use the lexical scanner only for a requested check or a concrete unresolved defect; a match locates text, while its proposition determines the correction.
 
 ## Hierarchical argument and paragraph composition
 
-Organize a long argument under its central answer. Read [paragraph guidance](../skills/econ-writing/references/paragraph-workflow.md) only for an actual structural choice. Use existing argument/paragraph state for requested source correspondence, dependencies or resumable composition; it grants no delivery authority.
+Organize long arguments under their central answer. Read [paragraph guidance](../skills/econ-writing/references/paragraph-workflow.md) for an actual structural choice. Activate argument/paragraph state only for requested correspondence or persistent dependencies.

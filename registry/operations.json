@@ -200,6 +200,9 @@
       },
       {
         "when": "research_meeting_materials"
+      },
+      {
+        "when": "project_github_operations"
       }
     ],
     "writing-delivery": [
@@ -2677,6 +2680,13 @@
       "when": "consequential_result_interpretation",
       "required_rules": [
         "research.interpret-a-consequential-result"
+      ]
+    },
+    "project_github_operations": {
+      "when": "project_github_operations",
+      "required_rules": [
+        "state-contract.github-issues-and-projects",
+        "state-contract.explicit-github-updates"
       ]
     }
   },

@@ -2596,6 +2596,12 @@
       },
       "read-retained-research-logs": {
         "heading": "Read retained research logs"
+      },
+      "github-issues-and-projects": {
+        "heading": "GitHub Issues and Projects"
+      },
+      "explicit-github-updates": {
+        "heading": "Explicit GitHub updates"
       }
     },
     "publication": {
@@ -8885,6 +8891,26 @@
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []
+    },
+    "state-contract.github-issues-and-projects": {
+      "rule_id": "state-contract.github-issues-and-projects",
+      "resource_id": "state-contract",
+      "section_id": "github-issues-and-projects",
+      "requires": [
+        "state-contract.project-work"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.explicit-github-updates": {
+      "rule_id": "state-contract.explicit-github-updates",
+      "resource_id": "state-contract",
+      "section_id": "explicit-github-updates",
+      "requires": [
+        "state-contract.project-work"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
     }
   },
   "examples": {
@@ -9057,10 +9083,6 @@
         "native-model-roles",
         "shared-work",
         "resumption"
-      ],
-      "project-practice": [
-        "connect-the-current-case",
-        "define-the-task"
       ],
       "state-contract": [
         "state-and-version-contract",
@@ -9275,7 +9297,9 @@
       "project-practice": [
         "manage-the-case",
         "resources-and-dates",
-        "write-the-execution-prompt"
+        "write-the-execution-prompt",
+        "connect-the-current-case",
+        "define-the-task"
       ],
       "project-work": [
         "requirements-and-work-approach",
@@ -9543,7 +9567,9 @@
         "artifacts-and-integration"
       ],
       "state-contract": [
-        "all"
+        "all",
+        "github-issues-and-projects",
+        "explicit-github-updates"
       ],
       "publication": [
         "all"
@@ -9754,7 +9780,9 @@
         "outcomes-and-handover"
       ],
       "state-contract": [
-        "all"
+        "all",
+        "github-issues-and-projects",
+        "explicit-github-updates"
       ],
       "publication": [
         "all"

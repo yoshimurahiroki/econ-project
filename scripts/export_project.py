@@ -805,15 +805,9 @@ def export_plugin(target):
         relative_body = os.path.relpath(shared / output_paths[owner], Path(name).parent).replace(os.sep, '/')
         relative_index = os.path.relpath(shared / 'docs/ai/compiled_ai_skills.md', Path(name).parent).replace(os.sep, '/')
         body = (frontmatter + '\n# ' + owner + '\n\n'
-                + 'Read the complete [canonical Skill instructions](' + relative_body + ') and the selected rule bodies with their prerequisites under CORE. Use the [compact index](' + relative_index + ') when the operation or conditions remain unresolved; go directly to a known operation and retrieve its current stage with `route_registry.py read OPERATION --stage STAGE`. '
-                + 'Keep `' + owner + '` as the operation owner while reading the shared package.\n\n'
-                + 'For a cloud Skill reader, select the `project-work` package from this same plugin. '
-                + 'Replace the final `SKILL.md` in its `main_resource` URI with `references/shared/' + output_paths[owner] + '` to read this body. '
-                + 'Resolve its relative references within `references/shared/`; read CORE, the selected PROSE rules, operation/mode and activated dependencies in full. '
-                + 'Reuse complete same-version text already in context.\n\n'
-                + 'For execution, read that package\'s `bundle` resource, download and extract it once, and use its `references/shared/` directory as the runtime root. '
-                + 'It contains the canonical scripts, references, templates and knowledge collection for all seven Skills. '
-                + 'A materialized plugin uses the linked directory directly.\n')
+                + 'Read the complete [canonical instructions](' + relative_body + ') under CORE. Use the [index](' + relative_index + ') only for unresolved operation/condition selection.\n\n'
+                + 'Cloud readers use this plugin\'s `project-work` package: replace its `main_resource` final `SKILL.md` with `references/shared/' + output_paths[owner] + '`. Resolve relative links within that shared root.\n\n'
+                + 'For execution, read that package\'s `bundle`, download/extract once, and use `references/shared/` as the runtime root. Materialized plugins use the linked directory.\n')
         files[name] = body.encode('utf-8')
         linked_contents[name] = body
     validate_internal_links(linked_contents, non_prose={

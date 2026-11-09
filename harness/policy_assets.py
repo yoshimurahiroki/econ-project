@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.87.2'
+POLICY_ID = 'economics-native-0.88.0'
 PRIMARY_EXPRESSION_RULE = "Apply PROSE's output prohibitions to every answer and generated artifact, without exception."
 PRIMARY_STYLE_RULE = ('Keep scientific conditions, statistical uncertainty and evidence-strength judgments internal; '
                       'deliver the direct economic answer and actual operation result.')
@@ -576,7 +576,6 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
     Reading records bind claimed ranges to bytes; they do not prove model
     consumption, semantic adherence or independent approval.
     """
-    import re
     if root is None:
         if manifest is None:
             root, _, manifest, _ = discover_policy(__file__)
@@ -688,30 +687,22 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
     for key in ('failed_checks', 'missing_checks', 'unresolved'):
         collect_unmet(status.get('checks', {}).get(key, []))
     unmet_ids = sorted(unmet_ids)
-    text = resolver.entry_contract(routes, 'runtime/CORE.md', 'runtime/PROSE.md', 'docs/ai/compiled_ai_skills.md')
-    text = re.sub(r'\[([^\]]+)\]\([^)]*\)', r'\1', text)
+    text = 'Stage: ' + stage + '.'
     if status.get('run_id'):
         text += ' Current run: ' + str(status['run_id']) + '.'
     if status.get('submission_sha256'):
         text += ' Candidate submission: ' + str(status['submission_sha256']) + '.'
-    if requirement_ids:
-        text += ' Unmet requirements: ' + ', '.join(requirement_ids) + '.'
     next_names = list(dict.fromkeys(str(row.get('action')) for row in actions if row.get('action')))
-    if next_names:
-        text += ' Next: ' + ', '.join(next_names) + '.'
     pending_refs = [row['path'] + '#' + row['section_id'] for row in refs
                     if row['remaining_ranges'] and not present_in_context(row)]
     if pending_refs:
         text += ' Read next: ' + ', '.join(pending_refs[:3]) + '.'
-    if terminal != 'active':
-        text += ' Lifecycle: ' + terminal + '; do not restart this run.'
-    short = ('Read CORE and every complete body selected for the current stage before dependent work. '
-             'Preserve the original request, full applicable rule reads, authority, holds and actual operation returns; complete the requested result, integrated review and required verification. '
-             'If the host shows only a preview with a saved-packet locator, open that packet and read all required bodies before dependent work; a preview is not a reading receipt.')
+    short = ('Read complete current-stage rule bodies before dependent work; reuse matching text still in context. '
+             'Open the saved full packet when the host shows only its preview.')
     rule_refs = [row['path'] + ('' if row['section_id'] == 'all' else '#' + row['section_id']) +
                  ' (MCP: ' + row['rule_ids'][0] + ')' for row in direct_refs]
     if rule_refs:
-        short += ' Retrieve the rule text when unread or when the adopted version changes. Adopted version ' + manifest['policy_id'] + ': ' + ', '.join(rule_refs) + '.'
+        short += ' Unread or changed rules (' + manifest['policy_id'] + '): ' + ', '.join(rule_refs) + '.'
     if unmet_ids:
         short += ' Unmet IDs: ' + ', '.join(unmet_ids) + '.'
     if next_names:
@@ -721,12 +712,6 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
     # Entry/compaction detail restoration retains the same repeated command.
     short = primary_instruction(short)
     text = short + '\n\n' + text
-    text += (' Host instructions and user authority govern the adopted scientific specification and expression. '
-             'Keep scientific judgments internal and apply PROSE before producing answers or artifacts. '
-             'Send the canonical packet at task start, on relevant state changes or failed tools, on worker start or resend, '
-             'to each new subagent, after compaction or resumption, and after failed checks. '
-             'Preserve current unmet IDs, next actions, policy references and candidate bindings. '
-             'Stop reinjection on stopped, cancelled or completed lifecycle states; paused delivery stays paused.')
     restoration = {'included': bool(restore)}
     if restore:
         if request_text is not None:
@@ -758,7 +743,7 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
             text += '\n\n[Adopted applicable rule text: ' + row['path'] + '#' + row['section_id'] + ']\n' + body
             restoration['rules'].append(locator)
         if restoration['reused_rules']:
-            text += '\n\nReuse these exact bodies exposed in the intact context; read any body not yet read completely: ' + canonical(restoration['reused_rules']).decode('utf-8')
+            text += '\n\nReuse the complete matching bodies already exposed in this context: ' + canonical(restoration['reused_rules']).decode('utf-8')
         text += '\n\n[Current stage, settled decisions, unmet items, and next actions]\n' + canonical({
             'stage': stage, 'adopted_selection': manifest.get('selection'),
             'settled_decisions': status.get('settled_decisions', []),
