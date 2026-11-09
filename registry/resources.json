@@ -5,25 +5,25 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.85.0"
+      "content_version": "0.86.0"
     },
     "prose": {
       "resource_id": "prose",
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "0.85.0"
+      "content_version": "0.86.0"
     },
     "research": {
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.85.0"
+      "content_version": "0.86.0"
     },
     "execution": {
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.86.0"
     },
     "team": {
       "resource_id": "team",
@@ -116,7 +116,7 @@
       "resource_id": "default-micro",
       "source_path": "profiles/default-micro/PROFILE.md",
       "resource_kind": "rule",
-      "content_version": "0.66.0"
+      "content_version": "0.86.0"
     },
     "examples-en": {
       "resource_id": "examples-en",
@@ -152,7 +152,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0",
+      "content_version": "0.86.0",
       "sync": false
     },
     "resource-guide": {
@@ -180,7 +180,7 @@
       "resource_id": "native-index",
       "source_path": "docs/ai/compiled_ai_skills.md",
       "resource_kind": "rule",
-      "content_version": "0.81.0"
+      "content_version": "0.86.0"
     },
     "project-context": {
       "resource_id": "project-context",
@@ -193,14 +193,14 @@
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "0.84.0",
+      "content_version": "0.86.0",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.85.0"
+      "content_version": "0.86.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
@@ -285,13 +285,13 @@
       "resource_id": "writing-ui",
       "source_path": "skills/econ-writing/agents/openai.yaml",
       "resource_kind": "support",
-      "content_version": "0.5.0"
+      "content_version": "0.86.0"
     },
     "state-contract": {
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.85.0"
+      "content_version": "0.86.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -310,13 +310,13 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.85.0"
+      "content_version": "0.86.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.85.0"
+      "content_version": "0.86.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -377,13 +377,13 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.85.0"
+      "content_version": "0.86.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
       "source_path": "quality/policy_manifest.json",
       "resource_kind": "support",
-      "content_version": "0.81.0",
+      "content_version": "0.86.0",
       "sync": false,
       "required_resources": [
         "core",
@@ -407,7 +407,7 @@
       "resource_id": "codex-hooks",
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.85.0",
+      "content_version": "0.86.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -1612,7 +1612,7 @@
       "resource_id": "writing-profile",
       "source_path": "skills/econ-writing/references/profile.md",
       "resource_kind": "rule",
-      "content_version": "0.64.0"
+      "content_version": "0.86.0"
     },
     "writing-artifacts": {
       "resource_id": "writing-artifacts",
@@ -1870,19 +1870,19 @@
       "resource_id": "data-workflow",
       "source_path": "skills/econ-data/references/workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0"
+      "content_version": "0.86.0"
     },
     "design-workflow": {
       "resource_id": "design-workflow",
       "source_path": "skills/econ-design/references/workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0"
+      "content_version": "0.86.0"
     },
     "knowledge-guide": {
       "resource_id": "knowledge-guide",
       "source_path": "skills/econ-knowledge/references/retrieval.md",
       "resource_kind": "rule",
-      "content_version": "0.85.0"
+      "content_version": "0.86.0"
     },
     "data-source": {
       "resource_id": "data-source",
@@ -1944,17 +1944,8 @@
       "execution-records": {
         "heading": "Execution records"
       },
-      "direct-expression": {
-        "heading": "Direct expression"
-      },
-      "read-for-the-pending-decision": {
-        "heading": "Read for the pending decision"
-      },
       "completion-and-reporting": {
         "heading": "Completion and reporting"
-      },
-      "paragraph-writing-contract": {
-        "heading": "Paragraph writing contract"
       }
     },
     "prose": {
@@ -1978,6 +1969,9 @@
       },
       "hierarchical-argument-and-paragraph-composition": {
         "heading": "Hierarchical argument and paragraph composition"
+      },
+      "common-output": {
+        "heading": "Common output"
       }
     },
     "research": {
@@ -4031,7 +4025,8 @@
       "resource_id": "core",
       "section_id": "all",
       "requires": [
-        "prose.all",
+        "prose.common-output",
+        "prose.revise-for-the-requested-language",
         "research.turn-the-question-into-an-operation"
       ],
       "conditional_requires": [
@@ -4040,18 +4035,6 @@
           "required_rules": [
             "research.separate-explanations-with-a-comparison",
             "research.select-a-feasible-action"
-          ]
-        },
-        {
-          "when": "research_problem_deepening",
-          "required_rules": [
-            "research.deepen-a-consequential-research-problem"
-          ]
-        },
-        {
-          "when": "consequential_result_interpretation",
-          "required_rules": [
-            "research.interpret-a-consequential-result"
           ]
         }
       ],
@@ -4095,24 +4078,6 @@
       "rule_id": "core.execution-records",
       "resource_id": "core",
       "section_id": "execution-records",
-      "requires": [],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "core.direct-expression": {
-      "rule_id": "core.direct-expression",
-      "resource_id": "core",
-      "section_id": "direct-expression",
-      "requires": [
-        "prose.all"
-      ],
-      "conditional_requires": [],
-      "optional_examples": []
-    },
-    "core.read-for-the-pending-decision": {
-      "rule_id": "core.read-for-the-pending-decision",
-      "resource_id": "core",
-      "section_id": "read-for-the-pending-decision",
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []
@@ -4420,7 +4385,8 @@
       "resource_id": "design-workflow",
       "section_id": "identify-the-requested-design-work",
       "requires": [
-        "econ-design.all"
+        "econ-design.all",
+        "research.deepen-a-consequential-research-problem"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -4430,7 +4396,8 @@
       "resource_id": "design-workflow",
       "section_id": "for-an-empirical-specification",
       "requires": [
-        "econ-design.all"
+        "econ-design.all",
+        "research.deepen-a-consequential-research-problem"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -4440,7 +4407,9 @@
       "resource_id": "design-workflow",
       "section_id": "for-a-theoretical-model",
       "requires": [
-        "econ-design.all"
+        "econ-design.all",
+        "research.deepen-a-consequential-research-problem",
+        "research.interpret-a-consequential-result"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -4460,7 +4429,8 @@
       "resource_id": "design-workflow",
       "section_id": "establish-feasibility",
       "requires": [
-        "econ-design.all"
+        "econ-design.all",
+        "research.interpret-a-consequential-result"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -4617,7 +4587,12 @@
       "rule_id": "econ-writing.all",
       "resource_id": "econ-writing",
       "section_id": "all",
-      "requires": [],
+      "requires": [
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.select-the-profile",
+        "prose.finish-the-passage"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4776,7 +4751,9 @@
       "rule_id": "design-methods.model-construction",
       "resource_id": "design-methods",
       "section_id": "model-construction",
-      "requires": [],
+      "requires": [
+        "research.deepen-a-consequential-research-problem"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -5239,7 +5216,9 @@
       "rule_id": "data-results.carry-analysis-results-into-tables-figures-and-prose",
       "resource_id": "data-results",
       "section_id": "carry-analysis-results-into-tables-figures-and-prose",
-      "requires": [],
+      "requires": [
+        "research.interpret-a-consequential-result"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -6231,21 +6210,6 @@
       "conditional_requires": [],
       "optional_examples": []
     },
-    "core.paragraph-writing-contract": {
-      "rule_id": "core.paragraph-writing-contract",
-      "resource_id": "core",
-      "section_id": "paragraph-writing-contract",
-      "requires": [],
-      "conditional_requires": [
-        {
-          "when": "paragraph_execution_requested",
-          "required_rules": [
-            "paragraph-workflow.all"
-          ]
-        }
-      ],
-      "optional_examples": []
-    },
     "prose.hierarchical-argument-and-paragraph-composition": {
       "rule_id": "prose.hierarchical-argument-and-paragraph-composition",
       "resource_id": "prose",
@@ -7058,7 +7022,12 @@
       "rule_id": "econ-writing.native-entry-contract",
       "resource_id": "econ-writing",
       "section_id": "native-entry-contract",
-      "requires": [],
+      "requires": [
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.select-the-profile",
+        "prose.finish-the-passage"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -7972,7 +7941,8 @@
       "resource_id": "data-workflow",
       "section_id": "power-and-estimator-simulation",
       "requires": [
-        "econ-data.all"
+        "econ-data.all",
+        "research.interpret-a-consequential-result"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -7982,7 +7952,8 @@
       "resource_id": "data-workflow",
       "section_id": "specification-search-and-recovery",
       "requires": [
-        "econ-data.all"
+        "econ-data.all",
+        "research.interpret-a-consequential-result"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -7992,7 +7963,8 @@
       "resource_id": "data-workflow",
       "section_id": "finite-horizon-macro-calculation",
       "requires": [
-        "econ-data.all"
+        "econ-data.all",
+        "research.interpret-a-consequential-result"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -8002,7 +7974,8 @@
       "resource_id": "data-workflow",
       "section_id": "descriptive-statistics",
       "requires": [
-        "econ-data.all"
+        "econ-data.all",
+        "research.interpret-a-consequential-result"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -8513,7 +8486,8 @@
       "resource_id": "data-native-calls",
       "section_id": "causal-selection-and-execution-handoff",
       "requires": [
-        "data-implementation.fit-results-and-execution-handoff"
+        "data-implementation.fit-results-and-execution-handoff",
+        "research.interpret-a-consequential-result"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -8867,6 +8841,14 @@
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []
+    },
+    "prose.common-output": {
+      "rule_id": "prose.common-output",
+      "resource_id": "prose",
+      "section_id": "common-output",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
     }
   },
   "examples": {
@@ -9011,7 +8993,8 @@
         "turn-the-question-into-an-operation"
       ],
       "prose": [
-        "all"
+        "common-output",
+        "revise-for-the-requested-language"
       ]
     },
     "contract": {

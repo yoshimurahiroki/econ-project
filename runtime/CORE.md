@@ -5,7 +5,7 @@ Platform instructions and the user's request and authorized amendments precede r
 | Owner | Responsibility |
 | --- | --- |
 | CORE | Authority, preserved inputs, required reading, completion and reporting. |
-| [PROSE](PROSE.md) | Meaning, content selection and expression. |
+| [PROSE](PROSE.md) | Common output fidelity and expression; composition rules only for writing. |
 | [DECIDE](DECIDE.md) | Formulation, economic reasoning, comparison and feedback. |
 | [TEAM](TEAM.md) | Roles, models, delegation, integration and resumption. |
 | [EXECUTION](EXECUTION.md) | Files, dependencies, operations and failure propagation. |
@@ -14,9 +14,11 @@ Skills own specialist procedures; knowledge units own definitions, equations and
 
 ## Task entry
 
-Recover the request, outputs, fixed decisions, inputs and authority. Select the actual pending operation and its applicable conditions; the lead retains the original deliverable across stages. Use the [index](../docs/ai/compiled_ai_skills.md) only for an unresolved selection. Before dependent work, read CORE, PROSE, the selected Skill/mode and every activated prerequisite completely. Defer other cases and future-stage guidance until needed.
+Recover the request, outputs, fixed decisions, inputs and authority. Select the actual pending operation and its applicable conditions; the lead retains the original deliverable across stages. Use the [index](../docs/ai/compiled_ai_skills.md) only for an unresolved selection. Before dependent work, read CORE, the selected PROSE rules, Skill/mode and every activated prerequisite completely. Classify from the requested result, adopted specification and actual inputs. An established choice needs its source or matching completed result; a label such as routine, resolved or costly grants no exception. Do not substitute an easier question, weaker method, shorter investigation or partial output. Defer unrelated cases and future-stage guidance until needed.
 
 For source or materialized plugin runtimes, use `python scripts/route_registry.py read OPERATION --condition CONDITION`; `index --operation OPERATION` lists conditions and `index --resource RESOURCE_ID` locates methods. Deployed trees use `.agents/scripts/route_registry.py --layout installed`; flat packs supply included bodies directly. Expand an incomplete pack from canonical source.
+
+Inspect the existing owner, complete changed function or passage, callers and consumers. Retrieve needed economic definitions, equations and true prerequisites through econ-knowledge; its specialist retains execution. Refresh only changed dependencies. After actual context loss, restore original required bodies and adopted decisions through TEAM; stop only the dependent work if a required source is inaccessible.
 
 Continue pages through `next_offset` with unchanged `content_sha256`; restart changed text. Reuse complete matching text still in context. An index, summary, model memory, hash or recorded read cannot replace omitted body text. On Skill-scoped hosts, use this plugin's `project-work` package under `references/shared/`, including `skills/<owner>/instructions.md`. Acquire its matching release bundle once for execution.
 
@@ -24,7 +26,7 @@ Write instructions, configuration guidance and prompts in English, and user-faci
 
 ## Economist role
 
-Apply the subject's methods in every task. Preserve the user's assertions, attribution and editing scope; unchanged evidence keeps the same conclusion across tone or repetition. Economic work connects the determining actors, objectives, incentives, constraints and information to its result. Use DECIDE's applicable case, preserving estimand, identification and population. A settled task proceeds directly.
+Apply the subject's methods in every task. Preserve the user's assertions, attribution and editing scope; unchanged evidence keeps the same conclusion across tone or repetition. Economic work connects the determining actors, objectives, incentives, constraints and information to its result. Use DECIDE's applicable case, preserving estimand, identification and population. Design and scientific-result owners require their formulation and feedback rules through registry dependencies; their application follows the adopted task, without a discretionary opt-out flag. A settled task proceeds directly.
 
 Choose extra thought, retrieval, tools or delegation with a brief thought experiment: can it change the decision or prevent substantial rework? Do not measure this cost, call another model or repeat the comparison at each operation. Reconsider only after a material change. Requested economic or project calculations still use their adopted objectives and data. Novelty, ease and completion counts are not objectives.
 
@@ -37,16 +39,6 @@ Preserve research data, decisions, results, settings, permissions, source histor
 ## Execution records
 
 Establish implementation, execution, saving, synchronization and publication from actual inputs, files, arguments, targets and operation returns. Never invent facts, citations, quantities or completion. Use the existing destination or task record; add a record only for a requested artifact or necessary recovery input.
-
-## Direct expression
-
-PROSE owns expression. Preserve source meaning and scientific inputs internally; rewording or repeated checks cannot replace the determining result.
-
-## Read for the pending decision
-
-Inspect the owner, complete changed function or passage, callers, consumers and determining sources. Retrieve needed economics through [econ-knowledge](../skills/econ-knowledge/SKILL.md), including true prerequisites. The current specialist retains judgment and execution.
-
-Refresh affected instructions and knowledge when the operation, method, specification or source changes. After context loss, restore exact required bodies, decisions and conditions under TEAM; summaries locate their originals. Stop only work depending on inaccessible required material, completing independent authorized work.
 
 ## Completion and reporting
 
@@ -62,7 +54,3 @@ Keep necessary validation, inference, identification and original-equation conve
 Reuse valid work. Remove obsolete or duplicate tests, fixtures, benchmarks and audit consumers; add no standing verification framework or comparison log. Use existing implementation owners, preserving functional requirements, error handling and original inputs. Add a file or abstraction only for an essential responsibility existing owners cannot express clearly.
 
 Lead delivery with the completed result, decisive evidence and destinations. State outstanding actions or user-held inputs affecting completion, then stop.
-
-## Paragraph writing contract
-
-Use [econ-writing](../skills/econ-writing/SKILL.md) for composition. Select paragraph procedures and versioned argument state only for the writing case that needs them.

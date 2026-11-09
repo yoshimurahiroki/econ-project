@@ -18,6 +18,8 @@ For each example, identify the reader's question, the facts that establish its a
 
 Revise or continue the authorized content through the common process. Build the explanation from that content's own facts, then apply the relevant profile choice.
 
+Author from specified settings and inspected source-bound writing. Retain fictional inputs beside examples and derive every displayed quantity from them. Verify the source equations and arithmetic needed by each example. Preserve third-party notices and keep private source identifiers in private records.
+
 ### Save the profile
 
 Save the completed profile and necessary worked examples to the requested existing destination. Review the actual saved content as one deliverable and create a new file only when the requested reusable material needs it.

@@ -6,11 +6,11 @@
 
 Identify the requested proposition, quantity, artifact or action, its consumer and fixed conditions. Locate the determining obstacle and next authorized operation. Preserve the user's assertions, evidence standard, estimand, definitions and accepted choices. Reuse this formulation until a determining input changes; short or settled work proceeds immediately.
 
-For substantial or exploratory research, activate `research_problem_deepening` before committing to a design. For an open explanation use comparison; for a consequential economic or project choice use feasible-action selection. CORE's brief thought experiment selects additional working effort. It requires no cost calculation or repeated evaluation at each operation.
+For new, substantial or exploratory research, use the required deepening body before committing to a design; design and model-construction owners supply it through their dependencies. For an open explanation use comparison; for a consequential economic or project choice use feasible-action selection. CORE's brief thought experiment selects additional working effort. It requires no cost calculation or repeated evaluation at each operation.
 
 ## Deepen a consequential research problem
 
-Activate `research_problem_deepening` for substantial or exploratory research before design, or when a new finding changes its determining formulation. The lead compares the initial question with its strongest consequential upstream formulation: whose objective, incentive, constraint, mechanism, identification or decision margin actually governs the requested result? Keep the original deliverable and fixed specifications.
+Use this procedure for new, substantial or exploratory research before design, or when a new finding changes its determining formulation. A newly requested question, estimand or model requires its formulation even when computation is easy; an unchanged adopted specification starts at its requested operation. The lead compares the initial question with its strongest consequential upstream formulation: whose objective, incentive, constraint, mechanism, identification or decision margin actually governs the requested result? Keep the original deliverable and fixed specifications.
 
 Make one additional substantive reconsideration. Identify the premise that could invalidate dependent work and a distinguishing observation, derivation or tractable operation. Prefer the formulation changing the main claim, feasible set or action; retain the initial formulation when it already resolves that margin. For example, separate new activity from displacement before optimizing a policy, and settle the observation unit before building consumers. Delegate only a separable question under TEAM.
 
@@ -71,11 +71,11 @@ Connect each partial result to the parent proposition, choice or artifact it com
 
 For multi-stage work, link the current answer, supporting propositions, unresolved observations and producing operations in the existing draft or task context. Decompose only until the next operation is executable, with its owner, inputs and completion condition. Use Operational plans for a requested plan and the existing governing context for persistent continuation. Add no separate ledger.
 
-Start the determining dependency and return its output to the parent. At a consequential analytical result activate `consequential_result_interpretation`. Repair producing inputs or methods and only their affected consumers; EXECUTION owns retry and failure propagation. Retain unresolved authority-dependent choices while finishing independent authorized work. End this step when its dependency is resolved and continue the original outstanding result.
+Start the determining dependency and return its output to the parent. Use the required result-interpretation procedure at a consequential analytical result. Repair producing inputs or methods and only their affected consumers; EXECUTION owns retry and failure propagation. Retain unresolved authority-dependent choices while finishing independent authorized work. End this step when its dependency is resolved and continue the original outstanding result.
 
 ## Interpret a consequential result
 
-Activate `consequential_result_interpretation` when a substantive analytical result can determine the main claim, selected action or next research stage. Its current specialist compares the actual result once with the adopted question, predicted mechanism, identifying conditions and decision criterion. Use the saved quantity, sample, units, source and specification; an expected result proceeds to its consumer.
+Scientific result owners require this body. Apply it when a substantive analytical result can determine the main claim, selected action or next research stage. Its current specialist compares the actual result once with the adopted question, predicted mechanism, identifying conditions and decision criterion. Use the saved quantity, sample, units, source and specification; an expected result proceeds to its consumer.
 
 If the result changes the judgment or exposes a consequential defect, identify its producing stage: formulation, evidence, method, implementation, calculation or interpretation. Return the precise mismatch and observable repair condition to that owner. Reuse unaffected definitions, sources, calculations and outputs; rebuild only changed consumers. A scientific change to estimand, sample, model, design or inference requires existing authority, and a numerical run retains its adopted budget and convergence rules.
 

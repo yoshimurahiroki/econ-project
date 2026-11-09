@@ -1,6 +1,6 @@
 # Economics operation index
 
-Generated from registry/operations.json. Select the final operation, then read CORE, PROSE and its complete required rule bodies. Support continues the same task.
+Generated from registry/operations.json. Select the final operation, then read CORE, the selected PROSE rules and complete required operation bodies. Support continues the same task.
 
 - [econ-design / design](../../skills/econ-design/SKILL.md): Choose a research question, model, identification strategy, study design or policy action.
 - [econ-data / execute](../../skills/econ-data/SKILL.md): Acquire, transform, join, calculate, estimate or change research data and code.

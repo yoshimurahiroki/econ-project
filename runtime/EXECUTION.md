@@ -56,9 +56,6 @@ Keep operational status, unresolved user choices and continuation state in exist
 
 For instruction maintenance, compare each actionable rule with its owning code and actual execution path. Edit the canonical instruction or producer and regenerate affected consumers once. Use that generation for deployment. A record-format change alone does not invalidate scientific content or calculations.
 
-## Final delivery authority
-
-CORE owns [completion and reporting](CORE.md#completion-and-reporting), including the actual operation returns establishing the final result.
 
 ## Writing dependency execution
 

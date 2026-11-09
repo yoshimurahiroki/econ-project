@@ -609,7 +609,8 @@
       "trigger": "Choose a research question, model, identification strategy, study design or policy action.",
       "required_rules": [
         "core.all",
-        "econ-design.all"
+        "econ-design.all",
+        "econ-design.identify-the-requested-design-work"
       ],
       "conditional_rules": [
         {
@@ -1307,7 +1308,8 @@
       "required_rules": [
         "paper-workflow.establish-the-argument-from-the-research",
         "paper-workflow.design-the-papers-argument",
-        "paper-workflow.compose-the-requested-section"
+        "paper-workflow.compose-the-requested-section",
+        "prose.hierarchical-argument-and-paragraph-composition"
       ]
     },
     "exhibit_composition": {
@@ -1320,7 +1322,8 @@
       "when": "whole_paper_architecture_revision",
       "required_rules": [
         "paper-workflow.establish-the-argument-from-the-research",
-        "paper-workflow.design-the-papers-argument"
+        "paper-workflow.design-the-papers-argument",
+        "prose.hierarchical-argument-and-paragraph-composition"
       ]
     },
     "file_output_or_format_rendering": {
@@ -1740,7 +1743,8 @@
         "paragraph-engine.all",
         "argument-engine.all",
         "paragraph-schema.all",
-        "argument-schema.all"
+        "argument-schema.all",
+        "prose.hierarchical-argument-and-paragraph-composition"
       ]
     },
     "data_code_change": {

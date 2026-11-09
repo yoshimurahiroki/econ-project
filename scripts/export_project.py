@@ -809,7 +809,7 @@ def export_plugin(target):
                 + 'Keep `' + owner + '` as the operation owner while reading the shared package.\n\n'
                 + 'For a cloud Skill reader, select the `project-work` package from this same plugin. '
                 + 'Replace the final `SKILL.md` in its `main_resource` URI with `references/shared/' + output_paths[owner] + '` to read this body. '
-                + 'Resolve its relative references within `references/shared/`; read CORE, PROSE, the selected operation/mode and activated dependencies in full. '
+                + 'Resolve its relative references within `references/shared/`; read CORE, the selected PROSE rules, operation/mode and activated dependencies in full. '
                 + 'Reuse complete same-version text already in context.\n\n'
                 + 'For execution, read that package\'s `bundle` resource, download and extract it once, and use its `references/shared/` directory as the runtime root. '
                 + 'It contains the canonical scripts, references, templates and knowledge collection for all seven Skills. '

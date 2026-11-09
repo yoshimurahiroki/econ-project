@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.85.0'
+POLICY_ID = 'economics-native-0.86.0'
 PRIMARY_EXPRESSION_RULE = "Apply PROSE's output prohibitions to every answer and generated artifact, without exception."
 PRIMARY_STYLE_RULE = ('Keep scientific conditions, statistical uncertainty and evidence-strength judgments internal; '
                       'deliver the direct economic answer and actual operation result.')
@@ -570,7 +570,7 @@ def section_ranges(routes, resource_id, text, resolver=None, section_ids=None, c
 
 
 def instruction_context(root=None, *, manifest=None, status=None, stage=None, role=None, reader_id=None,
-                        request_text=None, restore=False, instruction_event=None):
+                        request_text=None, restore=False, instruction_event=None, retained_bodies=()):
     """One short current instruction packet for local hooks and MCP/UI.
 
     Reading records bind claimed ranges to bytes; they do not prove model
@@ -616,19 +616,26 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
     # These are navigation references within the existing closure, not adoption
     # changes or evidence of reading.
     direct_refs = []
-    for rid, sid in (('core', 'all'), ('prose', 'all')):
+    for rid, sid in (('core', 'all'), ('prose', 'common-output'),
+                     ('prose', 'revise-for-the-requested-language')):
         adopted = scope['resource_sections'].get(rid, {})
         locator = routes['sections'][rid][sid]
         if resource_key(rid) in scope['assets'] and (adopted.get('whole_resource') or
                 locator.get('heading') in adopted.get('sections', [])):
             direct_refs.append({'resource_id': rid, 'section_id': sid,
                 'rule_ids': [rid + '.' + sid]})
-    direct_resources = {row['resource_id'] for row in direct_refs}
+    direct_sections = {(row['resource_id'], row['section_id']) for row in direct_refs}
     refs = direct_refs + [row for row in refs
-                         if row['resource_id'] not in direct_resources]
+                         if (row['resource_id'], row['section_id']) not in direct_sections]
     reads = status.get('resource_reads', [])
     verified = {}
     section_cache = {}
+    def present_in_context(row):
+        return any(isinstance(old, dict) and old.get('path') == row['path']
+                   and old.get('sha256') == row['sha256']
+                   and type(old.get('start')) is int and type(old.get('end')) is int
+                   and old['start'] <= row['start'] and old['end'] >= row['end']
+                   for old in retained_bodies)
     def resource_bytes(record, rid, error):
         # One verified snapshot per path in this packet; still check each
         # consumer's pinned digest, including conflicting manifest entries.
@@ -697,12 +704,13 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
     next_names = list(dict.fromkeys(str(row.get('action')) for row in actions if row.get('action')))
     if next_names:
         text += ' Next: ' + ', '.join(next_names) + '.'
-    pending_refs = [row['path'] + '#' + row['section_id'] for row in refs if row['remaining_ranges']]
+    pending_refs = [row['path'] + '#' + row['section_id'] for row in refs
+                    if row['remaining_ranges'] and not present_in_context(row)]
     if pending_refs:
         text += ' Read next: ' + ', '.join(pending_refs[:3]) + '.'
     if terminal != 'active':
         text += ' Lifecycle: ' + terminal + '; do not restart this run.'
-    short = ('Read the complete adopted CORE, PROSE and selected operation bodies before dependent work. '
+    short = ('Read CORE, the complete selected PROSE and operation bodies before dependent work. '
              'Preserve the original request, full applicable rule reads, authority, holds and actual operation returns; complete the requested result, integrated review and required verification. '
              'If the host shows only a preview with a saved-packet locator, open that packet and read all required bodies before dependent work; a preview is not a reading receipt.')
     rule_refs = [row['path'] + ('' if row['section_id'] == 'all' else '#' + row['section_id']) +
@@ -738,6 +746,7 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
         else:
             restoration['request_sha256'] = None
         restoration['rules'] = []
+        restoration['reused_rules'] = []
         selected = scope['resource_sections']
         restored = set()
         restore_refs = list(refs)
@@ -767,9 +776,15 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
                 continue
             restored.add(identity)
             raw = resource_bytes(row, row['resource_id'], 'restoration rule body changed: ')
+            locator = {key: row[key] for key in ('resource_id', 'section_id', 'path', 'sha256', 'start', 'end')}
+            if present_in_context(row):
+                restoration['reused_rules'].append(locator)
+                continue
             body = raw.decode('utf-8')[row['start']:row['end']]
             text += '\n\n[Adopted applicable rule text: ' + row['path'] + '#' + row['section_id'] + ']\n' + body
-            restoration['rules'].append({key: row[key] for key in ('resource_id', 'section_id', 'path', 'sha256', 'start', 'end')})
+            restoration['rules'].append(locator)
+        if restoration['reused_rules']:
+            text += '\n\nReuse these exact bodies exposed in the intact context; read any body not yet read completely: ' + canonical(restoration['reused_rules']).decode('utf-8')
         text += '\n\n[Current stage, settled decisions, unmet items, and next actions]\n' + canonical({
             'stage': stage, 'adopted_selection': manifest.get('selection'),
             'settled_decisions': status.get('settled_decisions', []),

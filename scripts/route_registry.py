@@ -269,7 +269,10 @@ def select_reading_sections(routes, manifest, stage, role=None, reader_id=None, 
     # Entry exposes the complete adopted instruction closure before dependent
     # work. Later stages navigate that same closure and reuse covered ranges.
     if stage in ('entry', 'contract', 'compose', 'review'):
-        managed = {'core', 'prose', 'research'}
+        # A stage cannot waive an adopted scientific prerequisite. Deliver any
+        # needed selected body; the host reuses matching text actually exposed
+        # in its intact context rather than repeating the closure.
+        managed = {'core', 'prose'}
         for rid, scope in adopted.items():
             if (stage == 'entry' or rid not in managed) and routes['resources'][rid]['source_path'].endswith('.md'):
                 selected[rid] = (['all'] if scope.get('whole_resource') else
@@ -322,7 +325,7 @@ def native_index(routes, *, links=False, operation=None):
             examples = ', '.join(condition.get('optional_examples', []))
             lines.append('| `' + cid + '` | ' + '; '.join(bodies) + ' | ' + examples + ' |')
         return '\n'.join(lines) + '\n'
-    lines = ['# Economics operation index', '', 'Generated from registry/operations.json. Select the final operation, then read CORE, PROSE and its complete required rule bodies. Support continues the same task.', '']
+    lines = ['# Economics operation index', '', 'Generated from registry/operations.json. Select the final operation, then read CORE, the selected PROSE rules and complete required operation bodies. Support continues the same task.', '']
     for op in routes['operations']:
         label = op['skill_id'] + ' / ' + op['mode']
         if links:
@@ -1087,7 +1090,7 @@ def generate_entries(root, routes=None):
         body = transform_entry_references(routes, owner, body)
         write_changed(path, body, previous)
     modes = [op['mode'] for op in routes['operations'] if op['owner_skill'] == 'econ-writing']
-    ui = 'interface:\n  display_name: "Economics Writing"\n  short_description: "Write, explain and revise natural academic prose"\n  default_prompt: "Use $econ-writing in ' + ', '.join(modes) + ' mode. Read CORE, PROSE and the selected mode; build the explanation before shortening and complete the integrated review."\npolicy:\n  allow_implicit_invocation: true\n'
+    ui = 'interface:\n  display_name: "Economics Writing"\n  short_description: "Write, explain and revise natural academic prose"\n  default_prompt: "Use $econ-writing in ' + ', '.join(modes) + ' mode. Read CORE, the selected PROSE rules and mode; build the explanation before shortening and complete the integrated review."\npolicy:\n  allow_implicit_invocation: true\n'
     write_changed(root / 'skills/econ-writing/agents/openai.yaml', ui)
     return routes
 
