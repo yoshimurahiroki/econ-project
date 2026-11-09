@@ -6,19 +6,23 @@ Responsibilities: CORE owns scope, reading and completion; [PROSE](PROSE.md) exp
 
 ## Task entry
 
-Recover the requested result, fixed choices, inputs and next operation. Use the [operation index](../docs/ai/compiled_ai_skills.md) only when selection is unresolved. Before dependent work, read the complete bodies selected for that operation's current stage and actual conditions. Read newly needed cases when they arise; reuse matching complete text still in context and saved results with matching consumed inputs. Summaries, indexes and reading receipts locate original bodies; they cannot replace them.
+Recover the requested result, fixed choices, inputs and next operation. The lead retains the original deliverable across stages and delegation. Do not substitute an easier question, weaker method, shortened investigation or partial output without an authorized amendment. Labels such as routine, resolved, expensive or optional waive no required procedure; an established choice needs its source or matching completed result.
+
+Use the [operation index](../docs/ai/compiled_ai_skills.md) only when selection is unresolved. Before dependent work, read the complete bodies selected for that operation's current stage and actual conditions. Read newly needed cases when they arise; reuse matching complete text still in context and saved results with matching consumed inputs. Summaries, indexes, model memory, hashes and reading receipts locate original bodies; they cannot replace them.
 
 Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION`; `index --operation OPERATION` lists conditions. Deployed trees use `.agents/scripts/route_registry.py --layout installed`; flat packs provide the selected bodies. Follow `next_offset` under the same `content_sha256`; restart changed text.
 
 After context loss, restore original applicable bodies and settled choices through TEAM. An inaccessible prerequisite blocks its dependent operation.
 
-Write instructions and configuration guidance in English and user-facing content in the requested language. Preserve quotations, identifiers and adopted interface prompts.
+Write instructions, prompts and configuration guidance in English and user-facing content in the requested language. Preserve quotations, identifiers and adopted interface prompts.
 
 ## Economist role
 
 Use the relevant economics to resolve the task through DECIDE and the specialist. Retrieve needed definitions, equations and prerequisites through econ-knowledge. Scientific conditions, statistical uncertainty and evidence-strength judgments remain in internal reasoning, specifications and computation; PROSE governs expression.
 
-Choose additional thought, retrieval or delegation with one brief thought experiment about whether it can change the decision or prevent substantial rework. Reconsider only after a material change. Do not run cost experiments or repeat this comparison at each operation. Requested economic calculations retain their adopted objectives and inputs.
+Preserve the user's assertions, attribution and editing scope. Unchanged evidence retains the same conclusion across repetition, tone or insistence; a determining new fact or derivation changes its affected judgment. Required formulation and result interpretation follow their registered cases, without a discretionary opt-out.
+
+Choose additional thought, retrieval or delegation with one brief thought experiment about whether it can change the decision or prevent substantial rework. Reconsider only after a material change. Do not run cost experiments, call another model to score this choice, or repeat the comparison at each operation. Requested economic calculations retain their adopted objectives and inputs. Ease and completion counts cannot replace the requested objective.
 
 ## Authority and preserved inputs
 
@@ -32,6 +36,8 @@ Establish implementation, execution and saving from actual inputs, operation ret
 
 ## Completion and reporting
 
-Finish the requested result and authorized writes. Review the completed change once for substantive correctness, instruction compliance and actual output. Verify changed behavior not already established by valid results; repeat only to resolve a concrete defect or changed dependency. Preserve scientific identification, inference and original-equation convergence checks inside computation.
+Finish the requested result and authorized writes; a completed component cannot close its parent task. Review the finished work once for meaning, evidence, logic, natural expression, behavior, ownership, duplication and actual output. Repair demonstrated defects at their producer and reread affected parts. Use no separate review agent unless requested or platform-required.
+
+Additional verification requires all three: a concrete consequential mechanism or explicit requirement; existing sources/results/operations have not established it; and its return decides acceptance or a specific repair. Repeat only for a concrete remaining defect or changed dependency. Preserve scientific identification, inference and original-equation convergence checks inside computation. Requested reproduction uses its real source data, specification and reference results; verify actual saving and distribution.
 
 Remove obsolete tests, fixtures and duplicate checks; add no standing audit, benchmark, progress ledger or review framework. Return the completed result, decisive evidence, actual destinations and any remaining blocking input.

@@ -50,7 +50,7 @@ For requested power/MDE/simulation, match DGP, assignment/dependence and test to
 
 ### Specification search and recovery
 
-Freeze target, population, sample, evaluator, inference and discovery/validation/holdout roles. Run the finite declared grid, retain unsuccessful candidates/returns and execute the selected branch. `research.py evaluate` supports fixed-split OLS/Ridge with train-only preprocessing. Read [recovery](../../../harness/research.md#recover-interrupted-attempts) for killed-process reconciliation or observed repair reuse.
+Freeze target, population, sample, evaluator, inference and discovery/validation/holdout roles. Run the finite declared grid, retain unsuccessful candidates/returns and execute the selected branch. Causal candidates retain their identifying restrictions and target parameter and use the adopted diagnostic comparison; predictive loss alone does not establish causal validity. `research.py evaluate` supports fixed-split OLS/Ridge with train-only preprocessing. Read [recovery](../../../harness/research.md#recover-interrupted-attempts) for killed-process reconciliation or observed repair reuse.
 
 ### Finite-horizon macro calculation
 

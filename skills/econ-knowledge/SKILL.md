@@ -17,7 +17,7 @@ The [retrieval program](scripts/knowledge.py) resolves the same collection in re
 
 ## Return
 
-Return selected IDs, required prerequisite bodies and versions, the equations or conditions used and their implication for the pending decision. Bind persistent source/calculation references to the existing artifact and continue through its specialist.
+Return selected IDs, required prerequisite bodies and versions, the equations or conditions used and their implication for the pending decision. For a pending method/source choice, include the selection reason, determining source question and observation that would change the adopted choice. Bind persistent source/calculation references to the existing artifact and continue through its specialist.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

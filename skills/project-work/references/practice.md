@@ -2,7 +2,7 @@
 
 ## Define the task
 
-Recover the request, existing materials, adopted decisions, result owner, scope, inputs, authority and observable completion conditions. Resolve consequential alternatives under the same fixed requirements and recommend a supported choice. Ask only for missing user-held information or judgment changing the result; silence supplies no answer. Continue independent work while it is pending.
+Recover the request, existing materials, adopted decisions, result owner, scope, inputs, authority and observable completion conditions. Resolve consequential alternatives under the same fixed requirements and recommend a supported choice. Ask only for missing user-held information or judgment changing the result. Use the host question mechanism for one focused question or an inseparable bundle, with plain-text fallback; silence supplies no answer. Continue independent work while it is pending.
 
 Apply each answer to affected requirements without reopening settled choices. A clear request needs no interview or approval round. For a complex change, distinguish observable requirements, adopted design and dependency-ordered implementation, including consequential interface/ownership/failure cases. Use existing specifications and [requirements mapping](../../../harness/state.md#adopted-specification-boundary) when persistence is needed. Return the requested brief or continue already-authorized execution.
 

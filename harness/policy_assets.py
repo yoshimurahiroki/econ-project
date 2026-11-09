@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.88.0'
+POLICY_ID = 'economics-native-0.89.0'
 PRIMARY_EXPRESSION_RULE = "Apply PROSE's output prohibitions to every answer and generated artifact, without exception."
 PRIMARY_STYLE_RULE = ('Keep scientific conditions, statistical uncertainty and evidence-strength judgments internal; '
                       'deliver the direct economic answer and actual operation result.')
@@ -602,7 +602,7 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
         _, common_selection = resolver.required_closure(routes, ['core.all'])
         scope['resource_sections'] = common_selection
     terminal = status.get('lifecycle')
-    if terminal not in {'paused', 'stopped', 'cancelled', 'completed'}:
+    if terminal not in {'paused', 'stopped', 'cancelled', 'completed', 'interrupted'}:
         terminal = 'completed' if str(status.get('status', '')).startswith('finalized-') else 'active'
     stage = stage or ('finalize' if terminal == 'completed' or status.get('status') in {'ready', 'provisional-ready'} else
                       'review' if status.get('submission_sha256') else
@@ -697,8 +697,9 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
                     if row['remaining_ranges'] and not present_in_context(row)]
     if pending_refs:
         text += ' Read next: ' + ', '.join(pending_refs[:3]) + '.'
-    short = ('Read complete current-stage rule bodies before dependent work; reuse matching text still in context. '
-             'Open the saved full packet when the host shows only its preview.')
+    short = ('Preserve the original request, authority and holds. Read complete current-stage rule bodies before dependent work; '
+             'reuse only matching complete text in the intact context. Open and finish the saved full packet when shown a preview; '
+             'a preview or receipt is not a rule-body read.')
     rule_refs = [row['path'] + ('' if row['section_id'] == 'all' else '#' + row['section_id']) +
                  ' (MCP: ' + row['rule_ids'][0] + ')' for row in direct_refs]
     if rule_refs:
@@ -743,7 +744,8 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
             text += '\n\n[Adopted applicable rule text: ' + row['path'] + '#' + row['section_id'] + ']\n' + body
             restoration['rules'].append(locator)
         if restoration['reused_rules']:
-            text += '\n\nReuse the complete matching bodies already exposed in this context: ' + canonical(restoration['reused_rules']).decode('utf-8')
+            text += ('\n\nReuse the ' + str(len(restoration['reused_rules'])) +
+                     ' complete matching rule bodies already exposed in this intact context; finish any unread body before dependent work.')
         text += '\n\n[Current stage, settled decisions, unmet items, and next actions]\n' + canonical({
             'stage': stage, 'adopted_selection': manifest.get('selection'),
             'settled_decisions': status.get('settled_decisions', []),
@@ -756,7 +758,7 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
             'instruction_event': instruction_event,
             'delivery_contract': {'events': list(INSTRUCTION_EVENTS), 'repeat_full_rule_per_event': False,
                                   'repeat_on_boundary_change_or_failure': True,
-                                  'stop_lifecycles': ['stopped', 'cancelled', 'completed']},
+                                  'stop_lifecycles': ['stopped', 'cancelled', 'completed', 'interrupted']},
             'instruction_version': digest(canonical({'route_registry': digest(assets['route_registry']),
                 'policy_assets': manifest['assets']['policy_assets']['sha256']})), 'run_id': status.get('run_id'),
             'submission_sha256': status.get('submission_sha256'), 'requirement_ids': requirement_ids, 'unmet_ids': unmet_ids,

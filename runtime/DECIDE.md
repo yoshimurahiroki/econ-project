@@ -22,9 +22,13 @@ State consequential alternatives, their predictions under common inputs and an o
 
 Preserve the target, observation unit and decision-relevant distinctions through aggregation. Resolve contradictions at the determining source, measurement or model. When independent reasoning is requested, share definitions and inputs while keeping developing judgments separate until integration; agreement supplies no evidence. Stop when the consequential alternatives are separated or their relevant bounds established.
 
+For fault diagnosis, isolate the suspected cause in a small case with other determining inputs fixed. For factual disagreement inspect the passage/measurement; for logical disagreement recover the missing implication; for preference differences use the applicable objective and decision right.
+
 ## Select a feasible action
 
 For substantive economic or project choices, compare feasible candidates under the adopted objective, rights, resource constraints, population, period and units. Remove infeasible and dominated options, then select the highest-ranked feasible action. Do not combine unlike objectives into an unexplained score. Equivalent outcomes favor fewer additional resources. Use supported ordinal rankings or switching conditions when a numerical ranking is undetermined.
+
+If the same action wins throughout the admissible range of a missing value, execute it. If its ranking switches, retain the switching condition and determining input. Method novelty and a larger menu are not adoption criteria.
 
 When information acquisition itself is a candidate action, compare the current best action with decisions after attainable signals under the same objective and supported probabilities. Include acquisition costs, delay and feasibility changes once. Deduct money from outcome amounts before utility, and utility-denominated costs from expected utility; transform costs consistently when changing currency or utility scale. Perfect information bounds partial-signal value only under the same costs and feasibility. Acquire information when its resulting objective exceeds the current action; otherwise act or retain the determining switching input. Ordinary working effort uses CORE's brief thought experiment.
 

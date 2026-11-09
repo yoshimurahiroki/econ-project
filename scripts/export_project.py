@@ -4,6 +4,7 @@ import argparse
 import ast
 import hashlib
 import importlib.util
+import io
 import json
 import os
 import re
@@ -11,6 +12,7 @@ import shutil
 import subprocess
 import tempfile
 import sys
+import zipfile
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -723,7 +725,7 @@ def _prepare_distribution(root, routes=None):
 
 
 def export_plugin(target):
-    """Publish one runtime accessible through the existing project-work Skill."""
+    """Publish one native runtime and owner-scoped cloud resources."""
     root, target = ROOT.resolve(), Path(target).absolute()
     validate_package_versions(root, required=True)
     if any(parent.is_symlink() for parent in target.parents):
@@ -789,42 +791,63 @@ def export_plugin(target):
     policy_assets = {key: files[name] for key, name in policy_paths.items()}
     files[resources['policy-manifest']['source_path']] = (json.dumps(
         policy.build_manifest(policy_assets, paths=policy_paths), ensure_ascii=False, indent=2) + '\n').encode('utf-8')
-    # Cloud readers expose one Skill directory at a time. Keep the complete
-    # runtime in one existing Skill so its rule text and executable bundle are
-    # available through that same host interface.
+    # Native execution keeps the canonical layout at plugin root. Cloud Skill
+    # readers expose each specialist's own files, rather than listing every
+    # specialist and knowledge unit in project-work's default entrance.
     shared = Path('skills/project-work/references/shared')
     canonical_files = files
-    files = {(shared / name).as_posix(): body for name, body in canonical_files.items()}
-    linked_contents = {(shared / name).as_posix(): body for name, body in contents.items()}
+    files = dict(canonical_files)
+    linked_contents = dict(contents)
+    for name, data in canonical_files.items():
+        if name.startswith('skills/'):
+            continue
+        exposed = (shared / name).as_posix()
+        if name in contents and prose_resource({'source_path': name}):
+            def cloud_link(link):
+                parts = urlsplit(link)
+                if parts.scheme or parts.netloc or not parts.path:
+                    return link
+                target_name = os.path.normpath(str(Path(name).parent / unquote(parts.path))).replace(os.sep, '/')
+                destination = Path(target_name) if target_name.startswith('skills/') else shared / target_name
+                return parts._replace(path=os.path.relpath(destination, Path(exposed).parent).replace(os.sep, '/')).geturl()
+            data = rewrite_markdown(contents[name], cloud_link).encode('utf-8')
+        files[exposed] = data
+        if name in contents:
+            linked_contents[exposed] = data.decode('utf-8')
+    # One generated archive preserves the complete runtime for cloud execution;
+    # it uses the same bytes and paths as native execution, with no installer or
+    # second registry. Read-only specialist resources remain directly accessible.
+    packed = io.BytesIO()
+    with zipfile.ZipFile(packed, 'w', zipfile.ZIP_DEFLATED) as archive:
+        for name, data in sorted(canonical_files.items()):
+            info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            source = root / name
+            info.external_attr = (0o100755 if source.is_file() and os.access(source, os.X_OK) else 0o100644) << 16
+            archive.writestr(info, data)
+    files['skills/project-work/references/runtime.zip'] = packed.getvalue()
     for owner in owners:
         name = resources[owner]['source_path']
         source = canonical_files[output_paths[owner]].decode('utf-8')
         if not source.startswith('---\n') or '\n---\n' not in source[4:]:
             raise ValueError('Skill entrance requires its canonical YAML frontmatter: ' + name)
         frontmatter = source[:source.index('\n---\n', 4) + 5]
-        relative_body = os.path.relpath(shared / output_paths[owner], Path(name).parent).replace(os.sep, '/')
+        relative_body = os.path.relpath(output_paths[owner], Path(name).parent).replace(os.sep, '/')
         relative_index = os.path.relpath(shared / 'docs/ai/compiled_ai_skills.md', Path(name).parent).replace(os.sep, '/')
         body = (frontmatter + '\n# ' + owner + '\n\n'
                 + 'Read the complete [canonical instructions](' + relative_body + ') under CORE. Use the [index](' + relative_index + ') only for unresolved operation/condition selection.\n\n'
-                + 'Cloud readers use this plugin\'s `project-work` package: replace its `main_resource` final `SKILL.md` with `references/shared/' + output_paths[owner] + '`. Resolve relative links within that shared root.\n\n'
-                + 'For execution, read that package\'s `bundle`, download/extract once, and use `references/shared/` as the runtime root. Materialized plugins use the linked directory.\n')
+                + 'Cloud readers read `instructions.md` directly in this Skill\'s package. Read common CORE/PROSE through the same plugin\'s `project-work` package at `references/shared/runtime/CORE.md` and `references/shared/runtime/PROSE.md`; its main entry is not needed for navigation. Cross-Skill references use the named owner\'s package and original relative path.\n\n'
+                + 'For cloud execution, read `project-work`\'s `bundle`, download/extract once, then run `python -m zipfile -e references/runtime.zip RUNTIME` from the extracted Skill directory. Execute from `RUNTIME`; it contains the complete pinned layout. Native plugins execute from the plugin root.\n')
         files[name] = body.encode('utf-8')
         linked_contents[name] = body
-    validate_internal_links(linked_contents, non_prose={
-        (shared / output_paths[rid]).as_posix() for rid in selected
-        if not prose_resource(resources[rid])})
+    non_prose = {output_paths[rid] for rid in selected if not prose_resource(resources[rid])}
+    validate_internal_links(linked_contents, non_prose=non_prose | {
+        (shared / name).as_posix() for name in non_prose if not name.startswith('skills/')})
     for name in ('plugin.json', '.codex-plugin/plugin.json'):
         files[name] = (root / name).read_bytes()
     for entry in sorted((root / 'skills').glob('*/agents/openai.yaml')):
         files[entry.relative_to(root).as_posix()] = entry.read_bytes()
     files['hooks/hooks.json'] = canonical_files['hooks/hooks.json']
-    files['hooks/check.py'] = (
-        '#!/usr/bin/env python3\n'
-        '"""Run the canonical hook in the shared Skill runtime."""\n'
-        'from pathlib import Path\n'
-        'import runpy\n\n'
-        'runpy.run_path(str(Path(__file__).resolve().parents[1] / '
-        + repr((shared / 'hooks/check.py').as_posix()) + '), run_name="__main__")\n').encode('utf-8')
     target.parent.mkdir(parents=True, exist_ok=True)
     staging = Path(tempfile.mkdtemp(prefix='.' + target.name + '-', dir=target.parent))
     try:

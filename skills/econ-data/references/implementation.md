@@ -8,13 +8,13 @@ Activate the registry condition for the changed object. Combine conditions only 
 
 ## Functions, types and failure boundaries
 
-Inspect the canonical definition, relevant callers and actual package dispatch. Prefer an existing local or official-library operation to new parsing, estimation, validation or retry code. Keep direct control flow, explicit inputs/returns and cohesive logic; add an abstraction only for a necessary shared responsibility or substantive named calculation.
+Inspect the canonical definition, relevant callers and actual package dispatch. Prefer an existing local or official-library operation to new parsing, estimation, validation or retry code. Keep direct control flow, explicit inputs/returns and cohesive logic. Avoid one-use wrappers, speculative configuration/service layers, fragmented files and dense conditionals; add an abstraction only for a necessary shared responsibility or substantive named calculation.
 
-Name quantities by economic role and computational state. Expose result-changing choices as parameters and use shared types for real interfaces. Separate acquisition/writes from calculations where order or effects matter. Explain non-obvious economic or implementation choices in comments.
+Return a scalar for one quantity and a simple named record for related outputs used together; keep transparent one-use expressions local. Name quantities by economic role and computational state. Expose result-changing choices as parameters and use shared types for real interfaces. Separate acquisition/writes from calculations where order or effects matter. Explain non-obvious economic or implementation choices in comments.
 
 Validate external types, units, options, authority and persistence at their first boundary. Validate again only after a relevant transformation or at an independently exposed interface. Remove repeated coercions and checks of established invariants; preserve cleanup, transactions, concurrency and timeouts.
 
-Repair the first incorrect state using the actual command, options, sample, versions and diagnostic. Catch errors only where the code can recover, add useful context or clean up; otherwise propagate them. Bound retries to documented recoverable failures. Defaults, fallbacks and compatibility branches need an actual supported case. Preserve authentication/storage failures explicitly and never replace a failed calculation with empty or synthetic success.
+Repair the first incorrect state using the actual command, options, sample, versions and diagnostic. Catch errors only where the code can recover, add useful context or clean up; otherwise propagate them. Bound retries to documented recoverable failures. Defaults, fallbacks and compatibility branches need an actual supported case. Preserve authentication, authoritative-storage and invariant failures explicitly; empty results, synthetic values and stale estimates cannot replace a failed calculation.
 
 Update producers, consumers and imports together. Remove superseded shapes, dead helpers and duplicate branches while preserving persisted user data and active public formats. [Named totals](implementation-examples.md#example-name-a-calculation-and-its-related-totals) illustrates a substantive shared calculation.
 

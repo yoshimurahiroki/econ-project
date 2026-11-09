@@ -233,7 +233,10 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
         gate.require(absolute(str(state_root)) == absolute(context['cwd']), 'operation root differs from the original task root')
         gate.require(_lifecycle(path.parent) == 'active', 'operation binding requires an active task')
         _effective_request(path.parent)
-        root = absolute(context['plugin_root'])
+        # An explicit rebind adopts the runtime executing this command, including
+        # after a release moves its canonical files. Task authority stays intact.
+        policy = sibling(base / 'policy_assets.py')
+        root = policy.discover_policy(policy.__file__, load_assets=False)[0]
         previous = context.get('operation_binding') or {}
         if stage is not None and operation == previous.get('operation'):
             conditions = conditions or previous['conditions']
@@ -247,7 +250,7 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
                    'policy_id': selected['policy_id'], 'selection_sha256': gate.sha(gate.canonical(selected)),
                    'assets': selected['assets'], 'active_rules': selected['active_rules'],
                    'resource_sections': selected['resource_sections'], 'contract': contract}
-        updated = {**context, 'operation_binding': binding}
+        updated = {**context, 'plugin_root': str(root), 'operation_binding': binding}
         if stage is not None:
             updated['reading_stage'] = stage
         elif binding != context.get('operation_binding'):
@@ -503,7 +506,7 @@ def _policy_snapshot(root, directory=None, context=None, conditions=()):
     return result
 
 
-def _restoration(root, directory, state, manifest=None, conditions=(), *, restore=True):
+def _restoration(root, directory, state, manifest=None, conditions=(), *, restore=True, instruction_event=None):
     """Restore fixed inputs, never a generated substitute for the host prompt."""
     context = _read(directory / 'context.json', {})
     original = _read(directory / 'original-prompt.json')
@@ -531,10 +534,10 @@ def _restoration(root, directory, state, manifest=None, conditions=(), *, restor
     request_sha = gate.sha(request.encode('utf-8'))
     restore_request = context_lost or retained.get('instruction_request_sha256') != request_sha
     packet = policy.instruction_context(owner, manifest=current,
-        status={**state, 'request_sha256': request_sha, 'unmet_ids': _ids(state)},
+        status={**state, 'lifecycle': _lifecycle(directory), 'request_sha256': request_sha, 'unmet_ids': _ids(state)},
         request_text=request if restore_request else None, restore=restore, stage=context.get('reading_stage'),
         role='author', reader_id=state.get('author_id'), retained_bodies=retained_bodies,
-        instruction_event='task-resume' if context_lost else 'post-tool')
+        instruction_event=instruction_event or ('task-resume' if context_lost else 'post-tool'))
     gate.require(packet.get('restoration', {}).get('included') is restore,
                  'canonical original-request/rule restoration is unavailable')
     # The canonical text contains the original and amendment bodies once.
@@ -801,9 +804,11 @@ def _new_task_requested(prompt):
     return bool(re.match(r'^\s*(?:新しい(?:独立した?)?(?:依頼|タスク)|別(?:の|件の)(?:依頼|タスク)|new\s+(?:independent\s+)?task)\s*[:：]', prompt, re.I))
 
 
-def _continuation_prompt(prompt):
+def _continuation_prompt(prompt, *, action_only=False):
     text = unicodedata.normalize('NFKC', prompt).casefold().strip(' \t\r\n。.!?？')
-    return bool(re.fullmatch(r'(?:まだ|進捗(?:は)?|状況(?:は)?|続けて(?:ください)?|継続して(?:ください)?|再開して(?:ください)?|continue|resume|status|any update|are you done)', text))
+    action = r'(?:続けて(?:ください)?|継続して(?:ください)?|再開して(?:ください)?|(?:please\s+)?(?:continue|resume)(?:\s+(?:the current task|this task|the task|working))?)'
+    return bool(re.fullmatch(action, text) or not action_only and
+                re.fullmatch(r'(?:まだ|進捗(?:は)?|状況(?:は)?|status|any update|are you done)', text))
 
 
 def _stop_requested(prompt, task_id=None):
@@ -1071,7 +1076,15 @@ def _child(event, root, directory, state, manifest):
     observed = _read(path)
     start = {'agent_id': agent_id, 'agent_type': agent_type, 'status': 'host-start-observed'}
     if event['hook_event_name'] == 'SubagentStart':
-        restored = _restoration(root, directory, state, manifest, conditions=('delegation_active',))
+        restored = _restoration(root, directory, state, manifest, conditions=('delegation_active',),
+                                instruction_event='worker-start')
+        assignment = _child_assignment(root, directory, agent_id)
+        restored += ('\nThe original request above supplies parent constraints. Execute only the host-assigned child scope; '
+                     'do not replace the research design, downgrade its method or close the parent through this return.')
+        if assignment is not None:
+            restored += '\n[Retained exact child assignment]\n' + json.dumps(assignment, ensure_ascii=False)
+        else:
+            restored += '\nKeep the original host launch assignment; recover it from the parent before dependent work if unavailable.'
         gate.require(observed is None or (observed.get('agent_id') == agent_id
                      and observed.get('agent_type') in (None, agent_type)), 'host child identity changed')
         start['start_observation'] = {'event': 'SubagentStart', 'agent_id': agent_id,
@@ -1424,7 +1437,8 @@ def _tool_target(value, cwd):
 def _recovery_packet(root):
     policy = sibling(root / 'harness/policy_assets.py')
     owner, _, manifest, _ = policy.discover_policy(policy.__file__, conditions=('resumption_active',))
-    packet = policy.instruction_context(owner, manifest=manifest, status={'status': 'blocked'}, restore=True)
+    packet = policy.instruction_context(owner, manifest=manifest, status={'status': 'blocked'}, restore=True,
+                                        instruction_event='task-resume')
     return (packet['text'] + '\nThe original task and its identity are unavailable in this session. '
             'Locate the actual inherited task context and recover its exact request, amendments, authority, holds, '
             'applicable rules and unfinished work before dependent changes or external actions. '
@@ -2050,8 +2064,12 @@ def dispatch(event, expected_event):
                 save_record(directory / 'stop-request.json', stopping)
                 _finish(directory, 'cancelled')
                 return feedback(expected_event, 'Recorded the stop instruction. Stop the task and preserve its existing state.')
-            if lifecycle == 'paused':
+            resume_action = _continuation_prompt(prompt, action_only=True)
+            resuming_interruption = lifecycle == 'interrupted' and resume_action
+            if (lifecycle == 'paused' and (resume_action or not _continuation_prompt(prompt))) or resuming_interruption:
                 _finish(directory, 'active')
+                if resuming_interruption:
+                    (directory / 'interrupted.json').unlink()
                 lifecycle = 'active'
             if lifecycle in TERMINAL:
                 return feedback(expected_event, 'This task has completed or stopped. Do not resume automatically. Handle an independent new request as a separate task.')
@@ -2087,7 +2105,8 @@ def dispatch(event, expected_event):
                     text += '\nRetained the original request and verbatim additions. Reconcile the governing requirements and current state with the changed request.'
                 if kind == 'partial-stop':
                     text += '\nRecorded a hold for the specified target. Resolve the target IDs, do not execute held operations, and continue the explicitly identified parent task.'
-                text += '\n' + _restoration(root, directory, state, manifest, restore=False)
+                text += '\n' + _restoration(root, directory, state, manifest, restore=resuming_interruption,
+                                            instruction_event='task-resume' if resuming_interruption else 'post-tool')
                 if event['turn_id'] != old['turn_id']:
                     policy = sibling(root / 'harness/policy_assets.py')
                     available = _scoped_available(root, expected_event, text, policy)
@@ -2109,7 +2128,7 @@ def dispatch(event, expected_event):
             coordinator = _coordinator(directory)
             state['request_sha256'] = context['prompt_sha256']
             text = coordinator
-            text += '\n' + _restoration(root, directory, state)
+            text += '\n' + _restoration(root, directory, state, instruction_event='task-start')
             text += ('\nRead the selected operation and all applicable instruction bodies before dependent work. '
                      'Use existing task state when persistent continuation is needed. '
                      'To retain the selected operation in this host context, use codex_hooks.py --root ' + json.dumps(str(cwd)) +
@@ -2148,7 +2167,8 @@ def dispatch(event, expected_event):
                 pending_compaction.get('pending_restoration')):
             text = _coordinator(directory)
             conditions = ('resumption_active', 'delegation_active') if agent_id else ('resumption_active',)
-            text += '\n' + _restoration(root, directory, state, manifest, conditions=conditions)
+            text += '\n' + _restoration(root, directory, state, manifest, conditions=conditions,
+                                        instruction_event='compaction')
             if agent_id is not None:
                 assignment = _child_assignment(root, directory, agent_id)
                 if assignment is None:
@@ -2225,7 +2245,11 @@ def dispatch(event, expected_event):
                 text = ''
                 current_context = _read(context_path, {})
                 retained = _read(directory / 'reinjection.json', {})
-                if (operation == 'state-control' and not _tool_failed(event)
+                if _tool_failed(event):
+                    text = _restoration(root, directory, state, manifest, restore=False,
+                                        instruction_event='check-failure')
+                    text += '\nThe failed operation remains incomplete. Repair its actual cause and affected dependents before claiming completion.'
+                elif (operation == 'state-control'
                         and (retained.get('instruction_binding_sha256') != gate.sha(gate.canonical(current_context.get('operation_binding')))
                              or retained.get('instruction_stage') != current_context.get('reading_stage')
                              or retained.get('instruction_policy_sha256') is None)):
@@ -2250,7 +2274,8 @@ def dispatch(event, expected_event):
             conditions = ('resumption_active',) if event.get('source') != 'startup' else ()
             policy, _, _, _, _ = _policy_snapshot(root, directory, conditions=conditions)
             text = _coordinator(directory)
-            text += '\n' + _restoration(root, directory, state, manifest, conditions=conditions)
+            text += '\n' + _restoration(root, directory, state, manifest, conditions=conditions,
+                                        instruction_event='compaction' if event.get('source') == 'compact' else 'task-resume')
             if lifecycle == 'paused':
                 text += '\nThe task is paused for the next actual user input. Preserve its holds; do not start dependent operations automatically.'
             available = _scoped_available(root, expected_event, text, policy)
@@ -2272,7 +2297,12 @@ def dispatch(event, expected_event):
                         'The parent task remains incomplete.'}
             return {}
         except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError) as exc:
-            return failure('Stop', str(exc))
+            try:
+                restored = _restoration(root, directory, state, manifest, restore=False,
+                                        instruction_event='check-failure')
+            except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError) as restore_error:
+                return failure('Stop', str(exc) + '; restore required instructions: ' + str(restore_error))
+            return failure('Stop', str(exc) + '\n' + restored)
 
 
 def main(expected_event):

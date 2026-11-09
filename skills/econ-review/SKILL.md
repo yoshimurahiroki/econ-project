@@ -31,6 +31,8 @@ For empirical claims, reconstruct the population contrast, observation weights a
 
 For each defect, identify its target, consequence, evidence and producing cause. Repair source/premise at the cited material, transformation at its operation, inference at its connecting argument, presentation at the unsupported parent proposition and execution at the failed producer. Route requested prose repair through econ-writing. Reconcile affected restatements and artifacts; changed wording cannot repair an unchanged faulty calculation.
 
+Adjudicate a contested finding against the actual cited passage or producing calculation. Preserve a correct claim when the proposed finding lacks that support. Read the linked response/re-review contract before a requested referee letter; it owns finding IDs, original comments, revised spans, response callbacks and actual saved letter correspondence.
+
 For each referee comment, locate its substantive question and premise in the manuscript, appendix, equation, exhibit or source. Retain a correct result with its derivation; repair a demonstrated defect. Findings-only work returns the needed repair; authorized repair continues to the actual revised target. Keep permission and version bindings in existing evidence/task context.
 
 Inspect slides and figure-heavy artifacts before the author's layout explanation. Recover their question, comparison and evidence, then apply the selected [medium/render procedure](../econ-writing/references/artifact-writing.md). Match scales, axes and labels to the original result; check requested speaking time or controls. Stop when affected claims follow from their sources and the requested artifact/operation is complete.
