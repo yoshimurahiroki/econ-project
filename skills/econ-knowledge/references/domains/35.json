@@ -1,0 +1,247 @@
+{
+  "domain": "革新歴史広告",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "innov-01",
+      "chapter": 30,
+      "concept_ids": [
+        "C-INNOV-01",
+        "C-CH-30"
+      ],
+      "contract_ids": [],
+      "domain": "革新歴史広告",
+      "file": "chapters/30-innovation-history-marketing.md",
+      "id": "INNOV-01",
+      "inputs": [
+        "到着率",
+        "研究費",
+        "新旧価値"
+      ],
+      "jel_codes": [
+        "O31",
+        "O32",
+        "O34"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "研究条件",
+        "革新便益"
+      ],
+      "prerequisites": [
+        "DYN-02"
+      ],
+      "related": [
+        "INNOV-06"
+      ],
+      "subdomain": "研究開発と創造的破壊",
+      "title": "研究開発と創造的破壊",
+      "topic": "研究開発と創造的破壊; patent measurement innovation; patent grant probability; 特許と発明の測定",
+      "use_when": "研究開発と創造的破壊を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "innov-02",
+      "chapter": 30,
+      "concept_ids": [
+        "C-INNOV-02",
+        "C-CH-30"
+      ],
+      "contract_ids": [],
+      "domain": "革新歴史広告",
+      "file": "chapters/30-innovation-history-marketing.md",
+      "id": "INNOV-02",
+      "inputs": [
+        "採用費",
+        "ネットワーク便益",
+        "投入"
+      ],
+      "jel_codes": [
+        "O33",
+        "O32"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "採用条件",
+        "普及"
+      ],
+      "prerequisites": [
+        "GAME-01"
+      ],
+      "related": [
+        "INNOV-05"
+      ],
+      "subdomain": "技術の採用、普及と補完投資",
+      "title": "技術の採用、普及と補完投資",
+      "topic": "技術の採用、普及と補完投資",
+      "use_when": "技術普及と補完投資を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "innov-03",
+      "chapter": 30,
+      "concept_ids": [
+        "C-INNOV-03",
+        "C-CH-30",
+        "C-TERM-FIRM-VALUATION"
+      ],
+      "contract_ids": [],
+      "domain": "革新歴史広告",
+      "file": "chapters/30-innovation-history-marketing.md",
+      "id": "INNOV-03",
+      "inputs": [
+        "無形資産",
+        "投資",
+        "将来FCF"
+      ],
+      "jel_codes": [
+        "G31",
+        "G32",
+        "O34"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "資産経路",
+        "企業価値"
+      ],
+      "prerequisites": [
+        "FINANCE-03"
+      ],
+      "related": [
+        "INNOV-01"
+      ],
+      "subdomain": "組織資本と企業価値",
+      "title": "組織資本と企業価値",
+      "topic": "組織資本と企業価値",
+      "use_when": "組織投資を企業価値に接続する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "innov-04",
+      "chapter": 30,
+      "concept_ids": [
+        "C-INNOV-04",
+        "C-CH-30"
+      ],
+      "contract_ids": [
+        "MC-marketing-mmm",
+        "MC-customer-lifetime"
+      ],
+      "domain": "革新歴史広告",
+      "file": "chapters/30-innovation-history-marketing.md",
+      "id": "INNOV-04",
+      "inputs": [
+        "広告費",
+        "持越率",
+        "貢献利益",
+        "顧客別の獲得日・更新解約・購入・提供費用",
+        "チャネル地域時点別の投下・露出",
+        "価格販促・実験の増分効果",
+        "広告ストック初期値・持越し期間",
+        "利益率・予算・営業容量"
+      ],
+      "jel_codes": [
+        "M37",
+        "D83"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "広告支出",
+        "増分利益",
+        "因果的な増分CAC",
+        "継続確率とコホートCLV・利益",
+        "MMMの事後応答",
+        "増分利益と獲得維持の最適予算"
+      ],
+      "prerequisites": [
+        "DYN-02",
+        "STAT-07"
+      ],
+      "related": [
+        "FORECAST-06",
+        "FORECAST-02",
+        "DEMAND-03"
+      ],
+      "subdomain": "広告、検索と購入",
+      "title": "広告、検索と購入",
+      "topic": "広告、検索、顧客獲得・継続、CLV、MMMと限界利益配分",
+      "use_when": "顧客獲得・維持と広告の増分効果をコホート利益・事後期待利益へ変換し、容量と予算の下で配分を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "innov-05",
+      "chapter": 30,
+      "concept_ids": [
+        "C-INNOV-05",
+        "C-CH-30",
+        "C-CLASS-HISTORY"
+      ],
+      "contract_ids": [],
+      "domain": "革新歴史広告",
+      "file": "chapters/30-innovation-history-marketing.md",
+      "id": "INNOV-05",
+      "inputs": [
+        "採用便益",
+        "相互作用",
+        "人口"
+      ],
+      "jel_codes": [
+        "D02",
+        "O43",
+        "N00"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "採用均衡",
+        "歴史的比較"
+      ],
+      "prerequisites": [
+        "GAME-01"
+      ],
+      "related": [
+        "POL-05"
+      ],
+      "subdomain": "歴史的持続と協調",
+      "title": "歴史的持続と協調",
+      "topic": "歴史的持続と協調",
+      "use_when": "歴史的制度と協調を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "innov-06",
+      "chapter": 30,
+      "concept_ids": [
+        "C-INNOV-06",
+        "C-CH-30"
+      ],
+      "contract_ids": [],
+      "domain": "革新歴史広告",
+      "file": "chapters/30-innovation-history-marketing.md",
+      "id": "INNOV-06",
+      "inputs": [
+        "広告遷移",
+        "利益",
+        "研究到着率"
+      ],
+      "jel_codes": [
+        "M37",
+        "C61"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "最適広告",
+        "研究投入と研究費"
+      ],
+      "prerequisites": [
+        "INNOV-04"
+      ],
+      "related": [
+        "INNOV-01"
+      ],
+      "subdomain": "広告ストックと最適支出",
+      "title": "例題：広告ストックと最適支出",
+      "topic": "例題：広告ストックと最適支出",
+      "use_when": "広告と革新投資の例を解く"
+    }
+  ]
+}

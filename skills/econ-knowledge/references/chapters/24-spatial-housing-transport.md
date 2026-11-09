@@ -1,0 +1,179 @@
+# 24 都市・住宅・交通
+
+一般均衡、離散選択と外部性を前提とする。居住地、通勤、住宅供給と公共サービスが空間的に決まる仕組みを扱う。
+
+<a id="spatial-01"></a>
+
+## SPATIAL-01 地代と単一中心都市
+
+都市中心から距離 $r$ に住む家計が合成財 $c$、住宅面積 $h$ を消費し、賃金 $w$、通勤費 $t(r)$、地代 $R(r)$ の下で $c+R(r)h=w-t(r)$ を満たす。与えられた効用 $\bar u$ を達成できる最大地代を付け値地代 $R^b(r,\bar u)$ とする。距離が増えて通勤費が上昇すると、同じ効用を維持するために支払える地代は下がる。
+
+住宅面積が固定の $h=1$、効用が合成財消費 $c$ に等しい場合、$R^b(r,\bar u)=w-t(r)-\bar u$ である。都市境界 $\bar r$ は地代が農地の代替地代 $R_A$ と一致する点で決まる。外部地域からの移住が自由な開放都市では $\bar u$ が外部効用に固定され人口が調整し、人口固定の閉鎖都市では居住者数と住宅供給の積分が人口に等しくなるよう $\bar u$ と境界が決まる。
+
+土地の幅が1の直線都市で、人口の大きさを $N$、各人が使う土地を1、通勤の実物費用を $t(r)=ar$、外側の地代をゼロとする。全区画が使われる閉鎖都市では $\bar r=N$、$R(r)=a(N-r)$、各人の消費は $w-aN$ となる。ただし $w>aN$ とする。例えば $N=2,w=10,a=2$ なら境界は2、地代は $R(r)=4-2r$、各人の消費は6である。全住民の消費は12、地主の地代収入は $\int_0^2(4-2r)dr=4$、通勤の実物費用は $\int_0^2 2r\,dr=4$ で、合計20は賃金所得 $wN$ と一致する。地主と住民の所有関係を変えれば所得の分配も再計算する。
+
+<a id="spatial-02"></a>
+
+## SPATIAL-02 居住、通勤と住宅清算
+
+個人が居住地 $i$ と勤務地 $j$ を選び、合成財と住宅面積のCobb–Douglas効用、住宅支出比率 $0<\beta<1$、賃金所得 $w_j$、住宅amenity $A_i$、通勤の効用費用 $\tau_{ij}$ を置く。最適住宅面積は $h_{ij}=\beta w_j/R_i$、間接効用の確定部分は定数を除き $V_{ij}=A_i+\log w_j-\beta\log R_i-\tau_{ij}$ となる。独立な極値型の選択ショックを仮定すると、居住・勤務地の選択確率は $P_{ij}=\exp(V_{ij})/\sum_{k,l}\exp(V_{kl})$ である。通勤費 $\tau_{ij}$ が下がると、その組の選択確率が高くなり、代替組の確率が変わる。
+
+人口 $N$ の住宅面積需要 $N\sum_jP_{ij}\beta w_j/R_i$ を面積供給 $H_i(R_i)$ に等置し、各勤務地の労働需要と $N\sum_iP_{ij}$ を一致させる。賃金、地代、通勤者数を同時に更新して清算させる。住宅在庫、地代、勤務地別賃金、居住地・勤務地の流れと交通時間を結び、交通改善などの外生的変化を用いて移動費用と選好を推定する。政策後は家賃と賃金の応答を含む効用のログサムを再計算する。地域の未観測amenityが賃金・家賃と共変する場合、地域間の観測相関だけでは選好を識別できない。地域別労働需要を動かし未観測amenityの変化と直交する変動を用い、除外条件と支配的な産業ショックへの曝露を調べる。住宅需要の反応は、一人当たり面積の変化と居住者数の変化を合わせて計算する。
+
+政策対象地区の家賃や賃金だけでは、他地区へ波及する価格変化の集計を捉えられない。例えば対象地区の10人の一人当たり間接効用が0.1低下し、他地区の90人がそれぞれ0.002上昇すると、住民全体の変化は $10(-0.1)+90(0.002)=-0.82$ である。各地域の人口が異なるため、一人当たりの波及が小さくても総和は無視できない。この例は同じ尺度で測った住民効用の合計であり、金銭的な社会便益に換算するときは限界効用と住宅所有者の受取額も加味する。
+
+一人一戸の居住枠を数える仕様では、地区の選択便益を $V_i=A_i-\alpha\log R_i$、居住枠需要を $N_i=N\exp(V_i)/\sum_k\exp(V_k)$、供給を $H_i=K_iR_i^{\varepsilon_i}$ とする。供給を増やす政策はまず供給曲線を右に動かし、家賃低下によってその地域への居住を増やす。周辺地域でも人口と家賃が変わるため、すべての地域で $N_i=H_i$ を満たす家賃の組を解く。外部からの人口流入を認める開放都市なら、都市全体の人口も外部選択肢の価値に一致するまで調整する。
+
+住宅供給の反実仮想を二地区で計算する。人口100人は各1単位の労働を供給し、生産 $F(L)=100L$ の競争企業が全員を雇うため賃金は100である。各人の住宅支出比率を $\beta=.25$、地区の確定的amenityを同一とし、地区固有ショックを独立な単位尺度極値分布とする。地区の住宅面積は政策前 $(H_1,H_2)=(100,100)$、政策後 $(400,100)$ とし、追加住宅面積は費用0で外生的に供給される。各地区の家賃 $R_i$ は $N_i(.25\cdot100/R_i)=H_i$、人口は $N_i=100R_i^{-.25}/\sum_jR_j^{-.25}$ を満たす。
+
+基準均衡は人口 $(50,50)$、家賃 $(12.5,12.5)$、政策後は人口 $(56.887407,43.112593)$、家賃 $(3.555463,10.778148)$ となる。両地区で住宅需要と供給の差は $1.5\times10^{-14}$ 以下、人口は100に等しい。選択前の期待効用の差は $\Delta V=\log\sum_i\exp(\log100-.25\log R_i^1)-\log\sum_i\exp(\log100-.25\log R_i^0)=0.185260$ である。政策前価格で同じ効用を得る所得変化は一人当たり $100(e^{\Delta V}-1)=20.353113$ で、100人の等価変分は2035.311298である。住宅所有者は居住者とは別の家主であり、賃料収入をすべて合成財に支出する。各均衡で労働者の合成財消費は一人75、家主の賃料収入と消費は2500となり、合計消費 $100\cdot75+2500=10000$ は企業の生産 $100\cdot100$ に等しい。家主所得差は0である。所得等価額は各人が家賃を所与に受け取る額で評価する。移動費や建設費が発生する政策ではそれらを資源費用として追加し、当該費用と家主・住民の受取額を同じ人口と期間で集計する。
+
+### Closed-city ARSW model and executable inversion
+
+`MC-qse-commuting` specifies the ARSW (2015) mixed-use closed-city economy. In this subsection, \(\beta_g\) is the **goods expenditure share** and corresponds to the runner's `parameters.beta`; residential expenditure has share \(1-\beta_g\). Let \(N\) be the fixed worker population, \(t_{ij}\) travel time from residence \(i\) to workplace \(j\), \(q_i\) the common commercial/residential floor rent, and \(w_j\) the wage. Workers have iid Fréchet tastes with shape \(\epsilon>1\). Define
+\[
+\phi_{ij}=e^{-\epsilon\kappa t_{ij}}B_i^\epsilon q_i^{-(1-\beta_g)\epsilon}w_j^\epsilon,
+\quad \pi_{ij}=\frac{\phi_{ij}}{\sum_{k,l}\phi_{kl}},\quad
+R_i=N\sum_j\pi_{ij},\quad L_j=N\sum_i\pi_{ij},\quad I_i=N\sum_j\pi_{ij}w_j.
+\]
+The homogeneous traded good has price one. Firms produce \(Y_i=A_iL_i^\alpha S_i^{1-\alpha}\) using labor and commercial floors. Competitive factor prices satisfy \(w_i=\alpha Y_i/L_i\) and \(q_i=(1-\alpha)Y_i/S_i\). Residential demand is \(H_i=(1-\beta_g)I_i/q_i\), and floor clearing requires \(S_i+H_i=F_i\). All locations have positive residential and workplace populations, and their commercial shares \(S_i/F_i\) lie in \((0,1)\).
+
+Productivity and amenities respond to the distributions through
+\[
+A_i=a_i\left[\sum_j e^{-\delta t_{ij}}L_j/\mathrm{area}_j\right]^\lambda,
+\qquad
+B_i=b_i\left[\sum_j e^{-\rho t_{ij}}R_j/\mathrm{area}_j\right]^\eta.
+\]
+The fixed primitive vectors are \(a,b,F,\mathrm{area}\); \(\alpha,\beta_g,\epsilon,\kappa,\lambda,\delta,\eta,\rho\) are supplied calibrated parameters. Population, rents, production and both density indices adjust in a policy equilibrium. A supplied travel-time matrix determines the commuting and spillover kernels.
+
+Given positive observed \(R,L,q,\mathrm{area}\), equal population and employment totals, and finite nonnegative travel times, log-coordinate origin-destination balancing matches \(e^{-\epsilon\kappa t}\) to the residence and workplace shares. Its destination multipliers recover relative \(w^\epsilon\); origin multipliers and \(q\) recover relative \(B^\epsilon\). The baseline employment-weighted mean wage and population-weighted mean total amenity each equal one. Observed rents are divided by `baseline.wage_numeraire`, the mean wage in the same currency and period. Firm prices imply \(A_i=(w_i/\alpha)^\alpha(q_i/(1-\alpha))^{1-\alpha}\). Floor demands recover \(F\); division by the baseline density indices recovers \(a,b\). This inversion holds the supplied elasticities fixed. Policy calculations retain these baseline units.
+
+The existing `research_macro_extended.py` runs `model="qse_commuting"` with `operation="invert_baseline"` or `"counterfactual"`. A counterfactual consumes `saved_solution:{path,sha256}` and positive `productivity_hat`, `amenity_hat`, `floor_space_hat` or a replacement `travel_time` matrix. It restores the saved primitives and complete baseline equilibrium. SciPy trust-region least squares solves the log-coordinate labor choice, residence choice, zero-profit and floor-clearing equations. The returned quantities are substituted into the original market, population, probability and resource conditions. The [macro reference](../../../econ-design/references/macro-models/spatial.md#closed-city-commuting-and-floor-space-equilibrium) specifies the complete input and saved-result interface.
+
+Expected optimized worker utility is \(U=\Gamma(1-1/\epsilon)(\sum_{ij}\phi_{ij})^{1/\epsilon}\). The same \(N\) workers are evaluated before their tastes are drawn. Set \(\chi=U_s/U_b-1\). Raising every potential baseline wage by \(\chi\), at baseline rents, gives the scenario expected utility. The expected income equivalent is
+\[
+EV_W=\chi N\sum_{ij}\pi^b_{ij}w^b_j
+=\chi\sum_j w^b_jL^b_j.
+\]
+Separate external floor owners receive all \(q_iF_i\) and consume the numeraire good; their linear-utility equivalent is \(EV_O=\sum_i(q_i^sF_i^s-q_i^bF_i^b)\). The saved baseline-price income equivalent sums \(EV_W+EV_O\) with unit weights. Firms earn zero profit. Each equilibrium satisfies \(\sum_iY_i=\beta_g\sum_iI_i+\sum_iq_iF_i\). Travel is a utility cost, and floor hats change endowed space with zero construction resource cost. The result retains the worker utility ratio, worker income equivalent, owner income change and firm-profit change as named quantities. Local outcomes, commuting flows and aggregate accounting feed the existing statistics and gallery interfaces.
+
+The official calculation sources are [QSETRANSPORT's baseline inversion](https://github.com/Ahlfeldt/QSETRANSPORT-toolkit/blob/c3e212843bff81a9d69df75bb7e6aac022bea8c8/QUETRANSPORT-PythonOnly/src/python/functions/inversion/baseline.py) and its [closed-city damped equilibrium calculation](https://github.com/Ahlfeldt/QSETRANSPORT-toolkit/blob/c3e212843bff81a9d69df75bb7e6aac022bea8c8/QUETRANSPORT-PythonOnly/src/python/functions/equilibrium/model.py). The [independent Julia implementation](https://github.com/SebKrantz/Quantitative-Spatial-Economics/blob/4e673a3c7d7470a137bdfc34d9c1325178ab0568/AhlfeldtReddingSturmWolf-ECMA-2015/ahlfeldt_redding_sturm_wolf_density_model.jl) states the same commuting, production and density equations. The supplied travel-time intervention enters those kernels directly.
+
+### Open-city commuting equilibrium with free migration
+
+`MC-qse-open-city` uses the same production, floor clearing, commuting probabilities, density spillovers and calibrated primitives. Workers choose city residence before their location-pair tastes are drawn and can attain the fixed reservation expected utility outside the city. The saved original baseline determines that reservation utility, \(\bar U=U_b\). City population \(N_s>0\) adjusts jointly with wages, rents and the residence and employment distributions. Its additional equilibrium condition is
+\[
+\log\left[\frac{\Gamma(1-1/\epsilon)(\sum_{ij}\phi^s_{ij})^{1/\epsilon}}{\bar U}\right]=0.
+\]
+The solver adds \(\log N_s\) to the unknowns and this migration condition to the original labor, residence, production and floor equations. A transport improvement or a change in amenities, productivity or endowed floors changes the city population and its internal allocation. The same homogeneous traded good and external floor owners retain the goods accounting above.
+
+Select `model="qse_open_city"`, `operation="counterfactual"` and a hash-bound `saved_solution` from the QSE runner. The existing `solve_qse` restores the original baseline and reevaluates its economic equations before solving the policy. `scenario` and `solver` retain the closed-city input definitions. The result preserves `qse_numerical_contract_version`, the actual producing code and original saved-source identity. The versioned economic equations govern reuse across file changes.
+
+Free migration fixes expected worker utility at \(U_s=U_b\). The income equivalent for the original baseline population, \((U_s/U_b-1)\sum_j w^b_jL^b_j\), is zero at equilibrium. The result separately saves city population change, its ratio, the expected-utility ratio and external floor-owner income change \(\sum_i(q_i^sF_i^s-q_i^bF_i^b)\). Each saved quantity carries its population and units. The official comparison uses [QSETRANSPORT `solve_closure("open", ..., reservation_utility=U_b)`](https://github.com/Ahlfeldt/QSETRANSPORT-toolkit/blob/c3e212843bff81a9d69df75bb7e6aac022bea8c8/QUETRANSPORT-PythonOnly/src/python/functions/equilibrium/model.py) at the same primitives, travel times and reservation utility.
+
+### City-hinterland migration with a finite utility elasticity
+
+`MC-qse-imperfect-mobility` keeps the ARSW within-city equations and adds a fixed regional population choosing between city and hinterland. Let the observed baseline urban share be \(s_b\in(0,1)\), the saved city population be \(N_b\), and its expected city opportunity value be \(U_b\). With calibrated shape \(\zeta>0\), set
+\[
+\bar N=N_b/s_b,\qquad \widetilde U=U_b^\zeta(1-s_b)/s_b.
+\]
+City and hinterland log opportunity values have independent extreme-value shocks with scale \(1/\zeta\). Workers choose the city before drawing its residence-workplace tastes. The resulting population condition is
+\[
+N=\bar N\frac{U^\zeta}{U^\zeta+\widetilde U},\qquad
+\operatorname{logit}(N/\bar N)-\operatorname{logit}(s_b)=\zeta\log(U/U_b).
+\]
+The elasticity of city population to city utility is \(\zeta(1-N/\bar N)\). Policies change both population and city utility. Every candidate population enters commuting flows, employment and residential density spillovers, floor clearing and goods accounting. The regional population and hinterland opportunity value remain fixed. This adopts the migration primitive from [ABSJ2027 `solver`](https://github.com/Ahlfeldt/ABSJ2027-toolkit/blob/b5c8d32ccab117cb7b85f581cf29569c1eea893a/Python/functions/solver.py) and its [urban-share inversion](https://github.com/Ahlfeldt/ABSJ2027-toolkit/blob/b5c8d32ccab117cb7b85f581cf29569c1eea893a/Python/functions/find_utilde.py), by Ahlfeldt, Baum-Snow and Jedwab, *The Skyscraper Revolution: Global Economic Development and Land Savings*. The city retains the preceding ARSW production, mixed-use floor supply and commuting specification.
+
+The regional welfare index is \(V=(U^\zeta+\widetilde U)^{1/\zeta}\). Under the common outer-shock constant normalization, \(\log V\) is expected optimized log opportunity value per regional worker. The comparison for the same regional population is
+\[
+\log(V_s/V_b)=\frac{1}{\zeta}\log\left[(1-s_b)+s_b(U_s/U_b)^\zeta\right].
+\]
+The saved regional ratio and log-value change retain those utility units. The conditional city income equivalent \((U_s/U_b-1)\sum_jw_j^bL_j^b\) evaluates city opportunities for the original baseline city population at baseline rents. The external floor-owner income difference retains its existing monetary definition. The result saves these three objects with their population and unit definitions, together with city migration and hinterland population.
+
+Select `model="qse_imperfect_mobility"`, `operation="counterfactual"`, a hash-bound QSE `saved_solution`, and `migration={zeta,baseline_urban_share,source}`. The existing `research_macro_extended.py run` and `solve_qse` restore the baseline and calibrated ARSW primitives. One population log-odds coordinate and the migration equation extend the same trust-region equilibrium solve. Original population-supply and log-odds residuals accompany all existing market residuals. A saved result retains the migration calibration for subsequent policies; it supplies the same original baseline and complete named welfare, statistics and display objects. The [macro execution contract](../../../econ-design/references/macro-models/spatial.md#city-and-hinterland-with-imperfect-mobility) defines the input, numerical coordinates and saved outputs.
+
+<a id="spatial-03"></a>
+
+## SPATIAL-03 集積、混雑と住宅供給
+
+地域の生産性を $A_i=A_{0i}L_i^\eta$ とすれば、労働者の集中が $\eta>0$ のとき生産性を高める。企業は他社の立地による生産性を所与に雇用する一方、社会的な追加労働者は既存企業の生産性にも影響する。集積効果は企業数、雇用、技術と生産額を結び、需要や土地の条件が共通に変わる経路を調整して推定する。混雑や住宅費上昇が集積便益を相殺するので、地域間人口の均衡を同時に解く。
+
+住宅供給を $H_i=K_iR_i^{\varepsilon_i}$ とすると、$\varepsilon_i$ は地代に対する供給弾力性である。建築規制が $K_i$ や供給上限を変える場合、供給と居住需要の交点から家賃と人口を決める。住宅価格の差を立地属性に回帰するヘドニック価格は、観測された均衡で属性をわずかに変えたときの価格勾配を表す。大規模な規制変更では需要と供給の両方が動くため、住宅価格勾配と新しい立地選択を用いて均衡を解き直す。
+
+供給弾力性の一つの由来を、固定された土地 $T>0$ と資本 $K$ を用いる住宅生産 $H=B K^\alpha T^{1-\alpha}$、$0<\alpha<1$ で示す。住宅の賃料を $R$、資本一単位の費用を $r$ とし、土地費用が資本選択に依存しないとき、供給者は $RH-rK$ を最大化する。内点条件 $R\alpha H/K=r$ より $H=BT(\alpha RB/r)^{\alpha/(1-\alpha)}$ で、他の条件が一定なら供給弾力性は $\alpha/(1-\alpha)$ である。$\alpha=1/3$ なら弾力性は1/2で、賃料が4倍になると供給は2倍になる。固定土地の機会費用、建築上限、建設の耐久性や調整費用が政策比較に影響する場合は、それらも明示する。
+
+住宅規制の反実仮想では、地区別の住宅数、賃料、建設可能面積と世帯数を基準均衡に合わせる。容積率の引上げを供給曲線 $H_i(R_i)$ の変更として表し、家計が居住地区を再選択した後の需要と供給が一致する賃料を求める。新規建設費、土地所有者の地代収入、居住者の移動費を含めれば、住宅数の増加と家賃低下の分配を比較できる。
+
+住宅供給弾力性を、価格 $R$ と住宅数 $H$ の変化から $\varepsilon=d\log H/d\log R$ と定める。同じ需要増でも弾力性が小さい地区では価格が大きく上がり、供給の増加は小さい。用途地域、地形、空地と建設費を観測し、需要ショックが建設可能性の異なる地区に及ぼす住宅数と賃料の反応を比較する。供給の推定後は、政策が建設費、建築上限、土地面積のどれを変えるかをモデルに入れる。
+
+同質の住宅面積について、規制を除いた競争的な供給を $H_i^u(R_i)$、建築可能な面積の上限を $\bar H_i$ とし、既存の床面積の変更も可能な静学モデルでは $H_i(R_i)=\min\{H_i^u(R_i),\bar H_i\}$ と表せる。$H_i^u(R_i)<\bar H_i$ の地区では限界的な上限緩和は供給を変えず、$H_i^u(R_i)>\bar H_i$ の地区では上限が住宅量を制約する。建物の耐久性や建替え費が重要なら既存の住宅在庫と新規建設を分け、建設・滅失を通じた在庫の経路を解く。地形、インフラ容量や土地所有者の建設判断も住宅供給を制約するため、法定上限と実際の敷地・床面積、申請・許可、空地、建設費、賃料を地区と時点で対応させる。
+
+規制変更後の居住地、勤務地、通勤、賃金と家賃は SPATIAL-02 の各市場を同時に清算して求める。家計の便益、家主・土地所有者の純所得、追加建設と交通の実物費用を同じ期間・対象人口で集計し、賃料を家計の支払と所有者の収入に一度ずつ計上する。対象都市への流入が可能なら外部選択肢を含む開放都市、人口が政策期間中固定されるなら閉鎖都市を選ぶ。制度の原文と許可記録から規制の適用・施行日と例外を確認し、住宅統計や取引記録で価格・量・空室率を調べる。文献探索では `binding land use regulation housing supply elasticity` と `spatial equilibrium housing regulation commuting welfare` を用い、上限の拘束、供給の調整速度と地域間移動を比較する。実際の上限が非拘束、建替えが遅い、または移住が大きいと判明した場合は、それぞれ供給曲線、住宅在庫の遷移、人口清算の仕様を更新してから econ-design で識別を定め、econ-data で市場清算と厚生を計算する。
+
+物件の投資判断では、同じ期間の満室想定賃料 \(R_tH_t\)、金額で測る空室・滞納の比率 \(v_t\)、その他の実収入 \(O_t\)、運営費 \(E_t\) から \(NOI_t=R_tH_t(1-v_t)+O_t-E_t\) を作る。運営費に修繕、管理、保険、物件に課される税を含め、減価償却、借入返済と利息をそれぞれの財務項目へ分ける。所有者の借入前cash flowはNOIから設備更新・大規模修繕の資本支出、募集・入替費用を実際の発生時点で引く。入替費用を運営費に計上する場合は同じ費用を再度引かない。賃料単価、貸付可能面積、契約更新、稼働率、フリーレント、滞納、修繕計画を物件・契約・月別に結び、募集賃料から実収入への差を明示する。
+
+取得価額と取引費を、運営cash flowと売却費控除後の終端価値の割引額に比較する。割引率は同じ通貨、物価基準と物件cash flowのリスクへ対応させる。借入を入れた比較は、各期の元利返済と借換えを所有者予算へ加える。還元利回り \(NOI_1/P_0\) は初年度NOIと価格の比である。一定成長率 \(g\)、割引率 \(r>g\) で、資本支出等を反映した物件cash flowがNOIに等しい永久保有では \(P_0=NOI_1/(r-g)\) となる。実際の更新投資や空室の経路は、その発生時点を含む有限期間の評価式で扱う。改修案は追加賃料・空室減少と工事費、工事中の休業・賃料減を同じ基準案との差にまとめて選ぶ。
+
+開発は着工時の土地の機会費用、建設費、完成までの費用・収入、完成後の賃貸または売却を時点別に置く。土地を保有する主体の状態 \(s\) に対し、即時開発の価値を \(V_t^{dev}(s)-K_t(s)\)、一期間待つ土地の純収入を \(r_t^{land}(s)\)、割引因子を \(\beta\) とすると、開発時期は \(V_t(s)=\max\{V_t^{dev}(s)-K_t(s),\ r_t^{land}(s)+\beta E_t[V_{t+1}(s')]\}\) から選ぶ。建設期間は \(V^{dev}\) と \(K\) の現在価値に含める。既存建物の賃料、許可、規制、不可逆な着工と再開発時の除却費が待機価値を変える。近隣で同時に供給が増える計画は、SPATIAL-02の家賃・人口・通勤均衡に完成床面積を戻し、その家賃でNOIと開発価値を更新する。投資家の売却益と、その価格が資本化した将来純賃料は同じ保有比較の中で対応させる。
+
+<a id="spatial-04"></a>
+
+## SPATIAL-04 移住費用と地域公共財
+
+有限地域 \(i,j\) の家計は期首に居住地 \(i\) を持ち、各行先の独立な尺度 \(\sigma\) の極値ショックを観測して \(j\) を選ぶ。移住費用 \(k_{ij}\) を払い、当期に \(j\) で働き、消費と住宅を選ぶ。次期の期首居住地は \(j\) である。行先選択前の期待価値を \(V_{i,t}\) とし、Euler定数を0に正規化すると
+\[
+v_{ij,t}=u_j(c_{j,t},h_{j,t},G_{j,t})-k_{ij}+\beta V_{j,t+1},\quad
+p_{ij,t}=\frac{e^{v_{ij,t}/\sigma}}{\sum_k e^{v_{ik,t}/\sigma}},\quad
+V_{i,t}=\sigma\log\sum_j e^{v_{ij,t}/\sigma}.
+\]
+移動後人口は \(N_{j,t+1}=\sum_iN_{i,t}p_{ij,t}\)。各行和は1なので総人口を保存する。移住後人口が当期の住宅と労働を需要する。居住移動、属性、所得、家賃と地域条件のパネルを用い、尺度正規化、遷移支持、地域固定要因と移住費用を識別する変動を定める。
+
+企業の技術 \(F_j(L)\) と完全競争は \(w_{j,t}=F'_j(L_{j,t})\)、\(L_{j,t}=N_{j,t+1}\) を与える。住宅面積需要は家計の \(\max_{c,h}u(c,h,G)\)、予算 \(c+q_jh=w_j+D\) から求め、\(N_{j,t+1}h_{j,t}=H_{j,t}\) で賃料 \(q\) を清算する。地域公共財費用が住民一人当たり \(g_j\) のとき、住宅資産価格 \(P^H\)、保有面積 \(H\)、従価税率 \(\tau\) は
+\[
+\tau_{j,t}P^H_{j,t}H_{j,t}=g_{j,t}N_{j,t+1}
+\]
+を満たす。住宅供給、維持費、住宅所有権、税と純賃料の受取先を指定する。無リスク利子率 \(r\)、維持費用 \(m\)、減耗0の資産は
+\[
+(1+r)P^H_{j,t}=q_{j,t}-m-\tau_{j,t}P^H_{j,t}+P^H_{j,t+1}
+\]
+を満たす。資産価格は将来純賃料を反映し、当期予算の所得は当期純賃料と移転で計上する。資産売買収入を計上する場合はその対価と保有変化を同時に家計予算へ含める。
+
+閉鎖された最小例は人口1、2地域、固定住宅面積 \(H_1=H_2=.5\)、\(F_j(L)=2L\)、\(u=c+.5\log h+2G\)、\(g=G\)、\(m=.02\)、\(r=.25\)、\(\beta=.8\)、\(\sigma=.2\)、\(k_{ii}=0,k_{ij}=.3\) とする。家計が両地域の住宅資産を均等に所有し、所有者へ支払う純賃料総額を一人当たり \(D=\sum_j(q_j-m-\tau_jP_j^H)H_j\) とする。固定住宅の各期維持費 \(mH_j\) と公共サービス費 \(G_jN_{j,t+1}\) は実物資源を使う。住宅需要 \(h=.5/q\) と清算から \(q_j=N_j\)、賃金は2となる。定常時 \(P^H_j=(q_j-.02-2G_jN_j)/.25\)、\(\tau_j=2G_jN_j/P^H_j\) である。\(G=(.1,.1)\) なら \(N=(.5,.5)\)、\(q=(.5,.5)\)、\(P^H=(1.52,1.52)\)、\(\tau=(.065789,.065789)\)。\(G=(.2,.1)\) の定常解は \(N=(.588292,.411708)\)、\(q=(.588292,.411708)\)、\(P^H=(1.331901,1.237465)\)、\(\tau=(.176677,.066541)\) となる。後者の移動確率行列は \(\left[\begin{smallmatrix}.847932&.152068\\.217291&.782709\end{smallmatrix}\right]\) である。
+
+政策経路では初期人口と住宅保有を固定し、候補の賃料・税・資産価格・移転と公共サービス経路を与える。終端価値から家計を後向きに解き、移住確率で人口を前向きに動かす。各期の労働・住宅清算、政府予算、所有者所得と将来価格を含む資産価格式を連立して経路を更新する。終端を延長し、当初の関心期間の価格・人口・価値が指定許容差に収まることを確認する。全期の価値式、資産価格式、人口保存、住宅・労働清算、税収と歳出、家計予算の元式残差を検査する。
+
+基準・政策で同じ初期居住者と同じ初期資産保有を使い、選択ショックの期待値を含む生涯価値を比較する。この例は消費の限界効用が1なので \(V^{policy}_{i,0}-V^{base}_{i,0}\) は初期時点の一人当たり貨幣等価額であり、初期人口で平均する。資産価値の差とその将来純賃料を重ねて便益に加算しない。環境属性 \(z_j\) と住宅属性 \(A_j\) による賃料関数を \(q_j=q(z_j,A_j)\) とすると、\(\partial q/\partial z\) は観測均衡の限界的な住宅賃料差である。所得・選好と環境質の共変動を考慮し、外生的に属性を変える政策と地域固定要因を用いて推定する。大きな環境政策の便益は、政策による人口と住宅市場の調整を上記の経路へ入れて求める。
+
+<a id="spatial-05"></a>
+
+## SPATIAL-05 交通配分と渋滞料金
+
+経路 $k$ の交通量を $q_k$、所要費用を $c_k(q_k)$、総交通量を $Q=\sum_kq_k$ とする。Wardrop 均衡では利用される経路の私的費用が等しく、未利用経路の費用はそれ以上である。利用者が自分の移動で他者の所要時間を増やすとき、社会的限界費用は $c_k(q_k)+q_kc_k'(q_k)$ となる。経路別の料金 $q_kc_k'(q_k)$ は混雑による限界外部費用を利用者の選択に加える。
+
+この式は各経路の費用がその経路の交通量だけで決まり、時間費用を同じ貨幣尺度に換算できる静学モデルの式である。経路間で道路を共有し $c_i$ が他の経路の交通量にも依存するなら、経路 $k$ の利用が他者に及ぼす費用は $\sum_i q_i\partial c_i/\partial q_k$ となる。時間価値が異なる利用者がいる場合は影響を受ける人ごとに時間損失を貨幣換算する。出発時刻の変更や待ち行列の形成・解消を扱う場合は、時刻別の流入と容量を持つ動学モデルを解き、静学の料金をそのまま使わない。
+
+交通需要が移動の一般化費用に反応するとき、総需要と経路配分の両方を変化させる。時間帯、経路、所要時間、運賃と代替交通を観測し、道路容量や料金の変更後に均衡を解く。便益には時間節約、料金収入、運行費と排出を含め、同一の料金収入を利用者便益と政府便益に重ねて数えない。
+
+二経路の利用を具体的に解く。総交通量100が固定され、費用が $c_1(q_1)=10+q_1$、$c_2(q_2)=30+q_2$ なら、私的均衡は $q_1+q_2=100$ と $10+q_1=30+q_2$ から $(q_1,q_2)=(60,40)$ である。限界社会費用を等しくする条件は $10+2q_1=30+2q_2$ なので、効率配分は $(55,45)$ となる。道路ごとの混雑外部費用 $q_k$ を料金として加えると、利用者の選択がこの配分を実現する。総移動費用は7000から6950に下がる。料金は利用者から管理者への移転であり、この実物費用の差に再度加えない。
+
+初期効用 $u_i^0$ の下で $CV_i=e_i(p^1,u_i^0)-e_i(p^0,u_i^0)$ と定めると、価格上昇による損失は正である。交通改善で通勤時間も変わる場合、改善後の所得と時間制約の下で初期効用に戻す所得の変化を計算する。賃金、地代、通勤時間を固定した比較と、移住と市場清算を含む比較は、それぞれの条件を示して計算する。
+
+移動時間は賃金と家事・余暇の価値を用いて家計ごとの金額に換算する。
+
+**輸送生産性と経済全体の便益。** 歪みのない競争均衡で、代表家計の実質所得 \(W\) を基準時点の最終支出で測る。輸送部門・区間 \(j\) のHicks中立的な生産性 \(A_j\) が微小に変わるとき、Hultenの一次近似は
+\[
+ d\log W=\sum_j \lambda_j\,d\log A_j .
+\]
+閉鎖経済の代表家計・競争的な規模一定技術では、\(\lambda_j\) は**中間需要を含む基準時点の総売上／最終支出**（Domarウェイト）である。家計が輸送を直接購入しなくても、消費財やその中間財の配送を通じて便益を受ける。区間別の量が与えられる場合は、対象家計のその区間への直接・間接の総エクスポージャーを使う。複数の部門のウェイトは中間取引を含むため、合計が1になる必要はない。
+
+\(S_{ij}\) を産業 \(i\) が産業 \(j\) から購入する投入の金額／産業 \(i\) の売上、\(f_j\) を家計最終支出に占める産業 \(j\) のシェアとする。財市場の金額清算から \(\lambda=f+S'\lambda\)。\(I-S'\) が可逆で、投入の連鎖に正の一次要素投入が残る経済では、この連立式を解いて全段階の支出を集計できる。最適配分において生産性を微分すると、従来の投入を固定したときの追加生産に影価格を掛けた項が残る。企業や家計の再最適化による投入・購入先の微小な付け替えは、最適性条件と市場清算により経済全体で一次の純便益を生まない。この包絡条件が基準の総エクスポージャーを厚生弾力性に結び付ける。[Donaldson, “Transport infrastructure and policy evaluation,” §3.1](https://doi.org/10.1016/bs.hesreg.2025.06.004) に輸送区間での定式化がある。
+
+例えば最終財に支出の全額を使い、その企業が売上の30%を部品に払い、部品企業が売上の20%を輸送に払うとする。他の購入は一次要素に限る。輸送への直接の家計支出は0だが、ウェイトは \(0.30\times0.20=0.06\)。輸送生産性の対数が0.05上がると、実質所得の一次の増加は0.003。建設の追加資源費用が最終支出の0.001なら、同じ期間の純便益は最終支出の0.002である。便益が地価に資本化されても、同じ改善への支払意思額をもう一度加算しない。未内部化の混雑、税・マークアップによる価格と限界費用の差があれば、配分の変化にその乖離を掛けた一次項も必要になる。大きい変更では、政策経路に沿うウェイトを積分するか元の一般均衡を解き直す。
+
+<a id="spatial-06"></a>
+
+## SPATIAL-06 例題：渋滞道路の料金
+
+静学的な一つの道路で、利用者の効用が貨幣に準線形、時間が共通の貨幣尺度で評価されるとする。利用者の逆需要を $P(q)=100-q$、一人当たり移動の実物費用を $c(q)=10+q$ とする。無料道路の均衡は $100-q=10+q$ から $q=45$ である。社会的な限界移動費用は $c+qc'=10+2q$ なので、効率的な交通量は $100-q=10+2q$ を解いて $q^*=30$ となる。
+
+効率的な交通量での外部費用は $q^*c'(q^*)=30$ であり、料金30を課すと利用者の私的費用は $10+q+30$ となる。需要との交点は30で、料金収入は900である。総便益から実際の移動費用を差し引くと、無料均衡では $100(45)-45^2/2-[10(45)+45^2]=1012.5$、最適量では $100(30)-30^2/2-[10(30)+30^2]=1350$ となり、改善は337.5である。料金導入後の利用者余剰450と料金収入900を足しても1350となり、料金は移転として一度だけ計上される。

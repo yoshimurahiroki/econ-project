@@ -1,0 +1,6 @@
+interface:
+  display_name: "Economics Writing"
+  short_description: "Write, explain and revise natural academic prose"
+  default_prompt: "Use $econ-writing in compose, revise, translate, convert, guidance, explain, profile mode. Read CORE, PROSE and the selected mode; build the explanation before shortening and complete the integrated review."
+policy:
+  allow_implicit_invocation: true

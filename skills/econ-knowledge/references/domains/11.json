@@ -1,0 +1,272 @@
+{
+  "domain": "厚生政策",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "welfare-01",
+      "chapter": 32,
+      "concept_ids": [
+        "C-WELFARE-01",
+        "C-CH-32",
+        "C-OBJ-CONSUMER-SURPLUS",
+        "C-TERM-EQUIVALENT-VARIATION",
+        "C-TERM-COMPENSATING-VARIATION"
+      ],
+      "contract_ids": [],
+      "domain": "厚生政策",
+      "file": "chapters/32-welfare-policy.md",
+      "id": "WELFARE-01",
+      "inputs": [
+        "価格",
+        "所得",
+        "支出関数"
+      ],
+      "jel_codes": [
+        "D61",
+        "D11"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "CV",
+        "EV",
+        "貨幣便益"
+      ],
+      "prerequisites": [
+        "MICRO-02"
+      ],
+      "related": [
+        "CASE-03"
+      ],
+      "subdomain": "補償変分と等価変分",
+      "title": "補償変分と等価変分",
+      "topic": "補償変分と等価変分",
+      "use_when": "価格変更の補償・等価変分を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "welfare-02",
+      "chapter": 32,
+      "concept_ids": [
+        "C-WELFARE-02",
+        "C-CH-32"
+      ],
+      "contract_ids": [],
+      "domain": "厚生政策",
+      "file": "chapters/32-welfare-policy.md",
+      "id": "WELFARE-02",
+      "inputs": [
+        "受益者",
+        "企業",
+        "政府",
+        "重み"
+      ],
+      "jel_codes": [
+        "D63",
+        "D71"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "総余剰",
+        "分配価値"
+      ],
+      "prerequisites": [
+        "MICRO-06"
+      ],
+      "related": [],
+      "subdomain": "社会目的と移転",
+      "title": "社会目的と移転",
+      "topic": "社会目的と移転",
+      "use_when": "政策の移転と社会厚生を集計する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "welfare-03",
+      "chapter": 32,
+      "concept_ids": [
+        "C-WELFARE-03",
+        "C-CH-32"
+      ],
+      "contract_ids": [],
+      "domain": "厚生政策",
+      "file": "chapters/32-welfare-policy.md",
+      "id": "WELFARE-03",
+      "inputs": [
+        "税率",
+        "課税ベース",
+        "行動反応"
+      ],
+      "jel_codes": [
+        "D61",
+        "H21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "財政効果",
+        "厚生微分"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "PUBLIC-01"
+      ],
+      "subdomain": "十分統計量と局所改革",
+      "title": "十分統計量と局所改革",
+      "topic": "十分統計量と局所改革",
+      "use_when": "税改革の局所厚生効果を導く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "welfare-04",
+      "chapter": 32,
+      "concept_ids": [
+        "C-WELFARE-04",
+        "C-CH-32",
+        "C-TERM-MVPF"
+      ],
+      "contract_ids": [],
+      "domain": "厚生政策",
+      "file": "chapters/32-welfare-policy.md",
+      "id": "WELFARE-04",
+      "inputs": [
+        "便益",
+        "費用",
+        "期間",
+        "割引率"
+      ],
+      "jel_codes": [
+        "D61",
+        "H43"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "NPV",
+        "MVPF"
+      ],
+      "prerequisites": [
+        "PUBLIC-05"
+      ],
+      "related": [
+        "HEALTH-04"
+      ],
+      "subdomain": "費用便益、MVPF、割引",
+      "title": "費用便益、MVPF、割引",
+      "topic": "費用便益、MVPF、割引",
+      "use_when": "政策の費用便益と財政価値を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "welfare-05",
+      "chapter": 32,
+      "concept_ids": [
+        "C-WELFARE-05",
+        "C-CH-32",
+        "C-OBJ-POLICY-VALUE"
+      ],
+      "contract_ids": [],
+      "domain": "厚生政策",
+      "file": "chapters/32-welfare-policy.md",
+      "id": "WELFARE-05",
+      "inputs": [
+        "初期分布",
+        "消費経路",
+        "効用と重み"
+      ],
+      "jel_codes": [
+        "D63",
+        "D31"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "世代別消費等価"
+      ],
+      "prerequisites": [
+        "DYN-02"
+      ],
+      "related": [
+        "HET-05"
+      ],
+      "subdomain": "分布と動学",
+      "title": "分布と動学",
+      "topic": "分布と動学",
+      "use_when": "動学政策の消費等価便益を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "welfare-06",
+      "chapter": 32,
+      "concept_ids": [
+        "C-WELFARE-06",
+        "C-CH-32"
+      ],
+      "contract_ids": [],
+      "domain": "厚生政策",
+      "file": "chapters/32-welfare-policy.md",
+      "id": "WELFARE-06",
+      "inputs": [
+        "基準",
+        "単独変更",
+        "同時変更の価値"
+      ],
+      "jel_codes": [
+        "D61",
+        "D04",
+        "C44"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "相互作用",
+        "Shapley寄与"
+      ],
+      "prerequisites": [
+        "WELFARE-02"
+      ],
+      "related": [
+        "ADVCAUSAL-07"
+      ],
+      "subdomain": "機構分解と政策順序",
+      "title": "機構分解と政策順序",
+      "topic": "機構分解と政策順序",
+      "use_when": "政策変更の相互作用を分解する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "welfare-07",
+      "chapter": 32,
+      "concept_ids": [
+        "C-WELFARE-07",
+        "C-CH-32"
+      ],
+      "contract_ids": [],
+      "domain": "厚生政策",
+      "file": "chapters/32-welfare-policy.md",
+      "id": "WELFARE-07",
+      "inputs": [
+        "消費便益",
+        "利益",
+        "税収",
+        "費用"
+      ],
+      "jel_codes": [
+        "D61",
+        "H43"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "総余剰",
+        "財政費用",
+        "NPV"
+      ],
+      "prerequisites": [
+        "WELFARE-02"
+      ],
+      "related": [
+        "WELFARE-04"
+      ],
+      "subdomain": "解答付き税と移転",
+      "title": "解答付き例題：税と移転",
+      "topic": "解答付き例題：税と移転",
+      "use_when": "税収と政策NPVを集計する"
+    }
+  ]
+}

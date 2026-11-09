@@ -1,0 +1,113 @@
+{
+  "editor.formatOnSave": false,
+  "remote.extensionKind": {
+    "openai.chatgpt": [
+      "ui"
+    ]
+  },
+  "git.untrackedChanges": "hidden",
+  "python.formatting.provider": "none",
+  "python.analysis.typeCheckingMode": "off",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.pixi/envs/default/bin/python",
+  "python-envs.workspaceSearchPaths": [],
+  "python.terminal.activateEnvironment": false,
+  "python.terminal.activateEnvInCurrentTerminal": false,
+  "quarto.path": ".pixi/envs/default/bin/quarto",
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  "latex-workshop.latex.recipe.default": "lualatex (project build)",
+  "latex-workshop.latex.build.enableMagicComments": false,
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "lualatex (project build)",
+      "tools": [
+        "project-latex"
+      ]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "project-latex",
+      "command": "python3",
+      "args": [
+        "%WORKSPACE_FOLDER%/scripts/build_latex.py",
+        "--",
+        "%DOC_EXT%"
+      ]
+    }
+  ],
+  "files.exclude": {
+    "**/.pixi": true,
+    "**/.resources": true,
+    "**/.agent_state": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/.pixi": true,
+    "**/.resources": true,
+    "**/.agent_state": true,
+    "**/node_modules": true
+  },
+  "files.watcherExclude": {
+    "**/.pixi/**": true,
+    "**/.resources/**": true,
+    "**/.agent_state/**": true,
+    "**/node_modules/**": true
+  },
+  "ruff.lint.args": [
+    "--config=pyproject.toml"
+  ],
+  "ruff.format.args": [
+    "--config=pyproject.toml"
+  ],
+  "r.rterm.linux": "${workspaceFolder}/.pixi/envs/default/bin/R",
+  "code-runner.executorMap": {
+    "python": "\"$workspaceRoot/.pixi/envs/default/bin/python\" -u",
+    "r": "\"$workspaceRoot/.pixi/envs/default/bin/Rscript\""
+  },
+  "notebook.formatOnSave.enabled": false,
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": false,
+  "python.testing.cwd": "${workspaceFolder}",
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "sqltools.useNodeRuntime": true,
+  "sqltools.disableNodeDetectNotifications": true,
+  "markdown.extension.toc.updateOnSave": false,
+  "ltex.language": "en-US",
+  "files.associations": {
+    "*.qmd": "quarto",
+    "*.Rmd": "rmd",
+    "*.R": "r",
+    "*.ipynb": "jupyter-notebook",
+    "*.parquet": "parquet",
+    "*.duckdb": "duckdb",
+    "*.db": "sqlite",
+    "*.sqlite": "sqlite"
+  },
+  "python.analysis.exclude": [
+    "**/.pixi",
+    "**/.resources",
+    "**/.agent_state",
+    "**/.git",
+    "**/.pm2",
+    "**/node_modules"
+  ],
+  "r.rpath.linux": "${workspaceFolder}/.pixi/envs/default/bin/R",
+  "mcpServers": {},
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "never",
+    "source.organizeImports": "never"
+  },
+  "python.testing.autoTestDiscoverOnSaveEnabled": false,
+  "python.testing.promptToConfigure": false,
+  "ruff.lint.enable": false,
+  "mypy-type-checker.enabled": false,
+  "pylint.enabled": false,
+  "flake8.enabled": false,
+  "ltex.enabled": false,
+  "markdownlint.enable": false,
+  "cSpell.enabled": false,
+  "r.lsp.diagnostics": false,
+  "latex-workshop.latex.autoBuild.run": "never",
+  "latex-workshop.linting.chktex.enabled": false,
+  "latex-workshop.linting.lacheck.enabled": false
+}

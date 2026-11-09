@@ -1,0 +1,10 @@
+numpy==2.3.5
+scipy==1.17.0
+pandas==2.2.3
+numba==0.68.1
+llvmlite==0.50.0
+python-dateutil==4.0.0
+pytz==2026.6
+tzdata==2026.6
+packaging==26.3
+ruspy @ git+https://github.com/OpenSourceEconomics/ruspy.git@414e9f98e3b1cf19544b1ca3b1e544ac5751c1e9

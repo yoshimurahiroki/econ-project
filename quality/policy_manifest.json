@@ -1,0 +1,773 @@
+{
+  "schema_version": 2,
+  "policy_id": "economics-native-0.83.1",
+  "profile": {
+    "id": "research-full"
+  },
+  "assets": {
+    "argument": {
+      "path": "harness/argument.py",
+      "sha256": "087b4d6a3c87bcb253ef1b870d166b84ab3afc2054a254de466137593a6625f1"
+    },
+    "codex_hooks": {
+      "path": "harness/codex_hooks.py",
+      "sha256": "ccb7a509245a70bded595b80369af1316fe535fa7211535c2d8f6603dcfd6573"
+    },
+    "core": {
+      "path": "runtime/CORE.md",
+      "sha256": "b0f3bb06887502743f25fbfe93a505a899a4d23ee0ce7df9c8fd16d1252c0048"
+    },
+    "decide": {
+      "path": "runtime/DECIDE.md",
+      "sha256": "9b091712235c3084857ba04154e2fa1a1240e09af46f757b027fa4dc382285f3"
+    },
+    "dictionary": {
+      "path": "quality/prose_rules.json",
+      "sha256": "1dc8949c2c188325899e6e27d4c285e1b96d4cf9acfca2d600601a01f64c017d"
+    },
+    "execution": {
+      "path": "runtime/EXECUTION.md",
+      "sha256": "5bdd9a73d43c2e13593bdf051fa109541085f455a7ecadf8d6b9af5a9e01300c"
+    },
+    "local_checks": {
+      "path": "harness/local_checks.py",
+      "sha256": "fc159c1ea05efd3117da65c18a9f961e7b32fd71a5ca8113da2c687b886e287c"
+    },
+    "native_check": {
+      "path": "harness/native_check.py",
+      "sha256": "a7ad60faa79536ff702788c7e2bc1c633e5347146449dcc8a99b530c77c69fa4"
+    },
+    "paragraph": {
+      "path": "harness/paragraph.py",
+      "sha256": "61e001fe6cf93a2899331f2e7bc51c550c877084e3fe9a93bc5161ee5c096549"
+    },
+    "policy_assets": {
+      "path": "harness/policy_assets.py",
+      "sha256": "d7a49dfdc3234894b976fdf637f81d83f98cf5dadba644b56a6d4cda976092fb"
+    },
+    "prose": {
+      "path": "runtime/PROSE.md",
+      "sha256": "f0de430b02ca1b096a92d247d4bf0816b674cc2fc2c46f47a41905ee40beb6bc"
+    },
+    "prose_guide": {
+      "path": "quality/prose_rules.md",
+      "sha256": "3735f55d9078bf7402e38415a9ab3101173b5038ecbce79e6f76b2654ea2c2f2"
+    },
+    "registry_operations": {
+      "path": "registry/operations.json",
+      "sha256": "e8f2c827a8c849e35c9c2d1137c5812d13c22746d38443656ef5ef64a76bf154"
+    },
+    "registry_placements": {
+      "path": "registry/placements.json",
+      "sha256": "9ee5b22779a583fb73b6e3242aeafbfdaccc798e7fe995d6cf86c4f1b078004a"
+    },
+    "registry_resources": {
+      "path": "registry/resources.json",
+      "sha256": "7b7ed00af474aa03455ec441259e0c6acb2fe29ed2da54e41ae73bd4f7556cd8"
+    },
+    "requirements_check": {
+      "path": "harness/requirements_check.py",
+      "sha256": "715760868a2b080ac43733417db6545a6e7ee2e63c4ad1e98509bcadd273c12a"
+    },
+    "resource:adaptive-research": {
+      "path": "skills/econ-design/references/adaptive-research.md",
+      "sha256": "cddf9d27cda5b106d309c15854e8741be7cb162a062ec808f5c9c9fef62f339a"
+    },
+    "resource:argument-schema": {
+      "path": "harness/argument.schema.json",
+      "sha256": "396055609d2b33b299c9ef02389e18e7e54e4737bc6ffb7b4f01ca99aaa9df2a"
+    },
+    "resource:config-template-claude-mcp-example-json": {
+      "path": "docs/ai/config-templates/claude-mcp.example.json",
+      "sha256": "7e098a33b20cda19ae9067ffc8252f2637bf0314963893df85110fe3120fee63"
+    },
+    "resource:config-template-codex-example-toml": {
+      "path": "docs/ai/config-templates/codex.example.toml",
+      "sha256": "a35c0376ab845d80f75a59884910b0a2e393aa96388b8ecad88ebc383adf414d"
+    },
+    "resource:config-template-mcp-example-json": {
+      "path": "docs/ai/config-templates/mcp.example.json",
+      "sha256": "d8e397af03b5b032f21d0aa967086f0c78b33c87b76f2e9898ae0a144df7de02"
+    },
+    "resource:config-template-readme-md": {
+      "path": "docs/ai/config-templates/README.md",
+      "sha256": "f650c428821455d62f7996f52887df75b74e12737d6b9c8cc5fc3f9f87affb7c"
+    },
+    "resource:data-descriptive": {
+      "path": "skills/econ-data/references/implementation-descriptive.md",
+      "sha256": "9084d46e0bf0f0f1db486b9b88d8fbe8e2981f8bbfcda4cfbb484e98ff14490b"
+    },
+    "resource:data-engine-selection": {
+      "path": "skills/econ-data/references/implementation-engines.md",
+      "sha256": "eb766c557523c46ba29ca615cc4696f19c60e7c1e014c61f0a8cd3553171bfcd"
+    },
+    "resource:data-implementation": {
+      "path": "skills/econ-data/references/implementation.md",
+      "sha256": "98ddbcb9735d618c2d5da960985b8b2ab12a07250681dd08dceffb14c90d5e63"
+    },
+    "resource:data-native-calls": {
+      "path": "skills/econ-data/references/implementation-calls.md",
+      "sha256": "6237f394096007a8129209924a7a8eeb14f383c28bbb2d31775a50c40660d48f"
+    },
+    "resource:data-numerical-execution": {
+      "path": "skills/econ-data/references/implementation-numerics.md",
+      "sha256": "7c477f86e7a20b73191e47230d7c6377db42ee0ad8eb107248bb0db103af33ac"
+    },
+    "resource:data-results": {
+      "path": "skills/econ-data/references/reproducible-workflow.md",
+      "sha256": "4f5d60a577c5b236219ecebc28be2a620f4a89c0c2708ada19f76d00b15631b2"
+    },
+    "resource:data-source": {
+      "path": "skills/econ-data/references/implementation-data.md",
+      "sha256": "af8e59bf956e46bafeb2a13efad714d0de94c370b054ba63ba492d608b9d86c0"
+    },
+    "resource:data-structural-execution": {
+      "path": "skills/econ-data/references/implementation-structural.md",
+      "sha256": "9e2d58595b132c1028e752f5694cbd1c0c03944e436e500fdf7ee4aec5813867"
+    },
+    "resource:data-worked-examples": {
+      "path": "skills/econ-data/references/implementation-examples.md",
+      "sha256": "3bc51ff44435ad7e58ce8da4793ebfcb4514c8cb08ea8c6e474089d9d522fd55"
+    },
+    "resource:data-workflow": {
+      "path": "skills/econ-data/references/workflow.md",
+      "sha256": "09cb8d49b8dc1c4a4d6dd50f5a42e7acfbb960a6dc663aad8c46e855929a35ac"
+    },
+    "resource:default-micro": {
+      "path": "profiles/default-micro/PROFILE.md",
+      "sha256": "709cd8f98abcdd15c5ee605e62064b946d56407050b873f3eed0c7469d4ff6b4"
+    },
+    "resource:design-methods": {
+      "path": "skills/econ-design/references/designs.md",
+      "sha256": "087162a494678f396479c7c13be26b0bde5ed87106b71d08dda329491c17171c"
+    },
+    "resource:design-workflow": {
+      "path": "skills/econ-design/references/workflow.md",
+      "sha256": "f26ecd8dafcd9c09dcc1ca285f6f4aa75018d7d20b51fb0bc33b67447435672a"
+    },
+    "resource:econ-data": {
+      "path": "skills/econ-data/SKILL.md",
+      "sha256": "bb3cfd052a7fdd91b8641275d6ca371d04ddb635a699ca30b7a253beee0d324d"
+    },
+    "resource:econ-design": {
+      "path": "skills/econ-design/SKILL.md",
+      "sha256": "715a1640d7b69bd5d14c91d7163206151d1c9ffb163b12d5e3464c5d03e36ad2"
+    },
+    "resource:econ-knowledge": {
+      "path": "skills/econ-knowledge/SKILL.md",
+      "sha256": "67d00cfdca3482daf17c414e3f74c5f831f148de2af5834d93cbcfc80b3a67fa"
+    },
+    "resource:econ-literature": {
+      "path": "skills/econ-literature/SKILL.md",
+      "sha256": "1cbe68e558720bbdbaa0f389b5f14202eb288315d588b2d8d84ad57386d4b5d1"
+    },
+    "resource:econ-review": {
+      "path": "skills/econ-review/SKILL.md",
+      "sha256": "8ed0a52b37e05b66043011f5fa820603a21e8236bdb060796cb009bf8375f92d"
+    },
+    "resource:econ-writing": {
+      "path": "skills/econ-writing/SKILL.md",
+      "sha256": "57182af5feb3695bd73bc4d9fbf282202e3a101f5e86c3a85d8a46dd41f02298"
+    },
+    "resource:equity-airline-case": {
+      "path": "skills/econ-data/scripts/equity_airline_case.py",
+      "sha256": "b0de4549cb543b1ba9f48a57863eab0f62c821246cf5560a334d23c73917b67e"
+    },
+    "resource:equity-calculator": {
+      "path": "skills/econ-data/scripts/equity.py",
+      "sha256": "a10b0188a03c2ac4bf3eac9a22a8e05d779a441a88e21625e663dab040e129b3"
+    },
+    "resource:equity-company-case": {
+      "path": "skills/econ-data/scripts/equity_company_case.py",
+      "sha256": "4438db3ebe34a80111296032ab5ef0ccc743759d2acaa4e850943971b9f7dea4"
+    },
+    "resource:equity-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-equity.txt",
+      "sha256": "5f7ec2a7f299c62968db977bba260c91cf9e0bad20ed855e5d429ee4814bf627"
+    },
+    "resource:equity-guide": {
+      "path": "skills/econ-data/references/equity.md",
+      "sha256": "bbe3e6ea8f74209f9bc500f3d34d8218b2df51bb3a8509b5ae109a67621e436f"
+    },
+    "resource:equity-io": {
+      "path": "skills/econ-data/scripts/equity_io.py",
+      "sha256": "bdaa8a617d9e621b2a1177c1ad5f4b4a80a476fdb58b9939721280a038ffa05f"
+    },
+    "resource:equity-models": {
+      "path": "skills/econ-data/references/equity-models.md",
+      "sha256": "c8c36db7bb3a8a7b5bff087fc26c1bb835e314f9195f2d7923a62d5e7c0d1fa2"
+    },
+    "resource:equity-sources": {
+      "path": "skills/econ-data/scripts/equity_sources.py",
+      "sha256": "e904110035f2aff4e1ff53ca36f36c8443e7db2910612b4ac5e00d47afbd28ca"
+    },
+    "resource:examples-en": {
+      "path": "profiles/default-micro/short-examples-en.md",
+      "sha256": "c31e4f532165d0351971c0a55b9f53fa420e906cc3d91a1a37d3403912185b5e"
+    },
+    "resource:examples-ja": {
+      "path": "profiles/default-micro/short-examples-ja.md",
+      "sha256": "4baf5fd7cadb91a51b3e99c05f4d389846254293c0f1636e2db75255b5c379f6"
+    },
+    "resource:extended-en": {
+      "path": "profiles/default-micro/extended-introduction-en.md",
+      "sha256": "5ba80dbb6811c3b426c837bf00cce5b8536c02f10262ec70d5711a893c702611"
+    },
+    "resource:extended-ja": {
+      "path": "profiles/default-micro/extended-introduction-ja.md",
+      "sha256": "bcf0bb14b3f620870f4a14a410506a0dbca3da74f43938b6ac46a58cefcbc217"
+    },
+    "resource:hook-registration": {
+      "path": "hooks/hooks.json",
+      "sha256": "9f6d580fc3f3011965af1c4cef951e801913da8115c86b6622dce00190483899"
+    },
+    "resource:hook-wrapper": {
+      "path": "hooks/check.py",
+      "sha256": "e6522d41b8ccec92bcf10ca1d183b5aed268a95f9635f11de273656bc614f763"
+    },
+    "resource:integration": {
+      "path": "docs/ai/integration.md",
+      "sha256": "d7c731dea46917e3c42a72e6fbb475f5cf5bb52bfe36e3adfd873f5a626c26fa"
+    },
+    "resource:journal-priority": {
+      "path": "skills/econ-literature/references/journal-priority.json",
+      "sha256": "a6544742c9a15caa35fd291ee9d36259bfe657d8704805b2d7c2133c99c94829"
+    },
+    "resource:knowledge-guide": {
+      "path": "skills/econ-knowledge/references/retrieval.md",
+      "sha256": "f278123a84d63a463c5457c16733dbba0e3869302fc354c1e22f058628403811"
+    },
+    "resource:knowledge-retrieval": {
+      "path": "skills/econ-knowledge/scripts/knowledge.py",
+      "sha256": "e87d254880c05e34a3a2474ffa060a2c3a667d04d9bbcbd183cfc749c101530d"
+    },
+    "resource:latex-bibliography-style": {
+      "path": "tex/paper/ecta-fullname.bst",
+      "sha256": "7bedb399c97e7754e4b227b47ed80ef1e865428b50a0618140926f04d17b4ed9"
+    },
+    "resource:latex-build-helper": {
+      "path": "scripts/build_latex.py",
+      "sha256": "fb3496cf5579936e2889754d7cffc9ad44f308a344ec366de9a77c2e1975a21c"
+    },
+    "resource:latex-paper-class": {
+      "path": "tex/paper/econsocart.cls",
+      "sha256": "d5a8c14ac17dd95317f6c781f4936d0312bfdc09bd05a8989e583376cb2168be"
+    },
+    "resource:latex-paper-config": {
+      "path": "tex/paper/econsocart.cfg",
+      "sha256": "be1620424e9f65e15bfb983c058c6b1f8824bd62458cc825aa5e51dc473d9bf4"
+    },
+    "resource:latex-paper-pandoc": {
+      "path": "tex/paper/pandoc_template.latex",
+      "sha256": "7295679ed25f030062d7f320b83492cc1060ae8378f5fd3c9c2bc3f9542f5c3f"
+    },
+    "resource:latex-paper-quarto": {
+      "path": "tex/paper/quarto_template.qmd",
+      "sha256": "0905ec3614b0b2136fea66a542d6307b4eef84f45fc88366af342dfb8c0ead06"
+    },
+    "resource:latex-paper-template": {
+      "path": "tex/paper/ecta_template.tex",
+      "sha256": "65d29e76d3f3573782769153cb485253373a5a61111de0e567ba59684a8ad2b4"
+    },
+    "resource:latex-quarto-project": {
+      "path": "_quarto.yml",
+      "sha256": "3c0e0748762d75dfeddd20751e492b994b71c1f6f674c626cd47106edbae0338"
+    },
+    "resource:latex-slides-pandoc": {
+      "path": "tex/slides/pandoc_template.latex",
+      "sha256": "e455d742bda2a51b01ed9b006ec4e55297b2018cf201b2c532856a6bc5fdbfc7"
+    },
+    "resource:latex-slides-quarto": {
+      "path": "tex/slides/quarto_template.qmd",
+      "sha256": "fe17327b06ccdf6277d4a12ae41004fb4bad8cb4227c94f4d97dcd2320794ac9"
+    },
+    "resource:latex-slides-template": {
+      "path": "tex/slides/main.tex",
+      "sha256": "214007e13329478052487563f409720e4b08b3605153ad2c0abcb02531e99868"
+    },
+    "resource:literature-methods": {
+      "path": "skills/econ-literature/references/literature-methods.md",
+      "sha256": "fc99ad92407f2013aefbf7fe2e01c88bb8a320f1af6c7e1e08a8213458d8fd21"
+    },
+    "resource:local-checks-guide": {
+      "path": "harness/local_checks.md",
+      "sha256": "11b06eb19f9b74af45b7203b24abde9f2d3d4c41f4f310975f69be62ab604bea"
+    },
+    "resource:meeting-materials": {
+      "path": "harness/meetings.md",
+      "sha256": "b0bd941dd46b229640d91b2b374d3cb7bfcb4ddd6de91ca1f0053a4e2ec428da"
+    },
+    "resource:meeting-quarto-template": {
+      "path": "tex/slides/meeting_template.qmd",
+      "sha256": "fa0b58f3963ae959f71c562334e36fae8f929d95df241686931267a75e91ac69"
+    },
+    "resource:meeting-templates": {
+      "path": "tex/slides/meeting_templates.json",
+      "sha256": "2354c1db9ebaa6b44acf5bb38b25729ad0dc625e1382aa6f9dbf98d49d65007a"
+    },
+    "resource:models-abm": {
+      "path": "skills/econ-design/references/agent-models.md",
+      "sha256": "29fa72f8ae11c5e0f7bfd1c0388305e7a1510560d23642ef8a148270a8462517"
+    },
+    "resource:models-causal": {
+      "path": "skills/econ-design/references/causal-models.md",
+      "sha256": "9503d9cb5787b04c028b6069da5c13f5edc05cd4e23bfb0f1f62b84a6aa779f5"
+    },
+    "resource:models-causal-basic": {
+      "path": "skills/econ-design/references/causal-models/basic.md",
+      "sha256": "7a9213488c798bb7a640958d8b08e3c9aa5d077b46c943f1abe23bb099575655"
+    },
+    "resource:models-causal-continuous-did": {
+      "path": "skills/econ-design/references/causal-models/continuous-did.md",
+      "sha256": "6129f0b3cc901f49e810ddb9faeed35339d3c8ffd560515273f87509b1ed0a82"
+    },
+    "resource:models-causal-contract": {
+      "path": "skills/econ-design/references/causal-models/contract.md",
+      "sha256": "88fbad07b293ae1d1c498079f7c8ab364367d41ebac737b6af19c45fe61a55aa"
+    },
+    "resource:models-causal-contrasts": {
+      "path": "skills/econ-design/references/causal-models/contrasts.md",
+      "sha256": "f00a0171d0576504c277054f85bd422727f92e70120a81d5eb9c6e4e6afea586"
+    },
+    "resource:models-causal-extensions": {
+      "path": "skills/econ-design/references/causal-models/extensions.md",
+      "sha256": "40e39109849b00659c52a728e47e0c737c12c0d4cf740d0cf9f04bc7f403cbe2"
+    },
+    "resource:models-causal-heterogeneity": {
+      "path": "skills/econ-design/references/causal-models/heterogeneity.md",
+      "sha256": "dd3a1856489571fa144dafe3b4209015e95ac6ff5512f8e3c82d56c36aadc158"
+    },
+    "resource:models-causal-implementation": {
+      "path": "skills/econ-design/references/causal-models/implementation.md",
+      "sha256": "a4f58feee474ca3fe7f47b107a70c3364cabf299d442c8202c0d17fe7265ddb7"
+    },
+    "resource:models-causal-inference": {
+      "path": "skills/econ-design/references/causal-models/inference.md",
+      "sha256": "98cf213f9815816bfb0f41b2972d358c279161afc2e56c8e8552b968fc396479"
+    },
+    "resource:models-causal-native": {
+      "path": "skills/econ-design/references/causal-models/native.md",
+      "sha256": "bfb7bcc732e3fb6da428f8c54735a270d69087e990adb4693d3e604c9b16ac5f"
+    },
+    "resource:models-causal-networks": {
+      "path": "skills/econ-design/references/causal-models/networks.md",
+      "sha256": "ed21bbc0d4d6a364089af01edbb13225faf691408499312aad081eba16e55f9d"
+    },
+    "resource:models-causal-outcomes": {
+      "path": "skills/econ-design/references/causal-models/outcomes.md",
+      "sha256": "f249343a65bd54d6473c57fc638d111deed8d0bb5bbb0a307b522d278c5a6311"
+    },
+    "resource:models-causal-policy": {
+      "path": "skills/econ-design/references/causal-models/policy.md",
+      "sha256": "b1549d06248dff9f52f29484630fe9a78f148058f160031ac97b3b30fd4e858d"
+    },
+    "resource:models-causal-r-calls": {
+      "path": "skills/econ-design/references/causal-models/r-calls.md",
+      "sha256": "d7373f928ea13903064c9b3081354fce5e8a235b13b6e17a2bc2edd75679e4cd"
+    },
+    "resource:models-causal-randomization": {
+      "path": "skills/econ-design/references/causal-models/randomization.md",
+      "sha256": "d64f06e28660eef97b176acc72ddb2ebdcfcbd8c618844bb0db578efd098f970"
+    },
+    "resource:models-dsge": {
+      "path": "skills/econ-design/references/dsge-models.md",
+      "sha256": "4350ae10d1a5d40dc7b883db72b369bace6916d51dc49fe73d98e212f400b6d6"
+    },
+    "resource:models-dynamic": {
+      "path": "skills/econ-design/references/dynamic-models.md",
+      "sha256": "2a03ad31f3424d54c404c120ebc3ceaffbd90ae2f0a2c5f892260a0a47aa0b97"
+    },
+    "resource:models-dynamic-adoption": {
+      "path": "skills/econ-design/references/dynamic-models/adoption.md",
+      "sha256": "3ba0a4ffcd508063428957204c52ec0dbe6ad73edc1cc36799a961eae49a5495"
+    },
+    "resource:models-dynamic-contract": {
+      "path": "skills/econ-design/references/dynamic-models/contract.md",
+      "sha256": "2c726dbc0bd7050f16371efdcbb7ff8cd3a58a0867e1baeec0f34f5933918128"
+    },
+    "resource:models-dynamic-finite-horizon": {
+      "path": "skills/econ-design/references/dynamic-models/finite-horizon.md",
+      "sha256": "314c94f92272de06d66f6a14cce49811af2bbbfeca91bbe275db7a1c0a9195a1"
+    },
+    "resource:models-dynamic-games": {
+      "path": "skills/econ-design/references/dynamic-models/games.md",
+      "sha256": "651e5fd4ab1a3000dddf0fbf9e4319480d89c690a17b71b1a6a7ae16b82f4e0b"
+    },
+    "resource:models-dynamic-replacement": {
+      "path": "skills/econ-design/references/dynamic-models/replacement.md",
+      "sha256": "9ae49c4d2200dec9ba03863d35150b4cc96dc2f08b3c372b38eaaec56e189a3f"
+    },
+    "resource:models-macro-extended": {
+      "path": "skills/econ-design/references/macro-models.md",
+      "sha256": "3f89db60eeb4c69e1bd8e4e76f0e33a479ef8eb7d77da900174f4a3e79b5bd05"
+    },
+    "resource:models-macro-extended-equilibrium": {
+      "path": "skills/econ-design/references/macro-models/equilibrium.md",
+      "sha256": "71b9ded6479cee07bc10b910ba6bac8d5b4ca051759c94a46952a506e2f3718f"
+    },
+    "resource:models-macro-extended-households": {
+      "path": "skills/econ-design/references/macro-models/households.md",
+      "sha256": "2f8c57acc4f118672827d855a2c8438e833fb7299e05ac1f345c50c2c1db85e7"
+    },
+    "resource:models-macro-extended-spatial": {
+      "path": "skills/econ-design/references/macro-models/spatial.md",
+      "sha256": "2ebeacac85f8f1e60a3e0f506a259ae8b1853cdf9573dec6b88c723245476b7e"
+    },
+    "resource:models-markets": {
+      "path": "skills/econ-design/references/market-models.md",
+      "sha256": "e6c03cea457b7497b6089c27756c14af3d3c54d21eccfea038bfbeecbefaae1e"
+    },
+    "resource:models-numerics": {
+      "path": "skills/econ-design/references/numerical-models.md",
+      "sha256": "d3e89d4565e961bf91a9ba46c7797bf41ad02a8cfffb6154a6b5544b5768bdcb"
+    },
+    "resource:native-index": {
+      "path": "docs/ai/compiled_ai_skills.md",
+      "sha256": "40978b2f24099bcfd8ad1cc2e67da09984194939ba0f38b1650f4d2cfb8ada1f"
+    },
+    "resource:package-notices": {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "d89d1308a1d7687d8ef3a40cdf51e35b7952fd83033630836f97cd9d7c35aed5"
+    },
+    "resource:paper-empirical": {
+      "path": "skills/econ-literature/references/read-empirical.md",
+      "sha256": "6fda907d07feac6071006ee97baf2d8ad37e722e0f42f20d907b9677a7bb0a08"
+    },
+    "resource:paper-reading": {
+      "path": "skills/econ-literature/references/paper-reading.md",
+      "sha256": "5e96d44b9ca11d14f369fba8500012f20e1120c9cd3ef4ceae96ca6c7936b73c"
+    },
+    "resource:paper-structural": {
+      "path": "skills/econ-literature/references/read-structural.md",
+      "sha256": "921cf4516e5ed1a6cee53fda84359a9cbd9cf1c53c1c958372f42363b4086a28"
+    },
+    "resource:paper-theory": {
+      "path": "skills/econ-literature/references/read-theory.md",
+      "sha256": "fdbcc1f1075c980ff0285ddac2b0d432af8ccbbbedabb2f1195f8fa44c4ecec9"
+    },
+    "resource:paper-workflow": {
+      "path": "skills/econ-writing/references/paper-workflow.md",
+      "sha256": "4cf6510cf9bfb909d80608900367261ee54fae224b09c3bc04defd39657cd615"
+    },
+    "resource:paragraph-schema": {
+      "path": "harness/paragraph.schema.json",
+      "sha256": "a455b0e2394c5fd45169efaf73f3a0acd0bec58c2f6556ea426dc27ae2f01d25"
+    },
+    "resource:paragraph-workflow": {
+      "path": "skills/econ-writing/references/paragraph-workflow.md",
+      "sha256": "23ed278cc6fec361a1a5bc7b6b6464acace8a206edc8c8b1618f301edda68108"
+    },
+    "resource:plugin-integration-guide": {
+      "path": "docs/ai/plugin-integration.md",
+      "sha256": "54e1d1974d9057bf385e3f0ba40bc07fad5ba50fa2a9b07ec51f2d3233a764f5"
+    },
+    "resource:policy-agents-agentsmd": {
+      "path": "references/repository-policy/.agents/AGENTS.md",
+      "sha256": "53cf1fcf36972d9a4f8a74986bf0a3b6f49a5cf7c76718c8029ee31936ba77c6"
+    },
+    "resource:policy-agentsmd": {
+      "path": "references/repository-policy/AGENTS.md",
+      "sha256": "3658ac26119f5197515b74b52e129d4e740be24daf8d1103ca5f8df52da5e843"
+    },
+    "resource:policy-antigravityrules": {
+      "path": "references/repository-policy/.antigravityrules",
+      "sha256": "3658ac26119f5197515b74b52e129d4e740be24daf8d1103ca5f8df52da5e843"
+    },
+    "resource:policy-claude-agentsmd": {
+      "path": "references/repository-policy/.claude/AGENTS.md",
+      "sha256": "53cf1fcf36972d9a4f8a74986bf0a3b6f49a5cf7c76718c8029ee31936ba77c6"
+    },
+    "resource:policy-claudemd": {
+      "path": "references/repository-policy/CLAUDE.md",
+      "sha256": "3658ac26119f5197515b74b52e129d4e740be24daf8d1103ca5f8df52da5e843"
+    },
+    "resource:policy-clinerules": {
+      "path": "references/repository-policy/.clinerules",
+      "sha256": "3658ac26119f5197515b74b52e129d4e740be24daf8d1103ca5f8df52da5e843"
+    },
+    "resource:policy-codex-agent-astra": {
+      "path": "references/repository-policy/.codex/agents/astra.toml",
+      "sha256": "ae05a7bac9c939a03e32603d00b6eee4744445e188f3cdb2ec480d4bc54bfcfc"
+    },
+    "resource:policy-codex-agent-implementer": {
+      "path": "references/repository-policy/.codex/agents/implementer.toml",
+      "sha256": "a0c933e224019e3717a7b33318926c9d2a459d82749db2e780873b50a6c3189a"
+    },
+    "resource:policy-codex-agent-lead": {
+      "path": "references/repository-policy/.codex/agents/lead.toml",
+      "sha256": "bd027c2dd737937cd51d5698bb8a0fb0dda2e237236c30f5a82ccfb0d0c35669"
+    },
+    "resource:policy-codex-agent-luna": {
+      "path": "references/repository-policy/.codex/agents/luna.toml",
+      "sha256": "2de2939be05612b6253d355c521fe2df7c4b872dcb4cdd72263b2b91b5a6f589"
+    },
+    "resource:policy-codex-agent-retriever": {
+      "path": "references/repository-policy/.codex/agents/retriever.toml",
+      "sha256": "60cbd1afaca8701a2fce3eb54606e464aa6aecd77b8b1f4ad97e6f1d828a0aa4"
+    },
+    "resource:policy-codex-agent-specialist": {
+      "path": "references/repository-policy/.codex/agents/specialist.toml",
+      "sha256": "e2fc0c631ebe1999071a1032b47c1d50a8eadae4698759344408da7caf865f0a"
+    },
+    "resource:policy-codex-agent-terra": {
+      "path": "references/repository-policy/.codex/agents/terra.toml",
+      "sha256": "087e2ca1df81e6073166443bec6af67a30977b44fe67fcf59d5858bc480ab600"
+    },
+    "resource:policy-codexmd": {
+      "path": "references/repository-policy/CODEX.md",
+      "sha256": "3658ac26119f5197515b74b52e129d4e740be24daf8d1103ca5f8df52da5e843"
+    },
+    "resource:policy-cursor-rules-01_project_policymdc": {
+      "path": "references/repository-policy/.cursor/rules/01_project_policy.mdc",
+      "sha256": "4ac057ce8a70c9dddceafd62374affad6066525cbe6f86fef5ec5085a68e41a3"
+    },
+    "resource:policy-gemini-geminimd": {
+      "path": "references/repository-policy/.gemini/GEMINI.md",
+      "sha256": "53cf1fcf36972d9a4f8a74986bf0a3b6f49a5cf7c76718c8029ee31936ba77c6"
+    },
+    "resource:policy-github-copilot-instructionsmd": {
+      "path": "references/repository-policy/.github/copilot-instructions.md",
+      "sha256": "53cf1fcf36972d9a4f8a74986bf0a3b6f49a5cf7c76718c8029ee31936ba77c6"
+    },
+    "resource:policy-windsurfrules": {
+      "path": "references/repository-policy/.windsurfrules",
+      "sha256": "3658ac26119f5197515b74b52e129d4e740be24daf8d1103ca5f8df52da5e843"
+    },
+    "resource:project-context": {
+      "path": "docs/ai/repo_context.md",
+      "sha256": "9e3b461fb277856560ef729421f15f798061921d4efaa2afde3d225f7bacdc07"
+    },
+    "resource:project-instructions": {
+      "path": "docs/ai/project_instructions.txt",
+      "sha256": "1af5ab05572787feedca75064bfaa55c57b8934c1f7644fafe3206b97066c6ba"
+    },
+    "resource:project-practice": {
+      "path": "skills/project-work/references/practice.md",
+      "sha256": "c7b49b70ff0005f7c074873b2de2be6448171ff90df51449722ffbbe2e72712b"
+    },
+    "resource:project-work": {
+      "path": "skills/project-work/SKILL.md",
+      "sha256": "f2a8a681d8c63831ac537aef7a6c25282793a5ae8d0cdcb9b57dc7188e26bf0c"
+    },
+    "resource:publication": {
+      "path": "harness/publication.md",
+      "sha256": "4f28fa78bb2e83d713175c6855a3ebaadb644259e861daf917d818b4a27476fc"
+    },
+    "resource:repository-policy": {
+      "path": "references/repository-policy/.cursorrules",
+      "sha256": "3658ac26119f5197515b74b52e129d4e740be24daf8d1103ca5f8df52da5e843"
+    },
+    "resource:requirements-check-guide": {
+      "path": "harness/requirements_check.md",
+      "sha256": "91a287807bc8c5d822b8bdade8b5a57575553ad818e00c77c6091c5a404f48e6"
+    },
+    "resource:research-artifacts": {
+      "path": "harness/research_artifacts.py",
+      "sha256": "3053cab2e53441c4bad99e4784eaf14faae84d1e38d357533e123b2d38fc899b"
+    },
+    "resource:research-causal": {
+      "path": "skills/econ-data/scripts/research_causal.py",
+      "sha256": "05677774055518c3064a22116900f178a991d1053305c6f843bae84df71a5fc0"
+    },
+    "resource:research-causal-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-causal.txt",
+      "sha256": "0d9453f8019efb36784edcf7a758aaaf231f3f9182ad270c18dd765eb3bfcfd7"
+    },
+    "resource:research-causal-r": {
+      "path": "skills/econ-data/scripts/research_causal.R",
+      "sha256": "caf97744c9c9e58f6803115ba9e4c4e2bf7528df04401bf25bfbe9106b265dac"
+    },
+    "resource:research-causal-r-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-causal-r.json",
+      "sha256": "cad33c63a98863bb5ece6acde499223c06402dadcbf407f26701913ac77999d9"
+    },
+    "resource:research-data": {
+      "path": "skills/econ-data/scripts/research_data.py",
+      "sha256": "963fe956af170b097dc3ffce5fa6eaefe541a3ce78d82249e29603ff7548e6cf"
+    },
+    "resource:research-data-guide": {
+      "path": "skills/econ-data/references/research-data.md",
+      "sha256": "ff93635b946d697e1113d522f3d23ba7b70839239d9785872b86c230bd951fd2"
+    },
+    "resource:research-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-research.txt",
+      "sha256": "6ab9d31c5c441cba4c3dbb984f6e8509ac9b1e8985a4960c3dd34875e4369452"
+    },
+    "resource:research-design": {
+      "path": "skills/econ-design/scripts/research_design.py",
+      "sha256": "869043ab464517319fe05516af37350c2bc13ed7dd45f8ca45466b3ec5ba3a9a"
+    },
+    "resource:research-dolo-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-dolo.txt",
+      "sha256": "93161ae1c786fef8241fb62a9a55ad07c49aff6ff7fd99d4e0ad897016d9847c"
+    },
+    "resource:research-dsge": {
+      "path": "skills/econ-data/scripts/research_dsge.py",
+      "sha256": "e4373db6df0a749c96badd7608cf8fa2ce408db033c45e28b3b4b199b5550c59"
+    },
+    "resource:research-dynamic": {
+      "path": "skills/econ-data/scripts/research_dynamic.py",
+      "sha256": "d37790b601f9fbf7acf6def97d3f44840b19a3d1d0c2ea96abe167ec5a42f6a6"
+    },
+    "resource:research-dynamic-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-dynamic.txt",
+      "sha256": "dbe43062bd317abd202699dccf93e3ff0b7da19c173258b05557ae2889b7977c"
+    },
+    "resource:research-estimator": {
+      "path": "skills/econ-data/scripts/research.py",
+      "sha256": "b8eb1d8cd678f222988a8393a870b5e8c6b858370f902ec69dda85b46f7d1eef"
+    },
+    "resource:research-evidence": {
+      "path": "harness/research_evidence.py",
+      "sha256": "02882170f1581b0ffb32fd0ef1901c9591e1bf1d2f43e9007b229f9fdf98bb5c"
+    },
+    "resource:research-execution": {
+      "path": "harness/research.md",
+      "sha256": "b9b64ec6cdf61ac0fc31ee064f2cff16237cfb98b43693fa84ee80357717126d"
+    },
+    "resource:research-experience": {
+      "path": "harness/experience.py",
+      "sha256": "6b5ed09a2d85a08639a01afc2a5363889f02d3ad76c54bc91e649e2e2e97fc12"
+    },
+    "resource:research-gallery": {
+      "path": "harness/research_gallery.py",
+      "sha256": "e31c3f203b7e3627e282ef4963505ae1cb37f3c07b79aff906868d78eeb75ccd"
+    },
+    "resource:research-lifecycle-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-lifecycle.txt",
+      "sha256": "fde016c0d348b9704810572a1450044de27658e5b2b3dfde3c7f64edc8cebf57"
+    },
+    "resource:research-macro": {
+      "path": "skills/econ-data/scripts/research_macro.py",
+      "sha256": "bcc79f39232f403457b443bbe580371aff44852afc3379f0955a20766518edaf"
+    },
+    "resource:research-macro-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-macro.txt",
+      "sha256": "f9c08cd218738ed5445d87ef2176e073c90925c1793b5fdbfa726664ad16f24c"
+    },
+    "resource:research-macro-extended": {
+      "path": "skills/econ-data/scripts/research_macro_extended.py",
+      "sha256": "b2c0ffcb0075538e9384d0e6bc11041121d6dadd285f934b5c0bdd7d20275da8"
+    },
+    "resource:research-markets": {
+      "path": "skills/econ-data/scripts/research_markets.py",
+      "sha256": "13bef9bbb0cd67dd744b6317329c89c13ca832749ab0f508d8cf5074a771dc03"
+    },
+    "resource:research-markets-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-markets.txt",
+      "sha256": "b456615ba057664277b0aa078546ec26664fa8795b396697f96efd316857fd62"
+    },
+    "resource:research-meetings": {
+      "path": "harness/research_meetings.py",
+      "sha256": "1c7dcf490e30c203b679852e5fed36cb70fb1fdfb225287c43dbec5c0502f989"
+    },
+    "resource:research-numerics": {
+      "path": "skills/econ-data/scripts/research_numerics.py",
+      "sha256": "0e03140d11606ed6649f1c3d3206dd5aee5cba57a48a0ba4ce84a0f53e8e9636"
+    },
+    "resource:research-numerics-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-numerics.txt",
+      "sha256": "1f8508a101bccd91f83489f230b93253e5eb79080e83700a959da210a62c4afe"
+    },
+    "resource:research-rct": {
+      "path": "skills/econ-data/scripts/research_rct.R",
+      "sha256": "868c8bd25d7a3d458da0414c58b9df643f52a3b5a3ec36911790035680b0539f"
+    },
+    "resource:research-reproduction": {
+      "path": "harness/reproduction.py",
+      "sha256": "a2cb488b1e0d1e9364a8ce4f771f2dbb864a7fde6203ab6f6d3a438793289d3c"
+    },
+    "resource:research-respy-dependencies": {
+      "path": "skills/econ-data/scripts/requirements-respy.txt",
+      "sha256": "36436632a7faf1e4bc323450fe31bc7097320bca9ffef38b9af6b31bd5e9f5a7"
+    },
+    "resource:research-runner": {
+      "path": "harness/research.py",
+      "sha256": "d239c57aa2a3a1a43746817d7fcf58fe9031fa8c38eb212469a68dcb74760fc9"
+    },
+    "resource:research-search": {
+      "path": "skills/econ-literature/scripts/research_search.py",
+      "sha256": "990342f0d1514442d9eee997aa61519a3cfdf224ee9c6f78583c9976636e55ce"
+    },
+    "resource:research-sources": {
+      "path": "skills/econ-literature/scripts/research_sources.py",
+      "sha256": "a2e466636fe1cb8df4cdd28ceed699c23574f515ea8b6b3adde1b44859b23b35"
+    },
+    "resource:resource-guide": {
+      "path": "docs/ai/resources.md",
+      "sha256": "e68545628074d62ae38105dcc76259210c29d935048e7cef8c6391b87ebcbe07"
+    },
+    "resource:result-artifacts": {
+      "path": "skills/econ-writing/references/result-artifacts.md",
+      "sha256": "88f8ee4bd0f194ae64e7baa5ca1ac794fb9508fac6bb4c4ac93888aa1c6e7b92"
+    },
+    "resource:review-methods": {
+      "path": "skills/econ-review/references/oversight.md",
+      "sha256": "808f85d34009f54760e801e76f16449d04f02efe16e7cccb5b8a13a4d8c7e2b0"
+    },
+    "resource:search-priority": {
+      "path": "skills/econ-literature/references/search-priority.md",
+      "sha256": "b924a6567fca219e76064cdf8783a3bf9cc2cec6336cb0df165de245ad7d1d40"
+    },
+    "resource:source-discovery": {
+      "path": "skills/econ-literature/references/source-discovery.md",
+      "sha256": "5e5db16f0910533999f580f8dc6326a5a993172efbf1af67baafd38fcb4a5864"
+    },
+    "resource:state-contract": {
+      "path": "harness/state.md",
+      "sha256": "6657df6d81e7d20ace5d4e4d9edc1c40152c62426e3412fa06aba373bc0958e3"
+    },
+    "resource:tool-pack-context-sh": {
+      "path": "scripts/pack_context.sh",
+      "sha256": "e72ddf46354ec09957d0cf582874917d410f27820e4c5119d09694756dce08c6"
+    },
+    "resource:writing-artifacts": {
+      "path": "skills/econ-writing/references/artifact-writing.md",
+      "sha256": "451a1b5390e11a52970ce5441399585dbaf916802858d7c2de6474aee3f20ab5"
+    },
+    "resource:writing-compose": {
+      "path": "skills/econ-writing/references/compose.md",
+      "sha256": "83203c955263c777d91056b3e0200464e6369a0b7f3d724e2dedff3b6703efc7"
+    },
+    "resource:writing-convert": {
+      "path": "skills/econ-writing/references/convert.md",
+      "sha256": "01527e6afc1a699b92c2e1878bb5f2b9d643e3a828e125b707eb2a354d00213c"
+    },
+    "resource:writing-explain": {
+      "path": "skills/econ-writing/references/explain.md",
+      "sha256": "2246d9677b1ff85c77d2d60ee085c64a78ad67d7ea976158cef2440f6a0f410c"
+    },
+    "resource:writing-guidance": {
+      "path": "skills/econ-writing/references/guidance.md",
+      "sha256": "2dda7688b1016c0e37a42ad9109d21c1193737fe98e511a314bbc65878f3139a"
+    },
+    "resource:writing-profile": {
+      "path": "skills/econ-writing/references/profile.md",
+      "sha256": "d9e2d94b277663ae604a3507c2426bc08dae95c2e6c104bc8f4eda5911e404b1"
+    },
+    "resource:writing-revise": {
+      "path": "skills/econ-writing/references/revise.md",
+      "sha256": "6fc3593b147b1461f94184c140d6ac75372ab610300b26f7b42e84667866f734"
+    },
+    "resource:writing-translate": {
+      "path": "skills/econ-writing/references/translate.md",
+      "sha256": "32c49521fba529aba8e82c1c13dbe20c4d48bfbbc0690e97ffc6730a3b43327e"
+    },
+    "resource:writing-ui": {
+      "path": "skills/econ-writing/agents/openai.yaml",
+      "sha256": "dadd933a3fd861e194ac4df3dff3b8912874b72ffad11768719b8776f4a123a6"
+    },
+    "route_registry": {
+      "path": "scripts/route_registry.py",
+      "sha256": "f6c5ce182d6afbf3b157c358a78347ba2faedbe2d40c78858a79a7c1c9c1cf59"
+    },
+    "state": {
+      "path": "harness/state.py",
+      "sha256": "3dcea9ae9be335750f69ac77827e0e960208c08a09f7f82fe31eaa91e60be74d"
+    },
+    "team": {
+      "path": "runtime/TEAM.md",
+      "sha256": "8a32ad39d9a45b1bc4bb4dba343e092206b85f9b00e8a3cb3c8971e41b734ff1"
+    }
+  }
+}

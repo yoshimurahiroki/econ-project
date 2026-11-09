@@ -1,0 +1,427 @@
+{
+  "domain": "計量",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "econ-01",
+      "chapter": 10,
+      "concept_ids": [
+        "C-ECON-01",
+        "C-CH-10",
+        "C-TERM-TWO-WAY-CLUSTER"
+      ],
+      "contract_ids": [],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-01",
+      "inputs": [
+        "結果",
+        "説明変数",
+        "標本",
+        "クラスター"
+      ],
+      "jel_codes": [
+        "C13",
+        "C10"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "線形射影係数",
+        "OLS",
+        "共分散"
+      ],
+      "prerequisites": [
+        "MATH-02",
+        "STAT-03"
+      ],
+      "related": [],
+      "subdomain": "線形射影、最小二乗、共分散",
+      "title": "線形射影、最小二乗、共分散",
+      "topic": "線形射影、最小二乗、共分散",
+      "use_when": "線形射影とOLSの係数および依存を含む分散を推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "econ-02",
+      "chapter": 10,
+      "concept_ids": [
+        "C-ECON-02",
+        "C-CH-10",
+        "C-TERM-GMM",
+        "C-TERM-IV",
+        "C-ASSUMP-IV-EXCLUSION"
+      ],
+      "contract_ids": [],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-02",
+      "inputs": [
+        "内生変数と結果",
+        "操作変数・除外制約",
+        "第一段階と弱識別",
+        "独立単位・クラスター"
+      ],
+      "jel_codes": [
+        "C26",
+        "C13"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "2SLS",
+        "GMM推定量",
+        "漸近分散",
+        "弱識別に頑健な信頼集合"
+      ],
+      "prerequisites": [
+        "ECON-01"
+      ],
+      "related": [],
+      "subdomain": "操作変数と一般化モーメント",
+      "title": "操作変数と一般化モーメント",
+      "topic": "操作変数と一般化モーメント; misspecified GMM; misspecified generalized method of moments; 誤指定GMM; 誤指定一般化モーメント法",
+      "use_when": "操作変数・GMMによる内生変数の係数を推定し、弱い第一段階に対応する推論を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "econ-03",
+      "chapter": 10,
+      "concept_ids": [
+        "C-ECON-03",
+        "C-CH-10",
+        "C-METHOD-PPML"
+      ],
+      "contract_ids": [],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-03",
+      "inputs": [
+        "ゼロを含む非負アウトカム",
+        "条件付き平均とPPML",
+        "件数分布または二値確率",
+        "共変量・曝露・推論単位"
+      ],
+      "jel_codes": [
+        "C13",
+        "C25"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最尤推定値",
+        "擬似尤度推定値",
+        "限界効果"
+      ],
+      "prerequisites": [
+        "STAT-05"
+      ],
+      "related": [
+        "ECON-10"
+      ],
+      "subdomain": "最尤、擬似尤度、非線形平均",
+      "title": "最尤、擬似尤度、非線形平均",
+      "topic": "最尤、擬似尤度、非線形平均",
+      "use_when": "ゼロを含む非負結果の条件付き平均、件数分布、二値確率を対象に尤度または擬似尤度を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "econ-04",
+      "chapter": 10,
+      "concept_ids": [
+        "C-ECON-04",
+        "C-CH-10",
+        "C-METHOD-HDFE",
+        "C-METHOD-FE-IV"
+      ],
+      "contract_ids": [],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-04",
+      "inputs": [
+        "パネル結果",
+        "説明変数",
+        "ラグ",
+        "個体ID",
+        "固定効果の各分類",
+        "除外操作変数",
+        "推論単位"
+      ],
+      "jel_codes": [
+        "C23",
+        "C26"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "固定効果推定",
+        "差分GMMモーメント",
+        "同時残差化",
+        "固定効果付きIV推定",
+        "構造残差に基づく共分散"
+      ],
+      "prerequisites": [
+        "ECON-01",
+        "ECON-02"
+      ],
+      "related": [
+        "ECON-10"
+      ],
+      "subdomain": "固定効果と動学パネル",
+      "title": "固定効果と動学パネル",
+      "topic": "固定効果と動学パネル",
+      "use_when": "多方向の固定効果を同時に除き、静学回帰・操作変数法・動学パネルの識別と実行方法を選ぶ。個人別リッジでは平均縮小係数による補正と単純平均の一致条件を調べる。"
+    },
+    {
+      "alternatives": [],
+      "anchor": "econ-05",
+      "chapter": 10,
+      "concept_ids": [
+        "C-ECON-05",
+        "C-CH-10"
+      ],
+      "contract_ids": [],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-05",
+      "inputs": [
+        "観測変数",
+        "選択指示",
+        "打切り時刻",
+        "測定モデル"
+      ],
+      "jel_codes": [
+        "C24",
+        "C13",
+        "C41"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "減衰係数",
+        "選択モデル",
+        "生存ハザード"
+      ],
+      "prerequisites": [
+        "ECON-01",
+        "STAT-05"
+      ],
+      "related": [
+        "ECON-06"
+      ],
+      "subdomain": "測定誤差、選択、打切り",
+      "title": "測定誤差、選択、打切り",
+      "topic": "測定誤差、選択、打切り",
+      "use_when": "測定誤差、選択、打切りを持つ観測過程を分析する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "econ-06",
+      "chapter": 10,
+      "concept_ids": [
+        "C-ECON-06",
+        "C-CH-10"
+      ],
+      "contract_ids": [],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-06",
+      "inputs": [
+        "観測指示",
+        "観測確率",
+        "結果",
+        "独立単位"
+      ],
+      "jel_codes": [
+        "C15",
+        "C83"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "補正された母平均",
+        "再標本分布"
+      ],
+      "prerequisites": [
+        "STAT-04",
+        "STAT-03"
+      ],
+      "related": [],
+      "subdomain": "欠測と再標本化",
+      "title": "欠測と再標本化",
+      "topic": "欠測と再標本化",
+      "use_when": "欠測の重み補正と独立単位に合う再標本化を行う"
+    },
+    {
+      "alternatives": [],
+      "anchor": "econ-07",
+      "chapter": 10,
+      "concept_ids": [
+        "C-ECON-07",
+        "C-CH-10",
+        "C-TERM-IV"
+      ],
+      "contract_ids": [],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-07",
+      "inputs": [
+        "操作変数と価格の共分散",
+        "操作変数と数量の共分散",
+        "平均価格",
+        "平均数量"
+      ],
+      "jel_codes": [
+        "C26",
+        "C13"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "需要傾き-3",
+        "切片22",
+        "価格5の需要7"
+      ],
+      "prerequisites": [
+        "ECON-02"
+      ],
+      "related": [],
+      "subdomain": "解答付き例題：需要のIV",
+      "title": "解答付き例題：需要のIV",
+      "topic": "解答付き例題：需要のIV",
+      "use_when": "費用シフターの共分散から需要係数を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "econ-08",
+      "chapter": 10,
+      "concept_ids": [
+        "C-ECON-08",
+        "C-CH-10"
+      ],
+      "contract_ids": [],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-08",
+      "inputs": [
+        "結果",
+        "共変量",
+        "核",
+        "帯域",
+        "基底",
+        "設計密度",
+        "回帰曲率",
+        "条件付き誤差分散"
+      ],
+      "jel_codes": [
+        "C14",
+        "C13"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "局所平均",
+        "局所線形推定と等価重み",
+        "内点・境界のバイアスと分散",
+        "MSE最適帯域幅と収束率",
+        "基底係数"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [
+        "ADVCAUSAL-01"
+      ],
+      "subdomain": "非母数・sieve・半母数",
+      "title": "非母数・sieve・半母数",
+      "topic": "非母数・sieve・半母数",
+      "use_when": "局所回帰・基底展開を選び、内点と境界のバイアス、分散、帯域幅と推論条件を導く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "econ-09",
+      "chapter": 10,
+      "concept_ids": [
+        "C-ECON-09",
+        "C-CH-10"
+      ],
+      "contract_ids": [
+        "MC-bayesian-workflow"
+      ],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-09",
+      "inputs": [
+        "尤度",
+        "事前分布",
+        "パラメータ変換とJacobian",
+        "提案分布",
+        "状態遷移",
+        "連続座標・群構造と採択した公式sampler",
+        "複数連鎖・warmup・保存drawの設定",
+        "観測別対数尤度・群と時点の評価分割",
+        "利益差・分位点・損失確率の要求計算精度"
+      ],
+      "jel_codes": [
+        "C11",
+        "C15"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "事後標本",
+        "事後モーメント",
+        "実効標本数",
+        "Monte Carlo標準誤差",
+        "粒子尤度",
+        "rank R-hatとbulk・tail ESS",
+        "divergence・tree depth・BFMI",
+        "変分目的と対象量の近似評価",
+        "PSIS-LOO・Pareto k・予測較正",
+        "経営判断量のMonte Carlo標準誤差"
+      ],
+      "prerequisites": [
+        "STAT-07"
+      ],
+      "related": [
+        "STAT-05",
+        "NUM-03"
+      ],
+      "subdomain": "ベイズ計算と粒子",
+      "title": "ベイズ計算と粒子",
+      "topic": "ベイズ計算、事後幾何、連鎖診断、変分近似、粒子filterと予測比較",
+      "use_when": "MCMC・HMC・NUTS・変分推論または粒子filterを選び、密度変換、連鎖診断・MCSE、予測較正とPSIS-LOOを計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "econ-10",
+      "chapter": 10,
+      "concept_ids": [
+        "C-METHOD-FE-LOGIT",
+        "C-METHOD-FE-POISSON",
+        "C-CH-10"
+      ],
+      "contract_ids": [],
+      "domain": "計量",
+      "file": "chapters/10-econometrics.md",
+      "id": "ECON-10",
+      "inputs": [
+        "個体IDと時点",
+        "個人別の二値結果または非負量",
+        "個体内で変わる説明変数",
+        "非負量の率モデルで用いる正の曝露量"
+      ],
+      "jel_codes": [
+        "C23",
+        "C25"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "条件付き尤度またはプロファイル擬似尤度",
+        "傾きと識別条件",
+        "個体スコアと共分散",
+        "情報を持つ個体",
+        "公式ConditionalLogitまたはPPMLへの実行経路"
+      ],
+      "prerequisites": [
+        "ECON-03"
+      ],
+      "related": [],
+      "subdomain": "非線形パネル",
+      "title": "非線形パネル：個体効果を消して傾きを推定する",
+      "topic": "固定効果ロジットと固定効果Poisson",
+      "use_when": "個体効果と共変量の相関を許し、個人別の二値結果の成功回数または非負結果の総量から期間内の変化を推定する"
+    }
+  ]
+}

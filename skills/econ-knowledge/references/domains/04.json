@@ -1,0 +1,351 @@
+{
+  "domain": "予測意思決定",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "forecast-01",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-01",
+        "C-CH-31",
+        "C-OBJ-DECISION-LOSS"
+      ],
+      "contract_ids": [
+        "MC-demand-inventory"
+      ],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-01",
+      "inputs": [
+        "損失関数",
+        "条件付き分布",
+        "販売価格・仕入費・回収額・失注費",
+        "需要予測分布",
+        "在庫・発注残・繰越受注・納期",
+        "共通容量・発注ロット・サービス目標"
+      ],
+      "jel_codes": [
+        "C53",
+        "D81"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "平均",
+        "中央値または分位点",
+        "最適行動",
+        "期待損失",
+        "商品別発注配分",
+        "補充状態と充足率",
+        "候補行動の期待利益と損失"
+      ],
+      "prerequisites": [
+        "STAT-04",
+        "MATH-04"
+      ],
+      "related": [
+        "NUM-01"
+      ],
+      "subdomain": "損失が予測対象を決める",
+      "title": "損失が予測対象を決める",
+      "topic": "非対称損失、新聞売り子、複数商品容量と補充",
+      "use_when": "損失に対応する予測分布から、不足・過剰費用と容量制約を満たす発注・補充を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-02",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-02",
+        "C-CH-31",
+        "C-TERM-CROSS-VALIDATION"
+      ],
+      "contract_ids": [
+        "MC-marketing-mmm",
+        "MC-demand-inventory"
+      ],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-02",
+      "inputs": [
+        "公表日",
+        "vintage",
+        "予測期間",
+        "公表vintage・予測起点期間",
+        "系列集合と品揃え履歴",
+        "各起点の価格販促・外生予測"
+      ],
+      "jel_codes": [
+        "C53",
+        "C52"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "学習窓",
+        "評価窓",
+        "分割ごとの検証損失",
+        "起点別の予測と分布",
+        "同一納期の検証損失"
+      ],
+      "prerequisites": [],
+      "related": [
+        "FORECAST-08"
+      ],
+      "subdomain": "標本分割と時点",
+      "title": "標本分割と時点",
+      "topic": "実時点の標本分割、時系列交差検証とパネル予測起点",
+      "use_when": "実時点情報と共通の予測起点で、商品・店舗のモデル選択と同じ納期の意思決定損失を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-03",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-03",
+        "C-CH-31",
+        "C-TERM-CROSS-VALIDATION",
+        "C-TERM-BAYESIAN-INFORMATION-CRITERION",
+        "C-TERM-AIC",
+        "C-TERM-LASSO",
+        "C-TERM-RIDGE"
+      ],
+      "contract_ids": [
+        "MC-demand-inventory"
+      ],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-03",
+      "inputs": [
+        "予測変数",
+        "訓練窓",
+        "損失",
+        "最大化対数尤度",
+        "観測数と自由なパラメータ数",
+        "系列ID・時点・需要と利用可能外生変数",
+        "集計行列と系列対応",
+        "学習内の予測誤差共分散",
+        "需要発生と正数量"
+      ],
+      "jel_codes": [
+        "C53",
+        "C45"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "予測",
+        "組合せ重み",
+        "AIC・BICと選択された候補",
+        "整合点予測と同時分布",
+        "階層別分位点",
+        "間欠需要と納期累積需要"
+      ],
+      "prerequisites": [
+        "FORECAST-02",
+        "MATH-02"
+      ],
+      "related": [
+        "ECON-08",
+        "STAT-07",
+        "FORECAST-01"
+      ],
+      "subdomain": "縮小、因子、学習器",
+      "title": "縮小、因子、学習器",
+      "topic": "縮小、学習器、AIC・BIC、階層整合予測と間欠需要",
+      "use_when": "縮小・因子・学習器と情報量規準を比較し、多数系列の予測を階層整合性・間欠性・情報共有に合わせて選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-04",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-04",
+        "C-CH-31",
+        "C-OBJ-CONDITIONAL-NEWS",
+        "C-ASSUMP-RELEASE-COVARIANCE",
+        "C-TERM-NOWCAST"
+      ],
+      "contract_ids": [
+        "MC-correlated-news"
+      ],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-04",
+      "inputs": [
+        "状態空間",
+        "news",
+        "条件付き共分散"
+      ],
+      "jel_codes": [
+        "C53",
+        "C32"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "更新量",
+        "nowcast"
+      ],
+      "prerequisites": [
+        "TS-04"
+      ],
+      "related": [],
+      "subdomain": "nowcastとnews",
+      "title": "nowcastとnews",
+      "topic": "nowcastとnews",
+      "use_when": "新公表のnowcast更新を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-05",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-05",
+        "C-CH-31"
+      ],
+      "contract_ids": [],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-05",
+      "inputs": [
+        "予測",
+        "実現値",
+        "損失系列",
+        "小モデル・大モデルの同じ評価時点の予測と実現値"
+      ],
+      "jel_codes": [
+        "C53",
+        "C52"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "損失差",
+        "検定",
+        "得点",
+        "Clark–West補正差と片側比較"
+      ],
+      "prerequisites": [
+        "FORECAST-02"
+      ],
+      "related": [
+        "FORECAST-03",
+        "FORECAST-01"
+      ],
+      "subdomain": "予測精度と分布予測",
+      "title": "予測精度と分布予測",
+      "topic": "予測精度と分布予測",
+      "use_when": "点予測と分布予測の精度を比較する。追加説明変数を持つ入れ子の二つの予測で実現損失と補正検定を分ける"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-06",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-06",
+        "C-CH-31",
+        "C-OBJ-DECISION-LOSS"
+      ],
+      "contract_ids": [
+        "MC-bayesian-workflow"
+      ],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-06",
+      "inputs": [
+        "信念",
+        "信号",
+        "行動効用",
+        "情報費用"
+      ],
+      "jel_codes": [
+        "D81",
+        "C11"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最適行動",
+        "情報価値"
+      ],
+      "prerequisites": [
+        "STAT-07"
+      ],
+      "related": [
+        "INFO-02",
+        "FORECAST-01"
+      ],
+      "subdomain": "ベイズ意思決定と情報価値",
+      "title": "ベイズ意思決定と情報価値",
+      "topic": "ベイズ意思決定と情報価値; expected value of sample information; EVSI; 部分情報の価値",
+      "use_when": "情報の意思決定価値を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-07",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-07",
+        "C-CH-31",
+        "C-OBJ-CONDITIONAL-NEWS",
+        "C-OBJ-DECISION-LOSS"
+      ],
+      "contract_ids": [],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-07",
+      "inputs": [
+        "需要分布",
+        "不足費用",
+        "公表news"
+      ],
+      "jel_codes": [
+        "C53",
+        "D81"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "最適在庫",
+        "更新予測"
+      ],
+      "prerequisites": [
+        "FORECAST-01",
+        "FORECAST-04"
+      ],
+      "related": [],
+      "subdomain": "解答付き予測と発注",
+      "title": "解答付き例題：予測と発注",
+      "topic": "解答付き例題：予測と発注",
+      "use_when": "在庫発注とnews更新の例を解く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "forecast-08",
+      "chapter": 31,
+      "concept_ids": [
+        "C-FORECAST-08",
+        "C-CH-31"
+      ],
+      "contract_ids": [],
+      "domain": "予測意思決定",
+      "file": "chapters/31-forecasting-decisions.md",
+      "id": "FORECAST-08",
+      "inputs": [
+        "順序づけた需要・周期と観測頻度",
+        "水準・傾き・季節成分の初期値",
+        "平滑係数と予測起点"
+      ],
+      "jel_codes": [
+        "C22",
+        "C53"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "加法型または乗法型を選ぶ条件",
+        "三成分の更新と複数期の予測",
+        "事前予測の誤差と季節別の診断"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "季節平滑化",
+      "title": "季節性のある需要予測：加法・乗法Holt–Wintersの選択と更新",
+      "topic": "水準・傾き・季節成分の逐次更新と保留予測",
+      "use_when": "繰り返す季節の振幅が水準とともに変わるかを調べ、季節別の需要予測を次期以降へ外挿する"
+    }
+  ]
+}

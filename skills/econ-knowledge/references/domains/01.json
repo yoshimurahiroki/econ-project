@@ -1,0 +1,351 @@
+{
+  "domain": "ゲーム",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "game-01",
+      "chapter": 4,
+      "concept_ids": [
+        "C-GAME-01",
+        "C-CH-04",
+        "C-TERM-PURE-NASH"
+      ],
+      "contract_ids": [],
+      "domain": "ゲーム",
+      "file": "chapters/04-games.md",
+      "id": "GAME-01",
+      "inputs": [
+        "主体",
+        "行動集合",
+        "利得"
+      ],
+      "jel_codes": [
+        "C72"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "ナッシュ均衡",
+        "混合戦略",
+        "均衡存在条件"
+      ],
+      "prerequisites": [
+        "MATH-06"
+      ],
+      "related": [
+        "STRUCT-05"
+      ],
+      "subdomain": "標準形とナッシュ均衡",
+      "title": "標準形とナッシュ均衡",
+      "topic": "標準形ゲーム、連続行動の純粋均衡の存在、最適反応と混合戦略; 格子外の逸脱と連続行動の混合均衡; off-grid deviations in continuous games",
+      "use_when": "行動集合・連続性・準凹性から純粋均衡の存在を判定し、最適反応から純粋または混合ナッシュ均衡を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "game-02",
+      "chapter": 4,
+      "concept_ids": [
+        "C-GAME-02",
+        "C-CH-04",
+        "C-METHOD-CFR"
+      ],
+      "contract_ids": [],
+      "domain": "ゲーム",
+      "file": "chapters/04-games.md",
+      "id": "GAME-02",
+      "inputs": [
+        "行動順序",
+        "情報集合",
+        "利得",
+        "信念"
+      ],
+      "jel_codes": [
+        "C72",
+        "D82"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "逐次戦略",
+        "均衡信念",
+        "CFR平均方策",
+        "最適反応改善とexploitability"
+      ],
+      "prerequisites": [
+        "GAME-01",
+        "STAT-02"
+      ],
+      "related": [],
+      "subdomain": "逐次ゲームと信念",
+      "title": "逐次ゲームと信念",
+      "topic": "逐次ゲームと信念; 情報集合; counterfactual regret minimization; CFR; exploitability; NashConv; information set; perfect recall; average policy",
+      "use_when": "情報集合と信念を定めて逐次均衡を解き、完全記憶の有限2人ゼロ和ゲームではCFR平均方策を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "game-03",
+      "chapter": 4,
+      "concept_ids": [
+        "C-GAME-03",
+        "C-CH-04"
+      ],
+      "contract_ids": [],
+      "domain": "ゲーム",
+      "file": "chapters/04-games.md",
+      "id": "GAME-03",
+      "inputs": [
+        "段階利得",
+        "観測",
+        "罰",
+        "割引因子"
+      ],
+      "jel_codes": [
+        "C73",
+        "D86"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "履行の誘因条件",
+        "均衡継続価値"
+      ],
+      "prerequisites": [
+        "GAME-02"
+      ],
+      "related": [],
+      "subdomain": "繰返しと継続価値",
+      "title": "繰返しと継続価値",
+      "topic": "繰返しと継続価値",
+      "use_when": "繰返しゲームで協調を支える継続価値を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "game-04",
+      "chapter": 4,
+      "concept_ids": [
+        "C-GAME-04",
+        "C-CH-04"
+      ],
+      "contract_ids": [],
+      "domain": "ゲーム",
+      "file": "chapters/04-games.md",
+      "id": "GAME-04",
+      "inputs": [
+        "利得",
+        "行動空間",
+        "他者行動"
+      ],
+      "jel_codes": [
+        "C72",
+        "D85"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最適反応",
+        "純粋均衡",
+        "ポテンシャル"
+      ],
+      "prerequisites": [
+        "GAME-01"
+      ],
+      "related": [
+        "NET-02"
+      ],
+      "subdomain": "戦略的相互作用とポテンシャル",
+      "title": "戦略的相互作用とポテンシャル",
+      "topic": "戦略的相互作用とポテンシャル",
+      "use_when": "戦略的補完性またはポテンシャルから均衡を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "game-05",
+      "chapter": 4,
+      "concept_ids": [
+        "C-GAME-05",
+        "C-CH-04",
+        "C-TERM-CORE"
+      ],
+      "contract_ids": [],
+      "domain": "ゲーム",
+      "file": "chapters/04-games.md",
+      "id": "GAME-05",
+      "inputs": [
+        "実行可能利得集合",
+        "決裂点",
+        "連合価値"
+      ],
+      "jel_codes": [
+        "C78",
+        "D71",
+        "C71"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "交渉解",
+        "コア"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [],
+      "subdomain": "交渉と協力",
+      "title": "交渉と協力",
+      "topic": "交渉と協力",
+      "use_when": "交渉余剰と連合価値から利得配分を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "game-06",
+      "chapter": 4,
+      "concept_ids": [
+        "C-GAME-06",
+        "C-CH-04"
+      ],
+      "contract_ids": [],
+      "domain": "ゲーム",
+      "file": "chapters/04-games.md",
+      "id": "GAME-06",
+      "inputs": [
+        "二者の利得",
+        "協調利得3",
+        "逸脱利得5",
+        "罰利得1"
+      ],
+      "jel_codes": [
+        "C72",
+        "C73"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "混合確率3分の1",
+        "割引閾値2分の1"
+      ],
+      "prerequisites": [
+        "GAME-01",
+        "GAME-03"
+      ],
+      "related": [],
+      "subdomain": "例題：混合均衡と繰返し協調",
+      "title": "例題：混合均衡と繰返し協調",
+      "topic": "例題：混合均衡と繰返し協調",
+      "use_when": "二者混合均衡と繰返し協調の閾値を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "game-07",
+      "chapter": 4,
+      "concept_ids": [
+        "C-CH-04",
+        "C-GAME-07",
+        "C-TERM-CCE"
+      ],
+      "contract_ids": [
+        "MC-finite-correlated-equilibrium"
+      ],
+      "domain": "ゲーム",
+      "file": "chapters/04-games.md",
+      "id": "GAME-07",
+      "inputs": [
+        "有限行動集合",
+        "利得配列",
+        "推薦の情報構造",
+        "目的の利得重み"
+      ],
+      "jel_codes": [
+        "C72"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "相関均衡分布",
+        "推薦別の服従不等式",
+        "粗い相関均衡との差"
+      ],
+      "prerequisites": [
+        "GAME-01"
+      ],
+      "related": [
+        "INFO-03"
+      ],
+      "subdomain": "相関均衡と粗い相関均衡",
+      "title": "相関均衡と粗い相関均衡",
+      "topic": "相関均衡と粗い相関均衡",
+      "use_when": "推薦を見た後の逸脱と推薦前の逸脱を分け、有限ゲームの相関分布を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "game-08",
+      "chapter": 4,
+      "concept_ids": [
+        "C-CH-04",
+        "C-GAME-08",
+        "C-TERM-COMMON-KNOWLEDGE",
+        "C-TERM-MIXED-STRICT-DOMINANCE"
+      ],
+      "contract_ids": [],
+      "domain": "ゲーム",
+      "file": "chapters/04-games.md",
+      "id": "GAME-08",
+      "inputs": [
+        "有限ゲーム",
+        "信念の許容範囲",
+        "情報分割"
+      ],
+      "jel_codes": [
+        "C72"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "合理化可能な行動",
+        "混合戦略による厳密支配",
+        "相互知識と共通知識の区別"
+      ],
+      "prerequisites": [
+        "GAME-01"
+      ],
+      "related": [
+        "GAME-07"
+      ],
+      "subdomain": "合理化可能性と共通知識",
+      "title": "合理化可能性と共通知識",
+      "topic": "合理化可能性と共通知識",
+      "use_when": "最適反応を合理化する信念と厳密支配の削除を、知識の階層と区別する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "game-09",
+      "chapter": 4,
+      "concept_ids": [
+        "C-CH-04",
+        "C-GAME-09",
+        "C-TERM-SHAPLEY",
+        "C-TERM-CORE"
+      ],
+      "contract_ids": [
+        "MC-finite-tu-shapley-core"
+      ],
+      "domain": "ゲーム",
+      "file": "chapters/04-games.md",
+      "id": "GAME-09",
+      "inputs": [
+        "プレイヤー集合",
+        "空連合がゼロの連合価値"
+      ],
+      "jel_codes": [
+        "C71"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "Shapley値",
+        "効率性残差",
+        "各連合のコア余裕"
+      ],
+      "prerequisites": [
+        "GAME-05"
+      ],
+      "related": [
+        "DESIGN-05"
+      ],
+      "subdomain": "移転可能効用とShapley値",
+      "title": "移転可能効用とShapley値",
+      "topic": "移転可能効用とShapley値",
+      "use_when": "連合価値からShapley配分を計算し、コアの連合制約を別に検査する"
+    }
+  ]
+}

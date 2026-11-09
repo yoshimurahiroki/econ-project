@@ -1,0 +1,307 @@
+{
+  "domain": "需要生産",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "demand-01",
+      "chapter": 15,
+      "concept_ids": [
+        "C-DEMAND-01",
+        "C-CH-15",
+        "C-OBJ-DEMAND",
+        "C-OBJ-CONSUMER-SURPLUS"
+      ],
+      "contract_ids": [],
+      "domain": "需要生産",
+      "file": "chapters/15-demand-production.md",
+      "id": "DEMAND-01",
+      "inputs": [
+        "製品特性",
+        "価格",
+        "選好分布"
+      ],
+      "jel_codes": [
+        "D12",
+        "D11",
+        "C25"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "製品シェア",
+        "log odds"
+      ],
+      "prerequisites": [
+        "MICRO-01"
+      ],
+      "related": [],
+      "subdomain": "離散選択需要",
+      "title": "離散選択需要",
+      "topic": "製品選択と外部選択から需要と代替を導く; 入れ子ロジットと巣内シェアの識別; nested logit within-group share",
+      "use_when": "製品選択と外部選択から需要と代替を導く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "demand-02",
+      "chapter": 15,
+      "concept_ids": [
+        "C-DEMAND-02",
+        "C-CH-15",
+        "C-TERM-BLP",
+        "C-TERM-GMM",
+        "C-TERM-IV",
+        "C-OBJ-DEMAND",
+        "C-OBJ-CONSUMER-SURPLUS",
+        "C-ASSUMP-IV-EXCLUSION",
+        "C-TERM-RANDOM-COEFFICIENT-LOGIT"
+      ],
+      "contract_ids": [
+        "MC-pyblp-bertrand"
+      ],
+      "domain": "需要生産",
+      "file": "chapters/15-demand-production.md",
+      "id": "DEMAND-02",
+      "inputs": [
+        "市場シェア",
+        "積分点",
+        "価格",
+        "操作変数"
+      ],
+      "jel_codes": [
+        "C26",
+        "L13"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "平均効用",
+        "選好係数",
+        "GMM診断"
+      ],
+      "prerequisites": [
+        "DEMAND-01",
+        "ECON-02"
+      ],
+      "related": [],
+      "subdomain": "ランダム係数需要",
+      "title": "シェア逆算と構造GMM",
+      "topic": "製品シェアを逆算しIV-GMMで需要を推定する; random coefficients logit share derivatives; heterogeneous price coefficients consumer surplus; ランダム係数ロジットのシェア微分; 異質な貨幣限界効用と消費者余剰",
+      "use_when": "製品シェアを逆算しIV-GMMで需要を推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "demand-03",
+      "chapter": 15,
+      "concept_ids": [
+        "C-DEMAND-03",
+        "C-CH-15",
+        "C-OBJ-CONSUMER-SURPLUS",
+        "C-OBJ-OPERATING-PROFIT",
+        "C-OBJ-EQUILIBRIUM-PRICES",
+        "C-OBJ-OWNERSHIP"
+      ],
+      "contract_ids": [
+        "MC-pyblp-bertrand"
+      ],
+      "domain": "需要生産",
+      "file": "chapters/15-demand-production.md",
+      "id": "DEMAND-03",
+      "inputs": [
+        "数量",
+        "価格",
+        "需要微分",
+        "所有",
+        "製品別固定費",
+        "需要事後分布",
+        "価格・容量制約"
+      ],
+      "jel_codes": [
+        "L13",
+        "D43"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "マークアップ",
+        "費用",
+        "反実仮想価格",
+        "反実仮想シェア",
+        "企業利益",
+        "消費者余剰",
+        "有限な商品政策の増分利益",
+        "期待利益最大価格"
+      ],
+      "prerequisites": [
+        "DEMAND-02"
+      ],
+      "related": [
+        "IO-02"
+      ],
+      "subdomain": "価格均衡",
+      "title": "価格均衡と費用回収",
+      "topic": "複数製品の価格、費用回収、代替・補完と期待利益",
+      "use_when": "価格FOCから費用を回収し、自社全商品の置換と競合反応を含む価格・参入退出の増分利益と厚生を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "demand-04",
+      "chapter": 15,
+      "concept_ids": [
+        "C-DEMAND-04",
+        "C-CH-15",
+        "C-OBJ-DEMAND"
+      ],
+      "contract_ids": [],
+      "domain": "需要生産",
+      "file": "chapters/15-demand-production.md",
+      "id": "DEMAND-04",
+      "inputs": [
+        "価格",
+        "支出",
+        "需要系パラメータ"
+      ],
+      "jel_codes": [
+        "D12",
+        "C43"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "支出シェア",
+        "補償変分"
+      ],
+      "prerequisites": [
+        "MICRO-02"
+      ],
+      "related": [
+        "DEMAND-01"
+      ],
+      "subdomain": "連続財需要",
+      "title": "連続需要と価格指標",
+      "topic": "支出系の制約と補償需要を用いて価格変更を評価する",
+      "use_when": "支出系の制約と補償需要を用いて価格変更を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "demand-05",
+      "chapter": 15,
+      "concept_ids": [
+        "C-DEMAND-05",
+        "C-CH-15"
+      ],
+      "contract_ids": [],
+      "domain": "需要生産",
+      "file": "chapters/15-demand-production.md",
+      "id": "DEMAND-05",
+      "inputs": [
+        "産出",
+        "資本",
+        "労働",
+        "proxy投入",
+        "先決操作変数"
+      ],
+      "jel_codes": [
+        "D24",
+        "C14"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "技術係数",
+        "生産性",
+        "innovationモーメント"
+      ],
+      "prerequisites": [
+        "ECON-02"
+      ],
+      "related": [
+        "DEMAND-06",
+        "DEMAND-02",
+        "IO-03"
+      ],
+      "subdomain": "生産関数推定",
+      "title": "生産関数と生産性",
+      "topic": "内生投入と生産性をproxyで分離する",
+      "use_when": "内生投入と生産性をproxyで分離する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "demand-06",
+      "chapter": 15,
+      "concept_ids": [
+        "C-DEMAND-06",
+        "C-CH-15",
+        "C-TERM-MARKUP",
+        "C-TERM-MARKET-POWER",
+        "C-TERM-RESOURCE-MISALLOCATION"
+      ],
+      "contract_ids": [],
+      "domain": "需要生産",
+      "file": "chapters/15-demand-production.md",
+      "id": "DEMAND-06",
+      "inputs": [
+        "産出弾力性",
+        "投入支出",
+        "売上",
+        "企業別資本・労働・産出",
+        "投入価格と配分の歪み",
+        "資源総量と産出の集計方法"
+      ],
+      "jel_codes": [
+        "D24",
+        "L11",
+        "O47"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "マークアップ",
+        "配分wedge",
+        "企業別投入配分",
+        "再配分後の産業産出"
+      ],
+      "prerequisites": [
+        "MICRO-04"
+      ],
+      "related": [
+        "DEMAND-05",
+        "IO-03",
+        "STRUCT-06"
+      ],
+      "subdomain": "マークアップと配分",
+      "title": "費用、マークアップ、配分",
+      "topic": "投入弾力性と売上比からマークアップを求め、企業間の資源誤配分を分析する; resource misallocation; firm productivity; capital wedges",
+      "use_when": "マークアップを推定し、企業間の投入配分の歪みと再配分後の産出を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "demand-07",
+      "chapter": 15,
+      "concept_ids": [
+        "C-DEMAND-07",
+        "C-CH-15"
+      ],
+      "contract_ids": [],
+      "domain": "需要生産",
+      "file": "chapters/15-demand-production.md",
+      "id": "DEMAND-07",
+      "inputs": [
+        "効用",
+        "限界費用",
+        "市場規模"
+      ],
+      "jel_codes": [
+        "D12",
+        "L12"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "均衡価格",
+        "シェア",
+        "余剰"
+      ],
+      "prerequisites": [
+        "DEMAND-03"
+      ],
+      "related": [],
+      "subdomain": "単一製品価格例",
+      "title": "解答付き例題：logitと単一製品価格",
+      "topic": "logit独占価格と余剰を解く",
+      "use_when": "logit独占価格と余剰を解く"
+    }
+  ]
+}

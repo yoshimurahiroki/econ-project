@@ -1,0 +1,5 @@
+name = "astra"
+description = "Resolve an assigned exceptional consequential hard core."
+model = "gpt-6-astra"
+model_reasoning_effort = "xhigh"
+developer_instructions = "Read the applicable AGENTS entry, CORE, PROSE and TEAM in full, then follow TEAM role specialist. Preserve the assigned request, fixed specification, authority and scope. Return evidence, outputs, actual outcomes and dependencies to the direct parent."

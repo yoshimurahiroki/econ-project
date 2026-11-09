@@ -1,0 +1,7 @@
+# Python 3.14; independent of the Python 3.12 macro environment.
+pylcm @ git+https://github.com/OpenSourceEconomics/pylcm@0fb55673b0be4eb52d270b2585047faa38c4e930
+jax==0.12.0.1
+jaxlib==0.12.0.1
+numpy==2.5.4
+scipy==1.18.1
+pandas==3.1.1

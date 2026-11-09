@@ -1,0 +1,365 @@
+{
+  "domain": "確率統計",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "stat-01",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-01",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-01",
+      "inputs": [
+        "確率分布",
+        "条件付ける変数",
+        "測度",
+        "可測関数"
+      ],
+      "jel_codes": [
+        "C10"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "条件付き平均",
+        "全期待",
+        "全分散",
+        "本質的上限",
+        "L∞ノルム",
+        "L1ノルム"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "確率と条件付き期待値",
+      "title": "確率と条件付き期待値",
+      "topic": "確率と条件付き期待値",
+      "use_when": "条件付き期待値と全分散を計算する。測度から本質的上限と関数ノルムを求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-02",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-02",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-02",
+      "inputs": [
+        "事前確率",
+        "条件付き確率",
+        "観測"
+      ],
+      "jel_codes": [
+        "C11",
+        "C10"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "事後確率",
+        "分布の平均と分散"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "ベイズの定理と分布",
+      "title": "ベイズの定理と分布",
+      "topic": "ベイズの定理と分布",
+      "use_when": "観測から事後確率を更新し対象に合う確率分布を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-03",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-03",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-03",
+      "inputs": [
+        "標本分布",
+        "分散",
+        "変換の導関数",
+        "依存構造",
+        "可積分な上界",
+        "裾の期待値",
+        "近傍内の振動"
+      ],
+      "jel_codes": [
+        "C10",
+        "C22"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "標本分布",
+        "標準誤差",
+        "分散",
+        "期待値の収束",
+        "推定点での極限分布"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "大数の法則と中心極限定理",
+      "title": "大数の法則と中心極限定理",
+      "topic": "大数の法則と中心極限定理; strong mixing central limit theorem; HAC long-run variance; 強混合中心極限定理; HAC長期分散",
+      "use_when": "標本平均と滑らかな変換の漸近分布を求める。概収束、期待値と極限の交換、推定点への極限分布の移行を判定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-04",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-04",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-04",
+      "inputs": [
+        "一次・共同包含確率",
+        "標本値",
+        "損失関数"
+      ],
+      "jel_codes": [
+        "C83",
+        "C81"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "母集団総量の推定値",
+        "設計分散",
+        "平均または分位点"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "標本設計と推定損失",
+      "title": "標本設計と推定損失",
+      "topic": "標本設計と推定損失",
+      "use_when": "抽出確率から総量を推定し損失に合う推定対象を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-05",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-05",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-05",
+      "inputs": [
+        "独立標本",
+        "確率モデル",
+        "確率測度",
+        "正定値核"
+      ],
+      "jel_codes": [
+        "C13",
+        "C10"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最尤推定値",
+        "スコア",
+        "情報行列",
+        "KLダイバージェンス",
+        "二乗MMD"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [
+        "MATH-07",
+        "STAT-09"
+      ],
+      "subdomain": "尤度と情報",
+      "title": "尤度と情報",
+      "topic": "尤度と情報",
+      "use_when": "標本尤度から最尤推定量とFisher情報を求める。KLと核平均の差で確率分布を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-06",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-06",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-06",
+      "inputs": [
+        "推定値",
+        "標準誤差",
+        "有意水準",
+        "対象差",
+        "検出力"
+      ],
+      "jel_codes": [
+        "C12",
+        "C10"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "検定結果",
+        "信頼区間",
+        "標本数"
+      ],
+      "prerequisites": [
+        "STAT-03"
+      ],
+      "related": [],
+      "subdomain": "検定、区間と多重性",
+      "title": "検定、区間と多重性",
+      "topic": "検定、区間と多重性",
+      "use_when": "仮説検定、区間、多重性と必要標本数を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-07",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-07",
+        "C-CH-02"
+      ],
+      "contract_ids": [
+        "MC-bayesian-workflow",
+        "MC-marketing-mmm",
+        "MC-customer-lifetime"
+      ],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-07",
+      "inputs": [
+        "事前分布",
+        "尤度",
+        "損失関数",
+        "観測単位・母集団と条件付き観測分布",
+        "群構造・共変量と係数の単位",
+        "事前予測の範囲と追加観測の情報構造",
+        "実行可能な行動・利益・効用と制約"
+      ],
+      "jel_codes": [
+        "C11",
+        "D81",
+        "C44"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "事後分布",
+        "事後最適行動",
+        "予測分布",
+        "共役・回帰・階層モデルの事後",
+        "信用集合と事後予測区間",
+        "事前感度と予測検査",
+        "期待利益・損失とEVSI・EVPI"
+      ],
+      "prerequisites": [
+        "STAT-02",
+        "MATH-02"
+      ],
+      "related": [
+        "ECON-09"
+      ],
+      "subdomain": "ベイズ推定と意思決定",
+      "title": "ベイズ推定と意思決定",
+      "topic": "共役事後、部分プーリング、ベイズ回帰・GLM、予測検査とベイズ意思決定",
+      "use_when": "事前・尤度から共役更新、回帰・階層モデルの事後と予測を求め、損失・利益・情報価値で行動を選ぶ"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-08",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-08",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-08",
+      "inputs": [
+        "試行100回",
+        "成功80回",
+        "群比率と群平均"
+      ],
+      "jel_codes": [
+        "C10",
+        "C13"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "成功率0.8",
+        "標準誤差0.04",
+        "事後平均約0.794",
+        "2回成功の予測確率約0.6322",
+        "全体平均5.8"
+      ],
+      "prerequisites": [
+        "STAT-05",
+        "STAT-07"
+      ],
+      "related": [
+        "STAT-04"
+      ],
+      "subdomain": "例題：成功率と条件付き平均",
+      "title": "例題：成功率と条件付き平均",
+      "topic": "例題：成功率と条件付き平均",
+      "use_when": "成功率と母集団の加重平均を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "stat-09",
+      "chapter": 2,
+      "concept_ids": [
+        "C-STAT-09",
+        "C-CH-02"
+      ],
+      "contract_ids": [],
+      "domain": "確率統計",
+      "file": "chapters/02-probability-statistics.md",
+      "id": "STAT-09",
+      "inputs": [
+        "二群の観測または共分散",
+        "共通の調整変数",
+        "分散を正規化した混合成分",
+        "個体別の順位・同順位"
+      ],
+      "jel_codes": [
+        "C38",
+        "C14",
+        "C12"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "正準相関とWilksのラムダ",
+        "正規尤度比と残差共分散",
+        "独立成分の符号・順序の識別",
+        "拡張順位尤度の積分領域"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "線形の関連と分布全体の依存",
+      "title": "多変量の依存構造：正準相関、独立成分、順位尤度",
+      "topic": "数値の尺度・独立性・順位情報から依存構造を選ぶ",
+      "use_when": "二つの変数群の線形関連、白色化後の独立成分、未知の周辺分布を持つ順序指標の依存を区別して推定する"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "name": "econ-dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "remoteUser": "vscode",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "updateRemoteUserUID": true,
+  "mounts": [
+    "type=volume,source=econ_data_${devcontainerId},target=/workspaces/${localWorkspaceFolderBasename}/data",
+    "type=volume,source=econ_pixi_cache,target=/home/vscode/.cache/rattler",
+    "type=volume,source=econ_pixi_env_${devcontainerId},target=/workspaces/${localWorkspaceFolderBasename}/.pixi"
+  ],
+  "runArgs": [
+    "--init",
+    "--hostname=econ-dev"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "version": "latest",
+      "enableNonRootDocker": "true",
+      "moby": "true"
+    }
+  },
+  "hostRequirements": {
+    "gpu": "optional"
+  },
+  "forwardPorts": [
+    2718
+  ],
+  "portsAttributes": {},
+  "remoteEnv": {
+    "ENABLE_CONTEXT_MCP": "0",
+    "PATH": "${containerWorkspaceFolder}/.pixi/envs/default/bin:${containerEnv:PATH}",
+    "QUARTO_PYTHON": "${containerWorkspaceFolder}/.pixi/envs/default/bin/python",
+    "QUARTO_R": "${containerWorkspaceFolder}/.pixi/envs/default/bin/Rscript",
+    "QUARTO_SHARE_PATH": "${containerWorkspaceFolder}/.pixi/envs/default/share/quarto",
+    "QUARTO_DENO": "${containerWorkspaceFolder}/.pixi/envs/default/bin/deno",
+    "QUARTO_DENO_DOM": "${containerWorkspaceFolder}/.pixi/envs/default/lib/deno_dom.so",
+    "QUARTO_PANDOC": "${containerWorkspaceFolder}/.pixi/envs/default/bin/pandoc",
+    "QUARTO_ESBUILD": "${containerWorkspaceFolder}/.pixi/envs/default/bin/esbuild",
+    "QUARTO_TYPST": "${containerWorkspaceFolder}/.pixi/envs/default/bin/typst",
+    "QUARTO_DART_SASS": "${containerWorkspaceFolder}/.pixi/envs/default/bin/sass",
+    "QUARTO_CONDA_PREFIX": "${containerWorkspaceFolder}/.pixi/envs/default",
+    "TEXINPUTS": "${containerWorkspaceFolder}/tex/paper:${containerEnv:TEXINPUTS}",
+    "BSTINPUTS": "${containerWorkspaceFolder}/tex/paper:${containerEnv:BSTINPUTS}"
+  },
+  "postCreateCommand": "bash .devcontainer/setup-environment.sh",
+  "customizations": {
+    "antigravity": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "REditorSupport.r",
+        "quarto.quarto",
+        "James-Yu.latex-workshop",
+        "charliermarsh.ruff"
+      ]
+    },
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter",
+        "REditorSupport.r",
+        "quarto.quarto",
+        "James-Yu.latex-workshop",
+        "charliermarsh.ruff"
+      ]
+    }
+  }
+}

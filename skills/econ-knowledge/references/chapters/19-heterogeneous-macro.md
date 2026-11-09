@@ -1,0 +1,167 @@
+# 19　異質主体マクロ：個人政策、分布、市場清算
+
+前提はDYN、MACRO、MONETARYである。家計の状態別選択と分布遷移を価格へ集約し、その価格を家計へ戻して均衡を作る。
+
+<a id="het-01"></a>
+
+## HET-01　不完全市場の貯蓄
+
+資産 \(a\)、所得効率 \(e\)、借入下限 \(\underline a\) に対し
+
+\[
+V(a,e)=\max_{a'\ge\underline a}
+\left\{u(we+(1+r)a-a')+
+\beta\sum_{e'}P(e'|e)V(a',e')\right\}.
+\]
+
+消費正値と予算制約を可行集合へ入れる。内点Euler式は \(u'(c)=\beta(1+r)E[u'(c')]\)、借入境界では \(u'(c)\ge\beta(1+r)E[u'(c')]\) となる。所得リスクと曲率は将来消費の限界効用を通じて貯蓄を決める。対数効用による内点のEuler逆算はDYN-05、家計の予算・借入境界と集計の計算法はHET-04を参照する。
+
+政策 \(a'=g(a,e)\) をVFI、PFI、EGMで求める。EGMは次期資産gridを固定し、Euler式を逆にして現在消費と現在cash-on-handを作り、借入拘束部分を継ぎ足す。grid外の遷移と上限は、資産分布が載る領域で評価する。
+
+CRRAのEGMを実装する。各所得 \(e\) と次期資産格子 \(a'_j\) に対し、現在の政策候補から得た次期消費 \(c'(a'_j,e')\) を使い、\(c_j=[\beta(1+r)\sum_{e'}P(e'|e)c'(a'_j,e')^{-\gamma}]^{-1/\gamma}\)、\(a_j=[c_j+a'_j-we]/(1+r)\) を求める。\((a_j,a'_j)\) を現在の資産格子へ補間し、最小内生格子より下では \(a'=\underline a\)、予算から消費を作る。政策を反復し最大変化を許容差以下にした後、全状態の予算と正の消費、内点Euler残差、境界での符号と相補性積を検査する。非単調な内生格子が生じる非凸問題には候補の価値比較を備えた大域解法を選ぶ。
+
+対数効用で \(\beta=.96,R=1+r=1.04,w e=w e'=1\)、次期に全資源を消費する終端を置く。\(a'=1\) なら \(c'=2.04\)、逆Eulerから \(c=2.043269\)、内生現在資産は \(a=1.964682\) である。この点は有限期間の終端に接続する内点の計算であり、定常政策には次期政策の反復が必要である。
+
+恒久所得の変動を含む家計では、各期の期首資源、消費、期末資産を当期の恒久所得 \(p_t\) で割り、\(m_t=c_t+a_t\)、\(p_{t+1}=\Gamma\psi_{t+1}p_t\)、\(m_{t+1}=Ra_t/(\Gamma\psi_{t+1})+\theta_{t+1}\) とする。恒久所得shock \(\psi\) と一時所得shock \(\theta\) の同時分布を期待値に使う。CRRA係数 \(\gamma\)、生存確率 \(\ell\) の内点条件は \(c_t^{-\gamma}=\beta\ell R E[(\Gamma\psi_{t+1})^{-\gamma}c_{t+1}^{-\gamma}]\) であり、借入境界では左辺が右辺以上になる。各shockで次期資源を下限 \(\underline m_{t+1}\) 以上に保つ自然借入下限は \(a_t^N=\max_{\psi,\theta} (\Gamma\psi/R)(\underline m_{t+1}-\theta)\) で、人工的な制約 \(a_t^A\) を課す場合の下限は \(\max(a_t^N,a_t^A)\) である。EGMでは各期末資産から次期資源と期待限界効用を求めて消費を逆算し、拘束部分を接続する。
+
+[HARKの自然借入下限](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/HARK/ConsumptionSaving/ConsIndShockModel.py#L510-L532)は、恒久・一時ショックの最小値を別々に取る。$\underline m_{t+1}\le\min\theta$ で二つの最小値が同じ支持点で実現すると、この積は上の同時分布の最大値に等しい。相関した所得ショックでは、正の質量を持つ組ごとに下限を計算する。例えば $R=\Gamma=1,\ \underline m_{t+1}=0$、同じ質量の $(\psi,\theta)=(.5,1.5),(1.5,.5)$ では自然下限は $-.75$、個別の最小値を掛ける実装は $-.25$ を返す。資産 $a=-.5$ で次期資源はそれぞれ $.5,1/6$ となり、両状態で下限を満たす。econ-dataにはショックの組と質量を渡し、同じ支持を借入制約・Euler式・シミュレーションに使う。
+
+HARKの[公式ノートブック](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/examples/ConsIndShockModel/IndShockConsumerType.ipynb)は、`IndShockConsumerType(cycles=0, T_sim=120)` を構築し、`solve()` で無限期間の消費方策を求める。`aNrm`、`mNrm`、`cNrm`、`pLvl` を `track_vars` に指定し、`initialize_sim()` で初期状態と履歴を用意してから `simulate()` で家計の経路を作る。正規化消費の横断面平均は `history["cNrm"]` を家計方向に平均して求め、水準消費は各家計の `pLvl` と `cNrm` の積を平均する。
+
+数値解は元の条件へ戻して評価する。\(\zeta=1-c^\gamma\beta\ell R E[(\Gamma\psi)^{-\gamma}c'^{-\gamma}]\) と置き、内点で \(\zeta=0\)、借入境界で \(\zeta\ge0\)、相補性 \(\zeta(a-\underline a)=0\) を確認する。各期の予算は \(m-c-a\)、同一家計の次期資源は \(m'-Ra/(\Gamma\psi)-\theta\)、恒久所得は \(p'-\Gamma\psi p\) の残差で評価する。同版の[家計遷移コード](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/HARK/ConsumptionSaving/ConsIndShockModel.py)が記録する `PermShk` には \(\Gamma\) が含まれる。死亡・出生を含む模擬では、新生家計の遷移を初期化後の状態へ対応させる。格子点数、所得分布の離散化、資産領域を変え、対象とする資源での消費とこれらの残差を比較する。
+
+### 家計の問題とHARKの実行契約
+
+モデルを選ぶ基準は価格、所得、選択集合と集計対象である。価格と所得が予見可能で消費・貯蓄だけを選ぶ家計には`PerfForesightConsumerType`、恒久・一時所得ショックと借入制約を持つ家計には`IndShockConsumerType`を使う。両クラスの[HARK 0.17.2の正本](https://github.com/econ-ark/HARK/blob/269085077b84cb50feb49d0cd54bbf4da5fa3199/HARK/ConsumptionSaving/ConsIndShockModel.py)へ、効用曲率、割引、金利、生存、成長、借入下限を渡す。後者ではショックの同時支持と質量、積分点、資産格子も渡す。有限寿命では`cycles=1`と`T_cycle`、定常的な無限期間では`cycles=0`を指定し、有限寿命の終端で全資源を消費する条件を研究仕様へ対応させる。
+
+`solve()`は消費者オブジェクトの`solution`を更新する。有限寿命では`T_cycle+1`個の解を持ち、対象年齢の`cFunc`をその年齢の正規化資源で評価する。値を使う`IndShockConsumerType`には`vFuncBool=True`を指定し、`vFunc`の正規化を効用集計と揃える。模擬では`AgentCount`、`T_sim`、`seed`、`track_vars`、初期資産・恒久所得分布を固定し、`initialize_sim()`の後に`simulate()`を呼ぶ。所得・資産の水準分布を比較する研究では、同じ個体の正規化量と恒久所得を掛けてから人口加重する。
+
+家計の観測消費・資産・所得履歴は価格所与のモデルの当てはまりと選好・所得過程の識別へ対応する。給与税や移転が金利・賃金を動かす一般均衡では、同じ家計をHET-02の価格・分布・市場清算へ接続する。退職や固定費付き就業を選択する研究ではDYN-02の制度別最適化を用いる。価格所与の家計解、分布を集計した市場均衡、制度別の離散選択はそれぞれ別の計算対象を持つ。`MC-hark-consumption-saving`は家計の政策・値・模擬履歴の公式API契約である。
+
+<a id="het-02"></a>
+
+## HET-02　家計分布と不完全市場均衡
+
+政策と所得遷移は状態のMarkov行列 \(P_g\) を定める。定常分布は \(\mu'=\mu'P_g\)、\(\sum_s\mu_s=1\) を満たす。連続政策をgridへ配分する際は隣接点への重みを使い、質量と資産の集計を保持する。
+
+総資産 \(K^s(r)=\sum_{a,e}a\mu_r(a,e)\)、労働 \(L=\sum e\mu\) とする。競争企業の \(r=\alpha A(K/L)^{\alpha-1}-\delta\)、\(w=(1-\alpha)A(K/L)^\alpha\) と \(K=K^s(r)\) を連立する。
+
+計算は価格を仮定し、家計政策、定常分布、総資産を解き、資本超過需要を根探索する。家計Euler残差、分布不変性、質量1、資本・財市場清算を元式で確認する。所得遷移はパネルから推定し、借入下限と選好は資産・消費・反応モーメントへ対応させる。HET-06には所与の政策から定常分布を求める小例、HET-04には家計・分布・市場清算を同時に評価する一資産モデルの実行契約がある。
+
+人口を1とすると、企業の労働投入 $N$ と家計の効率労働 $L$ は同じ単位で清算する。QuantEconの [PythonのEGM例](https://github.com/QuantEcon/lecture-python.myst/blob/4d82fffbb1280f8f6980a45dbe518e677f5c9a39/lectures/aiyagari_egm.md) と [Juliaの政策反復例](https://github.com/QuantEcon/lecture-julia.myst/blob/18877b5dd22cba3530089a3a3f3de23f427b8656/lectures/multi_agent_models/aiyagari.md) の所得効率 $(.1,1)$ と対称な遷移では、定常人口が半数ずつなので $L=0.55$ である。企業に $N=1$ を渡し、家計に元の効率を使うと、資本市場が清算しても財市場に $Y-C-\delta K=w(N-L)=.45w$ が残る。家計の効率をそのまま使うなら企業に $N=.55$ を渡す。企業の労働を1に正規化するなら各家計の効率を $.55$ で割る。どちらも同じ単位で価格・家計政策・定常分布を解き、予算と財市場に戻して確かめる。
+
+集計ショックが反復する経済では、集計Markov状態 \(z_t\) と家計の資産・所得分布 \(\mu_t(a,e)\) を集計状態として持つ。人口を1に正規化し、家計の次期資産政策を \(g_t(a,e)=g(a,e,z_t,\mu_t)\) とすると、
+\[
+K_t=\int a\,d\mu_t,\qquad
+A_t=\int g_t(a,e)\,d\mu_t,\qquad K_{t+1}=A_t,\qquad
+\mu_{t+1}=\mathcal T(\mu_t,g_t,z_t,z_{t+1})
+\]
+である。\(\mathcal T\) は資産政策と条件付き所得遷移 \(P(e'\mid e,z_t,z_{t+1})\) が作る分布遷移である。家計は \(c+a'=R_ta+W_te\)、借入下限と消費正値の下で効用を最大化し、集計状態の遷移 \(\Pi(z'\mid z)\)、所得遷移と次期分布を継続価値へ入れる。資産分布が貯蓄と次期価格を変え、その価格が現在の家計選択へ戻る。
+
+HARK 0.17.2の[KrusellSmithEconomy](https://github.com/econ-ark/HARK/blob/0.17.2/HARK/ConsumptionSaving/ConsAggShockModel.py#L2915-L3039)では、集計状態別の生産性を \(Z_z\)、失業率を \(u_z\)、就業者一人の労働を \(\ell\) とし、労働投入を \(L_t=(1-u_{z_t})\ell\) で与える。前期末の総貯蓄を当期資本へ渡し、競争価格と当期集計資源を
+\[
+R_t=1+Z_{z_t}\alpha(K_t/L_t)^{\alpha-1}-\delta,\qquad
+W_t=Z_{z_t}(1-\alpha)(K_t/L_t)^\alpha,\qquad
+M_t=R_tK_t+W_tL_t
+\]
+とする。\(R_t\) は元本を含む収益率であり、所得効率 \(e\) は就業時に \(\ell\)、失業時に0となる。
+
+Krusell–Smith法は、家計が将来の集計量を予測するために分布を少数の集計量へ縮約する。HARKの同実装は、正の集計資源と貯蓄について \(\log\widehat A_t=a_{z_t}+b_{z_t}\log M_t\) という状態別の予測則を用いる。所与の係数で家計政策を解き、集計状態・雇用・資産を模擬し、初期の除外期間後の \((M_t,A_t,z_t)\) から各状態で \(\log A_t\) を \(\log M_t\) にOLS回帰する。コードは記録上の `Aprev[t+1]` を `Mnow[t]` と組にしており、当期の期末貯蓄 \(A_t\) と期首資源 \(M_t\) が対応する。係数 \(\theta_z=(a_z,b_z)\) の更新は
+\[
+\theta_z^{\mathrm{new}}=d\theta_z^{\mathrm{old}}+(1-d)\theta_z^{\mathrm{OLS}},
+\qquad d=\texttt{DampingFac},\quad 0\le d<1
+\]
+である。各状態で集計資源が変動する模擬標本を使い、予測則と家計政策を反復する。家計のEuler・借入境界、予算、分布質量、資産・財市場清算と、\(\log A_t-\log\widehat A_t\) の状態別残差を確認する。
+
+集計状態と価格が一定の長期配分には、上の定常Aiyagari均衡を使う。反復する集計ショックに家計が将来の貯蓄・価格を予測して反応する課題には、分布遷移と予測則を同時に更新する方法を選ぶ。所与の集計経路に対する局所応答と、その経路を元の非線形条件で解き直す計算はHET-04へ接続する。
+
+### 定常Aiyagari均衡の実行契約
+
+`MC-aiyagari-stationary`は、所与のCRRA選好、所得Markov行列、有限資産格子と競争生産を、既存の`research_macro_extended.py run`へ渡す。指定は`model="aiyagari"`、校正値の出所、`parameters`、基準・変更後の生産性、資本探索区間と元式の許容残差である。各資本候補で[QuantEconの`DiscreteDP.solve(method="policy_iteration")`](https://github.com/QuantEcon/QuantEcon.py/blob/d30c9000a96d7ae1d434bdecb4aa63d285a18599/quantecon/markov/ddp.py)が家計を解き、その政策の唯一の再帰類から定常分布を得る。SciPyの`brentq`が資本市場を探索する。
+
+各シナリオで消費・資産政策、価値、定常分布、資本、競争価格と集計量を保存する。家計Bellman式、選択政策の価値式、予算、分布不変性、総質量、所得周辺分布、資本市場と財市場を元の式で照合する。有限格子で生じる資本供給の跳びには、実際の資本・財市場残差に設定した許容値を適用する。`calibration.estimated_parameters=[]`は、入力された原始パラメータを校正値として保持する実行内容を表す。
+
+定常厚生は各シナリオ固有の分布による\(W=\sum_{a,e}\mu(a,e)V(a,e)\)である。同じCRRA曲率\(\gamma\ne1\)の定常消費等価率は\((W_s/W_b)^{1/(1-\gamma)}-1\)、対数効用では\(\exp\{(1-\beta)(W_s-W_b)\}-1\)となる。初期分布固定の移行厚生はHET-05の定義で計算する。
+
+<a id="het-03"></a>
+
+## HET-03　HANKと伝達経路
+
+HANKは異質家計を名目価格硬直、企業、金融・財政則へ接続する。金利変更は異時点代替、変動金利資産の利子収入、債務返済、実質資産評価、雇用・所得、税移転を通じて消費を変える。
+
+家計群ごとのMPCと純資産が再分配効果を決める。総消費の一次変化は、価格と所得の変化に対する家計直接反応と、分布変化による集計の変化を合わせる。均衡では労働所得・利益・政府収支の受取先を指定し、全家計の予算と集計資源を一致させる。
+
+同じ政策金利経路と総消費を比較する研究では、代表家計モデルは平均家計のEuler条件と集計予算を用いる。家計の流動資産、負債、所得とMPCの分布が政策反応を左右するときは、異質家計の方策と分布を持つHANKを使う。固定価格で各家計の金利・所得変化を与えた直接効果と、賃金・雇用・利益・税が均衡で変化する間接効果を、同じ初期分布とショックで比較する。代表家計を選んだ場合に得るのは平均的な総計応答であり、分布別の再分配と厚生を求めるときは状態別家計予算を追加する。
+
+家計を代表家計へ集約する比較では、共通の選好・所得や資産への曝露、借入制約の非結合、保険と集計の条件を指定する。財政移転、価格設定、金融政策の時点と集計式も揃えた上で、各モデルの線形係数と均衡応答を照合する。下記のRotemberg価格調整とMONETARY-01のCalvo三式を比較する際は、それぞれを線形化して価格式の係数と政策の時点を対応させる。
+
+`HANK monetary transmission marginal propensity to consume balance sheets` と `heterogeneous households fiscal transfers interest rate general equilibrium` で金融政策伝達の研究論文、家計資産負債・所得・消費調査と金融・財政制度を照合する。金利固定期間や政府移転の受取先が家計間で異なる証拠に合わせて資産負債と政策則を修正する。econ-designが家計状態と分配規則を採択し、econ-dataが家計条件、分布保存、企業価格式、財政予算と市場清算を同時に解く。元のショック経路、期間、集計単位を揃えて比較する。
+
+具体的な一資産HANKでは、家計は所得効率 \(e\)、期首資産 \(a\) を状態とし、\(c+a'=(1+r)a+wen+d(e)-\tau(e)\)、\(a'\ge0\) の下で \(u(c)-\varphi n^{1+1/\eta}/(1+1/\eta)+\beta EV'\) を最大化する。効用の曲率を \(\sigma=1/\mathrm{EIS}\) とすると、内点の労働条件は \(\varphi n^{1/\eta}=wec^{-\sigma}\) である。所得効率の遷移を固定し、家計の資産政策が作る質量保存遷移行列を \(P_t\) として分布を \(\mu_{t+1}=P_t^{\mathsf T}\mu_t\) で動かす。
+
+企業生産は \(Y=ZN\)、価格調整費用は \(\Psi_t=\mu Y_t[\log(1+\pi_t)]^2/[2\kappa(\mu-1)]\)、利潤は \(D_t=Y_t-w_tN_t-\Psi_t\) とする。対称均衡の価格条件と金融則は
+\[
+\log(1+\pi_t)=\kappa\left(\frac{w_t}{Z_t}-\frac1\mu\right)+\frac{Y_{t+1}}{Y_t}\frac{\log(1+\pi_{t+1})}{1+r_{t+1}},\quad
+1+r_t=\frac{1+r^*_{t-1}+\phi\pi_{t-1}}{1+\pi_t}.
+\]
+政府債務 \(B\) を一定とし、実質税収を \(r_tB\) にする。税と利潤をそれぞれ効率 \(e\) に比例し人口平均が税収・利潤に一致するよう配分する。利潤は各期に状態別に分配し、売買される株式を家計資産に含めない。均衡条件は \(A_t=B\)、\(N_t=Y_t/Z_t\)、\(Y_t=C_t+\Psi_t\) であり、家計の資産・労働供給と企業・政府の受払を同じ分布で集計する。終端を定常状態へ戻し、資産・財・価格条件を内生経路 \((w,Y,\pi)\) について同時に解く。政策厚生は初期分布の同じ家計について消費と労働を含む生涯価値を比較し、貨幣表示には効用の等価式を使う。 この一資産HANKの定常状態、政策ショック、非線形再求解と格子・終端の検査はHET-04、同一家計の消費等価計算はHET-05に示す。
+
+<a id="het-04"></a>
+
+## HET-04　sequence-space Jacobian
+
+集計量の応答を、状態別の政策反応と分布の移動に分解する。状態別の政策と遷移が問題の入力として与えられている場合は、DYN-01の分布更新とMATH-02の線形系を使い、下記の集計式からJacobianと均衡応答を求める。政策を原始的要素から求める場合は、採択した計算に対応する本文を追加する。
+
+| 求める経済的対象 | 追加する知識 | `plan`の条件 |
+| --- | --- | --- |
+| 所得過程・選好・価格から家計の消費・貯蓄政策を解く | HET-01 | `household_policy=endogenous` |
+| 家計政策・分布・生産から定常の資本・価格を清算する | HET-02 | `equilibrium_model=aiyagari` |
+| 名目硬直性、金融則、財政と異質家計を閉じる | HET-03 | `equilibrium_model=one_asset_hank` |
+
+`plan HET-04 --read` は共通の前提を取得する。例えば家計から求める一資産HANKでは `--context household_policy=endogenous --context equilibrium_model=one_asset_hank` を加える。条件は問題の入力と求める均衡から選ぶ。所与の家計反応を集計する計算では、その反応の定義、時点、初期分布を保持する。
+
+期首状態を資産 \(a\) と所得 \(z\)、所得遷移を \(\Pi(z,z')\) とする。価格・所得経路 \((r_t,w_t,T_t)\) を予見する家計は、\(a'\ge\underline a\)、\(c>0\)、\(c+a'=(1+r_t)a+w_tz+T_t\) の下で
+\[
+V_t(a,z)=\max_{c,a'}\{u(c)+\beta\sum_{z'}\Pi(z,z')V_{t+1}(a',z')\}
+\]
+を解く。期 \(t\) に \(a'\) を選び、次期に \(z'\) が実現する。内点では \(u'(c_t)=\beta(1+r_{t+1})E_tu'(c_{t+1})\)。借入下限では \(u'(c_t)-\beta(1+r_{t+1})E_tu'(c_{t+1})\ge0\)、これと \(a'-\underline a\ge0\) の積が0となる。
+
+終端価値を与え、\(T-1\) から後向きに政策 \(g_t(a,z)=a'\) と \(c_t\) を解く。資産grid \(a_m\le g_t\le a_{m+1}\) に対し \(\lambda=(g_t-a_m)/(a_{m+1}-a_m)\) とし、\((1-\lambda)\Pi(z,z')\) と \(\lambda\Pi(z,z')\) を隣接gridへの遷移確率にする。行和1の作用素 \(P_{g_t}\) は分布列を \(\mu_{t+1}=P_{g_t}'\mu_t\) と動かし、質量と政策資産の一次モーメントを保存する。\(Y_t=\sum_{a,z}\mu_t(a,z)y_t(a,z)\) で消費や資産を集計する。
+
+定常状態近傍で \(J_{ts}^{Y,X}=\partial Y_t/\partial X_s\) とする。初期分布固定の一次変化は
+\[
+dY_t=\bar\mu' dy_t+\bar y' d\mu_t,\quad d\mu_{t+1}=\bar P_g' d\mu_t+(dP_{g_t})'\bar\mu.
+\]
+前者が状態別政策の直接効果、後者が分布構成効果である。各ショック時点の家計反応を後向きに作り、定常作用素の反復と期待値ベクトルを再利用して将来集計への寄与を組み立てる。sequence_jacobianの異質家計ブロックとJacobian組立はこの反復を共有する。一般均衡条件 \(H(U,Z)=0\) は内生経路 \(U\)、外生経路 \(Z\) に対し、\(H_U\) が正則なら \(H_UdU=-H_ZdZ\) を解く。
+
+家計Euler/KKT、分布非負・質量1、市場清算、元の \(H\) を検査する。終端の定常条件と期間 \(T\) を延長し、関心期間の政策・集計が指定許容差内で一致するようにする。単発ショックの完全な非線形後向き・前向き再計算の中央差分を対応するJacobian列と比較する。有限な政策変更では価格経路と家計政策を元の非線形均衡で解き直す。
+
+小さなショックの近傍応答にはSSJを選び、政策が借入制約への到達、価格設定や分布を大きく動かす場合は同じ初期分布と終端条件で非線形経路を解く。`sequence space Jacobian distribution household policy general equilibrium` と `heterogeneous agent nonlinear transition occasionally binding constraints` で家計Jacobianの計算法、借入境界と均衡条件を調べる。econ-dataはJacobian列を家計・分布の非線形中央差分と照合し、均衡解を元の市場清算式へ戻す。grid、所得状態と終端の変更が対象期間の応答または厚生を採択した許容差だけ変える場合、その精度を上げて再計算する。
+
+`sequence_jacobian` の `hetblocks.hh_sim.hh_extended` は、所与の価格経路に対する家計ブロックを計算する。初期分布と終端の限界価値を指定し、家計の政策と分布を後向き・前向きに更新する。一般均衡では、価格経路を内生化して上記の $H$ を解く。
+
+[現行の`sequence_jacobian.examples.hank.dag`](https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/examples/hank.py)は10点の公開校正で定常状態を解き、`(hank_model_ss, ss, hank_model, unknowns, targets, exogenous)`を返す。別の資産格子や校正値を使う場合は、同じ公式ブロックから採択済みのモデルを構築する。定常モデルの`nkpc_ss`は\(w=Z/\mu\)を与え、移行モデルの`nkpc`は価格式の残差を返す。
+
+`MC-hank-one-asset`の選択は、[公式`Block`の4操作](https://github.com/shade-econ/sequence-jacobian/blob/eb4ac4c3157357a4cacbea4b5a7a281f5b48cab9/src/sequence_jacobian/blocks/block.py)を分ける。`solve_steady_state(calibration,unknowns,targets)`は定常条件を解き、`solve_jacobian(ss,unknowns,targets,inputs,T=...)`は一般均衡Jacobianを返す。`solve_impulse_linear`と`solve_impulse_nonlinear`はショック名から配列への辞書を受け、線形・非線形の均衡経路を返す。移行の内生変数は`[w,Y,pi]`、目標は`[asset_mkt,goods_mkt,nkpc_res]`、外生入力は`rstar`と`Z`である。非線形操作は元の目標残差を各反復で判定する。実行結果には労働清算、家計予算、Euler条件、分布と終端条件も対応する経済量とともに保存する。
+
+<a id="het-05"></a>
+
+## HET-05　移行経路と世代厚生
+
+初期分布 \(\mu_0\) と政策発表を固定し、価格経路を仮定する。終端条件から家計を後向きに解き、\(\mu_{t+1}=P_{g_t}'\mu_t\) を前向きに計算し、各期市場清算で価格経路を更新する。資本調整、死亡、出生、相続、政府債務を対応する遷移へ入れる。
+
+厚生は初期状態別 \(V^{policy}(a,e)-V^{base}(a,e)\) と初期分布で評価する。消費等価便益 \(\lambda(a,e)\) は、基準消費経路を \(1+\lambda\) 倍した効用が政策効用に一致する値として解く。労働・余暇効用がある場合も、その項を保った同じ等価条件を使う。
+
+各期の状態別消費・労働とその期の分布で効用を集計し、$\beta^t$ で割り引く。終端では、最終期の資産政策と所得遷移が作る分布に、定常政策の価値 $V^{ss}=(I-\beta P^{ss})^{-1}u^{ss}$ を掛ける。政策後の終端に定常政策を接続して評価し、資産格子と終端条件を変えたときの厚生も同じ方法で求める。
+
+労働の変化は政策価値に含め、等価率の基準経路では労働を固定する。初期状態を \(s\)、基準の消費・労働方策と遷移を \(c_s^0,n_s^0,P^0\) とし、\(V_s^{0}(\lambda)\) を \(u((1+\lambda)c_s^0,n_s^0)+\beta\sum_{s'}P^0_{ss'}V_{s'}^{0}(\lambda)\) の解とする。個別等価率 \(\lambda_s\) は \(V_s^{0}(\lambda_s)=V_s^{policy}\)、その初期分布平均は \(\sum_s\mu_{0s}\lambda_s\) である。共通等価率 \(\lambda^{common}\) は \(\sum_s\mu_{0s}V_s^{0}(\lambda^{common})=\sum_s\mu_{0s}V_s^{policy}\) を解くため、個別等価率の平均とは一般に異なる。
+
+<a id="het-06"></a>
+
+## HET-06　解答付き例題：分布と再分配
+
+二状態遷移を \(P=\begin{pmatrix}0.9&0.1\\0.2&0.8\end{pmatrix}\) とする。定常条件 \(0.1\mu_1=0.2\mu_2\) と質量1から \(\mu=(2/3,1/3)\) となる。資産がそれぞれ0と6なら総資産は2である。
+
+移転区間全体で消費方策の傾きが群1で0.8、群2で0.2とする。群2から合計1の資源を群1へ移す当期移転は、固定価格で総消費を \(0.8-0.2=0.6\) 増やす。各人への移転は人口比を用いて群1に1.5、群2に \(-3\) とし、総移転が0となることを確認する。均衡効果はこの直接反応を所得・価格調整へ接続して求める。
+
+有限の移転 $t_j$ に対する固定価格での消費変化は $\sum_j\mu_j[c_j(m_j+t_j)-c_j(m_j)]$ である。[HARKの消費方策とMPC](https://github.com/econ-ark/HARK/blob/4c285e863cd1a60eb2a9c4ab335c7f86ea5aa767/HARK/ConsumptionSaving/ConsIndShockModel.py#L1551-L1574)のうち、この差には各端点の方策値を使う。例えば $c_1(m)=\min(.8m,.4m+1),\ m_1=2$、$c_2(m)=.2m,\ m_2=5$ では、移転前の傾きは上の例と等しい。群1の消費は1.6から2.4、群2は1から0.4へ変わり、総消費増は $(2/3)(.8)+(1/3)(-.6)=1/3$ となる。

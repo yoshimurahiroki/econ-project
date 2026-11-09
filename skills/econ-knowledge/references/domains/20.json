@@ -1,0 +1,381 @@
+{
+  "domain": "数理基盤",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "math-01",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-01",
+        "C-CH-01"
+      ],
+      "contract_ids": [],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-01",
+      "inputs": [
+        "選択集合",
+        "目的関数",
+        "パラメータ対応"
+      ],
+      "jel_codes": [
+        "C62",
+        "C61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最大解の存在",
+        "対応の上半連続性と下半連続性",
+        "最大値定理の導出",
+        "最適値と最適選択の連続性"
+      ],
+      "prerequisites": [],
+      "related": [
+        "MATH-06"
+      ],
+      "subdomain": "集合と連続性",
+      "title": "集合、連続性と解の存在",
+      "topic": "集合、連続性と解の存在",
+      "use_when": "最大解の存在、上半連続性と下半連続性、最大値定理による最適値と最適選択の連続性を判定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "math-02",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-02",
+        "C-CH-01"
+      ],
+      "contract_ids": [],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-02",
+      "inputs": [
+        "行列",
+        "ヘッセ行列",
+        "線形項"
+      ],
+      "jel_codes": [
+        "C61",
+        "C65"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "固有値",
+        "曲率",
+        "線形系の解"
+      ],
+      "prerequisites": [],
+      "related": [
+        "MATH-06"
+      ],
+      "subdomain": "線形代数と曲率",
+      "title": "線形代数と曲率",
+      "topic": "線形代数と曲率",
+      "use_when": "行列の固有値と曲率から二次形式や線形均衡を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "math-03",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-03",
+        "C-CH-01"
+      ],
+      "contract_ids": [],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-03",
+      "inputs": [
+        "選択集合",
+        "目的関数",
+        "所得分布"
+      ],
+      "jel_codes": [
+        "C61",
+        "D81"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "大域最適条件",
+        "Jensen不等式"
+      ],
+      "prerequisites": [],
+      "related": [
+        "MATH-10"
+      ],
+      "subdomain": "凸性と期待値",
+      "title": "凸性と期待値",
+      "topic": "凸性と期待値",
+      "use_when": "凸性と期待値から大域最適性と危険回避を導く"
+    },
+    {
+      "alternatives": [],
+      "anchor": "math-04",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-04",
+        "C-CH-01",
+        "C-TERM-SHADOW-PRICE",
+        "C-TERM-UTILITY-MAXIMIZATION",
+        "C-TERM-ENVELOPE-THEOREM"
+      ],
+      "contract_ids": [
+        "MC-business-allocation"
+      ],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-04",
+      "inputs": [
+        "目的関数",
+        "不等式制約",
+        "等式制約",
+        "パラメータと制約の変化"
+      ],
+      "jel_codes": [
+        "C61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最適条件",
+        "双対問題",
+        "影価格",
+        "包絡定理の条件と挟み込み証明",
+        "制約変化を含む最適値の微分"
+      ],
+      "prerequisites": [
+        "MATH-03"
+      ],
+      "related": [],
+      "subdomain": "制約付き最適化と影価格",
+      "title": "制約付き最適化と影価格",
+      "topic": "制約付き最適化と影価格",
+      "use_when": "制約付き最大化のKKT条件、影価格、最適値の微分可能性と包絡式を導出する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "math-05",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-05",
+        "C-CH-01",
+        "C-TERM-COMPARATIVE-STATICS"
+      ],
+      "contract_ids": [],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-05",
+      "inputs": [
+        "均衡方程式",
+        "パラメータ",
+        "選択集合"
+      ],
+      "jel_codes": [
+        "C62",
+        "C61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "局所微分",
+        "単調な最適解"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [],
+      "subdomain": "陰関数と比較静学",
+      "title": "陰関数と比較静学",
+      "topic": "陰関数と比較静学",
+      "use_when": "方程式の陰関数と増加差分から比較静学を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "math-06",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-06",
+        "C-CH-01",
+        "C-OBJ-EQUILIBRIUM"
+      ],
+      "contract_ids": [],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-06",
+      "inputs": [
+        "自己写像",
+        "距離",
+        "選択集合"
+      ],
+      "jel_codes": [
+        "C62"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "固定点",
+        "収束条件",
+        "残差の誤差上界"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "固定点と均衡",
+      "title": "固定点と均衡",
+      "topic": "固定点と均衡; Banach contraction; 収縮写像; 完備距離空間; 自己写像; Brouwer; Kakutani",
+      "use_when": "収縮反復や固定点定理で均衡の存在と一意性を調べる"
+    },
+    {
+      "alternatives": [],
+      "anchor": "math-07",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-07",
+        "C-CH-01"
+      ],
+      "contract_ids": [],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-07",
+      "inputs": [
+        "資源制約",
+        "目的係数",
+        "供給量",
+        "需要量",
+        "輸送費",
+        "辺長",
+        "周辺分布",
+        "分位点"
+      ],
+      "jel_codes": [
+        "C61",
+        "C63"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "配分",
+        "双対価格",
+        "最適性の証拠",
+        "W1距離",
+        "W2測地線",
+        "分位点重心"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [],
+      "subdomain": "線形計画と最適輸送",
+      "title": "線形計画と最適輸送",
+      "topic": "線形計画と最適輸送",
+      "use_when": "線形配分または輸送の主問題と双対問題を解く。最短路の辺流と双対、連続の式による測地線と重心を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "math-08",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-08",
+        "C-CH-01",
+        "C-TERM-SHADOW-PRICE"
+      ],
+      "contract_ids": [],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-08",
+      "inputs": [
+        "予算12",
+        "財価格2と1",
+        "対数効用"
+      ],
+      "jel_codes": [
+        "C61",
+        "C63"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "最適配分3と6",
+        "影価格6分の1"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "MICRO-07"
+      ],
+      "subdomain": "例題：予算配分と影価格",
+      "title": "例題：予算配分と影価格",
+      "topic": "例題：予算配分と影価格",
+      "use_when": "対数効用下の予算配分と影価格を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "math-09",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-09",
+        "C-CH-01",
+        "C-QUEUE-MM1"
+      ],
+      "contract_ids": [
+        "MC-queue-capacity"
+      ],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-09",
+      "inputs": [
+        "作業時間・期限・容量",
+        "到着率とサービス率"
+      ],
+      "jel_codes": [
+        "C61",
+        "C63",
+        "C44"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "実行可能な順序",
+        "利用率と系内・待ち行列の平均"
+      ],
+      "prerequisites": [],
+      "related": [
+        "MATH-04",
+        "MATH-07"
+      ],
+      "subdomain": "容量、混雑と作業順序",
+      "title": "容量、混雑と作業順序（capacity, congestion and scheduling）",
+      "topic": "容量、混雑と作業順序",
+      "use_when": "共有容量の作業順序と混雑費用を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "math-10",
+      "chapter": 1,
+      "concept_ids": [
+        "C-MATH-10",
+        "C-CH-01"
+      ],
+      "contract_ids": [],
+      "domain": "数理基盤",
+      "file": "chapters/01-mathematics.md",
+      "id": "MATH-10",
+      "inputs": [
+        "空でない整数配分の集合",
+        "交換する二つの配分",
+        "数量・容量制約"
+      ],
+      "jel_codes": [
+        "C61",
+        "C65"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "M凸・M自然凸の判定",
+        "交換の証明または反例",
+        "総量を固定した持ち上げ"
+      ],
+      "prerequisites": [],
+      "related": [],
+      "subdomain": "整数配分の交換",
+      "title": "離散凸集合：数量の交換、公理の選択と持ち上げ",
+      "topic": "M凸集合とM自然凸集合",
+      "use_when": "整数の保有数量を交換できるか、総量を変える割当てに余剰座標が必要かを判定する"
+    }
+  ]
+}

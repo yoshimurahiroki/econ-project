@@ -1,0 +1,180 @@
+{
+  "domains": [
+    {
+      "domain": "ゲーム",
+      "path": "domains/01.json",
+      "sha256": "23222cc47dd46fe9e560bd99d4baecdb4b0348f83c45e5f158038c6f2e91731d"
+    },
+    {
+      "domain": "ネットワーク",
+      "path": "domains/02.json",
+      "sha256": "5d85fcc940fd7a634d1f6aed977840e1274210a7103d749f9cfd67b37838cc42"
+    },
+    {
+      "domain": "ミクロ理論",
+      "path": "domains/03.json",
+      "sha256": "7659c3f1b3a7fce8e6eb54cc1e5464d7fb0ebfbdc118de4e71f1ce72a802d5a2"
+    },
+    {
+      "domain": "予測意思決定",
+      "path": "domains/04.json",
+      "sha256": "5ed5066238edaf3705662ea68d3e42231da3878dee5144bca18b7d5a6f3e593f"
+    },
+    {
+      "domain": "企業金融銀行",
+      "path": "domains/05.json",
+      "sha256": "647d4ff8578ff76f68fa221f80384849132949f258865ee2930ea0b988ecd790"
+    },
+    {
+      "domain": "公共",
+      "path": "domains/06.json",
+      "sha256": "0d3c780069b7c3c83db6e7ff4a6c1d582e2545414dd8781c48c69fb8003b6cdf"
+    },
+    {
+      "domain": "分野横断例題",
+      "path": "domains/07.json",
+      "sha256": "9a00443e3e1041c021abd50b4a17f274606e6a4645bd2ce9bd361e120cdec0fe"
+    },
+    {
+      "domain": "労働人口",
+      "path": "domains/08.json",
+      "sha256": "9ba7fe170e76f0e7d3bb3d1ca719109cfb1828130be0e65da25b94ac30378029"
+    },
+    {
+      "domain": "動学計算",
+      "path": "domains/09.json",
+      "sha256": "3abb4c99eda958291dd145709d0eb809f1a4e088427cf7d33e31757c18d5a538"
+    },
+    {
+      "domain": "医療教育",
+      "path": "domains/10.json",
+      "sha256": "51c5e27d63a418d1d70657a8f0d0d316f55f3524677937ad9b95ccbbec1640df"
+    },
+    {
+      "domain": "厚生政策",
+      "path": "domains/11.json",
+      "sha256": "25ca1ce5b4f5982ef4ba7f8b46d947c71a609885a6111694d94e4c5877a6d14f"
+    },
+    {
+      "domain": "因果デザイン",
+      "path": "domains/12.json",
+      "sha256": "ef9913cb9e554d24085e989db336ed1616ea4808091e35d3f9ab4290b398435c"
+    },
+    {
+      "domain": "因果拡張",
+      "path": "domains/13.json",
+      "sha256": "63049e77de95b101f68d8d38958772980be944b95fe4bed4584c4a3702482b55"
+    },
+    {
+      "domain": "契約組織",
+      "path": "domains/14.json",
+      "sha256": "a2f47fd8bf0a038d4204b2f3a269f16f0f2568dca65cc0912d53ecf514a645bf"
+    },
+    {
+      "domain": "市場設計",
+      "path": "domains/15.json",
+      "sha256": "2895241825633c56f1cbf1f6cdb3c82fe5bbd17a60e69e2ed41a244881deceb4"
+    },
+    {
+      "domain": "情報行動",
+      "path": "domains/16.json",
+      "sha256": "35cd25b2f3ceca65cfe0a08a0d01617aa6274aca6e28632093942b865b8eada9"
+    },
+    {
+      "domain": "成長マクロ",
+      "path": "domains/17.json",
+      "sha256": "3193b0e57399834132c2b32b10ea07a413680de815d4847a08c40b68ab965da3"
+    },
+    {
+      "domain": "政治法制度",
+      "path": "domains/18.json",
+      "sha256": "b3cb1f7131470b2a5a0a465729184ee6cad292e69af0431273817a2af928a7c6"
+    },
+    {
+      "domain": "数値シミュレーション",
+      "path": "domains/19.json",
+      "sha256": "b52ded139598009ec5020639774aa496d7e3d5c47c5608db53fab9983ac8c46a"
+    },
+    {
+      "domain": "数理基盤",
+      "path": "domains/20.json",
+      "sha256": "51571dcd52e6895a7b5f76486ad27ecf2b541d9fd13a80ff1214bab25e1831f5"
+    },
+    {
+      "domain": "時系列",
+      "path": "domains/21.json",
+      "sha256": "f0ebb3010741e5ebba17263cc23752e42882e33fc01bcfd6dc986bc482ea82c0"
+    },
+    {
+      "domain": "構造推定",
+      "path": "domains/22.json",
+      "sha256": "e2179a6cf93f7f41e6689936bd0853c639acec43e0cd629a124bf1cd564663ab"
+    },
+    {
+      "domain": "測定集計",
+      "path": "domains/23.json",
+      "sha256": "4f24141befcf397354eefcf3f144422aa57917a5fc202b8b985bf24747201745"
+    },
+    {
+      "domain": "環境エネルギー",
+      "path": "domains/24.json",
+      "sha256": "62218691edd4ee241700a50b03c5880eba55e3396a7bd877e5eaf3766061aade"
+    },
+    {
+      "domain": "産業組織",
+      "path": "domains/25.json",
+      "sha256": "86360ef6e2ce8034ba0912e8487e34e49090d15eb7c98a13e42aff9f08ad04eb"
+    },
+    {
+      "domain": "異質マクロ",
+      "path": "domains/26.json",
+      "sha256": "8ed7973161ea6bd2b13675cc2890c4666a220f41fb3c0090d30f35d346898f87"
+    },
+    {
+      "domain": "確率統計",
+      "path": "domains/27.json",
+      "sha256": "db42bfa209ea7046597322d7c14ed8f2db9b6257db1d830af393afcd6daf0388"
+    },
+    {
+      "domain": "計量",
+      "path": "domains/28.json",
+      "sha256": "d32965c5c2332d15dfce9691fb626c57e312d1937d634e785867f0180ced0a74"
+    },
+    {
+      "domain": "貿易",
+      "path": "domains/29.json",
+      "sha256": "578545bb511c0963b264d6bc902076955ea68af970f47f444075c97927baa1cc"
+    },
+    {
+      "domain": "資産価格",
+      "path": "domains/30.json",
+      "sha256": "a5967a855d6cb20e41868ad8b4db1c4ddf4658df2f15541ec433311248627d3c"
+    },
+    {
+      "domain": "都市住宅交通",
+      "path": "domains/31.json",
+      "sha256": "8ca8eaf25e845c1d3296536022f765c35bc9319e0c83f25d3da62d6fa488e452"
+    },
+    {
+      "domain": "金融財政開放",
+      "path": "domains/32.json",
+      "sha256": "b9ceb426b6a952ebaa1bffcc1e97baefb35912a10ced5ade0db2e2fcc9e3c503"
+    },
+    {
+      "domain": "開発農業",
+      "path": "domains/33.json",
+      "sha256": "a86cdb19eb4bea0c46837850037744be92384348f049add3b7859fa458d81c8b"
+    },
+    {
+      "domain": "需要生産",
+      "path": "domains/34.json",
+      "sha256": "9133df08f7102b883739d190b52975a1033f19e76c48faee6347a4b5e7e20634"
+    },
+    {
+      "domain": "革新歴史広告",
+      "path": "domains/35.json",
+      "sha256": "10ba2904809f86cfcaa68bd388e24d2a20389a3e6699621f4593c97e27960f0b"
+    }
+  ],
+  "spec_version": "knowledge-v2"
+}

@@ -1,0 +1,12 @@
+# OpenAI settings are applied only with --agent-team --client codex --openai-preset.
+model = "gpt-6.1-sol"
+model_provider = "openai"
+model_reasoning_effort = "xhigh"
+forced_login_method = "chatgpt"
+
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 3
+max_depth = 2
+default_subagent_model = "gpt-6.1-sol"
+default_subagent_reasoning_effort = "xhigh"

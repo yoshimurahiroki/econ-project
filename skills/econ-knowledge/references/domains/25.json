@@ -1,0 +1,304 @@
+{
+  "domain": "産業組織",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "io-01",
+      "chapter": 16,
+      "concept_ids": [
+        "C-IO-01",
+        "C-CH-16",
+        "C-TERM-MARKET-POWER",
+        "C-TERM-HOTELLING-MODEL"
+      ],
+      "contract_ids": [],
+      "domain": "産業組織",
+      "file": "chapters/16-competition-platforms.md",
+      "id": "IO-01",
+      "inputs": [
+        "需要",
+        "費用",
+        "企業数",
+        "競争変数",
+        "立地と距離費用",
+        "顧客別の束の価値",
+        "契約メニュー",
+        "継続率と料金経路"
+      ],
+      "jel_codes": [
+        "L13",
+        "D43"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "価格",
+        "数量",
+        "マークアップ",
+        "消費者余剰と総余剰",
+        "束の選択",
+        "契約価値",
+        "顧客余剰"
+      ],
+      "prerequisites": [
+        "MICRO-04"
+      ],
+      "related": [
+        "DEMAND-03",
+        "CONTRACT-02",
+        "INNOV-04"
+      ],
+      "subdomain": "企業競争",
+      "title": "独占、数量競争、価格競争",
+      "topic": "独占・数量価格競争、バンドルと継続課金",
+      "use_when": "独占の内点・端点と競争均衡を求め、束と継続料金を顧客の参加・更新選択と利益で比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "io-02",
+      "chapter": 16,
+      "concept_ids": [
+        "C-IO-02",
+        "C-CH-16",
+        "C-OBJ-CONSUMER-SURPLUS",
+        "C-OBJ-EQUILIBRIUM-PRICES",
+        "C-OBJ-OWNERSHIP",
+        "C-TERM-MERGER",
+        "C-TERM-DOUBLE-MARGINALIZATION",
+        "C-TERM-TWO-PART-TARIFF",
+        "C-TERM-MARKET-POWER",
+        "C-TERM-HORIZONTAL-MERGER"
+      ],
+      "contract_ids": [],
+      "domain": "産業組織",
+      "file": "chapters/16-competition-platforms.md",
+      "id": "IO-02",
+      "inputs": [
+        "需要微分",
+        "所有",
+        "費用"
+      ],
+      "jel_codes": [
+        "L41",
+        "L42",
+        "L13"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "価格",
+        "利潤",
+        "余剰の変化"
+      ],
+      "prerequisites": [
+        "IO-01"
+      ],
+      "related": [],
+      "subdomain": "合併と垂直関係",
+      "title": "合併、協調、垂直関係",
+      "topic": "所有変更と価格行動から合併効果を求める; double marginalization two-part tariff; vertical contracts fixed fee; 二重限界化 二部料金; 垂直契約 固定料金",
+      "use_when": "所有変更と価格行動から合併効果を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "io-03",
+      "chapter": 16,
+      "concept_ids": [
+        "C-IO-03",
+        "C-CH-16",
+        "C-MODEL-CES-MONOPOLISTIC-COMPETITION"
+      ],
+      "contract_ids": [],
+      "domain": "産業組織",
+      "file": "chapters/16-competition-platforms.md",
+      "id": "IO-03",
+      "inputs": [
+        "企業利潤",
+        "参入費用",
+        "状態",
+        "市場支出とCES代替弾力性",
+        "限界費用と一期間の固定資源費用"
+      ],
+      "jel_codes": [
+        "L11",
+        "D43"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "参入企業数",
+        "動学政策",
+        "対称価格と各品種の数量",
+        "品種数とCES価格指数"
+      ],
+      "prerequisites": [
+        "GAME-01"
+      ],
+      "related": [
+        "STRUCT-05"
+      ],
+      "subdomain": "参入と退出",
+      "title": "参入、退出、製品選択",
+      "topic": "固定費と参入逸脱条件から市場構造を求める; 独占的競争; CES monopolistic competition; Dixit Stiglitz; free entry product variety price index",
+      "use_when": "固定費と参入逸脱条件から市場構造を求める。CES需要、価格選択と自由参入を連立して品種数と価格指数を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "io-04",
+      "chapter": 16,
+      "concept_ids": [
+        "C-IO-04",
+        "C-CH-16"
+      ],
+      "contract_ids": [],
+      "domain": "産業組織",
+      "file": "chapters/16-competition-platforms.md",
+      "id": "IO-04",
+      "inputs": [
+        "価値分布",
+        "探索費用",
+        "既知値"
+      ],
+      "jel_codes": [
+        "D83",
+        "L11"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "予約値",
+        "探索停止"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [
+        "DYN-07"
+      ],
+      "subdomain": "消費者探索",
+      "title": "消費者探索と情報",
+      "topic": "観測費用と価値分布から予約値を求める",
+      "use_when": "観測費用と価値分布から予約値を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "io-05",
+      "chapter": 16,
+      "concept_ids": [
+        "C-IO-05",
+        "C-CH-16"
+      ],
+      "contract_ids": [],
+      "domain": "産業組織",
+      "file": "chapters/16-competition-platforms.md",
+      "id": "IO-05",
+      "inputs": [
+        "両側需要",
+        "外部性",
+        "費用",
+        "プラットフォーム別料金と利用者の加入集合",
+        "重複加入・相手側への到達",
+        "広告負担と取引配分",
+        "加入料・側別取引手数料・処理費用"
+      ],
+      "jel_codes": [
+        "L86",
+        "L13"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "両側参加量",
+        "価格",
+        "利潤",
+        "プラットフォーム別の加入集合と取引",
+        "価格逸脱と参加均衡の条件",
+        "取引量と参加変化を含む利潤"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "NET-03",
+        "FINANCE-03"
+      ],
+      "subdomain": "両面市場",
+      "title": "両面市場とデジタル",
+      "topic": "両面市場の加入料・取引手数料、参加と取引量",
+      "use_when": "両側の加入と取引量を再計算し、加入料・取引手数料と競合反応を含むプラットフォーム利益を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "io-06",
+      "chapter": 16,
+      "concept_ids": [
+        "C-IO-06",
+        "C-CH-16"
+      ],
+      "contract_ids": [],
+      "domain": "産業組織",
+      "file": "chapters/16-competition-platforms.md",
+      "id": "IO-06",
+      "inputs": [
+        "外部選択肢",
+        "費用",
+        "価値",
+        "制度",
+        "交渉weight"
+      ],
+      "jel_codes": [
+        "D47",
+        "L51",
+        "C78"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "利得配分",
+        "交渉移転価格",
+        "個別合理性",
+        "規制後配分"
+      ],
+      "prerequisites": [
+        "GAME-01"
+      ],
+      "related": [
+        "DESIGN-01"
+      ],
+      "subdomain": "交渉と規制",
+      "title": "オークション、交渉、規制の選択",
+      "topic": "取引余剰と交渉力または規制制約を比較する",
+      "use_when": "取引余剰と交渉力または規制制約を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "io-07",
+      "chapter": 16,
+      "concept_ids": [
+        "C-IO-07",
+        "C-CH-16"
+      ],
+      "contract_ids": [],
+      "domain": "産業組織",
+      "file": "chapters/16-competition-platforms.md",
+      "id": "IO-07",
+      "inputs": [
+        "需要切片",
+        "交差効果",
+        "費用"
+      ],
+      "jel_codes": [
+        "L86",
+        "D47"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "価格",
+        "参加",
+        "総余剰"
+      ],
+      "prerequisites": [
+        "IO-05"
+      ],
+      "related": [],
+      "subdomain": "両面市場例",
+      "title": "解答付き例題：両面プラットフォーム",
+      "topic": "対称プラットフォームの参加量と余剰を求める",
+      "use_when": "対称プラットフォームの参加量と余剰を求める"
+    }
+  ]
+}

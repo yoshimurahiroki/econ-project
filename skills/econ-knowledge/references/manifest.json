@@ -1,0 +1,1771 @@
+{
+  "catalog_sha256": "b0bbb483327632c3fa414e6e322c3869d4b8d61f1a91d48c46c7195109c3013d",
+  "chapters": {
+    "chapters/01-mathematics.md": "ad6c9b44265c173099dc8431eeeab3be35c5e794e0fea6d361f1db79f9edd420",
+    "chapters/02-probability-statistics.md": "7ae10149bc1422aa30780bb39c983e84e2299cbeab143033e0e6fccc31ad5d9f",
+    "chapters/03-microeconomics.md": "02cb38aec34282d01a011181899614db46f0bdb1a152e8ae5e857e0beceee411",
+    "chapters/04-games.md": "4178a534a7edc94e8f8171c990fe3a3317532a663d180b6d18fe798f9d00ca1d",
+    "chapters/05-information-behavior.md": "d1a4b1eb47d2a4ccf19bd7ba2396d9ef03006720e26ab0d57588870286d0aed3",
+    "chapters/06-contracts-organization.md": "6d27581e2d9dbd41ad31d1b34f92889667d82503d19a4dec8b978503cb78d7ca",
+    "chapters/07-market-design.md": "4be072d54bf8ff2443b41f024b03a235cdd1c04f4a2845f1024a5a8f734df141",
+    "chapters/08-networks.md": "a0565bae26bbabfc801cb3e4690ff30eb2d68102d2ec0787d980cf216de71780",
+    "chapters/09-dynamic-computation.md": "db8b6c681e4cd91a8af48d721017b016d7662d059d00a84b144136fab004d524",
+    "chapters/10-econometrics.md": "1869b318b86a462d7826c97a3c305a4538ea5ba43df8997193e59dce7ea11a91",
+    "chapters/11-causal-designs.md": "318ff1f5ba8613a6d3ad7e6172278fe02ba964c5c3fc0b95a1779acf8edb8b1b",
+    "chapters/12-causal-extensions.md": "c22cd5b705848d234aecb84956b3d0ce340dd015cb3f23bd0539a4e8950beb5a",
+    "chapters/13-time-series.md": "18bceae61ee353d4a47f62634b4a7e2a4dfa7629ca47fad2bf5fb97ed4ced668",
+    "chapters/14-structural-estimation.md": "1a45f2fcf53a0fb96bdc8000c037b3dbe4ee9ffe21f6adf5600d7372e500c61a",
+    "chapters/15-demand-production.md": "e85aac4b90f2e6ea8a3d3613b0fa40e1a9196e43ddcc718ddf196dd6096741ad",
+    "chapters/16-competition-platforms.md": "462223041dfbf8cb9ed51b3682ea439f385b9651bddf1905f5738c10d58dee0b",
+    "chapters/17-growth-macro.md": "be521776f869121fd2972626d16078d379c7aa5a7756d5a45e4349b0d33fab54",
+    "chapters/18-monetary-open-macro.md": "7e32b42e0b7023b836a2a97a13843a38554282ff890825d812bcba16abefc259",
+    "chapters/19-heterogeneous-macro.md": "7cc8c71792b028aee886c82f042769b195b8c3520e81d67924b893b5bb45ff06",
+    "chapters/20-asset-pricing.md": "71de5e585ef265cb7044c9e2f0d8846139b01f8c962dcaf9b7daafe271f497d2",
+    "chapters/21-corporate-banking.md": "b7c1fda54b7c411b26034148a6df647630a98fbb05e3b598c728111557dd8b57",
+    "chapters/22-labor-demography.md": "f240acd3e1155914479c3b80450caee7ffb1fa7626e2d5adc44fdbd67d4a2971",
+    "chapters/23-public-economics.md": "ffe4b1e77305bd1ac8969728257dc37e2312e97397c728122170fe62c97579aa",
+    "chapters/24-spatial-housing-transport.md": "5aad382fb622fe97506c2be5b70261d3e2bec59933c3adb58131c614c22cf412",
+    "chapters/25-trade-globalization.md": "2c23bc4e9ad29c7a6884ef23897f1a2ac084969ef88d8cb1b52afd7df8d9d87b",
+    "chapters/26-health-education.md": "2c94c4051ce0b9c555e523b419c35785a2bbb3b23091ab83d937a54f6c5e2104",
+    "chapters/27-development-agriculture.md": "4e2bf9a32b063b22b1fa637025272d8a115def2e5079cf3ebbf725013265848c",
+    "chapters/28-environment-energy.md": "f4944b33919661f4bb341cb21d489285125dc2ac17d3ba008ed053000d600ddf",
+    "chapters/29-political-law-institutions.md": "ba6c55a883b073d29e7a45c921b077a4823f12e18e9b0d92fe6dc2c380ce566a",
+    "chapters/30-innovation-history-marketing.md": "10d64927b61f64bf19cc337399fcaa0d4fcc87f4dabdb707e7c14727125d19bd",
+    "chapters/31-forecasting-decisions.md": "854a38fb0fc1e8f07dc65146095360e96f9dde0139bf32948bff18410c875c50",
+    "chapters/32-welfare-policy.md": "32f68ca06758831c1d683b5765c6b839fa2b56fb6cb7862c00e33485774c548b",
+    "chapters/33-numerical-simulation.md": "0dc59af4bc678bb15deafdb0deccab9a843612fa3fbb802abd9a759170f724d4",
+    "chapters/34-integrated-cases.md": "e3cbc05669e1fc81ecbe7b94afdf53b6731768b3ba8b1c795f21b11c1956136b",
+    "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
+  },
+  "domain_listing_sha256": "1d6f13389e390aa4e94aed8c8b746a3fa2f69144d66966864e8f6dbbe64d6d11",
+  "domains": {
+    "ゲーム": {
+      "count": 9,
+      "path": "domains/01.json",
+      "sha256": "23222cc47dd46fe9e560bd99d4baecdb4b0348f83c45e5f158038c6f2e91731d"
+    },
+    "ネットワーク": {
+      "count": 7,
+      "path": "domains/02.json",
+      "sha256": "5d85fcc940fd7a634d1f6aed977840e1274210a7103d749f9cfd67b37838cc42"
+    },
+    "ミクロ理論": {
+      "count": 7,
+      "path": "domains/03.json",
+      "sha256": "7659c3f1b3a7fce8e6eb54cc1e5464d7fb0ebfbdc118de4e71f1ce72a802d5a2"
+    },
+    "予測意思決定": {
+      "count": 8,
+      "path": "domains/04.json",
+      "sha256": "5ed5066238edaf3705662ea68d3e42231da3878dee5144bca18b7d5a6f3e593f"
+    },
+    "企業金融銀行": {
+      "count": 8,
+      "path": "domains/05.json",
+      "sha256": "647d4ff8578ff76f68fa221f80384849132949f258865ee2930ea0b988ecd790"
+    },
+    "公共": {
+      "count": 6,
+      "path": "domains/06.json",
+      "sha256": "0d3c780069b7c3c83db6e7ff4a6c1d582e2545414dd8781c48c69fb8003b6cdf"
+    },
+    "分野横断例題": {
+      "count": 5,
+      "path": "domains/07.json",
+      "sha256": "9a00443e3e1041c021abd50b4a17f274606e6a4645bd2ce9bd361e120cdec0fe"
+    },
+    "労働人口": {
+      "count": 7,
+      "path": "domains/08.json",
+      "sha256": "9ba7fe170e76f0e7d3bb3d1ca719109cfb1828130be0e65da25b94ac30378029"
+    },
+    "動学計算": {
+      "count": 9,
+      "path": "domains/09.json",
+      "sha256": "3abb4c99eda958291dd145709d0eb809f1a4e088427cf7d33e31757c18d5a538"
+    },
+    "医療教育": {
+      "count": 7,
+      "path": "domains/10.json",
+      "sha256": "51c5e27d63a418d1d70657a8f0d0d316f55f3524677937ad9b95ccbbec1640df"
+    },
+    "厚生政策": {
+      "count": 7,
+      "path": "domains/11.json",
+      "sha256": "25ca1ce5b4f5982ef4ba7f8b46d947c71a609885a6111694d94e4c5877a6d14f"
+    },
+    "因果デザイン": {
+      "count": 7,
+      "path": "domains/12.json",
+      "sha256": "ef9913cb9e554d24085e989db336ed1616ea4808091e35d3f9ab4290b398435c"
+    },
+    "因果拡張": {
+      "count": 8,
+      "path": "domains/13.json",
+      "sha256": "63049e77de95b101f68d8d38958772980be944b95fe4bed4584c4a3702482b55"
+    },
+    "契約組織": {
+      "count": 9,
+      "path": "domains/14.json",
+      "sha256": "a2f47fd8bf0a038d4204b2f3a269f16f0f2568dca65cc0912d53ecf514a645bf"
+    },
+    "市場設計": {
+      "count": 8,
+      "path": "domains/15.json",
+      "sha256": "2895241825633c56f1cbf1f6cdb3c82fe5bbd17a60e69e2ed41a244881deceb4"
+    },
+    "情報行動": {
+      "count": 8,
+      "path": "domains/16.json",
+      "sha256": "35cd25b2f3ceca65cfe0a08a0d01617aa6274aca6e28632093942b865b8eada9"
+    },
+    "成長マクロ": {
+      "count": 6,
+      "path": "domains/17.json",
+      "sha256": "3193b0e57399834132c2b32b10ea07a413680de815d4847a08c40b68ab965da3"
+    },
+    "政治法制度": {
+      "count": 7,
+      "path": "domains/18.json",
+      "sha256": "b3cb1f7131470b2a5a0a465729184ee6cad292e69af0431273817a2af928a7c6"
+    },
+    "数値シミュレーション": {
+      "count": 8,
+      "path": "domains/19.json",
+      "sha256": "b52ded139598009ec5020639774aa496d7e3d5c47c5608db53fab9983ac8c46a"
+    },
+    "数理基盤": {
+      "count": 10,
+      "path": "domains/20.json",
+      "sha256": "51571dcd52e6895a7b5f76486ad27ecf2b541d9fd13a80ff1214bab25e1831f5"
+    },
+    "時系列": {
+      "count": 8,
+      "path": "domains/21.json",
+      "sha256": "f0ebb3010741e5ebba17263cc23752e42882e33fc01bcfd6dc986bc482ea82c0"
+    },
+    "構造推定": {
+      "count": 7,
+      "path": "domains/22.json",
+      "sha256": "e2179a6cf93f7f41e6689936bd0853c639acec43e0cd629a124bf1cd564663ab"
+    },
+    "測定集計": {
+      "count": 7,
+      "path": "domains/23.json",
+      "sha256": "4f24141befcf397354eefcf3f144422aa57917a5fc202b8b985bf24747201745"
+    },
+    "環境エネルギー": {
+      "count": 6,
+      "path": "domains/24.json",
+      "sha256": "62218691edd4ee241700a50b03c5880eba55e3396a7bd877e5eaf3766061aade"
+    },
+    "産業組織": {
+      "count": 7,
+      "path": "domains/25.json",
+      "sha256": "86360ef6e2ce8034ba0912e8487e34e49090d15eb7c98a13e42aff9f08ad04eb"
+    },
+    "異質マクロ": {
+      "count": 6,
+      "path": "domains/26.json",
+      "sha256": "8ed7973161ea6bd2b13675cc2890c4666a220f41fb3c0090d30f35d346898f87"
+    },
+    "確率統計": {
+      "count": 9,
+      "path": "domains/27.json",
+      "sha256": "db42bfa209ea7046597322d7c14ed8f2db9b6257db1d830af393afcd6daf0388"
+    },
+    "計量": {
+      "count": 10,
+      "path": "domains/28.json",
+      "sha256": "d32965c5c2332d15dfce9691fb626c57e312d1937d634e785867f0180ced0a74"
+    },
+    "貿易": {
+      "count": 6,
+      "path": "domains/29.json",
+      "sha256": "578545bb511c0963b264d6bc902076955ea68af970f47f444075c97927baa1cc"
+    },
+    "資産価格": {
+      "count": 6,
+      "path": "domains/30.json",
+      "sha256": "a5967a855d6cb20e41868ad8b4db1c4ddf4658df2f15541ec433311248627d3c"
+    },
+    "都市住宅交通": {
+      "count": 6,
+      "path": "domains/31.json",
+      "sha256": "8ca8eaf25e845c1d3296536022f765c35bc9319e0c83f25d3da62d6fa488e452"
+    },
+    "金融財政開放": {
+      "count": 7,
+      "path": "domains/32.json",
+      "sha256": "b9ceb426b6a952ebaa1bffcc1e97baefb35912a10ced5ade0db2e2fcc9e3c503"
+    },
+    "開発農業": {
+      "count": 7,
+      "path": "domains/33.json",
+      "sha256": "a86cdb19eb4bea0c46837850037744be92384348f049add3b7859fa458d81c8b"
+    },
+    "需要生産": {
+      "count": 7,
+      "path": "domains/34.json",
+      "sha256": "9133df08f7102b883739d190b52975a1033f19e76c48faee6347a4b5e7e20634"
+    },
+    "革新歴史広告": {
+      "count": 6,
+      "path": "domains/35.json",
+      "sha256": "10ba2904809f86cfcaa68bd388e24d2a20389a3e6699621f4593c97e27960f0b"
+    }
+  },
+  "semantic_assets": {
+    "lexicon.json": {
+      "path": "lexicon.json",
+      "sha256": "0f32274d027f4dcd8edce48c40fb3f1f800d8fe4fc11a6ba90ef37a4a4b5777b"
+    },
+    "model-contracts.json": {
+      "path": "model-contracts.json",
+      "sha256": "7cc967d878b360feaabdcc1f12eacf33ca08f98ac7e40de2ab3c722721563165"
+    },
+    "relations.json": {
+      "path": "relations.json",
+      "sha256": "083341c03fc6cc9ddb3c34c415d904149cdaff0dfea56d2924fa2a44bb32bf3a"
+    }
+  },
+  "spec_version": "knowledge-v2",
+  "units": {
+    "ADVCAUSAL-01": {
+      "chapter": "chapters/12-causal-extensions.md",
+      "domain": "因果拡張",
+      "path": "units/ADVCAUSAL-01.md",
+      "sha256": "8a3951aa9a37cc38da4a5c24f8999365296ab4e05e2527eea232af6fd9fd5c09"
+    },
+    "ADVCAUSAL-02": {
+      "chapter": "chapters/12-causal-extensions.md",
+      "domain": "因果拡張",
+      "path": "units/ADVCAUSAL-02.md",
+      "sha256": "6db23eb7cbe03e7c3fc39d955aafbc980980c8a72dc231eedfe34c6fc4cf22c6"
+    },
+    "ADVCAUSAL-03": {
+      "chapter": "chapters/12-causal-extensions.md",
+      "domain": "因果拡張",
+      "path": "units/ADVCAUSAL-03.md",
+      "sha256": "0edf419a5badb34711861b94a4ab4e7c820990d738cfcfa3116499eb557a75bf"
+    },
+    "ADVCAUSAL-04": {
+      "chapter": "chapters/12-causal-extensions.md",
+      "domain": "因果拡張",
+      "path": "units/ADVCAUSAL-04.md",
+      "sha256": "130ea0e22c165cb79dc031a4c06c9e1e72f8bd63809cfe8309c11d139eada05a"
+    },
+    "ADVCAUSAL-05": {
+      "chapter": "chapters/12-causal-extensions.md",
+      "domain": "因果拡張",
+      "path": "units/ADVCAUSAL-05.md",
+      "sha256": "8b978c05e2f4d10103672d798f02937e18d7f01fac912c24da9c4729dc4e40df"
+    },
+    "ADVCAUSAL-06": {
+      "chapter": "chapters/12-causal-extensions.md",
+      "domain": "因果拡張",
+      "path": "units/ADVCAUSAL-06.md",
+      "sha256": "d96740c5b69e0a08e98ccc600f5702ca54ca9d8853a49594cad075db04b0df51"
+    },
+    "ADVCAUSAL-07": {
+      "chapter": "chapters/12-causal-extensions.md",
+      "domain": "因果拡張",
+      "path": "units/ADVCAUSAL-07.md",
+      "sha256": "0054bb54ae64c083247618a3664f5c26e7c78318558eccdae2f79f47ef258964"
+    },
+    "ADVCAUSAL-08": {
+      "chapter": "chapters/12-causal-extensions.md",
+      "domain": "因果拡張",
+      "path": "units/ADVCAUSAL-08.md",
+      "sha256": "672441363f3d452f8cc6155c2d61d71d80d1edce077e35e707a30b7ae5d6ec64"
+    },
+    "ASSET-01": {
+      "chapter": "chapters/20-asset-pricing.md",
+      "domain": "資産価格",
+      "path": "units/ASSET-01.md",
+      "sha256": "f02d3593b4811cb86c7104fd7bda873453c29bfcfb81797c0ea9aa645a7140c0"
+    },
+    "ASSET-02": {
+      "chapter": "chapters/20-asset-pricing.md",
+      "domain": "資産価格",
+      "path": "units/ASSET-02.md",
+      "sha256": "ce67a9e91595da4a4f14777b0008e34bfd6706f90c6befd30a144e3210c0877b"
+    },
+    "ASSET-03": {
+      "chapter": "chapters/20-asset-pricing.md",
+      "domain": "資産価格",
+      "path": "units/ASSET-03.md",
+      "sha256": "20e8474c051d56751e2ee7978ea5854f9143a91375113270ad2fdb4abe113af3"
+    },
+    "ASSET-04": {
+      "chapter": "chapters/20-asset-pricing.md",
+      "domain": "資産価格",
+      "path": "units/ASSET-04.md",
+      "sha256": "f62753905bacc2683ad5ce1e8e060eb4a1aece832164fe2e72268d1726faad64"
+    },
+    "ASSET-05": {
+      "chapter": "chapters/20-asset-pricing.md",
+      "domain": "資産価格",
+      "path": "units/ASSET-05.md",
+      "sha256": "6ef3e6e8a166b56d730f4996aa8e1ef9632e1c8559b8adf2eea77d7484c1a1b7"
+    },
+    "ASSET-06": {
+      "chapter": "chapters/20-asset-pricing.md",
+      "domain": "資産価格",
+      "path": "units/ASSET-06.md",
+      "sha256": "99fa626832e13d6e34709027773d5c0080aebf65674062d98253e83fcc52e212"
+    },
+    "CASE-01": {
+      "chapter": "chapters/34-integrated-cases.md",
+      "domain": "分野横断例題",
+      "path": "units/CASE-01.md",
+      "sha256": "bb5ac871a06be7626c739238da0de81acbb245fc9380a655d83152e1c16be0d4"
+    },
+    "CASE-02": {
+      "chapter": "chapters/34-integrated-cases.md",
+      "domain": "分野横断例題",
+      "path": "units/CASE-02.md",
+      "sha256": "78134310634741d9b7fbb5e19b87988138a18a586f2e75f0bd9bbd6dd6b70109"
+    },
+    "CASE-03": {
+      "chapter": "chapters/34-integrated-cases.md",
+      "domain": "分野横断例題",
+      "path": "units/CASE-03.md",
+      "sha256": "e2eb71e0c5163054af1123d83ac787ffc13ad87136a827f346821c9428dcd719"
+    },
+    "CASE-04": {
+      "chapter": "chapters/34-integrated-cases.md",
+      "domain": "分野横断例題",
+      "path": "units/CASE-04.md",
+      "sha256": "1762643abd5b1895546673713e7dd8d6ce6c89ac74c105344ee015642724e10b"
+    },
+    "CASE-05": {
+      "chapter": "chapters/34-integrated-cases.md",
+      "domain": "分野横断例題",
+      "path": "units/CASE-05.md",
+      "sha256": "f2dc3b97854dfd8db534e6f7d938844aa033d8930f9fae8937501a0134642d3b"
+    },
+    "CAUSAL-01": {
+      "chapter": "chapters/11-causal-designs.md",
+      "domain": "因果デザイン",
+      "path": "units/CAUSAL-01.md",
+      "sha256": "bef390b3aa5b01d35fab42f5b5fd4153be592364001b9bd00e5bae8e8f117be6"
+    },
+    "CAUSAL-02": {
+      "chapter": "chapters/11-causal-designs.md",
+      "domain": "因果デザイン",
+      "path": "units/CAUSAL-02.md",
+      "sha256": "3f0ff9fcf353d1c15cef5b9961d4e99f9d82ff982cf31acb38315a9075dcba0c"
+    },
+    "CAUSAL-03": {
+      "chapter": "chapters/11-causal-designs.md",
+      "domain": "因果デザイン",
+      "path": "units/CAUSAL-03.md",
+      "sha256": "da9188a6d181474775db33ef1dd965b39ef1c538fb6a05d6340e4dd7b74dd29d"
+    },
+    "CAUSAL-04": {
+      "chapter": "chapters/11-causal-designs.md",
+      "domain": "因果デザイン",
+      "path": "units/CAUSAL-04.md",
+      "sha256": "397b9b66d67fdab002b568bd1270a7b81e5689b7dead668151d849a65ca2d46b"
+    },
+    "CAUSAL-05": {
+      "chapter": "chapters/11-causal-designs.md",
+      "domain": "因果デザイン",
+      "path": "units/CAUSAL-05.md",
+      "sha256": "df44a20048f9e336df21a9e717ff1e70e0d1f87d3d9ef329c008dfba1796a316"
+    },
+    "CAUSAL-06": {
+      "chapter": "chapters/11-causal-designs.md",
+      "domain": "因果デザイン",
+      "path": "units/CAUSAL-06.md",
+      "sha256": "01b54a248edbcd740f254f7529859758e3071da50f928d01842368e2b6bed31d"
+    },
+    "CAUSAL-07": {
+      "chapter": "chapters/11-causal-designs.md",
+      "domain": "因果デザイン",
+      "path": "units/CAUSAL-07.md",
+      "sha256": "777f9f8e3562fe1748fe1b9d557b633dd8920c360b49bbd43dbeaeda84378b39"
+    },
+    "CONTRACT-01": {
+      "chapter": "chapters/06-contracts-organization.md",
+      "domain": "契約組織",
+      "path": "units/CONTRACT-01.md",
+      "sha256": "a8d2a0a787add8fc8d930a73aac2c1e56cefa5e07bb6ebf18839856655c58a56"
+    },
+    "CONTRACT-02": {
+      "chapter": "chapters/06-contracts-organization.md",
+      "domain": "契約組織",
+      "path": "units/CONTRACT-02.md",
+      "sha256": "0eac10d67871fd3f70b0d5a3b9a175663badf101558d36a7e9d5b3f56307b49b"
+    },
+    "CONTRACT-03": {
+      "chapter": "chapters/06-contracts-organization.md",
+      "domain": "契約組織",
+      "path": "units/CONTRACT-03.md",
+      "sha256": "32f58278e7ed9a58218ae3a7948fef635bb67936d4027f0640867cbee43fa667"
+    },
+    "CONTRACT-04": {
+      "chapter": "chapters/06-contracts-organization.md",
+      "domain": "契約組織",
+      "path": "units/CONTRACT-04.md",
+      "sha256": "e3a792ab93d685937fa53f47d708bab8fed3af0a430757d79845db62b3bef89a"
+    },
+    "CONTRACT-05": {
+      "chapter": "chapters/06-contracts-organization.md",
+      "domain": "契約組織",
+      "path": "units/CONTRACT-05.md",
+      "sha256": "3f9572cd528aeb5a6902ade97ba76c1e7c2bd254abdd1566923d3bd308b703d1"
+    },
+    "CONTRACT-06": {
+      "chapter": "chapters/06-contracts-organization.md",
+      "domain": "契約組織",
+      "path": "units/CONTRACT-06.md",
+      "sha256": "b151e3e2bec7e91aea8c9039904fd255f603a6ff041c640a8e534b98abc5d6bb"
+    },
+    "CONTRACT-07": {
+      "chapter": "chapters/06-contracts-organization.md",
+      "domain": "契約組織",
+      "path": "units/CONTRACT-07.md",
+      "sha256": "decaeba0ef6d0827db713a956267a8fe00cea6377d7365adcd91c58417932cf9"
+    },
+    "CONTRACT-08": {
+      "chapter": "chapters/06-contracts-organization.md",
+      "domain": "契約組織",
+      "path": "units/CONTRACT-08.md",
+      "sha256": "372655c7ae7f35995749b6b56e76e02cb4b4d0d6cd0f616b0b6565294980ada3"
+    },
+    "CONTRACT-09": {
+      "chapter": "chapters/06-contracts-organization.md",
+      "domain": "契約組織",
+      "path": "units/CONTRACT-09.md",
+      "sha256": "0bfdf44ac9b119570ce2f10ea790132065ddc4b33a327e80f37340af2c39f987"
+    },
+    "DEMAND-01": {
+      "chapter": "chapters/15-demand-production.md",
+      "domain": "需要生産",
+      "path": "units/DEMAND-01.md",
+      "sha256": "6ce657d1a8bb63130e153b61933dd2bc1cbc8b0f591737eb4dbff25af62daedf"
+    },
+    "DEMAND-02": {
+      "chapter": "chapters/15-demand-production.md",
+      "domain": "需要生産",
+      "path": "units/DEMAND-02.md",
+      "sha256": "6ef62c53496c71580c711b4861ce719150dbac56495d2b0e663cf1ccf3e43cdc"
+    },
+    "DEMAND-03": {
+      "chapter": "chapters/15-demand-production.md",
+      "domain": "需要生産",
+      "path": "units/DEMAND-03.md",
+      "sha256": "8b33b95734e0aa8d1a62bb1e0aecc78d034637db191a0763241fd173aa7854c7"
+    },
+    "DEMAND-04": {
+      "chapter": "chapters/15-demand-production.md",
+      "domain": "需要生産",
+      "path": "units/DEMAND-04.md",
+      "sha256": "64fd1052de9ed5110a04199235e87dcec29ccefcbe799dd91abdabd5f08bfa60"
+    },
+    "DEMAND-05": {
+      "chapter": "chapters/15-demand-production.md",
+      "domain": "需要生産",
+      "path": "units/DEMAND-05.md",
+      "sha256": "b1f596346da590d0966079ea1c4f70c2a27dc3b39dcc6d4457e98d73d528f1c4"
+    },
+    "DEMAND-06": {
+      "chapter": "chapters/15-demand-production.md",
+      "domain": "需要生産",
+      "path": "units/DEMAND-06.md",
+      "sha256": "16de32bef426f8e30459a78b6d304679dbd7cbcfd65afe6523dab56ca487930c"
+    },
+    "DEMAND-07": {
+      "chapter": "chapters/15-demand-production.md",
+      "domain": "需要生産",
+      "path": "units/DEMAND-07.md",
+      "sha256": "55d8b8718bbbbfb8771563a062549d09243664d0962ceea5196b11310b3d806d"
+    },
+    "DESIGN-01": {
+      "chapter": "chapters/07-market-design.md",
+      "domain": "市場設計",
+      "path": "units/DESIGN-01.md",
+      "sha256": "e27fd76125389b9bbdeb01a548d71a6ac67564a770e1e54a77cfc18aa649fb10"
+    },
+    "DESIGN-02": {
+      "chapter": "chapters/07-market-design.md",
+      "domain": "市場設計",
+      "path": "units/DESIGN-02.md",
+      "sha256": "c867bbf07dbd49d5aaf0c61be2919662e2627b29d764a1c8545feac83fa05d47"
+    },
+    "DESIGN-03": {
+      "chapter": "chapters/07-market-design.md",
+      "domain": "市場設計",
+      "path": "units/DESIGN-03.md",
+      "sha256": "0703c8554354c19937ae07f50c22a962a8654c8afc0ea11cd53492fba98c3e03"
+    },
+    "DESIGN-04": {
+      "chapter": "chapters/07-market-design.md",
+      "domain": "市場設計",
+      "path": "units/DESIGN-04.md",
+      "sha256": "b69459ce8763afc4675519a3fdcb65308d0ff146dedf8829fba18ee704e82a6d"
+    },
+    "DESIGN-05": {
+      "chapter": "chapters/07-market-design.md",
+      "domain": "市場設計",
+      "path": "units/DESIGN-05.md",
+      "sha256": "98c11b31004df4b3873e20edf3906e9747518afaaa9462c2f5b190f577547549"
+    },
+    "DESIGN-06": {
+      "chapter": "chapters/07-market-design.md",
+      "domain": "市場設計",
+      "path": "units/DESIGN-06.md",
+      "sha256": "f6f70c9227fafa167d9fda56ff7a998571786237a7f2f91643fbc12897f3e7fb"
+    },
+    "DESIGN-07": {
+      "chapter": "chapters/07-market-design.md",
+      "domain": "市場設計",
+      "path": "units/DESIGN-07.md",
+      "sha256": "c434f88299b3ef728c4142a69cf69d89ee077e33c5f30ccfa1e05e25a0b83695"
+    },
+    "DESIGN-08": {
+      "chapter": "chapters/07-market-design.md",
+      "domain": "市場設計",
+      "path": "units/DESIGN-08.md",
+      "sha256": "e30a0db9a4aa1393637dc75647e58bbc3a5488de8c53190db1ea7714be466200"
+    },
+    "DEV-01": {
+      "chapter": "chapters/27-development-agriculture.md",
+      "domain": "開発農業",
+      "path": "units/DEV-01.md",
+      "sha256": "8821ac86535bb7ebf84581f990438ffaf6e9d5d02da21915b6720a93a57f02ea"
+    },
+    "DEV-02": {
+      "chapter": "chapters/27-development-agriculture.md",
+      "domain": "開発農業",
+      "path": "units/DEV-02.md",
+      "sha256": "94dea9c735bb36c6b2b466c18c1a0d9a2e13efc6850a668efa2a648f61f1ba33"
+    },
+    "DEV-03": {
+      "chapter": "chapters/27-development-agriculture.md",
+      "domain": "開発農業",
+      "path": "units/DEV-03.md",
+      "sha256": "94cd448d440d08486b04fc1179f733bac032c457cb45c5a6b03857284481d3c7"
+    },
+    "DEV-04": {
+      "chapter": "chapters/27-development-agriculture.md",
+      "domain": "開発農業",
+      "path": "units/DEV-04.md",
+      "sha256": "3851c14de4d2e80f26126674a310594b1c871d084fda099ff4cda4652ee8dc1f"
+    },
+    "DEV-05": {
+      "chapter": "chapters/27-development-agriculture.md",
+      "domain": "開発農業",
+      "path": "units/DEV-05.md",
+      "sha256": "2431e0c22754944e44218e01920c340fd00ff54b80b7b94d6ee6dc043c9fcbbf"
+    },
+    "DEV-06": {
+      "chapter": "chapters/27-development-agriculture.md",
+      "domain": "開発農業",
+      "path": "units/DEV-06.md",
+      "sha256": "f8eb31d006444ddd3d2a4ff960c96230c6d862fe2f0e39b2bbeb29a7fe1fd2a9"
+    },
+    "DEV-07": {
+      "chapter": "chapters/27-development-agriculture.md",
+      "domain": "開発農業",
+      "path": "units/DEV-07.md",
+      "sha256": "92ef43fc0247dc9a0439eaa835615921c3cf84bb72f9b9777924b2757ed2f60e"
+    },
+    "DYN-01": {
+      "chapter": "chapters/09-dynamic-computation.md",
+      "domain": "動学計算",
+      "path": "units/DYN-01.md",
+      "sha256": "b6149b66733f2214911be72580ba362645edd54c4fbbd0d80cc1996193e3fd19"
+    },
+    "DYN-02": {
+      "chapter": "chapters/09-dynamic-computation.md",
+      "domain": "動学計算",
+      "path": "units/DYN-02.md",
+      "sha256": "57a8174f8d38837a26bf0651a40fd07bf069c38bc10a15771ea15e5f06bfc850"
+    },
+    "DYN-03": {
+      "chapter": "chapters/09-dynamic-computation.md",
+      "domain": "動学計算",
+      "path": "units/DYN-03.md",
+      "sha256": "d6a20401076c4123280699feabf77bc94878493e07851da488a2c9f7ad8c2de2"
+    },
+    "DYN-04": {
+      "chapter": "chapters/09-dynamic-computation.md",
+      "domain": "動学計算",
+      "path": "units/DYN-04.md",
+      "sha256": "d79972d45e59da1170c568ace53a0e76d64bc2cbb45e8bc8eb151425b21beddb"
+    },
+    "DYN-05": {
+      "chapter": "chapters/09-dynamic-computation.md",
+      "domain": "動学計算",
+      "path": "units/DYN-05.md",
+      "sha256": "b7eb069996777b76136a99ea6c9901563e6f34ed7153e02fe31ec8ba224224bb"
+    },
+    "DYN-06": {
+      "chapter": "chapters/09-dynamic-computation.md",
+      "domain": "動学計算",
+      "path": "units/DYN-06.md",
+      "sha256": "e0e847658ef13fa6c73c499c02e2a9af8db7cf3b1ab3fc37a695dc72cc34b538"
+    },
+    "DYN-07": {
+      "chapter": "chapters/09-dynamic-computation.md",
+      "domain": "動学計算",
+      "path": "units/DYN-07.md",
+      "sha256": "9d16bcc876f02186870c2bfb0e01abe7a2db4aede90e70b9230a94eac46442e7"
+    },
+    "DYN-08": {
+      "chapter": "chapters/09-dynamic-computation.md",
+      "domain": "動学計算",
+      "path": "units/DYN-08.md",
+      "sha256": "1a973d191c8d0c3e0522e92b47032273748672c82efd48ceef4ee4e23923081b"
+    },
+    "DYN-09": {
+      "chapter": "chapters/09-dynamic-computation.md",
+      "domain": "動学計算",
+      "path": "units/DYN-09.md",
+      "sha256": "c6ed4cfbef0001fc4601d2c26b0902622d46617608ffe669c9314e1f6ae6c3f8"
+    },
+    "ECON-01": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-01.md",
+      "sha256": "817a73ee8effb4f5f2603efa7d0ee666bab746b0cfd7cf2aa4734bb1543bc7a4"
+    },
+    "ECON-02": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-02.md",
+      "sha256": "f1290ca54116d955212749371380ca9c10fdccf93a3641490c258050b908b24d"
+    },
+    "ECON-03": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-03.md",
+      "sha256": "0bd81f5c79c14951bcf4dc5ca268298eea4d222e5ff861b55cacfba9002075a8"
+    },
+    "ECON-04": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-04.md",
+      "sha256": "ee34af2166029b57ed0885bc69f6c9f619e093f2453e02215e52d0b68da599ab"
+    },
+    "ECON-05": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-05.md",
+      "sha256": "20a3c2f27c13e4efb760cdecf4c9b8c97631ff59803066e05135be13e96c7690"
+    },
+    "ECON-06": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-06.md",
+      "sha256": "9e1bf47dd1cc32f276fbdf8c98eb2336effd4449b9ae1223d917cee57a1408b6"
+    },
+    "ECON-07": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-07.md",
+      "sha256": "bd926bfb73f801078e29b79c3388e72f7f2dadc925208dc180d9417b80c226c4"
+    },
+    "ECON-08": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-08.md",
+      "sha256": "3c8ccf207dcc20b159087202ebf271b746db3dd8e00d064616a50ba3379d65a3"
+    },
+    "ECON-09": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-09.md",
+      "sha256": "2314d75af36abf089b3aeffb846e58d5e23b6ac85b1ad2a7c393b55f870591a5"
+    },
+    "ECON-10": {
+      "chapter": "chapters/10-econometrics.md",
+      "domain": "計量",
+      "path": "units/ECON-10.md",
+      "sha256": "c9f5f2b4e97b7867997d4074e3931b076ff5fad780c504d1b3b5eea7baecf65a"
+    },
+    "ENV-01": {
+      "chapter": "chapters/28-environment-energy.md",
+      "domain": "環境エネルギー",
+      "path": "units/ENV-01.md",
+      "sha256": "27eed4474fa84952ab66e1c1c1bc1a7b8e81a4e529e64c9657120f7eb67e81ff"
+    },
+    "ENV-02": {
+      "chapter": "chapters/28-environment-energy.md",
+      "domain": "環境エネルギー",
+      "path": "units/ENV-02.md",
+      "sha256": "71c0a110699957f6d6a24599480bd44da4c9853a69b3f972288fa4249ef978f5"
+    },
+    "ENV-03": {
+      "chapter": "chapters/28-environment-energy.md",
+      "domain": "環境エネルギー",
+      "path": "units/ENV-03.md",
+      "sha256": "02dfad9abf48c2c3648350c3bbcd8805488747036c95ff4b699655bbbbc336af"
+    },
+    "ENV-04": {
+      "chapter": "chapters/28-environment-energy.md",
+      "domain": "環境エネルギー",
+      "path": "units/ENV-04.md",
+      "sha256": "b2a0ce96ab43babb4fdb8d97707d70351d46c0d8da3e15883eb5692b33964f61"
+    },
+    "ENV-05": {
+      "chapter": "chapters/28-environment-energy.md",
+      "domain": "環境エネルギー",
+      "path": "units/ENV-05.md",
+      "sha256": "e35caae4bbf198efae965a9fabbbea8a0a261d2218d5fbd4636068b7d125fe45"
+    },
+    "ENV-06": {
+      "chapter": "chapters/28-environment-energy.md",
+      "domain": "環境エネルギー",
+      "path": "units/ENV-06.md",
+      "sha256": "c0f496a69aba4775bc00cc324638bdf9a4284f0e70a4b6c82bbbfdabd4969b10"
+    },
+    "FINANCE-01": {
+      "chapter": "chapters/21-corporate-banking.md",
+      "domain": "企業金融銀行",
+      "path": "units/FINANCE-01.md",
+      "sha256": "510810fa20527cb8e96048c0aaff3c230f7c716a4b41714441f598e0a7e4ff8c"
+    },
+    "FINANCE-02": {
+      "chapter": "chapters/21-corporate-banking.md",
+      "domain": "企業金融銀行",
+      "path": "units/FINANCE-02.md",
+      "sha256": "e5dc1aaa2d79c43528aa0d627074d15a1933ac67a7a5eacc276e7b5e1532d5ed"
+    },
+    "FINANCE-03": {
+      "chapter": "chapters/21-corporate-banking.md",
+      "domain": "企業金融銀行",
+      "path": "units/FINANCE-03.md",
+      "sha256": "cdf3839bc5f58b5e450bb995ea09599887575e5ed099600da7341e924ec33884"
+    },
+    "FINANCE-04": {
+      "chapter": "chapters/21-corporate-banking.md",
+      "domain": "企業金融銀行",
+      "path": "units/FINANCE-04.md",
+      "sha256": "271129c4849e7a43716bf1ce3b4be36fd055ac54aec9e0c1692fd456ce5a6800"
+    },
+    "FINANCE-05": {
+      "chapter": "chapters/21-corporate-banking.md",
+      "domain": "企業金融銀行",
+      "path": "units/FINANCE-05.md",
+      "sha256": "616dd4f37cde6138526a8fc34e67cc6dea070153cb81286bf4dd57d965720563"
+    },
+    "FINANCE-06": {
+      "chapter": "chapters/21-corporate-banking.md",
+      "domain": "企業金融銀行",
+      "path": "units/FINANCE-06.md",
+      "sha256": "67786c461561c81522c4ff1d3cd5579e788c78a5038b5ca769c7e653206f88bf"
+    },
+    "FINANCE-07": {
+      "chapter": "chapters/21-corporate-banking.md",
+      "domain": "企業金融銀行",
+      "path": "units/FINANCE-07.md",
+      "sha256": "31c93a14ebcc191880be5447624afc684b8cdf60087b13fb32d0f84be33c84bb"
+    },
+    "FINANCE-08": {
+      "chapter": "chapters/21-corporate-banking.md",
+      "domain": "企業金融銀行",
+      "path": "units/FINANCE-08.md",
+      "sha256": "18e984db4604b727f507ad6f111d819ec89635cd127d4272bfb1aebcab78ed68"
+    },
+    "FORECAST-01": {
+      "chapter": "chapters/31-forecasting-decisions.md",
+      "domain": "予測意思決定",
+      "path": "units/FORECAST-01.md",
+      "sha256": "0514db4d8c1224c5baf5520fbc1179f7cc9a204826151962504af9e4e918543c"
+    },
+    "FORECAST-02": {
+      "chapter": "chapters/31-forecasting-decisions.md",
+      "domain": "予測意思決定",
+      "path": "units/FORECAST-02.md",
+      "sha256": "c6786f33b16da9bf1963def11c46292f4513cf20cdbd52599da86c6dba8dd5c9"
+    },
+    "FORECAST-03": {
+      "chapter": "chapters/31-forecasting-decisions.md",
+      "domain": "予測意思決定",
+      "path": "units/FORECAST-03.md",
+      "sha256": "aade697405d6d3197497001be97f6c766670ec3e7ac6921f6213c7462c75da19"
+    },
+    "FORECAST-04": {
+      "chapter": "chapters/31-forecasting-decisions.md",
+      "domain": "予測意思決定",
+      "path": "units/FORECAST-04.md",
+      "sha256": "6da59ef8500bd5c0bc19918e69b3d0c707dac8b76c0cc25d31cf421e752ff592"
+    },
+    "FORECAST-05": {
+      "chapter": "chapters/31-forecasting-decisions.md",
+      "domain": "予測意思決定",
+      "path": "units/FORECAST-05.md",
+      "sha256": "2a65a049393ab96351a45f04676fb332aaf240b155471aa8de69d537e2607f29"
+    },
+    "FORECAST-06": {
+      "chapter": "chapters/31-forecasting-decisions.md",
+      "domain": "予測意思決定",
+      "path": "units/FORECAST-06.md",
+      "sha256": "fdaffb27f15d52cad9d8b3aea0a60318494d45a0b169bcd11f67446422cb4408"
+    },
+    "FORECAST-07": {
+      "chapter": "chapters/31-forecasting-decisions.md",
+      "domain": "予測意思決定",
+      "path": "units/FORECAST-07.md",
+      "sha256": "e9fa934a6813f26f005331543180ef7625b380a3ac27f4feab5e92d305a7b20a"
+    },
+    "FORECAST-08": {
+      "chapter": "chapters/31-forecasting-decisions.md",
+      "domain": "予測意思決定",
+      "path": "units/FORECAST-08.md",
+      "sha256": "fa906beedcd66d4450777b43538d99391dc2e8514efb8c7b66488c508e0d3b69"
+    },
+    "GAME-01": {
+      "chapter": "chapters/04-games.md",
+      "domain": "ゲーム",
+      "path": "units/GAME-01.md",
+      "sha256": "36a69c1bdd791bd894fca8981f8e51d0e51714c6688173dbfd1d497d79c89c26"
+    },
+    "GAME-02": {
+      "chapter": "chapters/04-games.md",
+      "domain": "ゲーム",
+      "path": "units/GAME-02.md",
+      "sha256": "30cad11de2d6caf2952cd3cb3de602117deab9090755da06b2a2db55e13b8e64"
+    },
+    "GAME-03": {
+      "chapter": "chapters/04-games.md",
+      "domain": "ゲーム",
+      "path": "units/GAME-03.md",
+      "sha256": "dab1364ab7cd25d2c9acf58b2569856e6bcb7f37440de22ebc7203ac21740888"
+    },
+    "GAME-04": {
+      "chapter": "chapters/04-games.md",
+      "domain": "ゲーム",
+      "path": "units/GAME-04.md",
+      "sha256": "84c88dd18732f8052588f0beb3829f2ce868515195a76814ead8e37467fe68db"
+    },
+    "GAME-05": {
+      "chapter": "chapters/04-games.md",
+      "domain": "ゲーム",
+      "path": "units/GAME-05.md",
+      "sha256": "6e446c9700ec9e413ca12b25aaf68dd7e50e2cea238a63a76066928e60a3b273"
+    },
+    "GAME-06": {
+      "chapter": "chapters/04-games.md",
+      "domain": "ゲーム",
+      "path": "units/GAME-06.md",
+      "sha256": "ac24b8e860201fdd2ecb8dabfca54787bb6106576a996f2b18fbe71551d0d8fd"
+    },
+    "GAME-07": {
+      "chapter": "chapters/04-games.md",
+      "domain": "ゲーム",
+      "path": "units/GAME-07.md",
+      "sha256": "9f6d8c43fb8df252b70e652a4c6cfcc99bba4c62e01a5387a3efc2702d36d17d"
+    },
+    "GAME-08": {
+      "chapter": "chapters/04-games.md",
+      "domain": "ゲーム",
+      "path": "units/GAME-08.md",
+      "sha256": "8b562f05bfe24375d9e3c0fc3b3fe04de49bb16b4feeb2f7976832a56640ebaf"
+    },
+    "GAME-09": {
+      "chapter": "chapters/04-games.md",
+      "domain": "ゲーム",
+      "path": "units/GAME-09.md",
+      "sha256": "a23449ea7c915bd85b67b62f6e3ac792c14eae91b256ad921653580b12b883a6"
+    },
+    "HEALTH-01": {
+      "chapter": "chapters/26-health-education.md",
+      "domain": "医療教育",
+      "path": "units/HEALTH-01.md",
+      "sha256": "5a6bfa0a38e85ee4abf7c068fcd8f05e09eddd0cf1444f8d7863317099495167"
+    },
+    "HEALTH-02": {
+      "chapter": "chapters/26-health-education.md",
+      "domain": "医療教育",
+      "path": "units/HEALTH-02.md",
+      "sha256": "6b1fd968b36d0834e152eded5f3d7a63acc835a21909d35e7a1846058f029145"
+    },
+    "HEALTH-03": {
+      "chapter": "chapters/26-health-education.md",
+      "domain": "医療教育",
+      "path": "units/HEALTH-03.md",
+      "sha256": "f6ddc9ee5b61b14bd10e0d76e26c1f3b78076a9258335604a53c2e534ab94f4c"
+    },
+    "HEALTH-04": {
+      "chapter": "chapters/26-health-education.md",
+      "domain": "医療教育",
+      "path": "units/HEALTH-04.md",
+      "sha256": "97bf9c95121d60692df7da8c7c3dee1ecdd30b76147eb674b8a9222f3349a2f4"
+    },
+    "HEALTH-05": {
+      "chapter": "chapters/26-health-education.md",
+      "domain": "医療教育",
+      "path": "units/HEALTH-05.md",
+      "sha256": "820a66cb81068c148628db18a2819f75ab973d3ebae896f55cfdb65dbd1ef7e4"
+    },
+    "HEALTH-06": {
+      "chapter": "chapters/26-health-education.md",
+      "domain": "医療教育",
+      "path": "units/HEALTH-06.md",
+      "sha256": "3f15036acb206f169e68f8f62d2314f61c7685fb7ce53006b3addeb1fd85d808"
+    },
+    "HEALTH-08": {
+      "chapter": "chapters/26-health-education.md",
+      "domain": "医療教育",
+      "path": "units/HEALTH-08.md",
+      "sha256": "fc125c48dc229cfb8079ed815a832a57de7167e2e420da83b393bab0e8a9f70d"
+    },
+    "HET-01": {
+      "chapter": "chapters/19-heterogeneous-macro.md",
+      "domain": "異質マクロ",
+      "path": "units/HET-01.md",
+      "sha256": "7bf1a74d266e6620f0a2c304ecab838b0c6d3d44fb1bec551c6ffa10f59fb096"
+    },
+    "HET-02": {
+      "chapter": "chapters/19-heterogeneous-macro.md",
+      "domain": "異質マクロ",
+      "path": "units/HET-02.md",
+      "sha256": "bdbe4d14e5cae17d289b01350938c1217630f116e67779f848ec64c55960a554"
+    },
+    "HET-03": {
+      "chapter": "chapters/19-heterogeneous-macro.md",
+      "domain": "異質マクロ",
+      "path": "units/HET-03.md",
+      "sha256": "85e866951b02055bb96d3ec6b7965bbe862be9f9c1f09a126b539ea0ab621d04"
+    },
+    "HET-04": {
+      "chapter": "chapters/19-heterogeneous-macro.md",
+      "domain": "異質マクロ",
+      "path": "units/HET-04.md",
+      "sha256": "c620012a5c3d9fce36ec11fa3d3db4064770ed8389265f244b66b3583098791b"
+    },
+    "HET-05": {
+      "chapter": "chapters/19-heterogeneous-macro.md",
+      "domain": "異質マクロ",
+      "path": "units/HET-05.md",
+      "sha256": "42aa305666dd3545c94d6ff7da7e381f121733a491dd93b6440e463299d099e1"
+    },
+    "HET-06": {
+      "chapter": "chapters/19-heterogeneous-macro.md",
+      "domain": "異質マクロ",
+      "path": "units/HET-06.md",
+      "sha256": "fa408776a87696119cc37410df6290a3aa6a26475407e992e39185ff8f0da783"
+    },
+    "INFO-01": {
+      "chapter": "chapters/05-information-behavior.md",
+      "domain": "情報行動",
+      "path": "units/INFO-01.md",
+      "sha256": "9bf3cd19cb78a909af3f4cd43a7bdd9daaecd4de107526edd0cfa028b0ba4d28"
+    },
+    "INFO-02": {
+      "chapter": "chapters/05-information-behavior.md",
+      "domain": "情報行動",
+      "path": "units/INFO-02.md",
+      "sha256": "7fa4e4c31a04068a52f981931408c557d2b19ff0651ab9acc917cae3efed6653"
+    },
+    "INFO-03": {
+      "chapter": "chapters/05-information-behavior.md",
+      "domain": "情報行動",
+      "path": "units/INFO-03.md",
+      "sha256": "786b1f62f1dede0edadbd37d213f60b60ac1792058ee2e06289530e6fdecd5b9"
+    },
+    "INFO-04": {
+      "chapter": "chapters/05-information-behavior.md",
+      "domain": "情報行動",
+      "path": "units/INFO-04.md",
+      "sha256": "0be7c01263aa96f441a2cb11174f9f1cc99101583440e29677ce3c8054980fa4"
+    },
+    "INFO-05": {
+      "chapter": "chapters/05-information-behavior.md",
+      "domain": "情報行動",
+      "path": "units/INFO-05.md",
+      "sha256": "37d12fdc2f87007100361279f4a46ca7ba9cbffce9cd25c9d876aa02fb37c2fa"
+    },
+    "INFO-06": {
+      "chapter": "chapters/05-information-behavior.md",
+      "domain": "情報行動",
+      "path": "units/INFO-06.md",
+      "sha256": "80452e0e8609f9f3d39be67c7b1bb149cb5a822c3e4afa54019a07be98551304"
+    },
+    "INFO-07": {
+      "chapter": "chapters/05-information-behavior.md",
+      "domain": "情報行動",
+      "path": "units/INFO-07.md",
+      "sha256": "a6159684f4672c0eb7ddcc3cdb52ac4022790bba00d26883dd86473ea1909854"
+    },
+    "INFO-08": {
+      "chapter": "chapters/05-information-behavior.md",
+      "domain": "情報行動",
+      "path": "units/INFO-08.md",
+      "sha256": "f7dfe8ef9f9b83eb0bca598aa102c95be05694b1eff403dc17b5fdd22db6d1a6"
+    },
+    "INNOV-01": {
+      "chapter": "chapters/30-innovation-history-marketing.md",
+      "domain": "革新歴史広告",
+      "path": "units/INNOV-01.md",
+      "sha256": "5991c4646d5983ca28796612865d94bf5938b825e1302a7bfe610d91b609a8fc"
+    },
+    "INNOV-02": {
+      "chapter": "chapters/30-innovation-history-marketing.md",
+      "domain": "革新歴史広告",
+      "path": "units/INNOV-02.md",
+      "sha256": "79675d4bfa56a8fc481624fd8121109660bb00cc2a147bb051c3714078d8d201"
+    },
+    "INNOV-03": {
+      "chapter": "chapters/30-innovation-history-marketing.md",
+      "domain": "革新歴史広告",
+      "path": "units/INNOV-03.md",
+      "sha256": "7c6aed1cb376d02cf1447aa4450cb1c16c2bfb4cdd2d0deb278e95307d729794"
+    },
+    "INNOV-04": {
+      "chapter": "chapters/30-innovation-history-marketing.md",
+      "domain": "革新歴史広告",
+      "path": "units/INNOV-04.md",
+      "sha256": "013dc801ddf0629f9cdd3c9051e445100f9945832cbad7d16bdb547fec13d7fd"
+    },
+    "INNOV-05": {
+      "chapter": "chapters/30-innovation-history-marketing.md",
+      "domain": "革新歴史広告",
+      "path": "units/INNOV-05.md",
+      "sha256": "689716903183ad29378212ea071ad8c85a21742d901e556b34684bf4a335a3a7"
+    },
+    "INNOV-06": {
+      "chapter": "chapters/30-innovation-history-marketing.md",
+      "domain": "革新歴史広告",
+      "path": "units/INNOV-06.md",
+      "sha256": "9868d30fbf1ecff78011886917961940f219d1c93e17867e14dcb16e82e0b34b"
+    },
+    "IO-01": {
+      "chapter": "chapters/16-competition-platforms.md",
+      "domain": "産業組織",
+      "path": "units/IO-01.md",
+      "sha256": "d73e7f65c69c272d8d1f3f59568721b76e880426229a9773ecdfa8475f81176a"
+    },
+    "IO-02": {
+      "chapter": "chapters/16-competition-platforms.md",
+      "domain": "産業組織",
+      "path": "units/IO-02.md",
+      "sha256": "92eac3236a08249a24fbef0461571d809c165afe3da0ba45cb895f900f6d3a16"
+    },
+    "IO-03": {
+      "chapter": "chapters/16-competition-platforms.md",
+      "domain": "産業組織",
+      "path": "units/IO-03.md",
+      "sha256": "b8b365a741cfa5cec38ce47959718567e70df23b61e52d621c6ff254e32ec818"
+    },
+    "IO-04": {
+      "chapter": "chapters/16-competition-platforms.md",
+      "domain": "産業組織",
+      "path": "units/IO-04.md",
+      "sha256": "ccc023ce125fa5a45c951193f6fdbf950286d3b446ac4db19ea2c9322a43e6bc"
+    },
+    "IO-05": {
+      "chapter": "chapters/16-competition-platforms.md",
+      "domain": "産業組織",
+      "path": "units/IO-05.md",
+      "sha256": "ee2c16f6ad05f06617b5b7612f787063417be9bf13f24394b0e07db750defd3f"
+    },
+    "IO-06": {
+      "chapter": "chapters/16-competition-platforms.md",
+      "domain": "産業組織",
+      "path": "units/IO-06.md",
+      "sha256": "80537bbb7fb0df12b83d278f9419fcd3717c59cd55f4bc0021bd612b68b0cf16"
+    },
+    "IO-07": {
+      "chapter": "chapters/16-competition-platforms.md",
+      "domain": "産業組織",
+      "path": "units/IO-07.md",
+      "sha256": "acdb7648220647c951e82307a2ccec7deb5dfbe68edcf746baa1141ea719ea20"
+    },
+    "LABOR-01": {
+      "chapter": "chapters/22-labor-demography.md",
+      "domain": "労働人口",
+      "path": "units/LABOR-01.md",
+      "sha256": "6f4b7e5a679976f2f3a73ddbd11f5cefdf809c24f56fd5122ec64e1c37558258"
+    },
+    "LABOR-02": {
+      "chapter": "chapters/22-labor-demography.md",
+      "domain": "労働人口",
+      "path": "units/LABOR-02.md",
+      "sha256": "e5f72c74be25244036185dba6a5e5e677c1024743791df767f2f8ec9c9142284"
+    },
+    "LABOR-03": {
+      "chapter": "chapters/22-labor-demography.md",
+      "domain": "労働人口",
+      "path": "units/LABOR-03.md",
+      "sha256": "dde885d4234e19038d8523873c5e14277c7a4529ca08baa60238e07a64a60ac2"
+    },
+    "LABOR-04": {
+      "chapter": "chapters/22-labor-demography.md",
+      "domain": "労働人口",
+      "path": "units/LABOR-04.md",
+      "sha256": "9d9fb907c63e8244c282d6b8acf9ad84f0ced7bc99eacb6a37cdd759db59966e"
+    },
+    "LABOR-05": {
+      "chapter": "chapters/22-labor-demography.md",
+      "domain": "労働人口",
+      "path": "units/LABOR-05.md",
+      "sha256": "d2724c2780022bdc95b6cd3914605c9fca1536214baab0cda409fb7e64db7db9"
+    },
+    "LABOR-06": {
+      "chapter": "chapters/22-labor-demography.md",
+      "domain": "労働人口",
+      "path": "units/LABOR-06.md",
+      "sha256": "dc5f3a3dd23722fe63e17ed42df230c169b22b637cdd7cb262a2de0819a1e332"
+    },
+    "LABOR-07": {
+      "chapter": "chapters/22-labor-demography.md",
+      "domain": "労働人口",
+      "path": "units/LABOR-07.md",
+      "sha256": "8eff73883ed83aef194e2109a3c6917343590501e1ca2f56b972a3f2efec8da6"
+    },
+    "MACRO-01": {
+      "chapter": "chapters/17-growth-macro.md",
+      "domain": "成長マクロ",
+      "path": "units/MACRO-01.md",
+      "sha256": "a3e739a8a4551f05098c87be002cf9727d21b5ef746a9a57ca6c36efef6996e2"
+    },
+    "MACRO-02": {
+      "chapter": "chapters/17-growth-macro.md",
+      "domain": "成長マクロ",
+      "path": "units/MACRO-02.md",
+      "sha256": "a74c172515c13cf5598a6f32e38d7372cdeea27785776750ed20936c45823936"
+    },
+    "MACRO-03": {
+      "chapter": "chapters/17-growth-macro.md",
+      "domain": "成長マクロ",
+      "path": "units/MACRO-03.md",
+      "sha256": "b5009f615207f8fb625934cecf34664bc3315065ef90316bfa877634d7d8aca2"
+    },
+    "MACRO-04": {
+      "chapter": "chapters/17-growth-macro.md",
+      "domain": "成長マクロ",
+      "path": "units/MACRO-04.md",
+      "sha256": "f9fe8cf72b889a6e587ba344b86944d75927c19f563f6be8742ca10bd310b281"
+    },
+    "MACRO-05": {
+      "chapter": "chapters/17-growth-macro.md",
+      "domain": "成長マクロ",
+      "path": "units/MACRO-05.md",
+      "sha256": "60ace6b78145e2363263d26b19b1708ec513078947f119cccd431fc7c2fdf5c8"
+    },
+    "MACRO-06": {
+      "chapter": "chapters/17-growth-macro.md",
+      "domain": "成長マクロ",
+      "path": "units/MACRO-06.md",
+      "sha256": "8d5bfff56b19e34be823b349c5f31a88a18573fbff96dcc2cf389eaabd4aa663"
+    },
+    "MATH-01": {
+      "chapter": "chapters/01-mathematics.md",
+      "domain": "数理基盤",
+      "path": "units/MATH-01.md",
+      "sha256": "9aec95d7008720e5e74336f8b1bfba2bb19d8ccb95f94820c929001d75ed431c"
+    },
+    "MATH-02": {
+      "chapter": "chapters/01-mathematics.md",
+      "domain": "数理基盤",
+      "path": "units/MATH-02.md",
+      "sha256": "b615251389e38d0860658575165414900c50d79e54d35d31b759f846710c71d6"
+    },
+    "MATH-03": {
+      "chapter": "chapters/01-mathematics.md",
+      "domain": "数理基盤",
+      "path": "units/MATH-03.md",
+      "sha256": "b360951f9e4f9644d308d398188825d2176aa5b66c93b40c7c2d3f1f1abb838c"
+    },
+    "MATH-04": {
+      "chapter": "chapters/01-mathematics.md",
+      "domain": "数理基盤",
+      "path": "units/MATH-04.md",
+      "sha256": "b9d3bb49f7f1153beb70590241e8bb97b24de7bc1182d042d2d2d16ed3e269cd"
+    },
+    "MATH-05": {
+      "chapter": "chapters/01-mathematics.md",
+      "domain": "数理基盤",
+      "path": "units/MATH-05.md",
+      "sha256": "a24f9fbc66e92bd13a37e31e865e1c8af80584ea502602f511767d24944a87ed"
+    },
+    "MATH-06": {
+      "chapter": "chapters/01-mathematics.md",
+      "domain": "数理基盤",
+      "path": "units/MATH-06.md",
+      "sha256": "ca8d697f9fc94a24cb7cc49455344472e51e5047d41aa7b0e2859825ee402be3"
+    },
+    "MATH-07": {
+      "chapter": "chapters/01-mathematics.md",
+      "domain": "数理基盤",
+      "path": "units/MATH-07.md",
+      "sha256": "d13bf4612770310a6587b8596931a0dc912850b60af0a47ba2e7fe3f3d4ce4e3"
+    },
+    "MATH-08": {
+      "chapter": "chapters/01-mathematics.md",
+      "domain": "数理基盤",
+      "path": "units/MATH-08.md",
+      "sha256": "0b9539df663b6f5ebb1f9628f923cb0a3d5baed8d6caea03da6d8ef91cc035b0"
+    },
+    "MATH-09": {
+      "chapter": "chapters/01-mathematics.md",
+      "domain": "数理基盤",
+      "path": "units/MATH-09.md",
+      "sha256": "a902fa6f0c98afa7e359ec70a4e541af2e1a4924e5e1ecae051f4cb7b5c00c42"
+    },
+    "MATH-10": {
+      "chapter": "chapters/01-mathematics.md",
+      "domain": "数理基盤",
+      "path": "units/MATH-10.md",
+      "sha256": "16ec98e25777be2f1a25c325e29c322d81c98280763fd242437c1573d567e413"
+    },
+    "MEASURE-01": {
+      "chapter": "chapters/35-measurement-aggregation.md",
+      "domain": "測定集計",
+      "path": "units/MEASURE-01.md",
+      "sha256": "82c205a7e52680a5eeef1548c96047b5ded3d7d77b2a5b8533c7f36166ba39a2"
+    },
+    "MEASURE-02": {
+      "chapter": "chapters/35-measurement-aggregation.md",
+      "domain": "測定集計",
+      "path": "units/MEASURE-02.md",
+      "sha256": "1cf60a61411691957878532974b4b502dbbdad60be776eeadcdf1b746dc4d545"
+    },
+    "MEASURE-03": {
+      "chapter": "chapters/35-measurement-aggregation.md",
+      "domain": "測定集計",
+      "path": "units/MEASURE-03.md",
+      "sha256": "cef3a945579d135838e256bd660fc096672a1ae40a4c33d11cb0042607ba5f4f"
+    },
+    "MEASURE-04": {
+      "chapter": "chapters/35-measurement-aggregation.md",
+      "domain": "測定集計",
+      "path": "units/MEASURE-04.md",
+      "sha256": "d31705714b069586c0f78cdcae1ecf0b63d30e3cfde236c6e6dbffe5b232ea66"
+    },
+    "MEASURE-05": {
+      "chapter": "chapters/35-measurement-aggregation.md",
+      "domain": "測定集計",
+      "path": "units/MEASURE-05.md",
+      "sha256": "e9e02d3ef2b7220fc6e925e56345fcb87844a121c4fa3b8130353aaa37afef04"
+    },
+    "MEASURE-06": {
+      "chapter": "chapters/35-measurement-aggregation.md",
+      "domain": "測定集計",
+      "path": "units/MEASURE-06.md",
+      "sha256": "387fcf6ba1e6e0db8019bf2c59ed51b9afc9eeac3c17f4f75ed93dd5ffba176a"
+    },
+    "MEASURE-07": {
+      "chapter": "chapters/35-measurement-aggregation.md",
+      "domain": "測定集計",
+      "path": "units/MEASURE-07.md",
+      "sha256": "df2da3df1f3a4b69eca7d48fd3f1d3e4b114ddaa0d210497dfa53e24995b8cb2"
+    },
+    "MICRO-01": {
+      "chapter": "chapters/03-microeconomics.md",
+      "domain": "ミクロ理論",
+      "path": "units/MICRO-01.md",
+      "sha256": "6e54ce1eef7628fd119f01b51cdbf53c10fc78e9bd668a4a3ced3526b91b5184"
+    },
+    "MICRO-02": {
+      "chapter": "chapters/03-microeconomics.md",
+      "domain": "ミクロ理論",
+      "path": "units/MICRO-02.md",
+      "sha256": "f89ba25a169c2e6b976410df6b15b2ef122dddd2d826a2de608bcc76c48c4c83"
+    },
+    "MICRO-03": {
+      "chapter": "chapters/03-microeconomics.md",
+      "domain": "ミクロ理論",
+      "path": "units/MICRO-03.md",
+      "sha256": "30bdfe2c7f04de4e09b95f62ae8d2d4fc60153cc2afeb329f65483365cc77075"
+    },
+    "MICRO-04": {
+      "chapter": "chapters/03-microeconomics.md",
+      "domain": "ミクロ理論",
+      "path": "units/MICRO-04.md",
+      "sha256": "04670edd3996d9d9a0c19704ae0806209640d61da0d3aba7a9fe8df23bf7ca31"
+    },
+    "MICRO-05": {
+      "chapter": "chapters/03-microeconomics.md",
+      "domain": "ミクロ理論",
+      "path": "units/MICRO-05.md",
+      "sha256": "c2caa364de0ba73727cff3896f2603fe07fffb1353153a12429da39e0c9cab30"
+    },
+    "MICRO-06": {
+      "chapter": "chapters/03-microeconomics.md",
+      "domain": "ミクロ理論",
+      "path": "units/MICRO-06.md",
+      "sha256": "6a66593ab838556ad0e2aaef4987c95b5a23ab69a9777577b890336fd4f2b6c0"
+    },
+    "MICRO-07": {
+      "chapter": "chapters/03-microeconomics.md",
+      "domain": "ミクロ理論",
+      "path": "units/MICRO-07.md",
+      "sha256": "849791483de03d2046afd9482175a87e9027aa6cb608432ee7fc699146458f69"
+    },
+    "MONETARY-01": {
+      "chapter": "chapters/18-monetary-open-macro.md",
+      "domain": "金融財政開放",
+      "path": "units/MONETARY-01.md",
+      "sha256": "76467fb552e369a5e9d6c3d8833daafdb3c88fdb5e0dad4e52f3f391d661bd20"
+    },
+    "MONETARY-02": {
+      "chapter": "chapters/18-monetary-open-macro.md",
+      "domain": "金融財政開放",
+      "path": "units/MONETARY-02.md",
+      "sha256": "109fc5bf94f65aea722ffc1fe68a16a601358090a75fcade6b79631781c4fd85"
+    },
+    "MONETARY-03": {
+      "chapter": "chapters/18-monetary-open-macro.md",
+      "domain": "金融財政開放",
+      "path": "units/MONETARY-03.md",
+      "sha256": "24a55c861cc3cefe218f3925aead88b4865de4a6c7cb89fd8f19f0fdfe0303e3"
+    },
+    "MONETARY-04": {
+      "chapter": "chapters/18-monetary-open-macro.md",
+      "domain": "金融財政開放",
+      "path": "units/MONETARY-04.md",
+      "sha256": "c762132b7350bf10630108b9144deb49f15b7e8689d93ee2ac3e7f6ae50a4225"
+    },
+    "MONETARY-05": {
+      "chapter": "chapters/18-monetary-open-macro.md",
+      "domain": "金融財政開放",
+      "path": "units/MONETARY-05.md",
+      "sha256": "ac163abca792198bad06faa11d9784d99cef84174f09eacd9a0fbd98c8de093f"
+    },
+    "MONETARY-06": {
+      "chapter": "chapters/18-monetary-open-macro.md",
+      "domain": "金融財政開放",
+      "path": "units/MONETARY-06.md",
+      "sha256": "eda91c4dafae294941a1e455bfc5a5c21ed019cfa6223f8f33cbd5a628ea8115"
+    },
+    "MONETARY-07": {
+      "chapter": "chapters/18-monetary-open-macro.md",
+      "domain": "金融財政開放",
+      "path": "units/MONETARY-07.md",
+      "sha256": "394919a31625f614e10e17a77314ee7d4de78bafacdb22a6caf7a8f1d99e6f6d"
+    },
+    "NET-01": {
+      "chapter": "chapters/08-networks.md",
+      "domain": "ネットワーク",
+      "path": "units/NET-01.md",
+      "sha256": "7b22d2ec9b9a74dfbc73d9367bd097fc5e8e4d1d16f0cc3d686c72eeec61b032"
+    },
+    "NET-02": {
+      "chapter": "chapters/08-networks.md",
+      "domain": "ネットワーク",
+      "path": "units/NET-02.md",
+      "sha256": "cd1101a11d193f59c9c6a974a1966d33f66a9b5d7f1b982c0e32ec02a85e3c09"
+    },
+    "NET-03": {
+      "chapter": "chapters/08-networks.md",
+      "domain": "ネットワーク",
+      "path": "units/NET-03.md",
+      "sha256": "c5d3e57f95740da5f0a096e43e489beee71f8500e825ffbcbd251c32b1991c6b"
+    },
+    "NET-04": {
+      "chapter": "chapters/08-networks.md",
+      "domain": "ネットワーク",
+      "path": "units/NET-04.md",
+      "sha256": "291310cd888eafca008d2b209e0594521874689e67cc20bb47f1111ed8a4b5bf"
+    },
+    "NET-05": {
+      "chapter": "chapters/08-networks.md",
+      "domain": "ネットワーク",
+      "path": "units/NET-05.md",
+      "sha256": "23e4769d8ac0a6509f05b34323dbae50102487b79e64eec492f206e6671e4324"
+    },
+    "NET-06": {
+      "chapter": "chapters/08-networks.md",
+      "domain": "ネットワーク",
+      "path": "units/NET-06.md",
+      "sha256": "036cc17f491221804c8951cd27407d7b0f27090f3ed2ec300d4afb4c922512fb"
+    },
+    "NET-07": {
+      "chapter": "chapters/08-networks.md",
+      "domain": "ネットワーク",
+      "path": "units/NET-07.md",
+      "sha256": "7cbb8a1d45033b29f5b6228c18a524a3ee1f368bfa9bd35dc5e489421403bc80"
+    },
+    "NUM-01": {
+      "chapter": "chapters/33-numerical-simulation.md",
+      "domain": "数値シミュレーション",
+      "path": "units/NUM-01.md",
+      "sha256": "7b4e1ec90458d9c9258c6f44ebca7e127aca9fe2b9741c211be2f65fa39304c5"
+    },
+    "NUM-02": {
+      "chapter": "chapters/33-numerical-simulation.md",
+      "domain": "数値シミュレーション",
+      "path": "units/NUM-02.md",
+      "sha256": "4bfb96b664e67187f51a45c48ba24a44bc15faabf6264aa7611887b802c9544f"
+    },
+    "NUM-03": {
+      "chapter": "chapters/33-numerical-simulation.md",
+      "domain": "数値シミュレーション",
+      "path": "units/NUM-03.md",
+      "sha256": "d058764b93c0e77dc42e91f65858dcf70253cf17fd1db74a92a26e3cd2882314"
+    },
+    "NUM-04": {
+      "chapter": "chapters/33-numerical-simulation.md",
+      "domain": "数値シミュレーション",
+      "path": "units/NUM-04.md",
+      "sha256": "29266e4ee8d15fdd7f26fdc95a5f407e322eca7114c9b592c1fbb444331fff17"
+    },
+    "NUM-05": {
+      "chapter": "chapters/33-numerical-simulation.md",
+      "domain": "数値シミュレーション",
+      "path": "units/NUM-05.md",
+      "sha256": "0abb84da603ff60ca3ed8cd56c8e17ec4d4c04e539dc6abce27bc35a7eb42f05"
+    },
+    "NUM-06": {
+      "chapter": "chapters/33-numerical-simulation.md",
+      "domain": "数値シミュレーション",
+      "path": "units/NUM-06.md",
+      "sha256": "cb6865ed6fbc5304ed6e436d6983e4a909830b9d5a9ab9637681dc36ca74cf95"
+    },
+    "NUM-07": {
+      "chapter": "chapters/33-numerical-simulation.md",
+      "domain": "数値シミュレーション",
+      "path": "units/NUM-07.md",
+      "sha256": "ebcfe82c41d21b08396975b63eb0232fb4db1153193f671d9be5cff5a373222b"
+    },
+    "NUM-08": {
+      "chapter": "chapters/33-numerical-simulation.md",
+      "domain": "数値シミュレーション",
+      "path": "units/NUM-08.md",
+      "sha256": "f07eb7d4c8485ee9b38b362e6c0d4c4ffa8c99a808b22dab3e80909f2f83341a"
+    },
+    "POL-01": {
+      "chapter": "chapters/29-political-law-institutions.md",
+      "domain": "政治法制度",
+      "path": "units/POL-01.md",
+      "sha256": "a364eb41d4b76eab78d54c31d5b767861240a29659b2b0bc533869db66da3e3c"
+    },
+    "POL-02": {
+      "chapter": "chapters/29-political-law-institutions.md",
+      "domain": "政治法制度",
+      "path": "units/POL-02.md",
+      "sha256": "cffc2eece2bed06de5dff0ac0f829a54fdd1485e6d4aab3a0a162e9268aad9be"
+    },
+    "POL-03": {
+      "chapter": "chapters/29-political-law-institutions.md",
+      "domain": "政治法制度",
+      "path": "units/POL-03.md",
+      "sha256": "3fea288dd59b79334fdc00b8d74c5812362a93723ad66c18909dfe080b4e9ffb"
+    },
+    "POL-04": {
+      "chapter": "chapters/29-political-law-institutions.md",
+      "domain": "政治法制度",
+      "path": "units/POL-04.md",
+      "sha256": "8fa7e9b75367993921efd7c1e14d84fd5c08dc1b9b1b4507502af3a23e5ffca1"
+    },
+    "POL-05": {
+      "chapter": "chapters/29-political-law-institutions.md",
+      "domain": "政治法制度",
+      "path": "units/POL-05.md",
+      "sha256": "01220a2d4de6c5af88a08a3d0aa2471773889842447238ad6ef479eadb3d84ce"
+    },
+    "POL-06": {
+      "chapter": "chapters/29-political-law-institutions.md",
+      "domain": "政治法制度",
+      "path": "units/POL-06.md",
+      "sha256": "a472a81cdb1f66efbeb6597cee389a5bd5b80fcdb27e5826726b7c885a5c1415"
+    },
+    "POL-07": {
+      "chapter": "chapters/29-political-law-institutions.md",
+      "domain": "政治法制度",
+      "path": "units/POL-07.md",
+      "sha256": "77595694cf6bb28b1b5b465217ec657421da6b3457d52900b1169915103cb180"
+    },
+    "PUBLIC-01": {
+      "chapter": "chapters/23-public-economics.md",
+      "domain": "公共",
+      "path": "units/PUBLIC-01.md",
+      "sha256": "8d43a2caa6af0c35d1d1206e842dc917a5ffe90b67cc06d7ae4b9bdb1f9d0d78"
+    },
+    "PUBLIC-02": {
+      "chapter": "chapters/23-public-economics.md",
+      "domain": "公共",
+      "path": "units/PUBLIC-02.md",
+      "sha256": "b30c3cd8c7d23a1134fab3b9fbd941bc7ff543d89632ab86b34480e362b6b8bf"
+    },
+    "PUBLIC-03": {
+      "chapter": "chapters/23-public-economics.md",
+      "domain": "公共",
+      "path": "units/PUBLIC-03.md",
+      "sha256": "671c0e8bd9f37f4e599c68d10eae7ab0272470cb3a37ab666ffd1d088aa032e9"
+    },
+    "PUBLIC-04": {
+      "chapter": "chapters/23-public-economics.md",
+      "domain": "公共",
+      "path": "units/PUBLIC-04.md",
+      "sha256": "b5a631507fa81238ac1924ca14988a1db4f358511eb4201b45abbba9f25372d3"
+    },
+    "PUBLIC-05": {
+      "chapter": "chapters/23-public-economics.md",
+      "domain": "公共",
+      "path": "units/PUBLIC-05.md",
+      "sha256": "5ac36da7f3c10f8d8a6679095afda3e8a9d56360970ee42f6e9538f469c4d175"
+    },
+    "PUBLIC-06": {
+      "chapter": "chapters/23-public-economics.md",
+      "domain": "公共",
+      "path": "units/PUBLIC-06.md",
+      "sha256": "df3d2bf817e74ff174e282ceb79c92e90edf620fb309c2958e0ab5a8c8085601"
+    },
+    "SPATIAL-01": {
+      "chapter": "chapters/24-spatial-housing-transport.md",
+      "domain": "都市住宅交通",
+      "path": "units/SPATIAL-01.md",
+      "sha256": "93c27bc5639032e4fd179c04e04195b29278998cb9d2e126abae079c7152e892"
+    },
+    "SPATIAL-02": {
+      "chapter": "chapters/24-spatial-housing-transport.md",
+      "domain": "都市住宅交通",
+      "path": "units/SPATIAL-02.md",
+      "sha256": "f29549d52dd7189b0617c9cc9ffe552b458abe01cc9aa9f46d7f529bff23978b"
+    },
+    "SPATIAL-03": {
+      "chapter": "chapters/24-spatial-housing-transport.md",
+      "domain": "都市住宅交通",
+      "path": "units/SPATIAL-03.md",
+      "sha256": "6e6bfa970b66f0d251dcd3e3b609e29a28e12578076d6b8a4736cb73c0ddd970"
+    },
+    "SPATIAL-04": {
+      "chapter": "chapters/24-spatial-housing-transport.md",
+      "domain": "都市住宅交通",
+      "path": "units/SPATIAL-04.md",
+      "sha256": "164422e641809d021ee9da0eca274b941617c68b0e1d30e56743ed99f8451131"
+    },
+    "SPATIAL-05": {
+      "chapter": "chapters/24-spatial-housing-transport.md",
+      "domain": "都市住宅交通",
+      "path": "units/SPATIAL-05.md",
+      "sha256": "faf8930a3ef34ea6ff686b898dcffde39d413d3bc47a234710b1792df8053723"
+    },
+    "SPATIAL-06": {
+      "chapter": "chapters/24-spatial-housing-transport.md",
+      "domain": "都市住宅交通",
+      "path": "units/SPATIAL-06.md",
+      "sha256": "14f5c19e75b756239cdd4d3443c887e4685d8fcdd160d683ba2bacba8c6e34f4"
+    },
+    "STAT-01": {
+      "chapter": "chapters/02-probability-statistics.md",
+      "domain": "確率統計",
+      "path": "units/STAT-01.md",
+      "sha256": "cec4b532a2c28fb183b2116fc736aceedee3eaaa29470591d614182350b1fbcd"
+    },
+    "STAT-02": {
+      "chapter": "chapters/02-probability-statistics.md",
+      "domain": "確率統計",
+      "path": "units/STAT-02.md",
+      "sha256": "cdd14895211beb7988f45a257e9f801201cef6eb36d052c4e444ed0e6df9873c"
+    },
+    "STAT-03": {
+      "chapter": "chapters/02-probability-statistics.md",
+      "domain": "確率統計",
+      "path": "units/STAT-03.md",
+      "sha256": "64f87a1745d330bd5dfe0d3b6b3f0bd69f3e019ff088fd2b5c26b8d016ef5de5"
+    },
+    "STAT-04": {
+      "chapter": "chapters/02-probability-statistics.md",
+      "domain": "確率統計",
+      "path": "units/STAT-04.md",
+      "sha256": "cf98368b21332bc81f60583adcd55f5b33b998e0fb89bbabb1790b65b4f5271f"
+    },
+    "STAT-05": {
+      "chapter": "chapters/02-probability-statistics.md",
+      "domain": "確率統計",
+      "path": "units/STAT-05.md",
+      "sha256": "7a6d75a6149fc6c27ed805258099412989f49738876842dca746e7ed35a70ae0"
+    },
+    "STAT-06": {
+      "chapter": "chapters/02-probability-statistics.md",
+      "domain": "確率統計",
+      "path": "units/STAT-06.md",
+      "sha256": "56c6db454e431af0afdf542d4fe6bcd7626a2f8ba592e268e72853c57c558829"
+    },
+    "STAT-07": {
+      "chapter": "chapters/02-probability-statistics.md",
+      "domain": "確率統計",
+      "path": "units/STAT-07.md",
+      "sha256": "2410d5a74825ec480109326e3660add6217a18cb1c8af71fa5259c21c535a180"
+    },
+    "STAT-08": {
+      "chapter": "chapters/02-probability-statistics.md",
+      "domain": "確率統計",
+      "path": "units/STAT-08.md",
+      "sha256": "8e1fe1297cd0a1f6b30c4c8d8e6bd689d4f18226e24d63e218919880717f3daf"
+    },
+    "STAT-09": {
+      "chapter": "chapters/02-probability-statistics.md",
+      "domain": "確率統計",
+      "path": "units/STAT-09.md",
+      "sha256": "ca0589b53a7d271deef66592a424c3706e485999abfa7592ef8cc2e11083ac55"
+    },
+    "STRUCT-01": {
+      "chapter": "chapters/14-structural-estimation.md",
+      "domain": "構造推定",
+      "path": "units/STRUCT-01.md",
+      "sha256": "ef93b700e140db58e2222d8f293e59e37bffd6a09607287a47b334085be3e147"
+    },
+    "STRUCT-02": {
+      "chapter": "chapters/14-structural-estimation.md",
+      "domain": "構造推定",
+      "path": "units/STRUCT-02.md",
+      "sha256": "2d4cccfb454bae2b2b7ba8b39e7cf1e2671c53ef5ea4d77f8ba6f849a20c0085"
+    },
+    "STRUCT-03": {
+      "chapter": "chapters/14-structural-estimation.md",
+      "domain": "構造推定",
+      "path": "units/STRUCT-03.md",
+      "sha256": "7c37a8a5c65627650d15da18425a58e19e7814093bb27be415a4d720708251a0"
+    },
+    "STRUCT-04": {
+      "chapter": "chapters/14-structural-estimation.md",
+      "domain": "構造推定",
+      "path": "units/STRUCT-04.md",
+      "sha256": "35491bfec3b897e0935a53229f86e2c5d84065c4764a896e6426d3e830161264"
+    },
+    "STRUCT-05": {
+      "chapter": "chapters/14-structural-estimation.md",
+      "domain": "構造推定",
+      "path": "units/STRUCT-05.md",
+      "sha256": "d5b68a4b679111a8fe9776101b9bfc6bfa58f34b4d6bb0fddbef37fe272c7824"
+    },
+    "STRUCT-06": {
+      "chapter": "chapters/14-structural-estimation.md",
+      "domain": "構造推定",
+      "path": "units/STRUCT-06.md",
+      "sha256": "846aeb9c66efd5d1910a2a192ba61ad75776210762a287eb1b6d498a0f835c29"
+    },
+    "STRUCT-07": {
+      "chapter": "chapters/14-structural-estimation.md",
+      "domain": "構造推定",
+      "path": "units/STRUCT-07.md",
+      "sha256": "0c98f7068d5fb44bba9e7d59b9388e307df3b52d9581ae14a7cf9d006359f3a6"
+    },
+    "TRADE-01": {
+      "chapter": "chapters/25-trade-globalization.md",
+      "domain": "貿易",
+      "path": "units/TRADE-01.md",
+      "sha256": "b7e3e275045e268ffd7624ded311131047be7225508ab1b1f2c62313509797ef"
+    },
+    "TRADE-02": {
+      "chapter": "chapters/25-trade-globalization.md",
+      "domain": "貿易",
+      "path": "units/TRADE-02.md",
+      "sha256": "38c1250ee8b5d5567cf81636cb41e522d6794408642790a60544aa252b4236d9"
+    },
+    "TRADE-03": {
+      "chapter": "chapters/25-trade-globalization.md",
+      "domain": "貿易",
+      "path": "units/TRADE-03.md",
+      "sha256": "87d54e56b5cb42687c90fc974897a941a35ea106695230eef10b704a925118ab"
+    },
+    "TRADE-04": {
+      "chapter": "chapters/25-trade-globalization.md",
+      "domain": "貿易",
+      "path": "units/TRADE-04.md",
+      "sha256": "7f8896791b0b6f5cfbc4c4c66babc142ae73a4f7d2b0eef7c1a7401e94669fbf"
+    },
+    "TRADE-05": {
+      "chapter": "chapters/25-trade-globalization.md",
+      "domain": "貿易",
+      "path": "units/TRADE-05.md",
+      "sha256": "d5bf411cddff24056b9b5cb066bf1abb30f252f58bf0fc197b81b1c33daf6457"
+    },
+    "TRADE-06": {
+      "chapter": "chapters/25-trade-globalization.md",
+      "domain": "貿易",
+      "path": "units/TRADE-06.md",
+      "sha256": "48488c6f1d48fe3d314dc2996a5e1ce6ca9509d35e0aa24de7baa7dd9272799d"
+    },
+    "TS-01": {
+      "chapter": "chapters/13-time-series.md",
+      "domain": "時系列",
+      "path": "units/TS-01.md",
+      "sha256": "deeb901163085ea154520da503d0dc2908a950c9e80464708876342beebf1a34"
+    },
+    "TS-02": {
+      "chapter": "chapters/13-time-series.md",
+      "domain": "時系列",
+      "path": "units/TS-02.md",
+      "sha256": "4d7121b2c7d749039aa00892a0f2aaa57f6b783113b59e0bbb8f09fa974b37ef"
+    },
+    "TS-03": {
+      "chapter": "chapters/13-time-series.md",
+      "domain": "時系列",
+      "path": "units/TS-03.md",
+      "sha256": "2408e73e110c3c40d24031e6bc344238ac4aa3ce8b6847a61774b34b217c7bd6"
+    },
+    "TS-04": {
+      "chapter": "chapters/13-time-series.md",
+      "domain": "時系列",
+      "path": "units/TS-04.md",
+      "sha256": "9b2b637545c0503349b143d9e123011912ad039ff0dbb7059282bc2db178ee86"
+    },
+    "TS-05": {
+      "chapter": "chapters/13-time-series.md",
+      "domain": "時系列",
+      "path": "units/TS-05.md",
+      "sha256": "18b4353a8f693cc9bda07e84e412d9e78c9b28b115581f7d77e5a55449dbf63e"
+    },
+    "TS-06": {
+      "chapter": "chapters/13-time-series.md",
+      "domain": "時系列",
+      "path": "units/TS-06.md",
+      "sha256": "a5b7d465e948818064554627e4fdf94733b51c57cfcac06921996d2ea8b0a596"
+    },
+    "TS-07": {
+      "chapter": "chapters/13-time-series.md",
+      "domain": "時系列",
+      "path": "units/TS-07.md",
+      "sha256": "339a42c41de0c828f9df6584c4c294619b99c52f79b7e5c885901d0376ac5501"
+    },
+    "TS-08": {
+      "chapter": "chapters/13-time-series.md",
+      "domain": "時系列",
+      "path": "units/TS-08.md",
+      "sha256": "7fb082553aa617ee5f6eacec172087cce0e1e6adac14f9096ab7ddb754021990"
+    },
+    "WELFARE-01": {
+      "chapter": "chapters/32-welfare-policy.md",
+      "domain": "厚生政策",
+      "path": "units/WELFARE-01.md",
+      "sha256": "e6e3fec30beaaad3c1e5948280e063c5fa0ff3ebe014054562b14ad6d57012e7"
+    },
+    "WELFARE-02": {
+      "chapter": "chapters/32-welfare-policy.md",
+      "domain": "厚生政策",
+      "path": "units/WELFARE-02.md",
+      "sha256": "6ac466bfd7d606f6d057dfaaf13881777ddf0ac2e22b8bbe3eccae152f3bd783"
+    },
+    "WELFARE-03": {
+      "chapter": "chapters/32-welfare-policy.md",
+      "domain": "厚生政策",
+      "path": "units/WELFARE-03.md",
+      "sha256": "419acaffc895727cce94baa12e02afc28f5207a89c4cae691a3fc3e976be972e"
+    },
+    "WELFARE-04": {
+      "chapter": "chapters/32-welfare-policy.md",
+      "domain": "厚生政策",
+      "path": "units/WELFARE-04.md",
+      "sha256": "10f33e6b3d9a739f9e400985fcceddb2c43ae2fa2f8162d64a2217830118e450"
+    },
+    "WELFARE-05": {
+      "chapter": "chapters/32-welfare-policy.md",
+      "domain": "厚生政策",
+      "path": "units/WELFARE-05.md",
+      "sha256": "6f6c97b3bc4f963d85b80e13918b052474eedcaa5f530645687ef43cb6f412fe"
+    },
+    "WELFARE-06": {
+      "chapter": "chapters/32-welfare-policy.md",
+      "domain": "厚生政策",
+      "path": "units/WELFARE-06.md",
+      "sha256": "24d1cc6324b435645920ec62fe2de9d1c3da434c6e20d74b562b802380b19913"
+    },
+    "WELFARE-07": {
+      "chapter": "chapters/32-welfare-policy.md",
+      "domain": "厚生政策",
+      "path": "units/WELFARE-07.md",
+      "sha256": "c0e0ba8999a97944e7a1c62a63f04393791bcccafefde432ebd1b7825ad965e8"
+    }
+  }
+}

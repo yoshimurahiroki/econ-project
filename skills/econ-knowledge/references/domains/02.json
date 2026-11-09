@@ -1,0 +1,285 @@
+{
+  "domain": "ネットワーク",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "net-01",
+      "chapter": 8,
+      "concept_ids": [
+        "C-NET-01",
+        "C-CH-08",
+        "C-TERM-NETWORK",
+        "C-TERM-CENTRALITY",
+        "C-TERM-GRAPH"
+      ],
+      "contract_ids": [],
+      "domain": "ネットワーク",
+      "file": "chapters/08-networks.md",
+      "id": "NET-01",
+      "inputs": [
+        "頂点と辺",
+        "非負の隣接行列",
+        "Katz割引率"
+      ],
+      "jel_codes": [
+        "D85",
+        "C31"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "次数",
+        "ラプラシアン",
+        "中心性"
+      ],
+      "prerequisites": [
+        "MATH-02"
+      ],
+      "related": [
+        "NET-02"
+      ],
+      "subdomain": "グラフと中心性",
+      "title": "グラフと中心性",
+      "topic": "グラフと中心性",
+      "use_when": "隣接行列から次数、ラプラシアン、固有ベクトル中心性とKatz中心性を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "net-02",
+      "chapter": 8,
+      "concept_ids": [
+        "C-NET-02",
+        "C-CH-08"
+      ],
+      "contract_ids": [],
+      "domain": "ネットワーク",
+      "file": "chapters/08-networks.md",
+      "id": "NET-02",
+      "inputs": [
+        "非負隣接行列",
+        "基礎便益",
+        "相互作用係数",
+        "処理容量と混雑費用"
+      ],
+      "jel_codes": [
+        "C72",
+        "D85"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "均衡行動",
+        "介入の波及",
+        "補助と除去の効果",
+        "混雑外部費用",
+        "料金・容量変更の厚生"
+      ],
+      "prerequisites": [
+        "MATH-02",
+        "GAME-01"
+      ],
+      "related": [
+        "NET-01",
+        "GAME-04",
+        "NET-04",
+        "NET-05",
+        "NET-06",
+        "SPATIAL-05"
+      ],
+      "subdomain": "線形二次ゲーム",
+      "title": "線形二次ゲーム",
+      "topic": "線形二次ネットワーク均衡、混雑と容量",
+      "use_when": "線形二次ゲームの波及と補助を求め、接続便益・混雑外部費用を含む料金と容量を評価する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "net-03",
+      "chapter": 8,
+      "concept_ids": [
+        "C-NET-03",
+        "C-CH-08"
+      ],
+      "contract_ids": [],
+      "domain": "ネットワーク",
+      "file": "chapters/08-networks.md",
+      "id": "NET-03",
+      "inputs": [
+        "隣接行列",
+        "初期状態",
+        "採用閾値",
+        "感染率",
+        "回復率",
+        "紹介割当・補助",
+        "顧客貢献利益と更新解約"
+      ],
+      "jel_codes": [
+        "D85",
+        "C63"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "最終採用集合",
+        "感染初期成長率",
+        "普及施策の割引増分利益"
+      ],
+      "prerequisites": [
+        "NET-01"
+      ],
+      "related": [
+        "INNOV-04"
+      ],
+      "subdomain": "伝播と閾値",
+      "title": "伝播と閾値",
+      "topic": "伝播、閾値、利益を生む初期採用者と継続",
+      "use_when": "採用閾値と感染回復の伝播を計算し、更新・解約・混雑を含む普及施策の割引増分利益を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "net-04",
+      "chapter": 8,
+      "concept_ids": [
+        "C-NET-04",
+        "C-CH-08",
+        "C-TERM-NETWORK"
+      ],
+      "contract_ids": [],
+      "domain": "ネットワーク",
+      "file": "chapters/08-networks.md",
+      "id": "NET-04",
+      "inputs": [
+        "主体の利得",
+        "候補ネットワーク",
+        "辺の費用"
+      ],
+      "jel_codes": [
+        "D85",
+        "C72"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "安定ネットワーク",
+        "余剰"
+      ],
+      "prerequisites": [
+        "NET-01"
+      ],
+      "related": [],
+      "subdomain": "ネットワーク形成",
+      "title": "ネットワーク形成",
+      "topic": "ネットワーク形成",
+      "use_when": "辺の追加と削除からペアワイズ安定なネットワークを求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "net-05",
+      "chapter": 8,
+      "concept_ids": [
+        "C-NET-05",
+        "C-CH-08"
+      ],
+      "contract_ids": [],
+      "domain": "ネットワーク",
+      "file": "chapters/08-networks.md",
+      "id": "NET-05",
+      "inputs": [
+        "成果",
+        "個人属性",
+        "隣接行列",
+        "操作変数"
+      ],
+      "jel_codes": [
+        "C31",
+        "D85"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "内生的ピア効果",
+        "文脈効果"
+      ],
+      "prerequisites": [
+        "NET-01",
+        "ECON-02"
+      ],
+      "related": [
+        "NET-06"
+      ],
+      "subdomain": "ピア効果と反射問題",
+      "title": "ピア効果と反射問題",
+      "topic": "ピア効果と反射問題",
+      "use_when": "同時決定のピア効果をネットワーク構造と操作変数で識別する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "net-06",
+      "chapter": 8,
+      "concept_ids": [
+        "C-NET-06",
+        "C-CH-08"
+      ],
+      "contract_ids": [],
+      "domain": "ネットワーク",
+      "file": "chapters/08-networks.md",
+      "id": "NET-06",
+      "inputs": [
+        "割当規則",
+        "曝露写像",
+        "ネットワーク",
+        "結果"
+      ],
+      "jel_codes": [
+        "C31",
+        "D85"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "直接効果",
+        "波及効果",
+        "曝露別平均"
+      ],
+      "prerequisites": [
+        "CAUSAL-01",
+        "NET-01"
+      ],
+      "related": [
+        "ADVCAUSAL-05"
+      ],
+      "subdomain": "波及の因果効果",
+      "title": "波及の因果効果",
+      "topic": "波及の因果効果",
+      "use_when": "本人処置と隣人曝露を固定した直接効果と波及効果を推定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "net-07",
+      "chapter": 8,
+      "concept_ids": [
+        "C-NET-07",
+        "C-CH-08"
+      ],
+      "contract_ids": [],
+      "domain": "ネットワーク",
+      "file": "chapters/08-networks.md",
+      "id": "NET-07",
+      "inputs": [
+        "線形の三人ネットワーク",
+        "基礎便益1",
+        "相互作用係数4分の1"
+      ],
+      "jel_codes": [
+        "C72",
+        "D85"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "両端の行動7分の10",
+        "中央の行動7分の12"
+      ],
+      "prerequisites": [
+        "NET-02"
+      ],
+      "related": [],
+      "subdomain": "例題：三人の線形ゲーム",
+      "title": "例題：三人の線形ゲーム",
+      "topic": "例題：三人の線形ゲーム",
+      "use_when": "三人の線形ネットワークゲームを解く"
+    }
+  ]
+}

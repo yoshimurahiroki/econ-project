@@ -1,0 +1,1606 @@
+{
+  "schema_version": 1,
+  "policy_id": "ers-user-adopted-journal-priority-v1",
+  "ordering_authority": "User-adopted initial search order; field tier uses Economists Japan selections and each listed field leader.",
+  "ranking_sources": [
+    {
+      "url": "https://sites.google.com/site/economistsjapan/journals",
+      "source_date": "2020-10-31",
+      "date_basis": "latest dated category addition on page",
+      "role": "leading economics venues and aliases"
+    },
+    {
+      "url": "https://ideas.repec.org/top/top.journals.all.html",
+      "source_date": null,
+      "date_basis": "current aggregate ranking page; read date retained by acquisition",
+      "role": "venue update reference; does not replace the adopted order"
+    }
+  ],
+  "groups": {
+    "E0": [
+      "american-economic-review",
+      "quarterly-journal-of-economics",
+      "journal-of-political-economy",
+      "econometrica",
+      "review-of-economic-studies"
+    ],
+    "C0": [
+      "american-economic-review",
+      "quarterly-journal-of-economics",
+      "journal-of-political-economy",
+      "review-of-economic-studies",
+      "econometrica"
+    ],
+    "C1": [
+      "american-economic-journal-applied-economics",
+      "american-economic-journal-economic-policy",
+      "review-of-economics-and-statistics",
+      "journal-of-the-european-economic-association",
+      "journal-of-public-economics",
+      "journal-of-labor-economics",
+      "journal-of-human-resources",
+      "journal-of-law-and-economics",
+      "journal-of-law-economics-and-organization",
+      "journal-of-health-economics",
+      "economic-journal",
+      "international-economic-review",
+      "journal-of-policy-analysis-and-management",
+      "journal-of-development-economics",
+      "journal-of-urban-economics"
+    ],
+    "C2": [
+      "criminology",
+      "journal-of-research-in-crime-and-delinquency",
+      "journal-of-quantitative-criminology",
+      "justice-quarterly",
+      "criminology-public-policy",
+      "british-journal-of-criminology",
+      "journal-of-experimental-criminology",
+      "journal-of-criminal-justice",
+      "european-journal-of-criminology",
+      "police-quarterly",
+      "policing-society",
+      "crime-delinquency"
+    ]
+  },
+  "fields": {
+    "applied": {
+      "name": "実証・応用経済学",
+      "aliases": [
+        "applied"
+      ],
+      "journals": [
+        "american-economic-journal-applied-economics",
+        "review-of-economics-and-statistics",
+        "american-economic-journal-economic-policy",
+        "journal-of-the-european-economic-association",
+        "economic-journal",
+        "international-economic-review"
+      ],
+      "leading_journals": [
+        "american-economic-journal-applied-economics",
+        "review-of-economics-and-statistics",
+        "american-economic-journal-economic-policy",
+        "journal-of-the-european-economic-association",
+        "economic-journal",
+        "international-economic-review"
+      ]
+    },
+    "econometrics": {
+      "name": "計量経済学",
+      "aliases": [
+        "econometrics"
+      ],
+      "journals": [
+        "journal-of-econometrics",
+        "journal-of-business-economic-statistics",
+        "quantitative-economics",
+        "journal-of-applied-econometrics",
+        "econometric-theory",
+        "the-econometrics-journal"
+      ],
+      "leading_journals": [
+        "journal-of-econometrics",
+        "journal-of-business-economic-statistics",
+        "quantitative-economics"
+      ]
+    },
+    "statistics": {
+      "name": "統計的方法",
+      "aliases": [
+        "statistics"
+      ],
+      "journals": [
+        "annals-of-statistics",
+        "journal-of-the-american-statistical-association",
+        "journal-of-the-royal-statistical-society-series-b-statistical-methodology",
+        "biometrika",
+        "statistical-science"
+      ],
+      "leading_journals": [
+        "annals-of-statistics",
+        "journal-of-the-american-statistical-association"
+      ]
+    },
+    "theory": {
+      "name": "経済理論",
+      "aliases": [
+        "theory"
+      ],
+      "journals": [
+        "journal-of-economic-theory",
+        "theoretical-economics",
+        "american-economic-journal-microeconomics",
+        "quantitative-economics",
+        "economic-theory",
+        "journal-of-mathematical-economics"
+      ],
+      "leading_journals": [
+        "journal-of-economic-theory",
+        "theoretical-economics",
+        "american-economic-journal-microeconomics",
+        "quantitative-economics"
+      ]
+    },
+    "games_behavior": {
+      "name": "ゲーム理論・行動経済学",
+      "aliases": [
+        "games behavior"
+      ],
+      "journals": [
+        "games-and-economic-behavior",
+        "american-economic-journal-microeconomics",
+        "management-science",
+        "experimental-economics",
+        "journal-of-economic-behavior-organization"
+      ],
+      "leading_journals": [
+        "games-and-economic-behavior",
+        "american-economic-journal-microeconomics",
+        "management-science"
+      ]
+    },
+    "industrial_organization": {
+      "name": "産業組織論",
+      "aliases": [
+        "industrial organization"
+      ],
+      "journals": [
+        "rand-journal-of-economics",
+        "journal-of-industrial-economics",
+        "international-journal-of-industrial-organization",
+        "journal-of-economics-management-strategy",
+        "review-of-industrial-organization"
+      ],
+      "leading_journals": [
+        "rand-journal-of-economics"
+      ]
+    },
+    "labor": {
+      "name": "労働経済学",
+      "aliases": [
+        "labor",
+        "labour",
+        "労働"
+      ],
+      "journals": [
+        "journal-of-labor-economics",
+        "journal-of-human-resources",
+        "ilr-review",
+        "labour-economics",
+        "economics-of-education-review"
+      ],
+      "leading_journals": [
+        "journal-of-labor-economics",
+        "journal-of-human-resources"
+      ]
+    },
+    "public": {
+      "name": "公共経済・租税",
+      "aliases": [
+        "public"
+      ],
+      "journals": [
+        "journal-of-public-economics",
+        "american-economic-journal-economic-policy",
+        "journal-of-policy-analysis-and-management",
+        "national-tax-journal"
+      ],
+      "leading_journals": [
+        "journal-of-public-economics",
+        "american-economic-journal-economic-policy"
+      ]
+    },
+    "development": {
+      "name": "開発経済学",
+      "aliases": [
+        "development"
+      ],
+      "journals": [
+        "journal-of-development-economics",
+        "world-bank-economic-review",
+        "economic-development-and-cultural-change",
+        "world-development"
+      ],
+      "leading_journals": [
+        "journal-of-development-economics"
+      ]
+    },
+    "health": {
+      "name": "医療・健康経済学",
+      "aliases": [
+        "health"
+      ],
+      "journals": [
+        "journal-of-health-economics",
+        "health-economics",
+        "american-economic-journal-economic-policy",
+        "health-affairs"
+      ],
+      "leading_journals": [
+        "journal-of-health-economics",
+        "american-economic-journal-economic-policy"
+      ]
+    },
+    "urban": {
+      "name": "都市・住宅・地域経済学",
+      "aliases": [
+        "urban"
+      ],
+      "journals": [
+        "journal-of-urban-economics",
+        "regional-science-and-urban-economics",
+        "journal-of-regional-science",
+        "journal-of-housing-economics"
+      ],
+      "leading_journals": [
+        "journal-of-urban-economics"
+      ]
+    },
+    "international": {
+      "name": "国際経済学",
+      "aliases": [
+        "international"
+      ],
+      "journals": [
+        "journal-of-international-economics",
+        "journal-of-international-money-and-finance",
+        "review-of-international-economics",
+        "the-world-economy"
+      ],
+      "leading_journals": [
+        "journal-of-international-economics"
+      ]
+    },
+    "finance": {
+      "name": "ファイナンス",
+      "aliases": [
+        "finance"
+      ],
+      "journals": [
+        "journal-of-finance",
+        "journal-of-financial-economics",
+        "review-of-financial-studies",
+        "review-of-finance",
+        "journal-of-financial-intermediation"
+      ],
+      "leading_journals": [
+        "journal-of-finance",
+        "journal-of-financial-economics",
+        "review-of-financial-studies"
+      ]
+    },
+    "macro": {
+      "name": "マクロ経済学",
+      "aliases": [
+        "macro"
+      ],
+      "journals": [
+        "journal-of-monetary-economics",
+        "american-economic-journal-macroeconomics",
+        "review-of-economic-dynamics",
+        "journal-of-money-credit-and-banking",
+        "journal-of-economic-dynamics-and-control"
+      ],
+      "leading_journals": [
+        "journal-of-monetary-economics",
+        "american-economic-journal-macroeconomics",
+        "review-of-economic-dynamics",
+        "journal-of-money-credit-and-banking"
+      ]
+    },
+    "growth": {
+      "name": "経済成長",
+      "aliases": [
+        "growth"
+      ],
+      "journals": [
+        "journal-of-economic-growth",
+        "american-economic-journal-macroeconomics",
+        "review-of-economic-dynamics"
+      ],
+      "leading_journals": [
+        "journal-of-economic-growth",
+        "american-economic-journal-macroeconomics",
+        "review-of-economic-dynamics"
+      ]
+    },
+    "environment_energy": {
+      "name": "環境・エネルギー経済学",
+      "aliases": [
+        "environment energy"
+      ],
+      "journals": [
+        "journal-of-environmental-economics-and-management",
+        "resource-and-energy-economics",
+        "environmental-and-resource-economics",
+        "energy-economics"
+      ],
+      "leading_journals": [
+        "journal-of-environmental-economics-and-management"
+      ]
+    },
+    "history": {
+      "name": "経済史",
+      "aliases": [
+        "history"
+      ],
+      "journals": [
+        "journal-of-economic-history",
+        "economic-history-review",
+        "explorations-in-economic-history",
+        "european-review-of-economic-history"
+      ],
+      "leading_journals": [
+        "journal-of-economic-history"
+      ]
+    },
+    "law_economics": {
+      "name": "法と経済学",
+      "aliases": [
+        "law economics"
+      ],
+      "journals": [
+        "journal-of-law-and-economics",
+        "journal-of-law-economics-and-organization",
+        "journal-of-legal-studies",
+        "journal-of-empirical-legal-studies"
+      ],
+      "leading_journals": [
+        "journal-of-law-and-economics",
+        "journal-of-law-economics-and-organization"
+      ]
+    },
+    "management_marketing": {
+      "name": "経営・マーケティング",
+      "aliases": [
+        "management marketing"
+      ],
+      "journals": [
+        "management-science",
+        "marketing-science",
+        "organization-science",
+        "operations-research",
+        "journal-of-marketing-research"
+      ],
+      "leading_journals": [
+        "management-science",
+        "marketing-science"
+      ]
+    },
+    "sociology": {
+      "name": "社会学",
+      "aliases": [
+        "sociology"
+      ],
+      "journals": [
+        "american-sociological-review",
+        "american-journal-of-sociology",
+        "social-forces",
+        "european-sociological-review",
+        "social-problems",
+        "sociological-science"
+      ],
+      "leading_journals": [
+        "american-sociological-review"
+      ]
+    },
+    "sociological_methods": {
+      "name": "社会学的方法論",
+      "aliases": [
+        "sociological methods"
+      ],
+      "journals": [
+        "sociological-methodology",
+        "sociological-methods-research",
+        "social-networks"
+      ],
+      "leading_journals": [
+        "sociological-methodology"
+      ]
+    },
+    "psychology": {
+      "name": "心理学・社会心理学",
+      "aliases": [
+        "psychology"
+      ],
+      "journals": [
+        "journal-of-personality-and-social-psychology",
+        "psychological-science",
+        "journal-of-experimental-psychology-general",
+        "journal-of-applied-psychology",
+        "journal-of-experimental-social-psychology"
+      ],
+      "leading_journals": [
+        "journal-of-personality-and-social-psychology"
+      ]
+    },
+    "legal_psychology": {
+      "name": "法心理学・犯罪心理学",
+      "aliases": [
+        "legal psychology"
+      ],
+      "journals": [
+        "law-and-human-behavior",
+        "psychology-public-policy-and-law",
+        "psychology-of-violence",
+        "legal-and-criminological-psychology",
+        "criminal-justice-and-behavior"
+      ],
+      "leading_journals": [
+        "law-and-human-behavior"
+      ]
+    },
+    "political_science": {
+      "name": "政治学",
+      "aliases": [
+        "political science"
+      ],
+      "journals": [
+        "american-political-science-review",
+        "american-journal-of-political-science",
+        "journal-of-politics",
+        "british-journal-of-political-science",
+        "political-analysis"
+      ],
+      "leading_journals": [
+        "american-political-science-review"
+      ]
+    },
+    "public_administration": {
+      "name": "行政学・公共政策",
+      "aliases": [
+        "public administration"
+      ],
+      "journals": [
+        "journal-of-public-administration-research-and-theory",
+        "public-administration-review",
+        "governance",
+        "journal-of-policy-analysis-and-management",
+        "public-management-review"
+      ],
+      "leading_journals": [
+        "journal-of-public-administration-research-and-theory"
+      ]
+    },
+    "public_health": {
+      "name": "公衆衛生・医学",
+      "aliases": [
+        "public health"
+      ],
+      "journals": [
+        "new-england-journal-of-medicine",
+        "the-lancet",
+        "jama",
+        "bmj",
+        "american-journal-of-public-health",
+        "health-affairs"
+      ],
+      "leading_journals": [
+        "new-england-journal-of-medicine"
+      ]
+    },
+    "addiction": {
+      "name": "薬物・依存症",
+      "aliases": [
+        "addiction"
+      ],
+      "journals": [
+        "addiction",
+        "drug-and-alcohol-dependence",
+        "journal-of-substance-use-and-addiction-treatment"
+      ],
+      "leading_journals": [
+        "addiction"
+      ]
+    },
+    "empirical_law": {
+      "name": "実証法学",
+      "aliases": [
+        "empirical law"
+      ],
+      "journals": [
+        "journal-of-empirical-legal-studies",
+        "journal-of-legal-studies",
+        "american-law-and-economics-review"
+      ],
+      "leading_journals": [
+        "journal-of-empirical-legal-studies"
+      ]
+    },
+    "law_reviews": {
+      "name": "主要ローレビュー",
+      "aliases": [
+        "law reviews"
+      ],
+      "journals": [
+        "yale-law-journal",
+        "harvard-law-review",
+        "stanford-law-review",
+        "university-of-chicago-law-review"
+      ],
+      "leading_journals": [
+        "yale-law-journal"
+      ]
+    },
+    "communication": {
+      "name": "政治・警察・社会に関する情報発信",
+      "aliases": [
+        "communication"
+      ],
+      "journals": [
+        "journal-of-communication",
+        "political-communication",
+        "communication-research",
+        "human-communication-research"
+      ],
+      "leading_journals": [
+        "journal-of-communication"
+      ]
+    },
+    "crime": {
+      "name": "犯罪・警察・刑事司法",
+      "aliases": [
+        "criminology",
+        "criminal justice",
+        "policing",
+        "crime economics",
+        "犯罪経済学",
+        "犯罪",
+        "警察",
+        "刑事司法"
+      ],
+      "groups": [
+        "C0",
+        "C1",
+        "C2"
+      ],
+      "leading_journals": [
+        "american-economic-journal-applied-economics",
+        "american-economic-journal-economic-policy",
+        "review-of-economics-and-statistics",
+        "journal-of-the-european-economic-association",
+        "journal-of-public-economics",
+        "journal-of-labor-economics",
+        "journal-of-human-resources",
+        "journal-of-law-and-economics",
+        "journal-of-law-economics-and-organization",
+        "journal-of-health-economics",
+        "economic-journal",
+        "international-economic-review",
+        "journal-of-policy-analysis-and-management",
+        "journal-of-development-economics",
+        "journal-of-urban-economics",
+        "criminology"
+      ]
+    },
+    "review": {
+      "name": "経済学レビュー",
+      "aliases": [
+        "survey",
+        "reviews"
+      ],
+      "journals": [
+        "journal-of-economic-literature",
+        "annual-review-of-economics",
+        "journal-of-economic-perspectives",
+        "journal-of-economic-surveys"
+      ],
+      "leading_journals": [
+        "journal-of-economic-literature"
+      ]
+    },
+    "crime_review": {
+      "name": "犯罪研究レビュー",
+      "aliases": [
+        "crime review"
+      ],
+      "journals": [
+        "annual-review-of-criminology",
+        "crime-and-justice",
+        "psychological-bulletin",
+        "annual-review-of-sociology"
+      ],
+      "leading_journals": [
+        "annual-review-of-criminology"
+      ]
+    }
+  },
+  "themes": {
+    "policing": {
+      "name": "警察活動・取締り",
+      "groups": [
+        "C0",
+        "C1"
+      ],
+      "journals": [
+        "criminology",
+        "journal-of-quantitative-criminology",
+        "journal-of-experimental-criminology",
+        "justice-quarterly"
+      ]
+    },
+    "reporting": {
+      "name": "通報・市民協力・警察情報発信",
+      "groups": [
+        "C0",
+        "C1"
+      ],
+      "journals": [
+        "criminology",
+        "journal-of-research-in-crime-and-delinquency",
+        "journal-of-communication",
+        "political-communication",
+        "law-and-human-behavior"
+      ]
+    },
+    "fear_of_crime": {
+      "name": "体感治安・犯罪不安",
+      "journals": [
+        "criminology",
+        "journal-of-research-in-crime-and-delinquency",
+        "british-journal-of-criminology",
+        "european-journal-of-criminology",
+        "journal-of-quantitative-criminology"
+      ]
+    },
+    "courts": {
+      "name": "裁判・量刑・保釈",
+      "groups": [
+        "C0",
+        "C1"
+      ],
+      "journals": [
+        "journal-of-law-and-economics",
+        "journal-of-law-economics-and-organization",
+        "journal-of-empirical-legal-studies"
+      ]
+    },
+    "reentry": {
+      "name": "刑務所・再犯・更生",
+      "groups": [
+        "C0",
+        "C1"
+      ],
+      "journals": [
+        "criminology",
+        "criminology-public-policy",
+        "journal-of-research-in-crime-and-delinquency",
+        "justice-quarterly"
+      ]
+    },
+    "victimization": {
+      "name": "犯罪被害・DV・性暴力",
+      "groups": [
+        "C0",
+        "C1"
+      ],
+      "journals": [
+        "criminology",
+        "journal-of-interpersonal-violence",
+        "psychology-of-violence",
+        "american-journal-of-public-health"
+      ]
+    },
+    "information": {
+      "name": "犯罪心理・誤情報・情報介入",
+      "fields": [
+        "psychology",
+        "political_science",
+        "communication"
+      ],
+      "journals": [
+        "journal-of-experimental-psychology-general",
+        "psychological-science",
+        "law-and-human-behavior"
+      ]
+    }
+  },
+  "venues": {
+    "american-economic-journal-applied-economics": {
+      "name": "American Economic Journal: Applied Economics",
+      "aliases": [
+        "AEJ: Applied Economics",
+        "AEJ: Applied",
+        "AEJ Applied"
+      ]
+    },
+    "review-of-economics-and-statistics": {
+      "name": "Review of Economics and Statistics",
+      "aliases": [
+        "REStat",
+        "The Review of Economics and Statistics"
+      ]
+    },
+    "american-economic-journal-economic-policy": {
+      "name": "American Economic Journal: Economic Policy",
+      "aliases": [
+        "AEJ: Economic Policy",
+        "AEJ: Policy",
+        "AEJ Policy"
+      ]
+    },
+    "journal-of-the-european-economic-association": {
+      "name": "Journal of the European Economic Association",
+      "aliases": [
+        "JEEA",
+        "Journal of European Economic Association"
+      ]
+    },
+    "economic-journal": {
+      "name": "Economic Journal",
+      "aliases": [
+        "EJ",
+        "The Economic Journal"
+      ]
+    },
+    "international-economic-review": {
+      "name": "International Economic Review",
+      "aliases": [
+        "IER"
+      ]
+    },
+    "journal-of-econometrics": {
+      "name": "Journal of Econometrics",
+      "aliases": [
+        "JoE",
+        "J Econometrics"
+      ]
+    },
+    "journal-of-business-economic-statistics": {
+      "name": "Journal of Business & Economic Statistics",
+      "aliases": [
+        "JBES",
+        "Journal of Business and Economic Statistics"
+      ]
+    },
+    "quantitative-economics": {
+      "name": "Quantitative Economics",
+      "aliases": [
+        "QE"
+      ]
+    },
+    "journal-of-applied-econometrics": {
+      "name": "Journal of Applied Econometrics",
+      "aliases": [
+        "JAE"
+      ]
+    },
+    "econometric-theory": {
+      "name": "Econometric Theory",
+      "aliases": [
+        "EMT"
+      ]
+    },
+    "the-econometrics-journal": {
+      "name": "The Econometrics Journal",
+      "aliases": [
+        "Econometrics Journal"
+      ]
+    },
+    "annals-of-statistics": {
+      "name": "Annals of Statistics",
+      "aliases": [
+        "Ann Stat",
+        "The Annals of Statistics"
+      ]
+    },
+    "journal-of-the-american-statistical-association": {
+      "name": "Journal of the American Statistical Association",
+      "aliases": [
+        "JASA"
+      ]
+    },
+    "journal-of-the-royal-statistical-society-series-b-statistical-methodology": {
+      "name": "Journal of the Royal Statistical Society Series B: Statistical Methodology",
+      "aliases": [
+        "JRSS Series B",
+        "JRSS B",
+        "JRSSB",
+        "Journal of the Royal Statistical Society: Series B (Statistical Methodology)",
+        "Journal of the Royal Statistical Society. Series B (Methodological)"
+      ]
+    },
+    "biometrika": {
+      "name": "Biometrika",
+      "aliases": []
+    },
+    "statistical-science": {
+      "name": "Statistical Science",
+      "aliases": []
+    },
+    "journal-of-economic-theory": {
+      "name": "Journal of Economic Theory",
+      "aliases": [
+        "JET"
+      ]
+    },
+    "theoretical-economics": {
+      "name": "Theoretical Economics",
+      "aliases": [
+        "TE"
+      ]
+    },
+    "american-economic-journal-microeconomics": {
+      "name": "American Economic Journal: Microeconomics",
+      "aliases": [
+        "AEJ: Microeconomics",
+        "AEJ: Micro",
+        "AEJ Micro"
+      ]
+    },
+    "economic-theory": {
+      "name": "Economic Theory",
+      "aliases": [
+        "ET"
+      ]
+    },
+    "journal-of-mathematical-economics": {
+      "name": "Journal of Mathematical Economics",
+      "aliases": []
+    },
+    "games-and-economic-behavior": {
+      "name": "Games and Economic Behavior",
+      "aliases": [
+        "GEB"
+      ]
+    },
+    "management-science": {
+      "name": "Management Science",
+      "aliases": [
+        "Manage Sci"
+      ]
+    },
+    "experimental-economics": {
+      "name": "Experimental Economics",
+      "aliases": []
+    },
+    "journal-of-economic-behavior-organization": {
+      "name": "Journal of Economic Behavior & Organization",
+      "aliases": [
+        "JEBO",
+        "Journal of Economic Behavior and Organization"
+      ]
+    },
+    "rand-journal-of-economics": {
+      "name": "RAND Journal of Economics",
+      "aliases": [
+        "RAND",
+        "The RAND Journal of Economics",
+        "Bell Journal of Economics",
+        "The Bell Journal of Economics",
+        "Bell Journal of Economics and Management Science"
+      ],
+      "title_history_source": "https://www.rje.org/"
+    },
+    "journal-of-industrial-economics": {
+      "name": "Journal of Industrial Economics",
+      "aliases": [
+        "J Ind Econ"
+      ]
+    },
+    "international-journal-of-industrial-organization": {
+      "name": "International Journal of Industrial Organization",
+      "aliases": [
+        "IJIO"
+      ]
+    },
+    "journal-of-economics-management-strategy": {
+      "name": "Journal of Economics & Management Strategy",
+      "aliases": [
+        "JEMS",
+        "Journal of Economics and Management Strategy"
+      ]
+    },
+    "review-of-industrial-organization": {
+      "name": "Review of Industrial Organization",
+      "aliases": []
+    },
+    "journal-of-labor-economics": {
+      "name": "Journal of Labor Economics",
+      "aliases": [
+        "J Labor Econ",
+        "JoLE"
+      ]
+    },
+    "journal-of-human-resources": {
+      "name": "Journal of Human Resources",
+      "aliases": [
+        "JHR",
+        "J Human Res"
+      ]
+    },
+    "ilr-review": {
+      "name": "ILR Review",
+      "aliases": [
+        "Industrial and Labor Relations Review"
+      ]
+    },
+    "labour-economics": {
+      "name": "Labour Economics",
+      "aliases": []
+    },
+    "economics-of-education-review": {
+      "name": "Economics of Education Review",
+      "aliases": []
+    },
+    "journal-of-public-economics": {
+      "name": "Journal of Public Economics",
+      "aliases": [
+        "J Pub Econ"
+      ]
+    },
+    "journal-of-policy-analysis-and-management": {
+      "name": "Journal of Policy Analysis and Management",
+      "aliases": [
+        "JPAM"
+      ]
+    },
+    "national-tax-journal": {
+      "name": "National Tax Journal",
+      "aliases": []
+    },
+    "journal-of-development-economics": {
+      "name": "Journal of Development Economics",
+      "aliases": [
+        "J Dev Econ"
+      ]
+    },
+    "world-bank-economic-review": {
+      "name": "World Bank Economic Review",
+      "aliases": []
+    },
+    "economic-development-and-cultural-change": {
+      "name": "Economic Development and Cultural Change",
+      "aliases": []
+    },
+    "world-development": {
+      "name": "World Development",
+      "aliases": []
+    },
+    "journal-of-health-economics": {
+      "name": "Journal of Health Economics",
+      "aliases": []
+    },
+    "health-economics": {
+      "name": "Health Economics",
+      "aliases": []
+    },
+    "health-affairs": {
+      "name": "Health Affairs",
+      "aliases": []
+    },
+    "journal-of-urban-economics": {
+      "name": "Journal of Urban Economics",
+      "aliases": [
+        "J Urban Econ"
+      ]
+    },
+    "regional-science-and-urban-economics": {
+      "name": "Regional Science and Urban Economics",
+      "aliases": []
+    },
+    "journal-of-regional-science": {
+      "name": "Journal of Regional Science",
+      "aliases": []
+    },
+    "journal-of-housing-economics": {
+      "name": "Journal of Housing Economics",
+      "aliases": []
+    },
+    "journal-of-international-economics": {
+      "name": "Journal of International Economics",
+      "aliases": [
+        "J Intl Econ"
+      ]
+    },
+    "journal-of-international-money-and-finance": {
+      "name": "Journal of International Money and Finance",
+      "aliases": []
+    },
+    "review-of-international-economics": {
+      "name": "Review of International Economics",
+      "aliases": []
+    },
+    "the-world-economy": {
+      "name": "The World Economy",
+      "aliases": []
+    },
+    "journal-of-finance": {
+      "name": "Journal of Finance",
+      "aliases": [
+        "J Finance",
+        "The Journal of Finance",
+        "JOF"
+      ]
+    },
+    "journal-of-financial-economics": {
+      "name": "Journal of Financial Economics",
+      "aliases": [
+        "JFE",
+        "J Fin Econ"
+      ]
+    },
+    "review-of-financial-studies": {
+      "name": "Review of Financial Studies",
+      "aliases": [
+        "RFS",
+        "RFStud",
+        "The Review of Financial Studies"
+      ]
+    },
+    "review-of-finance": {
+      "name": "Review of Finance",
+      "aliases": []
+    },
+    "journal-of-financial-intermediation": {
+      "name": "Journal of Financial Intermediation",
+      "aliases": []
+    },
+    "journal-of-monetary-economics": {
+      "name": "Journal of Monetary Economics",
+      "aliases": [
+        "JME",
+        "J Monetary Econ"
+      ]
+    },
+    "american-economic-journal-macroeconomics": {
+      "name": "American Economic Journal: Macroeconomics",
+      "aliases": [
+        "AEJ: Macroeconomics",
+        "AEJ: Macro",
+        "AEJ Macro"
+      ]
+    },
+    "review-of-economic-dynamics": {
+      "name": "Review of Economic Dynamics",
+      "aliases": [
+        "REDyn"
+      ]
+    },
+    "journal-of-money-credit-and-banking": {
+      "name": "Journal of Money, Credit and Banking",
+      "aliases": [
+        "JMCB"
+      ]
+    },
+    "journal-of-economic-dynamics-and-control": {
+      "name": "Journal of Economic Dynamics and Control",
+      "aliases": [
+        "JEDC"
+      ]
+    },
+    "journal-of-economic-growth": {
+      "name": "Journal of Economic Growth",
+      "aliases": [
+        "J Econ Growth"
+      ]
+    },
+    "journal-of-environmental-economics-and-management": {
+      "name": "Journal of Environmental Economics and Management",
+      "aliases": [
+        "JEEM"
+      ]
+    },
+    "resource-and-energy-economics": {
+      "name": "Resource and Energy Economics",
+      "aliases": []
+    },
+    "environmental-and-resource-economics": {
+      "name": "Environmental and Resource Economics",
+      "aliases": []
+    },
+    "energy-economics": {
+      "name": "Energy Economics",
+      "aliases": []
+    },
+    "journal-of-economic-history": {
+      "name": "Journal of Economic History",
+      "aliases": [
+        "J Econ History"
+      ]
+    },
+    "economic-history-review": {
+      "name": "Economic History Review",
+      "aliases": []
+    },
+    "explorations-in-economic-history": {
+      "name": "Explorations in Economic History",
+      "aliases": []
+    },
+    "european-review-of-economic-history": {
+      "name": "European Review of Economic History",
+      "aliases": []
+    },
+    "journal-of-law-and-economics": {
+      "name": "Journal of Law and Economics",
+      "aliases": [
+        "J Law&Econ"
+      ]
+    },
+    "journal-of-law-economics-and-organization": {
+      "name": "Journal of Law, Economics, and Organization",
+      "aliases": [
+        "JLEO",
+        "Journal of Law Economics and Organization"
+      ]
+    },
+    "journal-of-legal-studies": {
+      "name": "Journal of Legal Studies",
+      "aliases": []
+    },
+    "journal-of-empirical-legal-studies": {
+      "name": "Journal of Empirical Legal Studies",
+      "aliases": []
+    },
+    "marketing-science": {
+      "name": "Marketing Science",
+      "aliases": [
+        "Market Sci"
+      ]
+    },
+    "organization-science": {
+      "name": "Organization Science",
+      "aliases": []
+    },
+    "operations-research": {
+      "name": "Operations Research",
+      "aliases": []
+    },
+    "journal-of-marketing-research": {
+      "name": "Journal of Marketing Research",
+      "aliases": []
+    },
+    "american-sociological-review": {
+      "name": "American Sociological Review",
+      "aliases": [
+        "ASR"
+      ]
+    },
+    "american-journal-of-sociology": {
+      "name": "American Journal of Sociology",
+      "aliases": [
+        "AJS"
+      ]
+    },
+    "social-forces": {
+      "name": "Social Forces",
+      "aliases": []
+    },
+    "european-sociological-review": {
+      "name": "European Sociological Review",
+      "aliases": []
+    },
+    "social-problems": {
+      "name": "Social Problems",
+      "aliases": []
+    },
+    "sociological-science": {
+      "name": "Sociological Science",
+      "aliases": []
+    },
+    "sociological-methodology": {
+      "name": "Sociological Methodology",
+      "aliases": []
+    },
+    "sociological-methods-research": {
+      "name": "Sociological Methods & Research",
+      "aliases": []
+    },
+    "social-networks": {
+      "name": "Social Networks",
+      "aliases": []
+    },
+    "journal-of-personality-and-social-psychology": {
+      "name": "Journal of Personality and Social Psychology",
+      "aliases": [
+        "JPSP"
+      ]
+    },
+    "psychological-science": {
+      "name": "Psychological Science",
+      "aliases": []
+    },
+    "journal-of-experimental-psychology-general": {
+      "name": "Journal of Experimental Psychology: General",
+      "aliases": []
+    },
+    "journal-of-applied-psychology": {
+      "name": "Journal of Applied Psychology",
+      "aliases": []
+    },
+    "journal-of-experimental-social-psychology": {
+      "name": "Journal of Experimental Social Psychology",
+      "aliases": []
+    },
+    "law-and-human-behavior": {
+      "name": "Law and Human Behavior",
+      "aliases": []
+    },
+    "psychology-public-policy-and-law": {
+      "name": "Psychology, Public Policy, and Law",
+      "aliases": []
+    },
+    "psychology-of-violence": {
+      "name": "Psychology of Violence",
+      "aliases": []
+    },
+    "legal-and-criminological-psychology": {
+      "name": "Legal and Criminological Psychology",
+      "aliases": []
+    },
+    "criminal-justice-and-behavior": {
+      "name": "Criminal Justice and Behavior",
+      "aliases": []
+    },
+    "american-political-science-review": {
+      "name": "American Political Science Review",
+      "aliases": [
+        "APSR"
+      ]
+    },
+    "american-journal-of-political-science": {
+      "name": "American Journal of Political Science",
+      "aliases": [
+        "AJPS"
+      ]
+    },
+    "journal-of-politics": {
+      "name": "Journal of Politics",
+      "aliases": []
+    },
+    "british-journal-of-political-science": {
+      "name": "British Journal of Political Science",
+      "aliases": []
+    },
+    "political-analysis": {
+      "name": "Political Analysis",
+      "aliases": []
+    },
+    "journal-of-public-administration-research-and-theory": {
+      "name": "Journal of Public Administration Research and Theory",
+      "aliases": [
+        "JPART"
+      ]
+    },
+    "public-administration-review": {
+      "name": "Public Administration Review",
+      "aliases": []
+    },
+    "governance": {
+      "name": "Governance",
+      "aliases": []
+    },
+    "public-management-review": {
+      "name": "Public Management Review",
+      "aliases": []
+    },
+    "new-england-journal-of-medicine": {
+      "name": "New England Journal of Medicine",
+      "aliases": [
+        "NEJM",
+        "The New England Journal of Medicine"
+      ]
+    },
+    "the-lancet": {
+      "name": "The Lancet",
+      "aliases": [
+        "Lancet"
+      ]
+    },
+    "jama": {
+      "name": "JAMA",
+      "aliases": [
+        "Journal of the American Medical Association"
+      ]
+    },
+    "bmj": {
+      "name": "BMJ",
+      "aliases": []
+    },
+    "american-journal-of-public-health": {
+      "name": "American Journal of Public Health",
+      "aliases": [
+        "AJPH"
+      ]
+    },
+    "addiction": {
+      "name": "Addiction",
+      "aliases": []
+    },
+    "drug-and-alcohol-dependence": {
+      "name": "Drug and Alcohol Dependence",
+      "aliases": []
+    },
+    "journal-of-substance-use-and-addiction-treatment": {
+      "name": "Journal of Substance Use and Addiction Treatment",
+      "aliases": [
+        "Journal of Substance Abuse Treatment"
+      ],
+      "title_history_source": "https://www.ncbi.nlm.nih.gov/nlmcatalog/386072"
+    },
+    "american-law-and-economics-review": {
+      "name": "American Law and Economics Review",
+      "aliases": []
+    },
+    "yale-law-journal": {
+      "name": "Yale Law Journal",
+      "aliases": []
+    },
+    "harvard-law-review": {
+      "name": "Harvard Law Review",
+      "aliases": []
+    },
+    "stanford-law-review": {
+      "name": "Stanford Law Review",
+      "aliases": []
+    },
+    "university-of-chicago-law-review": {
+      "name": "University of Chicago Law Review",
+      "aliases": []
+    },
+    "journal-of-communication": {
+      "name": "Journal of Communication",
+      "aliases": []
+    },
+    "political-communication": {
+      "name": "Political Communication",
+      "aliases": []
+    },
+    "communication-research": {
+      "name": "Communication Research",
+      "aliases": []
+    },
+    "human-communication-research": {
+      "name": "Human Communication Research",
+      "aliases": []
+    },
+    "journal-of-economic-literature": {
+      "name": "Journal of Economic Literature",
+      "aliases": [
+        "JEL"
+      ]
+    },
+    "annual-review-of-economics": {
+      "name": "Annual Review of Economics",
+      "aliases": [
+        "AR Economics"
+      ]
+    },
+    "journal-of-economic-perspectives": {
+      "name": "Journal of Economic Perspectives",
+      "aliases": [
+        "JEP"
+      ]
+    },
+    "journal-of-economic-surveys": {
+      "name": "Journal of Economic Surveys",
+      "aliases": [
+        "Journal of Economic Survey"
+      ]
+    },
+    "annual-review-of-criminology": {
+      "name": "Annual Review of Criminology",
+      "aliases": []
+    },
+    "crime-and-justice": {
+      "name": "Crime and Justice",
+      "aliases": []
+    },
+    "psychological-bulletin": {
+      "name": "Psychological Bulletin",
+      "aliases": []
+    },
+    "annual-review-of-sociology": {
+      "name": "Annual Review of Sociology",
+      "aliases": []
+    },
+    "american-economic-review": {
+      "name": "American Economic Review",
+      "aliases": [
+        "AER"
+      ]
+    },
+    "quarterly-journal-of-economics": {
+      "name": "Quarterly Journal of Economics",
+      "aliases": [
+        "QJE",
+        "The Quarterly Journal of Economics"
+      ]
+    },
+    "journal-of-political-economy": {
+      "name": "Journal of Political Economy",
+      "aliases": [
+        "JPE"
+      ]
+    },
+    "econometrica": {
+      "name": "Econometrica",
+      "aliases": [
+        "ECTA"
+      ]
+    },
+    "review-of-economic-studies": {
+      "name": "Review of Economic Studies",
+      "aliases": [
+        "REStud",
+        "The Review of Economic Studies"
+      ]
+    },
+    "criminology": {
+      "name": "Criminology",
+      "aliases": []
+    },
+    "journal-of-research-in-crime-and-delinquency": {
+      "name": "Journal of Research in Crime and Delinquency",
+      "aliases": []
+    },
+    "journal-of-quantitative-criminology": {
+      "name": "Journal of Quantitative Criminology",
+      "aliases": []
+    },
+    "justice-quarterly": {
+      "name": "Justice Quarterly",
+      "aliases": []
+    },
+    "criminology-public-policy": {
+      "name": "Criminology & Public Policy",
+      "aliases": [
+        "Criminology and Public Policy"
+      ]
+    },
+    "british-journal-of-criminology": {
+      "name": "British Journal of Criminology",
+      "aliases": []
+    },
+    "journal-of-experimental-criminology": {
+      "name": "Journal of Experimental Criminology",
+      "aliases": []
+    },
+    "journal-of-criminal-justice": {
+      "name": "Journal of Criminal Justice",
+      "aliases": []
+    },
+    "european-journal-of-criminology": {
+      "name": "European Journal of Criminology",
+      "aliases": []
+    },
+    "police-quarterly": {
+      "name": "Police Quarterly",
+      "aliases": []
+    },
+    "policing-society": {
+      "name": "Policing & Society",
+      "aliases": [
+        "Policing and Society"
+      ]
+    },
+    "crime-delinquency": {
+      "name": "Crime & Delinquency",
+      "aliases": [
+        "Crime and Delinquency"
+      ]
+    },
+    "journal-of-interpersonal-violence": {
+      "name": "Journal of Interpersonal Violence",
+      "aliases": []
+    }
+  },
+  "working_papers": [
+    {
+      "name": "NBER Working Papers",
+      "tier": "W1",
+      "rank": 1,
+      "aliases": [
+        "NBER",
+        "NBER Working Paper",
+        "National Bureau of Economic Research Working Paper Series",
+        "National Bureau of Economic Research"
+      ],
+      "url": "https://www.nber.org/papers"
+    },
+    {
+      "name": "CEPR Discussion Papers",
+      "tier": "W1",
+      "rank": 2,
+      "aliases": [
+        "CEPR",
+        "CEPR Discussion Paper"
+      ],
+      "url": "https://cepr.org/publications/dp"
+    },
+    {
+      "name": "Becker Friedman Institute Working Papers",
+      "tier": "W1",
+      "rank": 3,
+      "aliases": [
+        "BFI",
+        "BFI Working Papers",
+        "Becker Friedman Institute for Economics Working Paper"
+      ],
+      "url": "https://bfi.uchicago.edu/working-papers/"
+    },
+    {
+      "name": "IZA Discussion Papers",
+      "tier": "W2",
+      "rank": 1,
+      "aliases": [
+        "IZA",
+        "IZA Discussion Paper"
+      ],
+      "url": "https://www.iza.org/publications/dp"
+    },
+    {
+      "name": "IFS Working Papers",
+      "tier": "W2",
+      "rank": 2,
+      "aliases": [
+        "IFS",
+        "IFS Working Paper",
+        "Institute for Fiscal Studies Working Papers"
+      ],
+      "url": "https://ifs.org.uk/publications"
+    },
+    {
+      "name": "World Bank Policy Research Working Papers",
+      "tier": "W2",
+      "rank": 3,
+      "aliases": [
+        "World Bank Policy Research Working Paper",
+        "Policy Research Working Paper"
+      ],
+      "url": "https://documents.worldbank.org/"
+    },
+    {
+      "name": "IMF Working Papers",
+      "tier": "W2",
+      "rank": 4,
+      "aliases": [
+        "IMF",
+        "IMF Working Paper"
+      ],
+      "url": "https://www.imf.org/en/Publications/WP"
+    }
+  ],
+  "other_official_wp": {
+    "tier": "W2",
+    "institution_kinds": [
+      "central_bank",
+      "university",
+      "research_institute"
+    ],
+    "requires": [
+      "series",
+      "official_url",
+      "basis"
+    ]
+  },
+  "discovery_platforms": [
+    "SSRN",
+    "arXiv"
+  ],
+  "recent_wp_windows": [
+    "R0",
+    "R1"
+  ]
+}

@@ -1,0 +1,133 @@
+# Edit research meeting materials from saved results
+
+Select research artifacts in the local marimo interface and build materials from the previous decisions, tasks and GitHub progress. A material bundle consists of `meeting.json`, `content.md` and the selected `assets/`. Supported outputs are HTML slides, Markdown, PDF through the existing Beamer templates, and native Google Slides.
+
+## Create a bundle
+
+```sh
+python harness/state.py --root "$PROJECT" project-view CASE --role manage --view summary \
+  --github github-snapshot.json --save meeting-summary.json
+python harness/research.py gallery select --root "$PROJECT" \
+  --registry analysis/gallery.json sample-table main-event-study \
+  --output selected-results.json
+python harness/research.py meeting create --root "$PROJECT" \
+  --selection selected-results.json --project-view meeting-summary.json \
+  --previous meetings/previous --output meetings/current \
+  --title "研究ミーティング" --kind meeting --date 2026-11-05 \
+  --issue-url https://github.com/OWNER/REPO/issues/123
+```
+
+Omit `--previous` for the first meeting. Choose `--kind` from the templates below and use a new destination directory. The CLI and marimo read the same `tex/slides/meeting_templates.json`.
+
+| `--kind` | Content | HTML / PDF |
+| --- | --- | --- |
+| `brief` | Research question, data and sample, analysis specification, saved results, interpretation, next work | Document / Econometrica |
+| `progress` | Previous decisions, completed outputs, current work, results, next work | Slides / Beamer |
+| `proposal` | Research question and estimand, adopted plan, descriptive statistics, design consultation, decision | Slides / Beamer |
+| `results` | Research question, design, sample, Table 1, main results, event study, additional results, interpretation, current decision, next work | Slides / Beamer |
+| `meeting` | Previous decisions and tasks, current work, results, interpretation and decisions, next tasks | Slides / Beamer |
+| `model` | Actors, choices, objectives and constraints, information and timing, notation, optimization, equilibrium, propositions and derivations, comparative statics, numerical solution, counterfactuals and welfare | Slides / Beamer |
+| `structural` | Model, observed variation and identification, data, likelihood or moments, solution method, structural parameters, fit, counterfactuals, welfare, sensitivity | Slides / Beamer |
+| `appendix` | Notation, model, derivations and proofs, identification, data construction, estimation and inference, numerical computation, additional results | Document / Econometrica |
+| `manuscript` | Data, empirical specification, results, exhibits, interpretation | Document / Econometrica |
+
+Keep templates in the existing `tex/slides/meeting_templates.json`. Initialize manuscript Data, Specification and Results sections from `data_description`, `specification_description` and `results_summary` in `project-view`. Edit the prose in `content.md`. Exhibits retain the selected result IDs and saved values.
+
+For theory and structural materials, supply section IDs and adopted Markdown prose in the same `project-view` object's `section_content`. Send equations and explanations to sections in the selected template, such as `model`, `information`, `optimality`, `equilibrium`, `propositions`, `identification` and `numerical`. Build the text from the adopted model contract's actors, constraints, information and equilibrium conditions. State the identified parameters and observed variation, optimality conditions and numerical methods, and the primitives held fixed in each counterfactual. Put notation and definitions in `notation`; put propositions and proofs in `propositions` or the appendix's `derivation`. Supplied prose takes precedence over automatic summaries. Section IDs must belong to the selected template.
+
+```json
+{
+  "research_question": "企業結合は価格と消費者余剰をどう変えるか。",
+  "section_content": {
+    "model": "消費者は一つの製品か外部選択肢を選ぶ。企業は所有する製品の利潤を最大化する価格を同時に選ぶ。",
+    "identification": "需要式から除外した費用シフターを価格の操作変数に使う。",
+    "numerical": "保存済みの需要推定値と限界費用を固定し、所有構造変更後の価格一階条件を解く。"
+  }
+}
+```
+
+This example shows the prose input for `--kind structural`. Actual materials specify the adopted demand equation, instruments, cost structure, equilibrium selection and executed results. `section_content` supplies document content; analysis specifications and saved results remain at their scientific owners.
+
+The template's `artifact_role` determines where descriptive statistics, main results, event studies and additional results appear. Set the selected result's `metadata.report_role` to `descriptive`, `main`, `event_study` or `additional` when its role is explicit. Otherwise placement follows the saved exhibit type. Keep the main-result summary before its exhibits. When `project-view` contains no corresponding prose, carry the selected results' findings, interpretations, issues and adopted judgments into their sections.
+
+Structural materials also place saved `report_role` values `parameters`, `model_fit`, `counterfactual` and `welfare`; theory materials place `notation`, `mechanism` and `comparative_statics`. An exhibit without a dedicated section uses the selected template's existing exhibit section. Display structural parameters with their estimated, calibrated or fixed status and units; fit with observed and model moments; and counterfactuals with scenario-specific prices, quantities, profits and welfare. Use separate gallery panels for quantities with different units. Carry each exhibit's `model_contract`, `scenario`, `parameter_definition`, parameter treatment, state-value definition, terminal condition, and stock/flow timing into the materials.
+
+Standard regression tables inherit the `presentation` assembled by the gallery from saved values. Markdown and native Google Slides tables use the same column groups, coefficient rows, parenthesized standard-error rows, model information and table notes. Retain the original numeric rows and result IDs in the bundle.
+
+`project-view` reads GitHub Issues / Projects registered through the existing `project-bind`. `--github` accepts a connector-acquired snapshot. The bundle's `task_snapshot` records the meeting's state; edit current ownership, deadlines, priorities and progress in GitHub. Keep research specifications and scientific results in the existing ERS canonical sources.
+
+Carry forward decisions and tasks edited in the previous bundle's `content.md`. When those sections are empty, use `decisions` and `next_actions`. Place current completed work, work in progress, next tasks, saved findings, interpretations, issues and adopted judgments in their corresponding sections. Select tasks completed since the previous meeting. Each exhibit retains its result ID, sample, observation unit, comparison, period, units, estimate, standard-error and interval definitions, and producing source. Edit the prose interpretation separately from the numeric values.
+
+## Edit prose and structure
+
+Text after `<!-- section:ID -->` in `content.md` supplies the section body. `sections` in `meeting.json` controls order, headings, visibility, layout, exhibit IDs, captions and speaker notes.
+
+| Target | Field to edit |
+| --- | --- |
+| Prose | Corresponding section in `content.md` |
+| Slide order | Order of the `sections` array |
+| Heading and visibility | `title`, `visible` |
+| Exhibit selection and order | ID array in `artifacts` |
+| Layout | `layout`: `stack`, `figure-left`, `figure-right`, `figures` |
+| Caption and speaker notes | `caption`, `speaker_notes` |
+| Add or remove a section | Add the same ID to both files, or remove it from the structure |
+
+The local marimo interface edits these fields through forms. Its explicit save button checks the existing saved revision's hash before writing. Change scientific definitions through the existing specification-update and result-registration paths. Presentation edits consume saved results without invoking estimation.
+
+Editing one section preserves the other section bodies and draft text retained after a section is removed. Re-adding a removed section ID restores its retained draft unless the addition supplies replacement prose. Structural `<!-- section:ID -->` markers belong to the section structure and cannot appear inside a section's body.
+
+```sh
+python harness/research.py meeting render --root "$PROJECT" \
+  --bundle meetings/current --output outputs/current-html --format html
+```
+
+`--format markdown` produces Markdown; `--format pdf` produces LuaLaTeX output. Documents use the existing `tex/paper/pandoc_template.latex` and Econometrica class and settings. Slides use the existing `tex/slides/pandoc_template.latex`, metropolis, Waseda colors and Japanese fonts. HTML and PDF destinations contain the completed files and `render.json`. Markdown output also includes images referenced by its text. Keep editable prose, structure and exhibits in the source bundle; regenerate intermediate Quarto, TeX and style files during rendering. `render.json` records each consumed LaTeX file's hash in `latex_files`. Prefer saved PDF, PNG and JPEG assets for PDF output; use `rsvg-convert` for figures available only as SVG.
+
+Exhibit notes display the saved population, sample, weights, denominator, reference period, aggregation rule and treatment history. Automatic notes follow PROSE; interval definitions and inference metadata remain in the saved bundle without generating additional captions or speaker-note dumps. Preserve adopted exhibit cells and authored notes. PDFs also include variable definitions, result-specific definitions and producing-source identifiers. Display the first 12 characters of each source SHA-256 and retain its complete value in bundle metadata. Place a section's `caption` after its last exhibit's notes and retain speaker notes separately. Use figure height and the template's note size to fit slides. Keep a short document table's heading, rows and notes on one page. Break long table identifiers at underscores. The Pandoc adapter carries Quarto's `include-in-header` through the same path, including Japanese document PDF settings.
+
+Quarto renders prose and saved exhibits in an isolated working directory with `engine: markdown` and `--no-execute`. Select exhibits through `sections[].artifacts`; use the body for prose, equations, lists and links. Check saved exhibit hashes and write the completed version to a new output directory. `render.json` retains the input revision, consumed exhibit and template hashes, executed command, Quarto version and output hashes.
+
+## Edit in the GitHub browser
+
+1. Save only materials selected for publication in the repository's `meetings/NAME/` directory and set their `meeting.json` field `cloud_export` to `true`. Its initial value is `false`. Set `cloud_formats` to the selected formats, such as `["html", "pdf"]`; new materials select HTML and PDF. Keep raw data and microdata outside the material bundle.
+2. Use the pencil button on `content.md` in GitHub to edit prose. Edit `meeting.json` for order, visibility and layout. GitHub's web editor (`.` key) can save several files in one commit.
+3. Open the `Render selected meeting materials` Actions run. Saving the manuscript in the browser renders each format in `cloud_formats`. `Run workflow` with `format: configured` uses that selection; `html`, `pdf` and `markdown` select the named format. Summary shows the completed prose, tables and figures; the `meeting-...` artifact contains the completed materials. HTML produces a self-contained `index.html`. Existing materials without `cloud_formats` use HTML.
+4. Save subsequent edits through the same browser operation. Only jobs for changed materials rerun. Renderer or shared-template changes refresh the affected materials' presentation.
+
+The Actions selection job reads the material settings and selects bundles with `cloud_export: true`. Rendering jobs retrieve their selected directories and presentation templates. For PDF, Quarto Actions prepares TinyTeX and installs metropolis, Japanese fonts and exhibit packages. Link the material directory, Actions run and Google Slides edition in the Issue's Related research field.
+
+## Create an independent Google Slides edition
+
+```sh
+python harness/research.py meeting google-slides \
+  --bundle meetings/current --output outputs/current-google-slides.json
+```
+
+The packet contains Google Slides API `createSlide` requests and native text, table and image requests. Create a new presentation (`application/vnd.google-apps.presentation`) through connected Google Drive / Slides and pass `requests` to `batchUpdate`. Supply local PNG/JPEG files from `images` through the connected tool's image-upload arguments. For published images, `--asset-base-url` can specify the bundle's HTTPS URL.
+
+After creation, retrieve `slides[].slideProperties.notesPage.notesProperties.speakerNotesObjectId` and use `insertText` to place the packet's `speaker_notes` in the corresponding notes shapes. Use the user's Drive `ChatGPT` folder as the destination. Edit prose, order and exhibit layout in the Google Slides GUI.
+
+```sh
+python harness/research.py meeting link-edition --bundle meetings/current \
+  --url https://docs.google.com/presentation/d/PRESENTATION_ID/edit \
+  --expected-revision CURRENT_SOURCE_SHA256 --kind google-slides
+```
+
+Append the returned editing URL and source revision to `editions`. Regeneration creates a new presentation and preserves the edited presentation at its existing ID. Retain the GitHub manuscript and Google Slides edition as independently editable versions.
+
+After producing the packet, execute presentation creation, `batchUpdate`, speaker-note insertion and returned editing-URL registration through connected tools. The packet supplies their input; `editions` identifies actually created materials. `--source-revision` can specify the source version recorded in the packet. Pass the current bundle revision at registration as `--expected-revision`.
+
+## Dependencies and saved content
+
+The existing research DAG owns analysis and data updates. The gallery owns exhibit presentation updates. This renderer owns meeting prose and structure updates. Save the producing sources for raw data, estimates and presentation summaries during analysis. Ordinary viewing and material editing read the selected saved results. Build a reproduction package through the existing `research.py` path when creation, update or reproduction of the corresponding artifact is selected.
+
+## Official specifications and templates
+
+- [Quarto execution options](https://quarto.org/docs/computations/execution-options.html): document rendering with `engine: markdown`.
+- [Quarto Beamer](https://quarto.org/docs/presentations/beamer.html): heading-based slide breaks, exhibit columns and PDF presentation settings.
+- [Quarto journal templates](https://quarto.org/docs/journals/templates.html): existing Pandoc templates and LaTeX output.
+- [Econometrica's official LaTeX distribution guide](https://www.e-publications.org/ecta/support/) and [source repository](https://github.com/vtex-soft/texsupport.econometricsociety-ecta): sources for this project's class, settings and manuscript templates.
+- [Quarto Actions](https://github.com/quarto-dev/quarto-actions): Quarto and TinyTeX configuration on GitHub.
+- [Quarto figure sizing](https://quarto.org/docs/authoring/figures.html#figure-sizing): figure height in PDF slides.
+- [EconAgentSkills standard tables](https://github.com/JonasWeinert/EconAgentSkills/blob/c1b8b1ef7ab59e6858fe3599a39d4732e5a76142/_skills/writing/latex-tables/examples/table_main_template.tex): coefficient and parenthesized standard-error rows and specification rows.
+- [econ-research-os notation table](https://github.com/RyanPiao/econ-research-os/blob/0b206cd043f77d787932dcb149106bb648106033/skills/econ-write/templates/notation-table.md) and [Quarto chapter structure](https://github.com/RyanPiao/econ-research-os/blob/0b206cd043f77d787932dcb149106bb648106033/skills/econ-write/templates/chapter-template.qmd): connections between notation, equations, implementation and examples. ERS connects them through its existing material structure.

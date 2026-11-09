@@ -1,0 +1,269 @@
+{
+  "domain": "測定集計",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "measure-01",
+      "chapter": 35,
+      "concept_ids": [
+        "C-MEASURE-01",
+        "C-CH-35"
+      ],
+      "contract_ids": [],
+      "domain": "測定集計",
+      "file": "chapters/35-measurement-aggregation.md",
+      "id": "MEASURE-01",
+      "inputs": [
+        "期首残高",
+        "投資と減耗",
+        "産出と中間投入",
+        "所得と最終支出"
+      ],
+      "jel_codes": [
+        "E01",
+        "C43"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "期末残高",
+        "付加価値",
+        "国内総生産"
+      ],
+      "prerequisites": [],
+      "related": [
+        "MEASURE-04"
+      ],
+      "subdomain": "stock、flow、国民経済計算",
+      "title": "stock、flow、国民経済計算",
+      "topic": "stock、flow、国民経済計算",
+      "use_when": "経済勘定のstockとflowを構成する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "measure-02",
+      "chapter": 35,
+      "concept_ids": [
+        "C-MEASURE-02",
+        "C-CH-35",
+        "C-TERM-PRICE-INDEX",
+        "C-TERM-COST-OF-LIVING"
+      ],
+      "contract_ids": [],
+      "domain": "測定集計",
+      "file": "chapters/35-measurement-aggregation.md",
+      "id": "MEASURE-02",
+      "inputs": [
+        "価格",
+        "数量",
+        "支出重み"
+      ],
+      "jel_codes": [
+        "C43",
+        "D11"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "価格指数",
+        "生活費指数"
+      ],
+      "prerequisites": [
+        "MICRO-02"
+      ],
+      "related": [
+        "DEMAND-04"
+      ],
+      "subdomain": "価格指数と生活費",
+      "title": "価格指数と生活費",
+      "topic": "価格指数と生活費",
+      "use_when": "価格指数と生活費を測る"
+    },
+    {
+      "alternatives": [],
+      "anchor": "measure-03",
+      "chapter": 35,
+      "concept_ids": [
+        "C-MEASURE-03",
+        "C-CH-35"
+      ],
+      "contract_ids": [],
+      "domain": "測定集計",
+      "file": "chapters/35-measurement-aggregation.md",
+      "id": "MEASURE-03",
+      "inputs": [
+        "所得",
+        "人口重み",
+        "貧困線"
+      ],
+      "jel_codes": [
+        "D31",
+        "D63",
+        "I32"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "Lorenz",
+        "Gini",
+        "FGT"
+      ],
+      "prerequisites": [
+        "STAT-01"
+      ],
+      "related": [],
+      "subdomain": "不平等、貧困、分布",
+      "title": "不平等、貧困、分布",
+      "topic": "不平等、貧困、分布",
+      "use_when": "所得分布と貧困を集計する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "measure-04",
+      "chapter": 35,
+      "concept_ids": [
+        "C-MEASURE-04",
+        "C-CH-35"
+      ],
+      "contract_ids": [],
+      "domain": "測定集計",
+      "file": "chapters/35-measurement-aggregation.md",
+      "id": "MEASURE-04",
+      "inputs": [
+        "投入係数",
+        "最終需要",
+        "付加価値係数"
+      ],
+      "jel_codes": [
+        "C67",
+        "D57"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "総産出",
+        "産業起源付加価値"
+      ],
+      "prerequisites": [
+        "MATH-02"
+      ],
+      "related": [],
+      "subdomain": "産業連関と付加価値連鎖",
+      "title": "産業連関と付加価値連鎖",
+      "topic": "産業連関と付加価値連鎖",
+      "use_when": "投入産出表から付加価値を集計する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "measure-05",
+      "chapter": 35,
+      "concept_ids": [
+        "C-MEASURE-05",
+        "C-CH-35"
+      ],
+      "contract_ids": [],
+      "domain": "測定集計",
+      "file": "chapters/35-measurement-aggregation.md",
+      "id": "MEASURE-05",
+      "inputs": [
+        "一次・共同包含確率",
+        "標本値",
+        "観測単位",
+        "結合key"
+      ],
+      "jel_codes": [
+        "C81",
+        "C83"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "母集団総量の推定値",
+        "結合重み"
+      ],
+      "prerequisites": [
+        "STAT-04"
+      ],
+      "related": [
+        "ECON-06"
+      ],
+      "subdomain": "標本設計と記録の結合",
+      "title": "標本設計と記録の結合",
+      "topic": "標本設計と記録の結合; ratio of sums; composition effect; 分母加重平均; 構成効果",
+      "use_when": "標本推定と記録結合の対象を定める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "measure-06",
+      "chapter": 35,
+      "concept_ids": [
+        "C-MEASURE-06",
+        "C-CH-35"
+      ],
+      "contract_ids": [],
+      "domain": "測定集計",
+      "file": "chapters/35-measurement-aggregation.md",
+      "id": "MEASURE-06",
+      "inputs": [
+        "指標",
+        "誤差構造",
+        "割当",
+        "選択"
+      ],
+      "jel_codes": [
+        "C81",
+        "C38"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "潜在尺度",
+        "平均選択効果"
+      ],
+      "prerequisites": [
+        "ECON-05"
+      ],
+      "related": [
+        "DEMAND-01"
+      ],
+      "subdomain": "潜在概念、テキスト、選択実験",
+      "title": "潜在概念、テキスト、選択実験",
+      "topic": "潜在概念、テキスト、選択実験",
+      "use_when": "潜在量と選択実験を測定する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "measure-07",
+      "chapter": 35,
+      "concept_ids": [
+        "C-MEASURE-07",
+        "C-CH-35"
+      ],
+      "contract_ids": [],
+      "domain": "測定集計",
+      "file": "chapters/35-measurement-aggregation.md",
+      "id": "MEASURE-07",
+      "inputs": [
+        "所得",
+        "貧困線",
+        "投入係数",
+        "最終需要"
+      ],
+      "jel_codes": [
+        "E01",
+        "C43",
+        "I32"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "Gini",
+        "FGT",
+        "付加価値"
+      ],
+      "prerequisites": [
+        "MEASURE-03"
+      ],
+      "related": [
+        "MEASURE-04"
+      ],
+      "subdomain": "解答付き集計の定義",
+      "title": "解答付き例題：集計の定義",
+      "topic": "解答付き例題：集計の定義",
+      "use_when": "不平等と投入産出の例を解く"
+    }
+  ]
+}

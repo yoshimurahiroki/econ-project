@@ -1,0 +1,231 @@
+{
+  "domain": "公共",
+  "units": [
+    {
+      "alternatives": [],
+      "anchor": "public-01",
+      "chapter": 23,
+      "concept_ids": [
+        "C-PUBLIC-01",
+        "C-CH-23"
+      ],
+      "contract_ids": [],
+      "domain": "公共",
+      "file": "chapters/23-public-economics.md",
+      "id": "PUBLIC-01",
+      "inputs": [
+        "需要",
+        "供給",
+        "単位税"
+      ],
+      "jel_codes": [
+        "H22",
+        "H21"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "買手・売手価格",
+        "税収",
+        "超過負担"
+      ],
+      "prerequisites": [
+        "MICRO-04"
+      ],
+      "related": [],
+      "subdomain": "課税帰着",
+      "title": "税負担と超過負担",
+      "topic": "需要供給の反応から税負担と超過負担を計算する",
+      "use_when": "需要供給の反応から税負担と超過負担を計算する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "public-02",
+      "chapter": 23,
+      "concept_ids": [
+        "C-PUBLIC-02",
+        "C-CH-23"
+      ],
+      "contract_ids": [],
+      "domain": "公共",
+      "file": "chapters/23-public-economics.md",
+      "id": "PUBLIC-02",
+      "inputs": [
+        "需要弾力性",
+        "所得反応",
+        "社会重み"
+      ],
+      "jel_codes": [
+        "H21",
+        "H24"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "商品税・所得税",
+        "実効参加税率"
+      ],
+      "prerequisites": [
+        "PUBLIC-01"
+      ],
+      "related": [
+        "LABOR-01"
+      ],
+      "subdomain": "最適課税",
+      "title": "商品税と所得税",
+      "topic": "商品と所得の反応・分配から税率を設計する",
+      "use_when": "商品と所得の反応・分配から税率を設計する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "public-03",
+      "chapter": 23,
+      "concept_ids": [
+        "C-PUBLIC-03",
+        "C-CH-23"
+      ],
+      "contract_ids": [],
+      "domain": "公共",
+      "file": "chapters/23-public-economics.md",
+      "id": "PUBLIC-03",
+      "inputs": [
+        "能力分布",
+        "効用",
+        "所得",
+        "社会重み"
+      ],
+      "jel_codes": [
+        "H21",
+        "D82",
+        "H41"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "自己選択条件",
+        "税表",
+        "生産効率"
+      ],
+      "prerequisites": [
+        "MATH-04"
+      ],
+      "related": [
+        "CONTRACT-02"
+      ],
+      "subdomain": "誘因制約",
+      "title": "誘因両立と生産効率",
+      "topic": "能力私有情報と資源制約の下で税を設計する",
+      "use_when": "能力私有情報と資源制約の下で税を設計する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "public-04",
+      "chapter": 23,
+      "concept_ids": [
+        "C-PUBLIC-04",
+        "C-CH-23"
+      ],
+      "contract_ids": [],
+      "domain": "公共",
+      "file": "chapters/23-public-economics.md",
+      "id": "PUBLIC-04",
+      "inputs": [
+        "給付",
+        "消費",
+        "失業反応",
+        "税"
+      ],
+      "jel_codes": [
+        "H53",
+        "H23"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "給付の最適条件",
+        "外部性税"
+      ],
+      "prerequisites": [
+        "MICRO-06"
+      ],
+      "related": [
+        "LABOR-03"
+      ],
+      "subdomain": "社会保険",
+      "title": "社会保険と外部性",
+      "topic": "保険の消費平準化と行動反応を比較する",
+      "use_when": "保険の消費平準化と行動反応を比較する"
+    },
+    {
+      "alternatives": [],
+      "anchor": "public-05",
+      "chapter": 23,
+      "concept_ids": [
+        "C-PUBLIC-05",
+        "C-CH-23",
+        "C-OBJ-TRUE-INCIDENCE"
+      ],
+      "contract_ids": [],
+      "domain": "公共",
+      "file": "chapters/23-public-economics.md",
+      "id": "PUBLIC-05",
+      "inputs": [
+        "便益",
+        "資源費用",
+        "税収",
+        "割引率"
+      ],
+      "jel_codes": [
+        "H43",
+        "D61"
+      ],
+      "kind": "knowledge",
+      "outputs": [
+        "NPV",
+        "補償変分",
+        "MVPF"
+      ],
+      "prerequisites": [
+        "MICRO-02"
+      ],
+      "related": [],
+      "subdomain": "財政評価",
+      "title": "費用便益、分配と財政価値",
+      "topic": "政策便益と政府純費用の現在価値を求める",
+      "use_when": "政策便益と政府純費用の現在価値を求める"
+    },
+    {
+      "alternatives": [],
+      "anchor": "public-06",
+      "chapter": 23,
+      "concept_ids": [
+        "C-PUBLIC-06",
+        "C-CH-23"
+      ],
+      "contract_ids": [],
+      "domain": "公共",
+      "file": "chapters/23-public-economics.md",
+      "id": "PUBLIC-06",
+      "inputs": [
+        "需要",
+        "供給",
+        "税率"
+      ],
+      "jel_codes": [
+        "H22",
+        "H21"
+      ],
+      "kind": "worked_example",
+      "outputs": [
+        "価格",
+        "数量",
+        "税収",
+        "超過負担"
+      ],
+      "prerequisites": [
+        "PUBLIC-01"
+      ],
+      "related": [],
+      "subdomain": "税帰着例",
+      "title": "例題：単位税と帰着",
+      "topic": "線形需要供給に単位税を課す",
+      "use_when": "線形需要供給に単位税を課す"
+    }
+  ]
+}
