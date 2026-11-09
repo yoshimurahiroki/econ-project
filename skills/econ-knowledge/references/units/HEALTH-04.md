@@ -10,3 +10,5 @@
 
 新治療が費用90、健康効果4、既存治療が費用30、効果2なら、増分費用は60、増分効果は2、増分費用効果比は30である。一単位の効果を30以上で評価する条件の下で新治療の増分純便益は非負である。将来の医療費や生活の質も、両治療について同じ期間に割り引いて集計する。
 
+治療効果と費用を事後分布で推定した採択判断では、各同時標本の増分純便益 \(NB=\lambda\Delta Q-\Delta C\) を計算する。健康一単位の価値 \(\lambda\) を固定し、貨幣換算純便益を線形に評価する選択では、現在の情報で \(E[NB\mid\mathcal D]\) が最大の実行可能な治療を選ぶ。事後の費用効果比の平均と、\(E[\Delta C\mid\mathcal D]/E[\Delta Q\mid\mathcal D]\) はそれぞれ別の量である。複数治療では共通の基準治療と予算を置き、純便益を直接比較する。追加試験の価値は[FORECAST-06](https://github.com/yoshimurahiroki/econ-project-mini/blob/main/skills/econ-knowledge/references/chapters/31-forecasting-decisions.md#forecast-06)を使い、試験後に変更できる治療、対象患者数、採択までの遅れと試験費用を同じ期間で評価する。
+

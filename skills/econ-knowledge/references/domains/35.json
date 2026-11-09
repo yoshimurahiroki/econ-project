@@ -105,7 +105,8 @@
         "企業価値"
       ],
       "prerequisites": [
-        "FINANCE-03"
+        "FINANCE-03",
+        "FINANCE-01"
       ],
       "related": [
         "INNOV-01"

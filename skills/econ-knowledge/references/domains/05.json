@@ -124,7 +124,10 @@
       "prerequisites": [
         "ASSET-01"
       ],
-      "related": [],
+      "related": [
+        "STAT-07",
+        "FORECAST-06"
+      ],
       "subdomain": "企業価値",
       "title": "free cash flowと価値の接続",
       "topic": "FCFF、企業価値、増分ROICと経済利益",

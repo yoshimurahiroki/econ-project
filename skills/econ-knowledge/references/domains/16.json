@@ -77,7 +77,7 @@
         "事後更新と利益に対応する方策"
       ],
       "prerequisites": [
-        "STAT-02"
+        "STAT-07"
       ],
       "related": [
         "INFO-03",

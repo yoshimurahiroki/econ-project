@@ -11,7 +11,7 @@ The lead permanently owns the question, adopted specification, decisions, integr
 | retriever | Search, extract, classify, compare recorded fields and convert formats through a settled procedure. |
 | specialist | Resolve the consequential hard core remaining after substantive lead attempts and cause-specific repair. |
 
-The parent chooses a role from the task, independence, workload and downstream use. It selects an available model and reasoning setting through the host's actual launch schema. Inherit the host model by default; apply a supported per-role override when selected. Local Codex or Claude configuration does not configure ChatGPT Work. Legacy Sol, Terra, Luna and Astra correspond to lead, implementer, retriever and specialist; names confer no additional authority. The existing OpenAI choices remain an explicit Codex preset through [configuration](../docs/ai/config-templates/README.md#native-roles-and-model-selection).
+The parent chooses a role from the task, independence, workload and downstream use, then uses the host's actual launch schema for model and reasoning settings. Inherit the host model by default; select a supported override when its capability, execution cost or completion time improves the assigned result. Role names do not select a model or confer authority. Local Codex or Claude settings do not configure ChatGPT Work. Legacy Sol, Terra, Luna and Astra map to lead, implementer, retriever and specialist; their explicit OpenAI presets remain in [configuration](../docs/ai/config-templates/README.md#native-roles-and-model-selection).
 
 A lead may assign an independent question to a child lead, bounded implementation to an implementer and settled retrieval to a retriever. An implementer may delegate related retrieval. A specialist may delegate calculations and retrieval required by its assigned core. A retriever cannot delegate. Normally use at most two delegation edges and the host's actual shared concurrency limit, including waiting parents and any bridge. Reserve capacity for a needed descendant. Without nesting or capacity, return the dependency to the parent for reassignment or sequential execution.
 
@@ -39,7 +39,7 @@ After an interrupted external write, inspect the same target and actual operatio
 
 ## Resumption
 
-Restore the original request, central problem, adopted constraints, authority, governing rule bodies, completed results and next authorized operation. Use summaries to locate their authoritative sources. Read changed text, text never read, and required bodies lost from active context. Preserve exact scope and priority; a summary or model change grants no amendment.
+Restore the original request, central problem, adopted constraints, authority, completed results and next authorized operation. Follow [CORE's required-reading contract](CORE.md#task-entry) for original rule bodies; summaries locate their sources. Preserve exact scope and priority across model changes.
 
 Reuse saved outputs only with matching consumed versions. Reconcile returns produced under earlier instructions before integrating them. When persistence is needed, use the [existing governing context](../harness/state.md#governing-context) and [saved-work lookup](../harness/state.md#find-saved-work). Preserve the source permitting an authorized amendment and update its affected consumers. Reuse an observed procedure only when its actual inputs and failure mechanism match the current task.
 

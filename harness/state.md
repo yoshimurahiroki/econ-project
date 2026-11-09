@@ -1,10 +1,10 @@
 # State, consumed dependencies and resumption
 
-Use only when durable state, saved-result reuse or resumption is needed. Inherit [CORE](../runtime/CORE.md) and the [completion contract](../runtime/EXECUTION.md#checks-and-completion). Ordinary work uses the host conversation and actual operation returns; select a local store when durable continuation needs it.
+Use this interface for durable state, saved-result reuse or resumption under [CORE](../runtime/CORE.md). [TEAM](../runtime/TEAM.md#resumption) owns recovery of the governing task, and [EXECUTION](../runtime/EXECUTION.md#checks-and-completion) owns operation completion.
 
 ## State and version contract
 
-Represent this task record in an existing store or conversation when tracking or resumption needs it. The local helper described below implements the file-backed form; ordinary answers need no state file.
+The local helper implements the file-backed form of the task record:
 
 - task_id, parent_id, owner: identify the task, parent dependency and one result owner.
 - operation_kind: answer, modify, create or external.
@@ -79,7 +79,7 @@ The explicit command records selection, the resolved contract, rule/skill closur
 
 PreToolUse classifies current native and connector tools and preserves the host's actual authority. Explicitly bound state or completion contracts retain their target, scope and hold checks. Ordinary operations need no additional state-registration approval. PostToolUse retains the actual callbacks and affected output versions needed by a selected completion contract. Stop compares that contract with its saved results; ordinary work follows CORE's integrated review and actual operation return. Failed or missing work remains incomplete, and child returns must reach the parent. Instruction changes are detected at their mutation or binding boundary. Compact/resume restores the complete original request, adopted specifications and applicable rule bodies. Explicitly selected independent certification retains its existing state-owner requirements.
 
-The existing reinjection record retains the manifest and operation/source closure. Common entry loads CORE, PROSE and their actual dependencies. Delegation and resumption activate TEAM through their registered conditions. Scoped AGENTS.md bodies are restored from their original paths or the existing closure record; complete same-version reads can be reused across bounded reads. An observed AGENTS.md creation, replacement or deletion refreshes the affected observed subtrees. Each closure lookup reads an ancestor candidate once; each callback shares its loaded modules and starts with a fresh module snapshot. Unchanged operational records retain their existing bytes. Task entry, changed instructions, failure, compaction, recovery and delegation deliver the complete applicable bodies and original request. Compact/resume restores their full text before dependent work. A cached verification records the source binding; the owner reads the required bodies.
+The existing reinjection record retains the manifest and operation/source closure selected under [CORE's task entry](../runtime/CORE.md#task-entry). Delegation and resumption activate TEAM through their registered conditions. Scoped AGENTS.md bodies are restored from their original paths or the existing closure record. An observed AGENTS.md creation, replacement or deletion refreshes the affected observed subtrees. Each closure lookup reads an ancestor candidate once; each callback shares its loaded modules and starts with a fresh module snapshot. Unchanged operational records retain their existing bytes. Entry, binding, compaction recovery and delegation deliver the applicable bodies and original request through their callbacks. A cached verification records the source binding; CORE owns the complete-reading obligation.
 
 `PostCompact` records pending restoration in the existing reinjection record using the host's stop/message contract. There is no PreCompact registration. `SessionStart(source=compact)` delivers the full restoration and clears the pending state. Keep exact host event/trigger identities and the actual spill-file locator. Read the complete original request and required rule bodies from their saved sources before dependent work; a callback, saved snapshot or reading receipt supplies no omitted text.
 
@@ -210,7 +210,7 @@ The explicit update, typed field editing, connector-envelope handling and owner/
 
 ## Resumption and migration
 
-Restore saved artifacts and compare their versions and governing definitions. Recover the last consumed input and output identities before deciding which work remains. Preserve original records and outputs. Read [State migration](../docs/ai/integration.md#state-migration) only for a requested migration.
+Use [TEAM's resumption contract](../runtime/TEAM.md#resumption) with the saved consumed-input, output and governing-definition identities above. Read [State migration](../docs/ai/integration.md#state-migration) only for a requested migration.
 
 For a formerly completed task with no recoverable assessment target versions, preserve its outputs and reconcile the actual requested result and its source versions. Carry any explicitly selected certification through its existing evidence owner. Respect holds and use [TEAM](../runtime/TEAM.md#resumption) for active assignments and continuation context.
 

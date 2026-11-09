@@ -193,11 +193,7 @@ Expected output: the two bars start at zero and end at 40 and 60 percent. The ca
 
 ## Connect the prose
 
-Build a paragraph around its economic proposition and the evidence or derivation establishing it. Explain the relation between successive propositions through the actual actor, change, mechanism and result. Put a premise where the reader first needs it. A transition should advance the inference through concrete content.
-
-Use the requested language's natural syntax. In Japanese, form the complete spoken explanation, assign clear subjects and use established economic terms. In English, prefer direct verbs and consistent nouns for the same object. Preserve the author's effective wording and adopted vocabulary in scoped revision. For translation, keep exact quantities, comparisons, equations and citations while restructuring sentence boundaries to preserve the argument in the target language.
-
-Connect sections through the question raised by the preceding result. An intervention's effect on purchases leads to a claim about total use through the study's actual evidence on substitution or its specified behavioral model. Supply that relation before carrying the conclusion into the abstract or a policy passage. Apply PROSE's affirmative exposition throughout.
+Apply [PROSE's explanation](../../../runtime/PROSE.md#connect-the-explanation) and [language rules](../../../runtime/PROSE.md#revise-for-the-requested-language) to paragraph claims, evidence, transitions and natural Japanese or English. Preserve effective author wording, terms, quantities, equations and citations within the editing scope. A section transition supplies the relation turning its preceding result into the next claim: purchases become total use through the adopted substitution evidence or behavioral model. Establish that relation before using the conclusion in an abstract or policy passage.
 
 ## Revise the integrated manuscript
 

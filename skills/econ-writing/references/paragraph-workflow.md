@@ -30,7 +30,7 @@ Write the completed paragraph that establishes its assigned claim and connects w
 
 ## D. Local Quality Control
 
-Resolve the local claim, source correspondence and wording as part of composition. The completed text's integrated review includes each paragraph's meaning, mechanism and expression. A separate automated check follows CORE's three-condition rule.
+Resolve the local claim, source correspondence, mechanism and wording during composition, then include that text in the single review under [Global Integration](#f-global-integration). CORE governs any additional automated check.
 
 ## E. Section Integration
 
@@ -40,7 +40,7 @@ Integrate returned passages by matching their actors, population, period, estima
 
 ## F. Global Integration
 
-Perform the one substantive integrated editorial review on the finished long argument. Assess the central answer, source support, logical order, section and paragraph connections, prohibited rhetoric and natural language together. Reconcile the title, abstract, introduction, exhibits and conclusion with the body. Trace each compressed claim through the paragraph that establishes its necessary relation, preserving that relation in the finished wording. Repair each defect found and reread the affected passages with their connections until complete.
+Complete [PROSE's passage review](../../../runtime/PROSE.md#finish-the-passage) on the finished long argument, covering the answer, evidence, logical order, paragraph connections and expression. Reconcile the title, abstract, introduction, exhibits and conclusion with the body. Trace compressed claims through their establishing paragraphs; retain the relation each conclusion needs. Repair discovered defects and reread the affected passages and connections within that review.
 
 ## State, changes and resumption
 
@@ -50,7 +50,7 @@ Resume from the original request, applicable rule bodies and current canonical s
 
 ## Verification and comparison
 
-Use the smallest existing check that can change a material acceptance decision under CORE. Match final claims, quantities and comparisons to their actual source during the integrated review. Assess the entire argument under PROSE, including paraphrases and rhetorical function, within the same integrated review.
+Apply [CORE's completion rule](../../../runtime/CORE.md#completion-and-reporting) to additional checks. Source correspondence and PROSE judgment belong to the integrated review above, including paraphrases and rhetorical function.
 
 ## Command entry points
 

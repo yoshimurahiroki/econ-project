@@ -2,7 +2,7 @@
 
 Use this contract for requested file moves, complete multi-file outputs, staging, commits and external publication. [CORE](../runtime/CORE.md) owns authority, preserved inputs, integrated review and completion. [EXECUTION](../runtime/EXECUTION.md) owns ordinary file and computation operations. Existing authorization persists through the work.
 
-Complete the authorized destination through its actual returned operation. Preserve unrelated edits, user settings, original inputs, concurrent writers and destination ownership. A completed component leaves the parent's remaining outputs active.
+Use the actual destination operation under [CORE's completion contract](../runtime/CORE.md#completion-and-reporting). The boundaries below preserve destination ownership and concurrent writers through that operation.
 
 ## Complete-generation boundary
 

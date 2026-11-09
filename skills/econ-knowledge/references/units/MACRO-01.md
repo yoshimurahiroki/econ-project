@@ -2,7 +2,7 @@
 
 ## MACRO-01　Solowと成長会計
 
-生産 \(Y=K^\alpha(AL)^{1-\alpha}\)、貯蓄率 \(s\)、人口成長 \(n\)、技術成長 \(g\)、減耗 \(\delta\) を置く。効率労働当たり資本 \(k=K/(AL)\) の連続時間運動は
+生産 \(Y=K^\alpha(AL)^{1-\alpha}\)、\(0<\alpha<1\)、貯蓄率 \(0<s<1\)、人口成長 \(n\)、技術成長 \(g\)、減耗 \(\delta\ge0\)、\(n+g+\delta>0\) を置く。効率労働当たり資本 \(k=K/(AL)\) の連続時間運動は
 
 \[
 \dot k=sk^\alpha-(n+g+\delta)k,\qquad

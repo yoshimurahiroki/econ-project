@@ -6,7 +6,7 @@
 
 ## MACRO-01　Solowと成長会計
 
-生産 \(Y=K^\alpha(AL)^{1-\alpha}\)、貯蓄率 \(s\)、人口成長 \(n\)、技術成長 \(g\)、減耗 \(\delta\) を置く。効率労働当たり資本 \(k=K/(AL)\) の連続時間運動は
+生産 \(Y=K^\alpha(AL)^{1-\alpha}\)、\(0<\alpha<1\)、貯蓄率 \(0<s<1\)、人口成長 \(n\)、技術成長 \(g\)、減耗 \(\delta\ge0\)、\(n+g+\delta>0\) を置く。効率労働当たり資本 \(k=K/(AL)\) の連続時間運動は
 
 \[
 \dot k=sk^\alpha-(n+g+\delta)k,\qquad
@@ -21,7 +21,7 @@ k^*=\left(\frac{s}{n+g+\delta}\right)^{1/(1-\alpha)}.
 
 ## MACRO-02　Ramseyと資本の影価格
 
-家計は \(\int_0^\infty e^{-\rho t}u(c_t)dt\) を最大化し、\(\dot k=f(k)-c-\delta k\) に従う。\(u(c)=c^{1-\sigma}/(1-\sigma)\) なら最適条件は
+家計は \(\int_0^\infty e^{-\rho t}u(c_t)dt\) を最大化し、\(\dot k=f(k)-c-\delta k\) に従う。\(\rho>0,\sigma>0,c>0\) とし、\(\sigma\ne1\) では \(u(c)=c^{1-\sigma}/(1-\sigma)\)、\(\sigma=1\) では \(u(c)=\log c\) を使う。内点の最適条件は
 
 \[
 \frac{\dot c}{c}=\frac{f'(k)-\delta-\rho}{\sigma}.

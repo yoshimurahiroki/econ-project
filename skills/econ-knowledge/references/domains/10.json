@@ -150,7 +150,9 @@
         "STAT-01"
       ],
       "related": [
-        "WELFARE-04"
+        "WELFARE-04",
+        "STAT-07",
+        "FORECAST-06"
       ],
       "subdomain": "薬剤、特許と費用対効果",
       "title": "薬剤、特許と費用対効果",

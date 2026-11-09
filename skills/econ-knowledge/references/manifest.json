@@ -1,43 +1,43 @@
 {
-  "catalog_sha256": "b0bbb483327632c3fa414e6e322c3869d4b8d61f1a91d48c46c7195109c3013d",
+  "catalog_sha256": "2cf1b194df862a9d1e300d70d1fcb5cedee0c17cad6f933d57af82ae04ac3557",
   "chapters": {
     "chapters/01-mathematics.md": "ad6c9b44265c173099dc8431eeeab3be35c5e794e0fea6d361f1db79f9edd420",
     "chapters/02-probability-statistics.md": "7ae10149bc1422aa30780bb39c983e84e2299cbeab143033e0e6fccc31ad5d9f",
-    "chapters/03-microeconomics.md": "02cb38aec34282d01a011181899614db46f0bdb1a152e8ae5e857e0beceee411",
+    "chapters/03-microeconomics.md": "3af89cc8584e73d1ab7e478154e8903c148f6b4006cc68dee374bc92275b7a6e",
     "chapters/04-games.md": "4178a534a7edc94e8f8171c990fe3a3317532a663d180b6d18fe798f9d00ca1d",
-    "chapters/05-information-behavior.md": "d1a4b1eb47d2a4ccf19bd7ba2396d9ef03006720e26ab0d57588870286d0aed3",
-    "chapters/06-contracts-organization.md": "6d27581e2d9dbd41ad31d1b34f92889667d82503d19a4dec8b978503cb78d7ca",
+    "chapters/05-information-behavior.md": "a0bbc04095831285cfe9b31848445f3e04ae7e5d812291105349127b4b7069b0",
+    "chapters/06-contracts-organization.md": "7b2fdadb54ed54e2191d20d74783cb7db75aaa30c6ce9c772f86c7dcacf2e576",
     "chapters/07-market-design.md": "4be072d54bf8ff2443b41f024b03a235cdd1c04f4a2845f1024a5a8f734df141",
     "chapters/08-networks.md": "a0565bae26bbabfc801cb3e4690ff30eb2d68102d2ec0787d980cf216de71780",
-    "chapters/09-dynamic-computation.md": "db8b6c681e4cd91a8af48d721017b016d7662d059d00a84b144136fab004d524",
+    "chapters/09-dynamic-computation.md": "31421389985f69546e8bfdbad66066f4dda2c63909e8a705e26ecf0a49f4f40f",
     "chapters/10-econometrics.md": "1869b318b86a462d7826c97a3c305a4538ea5ba43df8997193e59dce7ea11a91",
-    "chapters/11-causal-designs.md": "318ff1f5ba8613a6d3ad7e6172278fe02ba964c5c3fc0b95a1779acf8edb8b1b",
+    "chapters/11-causal-designs.md": "6ef2f8381c856087af575befa7bef8997a8af9be6b94da1ffb46557daa0cbce8",
     "chapters/12-causal-extensions.md": "c22cd5b705848d234aecb84956b3d0ce340dd015cb3f23bd0539a4e8950beb5a",
-    "chapters/13-time-series.md": "18bceae61ee353d4a47f62634b4a7e2a4dfa7629ca47fad2bf5fb97ed4ced668",
-    "chapters/14-structural-estimation.md": "1a45f2fcf53a0fb96bdc8000c037b3dbe4ee9ffe21f6adf5600d7372e500c61a",
-    "chapters/15-demand-production.md": "e85aac4b90f2e6ea8a3d3613b0fa40e1a9196e43ddcc718ddf196dd6096741ad",
+    "chapters/13-time-series.md": "c350cd149a4a65ed58d902ff0c13d7fd4919fdca5ea0a62c6a0b047a6916894e",
+    "chapters/14-structural-estimation.md": "c834c03bfc9cc4a5024ebfc4b1fb21407f4c678cf5dec4afc893420637a5937c",
+    "chapters/15-demand-production.md": "59c885c6983b1caf0d6580712d29c981bb08a959b0efd082ca6ff3d60cf67886",
     "chapters/16-competition-platforms.md": "462223041dfbf8cb9ed51b3682ea439f385b9651bddf1905f5738c10d58dee0b",
-    "chapters/17-growth-macro.md": "be521776f869121fd2972626d16078d379c7aa5a7756d5a45e4349b0d33fab54",
+    "chapters/17-growth-macro.md": "3acea46566df63521dbbf82665066ba48875b1f4b8b6c2fce7b8c0ea79b423b2",
     "chapters/18-monetary-open-macro.md": "7e32b42e0b7023b836a2a97a13843a38554282ff890825d812bcba16abefc259",
     "chapters/19-heterogeneous-macro.md": "7cc8c71792b028aee886c82f042769b195b8c3520e81d67924b893b5bb45ff06",
-    "chapters/20-asset-pricing.md": "71de5e585ef265cb7044c9e2f0d8846139b01f8c962dcaf9b7daafe271f497d2",
-    "chapters/21-corporate-banking.md": "b7c1fda54b7c411b26034148a6df647630a98fbb05e3b598c728111557dd8b57",
+    "chapters/20-asset-pricing.md": "42422abe1c5694465422d5530452d08980cb484245ba475554fd2c67497dbbbd",
+    "chapters/21-corporate-banking.md": "20b11cf3a77d0a6226d70526f7e7469b566f6804c1ef474f137ac26db067f0cb",
     "chapters/22-labor-demography.md": "f240acd3e1155914479c3b80450caee7ffb1fa7626e2d5adc44fdbd67d4a2971",
     "chapters/23-public-economics.md": "ffe4b1e77305bd1ac8969728257dc37e2312e97397c728122170fe62c97579aa",
-    "chapters/24-spatial-housing-transport.md": "5aad382fb622fe97506c2be5b70261d3e2bec59933c3adb58131c614c22cf412",
-    "chapters/25-trade-globalization.md": "2c23bc4e9ad29c7a6884ef23897f1a2ac084969ef88d8cb1b52afd7df8d9d87b",
-    "chapters/26-health-education.md": "2c94c4051ce0b9c555e523b419c35785a2bbb3b23091ab83d937a54f6c5e2104",
+    "chapters/24-spatial-housing-transport.md": "358077db1865c4b8321cf632c57bfd2d110c73e8a5741cb3bd975af08e67294a",
+    "chapters/25-trade-globalization.md": "555cdd73423baa7fde1f542f3a2df7fccd0766839b40c3f46b5e98e0c5874597",
+    "chapters/26-health-education.md": "0b4aec79bc13efe36a959e7674ec1e0fc2d1cc134d65a8015ba3dd56bb2cd3a5",
     "chapters/27-development-agriculture.md": "4e2bf9a32b063b22b1fa637025272d8a115def2e5079cf3ebbf725013265848c",
     "chapters/28-environment-energy.md": "f4944b33919661f4bb341cb21d489285125dc2ac17d3ba008ed053000d600ddf",
     "chapters/29-political-law-institutions.md": "ba6c55a883b073d29e7a45c921b077a4823f12e18e9b0d92fe6dc2c380ce566a",
-    "chapters/30-innovation-history-marketing.md": "10d64927b61f64bf19cc337399fcaa0d4fcc87f4dabdb707e7c14727125d19bd",
-    "chapters/31-forecasting-decisions.md": "854a38fb0fc1e8f07dc65146095360e96f9dde0139bf32948bff18410c875c50",
-    "chapters/32-welfare-policy.md": "32f68ca06758831c1d683b5765c6b839fa2b56fb6cb7862c00e33485774c548b",
+    "chapters/30-innovation-history-marketing.md": "78df7044f43f87c1569dafce7a82006d4cc4d947ea6f33576883d68ca0e86a7d",
+    "chapters/31-forecasting-decisions.md": "837400393de8405e2bd150229f577706c7492ac1a506773eea574f776166034e",
+    "chapters/32-welfare-policy.md": "914a2eabbe27dcf5fc8a9e6d6f2980ca51063fd348a631d4581e34236f09c14c",
     "chapters/33-numerical-simulation.md": "0dc59af4bc678bb15deafdb0deccab9a843612fa3fbb802abd9a759170f724d4",
-    "chapters/34-integrated-cases.md": "e3cbc05669e1fc81ecbe7b94afdf53b6731768b3ba8b1c795f21b11c1956136b",
+    "chapters/34-integrated-cases.md": "79ce9f77c075238a2a2bf14204be6d276a5a71a393f6b430ebcaeaafd2ba926c",
     "chapters/35-measurement-aggregation.md": "bb2fb9707bba7c7883ee9931b1abe5b565daf6bac5e4b3cc94f39af85b24a071"
   },
-  "domain_listing_sha256": "1d6f13389e390aa4e94aed8c8b746a3fa2f69144d66966864e8f6dbbe64d6d11",
+  "domain_listing_sha256": "d9cbeb4a1db9d2fe185a93f16f74310927d80386dd2d7db22acd89b0d45c24e3",
   "domains": {
     "ゲーム": {
       "count": 9,
@@ -57,12 +57,12 @@
     "予測意思決定": {
       "count": 8,
       "path": "domains/04.json",
-      "sha256": "5ed5066238edaf3705662ea68d3e42231da3878dee5144bca18b7d5a6f3e593f"
+      "sha256": "ea906851ebd3c00990adf97bdf166bfb229e221fe7f8eabe770abd27163746a1"
     },
     "企業金融銀行": {
       "count": 8,
       "path": "domains/05.json",
-      "sha256": "647d4ff8578ff76f68fa221f80384849132949f258865ee2930ea0b988ecd790"
+      "sha256": "f22fc7855303d4824f32183dfd17c6f47b4031a039fd29a946a50f06b03677a4"
     },
     "公共": {
       "count": 6,
@@ -87,7 +87,7 @@
     "医療教育": {
       "count": 7,
       "path": "domains/10.json",
-      "sha256": "51c5e27d63a418d1d70657a8f0d0d316f55f3524677937ad9b95ccbbec1640df"
+      "sha256": "509000de1b072d1d03ddb34444fd8b4b2894779e04c0b527017b5ddf1a114813"
     },
     "厚生政策": {
       "count": 7,
@@ -97,7 +97,7 @@
     "因果デザイン": {
       "count": 7,
       "path": "domains/12.json",
-      "sha256": "ef9913cb9e554d24085e989db336ed1616ea4808091e35d3f9ab4290b398435c"
+      "sha256": "ef09747f35dd7aea3e2349428fdd87922d6c35e0f50f3c54f82a057e01e66297"
     },
     "因果拡張": {
       "count": 8,
@@ -117,7 +117,7 @@
     "情報行動": {
       "count": 8,
       "path": "domains/16.json",
-      "sha256": "35cd25b2f3ceca65cfe0a08a0d01617aa6274aca6e28632093942b865b8eada9"
+      "sha256": "f0b242af355483a30c5bed25549cee752306622e439d74c9982e9fcd90b367f2"
     },
     "成長マクロ": {
       "count": 6,
@@ -142,7 +142,7 @@
     "時系列": {
       "count": 8,
       "path": "domains/21.json",
-      "sha256": "f0ebb3010741e5ebba17263cc23752e42882e33fc01bcfd6dc986bc482ea82c0"
+      "sha256": "8fdd73c585c5cffb6bf2062197efd7977e032adb2f2c2dc9c811c24d0654df35"
     },
     "構造推定": {
       "count": 7,
@@ -172,7 +172,7 @@
     "確率統計": {
       "count": 9,
       "path": "domains/27.json",
-      "sha256": "db42bfa209ea7046597322d7c14ed8f2db9b6257db1d830af393afcd6daf0388"
+      "sha256": "9fa76f649a09d6255207c697585b3d8e9ae72d957814b4b383ebdbd583ecb4a6"
     },
     "計量": {
       "count": 10,
@@ -187,7 +187,7 @@
     "資産価格": {
       "count": 6,
       "path": "domains/30.json",
-      "sha256": "a5967a855d6cb20e41868ad8b4db1c4ddf4658df2f15541ec433311248627d3c"
+      "sha256": "93c1737d4c08412a7144e55eddb11cd7a083ad12b80f9345e226a3ab570a3629"
     },
     "都市住宅交通": {
       "count": 6,
@@ -207,26 +207,26 @@
     "需要生産": {
       "count": 7,
       "path": "domains/34.json",
-      "sha256": "9133df08f7102b883739d190b52975a1033f19e76c48faee6347a4b5e7e20634"
+      "sha256": "1878dafb7226c99efe8b4a3f3ec5c7bf84f0c0f4a7f15dd83c5a385a04b64cad"
     },
     "革新歴史広告": {
       "count": 6,
       "path": "domains/35.json",
-      "sha256": "10ba2904809f86cfcaa68bd388e24d2a20389a3e6699621f4593c97e27960f0b"
+      "sha256": "42e3685a6900baabe492141f8665faa5010a3df49b250bcc85c93a776611084f"
     }
   },
   "semantic_assets": {
     "lexicon.json": {
       "path": "lexicon.json",
-      "sha256": "0f32274d027f4dcd8edce48c40fb3f1f800d8fe4fc11a6ba90ef37a4a4b5777b"
+      "sha256": "8378c72378617c9e9ce63098e6dcd4730160522c5eadd0dc8732c713baf59af8"
     },
     "model-contracts.json": {
       "path": "model-contracts.json",
-      "sha256": "7cc967d878b360feaabdcc1f12eacf33ca08f98ac7e40de2ab3c722721563165"
+      "sha256": "d0509b1818018511b0b97d25642bef6af40185cb990c27f0fd66471bdfaba88d"
     },
     "relations.json": {
       "path": "relations.json",
-      "sha256": "083341c03fc6cc9ddb3c34c415d904149cdaff0dfea56d2924fa2a44bb32bf3a"
+      "sha256": "7cd38819f6a5906a3b7885546cb0d1f85329c1bf90c13716cb20054300415dbf"
     }
   },
   "spec_version": "knowledge-v2",
@@ -307,7 +307,7 @@
       "chapter": "chapters/20-asset-pricing.md",
       "domain": "資産価格",
       "path": "units/ASSET-05.md",
-      "sha256": "6ef3e6e8a166b56d730f4996aa8e1ef9632e1c8559b8adf2eea77d7484c1a1b7"
+      "sha256": "758fc09707a6cb1bc6848e6bc7d0fe7dbb9187a9c11c3c862d4cc0bb2118f109"
     },
     "ASSET-06": {
       "chapter": "chapters/20-asset-pricing.md",
@@ -343,13 +343,13 @@
       "chapter": "chapters/34-integrated-cases.md",
       "domain": "分野横断例題",
       "path": "units/CASE-05.md",
-      "sha256": "f2dc3b97854dfd8db534e6f7d938844aa033d8930f9fae8937501a0134642d3b"
+      "sha256": "e22202620e6e5f886cdd85b37f9ba03b788a8a070228f910dff4f51b8d8e5f83"
     },
     "CAUSAL-01": {
       "chapter": "chapters/11-causal-designs.md",
       "domain": "因果デザイン",
       "path": "units/CAUSAL-01.md",
-      "sha256": "bef390b3aa5b01d35fab42f5b5fd4153be592364001b9bd00e5bae8e8f117be6"
+      "sha256": "1514cee1ec567bdc791d0478272731554c182bfb0ac82715ce67d020161ea14e"
     },
     "CAUSAL-02": {
       "chapter": "chapters/11-causal-designs.md",
@@ -397,7 +397,7 @@
       "chapter": "chapters/06-contracts-organization.md",
       "domain": "契約組織",
       "path": "units/CONTRACT-02.md",
-      "sha256": "0eac10d67871fd3f70b0d5a3b9a175663badf101558d36a7e9d5b3f56307b49b"
+      "sha256": "96df28087cacad3af7b8e3185d3058ae5bd7e05c1d37d267bc23e6b763f893ba"
     },
     "CONTRACT-03": {
       "chapter": "chapters/06-contracts-organization.md",
@@ -433,7 +433,7 @@
       "chapter": "chapters/06-contracts-organization.md",
       "domain": "契約組織",
       "path": "units/CONTRACT-08.md",
-      "sha256": "372655c7ae7f35995749b6b56e76e02cb4b4d0d6cd0f616b0b6565294980ada3"
+      "sha256": "b2089b73dbd6321e1c760f40fdcd565314a71d2e86aa1c9a91092dd0fc29053c"
     },
     "CONTRACT-09": {
       "chapter": "chapters/06-contracts-organization.md",
@@ -463,7 +463,7 @@
       "chapter": "chapters/15-demand-production.md",
       "domain": "需要生産",
       "path": "units/DEMAND-04.md",
-      "sha256": "64fd1052de9ed5110a04199235e87dcec29ccefcbe799dd91abdabd5f08bfa60"
+      "sha256": "835644a9604dbbbf85e757d48c8dc6c2422973d747a2b67bce2fffc19ce50a76"
     },
     "DEMAND-05": {
       "chapter": "chapters/15-demand-production.md",
@@ -601,7 +601,7 @@
       "chapter": "chapters/09-dynamic-computation.md",
       "domain": "動学計算",
       "path": "units/DYN-05.md",
-      "sha256": "b7eb069996777b76136a99ea6c9901563e6f34ed7153e02fe31ec8ba224224bb"
+      "sha256": "d3d440b8f043c8c6ff8e04f1168f20629d00b94af8d3dfe6d620903ba6068b1b"
     },
     "DYN-06": {
       "chapter": "chapters/09-dynamic-computation.md",
@@ -739,7 +739,7 @@
       "chapter": "chapters/21-corporate-banking.md",
       "domain": "企業金融銀行",
       "path": "units/FINANCE-03.md",
-      "sha256": "cdf3839bc5f58b5e450bb995ea09599887575e5ed099600da7341e924ec33884"
+      "sha256": "21a4d82a001a265ea3fb165d4f665d16e7e770965fa06665305d232d9e8f9410"
     },
     "FINANCE-04": {
       "chapter": "chapters/21-corporate-banking.md",
@@ -769,7 +769,7 @@
       "chapter": "chapters/21-corporate-banking.md",
       "domain": "企業金融銀行",
       "path": "units/FINANCE-08.md",
-      "sha256": "18e984db4604b727f507ad6f111d819ec89635cd127d4272bfb1aebcab78ed68"
+      "sha256": "92509f185c25ea12c731588c32a23e34db210886dabf798d0f9689c6892cc11f"
     },
     "FORECAST-01": {
       "chapter": "chapters/31-forecasting-decisions.md",
@@ -805,7 +805,7 @@
       "chapter": "chapters/31-forecasting-decisions.md",
       "domain": "予測意思決定",
       "path": "units/FORECAST-06.md",
-      "sha256": "fdaffb27f15d52cad9d8b3aea0a60318494d45a0b169bcd11f67446422cb4408"
+      "sha256": "583e918583d32b211afea4b7b698cf57928519adec1dbf9f35afb101cabfbe6c"
     },
     "FORECAST-07": {
       "chapter": "chapters/31-forecasting-decisions.md",
@@ -895,7 +895,7 @@
       "chapter": "chapters/26-health-education.md",
       "domain": "医療教育",
       "path": "units/HEALTH-04.md",
-      "sha256": "97bf9c95121d60692df7da8c7c3dee1ecdd30b76147eb674b8a9222f3349a2f4"
+      "sha256": "ca838e695baa8cf55f1cc623ccb88323805f85da079b44a1c976c168ba9a98fb"
     },
     "HEALTH-05": {
       "chapter": "chapters/26-health-education.md",
@@ -961,7 +961,7 @@
       "chapter": "chapters/05-information-behavior.md",
       "domain": "情報行動",
       "path": "units/INFO-02.md",
-      "sha256": "7fa4e4c31a04068a52f981931408c557d2b19ff0651ab9acc917cae3efed6653"
+      "sha256": "11b317271f8a990eb1802f14fe1951a8aacb5b0c11094bb0d3fc0abcb172d563"
     },
     "INFO-03": {
       "chapter": "chapters/05-information-behavior.md",
@@ -1015,7 +1015,7 @@
       "chapter": "chapters/30-innovation-history-marketing.md",
       "domain": "革新歴史広告",
       "path": "units/INNOV-03.md",
-      "sha256": "7c6aed1cb376d02cf1447aa4450cb1c16c2bfb4cdd2d0deb278e95307d729794"
+      "sha256": "beb2164f8fd648eac0a32365e85372d0458ba0563485940c77c6328565f72137"
     },
     "INNOV-04": {
       "chapter": "chapters/30-innovation-history-marketing.md",
@@ -1123,13 +1123,13 @@
       "chapter": "chapters/17-growth-macro.md",
       "domain": "成長マクロ",
       "path": "units/MACRO-01.md",
-      "sha256": "a3e739a8a4551f05098c87be002cf9727d21b5ef746a9a57ca6c36efef6996e2"
+      "sha256": "720fdf8e88ebbde777dba5e1e7931e19ac9d527278094fceb0f6061fc91a6019"
     },
     "MACRO-02": {
       "chapter": "chapters/17-growth-macro.md",
       "domain": "成長マクロ",
       "path": "units/MACRO-02.md",
-      "sha256": "a74c172515c13cf5598a6f32e38d7372cdeea27785776750ed20936c45823936"
+      "sha256": "4255135b29ac68e57acbc3fddbafd1bfbb92ce4b6ace13b213248ed1896789f1"
     },
     "MACRO-03": {
       "chapter": "chapters/17-growth-macro.md",
@@ -1279,7 +1279,7 @@
       "chapter": "chapters/03-microeconomics.md",
       "domain": "ミクロ理論",
       "path": "units/MICRO-04.md",
-      "sha256": "04670edd3996d9d9a0c19704ae0806209640d61da0d3aba7a9fe8df23bf7ca31"
+      "sha256": "40d63a006707a6af04622e3a513db7d1accb1207f5227ea100a514a34d7a08ec"
     },
     "MICRO-05": {
       "chapter": "chapters/03-microeconomics.md",
@@ -1531,7 +1531,7 @@
       "chapter": "chapters/24-spatial-housing-transport.md",
       "domain": "都市住宅交通",
       "path": "units/SPATIAL-04.md",
-      "sha256": "164422e641809d021ee9da0eca274b941617c68b0e1d30e56743ed99f8451131"
+      "sha256": "cad55faa6588469d50444fa7c324d9a8f6c3c8b55ed46e63de12602576b69916"
     },
     "SPATIAL-05": {
       "chapter": "chapters/24-spatial-housing-transport.md",
@@ -1615,7 +1615,7 @@
       "chapter": "chapters/14-structural-estimation.md",
       "domain": "構造推定",
       "path": "units/STRUCT-03.md",
-      "sha256": "7c37a8a5c65627650d15da18425a58e19e7814093bb27be415a4d720708251a0"
+      "sha256": "575bdfdc63071a91678f1cac4afc7365150ebc1b90cf0f2e4ab869b56cb9d73d"
     },
     "STRUCT-04": {
       "chapter": "chapters/14-structural-estimation.md",
@@ -1669,7 +1669,7 @@
       "chapter": "chapters/25-trade-globalization.md",
       "domain": "貿易",
       "path": "units/TRADE-05.md",
-      "sha256": "d5bf411cddff24056b9b5cb066bf1abb30f252f58bf0fc197b81b1c33daf6457"
+      "sha256": "cc230868c2e77b74984d0cc00c4eb7e873933525d061bc815d8537a62500d398"
     },
     "TRADE-06": {
       "chapter": "chapters/25-trade-globalization.md",
@@ -1723,7 +1723,7 @@
       "chapter": "chapters/13-time-series.md",
       "domain": "時系列",
       "path": "units/TS-08.md",
-      "sha256": "7fb082553aa617ee5f6eacec172087cce0e1e6adac14f9096ab7ddb754021990"
+      "sha256": "efc93d79ce93d9af66d3aad84da4d1d247829be52c1d663bd317168fc5c932d6"
     },
     "WELFARE-01": {
       "chapter": "chapters/32-welfare-policy.md",
@@ -1747,7 +1747,7 @@
       "chapter": "chapters/32-welfare-policy.md",
       "domain": "厚生政策",
       "path": "units/WELFARE-04.md",
-      "sha256": "10f33e6b3d9a739f9e400985fcceddb2c43ae2fa2f8162d64a2217830118e450"
+      "sha256": "c5e84c367694e8989ec75db246da21a8228d7a83df7623e042a2132c6d6cbff9"
     },
     "WELFARE-05": {
       "chapter": "chapters/32-welfare-policy.md",

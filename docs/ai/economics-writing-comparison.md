@@ -1,6 +1,6 @@
 # Research methods and existing implementation owners
 
-Select the economic question, population, identified quantity and required inputs before choosing the calculation. Use this map to locate the current specialist contract. Those contracts own the complete equations, official API and result definitions. Development comparisons and historical execution reports are retained in Git history.
+Use this navigation map for an unresolved method choice under [DECIDE](../../runtime/DECIDE.md#source-integration-and-method-selection). The linked specialist contracts own the complete equations, official APIs and result definitions; retrieve their bodies through [CORE's task-entry protocol](../../runtime/CORE.md#task-entry). Development comparisons and historical execution reports remain in Git history.
 
 ## Empirical designs and policy decisions
 

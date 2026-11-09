@@ -1,3 +1,3 @@
 # Economics task entry
 
-Select the owner and mode from the [operation index](docs/ai/compiled_ai_skills.md) and obtain the complete operation contract and activated conditions. Before substantive work, read [CORE](runtime/CORE.md), [PROSE](runtime/PROSE.md), the complete selected skill/mode and every required rule body and dependency. Reuse same-version text still present in context. Retrieve knowledge, code and saved results for the selected operation and its dependencies. Follow CORE for execution and completion.
+Read [CORE](runtime/CORE.md) before substantive work. It owns authority, operation selection, complete-body reading and reuse, and completion. [PROSE](runtime/PROSE.md) owns expression. Retrieve the complete selected Skill/mode and activated prerequisites through that entry.

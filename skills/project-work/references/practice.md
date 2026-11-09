@@ -64,7 +64,7 @@ Use the argument's selected owner references and `project-impact --references` f
 
 Keep the preceding plan and argument at immutable versioned paths. A changed project binding uses the actual authorized amendment evidence; its previous and replacement hashes identify the adopted change. A proposal remains a proposal until its required decision occurs. Prepare that decision's options, economic effects, costs and execution consequences for the authorized actor. Source drift is reconciled before dependent work resumes.
 
-For an execution failure, compare the actual command, inputs and error with the producing code. Repair that cause, rerun its affected operation and inspect the requested output. Recover from interruption with the bound original request, current project definition and argument, authority, actual outputs and next operation. The existing hook restores the full project sources when its host supplies that boundary; obtain their complete bodies before continuing.
+Use [EXECUTION](../../../runtime/EXECUTION.md#complete-outputs-and-failure-propagation) for cause-specific repair and [TEAM resumption](../../../runtime/TEAM.md#resumption) to recover the bound request, project definition, argument, authority, outputs and next operation. The existing hook restores full project sources when its host supplies that boundary; obtain their complete bodies before continuing.
 
 ## Discussion and interviews
 

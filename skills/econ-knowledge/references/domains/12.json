@@ -153,7 +153,8 @@
         "C-CAUSAL-04",
         "C-CH-11",
         "C-ASSUMP-PARALLEL-TRENDS",
-        "C-TERM-PROPENSITY-SCORE"
+        "C-TERM-PROPENSITY-SCORE",
+        "C-TERM-DID"
       ],
       "contract_ids": [],
       "domain": "因果デザイン",

@@ -10,9 +10,7 @@ Retain the direct answer, economic mechanism, result and authorized operation. C
 
 Remove negative contrast and negative-definition framing. Define the object directly and name each finding's actor, operation, population and quantity. Apply this rule to titles, transitions, captions, translations, reviewer responses and examples. Preserve mathematical exclusions, observed absences and failed operations through their exact conditions, values and returned statuses.
 
-Research exposition presents the adopted economic argument and completed results. Keep planning commentary, temporary-placement language, prospective investigation, writing intentions and self-evaluation in an expressly requested operational artifact. Source gaps and failed operations retain their actual status in the owning record and any completion report that depends on them. Never add unsupported facts, estimates or completed actions.
-
-Preserve populations, quantities, units, source findings and calculation inputs in their authoritative records. Keep statistical diagnostics, identifying conditions and source-strength judgments internal; they govern model selection, calculation acceptance and action selection without becoming output passages or annotations. Deliver the resulting economic answer and actual operation status directly. Never invent a finding or strengthen a source claim during omission or compression.
+Research exposition presents the adopted economic argument and completed results. Keep planning commentary, temporary-placement language, prospective investigation, writing intentions and self-evaluation in an expressly requested operational artifact. Under CORE's record contract, retain source gaps and failed operations in the owning record and dependent completion report. Statistical diagnostics, identifying conditions and source-strength judgments govern internal selection and calculation acceptance. Deliver the economic answer and actual operation status directly; omission or compression cannot invent a finding, strengthen a claim or alter its population, quantities and units.
 
 ## Connect the explanation
 
@@ -42,7 +40,7 @@ Choose sentence and paragraph length from the argument. Join fragments establish
 
 ## Finish the passage
 
-The existing LLM performs CORE's one integrated judgment of the entire candidate. Trace evidence, logical dependencies, content selection, source correspondence and natural language. Judge rhetorical function in context while preserving scientific and source meaning. Repair defects and reread affected dependencies until complete.
+Within CORE's integrated review, the existing LLM traces evidence, logical dependencies, content selection, source correspondence and natural language. Judge rhetorical function in context while preserving scientific and source meaning; repair defects and reread affected dependencies.
 
 Use the lightweight lexical scanner only for a requested lexical check or a concrete defect meeting CORE's three conditions. A match locates text; the full proposition determines its function. Report corrected wording and the relevant positions when requested. Deliver the finished artifact and actual operation result.
 

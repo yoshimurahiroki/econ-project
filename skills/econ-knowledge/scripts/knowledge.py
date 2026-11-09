@@ -236,7 +236,7 @@ def normalize_semantics(catalog, base):
         return result
 
     concept_map = records(concepts, 'C')
-    relation_map = records(relations, 'R')
+    records(relations, 'R')
     contract_map = records(contracts, 'MC')
     if not concept_map or not jel:
         raise ValueError('Concepts and JEL mapping are required')
@@ -471,7 +471,6 @@ def normalize_semantics(catalog, base):
     for unit in normalized.values():
         for key in ('prerequisites', 'related', 'alternatives'):
             if len(unit[key]) != len(set(unit[key])): raise ValueError(f'Duplicate {key} edge')
-    closure(sorted(normalized), normalized)
     assets = {
         'lexicon.json': encoded_semantic({'spec_version': SEMANTIC_VERSION, 'concepts': concept_views, 'jel': jel}),
         'relations.json': encoded_semantic({'spec_version': SEMANTIC_VERSION, 'relations': relations,
@@ -794,6 +793,7 @@ class Reader:
         normalized = unicodedata.normalize('NFKC', query).casefold()
         exact_ids = {term.upper() for term in re.findall(r'[a-z0-9]+(?:-[0-9]+)?', normalized)
                      if ID.fullmatch(term.upper())}
+        exact_contract_ids = set(re.findall(r'(?<![a-z0-9_-])mc-[a-z0-9][a-z0-9_-]*', normalized))
         concept_labels, classifications, matched_concepts, matched_classifications = {}, {}, {}, {}
         jel_matches = set()
         if self.spec_version == SEMANTIC_VERSION:
@@ -848,7 +848,9 @@ class Reader:
             primary += 4 * sum(contains_term(text, term) for term in expanded)
             defining = sum(match['definition']['unit'] == u['id'] for match in matched_concepts.values())
             matched_codes = sorted(set(u.get('jel_codes', [])) & jel_matches)
-            ranked.append(((u['id'] in exact_ids or u['id'].casefold() == normalized,
+            exact = (u['id'] in exact_ids or u['id'].casefold() == normalized
+                     or any(item.casefold() in exact_contract_ids for item in u.get('contract_ids', [])))
+            ranked.append(((exact,
                             bool(matched_codes), primary > 0,
                             primary, defining, field_score),
                            {**u, 'matched_jel_codes': matched_codes}))

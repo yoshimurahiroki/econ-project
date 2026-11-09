@@ -20,3 +20,5 @@ FCFF_t=EBIT_t(1-\tau_t)+D\&A_t-Capex_t-\Delta NWC_t
 
 新規投資の採否は、現在の支出と投資が生む増分FCFFの現在価値を比較する。投下資本 \(IC_{t-1}\) に対する経済利益は \(EP_t=NOPAT_t-WACC\,IC_{t-1}\) である。定常成長では、同じリスク・税・会計調整の下で新規投資の増分ROICが資本コストを上回ると、再投資による成長が価値を増やす。既存資産の平均ROICと新規投資の収益率をそれぞれ求め、参入、模倣、価格競争による超過収益の縮小を期間別NOPATと再投資へ反映する。定常成長式の \(g/ROIC\) には新規投資の収益率を使い、売上だけを伸ばして設備・運転資本を固定する経路との採算差を元のFCFFで比較する。
 
+需要・費用・競争持続の係数を事後分布で持つ投資評価では、各同時標本の価格・数量・税・再投資をFCFFへ写し、その標本の割引と終端価値を計算してから現在価値を平均する。相関する成長率と割引率は同じ標本で組にする。現在の投資案は、候補ごとの増分価値を同じ情報と初期資産で比較して一つ選ぶ。情報取得や段階投資を選べる場合は[FORECAST-06](https://github.com/yoshimurahiroki/econ-project-mini/blob/main/skills/econ-knowledge/references/chapters/31-forecasting-decisions.md#forecast-06)の取得費用と行動期限、およびFINANCE-01の継続価値へ接続する。
+

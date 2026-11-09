@@ -5,31 +5,31 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.81.0"
+      "content_version": "0.84.0"
     },
     "prose": {
       "resource_id": "prose",
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "0.81.0"
+      "content_version": "0.84.0"
     },
     "research": {
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.50.0"
+      "content_version": "0.84.0"
     },
     "execution": {
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0"
+      "content_version": "0.84.0"
     },
     "team": {
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "0.73.0"
+      "content_version": "0.84.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
@@ -53,7 +53,7 @@
       "resource_id": "econ-writing",
       "source_path": "skills/econ-writing/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.81.0"
+      "content_version": "0.84.0"
     },
     "econ-review": {
       "resource_id": "econ-review",
@@ -65,7 +65,7 @@
       "resource_id": "design-methods",
       "source_path": "skills/econ-design/references/designs.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0"
+      "content_version": "0.84.0"
     },
     "data-implementation": {
       "resource_id": "data-implementation",
@@ -104,7 +104,7 @@
       "resource_id": "paper-workflow",
       "source_path": "skills/econ-writing/references/paper-workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0"
+      "content_version": "0.84.0"
     },
     "review-methods": {
       "resource_id": "review-methods",
@@ -122,13 +122,13 @@
       "resource_id": "examples-en",
       "source_path": "profiles/default-micro/short-examples-en.md",
       "resource_kind": "example",
-      "content_version": "0.57.0"
+      "content_version": "0.84.0"
     },
     "examples-ja": {
       "resource_id": "examples-ja",
       "source_path": "profiles/default-micro/short-examples-ja.md",
       "resource_kind": "example",
-      "content_version": "0.57.0"
+      "content_version": "0.84.0"
     },
     "extended-en": {
       "resource_id": "extended-en",
@@ -152,7 +152,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.81.0",
+      "content_version": "0.84.0",
       "sync": false
     },
     "resource-guide": {
@@ -193,14 +193,14 @@
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "0.81.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.81.0"
+      "content_version": "0.84.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
@@ -291,13 +291,13 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0"
+      "content_version": "0.84.0"
     },
     "publication": {
       "resource_id": "publication",
       "source_path": "harness/publication.md",
       "resource_kind": "rule",
-      "content_version": "0.75.0"
+      "content_version": "0.84.0"
     },
     "tool-init": {
       "resource_id": "tool-init",
@@ -310,19 +310,19 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.81.0"
+      "content_version": "0.84.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.81.0"
+      "content_version": "0.84.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
       "source_path": "registry/placements.json",
       "resource_kind": "registry",
-      "content_version": "0.79.0"
+      "content_version": "0.84.0"
     },
     "prose-check-guide": {
       "resource_id": "prose-check-guide",
@@ -350,7 +350,7 @@
       "resource_id": "local-checks-guide",
       "source_path": "harness/local_checks.md",
       "resource_kind": "rule",
-      "content_version": "0.73.0"
+      "content_version": "0.84.0"
     },
     "requirements-check": {
       "resource_id": "requirements-check",
@@ -377,7 +377,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.81.0"
+      "content_version": "0.84.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -407,7 +407,7 @@
       "resource_id": "codex-hooks",
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.81.0",
+      "content_version": "0.84.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -443,7 +443,7 @@
       "resource_id": "config-template-readme-md",
       "source_path": "docs/ai/config-templates/README.md",
       "resource_kind": "rule",
-      "content_version": "0.75.0"
+      "content_version": "0.84.0"
     },
     "config-template-claude-mcp-example-json": {
       "resource_id": "config-template-claude-mcp-example-json",
@@ -467,13 +467,13 @@
       "resource_id": "plugin-integration-guide",
       "source_path": "docs/ai/plugin-integration.md",
       "resource_kind": "support",
-      "content_version": "0.74.0"
+      "content_version": "0.84.0"
     },
     "paragraph-workflow": {
       "resource_id": "paragraph-workflow",
       "source_path": "skills/econ-writing/references/paragraph-workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.61.0"
+      "content_version": "0.84.0"
     },
     "paragraph-engine": {
       "resource_id": "paragraph-engine",
@@ -613,7 +613,7 @@
       "resource_id": "research-execution",
       "source_path": "harness/research.md",
       "resource_kind": "rule",
-      "content_version": "0.81.0",
+      "content_version": "0.84.0",
       "required_resources": [
         "research-runner",
         "research-estimator",
@@ -811,7 +811,7 @@
       "resource_id": "models-markets",
       "source_path": "skills/econ-design/references/market-models.md",
       "resource_kind": "rule",
-      "content_version": "0.62.0",
+      "content_version": "0.84.0",
       "required_resources": [
         "research-markets"
       ]
@@ -1054,7 +1054,7 @@
       "resource_id": "knowledge-retrieval",
       "source_path": "skills/econ-knowledge/scripts/knowledge.py",
       "resource_kind": "support",
-      "content_version": "0.81.0",
+      "content_version": "0.84.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -1063,7 +1063,7 @@
       "resource_id": "knowledge-catalog",
       "source_path": "skills/econ-knowledge/references/catalog.json",
       "resource_kind": "support",
-      "content_version": "0.81.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-01": {
@@ -1084,7 +1084,7 @@
       "resource_id": "knowledge-chapter-03",
       "source_path": "skills/econ-knowledge/references/chapters/03-microeconomics.md",
       "resource_kind": "support",
-      "content_version": "0.29.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-04": {
@@ -1098,14 +1098,14 @@
       "resource_id": "knowledge-chapter-05",
       "source_path": "skills/econ-knowledge/references/chapters/05-information-behavior.md",
       "resource_kind": "support",
-      "content_version": "0.30.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-06": {
       "resource_id": "knowledge-chapter-06",
       "source_path": "skills/econ-knowledge/references/chapters/06-contracts-organization.md",
       "resource_kind": "support",
-      "content_version": "0.28.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-07": {
@@ -1126,7 +1126,7 @@
       "resource_id": "knowledge-chapter-09",
       "source_path": "skills/econ-knowledge/references/chapters/09-dynamic-computation.md",
       "resource_kind": "support",
-      "content_version": "0.79.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-10": {
@@ -1140,7 +1140,7 @@
       "resource_id": "knowledge-chapter-11",
       "source_path": "skills/econ-knowledge/references/chapters/11-causal-designs.md",
       "resource_kind": "support",
-      "content_version": "0.28.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-12": {
@@ -1154,21 +1154,21 @@
       "resource_id": "knowledge-chapter-13",
       "source_path": "skills/econ-knowledge/references/chapters/13-time-series.md",
       "resource_kind": "support",
-      "content_version": "0.37.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-14": {
       "resource_id": "knowledge-chapter-14",
       "source_path": "skills/econ-knowledge/references/chapters/14-structural-estimation.md",
       "resource_kind": "support",
-      "content_version": "0.55.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-15": {
       "resource_id": "knowledge-chapter-15",
       "source_path": "skills/econ-knowledge/references/chapters/15-demand-production.md",
       "resource_kind": "support",
-      "content_version": "0.55.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-16": {
@@ -1182,7 +1182,7 @@
       "resource_id": "knowledge-chapter-17",
       "source_path": "skills/econ-knowledge/references/chapters/17-growth-macro.md",
       "resource_kind": "support",
-      "content_version": "0.56.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-18": {
@@ -1203,14 +1203,14 @@
       "resource_id": "knowledge-chapter-20",
       "source_path": "skills/econ-knowledge/references/chapters/20-asset-pricing.md",
       "resource_kind": "support",
-      "content_version": "0.37.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-21": {
       "resource_id": "knowledge-chapter-21",
       "source_path": "skills/econ-knowledge/references/chapters/21-corporate-banking.md",
       "resource_kind": "support",
-      "content_version": "0.30.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-22": {
@@ -1231,21 +1231,21 @@
       "resource_id": "knowledge-chapter-24",
       "source_path": "skills/econ-knowledge/references/chapters/24-spatial-housing-transport.md",
       "resource_kind": "support",
-      "content_version": "0.79.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-25": {
       "resource_id": "knowledge-chapter-25",
       "source_path": "skills/econ-knowledge/references/chapters/25-trade-globalization.md",
       "resource_kind": "support",
-      "content_version": "0.28.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-26": {
       "resource_id": "knowledge-chapter-26",
       "source_path": "skills/econ-knowledge/references/chapters/26-health-education.md",
       "resource_kind": "support",
-      "content_version": "0.30.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-27": {
@@ -1273,21 +1273,21 @@
       "resource_id": "knowledge-chapter-30",
       "source_path": "skills/econ-knowledge/references/chapters/30-innovation-history-marketing.md",
       "resource_kind": "support",
-      "content_version": "0.28.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-31": {
       "resource_id": "knowledge-chapter-31",
       "source_path": "skills/econ-knowledge/references/chapters/31-forecasting-decisions.md",
       "resource_kind": "support",
-      "content_version": "0.29.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-32": {
       "resource_id": "knowledge-chapter-32",
       "source_path": "skills/econ-knowledge/references/chapters/32-welfare-policy.md",
       "resource_kind": "support",
-      "content_version": "0.28.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-33": {
@@ -1301,7 +1301,7 @@
       "resource_id": "knowledge-chapter-34",
       "source_path": "skills/econ-knowledge/references/chapters/34-integrated-cases.md",
       "resource_kind": "support",
-      "content_version": "0.28.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-35": {
@@ -1428,13 +1428,13 @@
         "knowledge-retrieval",
         "research-evidence"
       ],
-      "content_version": "0.54.1"
+      "content_version": "0.84.0"
     },
     "project-practice": {
       "resource_id": "project-practice",
       "source_path": "skills/project-work/references/practice.md",
       "resource_kind": "rule",
-      "content_version": "0.51.0"
+      "content_version": "0.84.0"
     },
     "vscode-extension-recommendations": {
       "resource_id": "vscode-extension-recommendations",
@@ -1530,7 +1530,7 @@
       "resource_id": "economics-writing-comparison",
       "source_path": "docs/ai/economics-writing-comparison.md",
       "resource_kind": "support",
-      "content_version": "0.79.0",
+      "content_version": "0.84.0",
       "source_distribution_only": true
     },
     "research-respy-dependencies": {
@@ -1882,7 +1882,7 @@
       "resource_id": "knowledge-guide",
       "source_path": "skills/econ-knowledge/references/retrieval.md",
       "resource_kind": "rule",
-      "content_version": "0.81.0"
+      "content_version": "0.84.0"
     },
     "data-source": {
       "resource_id": "data-source",
@@ -1906,7 +1906,7 @@
       "resource_id": "data-native-calls",
       "source_path": "skills/econ-data/references/implementation-calls.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0"
+      "content_version": "0.84.0"
     },
     "data-structural-execution": {
       "resource_id": "data-structural-execution",
@@ -4599,20 +4599,7 @@
       "rule_id": "econ-writing.all",
       "resource_id": "econ-writing",
       "section_id": "all",
-      "requires": [
-        "econ-writing.compose",
-        "econ-writing.revise",
-        "econ-writing.translate",
-        "econ-writing.convert",
-        "econ-writing.guidance",
-        "econ-writing.explain",
-        "econ-writing.profile",
-        "writing-artifacts.generate-articles-and-slides-from-results",
-        "econ-writing.compose-a-talk",
-        "econ-writing.compose-a-research-site",
-        "econ-writing.render-the-requested-artifact",
-        "econ-writing.execute-paragraph-and-argument-contracts"
-      ],
+      "requires": [],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4803,7 +4790,9 @@
       "rule_id": "design-methods.difference-in-differences-and-event-studies",
       "resource_id": "design-methods",
       "section_id": "difference-in-differences-and-event-studies",
-      "requires": [],
+      "requires": [
+        "data-implementation.did-nuisance-specifications"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8525,9 +8514,7 @@
       "rule_id": "data-implementation.did-nuisance-specifications",
       "resource_id": "data-native-calls",
       "section_id": "did-nuisance-specifications",
-      "requires": [
-        "data-implementation.fit-results-and-execution-handoff"
-      ],
+      "requires": [],
       "conditional_requires": [],
       "optional_examples": []
     },

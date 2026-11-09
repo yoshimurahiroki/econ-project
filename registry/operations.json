@@ -2442,7 +2442,8 @@
       "when": "distribution_plugin",
       "required_rules": [
         "integration.distribution-and-settings-contract",
-        "publication.all"
+        "publication.all",
+        "plugin-integration-guide.all"
       ]
     },
     "distribution_snapshot": {

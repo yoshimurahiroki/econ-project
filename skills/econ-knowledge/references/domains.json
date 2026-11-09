@@ -18,12 +18,12 @@
     {
       "domain": "予測意思決定",
       "path": "domains/04.json",
-      "sha256": "5ed5066238edaf3705662ea68d3e42231da3878dee5144bca18b7d5a6f3e593f"
+      "sha256": "ea906851ebd3c00990adf97bdf166bfb229e221fe7f8eabe770abd27163746a1"
     },
     {
       "domain": "企業金融銀行",
       "path": "domains/05.json",
-      "sha256": "647d4ff8578ff76f68fa221f80384849132949f258865ee2930ea0b988ecd790"
+      "sha256": "f22fc7855303d4824f32183dfd17c6f47b4031a039fd29a946a50f06b03677a4"
     },
     {
       "domain": "公共",
@@ -48,7 +48,7 @@
     {
       "domain": "医療教育",
       "path": "domains/10.json",
-      "sha256": "51c5e27d63a418d1d70657a8f0d0d316f55f3524677937ad9b95ccbbec1640df"
+      "sha256": "509000de1b072d1d03ddb34444fd8b4b2894779e04c0b527017b5ddf1a114813"
     },
     {
       "domain": "厚生政策",
@@ -58,7 +58,7 @@
     {
       "domain": "因果デザイン",
       "path": "domains/12.json",
-      "sha256": "ef9913cb9e554d24085e989db336ed1616ea4808091e35d3f9ab4290b398435c"
+      "sha256": "ef09747f35dd7aea3e2349428fdd87922d6c35e0f50f3c54f82a057e01e66297"
     },
     {
       "domain": "因果拡張",
@@ -78,7 +78,7 @@
     {
       "domain": "情報行動",
       "path": "domains/16.json",
-      "sha256": "35cd25b2f3ceca65cfe0a08a0d01617aa6274aca6e28632093942b865b8eada9"
+      "sha256": "f0b242af355483a30c5bed25549cee752306622e439d74c9982e9fcd90b367f2"
     },
     {
       "domain": "成長マクロ",
@@ -103,7 +103,7 @@
     {
       "domain": "時系列",
       "path": "domains/21.json",
-      "sha256": "f0ebb3010741e5ebba17263cc23752e42882e33fc01bcfd6dc986bc482ea82c0"
+      "sha256": "8fdd73c585c5cffb6bf2062197efd7977e032adb2f2c2dc9c811c24d0654df35"
     },
     {
       "domain": "構造推定",
@@ -133,7 +133,7 @@
     {
       "domain": "確率統計",
       "path": "domains/27.json",
-      "sha256": "db42bfa209ea7046597322d7c14ed8f2db9b6257db1d830af393afcd6daf0388"
+      "sha256": "9fa76f649a09d6255207c697585b3d8e9ae72d957814b4b383ebdbd583ecb4a6"
     },
     {
       "domain": "計量",
@@ -148,7 +148,7 @@
     {
       "domain": "資産価格",
       "path": "domains/30.json",
-      "sha256": "a5967a855d6cb20e41868ad8b4db1c4ddf4658df2f15541ec433311248627d3c"
+      "sha256": "93c1737d4c08412a7144e55eddb11cd7a083ad12b80f9345e226a3ab570a3629"
     },
     {
       "domain": "都市住宅交通",
@@ -168,12 +168,12 @@
     {
       "domain": "需要生産",
       "path": "domains/34.json",
-      "sha256": "9133df08f7102b883739d190b52975a1033f19e76c48faee6347a4b5e7e20634"
+      "sha256": "1878dafb7226c99efe8b4a3f3ec5c7bf84f0c0f4a7f15dd83c5a385a04b64cad"
     },
     {
       "domain": "革新歴史広告",
       "path": "domains/35.json",
-      "sha256": "10ba2904809f86cfcaa68bd388e24d2a20389a3e6699621f4593c97e27960f0b"
+      "sha256": "42e3685a6900baabe492141f8665faa5010a3df49b250bcc85c93a776611084f"
     }
   ],
   "spec_version": "knowledge-v2"

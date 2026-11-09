@@ -805,7 +805,7 @@ def export_plugin(target):
         relative_body = os.path.relpath(shared / output_paths[owner], Path(name).parent).replace(os.sep, '/')
         relative_index = os.path.relpath(shared / 'docs/ai/compiled_ai_skills.md', Path(name).parent).replace(os.sep, '/')
         body = (frontmatter + '\n# ' + owner + '\n\n'
-                + 'Select the operation from the [compact index](' + relative_index + '), then read the complete [canonical Skill instructions](' + relative_body + ') and the selected rule bodies with their prerequisites. '
+                + 'Read the complete [canonical Skill instructions](' + relative_body + ') and the selected rule bodies with their prerequisites under CORE. Use the [compact index](' + relative_index + ') when the operation or conditions remain unresolved; go directly to a known operation. '
                 + 'Keep `' + owner + '` as the operation owner while reading the shared package.\n\n'
                 + 'For a cloud Skill reader, select the `project-work` package from this same plugin. '
                 + 'Replace the final `SKILL.md` in its `main_resource` URI with `references/shared/' + output_paths[owner] + '` to read this body. '

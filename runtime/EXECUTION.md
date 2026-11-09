@@ -42,7 +42,7 @@ Save completed changes through Git at the requested frequency. Establish scienti
 
 Use [publication's complete-generation boundary](../harness/publication.md#complete-generation-boundary) for atomic files, linked output sets, concurrent writers and preservation of the preceding result.
 
-Use child exit status, actual required outputs and input/specification versions to determine success. Propagate interruption and failure to affected dependents. Stream process output through the host or retain only the bounded diagnostic needed by the existing result record. Do not create a separate log or history system. Retrieve complete required source/rule text through bounded reads after a truncated tool return.
+Use child exit status, actual required outputs and input/specification versions to determine success. Propagate interruption and failure to affected dependents. Stream process output through the host or retain the bounded diagnostic needed by the existing result record; add no separate log or history system. CORE's task-entry protocol owns recovery of truncated source/rule reads.
 
 After repair, resume at the failed stage only when its prerequisites still match. An upstream change rebuilds its affected descendants. Keep partial files unpublished. A stage resumes inside its documented complete restart boundary or reruns into a fresh destination. Reconcile the actual target before retrying an interrupted external write under [TEAM](TEAM.md#retry-and-capacity).
 
@@ -58,7 +58,7 @@ For instruction maintenance, compare each actionable rule with its owning code a
 
 ## Final delivery authority
 
-Use [CORE's completion and reporting contract](CORE.md#completion-and-reporting) for the final result and actual operation returns.
+CORE owns [completion and reporting](CORE.md#completion-and-reporting), including the actual operation returns establishing the final result.
 
 ## Writing dependency execution
 

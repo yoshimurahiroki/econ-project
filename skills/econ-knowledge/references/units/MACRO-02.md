@@ -2,7 +2,7 @@
 
 ## MACRO-02　Ramseyと資本の影価格
 
-家計は \(\int_0^\infty e^{-\rho t}u(c_t)dt\) を最大化し、\(\dot k=f(k)-c-\delta k\) に従う。\(u(c)=c^{1-\sigma}/(1-\sigma)\) なら最適条件は
+家計は \(\int_0^\infty e^{-\rho t}u(c_t)dt\) を最大化し、\(\dot k=f(k)-c-\delta k\) に従う。\(\rho>0,\sigma>0,c>0\) とし、\(\sigma\ne1\) では \(u(c)=c^{1-\sigma}/(1-\sigma)\)、\(\sigma=1\) では \(u(c)=\log c\) を使う。内点の最適条件は
 
 \[
 \frac{\dot c}{c}=\frac{f'(k)-\delta-\rho}{\sigma}.

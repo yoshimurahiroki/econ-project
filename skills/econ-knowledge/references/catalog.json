@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.72",
+  "version": "2.3.73",
   "language": "ja",
   "date": "2026-11-09",
   "chapter_count": 35,
@@ -3629,7 +3629,8 @@
         "C-CAUSAL-04",
         "C-CH-11",
         "C-ASSUMP-PARALLEL-TRENDS",
-        "C-TERM-PROPENSITY-SCORE"
+        "C-TERM-PROPENSITY-SCORE",
+        "C-TERM-DID"
       ],
       "jel_codes": [
         "C23",
@@ -4669,7 +4670,8 @@
       ],
       "outputs": [
         "支出シェア",
-        "補償変分"
+        "補償変分",
+        "補償需要の価格微分と凹性判定"
       ],
       "file": "chapters/15-demand-production.md",
       "anchor": "demand-04",
@@ -12186,8 +12188,19 @@
         "ja": "段階導入と処置経路"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "staggered DID",
+          "group-time ATT",
+          "event study",
+          "not-yet-treated",
+          "balanced event study"
+        ],
+        "ja": [
+          "段階導入DID",
+          "群・時点別ATT",
+          "イベントスタディ",
+          "未処置予定群"
+        ]
       },
       "broader": [
         "C-CH-11"
@@ -13764,8 +13777,14 @@
         "ja": "ポートフォリオ、流動性、仲介"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "posterior predictive covariance",
+          "Bayesian portfolio allocation"
+        ],
+        "ja": [
+          "事後予測共分散",
+          "ベイズ資産配分"
+        ]
       },
       "broader": [
         "C-CH-20"
@@ -13876,13 +13895,17 @@
           "economic profit",
           "incremental ROIC",
           "competitive advantage persistence",
-          "reinvestment value"
+          "reinvestment value",
+          "joint posterior discounted cash flow",
+          "Bayesian investment decision"
         ],
         "ja": [
           "経済利益",
           "増分ROIC",
           "超過収益の持続",
-          "再投資の増分価値"
+          "再投資の増分価値",
+          "同時事後標本の割引cash flow",
+          "事後期待投資価値"
         ]
       },
       "broader": [
@@ -14688,8 +14711,14 @@
         "ja": "薬剤、特許と費用対効果"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "posterior incremental net monetary benefit",
+          "value of trial information"
+        ],
+        "ja": [
+          "事後の増分純便益",
+          "追加試験の情報価値"
+        ]
       },
       "broader": [
         "C-CH-26"
@@ -15792,7 +15821,11 @@
           "capacity allocation",
           "nonanticipativity",
           "objective bound",
-          "optimality gap"
+          "optimality gap",
+          "business allocation",
+          "operations research",
+          "integer programming",
+          "constraint programming"
         ],
         "ja": [
           "業務最適化",
@@ -22704,18 +22737,18 @@
     {
       "id": "R-0068",
       "source": "INFO-02",
-      "target": "STAT-02",
+      "target": "STAT-07",
       "type": "prerequisite_to_understand",
       "conditions": [],
       "when": {},
-      "use": "情報価値と学習 uses the definitions and equations in ベイズの定理と分布.",
+      "use": "Conjugate Bernoulli learning uses the posterior update and decision equations in STAT-07; its closure supplies Bayes' theorem.",
       "evidence": [
         {
           "unit": "INFO-02",
           "anchor": "info-02"
         }
       ],
-      "version": "2.0.0"
+      "version": "2.3.72"
     },
     {
       "id": "R-0069",
@@ -32616,6 +32649,182 @@
         }
       ],
       "version": "2.3.72"
+    },
+    {
+      "id": "R-STAT-09-MATH-02",
+      "source": "STAT-09",
+      "target": "MATH-02",
+      "type": "prerequisite_to_understand",
+      "conditions": [],
+      "when": {},
+      "use": "Covariance whitening and canonical correlations use matrix decompositions and quadratic forms.",
+      "evidence": [
+        {
+          "unit": "STAT-09",
+          "anchor": "stat-09"
+        }
+      ],
+      "version": "2.3.72"
+    },
+    {
+      "id": "R-STAT-09-STAT-01",
+      "source": "STAT-09",
+      "target": "STAT-01",
+      "type": "prerequisite_to_understand",
+      "conditions": [],
+      "when": {},
+      "use": "Dependence comparisons use covariance, conditional expectations and independence.",
+      "evidence": [
+        {
+          "unit": "STAT-09",
+          "anchor": "stat-09"
+        }
+      ],
+      "version": "2.3.72"
+    },
+    {
+      "id": "R-TS-08-STAT-07",
+      "source": "TS-08",
+      "target": "STAT-07",
+      "type": "prerequisite_to_understand",
+      "conditions": [],
+      "when": {},
+      "use": "Conjugate VAR prediction integrates coefficients and covariance under the adopted Bayesian model.",
+      "evidence": [
+        {
+          "unit": "TS-08",
+          "anchor": "ts-08"
+        }
+      ],
+      "version": "2.3.72"
+    },
+    {
+      "id": "R-TS-08-MATH-02",
+      "source": "TS-08",
+      "target": "MATH-02",
+      "type": "prerequisite_to_understand",
+      "conditions": [],
+      "when": {},
+      "use": "Matrix-normal updating and conditional prediction use positive-definite covariance matrices and linear solves.",
+      "evidence": [
+        {
+          "unit": "TS-08",
+          "anchor": "ts-08"
+        }
+      ],
+      "version": "2.3.72"
+    },
+    {
+      "id": "R-INNOV-03-FINANCE-01",
+      "source": "INNOV-03",
+      "target": "FINANCE-01",
+      "type": "prerequisite_to_understand",
+      "conditions": [],
+      "when": {},
+      "use": "Organizational-capital investment uses the capital accumulation, adjustment cost and marginal value equations.",
+      "evidence": [
+        {
+          "unit": "INNOV-03",
+          "anchor": "innov-03"
+        }
+      ],
+      "version": "2.3.72"
+    },
+    {
+      "id": "R-ASSET-05-STAT-07",
+      "source": "ASSET-05",
+      "target": "STAT-07",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "For Bayesian allocation, compare predictive-return and state-conditional portfolio objectives.",
+      "evidence": [
+        {
+          "unit": "ASSET-05",
+          "anchor": "asset-05"
+        }
+      ],
+      "version": "2.3.72"
+    },
+    {
+      "id": "R-FINANCE-03-STAT-07",
+      "source": "FINANCE-03",
+      "target": "STAT-07",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "For posterior investment evaluation, compute each candidate value from joint parameter draws.",
+      "evidence": [
+        {
+          "unit": "FINANCE-03",
+          "anchor": "finance-03"
+        }
+      ],
+      "version": "2.3.72"
+    },
+    {
+      "id": "R-FINANCE-03-FORECAST-06",
+      "source": "FINANCE-03",
+      "target": "FORECAST-06",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "For staged investment or research, value information at the same action deadline and cost.",
+      "evidence": [
+        {
+          "unit": "FINANCE-03",
+          "anchor": "finance-03"
+        }
+      ],
+      "version": "2.3.72"
+    },
+    {
+      "id": "R-HEALTH-04-STAT-07",
+      "source": "HEALTH-04",
+      "target": "STAT-07",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "For posterior treatment adoption, compare expected incremental net monetary benefit.",
+      "evidence": [
+        {
+          "unit": "HEALTH-04",
+          "anchor": "health-04"
+        }
+      ],
+      "version": "2.3.72"
+    },
+    {
+      "id": "R-HEALTH-04-FORECAST-06",
+      "source": "HEALTH-04",
+      "target": "FORECAST-06",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "For a further trial, value information using the affected patients, adoption date and research cost.",
+      "evidence": [
+        {
+          "unit": "HEALTH-04",
+          "anchor": "health-04"
+        }
+      ],
+      "version": "2.3.72"
+    },
+    {
+      "id": "R-FORECAST-06-ECON-09",
+      "source": "FORECAST-06",
+      "target": "ECON-09",
+      "type": "related",
+      "conditions": [],
+      "when": {},
+      "use": "For posterior information-value integrals, select the corresponding simulation and integration method.",
+      "evidence": [
+        {
+          "unit": "FORECAST-06",
+          "anchor": "forecast-06"
+        }
+      ],
+      "version": "2.3.72"
     }
   ],
   "model_contracts": [
@@ -34385,14 +34594,14 @@
         },
         {
           "name": "maxiter",
-          "meaning": "Finite upper iteration limit."
+          "meaning": "HiGHS linear-program iteration limit"
         }
       ],
       "outputs": [
         {
           "name": "payments",
           "unit": "currency",
-          "meaning": "Greatest fixed point obtained from nominal payments; uniqueness requires separate conditions."
+          "meaning": "Greatest clearing fixed point obtained by maximizing total feasible payments with SciPy HiGHS"
         },
         {
           "name": "outside_payments",

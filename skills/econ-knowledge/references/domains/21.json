@@ -298,7 +298,10 @@
         "累積需要・資金不足・在庫費用",
         "rolling-originの予測較正と経営損失"
       ],
-      "prerequisites": [],
+      "prerequisites": [
+        "STAT-07",
+        "MATH-02"
+      ],
       "related": [],
       "subdomain": "共役事後と多変量予測",
       "title": "ベイズVAR：係数・革新共分散の同時推定と予測",

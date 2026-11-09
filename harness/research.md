@@ -1,5 +1,7 @@
 # Executing an adopted research pipeline
 
+[CORE](../runtime/CORE.md) owns authority, preserved scientific inputs and completion; [EXECUTION](../runtime/EXECUTION.md) owns operation and failure handling. This manual defines the runner, saved-result and packaging interfaces.
+
 ## Run an adopted pipeline
 
 `research.py` executes an adopted local DAG and records each attempt in the existing `state.py` store. The host selects the research question, scientific methods, acquisition and analysis commands, definitions and inputs through the five specialists. A stage runs after its declared consumed outputs complete; a failed stage blocks its descendants and independent branches continue.
@@ -98,7 +100,7 @@ outputs/research-env/bin/python skills/econ-data/scripts/research.py estimate an
 
 ## Choose and execute the next research operation
 
-The lead formulates candidate questions from the requested economic object and the closest inspected answers. For each candidate, state the mechanism, estimand, identifying variation, measurement and population; identify the prediction or knowledge added by its comparison with the closest answer. Retrieve a consequential contrary finding and the actual data documentation when they determine that comparison. Keep these judgments and the candidate ordering in the adopted specification under the existing governing task.
+Use [DECIDE](../runtime/DECIDE.md#turn-the-question-into-an-operation) to select the determining research operation and [econ-design](../skills/econ-design/SKILL.md) to establish its scientific specification. The assessment below consumes that adopted comparison and candidate ordering.
 
 The [design assessment](../skills/econ-design/scripts/research_design.py) checks that specification against retained source bytes and actual CSV records. Its `sources` map binds IDs to `{path,sha256}`; source references use `{source_id,start,end,quote}` with character offsets into the exact UTF-8 text. Its `datasets` map declares the CSV path/hash, observation `unit`, `population`, documented `period:{start,end}`, documentation spans, `grain` keys and `definition_versions`. A candidate declares all five economic dimensions, source evidence, `closest_answers` with the same dimensions, and the owner's contribution judgment: `classification` is `replication` or `changed_contribution`, with `owner`, `rationale`, `changed_dimensions` and supporting evidence. The owner cites each closest answer in that judgment.
 
@@ -108,7 +110,7 @@ Each candidate's `requirements` declares the fields, unit, population, period an
 python skills/econ-design/scripts/research_design.py assess design.json --root /path/to/project --output outputs/design.json
 ```
 
-Use this result as a consumed output of the next source, estimation or experiment stage. The lead reads its economic comparison and executes the selected action through the current host. After each returned source or calculation, the lead tests the determining prediction, adopts the next action and continues through design, data, writing and review to the original requested artifacts. A changed premise updates its dependent operations in the same task; matching completed branches remain reusable. Native search and worker tools provide the model's reasoning and delegation. The local executables provide reproducible source, calculation, comparison and persistence operations under that adopted reasoning.
+Use this result as a consumed output of the selected source, estimation or experiment stage. [DECIDE](../runtime/DECIDE.md#resolve-dependencies-and-integrate-findings) owns interpretation and continuation; native search and worker tools supply retrieval and delegation, and the local executables supply the declared calculations and persistence.
 
 Bibliographic discovery supports exact DOI lookup with `work --doi DOI`, one-hop backward records with `references --doi DOI`, and union search with repeated `literature-multi --query QUERY`. All take `--output DIR`. Reference rows retain the original work, rank, reference key, DOI and complete original reference fields, including unresolved text. Union rows retain each query, its status, rank and exact response origin; normalized DOI identifies duplicates, and an exact title/year identity handles rows without DOI. A failed query publishes its attributable partial record and returns a failing status. Follow selected references and forward citations through the current source tools until their original passages resolve the research comparison.
 
@@ -285,6 +287,6 @@ Select `research_result_artifacts` for [automatic registration and article/slide
 
 ## Native lifecycle and child returns
 
-The registered native hook commands preserve the original task, current governing rules, permissions, scoped operations and actual tool/child returns. Codex uses its own command-trust controls. The eight registrations cover session start, prompt submission, tool pre/post callbacks, child start/stop, stop and interruption. Context packets use the host-supported context events. Stop, child-stop and interruption retain their supported decisions and records.
+The [state manual's hook contract](state.md#governing-context) defines task binding, callback evidence and compaction recovery. The registered events in `hooks/hooks.json` cover session start, prompt submission, tool pre/post callbacks, child start/stop, stop, interruption and post-compaction. Host permission and command-trust controls remain authoritative; callback records retain the task's declared targets, holds and completion evidence.
 
-A successful `SubagentStop` retains the exact child return and scope-check status, then queues its parent handoff in the same task directory. The next eligible parent `PostToolUse` emits the full restoration packet and pending statuses once. A child tool callback preserves the pending parent handoff. Failed formal checks retain their blocking decision; ordinary child completion retains its assigned scope for the parent's integration. The current host's callback result and command-trust state determine activation. TEAM retains model-role ownership, delegation and resumption.
+`SubagentStop` retains the exact observed child return as its assigned contribution and queues a parent handoff. The next eligible parent `PostToolUse` presents pending return identities once; a child callback preserves that queue. Governing-text restoration follows the state manual's entry, binding and recovery boundaries. [TEAM](../runtime/TEAM.md#return-and-integration) owns parent integration and [CORE](../runtime/CORE.md#completion-and-reporting) owns final completion.

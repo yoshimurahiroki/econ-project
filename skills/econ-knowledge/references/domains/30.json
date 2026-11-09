@@ -195,7 +195,8 @@
         "MATH-04"
       ],
       "related": [
-        "ASSET-02"
+        "ASSET-02",
+        "STAT-07"
       ],
       "subdomain": "投資と流動性",
       "title": "ポートフォリオ、流動性、仲介",

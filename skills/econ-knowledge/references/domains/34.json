@@ -164,7 +164,8 @@
       "kind": "knowledge",
       "outputs": [
         "支出シェア",
-        "補償変分"
+        "補償変分",
+        "補償需要の価格微分と凹性判定"
       ],
       "prerequisites": [
         "MICRO-02"

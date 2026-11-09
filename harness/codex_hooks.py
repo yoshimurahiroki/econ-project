@@ -1750,18 +1750,19 @@ def _pre_tool(event, root, directory, state):
         gate.require(not (forbidden in normalized and (row['evaluator']['operation'] in
                          {operation, tool, name} or effect == 'write')),
                      'forbidden operation ' + row['id'] + ' on ' + row['target'])
+    constraints = state_module.effective_constraints(data['tasks'], task)
     if opaque_action is not None:
         gate.require(not holds, 'task hold requires reconciliation before an external operation')
         gate.require(opaque_action in task.get('external_targets', []) and
                      any(row['operation'] == operation and row.get('target_kind') == 'object'
                          and row['target'] == opaque_action for row in rows),
                      'external operation lacks its exact object authority')
-        for hold in state_module.effective_constraints(data['tasks'], task)['holds']:
+        for hold in constraints['holds']:
             gate.require(not ((not hold['operations'] or operation in hold['operations']) and
                               (not hold['targets'] or 'object:' + opaque_action in hold['targets'])),
                          'task state hold covers this external operation')
     if command_action is not None:
-        gate.require(not holds and not state_module.effective_constraints(data['tasks'], task)['holds'],
+        gate.require(not holds and not constraints['holds'],
                      'command requires bound authority and no unresolved hold')
         gate.require(any(row['operation'] == 'execute_command' and row.get('target_kind') == 'object'
                          and row['target'] == command_action for row in rows)
@@ -1789,7 +1790,7 @@ def _pre_tool(event, root, directory, state):
         relative = state_module.relative(state_root, relative_target, exists=False)
         gate.require(state_module.in_scope(relative, task.get('write_scope', [])),
                      'target exceeds task write scope')
-        for hold in state_module.effective_constraints(data['tasks'], task)['holds']:
+        for hold in constraints['holds']:
             matches_operation = not hold['operations'] or verb in hold['operations']
             targets = hold['targets']
             matches_target = not targets or any(item == 'file:' + relative for item in targets)

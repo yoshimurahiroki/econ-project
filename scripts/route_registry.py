@@ -303,7 +303,23 @@ def select_reading_sections(routes, manifest, stage, role=None, reader_id=None, 
 
 
 
-def native_index(routes, *, links=False):
+def native_index(routes, *, links=False, operation=None):
+    if operation is not None:
+        selected = resolve_operation(routes, operation)
+        lines = ['# ' + selected['canonical_operation'], '', selected['description'], '',
+                 'Select the conditions actually present in the request. `read ' + selected['canonical_operation']
+                 + ' --condition CONDITION` delivers their complete bodies and prerequisites.', '',
+                 '| Condition | Direct required bodies | Optional examples |', '| --- | --- | --- |']
+        for cid in dict.fromkeys(selected['conditions']):
+            condition = routes['condition_definitions'][cid]
+            bodies = []
+            for rule_id in condition.get('required_rules', []):
+                rule = routes['rules'][rule_id]
+                locator = routes['sections'][rule['resource_id']][rule['section_id']]
+                bodies.append(rule['resource_id'] + ': ' + locator.get('heading', 'complete body'))
+            examples = ', '.join(condition.get('optional_examples', []))
+            lines.append('| `' + cid + '` | ' + '; '.join(bodies) + ' | ' + examples + ' |')
+        return '\n'.join(lines) + '\n'
     lines = ['# Economics operation index', '', 'Generated from registry/operations.json. Select the final operation, then read CORE, PROSE and its complete required rule bodies. Support continues the same task.', '']
     for op in routes['operations']:
         label = op['skill_id'] + ' / ' + op['mode']
@@ -323,7 +339,7 @@ def native_index(routes, *, links=False):
             if rid in routes['resources']:
                 path = posixpath.relpath(routes['resources'][rid]['source_path'], 'docs/ai')
                 lines.append(f'- [{rid}]({path})')
-        lines += ['', 'For local or extracted runtimes, `python scripts/route_registry.py index --resource RESOURCE_ID` lists the rule bodies and prerequisites. `read OPERATION --condition CONDITION` returns the complete selected text in pages; follow `next_offset` until it is null. `read RULE_ID` returns that rule with its prerequisites. Reuse complete same-version reads.', '']
+        lines += ['', 'For local or extracted runtimes, go directly to a known `read OPERATION --condition CONDITION`. `index --operation OPERATION` lists its conditions and bodies; `index --resource RESOURCE_ID` lists a method hierarchy and prerequisites. Read pages through `next_offset` until null. `read RULE_ID` returns that rule with its prerequisites. Reuse complete same-version reads.', '']
     return '\n'.join(lines) + '\n'
 
 
@@ -1071,8 +1087,10 @@ if __name__ == '__main__':
     parser.add_argument('--root', type=Path)
     parser.add_argument('--layout', choices=('source', 'installed'), default='source')
     commands = parser.add_subparsers(dest='command', required=True)
-    index = commands.add_parser('index', help='show operations or one resource hierarchy')
-    index.add_argument('--resource')
+    index = commands.add_parser('index', help='show operations, operation conditions or a resource hierarchy')
+    selection = index.add_mutually_exclusive_group()
+    selection.add_argument('--resource')
+    selection.add_argument('--operation')
     for command, help_text in [('resolve', 'show the selected contract and rule closure'),
                                ('read', 'read exact selected rule bodies and prerequisites')]:
         selected = commands.add_parser(command, help=help_text)
@@ -1089,7 +1107,8 @@ if __name__ == '__main__':
     root = args.root or (script_root if args.layout == 'source' else script_root.parent)
     routes = load_routes(root, args.layout)
     if args.command == 'index':
-        print(resource_index(routes, args.resource) if args.resource else native_index(routes), end='')
+        print(resource_index(routes, args.resource) if args.resource else
+              native_index(routes, operation=args.operation), end='')
     elif args.command == 'read':
         result = read_selected(routes, root, args.operation, layout=args.layout, mode=args.mode,
                                conditions=args.condition, user_profile=args.user_profile,

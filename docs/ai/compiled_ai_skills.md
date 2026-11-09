@@ -47,5 +47,5 @@ Choose the operation above, then the applicable field or method below. Read the 
 - [research-execution](../../harness/research.md)
 - [result-artifacts](../../skills/econ-writing/references/result-artifacts.md)
 
-For local or extracted runtimes, `python scripts/route_registry.py index --resource RESOURCE_ID` lists the rule bodies and prerequisites. `read OPERATION --condition CONDITION` returns the complete selected text in pages; follow `next_offset` until it is null. `read RULE_ID` returns that rule with its prerequisites. Reuse complete same-version reads.
+For local or extracted runtimes, go directly to a known `read OPERATION --condition CONDITION`. `index --operation OPERATION` lists its conditions and bodies; `index --resource RESOURCE_ID` lists a method hierarchy and prerequisites. Read pages through `next_offset` until null. `read RULE_ID` returns that rule with its prerequisites. Reuse complete same-version reads.
 
