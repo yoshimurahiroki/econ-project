@@ -776,14 +776,8 @@ def contract_snapshot(task):
 
 def completion_acceptance_id(request_sha256, owners):
     """Identify the complete declared scope; its digest alone grants no approval."""
-    scopes = []
-    for owner in owners:
-        value = contract_snapshot(owner)
-        if not value.get('required_checks') and not value.get('check_targets'):
-            value.pop('required_checks', None)
-            value.pop('check_targets', None)
-        scopes.append({'operation_kind': owner['operation_kind'], 'contract': value})
-    return content_hash({'request_sha256': request_sha256, 'owners': scopes})
+    return content_hash({'request_sha256': request_sha256, 'owners': [
+        {'operation_kind': owner['operation_kind'], 'context_id': context_id(owner)} for owner in owners]})
 
 def record_contract(task, source):
     revisions = task.setdefault('contract_revisions', [])

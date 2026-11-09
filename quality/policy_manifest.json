@@ -715,7 +715,7 @@
     },
     "resource:state-contract": {
       "path": "harness/state.md",
-      "sha256": "23a67879c76630d32ae5ce34bcd4f60920cba694e621ef21ef60d3464f381151"
+      "sha256": "c62cd995b0de1013af69748c701dc114f75aa4503bc7284c0d1562e4020a5565"
     },
     "resource:tool-pack-context-sh": {
       "path": "scripts/pack_context.sh",
@@ -763,7 +763,7 @@
     },
     "state": {
       "path": "harness/state.py",
-      "sha256": "2f0c33da7a748109df22e901500f00953ccf37a10221ae8655baec69d8e6a821"
+      "sha256": "421ea10c842950a959fd0417cb5861a526c0ef3b41e8e7e47b9832c17b3c2d6d"
     },
     "team": {
       "path": "runtime/TEAM.md",
