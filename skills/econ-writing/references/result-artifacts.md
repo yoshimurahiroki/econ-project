@@ -1,5 +1,7 @@
 # Generate artifacts from saved research results
 
+For an analytical result used in a consequential economic claim, complete DECIDE's result interpretation at its existing research owner. Bind the saved report with `sources[].metadata.result_interpretation={"path":...,"sha256":...}` in this artifact specification. Registration checks its exact result and specification hashes, retains the judgment reference with the existing producer and carries it into Gallery links. An interpretation for different result bytes is rejected. Display edits retain numerical rows and existing prose; internal judgment fields are not copied automatically into public prose. Reuse a matching adopted interpretation without another review cycle.
+
 The artifact operations extend `harness/research_evidence.py` and generate a manifest for the existing `harness/research.py` DAG. The research owner adopts the result sources, displayed quantities, units, words, equations and code spans. The resulting registry retains each original result in full, including the covariance, inference reference, confidence-set structure and JSON nulls. Each input is identified by its project-relative path and SHA-256. Binding establishes these exact correspondences and returns `status:"bound"`. An actual substantive judgment can accompany a binding or be developed through the selected review; it is preserved with its supporting evidence.
 
 ## Save displays at analysis or registration

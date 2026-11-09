@@ -656,6 +656,19 @@ def generate(base, *, strict=True):
     files['domains.json'] = domain_listing
     manifest = {'spec_version': version, 'catalog_sha256': sha(catalog_raw), 'chapters': chapter_hashes,
                 'domain_listing_sha256': sha(domain_listing), 'domains': domain_map, 'units': unit_map}
+    bindings = catalog.get('method_knowledge', [])
+    if not isinstance(bindings, list):
+        raise ValueError('Method-to-knowledge bindings must be a list')
+    for row in bindings:
+        if (not isinstance(row, dict) or set(row) != {'designs', 'methods', 'stages'} or
+                any(not isinstance(row[key], list) or any(not isinstance(x, str) or not x for x in row[key])
+                    for key in ('designs', 'methods')) or
+                not (row['designs'] or row['methods']) or
+                set(row['stages']) - {'contract', 'compose', 'review'} or
+                any(not isinstance(ids, list) or not ids or set(ids) - metadata.keys()
+                    for ids in row['stages'].values())):
+            raise ValueError('Invalid method-to-knowledge binding')
+    manifest['method_knowledge'] = bindings
     if schema == 2:
         manifest['semantic_assets'] = {name: {'path': name, 'sha256': sha(data)}
                                        for name, data in semantic_assets.items()}
@@ -1111,6 +1124,61 @@ class Reader:
                 'application_cycles': cycles,
                 'contracts': selected_contracts, **self.report()}
 
+    def for_method(self, method, design, stage, *, model=None, contract_id=None, target=None, context=None, cached=None, additional_ids=()):
+        """Resolve the selected method's current-stage bodies, using the saved generation."""
+        if stage not in ('entry', 'contract', 'compose', 'review', 'finalize'):
+            raise ValueError('Unknown knowledge stage')
+        if stage in ('entry', 'finalize'):
+            return {'stage': stage, 'method': method, 'status': 'deferred', 'units': [], 'contracts': []}
+        rows = self.manifest.get('method_knowledge', [])
+        direct = [row for row in rows if method in row['methods']]
+        selected = direct or [row for row in rows if design in row['designs']]
+        needed_phases = ('contract',) if stage == 'contract' else ('contract', stage)
+        seeds = list(dict.fromkeys(item for row in selected for phase in needed_phases
+                                   for item in row['stages'].get(phase, [])))
+        contracts = []
+        if contract_id:
+            contracts = [self.contract(contract_id)]
+        else:
+            for item in self.semantic('model-contracts.json')['contracts']:
+                binding = item.get('selection_binding', {})
+                if (binding.get('design') == design and
+                        ('structural_model' not in binding or binding['structural_model'] == model)):
+                    contracts.append(self.contract(item['id']))
+        if contracts and design == 'structural':
+            # Exact model contracts own their definitions; do not prepend an
+            # empirical-estimation primer to a finite game or accounting model.
+            seeds = []
+        fields = {'contract': ('assumptions', 'identification', 'selection'),
+                  'compose': ('equations', 'numerical_diagnostics'),
+                  'review': ('results', 'numerical_diagnostics')}[stage]
+        for contract in contracts:
+            seeds.extend(contract['units'])
+            seeds.extend(loc['unit'] for field in fields for loc in contract.get(field, [])
+                         if isinstance(loc, dict) and 'unit' in loc)
+        if not isinstance(additional_ids, (list, tuple)) or any(not isinstance(item, str) or not item for item in additional_ids):
+            raise ValueError('Additional knowledge must name explicit saved/local IDs')
+        seeds.extend(additional_ids)
+        seeds = list(dict.fromkeys(seeds))
+        if not seeds:
+            return {'stage': stage, 'method': method, 'status': 'source_required',
+                    'units': [], 'contracts': contracts,
+                    'next_action': 'Retrieve the missing selected-method knowledge through econ-knowledge.'}
+        application = dict(context or {})
+        if method is not None:
+            application.setdefault('estimator', method)
+        if target is not None:
+            application.setdefault('target', target)
+        if len(contracts) == 1:
+            application['model_contract'] = contracts[0]['id']
+        plan = self.plan(seeds, application)
+        blocked = bool(plan['application_cycles'] or any(not row['body_readable'] for row in plan['locators']))
+        # A shared prerequisite does not select every model contract mentioning it.
+        plan['contracts'] = contracts
+        bodies = {'units': []} if blocked else self.units(plan['required_ids'], cached)
+        return {'stage': stage, 'method': method, 'status': 'read_blocked' if blocked else 'ready',
+                'plan': plan, 'contracts': contracts, **bodies}
+
     def units(self, selected, cached=None):
         order, visiting, done = [], set(), set()
         def visit(item):
@@ -1340,9 +1408,19 @@ def main():
     rel = sub.add_parser('relations'); rel.add_argument('ids', nargs='+'); rel.add_argument('--type', action='append', default=[]); rel.add_argument('--context', action='append', default=[])
     plan = sub.add_parser('plan'); plan.add_argument('ids', nargs='+'); plan.add_argument('--context', action='append', default=[])
     plan.add_argument('--read', action='store_true', help='Return the full bodies of the resolved required IDs in dependency order')
+    method = sub.add_parser('method', help='Read selected-method knowledge for the pending stage')
+    method.add_argument('--method', required=True)
+    method.add_argument('--design', required=True)
+    method.add_argument('--model')
+    method.add_argument('--contract')
+    method.add_argument('--target')
+    method.add_argument('--context', action='append', default=[])
+    method.add_argument('--knowledge-id', action='append', default=[])
+    method.add_argument('--stage', choices=['entry','contract','compose','review','finalize'], default='contract')
+    method.add_argument('--restore', action='store_true')
     acquire = sub.add_parser('acquire', help='Retain an actual host-acquired source in existing task outputs')
     acquire.add_argument('--source', required=True, type=Path, help='Source metadata and exact acquired body or skills.read result JSON')
-    for command in (r, s, plan, acquire):
+    for command in (r, s, plan, acquire, method):
         command.add_argument('--task', required=command is acquire)
         command.add_argument('--root', type=Path, default=Path.cwd())
         command.add_argument('--store', default='.agents/state/team.json')
@@ -1376,6 +1454,17 @@ def main():
                 result = {'searches': searches, **reader.report()}
         elif a.action == 'concepts': result = reader.concepts(a.query, a.limit)
         elif a.action == 'relations': result = reader.relations(a.ids, a.type, parse_context(a.context))
+        elif a.action == 'method':
+            if task and not a.restore and task['status'] != 'running':
+                raise ValueError('Knowledge caching requires a running task; use --restore')
+            result = reader.for_method(a.method, a.design, a.stage, model=a.model,
+                                       contract_id=a.contract, target=a.target, context=parse_context(a.context),
+                                       cached=None if a.restore else cache, additional_ids=a.knowledge_id)
+            if task and not a.restore:
+                for unit in result['units']:
+                    if not unit['reused'] and unit['id'] not in external:
+                        call('output', a.task, 'knowledge:'+unit['id'], '--kind', 'object', '--value',
+                             json.dumps({'version':unit['version'], 'body':unit['body']}, ensure_ascii=False), '--no-dependencies')
         elif a.action == 'plan':
             result = reader.plan(a.ids, parse_context(a.context))
             if a.read:

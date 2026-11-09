@@ -26,6 +26,8 @@ Call the selected package directly from the existing analysis entry point. For e
 
 ## Causal selection and execution handoff
 
+The existing `research_causal.py select` command accepts `--stage entry|contract|compose|review|finalize`. Selection attaches `method_selection.stage_knowledge`: the selected method/model's complete current-stage units, exact contracts and true prerequisites from the canonical knowledge reader. `entry` and `finalize` defer technical bodies. Pass the existing `--task`, `--root` and `--store` to reuse matching task-bound bodies; use `--restore` after actual context loss. No estimate is run by selection. Apply the returned body before adopting the method and continue through the saved execution specification. A missing curated binding is returned as `knowledge_required`, not a completed knowledge read.
+
 For a complete selection-to-execution handoff, supply the ordinary run fields or an adopted run specification. `official_implementation.execution_specification.specification` is the existing causal runner's JSON input, with `missing_fields`, `unbound_inputs` and `adoption_required` beside it. Execute that input through the returned command after completing its bindings and required design decision. `official_implementation.dependencies` supplies existing registry resource IDs and requirements paths. Restore the corresponding family, or bind the selected pins through `runtime.packages` and their requirements source through `runtime.files` and stage inputs. Use the existing harness's `runtime.requirements` when the complete declared family is installed; its version probe checks every pin in that file.
 
 ## Official R calls and inference bindings

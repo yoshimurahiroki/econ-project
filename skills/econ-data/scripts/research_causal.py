@@ -4133,6 +4133,11 @@ def main():
     sub=parser.add_subparsers(dest='operation',required=True)
     run_parser=sub.add_parser('run'); run_parser.add_argument('spec',type=Path); run_parser.add_argument('--output','-o',required=True,type=Path)
     select_parser=sub.add_parser('select'); select_parser.add_argument('spec',type=Path); select_parser.add_argument('--output','-o',required=True,type=Path)
+    select_parser.add_argument('--stage', choices=['entry','contract','compose','review','finalize'], default='contract')
+    select_parser.add_argument('--task')
+    select_parser.add_argument('--root', type=Path, default=Path.cwd())
+    select_parser.add_argument('--store', default='.agents/state/team.json')
+    select_parser.add_argument('--restore', action='store_true')
     a=parser.parse_args()
     try:
         spec=json.loads(a.spec.read_text(encoding='utf-8'))
@@ -4158,7 +4163,7 @@ def main():
                     protected.add((a.spec.parent / assignment_path).resolve())
         if a.output.resolve() in protected:
             raise ValueError('Output must use a separate path from the specification, input data and saved assignment')
-        result=select_method(spec,spec_path=a.spec) if a.operation=='select' else run(spec,a.spec)
+        result=select_method(spec,spec_path=a.spec,stage=a.stage,task=a.task,root=a.root,store=a.store,restore=a.restore) if a.operation=='select' else run(spec,a.spec)
         state.save(a.output,result)
     except (ValueError,TypeError,KeyError,OSError,ArithmeticError) as exc: parser.exit(2,f'error: {exc}\n')
 

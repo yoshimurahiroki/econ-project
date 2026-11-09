@@ -1481,7 +1481,8 @@
       "when": "resumption_active",
       "required_rules": [
         "team.all",
-        "state-contract.state-and-version-contract"
+        "state-contract.state-and-version-contract",
+        "state-contract.resumption-and-migration"
       ]
     },
     "handoff_active": {
@@ -1768,7 +1769,8 @@
       "required_rules": [
         "design-methods.select-the-needed-section",
         "design-methods.choose-the-estimand-and-method",
-        "design-methods.outcome-scale-and-conditional-mean"
+        "design-methods.outcome-scale-and-conditional-mean",
+        "research.interpret-a-consequential-result"
       ]
     },
     "method_orthogonal_scores_and_heterogeneous_effects": {
@@ -1776,7 +1778,8 @@
       "required_rules": [
         "design-methods.select-the-needed-section",
         "design-methods.choose-the-estimand-and-method",
-        "design-methods.orthogonal-scores-and-heterogeneous-effects"
+        "design-methods.orthogonal-scores-and-heterogeneous-effects",
+        "research.interpret-a-consequential-result"
       ]
     },
     "method_structural_estimation_and_counterfactuals": {
@@ -1913,7 +1916,8 @@
     "method_agent_simulation": {
       "when": "method_agent_simulation",
       "required_rules": [
-        "models-abm.all"
+        "models-abm.all",
+        "research.interpret-a-consequential-result"
       ]
     },
     "method_extended_numerics": {

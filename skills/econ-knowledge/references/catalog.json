@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "title": "経済学知識ライブラリ",
-  "version": "2.3.73",
+  "version": "2.3.74",
   "language": "ja",
   "date": "2026-11-09",
   "chapter_count": 35,
@@ -37004,5 +37004,655 @@
   "source_repository": {
     "url": "https://github.com/yoshimurahiroki/econ-project-mini",
     "ref": "main"
-  }
+  },
+  "method_knowledge": [
+    {
+      "designs": [
+        "conditional_mean"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "ECON-01",
+          "ECON-03"
+        ],
+        "compose": [
+          "ECON-01"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "iv",
+        "instrumental_variables",
+        "weak_instrument_inference"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "ECON-02"
+        ],
+        "compose": [
+          "ECON-02"
+        ],
+        "review": [
+          "ECON-02",
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "orthogonal_score",
+        "heterogeneous_effect"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "CAUSAL-01",
+          "ECON-08"
+        ],
+        "compose": [
+          "ECON-08",
+          "FORECAST-02"
+        ],
+        "review": [
+          "CAUSAL-01",
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "did",
+        "continuous_did",
+        "parallel_trend_sensitivity",
+        "quantile_did",
+        "changes_in_changes"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "CAUSAL-03",
+          "CAUSAL-04"
+        ],
+        "compose": [
+          "CAUSAL-04"
+        ],
+        "review": [
+          "CAUSAL-03",
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "rct",
+        "randomized",
+        "rct_design",
+        "rd_power"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "CAUSAL-02",
+          "STAT-04"
+        ],
+        "compose": [
+          "CAUSAL-02"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "rdd",
+        "density_at_cutoff"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "CAUSAL-05"
+        ],
+        "compose": [
+          "CAUSAL-05"
+        ],
+        "review": [
+          "CAUSAL-05",
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "synthetic_control",
+        "generalized_synth"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "CAUSAL-06"
+        ],
+        "compose": [
+          "CAUSAL-06"
+        ],
+        "review": [
+          "CAUSAL-06",
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "sample_selection",
+        "survival"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "ECON-05"
+        ],
+        "compose": [
+          "ECON-05",
+          "ECON-03"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "conditional_quantile",
+        "quantile_effect",
+        "bunching",
+        "oaxaca"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "ECON-08",
+          "ECON-03"
+        ],
+        "compose": [
+          "ECON-08"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "network_interference",
+        "partial_identification"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "CAUSAL-01",
+          "STRUCT-01"
+        ],
+        "compose": [
+          "STRUCT-01"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "policy_learning"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "CAUSAL-01",
+          "FORECAST-01"
+        ],
+        "compose": [
+          "FORECAST-02",
+          "ECON-08"
+        ],
+        "review": [
+          "STAT-07"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "post_estimation"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "ECON-01"
+        ],
+        "compose": [
+          "ECON-03"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "small_cluster_inference",
+        "wild_cluster_inference"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "STAT-04",
+          "ECON-06"
+        ],
+        "compose": [
+          "ECON-06"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "bayesian_model"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "STAT-07"
+        ],
+        "compose": [
+          "ECON-09"
+        ],
+        "review": [
+          "FORECAST-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "marketing_mmm",
+        "customer_lifetime_value",
+        "customer_survival"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "INNOV-04"
+        ],
+        "compose": [
+          "STAT-07",
+          "ECON-09"
+        ],
+        "review": [
+          "FORECAST-06"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "demand_forecast",
+        "hierarchical_forecast"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "FORECAST-01"
+        ],
+        "compose": [
+          "FORECAST-02",
+          "FORECAST-03"
+        ],
+        "review": [
+          "FORECAST-05"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "operations_optimization",
+        "energy_system",
+        "network_allocation"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "NUM-01",
+          "MATH-04"
+        ],
+        "compose": [
+          "NUM-04"
+        ],
+        "review": [
+          "NUM-01"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "financial_volatility"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "ECON-03",
+          "STAT-09"
+        ],
+        "compose": [
+          "ECON-03"
+        ],
+        "review": [
+          "FORECAST-05"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "agent_simulation"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "NUM-06"
+        ],
+        "compose": [
+          "NUM-03",
+          "NUM-06"
+        ],
+        "review": [
+          "NUM-05"
+        ]
+      }
+    },
+    {
+      "designs": [
+        "structural"
+      ],
+      "methods": [],
+      "stages": {
+        "contract": [
+          "STRUCT-01"
+        ],
+        "compose": [
+          "NUM-01",
+          "STRUCT-02"
+        ],
+        "review": [
+          "STRUCT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "dml_pliv",
+        "dml_iivm"
+      ],
+      "stages": {
+        "contract": [
+          "ECON-02",
+          "ECON-08"
+        ],
+        "compose": [
+          "ECON-08"
+        ],
+        "review": [
+          "ECON-02",
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "shift_share",
+        "shift_share_inference",
+        "iv_ar_robust",
+        "grf_instrumental"
+      ],
+      "stages": {
+        "contract": [
+          "ECON-02"
+        ],
+        "compose": [
+          "ECON-02"
+        ],
+        "review": [
+          "ECON-02",
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "sensitivity_oster",
+        "sensitivity_cinelli",
+        "sensitivity_evalue"
+      ],
+      "stages": {
+        "contract": [
+          "CAUSAL-01",
+          "ECON-01"
+        ],
+        "compose": [
+          "ECON-01"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "romano_wolf",
+        "specification_curve",
+        "holm",
+        "spatial_conley",
+        "wild_cluster_bootstrap",
+        "club_sandwich"
+      ],
+      "stages": {
+        "contract": [
+          "STAT-04",
+          "STAT-06"
+        ],
+        "compose": [
+          "ECON-06"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "lp_did",
+        "bacon",
+        "honest_did",
+        "drdid_panel",
+        "drdid_rc",
+        "staggered_did",
+        "sunab",
+        "did2s",
+        "did_imputation",
+        "fixes_event_study",
+        "nonabs_did",
+        "did_multiplegt_dyn",
+        "multitreatment_did",
+        "dml_did"
+      ],
+      "stages": {
+        "contract": [
+          "CAUSAL-03",
+          "CAUSAL-04"
+        ],
+        "compose": [
+          "CAUSAL-04"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "scm_diagnostics",
+        "augmented_synthetic_control",
+        "synthdid",
+        "generalized_synth",
+        "synthetic_control"
+      ],
+      "stages": {
+        "contract": [
+          "CAUSAL-06"
+        ],
+        "compose": [
+          "CAUSAL-06"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "mediation",
+        "tmle",
+        "metalearner",
+        "grf",
+        "grf_multi_arm",
+        "grf_survival",
+        "policy_tree"
+      ],
+      "stages": {
+        "contract": [
+          "CAUSAL-01",
+          "ECON-08"
+        ],
+        "compose": [
+          "ECON-08",
+          "FORECAST-02"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "kitagawa",
+        "dfl",
+        "gelbach",
+        "oaxaca"
+      ],
+      "stages": {
+        "contract": [
+          "ECON-01",
+          "ECON-08"
+        ],
+        "compose": [
+          "ECON-08"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "survival_km",
+        "survival_aft",
+        "survival",
+        "heckman",
+        "dml_ssm"
+      ],
+      "stages": {
+        "contract": [
+          "ECON-05",
+          "ECON-08"
+        ],
+        "compose": [
+          "ECON-03"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "network_exposure",
+        "network_spillover",
+        "spatial_lag"
+      ],
+      "stages": {
+        "contract": [
+          "NET-05",
+          "NET-06",
+          "CAUSAL-01"
+        ],
+        "compose": [
+          "NET-06"
+        ],
+        "review": [
+          "STAT-06"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "networkx",
+        "network_allocation"
+      ],
+      "stages": {
+        "contract": [
+          "NET-01",
+          "MATH-04"
+        ],
+        "compose": [
+          "NET-01",
+          "NUM-01"
+        ],
+        "review": [
+          "NUM-01"
+        ]
+      }
+    },
+    {
+      "designs": [],
+      "methods": [
+        "np_demand"
+      ],
+      "stages": {
+        "contract": [
+          "DEMAND-04",
+          "ECON-08"
+        ],
+        "compose": [
+          "NUM-01"
+        ],
+        "review": [
+          "DEMAND-04"
+        ]
+      }
+    }
+  ]
 }

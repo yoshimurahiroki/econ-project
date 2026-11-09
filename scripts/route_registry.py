@@ -266,35 +266,22 @@ def select_reading_sections(routes, manifest, stage, role=None, reader_id=None, 
     for rid, ids in routes.get('reading_roles', {}).get(role, {}).get(stage, {}).items():
         if rid in adopted:
             selected.setdefault(rid, []).extend(ids)
-    # Entry exposes the complete adopted instruction closure before dependent
-    # work. Later stages navigate that same closure and reuse covered ranges.
-    if stage in ('entry', 'contract', 'compose', 'review'):
-        # A stage cannot waive an adopted scientific prerequisite. Deliver any
-        # needed selected body; the host reuses matching text actually exposed
-        # in its intact context rather than repeating the closure.
-        managed = {'core', 'prose'}
-        for rid, scope in adopted.items():
-            if (stage == 'entry' or rid not in managed) and routes['resources'][rid]['source_path'].endswith('.md'):
-                selected[rid] = (['all'] if scope.get('whole_resource') else
-                    [sid for sid, loc in routes['sections'][rid].items()
-                     if loc.get('heading') in scope.get('sections', [])])
-    # Common rules and selected delegation/recovery obligations remain complete
-    # at every stage. Other cases stay inside their adopted stage selection.
-    for rid in ('core', 'prose', 'team'):
-        if rid in adopted:
-            scope = adopted[rid]
-            selected[rid] = (['all'] if scope.get('whole_resource') else
-                [sid for sid, loc in routes['sections'][rid].items()
-                 if loc.get('heading') in scope.get('sections', [])])
+    # The registry owns the phase boundary. Never fill it with all adopted
+    # Markdown: applicability over the whole task is not current-stage need.
     for item in unresolved:
         if isinstance(item, dict):
             for rule_id in item.get('rule_ids', []):
                 rule = routes['rules'].get(rule_id)
-                if rule and rule['resource_id'] in adopted:
+                declared = selected.get(rule['resource_id'], []) if rule else []
+                if (rule and rule['resource_id'] in adopted and
+                        (item.get('reading_stage') == stage or 'all' in declared or rule['section_id'] in declared)):
                     selected.setdefault(rule['resource_id'], []).append(rule['section_id'])
     result = []
     for rid, ids in selected.items():
         scope = adopted[rid]
+        if 'all' in ids and not scope.get('whole_resource'):
+            ids = [sid for sid, loc in routes['sections'][rid].items()
+                   if loc.get('heading') in scope.get('sections', [])]
         for sid in dict.fromkeys(ids):
             locator = routes['sections'][rid].get(sid)
             if locator is None:
@@ -313,7 +300,7 @@ def native_index(routes, *, links=False, operation=None):
         selected = resolve_operation(routes, operation)
         lines = ['# ' + selected['canonical_operation'], '', selected['description'], '',
                  'Select the conditions actually present in the request. `read ' + selected['canonical_operation']
-                 + ' --condition CONDITION` delivers their complete bodies and prerequisites.', '',
+                 + ' --stage STAGE --condition CONDITION` delivers the current stage\'s complete bodies and prerequisites.', '',
                  '| Condition | Direct required bodies | Optional examples |', '| --- | --- | --- |']
         for cid in dict.fromkeys(selected['conditions']):
             condition = routes['condition_definitions'][cid]
@@ -401,7 +388,7 @@ def extract_sections(text, selection, resource):
 
 
 def read_selected(routes, root, selector, *, layout='source', mode=None, conditions=(),
-                  user_profile=None, project_profile=None, offset=0, limit=16000):
+                  user_profile=None, project_profile=None, offset=0, limit=16000, stage=None):
     """Deliver exact selected bodies; pagination never marks them as read."""
     import hashlib
     if offset < 0 or limit < 1:
@@ -415,12 +402,26 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
     else:
         operation = resolve_operation(routes, selector, mode, conditions=conditions,
                                       user_profile=user_profile, project_profile=project_profile)
+        stage = stage or 'entry'
         active, selection = operation['active_rules'], operation['resource_sections']
         profile = operation.get('selected_profile')
         if profile and profile != 'default-micro':
             custom_profile = Path(profile)
             if not custom_profile.is_absolute():
                 custom_profile = Path(root) / custom_profile
+    adopted_rules = list(active)
+    if stage is not None:
+        refs = select_reading_sections(routes, {'resource_sections': selection}, stage)
+        selection = {}
+        active = []
+        for row in refs:
+            locator = routes['sections'][row['resource_id']][row['section_id']]
+            merge_selection(selection, {row['resource_id']: {'whole_resource': True}
+                if locator.get('whole_resource') else {'sections': [locator['heading']]}})
+            active.extend(row['rule_ids'])
+        active = list(dict.fromkeys(active))
+        if stage not in ('contract', 'compose', 'review'):
+            custom_profile = None
     bodies, sources = {}, []
     for rid, scope in selection.items():
         path = resource_path(root, routes['resources'][rid], layout)
@@ -443,7 +444,8 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
     if offset > len(text):
         raise ValueError('Reading offset exceeds the selected body')
     end = min(offset + limit, len(text))
-    return {'selector': selector, 'required_rules': active, 'sources': sources,
+    return {'selector': selector, 'stage': stage, 'required_rules': active,
+            'adopted_required_rules': adopted_rules, 'sources': sources,
             'content_sha256': hashlib.sha256(text.encode('utf-8')).hexdigest(),
             'offset': offset, 'total_characters': len(text),
             'next_offset': end if end < len(text) else None,
@@ -910,6 +912,13 @@ def load_registry(root, layout='source'):
                 if (rid not in resources or not isinstance(ids, list) or not ids
                         or any(not isinstance(sid, str) for sid in ids) or any(sid not in routes['sections'][rid] for sid in ids)):
                     raise ValueError('Invalid role reading sections')
+    for rule_id, rule in routes['rules'].items():
+        rid, sid = rule['resource_id'], rule['section_id']
+        if not resources[rid]['source_path'].endswith('.md'):
+            continue
+        assigned = [mapping[rid] for mapping in routes['reading_stages'].values() if rid in mapping]
+        if not assigned or sid != 'all' and not any(sid in ids or 'all' in ids for ids in assigned):
+            raise ValueError('Required rule has no declared reading stage: ' + rule_id)
     for cid, definition in routes['condition_definitions'].items():
         if definition.get('when') != cid:
             raise ValueError('Condition key and when differ: ' + cid)
@@ -1114,6 +1123,8 @@ if __name__ == '__main__':
         selected.add_argument('--user-profile')
         selected.add_argument('--project-profile')
         if command == 'read':
+            selected.add_argument('--stage', choices=('entry','contract','compose','review','finalize'),
+                                  help='Read the current stage; operations default to entry, explicit rule IDs retain direct reads')
             selected.add_argument('--offset', type=int, default=0, help='Character offset returned by the preceding page')
             selected.add_argument('--limit', type=int, default=16000, help='Maximum body characters per page')
     args = parser.parse_args()
@@ -1126,7 +1137,8 @@ if __name__ == '__main__':
     elif args.command == 'read':
         result = read_selected(routes, root, args.operation, layout=args.layout, mode=args.mode,
                                conditions=args.condition, user_profile=args.user_profile,
-                               project_profile=args.project_profile, offset=args.offset, limit=args.limit)
+                               project_profile=args.project_profile, offset=args.offset, limit=args.limit,
+                               stage=args.stage or (None if args.operation in routes['rules'] else 'entry'))
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         result = resolve_operation(routes, args.operation, args.mode,

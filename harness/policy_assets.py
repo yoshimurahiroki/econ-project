@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.86.0'
+POLICY_ID = 'economics-native-0.87.0'
 PRIMARY_EXPRESSION_RULE = "Apply PROSE's output prohibitions to every answer and generated artifact, without exception."
 PRIMARY_STYLE_RULE = ('Keep scientific conditions, statistical uncertainty and evidence-strength judgments internal; '
                       'deliver the direct economic answer and actual operation result.')
@@ -605,25 +605,20 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
     terminal = status.get('lifecycle')
     if terminal not in {'paused', 'stopped', 'cancelled', 'completed'}:
         terminal = 'completed' if str(status.get('status', '')).startswith('finalized-') else 'active'
-    explicit_stage = stage is not None
     stage = stage or ('finalize' if terminal == 'completed' or status.get('status') in {'ready', 'provisional-ready'} else
                       'review' if status.get('submission_sha256') else
                       'compose' if status.get('status') == 'requirements-fixed' else
                       'contract' if status.get('run_id') else 'entry')
     actions = status.get('needed_actions', [])
-    refs = resolver.select_reading_sections(routes, scope, stage, role, reader_id, actions)
+    reading_actions = list(actions)
+    if restore and instruction_event in ('task-resume','compaction','worker-start','worker-resend','subagent-handoff'):
+        reading_actions.append({'reading_stage': stage, 'rule_ids': ['team.resumption','team.native-model-roles','team.shared-work',
+                                             'team.return-and-integration','state-contract.resumption-and-migration']})
+    refs = resolver.select_reading_sections(routes, scope, stage, role, reader_id, reading_actions)
     # Keep the repeated command and its actual adopted rule bodies together.
     # These are navigation references within the existing closure, not adoption
     # changes or evidence of reading.
-    direct_refs = []
-    for rid, sid in (('core', 'all'), ('prose', 'common-output'),
-                     ('prose', 'revise-for-the-requested-language')):
-        adopted = scope['resource_sections'].get(rid, {})
-        locator = routes['sections'][rid][sid]
-        if resource_key(rid) in scope['assets'] and (adopted.get('whole_resource') or
-                locator.get('heading') in adopted.get('sections', [])):
-            direct_refs.append({'resource_id': rid, 'section_id': sid,
-                'rule_ids': [rid + '.' + sid]})
+    direct_refs = [row for row in refs if row['resource_id'] in ('core', 'prose')]
     direct_sections = {(row['resource_id'], row['section_id']) for row in direct_refs}
     refs = direct_refs + [row for row in refs
                          if (row['resource_id'], row['section_id']) not in direct_sections]
@@ -710,7 +705,7 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
         text += ' Read next: ' + ', '.join(pending_refs[:3]) + '.'
     if terminal != 'active':
         text += ' Lifecycle: ' + terminal + '; do not restart this run.'
-    short = ('Read CORE, the complete selected PROSE and operation bodies before dependent work. '
+    short = ('Read CORE and every complete body selected for the current stage before dependent work. '
              'Preserve the original request, full applicable rule reads, authority, holds and actual operation returns; complete the requested result, integrated review and required verification. '
              'If the host shows only a preview with a saved-packet locator, open that packet and read all required bodies before dependent work; a preview is not a reading receipt.')
     rule_refs = [row['path'] + ('' if row['section_id'] == 'all' else '#' + row['section_id']) +
@@ -747,29 +742,8 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
             restoration['request_sha256'] = None
         restoration['rules'] = []
         restoration['reused_rules'] = []
-        selected = scope['resource_sections']
         restored = set()
         restore_refs = list(refs)
-        # Explicit stages restore their complete required bodies. Legacy/default
-        # callers retain the full adopted restoration contract.
-        for rid, selection in (selected.items() if not explicit_stage or stage == 'entry' else ()):
-            key = resource_key(rid)
-            resource = routes['resources'][rid]
-            instruction_dictionary = (rid == 'prose-check-rules'
-                                      and resource['source_path'].endswith('.json'))
-            if key not in scope['assets'] or not (resource['source_path'].endswith('.md') or instruction_dictionary):
-                continue
-            sections = routes['sections'][rid]
-            section_ids = (['all'] if selection.get('whole_resource') else
-                           [sid for sid, locator in sections.items() if locator.get('heading') in selection.get('sections', [])])
-            if section_ids == ['all']:
-                restore_refs = [row for row in restore_refs if row['resource_id'] != rid]
-            raw = resource_bytes(scope['assets'][key], rid, 'restoration rule body changed: ')
-            ranges = section_ranges(routes, rid, raw.decode('utf-8'), resolver, section_ids, section_cache)
-            for sid in section_ids:
-                start, end = ranges[sid]
-                restore_refs.append({'resource_id': rid, 'section_id': sid, 'path': scope['assets'][key]['path'],
-                                     'sha256': scope['assets'][key]['sha256'], 'start': start, 'end': end})
         for row in restore_refs:
             identity = (row['resource_id'], row['start'], row['end'])
             if identity in restored:

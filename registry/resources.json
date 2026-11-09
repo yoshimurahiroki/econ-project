@@ -5,7 +5,7 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.86.0"
+      "content_version": "0.87.0"
     },
     "prose": {
       "resource_id": "prose",
@@ -17,7 +17,7 @@
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.86.0"
+      "content_version": "0.87.0"
     },
     "execution": {
       "resource_id": "execution",
@@ -152,7 +152,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.86.0",
+      "content_version": "0.87.0",
       "sync": false
     },
     "resource-guide": {
@@ -193,14 +193,14 @@
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "0.86.0",
+      "content_version": "0.87.0",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.86.0"
+      "content_version": "0.87.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
@@ -291,7 +291,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.86.0"
+      "content_version": "0.87.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -310,13 +310,13 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.86.0"
+      "content_version": "0.87.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.86.0"
+      "content_version": "0.87.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -377,13 +377,13 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.86.0"
+      "content_version": "0.87.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
       "source_path": "quality/policy_manifest.json",
       "resource_kind": "support",
-      "content_version": "0.86.0",
+      "content_version": "0.87.0",
       "sync": false,
       "required_resources": [
         "core",
@@ -407,7 +407,7 @@
       "resource_id": "codex-hooks",
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.86.0",
+      "content_version": "0.87.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -680,7 +680,7 @@
       "resource_id": "research-design",
       "source_path": "skills/econ-design/scripts/research_design.py",
       "resource_kind": "support",
-      "content_version": "0.72.0",
+      "content_version": "0.87.0",
       "required_resources": [
         "paragraph-engine",
         "research-search",
@@ -724,7 +724,7 @@
       "resource_id": "research-causal",
       "source_path": "skills/econ-data/scripts/research_causal.py",
       "resource_kind": "support",
-      "content_version": "0.81.0",
+      "content_version": "0.87.0",
       "required_resources": [
         "research-design",
         "research-causal-dependencies",
@@ -1002,7 +1002,7 @@
       "resource_id": "research-artifacts",
       "source_path": "harness/research_artifacts.py",
       "resource_kind": "support",
-      "content_version": "0.73.0",
+      "content_version": "0.87.0",
       "required_resources": [
         "research-evidence",
         "team-state-helper",
@@ -1017,7 +1017,7 @@
       "resource_id": "result-artifacts",
       "source_path": "skills/econ-writing/references/result-artifacts.md",
       "resource_kind": "rule",
-      "content_version": "0.75.0",
+      "content_version": "0.87.0",
       "required_resources": [
         "research-artifacts",
         "research-runner",
@@ -1054,7 +1054,7 @@
       "resource_id": "knowledge-retrieval",
       "source_path": "skills/econ-knowledge/scripts/knowledge.py",
       "resource_kind": "support",
-      "content_version": "0.84.0",
+      "content_version": "0.87.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -1063,7 +1063,7 @@
       "resource_id": "knowledge-catalog",
       "source_path": "skills/econ-knowledge/references/catalog.json",
       "resource_kind": "support",
-      "content_version": "0.84.0",
+      "content_version": "0.87.0",
       "source_distribution_only": true
     },
     "knowledge-chapter-01": {
@@ -1876,13 +1876,13 @@
       "resource_id": "design-workflow",
       "source_path": "skills/econ-design/references/workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.86.0"
+      "content_version": "0.87.0"
     },
     "knowledge-guide": {
       "resource_id": "knowledge-guide",
       "source_path": "skills/econ-knowledge/references/retrieval.md",
       "resource_kind": "rule",
-      "content_version": "0.86.0"
+      "content_version": "0.87.0"
     },
     "data-source": {
       "resource_id": "data-source",
@@ -1906,7 +1906,7 @@
       "resource_id": "data-native-calls",
       "source_path": "skills/econ-data/references/implementation-calls.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.87.0"
     },
     "data-structural-execution": {
       "resource_id": "data-structural-execution",
@@ -2079,6 +2079,9 @@
       },
       "output": {
         "heading": "Output"
+      },
+      "select-the-operation": {
+        "heading": "Select the operation"
       }
     },
     "econ-data": {
@@ -2090,6 +2093,9 @@
       },
       "deliver-the-data-operation-and-its-economic-meaning": {
         "heading": "Deliver the data operation and its economic meaning"
+      },
+      "select-the-operation": {
+        "heading": "Select the operation"
       }
     },
     "econ-literature": {
@@ -2110,6 +2116,9 @@
       },
       "deliver-the-literatures-economic-relevance": {
         "heading": "Deliver the literature's economic relevance"
+      },
+      "select-the-source-operation": {
+        "heading": "Select the source operation"
       }
     },
     "econ-writing": {
@@ -3066,6 +3075,15 @@
     "econ-knowledge": {
       "all": {
         "whole_resource": true
+      },
+      "ownership-and-input": {
+        "heading": "Ownership and input"
+      },
+      "select-the-needed-procedure": {
+        "heading": "Select the needed procedure"
+      },
+      "return": {
+        "heading": "Return"
       }
     },
     "knowledge-retrieval": {
@@ -3141,6 +3159,24 @@
     "project-work": {
       "all": {
         "whole_resource": true
+      },
+      "purpose-and-entry": {
+        "heading": "Purpose and entry"
+      },
+      "requirements-and-work-approach": {
+        "heading": "Requirements and work approach"
+      },
+      "execution-prompts": {
+        "heading": "Execution prompts"
+      },
+      "contribute": {
+        "heading": "Contribute"
+      },
+      "manage": {
+        "heading": "Manage"
+      },
+      "select-the-pending-operation": {
+        "heading": "Select the pending operation"
       }
     },
     "project-practice": {
@@ -8983,72 +9019,763 @@
   },
   "reading_stages": {
     "entry": {
+      "econ-design": [
+        "purpose-and-input",
+        "select-the-operation"
+      ],
+      "econ-data": [
+        "purpose-and-input",
+        "select-the-operation"
+      ],
+      "econ-literature": [
+        "purpose-and-input",
+        "select-the-source-operation"
+      ],
+      "econ-writing": [
+        "native-entry-contract"
+      ],
+      "econ-review": [
+        "purpose-and-input"
+      ],
+      "econ-knowledge": [
+        "ownership-and-input",
+        "select-the-needed-procedure"
+      ],
+      "project-work": [
+        "purpose-and-entry"
+      ],
       "core": [
         "all"
       ],
-      "team": [
-        "shared-work"
+      "prose": [
+        "common-output"
       ],
       "research": [
         "turn-the-question-into-an-operation"
       ],
-      "prose": [
-        "common-output",
-        "revise-for-the-requested-language"
+      "team": [
+        "native-model-roles",
+        "shared-work",
+        "resumption"
+      ],
+      "project-practice": [
+        "connect-the-current-case",
+        "define-the-task"
+      ],
+      "state-contract": [
+        "state-and-version-contract",
+        "governing-context",
+        "resumption-and-migration",
+        "find-saved-work"
+      ],
+      "native-index": [
+        "all"
+      ],
+      "policy-agents-agentsmd": [
+        "all"
+      ],
+      "policy-agentsmd": [
+        "all"
+      ],
+      "policy-claude-agentsmd": [
+        "all"
+      ],
+      "policy-claudemd": [
+        "all"
+      ],
+      "policy-codexmd": [
+        "all"
+      ],
+      "policy-gemini-geminimd": [
+        "all"
+      ],
+      "policy-github-copilot-instructionsmd": [
+        "all"
+      ],
+      "project-context": [
+        "all"
+      ],
+      "resource-guide": [
+        "all"
       ]
     },
     "contract": {
       "core": [
-        "authority-and-preserved-inputs"
+        "all"
       ],
-      "execution": [
-        "select-the-operation-and-working-area",
-        "checks-and-completion"
+      "prose": [
+        "common-output",
+        "select-the-profile"
       ],
       "research": [
-        "turn-the-question-into-an-operation",
         "deepen-a-consequential-research-problem",
         "separate-explanations-with-a-comparison",
         "select-a-feasible-action",
         "source-integration-and-method-selection",
-        "investigate-source-claims",
-        "resolve-dependencies-and-integrate-findings",
         "operational-plans"
+      ],
+      "execution": [
+        "select-the-operation-and-working-area",
+        "project-file-ownership",
+        "entry-point-and-dependencies"
+      ],
+      "team": [
+        "shared-work",
+        "paragraph-assignments",
+        "handoff"
+      ],
+      "models-causal": [
+        "all"
+      ],
+      "models-markets": [
+        "all"
+      ],
+      "models-dynamic": [
+        "all"
+      ],
+      "models-numerics": [
+        "all"
+      ],
+      "models-macro-extended": [
+        "all"
+      ],
+      "models-dsge": [
+        "all"
+      ],
+      "models-abm": [
+        "all"
+      ],
+      "models-causal-basic": [
+        "all"
+      ],
+      "models-causal-contract": [
+        "all"
+      ],
+      "models-causal-policy": [
+        "all"
+      ],
+      "models-causal-randomization": [
+        "all"
+      ],
+      "models-causal-continuous-did": [
+        "all"
+      ],
+      "models-causal-outcomes": [
+        "all"
+      ],
+      "models-causal-heterogeneity": [
+        "all"
+      ],
+      "models-causal-contrasts": [
+        "all"
+      ],
+      "models-causal-networks": [
+        "all"
+      ],
+      "models-causal-inference": [
+        "all"
+      ],
+      "models-causal-implementation": [
+        "all"
+      ],
+      "models-causal-r-calls": [
+        "all"
+      ],
+      "models-causal-extensions": [
+        "all"
+      ],
+      "models-causal-native": [
+        "all"
+      ],
+      "models-dynamic-finite-horizon": [
+        "all"
+      ],
+      "models-dynamic-contract": [
+        "all"
+      ],
+      "models-dynamic-replacement": [
+        "all"
+      ],
+      "models-dynamic-games": [
+        "all"
+      ],
+      "models-dynamic-adoption": [
+        "all"
+      ],
+      "models-macro-extended-households": [
+        "all"
+      ],
+      "models-macro-extended-equilibrium": [
+        "all"
+      ],
+      "models-macro-extended-spatial": [
+        "all"
+      ],
+      "design-methods": [
+        "all"
+      ],
+      "design-workflow": [
+        "all"
+      ],
+      "data-engine-selection": [
+        "all"
+      ],
+      "data-descriptive": [
+        "all"
+      ],
+      "equity-models": [
+        "all"
+      ],
+      "knowledge-guide": [
+        "all"
+      ],
+      "default-micro": [
+        "all"
+      ],
+      "data-implementation": [
+        "select-the-operation-specific-rules",
+        "functions-types-and-failure-boundaries"
+      ],
+      "data-native-calls": [
+        "shared-tables-and-language-handoff",
+        "causal-selection-and-execution-handoff",
+        "did-nuisance-specifications"
+      ],
+      "data-results": [
+        "locate-the-requested-result",
+        "entry-point-and-dependencies"
+      ],
+      "source-discovery": [
+        "all"
+      ],
+      "literature-methods": [
+        "all"
+      ],
+      "search-priority": [
+        "all"
+      ],
+      "journal-priority": [
+        "all"
+      ],
+      "paper-reading": [
+        "all"
+      ],
+      "paper-empirical": [
+        "all"
+      ],
+      "paper-theory": [
+        "all"
+      ],
+      "paper-structural": [
+        "all"
+      ],
+      "econ-writing": [
+        "preserve-adopted-content"
+      ],
+      "project-practice": [
+        "manage-the-case",
+        "resources-and-dates",
+        "write-the-execution-prompt"
+      ],
+      "project-work": [
+        "requirements-and-work-approach",
+        "select-the-pending-operation"
+      ],
+      "econ-literature": [
+        "find-the-work-that-answers-the-comparison"
       ]
     },
     "compose": {
+      "core": [
+        "all"
+      ],
       "prose": [
+        "common-output",
         "select-the-economic-argument",
         "connect-the-explanation",
-        "finish-the-passage"
+        "revise-for-the-requested-language",
+        "hierarchical-argument-and-paragraph-composition"
       ],
       "research": [
-        "turn-the-question-into-an-operation",
-        "source-integration-and-method-selection",
         "investigate-source-claims",
         "resolve-dependencies-and-integrate-findings",
-        "interpret-a-consequential-result"
+        "operational-plans"
+      ],
+      "execution": [
+        "project-file-ownership",
+        "entry-point-and-dependencies",
+        "complete-outputs-and-failure-propagation",
+        "writing-dependency-execution",
+        "example-replace-one-output-after-a-complete-write"
+      ],
+      "team": [
+        "retry-and-capacity",
+        "return-and-integration"
+      ],
+      "models-causal": [
+        "all"
+      ],
+      "models-markets": [
+        "all"
+      ],
+      "models-dynamic": [
+        "all"
+      ],
+      "models-numerics": [
+        "all"
+      ],
+      "models-macro-extended": [
+        "all"
+      ],
+      "models-dsge": [
+        "all"
+      ],
+      "models-abm": [
+        "all"
+      ],
+      "models-causal-basic": [
+        "all"
+      ],
+      "models-causal-contract": [
+        "all"
+      ],
+      "models-causal-policy": [
+        "all"
+      ],
+      "models-causal-randomization": [
+        "all"
+      ],
+      "models-causal-continuous-did": [
+        "all"
+      ],
+      "models-causal-outcomes": [
+        "all"
+      ],
+      "models-causal-heterogeneity": [
+        "all"
+      ],
+      "models-causal-contrasts": [
+        "all"
+      ],
+      "models-causal-networks": [
+        "all"
+      ],
+      "models-causal-inference": [
+        "all"
+      ],
+      "models-causal-implementation": [
+        "all"
+      ],
+      "models-causal-r-calls": [
+        "all"
+      ],
+      "models-causal-extensions": [
+        "all"
+      ],
+      "models-causal-native": [
+        "all"
+      ],
+      "models-dynamic-finite-horizon": [
+        "all"
+      ],
+      "models-dynamic-contract": [
+        "all"
+      ],
+      "models-dynamic-replacement": [
+        "all"
+      ],
+      "models-dynamic-games": [
+        "all"
+      ],
+      "models-dynamic-adoption": [
+        "all"
+      ],
+      "models-macro-extended-households": [
+        "all"
+      ],
+      "models-macro-extended-equilibrium": [
+        "all"
+      ],
+      "models-macro-extended-spatial": [
+        "all"
+      ],
+      "design-methods": [
+        "all"
+      ],
+      "design-workflow": [
+        "all"
+      ],
+      "data-engine-selection": [
+        "all"
+      ],
+      "data-descriptive": [
+        "all"
+      ],
+      "data-implementation": [
+        "functions-types-and-failure-boundaries",
+        "prediction",
+        "replication"
+      ],
+      "data-worked-examples": [
+        "all"
+      ],
+      "data-source": [
+        "all"
+      ],
+      "data-numerical-execution": [
+        "all"
+      ],
+      "data-structural-execution": [
+        "all"
+      ],
+      "data-workflow": [
+        "all"
+      ],
+      "research-execution": [
+        "all"
+      ],
+      "research-data-guide": [
+        "all"
+      ],
+      "adaptive-research": [
+        "all"
+      ],
+      "equity-guide": [
+        "all"
+      ],
+      "paragraph-workflow": [
+        "all"
+      ],
+      "meeting-materials": [
+        "all"
+      ],
+      "data-native-calls": [
+        "shared-tables-and-language-handoff",
+        "native-regression-calls-and-results",
+        "causal-selection-and-execution-handoff",
+        "official-r-calls-and-inference-bindings",
+        "did-nuisance-specifications",
+        "staggered-did-fits-and-display",
+        "official-doubleml-score-fitting",
+        "julia-fixed-effects-and-iv-execution",
+        "official-project-scripts"
+      ],
+      "data-results": [
+        "reproduce-the-requested-path",
+        "worked-project-operations",
+        "example-reuse-a-named-estimate-without-losing-its-definition",
+        "example-recompute-the-affected-branch"
+      ],
+      "source-discovery": [
+        "all"
+      ],
+      "literature-methods": [
+        "all"
+      ],
+      "search-priority": [
+        "all"
+      ],
+      "journal-priority": [
+        "all"
+      ],
+      "paper-reading": [
+        "all"
+      ],
+      "paper-empirical": [
+        "all"
+      ],
+      "paper-theory": [
+        "all"
+      ],
+      "paper-structural": [
+        "all"
+      ],
+      "writing-compose": [
+        "all"
+      ],
+      "writing-revise": [
+        "all"
+      ],
+      "writing-translate": [
+        "all"
+      ],
+      "writing-convert": [
+        "all"
+      ],
+      "writing-guidance": [
+        "all"
+      ],
+      "writing-explain": [
+        "all"
+      ],
+      "writing-profile": [
+        "all"
+      ],
+      "writing-artifacts": [
+        "all"
+      ],
+      "paper-workflow": [
+        "all"
+      ],
+      "result-artifacts": [
+        "all"
+      ],
+      "examples-en": [
+        "all"
+      ],
+      "examples-ja": [
+        "all"
+      ],
+      "extended-en": [
+        "all"
+      ],
+      "extended-ja": [
+        "all"
+      ],
+      "econ-writing": [
+        "compose-for-the-medium-and-language",
+        "preserve-adopted-content"
+      ],
+      "project-practice": [
+        "complete-the-assigned-contribution",
+        "discussion-and-interviews",
+        "contact-drafts",
+        "artifacts-and-integration"
+      ],
+      "state-contract": [
+        "all"
+      ],
+      "publication": [
+        "all"
+      ],
+      "integration": [
+        "all"
+      ],
+      "plugin-integration-guide": [
+        "all"
+      ],
+      "config-template-readme-md": [
+        "all"
+      ],
+      "requirements-check-guide": [
+        "all"
+      ],
+      "local-checks-guide": [
+        "all"
+      ],
+      "project-work": [
+        "execution-prompts",
+        "contribute",
+        "manage"
+      ],
+      "econ-literature": [
+        "procedure"
+      ],
+      "default-micro": [
+        "principles"
+      ],
+      "knowledge-guide": [
+        "all"
       ]
     },
     "review": {
       "core": [
-        "completion-and-reporting"
+        "all"
       ],
       "prose": [
-        "finish-the-passage"
+        "common-output",
+        "finish-the-passage",
+        "revise-for-the-requested-language"
       ],
       "research": [
-        "separate-explanations-with-a-comparison",
         "interpret-a-consequential-result",
-        "resolve-dependencies-and-integrate-findings"
+        "separate-explanations-with-a-comparison"
+      ],
+      "execution": [
+        "checks-and-completion",
+        "compare-changed-outputs"
+      ],
+      "team": [
+        "return-and-integration",
+        "review-findings-and-independence"
+      ],
+      "models-causal": [
+        "all"
+      ],
+      "models-markets": [
+        "all"
+      ],
+      "models-dynamic": [
+        "all"
+      ],
+      "models-numerics": [
+        "all"
+      ],
+      "models-macro-extended": [
+        "all"
+      ],
+      "models-dsge": [
+        "all"
+      ],
+      "models-abm": [
+        "all"
+      ],
+      "models-causal-basic": [
+        "all"
+      ],
+      "models-causal-contract": [
+        "all"
+      ],
+      "models-causal-policy": [
+        "all"
+      ],
+      "models-causal-randomization": [
+        "all"
+      ],
+      "models-causal-continuous-did": [
+        "all"
+      ],
+      "models-causal-outcomes": [
+        "all"
+      ],
+      "models-causal-heterogeneity": [
+        "all"
+      ],
+      "models-causal-contrasts": [
+        "all"
+      ],
+      "models-causal-networks": [
+        "all"
+      ],
+      "models-causal-inference": [
+        "all"
+      ],
+      "models-causal-implementation": [
+        "all"
+      ],
+      "models-causal-r-calls": [
+        "all"
+      ],
+      "models-causal-extensions": [
+        "all"
+      ],
+      "models-causal-native": [
+        "all"
+      ],
+      "models-dynamic-finite-horizon": [
+        "all"
+      ],
+      "models-dynamic-contract": [
+        "all"
+      ],
+      "models-dynamic-replacement": [
+        "all"
+      ],
+      "models-dynamic-games": [
+        "all"
+      ],
+      "models-dynamic-adoption": [
+        "all"
+      ],
+      "models-macro-extended-households": [
+        "all"
+      ],
+      "models-macro-extended-equilibrium": [
+        "all"
+      ],
+      "models-macro-extended-spatial": [
+        "all"
+      ],
+      "data-implementation": [
+        "compare-changed-calculations"
+      ],
+      "data-native-calls": [
+        "fit-results-and-execution-handoff"
+      ],
+      "data-results": [
+        "carry-analysis-results-into-tables-figures-and-prose",
+        "deliver-the-reproduced-result"
+      ],
+      "econ-writing": [
+        "output"
+      ],
+      "econ-data": [
+        "deliver-the-data-operation-and-its-economic-meaning"
+      ],
+      "econ-design": [
+        "output"
+      ],
+      "econ-review": [
+        "all"
+      ],
+      "review-methods": [
+        "all"
+      ],
+      "prose-check-guide": [
+        "all"
+      ],
+      "prose-check-rules": [
+        "all"
+      ],
+      "project-practice": [
+        "change-and-recovery",
+        "outcomes-and-handover"
+      ],
+      "econ-knowledge": [
+        "return"
+      ],
+      "econ-literature": [
+        "establish-the-supporting-passages-and-versions",
+        "deliver-the-literatures-economic-relevance"
       ]
     },
     "finalize": {
       "core": [
-        "completion-and-reporting"
+        "all"
+      ],
+      "prose": [
+        "common-output",
+        "revise-for-the-requested-language"
       ],
       "execution": [
-        "checks-and-completion"
+        "checks-and-completion",
+        "record-and-artifact-boundaries",
+        "complete-outputs-and-failure-propagation"
+      ],
+      "team": [
+        "handoff",
+        "requested-usage-accounting"
+      ],
+      "data-results": [
+        "complete-outputs-and-failure-propagation",
+        "deliver-the-reproduced-result"
+      ],
+      "project-practice": [
+        "outcomes-and-handover"
+      ],
+      "state-contract": [
+        "all"
+      ],
+      "publication": [
+        "all"
+      ],
+      "integration": [
+        "all"
+      ],
+      "plugin-integration-guide": [
+        "all"
+      ],
+      "config-template-readme-md": [
+        "all"
+      ],
+      "requirements-check-guide": [
+        "all"
+      ],
+      "local-checks-guide": [
+        "all"
+      ],
+      "package-notices": [
+        "all"
       ]
     }
   },

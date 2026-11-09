@@ -12,6 +12,8 @@ Select the requested output: a research question, derivation, empirical design o
 
 When conflicting model results motivate a research question, express their choices and outcomes in a common model and vary the condition that can reverse the result. If aligned definitions resolve the difference, narrow the contribution accordingly. If an economic condition explains it, formulate the question around when that condition holds and select settings or measurements that distinguish its regimes.
 
+For new research, retain the additional formulation comparison in the existing design artifact under DECIDE before carrying its selected question into implementation. The design producer checks that connection; reading its rule alone does not establish application.
+
 When proposing a behavioral hypothesis, identify its driver, the quantity to measure independently, and the comparison where competing hypotheses predict different outcomes. Specify how cases differ in that driver while holding established determinants of the choice fixed, and how the measure would explain choices beyond established explanations.
 
 Connect a diagnostic design to the condition preventing the requested outcome. Distinguish the observed shortfall, its candidate mechanism, the model margin an intervention changes and the resulting economic choice. Derive the comparison at that margin before specifying data collection or computation. Return its implication for the parent research claim or action, including displacement and participant responses that change the total objective. Keep established specifications attached to each delegated derivation or empirical comparison through [TEAM](../../../runtime/TEAM.md).

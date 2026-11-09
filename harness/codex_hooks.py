@@ -533,7 +533,8 @@ def _restoration(root, directory, state, manifest=None, conditions=(), *, restor
     packet = policy.instruction_context(owner, manifest=current,
         status={**state, 'request_sha256': request_sha, 'unmet_ids': _ids(state)},
         request_text=request if restore_request else None, restore=restore, stage=context.get('reading_stage'),
-        role='author', reader_id=state.get('author_id'), retained_bodies=retained_bodies)
+        role='author', reader_id=state.get('author_id'), retained_bodies=retained_bodies,
+        instruction_event='task-resume' if context_lost else 'post-tool')
     gate.require(packet.get('restoration', {}).get('included') is restore,
                  'canonical original-request/rule restoration is unavailable')
     # The canonical text contains the original and amendment bodies once.

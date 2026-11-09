@@ -1114,6 +1114,16 @@ def prepare_gallery_items(registry, definitions=None):
         item.setdefault('interpretation', '')
         item.setdefault('status', 'candidate')
         item.setdefault('links', {'tasks': [], 'documents': []})
+        interpretations = {result_id: copy.deepcopy(registry['records'][result_id]['metadata']['result_interpretation']['reference'])
+                           for result_id in ids
+                           if isinstance(registry['records'][result_id].get('metadata', {}).get('result_interpretation'), dict)
+                           and isinstance(registry['records'][result_id]['metadata']['result_interpretation'].get('reference'), dict)}
+        if interpretations:
+            item['metadata']['result_interpretations'] = interpretations
+            links = item['links'].setdefault('result_interpretations', [])
+            for reference in interpretations.values():
+                if reference['path'] not in links:
+                    links.append(reference['path'])
         display = item.setdefault('display', {})
         defaults = {'coefficient': 'coefficient', 'event_study': 'event_study',
                     'distribution': 'bar', 'time_series': 'line', 'group_comparison': 'bar'}
@@ -2250,6 +2260,30 @@ def normalize(root,spec,selected=None):
                 path=source[key]
                 if path not in references: references[path]=ref(root,path)
                 refs[key]=references[path]
+        interpretation = source.get('metadata', {}).get('result_interpretation')
+        if interpretation is not None:
+            if not isinstance(interpretation, dict) or set(interpretation) != {'path','sha256'}:
+                raise ValueError('result_interpretation requires its saved path and hash')
+            path = interpretation['path']
+            raw_interpretation = checked(root, path).read_bytes()
+            interpretation_reference = ref(root, path, raw_interpretation)
+            if interpretation_reference['sha256'] != interpretation['sha256']:
+                raise ValueError('saved interpretation changed: '+name)
+            report = evidence.read_json(raw_interpretation, path)
+            if not isinstance(report, dict):
+                raise ValueError('saved interpretation must be an object: '+name)
+            decision = report.get('result_interpretation')
+            if not isinstance(decision, dict) or decision.get('result_sha256') != refs['result']['sha256']:
+                raise ValueError('interpretation belongs to another result: '+name)
+            if 'specification' in refs and decision.get('specification_sha256') != refs['specification']['sha256']:
+                raise ValueError('interpretation belongs to another specification: '+name)
+            adopted_reference = report.get('sources', {}).get('specification')
+            if not isinstance(adopted_reference, dict) or adopted_reference.get('sha256') != decision.get('specification_sha256'):
+                raise ValueError('interpretation has no bound adopted specification: '+name)
+            evidence.file_bytes(root, adopted_reference, 'interpretation specification')
+            references[path] = interpretation_reference
+            refs['interpretation'] = interpretation_reference
+            refs['interpretation_specification'] = copy.deepcopy(adopted_reference)
         provenance=result.get('provenance',result.get('inputs',{}))
         if not isinstance(provenance,dict): raise ValueError('result provenance must be an object')
         checks={}
@@ -2316,6 +2350,9 @@ def normalize(root,spec,selected=None):
         if observations is not None and 'observations' not in quantities: add('observations',observations,'observations',['observations'])
         for key,value in quantities.items(): stats[name+'.'+key]=value['statistic']
         records[name]={'identity':{'model':result.get('model',result.get('method')),'specification':refs.get('specification',{}).get('sha256')},'references':refs,'hash_checks':checks,'method':result.get('method'),'model':result.get('model'),'engine':result.get('engine'),'versions':result.get('versions'),'adopted':result.get('adopted',result.get('definition')),'options':result.get('options',result.get('design')),'provenance':provenance,'quantity_origins':{k:v['source_key'] for k,v in quantities.items()},'source_result':result,'metadata':copy.deepcopy(source.get('metadata',{}))}
+        if interpretation is not None:
+            records[name]['metadata']['result_interpretation'] = {
+                'reference': interpretation_reference, 'decision': copy.deepcopy(decision)}
     for model in spec.get('models', []):
         if model['source'] in records:
             records[model['source']]['metadata'].setdefault('model_mappings', []).append(copy.deepcopy(model))
@@ -2388,6 +2425,13 @@ def manifest(root,spec_path,spec,python,pandoc,quarto):
     for source in spec['sources']:
         sid='source-'+source['id']; source_dependencies[sid]=['registry']
         inputs=list(dict.fromkeys([spec_path,*core,*[source[k] for k in ('result','specification','code','data') if k in source]]))
+        interpretation = source.get('metadata', {}).get('result_interpretation')
+        if interpretation is not None:
+            report_path = interpretation['path']
+            report = load(checked(root, report_path))
+            for path in (report_path, report['sources']['specification']['path']):
+                if path not in inputs:
+                    inputs.append(path)
         stages.append({'id':sid,'inputs':inputs,'depends':{},'outputs':{'registry':'registry.json'},'argv':[python,H,'normalize','--root','{root}','--spec',S,'--source',source['id'],'--output','{out:registry}']})
     merge_args=sum((['--registry','{dep:'+sid+':registry}'] for sid in source_dependencies),[])
     stages.append({'id':'registry','inputs':[spec_path,*core],'depends':source_dependencies,'outputs':{'registry':'registry.json'},'argv':[python,H,'merge','--root','{root}','--spec',S,*merge_args,'--output','{out:registry}']})

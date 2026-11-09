@@ -450,6 +450,117 @@ def fit(data, req, datasets):
             'missing_counts': missing_counts, 'variation': variations, 'coverage': coverage, 'status': status, 'links': links}
 
 
+def formulation_record(item, sources, adopted=None):
+    """Bind the lead's additional comparison to this candidate and source versions."""
+    judgment = item['judgment']
+    value = judgment.get('formulation')
+    source_versions = {key: row['sha256'] for key, row in sources.items()}
+    if value is None and adopted:
+        previous = next((row for row in adopted.get('candidates', []) if row['id'] == item['id']), {})
+        saved = previous.get('formulation')
+        if (saved and saved['selected_dimensions'] == item['dimensions'] and
+                saved['source_versions'] == source_versions):
+            return {**saved, 'reused': True}
+        if (not saved and adopted.get('selected_candidate') == item['id'] and not adopted.get('adoption_required')
+                and previous.get('dimensions') == item['dimensions'] and
+                {key: row['sha256'] for key, row in adopted.get('sources', {}).items()} == source_versions):
+            return {'status': 'adopted_specification_reused', 'owner': judgment['owner'],
+                    'selected_dimensions': deepcopy(item['dimensions']), 'source_versions': source_versions,
+                    'reused': True}
+    if value is None:
+        return None
+    require(isinstance(value, dict) and set(value) == {'initial', 'alternative', 'comparison', 'selected', 'rationale'},
+            'Formulation requires initial, alternative, comparison, selected and rationale')
+    for key in ('initial', 'alternative'):
+        row = value[key]
+        require(isinstance(row, dict) and set(row) == {'question', 'dimensions'} and
+                isinstance(row['question'], str) and row['question'].strip(), 'Formulation needs each actual question')
+        dimensions(row['dimensions'], 'Formulation '+key)
+    require(value['initial']['question'] != value['alternative']['question'],
+            'The additional reconsideration must name its consequential alternative question')
+    require(value['selected'] in ('initial', 'alternative') and
+            all(isinstance(value[key], str) and value[key].strip() for key in ('comparison', 'rationale')),
+            'Formulation requires the lead comparison and adopted disposition')
+    chosen = value[value['selected']]
+    require(chosen['dimensions'] == item['dimensions'], 'Selected formulation must match the actual candidate dimensions')
+    return {**deepcopy(value), 'owner': judgment['owner'], 'selected_question': chosen['question'],
+            'selected_dimensions': deepcopy(item['dimensions']), 'source_versions': source_versions, 'reused': False}
+
+
+def formulate_problem(contract, root):
+    """Bind one additional formulation comparison to an existing research specification."""
+    require(isinstance(contract, dict), 'Formulation contract must be an object')
+    ref = contract.get('specification')
+    require(isinstance(ref, dict) and set(ref) == {'path','sha256'}, 'Formulation needs the existing specification path and hash')
+    specification = json.loads(file_bytes(root, ref['path'], ref['sha256']))
+    judgment = contract.get('judgment', {})
+    require(isinstance(specification, dict), 'Research specification must be an object')
+    require(isinstance(judgment, dict) and isinstance(judgment.get('owner'), str) and judgment['owner'].strip(), 'Formulation needs its lead owner')
+    value = judgment.get('formulation', {})
+    require(isinstance(value, dict) and value.get('selected') in ('initial','alternative'), 'Formulation needs its adopted disposition')
+    chosen = value[value['selected']]
+    require(chosen['question'] == specification.get('question'), 'Formulation must resolve the actual specification question')
+    for dimension, field in [('estimand','estimand'),('population','population'),('identifying_variation','identification'),('mechanism','mechanism')]:
+        if isinstance(specification.get(field), str):
+            require(chosen['dimensions'][dimension] == specification[field], 'Formulation differs from adopted '+field)
+    item = {'dimensions':chosen['dimensions'], 'judgment':judgment}
+    record = formulation_record(item, {'specification':dict(ref)})
+    return {'status':'formulated', 'sources':{'specification':dict(ref)}, 'formulation':record,
+            'definition':{k:specification[k] for k in DESIGN_FIELDS if k in specification},
+            'scientific_specification_changed':False, 'executed':False}
+
+
+def interpret_result(contract, root):
+    """Save an economic judgment bound to the adopted specification and actual saved quantities."""
+    require(isinstance(contract, dict), 'Interpretation contract must be an object')
+    import research_evidence
+    sources, documents = {}, {}
+    for key in ('specification', 'result'):
+        ref = contract.get(key)
+        require(isinstance(ref, dict) and set(ref) == {'path', 'sha256'}, key+' needs its exact path and hash')
+        raw = file_bytes(root, ref['path'], ref['sha256'])
+        documents[key] = research_evidence.read_json(raw, ref['path'])
+        sources[key] = dict(ref)
+    judgment = contract.get('judgment')
+    require(isinstance(judgment, dict) and all(isinstance(judgment.get(k), str) and judgment[k].strip()
+            for k in ('owner', 'question', 'prediction', 'comparison', 'decision_criterion', 'conclusion')),
+            'Interpretation requires the lead question, prediction, actual comparison, criterion and conclusion')
+    require(judgment.get('decision') in ('retain', 'repair', 'authority_required'), 'Invalid interpretation decision')
+    specification = documents['specification']
+    require(isinstance(specification, dict) and all(k in specification for k in ('estimand','identification')),
+            'Interpretation requires the adopted estimand and identification')
+    if isinstance(specification, dict) and isinstance(specification.get('question'), str):
+        require(judgment['question'] == specification['question'], 'Interpret the adopted question')
+    observed = []
+    paths = judgment.get('observations')
+    require(isinstance(paths, list) and paths, 'Interpretation must consume actual result fields')
+    for path in paths:
+        require(isinstance(path, list) and path and all(isinstance(k, str) or type(k) is int for k in path),
+                'Each observation names a result field path')
+        value = documents['result']
+        for key in path:
+            require((isinstance(value, dict) and key in value) or
+                    (isinstance(value, list) and type(key) is int and 0 <= key < len(value)), 'Missing observed result field')
+            value = value[key]
+        observed.append({'path': path, 'value': value})
+    if judgment['decision'] != 'retain':
+        require(isinstance(judgment.get('producing_owner'), str) and judgment['producing_owner'].strip(),
+                'A consequential mismatch needs its actual producing owner')
+    operation = judgment.get('next_operation')
+    require(operation is None or isinstance(operation, dict) and set(operation) == {'argv', 'cwd'} and
+            isinstance(operation['argv'], list) and operation['argv'] and
+            all(isinstance(x, str) and x for x in operation['argv']) and isinstance(operation['cwd'], str),
+            'Interpretation next operation must use the existing argv/cwd contract')
+    return {'status': 'interpreted', 'sources': sources, 'result_interpretation': {
+        **deepcopy(judgment), 'observations': observed,
+        'adopted_definition': {k: specification[k] for k in ('question','estimand','identification','population','period','unit')
+                               if isinstance(specification, dict) and k in specification},
+        'specification_sha256': sources['specification']['sha256'], 'result_sha256': sources['result']['sha256'],
+        'authority': 'The existing adopted specification and task authority remain binding.'},
+        'next_operation': None if judgment['decision'] == 'authority_required' else operation,
+        'scientific_specification_changed': False, 'executed': False}
+
+
 def assess(contract, root):
     require(isinstance(contract, dict), 'Contract must be an object')
     source_entries, literature = literature_input(contract, root, contract.get('sources'))
@@ -461,6 +572,11 @@ def assess(contract, root):
     require(all(isinstance(x, str) and x.strip() for x in ids) and len(ids) == len(set(ids)), 'Candidate IDs must be distinct')
     ranking = contract.get('selection', {})
     require(ranking.get('rule') == 'owner_order' and isinstance(ranking.get('order'), list) and len(ranking['order']) == len(ids) and set(ranking['order']) == set(ids), 'Selection must give each candidate exactly once in owner order')
+    adopted = None
+    if contract.get('adopted_design') is not None:
+        ref = contract['adopted_design']
+        require(isinstance(ref, dict) and set(ref) == {'path', 'sha256'}, 'Adopted design needs its path and hash')
+        adopted = json.loads(file_bytes(root, ref['path'], ref['sha256']))
     results = {}
     for item in candidates:
         dimensions(item.get('dimensions'), 'Candidate')
@@ -497,14 +613,16 @@ def assess(contract, root):
                 and isinstance(operation['cwd'], str) and operation['cwd'].strip(),
                 'Candidate next operation requires argv and cwd')
         results[item['id']] = {'id': item['id'], 'dimensions': item['dimensions'], 'evidence': item['evidence'],
-                               'closest_answers': closest, 'judgment': judgment, 'dataset': data['id'],
+                               'closest_answers': closest, 'judgment': judgment, 'formulation': formulation_record(item, sources, adopted), 'dataset': data['id'],
                                'comparison': [{'closest_id': answer['id'], 'dimensions':
                                                {key: {'candidate': item['dimensions'][key], 'closest_answer': answer['dimensions'][key],
                                                       'owner_identified_change': key in changes} for key in DIMENSIONS}} for answer in closest],
                                'dataset_sha256': data['sha256'], 'definition_versions': data['definition_versions'],
                                'requirements': item['requirements'], 'fit': assessment, 'next_operation': item['next_operation']}
-    selected = next((key for key in ranking['order'] if results[key]['fit']['feasible']), None)
-    return {'selection': ranking, 'selected_candidate': selected, 'next_operation': results[selected]['next_operation'] if selected else None,
+    pending = next((key for key in ranking['order'] if results[key]['fit']['feasible']), None)
+    selected = pending if pending is not None and results[pending]['formulation'] is not None else None
+    return {'status': 'selected' if selected else 'formulation_required' if pending else 'no_feasible_candidate',
+            'pending_formulation': pending if pending and not selected else None, 'selection': ranking, 'selected_candidate': selected, 'next_operation': results[selected]['next_operation'] if selected else None,
             'sources': {k: {'path': v['path'], 'sha256': v['sha256']} for k, v in sources.items()},
             'datasets': {k: {key: value for key, value in v.items() if key != 'rows'} for k, v in datasets.items()},
             'candidates': [results[k] for k in ranking['order']],
@@ -947,7 +1065,7 @@ OFFICIAL_PROJECT_DEFAULTS = {
     'network_allocation':'networkx', 'agent_simulation':'mesa'}
 
 
-def select_method(request, *, spec_path=None):
+def _select_method(request, *, spec_path=None):
     """Select an estimator from economic objects and structured design conditions.
 
     Narrative identification is retained as evidence, never parsed as a package
@@ -3776,21 +3894,108 @@ def select_method(request, *, spec_path=None):
         'method_selection':selection,'executed':False}
 
 
+def select_method(request, *, spec_path=None, stage='contract', task=None, root=None, store='.agents/state/team.json', restore=False):
+    """Select through the existing scientific owner and attach current-stage knowledge."""
+    require(isinstance(request, dict), 'Method selection request must be an object')
+    decisions = request.get('research_decisions', request.get('adopted_specification', {}).get('research_decisions', {}))
+    require(isinstance(decisions, dict) and not set(decisions)-{'formulation','interpretation'}, 'Invalid research decision references')
+    scientific_request = {k:v for k,v in request.items() if k not in ('research_decisions','knowledge_ids')}
+    result = _select_method(scientific_request, spec_path=spec_path)
+    resources = json.loads((ROOT / ('RESOURCES.json' if FLAT_EXPORT else 'registry/resources.json')).read_text())['resources']
+    placements = json.loads((ROOT / ('PLACEMENTS.json' if FLAT_EXPORT else 'registry/placements.json')).read_text())['resources']
+    layout = 'export_alias' if FLAT_EXPORT else 'deployment_path' if ROOT.name == '.agents' else 'source_path'
+    rid = 'knowledge-retrieval'
+    relative = resources[rid]['source_path'] if layout == 'source_path' else placements[rid][layout]
+    path = (ROOT.parent if ROOT.name == '.agents' else ROOT) / relative
+    module_spec = importlib.util.spec_from_file_location('method_knowledge', path)
+    knowledge = importlib.util.module_from_spec(module_spec); module_spec.loader.exec_module(knowledge)
+    reader = knowledge.Reader(knowledge.BASE)
+    selection = result['method_selection']
+    retained = {}
+    base = Path(root or (Path(spec_path).resolve().parent if spec_path else Path.cwd()))
+    for kind, ref in decisions.items():
+        require(isinstance(ref, dict) and {'path','sha256'} <= set(ref) and
+                not set(ref)-{'path','sha256','candidate_id'}, 'Decision reference needs its path and hash')
+        record = json.loads(file_bytes(base, ref['path'], ref['sha256']))
+        for source in record.get('sources', {}).values():
+            file_bytes(base, source['path'], source['sha256'])
+        if kind == 'formulation':
+            value = record.get('formulation')
+            definition = record.get('definition', {})
+            if ref.get('candidate_id'):
+                candidate = next((x for x in record.get('candidates', []) if x['id']==ref['candidate_id']), {})
+                value = candidate.get('formulation')
+                if value:
+                    definition = {'estimand':value['selected_dimensions']['estimand'],
+                                  'population':value['selected_dimensions']['population'],
+                                  'identification':value['selected_dimensions']['identifying_variation']}
+                    if 'selected_question' in value:
+                        definition['question'] = value['selected_question']
+            require(value is not None, 'The referenced formulation has not been applied')
+        else:
+            value = record.get('result_interpretation')
+            require(value is not None, 'The referenced result has no applied interpretation')
+            definition = value['adopted_definition']
+        for key, adopted in definition.items():
+            require(scientific_request.get(key, scientific_request.get('adopted_specification', {}).get(key)) == adopted,
+                    'Decision differs from the adopted '+key)
+        retained[kind] = {'reference':dict(ref), 'decision':value}
+    if retained:
+        selection['research_decisions'] = retained
+    design = selection.get('reason', {}).get('design', request.get('design'))
+    contract_id = (selection.get('model_contract') or {}).get('id')
+    model = request.get('structural_model', request.get('adopted_specification', {}).get('structural_model', result.get('method')))
+    cache, call = {}, None
+    if task:
+        call = knowledge.state_command(Path(root or Path.cwd()), store)
+        current = call('show', task)
+        require(restore or current['status'] == 'running', 'Task-bound knowledge requires a running task; use --restore for saved work')
+        cache, external = knowledge.task_knowledge(current)
+        reader = knowledge.Reader(knowledge.BASE, external)
+    delivered = reader.for_method(result.get('method'), design, stage, model=model, contract_id=contract_id,
+                                  target=selection.get('target', {}).get('kind'),
+                                  context=request.get('conditions', request.get('adopted_specification', {}).get('conditions')),
+                                  cached=None if restore else cache, additional_ids=request.get('knowledge_ids', ()))
+    if call and not restore:
+        for unit in delivered['units']:
+            if not unit['reused'] and not unit['id'].startswith('external:'):
+                call('output', task, 'knowledge:'+unit['id'], '--kind', 'object', '--value',
+                     json.dumps({'version':unit['version'], 'body':unit['body']}, ensure_ascii=False), '--no-dependencies')
+    selection['stage_knowledge'] = delivered
+    if stage == 'entry' and result['status'] == 'selected':
+        result['status'] = 'knowledge_deferred'
+        selection['adoption_status'] = 'pending_contract_knowledge'
+    if delivered['status'] in ('source_required','read_blocked') and result['status'] == 'selected':
+        result['status'] = 'knowledge_required'
+    if delivered.get('plan'):
+        selection['knowledge_plan'] = {k:v for k,v in delivered['plan'].items() if k != 'contracts'}
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['assess', 'propose', 'variables', 'select'])
+    parser.add_argument('command', choices=['assess', 'propose', 'variables', 'select', 'interpret', 'formulate'])
     parser.add_argument('contract', type=Path)
     parser.add_argument('--root', type=Path, default=Path.cwd())
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--stage', choices=['entry','contract','compose','review','finalize'], default='contract')
+    parser.add_argument('--task')
+    parser.add_argument('--restore', action='store_true', help='Restore current-stage knowledge after actual context loss')
+    parser.add_argument('--store', default='.agents/state/team.json')
     args = parser.parse_args()
     require(args.output.resolve() != args.contract.resolve(), 'Output must differ from its input contract')
     raw = args.contract.read_bytes()
     contract = json.loads(raw)
     require(isinstance(contract, dict), 'Contract must be an object')
-    result = (select_method(contract, spec_path=args.contract) if args.command == 'select' else
+    result = (select_method(contract, spec_path=args.contract, stage=args.stage, task=args.task, root=args.root, store=args.store, restore=args.restore) if args.command == 'select' else
+              formulate_problem(contract, args.root.resolve()) if args.command == 'formulate' else
+              interpret_result(contract, args.root.resolve()) if args.command == 'interpret' else
               variable_design(contract) if args.command == 'variables' else
               (assess if args.command == 'assess' else propose)(contract, args.root.resolve()))
     protected = set()
+    if isinstance(contract.get('adopted_design'), dict):
+        path = Path(contract['adopted_design']['path'])
+        protected.add((path if path.is_absolute() else args.root / path).resolve())
     for group in ('sources', 'datasets'):
         for reference in result.get(group, {}).values():
             if isinstance(reference, dict) and isinstance(reference.get('path'), str):
@@ -3815,6 +4020,7 @@ def main():
     summary = {'output': str(args.output.resolve())}
     summary.update({'method': result['method']} if args.command == 'select' else
                    {'analyses': len(result['analyses'])} if args.command == 'variables' else
+                   {'status': result['status']} if args.command in ('interpret','formulate') else
                    {'selected_candidate': result['selected_candidate']})
     print(json.dumps(summary))
 
