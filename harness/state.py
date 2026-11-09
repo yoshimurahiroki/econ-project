@@ -773,6 +773,18 @@ def contract_snapshot(task):
         keys += ('required_checks', 'check_targets')
     return json.loads(json.dumps({key: task.get(key, []) for key in keys}))
 
+
+def completion_acceptance_id(request_sha256, owners):
+    """Identify the complete declared scope; its digest alone grants no approval."""
+    scopes = []
+    for owner in owners:
+        value = contract_snapshot(owner)
+        if not value.get('required_checks') and not value.get('check_targets'):
+            value.pop('required_checks', None)
+            value.pop('check_targets', None)
+        scopes.append({'operation_kind': owner['operation_kind'], 'contract': value})
+    return content_hash({'request_sha256': request_sha256, 'owners': scopes})
+
 def record_contract(task, source):
     revisions = task.setdefault('contract_revisions', [])
     snapshot = contract_snapshot(task)
@@ -857,12 +869,22 @@ def missing_deliverables(root, task):
 
 def missing_required_results(task, action_current, *, root=None, final_message=None):
     """One output/action predicate for stored tasks and request-bound hook results."""
-    missing = []
+    missing, current_files = [], {}
     for requirement in task['required_outputs']:
         row = task['outputs'].get(requirement['target'], {})
-        if (row.get('role') != requirement['role'] or row.get('kind') != requirement['kind']
+        invalid = (row.get('role') != requirement['role'] or row.get('kind') != requirement['kind']
                 or not row.get('version') or content_version(row) != row.get('version')
-                or (row.get('kind') == 'message' and (not isinstance(row.get('value'), str) or not row['value'].strip()))):
+                or (row.get('kind') == 'message' and (not isinstance(row.get('value'), str) or not row['value'].strip())))
+        if not invalid and requirement['kind'] == 'file':
+            try:
+                if root is None:
+                    raise ValueError('current file verification requires its task root')
+                value = gate.file_snapshot(root / relative(root, requirement['target']))
+                invalid = value.sha256 != row['version']
+                current_files[requirement['target']] = value
+            except (OSError, ValueError):
+                invalid = True
+        if invalid:
             missing.append(requirement['role'])
     for requirement in task['required_actions']:
         if not any(all(result.get(k) == v for k, v in requirement.items()) and action_current(result)
@@ -885,7 +907,9 @@ def missing_required_results(task, action_current, *, root=None, final_message=N
                     if row.get('kind') != 'file' or not row.get('version'):
                         continue
                     try:
-                        data = gate.file_snapshot(root / relative(root, path))
+                        data = current_files.get(path)
+                        if data is None:
+                            data = gate.file_snapshot(root / relative(root, path))
                         if data.sha256 == row['version']:
                             artifacts[path] = data
                     except (OSError, ValueError):

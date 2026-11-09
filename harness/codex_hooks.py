@@ -260,8 +260,6 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
             retained = context.get('completion_contract', {})
             output_args = list(required_outputs) if required_outputs else [json.dumps(row) for row in retained.get('required_outputs', [])]
             action_args = list(required_actions) if required_actions else [json.dumps(row) for row in retained.get('required_actions', [])]
-            if not output_args:
-                output_args = [json.dumps({'role': 'response', 'kind': 'message', 'target': 'response'})]
             outputs, actions = module.contract(state_root, output_args, action_args)
             operation_kind = operation_kind or retained.get('operation_kind')
             authority = authority or retained.get('authority', '')
@@ -392,7 +390,7 @@ def _bound_state(directory, root, *, check_sources=True):
     task = data['tasks'][binding['task_id']]
     messages = _read(directory / 'task-messages.json', [])
     original = _read(directory / 'original-prompt.json', {})
-    actual = {(row.get('turn_id'), row.get('text')) for row in messages}
+    actual = {(row.get('turn_id'), row.get('text')) for row in messages if row.get('kind') != 'contract-acceptance'}
     actual.add((context.get('turn_id'), original.get('text')))
     for owner in [task, *module.task_ancestors(data['tasks'], task)]:
         for release in owner.get('hold_releases', []):
@@ -447,7 +445,7 @@ def _pending_task_holds(directory, bound, *, check_sources=True):
     if bound is None:
         return holds
     module, data, task, state_root = bound
-    messages = _read(directory / 'task-messages.json', [])
+    messages = [row for row in _read(directory / 'task-messages.json', []) if row.get('kind') != 'contract-acceptance']
     remaining = []
     for hold in holds:
         labels = set(hold.get('target_ids', []))
@@ -1302,8 +1300,12 @@ def _completion_observations(directory, context):
             approval = _read(directory / 'preflight' / ('authorized-' + gate.sha(str(call.get('tool_use_id')).encode()) + '.json'))
             gate.require(approval is not None and binding.get('authorization') == approval,
                          'saved modifying result lacks its actual matching preflight authority')
+        producer = _read(directory / 'preflight' / ('authorized-' + gate.sha(str(binding.get('production_call_id')).encode()) + '.json'), {})
+        before = producer.get('output_versions_before', {}) if producer.get('task_id') == context.get('task_id') else {}
+        versions = {target: version for target, version in binding.get('output_versions', {}).items()
+                    if target in before and version != before[target]}
         observed.append({**binding['callback'], 'preflight': binding,
-                         'output_versions': binding.get('output_versions', {})})
+                         'output_versions': versions})
     return observed
 
 
@@ -1322,13 +1324,22 @@ def _ordinary_action_result(directory, requirement, observed, state_root):
     if _tool_failed(row):
         return None
     if requirement['target_kind'] == 'file':
+        if target not in row.get('output_versions', {}):
+            return None
         latest = next((item.get('output_versions', {}).get(target) for item in reversed(observed)
                        if target in item.get('output_versions', {})), None)
         if operation in {'delete', 'remove'}:
-            if target not in row.get('preflight', {}).get('deleted_targets', []) or latest is not None:
+            if (target not in row.get('preflight', {}).get('deleted_targets', []) or latest is not None
+                    or (state_root / target).exists() or (state_root / target).is_symlink()):
                 return None
         elif not latest or row.get('output_versions', {}).get(target) != latest:
             return None
+        else:
+            try:
+                if gate.file_snapshot(state_root / target).sha256 != latest:
+                    return None
+            except (OSError, ValueError):
+                return None
         return {**requirement, 'result': 'passed', 'callback': row}
     native = sibling(next(path for path in
                      (base / 'native_check.py', base / 'NATIVE_CHECK.py') if path.is_file()))
@@ -1405,6 +1416,18 @@ def _verify_completion_contract(directory, root, message, observed):
     gate.require(not missing, 'required outputs or actual operations are incomplete: ' + json.dumps(missing))
 
 
+def _require_original_requirements_acceptance(directory, module, owners):
+    """Only an actual user message can confirm that the declared scope is complete."""
+    identity = module.completion_acceptance_id(gate.sha(_effective_request(directory)), owners)
+    command = 'ERS accept-completion-contract ' + identity
+    messages = _read(directory / 'task-messages.json', [])
+    gate.require(any(row.get('kind') == 'contract-acceptance' and row.get('text', '').strip() == command
+                     for row in messages),
+                 'original request requirements have not been independently confirmed; '
+                 'executor declarations cannot establish completeness. After reviewing the complete original request '
+                 'and this contract, the user may submit exactly: ' + command)
+
+
 def _verify_ordinary_stop(event, root, directory):
     message = event.get('last_assistant_message')
     gate.require(isinstance(message, str) and message.strip(), 'host assistant message is unavailable')
@@ -1423,6 +1446,8 @@ def _verify_ordinary_stop(event, root, directory):
         gate.require(_completion_task(directory, root) is not None,
                      'bind the original complete deliverables before completion; use an answer-only contract for a conversational response')
         _verify_completion_contract(directory, root, message, observed)
+        module, _, task, _ = _completion_task(directory, root)
+        _require_original_requirements_acceptance(directory, module, [task])
         return 'completed'
     module, data, task, state_root = bound
     if _recorded_completion(module, data['tasks'], task, state_root, message):
@@ -1433,6 +1458,8 @@ def _verify_ordinary_stop(event, root, directory):
         candidates = [task['outputs'].get(row['target'], {}) for row in task['required_outputs'] if row['kind'] == 'message']
         gate.require(any(row.get('value') == message for row in candidates),
                      'host message differs from the required recorded message output')
+        _require_original_requirements_acceptance(directory, module,
+            [task, *module.task_ancestors(data['tasks'], task)])
         receipt_tasks, outcome = [task], 'completed'
     else:
         receipt_tasks = [task, *_ordinary_wait_leaf(module, data, task, state_root, directory, message)]
@@ -1932,6 +1959,11 @@ def _authorize_call(event, directory, module, task, effects, *, task_control=Fal
                 'resolved_effects': effects,
                 'task_control': task_control,
                 'contract_sha256': module.content_hash(module.contract_snapshot(task))}
+    work = Path(_read(directory / 'context.json')['cwd'])
+    files = {row['target'] for row in task['required_outputs'] if row['kind'] == 'file'}
+    files.update(row['target_id'] for row in task['required_actions'] if row['target_kind'] == 'file')
+    approval['output_versions_before'] = {name: gate.file_snapshot(work / name).sha256
+                                         if (work / name).is_file() else None for name in sorted(files)}
     save_record(directory / 'preflight' / ('authorized-' + gate.sha(event['tool_use_id'].encode()) + '.json'), approval, replace=False)
 
 
@@ -1993,7 +2025,8 @@ def _state_control_preflight(args, root, directory, event):
                if row.get('content_sha256') == binding['effective_request_sha256'] and row.get('path')]
     gate.require(sources and any(gate.sha(raw) == binding['effective_request_sha256'] and _effective_request(directory).startswith(raw)
                                 for raw in sources), 'reconciliation lost the actual original request')
-    messages = [(row['turn_id'], row['text']) for row in _read(directory / 'task-messages.json', [])]
+    messages = [(row['turn_id'], row['text']) for row in _read(directory / 'task-messages.json', [])
+                if row.get('kind') != 'contract-acceptance']
     messages.append((context['turn_id'], _read(directory / 'original-prompt.json')['text']))
     for reference in (getattr(args, 'user_change', None), getattr(args, 'user_release', None)):
         if reference:
@@ -2168,15 +2201,25 @@ def _post_tool(event, root, directory):
         binding['deleted_targets'] = []
         contract = context['completion_contract']
         state_root = Path(context['cwd'])
+        producer = approval if effect != 'read' else {}
+        if name == 'write_stdin':
+            session = _read(directory / 'sessions' / (gate.sha(str(arguments['session_id']).encode()) + '.json'), {})
+            origin = _read(directory / 'preflight' / ('authorized-' + gate.sha(str(session.get('tool_use_id')).encode()) + '.json'), {})
+            producer = origin if not session.get('closed') and origin.get('task_id') == context.get('task_id') else {}
+        before = producer.get('output_versions_before', {})
+        binding['production_call_id'] = producer.get('tool_use_id')
         required = {row['target'] for row in contract['required_outputs'] if row['kind'] == 'file'}
         required.update(row['target_id'] for row in contract['required_actions'] if row['target_kind'] == 'file')
+        failed = _tool_failed(event)
         for target in sorted(required):
             output = state_root / target
-            if command_action is not None or name == 'write_stdin' or str(output) in affected:
+            if target in before and (command_action is not None or name == 'write_stdin' or str(output) in affected):
+                version = gate.file_snapshot(output).sha256 if output.is_file() else None
+                if version == before[target]:
+                    continue
                 changed_paths.add(str(output))
-                binding['output_versions'][target] = (gate.file_snapshot(output).sha256
-                    if output.is_file() and not _tool_failed(event) else None)
-                if not output.exists() and not _tool_failed(event):
+                binding['output_versions'][target] = version if not failed else None
+                if before[target] is not None and version is None and not failed:
                     binding['deleted_targets'].append(target)
         binding['changed_paths'] = sorted(changed_paths)
         save_record(path, binding, replace=False)
@@ -2301,7 +2344,8 @@ def dispatch(event, expected_event):
             if lifecycle in TERMINAL:
                 return feedback(expected_event, 'This task has completed or stopped. Do not resume automatically. Handle an independent new request as a separate task.')
             if old is not None:
-                kind = ('partial-stop' if stopping['kind'] == 'partial' else
+                kind = ('contract-acceptance' if re.fullmatch(r'ERS accept-completion-contract [a-f0-9]{64}', prompt.strip()) else
+                        'partial-stop' if stopping['kind'] == 'partial' else
                         'continuation' if _continuation_prompt(prompt) else 'amendment')
                 if event['turn_id'] == old['turn_id']:
                     gate.require(prompt == _read(directory / 'original-prompt.json')['text'],
