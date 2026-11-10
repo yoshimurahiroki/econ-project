@@ -53,12 +53,21 @@ def lock_fd(fd):
         fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
 
 
+def windows_extended_path(path):
+    value = str(Path(path).absolute())
+    if value.startswith('\\\\?\\'):
+        return value
+    if value.startswith('\\\\'):
+        return '\\\\?\\UNC\\' + value[2:]
+    return '\\\\?\\' + value
+
+
 def _windows_move(source, target, replace=False):
     move = ctypes.WinDLL('kernel32', use_last_error=True).MoveFileExW
     move.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_ulong]
     move.restype = ctypes.c_int
     # No cross-volume copy fallback; retain atomic same-volume rename semantics.
-    if not move(str(Path(source).absolute()), str(Path(target).absolute()), 8 | int(replace)):
+    if not move(windows_extended_path(source), windows_extended_path(target), 8 | int(replace)):
         number = ctypes.get_last_error()
         if number in (80, 183):
             raise FileExistsError(errno.EEXIST, 'destination exists', str(target))
@@ -698,6 +707,32 @@ def release(artifacts, output, input_hashes=None, validate_inputs=None):
             shutil.rmtree(staging)
 
 
+def prose_parts(text):
+    """Split a candidate into contiguous nonempty blocks for semantic coverage."""
+    return [part for part in re.split(r'\n[ \t]*\n', text) if part.strip()]
+
+
+def validate_semantic_review(text, review):
+    """Bind an actual author's semantic assessments to every part of exact text."""
+    require(isinstance(review, dict) and set(review) == {'text_sha256', 'parts'},
+            'semantic review needs text_sha256 and parts')
+    require(review['text_sha256'] == sha(text.encode('utf-8')), 'semantic review text differs')
+    parts = prose_parts(text)
+    rows = review['parts']
+    require(isinstance(rows, list) and len(rows) == len(parts) and parts,
+            'semantic review must cover every text block')
+    for part, row in zip(parts, rows):
+        require(isinstance(row, dict) and set(row) == {
+            'text_sha256', 'meaning', 'rhetorical_role', 'expression_assessment', 'facts_preserved', 'verdict'
+        }, 'semantic review block fields differ')
+        require(row['text_sha256'] == sha(part.encode('utf-8')), 'semantic review block differs')
+        for key in ('meaning', 'rhetorical_role', 'expression_assessment', 'facts_preserved'):
+            require(isinstance(row[key], str) and len(row[key].strip()) >= 4,
+                    'semantic review requires a substantive ' + key)
+        require(row['verdict'] == 'pass', 'repair each failed semantic review before delivery')
+    return True
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=('scan-text',))
@@ -707,14 +742,14 @@ def main(argv=None):
     parser.add_argument('--surface', choices=SURFACES, default='final')
     args = parser.parse_args(argv)
     try:
-        require(args.dictionary, 'scan-text requires --dictionary')
-        require(args.input, 'scan-text requires --input')
+        require(args.input, 'text check requires --input')
         path = Path(args.input)
         require(path.suffix.lower() in TEXT_SUFFIXES, 'scan-text requires a supported text suffix')
         data = regular_bytes(path)
         decoded = data.decode('utf-8')
         require(not any(ord(c) < 32 and c not in '\t\n\r\f' for c in decoded),
                 'unsupported binary artifact')
+        require(args.dictionary, 'scan-text requires --dictionary')
         dictionary_raw = regular_bytes(args.dictionary)
         dictionary = parse_json(dictionary_raw)
         hits = scan({path.name: data}, dictionary)

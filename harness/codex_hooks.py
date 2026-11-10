@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Task callbacks, current instructions and attributable operation results."""
 import argparse
+import base64
 import importlib.util
 import json
 import os
@@ -1389,6 +1390,40 @@ def _verify_completion_contract(directory, bound, message, observed):
     gate.require(not missing, 'required outputs or actual operations are incomplete: ' + json.dumps(missing))
 
 
+def _review_final_prose(event, root, directory):
+    """Require block-by-block semantic review of the exact final response."""
+    message = event.get('last_assistant_message')
+    gate.require(isinstance(message, str) and message.strip(), 'host assistant message is unavailable')
+    turn = event.get('turn_id')
+    gate.require(isinstance(turn, str) and turn.strip(), 'missing host turn_id for prose review')
+    dictionary = gate.parse_json(gate.regular_bytes(root / 'quality/prose_rules.json'))
+    hits = gate.scan({'final': message.encode('utf-8')}, dictionary)
+    digest = gate.sha(message.encode('utf-8'))
+    receipt = directory / 'prose-reviews' / gate.sha(turn.encode('utf-8')) / (digest + '.json')
+    if receipt.exists():
+        gate.validate_semantic_review(message, _read(receipt))
+        return None
+    ids = ', '.join(sorted({hit['rule_id'] for hit in hits})) or 'none'
+    context = _read(directory / 'context.json')
+    return failure('Stop',
+        'A semantic expression review is required for the exact final response before completion. '
+        'For EVERY nonempty block separated by blank lines, interpret its intended meaning and rhetorical role, '
+        'inspect directness, negative-definition/contrast and all other applicable PROSE rules by meaning, '
+        'including paraphrases with no lexical match, and preserve factual conditions, requested quotations, '
+        'mathematical exclusions and uncertainty. Repair any failure first. '
+        'Prepare a JSON payload with exact final text in text and the assessment in review. '
+        'The review has text_sha256 and an ordered parts array. '
+        'Each part has the SHA-256 of its exact UTF-8 block in text_sha256, substantive meaning, rhetorical_role, '
+        'expression_assessment and facts_preserved strings, and verdict pass. '
+        'Base64-encode the complete UTF-8 JSON payload and use python ' +
+        repr(str(root / 'harness/codex_hooks.py')) + ' --root ' + repr(context['cwd']) +
+        ' record-prose-review --hook-context ' + repr(str(directory / 'context.json')) +
+        ' --turn-id ' + repr(turn) + ' --payload-base64 PAYLOAD. '
+        'Then return exactly the reviewed text; if it changes, review and record it again. '
+        'The optional lexical scan found candidate rule IDs: ' + ids +
+        '. Its matches are leads, not semantic verdicts.')
+
+
 def _verify_ordinary_stop(event, root, directory):
     message = event.get('last_assistant_message')
     gate.require(isinstance(message, str) and message.strip(), 'host assistant message is unavailable')
@@ -1878,11 +1913,13 @@ def _tool_effect(event, root, directory, *, enforce_authority=True):
                     operation, effect = ('read', 'read') if parsed.command == 'focus-research' else ('state-control', 'local-control')
                 if enforce_authority and effect == 'local-control':
                     context = _read(directory / 'context.json', {})
-                    gate.require(parsed.command in {'bind-operation', 'bind-child-assignment'}
+                    gate.require(parsed.command in {'bind-operation', 'bind-child-assignment', 'record-prose-review'}
                                  and not event.get('agent_id')
                                  and _tool_target(str(parsed.root), command_cwd) == str(absolute(context['cwd']).resolve())
                                  and _tool_target(str(parsed.hook_context), command_cwd) == str((directory / 'context.json').resolve()),
                                  'operation binding must target this task and its original root')
+                    if parsed.command == 'record-prose-review':
+                        gate.require(parsed.turn_id == event.get('turn_id'), 'prose review turn differs')
             else:
                 operation, effect, command_action = 'execute_command', 'write', command
         elif tool.startswith('mcp__') and tool in native.CONNECTOR_WRITE_TOOLS:
@@ -2210,6 +2247,8 @@ def dispatch(event, expected_event):
                  'invalid host child identity')
     compaction_key = 'root' if agent_id is None else 'agent:' + agent_id
     root, data = absolute(os.environ.get('PLUGIN_ROOT')), absolute(os.environ.get('PLUGIN_DATA'))
+    if os.name == 'nt':
+        data = Path(gate.windows_extended_path(data))
     gate.require(Path(__file__).resolve() == root / 'harness/codex_hooks.py', 'plugin root does not match handler')
     cwd = absolute(event['cwd'])
     directory = _active_directory(event, data)
@@ -2525,6 +2564,9 @@ def dispatch(event, expected_event):
         gate.require(type(event.get('stop_hook_active')) is bool, 'missing Stop re-entry state')
         try:
             outcome = _verify_ordinary_stop(event, root, directory)
+            prose_review = _review_final_prose(event, root, directory)
+            if prose_review is not None:
+                return prose_review
             _finish(directory, outcome)
             if outcome == 'paused':
                 return {'systemMessage': 'The phase is complete and the task is paused for user input. '
@@ -2557,6 +2599,8 @@ def main(expected_event):
             # Keep the exact packet available instead of allowing host truncation.
             if limit and len(text.encode('utf-8')) > limit:
                 data = absolute(os.environ.get('PLUGIN_DATA'))
+                if os.name == 'nt':
+                    data = Path(gate.windows_extended_path(data))
                 directory = _active_directory(event, data)
                 if directory is None:
                     directory = data / 'economics' / gate.sha(event['session_id'].encode())
@@ -2603,6 +2647,10 @@ def parse_control_args(argv=None):
     child.add_argument('--agent-id', required=True)
     child.add_argument('--source-id', required=True)
     child.add_argument('--source-sha256', required=True)
+    prose = sub.add_parser('record-prose-review')
+    prose.add_argument('--hook-context', required=True, type=Path)
+    prose.add_argument('--turn-id', required=True)
+    prose.add_argument('--payload-base64', required=True)
     return parser.parse_args(argv)
 
 
@@ -2610,6 +2658,24 @@ def inspect_saved_state(argv=None):
     """Read an existing research log or bind the current operation and instructions."""
     args = parse_control_args(argv)
     root = absolute(str(args.root))
+    if args.command == 'record-prose-review':
+        context_path = absolute(str(args.hook_context))
+        context = _read(context_path)
+        gate.require(context_path.name == 'context.json' and Path(context['cwd']).resolve() == root.resolve(),
+                     'prose review context differs')
+        directory = context_path.parent
+        gate.require((directory / 'turns' / (gate.sha(args.turn_id.encode('utf-8')) + '.json')).is_file(),
+                     'prose review turn is not registered in this task')
+        payload = gate.parse_json(base64.b64decode(args.payload_base64, validate=True))
+        gate.require(isinstance(payload, dict) and set(payload) == {'text', 'review'}
+                     and isinstance(payload['text'], str), 'invalid prose review payload')
+        gate.validate_semantic_review(payload['text'], payload['review'])
+        digest = gate.sha(payload['text'].encode('utf-8'))
+        receipt = directory / 'prose-reviews' / gate.sha(args.turn_id.encode('utf-8')) / (digest + '.json')
+        save_record(receipt, payload['review'], replace=False)
+        print(json.dumps({'status': 'recorded', 'text_sha256': digest,
+                          'parts': len(payload['review']['parts'])}))
+        return 0
     if args.command == 'bind-operation':
         print(json.dumps(bind_operation(args.hook_context, root, args.operation,
                                         conditions=args.condition, profile=args.profile, required_outputs=args.required_output,

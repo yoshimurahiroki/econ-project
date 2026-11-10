@@ -9,7 +9,7 @@
     "prose": {
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "0.95.0"
+      "content_version": "0.95.3"
     },
     "research": {
       "source_path": "runtime/DECIDE.md",
@@ -268,7 +268,7 @@
     "registry-resources": {
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.95.1"
+      "content_version": "0.95.3"
     },
     "registry-placements": {
       "source_path": "registry/placements.json",
@@ -278,7 +278,7 @@
     "prose-check-guide": {
       "source_path": "quality/prose_rules.md",
       "resource_kind": "rule",
-      "content_version": "0.91.1"
+      "content_version": "0.95.3"
     },
     "prose-check-rules": {
       "source_path": "quality/prose_rules.json",
@@ -288,7 +288,7 @@
     "local-checks": {
       "source_path": "harness/local_checks.py",
       "resource_kind": "support",
-      "content_version": "0.91.0",
+      "content_version": "0.95.3",
       "required_resources": [
         "tool-route-registry-py"
       ]
@@ -319,7 +319,7 @@
     "policy-assets": {
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.95.1"
+      "content_version": "0.95.3"
     },
     "policy-manifest": {
       "source_path": "quality/policy_manifest.json",
@@ -337,7 +337,7 @@
     "codex-hooks": {
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.91.0",
+      "content_version": "0.95.3",
       "required_resources": [
         "team-state-helper"
       ]
@@ -501,7 +501,7 @@
     "hook-registration": {
       "source_path": "hooks/hooks.json",
       "resource_kind": "support",
-      "content_version": "0.53.0"
+      "content_version": "0.95.3"
     },
     "research-runner": {
       "source_path": "harness/research.py",
