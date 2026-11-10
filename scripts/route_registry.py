@@ -1,8 +1,4 @@
-"""Resolve stable operation/rule IDs from three authoritative registries.
-
-The schema-1 reader is retained for old installations.
-The schema-2 normalized view keeps maintenance consumers independent of storage.
-"""
+"""Resolve stable operation/rule IDs from the three authoritative registries."""
 import json
 import copy
 import re
@@ -94,18 +90,8 @@ def relative(value):
 
 
 def load_routes(root, layout='source'):
-    base = Path(root) / ('registry' if layout == 'source' else '.agents/registry')
-    if base.exists():
-        routes = load_registry(root, layout)
-    else:
-        path = Path(root) / ('runtime/ROUTES.yaml' if layout == 'source' else '.agents/runtime/ROUTES.yaml')
-        routes = json.loads(path.read_text(encoding='utf-8'), object_pairs_hook=unique_object)
-    if routes.get('schema_version') not in (1, 2):
-        raise ValueError('Unsupported ROUTES schema_version')
+    routes = load_registry(root, layout)
     resources = routes['resources']
-    if isinstance(resources, list):
-        resources = {r['resource_id']: r for r in resources}
-        routes['resources'] = resources
     aliases, deployments = set(), set()
     for rid, resource in resources.items():
         relative(resource['source_path'])
@@ -122,7 +108,7 @@ def load_routes(root, layout='source'):
         conditional = [r['resource_id'] for r in operation.get('conditional_resources', [])]
         if set(required + conditional) - resources.keys():
             raise ValueError('Operation refers to an unknown resource')
-    registry = condition_registry(routes)
+    registry = routes['conditions']
     for cid, selection in registry.items():
         if set(selection) - resources.keys():
             raise ValueError(f'Unknown condition resource: {cid}')
@@ -159,24 +145,6 @@ def merge_selection(target, additions):
     return target
 
 
-def condition_registry(routes):
-    if routes.get('schema_version') == 2:
-        return routes['conditions']
-    registry = dict(routes.get('conditions', {}))
-    # Read legacy registries, rejecting conflicting duplicate definitions.
-    for obj in [*routes['operations'], routes.get('placements', {}), *[a for a in routes.get('aliases', {}).values() if isinstance(a, dict)]]:
-        for entry in obj.get('conditional_resources', []):
-            rid, cid = entry['resource_id'], entry['when']
-            selection = {k: entry[k] for k in ('sections', 'whole_resource') if k in entry}
-            if not selection:
-                selection = {'whole_resource': True}
-            previous = registry.setdefault(cid, {}).get(rid)
-            if previous is not None and previous != selection:
-                raise ValueError(f'Conflicting condition definition: {cid}/{rid}')
-            registry[cid][rid] = selection
-    return registry
-
-
 def resolve_operation(routes, selector, mode=None, *, user_profile=None, project_profile=None, conditions=()):
     requested = selector
     alias = routes.get('aliases', {}).get(selector)
@@ -202,28 +170,15 @@ def resolve_operation(routes, selector, mode=None, *, user_profile=None, project
             if len(candidates) != 1:
                 raise ValueError(f'Specify --mode for {selector}')
         result = dict(candidates[0])
-    selection = {}
-    active_rules = []
-    origins = {}
-    if routes.get('schema_version') == 2:
-        pending = list(result.get('required_rules', []))
-        for cid in conditions:
-            if cid not in routes.get('condition_definitions', {}):
-                raise ValueError('Unknown condition: ' + cid)
-            pending.extend(routes['condition_definitions'][cid].get('required_rules', []))
-        active_rules, selection = required_closure(routes, pending, conditions, result.get('id', requested))
-        origins = {rule_id: result.get('id', requested) for rule_id in active_rules}
-    for obj in ([routes.get('placements', {}), result] if routes.get('schema_version') == 1 else []):
-        ids = obj.get('required_resources', obj.get('common_resources', []))
-        declared = obj.get('resource_sections', {})
-        merge_selection(selection, {rid: declared.get(rid, {'whole_resource': True}) for rid in ids})
-        merge_selection(selection, declared)
-    registry = condition_registry(routes)
-    unknown = set(conditions) - registry.keys()
-    if unknown:
-        raise ValueError('Unknown condition: ' + ', '.join(sorted(unknown)))
+    pending = list(result.get('required_rules', []))
     for cid in conditions:
-        merge_selection(selection, registry[cid])
+        if cid not in routes['condition_definitions']:
+            raise ValueError('Unknown condition: ' + cid)
+        pending.extend(routes['condition_definitions'][cid].get('required_rules', []))
+    active_rules, selection = required_closure(routes, pending, conditions, result.get('id', requested))
+    origins = {rule_id: result.get('id', requested) for rule_id in active_rules}
+    for cid in conditions:
+        merge_selection(selection, routes['conditions'][cid])
     profile = user_profile or project_profile or 'default-micro'
     uses_profile = result.get('uses_writing_profile', result['skill_id'] == 'econ-writing')
     uses_profile = uses_profile or (bool(user_profile) and result.get('explicit_profile_allowed', False))
@@ -263,9 +218,6 @@ def select_reading_sections(routes, manifest, stage, role=None, reader_id=None, 
     for rid, ids in stages[stage].items():
         if rid in adopted:
             selected[rid] = list(ids)
-    for rid, ids in routes.get('reading_roles', {}).get(role, {}).get(stage, {}).items():
-        if rid in adopted:
-            selected.setdefault(rid, []).extend(ids)
     # The registry owns the phase boundary. Never fill it with all adopted
     # Markdown: applicability over the whole task is not current-stage need.
     for item in unresolved:
@@ -291,7 +243,26 @@ def select_reading_sections(routes, manifest, stage, role=None, reader_id=None, 
             result.append({'resource_id': rid, 'section_id': sid,
                 'rule_ids': [key for key, row in routes['rules'].items()
                              if row['resource_id'] == rid and row['section_id'] == sid]})
-    return result
+    # A current-stage body needs its prerequisites now, including prerequisites
+    # assigned to another stage. Future unrelated bodies remain deferred.
+    seeds = [key for row in result for key in row['rule_ids']]
+    conditions = manifest.get('selection', {}).get('conditions', [])
+    active, _ = required_closure(routes, seeds, conditions, 'reading stage ' + stage)
+    seen = {(row['resource_id'], row['section_id']) for row in result}
+    for rule_id in active:
+        rule = routes['rules'][rule_id]
+        rid, sid = rule['resource_id'], rule['section_id']
+        if not routes['resources'][rid]['source_path'].endswith('.md'):
+            continue
+        key = (rid, sid)
+        if key in seen:
+            continue
+        result.append({'resource_id': rid, 'section_id': sid, 'rule_ids': [rule_id]})
+        seen.add(key)
+    whole = {row['resource_id'] for row in result
+             if routes['sections'][row['resource_id']][row['section_id']].get('whole_resource')}
+    return [row for row in result if row['resource_id'] not in whole
+            or routes['sections'][row['resource_id']][row['section_id']].get('whole_resource')]
 
 
 
@@ -411,7 +382,8 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
                 custom_profile = Path(root) / custom_profile
     adopted_rules = list(active)
     if stage is not None:
-        refs = select_reading_sections(routes, {'resource_sections': selection}, stage)
+        refs = select_reading_sections(routes, {'resource_sections': selection,
+            'selection': {'conditions': list(conditions)}}, stage)
         selection = {}
         active = []
         for row in refs:
@@ -857,6 +829,15 @@ def required_closure(routes, rule_ids, conditions=(), origin='registry'):
         active.append(rule_id)
         rule = routes['rules'][rule_id]
         pending.extend(rule.get('requires', []))
+        if routes['sections'][rule['resource_id']][rule['section_id']].get('whole_resource'):
+            # Whole bodies include their registered sections. Keep each section's
+            # prerequisite edges operative without duplicating them on *.all.
+            for child_id, child in routes['rules'].items():
+                if child['resource_id'] == rule['resource_id'] and child_id != rule_id:
+                    pending.extend(child.get('requires', []))
+                    for edge in child.get('conditional_requires', []):
+                        if edge['when'] in conditions:
+                            pending.extend(edge['required_rules'])
         for edge in rule.get('conditional_requires', []):
             if edge['when'] in conditions:
                 pending.extend(edge['required_rules'])
@@ -883,7 +864,6 @@ def load_registry(root, layout='source'):
               'aliases': op_data.get('aliases', {}), 'operations': [],
               'condition_definitions': op_data.get('conditions', {}),
               'reading_stages': resource_data.get('reading_stages', {}),
-              'reading_roles': resource_data.get('reading_roles', {}),
               'conditions': {}, 'registry_source_paths': names,
               'placements': {k: v for k, v in placement_data.items() if k not in ('schema_version', 'resources')}}
     # Runtime consumers get joined pointer records.
@@ -902,16 +882,6 @@ def load_registry(root, layout='source'):
                     or any(not isinstance(sid, str) for sid in ids)
                     or len(ids) != len(set(ids)) or any(sid not in routes['sections'][rid] for sid in ids)):
                 raise ValueError('Invalid reading sections: ' + str(rid))
-    for role, stages in routes['reading_roles'].items():
-        if role != 'author' or not isinstance(stages, dict):
-            raise ValueError('Invalid reading role: ' + str(role))
-        for stage, reading in stages.items():
-            if stage not in routes['reading_stages'] or not isinstance(reading, dict):
-                raise ValueError('Invalid role reading stage')
-            for rid, ids in reading.items():
-                if (rid not in resources or not isinstance(ids, list) or not ids
-                        or any(not isinstance(sid, str) for sid in ids) or any(sid not in routes['sections'][rid] for sid in ids)):
-                    raise ValueError('Invalid role reading sections')
     for rule_id, rule in routes['rules'].items():
         rid, sid = rule['resource_id'], rule['section_id']
         if not resources[rid]['source_path'].endswith('.md'):

@@ -4153,16 +4153,15 @@ def main(argv=None):
                 hooks = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(hooks)
                 output['hook_binding'] = hooks.bind_state(args.hook_context, path, root, args.id)
-        print(json.dumps(output, ensure_ascii=False, indent=2))
+        return output
     if mutate or args.command in {'prepare-context', 'project-update'}:
         with locked(path):
-            execute()
-    else:
-        execute()
+            return execute()
+    return execute()
 
 if __name__ == '__main__':
     try:
-        main()
+        print(json.dumps(main(), ensure_ascii=False, indent=2))
     except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as error:
         print(str(error), file=sys.stderr)
         sys.exit(2)

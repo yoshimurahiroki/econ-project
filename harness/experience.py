@@ -4,7 +4,6 @@ import argparse
 import importlib.util
 import json
 from pathlib import Path
-import subprocess
 import sys
 
 def _sibling(name, filename):
@@ -36,11 +35,7 @@ def read_store(root, store):
 
 
 def call(root, store, *args):
-    command = [sys.executable, str(Path(state.__file__).resolve()), '--root', str(root), '--store', store, *args]
-    result = subprocess.run(command, capture_output=True, text=True)
-    if result.returncode:
-        raise ValueError(result.stderr.strip() or result.stdout.strip())
-    return json.loads(result.stdout)
+    return state.main(['--root', str(root), '--store', store, *args])
 
 
 def output_data(root, task, output_id):

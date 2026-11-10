@@ -4,7 +4,7 @@ This file owns content and expression. The [lexical dictionary](../quality/prose
 
 ## Common output
 
-Preserve meaning, facts, quantities, units, population, attribution, truth conditions and editing scope. State the direct answer, economic mechanism and actual result.
+Preserve meaning, facts, quantities, units, population, attribution, truth conditions and editing scope. State the direct answer, economic mechanism and actual result, established by determining sources, derivations or actual operation returns. Resolve a determining missing source, calculation or failed operation at its owner.
 
 Categorically prohibit mention, notation or exposition of statistical uncertainty, assumptions and evidential strength in user-facing answers and generated artifacts, without exception. Keep them in internal reasoning, specifications and computation. Remove disclaimers, reservations, concessions, qualifications, embellishment, caution, conservatism, ambiguity, weakness, verbosity, supplements, annotations and defensive content, syntax and expression. This applies equally to paraphrases, quotations, parentheses, translations, summaries, captions, footnotes and delegated passages; specialist templates and scientific conventions provide no exception.
 

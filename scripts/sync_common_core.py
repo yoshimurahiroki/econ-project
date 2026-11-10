@@ -36,7 +36,7 @@ def runtime_io():
 
 def common_paths(source):
     routes = load_routes(source)
-    registry_paths = routes.get("registry_source_paths", ["runtime/ROUTES.yaml"])
+    registry_paths = routes["registry_source_paths"]
     paths = {resource["source_path"] for resource in routes["resources"].values()
              if resource.get("sync", True)} | set(registry_paths)
     catalog = routes["resources"].get("knowledge-catalog")

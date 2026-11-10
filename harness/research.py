@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Execute an adopted, explicit research DAG using the existing state store."""
 import argparse
-from contextlib import contextmanager, redirect_stdout
+from contextlib import contextmanager
 import copy
 import hashlib
 import importlib
-import io
 import itertools
 import json
 import math
@@ -361,10 +360,7 @@ def environment_hashes(environment):
 
 
 def call(root, store, *args):
-    output = io.StringIO()
-    with redirect_stdout(output):
-        state.main(['--root', str(root), '--store', store, *args])
-    return json.loads(output.getvalue())
+    return state.main(['--root', str(root), '--store', store, *args])
 
 
 class ResearchInterrupted(KeyboardInterrupt):

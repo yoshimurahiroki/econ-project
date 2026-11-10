@@ -380,10 +380,6 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             active, dependency_selection = required_closure(routes, rule_ids, conditions, 'reference:' + value)
             merge_selection(selections, dependency_selection)
             reference_required.append({'canonical_operation': 'reference:' + value, 'active_rules': active})
-    # Include the automatically required state helper before resolving its
-    # declared dependencies, just like explicitly selected resources.
-    if final_operations and 'policy-manifest' in selections and 'team-state-helper' in resources:
-        merge_selection(selections, {'team-state-helper': {'whole_resource': True}})
     if output_format == 'deployed':
         # Installed reading and re-export use the complete registry metadata;
         # the selected rule and knowledge bodies retain their bounded closure.

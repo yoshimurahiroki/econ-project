@@ -255,7 +255,8 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
             updated['reading_stage'] = stage
         elif binding != context.get('operation_binding'):
             updated.pop('reading_stage', None)
-        if context.get('state_binding') is None:
+        if context.get('state_binding') is None and (context.get('completion_contract') or required_outputs
+                or required_actions or operation_kind or authority or external_targets):
             module = sibling(root / 'harness/state.py')
             retained = context.get('completion_contract', {})
             output_args = list(required_outputs) if required_outputs else [json.dumps(row) for row in retained.get('required_outputs', [])]
@@ -288,7 +289,7 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
             record.update(operation_kind=operation_kind, authority=authority,
                           request_sha256=gate.sha(_effective_request(path.parent)))
             updated['completion_contract'] = record
-        else:
+        elif context.get('state_binding') is not None:
             gate.require(not (required_outputs or required_actions or external_targets or operation_kind or authority or user_change),
                          'the bound state owner already owns the completion contract')
             bound = _bound_state(path.parent, root)
@@ -544,9 +545,6 @@ def _restoration(root, directory, state, manifest=None, conditions=(), *, restor
                        for row in current['assets'].values()}
     request_sha = gate.sha(request.encode('utf-8'))
     restore_request = context_lost or retained.get('instruction_request_sha256') != request_sha
-    if not context.get('state_binding') and not context.get('completion_contract'):
-        state = {**state, 'needed_actions': [*state.get('needed_actions', []),
-                 {'requirement_id': 'task-completion-contract', 'action': 'bind the original complete deliverables and authority before changes or completion'}]}
     packet = policy.instruction_context(owner, manifest=current,
         status={**state, 'lifecycle': _lifecycle(directory), 'request_sha256': request_sha, 'unmet_ids': _ids(state)},
         request_text=request if restore_request else None, restore=restore, stage=context.get('reading_stage'),
@@ -1381,10 +1379,7 @@ def _ordinary_action_result(directory, requirement, observed, state_root):
         return None
 
 
-def _verify_completion_contract(directory, root, message, observed):
-    bound = _completion_task(directory, root, check_sources=False)
-    if bound is None:
-        return
+def _verify_completion_contract(directory, bound, message, observed):
     module, _, task, state_root = bound
     gate.require(all(row.get('preflight') for row in observed),
                  'observed operation needs its original authority and actual result evidence')
@@ -1432,9 +1427,13 @@ def _verify_ordinary_stop(event, root, directory):
     bound = _bound_state(directory, root)
     if bound is None:
         gate.require(not _pending_task_holds(directory, None), 'unresolved task hold requires continuation')
-        gate.require(_completion_task(directory, root) is not None,
-                     'bind the original complete deliverables before completion; use an answer-only contract for a conversational response')
-        _verify_completion_contract(directory, root, message, observed)
+        completion = _completion_task(directory, root)
+        if completion is None:
+            # Read-only answers use the retained request and CORE's integrated
+            # judgment. Modifying calls still require preflight authority.
+            gate.require(not observed, 'modifying operations require their original task contract')
+            return 'completed'
+        _verify_completion_contract(directory, completion, message, observed)
         return 'completed'
     module, data, task, state_root = bound
     if _recorded_completion(module, data['tasks'], task, state_root, message):
@@ -1947,6 +1946,10 @@ def _authorize_call(event, directory, module, task, effects, *, task_control=Fal
     work = Path(_read(directory / 'context.json')['cwd'])
     files = {row['target'] for row in task['required_outputs'] if row['kind'] == 'file'}
     files.update(row['target_id'] for row in task['required_actions'] if row['target_kind'] == 'file')
+    name = event['tool_name'].rsplit('__', 1)[-1].split('.')[-1].lower()
+    if name not in {'exec_command', 'run_command', 'bash', 'write_stdin'}:
+        affected = {target for _, target in effects}
+        files = {name for name in files if str(work / name) in affected}
     approval['output_versions_before'] = {name: gate.file_snapshot(work / name).sha256
                                          if (work / name).is_file() else None for name in sorted(files)}
     save_record(directory / 'preflight' / ('authorized-' + gate.sha(event['tool_use_id'].encode()) + '.json'), approval, replace=False)
@@ -2144,7 +2147,7 @@ def _pre_tool(event, root, directory, state):
             targets = hold['targets']
             matches_target = not targets or any(item == 'file:' + relative for item in targets)
             gate.require(not (matches_operation and matches_target), 'task state hold covers this operation')
-    _authorize_call(event, directory, state_module, task, resolved_effects)
+    _authorize_call(event, directory, state_module, task, required)
     return feedback('PreToolUse', scoped) if scoped else {}
 
 
@@ -2384,8 +2387,9 @@ def dispatch(event, expected_event):
             state['request_sha256'] = context['prompt_sha256']
             text = coordinator
             text += '\n' + _restoration(root, directory, state, instruction_event='task-start')
-            text += ('\nRead the selected operation and applicable bodies. Before changes or completion, bind all original '
-                     'outputs/actions, exact targets and authority; an answer-only contract needs no durable task store. '
+            text += ('\nRead the selected operation and applicable bodies. Answer-only work needs no completion contract '
+                     'or durable store. Before modifications or external actions, bind all original '
+                     'outputs/actions, exact targets and authority. '
                      'Use codex_hooks.py --root ' + json.dumps(str(cwd)) +
                      ' bind-operation --hook-context ' + json.dumps(str(context_path)) +
                      ' --operation OPERATION --operation-kind KIND with the requested --required-output, --required-action '

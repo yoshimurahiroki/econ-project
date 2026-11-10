@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.89.3",
+  "policy_id": "economics-native-0.90.0",
   "profile": {
     "id": "research-full"
   },
@@ -11,11 +11,11 @@
     },
     "codex_hooks": {
       "path": "harness/codex_hooks.py",
-      "sha256": "3f0a5816d8649851c4acec1e70b231adad88d392c3f6b3882f64162b09885fed"
+      "sha256": "27b97f7c498d5bec05ba870ec14d0bca855ae1abcb653c24b48a7bef255b9f45"
     },
     "core": {
       "path": "runtime/CORE.md",
-      "sha256": "59f5691258a048232af39728e7de694e51979e624848536464016244abd8ecb6"
+      "sha256": "d3795fad27ee57ba329496c2e25cd89b368edc87080c9dd7f120b55f5c7a1a1c"
     },
     "decide": {
       "path": "runtime/DECIDE.md",
@@ -43,11 +43,11 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "ef9b4bca1b100ad57f1445cb67f98e925e9a2ae870f59d763347be4596ee770b"
+      "sha256": "afb1a77b9c9253d02a870128d4bc8783d75badc160fd35432a0999a155bce7af"
     },
     "prose": {
       "path": "runtime/PROSE.md",
-      "sha256": "5b8e7585d03139e0692dd773fc26218485640a19b190a8665b4c255348af45fb"
+      "sha256": "564163564b3292342f6621f7b0c3fc830a38972e35fdc9a174ae7403c3a3779a"
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
@@ -55,7 +55,7 @@
     },
     "registry_operations": {
       "path": "registry/operations.json",
-      "sha256": "d71f1cb9e09887125b22727b8013d4aa2b09638b663bd0b19202b48f3c3f3e92"
+      "sha256": "ec0c6206d5937c7005231207159b89dfbe395160deb201611ad746f68c464bee"
     },
     "registry_placements": {
       "path": "registry/placements.json",
@@ -63,7 +63,7 @@
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "6240093be21a7d7de956c38802ea9d70a56b8692550d2b208b6340762a34e969"
+      "sha256": "b859f9366ffda353a74ed32f35440400eb06496bda8ac4bd59f1cc5cd649be29"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -459,7 +459,7 @@
     },
     "resource:plugin-integration-guide": {
       "path": "docs/ai/plugin-integration.md",
-      "sha256": "3293b8cd9c9c11ec342c171684d166bb91dad7f740ce24af26020e924999def3"
+      "sha256": "c2f9740e372d0486c908d58cce7da625c61656afa3c473ed838b5db9053cc09a"
     },
     "resource:policy-agents-agentsmd": {
       "path": "references/repository-policy/.agents/AGENTS.md",
@@ -627,7 +627,7 @@
     },
     "resource:research-experience": {
       "path": "harness/experience.py",
-      "sha256": "6b5ed09a2d85a08639a01afc2a5363889f02d3ad76c54bc91e649e2e2e97fc12"
+      "sha256": "3bec5ebf03d2f6f3ddf6e777fb21bfeb400a109a2725585179068586dfc7c242"
     },
     "resource:research-gallery": {
       "path": "harness/research_gallery.py",
@@ -683,7 +683,7 @@
     },
     "resource:research-runner": {
       "path": "harness/research.py",
-      "sha256": "d239c57aa2a3a1a43746817d7fcf58fe9031fa8c38eb212469a68dcb74760fc9"
+      "sha256": "4b0356a0f935bf41fae7fa1c2cfef2f2376647167fe56486e276d679e1c879b4"
     },
     "resource:research-search": {
       "path": "skills/econ-literature/scripts/research_search.py",
@@ -715,7 +715,7 @@
     },
     "resource:state-contract": {
       "path": "harness/state.md",
-      "sha256": "49936d3e8429c82756a9033a7a97919b4155fc188d6862b2769833988799f641"
+      "sha256": "6327653d7ec94c0f8f71e57af26fdda90267d6f474c1db6547debf27ae157bd5"
     },
     "resource:tool-pack-context-sh": {
       "path": "scripts/pack_context.sh",
@@ -759,15 +759,15 @@
     },
     "route_registry": {
       "path": "scripts/route_registry.py",
-      "sha256": "b8b919e5b288625ec849b893e16e8d5bcc5df7a9846ce4265e74169ed4076fba"
+      "sha256": "657accb432d17782165c9d13d212ae88db6d1ed21d6f71cb4e69c090ff4862d6"
     },
     "state": {
       "path": "harness/state.py",
-      "sha256": "840ccca603cd3a920bac0556b25c4506c133b4939454ac5c853a0f18f00bd6e7"
+      "sha256": "170a5d25fc6ca99ca14ffd7e0c77a104dcab90fb7701dda746ebdb20441246e6"
     },
     "team": {
       "path": "runtime/TEAM.md",
-      "sha256": "31e8b404c9801cd993ba6620fed227d96a41b9dc497fb0558e5a2a7c939045d1"
+      "sha256": "68dd1ab8050c74099d5d0d94d9c347bae1556da9ac36e77dc564d39b387f229f"
     }
   }
 }

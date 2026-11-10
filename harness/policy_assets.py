@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.89.3'
+POLICY_ID = 'economics-native-0.90.0'
 PRIMARY_EXPRESSION_RULE = "Apply PROSE's output prohibitions to every answer and generated artifact, without exception."
 PRIMARY_STYLE_RULE = ('Keep scientific conditions, statistical uncertainty and evidence-strength judgments internal; '
                       'deliver the direct economic answer and actual operation result.')
@@ -56,7 +56,10 @@ DEFAULT_PATHS = {
     'registry_placements': 'registry/placements.json',
     'route_registry': 'scripts/route_registry.py',
 }
-RUN_PATHS = {key: path for key, path in DEFAULT_PATHS.items() if key not in {'state', 'decide', 'execution', 'team'}}
+# Bootstrap only the resolver and its catalogs. Operation/rule dependencies own
+# scientific, state, writing and checking modules; ordinary answers need none.
+RUN_PATHS = {key: DEFAULT_PATHS[key] for key in (
+    'policy_assets', 'registry_operations', 'registry_resources', 'registry_placements', 'route_registry')}
 BASE_RESOURCE_IDS = {
     'prose-check-rules': 'dictionary', 'core': 'core', 'research': 'decide',
     'execution': 'execution', 'team': 'team', 'prose': 'prose',
@@ -302,29 +305,6 @@ def select_manifest(manifest, assets, operation, conditions=(), profile=None, te
     return result
 
 
-@lru_cache(maxsize=1)
-def _local_checks_code(source):
-    """Compile the pinned checker, without retaining a mutable checker module."""
-    return compile(source, '<pinned local_checks.py>', 'exec')
-
-
-def writing_rules(manifest, assets):
-    """Return the exact adopted rule bodies used by paragraph host assignments."""
-    profile_id = manifest.get('selection', {}).get('profile')
-    if not profile_id:
-        raise ValueError('paragraph writing requires its adopted writing profile')
-    names = {'CORE': 'core', 'PROSE': 'prose', 'econ-writing': 'econ-writing',
-             'prose-guide': 'prose-check-guide'}
-    texts = {name: assets[resource_key(rid)].decode('utf-8') for name, rid in names.items()}
-    if digest(assets['local_checks']) != manifest['assets']['local_checks']['sha256']:
-        raise ValueError('policy checker bytes and manifest differ')
-    checker = types.ModuleType('adopted_local_checks')
-    exec(_local_checks_code(assets['local_checks']), checker.__dict__)
-    return {'policy_id': manifest['policy_id'], 'texts': texts,
-            'dictionary': checker.expand_dictionary(parse(assets['dictionary'])),
-            'profile': assets[resource_key(profile_id)].decode('utf-8')}
-
-
 def _manifest_paths(manifest):
     fields = {'schema_version', 'policy_id', 'profile', 'assets'}
     if (not isinstance(manifest, dict) or set(manifest) != fields
@@ -453,7 +433,9 @@ def verify_manifest(root, manifest=None, *, operation=None, conditions=(), profi
             pending.extend(routes['condition_definitions'][condition].get('required_rules', []))
         active_rules, sections = resolver.required_closure(routes, pending, conditions)
         required = set(RUN_PATHS) | {resource_key(rid) for rid in sections if rid != 'policy-manifest'}
-        selection = {'active_rules': active_rules, 'resource_sections': sections}
+        selection = {'active_rules': active_rules, 'resource_sections': sections,
+                     'selection': {'operation': None, 'conditions': _string_ids(conditions, 'conditions'),
+                                   'profile': None, 'templates': []}}
     else:
         required, selection, resolver, routes, contract = _resolve_selection(assets, operation, conditions, profile, templates)
     missing = required - paths.keys()

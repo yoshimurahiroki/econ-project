@@ -1476,16 +1476,17 @@
     "delegation_active": {
       "when": "delegation_active",
       "required_rules": [
-        "team.all",
+        "team.native-model-roles",
+        "team.shared-work",
+        "team.return-and-integration",
+        "team.retry-and-capacity",
         "research.resolve-dependencies-and-integrate-findings"
       ]
     },
     "resumption_active": {
       "when": "resumption_active",
       "required_rules": [
-        "team.all",
-        "state-contract.state-and-version-contract",
-        "state-contract.resumption-and-migration"
+        "team.resumption"
       ]
     },
     "handoff_active": {

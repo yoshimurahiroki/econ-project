@@ -8,6 +8,8 @@ The common source is synchronized to explicitly selected public or private desti
 
 ## Writing and execution
 
+The resolver uses the three schema-2 registries directly. Each current-stage rule brings its prerequisites, including dependencies assigned to another stage; whole-resource selections retain their sections' dependency edges. Bootstrap verification loads the resolver and catalogs. State, paragraph/argument execution and lexical checking enter only through their actual resource dependencies. Answer-only work uses the original request and integrated review without registering a completion contract. Modifications and external actions retain exact target authority, current output versions and actual returns. Resumption restores TEAM recovery rules; persistent state and delegation select their own procedures.
+
 `econ-writing` owns `compose`, `revise`, `explain`, `translate`, `convert`, `guidance` and explicitly requested `profile` work. Japanese clarity and concision requests reach `econ-writing` directly. The historical `explain-before-shorten` selector resolves to `econ-writing:revise`; the independent skill is retired.
 
 [CORE](../../runtime/CORE.md) owns entry, authority and completion; [PROSE](../../runtime/PROSE.md) owns expression, and specialist Skills own their procedures. [TEAM](../../runtime/TEAM.md#review-findings-and-independence) owns explicitly selected independent review. The [state interface](../../harness/state.md) retains source bindings and paragraph/argument state when the selected workflow needs them. The separately selected Checked Artifacts service owns its validation and publication operations.

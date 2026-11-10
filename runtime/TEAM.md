@@ -4,7 +4,7 @@
 
 The lead owns the question, adopted specification, decisions, integration and completion. Specialists retain subject ownership. Execution roles are independent of model/provider: `lead` resolves and integrates; `implementer` handles bounded changes or calculations; `retriever` performs settled retrieval or conversion; `specialist` resolves a consequential hard core after substantive lead attempts and cause-specific repair.
 
-Inherit the host model by default. Use a supported override only when its capability, cost or completion time improves the assignment; host launch fields establish actual model and effort. Role labels and requested settings do not prove runtime identity. Local Codex/Claude settings do not configure ChatGPT Work; legacy role presets remain in [configuration](../docs/ai/config-templates/README.md#native-roles-and-model-selection).
+Inherit the host model by default. Use a supported override within the host's instructions and the user's authorized model choices when its capability, cost or completion time improves the assignment; host launch fields establish actual model and effort. Role labels and requested settings do not prove runtime identity. Local Codex/Claude settings do not configure ChatGPT Work; legacy role presets remain in [configuration](../docs/ai/config-templates/README.md#native-roles-and-model-selection).
 
 The parent selects the role from task independence, workload and downstream use, then supplies supported model and reasoning settings through the actual launch schema. A lead can assign an independent child lead, bounded implementer or settled retriever; implementers may delegate related retrieval, and specialists may delegate calculations/retrieval for their assigned core. Length, general complexity, routine review or a first failure alone does not justify a specialist: pass the actual lead attempts, cause-specific repair, unresolved mechanism and dependent result. Preserve a bridge lead's observed identity and count it in capacity when a host route requires one.
 
@@ -26,7 +26,7 @@ Before retrying an interrupted external write, inspect that target's actual stat
 
 ## Resumption
 
-Restore the original request, central problem, fixed specification, authority, completed results and next authorized action. Recover original applicable rule bodies under [CORE](CORE.md#task-entry), and reuse outputs only with matching consumed versions. An interrupted native task resumes only on an actual user continuation, restoring those original bodies before dependent work; cancellation/completion never restarts automatically. Reconcile older worker returns before integration. Use the existing [governing context](../harness/state.md#governing-context) and [saved-work lookup](../harness/state.md#find-saved-work) when persistence is needed.
+After compaction, resumption, a model change or a handoff, restore the original request, central problem, fixed specification, authority, completed results and next authorized action. Recover original applicable rule bodies under [CORE](CORE.md#task-entry), and reuse outputs only with matching consumed versions. An interrupted native task resumes only on an actual user continuation, restoring those original bodies before dependent work; cancellation/completion never restarts automatically. Reconcile older worker returns before integration. Use the existing [governing context](../harness/state.md#governing-context) and [saved-work lookup](../harness/state.md#find-saved-work) when persistence is needed.
 
 ## Handoff
 

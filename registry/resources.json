@@ -5,7 +5,7 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.87.0"
+      "content_version": "0.90.0"
     },
     "prose": {
       "resource_id": "prose",
@@ -29,7 +29,7 @@
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.90.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
@@ -165,7 +165,7 @@
       "resource_id": "team-state-helper",
       "source_path": "harness/state.py",
       "resource_kind": "support",
-      "content_version": "0.80.0",
+      "content_version": "0.90.0",
       "required_resources": [
         "local-checks"
       ]
@@ -193,20 +193,20 @@
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "0.87.0",
+      "content_version": "0.90.0",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.87.0"
+      "content_version": "0.90.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
       "source_path": "scripts/sync_common_core.py",
       "resource_kind": "support",
-      "content_version": "0.75.0",
+      "content_version": "0.90.0",
       "source_distribution_only": true
     },
     "tool-pack-context-sh": {
@@ -340,9 +340,8 @@
       "resource_id": "local-checks",
       "source_path": "harness/local_checks.py",
       "resource_kind": "support",
-      "content_version": "0.73.0",
+      "content_version": "0.90.0",
       "required_resources": [
-        "prose-check-rules",
         "tool-route-registry-py"
       ]
     },
@@ -377,37 +376,27 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.87.0"
+      "content_version": "0.90.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
       "source_path": "quality/policy_manifest.json",
       "resource_kind": "support",
-      "content_version": "0.87.0",
+      "content_version": "0.90.0",
       "sync": false,
       "required_resources": [
-        "core",
-        "prose",
-        "prose-check-rules",
-        "prose-check-guide",
-        "codex-hooks",
-        "native-check",
-        "requirements-check",
-        "local-checks",
-        "policy-assets",
-        "paragraph-engine",
-        "argument-engine",
         "registry-operations",
         "registry-resources",
         "registry-placements",
-        "tool-route-registry-py"
+        "tool-route-registry-py",
+        "policy-assets"
       ]
     },
     "codex-hooks": {
       "resource_id": "codex-hooks",
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.87.0",
+      "content_version": "0.90.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -602,7 +591,7 @@
       "resource_id": "research-runner",
       "source_path": "harness/research.py",
       "resource_kind": "support",
-      "content_version": "0.79.0",
+      "content_version": "0.90.0",
       "required_resources": [
         "team-state-helper",
         "research-experience",
@@ -658,7 +647,7 @@
       "resource_id": "research-experience",
       "source_path": "harness/experience.py",
       "resource_kind": "support",
-      "content_version": "0.81.0",
+      "content_version": "0.90.0",
       "required_resources": [
         "team-state-helper",
         "native-check",
@@ -4363,21 +4352,32 @@
       "rule_id": "team.resumption",
       "resource_id": "team",
       "section_id": "resumption",
-      "requires": [
-        "state-contract.governing-context",
-        "state-contract.find-saved-work"
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "persistent_state_needed",
+          "required_rules": [
+            "state-contract.governing-context",
+            "state-contract.find-saved-work",
+            "state-contract.resumption-and-migration"
+          ]
+        }
       ],
-      "conditional_requires": [],
       "optional_examples": []
     },
     "team.handoff": {
       "rule_id": "team.handoff",
       "resource_id": "team",
       "section_id": "handoff",
-      "requires": [
-        "state-contract.governing-context"
+      "requires": [],
+      "conditional_requires": [
+        {
+          "when": "persistent_state_needed",
+          "required_rules": [
+            "state-contract.governing-context"
+          ]
+        }
       ],
-      "conditional_requires": [],
       "optional_examples": []
     },
     "team.requested-usage-accounting": {
@@ -5677,7 +5677,6 @@
         "team.shared-work",
         "team.resumption",
         "local-checks.all",
-        "paragraph-engine.all",
         "native-check.all"
       ],
       "conditional_requires": [],
@@ -6082,9 +6081,7 @@
       "rule_id": "local-checks.all",
       "resource_id": "local-checks",
       "section_id": "all",
-      "requires": [
-        "requirements-check.all"
-      ],
+      "requires": [],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -6211,7 +6208,8 @@
             "paragraph-engine.all",
             "argument-engine.all",
             "paragraph-schema.all",
-            "argument-schema.all"
+            "argument-schema.all",
+            "prose-check-guide.all"
           ]
         }
       ],
@@ -9806,6 +9804,5 @@
         "all"
       ]
     }
-  },
-  "reading_roles": {}
+  }
 }
