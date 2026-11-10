@@ -9,13 +9,17 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.91.0'
-PRIMARY_EXPRESSION_RULE = "Apply PROSE's output prohibitions to every answer and generated artifact, without exception."
-PRIMARY_STYLE_RULE = ('Keep scientific conditions, statistical uncertainty and evidence-strength judgments internal; '
-                      'deliver the direct economic answer and actual operation result.')
-# Preserve recognition of instructions in saved releases while emitting English.
+POLICY_ID = 'economics-native-0.91.1'
+PRIMARY_EXPRESSION_RULE = "Apply PROSE's reporting and expression rules to every answer and generated artifact."
+PRIMARY_STYLE_RULE = ('Report statistical uncertainty only as numerical measures such as standard errors, intervals and p values; '
+                      'keep scientific conditions and qualitative evidence-strength judgments internal. '
+                      'Deliver the direct economic answer and actual operation result.')
+# Retired transport prefixes are recognized only for removal, never reissued.
 LEGACY_PRIMARY_JAPANESE_RULE = '留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。'
 LEGACY_PRIMARY_RULES = (
+    "Apply PROSE's output prohibitions to every answer and generated artifact, without exception.",
+    'Keep scientific conditions, statistical uncertainty and evidence-strength judgments internal; '
+    'deliver the direct economic answer and actual operation result.',
     'Categorically prohibit any mention of uncertainty, without exception.',
     'Prohibit reservations, concessions, qualifications, embellishment, caution, '
     'conservatism, ambiguity, verbosity, timidity, supplements and annotations without exception.',

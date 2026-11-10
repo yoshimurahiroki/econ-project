@@ -5,13 +5,13 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.91.0"
+      "content_version": "0.91.1"
     },
     "prose": {
       "resource_id": "prose",
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "0.86.0"
+      "content_version": "0.91.1"
     },
     "research": {
       "resource_id": "research",
@@ -104,7 +104,7 @@
       "resource_id": "paper-workflow",
       "source_path": "skills/econ-writing/references/paper-workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.91.1"
     },
     "review-methods": {
       "resource_id": "review-methods",
@@ -328,7 +328,7 @@
       "resource_id": "prose-check-guide",
       "source_path": "quality/prose_rules.md",
       "resource_kind": "rule",
-      "content_version": "0.81.0"
+      "content_version": "0.91.1"
     },
     "prose-check-rules": {
       "resource_id": "prose-check-rules",
@@ -376,7 +376,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.91.0"
+      "content_version": "0.91.1"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -991,7 +991,7 @@
       "resource_id": "research-artifacts",
       "source_path": "harness/research_artifacts.py",
       "resource_kind": "support",
-      "content_version": "0.91.0",
+      "content_version": "0.91.1",
       "required_resources": [
         "research-evidence",
         "team-state-helper",
@@ -1006,7 +1006,7 @@
       "resource_id": "result-artifacts",
       "source_path": "skills/econ-writing/references/result-artifacts.md",
       "resource_kind": "rule",
-      "content_version": "0.87.0",
+      "content_version": "0.91.1",
       "required_resources": [
         "research-artifacts",
         "research-runner",
@@ -1460,7 +1460,7 @@
       "resource_id": "research-gallery",
       "source_path": "harness/research_gallery.py",
       "resource_kind": "support",
-      "content_version": "0.55.0",
+      "content_version": "0.91.1",
       "required_resources": [
         "research-artifacts",
         "research-meetings",

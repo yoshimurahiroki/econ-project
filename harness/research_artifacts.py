@@ -31,7 +31,7 @@ GALLERY_KINDS = ('descriptive', 'sample_composition', 'distribution', 'time_seri
 PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study', 'density', 'ecdf', 'box',
               'att_gt', 'cohort_event', 'parallel_trends', 'rdd', 'iv_first_stage', 'iv_reduced_form',
               'iv_confidence_set', 'scm', 'scm_gap', 'scm_placebo', 'binned_scatter', 'smd', 'structural', 'geo')
-GALLERY_RENDER_VERSION = 16
+GALLERY_RENDER_VERSION = 17
 DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_order',
                   'sort_by', 'ascending', 'notes', 'plot_type', 'x', 'y', 'lower', 'upper',
                   'series', 'visible_series', 'selected_result_ids', 'x_label', 'y_label',
@@ -1228,12 +1228,6 @@ def gallery_regression_comparison(items):
         for identity in identities:
             row = models[identity].get(term, {})
             estimate = number(row, ('estimate',), identity)
-            if display.get('show_stars', False) and estimate:
-                symbol = saved(row, ('significance', 'stars'))
-                p = saved(row, ('p_value', 'pvalue', 'p.value'))
-                if symbol is None and type(p) in (int, float):
-                    symbol = '***' if p < .01 else '**' if p < .05 else '*' if p < .1 else ''
-                estimate += str(symbol or '')
             estimates.append(estimate)
             se = number(row, ('se', 'standard_error', 'std.error'), identity)
             errors.append('(' + se + ')' if se else '')
@@ -1308,8 +1302,6 @@ def gallery_regression_comparison(items):
     notes = list(dict.fromkeys(note for item in items for note in gallery_notes(item)))
     if display.get('show_se', True) and any(row['kind'] == 'se' for row in body):
         notes.insert(0, '括弧内は保存された標準誤差。')
-    if display.get('show_stars', False):
-        notes.append('保存された有意記号を優先。保存 p 値の表示規則: * p < 0.10、** p < 0.05、*** p < 0.01。')
     presentation = {'headers': headers, 'body': body, 'footer': footer, 'notes': notes,
                     'caption': display.get('title', items[0].get('title', '') if items else ''),
                     'label': display.get('latex_label', ''), 'number': str(display.get('table_number', '')),

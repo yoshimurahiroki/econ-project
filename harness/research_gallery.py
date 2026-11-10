@@ -229,7 +229,6 @@ def _(editing_item, mo):
         'show_se': mo.ui.switch(value=_display.get('show_se', True), label='標準誤差を次の行に表示'),
         'show_ci': mo.ui.switch(value=_display.get('show_ci', False), label='保存区間を表示'),
         'show_p': mo.ui.switch(value=_display.get('show_p', False), label='保存 p 値を表示'),
-        'show_stars': mo.ui.switch(value=_display.get('show_stars', False), label='有意記号を表示'),
         'table_number': mo.ui.text(value=str(_display.get('table_number', '')), label='表番号'),
         'latex_label': mo.ui.text(value=_display.get('latex_label', ''), label='LaTeX 参照名'),
         'model_column': mo.ui.dropdown(_available, value=_display.get('model_column') or '選択なし', label='モデルを区別する保存列'),
@@ -304,7 +303,7 @@ def _(
             display_changes.update(chart_controls.value)
             _table_settings = regression_controls.value
             display_changes.update({key: _table_settings[key] for key in
-                                    ('show_se', 'show_ci', 'show_p', 'show_stars', 'table_number', 'latex_label', 'model_column', 'outcome_column')})
+                                    ('show_se', 'show_ci', 'show_p', 'table_number', 'latex_label', 'model_column', 'outcome_column')})
             display_changes['digits'] = int(_table_settings['digits'])
             for _key in ('model_order', 'term_order'):
                 display_changes[_key] = [value.strip() for value in _table_settings[_key].splitlines() if value.strip()]
