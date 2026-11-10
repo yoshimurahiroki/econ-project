@@ -2,7 +2,7 @@
 
 ## Native Codex hooks
 
-Callbacks continue to record and restore context on every event. Stop requests one semantic revision of the final response and created or materially edited user-facing local artifacts by blocking the first completion; re-entry is always allowed, including on check or hook errors. Other checks and errors are advisory; the host's approval and access controls still apply. Identical check warnings are displayed at most twice per host turn. SessionStart callbacks without a turn ID use the active task, or the session at startup.
+Callbacks continue to record and restore context on every event. Stop requests one semantic revision of the final response and created or materially edited user-facing local artifacts by blocking the first completion. The continued host launches and waits for one native revision subagent when available; otherwise it performs the pass itself and reports the actual result. This uses the host's configured authentication and usage allowance, not a separate API-key setup. Re-entry is always allowed, including on check or hook errors. Other checks and errors are advisory; the host's approval and access controls still apply. Identical check warnings are displayed at most twice per host turn. SessionStart callbacks without a turn ID use the active task, or the session at startup.
 
 Preview, write and check the existing lifecycle handlers at project scope:
 
