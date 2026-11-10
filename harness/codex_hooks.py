@@ -1381,7 +1381,9 @@ def _verify_completion_contract(directory, bound, message, observed):
 
 
 def _review_final_prose(event, root, directory):
-    """Request semantic revision once per actual turn after other completion checks."""
+    """Request one final revision, then always allow Stop re-entry."""
+    if event.get('stop_hook_active') is True:
+        return None
     message = event.get('last_assistant_message')
     gate.require(isinstance(message, str) and message.strip(), 'host assistant message is unavailable')
     turn = event.get('turn_id')
@@ -1394,12 +1396,12 @@ def _review_final_prose(event, root, directory):
         return None
     membership['prose_review_requested'] = True
     save_record(path, membership)
-    return failure('Stop',
+    return {'decision': 'block', 'reason': (
         'Before completing this response, semantically review the entire proposed final answer '
         'against CORE and PROSE. Interpret meaning and rhetorical function, including violations '
         'expressed without matching lexical patterns. Rewrite noncompliant passages directly and '
         'concisely. Preserve supported quantities and source attribution under PROSE. Complete the existing integrated '
-        'review and return the revised final answer.')
+        'review and return the revised final answer. The next Stop will be allowed.')}
 
 
 def _verify_ordinary_stop(event, root, directory):
@@ -2489,6 +2491,14 @@ def dispatch(event, expected_event):
             latest = _read(directory / 'reinjection.json', {})
             latest['compactions'] = record['compactions']
             save_record(directory / 'reinjection.json', latest)
+            if expected_event == 'Stop':
+                try:
+                    review = _review_final_prose(event, root, directory)
+                    if review is not None:
+                        review['systemMessage'] = result['systemMessage']
+                        return review
+                except Exception:
+                    pass  # Restoration problems never prevent completion.
             return result
         if expected_event == 'PreToolUse':
             if lifecycle == 'paused':
@@ -2580,21 +2590,32 @@ def dispatch(event, expected_event):
                     save_record(directory / 'reinjection.json', record)
             return result
         gate.require(type(event.get('stop_hook_active')) is bool, 'missing Stop re-entry state')
+        outcome, notice = None, None
         try:
             outcome = _verify_ordinary_stop(event, root, directory)
-            prose_review = _review_final_prose(event, root, directory)
-            _finish(directory, outcome)
-            if outcome == 'paused':
-                return {'systemMessage': 'The phase is complete and the task is paused for user input. '
-                        'The parent task remains incomplete.'}
-            return prose_review or {}
         except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError) as exc:
             try:
                 restored = _restoration(root, directory, state, manifest, restore=False,
                                         instruction_event='check-failure')
             except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError) as restore_error:
-                return failure('Stop', str(exc) + '; restore required instructions: ' + str(restore_error))
-            return failure('Stop', str(exc) + '\n\n[Task context]\n' + restored)
+                notice = failure('Stop', str(exc) + '; restore required instructions: ' + str(restore_error))
+            else:
+                notice = failure('Stop', str(exc) + '\n\n[Task context]\n' + restored)
+        try:
+            prose_review = _review_final_prose(event, root, directory)
+        except Exception as exc:
+            prose_review = None
+            notice = notice or failure('Stop', ('prose review unavailable: ' + str(exc))[:500])
+        if prose_review is not None:
+            if notice:
+                prose_review.update(notice)
+            return prose_review
+        if outcome is not None:
+            _finish(directory, outcome)
+            if outcome == 'paused' and notice is None:
+                return {'systemMessage': 'The phase is complete and the task is paused for user input. '
+                        'The parent task remains incomplete.'}
+        return notice or {}
 
 
 def _limit_repeated_warning(event, result):

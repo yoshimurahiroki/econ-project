@@ -26,14 +26,15 @@ with hook_tempdir() as directory:
             json.dumps({'task_id': 'test'}), encoding='utf-8')
     original = 'This is not an absent count. The value is 12.'
     revised = 'The observed count is zero; 12 observations remain. Exclude x < 0. The source says “annual”.'
-    event = {'turn_id': 'turn-a', 'last_assistant_message': original, 'stop_hook_active': True}
+    event = {'turn_id': 'turn-a', 'last_assistant_message': original, 'stop_hook_active': False}
     requested = hooks._review_final_prose(event, root, directory)
-    assert 'semantically review' in requested['systemMessage'] and 'decision' not in requested
-    assert 'lexical patterns' in requested['systemMessage']
-    assert all(x not in requested['systemMessage'] for x in ('base64', 'record-prose-review', 'text_sha256'))
+    assert requested['decision'] == 'block' and 'semantically review' in requested['reason']
+    assert 'lexical patterns' in requested['reason']
+    assert all(x not in requested['reason'] for x in ('base64', 'record-prose-review', 'text_sha256'))
     event['last_assistant_message'] = revised
     assert hooks._review_final_prose(event, root, directory) is None
-    assert 'semantically review' in hooks._review_final_prose({**event, 'turn_id':'turn-b'}, root, directory)['systemMessage']
+    assert hooks._review_final_prose({**event, 'turn_id':'turn-b', 'stop_hook_active':True}, root, directory) is None
+    assert hooks._review_final_prose({**event, 'turn_id':'turn-b'}, root, directory)['decision'] == 'block'
     assert not (directory / 'prose-reviews').exists()
     print('Representative revised final:', revised)
 
@@ -128,8 +129,10 @@ with hook_tempdir() as temp:
            tool_response={'exit_code':done.returncode, 'output':done.stdout},
            tool_use_id='authorized-write')
     final = 'The source records monthly claims.'
-    stopped = invoke('Stop', stop_hook_active=True, last_assistant_message=final)
-    assert 'decision' not in stopped and 'semantically review' in stopped.get('systemMessage',''), stopped
+    stopped = invoke('Stop', stop_hook_active=False, last_assistant_message=final)
+    assert stopped.get('decision') == 'block' and 'semantically review' in stopped.get('reason',''), stopped
     complete = invoke('Stop', stop_hook_active=True, last_assistant_message=final)
     assert complete == {}, complete
-print('Read classification, advisory checks and semantic notice passed.')
+    failed_check = invoke('Stop', stop_hook_active=True, last_assistant_message='')
+    assert 'decision' not in failed_check and 'systemMessage' in failed_check, failed_check
+print('Read classification, advisory checks and one-time semantic revision passed.')

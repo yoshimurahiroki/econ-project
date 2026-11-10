@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "06898f64018f3a990b86610536a06744b43ebd77",
+  "source_base_commit": "cf6541982c5396e35d3f1870264e6e48aa155559",
   "source_state": "committed",
-  "common_content_id": "2fffc5675267834499415087110b190a25bbb1f22b27c35ba182c57448903c11",
+  "common_content_id": "3d9db1e5bdf40af17556809848d29de8785945a546d026ee6b3f449ddad0a6a5",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -161,8 +161,8 @@
     {
       "path": "docs/ai/config-templates/README.md",
       "state": "present",
-      "sha256": "bd5d77ba255f199607086719fc2fcc3243bb28526814e0388a877ebde7c8fac4",
-      "git_blob": "f4c709bdedf553a58978aeaab2ea009616705d44",
+      "sha256": "c905a2c9c7790657ad9ed0fcf745525291266692ea7fb7f65ff60454c3efd8a1",
+      "git_blob": "be8cf1424f747c7f2aea082c078d80c280271840",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -241,8 +241,8 @@
     {
       "path": "harness/codex_hooks.py",
       "state": "present",
-      "sha256": "956aea401384afca4dc15d803e0cb521b71497e51e95b0f9c2fb1e3bd1d7a249",
-      "git_blob": "7af9d3e08340f6fe5c012d186ac05fb942741a5b",
+      "sha256": "1e19783c35dda4c56e70f15e25369de7305d50881ba2a02355fad895a6ac4e9c",
+      "git_blob": "1d93d15932215510372d9d493516d8069b9898a8",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -393,8 +393,8 @@
     {
       "path": "harness/state.md",
       "state": "present",
-      "sha256": "e97993b9b803dda39c1729992f5313f85575a59d6fb6aa8786538bd7eda4e1d5",
-      "git_blob": "806047388bfa94070fcd78da47e8288d3693a35b",
+      "sha256": "19c7eac4c640ef8261411963d7c6a7d6a900666f0b6c274ffdd8668288bc2a01",
+      "git_blob": "19530d6f65f806f1d9201abf1df4b590a4a26f5b",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
