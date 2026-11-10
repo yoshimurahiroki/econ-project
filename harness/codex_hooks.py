@@ -148,7 +148,7 @@ def feedback(event, text):
 
 
 def failure(event, reason, repeated=False, failure_class='recoverable'):
-    """A Stop continuation is never limited by count or stop_hook_active."""
+    """Format a failure for the host event."""
     reason = 'Economics task check: ' + reason
     if event in ('PostCompact', 'SessionStart'):
         return {'continue': False, 'stopReason': reason, 'systemMessage': reason}
@@ -2601,12 +2601,37 @@ def dispatch(event, expected_event):
             return failure('Stop', str(exc) + '\n' + restored)
 
 
+def _within_hook_limit(event, expected_event):
+    """Run each event at most twice for a host turn, across processes."""
+    gate.require(isinstance(event, dict) and event.get('hook_event_name') == expected_event,
+                 'hook event mismatch')
+    gate.require(expected_event in CONTEXT_EVENTS | {'PreToolUse', 'Stop', 'SubagentStop', 'Interrupt',
+                 'PostCompact'}, 'unsupported hook event')
+    session = event.get('session_id')
+    gate.require(isinstance(session, str) and session.strip(), 'missing host session_id')
+    data = absolute(os.environ.get('PLUGIN_DATA'))
+    turn = event.get('turn_id')
+    if expected_event == 'SessionStart' and not turn:
+        active = _read(data / 'economics' / gate.sha(session.encode()) / 'active-task.json', {})
+        turn = active.get('task_id', 'session-start')
+    gate.require(isinstance(turn, str) and turn.strip(), 'missing host turn_id')
+    directory = data / 'economics' / gate.sha(session.encode()) / 'hook-limits' / gate.sha(turn.encode())
+    with turn_lock(directory):
+        path = directory / (expected_event + '.json')
+        count = _read(path, 0)
+        gate.require(type(count) is int and 0 <= count <= 2, 'invalid hook count')
+        if count == 2:
+            return False
+        save_record(path, count + 1)
+    return True
+
+
 def main(expected_event):
     try:
         raw = sys.stdin.buffer.read(4 * gate.MAX_BYTES + 1)
         gate.require(len(raw) <= 4 * gate.MAX_BYTES, 'hook event exceeds input budget')
         event = gate.parse_json(raw)
-        result = dispatch(event, expected_event)
+        result = dispatch(event, expected_event) if _within_hook_limit(event, expected_event) else {}
         output = result.get('hookSpecificOutput', {})
         fields = [(output, 'additionalContext'), (output, 'permissionDecisionReason'),
                   (result, 'reason'), (result, 'systemMessage'), (result, 'stopReason')]

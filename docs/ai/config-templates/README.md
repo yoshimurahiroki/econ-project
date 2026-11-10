@@ -2,6 +2,8 @@
 
 ## Native Codex hooks
 
+Each hook event runs at most twice per host turn; subsequent callbacks of that event are skipped. This includes PreToolUse checks. SessionStart callbacks without a turn ID use the active task, or the session at startup.
+
 Preview, write and check the existing lifecycle handlers at project scope:
 
 ```sh
