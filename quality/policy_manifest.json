@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "policy_id": "economics-native-0.89.2",
+  "policy_id": "economics-native-0.89.3",
   "profile": {
     "id": "research-full"
   },
@@ -11,11 +11,11 @@
     },
     "codex_hooks": {
       "path": "harness/codex_hooks.py",
-      "sha256": "5fc01a2fec895c5f9a1a7e06e60de18d6d7fc4a56fd1dd63271f03b14519ea4d"
+      "sha256": "3f0a5816d8649851c4acec1e70b231adad88d392c3f6b3882f64162b09885fed"
     },
     "core": {
       "path": "runtime/CORE.md",
-      "sha256": "3ced9a1c8753f2ffcca02ae080bf26efb0bd702e1256e21479f43388a60b1abb"
+      "sha256": "59f5691258a048232af39728e7de694e51979e624848536464016244abd8ecb6"
     },
     "decide": {
       "path": "runtime/DECIDE.md",
@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "9946023caffcbae785b92dde2c7558c743cae605d777ba0b6954a8b8493b0c08"
+      "sha256": "ef9b4bca1b100ad57f1445cb67f98e925e9a2ae870f59d763347be4596ee770b"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -715,7 +715,7 @@
     },
     "resource:state-contract": {
       "path": "harness/state.md",
-      "sha256": "c62cd995b0de1013af69748c701dc114f75aa4503bc7284c0d1562e4020a5565"
+      "sha256": "49936d3e8429c82756a9033a7a97919b4155fc188d6862b2769833988799f641"
     },
     "resource:tool-pack-context-sh": {
       "path": "scripts/pack_context.sh",
@@ -763,7 +763,7 @@
     },
     "state": {
       "path": "harness/state.py",
-      "sha256": "421ea10c842950a959fd0417cb5861a526c0ef3b41e8e7e47b9832c17b3c2d6d"
+      "sha256": "840ccca603cd3a920bac0556b25c4506c133b4939454ac5c853a0f18f00bd6e7"
     },
     "team": {
       "path": "runtime/TEAM.md",

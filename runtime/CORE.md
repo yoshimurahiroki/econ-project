@@ -38,6 +38,8 @@ Establish implementation, execution and saving from actual inputs, operation ret
 
 Finish the requested result and authorized writes; a completed component cannot close its parent task. Review the finished work once for meaning, evidence, logic, natural expression, behavior, ownership, duplication and actual output. Repair demonstrated defects at their producer and reread affected parts. Use no separate review agent unless requested or platform-required.
 
+The lead matches registered outputs/actions to the complete original request, adopted specifications and amendments when binding work and during this review. Add omitted work and finish it autonomously; user approval of the completion contract is not required. This comparison is the agent's substantive judgment and supplies no independent completeness proof.
+
 Additional verification requires all three: a concrete consequential mechanism or explicit requirement; existing sources/results/operations have not established it; and its return decides acceptance or a specific repair. Repeat only for a concrete remaining defect or changed dependency. Preserve scientific identification, inference and original-equation convergence checks inside computation. Requested reproduction uses its real source data, specification and reference results; verify actual saving and distribution.
 
 Remove obsolete tests, fixtures and duplicate checks; add no standing audit, benchmark, progress ledger or review framework. Return the completed result, decisive evidence, actual destinations and any remaining blocking input.

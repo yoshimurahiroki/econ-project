@@ -774,11 +774,6 @@ def contract_snapshot(task):
     return json.loads(json.dumps({key: task.get(key, []) for key in keys}))
 
 
-def completion_acceptance_id(request_sha256, owners):
-    """Identify the complete declared scope; its digest alone grants no approval."""
-    return content_hash({'request_sha256': request_sha256, 'owners': [
-        {'operation_kind': owner['operation_kind'], 'context_id': context_id(owner)} for owner in owners]})
-
 def record_contract(task, source):
     revisions = task.setdefault('contract_revisions', [])
     snapshot = contract_snapshot(task)

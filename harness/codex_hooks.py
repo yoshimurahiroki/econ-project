@@ -390,6 +390,7 @@ def _bound_state(directory, root, *, check_sources=True):
     task = data['tasks'][binding['task_id']]
     messages = _read(directory / 'task-messages.json', [])
     original = _read(directory / 'original-prompt.json', {})
+    # Retired 0.89.2 confirmation messages remain inert historical context.
     actual = {(row.get('turn_id'), row.get('text')) for row in messages if row.get('kind') != 'contract-acceptance'}
     actual.add((context.get('turn_id'), original.get('text')))
     for owner in [task, *module.task_ancestors(data['tasks'], task)]:
@@ -1416,18 +1417,6 @@ def _verify_completion_contract(directory, root, message, observed):
     gate.require(not missing, 'required outputs or actual operations are incomplete: ' + json.dumps(missing))
 
 
-def _require_original_requirements_acceptance(directory, module, owners):
-    """Only an actual user message can confirm that the declared scope is complete."""
-    identity = module.completion_acceptance_id(gate.sha(_effective_request(directory)), owners)
-    command = 'ERS accept-completion-contract ' + identity
-    messages = _read(directory / 'task-messages.json', [])
-    gate.require(any(row.get('kind') == 'contract-acceptance' and row.get('text', '').strip() == command
-                     for row in messages),
-                 'original request requirements have not been independently confirmed; '
-                 'executor declarations cannot establish completeness. After reviewing the complete original request '
-                 'and this contract, the user may submit exactly: ' + command)
-
-
 def _verify_ordinary_stop(event, root, directory):
     message = event.get('last_assistant_message')
     gate.require(isinstance(message, str) and message.strip(), 'host assistant message is unavailable')
@@ -1446,8 +1435,6 @@ def _verify_ordinary_stop(event, root, directory):
         gate.require(_completion_task(directory, root) is not None,
                      'bind the original complete deliverables before completion; use an answer-only contract for a conversational response')
         _verify_completion_contract(directory, root, message, observed)
-        module, _, task, _ = _completion_task(directory, root)
-        _require_original_requirements_acceptance(directory, module, [task])
         return 'completed'
     module, data, task, state_root = bound
     if _recorded_completion(module, data['tasks'], task, state_root, message):
@@ -1458,8 +1445,6 @@ def _verify_ordinary_stop(event, root, directory):
         candidates = [task['outputs'].get(row['target'], {}) for row in task['required_outputs'] if row['kind'] == 'message']
         gate.require(any(row.get('value') == message for row in candidates),
                      'host message differs from the required recorded message output')
-        _require_original_requirements_acceptance(directory, module,
-            [task, *module.task_ancestors(data['tasks'], task)])
         receipt_tasks, outcome = [task], 'completed'
     else:
         receipt_tasks = [task, *_ordinary_wait_leaf(module, data, task, state_root, directory, message)]
@@ -2344,8 +2329,7 @@ def dispatch(event, expected_event):
             if lifecycle in TERMINAL:
                 return feedback(expected_event, 'This task has completed or stopped. Do not resume automatically. Handle an independent new request as a separate task.')
             if old is not None:
-                kind = ('contract-acceptance' if re.fullmatch(r'ERS accept-completion-contract [a-f0-9]{64}', prompt.strip()) else
-                        'partial-stop' if stopping['kind'] == 'partial' else
+                kind = ('partial-stop' if stopping['kind'] == 'partial' else
                         'continuation' if _continuation_prompt(prompt) else 'amendment')
                 if event['turn_id'] == old['turn_id']:
                     gate.require(prompt == _read(directory / 'original-prompt.json')['text'],
