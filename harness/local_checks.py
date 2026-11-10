@@ -103,10 +103,10 @@ class FileSnapshot(io.BufferedIOBase):
     """Read-only, versioned file content with bounded text access."""
     snapshot_kind = 'fixed-file-v1'
 
-    def __init__(self, path, size, digest, stored=False):
+    def __init__(self, path, size, digest):
         super().__init__()
         self.path, self.size, self.sha256 = Path(path).absolute(), size, digest
-        self.stored, self.position = stored, 0
+        self.position = 0
 
     def __len__(self):
         return self.size
@@ -241,44 +241,6 @@ def write_content(handle, data):
     else:
         handle.write(data)
 
-
-def content_record(data):
-    digest = sha(data)
-    return {'sha256': digest, 'size_bytes': len(data)} if isinstance(data, FileSnapshot) else digest
-
-
-def record_hash(record):
-    return record['sha256'] if isinstance(record, dict) else record
-
-
-def store_file(data, directory):
-    """Share one immutable content version across local run snapshots."""
-    require(isinstance(data, FileSnapshot), 'fixed file required')
-    directory = Path(directory).absolute()
-    require(not any(p.is_symlink() for p in (directory, *directory.parents)), 'symlink object store prohibited')
-    directory.mkdir(mode=0o700, parents=True, exist_ok=True)
-    target = directory / data.sha256
-    if not target.exists():
-        fd, temporary = tempfile.mkstemp(prefix='.object-', dir=directory)
-        try:
-            with os.fdopen(fd, 'wb') as handle:
-                write_content(handle, data)
-                handle.flush()
-                os.fsync(handle.fileno())
-            os.chmod(temporary, 0o400)
-            try:
-                publish_file(temporary, target)
-                sync_directory(directory)
-            except FileExistsError:
-                pass
-        finally:
-            if sys.platform == 'win32' and os.path.exists(temporary):
-                os.chmod(temporary, 0o600)  # Remove our own temporary's read-only flag.
-            Path(temporary).unlink(missing_ok=True)
-    pinned = file_snapshot(target)
-    require((pinned.sha256, pinned.size) == (data.sha256, data.size), 'stored object version mismatch')
-    pinned.stored = True
-    return pinned
 
 def _pairs(pairs):
     result = {}
@@ -720,19 +682,10 @@ def release(artifacts, output, input_hashes=None, validate_inputs=None):
         for path, data in artifacts.items():
             target = staging / safe_relative(path)
             target.parent.mkdir(parents=True, exist_ok=True)
-            if isinstance(data, FileSnapshot) and data.stored and sys.platform != 'win32':
-                try:
-                    os.link(data.path, target, follow_symlinks=False)
-                except OSError as error:
-                    if error.errno != 18:
-                        raise
-                    with target.open('xb') as stream:
-                        write_content(stream, data)
-            else:
-                with target.open('xb') as stream:
-                    write_content(stream, data)
-                    stream.flush()
-                    os.fsync(stream.fileno())
+            with target.open('xb') as stream:
+                write_content(stream, data)
+                stream.flush()
+                os.fsync(stream.fileno())
             expected_hash = data.sha256 if isinstance(data, FileSnapshot) else sha(data)
             require(file_snapshot(target).sha256 == expected_hash, 'output byte verification failed')
         if input_hashes is not None:

@@ -591,10 +591,6 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
             lines += [f"- Default input: {op['default_input']}."]
         if op['requested_section']:
             lines += [f"- Requested section: {op['requested_section']}."]
-        if op.get('result_contract'):
-            lines += ['- Inputs: ' + op['input_contract'], '- Result: ' + canonical(op['result_contract']), '- Finish: ' + op['finish']]
-        else:
-            lines += ['- Required outputs: ' + canonical(op['required_outputs']), '- Required actions: ' + canonical(op['required_actions'])]
     contents[generated['ECON_INDEX.md']] = '\n'.join(lines) + '\n'
     contents[generated['OPTIONAL_INPUTS.md']] = optional_inputs(omitted)
     def entry_at(filename):
@@ -795,21 +791,21 @@ def export_plugin(target):
     files = dict(canonical_files)
     linked_contents = dict(contents)
     for name, data in canonical_files.items():
-        if name.startswith('skills/'):
+        if name.startswith('skills/') or name not in contents or not prose_resource({'source_path': name}):
             continue
         exposed = (shared / name).as_posix()
-        if name in contents and prose_resource({'source_path': name}):
-            def cloud_link(link):
-                parts = urlsplit(link)
-                if parts.scheme or parts.netloc or not parts.path:
-                    return link
-                target_name = os.path.normpath(str(Path(name).parent / unquote(parts.path))).replace(os.sep, '/')
-                destination = Path(target_name) if target_name.startswith('skills/') else shared / target_name
-                return parts._replace(path=os.path.relpath(destination, Path(exposed).parent).replace(os.sep, '/')).geturl()
-            data = rewrite_markdown(contents[name], cloud_link).encode('utf-8')
+        def cloud_link(link):
+            parts = urlsplit(link)
+            if parts.scheme or parts.netloc or not parts.path:
+                return link
+            target_name = os.path.normpath(str(Path(name).parent / unquote(parts.path))).replace(os.sep, '/')
+            destination = (shared / target_name if not target_name.startswith('skills/')
+                           and target_name in contents and prose_resource({'source_path': target_name})
+                           else Path(target_name))
+            return parts._replace(path=os.path.relpath(destination, Path(exposed).parent).replace(os.sep, '/')).geturl()
+        data = rewrite_markdown(contents[name], cloud_link).encode('utf-8')
         files[exposed] = data
-        if name in contents:
-            linked_contents[exposed] = data.decode('utf-8')
+        linked_contents[exposed] = data.decode('utf-8')
     # One generated archive preserves the complete runtime for cloud execution;
     # it uses the same bytes and paths as native execution, with no installer or
     # second registry. Read-only specialist resources remain directly accessible.
@@ -833,12 +829,11 @@ def export_plugin(target):
         body = (frontmatter + '\n# ' + owner + '\n\n'
                 + 'Read the complete [canonical instructions](' + relative_body + ') under CORE. Use the [index](' + relative_index + ') only for unresolved operation/condition selection.\n\n'
                 + 'Cloud readers read `instructions.md` directly in this Skill\'s package. Read common CORE/PROSE through the same plugin\'s `project-work` package at `references/shared/runtime/CORE.md` and `references/shared/runtime/PROSE.md`; its main entry is not needed for navigation. Cross-Skill references use the named owner\'s package and original relative path.\n\n'
-                + 'For cloud execution, read `project-work`\'s `bundle`, download/extract once, then run `python -m zipfile -e references/runtime.zip RUNTIME` from the extracted Skill directory. Execute from `RUNTIME`; it contains the complete pinned layout. Native plugins execute from the plugin root.\n')
+                + 'For cloud code inspection or execution, read `project-work`\'s `bundle`, download/extract once, then run `python -m zipfile -e references/runtime.zip RUNTIME` from the extracted Skill directory. Execute from `RUNTIME`; it contains the complete pinned layout. Native plugins execute from the plugin root.\n')
         files[name] = body.encode('utf-8')
         linked_contents[name] = body
     non_prose = {output_paths[rid] for rid in selected if not prose_resource(resources[rid])}
-    validate_internal_links(linked_contents, non_prose=non_prose | {
-        (shared / name).as_posix() for name in non_prose if not name.startswith('skills/')})
+    validate_internal_links(linked_contents, non_prose=non_prose)
     for name in ('plugin.json', '.codex-plugin/plugin.json'):
         files[name] = (root / name).read_bytes()
     for entry in sorted((root / 'skills').glob('*/agents/openai.yaml')):

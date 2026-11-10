@@ -112,12 +112,6 @@ def _source_spans(req, request_text, sources=None):
         start += 1
 
 
-def requirement_spans(contract, request):
-    sources = contract_sources(contract, request)
-    return {req['id']: _source_spans(req, request.decode('utf-8'), sources if 'sources' in contract else None)
-            for req in contract['requirements']}
-
-
 def _pointer_tokens(pointer):
     if not isinstance(pointer, str) or (pointer and not pointer.startswith('/')):
         raise ValueError('JSON pointer must be empty or begin with /')

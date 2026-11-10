@@ -10,6 +10,8 @@ Identify the reader's question, the central answer, its premises and evidence. W
 
 Derive each parent proposition from the concrete relation among its supporting claims. Start from the actual findings when the parent is unclear, compare their common objects and conditions, and locate the additional premise or discriminating observation needed for the inference. Send that precise dependency to its existing research or analysis owner within the task's authority. Integrate the returned result into the argument and retain unaffected work.
 
+Select each admitted source once with a substantive reason. For bottom-up reasoning, extract source-bound atomic claims, partition each frontier under a common classification, and derive a parent for each group until the central answer is established. Keep the original question and answer, source IDs and hashes fixed. Problem comparisons and their verification tasks cite the admitted evidence.
+
 Identify what makes each supporting result usable by the next claim. Measurement defines the compared object; an identifying condition maps variation to the estimand; an optimality or equilibrium relation determines a model response; an aggregation rule maps individual responses into a total. Recover the particular relation from the adopted source. Use it to decide the order and content of the paragraphs carrying that inference.
 
 ## B. Paragraph Specification Designer
@@ -45,6 +47,8 @@ Complete [PROSE's passage review](../../../runtime/PROSE.md#finish-the-passage) 
 ## State, changes and resumption
 
 Use the existing project record when interrupted work needs a durable handoff. Preserve source identity, settled choices, completed work and the next dependency. The existing paragraph state retains requested source and dependency bindings; ordinary writing creates no parallel ledger.
+
+An argument repair retains the fixed request, authority, purpose, reader, admitted sources and completion conditions. Attribute each changed node to its actual finding, preserve nodes outside the affected dependencies, save the revised version and invalidate the affected reviews.
 
 Resume from the original request, applicable rule bodies and current canonical sources, using the existing EXECUTION state to recover completed outputs and pending dependencies. Restore the binding scope and adopted definitions before integrating a new passage. Keep source-linked quantities and conditions in the draft as it is condensed; reload their authoritative records when a compressed handoff omits them.
 

@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.90.0'
+POLICY_ID = 'economics-native-0.91.0'
 PRIMARY_EXPRESSION_RULE = "Apply PROSE's output prohibitions to every answer and generated artifact, without exception."
 PRIMARY_STYLE_RULE = ('Keep scientific conditions, statistical uncertainty and evidence-strength judgments internal; '
                       'deliver the direct economic answer and actual operation result.')
@@ -42,24 +42,9 @@ def primary_instruction(text):
 
 
 PROFILE = {'id': 'research-full'}
-DEFAULT_PATHS = {
-    'dictionary': 'quality/prose_rules.json', 'core': 'runtime/CORE.md',
-    'decide': 'runtime/DECIDE.md',
-    'execution': 'runtime/EXECUTION.md', 'team': 'runtime/TEAM.md', 'prose': 'runtime/PROSE.md',
-    'codex_hooks': 'harness/codex_hooks.py', 'native_check': 'harness/native_check.py', 'requirements_check': 'harness/requirements_check.py',
-    'local_checks': 'harness/local_checks.py',
-    'policy_assets': 'harness/policy_assets.py', 'state': 'harness/state.py',
-    'prose_guide': 'quality/prose_rules.md',
-    'paragraph': 'harness/paragraph.py', 'argument': 'harness/argument.py',
-    'registry_operations': 'registry/operations.json',
-    'registry_resources': 'registry/resources.json',
-    'registry_placements': 'registry/placements.json',
-    'route_registry': 'scripts/route_registry.py',
-}
 # Bootstrap only the resolver and its catalogs. Operation/rule dependencies own
 # scientific, state, writing and checking modules; ordinary answers need none.
-RUN_PATHS = {key: DEFAULT_PATHS[key] for key in (
-    'policy_assets', 'registry_operations', 'registry_resources', 'registry_placements', 'route_registry')}
+RUN_PATHS = {'policy_assets', 'registry_operations', 'registry_resources', 'registry_placements', 'route_registry'}
 BASE_RESOURCE_IDS = {
     'prose-check-rules': 'dictionary', 'core': 'core', 'research': 'decide',
     'execution': 'execution', 'team': 'team', 'prose': 'prose',
@@ -148,8 +133,8 @@ def _resource_records(assets):
 
 def catalog_paths(root):
     """Return runtime asset paths, excluding source-only maintenance resources."""
-    records = _resource_records({'registry_resources': regular_bytes(Path(root) / DEFAULT_PATHS['registry_resources'])})
-    paths = dict(DEFAULT_PATHS)
+    records = _resource_records({'registry_resources': regular_bytes(Path(root) / 'registry/resources.json')})
+    paths = {}
     for rid, record in records.items():
         if rid != 'policy-manifest' and not record.get('source_distribution_only'):
             paths[resource_key(rid)] = safe_path(record['source_path'])
@@ -161,7 +146,7 @@ def _runtime_keys(records):
             if rid != 'policy-manifest' and not record.get('source_distribution_only')}
 
 
-def _catalog_keys(assets, *, scoped=False):
+def _catalog_keys(assets):
     if not isinstance(assets, dict) or set(RUN_PATHS) - assets.keys():
         raise ValueError('policy manifest must include every bundled policy asset')
     if any(not isinstance(data, bytes) for data in assets.values()):
@@ -175,14 +160,14 @@ def _catalog_keys(assets, *, scoped=False):
     return records
 
 
-def build_manifest(assets, policy_id=POLICY_ID, paths=None, *, scoped=False):
+def build_manifest(assets, policy_id=POLICY_ID, paths=None):
     """Build a registered catalog from exact bytes after layout/path rewriting.
 
     A source catalog contains runtime resources once, excluding source-only
     maintenance tools. An operation export contains its required closure.
-    select_manifest fixes that closure for a run.
+    The operation selection fixes that closure for a run.
     """
-    records = _catalog_keys(assets, scoped=scoped)
+    records = _catalog_keys(assets)
     if paths is None:
         paths = {resource_key(rid): record['source_path'] for rid, record in records.items()
                  if resource_key(rid) in assets}
@@ -226,7 +211,7 @@ def _string_ids(values, field):
 
 def _resolve_selection(assets, operation, conditions=(), profile=None, templates=()):
     """Resolve from pinned registry/resolver bytes before reading policy bodies."""
-    records = _catalog_keys(assets, scoped=True)
+    records = _catalog_keys(assets)
     if not isinstance(operation, str) or not operation or operation.strip() != operation:
         raise ValueError('an adopted operation is required')
     conditions = _string_ids(conditions, 'conditions')
@@ -280,16 +265,16 @@ def _resolve_selection(assets, operation, conditions=(), profile=None, templates
         'active_rules': sorted(set(resolved['active_rules'] + input_active)),
         'resource_sections': {key: selection[key] for key in sorted(selection)},
     }
-    return required, selection, resolver, routes, resolved
+    return required, selection, resolver, routes
 
 
-def select_manifest(manifest, assets, operation, conditions=(), profile=None, templates=(), *, with_contract=False):
-    """Bind the dependency closure; optionally return its canonical operation contract."""
+def select_manifest(manifest, assets, operation, conditions=(), profile=None, templates=()):
+    """Bind the selected dependency closure."""
     paths = {key: row['path'] for key, row in manifest['assets'].items()}
-    catalog = build_manifest(assets, manifest.get('policy_id'), paths, scoped=True)
+    catalog = build_manifest(assets, manifest.get('policy_id'), paths)
     if any(manifest.get(key) != value for key, value in catalog.items()):
         raise ValueError('policy catalog bytes and manifest differ')
-    required, selection, resolver, routes, contract = _resolve_selection(assets, operation, conditions, profile, templates)
+    required, selection, resolver, routes = _resolve_selection(assets, operation, conditions, profile, templates)
     missing = required - assets.keys()
     if missing:
         raise ValueError('required policy resources missing: ' + ', '.join(sorted(missing)))
@@ -297,11 +282,6 @@ def select_manifest(manifest, assets, operation, conditions=(), profile=None, te
                                   lambda rid: canonical(manifest) if rid == 'policy-manifest' else assets[resource_key(rid)], operation)
     result = {key: value for key, value in catalog.items() if key != 'assets'}
     result.update(selection, assets={key: catalog['assets'][key] for key in sorted(required)})
-    if with_contract:
-        if operation != selection['selection']['operation']:
-            contract = resolver.resolve_operation(routes, selection['selection']['operation'],
-                                                  conditions=selection['selection']['conditions'], user_profile=profile)
-        return result, contract
     return result
 
 
@@ -373,14 +353,12 @@ def _asset_state(path):
 
 
 def verify_manifest(root, manifest=None, *, operation=None, conditions=(), profile=None, templates=(),
-                    verification=None, load_assets=True, with_contract=False):
+                    verification=None, load_assets=True):
     """Load the common rules or one explicitly selected operation closure.
 
     Registry and resolver bytes establish the required resource IDs. Reuse
     matching file identities; obtain complete adopted rule bodies for reading.
     """
-    if with_contract and operation is None:
-        raise ValueError('an operation is required to return its contract')
     if manifest is None:
         manifest = parse(regular_bytes(manifest_path(root)))
     paths = _manifest_paths(manifest)
@@ -404,7 +382,7 @@ def verify_manifest(root, manifest=None, *, operation=None, conditions=(), profi
             current[key] = expected
     keys = retained.get('keys')
     selected_keys = retained.get('selected_keys', keys)
-    if (not with_contract and retained.get('identity') == identity and isinstance(keys, list) and keys
+    if (retained.get('identity') == identity and isinstance(keys, list) and keys
             and isinstance(retained.get('selection'), dict)
             and isinstance(selected_keys, list) and set(selected_keys) <= set(keys)
             and set(keys) <= paths.keys()):
@@ -419,7 +397,7 @@ def verify_manifest(root, manifest=None, *, operation=None, conditions=(), profi
             verification['files'] = current
         return {**checked, **retained['selection']}, assets
     read(RUN_PATHS)
-    records = _catalog_keys(assets, scoped=True)
+    records = _catalog_keys(assets)
     if set(paths) - _runtime_keys(records):
         raise ValueError('policy asset is not a registered resource')
     if operation is None:
@@ -437,7 +415,7 @@ def verify_manifest(root, manifest=None, *, operation=None, conditions=(), profi
                      'selection': {'operation': None, 'conditions': _string_ids(conditions, 'conditions'),
                                    'profile': None, 'templates': []}}
     else:
-        required, selection, resolver, routes, contract = _resolve_selection(assets, operation, conditions, profile, templates)
+        required, selection, resolver, routes = _resolve_selection(assets, operation, conditions, profile, templates)
     missing = required - paths.keys()
     if missing:
         raise ValueError('required policy resources missing: ' + ', '.join(sorted(missing)))
@@ -446,37 +424,25 @@ def verify_manifest(root, manifest=None, *, operation=None, conditions=(), profi
     checked = {**manifest, 'assets': {key: manifest['assets'][key] for key in sorted(required)}}
     resolver.validate_rule_bodies(routes, selection['active_rules'],
         lambda rid: canonical(checked) if rid == 'policy-manifest' else assets[resource_key(rid)], operation or 'common rules')
-    if operation is not None:
-        if (verification is not None or with_contract) and operation != selection['selection']['operation']:
-            contract = resolver.resolve_operation(routes, selection['selection']['operation'],
-                                                  conditions=selection['selection']['conditions'], user_profile=profile)
     if verification is not None:
         bootstrap = {resource_key(rid) for rid in ('hook-wrapper', 'hook-registration')}
         read(bootstrap & paths.keys() - assets.keys())
         verification.update(identity=identity, selection=selection, keys=sorted(current),
                             selected_keys=sorted(checked['assets']), files=current)
-        verification.pop('selection_sha256', None)
-        verification.pop('contract_sha256', None)
-        if operation is not None:
-            verification['selection_sha256'] = digest(canonical(selection))
-            verification['contract_sha256'] = digest(canonical(contract))
-    if with_contract:
-        return {**checked, **selection}, assets if load_assets else {}, contract
     return {**checked, **selection}, assets if load_assets else {}
 
 
-def discover_policy(start=None, *, verification=None, load_assets=True, with_contract=False, **selection):
+def discover_policy(start=None, *, verification=None, load_assets=True, **selection):
     def obtain(root, path):
         raw = regular_bytes(path)
-        verified = verify_manifest(root, parse(raw), verification=verification,
-                                   load_assets=load_assets, with_contract=with_contract, **selection)
-        manifest, assets = verified[:2]
+        manifest, assets = verify_manifest(root, parse(raw), verification=verification,
+                                          load_assets=load_assets, **selection)
         if (root / manifest['assets']['policy_assets']['path']).absolute() != Path(__file__).absolute():
             raise ValueError('policy module does not belong to the discovered manifest')
         if verification is not None:
             verification.update(module=str(Path(__file__).absolute()), root=str(root),
                                 manifest_path=path.relative_to(root).as_posix())
-        return (root, raw, manifest, assets, *verified[2:])
+        return root, raw, manifest, assets
     if isinstance(verification, dict) and verification.get('module') == str(Path(__file__).absolute()):
         root = Path(verification['root'])
         return obtain(root, root / safe_path(verification['manifest_path']))
@@ -518,12 +484,8 @@ def discover_policy(start=None, *, verification=None, load_assets=True, with_con
     raise ValueError('bundled policy_manifest.json not found')
 
 
-def section_ranges(routes, resource_id, text, resolver=None, section_ids=None, cache=None):
+def section_ranges(routes, resource_id, text, resolver, section_ids=None, cache=None):
     """Registered section IDs to exact Unicode-character ranges, including all."""
-    if resolver is None:
-        resolver = types.ModuleType('section_route_registry')
-        source = regular_bytes(Path(__file__).parent.parent / DEFAULT_PATHS['route_registry'])
-        exec(_resolver_code(source), resolver.__dict__)
     result = {}
     parsed = None
     for sid, locator in routes['sections'].get(resource_id, {}).items():

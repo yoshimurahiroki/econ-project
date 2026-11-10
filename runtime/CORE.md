@@ -12,7 +12,7 @@ Use the [operation index](../docs/ai/compiled_ai_skills.md) only when selection 
 
 Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION`; `index --operation OPERATION` lists conditions. Deployed trees use `.agents/scripts/route_registry.py --layout installed`; flat packs provide the selected bodies. Follow `next_offset` under the same `content_sha256`; restart changed text.
 
-Stages are `entry` (classify), `contract` (adopt question/method and inputs), `compose` (execute or write), `review` (interpret and repair), and `finalize` (save and deliver). Read the pending stage and its complete prerequisites; defer unrelated future material. A bounded change starts at its affected stage. Expand an incomplete pack from canonical source. On Skill-scoped hosts, read each specialist's `instructions.md` in its own package and common bodies through `project-work/references/shared/`; acquire the matching runtime bundle once for execution.
+Stages are `entry` (classify), `contract` (adopt question/method and inputs), `compose` (execute or write), `review` (interpret and repair), and `finalize` (save and deliver). Read the pending stage and its complete prerequisites; defer unrelated future material. A bounded change starts at its affected stage. Expand an incomplete pack from canonical source. On Skill-scoped hosts, read each specialist's `instructions.md` in its own package and common bodies through `project-work/references/shared/`; acquire the matching runtime bundle once for code inspection or execution.
 
 After context loss, restore original applicable bodies and settled choices through TEAM. An inaccessible prerequisite blocks its dependent operation.
 

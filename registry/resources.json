@@ -5,7 +5,7 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.90.0"
+      "content_version": "0.91.0"
     },
     "prose": {
       "resource_id": "prose",
@@ -23,7 +23,7 @@
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "0.86.0"
+      "content_version": "0.91.0"
     },
     "team": {
       "resource_id": "team",
@@ -193,14 +193,14 @@
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "0.90.0",
+      "content_version": "0.91.0",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.90.0"
+      "content_version": "0.91.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
@@ -291,7 +291,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.87.0"
+      "content_version": "0.91.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -310,13 +310,13 @@
       "resource_id": "registry-operations",
       "source_path": "registry/operations.json",
       "resource_kind": "registry",
-      "content_version": "0.87.0"
+      "content_version": "0.91.0"
     },
     "registry-resources": {
       "resource_id": "registry-resources",
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.87.0"
+      "content_version": "0.91.0"
     },
     "registry-placements": {
       "resource_id": "registry-placements",
@@ -340,7 +340,7 @@
       "resource_id": "local-checks",
       "source_path": "harness/local_checks.py",
       "resource_kind": "support",
-      "content_version": "0.90.0",
+      "content_version": "0.91.0",
       "required_resources": [
         "tool-route-registry-py"
       ]
@@ -355,7 +355,7 @@
       "resource_id": "requirements-check",
       "source_path": "harness/requirements_check.py",
       "resource_kind": "support",
-      "content_version": "0.80.0",
+      "content_version": "0.91.0",
       "required_resources": [
         "tool-route-registry-py"
       ]
@@ -376,7 +376,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.90.0"
+      "content_version": "0.91.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -396,7 +396,7 @@
       "resource_id": "codex-hooks",
       "source_path": "harness/codex_hooks.py",
       "resource_kind": "support",
-      "content_version": "0.90.0",
+      "content_version": "0.91.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -456,13 +456,13 @@
       "resource_id": "plugin-integration-guide",
       "source_path": "docs/ai/plugin-integration.md",
       "resource_kind": "support",
-      "content_version": "0.84.0"
+      "content_version": "0.91.0"
     },
     "paragraph-workflow": {
       "resource_id": "paragraph-workflow",
       "source_path": "skills/econ-writing/references/paragraph-workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.91.0"
     },
     "paragraph-engine": {
       "resource_id": "paragraph-engine",
@@ -474,7 +474,7 @@
       "resource_id": "argument-engine",
       "source_path": "harness/argument.py",
       "resource_kind": "support",
-      "content_version": "0.66.0",
+      "content_version": "0.91.0",
       "required_resources": [
         "policy-assets"
       ]
@@ -495,7 +495,7 @@
       "resource_id": "equity-guide",
       "source_path": "skills/econ-data/references/equity.md",
       "resource_kind": "rule",
-      "content_version": "0.54.1",
+      "content_version": "0.91.0",
       "required_resources": [
         "equity-calculator",
         "equity-sources",
@@ -991,7 +991,7 @@
       "resource_id": "research-artifacts",
       "source_path": "harness/research_artifacts.py",
       "resource_kind": "support",
-      "content_version": "0.87.0",
+      "content_version": "0.91.0",
       "required_resources": [
         "research-evidence",
         "team-state-helper",

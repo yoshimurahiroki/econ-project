@@ -209,15 +209,6 @@ def _effective_request(directory):
     return text.encode('utf-8')
 
 
-def _resolve_operation_binding(root, operation, conditions, profile):
-    policy = sibling(root / 'harness/policy_assets.py')
-    owner, _, selected, _, contract = policy.discover_policy(
-        policy.__file__, operation=operation, conditions=conditions, profile=profile, with_contract=True)
-    gate.require(Path(policy.__file__).absolute() == (root / 'harness/policy_assets.py').absolute(),
-                 'hook policy module does not belong to this runtime')
-    return owner, selected, contract
-
-
 def bind_operation(context_path, state_root, operation, conditions=(), profile=None, *,
                    required_outputs=(), required_actions=(), operation_kind=None, authority='', user_change=None, external_targets=(), stage=None):
     """Adopt the explicitly selected operation and its exact source-bound closure."""
@@ -236,20 +227,18 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
         # An explicit rebind adopts the runtime executing this command, including
         # after a release moves its canonical files. Task authority stays intact.
         policy = sibling(base / 'policy_assets.py')
-        root = policy.discover_policy(policy.__file__, load_assets=False)[0]
         previous = context.get('operation_binding') or {}
         if stage is not None and operation == previous.get('operation'):
             conditions = conditions or previous['conditions']
             profile = previous['profile'] if profile is None else profile
-        _, selected, contract = _resolve_operation_binding(root, operation, conditions, profile)
+        root, _, selected, _ = policy.discover_policy(policy.__file__, operation=operation,
+            conditions=conditions, profile=profile, load_assets=False)
         if stage is not None:
             routes = sibling(root / 'scripts/route_registry.py').load_routes(root)
             gate.require(stage in routes.get('reading_stages', {}), 'unknown reading stage')
         binding = {'operation': selected['selection']['operation'],
-                   'conditions': selected['selection']['conditions'], 'profile': profile,
-                   'policy_id': selected['policy_id'], 'selection_sha256': gate.sha(gate.canonical(selected)),
-                   'assets': selected['assets'], 'active_rules': selected['active_rules'],
-                   'resource_sections': selected['resource_sections'], 'contract': contract}
+                   'conditions': selected['selection']['conditions'], 'profile': selected['selection']['profile'],
+                   'selection_sha256': gate.sha(gate.canonical(selected))}
         updated = {**context, 'plugin_root': str(root), 'operation_binding': binding}
         if stage is not None:
             updated['reading_stage'] = stage
@@ -305,20 +294,10 @@ def _operation_manifest(root, context, directory=None):
     if binding is None:
         return None
     gate.require(isinstance(binding, dict) and set(binding) ==
-                 {'operation', 'conditions', 'profile', 'policy_id', 'selection_sha256',
-                  'assets', 'active_rules', 'resource_sections', 'contract'},
-                 'invalid operation binding')
-    policy, _, _, catalog, verification = _policy_snapshot(root, directory, context)
-    selection = {'selection': {'operation': binding['operation'], 'conditions': binding['conditions'],
-                               'profile': binding['contract']['selected_profile'], 'templates': []},
-                 'active_rules': binding['active_rules'], 'resource_sections': binding['resource_sections']}
-    selected = {**catalog, **selection}
-    gate.require(policy.digest(policy.canonical(selection)) == verification.get('selection_sha256')
-                 and policy.digest(policy.canonical(binding['contract'])) == verification.get('contract_sha256')
-                 and selected['policy_id'] == binding['policy_id']
-                 and gate.sha(gate.canonical(selected)) == binding['selection_sha256']
-                 and selected['assets'] == binding['assets'] and selected['active_rules'] == binding['active_rules']
-                 and selected['resource_sections'] == binding['resource_sections'],
+                 {'operation', 'conditions', 'profile', 'selection_sha256'},
+                 'explicitly rebind the existing operation to this runtime before dependent work')
+    _, _, _, selected, _ = _policy_snapshot(root, directory, context)
+    gate.require(gate.sha(gate.canonical(selected)) == binding['selection_sha256'],
                  'bound operation sources or closure changed; explicitly rebind the operation')
     return selected
 
@@ -528,7 +507,7 @@ def _restoration(root, directory, state, manifest=None, conditions=(), *, restor
     gate.require(isinstance(prompt, str) and gate.sha(prompt.encode('utf-8')) == context.get('prompt_sha256'),
                  'restore-fixed-request: obtain the exact host original; do not reconstruct it from a candidate')
     request = _effective_request(directory).decode('utf-8') if context.get('schema_version') == 2 else prompt
-    selected = _operation_manifest(root, context, directory)
+    _operation_manifest(root, context, directory)
     policy, owner, policy_raw, current, _ = _policy_snapshot(root, directory, context, conditions)
     gate.require(Path(policy.__file__).absolute() == (root / 'harness/policy_assets.py').absolute(),
                  'hook policy module does not belong to this runtime')
@@ -563,8 +542,6 @@ def _restoration(root, directory, state, manifest=None, conditions=(), *, restor
                  'The exact original request and amendments remain at ' + str(directory / 'original-prompt.json') +
                  ' and ' + str(directory / 'task-messages.json') + '; effective_request_sha256=' +
                  gate.sha(request.encode('utf-8')) + '.')
-    if selected is not None:
-        text += '\nExplicitly bound operation contract: ' + json.dumps(context['operation_binding']['contract'], ensure_ascii=False)
     if context.get('completion_contract') is not None:
         text += '\nRequested completion and retained actual-result references: ' + json.dumps({
             'contract': context['completion_contract'],
@@ -1946,10 +1923,8 @@ def _authorize_call(event, directory, module, task, effects, *, task_control=Fal
     work = Path(_read(directory / 'context.json')['cwd'])
     files = {row['target'] for row in task['required_outputs'] if row['kind'] == 'file'}
     files.update(row['target_id'] for row in task['required_actions'] if row['target_kind'] == 'file')
-    name = event['tool_name'].rsplit('__', 1)[-1].split('.')[-1].lower()
-    if name not in {'exec_command', 'run_command', 'bash', 'write_stdin'}:
-        affected = {target for _, target in effects}
-        files = {name for name in files if str(work / name) in affected}
+    affected = {target for _, target in effects}
+    files = {name for name in files if str(work / name) in affected}
     approval['output_versions_before'] = {name: gate.file_snapshot(work / name).sha256
                                          if (work / name).is_file() else None for name in sorted(files)}
     save_record(directory / 'preflight' / ('authorized-' + gate.sha(event['tool_use_id'].encode()) + '.json'), approval, replace=False)
@@ -2187,7 +2162,6 @@ def _post_tool(event, root, directory):
     if context.get('completion_contract') and not context.get('state_binding'):
         binding['output_versions'] = {}
         binding['deleted_targets'] = []
-        contract = context['completion_contract']
         state_root = Path(context['cwd'])
         producer = approval if effect != 'read' else {}
         if name == 'write_stdin':
@@ -2196,10 +2170,8 @@ def _post_tool(event, root, directory):
             producer = origin if not session.get('closed') and origin.get('task_id') == context.get('task_id') else {}
         before = producer.get('output_versions_before', {})
         binding['production_call_id'] = producer.get('tool_use_id')
-        required = {row['target'] for row in contract['required_outputs'] if row['kind'] == 'file'}
-        required.update(row['target_id'] for row in contract['required_actions'] if row['target_kind'] == 'file')
         failed = _tool_failed(event)
-        for target in sorted(required):
+        for target in sorted(before):
             output = state_root / target
             if target in before and (command_action is not None or name == 'write_stdin' or str(output) in affected):
                 version = gate.file_snapshot(output).sha256 if output.is_file() else None

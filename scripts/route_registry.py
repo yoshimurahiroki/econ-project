@@ -1,6 +1,5 @@
 """Resolve stable operation/rule IDs from the three authoritative registries."""
 import json
-import copy
 import re
 import ast
 import html
@@ -17,70 +16,6 @@ def unique_object(pairs):
             raise ValueError(f'Duplicate route key: {key}')
         result[key] = value
     return result
-
-
-def expand_operation_registry(data):
-    """Expand shared authoring fields into the existing schema-2 contract."""
-    if 'storage_format' not in data:
-        return data
-    if data['storage_format'] != 'shared-operation-fields-v1':
-        raise ValueError('Unsupported operation registry storage format')
-    defaults = data.get('operation_defaults')
-    sets = data.get('conditional_rule_sets')
-    if (not isinstance(defaults, dict) or set(defaults) != {'input_contract', 'finish', 'result_contract'}
-            or not isinstance(defaults['result_contract'], dict)
-            or set(defaults['result_contract']) != {'role', 'kind', 'target'}
-            or not isinstance(sets, dict)):
-        raise ValueError('Invalid shared operation fields')
-    for name, rows in sets.items():
-        if (not isinstance(name, str) or not name or not isinstance(rows, list)
-                or any(not isinstance(row, dict) or 'when' not in row or set(row) - {'when', 'uses_profile'}
-                       or not isinstance(row['when'], str) or not row['when']
-                       or 'uses_profile' in row and type(row['uses_profile']) is not bool for row in rows)):
-            raise ValueError('Invalid shared conditional rules: ' + str(name))
-    expanded = {k: copy.deepcopy(v) for k, v in data.items()
-                if k not in ('storage_format', 'operation_defaults', 'conditional_rule_sets')}
-    operations = []
-    for source in data['operations']:
-        op = copy.deepcopy(source)
-        op.setdefault('input_contract', copy.deepcopy(defaults['input_contract']))
-        op.setdefault('finish', defaults['finish'])
-        result = op.pop('result_contract', {})
-        if not isinstance(result, dict) or set(result) - {'role', 'kind', 'target', 'meaning'}:
-            raise ValueError('Invalid compact result contract')
-        op['result_contract'] = {**copy.deepcopy(defaults['result_contract']),
-                                 'meaning': op['trigger'], **result}
-        if 'conditional_rule_set' in op:
-            name = op.pop('conditional_rule_set')
-            if 'conditional_rules' in op or not isinstance(name, str) or name not in sets:
-                raise ValueError('Invalid shared conditional rules: ' + str(name))
-            op['conditional_rules'] = copy.deepcopy(sets[name])
-        if 'conditional_rules' in op:
-            if not isinstance(op['conditional_rules'], list):
-                raise ValueError('Invalid conditional rules: ' + str(op.get('id')))
-            edges = []
-            for row in op['conditional_rules']:
-                if not isinstance(row, dict):
-                    raise ValueError('Invalid conditional rule: ' + str(op.get('id')))
-                if 'conditional_rule_set' in row:
-                    name = row['conditional_rule_set']
-                    if set(row) != {'conditional_rule_set'} or not isinstance(name, str) or name not in sets:
-                        raise ValueError('Invalid shared conditional rules: ' + str(name))
-                    edges.extend(copy.deepcopy(sets[name]))
-                elif (not isinstance(row.get('when'), str) or not row['when'] or set(row) - {'when', 'uses_profile'}
-                      or 'uses_profile' in row and type(row['uses_profile']) is not bool):
-                    raise ValueError('Invalid conditional rule: ' + str(op.get('id')))
-                else:
-                    edges.append(row)
-            op['conditional_rules'] = edges
-        # Keep the established public field order as well as its values.
-        order = ('id', 'owner_skill', 'mode', 'trigger', 'input_contract', 'required_rules',
-                 'conditional_rules', 'result_contract', 'finish', 'uses_profile',
-                 'explicit_profile_allowed', 'default')
-        operations.append({**{key: op[key] for key in order if key in op},
-                           **{key: value for key, value in op.items() if key not in order}})
-    expanded['operations'] = operations
-    return expanded
 
 
 def relative(value):
@@ -195,8 +130,7 @@ def resolve_operation(routes, selector, mode=None, *, user_profile=None, project
                   owner_skill=result['skill_id'], default_input=metadata.get('default_input', result.get('default_input')),
                   requested_section=metadata.get('requested_section', metadata.get('section', result.get('section'))),
                   selected_profile=profile if uses_profile else None,
-                  resource_sections=selection, active_rules=active_rules, required_rule_origins=origins,
-                  required_outputs=result.get('required_outputs', []), required_actions=result.get('required_actions', []))
+                  resource_sections=selection, active_rules=active_rules, required_rule_origins=origins)
     return result
 
 
@@ -848,7 +782,6 @@ def load_registry(root, layout='source'):
     prefix = '' if layout == 'source' else '.agents/'
     names = ['registry/operations.json', 'registry/resources.json', 'registry/placements.json']
     op_data, resource_data, placement_data = [_read_registry(root, prefix + n) for n in names]
-    op_data = expand_operation_registry(op_data)
     resources = {}
     if set(resource_data['resources']) != set(placement_data['resources']):
         raise ValueError('Resource and placement IDs differ')
@@ -907,7 +840,7 @@ def load_registry(root, layout='source'):
         routes['conditions'][cid] = selection
     seen = set()
     for op in op_data['operations']:
-        required_fields = {'id', 'owner_skill', 'mode', 'trigger', 'input_contract', 'required_rules', 'conditional_rules', 'result_contract', 'finish'}
+        required_fields = {'id', 'owner_skill', 'mode', 'trigger', 'required_rules', 'conditional_rules'}
         if required_fields - op.keys() or op['id'] in seen:
             raise ValueError('Invalid or duplicate operation: ' + str(op.get('id')))
         if any(type(op[key]) is not bool for key in ('uses_profile', 'explicit_profile_allowed') if key in op):

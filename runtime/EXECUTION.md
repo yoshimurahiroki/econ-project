@@ -10,6 +10,8 @@ Identify the target, write scope, current instructions and existing edits. Keep 
 
 Within CORE's review, establish success from the required output and actual return: computation's saved quantities, Git's repository/branch/parent/commit, or a plugin's identity/expected release/returned source. A submitted or running operation retains that status. Reuse established checks and unchanged calculations.
 
+Bind file results through their resolved producing file operation or the existing scientific result owner. An opaque command's terminal return establishes that command's status; unrelated files supply no production evidence. Compare only its resolved targets and relevant registered outputs.
+
 ## Compare changed outputs
 
 Trace a changed scientific input through its definition, official interface and affected consumers. Preserve sample, keys, multiplicities, target, units, inference and original numerical tolerances. Reproduction uses adopted source data and reference results. Presentation changes reuse calculations; render and inspect requested PDFs, slides or figures through their existing owner.

@@ -872,11 +872,6 @@ def composition_context(root, registry_path, *, result_ids, item_ids=(), gallery
             'sources': argument.source_catalog(sources)}
 
 
-def gallery_compare(root, gallery_spec_path, item_ids):
-    """Return explicitly selected saved displays and their defining differences."""
-    return _compare_gallery_items(gallery_items(root, gallery_spec_path, item_ids=item_ids))
-
-
 def _compare_gallery_items(selected):
     fields = (*COMPARISON_FIELDS, 'specification', 'sample_policy', 'estimator', 'ci_kind')
     differences = {key: {item['id']: item['metadata'].get(key) for item in selected}
