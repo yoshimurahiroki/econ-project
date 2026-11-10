@@ -783,6 +783,9 @@
         },
         {
           "when": "section_source_discovery_discover_current_doleac_sources"
+        },
+        {
+          "when": "requested_state_migration"
         }
       ],
       "uses_profile": false,
@@ -1313,6 +1316,9 @@
         },
         {
           "when": "section_equity_guide_implementations_and_primary_sources"
+        },
+        {
+          "when": "requested_state_migration"
         }
       ],
       "uses_profile": false
@@ -2759,6 +2765,9 @@
         },
         {
           "when": "project_github_operations"
+        },
+        {
+          "when": "requested_state_migration"
         }
       ],
       "uses_profile": false,
@@ -2816,6 +2825,9 @@
         },
         {
           "when": "project_github_operations"
+        },
+        {
+          "when": "requested_state_migration"
         }
       ],
       "uses_profile": false,
@@ -2871,6 +2883,9 @@
         },
         {
           "when": "project_github_operations"
+        },
+        {
+          "when": "requested_state_migration"
         }
       ],
       "uses_profile": false,
@@ -2926,6 +2941,9 @@
         },
         {
           "when": "project_github_operations"
+        },
+        {
+          "when": "requested_state_migration"
         }
       ],
       "uses_profile": false,
@@ -4629,6 +4647,14 @@
       "when": "section_equity_guide_implementations_and_primary_sources",
       "required_rules": [
         "equity-guide.implementations-and-primary-sources"
+      ]
+    },
+    "requested_state_migration": {
+      "when": "requested_state_migration",
+      "required_rules": [
+        "state-contract.resumption-and-migration",
+        "state-contract.compatibility-interfaces",
+        "integration.state-migration"
       ]
     }
   },

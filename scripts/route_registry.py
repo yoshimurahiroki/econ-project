@@ -224,9 +224,18 @@ def native_index(routes, *, links=False, operation=None):
             path = posixpath.relpath(routes['resources'][op['owner_skill']]['source_path'], 'docs/ai')
             label = f'[{label}]({path})'
         lines.append(f"- {label}: {op.get('trigger', op['operation'])}")
-    lines += ['', 'Compatibility names:', '']
+    lines += ['', 'Compatibility names:', '', '| Name | Destination | Selection |', '| --- | --- | --- |']
     for alias, target in routes.get('aliases', {}).items():
-        lines.append(f'- {alias}: ' + json.dumps(target, ensure_ascii=False, sort_keys=True))
+        if isinstance(target, str):
+            destination, selection = target, ''
+        else:
+            destination = target.get('operation_id', target.get('runtime_action', ''))
+            selection = '; '.join(str(key) + '=' + ', '.join(value) if isinstance(value, list)
+                                  else str(key) + '=' + str(value)
+                                  for key, value in sorted(target.items())
+                                  if key not in {'operation_id', 'runtime_action'})
+        cells = [alias, destination, selection]
+        lines.append('| ' + ' | '.join(str(cell).replace('|', '&#124;').replace('\n', ' ') for cell in cells) + ' |')
     if links:
         lines += ['', '## Select the next reference', '',
                   'Choose the operation above, then the applicable field or method below. Read the selected body and its prerequisite rules completely. An index supplies locations; the linked body supplies the method.', '']

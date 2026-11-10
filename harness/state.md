@@ -4,7 +4,7 @@ Use this interface for durable state, saved-result reuse or resumption under [CO
 
 ## State and version contract
 
-The existing task helper owns its persisted schema and validates hashes, authority and status. Use it only for durable continuation or saved-result reuse. Tasks bind one owner, requested outputs/actions, write scope, protected inputs, authority/holds and the next action. Scheduling states are queued, running, blocked, completed and failed; completion does not mean publication.
+Use it only for durable continuation or saved-result reuse. Tasks bind one owner, requested outputs/actions, write scope, protected inputs, authority/holds and the next action. Scheduling states are queued, running, blocked, completed and failed; completion does not mean publication.
 
 `state.py` uses one parsed subcommand classification for execution and hooks. Store mutations, `prepare-context`, `project-update`, `inspect --invalidate` and `project-view --save` require authorization; ordinary reads remain direct. Ordinary state writes require their exact command and store/saved-view file targets within scope. Initial state creation and reconciliation use the existing state owner's bounded protocol: retain the complete actual request and output/action contract, target this host's store/task, and match changes or hold releases to saved actual user messages. This bookkeeping grants no artifact or external-action authority. Interactive input additionally binds the initiating command, live session and exact `stdin://SESSION/SHA256` input. Delegation uses the exact call target `agent-call://SHA256`, hashing canonical JSON `{tool_name,tool_input}`; its required action uses the tool's operation name. A child write uses a unique descendant task whose `owner` is the actual host agent ID, with its own authority, running state and bounded contract.
 
@@ -28,10 +28,7 @@ To revise a delegated choice within its existing switch condition, supply `--dec
 
 Each adopted decision may carry `references` in the same `{kind,id,path,version,relation,basis}` format as an argument node. Use the source catalog or retained knowledge output for the inspected original and its locator/version; use `json` with `keys` for the selected definition in the canonical research specification or `data-record.json`. Keep the adopted meaning, unit, observation unit, timing, transformation and join keys at that scientific owner. The decision records the choice, reason, switching condition and existing change authority. Saving those references uses `set-context` and its existing revision rules.
 
-```sh
-python harness/state.py --root PROJECT context CASE --query 'outcome' --values
-python harness/state.py --root PROJECT context CASE --decision DECISION_ID --history --values
-```
+Use `python harness/state.py context --help` for the command and options.
 
 The command searches the selected task and its governing ancestors, reads only the selected source/definition references and returns their current identities, values and impact actions. `--history` returns the existing context revisions. `--reference JSON` resolves a proposed owner reference and returns `current_version` before it is adopted; copy that identity into the reference's `version`. Retrieval does not change the store or run an analysis. Resume through the existing context and source checks, retaining the original instruction bodies.
 
@@ -41,7 +38,7 @@ Older receipts lacking context_id cannot establish a current context-bound check
 
 The existing hook restoration includes the bound task and ancestor governing contexts, their adopted decisions, original request/specification and instruction bodies, required outputs/actions, saved result references and next operation. It restores task and ancestor object/message values with their locators, versions and current/stale status; identical values are included once. These saved hypotheses and results are evidence, and the original instruction and decision authority still govern their use. Source bodies are checked against their recorded hashes and included once per identical content. For structural research, bind the canonical model specification as a request/source reference and carry its revision through the consuming estimates and counterfactuals. Ordinary progress and reusable numerical experience stay in existing outputs and continuation records; they preserve the binding source and its change authority.
 
-On a host supplying the registered hook context, bind the original complete outputs/actions and authority before file modifications or external actions. An already bound durable task retains this contract at its state owner. Answer-only work uses the saved request and CORE's integrated review directly; no completion contract or durable store is required. `bind-operation --operation OPERATION` selects rules without registering deliverables; existing explicit `--operation-kind answer` contracts remain supported. For a file modification:
+On a host supplying the registered hook context, bind the original complete outputs/actions and authority before file modifications or external actions. An already bound durable task retains this contract at its state owner. Answer-only work uses the saved request and CORE's integrated review directly; no completion contract or durable store is required. `bind-operation --operation OPERATION` selects rules without registering deliverables. For a file modification:
 
 ```sh
 python harness/codex_hooks.py --root /absolute/project bind-operation \
@@ -84,14 +81,7 @@ The binder requires the observed child and matching existing bound-state source.
 
 Use the existing task store and [argument engine](argument.py) sources for requested persistent project work. `project-work:contribute` and `project-work:manage` select the user's role; ordinary one-step work continues through its existing specialist.
 
-```sh
-python harness/state.py --root PROJECT project-bind CASE --definition plan-v1.json
-python harness/state.py --root PROJECT project-view CASE --role contribute --owner PERSON --view summary
-python harness/state.py --root PROJECT project-view CASE --role manage --view story
-python harness/state.py --root PROJECT project-view CASE --role manage --view workplan
-python harness/state.py --root PROJECT project-view CASE --role manage --view forecast --project OTHER_CASE
-python harness/state.py --root PROJECT project-impact CASE --node CLAIM_ID
-```
+
 
 The definition has `schema_version:1`, `argument:{path,sources_path}`, `resources`, `work`, `data_date_hour`, `time_unit:"hours"`, `origin`, `target_finish_hour`, `approved_finish_hour` and `decision_rights`. A project without a GitHub binding also supplies `priority`, naming each work task once. Optional `budget` and resource/fixed costs use a declared `currency`. `origin` is an ISO timestamp with timezone or an explicit `relative:LABEL`. Each resource maps its ID to `capacity_units` and `hourly_cost`. Each work row supplies an existing descendant `task_id`, determining `node_ids`, positive `duration_hours` and required resource units; optional `release_hour`, `fixed_cost` and `effect` preserve their declared meanings. Additional project-owned definition and work fields remain intact. The argument and source catalog own the adopted question, answer, model and evidence. The task store owns executable operations, worker roles, execution dependencies, produced versions and completion receipts. A GitHub binding assigns human tasks, assignees, progress, priority, due dates and issue dependencies to GitHub Issues/Projects.
 
@@ -117,27 +107,17 @@ Only a current `supported` judgment from the actor in `decision_rights.allocatio
 
 Argument nodes and adopted decisions share `references:[{kind,id,path,version,relation,basis}]` to join existing owners at read time. `knowledge` selects a local knowledge ID and its true prerequisite bodies through Reader; externally acquired knowledge uses the existing task `output` reference returned by `knowledge.py acquire`. `literature` selects an original corpus proposition and verifies its original locators; `claim` selects the existing evidence contract's current claim fingerprint. `file` binds bytes, `json` adds the nonempty `keys` path for a selected value, and `output` uses the producer task ID as `path` and its output ID as `id`. `decision` selects an adopted decision from that task. A selected artifact-registry value also binds its actual producer references, even when a recomputation returns the same value. Versions are the returned content identities. File paths are project-relative. Knowledge `path:"@package"` reads the executing package's own collection. The other owners remain at their registered code paths.
 
-`project-impact CASE --references` compares those identities. Reference relations `supports`, `refutes`, `assumes`, `prerequisite_to_understand` and `requires_to_apply` request review; `execution_input` requests recalculation; `generated_from` requests regeneration; `adopted_specification` requests authority. `related`, `alternative` and `alternative_under` remain reference-only. Optional `when:{decision_id:[accepted_choice]}` uses the current adopted decisions in governing context. Missing conditions or inputs require a decision/input, and a mismatched condition is inapplicable. Existing argument dependencies can add `effect:review|recalculate|regenerate|authority|reference` and the same `when`. Their direction remains prerequisite to consumer. The existing impact traversal propagates these effects; review or missing authority cannot silently become recalculation or regeneration. It returns `node_actions`, `unresolved_conditions` and task `actions`, alongside existing affected/reusable identities. For an actual known node change, repeat `--change NODE=ACTION`; an untyped legacy graph retains its existing impact API.
+`project-impact CASE --references` compares those identities. Reference relations `supports`, `refutes`, `assumes`, `prerequisite_to_understand` and `requires_to_apply` request review; `execution_input` requests recalculation; `generated_from` requests regeneration; `adopted_specification` requests authority. `related`, `alternative` and `alternative_under` remain reference-only. Optional `when:{decision_id:[accepted_choice]}` uses the current adopted decisions in governing context. Missing conditions or inputs require a decision/input, and a mismatched condition is inapplicable. Existing argument dependencies can add `effect:review|recalculate|regenerate|authority|reference` and the same `when`. Their direction remains prerequisite to consumer. The existing impact traversal propagates these effects; review or missing authority cannot silently become recalculation or regeneration. It returns `node_actions`, `unresolved_conditions` and task `actions`, alongside existing affected/reusable identities. For an actual known node change, repeat `--change NODE=ACTION`.
 
 Summary, story, workplan and forecast expose these selected dependencies as `reference_impact` and hold work requiring authority. Analyze joins the same impact into affected task findings; Converge consumes that analysis. Completion checks the same selected references for the task and its bound project, rejecting unresolved changes without adding a review plan. A related-reference or bibliographic metadata update supplies no numerical dependency. A changed result follows its actual output consumers; `after` remains start order. A work row can declare the adopted `effect` for a consumed result. A consumer lacking a typed argument edge or work effect requires the owner's decision instead of assuming it is an estimate or an exhibit. Read the classified action and its current reference before choosing review, requeue or artifact generation. A reference query never edits an adopted model, project binding, task, output or permission. Reuse valid estimates during a source review. Adopt an authorized changed specification through the existing versioned project/context binding, then requeue only the affected outputs and record the actual new results. The existing full project restoration retains these references, the original request, fixed decisions and preceding source versions.
+
+Read the [interface](state.md#interface-project-work) for the exact input forms.
 
 ## GitHub Issues and Projects
 
 Add the GitHub identifiers to the existing definition. A Project is selected by its GraphQL node ID; an Issues-only project supplies linked work Issue numbers. Several executable tasks can link to one Issue. Human tasks in the selected repository's Project also enter the summary before they acquire an execution task.
 
-```json
-{
-  "github": {
-    "repository": "OWNER/REPO",
-    "project_id": "PVT_PROJECT_NODE_ID",
-    "issue_template": "research-task.yml",
-    "fields": {"status":"Status", "priority":"Priority", "due_date":"Due date", "classification":"Classification", "progress":"Progress"},
-    "status_groups": {"completed":["Done"], "active":["In Progress"], "next":["Todo"], "blocked":["Blocked"]}
-  },
-  "work": [{"task_id":"ESTIMATE", "node_ids":["CLAIM"], "duration_hours":2, "resources":{},
-            "issue_number":12, "artifact_ids":{"results":["RESULT_ID"], "figures":["FIGURE_ID"], "documents":["DOCUMENT_ID"]}}]
-}
-```
+
 
 `repository` is required. `project_id`, `issue_template`, `fields` and `status_groups` are optional. A Project can also use `project:{"owner":"OWNER","number":1,"owner_type":"organization"}`; `owner_type` defaults to `user`. The reader resolves this selector to the current GraphQL node ID. When both selectors are supplied, they must identify the same Project. Field mappings default to the names shown. Artifact IDs link the existing result/gallery/document registry; saved results, figures and documents retain their original owners. `links` in the derived task includes the bound plan, linked artifact IDs, current execution outputs and Issue URL.
 
@@ -147,26 +127,11 @@ For an Issues-only workflow, use an Issue form with headings `Priority`, `Due da
 
 The view returns native browser management links, the template-specific new-Issue link, Project field IDs/options, REST endpoint and GraphQL endpoint. Open an Issue to change its assignees, form text or dependencies; use the Project URL to edit its fields. GitHub documents [Issue-template URL parameters](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/creating-an-issue#creating-an-issue-from-a-url-query). The template remains in the repository's existing Issue-template directory.
 
-```sh
-python harness/state.py --root PROJECT project-view CASE --role manage --view summary --save project-summary.json
-python harness/state.py --root PROJECT project-view CASE --role contribute --owner GITHUB_LOGIN --view workplan
-python harness/state.py --root PROJECT project-view CASE --role manage --view summary --github github-read.json --save project-summary.json
-```
+
 
 `--github` accepts a current read snapshot from an authorized connector. Repeat it for a portfolio. A connector's nested `structuredContent` and JSON-string `content` envelopes are unwrapped before the existing snapshot validation. The contained snapshot identifies its actual source and acquisition time, matches the bound repository/Project, and contains complete Issue/dependency lists. Native reads construct the same shape:
 
-```json
-{
-  "schema_version":1,
-  "repository":"OWNER/REPO",
-  "fetched_at":"2026-11-05T12:00:00Z",
-  "source":"connector tool and returned read identity",
-  "issues":[{"number":12,"title":"Inspect saved result","html_url":"https://github.com/OWNER/REPO/issues/12",
-             "state":"open","assignees":[{"login":"PERSON"}],"body":"### Priority\n\nP1\n\n### Progress\n\nIn progress",
-             "updated_at":"2026-11-05T12:00:00Z","closed_at":null,"blocked_by":[],"blocking":[]}],
-  "project":null
-}
-```
+
 
 For a Project, replace `null` with `{id,url,title,fields,items}`. `fields` contains its GraphQL field records, including single-select options. Each item has `{id,issue_number,fields:{FIELD_NAME:VALUE}}`. Issue dependency arrays contain their native REST Issue objects with `html_url` and `state`. The importer retains the supplied acquisition time and reports the snapshot hash; an API failure returns an error.
 
@@ -176,16 +141,13 @@ Summary exposes `tasks` once per Issue and `work` once per executable task. Ever
 
 `--save` writes the derived JSON atomically, without changing the task store. It can replace an existing `artifact_kind:"project-view"` output and preserves canonical plan, source and state paths. The saved view carries source/acquisition identities, the plan binding, current findings, interpretations and decisions. Meeting generation reads this file plus the selected saved result/gallery IDs. Requested meeting destinations are Markdown, Quarto HTML, Beamer PDF and native Google Slides. Refresh the view to incorporate subsequent GitHub edits; make human-task edits at GitHub.
 
+Read the [interface](state.md#interface-github-issues-and-projects) for the exact input forms.
+
 ## Explicit GitHub updates
 
 `project-update` edits a linked work Issue or an Issue in the bound Project. Its exact Issue URL must already be declared in the task's `external_targets`. A Project field edit also requires that Project's exact browser URL in the same existing contract. Current contract/context sources, task/ancestor holds and external-target ownership apply. The command uses the existing task lock and leaves the task store and adopted research sources intact.
 
-```sh
-python harness/state.py --root PROJECT project-update CASE \
-  --issue-url https://github.com/OWNER/REPO/issues/12 \
-  --expected-updated-at 2026-11-05T12:00:00Z \
-  --changes '{"assignees":["PERSON"],"fields":{"Status":"In Progress","Due date":"2026-11-20","Iteration":"Iteration 2"}}'
-```
+
 
 Issue changes support `title`, `body`, `state`, `state_reason`, `assignees`, `labels` and `milestone`. A milestone is its positive number or `null`; assignees and labels are lists of names. `state_reason` accompanies a state change and uses `completed`, `not_planned`, `reopened` or `null`. `fields` uses existing Project field names: single-select values use a name or ID; iterations use an existing title or ID, including completed iterations; dates use `YYYY-MM-DD`; numbers use finite JSON numbers; text uses strings. `null` clears a supported Project field. Built-in Issue fields use the Issue keys. `blocked_by` replaces the Issue's blocking dependencies with canonical Issue URLs; an empty list removes them.
 
@@ -193,9 +155,11 @@ The command validates all supplied values before writing, compares `--expected-u
 
 The explicit update, typed field editing, connector-envelope handling and owner/number selector were adapted from [PR #9, commit 8e5cfd4](https://github.com/yoshimurahiroki/econ-project-mini/commit/8e5cfd4b04fcf9a15faa525cadcacc40c719a4d3) into this project's existing schema and authority paths.
 
+Read the [interface](state.md#interface-explicit-github-updates) for the exact input forms.
+
 ## Resumption and migration
 
-Use [TEAM's resumption contract](../runtime/TEAM.md#resumption) with the saved consumed-input, output and governing-definition identities above. Read [State migration](../docs/ai/integration.md#state-migration) only for a requested migration.
+Use [TEAM's resumption contract](../runtime/TEAM.md#resumption) with the saved consumed-input, output and governing-definition identities above. Read [State migration](../docs/ai/integration.md#state-migration) only for a requested migration. Read the [compatibility interfaces](#compatibility-interfaces) for retained legacy forms.
 
 For a formerly completed task with no recoverable assessment target versions, preserve its outputs and reconcile the actual requested result and its source versions. Carry any explicitly selected certification through its existing evidence owner. Respect holds and use [TEAM](../runtime/TEAM.md#resumption) for active assignments and continuation context.
 
@@ -205,11 +169,11 @@ harness/state.py manages task records in the selected root. The active runtime e
 
 For an authorized store operation, read the helper's --help for the command. Its schema-v5 interface records these distinctions:
 
-- add accepts --operation-kind answer|modify|create|external and one or more --required-output JSON records with role/kind/target or --required-action records with target_kind/target_id/operation. Declare requirements from the request before producing results. --record is optional. Repeated --input values identify direct consumed sources; --after records start order only. Repeated --consumes JSON records bind specific upstream outputs using producer_id, output_id, kind, content_version and definition_versions, plus publication_group_id when joint publication is required; --read-dependency identifies protected sources. --required-check defaults to empty. Carry authority and identified holds; use --external-target for opaque external IDs independently of relative file scope.
-- output records a file path by default. --role associates it with the declared requirement; an omitted role is inferred only from an exact unambiguous kind and target. --kind message|object with --value records the named result and content identity. Use --definition-versions JSON for meaning-determining definitions, --publication-group-id for a required joint group, and --producer-id for a local producer label (default: task). Use repeated --dependency JSON pairs [producer_id, output_id] to narrow the consumed edges of this result, or --no-dependencies for a result independent of task consumes; omission binds all task consumes. Supplementary progress outputs do not satisfy another role or kind.
+- `add` declares the request's requirements before producing results. Operation kinds are `answer|modify|create|external`. Required outputs bind `{role,kind,target}`; actions bind `{target_kind,target_id,operation}`. Keep direct inputs, start-order predecessors, protected sources, authority and holds distinct. Consumes bind `{producer_id,output_id,kind,content_version,definition_versions}` and any required `publication_group_id`. Opaque external IDs are separate from relative file scope. The record is optional; required checks default to empty.
+- `output` defaults to a file. Bind its role, or infer it only from one exact kind/target match. `message|object` outputs retain their named value and content identity. Preserve `definition_versions`, a required `publication_group_id` and the local `producer_id` (default: the current task). Dependency pairs `[producer_id,output_id]` narrow consumed edges; explicit `--no-dependencies` clears them, while omission binds all task consumes. Supplementary progress cannot satisfy another role or kind.
 - action records an already performed operation using --target-kind, --target-id, --operation, --result and --evidence. A passing object action imports the native returned-tool record from that evidence file and derives its outcome through the existing native adapters. File targets retain their actual content hash, or their missing state for a deletion. Object targets require a registered object output or --target-version from the returned result or readback. Returned GitHub commit and plugin release identifiers must match an explicit target version. Freshness refers to the latest registered result; obtain remote updates through the authorized service and register their versions. Match the declared action target and operation and retain its input/output and result-record versions.
-- verify imports an actual --execution-result or an explicitly requested --worker-result. An optional --result must agree with that evidence. --independent-review tasks require the structured worker record and its runtime-source match for each selected certification. Receipts bind current input/output versions; --input and --output can narrow execution-evidence targets. Worker results bind the complete candidate and become stale when it changes. A mapped scientific command is matched directly to its actual native execution return. State transitions update the current record; new transitions and check replacements create no duplicate history snapshots. Previously saved history remains readable.
-- transition completed applies to a running task whose required outputs, actions, versions, dependencies and checks match and whose holds are resolved. The legacy evaluating and interrupted names map to running and blocked.
+- `verify` imports actual `execution-result` evidence or an explicitly requested `worker-result`; an optional result must agree. Independent review requires the structured worker record and runtime-source match for each selected certification. Receipts bind current input/output versions; input/output selectors can narrow execution-evidence targets. Worker evidence binds the complete candidate and becomes stale when it changes. Match mapped scientific commands to their actual native returns. Transitions and check replacements update the record without duplicate history snapshots; saved history remains readable.
+- `transition completed` requires a running task whose required outputs, actions, versions, dependencies and checks match and whose holds are resolved.
 - resume retains saved outputs and existing attempt records. requeue --output ID or --producer ID selects the affected branch for recomputation after changed dependencies, preserving unaffected outputs and receipts. Repeated --consumes records replace its upstream input contract and narrow legacy compatibility groups; --no-consumes explicitly clears that contract. A completed task accepts requeue only with an explicit output, producer or consumes selection. For a blocked or failed task without output or producer selectors, requeue removes results stale by bytes or dependencies and preserves current results. A changed selected execution record can be reconciled through resume while reusing matching numerical outputs.
 - release-hold requires --hold-id, --authority, --user-release FILE and --next. The saved user instruction has source `user`, nonempty message_id/text and the matching source_task_id/hold_id. Release a hold only on its setting task; a child cannot release an inherited hold. Retain other holds and the original general authority. The coordinator compares the retained instruction with the actual user message; local JSON does not authenticate it. A permission/user-hold transition must identify its hold. Optional repeated --hold-operation and --hold-target values on add/transition narrow its application; targets use `file:relative/path` or `object:exact-id`. Omitted selectors preserve a task-wide hold. After the setting task releases an applicable hold, resume the same child and obtain only its invalidated checks.
 - set-contract appends a requirement revision for a queued, blocked or failed task and associates preserved exact results with their declared roles. Additive requirements need no user-change record. Removing or replacing any existing output, action or external target requires --user-change FILE with the exact user instruction and old/new contract hashes. An omitted old requirement is a removal, not implicit permission to drop it. The helper retains the prior snapshot and supplied evidence; it cannot decide whether the quotation really authorized the change.
@@ -283,15 +247,11 @@ The boundary validates source spans, fixed requirements, declared paths and proh
 
 ## Observed execution usage
 
+`state.py usage` deduplicates cumulative observations.
+
 Import actual app-server notifications or typed usage events through the existing usage command:
 
-```sh
-python harness/state.py --root . usage TASK --jsonl observed.jsonl \
-  --source-format codex-app-server --counter-mode cumulative --epoch EPOCH --sequence 0
-python harness/state.py --root . usage TASK --jsonl observed.jsonl \
-  --source-format usage-event --counter-mode delta --epoch EPOCH --sequence 0
-python harness/state.py --root . summary
-```
+
 
 The app-server adapter consumes `thread/tokenUsage/updated` with `params.threadId`, `turnId` and `tokenUsage.total`; it retains `last` alongside the cumulative observation. A typed event has `type:"usage.observed"`, `source_id`, `session_id`, optional `turn_id`, stable `event_id`, and `counters` using `input_tokens`, `cached_input_tokens`, `cache_write_input_tokens`, `output_tokens`, `reasoning_output_tokens`. Retain `metadata.requested` and `metadata.observed` model, effort and agent fields separately. Optional `resources` records event-scoped tool calls, retries, auxiliary calls, failure loops, human corrections and duration; declare `resource_scope:"event"` for attributable subtotals.
 
@@ -303,18 +263,103 @@ Use actual model-usage returns for token and cache comparisons. Tool-output byte
 
 `--counter-mode observation --source-format usage-event` records typed operational events with token counters absent. Existing imported observations retain command phases, actual terminal outcomes and source hashes in the `usage` field. These observations preserve output/check versions, remain outside numerical token aggregation and carry their source-verification status. Full instructions are restored from the governing task and applicable source bodies when required; metadata-only usage changes preserve an already delivered same-version packet. Inspect actual callback, delivery and source-reading evidence when assessing a host.
 
+Read the [interface](state.md#interface-observed-execution-usage) for the exact input forms.
+
 ## Read retained research logs
 
 For an unresolved implementation location, use `rg` at the existing owner. The registered [context packer](../scripts/pack_context.sh) also accepts `--map --query EXACT_IDENTIFIER --root PROJECT_ROOT --limit 80` with relevant paths when definition, import or caller locations resolve the pending lookup. Retrieve the selected source before editing.
 
 Read a saved research execution through the existing helper:
 
-```sh
-python harness/codex_hooks.py --root . focus-research TASK --limit 100
-```
+
 
 Page with `--offset` and use `--view log` for the saved bounded diagnostic. The research execution output retains its byte count and truncation status. Displayed credential-bearing lines are redacted while the diagnostic stays in its authorized private record.
+
+Read the [interface](state.md#interface-read-retained-research-logs) for the exact input forms.
 
 ## Paragraph state binding
 
 Bind a saved ParagraphRun with `state.py bind-writing TASK --paragraph-state RELATIVE_PATH`. The binding records its bytes, request, blueprint, rule and paragraph versions; changed state invalidates completion evidence. Use [paragraph.py](paragraph.py) to preserve unaffected text and requeue changed source or specification consumers. Resume with the full current instruction packet. The state binding records execution; it does not replace native final review.
+
+## Compatibility interfaces
+
+existing explicit `--operation-kind answer` contracts remain supported.
+
+The legacy evaluating and interrupted names map to running and blocked.
+
+an untyped legacy graph retains its existing impact API.
+
+## Interface: Project work
+
+```sh
+python harness/state.py --root PROJECT project-bind CASE --definition plan-v1.json
+python harness/state.py --root PROJECT project-view CASE --role contribute --owner PERSON --view summary
+python harness/state.py --root PROJECT project-view CASE --role manage --view story
+python harness/state.py --root PROJECT project-view CASE --role manage --view workplan
+python harness/state.py --root PROJECT project-view CASE --role manage --view forecast --project OTHER_CASE
+python harness/state.py --root PROJECT project-impact CASE --node CLAIM_ID
+```
+
+## Interface: GitHub Issues and Projects
+
+```json
+{
+  "github": {
+    "repository": "OWNER/REPO",
+    "project_id": "PVT_PROJECT_NODE_ID",
+    "issue_template": "research-task.yml",
+    "fields": {"status":"Status", "priority":"Priority", "due_date":"Due date", "classification":"Classification", "progress":"Progress"},
+    "status_groups": {"completed":["Done"], "active":["In Progress"], "next":["Todo"], "blocked":["Blocked"]}
+  },
+  "work": [{"task_id":"ESTIMATE", "node_ids":["CLAIM"], "duration_hours":2, "resources":{},
+            "issue_number":12, "artifact_ids":{"results":["RESULT_ID"], "figures":["FIGURE_ID"], "documents":["DOCUMENT_ID"]}}]
+}
+```
+
+```sh
+python harness/state.py --root PROJECT project-view CASE --role manage --view summary --save project-summary.json
+python harness/state.py --root PROJECT project-view CASE --role contribute --owner GITHUB_LOGIN --view workplan
+python harness/state.py --root PROJECT project-view CASE --role manage --view summary --github github-read.json --save project-summary.json
+```
+
+```json
+{
+  "schema_version":1,
+  "repository":"OWNER/REPO",
+  "fetched_at":"2026-11-05T12:00:00Z",
+  "source":"connector tool and returned read identity",
+  "issues":[{"number":12,"title":"Inspect saved result","html_url":"https://github.com/OWNER/REPO/issues/12",
+             "state":"open","assignees":[{"login":"PERSON"}],"body":"### Priority\n\nP1\n\n### Progress\n\nIn progress",
+             "updated_at":"2026-11-05T12:00:00Z","closed_at":null,"blocked_by":[],"blocking":[]}],
+  "project":null
+}
+```
+
+## Interface: Explicit GitHub updates
+
+```sh
+python harness/state.py --root PROJECT project-update CASE \
+  --issue-url https://github.com/OWNER/REPO/issues/12 \
+  --expected-updated-at 2026-11-05T12:00:00Z \
+  --changes '{"assignees":["PERSON"],"fields":{"Status":"In Progress","Due date":"2026-11-20","Iteration":"Iteration 2"}}'
+```
+
+## Interface: Observed execution usage
+
+```sh
+python harness/state.py --root . usage TASK --jsonl observed.jsonl \
+  --source-format codex-app-server --counter-mode cumulative --epoch EPOCH --sequence 0
+python harness/state.py --root . usage TASK --jsonl observed.jsonl \
+  --source-format usage-event --counter-mode delta --epoch EPOCH --sequence 0
+python harness/state.py --root . summary
+```
+
+## Interface: Read retained research logs
+
+```sh
+python harness/codex_hooks.py --root . focus-research TASK --limit 100
+```
+
+## Project allocation interface
+
+Use existing `project-view --view forecast` for feasibility and `project_judgment` for the adopted comparison, sources, order and authority. On determining changes, use `project-impact` to update affected decisions and consumers.

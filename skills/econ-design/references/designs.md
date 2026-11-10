@@ -120,8 +120,8 @@ Use the existing assembly specification for the chain from the research question
 
 | Field | Adopted content |
 | --- | --- |
-| `role` | One role or a list: `outcome`, `primary_outcome`, `secondary_outcome`, `treatment`, `assignment`, `receipt`, `endogenous`, `control`, `covariate`, `instrument`, `fixed_effect`, `time_effect`, `trend`, `effect_modifier`, `mediator`, `collider`, `posttreatment`, `id`, `time`, `cohort`, `running`, `weight`, `cluster`, `exposure` or `auxiliary`. |
-| `causal_role` | One role or a list: `confounder`, `baseline_outcome`, `baseline_attribute`, `pretreatment_time_varying`, `mediator`, `collider`, `posttreatment`, `instrument`, `fixed_effect`, `time_effect`, `trend`, `effect_modifier`, `assignment`, `receipt` or `exposure`. |
+| `role` | One role or a list from the [validated role vocabulary](../scripts/research_design.py). |
+| `causal_role` | One role or a list from the [validated causal_role vocabulary](../scripts/research_design.py). |
 | `source_fields`, `inputs` | Lists of original source fields and transformation input names. Inputs may include intermediate variables in the same construction. |
 | `timing` | Measurement timing as text or an object. Checked adjustment timing is `pretreatment`, `baseline` or `time_invariant`, directly or in `relative_to_treatment`. Preserve the actual measurement window and information-availability date alongside that relation. |
 | `rationale` | The economic path or identifying restriction that selects this variable. |

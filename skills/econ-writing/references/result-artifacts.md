@@ -10,10 +10,7 @@ The artifact operations extend `harness/research_evidence.py` and generate a man
 
 The same `research-artifact-registry-v1` registry holds an `items` object keyed by stable display IDs. Save the rows needed by a table or plot when the analysis produces them. A saved source result can carry `display_items`, an array of the display records below, or `display:{kind,rows,metadata}` with nested saved blocks. Named additional blocks in `displays` retain separate pointwise/simultaneous or design-specific views. Normalization maps those blocks to the existing items; a source without display rows receives a named coefficient or statistic table. Register an existing saved registry to create one PNG per selected display, usable in previews and native Google Slides:
 
-```sh
-python harness/research.py gallery register --root "$PROJECT" \
-  --registry analysis/saved-results.json --output analysis/gallery.json
-```
+
 
 `--items analysis/display-items.json` selects an explicit array of display records supplied by the completed analysis. An existing item's `id` with display or metadata overrides reuses its saved rows and columns. Use `--no-render` to register the rows and settings with an empty asset list. Use repeated `--format` arguments to generate the required SVG, PNG, HTML, PDF or LaTeX files. Normalization and registration read saved quantities. Save the requested inference with the official producing function before registration.
 
@@ -89,21 +86,11 @@ Policy results carry the adopted `policy` definition: treatment arms, baseline r
 
 When a manuscript inference uses a saved diagnostic, covariance block, model condition or evaluation definition outside the named statistics, select its exact JSON path with `research_results.evidence_paths` in the existing [writing brief](paragraph-workflow.md#command-entry-points). For example, `{"specialist-did-r01": [["diagnostics", "pretreatment_test"]]}` selects the original joint-test result. `composition_context` returns that value with its registry path, exact source-result keys and content hash alongside the same result's definitions and quantities. Select the additional saved paths needed to establish the null, tested contrasts, interval family or evaluation population. The writer uses the official method and adopted design to explain their inferential relation through [paper guidance](paper-workflow.md#identification-and-empirical-method). The existing result record retains unselected diagnostics and observation-level arrays.
 
+Read the [interface](result-artifacts.md#interface-save-displays-at-analysis-or-registration) for the exact input forms.
+
 ## Browse compare and edit saved results
 
-```sh
-python harness/research.py gallery list --root "$PROJECT" \
-  --registry analysis/gallery.json --query "employment"
-python harness/research.py gallery compare --root "$PROJECT" \
-  --registry analysis/gallery.json main-event-study alternative-event-study
-python harness/research.py gallery select --root "$PROJECT" \
-  --registry analysis/gallery.json main-event-study sample-table \
-  --output meetings/selected-results.json
-python -m marimo run harness/research_gallery.py -- \
-  --root "$PROJECT" --registry analysis/gallery.json
-python harness/research.py gallery ui --root "$PROJECT" \
-  --registry analysis/gallery.json --headless --port 2718
-```
+
 
 `research_evidence.py gallery` and `research_artifacts.py gallery` expose the same commands. `show ID` returns one selected display and its `revision` for an edit; `preview ID --output PATH` renders saved rows to HTML. `render --item ID` saves a PNG generation from the selected item's rows; for a paper export, select `--format svg`, `--format pdf` or `--format tex` as needed. `list` supports `--kind`, `--status` and seven definition filters: `--result-id`, `--sample`, `--comparison`, `--outcome`, `--specification`, `--period` and `--adoption`. `compare` keeps the selected records together, returns the saved regression comparison and reports definition differences. A specialist's saved rows without an applicable x/y pair render as a table with their original columns.
 
@@ -123,13 +110,7 @@ The returned `changed_references` identifies the edited fields with existing JSO
 
 Use the same Gallery entry to search the project's existing task outputs, consumed files, saved DAG generations, result registries and selected meeting bundles:
 
-```sh
-python harness/research.py gallery search --root "$PROJECT" \
-  --registry analysis/gallery.json --meeting meetings/current --query "employment"
-python harness/research.py gallery search --root "$PROJECT" --kind code
-python harness/research.py gallery search --root "$PROJECT" \
-  --store .agents/state/team.json --task RESEARCH_TASK --history
-```
+
 
 Repeat `--registry` or `--meeting` for additional existing owners. `--id`, `--kind`, `--question`, `--result-id`, `--sample`, `--comparison`, `--outcome`, `--specification`, `--period`, `--adoption` and `--status` narrow the recorded metadata. Search terms all match within the same artifact. The Python interface is `artifact_catalog(root, registry_paths=(), store=..., query=..., filters=..., task_ids=(), include_history=False, meeting_paths=())`. The workspace's **成果物を探す** tab uses this interface; the existing result tab continues to select saved exhibits for manuscripts and meetings.
 
@@ -138,6 +119,8 @@ Each returned item names its stable ID, path, format, producer role, recorded co
 For each saved pipeline, profile, parent and stage, the default view selects its latest completed task record. `--history` also includes retained generations and earlier task-output snapshots. `latest_recorded` identifies that selection; an exhibit's saved adoption status identifies its scientific use. A search result preserves the original version even when the file has subsequently changed. A saved search selection is a view of these source records; the source owners retain updates and history.
 
 Keep code at its module, source data at its project data path, derived data with its assembly specification and data record, calculations in their saved DAG generation, figures with their Gallery assets, writing at its manuscript source, and meetings in their bundle. Register newly produced code, data and documents through the existing task `output` operation; the research runner already registers its outputs and dependencies. Register figures through Gallery and select their saved records for the meeting or writing consumer. Update all producing and consuming references together for an authorized move. File discovery and layout changes reuse the saved scientific quantities.
+
+Read the [interface](result-artifacts.md#interface-browse-compare-and-edit-saved-results) for the exact input forms.
 
 ## Source basis for reuse and provenance
 
@@ -161,11 +144,11 @@ New paper and slide exports use the supplied [Econometrica paper](../../../tex/p
 
 The existing artifact helper derives Pandoc adapters from those exact source templates:
 
-```sh
-python harness/research_artifacts.py generate-adapters --root "$PROJECT"
-```
+
 
 The project Quarto defaults and new artifact LaTeX/PDF stages consume those adapters. The shared LuaLaTeX helper handles the journal class's fontspec initialization, citation-aware BibTeX passes, backreferences and previous-PDF restoration on a failed build. Template, package and build-helper versions enter the affected stage inputs, so a layout change rebuilds the corresponding artifacts while preserving matching estimates and their scientific definitions. Keep explicitly adopted document formats with their existing projects.
+
+Read the [interface](result-artifacts.md#interface-default-latex-family) for the exact input forms.
 
 ## Adopt an artifact specification
 
@@ -183,17 +166,13 @@ A `models` entry names the `source`, exact article `equation`, exact `code_quote
 
 For an adopted specification at `analysis/artifacts.json`, materialize and execute it with:
 
-```sh
-python harness/research_evidence.py artifacts materialize \
-  --root "$PROJECT" --spec "$PROJECT/analysis/artifacts.json" \
-  --output "$PROJECT/analysis/artifact-manifest.json" \
-  --python "$ANALYSIS_PYTHON" --pandoc "$PANDOC" --quarto "$QUARTO"
-python harness/research.py --root "$PROJECT" analysis/artifact-manifest.json
-```
+
 
 The generated stages normalize each selected result separately, merge their registry, render the table and SVG, generate article and slide sources with their saved-statistic traces, and export article HTML, LaTeX, PDF and Quarto HTML plus Beamer slide PDF. The article and slide sources are Quarto Markdown. Pandoc and Quarto execute as declared stages, and the Quarto output retains its executable version and hash. The PDF stages use a project-local LuaTeX cache. Wrapper stages declare their external commands in `executables`: Pandoc for LaTeX, Pandoc/LuaLaTeX/`pbibtex` for PDF, and Quarto for Quarto HTML. The runner resolves these commands in each stage environment and includes their executable hashes in reuse signatures.
 
 Result, specification, data, code and template bytes enter the ordinary stage signatures. LaTeX wrapper stages include their consumed artifact specification, source template and Python helpers. Materialization validates both authored templates; article and slide rendering validate only their selected template. Normalization, registry merging, tables and figures consume the specification without reading manuscript bodies. A changed result rebuilds its registry fragment and descendants; a figure consuming a different source remains reusable. A changed code or specification hash fails its old source binding until the owner adopts the changed input and its corresponding result. The normalizer reads each selected saved result and producing file once per operation and retains the selected quantities with that pinned content. Run the manifest again after an authorized update; the existing research runner retains prior generations and rebuilds affected stages. Update the article or slide text when a changed result changes the adopted argument.
+
+Read the [interface](result-artifacts.md#interface-adopt-an-artifact-specification) for the exact input forms.
 
 ## Claims, coverage and requested re-review
 
@@ -213,6 +192,61 @@ To generate a requested response from the completed revision, supply the current
 
 Compose the finished response with the existing writing host after revising the actual manuscript and assessing its changed claims:
 
+
+
+The host and rule files use the existing [paragraph callback interface](paragraph-workflow.md#command-entry-points). The task's operation is `econ-writing:compose`, `econ-writing:revise` or `econ-writing:translate`. Its payload carries the requested language, adopted scientific identities, selected original comments and passages, actual revised spans, assessment reasons, source text and saved quantities. The host returns `{"responses":{"FINDING_ID":"completed response text"}}` for exactly the selected findings. The same host observer binds that returned wording to its actual invocation. The response explains what the revision establishes, why its economic reasoning answers the comment, and where the revision appears. The packet retains the full evidence correspondence and execution; the Markdown letter contains the comments and completed responses. Ordinary direct writing uses the same composition procedure and saves its finished text in the requested destination.
+
+Read the [interface](result-artifacts.md#interface-claims-coverage-and-requested-re-review) for the exact input forms.
+
+## Interface: Save displays at analysis or registration
+
+```sh
+python harness/research.py gallery register --root "$PROJECT" \
+  --registry analysis/saved-results.json --output analysis/gallery.json
+```
+
+## Interface: Browse compare and edit saved results
+
+```sh
+python harness/research.py gallery list --root "$PROJECT" \
+  --registry analysis/gallery.json --query "employment"
+python harness/research.py gallery compare --root "$PROJECT" \
+  --registry analysis/gallery.json main-event-study alternative-event-study
+python harness/research.py gallery select --root "$PROJECT" \
+  --registry analysis/gallery.json main-event-study sample-table \
+  --output meetings/selected-results.json
+python -m marimo run harness/research_gallery.py -- \
+  --root "$PROJECT" --registry analysis/gallery.json
+python harness/research.py gallery ui --root "$PROJECT" \
+  --registry analysis/gallery.json --headless --port 2718
+```
+
+```sh
+python harness/research.py gallery search --root "$PROJECT" \
+  --registry analysis/gallery.json --meeting meetings/current --query "employment"
+python harness/research.py gallery search --root "$PROJECT" --kind code
+python harness/research.py gallery search --root "$PROJECT" \
+  --store .agents/state/team.json --task RESEARCH_TASK --history
+```
+
+## Interface: Default LaTeX family
+
+```sh
+python harness/research_artifacts.py generate-adapters --root "$PROJECT"
+```
+
+## Interface: Adopt an artifact specification
+
+```sh
+python harness/research_evidence.py artifacts materialize \
+  --root "$PROJECT" --spec "$PROJECT/analysis/artifacts.json" \
+  --output "$PROJECT/analysis/artifact-manifest.json" \
+  --python "$ANALYSIS_PYTHON" --pandoc "$PANDOC" --quarto "$QUARTO"
+python harness/research.py --root "$PROJECT" analysis/artifact-manifest.json
+```
+
+## Interface: Claims, coverage and requested re-review
+
 ```sh
 python harness/research_evidence.py review writing/current-contract.json \
   --root "$PROJECT" --output writing/current-review.json \
@@ -221,5 +255,3 @@ python harness/research_evidence.py review writing/current-contract.json \
   --writing-mode compose --execution-kind single-agent-sequential \
   --author-id author --response-output writing/response.md
 ```
-
-The host and rule files use the existing [paragraph callback interface](paragraph-workflow.md#command-entry-points). The task's operation is `econ-writing:compose`, `econ-writing:revise` or `econ-writing:translate`. Its payload carries the requested language, adopted scientific identities, selected original comments and passages, actual revised spans, assessment reasons, source text and saved quantities. The host returns `{"responses":{"FINDING_ID":"completed response text"}}` for exactly the selected findings. The same host observer binds that returned wording to its actual invocation. The response explains what the revision establishes, why its economic reasoning answers the comment, and where the revision appears. The packet retains the full evidence correspondence and execution; the Markdown letter contains the comments and completed responses. Ordinary direct writing uses the same composition procedure and saves its finished text in the requested destination.

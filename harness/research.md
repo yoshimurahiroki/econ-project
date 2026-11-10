@@ -1,6 +1,6 @@
 # Executing an adopted research pipeline
 
-[CORE](../runtime/CORE.md) owns authority, preserved scientific inputs and completion; [EXECUTION](../runtime/EXECUTION.md) owns operation and failure handling. This manual defines the runner, saved-result and packaging interfaces.
+[CORE](../runtime/CORE.md) owns authority, preserved scientific inputs and completion; [EXECUTION](../runtime/EXECUTION.md) owns operation and failure handling. 
 
 ## Run an adopted pipeline
 
@@ -8,9 +8,7 @@
 
 A saved stage is reusable when its adopted specification, declared source and helper bytes, exact environment, executable and consumed result versions match a completed state record. The renderer resolves each numerical token to a named result key, checks its saved unit and applies its declared format. The same state record links the displayed quantity to the actual producing execution.
 
-```sh
-python harness/research.py --root /path/to/project --store .agents/state/team.json --parent TASK_ID research.json
-```
+Use `python harness/research.py --help` for the command and options.
 
 The root is the project owning the source files. The manifest and the store are root-relative. The store defaults to `.agents/state/team.json` and is initialized if absent. `--parent` attaches attempts to an existing state task, inheriting its full governing context, scoped holds and authority; its write scope must include `.agents/research/PIPELINE`. An existing parent must already be in the selected store. Release overlapping active writer scopes through the existing state transition before starting child attempts. A single runner lock coordinates research runners in the root, and the existing state helper coordinates individual store updates. Commands execute with the host process's operating-system access and must stay within their authorized scope and declared generation outputs.
 
@@ -24,32 +22,7 @@ Discovery identifies the invoked script at its source, deployed or flat package 
 
 For `equity.py`, pass `--root {root}` and use project-relative `products`, `agents`, `reference_products` and `observations` files. The same rule covers nested IO models used by cash-flow valuation, reverse valuation and news updates. The runner tracks their CSV or JSON inputs and the calculation resolves them against the declared project root. Absolute paths retain their existing meaning; omitting `--root` retains the standalone command's working-directory resolution. Inline records remain part of the specification. A `-` specification argument denotes standard input and adds no file; its input source belongs in the stage's explicit `inputs`.
 
-```json
-{
-  "pipeline": "hours",
-  "stages": [
-    {
-      "id": "estimate",
-      "inputs": ["data/people.csv", "spec/sample.json", "code/fit.py", "environment.lock"],
-      "depends": {},
-      "outputs": {"result": "result.json"},
-      "argv": ["/usr/bin/python3", "{root}/code/fit.py", "{root}/data/people.csv", "{root}/spec/sample.json", "{out:result}"]
-    },
-    {
-      "id": "paper",
-      "inputs": ["paper/template.txt"],
-      "depends": {"estimate": ["result"]},
-      "outputs": {"text": "paper.txt"},
-      "render": {
-        "template": "paper/template.txt", "output": "text",
-        "statistics": {
-          "training": {"stage": "estimate", "output": "result", "key": ["statistics", "training"], "unit": "hours_per_week", "format": ".2f"}
-        }
-      }
-    }
-  ]
-}
-```
+
 
 A rendered template contains two opening braces, `stat:training`, and two closing braces. The selected JSON key must resolve to an object such as `{"value": 1.25, "unit": "hours_per_week"}`; its finite numeric value, exact unit and format produce the inserted bytes. Key paths are arrays of JSON object keys. Supported formats are `f`, `g`, `e` and their precision forms such as `.2f`. The bindings must exactly match the template placeholders. The template is a tracked input and the source result a declared dependency. Additional tables and figures can be argv stages that consume the same result; their scientific and content checks belong in their generating commands.
 
@@ -59,44 +32,31 @@ Keep each section's source template and consumed result outputs explicit. Title,
 
 Every successful stage publishes an immutable generation by completing its state task after all declared files exist. The JSON response returns each selected generation's root-relative file paths and `executed`, `reused`, `recovered`, `skipped`, `failed` or `blocked` status. Exit codes are 0 for a completed DAG, 1 when a stage failed or was blocked, and 2 for invalid input or a runner/state error. New attempts use separate generation paths. Previous complete files remain available after a failed replacement, but the failed branch is not passed to current descendants. State completion, input hashes, consumed versions, definitions and output bytes are checked before reuse. Modifying a saved result or rendered artifact invalidates its reuse. Original context and input versions remain in state task records; retain the project specification and source files under their own version control as well.
 
+Read the [interface](research.md#interface-run-an-adopted-pipeline) for the exact input forms.
+
 ## Acquire the selected literature and data
 
 Use the [source connector](../skills/econ-literature/scripts/research_sources.py) to inspect public bibliographic metadata, indicator definitions and observed series. Each result retains its query, exact response bytes, retrieval identity and SHA-256. An explicitly selected original can be fetched and parsed through the existing equity document reader. Read the original argument establishing a paper's result before adopting that result in the research design.
 
-```sh
-python skills/econ-literature/scripts/research_sources.py literature --query "production adjustment mechanism" --output outputs/literature
-python skills/econ-literature/scripts/research_sources.py indicators --query "GDP per capita current US" --output outputs/indicators
-python skills/econ-literature/scripts/research_sources.py series --indicator NY.GDP.PCAP.CD --countries JPN USA --start 2020 --end 2024 --output outputs/gdp
-```
+
 
 Select a dataset by its observation unit, variables, measurement, period, identifying variation, keys and actual access path. The World Bank connector retains source definitions and distinguishes observed numbers, null values and absent requested keys. The host uses its other connected statistical and document tools under econ-data's acquisition contract. Freeze an adopted source snapshot for reproduction; an authorized refresh produces a new tracked input version.
+
+Read the [interface](research.md#interface-acquire-the-selected-literature-and-data) for the exact input forms.
 
 ## Estimate a linear specification
 
 The [estimator](../skills/econ-data/scripts/research.py) executes OLS with `statsmodels.OLS` and 2SLS with `linearmodels.iv.IV2SLS`. Use a Python 3.12 scientific environment with the [pinned research requirements](../skills/econ-data/scripts/requirements-research.txt); the [existing equity requirements](../skills/econ-data/scripts/requirements-equity.txt) supply PyBLP and document extraction for the structural and source workflows. Select an existing matching environment or create a fresh task-owned environment:
 
-```sh
-python3.12 -m venv outputs/research-env
-outputs/research-env/bin/python -m pip install -r skills/econ-data/scripts/requirements-research.txt -r skills/econ-data/scripts/requirements-equity.txt
-```
+
 
 Use that interpreter for numerical commands and the case's `--python` argument; the runner can use the host's standard-library interpreter. Each row in the selected CSV, Parquet or Arrow IPC table has a unique recorded ID. The JSON specification names `data`, `id`, `outcome`, `population`, `period`, `unit`, `sources`, `method`, `exog`, and, for IV, `endog` and `instruments`. A shared sample uses its hashed `data_record`, which carries the adopted sample and variable definitions into the result. `sample_columns` defines additional complete-case columns for a stipulated common sample; `filters` supplies explicit column/operator/value restrictions. `question` and `identification` retain the adopted economic target and conditions. Additional sample fields retain nonempty categorical labels and finite numeric observations; model columns follow the adopted numeric design. The interface rejects unsupported fields and options before producing an estimate and publishes a complete JSON result by atomic replacement.
 
-```json
-{
-  "data": "people.csv", "id": "person_id", "outcome": "productivity_points",
-  "population": "synthetic training participants", "period": "simulated period 1",
-  "unit": "productivity points per training hour", "sources": [{"path": "source-record.json"}],
-  "method": "iv2sls", "exog": ["baseline_productivity"], "endog": ["training_hours"],
-  "instruments": ["randomized_training_offer"], "covariance": {"type": "HC1"}
-}
-```
+
 
 `covariance: {"type": "HC1"}` selects heteroskedastic robust finite-sample adjustment. `{"type": "CR1", "cluster": "site_id"}` selects the official one-way cluster adjustment using the fitted rows' site labels. Outputs preserve full named covariance, coefficients, standard errors, actual fitted and excluded IDs, cluster assignments, source/specification hashes and engine versions. They retain each engine's actual inferential reference: OLS CR1 uses Student t with G−1 degrees of freedom; debiased IV uses Student t with n−k. The IV result keeps the package's first-stage diagnostic distribution and a separately computed conditional Wald F with its actual covariance and degrees of freedom. Use these named quantities and references in downstream interpretation and rendering.
 
-```sh
-outputs/research-env/bin/python skills/econ-data/scripts/research.py estimate analysis.json -o result.json
-```
+Read the [interface](research.md#interface-estimate-a-linear-specification) for the exact input forms.
 
 ## Choose and execute the next research operation
 
@@ -106,13 +66,13 @@ The [design assessment](../skills/econ-design/scripts/research_design.py) checks
 
 Each candidate's `requirements` declares the fields, unit, population, period and actual identifying variation its design uses. Optional missingness fractions, observed year coverage, sample filters, observation-status fields and linkage requirements check the corresponding rows and keys. Numeric variation counts numeric values. A candidate's `next_operation:{argv,cwd}` records the authorized executable action. `selection:{rule:"owner_order",order:[...]}` lists every candidate once; the result selects the first feasible one and retains every candidate's findings, definition versions, source hashes and selecting evidence.
 
-```sh
-python skills/econ-design/scripts/research_design.py assess design.json --root /path/to/project --output outputs/design.json
-```
+
 
 Use this result as a consumed output of the selected source, estimation or experiment stage. [DECIDE](../runtime/DECIDE.md#resolve-dependencies-and-integrate-findings) owns interpretation and continuation; native search and worker tools supply retrieval and delegation, and the local executables supply the declared calculations and persistence.
 
 Bibliographic discovery supports exact DOI lookup with `work --doi DOI`, one-hop backward records with `references --doi DOI`, and union search with repeated `literature-multi --query QUERY`. All take `--output DIR`. Reference rows retain the original work, rank, reference key, DOI and complete original reference fields, including unresolved text. Union rows retain each query, its status, rank and exact response origin; normalized DOI identifies duplicates, and an exact title/year identity handles rows without DOI. A failed query publishes its attributable partial record and returns a failing status. Follow selected references and forward citations through the current source tools until their original passages resolve the research comparison.
+
+Read the [interface](research.md#interface-choose-and-execute-the-next-research-operation) for the exact input forms.
 
 ## Compare specifications on a frozen protocol
 
@@ -136,21 +96,17 @@ SIGINT and SIGTERM stop the active child process group and prevent later stages 
 
 For an observed failed attempt, repair the determining cause and retain the actual reconciliation evidence. Select one explicit retry with:
 
-```sh
-python harness/research.py --root /path/to/project --parent TASK_ID --retry-failed STAGE_ID --retry-reason "corrected producing input" --retry-evidence retry-evidence.json research.json
-```
+
 
 The evidence file is hashed and retained with the new attempt. Existing failed logs and immutable successful generations survive. Resume at the affected stage and rebuild its descendants while reusing matching independent results.
+
+Read the [interface](research.md#interface-recover-interrupted-attempts) for the exact input forms.
 
 ## Retain and reuse an observed procedure
 
 The [experience helper](experience.py) stores reusable procedures as completed output objects in the same state store. A captured procedure consumes a current completed result and its successful actual execution record. Its seven typed conditions bind `model`, `engine`, `schema`, `method`, `failure_mechanism`, `package_versions` and `specification_sha256` to named producer-output keys. The specification hash must identify an actual tracked producer input or consumed output. Capturing retains its original task, inputs, authority, execution and source versions.
 
-```sh
-python harness/experience.py --root /path/to/project capture --task-id PROCEDURE --parent TASK --spec capture.json
-python harness/experience.py --root /path/to/project find --conditions conditions.json
-python harness/experience.py --root /path/to/project prepare --target TASK --procedure PROCEDURE --task-id PROPOSAL --conditions conditions.json
-```
+
 
 Capture configuration names `producer_id`, `output_id`, `execution_output_id` (default `research:execution`) and `conditions:{NAME:{output_id:"RESULT",path:["identity","NAME"]}}`. `permitted_switches` binds permitted revisions to the producing evidence. The optional stage field `learn:{spec:"learn.json"}` performs this capture after a successful stage. Its stage-specific metadata uses `output:"result"` and `conditions:{NAME:{output:"result",path:["identity","NAME"]}}`; these logical names resolve to the completed producer's actual immutable file IDs. Learning metadata has its own capture-task input and identity. Changing its wording or path recaptures the procedure while reusing the unchanged numerical producer. A requested capture failure blocks its dependent postcondition while preserving the completed calculation.
 
@@ -158,17 +114,19 @@ Capture configuration names `producer_id`, `output_id`, `execution_output_id` (d
 
 For an observed project command or environment repair, reuse its actual saved execution and applicable inputs. Existing `execution_kind:"task_check"` records can still supply their retained producer, command return, condition references and prior failure observation. This compatibility path reads saved evidence; no check runner is available. New research procedures consume the requested stage's `research:execution` output and adopted specification. `find` and `prepare` retain the target's current authority, scope and holds.
 
+Read the [interface](research.md#interface-retain-and-reuse-an-observed-procedure) for the exact input forms.
+
 ## Bind claims equations and saved results
 
 The [evidence binder](research_evidence.py) checks an explicitly selected manuscript against source, result and producer identities:
 
-```sh
-python harness/research_evidence.py bind evidence.json --root /path/to/project --output outputs/bound.json
-```
+
 
 The contract names `manuscript:{path,sha256}`, `adopted` scalar identities and optional `sources` with exact file hashes and metadata. `claims` bind an exact target span to source IDs/spans and a native `judgment:{reviewer,decision:"supported",rationale}`. `numbers` bind target and displayed-unit spans to a result path/hash, semantic key, unit, format and all adopted `identity_keys`. `models` bind an equation span, exact code span/hash, original residual key and adopted tolerance to the same model/specification identities and native judgment. A changed source, code, value, unit, identity or excessive residual fails the binding and preserves the prior complete output.
 
 Optional `mappings` bind individual symbols and parameters. Each names `kind:"symbol"|"parameter"`, `status:"derived"|"fixed"|"calibrated"|"estimated"`, manuscript `target`, exact `code` span, result identities and native judgment. Its `origin` names either a source ID/span or a specification path/hash/key/value/unit. Fixed and calibrated parameters bind the actual adopted specification; estimated parameters bind a named `{value,unit}` result quantity. `coverage` selects manuscript spans for numeric-token accounting; displayed statistics and explicit source/assumption/citation claims account for those tokens. The native owner establishes the claim's meaning and economic inference using the bound passages and calculations.
+
+Read the [interface](research.md#interface-bind-claims-equations-and-saved-results) for the exact input forms.
 
 ## Estimate orthogonal scores
 
@@ -180,13 +138,13 @@ The estimation interface supports `method:"dml_plr"` through DoubleMLPLR and `me
 
 The [macro interface](../skills/econ-data/scripts/research_macro.py) solves a deterministic finite-period representative-household growth model. The household chooses positive capital and consumption to maximize the sum of discounted log consumption. Output equals productivity times capital to `alpha`; resources include depreciated capital and output after its tax. Tax receipts are government absorption. The specification fixes `alpha`, `beta`, `delta`, initial and terminal capital, baseline/scenario `productivity` and `output_tax` arrays, population, period, units, sources and `tolerance`.
 
-```sh
-outputs/research-env/bin/python skills/econ-data/scripts/research_macro.py solve macro.json -o macro-result.json
-```
+
 
 The implementation supplies analytic objective gradients and resource Jacobians to SciPy SLSQP, checks them against finite differences and evaluates the original Euler and resource residuals at both returned paths. It publishes the actual capital, output, consumption, welfare and scenario difference with engine/specification identities after the declared residual tolerance passes. For another adopted heterogeneous-agent or aggregate-equilibrium model, select its matching package, information/timing, market closure and original residuals through the existing structural design and numerical owners.
 
 <a id="capture-the-selected-python-and-r-environment"></a>
+
+Read the [interface](research.md#interface-solve-the-adopted-finite-horizon-model) for the exact input forms.
 
 ## Capture the selected Python, R or Julia environment
 
@@ -202,9 +160,7 @@ Use `runtime.requirements` to name the existing selected family's requirement fi
 
 For the research entry points, the runner selects table-reader packages from the actual input references and the specification's output format. Parquet and Arrow IPC select Python `pyarrow`, R `arrow`, and Julia `Parquet2` or `Arrow` according to the format. Julia table reading also selects `Tables`, `DataFrames` and, for CSV, `CSV`. An `assemble` specification using `sql` selects Python `duckdb` and `pyarrow`. Explicit package versions remain authoritative; otherwise the runtime records the installed versions. Generated dependency specifications use the same selection before execution. The stage signature and reproduction package retain these dependencies and their saved exact pins together with declared requirement files.
 
-```json
-{"runtime":{"language":"python","probe_argv":["/path/to/ers-causal/bin/python"],"requirements":["skills/econ-data/scripts/requirements-causal.txt"]}}
-```
+
 
 Restore the selected family into its own Python 3.12 environment. For example, run `python3.12 -m venv .venv/ers-causal`, then `.venv/ers-causal/bin/python -m pip install -r skills/econ-data/scripts/requirements-causal.txt`. In `econ-project`, the existing Pixi Python can create this environment. Point both `argv` and `runtime.probe_argv` to its absolute interpreter. Select the R companion and its `R_LIBS_USER` from the adopted rv project. The research and market families pin pandas 2.2.3; the causal family pins pandas 3.1.0. Use separate environments for those families. Exact versions stay in their existing requirement owners.
 
@@ -212,21 +168,19 @@ Before reuse and after execution, the runner records the actual runtime version,
 
 For Julia, bind the project's existing `Project.toml` and `Manifest.toml` through `runtime.files` and stage inputs, and include the chosen `--project` option in `probe_argv`. The existing probe records package UUIDs, versions, sources, dependency closure, loaded libraries, active project and depots. Set `JULIA_PROJECT`, `JULIA_DEPOT_PATH` and `JULIA_LOAD_PATH` in the stage environment when the project uses them. Use Julia for a required specialist implementation or an observed performance improvement on the adopted calculation. A SQL query executed through Python uses that interpreter's `duckdb` package and the same tracked source files.
 
-```json
-{"runtime":{"language":"python","probe_argv":["/path/to/python"],"version":"3.12.16","packages":{"numpy":"2.3.5"},"files":["requirements.txt"]}}
-```
+
 
 A missing required package or mismatched version stops the affected operation before its calculation. A changed observed package closure invalidates the consuming stage even when the interpreter binary and input data are unchanged. The saved execution retains that identity beside the actual result.
 
 For a consequential selected interface, add `apis` to a Python or R runtime, including an R companion:
 
-```json
-{"apis":[{"package":"numpy","symbol":"numpy.linalg.solve","positional":2,"keywords":[]}]}
-```
+
 
 Each API's package has an explicit version in that runtime's `packages`. Python resolves the distribution-owned callable and binds the proposed positional count and keyword names to its actual signature; it records that signature, installed documentation hash and available source identity. R resolves the package export, checks its formals and records the version-matched installed help identity. An unavailable symbol, signature or adopted call stops the affected stage. The runtime identity includes these observations, so a changed API or documentation version invalidates its consumers. Explicitly acquired official reference files use the existing tracked `runtime.files` inputs.
 
 Python API symbols can traverse classes after the importable module, including `pyblp.Problem.solve` and `doubleml.DoubleMLPLR.fit`. The declared positional count includes the receiver for an unbound instance method. Pins derived from `requirements` supply the same explicit version contract. Method selection returns the official entry; this probe checks the callable in the interpreter that will execute that entry.
+
+Read the [interface](research.md#interface-capture-the-selected-python-r-or-julia-environment) for the exact input forms.
 
 ## Select a named execution profile
 
@@ -246,17 +200,15 @@ Set `documentation.formats` to `["md","pdf"]` to produce `README.pdf` with Pando
 
 A comparison is `{method:"sha256"}` or `{method:"numeric-json",path:["estimate"],unit_path:["unit"],rtol:1e-8,atol:1e-10}`. Numeric comparisons verify the actual value and its exact unit. Optional `helpers` maps `research.py`, `state.py` and `local_checks.py` to the project's existing matching helper copies; the default paths are under `harness/`. The selected manifest, observed runtime, producing argv/environment, source hashes, original context hashes and saved comparison outputs form the release provenance. Private task-store bodies and unselected source files stay in their existing storage.
 
-```sh
-python harness/reproduction.py build --root /path/to/project --config reproduction.json /path/to/reproduction-new
-python /path/to/reproduction-new/project/harness/reproduction.py verify /path/to/reproduction-new
-python /path/to/reproduction-new/project/harness/reproduction.py reproduce /path/to/reproduction-new
-```
+
 
 The builder checks current inputs, consumed versions, executable and runtime identities before copying and at the publication boundary. Its atomic new directory includes an exact finite file inventory and the existing runner/helper closure. `verify` compares that inventory with the actual package. `reproduce` uses the copied runner in a fresh temporary project and compares the declared outputs with their saved originals. The package remains unchanged after replay. Python interpreter mappings and `--python` replace the interpreter within the saved command prefix, retaining its wrapper, interpreter options, script arguments and environment. The original invocation stays in provenance. The package includes completed stage closures, procedure captures and explicitly excluded failed candidates, including commands that returned zero and failed their output conditions. Replay preserves each candidate's failed status and actual exit code.
 
 Keep packaged source references relative to their specification or explicit project root. Use `{root}` for project paths in stage arguments and `equity.py --root {root}` for project-relative equity CSV references. Package construction preserves input bytes; an adopted absolute-path specification retains that absolute destination after copying. Before packaging such a stage for another machine, update its path references through the existing specification owner and save the corresponding execution. This changes file locations while preserving the adopted model, observations and numerical options.
 
 The independent Python/R case uses this same runner and reproduction builder for its generated data, estimates, summary, table, SVG, QMD and HTML outputs. Python/R notebooks and Quarto/LaTeX render commands can occupy the same argv stages with their real scripts, package/lock inputs and output definitions.
+
+Read the [interface](research.md#interface-package-and-reproduce-a-completed-research-result) for the exact input forms.
 
 ## Select the specialized model
 
@@ -290,3 +242,123 @@ Select `research_result_artifacts` for [automatic registration and article/slide
 The [state manual's hook contract](state.md#governing-context) defines task binding, callback evidence and compaction recovery. The registered events in `hooks/hooks.json` cover session start, prompt submission, tool pre/post callbacks, child start/stop, stop, interruption and post-compaction. Host permission and command-trust controls remain authoritative; callback records retain the task's declared targets, holds and completion evidence.
 
 `SubagentStop` retains the exact observed child return as its assigned contribution and queues a parent handoff. The next eligible parent `PostToolUse` presents pending return identities once; a child callback preserves that queue. Governing-text restoration follows the state manual's entry, binding and recovery boundaries. [TEAM](../runtime/TEAM.md#return-and-integration) owns parent integration and [CORE](../runtime/CORE.md#completion-and-reporting) owns final completion.
+
+## Formulation interface
+
+`research_design.py formulate CONTRACT --root PROJECT --output OUTPUT` saves `judgment.formulation`. Assessments use `candidates[].judgment.formulation`; matching saved records use `adopted_design`. Selection accepts `research_decisions.formulation={path,sha256}` and optional `candidate_id` for an assessment record. The producer validates these bindings.
+
+## Interpretation interface
+
+`research_design.py interpret CONTRACT --root PROJECT --output OUTPUT` binds exact `{path,sha256}` specification/result references. The saved outcome is `retain|repair|authority_required`; resumed selection uses `research_decisions.interpretation={path,sha256}`.
+
+## Interface: Run an adopted pipeline
+
+```json
+{
+  "pipeline": "hours",
+  "stages": [
+    {
+      "id": "estimate",
+      "inputs": ["data/people.csv", "spec/sample.json", "code/fit.py", "environment.lock"],
+      "depends": {},
+      "outputs": {"result": "result.json"},
+      "argv": ["/usr/bin/python3", "{root}/code/fit.py", "{root}/data/people.csv", "{root}/spec/sample.json", "{out:result}"]
+    },
+    {
+      "id": "paper",
+      "inputs": ["paper/template.txt"],
+      "depends": {"estimate": ["result"]},
+      "outputs": {"text": "paper.txt"},
+      "render": {
+        "template": "paper/template.txt", "output": "text",
+        "statistics": {
+          "training": {"stage": "estimate", "output": "result", "key": ["statistics", "training"], "unit": "hours_per_week", "format": ".2f"}
+        }
+      }
+    }
+  ]
+}
+```
+
+## Interface: Acquire the selected literature and data
+
+```sh
+python skills/econ-literature/scripts/research_sources.py literature --query "production adjustment mechanism" --output outputs/literature
+python skills/econ-literature/scripts/research_sources.py indicators --query "GDP per capita current US" --output outputs/indicators
+python skills/econ-literature/scripts/research_sources.py series --indicator NY.GDP.PCAP.CD --countries JPN USA --start 2020 --end 2024 --output outputs/gdp
+```
+
+## Interface: Estimate a linear specification
+
+```sh
+python3.12 -m venv outputs/research-env
+outputs/research-env/bin/python -m pip install -r skills/econ-data/scripts/requirements-research.txt -r skills/econ-data/scripts/requirements-equity.txt
+```
+
+```json
+{
+  "data": "people.csv", "id": "person_id", "outcome": "productivity_points",
+  "population": "synthetic training participants", "period": "simulated period 1",
+  "unit": "productivity points per training hour", "sources": [{"path": "source-record.json"}],
+  "method": "iv2sls", "exog": ["baseline_productivity"], "endog": ["training_hours"],
+  "instruments": ["randomized_training_offer"], "covariance": {"type": "HC1"}
+}
+```
+
+```sh
+outputs/research-env/bin/python skills/econ-data/scripts/research.py estimate analysis.json -o result.json
+```
+
+## Interface: Choose and execute the next research operation
+
+```sh
+python skills/econ-design/scripts/research_design.py assess design.json --root /path/to/project --output outputs/design.json
+```
+
+## Interface: Recover interrupted attempts
+
+```sh
+python harness/research.py --root /path/to/project --parent TASK_ID --retry-failed STAGE_ID --retry-reason "corrected producing input" --retry-evidence retry-evidence.json research.json
+```
+
+## Interface: Retain and reuse an observed procedure
+
+```sh
+python harness/experience.py --root /path/to/project capture --task-id PROCEDURE --parent TASK --spec capture.json
+python harness/experience.py --root /path/to/project find --conditions conditions.json
+python harness/experience.py --root /path/to/project prepare --target TASK --procedure PROCEDURE --task-id PROPOSAL --conditions conditions.json
+```
+
+## Interface: Bind claims equations and saved results
+
+```sh
+python harness/research_evidence.py bind evidence.json --root /path/to/project --output outputs/bound.json
+```
+
+## Interface: Solve the adopted finite horizon model
+
+```sh
+outputs/research-env/bin/python skills/econ-data/scripts/research_macro.py solve macro.json -o macro-result.json
+```
+
+## Interface: Capture the selected Python, R or Julia environment
+
+```json
+{"runtime":{"language":"python","probe_argv":["/path/to/ers-causal/bin/python"],"requirements":["skills/econ-data/scripts/requirements-causal.txt"]}}
+```
+
+```json
+{"runtime":{"language":"python","probe_argv":["/path/to/python"],"version":"3.12.16","packages":{"numpy":"2.3.5"},"files":["requirements.txt"]}}
+```
+
+```json
+{"apis":[{"package":"numpy","symbol":"numpy.linalg.solve","positional":2,"keywords":[]}]}
+```
+
+## Interface: Package and reproduce a completed research result
+
+```sh
+python harness/reproduction.py build --root /path/to/project --config reproduction.json /path/to/reproduction-new
+python /path/to/reproduction-new/project/harness/reproduction.py verify /path/to/reproduction-new
+python /path/to/reproduction-new/project/harness/reproduction.py reproduce /path/to/reproduction-new
+```

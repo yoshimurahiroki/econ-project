@@ -98,3 +98,11 @@ Economics Checked Artifacts has no default server. Enable it only with both `ENA
 `bash scripts/setup_extensions.sh --client code` previews extensions. Add `--write` to install for that selected CLI. Supported clients are `code`, `cursor`, `code-insiders`, `agy-ide`, and `antigravity-ide`. The helper reads the canonical `.vscode/extensions.json`; `bash scripts/setup_extensions.sh --sync` generates the two hosts' devcontainer extension lists. Installation skips installed IDs, aggregates failed IDs, and returns nonzero if a required listing, parse, or installation fails. It does not silently fall back to a different installed IDE.
 
 `bash scripts/pack_context.sh --output /tmp/fresh-context.txt runtime/CORE.md skills/econ-data/SKILL.md` packs only explicitly selected local paths. The output must be fresh and outside the project. No external collector, package runner, or network call is used. Secret directories, environment files, local IDE configuration directories, state stores, credential/key files, and binary databases are excluded; direct selection of excluded paths fails. Broad explicitly selected directories still require the caller to know their contents: filename exclusions cannot detect arbitrary secrets embedded in ordinary source documents. Select the smallest relevant paths.
+
+## Native delegation limits
+
+Local Codex/Claude settings do not configure ChatGPT Work; legacy role presets remain in [configuration](#native-roles-and-model-selection).
+
+Preserve a bridge lead's observed identity and count it in capacity when a host route requires one.
+
+Normally allow two delegation edges within the host's shared capacity, including waiting parents and bridges, reserving room for a necessary descendant.

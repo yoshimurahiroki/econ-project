@@ -1,6 +1,6 @@
 # Implementation notes
 
-EXECUTION owns files and runtime inputs; this guide owns code structure and calculation changes. Select a worked example only for a concrete unresolved implementation choice.
+Select a worked example only for a concrete unresolved implementation choice.
 
 ## Select the operation-specific rules
 

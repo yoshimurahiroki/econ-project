@@ -23,13 +23,15 @@ Generated from registry/operations.json. Select the final operation, then read C
 
 Compatibility names:
 
-- econ-workflow: {"required_rules": ["core.all"], "resolve_owner_by": "requested_final_operation", "runtime_action": "boundary"}
-- econ-assertive: {"operation_id": "econ-writing:guidance"}
-- econ-edit: {"operation_id": "econ-writing:revise"}
-- EDIT: {"default_input": "immediately_preceding_answer", "operation_id": "econ-writing:revise"}
-- econ-handoff: {"requested_section": "Handoff", "required_rules": ["core.all", "team.handoff"], "resolve_owner_by": "existing_result_owner", "runtime_action": "handoff"}
-- econ-style: {"operation_id": "econ-writing:profile"}
-- explain-before-shorten: {"operation_id": "econ-writing:revise"}
+| Name | Destination | Selection |
+| --- | --- | --- |
+| econ-workflow | boundary | required_rules=core.all; resolve_owner_by=requested_final_operation |
+| econ-assertive | econ-writing:guidance |  |
+| econ-edit | econ-writing:revise |  |
+| EDIT | econ-writing:revise | default_input=immediately_preceding_answer |
+| econ-handoff | handoff | requested_section=Handoff; required_rules=core.all, team.handoff; resolve_owner_by=existing_result_owner |
+| econ-style | econ-writing:profile |  |
+| explain-before-shorten | econ-writing:revise |  |
 
 ## Select the next reference
 

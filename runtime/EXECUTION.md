@@ -1,6 +1,6 @@
 # Execute on identified inputs and outputs
 
-CORE owns authority, reading and completion. This file owns files, runtime inputs and failure propagation. Use [publication](../harness/publication.md) for complete writes and [state](../harness/state.md) for persistent continuation.
+Use [publication](../harness/publication.md) for complete writes and [state](../harness/state.md) for persistent continuation.
 
 ## Select the operation and working area
 
@@ -8,7 +8,7 @@ Identify the target, write scope, current instructions and existing edits. Keep 
 
 ## Checks and completion
 
-Within CORE's review, establish success from the required output and actual return: computation's saved quantities, Git's repository/branch/parent/commit, or a plugin's identity/expected release/returned source. A submitted or running operation retains that status. 
+Within CORE's review, establish success from the required output and actual return: computation's saved quantities, Git's repository/branch/parent/commit, or a plugin's identity/expected release/returned source. A submitted or running operation retains that status.
 
 Bind file results through their resolved producing file operation or the existing scientific result owner. An opaque command's terminal return establishes that command's status; unrelated files supply no production evidence. Compare only its resolved targets and relevant registered outputs.
 
@@ -30,7 +30,7 @@ Publish complete outputs through [publication](../harness/publication.md#complet
 
 ## Record and artifact boundaries
 
-Keep operational status in existing task context, scientific definitions in the adopted specification and provenance with its result. For instruction maintenance, edit canonical owners and regenerate affected consumers once. Record-format changes alone do not invalidate scientific results.
+Keep operational status in existing task context, scientific definitions in the adopted specification and provenance with its result. For instruction maintenance, use the [distribution contract](../docs/ai/integration.md#distribution-contract). Record-format changes alone do not invalidate scientific results.
 
 ## Writing dependency execution
 

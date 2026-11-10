@@ -5,31 +5,31 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.92.0"
+      "content_version": "0.93.0"
     },
     "prose": {
       "resource_id": "prose",
       "source_path": "runtime/PROSE.md",
       "resource_kind": "rule",
-      "content_version": "0.91.1"
+      "content_version": "0.93.0"
     },
     "research": {
       "resource_id": "research",
       "source_path": "runtime/DECIDE.md",
       "resource_kind": "rule",
-      "content_version": "0.87.0"
+      "content_version": "0.93.0"
     },
     "execution": {
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "0.92.0"
+      "content_version": "0.93.0"
     },
     "team": {
       "resource_id": "team",
       "source_path": "runtime/TEAM.md",
       "resource_kind": "rule",
-      "content_version": "0.90.0"
+      "content_version": "0.93.0"
     },
     "econ-design": {
       "resource_id": "econ-design",
@@ -65,13 +65,13 @@
       "resource_id": "design-methods",
       "source_path": "skills/econ-design/references/designs.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.93.0"
     },
     "data-implementation": {
       "resource_id": "data-implementation",
       "source_path": "skills/econ-data/references/implementation.md",
       "resource_kind": "rule",
-      "content_version": "0.81.0",
+      "content_version": "0.93.0",
       "reading_index": [
         "data-implementation.source-to-analysis",
         "data-implementation.choose-descriptive-statistics-from-the-question",
@@ -152,7 +152,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.87.0",
+      "content_version": "0.93.0",
       "sync": false
     },
     "resource-guide": {
@@ -200,7 +200,7 @@
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.91.0"
+      "content_version": "0.93.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
@@ -291,7 +291,7 @@
       "resource_id": "state-contract",
       "source_path": "harness/state.md",
       "resource_kind": "rule",
-      "content_version": "0.91.0"
+      "content_version": "0.93.0"
     },
     "publication": {
       "resource_id": "publication",
@@ -376,7 +376,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.91.1"
+      "content_version": "0.93.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -432,7 +432,7 @@
       "resource_id": "config-template-readme-md",
       "source_path": "docs/ai/config-templates/README.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.93.0"
     },
     "config-template-claude-mcp-example-json": {
       "resource_id": "config-template-claude-mcp-example-json",
@@ -602,7 +602,7 @@
       "resource_id": "research-execution",
       "source_path": "harness/research.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0",
+      "content_version": "0.93.0",
       "required_resources": [
         "research-runner",
         "research-estimator",
@@ -1006,7 +1006,7 @@
       "resource_id": "result-artifacts",
       "source_path": "skills/econ-writing/references/result-artifacts.md",
       "resource_kind": "rule",
-      "content_version": "0.91.1",
+      "content_version": "0.93.0",
       "required_resources": [
         "research-artifacts",
         "research-runner",
@@ -2570,6 +2570,27 @@
       },
       "explicit-github-updates": {
         "heading": "Explicit GitHub updates"
+      },
+      "compatibility-interfaces": {
+        "heading": "Compatibility interfaces"
+      },
+      "interface-project-work": {
+        "heading": "Interface: Project work"
+      },
+      "interface-github-issues-and-projects": {
+        "heading": "Interface: GitHub Issues and Projects"
+      },
+      "interface-explicit-github-updates": {
+        "heading": "Interface: Explicit GitHub updates"
+      },
+      "interface-observed-execution-usage": {
+        "heading": "Interface: Observed execution usage"
+      },
+      "interface-read-retained-research-logs": {
+        "heading": "Interface: Read retained research logs"
+      },
+      "project-allocation-interface": {
+        "heading": "Project allocation interface"
       }
     },
     "publication": {
@@ -2656,6 +2677,9 @@
     "config-template-readme-md": {
       "all": {
         "whole_resource": true
+      },
+      "native-delegation-limits": {
+        "heading": "Native delegation limits"
       }
     },
     "config-template-claude-mcp-example-json": {
@@ -2900,6 +2924,42 @@
       },
       "native-lifecycle-and-child-returns": {
         "heading": "Native lifecycle and child returns"
+      },
+      "formulation-interface": {
+        "heading": "Formulation interface"
+      },
+      "interpretation-interface": {
+        "heading": "Interpretation interface"
+      },
+      "interface-run-an-adopted-pipeline": {
+        "heading": "Interface: Run an adopted pipeline"
+      },
+      "interface-acquire-the-selected-literature-and-data": {
+        "heading": "Interface: Acquire the selected literature and data"
+      },
+      "interface-estimate-a-linear-specification": {
+        "heading": "Interface: Estimate a linear specification"
+      },
+      "interface-choose-and-execute-the-next-research-operation": {
+        "heading": "Interface: Choose and execute the next research operation"
+      },
+      "interface-recover-interrupted-attempts": {
+        "heading": "Interface: Recover interrupted attempts"
+      },
+      "interface-retain-and-reuse-an-observed-procedure": {
+        "heading": "Interface: Retain and reuse an observed procedure"
+      },
+      "interface-bind-claims-equations-and-saved-results": {
+        "heading": "Interface: Bind claims equations and saved results"
+      },
+      "interface-solve-the-adopted-finite-horizon-model": {
+        "heading": "Interface: Solve the adopted finite horizon model"
+      },
+      "interface-capture-the-selected-python-r-or-julia-environment": {
+        "heading": "Interface: Capture the selected Python, R or Julia environment"
+      },
+      "interface-package-and-reproduce-a-completed-research-result": {
+        "heading": "Interface: Package and reproduce a completed research result"
       }
     },
     "research-runner": {
@@ -3172,6 +3232,21 @@
       },
       "claims-coverage-and-requested-re-review": {
         "heading": "Claims, coverage and requested re-review"
+      },
+      "interface-save-displays-at-analysis-or-registration": {
+        "heading": "Interface: Save displays at analysis or registration"
+      },
+      "interface-browse-compare-and-edit-saved-results": {
+        "heading": "Interface: Browse compare and edit saved results"
+      },
+      "interface-default-latex-family": {
+        "heading": "Interface: Default LaTeX family"
+      },
+      "interface-adopt-an-artifact-specification": {
+        "heading": "Interface: Adopt an artifact specification"
+      },
+      "interface-claims-coverage-and-requested-re-review": {
+        "heading": "Interface: Claims, coverage and requested re-review"
       }
     },
     "adaptive-research": {
@@ -4413,7 +4488,9 @@
       "rule_id": "research.select-a-feasible-action",
       "resource_id": "research",
       "section_id": "select-a-feasible-action",
-      "requires": [],
+      "requires": [
+        "state-contract.project-allocation-interface"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -6686,7 +6763,9 @@
       "rule_id": "team.native-model-roles",
       "resource_id": "team",
       "section_id": "native-model-roles",
-      "requires": [],
+      "requires": [
+        "config-template-readme-md.native-delegation-limits"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -7257,7 +7336,9 @@
       "rule_id": "research-execution.retain-and-reuse-an-observed-procedure",
       "resource_id": "research-execution",
       "section_id": "retain-and-reuse-an-observed-procedure",
-      "requires": [],
+      "requires": [
+        "research-execution.interface-retain-and-reuse-an-observed-procedure"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -7507,7 +7588,9 @@
       "rule_id": "state-contract.project-work",
       "resource_id": "state-contract",
       "section_id": "project-work",
-      "requires": [],
+      "requires": [
+        "state-contract.interface-project-work"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8335,7 +8418,9 @@
       "rule_id": "research-execution.run-an-adopted-pipeline",
       "resource_id": "research-execution",
       "section_id": "run-an-adopted-pipeline",
-      "requires": [],
+      "requires": [
+        "research-execution.interface-run-an-adopted-pipeline"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8343,7 +8428,9 @@
       "rule_id": "research-execution.acquire-the-selected-literature-and-data",
       "resource_id": "research-execution",
       "section_id": "acquire-the-selected-literature-and-data",
-      "requires": [],
+      "requires": [
+        "research-execution.interface-acquire-the-selected-literature-and-data"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8351,7 +8438,9 @@
       "rule_id": "research-execution.estimate-a-linear-specification",
       "resource_id": "research-execution",
       "section_id": "estimate-a-linear-specification",
-      "requires": [],
+      "requires": [
+        "research-execution.interface-estimate-a-linear-specification"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8359,7 +8448,9 @@
       "rule_id": "research-execution.choose-and-execute-the-next-research-operation",
       "resource_id": "research-execution",
       "section_id": "choose-and-execute-the-next-research-operation",
-      "requires": [],
+      "requires": [
+        "research-execution.interface-choose-and-execute-the-next-research-operation"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8375,7 +8466,9 @@
       "rule_id": "research-execution.recover-interrupted-attempts",
       "resource_id": "research-execution",
       "section_id": "recover-interrupted-attempts",
-      "requires": [],
+      "requires": [
+        "research-execution.interface-recover-interrupted-attempts"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8383,7 +8476,9 @@
       "rule_id": "research-execution.bind-claims-equations-and-saved-results",
       "resource_id": "research-execution",
       "section_id": "bind-claims-equations-and-saved-results",
-      "requires": [],
+      "requires": [
+        "research-execution.interface-bind-claims-equations-and-saved-results"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8399,7 +8494,9 @@
       "rule_id": "research-execution.solve-the-adopted-finite-horizon-model",
       "resource_id": "research-execution",
       "section_id": "solve-the-adopted-finite-horizon-model",
-      "requires": [],
+      "requires": [
+        "research-execution.interface-solve-the-adopted-finite-horizon-model"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8407,7 +8504,9 @@
       "rule_id": "research-execution.capture-the-selected-python-r-or-julia-environment",
       "resource_id": "research-execution",
       "section_id": "capture-the-selected-python-r-or-julia-environment",
-      "requires": [],
+      "requires": [
+        "research-execution.interface-capture-the-selected-python-r-or-julia-environment"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8431,7 +8530,9 @@
       "rule_id": "research-execution.package-and-reproduce-a-completed-research-result",
       "resource_id": "research-execution",
       "section_id": "package-and-reproduce-a-completed-research-result",
-      "requires": [],
+      "requires": [
+        "research-execution.interface-package-and-reproduce-a-completed-research-result"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8503,7 +8604,9 @@
       "rule_id": "state-contract.observed-execution-usage",
       "resource_id": "state-contract",
       "section_id": "observed-execution-usage",
-      "requires": [],
+      "requires": [
+        "state-contract.interface-observed-execution-usage"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8511,7 +8614,9 @@
       "rule_id": "state-contract.read-retained-research-logs",
       "resource_id": "state-contract",
       "section_id": "read-retained-research-logs",
-      "requires": [],
+      "requires": [
+        "state-contract.interface-read-retained-research-logs"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -9100,7 +9205,9 @@
       "rule_id": "research.deepen-a-consequential-research-problem",
       "resource_id": "research",
       "section_id": "deepen-a-consequential-research-problem",
-      "requires": [],
+      "requires": [
+        "research-execution.formulation-interface"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -9108,7 +9215,9 @@
       "rule_id": "research.interpret-a-consequential-result",
       "resource_id": "research",
       "section_id": "interpret-a-consequential-result",
-      "requires": [],
+      "requires": [
+        "research-execution.interpretation-interface"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -9125,7 +9234,8 @@
       "resource_id": "state-contract",
       "section_id": "github-issues-and-projects",
       "requires": [
-        "state-contract.project-work"
+        "state-contract.project-work",
+        "state-contract.interface-github-issues-and-projects"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9135,7 +9245,8 @@
       "resource_id": "state-contract",
       "section_id": "explicit-github-updates",
       "requires": [
-        "state-contract.project-work"
+        "state-contract.project-work",
+        "state-contract.interface-explicit-github-updates"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9265,7 +9376,8 @@
       "resource_id": "result-artifacts",
       "section_id": "save-displays-at-analysis-or-registration",
       "requires": [
-        "result-artifacts.artifact-scope"
+        "result-artifacts.artifact-scope",
+        "result-artifacts.interface-save-displays-at-analysis-or-registration"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9275,7 +9387,8 @@
       "resource_id": "result-artifacts",
       "section_id": "browse-compare-and-edit-saved-results",
       "requires": [
-        "result-artifacts.artifact-scope"
+        "result-artifacts.artifact-scope",
+        "result-artifacts.interface-browse-compare-and-edit-saved-results"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9295,7 +9408,8 @@
       "resource_id": "result-artifacts",
       "section_id": "default-latex-family",
       "requires": [
-        "result-artifacts.artifact-scope"
+        "result-artifacts.artifact-scope",
+        "result-artifacts.interface-default-latex-family"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9305,7 +9419,8 @@
       "resource_id": "result-artifacts",
       "section_id": "adopt-an-artifact-specification",
       "requires": [
-        "result-artifacts.artifact-scope"
+        "result-artifacts.artifact-scope",
+        "result-artifacts.interface-adopt-an-artifact-specification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9315,7 +9430,8 @@
       "resource_id": "result-artifacts",
       "section_id": "claims-coverage-and-requested-re-review",
       "requires": [
-        "result-artifacts.artifact-scope"
+        "result-artifacts.artifact-scope",
+        "result-artifacts.interface-claims-coverage-and-requested-re-review"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9697,6 +9813,206 @@
       "requires": [],
       "conditional_requires": [],
       "optional_examples": []
+    },
+    "research-execution.formulation-interface": {
+      "rule_id": "research-execution.formulation-interface",
+      "resource_id": "research-execution",
+      "section_id": "formulation-interface",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interpretation-interface": {
+      "rule_id": "research-execution.interpretation-interface",
+      "resource_id": "research-execution",
+      "section_id": "interpretation-interface",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "config-template-readme-md.native-delegation-limits": {
+      "rule_id": "config-template-readme-md.native-delegation-limits",
+      "resource_id": "config-template-readme-md",
+      "section_id": "native-delegation-limits",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.compatibility-interfaces": {
+      "rule_id": "state-contract.compatibility-interfaces",
+      "resource_id": "state-contract",
+      "section_id": "compatibility-interfaces",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.interface-project-work": {
+      "rule_id": "state-contract.interface-project-work",
+      "resource_id": "state-contract",
+      "section_id": "interface-project-work",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.interface-github-issues-and-projects": {
+      "rule_id": "state-contract.interface-github-issues-and-projects",
+      "resource_id": "state-contract",
+      "section_id": "interface-github-issues-and-projects",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.interface-explicit-github-updates": {
+      "rule_id": "state-contract.interface-explicit-github-updates",
+      "resource_id": "state-contract",
+      "section_id": "interface-explicit-github-updates",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.interface-observed-execution-usage": {
+      "rule_id": "state-contract.interface-observed-execution-usage",
+      "resource_id": "state-contract",
+      "section_id": "interface-observed-execution-usage",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.interface-read-retained-research-logs": {
+      "rule_id": "state-contract.interface-read-retained-research-logs",
+      "resource_id": "state-contract",
+      "section_id": "interface-read-retained-research-logs",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interface-run-an-adopted-pipeline": {
+      "rule_id": "research-execution.interface-run-an-adopted-pipeline",
+      "resource_id": "research-execution",
+      "section_id": "interface-run-an-adopted-pipeline",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interface-acquire-the-selected-literature-and-data": {
+      "rule_id": "research-execution.interface-acquire-the-selected-literature-and-data",
+      "resource_id": "research-execution",
+      "section_id": "interface-acquire-the-selected-literature-and-data",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interface-estimate-a-linear-specification": {
+      "rule_id": "research-execution.interface-estimate-a-linear-specification",
+      "resource_id": "research-execution",
+      "section_id": "interface-estimate-a-linear-specification",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interface-choose-and-execute-the-next-research-operation": {
+      "rule_id": "research-execution.interface-choose-and-execute-the-next-research-operation",
+      "resource_id": "research-execution",
+      "section_id": "interface-choose-and-execute-the-next-research-operation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interface-recover-interrupted-attempts": {
+      "rule_id": "research-execution.interface-recover-interrupted-attempts",
+      "resource_id": "research-execution",
+      "section_id": "interface-recover-interrupted-attempts",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interface-retain-and-reuse-an-observed-procedure": {
+      "rule_id": "research-execution.interface-retain-and-reuse-an-observed-procedure",
+      "resource_id": "research-execution",
+      "section_id": "interface-retain-and-reuse-an-observed-procedure",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interface-bind-claims-equations-and-saved-results": {
+      "rule_id": "research-execution.interface-bind-claims-equations-and-saved-results",
+      "resource_id": "research-execution",
+      "section_id": "interface-bind-claims-equations-and-saved-results",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interface-solve-the-adopted-finite-horizon-model": {
+      "rule_id": "research-execution.interface-solve-the-adopted-finite-horizon-model",
+      "resource_id": "research-execution",
+      "section_id": "interface-solve-the-adopted-finite-horizon-model",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interface-capture-the-selected-python-r-or-julia-environment": {
+      "rule_id": "research-execution.interface-capture-the-selected-python-r-or-julia-environment",
+      "resource_id": "research-execution",
+      "section_id": "interface-capture-the-selected-python-r-or-julia-environment",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-execution.interface-package-and-reproduce-a-completed-research-result": {
+      "rule_id": "research-execution.interface-package-and-reproduce-a-completed-research-result",
+      "resource_id": "research-execution",
+      "section_id": "interface-package-and-reproduce-a-completed-research-result",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.interface-save-displays-at-analysis-or-registration": {
+      "rule_id": "result-artifacts.interface-save-displays-at-analysis-or-registration",
+      "resource_id": "result-artifacts",
+      "section_id": "interface-save-displays-at-analysis-or-registration",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.interface-browse-compare-and-edit-saved-results": {
+      "rule_id": "result-artifacts.interface-browse-compare-and-edit-saved-results",
+      "resource_id": "result-artifacts",
+      "section_id": "interface-browse-compare-and-edit-saved-results",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.interface-default-latex-family": {
+      "rule_id": "result-artifacts.interface-default-latex-family",
+      "resource_id": "result-artifacts",
+      "section_id": "interface-default-latex-family",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.interface-adopt-an-artifact-specification": {
+      "rule_id": "result-artifacts.interface-adopt-an-artifact-specification",
+      "resource_id": "result-artifacts",
+      "section_id": "interface-adopt-an-artifact-specification",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.interface-claims-coverage-and-requested-re-review": {
+      "rule_id": "result-artifacts.interface-claims-coverage-and-requested-re-review",
+      "resource_id": "result-artifacts",
+      "section_id": "interface-claims-coverage-and-requested-re-review",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "state-contract.project-allocation-interface": {
+      "rule_id": "state-contract.project-allocation-interface",
+      "resource_id": "state-contract",
+      "section_id": "project-allocation-interface",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
     }
   },
   "examples": {
@@ -9878,7 +10194,8 @@
         "state-and-version-contract",
         "governing-context",
         "resumption-and-migration",
-        "find-saved-work"
+        "find-saved-work",
+        "compatibility-interfaces"
       ],
       "native-index": [
         "all"
@@ -9921,6 +10238,9 @@
       ],
       "knowledge-guide": [
         "retrieval-interface"
+      ],
+      "config-template-readme-md": [
+        "native-delegation-limits"
       ]
     },
     "contract": {
@@ -10279,7 +10599,17 @@
         "all"
       ],
       "research-execution": [
-        "all"
+        "all",
+        "interface-run-an-adopted-pipeline",
+        "interface-acquire-the-selected-literature-and-data",
+        "interface-estimate-a-linear-specification",
+        "interface-choose-and-execute-the-next-research-operation",
+        "interface-recover-interrupted-attempts",
+        "interface-retain-and-reuse-an-observed-procedure",
+        "interface-bind-claims-equations-and-saved-results",
+        "interface-solve-the-adopted-finite-horizon-model",
+        "interface-capture-the-selected-python-r-or-julia-environment",
+        "interface-package-and-reproduce-a-completed-research-result"
       ],
       "research-data-guide": [
         "data-scope",
@@ -10397,7 +10727,12 @@
         "source-basis-for-reuse-and-provenance",
         "default-latex-family",
         "adopt-an-artifact-specification",
-        "claims-coverage-and-requested-re-review"
+        "claims-coverage-and-requested-re-review",
+        "interface-save-displays-at-analysis-or-registration",
+        "interface-browse-compare-and-edit-saved-results",
+        "interface-default-latex-family",
+        "interface-adopt-an-artifact-specification",
+        "interface-claims-coverage-and-requested-re-review"
       ],
       "examples-en": [
         "all"
@@ -10423,7 +10758,12 @@
       "state-contract": [
         "all",
         "github-issues-and-projects",
-        "explicit-github-updates"
+        "explicit-github-updates",
+        "interface-project-work",
+        "interface-github-issues-and-projects",
+        "interface-explicit-github-updates",
+        "interface-observed-execution-usage",
+        "interface-read-retained-research-logs"
       ],
       "publication": [
         "all"
