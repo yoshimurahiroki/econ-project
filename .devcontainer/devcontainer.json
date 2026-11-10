@@ -62,6 +62,7 @@
     },
     "vscode": {
       "extensions": [
+        "openai.chatgpt",
         "ms-python.python",
         "ms-python.vscode-pylance",
         "ms-toolsai.jupyter",

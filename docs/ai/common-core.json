@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "360dd7a03368df64ae6d2200b5f5899df13c807c",
+  "source_base_commit": "253057e2c110dfa5540cecd2638c39414e58e099",
   "source_state": "committed",
-  "common_content_id": "7c2c32ba522696c325232350161c3165204f01da61b3a074dae6a24a7954e035",
+  "common_content_id": "a3c52f0bc6815c2774da0ca142d252ad6b4fa4ce847e27a67ebf064bedcfb208",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -47,6 +47,14 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
+      "path": ".devcontainer/devcontainer.json",
+      "state": "present",
+      "sha256": "6a9b7bb94d59d0185c27b27273267135bcdf6f5decda59d10249e7d82b4bacde",
+      "git_blob": "3a0170c2236b4de9de4bd10af251ca29fb6cd2ec",
+      "mode": "100755",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
       "path": ".gemini/GEMINI.md",
       "state": "present",
       "sha256": "5c0fec1706f7be5aebaa626285f92eb38f315828bebfac7246dc3d8a5f85d6a4",
@@ -83,6 +91,14 @@
       "state": "present",
       "sha256": "a91b8fb03adf07ffe39dcf8de175526c63ac85bc4114d61018fa985a857b5bd4",
       "git_blob": "054539cdbb6605a6ae760f1f84dd27d9f3c32afc",
+      "mode": "100644",
+      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
+    },
+    {
+      "path": ".vscode/settings.json",
+      "state": "present",
+      "sha256": "a1a840ef7905da44bbe6a9cecc2926942875ab5abe573592c9730d4a927d043d",
+      "git_blob": "ce3b30168ee145a1e9153c60e686d4c83fb86fdb",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },

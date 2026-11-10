@@ -2,7 +2,7 @@
   "editor.formatOnSave": false,
   "remote.extensionKind": {
     "openai.chatgpt": [
-      "ui"
+      "workspace"
     ]
   },
   "git.untrackedChanges": "hidden",
