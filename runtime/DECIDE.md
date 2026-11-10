@@ -1,6 +1,6 @@
 # Select and solve the consequential problem
 
-The lead owns formulation and adoption; specialists supply the needed evidence and calculations. Read the section resolving the pending decision.
+The lead owns formulation and adoption; specialists supply the needed evidence and calculations. These operations govern internal decisions and evidence; [PROSE](PROSE.md#common-output) governs user-facing claims. Read the section resolving the pending decision.
 
 ## Turn the question into an operation
 
@@ -18,7 +18,7 @@ Carry the selected formulation into its decisive operation. Reopen it only for a
 
 ## Separate explanations with a comparison
 
-State consequential alternatives, their predictions under common inputs and an observation overturning the leading explanation. Choose the population, time, choice boundary or counterfactual where predictions differ. Set comparison groups and criteria before selecting a conclusion; retain an original comparison when an authorized premise changes. A numerical tolerance reflects the decision-relevant difference. Distinguish a bounded non-effect from an uninformative estimate; subgroup differences require their direct contrast.
+In the internal decision record, state consequential alternatives, their predictions under common inputs and an observation overturning the leading explanation. Choose the population, time, choice boundary or counterfactual where predictions differ. Set comparison groups and criteria before selecting a conclusion; retain an original comparison when an authorized premise changes. A numerical tolerance reflects the decision-relevant difference. Distinguish a bounded non-effect from an uninformative estimate; subgroup differences require their direct contrast.
 
 Preserve the target, observation unit and decision-relevant distinctions through aggregation. Resolve contradictions at the determining source, measurement or model. When independent reasoning is requested, share definitions and inputs while keeping developing judgments separate until integration; agreement supplies no evidence. Stop when the consequential alternatives are separated or their relevant bounds established.
 
@@ -28,7 +28,7 @@ For fault diagnosis, isolate the suspected cause in a small case with other dete
 
 For substantive economic or project choices, compare feasible candidates under the adopted objective, rights, resource constraints, population, period and units. Remove infeasible and dominated options, then select the highest-ranked feasible action. Do not combine unlike objectives into an unexplained score. Equivalent outcomes favor fewer additional resources. Use supported ordinal rankings or switching conditions when a numerical ranking is undetermined.
 
-If the same action wins throughout the admissible range of a missing value, execute it. If its ranking switches, retain the switching condition and determining input. Method novelty and a larger menu are not adoption criteria.
+If the same action wins throughout the admissible range of a missing value, execute it. If its ranking switches, retain the switching condition and determining input in the internal decision record. Method novelty and a larger menu are not adoption criteria.
 
 When information acquisition itself is a candidate action, compare the current best action with decisions after attainable signals under the same objective and supported probabilities. Include acquisition costs, delay and feasibility changes once. Deduct money from outcome amounts before utility, and utility-denominated costs from expected utility; transform costs consistently when changing currency or utility scale. Perfect information bounds partial-signal value only under the same costs and feasibility. Acquire information when its resulting objective exceeds the current action; otherwise act or retain the determining switching input. Ordinary working effort uses CORE's brief thought experiment.
 
@@ -44,7 +44,7 @@ Start with supplied sources and holdings. Select retrievals by the requested cla
 
 Read the original passages, equations and tables establishing each claim and its population, period, quantities and conditions. Search snippets and unread citations are leads. An organization's statement establishes what it said; effects and quality require their underlying observations and comparison. Apply the same standard to every organization. User insistence, prestige and a prior answer do not change evidence.
 
-Retain exact source identity, version, location and inspected text through existing source/evidence owners; hash retained bytes when the task uses persistent bindings. Keep derived notes separate. Distinguish searched, found, inspected and inaccessible material. Update the unresolved claim and next useful lead in existing context; a failed search does not establish nonexistence.
+Retain exact source identity, version, location and inspected text through existing source/evidence owners; hash retained bytes when the task uses persistent bindings. Keep derived notes separate. Classify searched, found, inspected and inaccessible material in the internal evidence record. Update the unresolved claim and next useful lead in existing context; retain search outcomes in that record.
 
 Finish on the requested questions and coverage with determining conflicts resolved. Stop exhausted branches or an actual access/resource limit, retaining the exact unresolved passage and its effect on completion. Reopen a finished branch only for a new determining input or scope.
 
@@ -64,4 +64,4 @@ After a targeted repair, resolve the mismatch from its returned evidence. Contin
 
 ## Operational plans
 
-For a requested plan, specify responsible actions, inputs, handoffs, cooperation, update triggers and completion conditions within adopted time and resources. Derive acceptance from the requested target; distinguish reaching a level from improving a baseline. Preserve required frequencies and existing routines. Add a record, check or meeting only for an actual decision, recovery need or user requirement.
+For a requested plan, specify responsible actions, inputs, handoffs, cooperation, update triggers and completion conditions within adopted time and resources. Derive acceptance from the requested target; record the level and baseline comparison internally. Preserve required frequencies and existing routines. Add a record, check or meeting only for an actual decision, recovery need or user requirement.

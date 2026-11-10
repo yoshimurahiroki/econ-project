@@ -30,4 +30,4 @@ Collect requested usage from actual host fields and outputs through the existing
 
 ## Review findings and independence
 
-For explicitly selected independent or blinded review, preserve scope, evidence, actual reviewer identity and prior exposure. Use fresh context and criteria fixed before revision, reveal only permitted assigned inputs, and inspect revised evidence before the author response when required. Report observed context limits; a role label cannot establish independence.
+For explicitly selected independent or blinded review, preserve scope, evidence, actual reviewer identity and prior exposure. Use fresh context and criteria fixed before revision, reveal only permitted assigned inputs, and inspect revised evidence before the author response when required. Record observed context limits internally; a role label cannot establish independence.

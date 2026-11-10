@@ -52,7 +52,7 @@ Use [publication contract](../../../runtime/EXECUTION.md#complete-outputs-and-fa
 
 The runner drains command output into a bounded diagnostic in the existing execution result. SIGINT and SIGTERM stop the command's process group and later stages. A complete prepared result resumes publication; an interrupted unfinished calculation starts in a fresh generation on the next invocation. An observed terminal calculation failure uses the explicit repair-and-retry procedure in the runner contract.
 
-Interpret empty results through the stage's contract and [sample-accounting rules](implementation-data.md#3-construct-the-shared-sample-and-account-for-exclusions). For a permitted zero-row result, publish the expected schema, count and input/rule identity. If estimation requires observations, stop that dependent stage and report the estimate as unavailable. A missing required file, a truncated file, or a header-only file where rows are required is incomplete even when the process exits successfully.
+Interpret empty results through the stage's contract and [sample-accounting rules](implementation-data.md#3-construct-the-shared-sample-and-account-for-exclusions). For a permitted zero-row result, publish the expected schema, count and input/rule identity. If estimation requires observations, stop that dependent stage and record the unavailable estimate in the internal execution record. A missing required file, a truncated file, or a header-only file where rows are required is incomplete even when the process exits successfully.
 
 ## Reproduce the requested path
 

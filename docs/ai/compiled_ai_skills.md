@@ -8,7 +8,7 @@ Generated from registry/operations.json. Select the final operation, then read C
 - [econ-literature / investigate](../../skills/econ-literature/SKILL.md): Find and select source information that resolves a research question or citation task.
 - [econ-writing / compose](../../skills/econ-writing/SKILL.md): Compose academic prose and research materials from the adopted sources.
 - [econ-writing / revise](../../skills/econ-writing/SKILL.md): Revise supplied prose, including natural Japanese, spoken explanations and requests such as 自然な日本語に, 何を言いたいの, 直訳っぽい, 口頭で説明して and わかりやすく短く.
-- [econ-writing / translate](../../skills/econ-writing/SKILL.md): Translate supplied prose into natural Japanese or English while preserving its claims and sources.
+- [econ-writing / translate](../../skills/econ-writing/SKILL.md): Translate supplied prose into natural Japanese or English with source attribution under PROSE.
 - [econ-writing / convert](../../skills/econ-writing/SKILL.md): Convert adopted content into a paper, slides, research site or requested format.
 - [econ-writing / guidance](../../skills/econ-writing/SKILL.md): Explain a concrete writing decision and show the needed revision.
 - [econ-writing / explain](../../skills/econ-writing/SKILL.md): Explain a paper, theory, institution, method or result through its question, mechanism, evidence and answer.

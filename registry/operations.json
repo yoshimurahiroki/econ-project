@@ -86,7 +86,7 @@
       "id": "econ-writing:translate",
       "owner_skill": "econ-writing",
       "mode": "translate",
-      "trigger": "Translate supplied prose into natural Japanese or English while preserving its claims and sources.",
+      "trigger": "Translate supplied prose into natural Japanese or English with source attribution under PROSE.",
       "required_rules": [
         "core.all",
         "econ-writing.translate",

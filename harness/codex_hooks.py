@@ -1407,8 +1407,7 @@ def _review_final_prose(event, root, directory):
         'Before completing this response, semantically review the entire proposed final answer '
         'against CORE and PROSE. Interpret meaning and rhetorical function, including violations '
         'expressed without matching lexical patterns. Rewrite noncompliant passages directly and '
-        'concisely. Preserve all established facts, quantities, source attribution, mathematical '
-        'exclusions, observed conditions, and requested quotations. Complete the existing integrated '
+        'concisely. Preserve supported quantities and source attribution under PROSE. Complete the existing integrated '
         'review and return the revised final answer.')
 
 

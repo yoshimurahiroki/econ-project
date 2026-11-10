@@ -28,7 +28,7 @@ For a proposed numerical acceleration, inspect the mathematical approximation, t
 
 ## Citation and institutional checks
 
-For a citation check, compare the claim with its supporting passage in the requested version and resolve that version's DOI, citation key or stable ID. Distinguish the author's assertion, observed or estimated result, identifying assumptions and the implication derived for this task. Resolve conflicting claims at the comparison that separates them under [DECIDE's source rules](../../../runtime/DECIDE.md#investigate-source-claims). For institutional timing, distinguish announcement, effective and implementation dates and use the date corresponding to the event claimed.
+For a citation check, compare the claim with its supporting passage in the requested version and resolve that version's DOI, citation key or stable ID. Record the author's assertion, observed or estimated result, identifying assumptions and the implication derived for this task in the internal evidence. Resolve conflicting claims at the comparison that separates them under [DECIDE's source rules](../../../runtime/DECIDE.md#investigate-source-claims). For institutional timing, distinguish announcement, effective and implementation dates and use the date corresponding to the event claimed.
 
 ## Interview evidence
 

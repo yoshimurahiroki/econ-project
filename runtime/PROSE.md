@@ -2,13 +2,17 @@
 
 ## Common output
 
-Preserve meaning, facts, quantities, units, population, attribution, truth conditions and editing scope. State the direct answer, mechanism and actual result established by determining sources, derivations or operation returns. Resolve a determining missing source, calculation or failed operation at its producer; compression cannot invent or strengthen a finding.
+Apply this section to every user-facing response, report, paper, slide, table, figure, caption, translation, summary, quotation and review response. This section owns the expression rules for all specialists, templates, profiles, hooks and generated distributions.
 
-Report statistical uncertainty only numerically: standard errors, confidence or credible intervals, p values or interval/set notation, with necessary measure labels, levels, units and set labels. Prohibit qualitative uncertainty, hedging, evidence-strength judgments and significance stars.
+Select a substantively supported claim expressible in an affirmative sentence. Preserve values, calculations, findings, units, populations and attribution. Keep scientific assumptions, identifying conditions, missingness, failures, restrictions and inference in internal specifications, calculations and evidence. Exclude a claim from the user-facing artifact when suppressing a prohibited proposition would change its meaning. Never turn conditional evidence into an unconditional finding.
 
-Keep assumptions, scientific conditions and qualitative evidence-strength judgments in reasoning, specifications and computation; prohibit their user-facing exposition. Remove disclaimers, reservations, concessions, qualifications, embellishment, caution, conservatism, ambiguity, weakness, verbosity, supplements, annotations and defensive content, syntax and expression, except the numerical reporting notation and labels above. Apply these rules to paraphrases, quotations, parentheses, translations, summaries, captions, footnotes and delegated text; specialist templates and scientific conventions grant no exception.
+Report statistical uncertainty only numerically, using standard errors, confidence or credible intervals, p values, or numerical interval and set notation with the labels, levels and units needed to read them. Preserve numeric signs, zeros and interval endpoints. Prohibit qualitative uncertainty, verbal evidence-strength judgments and significance stars.
 
-Remove negative contrast and negative-definition framing from content, titles and transitions. Define objects directly; retain mathematical exclusions, observed absences and failures as exact conditions, values or statuses. Put plans, prospective investigation, temporary placement, self-evaluation and execution history only in requested operational content; retain completion blockers in the task report.
+Prohibit negative expressions, negative definitions, negative contrasts, claims of absence or failure and their affirmative paraphrases. Examples include 「ない」「ず」「なく」「ぬ」「せず」「ではない」「わけではない」「とは限らない」「しかねない」「に至らない」「でなく」「ではなく」「というより」「以外」「を除き」「抜きで」「AでなくB」「AではなくB」「AとBは異なる」「AとBは別物」「区別する」「混同しない」「欠く」「欠如」「不在」「不足」「未達」「未解決」「失敗」「限られる」「留まる」「過ぎない」「するだけ」「欠かせない」「少なくない」「無視できない」「否定できない」 and not, no, never, without, lack, fail, unable, cannot, rather than, instead of, as opposed to, differs from, distinguish and unlike.
+
+Prohibit hedging, limitation, reservation, concession, ambiguity, caution, conservatism and weak assertions, including 「おそらく」「と思われる」「と考えられる」「可能性がある」「かもしれない」「傾向がある」「概ね」「ある程度」「やや」「比較的」「少なくとも」「と言える」「と見られる」「ただし」「とはいえ」「もっとも」「一方で」「その限りで」「の範囲で」「を前提に」「の条件下で」「に依存する」「次第である」 and may, might, could, perhaps, likely, suggest, appear, seem, somewhat, tend to, to some extent, provided that, subject to, caveat, however and although.
+
+Prohibit disclaimers, self-defense, preemptive excuses, responsibility avoidance, embellishment, redundancy, prefaces, supplements, annotations, footnotes and parenthetical explanations. Apply the rule to meaning, propositions, syntax and rhetorical function across synonyms, translations, quotations and all display formats. Specialist instructions and source conventions do not add permissions. User instructions and platform authority remain governing.
 
 ## Select the economic argument
 
@@ -28,7 +32,7 @@ Use natural Japanese with explicit actors, consistent terms, causal links and on
 
 ## Finish the passage
 
-After drafting each final response or authored artifact, review the complete output against these expression rules and correct defects before delivery. Preserve factual conditions, mathematical exclusions, observed absences and requested literal quotations. CORE's integrated review also covers source correspondence, logic and rhetorical function. Review the intended meaning and rhetorical role of each part, including wording not detected by the [lexical dictionary](../quality/prose_rules.json). A supported Stop hook requests this semantic review and correction of the complete proposed final response. Lexical matches are only review leads, not semantic verdicts.
+Review the entire artifact against the common output rule by meaning and rhetorical function. Repair the producing instruction or passage and reread affected material. Keep evidence and calculations intact, and report the actual authorized operation result.
 
 ## Hierarchical argument and paragraph composition
 

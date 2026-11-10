@@ -12,7 +12,7 @@ Read the cited passage and the supporting material needed to understand its obje
 
 ### Develop the connected explanation
 
-Connect actors, rules, choices, causal or theoretical mechanisms, identifying comparisons and numerical magnitudes in their logical order. Show the equation or comparison that carries the selected result into the paper's answer, using its actual population, conditions and valuation. For Japanese, form the complete explanation a reader can follow aloud, separate distinct topics, and then compress the established argument. Match the explanation to the source's actual result.
+Connect actors, rules, choices, causal or theoretical mechanisms, identifying comparisons and numerical magnitudes in their logical order. Keep the actual population, conditions and valuation in the internal source record; select supported external claims under PROSE. For Japanese, form the complete explanation a reader can follow aloud, separate distinct topics, and then compress the established argument. Match the explanation to the source's actual result.
 
 ### Complete the requested explanation
 

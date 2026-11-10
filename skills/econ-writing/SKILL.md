@@ -18,7 +18,7 @@ Return the finished wording or artifact first, at the requested depth. Preserve 
 
 - [compose](references/compose.md#compose): Compose academic prose and research materials from the adopted sources.
 - [revise](references/revise.md#revise): Revise supplied prose, including natural Japanese, spoken explanations and requests such as 自然な日本語に, 何を言いたいの, 直訳っぽい, 口頭で説明して and わかりやすく短く.
-- [translate](references/translate.md#translate): Translate supplied prose into natural Japanese or English while preserving its claims and sources.
+- [translate](references/translate.md#translate): Translate supplied prose into natural Japanese or English with source attribution under PROSE.
 - [convert](references/convert.md#convert): Convert adopted content into a paper, slides, research site or requested format.
 - [guidance](references/guidance.md#guidance): Explain a concrete writing decision and show the needed revision.
 - [explain](references/explain.md#explain): Explain a paper, theory, institution, method or result through its question, mechanism, evidence and answer.

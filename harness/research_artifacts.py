@@ -31,7 +31,7 @@ GALLERY_KINDS = ('descriptive', 'sample_composition', 'distribution', 'time_seri
 PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study', 'density', 'ecdf', 'box',
               'att_gt', 'cohort_event', 'parallel_trends', 'rdd', 'iv_first_stage', 'iv_reduced_form',
               'iv_confidence_set', 'scm', 'scm_gap', 'scm_placebo', 'binned_scatter', 'smd', 'structural', 'geo')
-GALLERY_RENDER_VERSION = 17
+GALLERY_RENDER_VERSION = 18
 DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_order',
                   'sort_by', 'ascending', 'notes', 'plot_type', 'x', 'y', 'lower', 'upper',
                   'series', 'visible_series', 'selected_result_ids', 'x_label', 'y_label',
@@ -1230,7 +1230,7 @@ def gallery_regression_comparison(items):
             estimate = number(row, ('estimate',), identity)
             estimates.append(estimate)
             se = number(row, ('se', 'standard_error', 'std.error'), identity)
-            errors.append('(' + se + ')' if se else '')
+            errors.append(se)
             low, high = saved(row, ('ci_low', 'lower', 'conf.low')), saved(row, ('ci_high', 'upper', 'conf.high'))
             intervals.append('[' + number(row, ('ci_low', 'lower', 'conf.low'), identity) + ', ' +
                              number(row, ('ci_high', 'upper', 'conf.high'), identity) + ']'
@@ -1239,7 +1239,7 @@ def gallery_regression_comparison(items):
             probabilities.append(p)
         body.append({'kind': 'coefficient', 'label': term_label, 'cells': estimates})
         if display.get('show_se', True) and any(errors):
-            body.append({'kind': 'se', 'label': '', 'cells': errors})
+            body.append({'kind': 'se', 'label': '標準誤差', 'cells': errors})
         if display.get('show_ci', False) and any(intervals):
             body.append({'kind': 'ci', 'label': '区間', 'cells': intervals})
         if display.get('show_p', False) and any(probabilities):
@@ -1275,7 +1275,7 @@ def gallery_regression_comparison(items):
         if any(value is not None for value in values.values()) or saved_weight or 'statistic_rows' in display:
             rows.append({'quantity': label, **{key: gallery_cell(value, '', {}) if isinstance(value, (dict, list)) else value for key, value in values.items()}})
             footer.append({'label': label, 'cells': [gallery_cell(values[name], key, formats[identity]) if values[name] is not None else
-                                                    'なし' if key == 'weights' and 'weights' in definitions[identity] else ''
+                                                    ''
                                                     for name, identity in zip(keys, identities)]})
     headers = []
     if display.get('column_groups'):
@@ -1300,8 +1300,6 @@ def gallery_regression_comparison(items):
     headers.append([{'text': '項目', 'colspan': 1}, *[{'text': label, 'colspan': 1} for label in labels]])
     headers.append([{'text': '', 'colspan': 1}, *[{'text': '(' + str(index + 1) + ')', 'colspan': 1} for index in range(len(keys))]])
     notes = list(dict.fromkeys(note for item in items for note in gallery_notes(item)))
-    if display.get('show_se', True) and any(row['kind'] == 'se' for row in body):
-        notes.insert(0, '括弧内は保存された標準誤差。')
     presentation = {'headers': headers, 'body': body, 'footer': footer, 'notes': notes,
                     'caption': display.get('title', items[0].get('title', '') if items else ''),
                     'label': display.get('latex_label', ''), 'number': str(display.get('table_number', '')),
