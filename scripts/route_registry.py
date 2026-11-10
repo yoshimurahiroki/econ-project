@@ -120,10 +120,8 @@ def resolve_operation(routes, selector, mode=None, *, user_profile=None, project
     uses_profile = uses_profile or any(
         routes['condition_definitions'][cid].get('uses_profile', False) for cid in conditions
     )
-    if uses_profile:
-        selection.pop('default-micro', None)
     if uses_profile and profile == 'default-micro' and profile in routes['resources']:
-        merge_selection(selection, {profile: {'whole_resource': True}})
+        merge_selection(selection, {profile: {'sections': [routes['sections'][profile]['principles']['heading']]}})
     result.update(requested_selector=requested,
                   canonical_operation=result.get('id', result['skill_id'] + ':' + result['mode']),
                   owner_skill=result['skill_id'], default_input=metadata.get('default_input', result.get('default_input')),

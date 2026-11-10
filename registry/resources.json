@@ -171,7 +171,7 @@
     "tool-route-registry-py": {
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.95.0"
+      "content_version": "0.95.1"
     },
     "tool-sync-common-core-py": {
       "source_path": "scripts/sync_common_core.py",
@@ -268,7 +268,7 @@
     "registry-resources": {
       "source_path": "registry/resources.json",
       "resource_kind": "registry",
-      "content_version": "0.95.0"
+      "content_version": "0.95.1"
     },
     "registry-placements": {
       "source_path": "registry/placements.json",
@@ -319,7 +319,7 @@
     "policy-assets": {
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.95.0"
+      "content_version": "0.95.1"
     },
     "policy-manifest": {
       "source_path": "quality/policy_manifest.json",
@@ -4855,10 +4855,6 @@
       "resource_id": "default-micro",
       "section_id": "principles"
     },
-    "default-micro.select-the-passage-function": {
-      "resource_id": "default-micro",
-      "section_id": "select-the-passage-function"
-    },
     "examples-en.all": {
       "resource_id": "examples-en",
       "section_id": "all"
@@ -7471,6 +7467,10 @@
     "state-contract.project-allocation-interface": {
       "resource_id": "state-contract",
       "section_id": "project-allocation-interface"
+    },
+    "default-micro.select-the-passage-function": {
+      "resource_id": "default-micro",
+      "section_id": "select-the-passage-function"
     }
   },
   "examples": {
@@ -8387,6 +8387,9 @@
         "deliver-the-literatures-economic-relevance"
       ],
       "review-procedure": [
+        "all"
+      ],
+      "default-micro": [
         "all"
       ]
     },
