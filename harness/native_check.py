@@ -59,6 +59,12 @@ for _action in ('create_blob', 'create_tree', 'create_commit', 'create_file', 'u
     _OPERATION_ADAPTERS[('mcp__codex_apps__github_' + _action, 'github.' + _action)] = (
         'github-sha', ('repository_full_name',))
 
+# Codex Apps host names contain a separator before the operation.
+for (_tool, _operation), _adapter in list(_OPERATION_ADAPTERS.items()):
+    for _prefix in ('mcp__codex_apps__github_', 'mcp__codex_apps__plugin_creator_'):
+        if _tool.startswith(_prefix):
+            _OPERATION_ADAPTERS[(_prefix + '_' + _tool[len(_prefix):], _operation)] = _adapter
+
 CONNECTOR_WRITE_TOOLS = {tool for (tool, _), (adapter, _) in _OPERATION_ADAPTERS.items()
                          if adapter in {'github-ref', 'github-sha', 'plugin-update'}}
 
@@ -291,6 +297,10 @@ def _operation_return(value, operation, target, adapter, depth=0):
 def _connector_call_target(tool_name, args):
     """Validate the existing guarded connector calls without fabricating a return."""
     gate.require(isinstance(args, dict), 'operation call arguments must be an object')
+    for prefix in ('mcp__codex_apps__github_', 'mcp__codex_apps__plugin_creator_'):
+        if tool_name.startswith(prefix + '_'):
+            tool_name = prefix + tool_name[len(prefix) + 1:]
+            break
     if tool_name.startswith('mcp__codex_apps__github_') and tool_name in CONNECTOR_WRITE_TOOLS:
         repository = args.get('repository_full_name')
         gate.require(isinstance(repository, str) and
@@ -506,3 +516,9 @@ CONNECTOR_READ_TOOLS.update('mcp__codex_apps__github_' + action for action in (
 CONNECTOR_READ_TOOLS.update('mcp__codex_apps__plugin_creator_' + action for action in (
     'get_owned_plugin_archive', 'get_plugin_files', 'get_plugin_metadata', 'get_plugin_sharing',
     'list_owned_personal_plugins', 'list_plugin_releases'))
+
+# Admit only aliases of registered read operations, never unknown connectors.
+for _tool in tuple(CONNECTOR_READ_TOOLS):
+    for _prefix in ('mcp__codex_apps__github_', 'mcp__codex_apps__plugin_creator_'):
+        if _tool.startswith(_prefix):
+            CONNECTOR_READ_TOOLS.add(_prefix + '_' + _tool[len(_prefix):])

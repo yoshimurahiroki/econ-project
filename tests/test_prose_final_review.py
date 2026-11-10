@@ -1,62 +1,64 @@
-import base64, importlib.util, json, os, shlex, shutil, subprocess, sys, tempfile
+import importlib.util, json, os, shlex, shutil, subprocess, sys, tempfile
 from contextlib import contextmanager
 from pathlib import Path
 
 root = Path(os.environ.get('ERS_TEST_PLUGIN_ROOT', Path(__file__).resolve().parent.parent)).resolve()
 spec = importlib.util.spec_from_file_location('hooks', root / 'harness/codex_hooks.py')
-hooks = importlib.util.module_from_spec(spec); spec.loader.exec_module(hooks)
+hooks = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(hooks)
 gate = hooks.gate
+native = hooks.sibling(root / 'harness/native_check.py')
+
+
 @contextmanager
 def hook_tempdir():
     path = Path(tempfile.mkdtemp())
-    assert path.resolve().parent == Path(tempfile.gettempdir()).resolve()
     try:
-        yield str(path)
+        yield path
     finally:
         shutil.rmtree(gate.windows_extended_path(path) if os.name == 'nt' else path)
-text = 'First paragraph explains the data.\n\nSecond paragraph describes an observed condition.'
-with hook_tempdir() as temp:
-    directory = Path(temp)
-    context = directory/'context.json'; context.write_text(json.dumps({'cwd':str(root)}),encoding='utf-8')
-    membership = directory/'turns'/ (gate.sha(b'turn-a')+'.json')
-    membership.parent.mkdir(); membership.write_text('{}')
-    event = {'turn_id':'turn-a', 'last_assistant_message':text, 'stop_hook_active':False}
-    missing = hooks._review_final_prose(event, root, directory)
-    assert missing['decision'] == 'block' and 'semantic expression review' in missing['reason']
-    parts = gate.prose_parts(text)
-    rows = [{'text_sha256':gate.sha(p.encode()), 'meaning':'The observed data and condition',
-             'rhetorical_role':'Direct explanation of the source',
-             'expression_assessment':'States the actual condition with direct wording',
-             'facts_preserved':'The observed data remain unchanged', 'verdict':'pass'} for p in parts]
-    review = {'text_sha256':gate.sha(text.encode()), 'parts':rows}
-    receipt = directory/'prose-reviews'/gate.sha(b'turn-a')/(gate.sha(text.encode())+'.json')
-    payload = base64.b64encode(json.dumps({'text':text,'review':review}).encode()).decode()
-    result = subprocess.run([sys.executable, str(root/'harness/codex_hooks.py'), '--root',str(root),
-                             'record-prose-review','--hook-context',str(context),'--turn-id','turn-a',
-                             '--payload-base64',payload],
-                            capture_output=True,text=True)
-    assert result.returncode == 0, result.stderr
-    assert hooks._review_final_prose(event,root,directory) is None
-    event['last_assistant_message'] += ' Revised.'
-    assert hooks._review_final_prose(event,root,directory)['decision'] == 'block'
-    incomplete = {'text_sha256':gate.sha(text.encode()),'parts':rows[:1]}
-    try:
-        gate.validate_semantic_review(text,incomplete)
-    except ValueError:
-        pass
-    else:
-        raise AssertionError('incomplete review passed')
-    rows[0]['verdict'] = 'fail'
-    try:
-        gate.validate_semantic_review(text,review)
-    except ValueError:
-        pass
-    else:
-        raise AssertionError('failed review passed')
-print('Required review, exact text binding, coverage and failed verdict checks passed.')
+
+
+with hook_tempdir() as directory:
+    (directory / 'turns').mkdir()
+    for turn in ('turn-a', 'turn-b'):
+        (directory / 'turns' / (gate.sha(turn.encode()) + '.json')).write_text(
+            json.dumps({'task_id': 'test'}), encoding='utf-8')
+    original = 'This is not an absent count. The value is 12.'
+    revised = 'The observed count is zero; 12 observations remain. Exclude x < 0. The source says “annual”.'
+    event = {'turn_id': 'turn-a', 'last_assistant_message': original, 'stop_hook_active': True}
+    requested = hooks._review_final_prose(event, root, directory)
+    assert requested['decision'] == 'block' and 'semantically review' in requested['reason']
+    assert 'lexical patterns' in requested['reason']
+    assert all(x not in requested['reason'] for x in ('base64', 'record-prose-review', 'text_sha256'))
+    event['last_assistant_message'] = revised
+    assert hooks._review_final_prose(event, root, directory) is None
+    assert hooks._review_final_prose({**event, 'turn_id':'turn-b'}, root, directory)['decision'] == 'block'
+    assert not (directory / 'prose-reviews').exists()
+    print('Representative revised final:', revised)
+
+assert hooks._readonly_git(['git', 'status', '--short', '--branch'])
+assert hooks._readonly_git(['git', '-C', '/tmp/repo', 'rev-parse', '--verify', 'HEAD'])
+assert hooks._readonly_git(['git', 'log', '--oneline', '--max-count=3'])
+assert hooks._readonly_git(['git', 'ls-files'])
+assert hooks._readonly_git(['git', 'diff', '--no-ext-diff', '--no-textconv'])
+assert hooks._readonly_git(['git', 'show', '--no-ext-diff', '--no-textconv', 'HEAD'])
+for unsafe in (['git', '-c', 'core.fsmonitor=sh', 'status'],
+               ['git', '--exec-path=/tmp', 'status'],
+               ['git', 'status', '--output=/tmp/out'],
+               ['git', 'diff', '--ext-diff'],
+               ['git', 'diff', '--', '--no-ext-diff', '--no-textconv'],
+               ['git', 'diff', '--no-ext-diff', '--no-textconv', '--output=/tmp/out'],
+               ['git', 'config', '--global', 'core.pager', 'x'],
+               ['git', 'fetch'], ['git', 'push']):
+    assert not hooks._readonly_git(unsafe), unsafe
+assert 'mcp__codex_apps__github__get_repo' in native.CONNECTOR_READ_TOOLS
+assert 'mcp__codex_apps__plugin_creator__get_plugin_files' in native.CONNECTOR_READ_TOOLS
+assert 'mcp__codex_apps__github__delete_everything' not in native.CONNECTOR_READ_TOOLS
+assert 'mcp__codex_apps__plugin_creator__update_plugin' in native.CONNECTOR_WRITE_TOOLS
 
 with hook_tempdir() as temp:
-    env = {**os.environ, 'PLUGIN_ROOT':str(root), 'PLUGIN_DATA':temp}
+    env = {**os.environ, 'PLUGIN_ROOT':str(root), 'PLUGIN_DATA':str(temp)}
     base = {'session_id':'semantic-hook-test', 'turn_id':'turn-b', 'cwd':str(root)}
     config = json.loads((root/'hooks/hooks.json').read_text(encoding='utf-8'))
     def invoke(name, **kw):
@@ -67,37 +69,47 @@ with hook_tempdir() as temp:
                                 text=True, capture_output=True, env=env)
         assert result.returncode == 0, result.stderr
         return json.loads(result.stdout)
-    started = invoke('UserPromptSubmit', prompt='Explain the source data.')
-    assert not started.get('decision') == 'block', started
-    final = 'The source records monthly claims.'
-    stopped = invoke('Stop', stop_hook_active=False, last_assistant_message=final)
-    assert stopped.get('decision') == 'block' and 'semantic expression review' in stopped.get('reason',''), stopped
-    data_root = Path(gate.windows_extended_path(temp)) if os.name == 'nt' else Path(temp)
-    active = hooks._active_directory({**base, 'hook_event_name':'Stop'}, data_root)
-    receipt = active/'prose-reviews'/gate.sha(b'turn-b')/(gate.sha(final.encode())+'.json')
-    review = {'text_sha256':gate.sha(final.encode()), 'parts':[{
-        'text_sha256':gate.sha(final.encode()), 'meaning':'Monthly claims are recorded by the source',
-        'rhetorical_role':'Direct description of the input data',
-        'expression_assessment':'Reports the actual data directly',
-        'facts_preserved':'The period and measurement remain unchanged', 'verdict':'pass'}]}
-    payload = base64.b64encode(json.dumps({'text':final,'review':review}).encode()).decode()
-    command = [sys.executable,str(root/'harness/codex_hooks.py'),'--root',str(root),
-        'record-prose-review','--hook-context',str(active/'context.json'),'--turn-id','turn-b',
-        '--payload-base64',payload]
-    preflight = invoke('PreToolUse', tool_name='exec_command',
-        tool_input={'cmd':shlex.join(command)}, tool_use_id='review-control')
-    assert preflight == {}, preflight
-    outside = command.copy()
-    outside[outside.index('--turn-id') + 1] = 'another-turn'
+    invoke('UserPromptSubmit', prompt='Explain the source data.')
+    for name, arguments in (
+        ('exec_command', {'cmd':'git status --short --branch'}),
+        ('mcp__codex_apps__github__get_repo', {'repository_full_name':'owner/repo'}),
+        ('mcp__codex_apps__plugin_creator__get_plugin_files', {'plugin_id':'plugins_test'}),
+    ):
+        result = invoke('PreToolUse', tool_name=name, tool_input=arguments, tool_use_id=name)
+        assert result == {}, result
     denied = invoke('PreToolUse', tool_name='exec_command',
-        tool_input={'cmd':shlex.join(outside)}, tool_use_id='bad-review-control')
+        tool_input={'cmd':'git config --global core.pager unsafe'}, tool_use_id='write')
     assert denied['hookSpecificOutput']['permissionDecision'] == 'deny', denied
-    recorded = subprocess.run(command,capture_output=True,text=True)
-    assert recorded.returncode == 0, recorded.stderr
-    postflight = invoke('PostToolUse', tool_name='exec_command',
-        tool_input={'cmd':shlex.join(command)}, tool_response={'exit_code':0},
-        tool_use_id='review-control')
-    assert postflight.get('decision') != 'block', postflight
+    unknown = invoke('PreToolUse', tool_name='mcp__codex_apps__github__unknown',
+        tool_input={}, tool_use_id='unknown')
+    assert unknown['hookSpecificOutput']['permissionDecision'] == 'deny', unknown
+    active = hooks._active_directory({**base, 'hook_event_name':'Stop'}, temp)
+    output = temp / 'authorized-output.txt'
+    command = shlex.join([sys.executable, '-c',
+        'from pathlib import Path; Path(' + repr(str(output)) + ').write_text("authorized")'])
+    action = json.dumps({'target_kind':'object', 'target_id':command, 'operation':'execute_command'})
+    control = [sys.executable, str(root/'harness/codex_hooks.py'), '--root', str(root),
+               'bind-operation', '--hook-context', str(active/'context.json'),
+               '--operation', 'econ-data:execute', '--operation-kind', 'modify',
+               '--authority', 'Test user requested the temporary output.',
+               '--required-action', action]
+    control_call = shlex.join(control)
+    allowed = invoke('PreToolUse', tool_name='exec_command',
+                     tool_input={'cmd':control_call}, tool_use_id='binding')
+    assert allowed == {}, allowed
+    bound = subprocess.run(control, text=True, capture_output=True)
+    assert bound.returncode == 0, bound.stderr
+    allowed = invoke('PreToolUse', tool_name='exec_command',
+                     tool_input={'cmd':command}, tool_use_id='authorized-write')
+    assert allowed.get('hookSpecificOutput', {}).get('permissionDecision') != 'deny', allowed
+    done = subprocess.run(command, shell=True, text=True, capture_output=True)
+    assert done.returncode == 0 and output.read_text() == 'authorized', done.stderr
+    invoke('PostToolUse', tool_name='exec_command', tool_input={'cmd':command},
+           tool_response={'exit_code':done.returncode, 'output':done.stdout},
+           tool_use_id='authorized-write')
+    final = 'The source records monthly claims.'
+    stopped = invoke('Stop', stop_hook_active=True, last_assistant_message=final)
+    assert stopped.get('decision') == 'block' and 'semantically review' in stopped.get('reason',''), stopped
     complete = invoke('Stop', stop_hook_active=True, last_assistant_message=final)
     assert complete == {}, complete
-print('Host event path requires and consumes the exact semantic review.')
+print('Read classification, protected writes and one semantic intervention passed.')

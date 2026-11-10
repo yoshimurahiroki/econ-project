@@ -28,7 +28,7 @@ Use natural Japanese with explicit actors, consistent terms, causal links and on
 
 ## Finish the passage
 
-After drafting each final response or authored artifact, review the complete output against these expression rules and correct defects before delivery. Preserve factual conditions, mathematical exclusions, observed absences and requested literal quotations. CORE's integrated review also covers source correspondence, logic and rhetorical function. Review the intended meaning and rhetorical role of each part, including wording not detected by the [lexical dictionary](../quality/prose_rules.json). A supported Stop hook requires an explicit semantic review tied to the exact final text. Lexical matches are only review leads, not semantic verdicts.
+After drafting each final response or authored artifact, review the complete output against these expression rules and correct defects before delivery. Preserve factual conditions, mathematical exclusions, observed absences and requested literal quotations. CORE's integrated review also covers source correspondence, logic and rhetorical function. Review the intended meaning and rhetorical role of each part, including wording not detected by the [lexical dictionary](../quality/prose_rules.json). A supported Stop hook requests this semantic review and correction of the complete proposed final response. Lexical matches are only review leads, not semantic verdicts.
 
 ## Hierarchical argument and paragraph composition
 

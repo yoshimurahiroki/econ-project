@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.95.3'
+POLICY_ID = 'economics-native-0.95.4'
 PRIMARY_EXPRESSION_RULE = "Apply PROSE's reporting and expression rules to every answer and generated artifact."
 PRIMARY_STYLE_RULE = ('Report statistical uncertainty only as numerical measures such as standard errors, intervals and p values; '
                       'keep scientific conditions and qualitative evidence-strength judgments internal. '

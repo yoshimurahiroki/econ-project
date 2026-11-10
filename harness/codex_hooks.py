@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Task callbacks, current instructions and attributable operation results."""
 import argparse
-import base64
 import importlib.util
 import json
 import os
@@ -1391,37 +1390,26 @@ def _verify_completion_contract(directory, bound, message, observed):
 
 
 def _review_final_prose(event, root, directory):
-    """Require block-by-block semantic review of the exact final response."""
+    """Request semantic revision once per actual turn after other completion checks."""
     message = event.get('last_assistant_message')
     gate.require(isinstance(message, str) and message.strip(), 'host assistant message is unavailable')
     turn = event.get('turn_id')
     gate.require(isinstance(turn, str) and turn.strip(), 'missing host turn_id for prose review')
-    dictionary = gate.parse_json(gate.regular_bytes(root / 'quality/prose_rules.json'))
-    hits = gate.scan({'final': message.encode('utf-8')}, dictionary)
-    digest = gate.sha(message.encode('utf-8'))
-    receipt = directory / 'prose-reviews' / gate.sha(turn.encode('utf-8')) / (digest + '.json')
-    if receipt.exists():
-        gate.validate_semantic_review(message, _read(receipt))
+    path = directory / 'turns' / (gate.sha(turn.encode('utf-8')) + '.json')
+    membership = _read(path)
+    gate.require(isinstance(membership, dict) and membership.get('task_id'),
+                 'prose review turn is not registered in this task')
+    if membership.get('prose_review_requested'):
         return None
-    ids = ', '.join(sorted({hit['rule_id'] for hit in hits})) or 'none'
-    context = _read(directory / 'context.json')
+    membership['prose_review_requested'] = True
+    save_record(path, membership)
     return failure('Stop',
-        'A semantic expression review is required for the exact final response before completion. '
-        'For EVERY nonempty block separated by blank lines, interpret its intended meaning and rhetorical role, '
-        'inspect directness, negative-definition/contrast and all other applicable PROSE rules by meaning, '
-        'including paraphrases with no lexical match, and preserve factual conditions, requested quotations, '
-        'mathematical exclusions and uncertainty. Repair any failure first. '
-        'Prepare a JSON payload with exact final text in text and the assessment in review. '
-        'The review has text_sha256 and an ordered parts array. '
-        'Each part has the SHA-256 of its exact UTF-8 block in text_sha256, substantive meaning, rhetorical_role, '
-        'expression_assessment and facts_preserved strings, and verdict pass. '
-        'Base64-encode the complete UTF-8 JSON payload and use python ' +
-        repr(str(root / 'harness/codex_hooks.py')) + ' --root ' + repr(context['cwd']) +
-        ' record-prose-review --hook-context ' + repr(str(directory / 'context.json')) +
-        ' --turn-id ' + repr(turn) + ' --payload-base64 PAYLOAD. '
-        'Then return exactly the reviewed text; if it changes, review and record it again. '
-        'The optional lexical scan found candidate rule IDs: ' + ids +
-        '. Its matches are leads, not semantic verdicts.')
+        'Before completing this response, semantically review the entire proposed final answer '
+        'against CORE and PROSE. Interpret meaning and rhetorical function, including violations '
+        'expressed without matching lexical patterns. Rewrite noncompliant passages directly and '
+        'concisely. Preserve all established facts, quantities, source attribution, mathematical '
+        'exclusions, observed conditions, and requested quotations. Complete the existing integrated '
+        'review and return the revised final answer.')
 
 
 def _verify_ordinary_stop(event, root, directory):
@@ -1555,6 +1543,39 @@ def _trusted_python(name):
     found = shutil.which(name)
     return bool(found and Path(found).resolve() == Path(sys.executable).resolve()
                 or name in {'python', 'python3'} and _trusted_system_program(name))
+
+
+def _readonly_git(parts):
+    """Recognize a bounded set of Git inspections with no write or exec options."""
+    if not parts or parts[0] != 'git' or not _trusted_system_program('git'):
+        return False
+    args = parts[1:]
+    while len(args) >= 2 and args[0] == '-C':
+        if not args[1] or args[1].startswith('-'):
+            return False
+        args = args[2:]
+    if not args:
+        return False
+    subcommand, args = args[0], args[1:]
+    if subcommand not in {'status', 'diff', 'log', 'show', 'rev-parse', 'ls-files'}:
+        return False
+    options = args[:args.index('--')] if '--' in args else args
+    if subcommand in {'diff', 'show'} and not {'--no-ext-diff', '--no-textconv'}.issubset(options):
+        return False
+    common = {'--', '--short', '--branch', '--porcelain', '--porcelain=v1', '--porcelain=v2',
+              '--no-renames', '--no-ahead-behind', '--untracked-files=no', '--untracked-files=normal',
+              '--untracked-files=all', '--ignored', '--cached', '--staged', '--stat', '--name-only',
+              '--name-status', '--no-ext-diff', '--no-textconv', '--oneline', '--no-patch', '--quiet',
+              '--verify', '--show-toplevel', '--git-dir', '--show-prefix', '--is-inside-work-tree',
+              '--show-object-format', '--full-name', '--stage', '--others', '--exclude-standard'}
+    for arg in args:
+        if arg in common or re.fullmatch(r'--(?:max-count|skip|short)=[0-9]+', arg):
+            continue
+        if arg in {'--format=%H', '--format=%h', '--format=%s'}:
+            continue
+        if arg.startswith('-') or not re.fullmatch(r'[A-Za-z0-9_./~^:@{}+%=-]+', arg):
+            return False
+    return True
 
 
 def _simple_command(command):
@@ -1868,6 +1889,8 @@ def _tool_effect(event, root, directory, *, enforce_authority=True):
             gate.require(parts, 'empty execution command')
             if not _simple_command(command):
                 operation, effect, command_action = 'execute_command', 'write', command
+            elif _readonly_git(parts):
+                operation, effect = 'read', 'read'
             elif ((_trusted_read_program(parts[0])
                    and not any(part.startswith(('--pre', '--hostname-bin')) for part in parts))
                   or (parts[0] == 'sed' and _trusted_system_program('sed') and len(parts) >= 4
@@ -1913,13 +1936,11 @@ def _tool_effect(event, root, directory, *, enforce_authority=True):
                     operation, effect = ('read', 'read') if parsed.command == 'focus-research' else ('state-control', 'local-control')
                 if enforce_authority and effect == 'local-control':
                     context = _read(directory / 'context.json', {})
-                    gate.require(parsed.command in {'bind-operation', 'bind-child-assignment', 'record-prose-review'}
+                    gate.require(parsed.command in {'bind-operation', 'bind-child-assignment'}
                                  and not event.get('agent_id')
                                  and _tool_target(str(parsed.root), command_cwd) == str(absolute(context['cwd']).resolve())
                                  and _tool_target(str(parsed.hook_context), command_cwd) == str((directory / 'context.json').resolve()),
                                  'operation binding must target this task and its original root')
-                    if parsed.command == 'record-prose-review':
-                        gate.require(parsed.turn_id == event.get('turn_id'), 'prose review turn differs')
             else:
                 operation, effect, command_action = 'execute_command', 'write', command
         elif tool.startswith('mcp__') and tool in native.CONNECTOR_WRITE_TOOLS:
@@ -2647,10 +2668,6 @@ def parse_control_args(argv=None):
     child.add_argument('--agent-id', required=True)
     child.add_argument('--source-id', required=True)
     child.add_argument('--source-sha256', required=True)
-    prose = sub.add_parser('record-prose-review')
-    prose.add_argument('--hook-context', required=True, type=Path)
-    prose.add_argument('--turn-id', required=True)
-    prose.add_argument('--payload-base64', required=True)
     return parser.parse_args(argv)
 
 
@@ -2658,24 +2675,6 @@ def inspect_saved_state(argv=None):
     """Read an existing research log or bind the current operation and instructions."""
     args = parse_control_args(argv)
     root = absolute(str(args.root))
-    if args.command == 'record-prose-review':
-        context_path = absolute(str(args.hook_context))
-        context = _read(context_path)
-        gate.require(context_path.name == 'context.json' and Path(context['cwd']).resolve() == root.resolve(),
-                     'prose review context differs')
-        directory = context_path.parent
-        gate.require((directory / 'turns' / (gate.sha(args.turn_id.encode('utf-8')) + '.json')).is_file(),
-                     'prose review turn is not registered in this task')
-        payload = gate.parse_json(base64.b64decode(args.payload_base64, validate=True))
-        gate.require(isinstance(payload, dict) and set(payload) == {'text', 'review'}
-                     and isinstance(payload['text'], str), 'invalid prose review payload')
-        gate.validate_semantic_review(payload['text'], payload['review'])
-        digest = gate.sha(payload['text'].encode('utf-8'))
-        receipt = directory / 'prose-reviews' / gate.sha(args.turn_id.encode('utf-8')) / (digest + '.json')
-        save_record(receipt, payload['review'], replace=False)
-        print(json.dumps({'status': 'recorded', 'text_sha256': digest,
-                          'parts': len(payload['review']['parts'])}))
-        return 0
     if args.command == 'bind-operation':
         print(json.dumps(bind_operation(args.hook_context, root, args.operation,
                                         conditions=args.condition, profile=args.profile, required_outputs=args.required_output,

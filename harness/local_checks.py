@@ -707,32 +707,6 @@ def release(artifacts, output, input_hashes=None, validate_inputs=None):
             shutil.rmtree(staging)
 
 
-def prose_parts(text):
-    """Split a candidate into contiguous nonempty blocks for semantic coverage."""
-    return [part for part in re.split(r'\n[ \t]*\n', text) if part.strip()]
-
-
-def validate_semantic_review(text, review):
-    """Bind an actual author's semantic assessments to every part of exact text."""
-    require(isinstance(review, dict) and set(review) == {'text_sha256', 'parts'},
-            'semantic review needs text_sha256 and parts')
-    require(review['text_sha256'] == sha(text.encode('utf-8')), 'semantic review text differs')
-    parts = prose_parts(text)
-    rows = review['parts']
-    require(isinstance(rows, list) and len(rows) == len(parts) and parts,
-            'semantic review must cover every text block')
-    for part, row in zip(parts, rows):
-        require(isinstance(row, dict) and set(row) == {
-            'text_sha256', 'meaning', 'rhetorical_role', 'expression_assessment', 'facts_preserved', 'verdict'
-        }, 'semantic review block fields differ')
-        require(row['text_sha256'] == sha(part.encode('utf-8')), 'semantic review block differs')
-        for key in ('meaning', 'rhetorical_role', 'expression_assessment', 'facts_preserved'):
-            require(isinstance(row[key], str) and len(row[key].strip()) >= 4,
-                    'semantic review requires a substantive ' + key)
-        require(row['verdict'] == 'pass', 'repair each failed semantic review before delivery')
-    return True
-
-
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=('scan-text',))
