@@ -1310,31 +1310,8 @@ def gallery_regression_comparison(items):
 
 
 def gallery_notes(item):
-    notes = list(item.get('display', {}).get('notes', []))
-    labels = {'estimand': '推定対象', 'sample': 'サンプル', 'sample_policy': 'サンプル方式',
-              'population': '母集団', 'period': '期間', 'unit': '単位', 'weights': '重み',
-              'reference_time': '基準期', 'reference_event_time': '基準イベント期',
-              'base_period': '基準期の定義', 'treatment_time': '処置時点', 'treatment_event_time': '処置イベント期', 'cutoff': '閾値',
-              'bandwidth': '帯域幅', 'threshold': '閾値', 'threshold_unit': '閾値の単位',
-              'treatment_group': '処置群', 'control_group': '対照群',
-              'comparison_group': '比較群', 'aggregation': '集計法', 'aggregation_weights': '集計重み',
-              'n': '観測数', 'n_clusters': 'クラスタ数', 'denominator': '分母',
-              'quantile_method': '分位点', 'distribution_type': '分布表示'}
-    requested = item.get('display', {}).get('note_fields')
-    if requested is not None:
-        labels.update({'ci_kind': '区間', 'interval_type': '保存区間', 'confidence_level': '区間水準'})
-        labels = {key: labels.get(key, key) for key in requested}
-    metadata = item['metadata']
-    shared = [label + ': ' + (json.dumps(metadata[key], ensure_ascii=False) if isinstance(metadata[key], (dict, list)) else str(metadata[key]))
-              for key, label in labels.items() if metadata.get(key) is not None]
-    if shared:
-        notes.append(' / '.join(shared))
-    for result_id, definition in metadata.get('result_definitions', {}).items():
-        differences = [label + ': ' + (json.dumps(definition[key], ensure_ascii=False) if isinstance(definition[key], (dict, list)) else str(definition[key]))
-                       for key, label in labels.items() if key in definition and definition[key] != metadata.get(key)]
-        if differences:
-            notes.append(result_id + ': ' + ' / '.join(differences))
-    return notes
+    """Keep saved annotation fields in their internal metadata."""
+    return []
 
 
 def gallery_table_presentation(item):
