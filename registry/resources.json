@@ -5,7 +5,7 @@
       "resource_id": "core",
       "source_path": "runtime/CORE.md",
       "resource_kind": "rule",
-      "content_version": "0.91.1"
+      "content_version": "0.92.0"
     },
     "prose": {
       "resource_id": "prose",
@@ -23,7 +23,7 @@
       "resource_id": "execution",
       "source_path": "runtime/EXECUTION.md",
       "resource_kind": "rule",
-      "content_version": "0.91.0"
+      "content_version": "0.92.0"
     },
     "team": {
       "resource_id": "team",
@@ -35,31 +35,31 @@
       "resource_id": "econ-design",
       "source_path": "skills/econ-design/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.85.0"
+      "content_version": "0.92.0"
     },
     "econ-data": {
       "resource_id": "econ-data",
       "source_path": "skills/econ-data/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.85.0"
+      "content_version": "0.92.0"
     },
     "econ-literature": {
       "resource_id": "econ-literature",
       "source_path": "skills/econ-literature/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.74.0"
+      "content_version": "0.92.0"
     },
     "econ-writing": {
       "resource_id": "econ-writing",
       "source_path": "skills/econ-writing/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.92.0"
     },
     "econ-review": {
       "resource_id": "econ-review",
       "source_path": "skills/econ-review/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.73.0"
+      "content_version": "0.92.0"
     },
     "design-methods": {
       "resource_id": "design-methods",
@@ -180,7 +180,7 @@
       "resource_id": "native-index",
       "source_path": "docs/ai/compiled_ai_skills.md",
       "resource_kind": "rule",
-      "content_version": "0.86.0"
+      "content_version": "0.92.0"
     },
     "project-context": {
       "resource_id": "project-context",
@@ -297,7 +297,7 @@
       "resource_id": "publication",
       "source_path": "harness/publication.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.92.0"
     },
     "tool-init": {
       "resource_id": "tool-init",
@@ -529,7 +529,7 @@
       "resource_id": "equity-models",
       "source_path": "skills/econ-data/references/equity-models.md",
       "resource_kind": "rule",
-      "content_version": "0.10.0"
+      "content_version": "0.92.0"
     },
     "equity-io": {
       "resource_id": "equity-io",
@@ -738,7 +738,7 @@
       "resource_id": "models-causal",
       "source_path": "skills/econ-design/references/causal-models.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0",
+      "content_version": "0.92.0",
       "required_resources": [
         "research-causal",
         "models-causal-basic",
@@ -960,7 +960,7 @@
       "resource_id": "source-discovery",
       "source_path": "skills/econ-literature/references/source-discovery.md",
       "resource_kind": "rule",
-      "content_version": "0.75.0",
+      "content_version": "0.92.0",
       "required_resources": [
         "research-sources",
         "research-search",
@@ -1034,7 +1034,7 @@
       "resource_id": "econ-knowledge",
       "source_path": "skills/econ-knowledge/SKILL.md",
       "resource_kind": "rule",
-      "content_version": "0.79.0",
+      "content_version": "0.92.0",
       "required_resources": [
         "knowledge-retrieval"
       ]
@@ -1417,13 +1417,13 @@
         "knowledge-retrieval",
         "research-evidence"
       ],
-      "content_version": "0.85.0"
+      "content_version": "0.92.0"
     },
     "project-practice": {
       "resource_id": "project-practice",
       "source_path": "skills/project-work/references/practice.md",
       "resource_kind": "rule",
-      "content_version": "0.84.0"
+      "content_version": "0.92.0"
     },
     "vscode-extension-recommendations": {
       "resource_id": "vscode-extension-recommendations",
@@ -1544,7 +1544,7 @@
       "resource_id": "literature-methods",
       "source_path": "skills/econ-literature/references/literature-methods.md",
       "resource_kind": "rule",
-      "content_version": "0.64.0"
+      "content_version": "0.92.0"
     },
     "search-priority": {
       "resource_id": "search-priority",
@@ -1865,13 +1865,13 @@
       "resource_id": "design-workflow",
       "source_path": "skills/econ-design/references/workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.87.0"
+      "content_version": "0.92.0"
     },
     "knowledge-guide": {
       "resource_id": "knowledge-guide",
       "source_path": "skills/econ-knowledge/references/retrieval.md",
       "resource_kind": "rule",
-      "content_version": "0.87.0"
+      "content_version": "0.92.0"
     },
     "data-source": {
       "resource_id": "data-source",
@@ -1914,6 +1914,18 @@
       "source_path": "skills/econ-data/references/implementation-examples.md",
       "resource_kind": "rule",
       "content_version": "0.79.0"
+    },
+    "routing": {
+      "resource_id": "routing",
+      "source_path": "runtime/ROUTING.md",
+      "resource_kind": "rule",
+      "content_version": "0.92.0"
+    },
+    "review-procedure": {
+      "resource_id": "review-procedure",
+      "source_path": "skills/econ-review/references/review.md",
+      "resource_kind": "rule",
+      "content_version": "0.92.0"
     }
   },
   "sections": {
@@ -2094,18 +2106,6 @@
       "purpose-and-input": {
         "heading": "Purpose and input"
       },
-      "procedure": {
-        "heading": "Procedure"
-      },
-      "find-the-work-that-answers-the-comparison": {
-        "heading": "Find the work that answers the comparison"
-      },
-      "establish-the-supporting-passages-and-versions": {
-        "heading": "Establish the supporting passages and versions"
-      },
-      "deliver-the-literatures-economic-relevance": {
-        "heading": "Deliver the literature's economic relevance"
-      },
       "select-the-source-operation": {
         "heading": "Select the source operation"
       }
@@ -2114,17 +2114,11 @@
       "all": {
         "whole_resource": true
       },
-      "compose-for-the-medium-and-language": {
-        "heading": "Compose for the medium and language"
-      },
       "output": {
         "heading": "Output"
       },
       "native-entry-contract": {
         "heading": "Native entry contract"
-      },
-      "preserve-adopted-content": {
-        "heading": "Preserve adopted content"
       }
     },
     "econ-review": {
@@ -2133,21 +2127,6 @@
       },
       "purpose-and-input": {
         "heading": "Purpose and input"
-      },
-      "procedure": {
-        "heading": "Procedure"
-      },
-      "choose-the-review-target": {
-        "heading": "Choose the review target"
-      },
-      "locate-and-repair-the-cause": {
-        "heading": "Locate and repair the cause"
-      },
-      "compare-versions-or-decisions-when-requested": {
-        "heading": "Compare versions or decisions when requested"
-      },
-      "deliver-the-assessment": {
-        "heading": "Deliver the assessment"
       }
     },
     "design-methods": {
@@ -2727,6 +2706,42 @@
     "equity-guide": {
       "all": {
         "whole_resource": true
+      },
+      "purpose-and-entry": {
+        "heading": "目的と実行入口"
+      },
+      "execution-rules": {
+        "heading": "入力から投資判断までの実行規則"
+      },
+      "company-market-and-date": {
+        "heading": "会社・市場・時点を決める"
+      },
+      "free-data-and-mcp": {
+        "heading": "無料データとMCP"
+      },
+      "accounting-to-free-cash-flow": {
+        "heading": "会計から持続的FCFを作る"
+      },
+      "select-and-estimate-the-io-model": {
+        "heading": "IOモデルを選び、推定する"
+      },
+      "rates-and-sector-valuation": {
+        "heading": "金利と業種別評価"
+      },
+      "price-and-investment-returns": {
+        "heading": "株価・投資収益の出力"
+      },
+      "public-data-company-example": {
+        "heading": "公開データだけで再実行する実企業例"
+      },
+      "update-from-new-information": {
+        "heading": "新情報を評価へ接続する"
+      },
+      "trading-flow-scope": {
+        "heading": "売買需給の範囲"
+      },
+      "implementations-and-primary-sources": {
+        "heading": "採用した実装と一次資料"
       }
     },
     "equity-calculator": {
@@ -2747,6 +2762,45 @@
     "equity-models": {
       "all": {
         "whole_resource": true
+      },
+      "model-scope": {
+        "heading": "Model scope"
+      },
+      "valuation-target-and-identification": {
+        "heading": "1. 評価対象、単位、識別を固定する"
+      },
+      "differentiated-demand-and-pricing": {
+        "heading": "2. 差別化需要と価格競争"
+      },
+      "homogeneous-goods-and-capacity": {
+        "heading": "3. 同質財、容量、供給曲線"
+      },
+      "productivity-and-markups": {
+        "heading": "4. 生産性とマークアップから費用を識別する"
+      },
+      "entry-investment-and-persistence": {
+        "heading": "5. 参入、投資、競争優位の持続期間"
+      },
+      "switching-search-and-acquisition": {
+        "heading": "6. 顧客の切替、検索、獲得投資"
+      },
+      "vertical-contracts-and-platforms": {
+        "heading": "7. 垂直契約とプラットフォーム"
+      },
+      "sustainable-free-cash-flow": {
+        "heading": "8. 物量から持続的FCFを作る"
+      },
+      "cash-finance-and-valuation": {
+        "heading": "9. 現金、金融制約、金利、評価方法"
+      },
+      "reverse-dcf-and-action-choice": {
+        "heading": "10. Reverse DCFと投資家の最適選択"
+      },
+      "news-and-economic-conditions": {
+        "heading": "11. IR・ニュースによる更新を経済条件へ変換する"
+      },
+      "calculation-sequence": {
+        "heading": "12. 計算を完了させる順序"
       }
     },
     "equity-io": {
@@ -2911,6 +2965,12 @@
     "models-causal": {
       "all": {
         "whole_resource": true
+      },
+      "causal-scope": {
+        "heading": "Causal scope"
+      },
+      "method-selection": {
+        "heading": "Method selection"
       }
     },
     "research-markets-dependencies": {
@@ -3035,6 +3095,18 @@
     "source-discovery": {
       "all": {
         "whole_resource": true
+      },
+      "source-scope": {
+        "heading": "Source scope"
+      },
+      "select-a-field-and-retain-its-ranking": {
+        "heading": "Select a field and retain its ranking"
+      },
+      "read-a-bounded-saved-selection": {
+        "heading": "Read a bounded saved selection"
+      },
+      "discover-current-doleac-sources": {
+        "heading": "Discover current Doleac sources"
       }
     },
     "research-data": {
@@ -3045,6 +3117,30 @@
     "research-data-guide": {
       "all": {
         "whole_resource": true
+      },
+      "data-scope": {
+        "heading": "Data scope"
+      },
+      "acquisition-and-catalogues": {
+        "heading": "Acquisition and catalogues"
+      },
+      "data-used-in-existing-research": {
+        "heading": "Data used in existing research"
+      },
+      "document-tables": {
+        "heading": "Document tables"
+      },
+      "joining-panels-and-geographic-data": {
+        "heading": "Joining, panels and geographic data"
+      },
+      "shared-tables-across-sql-python-r-and-julia": {
+        "heading": "Shared tables across SQL, Python, R and Julia"
+      },
+      "constructed-variables-and-analysis-samples": {
+        "heading": "Constructed variables and analysis samples"
+      },
+      "saved-descriptive-results": {
+        "heading": "Saved descriptive results"
       }
     },
     "research-artifacts": {
@@ -3055,6 +3151,27 @@
     "result-artifacts": {
       "all": {
         "whole_resource": true
+      },
+      "artifact-scope": {
+        "heading": "Artifact scope"
+      },
+      "save-displays-at-analysis-or-registration": {
+        "heading": "Save displays at analysis or registration"
+      },
+      "browse-compare-and-edit-saved-results": {
+        "heading": "Browse compare and edit saved results"
+      },
+      "source-basis-for-reuse-and-provenance": {
+        "heading": "Source basis for reuse and provenance"
+      },
+      "default-latex-family": {
+        "heading": "Default LaTeX family"
+      },
+      "adopt-an-artifact-specification": {
+        "heading": "Adopt an artifact specification"
+      },
+      "claims-coverage-and-requested-re-review": {
+        "heading": "Claims, coverage and requested re-review"
       }
     },
     "adaptive-research": {
@@ -3157,21 +3274,6 @@
       },
       "purpose-and-entry": {
         "heading": "Purpose and entry"
-      },
-      "requirements-and-work-approach": {
-        "heading": "Requirements and work approach"
-      },
-      "execution-prompts": {
-        "heading": "Execution prompts"
-      },
-      "contribute": {
-        "heading": "Contribute"
-      },
-      "manage": {
-        "heading": "Manage"
-      },
-      "select-the-pending-operation": {
-        "heading": "Select the pending operation"
       }
     },
     "project-practice": {
@@ -3210,6 +3312,21 @@
       },
       "write-the-execution-prompt": {
         "heading": "Write the execution prompt"
+      },
+      "requirements-and-work-approach": {
+        "heading": "Requirements and work approach"
+      },
+      "execution-prompts": {
+        "heading": "Execution prompts"
+      },
+      "contribute": {
+        "heading": "Contribute"
+      },
+      "manage": {
+        "heading": "Manage"
+      },
+      "select-the-pending-operation": {
+        "heading": "Select the pending operation"
       }
     },
     "policy-codex-agent-lead": {
@@ -3302,6 +3419,21 @@
       },
       "ai-method-assessment": {
         "heading": "AI-method assessment"
+      },
+      "procedure": {
+        "heading": "Procedure"
+      },
+      "find-the-work-that-answers-the-comparison": {
+        "heading": "Find the work that answers the comparison"
+      },
+      "establish-the-supporting-passages-and-versions": {
+        "heading": "Establish the supporting passages and versions"
+      },
+      "deliver-the-literatures-economic-relevance": {
+        "heading": "Deliver the literature's economic relevance"
+      },
+      "source-and-data-discovery": {
+        "heading": "Source and data discovery"
       }
     },
     "search-priority": {
@@ -3421,6 +3553,15 @@
       },
       "execute-paragraph-and-argument-contracts": {
         "heading": "Execute paragraph and argument contracts"
+      },
+      "preserve-adopted-content": {
+        "heading": "Preserve adopted content"
+      },
+      "select-supporting-material": {
+        "heading": "Select supporting material"
+      },
+      "compose-for-the-medium-and-language": {
+        "heading": "Compose for the medium and language"
       }
     },
     "paper-empirical": {
@@ -3795,6 +3936,9 @@
       },
       "check-the-changed-calculation": {
         "heading": "Check the changed calculation"
+      },
+      "execution-specification": {
+        "heading": "Execution specification"
       }
     },
     "design-workflow": {
@@ -3827,6 +3971,9 @@
       },
       "specialized-executable-designs": {
         "heading": "Specialized executable designs"
+      },
+      "design-specification": {
+        "heading": "Design specification"
       }
     },
     "knowledge-guide": {
@@ -3856,6 +4003,9 @@
       },
       "canonical-content-and-distribution": {
         "heading": "Canonical content and distribution"
+      },
+      "retrieval-interface": {
+        "heading": "Retrieval interface"
       }
     },
     "data-source": {
@@ -4048,6 +4198,37 @@
       "example-name-a-calculation-and-its-related-totals": {
         "heading": "Example: name a calculation and its related totals"
       }
+    },
+    "routing": {
+      "all": {
+        "whole_resource": true
+      },
+      "read-the-current-stage": {
+        "heading": "Read the current stage"
+      }
+    },
+    "review-procedure": {
+      "all": {
+        "whole_resource": true
+      },
+      "procedure": {
+        "heading": "Procedure"
+      },
+      "choose-the-review-target": {
+        "heading": "Choose the review target"
+      },
+      "locate-and-repair-the-cause": {
+        "heading": "Locate and repair the cause"
+      },
+      "compare-versions-or-decisions-when-requested": {
+        "heading": "Compare versions or decisions when requested"
+      },
+      "deliver-the-assessment": {
+        "heading": "Deliver the assessment"
+      },
+      "evaluate-specialized-calculations-and-artifacts": {
+        "heading": "Evaluate specialized calculations and artifacts"
+      }
     }
   },
   "rules": {
@@ -4075,7 +4256,11 @@
       "rule_id": "core.task-entry",
       "resource_id": "core",
       "section_id": "task-entry",
-      "requires": [],
+      "requires": [
+        "prose.common-output",
+        "prose.revise-for-the-requested-language",
+        "research.turn-the-question-into-an-operation"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4084,7 +4269,9 @@
       "resource_id": "core",
       "section_id": "economist-role",
       "requires": [
-        "research.turn-the-question-into-an-operation"
+        "research.turn-the-question-into-an-operation",
+        "prose.common-output",
+        "prose.revise-for-the-requested-language"
       ],
       "conditional_requires": [
         {
@@ -4101,7 +4288,11 @@
       "rule_id": "core.authority-and-preserved-inputs",
       "resource_id": "core",
       "section_id": "authority-and-preserved-inputs",
-      "requires": [],
+      "requires": [
+        "prose.common-output",
+        "prose.revise-for-the-requested-language",
+        "research.turn-the-question-into-an-operation"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4109,7 +4300,11 @@
       "rule_id": "core.execution-records",
       "resource_id": "core",
       "section_id": "execution-records",
-      "requires": [],
+      "requires": [
+        "prose.common-output",
+        "prose.revise-for-the-requested-language",
+        "research.turn-the-question-into-an-operation"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4117,7 +4312,11 @@
       "rule_id": "core.completion-and-reporting",
       "resource_id": "core",
       "section_id": "completion-and-reporting",
-      "requires": [],
+      "requires": [
+        "prose.common-output",
+        "prose.revise-for-the-requested-language",
+        "research.turn-the-question-into-an-operation"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4400,7 +4599,9 @@
       "rule_id": "econ-design.all",
       "resource_id": "econ-design",
       "section_id": "all",
-      "requires": [],
+      "requires": [
+        "design-workflow.design-specification"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4499,7 +4700,9 @@
       "rule_id": "econ-data.all",
       "resource_id": "econ-data",
       "section_id": "all",
-      "requires": [],
+      "requires": [
+        "data-workflow.execution-specification"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4573,7 +4776,13 @@
       "rule_id": "econ-literature.all",
       "resource_id": "econ-literature",
       "section_id": "all",
-      "requires": [],
+      "requires": [
+        "econ-literature.procedure",
+        "econ-literature.find-the-work-that-answers-the-comparison",
+        "econ-literature.establish-the-supporting-passages-and-versions",
+        "econ-literature.deliver-the-literatures-economic-relevance",
+        "literature-methods.source-and-data-discovery"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4587,7 +4796,7 @@
     },
     "econ-literature.procedure": {
       "rule_id": "econ-literature.procedure",
-      "resource_id": "econ-literature",
+      "resource_id": "literature-methods",
       "section_id": "procedure",
       "requires": [],
       "conditional_requires": [],
@@ -4595,7 +4804,7 @@
     },
     "econ-literature.find-the-work-that-answers-the-comparison": {
       "rule_id": "econ-literature.find-the-work-that-answers-the-comparison",
-      "resource_id": "econ-literature",
+      "resource_id": "literature-methods",
       "section_id": "find-the-work-that-answers-the-comparison",
       "requires": [],
       "conditional_requires": [],
@@ -4603,7 +4812,7 @@
     },
     "econ-literature.establish-the-supporting-passages-and-versions": {
       "rule_id": "econ-literature.establish-the-supporting-passages-and-versions",
-      "resource_id": "econ-literature",
+      "resource_id": "literature-methods",
       "section_id": "establish-the-supporting-passages-and-versions",
       "requires": [],
       "conditional_requires": [],
@@ -4619,7 +4828,7 @@
     },
     "econ-literature.deliver-the-literatures-economic-relevance": {
       "rule_id": "econ-literature.deliver-the-literatures-economic-relevance",
-      "resource_id": "econ-literature",
+      "resource_id": "literature-methods",
       "section_id": "deliver-the-literatures-economic-relevance",
       "requires": [],
       "conditional_requires": [],
@@ -4633,7 +4842,10 @@
         "prose.select-the-economic-argument",
         "prose.connect-the-explanation",
         "prose.select-the-profile",
-        "prose.finish-the-passage"
+        "prose.finish-the-passage",
+        "econ-writing.preserve-adopted-content",
+        "writing-artifacts.select-supporting-material",
+        "econ-writing.compose-for-the-medium-and-language"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -4703,9 +4915,11 @@
     },
     "econ-writing.compose-for-the-medium-and-language": {
       "rule_id": "econ-writing.compose-for-the-medium-and-language",
-      "resource_id": "econ-writing",
+      "resource_id": "writing-artifacts",
       "section_id": "compose-for-the-medium-and-language",
-      "requires": [],
+      "requires": [
+        "writing-artifacts.select-supporting-material"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4721,7 +4935,14 @@
       "rule_id": "econ-review.all",
       "resource_id": "econ-review",
       "section_id": "all",
-      "requires": [],
+      "requires": [
+        "econ-review.procedure",
+        "econ-review.choose-the-review-target",
+        "econ-review.locate-and-repair-the-cause",
+        "econ-review.compare-versions-or-decisions-when-requested",
+        "econ-review.deliver-the-assessment",
+        "review-procedure.evaluate-specialized-calculations-and-artifacts"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -4735,7 +4956,7 @@
     },
     "econ-review.procedure": {
       "rule_id": "econ-review.procedure",
-      "resource_id": "econ-review",
+      "resource_id": "review-procedure",
       "section_id": "procedure",
       "requires": [],
       "conditional_requires": [],
@@ -4743,7 +4964,7 @@
     },
     "econ-review.choose-the-review-target": {
       "rule_id": "econ-review.choose-the-review-target",
-      "resource_id": "econ-review",
+      "resource_id": "review-procedure",
       "section_id": "choose-the-review-target",
       "requires": [],
       "conditional_requires": [],
@@ -4751,7 +4972,7 @@
     },
     "econ-review.locate-and-repair-the-cause": {
       "rule_id": "econ-review.locate-and-repair-the-cause",
-      "resource_id": "econ-review",
+      "resource_id": "review-procedure",
       "section_id": "locate-and-repair-the-cause",
       "requires": [],
       "conditional_requires": [],
@@ -4759,7 +4980,7 @@
     },
     "econ-review.compare-versions-or-decisions-when-requested": {
       "rule_id": "econ-review.compare-versions-or-decisions-when-requested",
-      "resource_id": "econ-review",
+      "resource_id": "review-procedure",
       "section_id": "compare-versions-or-decisions-when-requested",
       "requires": [],
       "conditional_requires": [],
@@ -4767,7 +4988,7 @@
     },
     "econ-review.deliver-the-assessment": {
       "rule_id": "econ-review.deliver-the-assessment",
-      "resource_id": "econ-review",
+      "resource_id": "review-procedure",
       "section_id": "deliver-the-assessment",
       "requires": [],
       "conditional_requires": [],
@@ -7045,7 +7266,8 @@
       "resource_id": "econ-knowledge",
       "section_id": "all",
       "requires": [
-        "knowledge-guide.read-selected-units"
+        "knowledge-guide.read-selected-units",
+        "knowledge-guide.retrieval-interface"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -7073,9 +7295,11 @@
     },
     "econ-writing.preserve-adopted-content": {
       "rule_id": "econ-writing.preserve-adopted-content",
-      "resource_id": "econ-writing",
+      "resource_id": "writing-artifacts",
       "section_id": "preserve-adopted-content",
-      "requires": [],
+      "requires": [
+        "writing-artifacts.select-supporting-material"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -7187,7 +7411,13 @@
       "rule_id": "project-work.all",
       "resource_id": "project-work",
       "section_id": "all",
-      "requires": [],
+      "requires": [
+        "project-practice.requirements-and-work-approach",
+        "project-practice.execution-prompts",
+        "project-practice.contribute",
+        "project-practice.manage",
+        "project-practice.select-the-pending-operation"
+      ],
       "conditional_requires": [],
       "optional_examples": []
     },
@@ -8909,6 +9139,564 @@
       ],
       "conditional_requires": [],
       "optional_examples": []
+    },
+    "routing.all": {
+      "rule_id": "routing.all",
+      "resource_id": "routing",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "routing.read-the-current-stage": {
+      "rule_id": "routing.read-the-current-stage",
+      "resource_id": "routing",
+      "section_id": "read-the-current-stage",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "review-procedure.all": {
+      "rule_id": "review-procedure.all",
+      "resource_id": "review-procedure",
+      "section_id": "all",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "data-workflow.execution-specification": {
+      "rule_id": "data-workflow.execution-specification",
+      "resource_id": "data-workflow",
+      "section_id": "execution-specification",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "design-workflow.design-specification": {
+      "rule_id": "design-workflow.design-specification",
+      "resource_id": "design-workflow",
+      "section_id": "design-specification",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "knowledge-guide.retrieval-interface": {
+      "rule_id": "knowledge-guide.retrieval-interface",
+      "resource_id": "knowledge-guide",
+      "section_id": "retrieval-interface",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "literature-methods.source-and-data-discovery": {
+      "rule_id": "literature-methods.source-and-data-discovery",
+      "resource_id": "literature-methods",
+      "section_id": "source-and-data-discovery",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "writing-artifacts.select-supporting-material": {
+      "rule_id": "writing-artifacts.select-supporting-material",
+      "resource_id": "writing-artifacts",
+      "section_id": "select-supporting-material",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "review-procedure.evaluate-specialized-calculations-and-artifacts": {
+      "rule_id": "review-procedure.evaluate-specialized-calculations-and-artifacts",
+      "resource_id": "review-procedure",
+      "section_id": "evaluate-specialized-calculations-and-artifacts",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "project-practice.requirements-and-work-approach": {
+      "rule_id": "project-practice.requirements-and-work-approach",
+      "resource_id": "project-practice",
+      "section_id": "requirements-and-work-approach",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "project-practice.execution-prompts": {
+      "rule_id": "project-practice.execution-prompts",
+      "resource_id": "project-practice",
+      "section_id": "execution-prompts",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "project-practice.contribute": {
+      "rule_id": "project-practice.contribute",
+      "resource_id": "project-practice",
+      "section_id": "contribute",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "project-practice.manage": {
+      "rule_id": "project-practice.manage",
+      "resource_id": "project-practice",
+      "section_id": "manage",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "project-practice.select-the-pending-operation": {
+      "rule_id": "project-practice.select-the-pending-operation",
+      "resource_id": "project-practice",
+      "section_id": "select-the-pending-operation",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.artifact-scope": {
+      "rule_id": "result-artifacts.artifact-scope",
+      "resource_id": "result-artifacts",
+      "section_id": "artifact-scope",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.save-displays-at-analysis-or-registration": {
+      "rule_id": "result-artifacts.save-displays-at-analysis-or-registration",
+      "resource_id": "result-artifacts",
+      "section_id": "save-displays-at-analysis-or-registration",
+      "requires": [
+        "result-artifacts.artifact-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.browse-compare-and-edit-saved-results": {
+      "rule_id": "result-artifacts.browse-compare-and-edit-saved-results",
+      "resource_id": "result-artifacts",
+      "section_id": "browse-compare-and-edit-saved-results",
+      "requires": [
+        "result-artifacts.artifact-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.source-basis-for-reuse-and-provenance": {
+      "rule_id": "result-artifacts.source-basis-for-reuse-and-provenance",
+      "resource_id": "result-artifacts",
+      "section_id": "source-basis-for-reuse-and-provenance",
+      "requires": [
+        "result-artifacts.artifact-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.default-latex-family": {
+      "rule_id": "result-artifacts.default-latex-family",
+      "resource_id": "result-artifacts",
+      "section_id": "default-latex-family",
+      "requires": [
+        "result-artifacts.artifact-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.adopt-an-artifact-specification": {
+      "rule_id": "result-artifacts.adopt-an-artifact-specification",
+      "resource_id": "result-artifacts",
+      "section_id": "adopt-an-artifact-specification",
+      "requires": [
+        "result-artifacts.artifact-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "result-artifacts.claims-coverage-and-requested-re-review": {
+      "rule_id": "result-artifacts.claims-coverage-and-requested-re-review",
+      "resource_id": "result-artifacts",
+      "section_id": "claims-coverage-and-requested-re-review",
+      "requires": [
+        "result-artifacts.artifact-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.model-scope": {
+      "rule_id": "equity-models.model-scope",
+      "resource_id": "equity-models",
+      "section_id": "model-scope",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-data-guide.data-scope": {
+      "rule_id": "research-data-guide.data-scope",
+      "resource_id": "research-data-guide",
+      "section_id": "data-scope",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-data-guide.acquisition-and-catalogues": {
+      "rule_id": "research-data-guide.acquisition-and-catalogues",
+      "resource_id": "research-data-guide",
+      "section_id": "acquisition-and-catalogues",
+      "requires": [
+        "research-data-guide.data-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-data-guide.data-used-in-existing-research": {
+      "rule_id": "research-data-guide.data-used-in-existing-research",
+      "resource_id": "research-data-guide",
+      "section_id": "data-used-in-existing-research",
+      "requires": [
+        "research-data-guide.data-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-data-guide.document-tables": {
+      "rule_id": "research-data-guide.document-tables",
+      "resource_id": "research-data-guide",
+      "section_id": "document-tables",
+      "requires": [
+        "research-data-guide.data-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-data-guide.joining-panels-and-geographic-data": {
+      "rule_id": "research-data-guide.joining-panels-and-geographic-data",
+      "resource_id": "research-data-guide",
+      "section_id": "joining-panels-and-geographic-data",
+      "requires": [
+        "research-data-guide.data-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-data-guide.shared-tables-across-sql-python-r-and-julia": {
+      "rule_id": "research-data-guide.shared-tables-across-sql-python-r-and-julia",
+      "resource_id": "research-data-guide",
+      "section_id": "shared-tables-across-sql-python-r-and-julia",
+      "requires": [
+        "research-data-guide.data-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-data-guide.constructed-variables-and-analysis-samples": {
+      "rule_id": "research-data-guide.constructed-variables-and-analysis-samples",
+      "resource_id": "research-data-guide",
+      "section_id": "constructed-variables-and-analysis-samples",
+      "requires": [
+        "research-data-guide.data-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "research-data-guide.saved-descriptive-results": {
+      "rule_id": "research-data-guide.saved-descriptive-results",
+      "resource_id": "research-data-guide",
+      "section_id": "saved-descriptive-results",
+      "requires": [
+        "research-data-guide.data-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "source-discovery.source-scope": {
+      "rule_id": "source-discovery.source-scope",
+      "resource_id": "source-discovery",
+      "section_id": "source-scope",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "source-discovery.select-a-field-and-retain-its-ranking": {
+      "rule_id": "source-discovery.select-a-field-and-retain-its-ranking",
+      "resource_id": "source-discovery",
+      "section_id": "select-a-field-and-retain-its-ranking",
+      "requires": [
+        "source-discovery.source-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "source-discovery.read-a-bounded-saved-selection": {
+      "rule_id": "source-discovery.read-a-bounded-saved-selection",
+      "resource_id": "source-discovery",
+      "section_id": "read-a-bounded-saved-selection",
+      "requires": [
+        "source-discovery.source-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "source-discovery.discover-current-doleac-sources": {
+      "rule_id": "source-discovery.discover-current-doleac-sources",
+      "resource_id": "source-discovery",
+      "section_id": "discover-current-doleac-sources",
+      "requires": [
+        "source-discovery.source-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "models-causal.causal-scope": {
+      "rule_id": "models-causal.causal-scope",
+      "resource_id": "models-causal",
+      "section_id": "causal-scope",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.valuation-target-and-identification": {
+      "rule_id": "equity-models.valuation-target-and-identification",
+      "resource_id": "equity-models",
+      "section_id": "valuation-target-and-identification",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.differentiated-demand-and-pricing": {
+      "rule_id": "equity-models.differentiated-demand-and-pricing",
+      "resource_id": "equity-models",
+      "section_id": "differentiated-demand-and-pricing",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.homogeneous-goods-and-capacity": {
+      "rule_id": "equity-models.homogeneous-goods-and-capacity",
+      "resource_id": "equity-models",
+      "section_id": "homogeneous-goods-and-capacity",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.productivity-and-markups": {
+      "rule_id": "equity-models.productivity-and-markups",
+      "resource_id": "equity-models",
+      "section_id": "productivity-and-markups",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.entry-investment-and-persistence": {
+      "rule_id": "equity-models.entry-investment-and-persistence",
+      "resource_id": "equity-models",
+      "section_id": "entry-investment-and-persistence",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.switching-search-and-acquisition": {
+      "rule_id": "equity-models.switching-search-and-acquisition",
+      "resource_id": "equity-models",
+      "section_id": "switching-search-and-acquisition",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.vertical-contracts-and-platforms": {
+      "rule_id": "equity-models.vertical-contracts-and-platforms",
+      "resource_id": "equity-models",
+      "section_id": "vertical-contracts-and-platforms",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.sustainable-free-cash-flow": {
+      "rule_id": "equity-models.sustainable-free-cash-flow",
+      "resource_id": "equity-models",
+      "section_id": "sustainable-free-cash-flow",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.cash-finance-and-valuation": {
+      "rule_id": "equity-models.cash-finance-and-valuation",
+      "resource_id": "equity-models",
+      "section_id": "cash-finance-and-valuation",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.reverse-dcf-and-action-choice": {
+      "rule_id": "equity-models.reverse-dcf-and-action-choice",
+      "resource_id": "equity-models",
+      "section_id": "reverse-dcf-and-action-choice",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.news-and-economic-conditions": {
+      "rule_id": "equity-models.news-and-economic-conditions",
+      "resource_id": "equity-models",
+      "section_id": "news-and-economic-conditions",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-models.calculation-sequence": {
+      "rule_id": "equity-models.calculation-sequence",
+      "resource_id": "equity-models",
+      "section_id": "calculation-sequence",
+      "requires": [
+        "equity-models.model-scope"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.purpose-and-entry": {
+      "rule_id": "equity-guide.purpose-and-entry",
+      "resource_id": "equity-guide",
+      "section_id": "purpose-and-entry",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.execution-rules": {
+      "rule_id": "equity-guide.execution-rules",
+      "resource_id": "equity-guide",
+      "section_id": "execution-rules",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.company-market-and-date": {
+      "rule_id": "equity-guide.company-market-and-date",
+      "resource_id": "equity-guide",
+      "section_id": "company-market-and-date",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.free-data-and-mcp": {
+      "rule_id": "equity-guide.free-data-and-mcp",
+      "resource_id": "equity-guide",
+      "section_id": "free-data-and-mcp",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.accounting-to-free-cash-flow": {
+      "rule_id": "equity-guide.accounting-to-free-cash-flow",
+      "resource_id": "equity-guide",
+      "section_id": "accounting-to-free-cash-flow",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.select-and-estimate-the-io-model": {
+      "rule_id": "equity-guide.select-and-estimate-the-io-model",
+      "resource_id": "equity-guide",
+      "section_id": "select-and-estimate-the-io-model",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.rates-and-sector-valuation": {
+      "rule_id": "equity-guide.rates-and-sector-valuation",
+      "resource_id": "equity-guide",
+      "section_id": "rates-and-sector-valuation",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.price-and-investment-returns": {
+      "rule_id": "equity-guide.price-and-investment-returns",
+      "resource_id": "equity-guide",
+      "section_id": "price-and-investment-returns",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.public-data-company-example": {
+      "rule_id": "equity-guide.public-data-company-example",
+      "resource_id": "equity-guide",
+      "section_id": "public-data-company-example",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.update-from-new-information": {
+      "rule_id": "equity-guide.update-from-new-information",
+      "resource_id": "equity-guide",
+      "section_id": "update-from-new-information",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.trading-flow-scope": {
+      "rule_id": "equity-guide.trading-flow-scope",
+      "resource_id": "equity-guide",
+      "section_id": "trading-flow-scope",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "equity-guide.implementations-and-primary-sources": {
+      "rule_id": "equity-guide.implementations-and-primary-sources",
+      "resource_id": "equity-guide",
+      "section_id": "implementations-and-primary-sources",
+      "requires": [
+        "equity-guide.purpose-and-entry"
+      ],
+      "conditional_requires": [],
+      "optional_examples": []
+    },
+    "models-causal.method-selection": {
+      "rule_id": "models-causal.method-selection",
+      "resource_id": "models-causal",
+      "section_id": "method-selection",
+      "requires": [],
+      "conditional_requires": [],
+      "optional_examples": []
     }
   },
   "examples": {
@@ -9069,7 +9857,11 @@
         "purpose-and-entry"
       ],
       "core": [
-        "all"
+        "task-entry",
+        "economist-role",
+        "authority-and-preserved-inputs",
+        "completion-and-reporting",
+        "execution-records"
       ],
       "prose": [
         "common-output"
@@ -9117,11 +9909,27 @@
       ],
       "resource-guide": [
         "all"
+      ],
+      "routing": [
+        "all"
+      ],
+      "data-workflow": [
+        "execution-specification"
+      ],
+      "design-workflow": [
+        "design-specification"
+      ],
+      "knowledge-guide": [
+        "retrieval-interface"
       ]
     },
     "contract": {
       "core": [
-        "all"
+        "task-entry",
+        "economist-role",
+        "authority-and-preserved-inputs",
+        "completion-and-reporting",
+        "execution-records"
       ],
       "prose": [
         "common-output",
@@ -9145,7 +9953,8 @@
         "handoff"
       ],
       "models-causal": [
-        "all"
+        "causal-scope",
+        "method-selection"
       ],
       "models-markets": [
         "all"
@@ -9244,7 +10053,19 @@
         "all"
       ],
       "equity-models": [
-        "all"
+        "model-scope",
+        "valuation-target-and-identification",
+        "differentiated-demand-and-pricing",
+        "homogeneous-goods-and-capacity",
+        "productivity-and-markups",
+        "entry-investment-and-persistence",
+        "switching-search-and-acquisition",
+        "vertical-contracts-and-platforms",
+        "sustainable-free-cash-flow",
+        "cash-finance-and-valuation",
+        "reverse-dcf-and-action-choice",
+        "news-and-economic-conditions",
+        "calculation-sequence"
       ],
       "knowledge-guide": [
         "all"
@@ -9266,10 +10087,14 @@
         "entry-point-and-dependencies"
       ],
       "source-discovery": [
-        "all"
+        "source-scope",
+        "select-a-field-and-retain-its-ranking",
+        "read-a-bounded-saved-selection",
+        "discover-current-doleac-sources"
       ],
       "literature-methods": [
-        "all"
+        "all",
+        "find-the-work-that-answers-the-comparison"
       ],
       "search-priority": [
         "all"
@@ -9289,27 +10114,26 @@
       "paper-structural": [
         "all"
       ],
-      "econ-writing": [
-        "preserve-adopted-content"
-      ],
       "project-practice": [
         "manage-the-case",
         "resources-and-dates",
         "write-the-execution-prompt",
         "connect-the-current-case",
-        "define-the-task"
-      ],
-      "project-work": [
+        "define-the-task",
         "requirements-and-work-approach",
         "select-the-pending-operation"
       ],
-      "econ-literature": [
-        "find-the-work-that-answers-the-comparison"
+      "writing-artifacts": [
+        "preserve-adopted-content"
       ]
     },
     "compose": {
       "core": [
-        "all"
+        "task-entry",
+        "economist-role",
+        "authority-and-preserved-inputs",
+        "completion-and-reporting",
+        "execution-records"
       ],
       "prose": [
         "common-output",
@@ -9335,7 +10159,8 @@
         "return-and-integration"
       ],
       "models-causal": [
-        "all"
+        "causal-scope",
+        "method-selection"
       ],
       "models-markets": [
         "all"
@@ -9457,13 +10282,31 @@
         "all"
       ],
       "research-data-guide": [
-        "all"
+        "data-scope",
+        "acquisition-and-catalogues",
+        "data-used-in-existing-research",
+        "document-tables",
+        "joining-panels-and-geographic-data",
+        "shared-tables-across-sql-python-r-and-julia",
+        "constructed-variables-and-analysis-samples",
+        "saved-descriptive-results"
       ],
       "adaptive-research": [
         "all"
       ],
       "equity-guide": [
-        "all"
+        "purpose-and-entry",
+        "execution-rules",
+        "company-market-and-date",
+        "free-data-and-mcp",
+        "accounting-to-free-cash-flow",
+        "select-and-estimate-the-io-model",
+        "rates-and-sector-valuation",
+        "price-and-investment-returns",
+        "public-data-company-example",
+        "update-from-new-information",
+        "trading-flow-scope",
+        "implementations-and-primary-sources"
       ],
       "paragraph-workflow": [
         "all"
@@ -9489,10 +10332,15 @@
         "example-recompute-the-affected-branch"
       ],
       "source-discovery": [
-        "all"
+        "source-scope",
+        "select-a-field-and-retain-its-ranking",
+        "read-a-bounded-saved-selection",
+        "discover-current-doleac-sources"
       ],
       "literature-methods": [
-        "all"
+        "all",
+        "procedure",
+        "source-and-data-discovery"
       ],
       "search-priority": [
         "all"
@@ -9534,13 +10382,22 @@
         "all"
       ],
       "writing-artifacts": [
-        "all"
+        "all",
+        "preserve-adopted-content",
+        "compose-for-the-medium-and-language",
+        "select-supporting-material"
       ],
       "paper-workflow": [
         "all"
       ],
       "result-artifacts": [
-        "all"
+        "artifact-scope",
+        "save-displays-at-analysis-or-registration",
+        "browse-compare-and-edit-saved-results",
+        "source-basis-for-reuse-and-provenance",
+        "default-latex-family",
+        "adopt-an-artifact-specification",
+        "claims-coverage-and-requested-re-review"
       ],
       "examples-en": [
         "all"
@@ -9554,15 +10411,14 @@
       "extended-ja": [
         "all"
       ],
-      "econ-writing": [
-        "compose-for-the-medium-and-language",
-        "preserve-adopted-content"
-      ],
       "project-practice": [
         "complete-the-assigned-contribution",
         "discussion-and-interviews",
         "contact-drafts",
-        "artifacts-and-integration"
+        "artifacts-and-integration",
+        "execution-prompts",
+        "contribute",
+        "manage"
       ],
       "state-contract": [
         "all",
@@ -9587,14 +10443,6 @@
       "local-checks-guide": [
         "all"
       ],
-      "project-work": [
-        "execution-prompts",
-        "contribute",
-        "manage"
-      ],
-      "econ-literature": [
-        "procedure"
-      ],
       "default-micro": [
         "principles"
       ],
@@ -9604,7 +10452,11 @@
     },
     "review": {
       "core": [
-        "all"
+        "task-entry",
+        "economist-role",
+        "authority-and-preserved-inputs",
+        "completion-and-reporting",
+        "execution-records"
       ],
       "prose": [
         "common-output",
@@ -9624,7 +10476,8 @@
         "review-findings-and-independence"
       ],
       "models-causal": [
-        "all"
+        "causal-scope",
+        "method-selection"
       ],
       "models-markets": [
         "all"
@@ -9748,14 +10601,21 @@
       "econ-knowledge": [
         "return"
       ],
-      "econ-literature": [
+      "literature-methods": [
         "establish-the-supporting-passages-and-versions",
         "deliver-the-literatures-economic-relevance"
+      ],
+      "review-procedure": [
+        "all"
       ]
     },
     "finalize": {
       "core": [
-        "all"
+        "task-entry",
+        "economist-role",
+        "authority-and-preserved-inputs",
+        "completion-and-reporting",
+        "execution-records"
       ],
       "prose": [
         "common-output",

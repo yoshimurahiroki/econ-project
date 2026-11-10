@@ -13,8 +13,6 @@ Retrieve definitions, equations and model conditions for the pending economic qu
 
 Use established IDs directly; otherwise select a domain and candidate through [retrieval](references/retrieval.md#domains-and-search). Read the selected bodies and true prerequisites before applying them. Registry conditions select search, classification, model contracts, external sources, reuse or content maintenance.
 
-The [retrieval program](scripts/knowledge.py) resolves the same collection in repositories and packages. Direct readers use `references/domains.json`, the selected domain index and `references/units/ID.md`. Task-bound acquisition/cache activates `requested_local_state_helper_operation`; ordinary lookup uses no task store.
-
 ## Return
 
 Return selected IDs, required prerequisite bodies and versions, the equations or conditions used and their implication for the pending decision. For a pending method/source choice, include the selection reason, determining source question and observation that would change the adopted choice. Bind persistent source/calculation references to the existing artifact and continue through its specialist.

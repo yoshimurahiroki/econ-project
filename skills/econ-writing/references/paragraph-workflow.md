@@ -2,7 +2,7 @@
 
 ## Required writing path
 
-Use [econ-writing's common process](../SKILL.md#compose-for-the-medium-and-language) to complete the requested argument and its integrated editorial review. The sections below describe the existing composition dependencies. These are reasoning and integration performed in the draft; they create no extra agents, passes, records or gates. Use the parts that resolve the actual dependencies of a long argument.
+Use [econ-writing's common process](artifact-writing.md#compose-for-the-medium-and-language) to complete the requested argument and its integrated editorial review. The sections below describe the existing composition dependencies. These are reasoning and integration performed in the draft; they create no extra agents, passes, records or gates. Use the parts that resolve the actual dependencies of a long argument.
 
 ## A. Global Argument Architect
 

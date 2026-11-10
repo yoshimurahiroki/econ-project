@@ -23,3 +23,7 @@ For a cross-filesystem move, copy into a separate destination-side staging area.
 Derive the delivery layout from the requested recipient, executable entry points and required licenses. Include producing inputs or lawful acquisition instructions, environment, commands and output mapping. Preserve adopted scientific results, project settings and deliberately versioned generated assets. Keep private data and credentials in their existing authorized storage. Inspect ignored files needed by the package. Third-party distribution notices retain their required scope.
 
 Check package-relative references through the actual exporter, synchronize the selected common paths while preserving project-owned settings, and save through the existing Git or plugin operation. Keep repository, parent commit, branch, plugin identity and expected release bound to that write. Distinguish local implementation, saved Git commits, synchronization and published releases through their returned results.
+
+## Example: replace one output after a complete write
+
+Close a temporary file beside the destination, then publish with `os.replace`; clean up this invocation's temporary file on failure. Use the publication helper for linked sets and concurrent writers.

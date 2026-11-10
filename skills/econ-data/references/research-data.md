@@ -1,5 +1,7 @@
 # Public data acquisition and research tables
 
+## Data scope
+
 `skills/econ-data/scripts/research_data.py` retrieves specified official observations, preserves the original response bytes and response hashes, and builds research tables from hashed source snapshots. It uses the existing `research_sources.py` connector for HTTP retrieval and World Bank definitions. The researcher chooses the observation unit, period, variables, data conditions and join keys before acquisition; `research_design.py assess` evaluates a declared question, period, population, grain, required fields, missingness, variation and linkage against the actual records and cited source spans.
 
 Each command writes a new output generation. Its output directory can contain pre-created empty subdirectories; existing files and symlinks stop execution before any output is written. After a failed operation, select a new directory so its retained source responses and inputs remain unchanged.

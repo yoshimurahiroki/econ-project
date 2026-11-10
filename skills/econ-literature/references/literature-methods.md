@@ -37,3 +37,24 @@ For an interview design or supplied interview material, identify which actor had
 ## AI-method assessment
 
 For a requested AI-method adoption, use [task resources](../../../docs/ai/resources.md) to locate the relevant primary source and implementation. Inspect their operation permissions and dependencies. Return the source findings to econ-review for a requested assessment or to the existing result owner for authorized adoption work under [EXECUTION](../../../runtime/EXECUTION.md).
+
+## Procedure
+
+### Find the work that answers the comparison
+
+Apply [DECIDE's source procedure](../../../runtime/DECIDE.md#investigate-source-claims). Select papers by the unresolved mechanism, parameter or competing prediction they can establish. Distinguish a definition, documented event, causal contrast and population frequency; a case establishes occurrence, while prevalence requires its sampling frame and denominator. Use econ-writing:explain for a paper explanation.
+
+### Establish the supporting passages and versions
+
+Read the actual edition's determining model, design, result and contrary passages. For an assigned paper, activate `paper_reading` and its empirical, theory or structural [reading procedure](paper-reading.md). Preserve bibliography and PDFs, keep derived notes separate and render citations in the requested format.
+
+### Deliver the literature's economic relevance
+
+Return the source answer or contribution comparison with original passage locations and versions. Identify any determining unread passage and the next accessible route in task communication.
+
+## Source and data discovery
+
+Activate `research_source_discovery` for the [existing corpus](source-discovery.md): citation traversal, multi-query retrieval, verified original passages and selected attributed propositions. Search local CSL-JSON/PDF/text holdings first. Keep bibliography-only entries visibly body-missing, extracted text distinct from inspected ranges, and each supplied reading declaration bound to its edition. Match hashes to reuse page text; keep project holdings outside the plugin.
+
+Use `research_data_discovery` for [dataset documentation and tables](../../econ-data/references/research-data.md), and `research_adaptive_experiments` for [source-grounded proposals](../../econ-design/references/adaptive-research.md). Pass source identity, observation unit, measures, period and join keys to the design/data owner. A changed source or interpretation updates affected uses through their existing owners.
+

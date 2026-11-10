@@ -47,3 +47,9 @@ Compare feasible designs on the same requested object, identifying conditions or
 Select individual methods through `index --operation econ-design:design` when selection is unresolved. Registered conditions locate causal, market, dynamic, macro, DSGE, agent and numerical bodies with their true prerequisites. An identified method needs no family-wide `method_extended_*` load; family-wide requests retain it. The same contracts serve execution and review.
 
 `research_adaptive_experiments` selects [source comparisons and adaptive experiments](adaptive-research.md). The lead adopts the target and permitted axes; the existing runner generates candidates under the fixed evaluation and retains the final holdout for the selected candidate.
+
+## Design specification
+
+An empirical design establishes the question, estimand, identifying comparison, measures and inference. A theory design establishes primitives, feasible choices, solution concept and the proposition sought. A design-only result does not start estimation.
+
+Retrieve the needed definitions and model equations through econ-knowledge. Connect their conditions to the selected method and, when execution is requested, its econ-data owner. The [method selector](workflow.md#specialized-executable-designs) supplies executable causal, structural, dynamic and equilibrium contracts.

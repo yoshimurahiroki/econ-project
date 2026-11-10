@@ -9,7 +9,8 @@
       "required_rules": [
         "core.all",
         "econ-design.all",
-        "econ-design.identify-the-requested-design-work"
+        "econ-design.identify-the-requested-design-work",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -287,6 +288,63 @@
         },
         {
           "when": "method_operations_domain_implementation"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
+        },
+        {
+          "when": "section_research_data_guide_data_scope"
+        },
+        {
+          "when": "section_research_data_guide_acquisition_and_catalogues"
+        },
+        {
+          "when": "section_research_data_guide_data_used_in_existing_research"
+        },
+        {
+          "when": "section_research_data_guide_document_tables"
+        },
+        {
+          "when": "section_research_data_guide_joining_panels_and_geographic_data"
+        },
+        {
+          "when": "section_research_data_guide_shared_tables_across_sql_python_r_and_julia"
+        },
+        {
+          "when": "section_research_data_guide_constructed_variables_and_analysis_samples"
+        },
+        {
+          "when": "section_research_data_guide_saved_descriptive_results"
+        },
+        {
+          "when": "section_source_discovery_source_scope"
+        },
+        {
+          "when": "section_source_discovery_select_a_field_and_retain_its_ranking"
+        },
+        {
+          "when": "section_source_discovery_read_a_bounded_saved_selection"
+        },
+        {
+          "when": "section_source_discovery_discover_current_doleac_sources"
         }
       ],
       "uses_profile": false,
@@ -299,7 +357,8 @@
       "trigger": "Acquire, transform, join, calculate, estimate or change research data and code.",
       "required_rules": [
         "core.all",
-        "econ-data.all"
+        "econ-data.all",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -667,6 +726,63 @@
         },
         {
           "when": "method_numerical_entry_point"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
+        },
+        {
+          "when": "section_research_data_guide_data_scope"
+        },
+        {
+          "when": "section_research_data_guide_acquisition_and_catalogues"
+        },
+        {
+          "when": "section_research_data_guide_data_used_in_existing_research"
+        },
+        {
+          "when": "section_research_data_guide_document_tables"
+        },
+        {
+          "when": "section_research_data_guide_joining_panels_and_geographic_data"
+        },
+        {
+          "when": "section_research_data_guide_shared_tables_across_sql_python_r_and_julia"
+        },
+        {
+          "when": "section_research_data_guide_constructed_variables_and_analysis_samples"
+        },
+        {
+          "when": "section_research_data_guide_saved_descriptive_results"
+        },
+        {
+          "when": "section_source_discovery_source_scope"
+        },
+        {
+          "when": "section_source_discovery_select_a_field_and_retain_its_ranking"
+        },
+        {
+          "when": "section_source_discovery_read_a_bounded_saved_selection"
+        },
+        {
+          "when": "section_source_discovery_discover_current_doleac_sources"
         }
       ],
       "uses_profile": false,
@@ -680,11 +796,27 @@
       "required_rules": [
         "core.all",
         "econ-data.all",
-        "equity-guide.all",
+        "equity-guide.purpose-and-entry",
+        "equity-guide.execution-rules",
+        "equity-guide.company-market-and-date",
+        "equity-guide.free-data-and-mcp",
+        "equity-guide.accounting-to-free-cash-flow",
+        "equity-guide.select-and-estimate-the-io-model",
+        "equity-guide.rates-and-sector-valuation",
+        "equity-guide.price-and-investment-returns",
+        "equity-guide.update-from-new-information",
+        "equity-guide.trading-flow-scope",
         "prose.select-the-economic-argument",
         "prose.connect-the-explanation",
-        "equity-models.all",
-        "econ-data.equity-evaluation"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification",
+        "equity-models.sustainable-free-cash-flow",
+        "equity-models.cash-finance-and-valuation",
+        "equity-models.reverse-dcf-and-action-choice",
+        "equity-models.news-and-economic-conditions",
+        "equity-models.calculation-sequence",
+        "econ-data.equity-evaluation",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -1049,6 +1181,138 @@
         },
         {
           "when": "method_numerical_entry_point"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
+        },
+        {
+          "when": "section_research_data_guide_data_scope"
+        },
+        {
+          "when": "section_research_data_guide_acquisition_and_catalogues"
+        },
+        {
+          "when": "section_research_data_guide_data_used_in_existing_research"
+        },
+        {
+          "when": "section_research_data_guide_document_tables"
+        },
+        {
+          "when": "section_research_data_guide_joining_panels_and_geographic_data"
+        },
+        {
+          "when": "section_research_data_guide_shared_tables_across_sql_python_r_and_julia"
+        },
+        {
+          "when": "section_research_data_guide_constructed_variables_and_analysis_samples"
+        },
+        {
+          "when": "section_research_data_guide_saved_descriptive_results"
+        },
+        {
+          "when": "section_source_discovery_source_scope"
+        },
+        {
+          "when": "section_source_discovery_select_a_field_and_retain_its_ranking"
+        },
+        {
+          "when": "section_source_discovery_read_a_bounded_saved_selection"
+        },
+        {
+          "when": "section_source_discovery_discover_current_doleac_sources"
+        },
+        {
+          "when": "section_equity_models_model_scope"
+        },
+        {
+          "when": "section_equity_models_valuation_target_and_identification"
+        },
+        {
+          "when": "section_equity_models_differentiated_demand_and_pricing"
+        },
+        {
+          "when": "section_equity_models_homogeneous_goods_and_capacity"
+        },
+        {
+          "when": "section_equity_models_productivity_and_markups"
+        },
+        {
+          "when": "section_equity_models_entry_investment_and_persistence"
+        },
+        {
+          "when": "section_equity_models_switching_search_and_acquisition"
+        },
+        {
+          "when": "section_equity_models_vertical_contracts_and_platforms"
+        },
+        {
+          "when": "section_equity_models_sustainable_free_cash_flow"
+        },
+        {
+          "when": "section_equity_models_cash_finance_and_valuation"
+        },
+        {
+          "when": "section_equity_models_reverse_dcf_and_action_choice"
+        },
+        {
+          "when": "section_equity_models_news_and_economic_conditions"
+        },
+        {
+          "when": "section_equity_models_calculation_sequence"
+        },
+        {
+          "when": "section_equity_guide_purpose_and_entry"
+        },
+        {
+          "when": "section_equity_guide_execution_rules"
+        },
+        {
+          "when": "section_equity_guide_company_market_and_date"
+        },
+        {
+          "when": "section_equity_guide_free_data_and_mcp"
+        },
+        {
+          "when": "section_equity_guide_accounting_to_free_cash_flow"
+        },
+        {
+          "when": "section_equity_guide_select_and_estimate_the_io_model"
+        },
+        {
+          "when": "section_equity_guide_rates_and_sector_valuation"
+        },
+        {
+          "when": "section_equity_guide_price_and_investment_returns"
+        },
+        {
+          "when": "section_equity_guide_public_data_company_example"
+        },
+        {
+          "when": "section_equity_guide_update_from_new_information"
+        },
+        {
+          "when": "section_equity_guide_trading_flow_scope"
+        },
+        {
+          "when": "section_equity_guide_implementations_and_primary_sources"
         }
       ],
       "uses_profile": false
@@ -1061,7 +1325,8 @@
       "required_rules": [
         "core.all",
         "econ-literature.all",
-        "research.investigate-source-claims"
+        "research.investigate-source-claims",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -1129,6 +1394,63 @@
         },
         {
           "when": "paper_structural"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
+        },
+        {
+          "when": "section_research_data_guide_data_scope"
+        },
+        {
+          "when": "section_research_data_guide_acquisition_and_catalogues"
+        },
+        {
+          "when": "section_research_data_guide_data_used_in_existing_research"
+        },
+        {
+          "when": "section_research_data_guide_document_tables"
+        },
+        {
+          "when": "section_research_data_guide_joining_panels_and_geographic_data"
+        },
+        {
+          "when": "section_research_data_guide_shared_tables_across_sql_python_r_and_julia"
+        },
+        {
+          "when": "section_research_data_guide_constructed_variables_and_analysis_samples"
+        },
+        {
+          "when": "section_research_data_guide_saved_descriptive_results"
+        },
+        {
+          "when": "section_source_discovery_source_scope"
+        },
+        {
+          "when": "section_source_discovery_select_a_field_and_retain_its_ranking"
+        },
+        {
+          "when": "section_source_discovery_read_a_bounded_saved_selection"
+        },
+        {
+          "when": "section_source_discovery_discover_current_doleac_sources"
         }
       ],
       "uses_profile": false,
@@ -1142,7 +1464,8 @@
       "required_rules": [
         "core.all",
         "econ-writing.compose",
-        "econ-writing.output"
+        "econ-writing.output",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -1183,6 +1506,27 @@
         },
         {
           "when": "economic_knowledge_needed"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
         }
       ],
       "uses_profile": true,
@@ -1196,7 +1540,8 @@
       "required_rules": [
         "core.all",
         "econ-writing.revise",
-        "econ-writing.output"
+        "econ-writing.output",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -1237,6 +1582,27 @@
         },
         {
           "when": "economic_knowledge_needed"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
         }
       ],
       "uses_profile": true
@@ -1249,7 +1615,8 @@
       "required_rules": [
         "core.all",
         "econ-writing.translate",
-        "econ-writing.output"
+        "econ-writing.output",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -1287,6 +1654,27 @@
         },
         {
           "when": "economic_knowledge_needed"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
         }
       ],
       "uses_profile": true
@@ -1299,7 +1687,8 @@
       "required_rules": [
         "core.all",
         "econ-writing.convert",
-        "econ-writing.output"
+        "econ-writing.output",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -1340,6 +1729,27 @@
         },
         {
           "when": "economic_knowledge_needed"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
         }
       ],
       "uses_profile": true
@@ -1352,7 +1762,8 @@
       "required_rules": [
         "core.all",
         "econ-writing.guidance",
-        "econ-writing.output"
+        "econ-writing.output",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -1375,6 +1786,27 @@
         },
         {
           "when": "economic_knowledge_needed"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
         }
       ],
       "uses_profile": false,
@@ -1388,7 +1820,8 @@
       "required_rules": [
         "core.all",
         "econ-writing.explain",
-        "econ-writing.output"
+        "econ-writing.output",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -1441,6 +1874,27 @@
         },
         {
           "when": "paper_structural"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
         }
       ],
       "uses_profile": true
@@ -1453,7 +1907,8 @@
       "required_rules": [
         "core.all",
         "econ-writing.profile",
-        "econ-writing.output"
+        "econ-writing.output",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -1476,6 +1931,27 @@
         },
         {
           "when": "economic_knowledge_needed"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
         }
       ],
       "uses_profile": false
@@ -1487,7 +1963,8 @@
       "trigger": "Assess the specified claim or artifact and return findings and proposed repairs.",
       "required_rules": [
         "core.all",
-        "econ-review.all"
+        "econ-review.all",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -1775,6 +2252,63 @@
         },
         {
           "when": "method_numerical_entry_point"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
+        },
+        {
+          "when": "section_research_data_guide_data_scope"
+        },
+        {
+          "when": "section_research_data_guide_acquisition_and_catalogues"
+        },
+        {
+          "when": "section_research_data_guide_data_used_in_existing_research"
+        },
+        {
+          "when": "section_research_data_guide_document_tables"
+        },
+        {
+          "when": "section_research_data_guide_joining_panels_and_geographic_data"
+        },
+        {
+          "when": "section_research_data_guide_shared_tables_across_sql_python_r_and_julia"
+        },
+        {
+          "when": "section_research_data_guide_constructed_variables_and_analysis_samples"
+        },
+        {
+          "when": "section_research_data_guide_saved_descriptive_results"
+        },
+        {
+          "when": "section_source_discovery_source_scope"
+        },
+        {
+          "when": "section_source_discovery_select_a_field_and_retain_its_ranking"
+        },
+        {
+          "when": "section_source_discovery_read_a_bounded_saved_selection"
+        },
+        {
+          "when": "section_source_discovery_discover_current_doleac_sources"
         }
       ],
       "uses_profile": false,
@@ -1787,7 +2321,8 @@
       "trigger": "Assess the specified target and repair it within the requested change scope.",
       "required_rules": [
         "core.all",
-        "econ-review.all"
+        "econ-review.all",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -2075,6 +2610,63 @@
         },
         {
           "when": "method_numerical_entry_point"
+        },
+        {
+          "when": "section_result_artifacts_artifact_scope"
+        },
+        {
+          "when": "section_result_artifacts_save_displays_at_analysis_or_registration"
+        },
+        {
+          "when": "section_result_artifacts_browse_compare_and_edit_saved_results"
+        },
+        {
+          "when": "section_result_artifacts_source_basis_for_reuse_and_provenance"
+        },
+        {
+          "when": "section_result_artifacts_default_latex_family"
+        },
+        {
+          "when": "section_result_artifacts_adopt_an_artifact_specification"
+        },
+        {
+          "when": "section_result_artifacts_claims_coverage_and_requested_re_review"
+        },
+        {
+          "when": "section_research_data_guide_data_scope"
+        },
+        {
+          "when": "section_research_data_guide_acquisition_and_catalogues"
+        },
+        {
+          "when": "section_research_data_guide_data_used_in_existing_research"
+        },
+        {
+          "when": "section_research_data_guide_document_tables"
+        },
+        {
+          "when": "section_research_data_guide_joining_panels_and_geographic_data"
+        },
+        {
+          "when": "section_research_data_guide_shared_tables_across_sql_python_r_and_julia"
+        },
+        {
+          "when": "section_research_data_guide_constructed_variables_and_analysis_samples"
+        },
+        {
+          "when": "section_research_data_guide_saved_descriptive_results"
+        },
+        {
+          "when": "section_source_discovery_source_scope"
+        },
+        {
+          "when": "section_source_discovery_select_a_field_and_retain_its_ranking"
+        },
+        {
+          "when": "section_source_discovery_read_a_bounded_saved_selection"
+        },
+        {
+          "when": "section_source_discovery_discover_current_doleac_sources"
         }
       ],
       "uses_profile": false
@@ -2086,7 +2678,8 @@
       "trigger": "Retrieve the economics definitions, derivations, model conditions or worked examples needed by the current specialist.",
       "required_rules": [
         "core.all",
-        "econ-knowledge.all"
+        "econ-knowledge.all",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -2124,7 +2717,8 @@
         "project-work.all",
         "project-practice.connect-the-current-case",
         "project-practice.complete-the-assigned-contribution",
-        "state-contract.project-work"
+        "state-contract.project-work",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -2180,7 +2774,8 @@
         "project-work.all",
         "project-practice.connect-the-current-case",
         "project-practice.manage-the-case",
-        "state-contract.project-work"
+        "state-contract.project-work",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -2234,7 +2829,8 @@
       "required_rules": [
         "core.all",
         "project-work.all",
-        "project-practice.define-the-task"
+        "project-practice.define-the-task",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -2288,7 +2884,8 @@
       "required_rules": [
         "core.all",
         "project-work.all",
-        "project-practice.write-the-execution-prompt"
+        "project-practice.write-the-execution-prompt",
+        "routing.all"
       ],
       "conditional_rules": [
         {
@@ -2891,7 +3488,9 @@
     "method_extended_causal": {
       "when": "method_extended_causal",
       "required_rules": [
-        "models-causal.all"
+        "models-causal.causal-scope",
+        "models-causal.method-selection",
+        "models-causal.specification-and-result"
       ]
     },
     "method_causal_shift_share": {
@@ -3007,13 +3606,15 @@
     "research_source_discovery": {
       "when": "research_source_discovery",
       "required_rules": [
-        "source-discovery.all"
+        "source-discovery.source-scope",
+        "source-discovery.select-a-field-and-retain-its-ranking"
       ]
     },
     "research_data_discovery": {
       "when": "research_data_discovery",
       "required_rules": [
-        "research-data-guide.all"
+        "research-data-guide.data-scope",
+        "research-data-guide.acquisition-and-catalogues"
       ]
     },
     "research_adaptive_experiments": {
@@ -3025,7 +3626,9 @@
     "research_result_artifacts": {
       "when": "research_result_artifacts",
       "required_rules": [
-        "result-artifacts.all"
+        "result-artifacts.artifact-scope",
+        "result-artifacts.source-basis-for-reuse-and-provenance",
+        "result-artifacts.adopt-an-artifact-specification"
       ]
     },
     "operational_procedure_reuse": {
@@ -3762,6 +4365,270 @@
       "required_rules": [
         "state-contract.github-issues-and-projects",
         "state-contract.explicit-github-updates"
+      ]
+    },
+    "section_result_artifacts_artifact_scope": {
+      "when": "section_result_artifacts_artifact_scope",
+      "required_rules": [
+        "result-artifacts.artifact-scope"
+      ]
+    },
+    "section_result_artifacts_save_displays_at_analysis_or_registration": {
+      "when": "section_result_artifacts_save_displays_at_analysis_or_registration",
+      "required_rules": [
+        "result-artifacts.save-displays-at-analysis-or-registration"
+      ]
+    },
+    "section_result_artifacts_browse_compare_and_edit_saved_results": {
+      "when": "section_result_artifacts_browse_compare_and_edit_saved_results",
+      "required_rules": [
+        "result-artifacts.browse-compare-and-edit-saved-results"
+      ]
+    },
+    "section_result_artifacts_source_basis_for_reuse_and_provenance": {
+      "when": "section_result_artifacts_source_basis_for_reuse_and_provenance",
+      "required_rules": [
+        "result-artifacts.source-basis-for-reuse-and-provenance"
+      ]
+    },
+    "section_result_artifacts_default_latex_family": {
+      "when": "section_result_artifacts_default_latex_family",
+      "required_rules": [
+        "result-artifacts.default-latex-family"
+      ]
+    },
+    "section_result_artifacts_adopt_an_artifact_specification": {
+      "when": "section_result_artifacts_adopt_an_artifact_specification",
+      "required_rules": [
+        "result-artifacts.adopt-an-artifact-specification"
+      ]
+    },
+    "section_result_artifacts_claims_coverage_and_requested_re_review": {
+      "when": "section_result_artifacts_claims_coverage_and_requested_re_review",
+      "required_rules": [
+        "result-artifacts.claims-coverage-and-requested-re-review"
+      ]
+    },
+    "section_research_data_guide_data_scope": {
+      "when": "section_research_data_guide_data_scope",
+      "required_rules": [
+        "research-data-guide.data-scope"
+      ]
+    },
+    "section_research_data_guide_acquisition_and_catalogues": {
+      "when": "section_research_data_guide_acquisition_and_catalogues",
+      "required_rules": [
+        "research-data-guide.acquisition-and-catalogues"
+      ]
+    },
+    "section_research_data_guide_data_used_in_existing_research": {
+      "when": "section_research_data_guide_data_used_in_existing_research",
+      "required_rules": [
+        "research-data-guide.data-used-in-existing-research"
+      ]
+    },
+    "section_research_data_guide_document_tables": {
+      "when": "section_research_data_guide_document_tables",
+      "required_rules": [
+        "research-data-guide.document-tables"
+      ]
+    },
+    "section_research_data_guide_joining_panels_and_geographic_data": {
+      "when": "section_research_data_guide_joining_panels_and_geographic_data",
+      "required_rules": [
+        "research-data-guide.joining-panels-and-geographic-data"
+      ]
+    },
+    "section_research_data_guide_shared_tables_across_sql_python_r_and_julia": {
+      "when": "section_research_data_guide_shared_tables_across_sql_python_r_and_julia",
+      "required_rules": [
+        "research-data-guide.shared-tables-across-sql-python-r-and-julia"
+      ]
+    },
+    "section_research_data_guide_constructed_variables_and_analysis_samples": {
+      "when": "section_research_data_guide_constructed_variables_and_analysis_samples",
+      "required_rules": [
+        "research-data-guide.constructed-variables-and-analysis-samples"
+      ]
+    },
+    "section_research_data_guide_saved_descriptive_results": {
+      "when": "section_research_data_guide_saved_descriptive_results",
+      "required_rules": [
+        "research-data-guide.saved-descriptive-results"
+      ]
+    },
+    "section_source_discovery_source_scope": {
+      "when": "section_source_discovery_source_scope",
+      "required_rules": [
+        "source-discovery.source-scope"
+      ]
+    },
+    "section_source_discovery_select_a_field_and_retain_its_ranking": {
+      "when": "section_source_discovery_select_a_field_and_retain_its_ranking",
+      "required_rules": [
+        "source-discovery.select-a-field-and-retain-its-ranking"
+      ]
+    },
+    "section_source_discovery_read_a_bounded_saved_selection": {
+      "when": "section_source_discovery_read_a_bounded_saved_selection",
+      "required_rules": [
+        "source-discovery.read-a-bounded-saved-selection"
+      ]
+    },
+    "section_source_discovery_discover_current_doleac_sources": {
+      "when": "section_source_discovery_discover_current_doleac_sources",
+      "required_rules": [
+        "source-discovery.discover-current-doleac-sources"
+      ]
+    },
+    "section_equity_models_model_scope": {
+      "when": "section_equity_models_model_scope",
+      "required_rules": [
+        "equity-models.model-scope"
+      ]
+    },
+    "section_equity_models_valuation_target_and_identification": {
+      "when": "section_equity_models_valuation_target_and_identification",
+      "required_rules": [
+        "equity-models.valuation-target-and-identification"
+      ]
+    },
+    "section_equity_models_differentiated_demand_and_pricing": {
+      "when": "section_equity_models_differentiated_demand_and_pricing",
+      "required_rules": [
+        "equity-models.differentiated-demand-and-pricing"
+      ]
+    },
+    "section_equity_models_homogeneous_goods_and_capacity": {
+      "when": "section_equity_models_homogeneous_goods_and_capacity",
+      "required_rules": [
+        "equity-models.homogeneous-goods-and-capacity"
+      ]
+    },
+    "section_equity_models_productivity_and_markups": {
+      "when": "section_equity_models_productivity_and_markups",
+      "required_rules": [
+        "equity-models.productivity-and-markups"
+      ]
+    },
+    "section_equity_models_entry_investment_and_persistence": {
+      "when": "section_equity_models_entry_investment_and_persistence",
+      "required_rules": [
+        "equity-models.entry-investment-and-persistence"
+      ]
+    },
+    "section_equity_models_switching_search_and_acquisition": {
+      "when": "section_equity_models_switching_search_and_acquisition",
+      "required_rules": [
+        "equity-models.switching-search-and-acquisition"
+      ]
+    },
+    "section_equity_models_vertical_contracts_and_platforms": {
+      "when": "section_equity_models_vertical_contracts_and_platforms",
+      "required_rules": [
+        "equity-models.vertical-contracts-and-platforms"
+      ]
+    },
+    "section_equity_models_sustainable_free_cash_flow": {
+      "when": "section_equity_models_sustainable_free_cash_flow",
+      "required_rules": [
+        "equity-models.sustainable-free-cash-flow"
+      ]
+    },
+    "section_equity_models_cash_finance_and_valuation": {
+      "when": "section_equity_models_cash_finance_and_valuation",
+      "required_rules": [
+        "equity-models.cash-finance-and-valuation"
+      ]
+    },
+    "section_equity_models_reverse_dcf_and_action_choice": {
+      "when": "section_equity_models_reverse_dcf_and_action_choice",
+      "required_rules": [
+        "equity-models.reverse-dcf-and-action-choice"
+      ]
+    },
+    "section_equity_models_news_and_economic_conditions": {
+      "when": "section_equity_models_news_and_economic_conditions",
+      "required_rules": [
+        "equity-models.news-and-economic-conditions"
+      ]
+    },
+    "section_equity_models_calculation_sequence": {
+      "when": "section_equity_models_calculation_sequence",
+      "required_rules": [
+        "equity-models.calculation-sequence"
+      ]
+    },
+    "section_equity_guide_purpose_and_entry": {
+      "when": "section_equity_guide_purpose_and_entry",
+      "required_rules": [
+        "equity-guide.purpose-and-entry"
+      ]
+    },
+    "section_equity_guide_execution_rules": {
+      "when": "section_equity_guide_execution_rules",
+      "required_rules": [
+        "equity-guide.execution-rules"
+      ]
+    },
+    "section_equity_guide_company_market_and_date": {
+      "when": "section_equity_guide_company_market_and_date",
+      "required_rules": [
+        "equity-guide.company-market-and-date"
+      ]
+    },
+    "section_equity_guide_free_data_and_mcp": {
+      "when": "section_equity_guide_free_data_and_mcp",
+      "required_rules": [
+        "equity-guide.free-data-and-mcp"
+      ]
+    },
+    "section_equity_guide_accounting_to_free_cash_flow": {
+      "when": "section_equity_guide_accounting_to_free_cash_flow",
+      "required_rules": [
+        "equity-guide.accounting-to-free-cash-flow"
+      ]
+    },
+    "section_equity_guide_select_and_estimate_the_io_model": {
+      "when": "section_equity_guide_select_and_estimate_the_io_model",
+      "required_rules": [
+        "equity-guide.select-and-estimate-the-io-model"
+      ]
+    },
+    "section_equity_guide_rates_and_sector_valuation": {
+      "when": "section_equity_guide_rates_and_sector_valuation",
+      "required_rules": [
+        "equity-guide.rates-and-sector-valuation"
+      ]
+    },
+    "section_equity_guide_price_and_investment_returns": {
+      "when": "section_equity_guide_price_and_investment_returns",
+      "required_rules": [
+        "equity-guide.price-and-investment-returns"
+      ]
+    },
+    "section_equity_guide_public_data_company_example": {
+      "when": "section_equity_guide_public_data_company_example",
+      "required_rules": [
+        "equity-guide.public-data-company-example"
+      ]
+    },
+    "section_equity_guide_update_from_new_information": {
+      "when": "section_equity_guide_update_from_new_information",
+      "required_rules": [
+        "equity-guide.update-from-new-information"
+      ]
+    },
+    "section_equity_guide_trading_flow_scope": {
+      "when": "section_equity_guide_trading_flow_scope",
+      "required_rules": [
+        "equity-guide.trading-flow-scope"
+      ]
+    },
+    "section_equity_guide_implementations_and_primary_sources": {
+      "when": "section_equity_guide_implementations_and_primary_sources",
+      "required_rules": [
+        "equity-guide.implementations-and-primary-sources"
       ]
     }
   },

@@ -8,13 +8,13 @@ Identify the target, write scope, current instructions and existing edits. Keep 
 
 ## Checks and completion
 
-Within CORE's review, establish success from the required output and actual return: computation's saved quantities, Git's repository/branch/parent/commit, or a plugin's identity/expected release/returned source. A submitted or running operation retains that status. Reuse established checks and unchanged calculations.
+Within CORE's review, establish success from the required output and actual return: computation's saved quantities, Git's repository/branch/parent/commit, or a plugin's identity/expected release/returned source. A submitted or running operation retains that status. 
 
 Bind file results through their resolved producing file operation or the existing scientific result owner. An opaque command's terminal return establishes that command's status; unrelated files supply no production evidence. Compare only its resolved targets and relevant registered outputs.
 
 ## Compare changed outputs
 
-Trace a changed scientific input through its definition, official interface and affected consumers. Preserve sample, keys, multiplicities, target, units, inference and original numerical tolerances. Reproduction uses adopted source data and reference results. Presentation changes reuse calculations; render and inspect requested PDFs, slides or figures through their existing owner.
+Trace a changed scientific input through its definition, official interface and affected consumers. Preserve sample, keys, multiplicities, target, units, inference and original numerical tolerances. Presentation changes reuse calculations; render and inspect requested PDFs, slides or figures through their existing owner.
 
 ## Project-file ownership
 
@@ -27,10 +27,6 @@ Use the existing runner and declared execution root. Bind scripts, specification
 ## Complete outputs and failure propagation
 
 Publish complete outputs through [publication](../harness/publication.md#complete-generation-boundary), preserving the preceding complete result on failure. Propagate child failures and interruption. Retain only the diagnostic needed by the existing result record. After repair, resume the failed stage at its documented restart boundary when prerequisites match; otherwise rebuild affected descendants. TEAM owns interrupted external-write reconciliation.
-
-### Example: replace one output after a complete write
-
-Close a temporary file beside the destination, then publish with `os.replace`; clean up this invocation's temporary file on failure. Use the publication helper for linked sets and concurrent writers.
 
 ## Record and artifact boundaries
 

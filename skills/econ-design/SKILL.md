@@ -11,9 +11,7 @@ Develop the requested question, model or identification strategy from supplied p
 
 ## Select the operation
 
-Use `design`; the registry's conditions select the relevant sections of [design workflow](references/workflow.md). An empirical design establishes the question, estimand, identifying comparison, measures and inference. A theory design establishes primitives, feasible choices, solution concept and the proposition sought. A design-only result does not start estimation.
-
-Retrieve the needed definitions and model equations through econ-knowledge. Connect their conditions to the selected method and, when execution is requested, its econ-data owner. The [method selector](references/workflow.md#specialized-executable-designs) supplies executable causal, structural, dynamic and equilibrium contracts.
+Use `design`; the registry's conditions select the relevant sections of [design workflow](references/workflow.md).
 
 ## Output
 

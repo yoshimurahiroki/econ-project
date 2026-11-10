@@ -1,6 +1,6 @@
 # From research records to a paper
 
-Use this workflow for a complete economics paper, a requested manuscript section or its revision. Inherit [CORE](../../../runtime/CORE.md), [PROSE](../../../runtime/PROSE.md) and [econ-writing's common process](../SKILL.md#compose-for-the-medium-and-language). Keep the requested mode, language, audience and editing authority. Read the section that resolves the current composition choice, build its complete explanation and deliver the finished wording.
+Use this workflow for a complete economics paper, a requested manuscript section or its revision. Inherit [CORE](../../../runtime/CORE.md), [PROSE](../../../runtime/PROSE.md) and [econ-writing's common process](artifact-writing.md#compose-for-the-medium-and-language). Keep the requested mode, language, audience and editing authority. Read the section that resolves the current composition choice, build its complete explanation and deliver the finished wording.
 
 ## Establish the argument from the research
 

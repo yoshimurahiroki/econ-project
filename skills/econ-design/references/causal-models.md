@@ -1,8 +1,12 @@
 # Executable causal and empirical models
 
+## Causal scope
+
 `skills/econ-data/scripts/research_causal.py` implements the following finite set of specifications. The target, population, assignment mechanism, identifying restrictions and inference convention belong to the adopted specification. A fitted coefficient has a causal interpretation when those restrictions establish the stated target.
 
-Select the adopted method below. Read its complete body and the prerequisite rules returned by the operation registry. The family-wide condition selects every listed body.
+## Method selection
+
+Select the adopted method through the [method index](causal-models.md#select-a-method). Read its complete body and the prerequisite rules returned by the operation registry. The family-wide condition selects this index and the common specification; the named method condition selects its complete body.
 
 <!-- BEGIN GENERATED METHOD INDEX -->
 ## Select a method
@@ -10,7 +14,7 @@ Select the adopted method below. Read its complete body and the prerequisite rul
 | Complete body | Rule | Activation | Prerequisites |
 | --- | --- | --- | --- |
 | [Core causal and empirical methods](causal-models/basic.md#core-causal-and-empirical-methods) | `models-causal.core-methods` | `method_causal_core_methods` | [models-causal.specification-and-result](causal-models/contract.md#specification-and-result), [data-implementation.native-regression-calls-and-results](../../econ-data/references/implementation-calls.md#native-regression-calls-and-results) |
-| [Specification and result](causal-models/contract.md#specification-and-result) | `models-causal.specification-and-result` | `method_causal_specification_and_result` | [data-implementation.estimator-engine-and-algorithm-selection](../../econ-data/references/implementation-engines.md#estimator-engine-and-algorithm-selection), [data-implementation.causal-selection-and-execution-handoff](../../econ-data/references/implementation-calls.md#causal-selection-and-execution-handoff) |
+| [Specification and result](causal-models/contract.md#specification-and-result) | `models-causal.specification-and-result` | `method_extended_causal`, `method_causal_specification_and_result` | [data-implementation.estimator-engine-and-algorithm-selection](../../econ-data/references/implementation-engines.md#estimator-engine-and-algorithm-selection), [data-implementation.causal-selection-and-execution-handoff](../../econ-data/references/implementation-calls.md#causal-selection-and-execution-handoff) |
 | [Multi-arm policy learning and evaluation](causal-models/policy.md#multi-arm-policy-learning-and-evaluation) | `models-causal.multi-arm-policy-learning-and-evaluation` | `method_causal_multi_arm_policy_learning_and_evaluation` | [models-causal.specification-and-result](causal-models/contract.md#specification-and-result) |
 | [RCT design, assignment and diagnosis](causal-models/randomization.md#rct-design-assignment-and-diagnosis) | `models-causal.rct-design-assignment-and-diagnosis` | `method_rct_design` | [models-causal.specification-and-result](causal-models/contract.md#specification-and-result) |
 | [Fixed-dose continuous DID](causal-models/continuous-did.md#fixed-dose-continuous-did) | `models-causal.fixed-dose-continuous-did` | `method_causal_fixed_dose_continuous_did` | [models-causal.specification-and-result](causal-models/contract.md#specification-and-result) |

@@ -1,5 +1,7 @@
 # Generate artifacts from saved research results
 
+## Artifact scope
+
 For an analytical result used in a consequential economic claim, complete DECIDE's result interpretation at its existing research owner. Bind the saved report with `sources[].metadata.result_interpretation={"path":...,"sha256":...}` in this artifact specification. Registration checks its exact result and specification hashes, retains the judgment reference with the existing producer and carries it into Gallery links. An interpretation for different result bytes is rejected. Display edits retain numerical rows and existing prose; internal judgment fields are not copied automatically into public prose. Reuse a matching adopted interpretation without another review cycle.
 
 The artifact operations extend `harness/research_evidence.py` and generate a manifest for the existing `harness/research.py` DAG. The research owner adopts the result sources, displayed quantities, units, words, equations and code spans. The resulting registry retains each original result in full, including the covariance, inference reference, confidence-set structure and JSON nulls. Each input is identified by its project-relative path and SHA-256. Binding establishes these exact correspondences and returns `status:"bound"`. An actual substantive judgment can accompany a binding or be developed through the selected review; it is preserved with its supporting evidence.
@@ -207,7 +209,7 @@ The manuscript's whole-file hash pins the delivered version. Each claim fingerpr
 
 Supply the author letter only through `review.author_response` together with `review.response_after`, a hash-pinned separately saved assessment of the current evidence. The command validates that assessment and its criteria before reading the letter, and returns `response-comparison-required` with unchanged evidence findings. Compare the letter's assertions with those findings. A new determining fact returns to the same evidence and assessment path; a response alone never silently changes the verdict. This selected file dependency controls the packet contents; it does not attest to unseen host inputs or create another reviewer Agent.
 
-To generate a requested response from the completed revision, supply the current assessment with each finding's `changes` and `references`, then select `review.response_draft` through the same review entry point. It returns the original comment and passage, current revision, supporting evidence and response text. Use [econ-review's response contract](../../econ-review/SKILL.md#locate-and-repair-the-cause) for the language, finding selection and source correspondence.
+To generate a requested response from the completed revision, supply the current assessment with each finding's `changes` and `references`, then select `review.response_draft` through the same review entry point. It returns the original comment and passage, current revision, supporting evidence and response text. Use [econ-review's response contract](../../econ-review/references/review.md#locate-and-repair-the-cause) for the language, finding selection and source correspondence.
 
 Compose the finished response with the existing writing host after revising the actual manuscript and assessing its changed claims:
 

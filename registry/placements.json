@@ -1190,6 +1190,16 @@
       "resource_id": "data-worked-examples",
       "deployment_path": ".agents/skills/econ-data/references/implementation-examples.md",
       "export_alias": "DATA_WORKED_EXAMPLES.md"
+    },
+    "routing": {
+      "resource_id": "routing",
+      "deployment_path": ".agents/runtime/ROUTING.md",
+      "export_alias": "ROUTING.md"
+    },
+    "review-procedure": {
+      "resource_id": "review-procedure",
+      "deployment_path": ".agents/skills/econ-review/references/review.md",
+      "export_alias": "REVIEW_PROCEDURE.md"
     }
   },
   "source": {

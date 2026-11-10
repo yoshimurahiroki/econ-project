@@ -55,3 +55,7 @@ At stage changes, reuse full matching text in context and refresh only changed d
 The authored catalog and chapters are the content source. After changing their metadata/body, run `build` once, then distribute that saved generation through the existing exporter/synchronizer. Generated units project links to canonical source URLs. Runtime exports retain the manifest, selected indexes and full prerequisite bodies plus `runtime.json`; selected snapshots declare their closure in `selection.json`. The existing reader verifies those versions and boundaries.
 
 Package the collection once under econ-knowledge; other Skills retain specialist execution and reference this owner.
+
+## Retrieval interface
+
+The [retrieval program](../scripts/knowledge.py) resolves the same collection in repositories and packages. Direct readers use `references/domains.json`, the selected domain index and `references/units/ID.md`. Task-bound acquisition/cache activates `requested_local_state_helper_operation`; ordinary lookup uses no task store.

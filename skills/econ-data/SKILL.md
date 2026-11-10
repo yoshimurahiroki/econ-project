@@ -13,10 +13,6 @@ Execute the requested data operation or code change from its adopted specificati
 
 Use `execute` for data, calculations and code, or `equity` for valuation. Registry conditions select the relevant [workflow](references/workflow.md) and implementation sections. Start a bounded change at its affected stage; use [source to analysis](references/implementation-data.md#source-to-analysis) for a new pipeline.
 
-Use the existing producer and official package interface. Carry population, timing, measurement, sample, weights, estimator and inference through its saved result and artifact consumer. [Implementation rules](references/implementation.md) own code structure; [engine selection](references/implementation-engines.md) owns estimator and runtime choices. Numerical, structural, dependency and recovery procedures apply only to their registered cases.
-
-Read the selected model contract's equations, inputs and outputs through econ-knowledge. Resolve its registered engine and dependencies; a contract without an implementation supplies a mathematical interface for derivation or calculation through existing libraries. Preserve the adopted scientific specification.
-
 ## Deliver the data operation and its economic meaning
 
 Return the requested data, code or calculation, its actual producing inputs/operation, output location and required verification. Define quantities by population, period, units and denominator; return fitted specification, effective engine and inference to their consumer. Use econ-writing:explain when the request includes an economic explanation.

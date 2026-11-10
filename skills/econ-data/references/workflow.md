@@ -63,3 +63,9 @@ Choose population, analysis unit and summary from the economic question through 
 ### Check the changed calculation
 
 Apply [changed-calculation review](implementation.md#compare-changed-calculations) to affected keys, joins, sample, weights, formula or interface. Keep scientific inference and numerical convergence inside execution.
+
+## Execution specification
+
+Use the existing producer and official package interface. Carry population, timing, measurement, sample, weights, estimator and inference through its saved result and artifact consumer. [Implementation rules](implementation.md) own code structure; [engine selection](implementation-engines.md) owns estimator and runtime choices. Numerical, structural, dependency and recovery procedures apply only to their registered cases.
+
+Read the selected model contract's equations, inputs and outputs through econ-knowledge. Resolve its registered engine and dependencies; a contract without an implementation supplies a mathematical interface for derivation or calculation through existing libraries.

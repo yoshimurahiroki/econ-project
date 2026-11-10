@@ -29,3 +29,21 @@ For a new LaTeX paper, start from the supplied [Econometrica template](../../../
 ## Execute paragraph and argument contracts
 
 Consult [paragraph guidance](paragraph-workflow.md) when a complex long-form argument needs structure. Perform its argument and paragraph reasoning in the draft and include it in the common integrated review. Use its existing state and source bindings when the requested composition needs persistent dependencies. Complete the same integrated review and actual delivery path.
+
+## Preserve adopted content
+
+Preserve claims, numbers, comparisons, citations, formatting, source bindings and editing scope. Establish the explanation before refining wording and length. PROSE owns audience, content selection and language.
+
+## Select supporting material
+
+For an assigned paper, activate `paper_reading` and its [reading procedure](../../econ-literature/references/paper-reading.md#select-the-reading-target). An established paper goes directly to its source; unresolved literature uses econ-literature.
+
+For saved-result articles/slides use [result-bound composition](artifact-writing.md#generate-articles-and-slides-from-results). Select the same owner's talk, research-site or rendering section for that requested medium.
+
+## Compose for the medium and language
+
+A local revision or translation uses its selected mode and surrounding premises. A paper section uses the relevant [paper guidance](paper-workflow.md#compose-the-requested-section); a consequential long-form structural choice uses [paragraph guidance](paragraph-workflow.md). Retrieve profile examples only for a remaining language choice.
+
+Select the paper guidance for the actual scientific argument: empirical identification and contrasts, structural estimation/equilibrium/welfare, or theory/proof. Bind numerical text, equations and exhibits through the selected [result contract](result-artifacts.md). Preserve estimated/calibrated/fixed parameter roles and each quantity's population, timing, units, denominator and scenario. Resolve a missing derivation or comparison through econ-design/data within the existing editing authority, then update affected passages and exhibits.
+
+Match content to its purpose: an explanation connects finding and mechanism; a decision report compares feasible actions; a proposal connects the obstacle to deliverables and resources; a progress review states the new result's implication for the adopted decision and next action. Before a meeting or review, state the unresolved decision, current hypothesis and evidence needed to resolve it. Prepare discussion around the actual disputed premise, fact or criterion. Explain the exhibit-to-conclusion inference when the reader needs that step. Requested records retain decisions, basis, responsibility, timing and dependencies in existing project context. The reader's decision determines detail and cadence supplies no additional template.

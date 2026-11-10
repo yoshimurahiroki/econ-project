@@ -63,3 +63,28 @@ Use econ-writing to produce the requested report, proposal, figure, slides or ex
 Assess adoption through actual choices, incentives, information, ability, access, workload and equipment. Define adoption/outcome measures by population, period, units, numerator/denominator and target. Administrative task completion does not establish the economic outcome.
 
 Existing [project observations](../../../harness/state.md#project-work) bind judgment, acceptance, handover, outcomes and actual timing to actor, date, evidence and target version. Preserve acceptance authority and reported provenance. Deliver usable artifacts/instructions to the receiving owner, identify remaining obligations and outcome-measurement responsibility, and establish that the next operator can use them.
+
+## Requirements and work approach
+
+Use [task definition](practice.md#define-the-task) to resolve the consequential open decision from existing context and feasible alternatives. Recommend a grounded choice, obtain only the remaining user-held judgment and return the usable brief or specification.
+
+## Execution prompts
+
+Use task definition and [prompt composition](practice.md#write-the-execution-prompt) to produce the complete prompt from adopted requirements. Executing its described work requires the corresponding instruction.
+
+## Contribute
+
+Use [contribution](practice.md#complete-the-assigned-contribution). Recover the adopted answer, determining premise, assignment and consuming decision. Complete its research, calculation and actual artifact through existing specialists, reusing valid results. Return its implication and completed output to the parent case.
+
+## Manage
+
+Use [management](practice.md#manage-the-case). Establish the economic intervention and decision rule, then connect supporting propositions to assignments, capacity, dependencies and completion conditions. Compare feasible allocations through their outcomes and costs; execute the selected next task. Preserve fixed commitments and authority through changes and handover.
+
+## Select the pending operation
+
+For a GitHub-bound case or requested Issue/Project operation, activate `project_github_operations` to read the existing binding and explicit-update procedures. Local cases omit those bodies.
+
+Registry conditions select [project practice](practice.md): resources/dates for allocations, change/recovery for determining new evidence, discussion/interviews or contact drafts for a needed premise, artifacts/integration for the actual deliverable, and outcomes/handover for adoption and acceptance. Contact drafting grants no authority to send.
+
+Retrieve a model through econ-knowledge when incentives, information, shared capacity, competition or adoption determines the decision. Apply its equations and required observations through the responsible specialist. Keep the argument, workplan and continuation in existing case/task context.
+
