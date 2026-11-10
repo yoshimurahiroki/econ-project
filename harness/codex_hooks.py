@@ -148,18 +148,9 @@ def feedback(event, text):
 
 
 def failure(event, reason, repeated=False, failure_class='recoverable'):
-    """Format a failure for the host event."""
+    """Report a check without deciding whether the host may proceed."""
     reason = 'Economics task check: ' + reason
-    if event in ('PostCompact', 'SessionStart'):
-        return {'continue': False, 'stopReason': reason, 'systemMessage': reason}
-    if event == 'PreToolUse':
-        return {'hookSpecificOutput': {'hookEventName': event, 'permissionDecision': 'deny',
-                                      'permissionDecisionReason': reason}}
-    if event in ('Interrupt', 'SessionStart', 'SubagentStart', 'PostToolUse'):
-        return feedback(event, reason)
-    if failure_class in ('cancelled', 'permission', 'resource', 'unavailable'):
-        return {'continue': False, 'stopReason': reason, 'systemMessage': reason}
-    return {'decision': 'block', 'reason': reason}
+    return feedback(event, reason)
 
 
 def _read(path, default=None):
@@ -2190,13 +2181,15 @@ def _post_tool(event, root, directory):
         _tool_effect(event, root, directory, enforce_authority=False))
     if effect not in {'write', 'unresolved'} and name != 'write_stdin':
         return operation, []
+    approval = None
     if effect != 'read':
         approval = _read(directory / 'preflight' / ('authorized-' + gate.sha(str(event.get('tool_use_id')).encode()) + '.json'))
-        gate.require(isinstance(approval, dict) and approval['task_id'] == context.get('task_id')
-                     and approval['tool_name'] == tool and approval['tool_use_id'] == event.get('tool_use_id')
-                     and approval['input_sha256'] == gate.sha(gate.canonical(event['tool_input'])),
-                     'operation result has no matching authorized preflight for this task and input')
-        resolved_effects = approval['resolved_effects']
+        if (isinstance(approval, dict) and approval.get('task_id') == context.get('task_id')
+                and approval.get('tool_name') == tool and approval.get('tool_use_id') == event.get('tool_use_id')
+                and approval.get('input_sha256') == gate.sha(gate.canonical(event['tool_input']))):
+            resolved_effects = approval['resolved_effects']
+        else:
+            approval = None
     if command_action is not None:
         targets = [command_action]
     affected = {target for _, target in resolved_effects} or set(targets)
@@ -2206,7 +2199,8 @@ def _post_tool(event, root, directory):
     path = directory / 'preflight' / (observed_sha + '.json')
     existing = _read(path)
     if existing is not None:
-        _completion_callback(directory, root, event)
+        if existing.get('authorization_status') != 'preflight-unavailable':
+            _completion_callback(directory, root, event)
         return operation, existing.get('changed_paths', sorted(changed_paths))
     binding = {'tool_name': tool, 'operation': operation, 'targets': targets, 'effect': effect,
                'resolved_effects': resolved_effects, 'input_sha256': gate.sha(gate.canonical(arguments)),
@@ -2216,11 +2210,12 @@ def _post_tool(event, root, directory):
                             ('tool_name', 'tool_use_id', 'tool_input', 'tool_response')}}
     if effect != 'read':
         binding['authorization'] = approval
+        binding['authorization_status'] = 'observed' if approval else 'preflight-unavailable'
     if context.get('completion_contract') and not context.get('state_binding'):
         binding['output_versions'] = {}
         binding['deleted_targets'] = []
         state_root = Path(context['cwd'])
-        producer = approval if effect != 'read' else {}
+        producer = approval or {}
         if name == 'write_stdin':
             session = _read(directory / 'sessions' / (gate.sha(str(arguments['session_id']).encode()) + '.json'), {})
             origin = _read(directory / 'preflight' / ('authorized-' + gate.sha(str(session.get('tool_use_id')).encode()) + '.json'), {})
@@ -2240,7 +2235,11 @@ def _post_tool(event, root, directory):
                     binding['deleted_targets'].append(target)
         binding['changed_paths'] = sorted(changed_paths)
         save_record(path, binding, replace=False)
-        _completion_callback(directory, root, event)
+        if approval is not None or effect == 'read':
+            _completion_callback(directory, root, event)
+    elif effect != 'read' and approval is None:
+        binding['changed_paths'] = sorted(changed_paths)
+        save_record(path, binding, replace=False)
     retained = _read(directory / 'reinjection.json', {})
     sources = retained.get('instruction_sources', {})
     for target in changed_paths & sources.keys():
@@ -2481,11 +2480,10 @@ def dispatch(event, expected_event):
                 scoped = _scoped_instructions(event, directory, context, restore=True, available=available)
                 if scoped:
                     text = scoped + '\n' + text
-                result = failure(expected_event, 'read the restored task and applicable rules before retrying this tool')
-                result['hookSpecificOutput']['additionalContext'] = text
+                result = feedback(expected_event, text)
             else:
                 gate.require(type(event.get('stop_hook_active')) is bool, 'missing Stop re-entry state')
-                result = failure(expected_event, 'read the restored task and applicable rules before completion\n' + text)
+                result = failure(expected_event, 'restored task context is available\n\n[Task context]\n' + text)
             pending_compaction['pending_restoration'] = False
             pending_compaction['delivery_event'] = expected_event
             latest = _read(directory / 'reinjection.json', {})
@@ -2585,53 +2583,71 @@ def dispatch(event, expected_event):
         try:
             outcome = _verify_ordinary_stop(event, root, directory)
             prose_review = _review_final_prose(event, root, directory)
-            if prose_review is not None:
-                return prose_review
             _finish(directory, outcome)
             if outcome == 'paused':
                 return {'systemMessage': 'The phase is complete and the task is paused for user input. '
                         'The parent task remains incomplete.'}
-            return {}
+            return prose_review or {}
         except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError) as exc:
             try:
                 restored = _restoration(root, directory, state, manifest, restore=False,
                                         instruction_event='check-failure')
             except (OSError, ValueError, TypeError, KeyError, AttributeError, ImportError, RecursionError) as restore_error:
                 return failure('Stop', str(exc) + '; restore required instructions: ' + str(restore_error))
-            return failure('Stop', str(exc) + '\n' + restored)
+            return failure('Stop', str(exc) + '\n\n[Task context]\n' + restored)
 
 
-def _within_hook_limit(event, expected_event):
-    """Run each event at most twice for a host turn, across processes."""
-    gate.require(isinstance(event, dict) and event.get('hook_event_name') == expected_event,
-                 'hook event mismatch')
-    gate.require(expected_event in CONTEXT_EVENTS | {'PreToolUse', 'Stop', 'SubagentStop', 'Interrupt',
-                 'PostCompact'}, 'unsupported hook event')
+def _limit_repeated_warning(event, result):
+    """Show identical check warnings twice per turn while retaining every callback."""
+    output = result.get('hookSpecificOutput', {})
+    field = 'additionalContext' if output.get('additionalContext', '').startswith('Economics task check:') else None
+    container = output
+    if field is None and result.get('systemMessage'):
+        field, container = 'systemMessage', result
+    if field is None or not isinstance(event, dict):
+        return result
     session = event.get('session_id')
-    gate.require(isinstance(session, str) and session.strip(), 'missing host session_id')
+    if not isinstance(session, str) or not session.strip():
+        return result
     data = absolute(os.environ.get('PLUGIN_DATA'))
     turn = event.get('turn_id')
-    if expected_event == 'SessionStart' and not turn:
+    if event.get('hook_event_name') == 'SessionStart' and not turn:
         active = _read(data / 'economics' / gate.sha(session.encode()) / 'active-task.json', {})
         turn = active.get('task_id', 'session-start')
-    gate.require(isinstance(turn, str) and turn.strip(), 'missing host turn_id')
-    directory = data / 'economics' / gate.sha(session.encode()) / 'hook-limits' / gate.sha(turn.encode())
-    with turn_lock(directory):
-        path = directory / (expected_event + '.json')
-        count = _read(path, 0)
-        gate.require(type(count) is int and 0 <= count <= 2, 'invalid hook count')
-        if count == 2:
-            return False
-        save_record(path, count + 1)
-    return True
+    if not isinstance(turn, str) or not turn.strip():
+        return result
+    directory = data / 'economics' / gate.sha(session.encode()) / 'hook-notices' / gate.sha(turn.encode())
+    directory.mkdir(parents=True, mode=0o700, exist_ok=True)
+    warning, separator, context = container[field].partition('\n\n[Task context]\n')
+    digest = gate.sha(warning.encode('utf-8'))
+    for slot in range(2):
+        try:
+            fd = os.open(directory / (digest + '-' + str(slot)),
+                         os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_NOFOLLOW', 0), 0o600)
+        except FileExistsError:
+            continue
+        os.close(fd)
+        return result
+    if separator:
+        container[field] = context
+        return result
+    del container[field]
+    if container is output and not container.get('additionalContext'):
+        result.pop('hookSpecificOutput', None)
+    return result
 
 
 def main(expected_event):
+    event = None
     try:
         raw = sys.stdin.buffer.read(4 * gate.MAX_BYTES + 1)
         gate.require(len(raw) <= 4 * gate.MAX_BYTES, 'hook event exceeds input budget')
         event = gate.parse_json(raw)
-        result = dispatch(event, expected_event) if _within_hook_limit(event, expected_event) else {}
+        result = dispatch(event, expected_event)
+        try:
+            result = _limit_repeated_warning(event, result)
+        except Exception:
+            pass  # A missing notice store must never stop the host.
         output = result.get('hookSpecificOutput', {})
         fields = [(output, 'additionalContext'), (output, 'permissionDecisionReason'),
                   (result, 'reason'), (result, 'systemMessage'), (result, 'stopReason')]
@@ -2659,8 +2675,11 @@ def main(expected_event):
                     'Read that field in bounded character pages through its end and reuse complete same-version reads. '
                     'This locator is not a reading receipt; a host-truncated preview cannot restore required instructions.')
     except Exception as exc:
-        # Transport/configuration errors require repair before retry.
-        result = failure(expected_event, str(exc) + '; repair the hook input/configuration and retry the check')
+        result = failure(expected_event, ('hook error: ' + str(exc))[:500])
+        try:
+            result = _limit_repeated_warning(event, result)
+        except Exception:
+            pass
     print(json.dumps(result, ensure_ascii=False))
     return 0
 

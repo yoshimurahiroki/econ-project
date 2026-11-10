@@ -2,7 +2,7 @@
 
 ## Native Codex hooks
 
-Each hook event runs at most twice per host turn; subsequent callbacks of that event are skipped. This includes PreToolUse checks. SessionStart callbacks without a turn ID use the active task, or the session at startup.
+Callbacks continue to record and restore context on every event. Checks and errors are advisory and do not deny tool use or block completion; the host's approval and access controls still apply. Identical check warnings are displayed at most twice per host turn. SessionStart callbacks without a turn ID use the active task, or the session at startup.
 
 Preview, write and check the existing lifecycle handlers at project scope:
 

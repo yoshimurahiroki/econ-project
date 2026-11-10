@@ -28,12 +28,12 @@ with hook_tempdir() as directory:
     revised = 'The observed count is zero; 12 observations remain. Exclude x < 0. The source says “annual”.'
     event = {'turn_id': 'turn-a', 'last_assistant_message': original, 'stop_hook_active': True}
     requested = hooks._review_final_prose(event, root, directory)
-    assert requested['decision'] == 'block' and 'semantically review' in requested['reason']
-    assert 'lexical patterns' in requested['reason']
-    assert all(x not in requested['reason'] for x in ('base64', 'record-prose-review', 'text_sha256'))
+    assert 'semantically review' in requested['systemMessage'] and 'decision' not in requested
+    assert 'lexical patterns' in requested['systemMessage']
+    assert all(x not in requested['systemMessage'] for x in ('base64', 'record-prose-review', 'text_sha256'))
     event['last_assistant_message'] = revised
     assert hooks._review_final_prose(event, root, directory) is None
-    assert hooks._review_final_prose({**event, 'turn_id':'turn-b'}, root, directory)['decision'] == 'block'
+    assert 'semantically review' in hooks._review_final_prose({**event, 'turn_id':'turn-b'}, root, directory)['systemMessage']
     assert not (directory / 'prose-reviews').exists()
     print('Representative revised final:', revised)
 
@@ -58,6 +58,26 @@ assert 'mcp__codex_apps__github__delete_everything' not in native.CONNECTOR_READ
 assert 'mcp__codex_apps__plugin_creator__update_plugin' in native.CONNECTOR_WRITE_TOOLS
 
 with hook_tempdir() as temp:
+    original_data = os.environ.get('PLUGIN_DATA')
+    os.environ['PLUGIN_DATA'] = str(temp)
+    try:
+        event = {'session_id': 'notice-test', 'turn_id': 'turn-1', 'hook_event_name': 'Stop'}
+        warning = 'Economics task check: incomplete\n\n[Task context]\nRestore this context.'
+        outputs = [hooks._limit_repeated_warning(event, {'systemMessage': warning}) for _ in range(3)]
+        assert outputs[0]['systemMessage'] == outputs[1]['systemMessage'] == warning
+        assert outputs[2]['systemMessage'] == 'Restore this context.'
+        assert hooks._limit_repeated_warning({**event, 'turn_id': 'turn-2'},
+                                             {'systemMessage': warning})['systemMessage'] == warning
+        assert all('decision' not in hooks.failure(kind, 'missing')
+                   for kind in ('Stop', 'SubagentStop', 'PostCompact'))
+        assert 'permissionDecision' not in hooks.failure('PreToolUse', 'missing')['hookSpecificOutput']
+    finally:
+        if original_data is None:
+            os.environ.pop('PLUGIN_DATA', None)
+        else:
+            os.environ['PLUGIN_DATA'] = original_data
+
+with hook_tempdir() as temp:
     env = {**os.environ, 'PLUGIN_ROOT':str(root), 'PLUGIN_DATA':str(temp)}
     base = {'session_id':'semantic-hook-test', 'turn_id':'turn-b', 'cwd':str(root)}
     config = json.loads((root/'hooks/hooks.json').read_text(encoding='utf-8'))
@@ -79,10 +99,10 @@ with hook_tempdir() as temp:
         assert result == {}, result
     denied = invoke('PreToolUse', tool_name='exec_command',
         tool_input={'cmd':'git config --global core.pager unsafe'}, tool_use_id='write')
-    assert denied['hookSpecificOutput']['permissionDecision'] == 'deny', denied
+    assert 'additionalContext' in denied['hookSpecificOutput'] and 'permissionDecision' not in denied['hookSpecificOutput'], denied
     unknown = invoke('PreToolUse', tool_name='mcp__codex_apps__github__unknown',
         tool_input={}, tool_use_id='unknown')
-    assert unknown['hookSpecificOutput']['permissionDecision'] == 'deny', unknown
+    assert 'additionalContext' in unknown['hookSpecificOutput'] and 'permissionDecision' not in unknown['hookSpecificOutput'], unknown
     active = hooks._active_directory({**base, 'hook_event_name':'Stop'}, temp)
     output = temp / 'authorized-output.txt'
     command = shlex.join([sys.executable, '-c',
@@ -109,7 +129,7 @@ with hook_tempdir() as temp:
            tool_use_id='authorized-write')
     final = 'The source records monthly claims.'
     stopped = invoke('Stop', stop_hook_active=True, last_assistant_message=final)
-    assert stopped.get('decision') == 'block' and 'semantically review' in stopped.get('reason',''), stopped
+    assert 'decision' not in stopped and 'semantically review' in stopped.get('systemMessage',''), stopped
     complete = invoke('Stop', stop_hook_active=True, last_assistant_message=final)
     assert complete == {}, complete
-print('Read classification, protected writes and one semantic intervention passed.')
+print('Read classification, advisory checks and semantic notice passed.')
