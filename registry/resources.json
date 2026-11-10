@@ -152,7 +152,7 @@
       "resource_id": "integration",
       "source_path": "docs/ai/integration.md",
       "resource_kind": "rule",
-      "content_version": "0.93.0",
+      "content_version": "0.94.0",
       "sync": false
     },
     "resource-guide": {
@@ -193,14 +193,14 @@
       "resource_id": "tool-export-project-py",
       "source_path": "scripts/export_project.py",
       "resource_kind": "support",
-      "content_version": "0.91.0",
+      "content_version": "0.94.0",
       "source_distribution_only": true
     },
     "tool-route-registry-py": {
       "resource_id": "tool-route-registry-py",
       "source_path": "scripts/route_registry.py",
       "resource_kind": "support",
-      "content_version": "0.93.0"
+      "content_version": "0.94.0"
     },
     "tool-sync-common-core-py": {
       "resource_id": "tool-sync-common-core-py",
@@ -376,7 +376,7 @@
       "resource_id": "policy-assets",
       "source_path": "harness/policy_assets.py",
       "resource_kind": "support",
-      "content_version": "0.93.0"
+      "content_version": "0.94.0"
     },
     "policy-manifest": {
       "resource_id": "policy-manifest",
@@ -456,7 +456,7 @@
       "resource_id": "plugin-integration-guide",
       "source_path": "docs/ai/plugin-integration.md",
       "resource_kind": "support",
-      "content_version": "0.91.0"
+      "content_version": "0.94.0"
     },
     "paragraph-workflow": {
       "resource_id": "paragraph-workflow",
@@ -529,7 +529,7 @@
       "resource_id": "equity-models",
       "source_path": "skills/econ-data/references/equity-models.md",
       "resource_kind": "rule",
-      "content_version": "0.92.0"
+      "content_version": "0.94.0"
     },
     "equity-io": {
       "resource_id": "equity-io",
@@ -602,7 +602,7 @@
       "resource_id": "research-execution",
       "source_path": "harness/research.md",
       "resource_kind": "rule",
-      "content_version": "0.93.0",
+      "content_version": "0.94.0",
       "required_resources": [
         "research-runner",
         "research-estimator",
@@ -1043,7 +1043,7 @@
       "resource_id": "knowledge-retrieval",
       "source_path": "skills/econ-knowledge/scripts/knowledge.py",
       "resource_kind": "support",
-      "content_version": "0.87.0",
+      "content_version": "0.94.0",
       "required_resources": [
         "team-state-helper"
       ]
@@ -1859,7 +1859,7 @@
       "resource_id": "data-workflow",
       "source_path": "skills/econ-data/references/workflow.md",
       "resource_kind": "rule",
-      "content_version": "0.86.0"
+      "content_version": "0.94.0"
     },
     "design-workflow": {
       "resource_id": "design-workflow",
@@ -1871,7 +1871,7 @@
       "resource_id": "knowledge-guide",
       "source_path": "skills/econ-knowledge/references/retrieval.md",
       "resource_kind": "rule",
-      "content_version": "0.92.0"
+      "content_version": "0.94.0"
     },
     "data-source": {
       "resource_id": "data-source",
@@ -1919,7 +1919,7 @@
       "resource_id": "routing",
       "source_path": "runtime/ROUTING.md",
       "resource_kind": "rule",
-      "content_version": "0.92.0"
+      "content_version": "0.94.0"
     },
     "review-procedure": {
       "resource_id": "review-procedure",
@@ -9583,7 +9583,8 @@
       "resource_id": "equity-models",
       "section_id": "differentiated-demand-and-pricing",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9593,7 +9594,8 @@
       "resource_id": "equity-models",
       "section_id": "homogeneous-goods-and-capacity",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9603,7 +9605,8 @@
       "resource_id": "equity-models",
       "section_id": "productivity-and-markups",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9613,7 +9616,8 @@
       "resource_id": "equity-models",
       "section_id": "entry-investment-and-persistence",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9623,7 +9627,8 @@
       "resource_id": "equity-models",
       "section_id": "switching-search-and-acquisition",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9633,7 +9638,8 @@
       "resource_id": "equity-models",
       "section_id": "vertical-contracts-and-platforms",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9643,7 +9649,8 @@
       "resource_id": "equity-models",
       "section_id": "sustainable-free-cash-flow",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9653,7 +9660,8 @@
       "resource_id": "equity-models",
       "section_id": "cash-finance-and-valuation",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9663,7 +9671,8 @@
       "resource_id": "equity-models",
       "section_id": "reverse-dcf-and-action-choice",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9673,7 +9682,8 @@
       "resource_id": "equity-models",
       "section_id": "news-and-economic-conditions",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []
@@ -9683,7 +9693,8 @@
       "resource_id": "equity-models",
       "section_id": "calculation-sequence",
       "requires": [
-        "equity-models.model-scope"
+        "equity-models.model-scope",
+        "equity-models.valuation-target-and-identification"
       ],
       "conditional_requires": [],
       "optional_examples": []

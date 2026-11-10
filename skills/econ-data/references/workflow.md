@@ -4,6 +4,8 @@ Select the applicable registered operation and section.
 
 ## Equity evaluation
 
+Select the actual purpose: `equity_acquisition`, `equity_cash_flow`, `equity_fit`, `equity_dynamic`, `equity_valuation`, `equity_rates`, `equity_news_update` or `equity_investment_decision`. A full company evaluation combines acquisition, cash flow, the adopted model fit/dynamics, valuation and investment decision; reuse valid saved inputs and fits under CORE. For a model-specific derivation, use `index --operation econ-data:equity --family section-equity --query TEXT` and activate the matching section. Add rate transmission when it affects the selected case. Read every selected section completely before its dependent calculation.
+
 Mode `equity` uses the [equity workflow](equity.md) and [valuation models](equity-models.md). Acquire real company/market observations, estimate the identified competition model, solve responses, forecast physical cash flows and market-implied performance, and compare attainable after-tax decisions. Complete the requested numerical stage. Public execution uses public data and the user's credentials; private connections and records remain user-owned.
 
 ## Procedure

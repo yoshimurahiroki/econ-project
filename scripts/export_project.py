@@ -775,7 +775,14 @@ def export_plugin(target):
                             lambda rid: contents[output_paths[rid]])
     base, knowledge = knowledge_assets(root, 'source')
     files = {name: body.encode('utf-8') for name, body in contents.items()}
-    files.update({(base / name).as_posix(): data for name, data in knowledge.items()})
+    # Keep the collection outside Skill directories: cloud hosts append every
+    # Skill-local filename to its entrance, even when its body is short.
+    files.update({(Path('knowledge/references') / name).as_posix(): data for name, data in knowledge.items()})
+    from sync_common_core import repository, git
+    _, source_repository, source_revision = repository(root)
+    if git(root, 'show', source_revision + ':' + (base / 'manifest.json').as_posix()) != knowledge['manifest.json']:
+        raise ValueError('Commit the saved knowledge generation before exporting its source references')
+    knowledge_source = 'https://' + source_repository + '/blob/' + source_revision + '/' + base.as_posix()
     spec = importlib.util.spec_from_file_location('plugin_policy', root / 'harness/policy_assets.py')
     policy = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(policy)
@@ -827,9 +834,15 @@ def export_plugin(target):
         relative_body = os.path.relpath(output_paths[owner], Path(name).parent).replace(os.sep, '/')
         relative_index = os.path.relpath(shared / 'docs/ai/compiled_ai_skills.md', Path(name).parent).replace(os.sep, '/')
         body = (frontmatter + '\n# ' + owner + '\n\n'
-                + 'Read the complete [canonical instructions](' + relative_body + ') under CORE. Use the [index](' + relative_index + ') only for unresolved operation/condition selection.\n\n'
-                + 'Cloud readers read `instructions.md` directly in this Skill\'s package. Read common CORE/PROSE through the same plugin\'s `project-work` package at `references/shared/runtime/CORE.md` and `references/shared/runtime/PROSE.md`; its main entry is not needed for navigation. Cross-Skill references use the named owner\'s package and original relative path.\n\n'
-                + 'For cloud code inspection or execution, read `project-work`\'s `bundle`, download/extract once, then run `python -m zipfile -e references/runtime.zip RUNTIME` from the extracted Skill directory. Execute from `RUNTIME`; it contains the complete pinned layout. Native plugins execute from the plugin root.\n')
+                + 'Read the complete [instructions](' + relative_body + ') and current-stage prerequisites. Reuse complete matching bodies still in context. Use the [index](' + relative_index + ') for an unresolved operation or condition.\n\n'
+                + 'Cloud common rules are in `project-work/references/shared/runtime/CORE.md` and `PROSE.md`; cross-Skill references use their named package. Native execution starts at the plugin root. Cloud execution uses `project-work/bundle` once: extract `references/runtime.zip` and execute from its root.\n')
+        if owner == 'econ-knowledge':
+            body += ('\nThe complete collection is at runtime-root `knowledge/references`. Without an executor, read the pinned '
+                     '[domain index](' + knowledge_source + '/domains.json), its selected `domains/NN.json`, '
+                     'then `units/ID.md` and every required prerequisite at the same revision. '
+                     'Use the pinned [relations](' + knowledge_source + '/relations.json) and '
+                     '[model contracts](' + knowledge_source + '/model-contracts.json) for applicable semantic dependencies. '
+                     'Fetch exact files rather than listing the unit directory.\n')
         files[name] = body.encode('utf-8')
         linked_contents[name] = body
     non_prose = {output_paths[rid] for rid in selected if not prose_resource(resources[rid])}

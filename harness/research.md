@@ -4,7 +4,7 @@
 
 ## Run an adopted pipeline
 
-`research.py` executes an adopted local DAG and records each attempt in the existing `state.py` store. The host selects the research question, scientific methods, acquisition and analysis commands, definitions and inputs through the five specialists. A stage runs after its declared consumed outputs complete; a failed stage blocks its descendants and independent branches continue.
+`research.py` executes an adopted local DAG and records each attempt in the existing `state.py` store. The host selects the research question, scientific methods, acquisition and analysis commands, definitions and inputs through the seven Skills. A stage runs after its declared consumed outputs complete; a failed stage blocks its descendants and independent branches continue.
 
 A saved stage is reusable when its adopted specification, declared source and helper bytes, exact environment, executable and consumed result versions match a completed state record. The renderer resolves each numerical token to a named result key, checks its saved unit and applies its declared format. The same state record links the displayed quantity to the actual producing execution.
 

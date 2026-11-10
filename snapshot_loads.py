@@ -63,7 +63,7 @@ def operations():
 
 
 def conditions(op):
-    txt = call(["index", "--operation", op])
+    txt = call(["index", "--operation", op, "--all-conditions"])
     return re.findall(r"^\| `([^`]+)` \|", txt, re.M)
 
 

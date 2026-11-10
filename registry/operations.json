@@ -802,22 +802,9 @@
         "equity-guide.purpose-and-entry",
         "equity-guide.execution-rules",
         "equity-guide.company-market-and-date",
-        "equity-guide.free-data-and-mcp",
-        "equity-guide.accounting-to-free-cash-flow",
-        "equity-guide.select-and-estimate-the-io-model",
-        "equity-guide.rates-and-sector-valuation",
-        "equity-guide.price-and-investment-returns",
-        "equity-guide.update-from-new-information",
         "equity-guide.trading-flow-scope",
         "prose.select-the-economic-argument",
         "prose.connect-the-explanation",
-        "equity-models.model-scope",
-        "equity-models.valuation-target-and-identification",
-        "equity-models.sustainable-free-cash-flow",
-        "equity-models.cash-finance-and-valuation",
-        "equity-models.reverse-dcf-and-action-choice",
-        "equity-models.news-and-economic-conditions",
-        "equity-models.calculation-sequence",
         "econ-data.equity-evaluation",
         "routing.all"
       ],
@@ -1319,6 +1306,30 @@
         },
         {
           "when": "requested_state_migration"
+        },
+        {
+          "when": "equity_acquisition"
+        },
+        {
+          "when": "equity_cash_flow"
+        },
+        {
+          "when": "equity_fit"
+        },
+        {
+          "when": "equity_dynamic"
+        },
+        {
+          "when": "equity_valuation"
+        },
+        {
+          "when": "equity_rates"
+        },
+        {
+          "when": "equity_news_update"
+        },
+        {
+          "when": "equity_investment_decision"
         }
       ],
       "uses_profile": false
@@ -4515,37 +4526,43 @@
       "when": "section_equity_models_differentiated_demand_and_pricing",
       "required_rules": [
         "equity-models.differentiated-demand-and-pricing"
-      ]
+      ],
+      "description": "BLP, PyBLP, logit, differentiated demand, supply and equilibrium pricing."
     },
     "section_equity_models_homogeneous_goods_and_capacity": {
       "when": "section_equity_models_homogeneous_goods_and_capacity",
       "required_rules": [
         "equity-models.homogeneous-goods-and-capacity"
-      ]
+      ],
+      "description": "Cournot, homogeneous goods, capacity, inverse demand and supply."
     },
     "section_equity_models_productivity_and_markups": {
       "when": "section_equity_models_productivity_and_markups",
       "required_rules": [
         "equity-models.productivity-and-markups"
-      ]
+      ],
+      "description": "Production functions, productivity, markups and cost identification."
     },
     "section_equity_models_entry_investment_and_persistence": {
       "when": "section_equity_models_entry_investment_and_persistence",
       "required_rules": [
         "equity-models.entry-investment-and-persistence"
-      ]
+      ],
+      "description": "Entry, dynamic games, investment and persistence."
     },
     "section_equity_models_switching_search_and_acquisition": {
       "when": "section_equity_models_switching_search_and_acquisition",
       "required_rules": [
         "equity-models.switching-search-and-acquisition"
-      ]
+      ],
+      "description": "Consumer switching, search, customer acquisition and state-dependent demand."
     },
     "section_equity_models_vertical_contracts_and_platforms": {
       "when": "section_equity_models_vertical_contracts_and_platforms",
       "required_rules": [
         "equity-models.vertical-contracts-and-platforms"
-      ]
+      ],
+      "description": "Bargaining, vertical contracts, platforms and two-sided participation."
     },
     "section_equity_models_sustainable_free_cash_flow": {
       "when": "section_equity_models_sustainable_free_cash_flow",
@@ -4655,6 +4672,78 @@
         "state-contract.resumption-and-migration",
         "state-contract.compatibility-interfaces",
         "integration.state-migration"
+      ]
+    },
+    "equity_acquisition": {
+      "when": "equity_acquisition",
+      "description": "Company and market documents, free public data and MCP access.",
+      "required_rules": [
+        "equity-guide.free-data-and-mcp"
+      ]
+    },
+    "equity_cash_flow": {
+      "when": "equity_cash_flow",
+      "description": "Accounting, sustainable FCF, maintenance and growth investment.",
+      "required_rules": [
+        "equity-guide.accounting-to-free-cash-flow",
+        "equity-models.sustainable-free-cash-flow",
+        "equity-models.calculation-sequence"
+      ]
+    },
+    "equity_fit": {
+      "when": "equity_fit",
+      "description": "Choose the adopted demand, competition, production, entry, switching or contract model, then its model section.",
+      "required_rules": [
+        "equity-guide.select-and-estimate-the-io-model",
+        "equity-models.calculation-sequence"
+      ]
+    },
+    "equity_dynamic": {
+      "when": "equity_dynamic",
+      "description": "Entry, investment and dynamic competition. Add switching/search when that is the adopted state.",
+      "required_rules": [
+        "equity-guide.select-and-estimate-the-io-model",
+        "equity-models.entry-investment-and-persistence",
+        "equity-models.calculation-sequence"
+      ]
+    },
+    "equity_valuation": {
+      "when": "equity_valuation",
+      "description": "FCFF, APV, equity and sector valuation from adopted cash flows.",
+      "required_rules": [
+        "equity-guide.price-and-investment-returns",
+        "equity-models.cash-finance-and-valuation",
+        "equity-models.sustainable-free-cash-flow",
+        "equity-models.calculation-sequence"
+      ]
+    },
+    "equity_rates": {
+      "when": "equity_rates",
+      "description": "Interest rates, financing constraints and economic transmission channels.",
+      "required_rules": [
+        "equity-guide.rates-and-sector-valuation",
+        "equity-models.cash-finance-and-valuation"
+      ]
+    },
+    "equity_news_update": {
+      "when": "equity_news_update",
+      "description": "IR, news, changed assumptions and saved-value updates.",
+      "required_rules": [
+        "equity-guide.update-from-new-information",
+        "equity-models.news-and-economic-conditions",
+        "equity-guide.price-and-investment-returns",
+        "equity-models.cash-finance-and-valuation",
+        "equity-models.calculation-sequence"
+      ]
+    },
+    "equity_investment_decision": {
+      "when": "equity_investment_decision",
+      "description": "Reverse DCF, buy, hold, sell, after-tax returns and information value.",
+      "required_rules": [
+        "equity-models.reverse-dcf-and-action-choice",
+        "equity-guide.price-and-investment-returns",
+        "equity-models.cash-finance-and-valuation",
+        "equity-models.calculation-sequence"
       ]
     }
   },

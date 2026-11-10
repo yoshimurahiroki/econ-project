@@ -20,7 +20,7 @@ Mappings attribute ZBW's [STW](https://www.zbw.eu/stw/version/latest/download/ab
 
 `relations ID... [--type TYPE]` shows typed links. `plan ID... --context KEY=VALUE` resolves understanding prerequisites, applicable implementation dependencies and assumption-definition bodies; supply only conditions established by the adopted problem. Inspect unresolved and inapplicable relations. Alternatives and related IDs enter the read only when needed by the operation.
 
-For small closures use `plan ... --read`; for larger ones pass `required_ids` to bounded `read`. Cycles or unavailable required bodies return `read_blocked` without bodies: repair the graph or expand the snapshot before use. A selected export permits only its declared closure. Flat snapshots use `--base knowledge/references` before the subcommand. Direct readers use `domains.json`, the selected domain index, `selection.json` when present, and `units/ID.md`; retain manifest/runtime identity without loading their administrative text into context.
+For small closures use `plan ... --read`; for larger ones pass `required_ids` to bounded `read`. Cycles or unavailable required bodies return `read_blocked` without bodies: repair the graph or expand the snapshot before use. A selected export permits only its declared closure. Flat snapshots use `--base knowledge/references` before the subcommand. Direct readers use the collection's `domains.json`, selected domain index, `selection.json` when present, and `units/ID.md`; retain manifest/runtime identity. Native plugin and extracted runtime collections live at `knowledge/references`; source and deployed repositories retain the canonical Skill collection. Cloud readers without an executor use the installed entrance's pinned Git references, including applicable semantic relations and model contracts, and fetch each selected body and its true prerequisites at that same revision.
 
 ## Model contracts and execution
 
@@ -54,8 +54,8 @@ At stage changes, reuse full matching text in context and refresh only changed d
 
 The authored catalog and chapters are the content source. After changing their metadata/body, run `build` once, then distribute that saved generation through the existing exporter/synchronizer. Generated units project links to canonical source URLs. Runtime exports retain the manifest, selected indexes and full prerequisite bodies plus `runtime.json`; selected snapshots declare their closure in `selection.json`. The existing reader verifies those versions and boundaries.
 
-Package the collection once under econ-knowledge; other Skills retain specialist execution and reference this owner.
+Package the collection once outside Skill directories at runtime-root `knowledge/references`; econ-knowledge owns retrieval and other Skills retain specialist execution. Its files remain in the complete execution bundle.
 
 ## Retrieval interface
 
-The [retrieval program](../scripts/knowledge.py) resolves the same collection in repositories and packages. Direct readers use `references/domains.json`, the selected domain index and `references/units/ID.md`. Task-bound acquisition/cache activates `requested_local_state_helper_operation`; ordinary lookup uses no task store.
+The [retrieval program](../scripts/knowledge.py) resolves the same collection in repositories and packages. Direct readers use the collection and pinned source locators above, the selected domain index and `units/ID.md`. Task-bound acquisition/cache activates `requested_local_state_helper_operation`; ordinary lookup uses no task store.

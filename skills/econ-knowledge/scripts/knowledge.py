@@ -33,9 +33,13 @@ CONTRACT_LOCATORS = ('assumptions', 'identification', 'equations', 'selection',
                      'numerical_diagnostics', 'examples')
 ANCHOR = re.compile(r'^<a id="([a-z]+-[0-9]{2})"></a>\s*\n\s*## ([A-Z]+-[0-9]{2})[^\S\r\n]+(.+?)\s*$', re.M)
 BASE = Path(__file__).resolve().parents[1] / 'references'
+SOURCE_BASE = BASE
 _script = Path(__file__).resolve()
 if (_script.parent / 'RESOURCES.json').is_file():
     BASE = _script.parent / 'knowledge/references'
+elif (not (BASE / 'manifest.json').exists() and len(_script.parents) > 3
+      and (_script.parents[3] / 'knowledge/references/runtime.json').is_file()):
+    BASE = _script.parents[3] / 'knowledge/references'
 # Lexical aliases only: the research owner chooses the method and IDs.
 ALIASES = (
     ('graph', 'グラフ'), ('centrality', '中心性'), ('network', 'ネットワーク'),
@@ -703,6 +707,8 @@ def build(base, *, strict=True):
 
 class Reader:
     def __init__(self, base, external=None):
+        if Path(base).absolute() == SOURCE_BASE and BASE != SOURCE_BASE:
+            base = BASE
         self.base = base
         self.external = external or {}
         self.files = {}

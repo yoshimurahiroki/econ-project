@@ -200,14 +200,34 @@ def select_reading_sections(routes, manifest, stage, role=None, reader_id=None, 
 
 
 
-def native_index(routes, *, links=False, operation=None):
+def native_index(routes, *, links=False, operation=None, family=None, query=None, all_conditions=False):
     if operation is not None:
         selected = resolve_operation(routes, operation)
         lines = ['# ' + selected['canonical_operation'], '', selected['description'], '',
                  'Select the conditions actually present in the request. `read ' + selected['canonical_operation']
-                 + ' --stage STAGE --condition CONDITION` delivers the current stage\'s complete bodies and prerequisites.', '',
+                 + ' --stage STAGE --condition CONDITION --format compact` delivers the current stage\'s complete bodies and prerequisites.', '',
                  '| Condition | Direct required bodies | Optional examples |', '| --- | --- | --- |']
-        for cid in dict.fromkeys(selected['conditions']):
+        candidates = list(routes['condition_definitions']) if family or query else list(dict.fromkeys(selected['conditions']))
+        families = {cid: '-'.join(cid.split('_')[:2]) if cid.split('_')[0] in {'method', 'section', 'example'}
+                    else cid.split('_')[0] for cid in candidates}
+        if not (family or query or all_conditions):
+            lines = ['# ' + selected['canonical_operation'], '', selected['description'], '',
+                     'Choose the requested purpose, then use `index --operation ' + selected['canonical_operation']
+                     + ' --family FAMILY` or `--query TEXT` for exact conditions. Filters include registered common conditions.', '']
+            purposes = [cid for cid in candidates if cid.startswith('equity_')]
+            if purposes:
+                lines += ['| Purpose condition | Required sections |', '| --- | --- |']
+                for cid in purposes:
+                    labels = [routes['sections'][routes['rules'][key]['resource_id']][routes['rules'][key]['section_id']].get('heading', 'complete body')
+                              for key in routes['condition_definitions'][cid].get('required_rules', [])]
+                    lines.append('| `' + cid + '` | ' + '; '.join(labels) + ' |')
+            counts = {name: sum(value == name for value in families.values()) for name in sorted(set(families.values()))}
+            lines += ['', '| Family | Conditions |', '| --- | --- |']
+            lines += ['| ' + name + ' | ' + str(count) + ' |' for name, count in counts.items()]
+            return '\n'.join(lines) + '\n'
+        for cid in candidates:
+            if family and families[cid] != family:
+                continue
             condition = routes['condition_definitions'][cid]
             bodies = []
             for rule_id in condition.get('required_rules', []):
@@ -215,6 +235,9 @@ def native_index(routes, *, links=False, operation=None):
                 locator = routes['sections'][rule['resource_id']][rule['section_id']]
                 bodies.append(rule['resource_id'] + ': ' + locator.get('heading', 'complete body'))
             examples = ', '.join(condition.get('optional_examples', []))
+            searchable = ' '.join([cid, condition.get('description', ''), *bodies, examples]).casefold()
+            if query and not all(term.casefold() in searchable for term in query.split()):
+                continue
             lines.append('| `' + cid + '` | ' + '; '.join(bodies) + ' | ' + examples + ' |')
         return '\n'.join(lines) + '\n'
     lines = ['# Economics operation index', '', 'Generated from registry/operations.json. Select the final operation, then read CORE, the selected PROSE rules and complete required operation bodies. Support continues the same task.', '']
@@ -302,11 +325,14 @@ def extract_sections(text, selection, resource):
 
 
 def read_selected(routes, root, selector, *, layout='source', mode=None, conditions=(),
-                  user_profile=None, project_profile=None, offset=0, limit=16000, stage=None):
+                  user_profile=None, project_profile=None, offset=0, limit=16000, stage=None,
+                  seen=(), compact=False):
     """Deliver exact selected bodies; pagination never marks them as read."""
     import hashlib
     if offset < 0 or limit < 1:
         raise ValueError('Reading offset must be nonnegative and limit positive')
+    if any(not isinstance(value, str) or not re.fullmatch(r'[0-9a-f]{64}', value) for value in seen):
+        raise ValueError('Seen bodies require complete lowercase SHA-256 identities')
     unknown = set(conditions) - routes['condition_definitions'].keys()
     if unknown:
         raise ValueError('Unknown condition: ' + ', '.join(sorted(unknown)))
@@ -353,18 +379,51 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
         sources.append({'resource_id': 'selected-profile', 'path': str(custom_profile),
                         'sha256': hashlib.sha256(raw).hexdigest(),
                         'selection': {'whole_resource': True}})
-    text = '\n\n'.join('# Resource: ' + row['resource_id'] + '\n\n'
-        + extract_sections(bodies[row['resource_id']], row['selection'], row['resource_id']).rstrip()
-        for row in sources) + '\n'
+    body_hashes, delivered, reused = {}, [], []
+    for row in sources:
+        rid = row['resource_id']
+        scope = row['selection']
+        fragments = []
+        if not scope.get('whole_resource') and not bodies[rid].startswith('---\n'):
+            lines, headings = markdown_sections(bodies[rid])
+            selected_heads = sorted((h for h in headings if any(
+                name in (h['title'], h['id'], '#' + h['id']) for name in scope.get('sections', []))),
+                key=lambda h: (h['start'], -h['end']))
+            end = -1
+            for heading in selected_heads:
+                if heading['end'] <= end:
+                    continue
+                fragments.append((rid + '#' + heading['id'], ''.join(lines[heading['start']:heading['end']])))
+                end = heading['end']
+        else:
+            fragments = [(rid, extract_sections(bodies[rid], scope, rid))]
+        unread = []
+        for key, body in fragments:
+            digest = hashlib.sha256(('# Resource: ' + rid + '\n\n' + body.rstrip() + '\n').encode('utf-8')).hexdigest()
+            body_hashes[key] = digest
+            if digest in seen:
+                reused.append(key)
+            else:
+                unread.append(body)
+        if unread:
+            delivered.append('# Resource: ' + rid + '\n\n' + ''.join(unread).rstrip())
+    text = '\n\n'.join(delivered) + ('\n' if delivered or not body_hashes else '')
     if offset > len(text):
         raise ValueError('Reading offset exceeds the selected body')
     end = min(offset + limit, len(text))
-    return {'selector': selector, 'stage': stage, 'required_rules': active,
+    if compact:
+        return {'content_sha256': hashlib.sha256(text.encode('utf-8')).hexdigest(),
+                'offset': offset, 'next_offset': end if end < len(text) else None,
+                'bodies': body_hashes, 'reused': reused, 'text': text[offset:end]}
+    result = {'selector': selector, 'stage': stage, 'required_rules': active,
             'adopted_required_rules': adopted_rules, 'sources': sources,
             'content_sha256': hashlib.sha256(text.encode('utf-8')).hexdigest(),
             'offset': offset, 'total_characters': len(text),
             'next_offset': end if end < len(text) else None,
             'text': text[offset:end]}
+    if seen:
+        result.update(bodies=body_hashes, reused=reused)
+    return result
 
 
 def _read_registry(root, path):
@@ -1026,6 +1085,9 @@ if __name__ == '__main__':
     selection = index.add_mutually_exclusive_group()
     selection.add_argument('--resource')
     selection.add_argument('--operation')
+    index.add_argument('--family', help='Filter condition family for an operation')
+    index.add_argument('--query', help='Match every word against condition names and section titles')
+    index.add_argument('--all-conditions', action='store_true', help='List the operation conditions in the complete legacy table')
     for command, help_text in [('resolve', 'show the selected contract and rule closure'),
                                ('read', 'read exact selected rule bodies and prerequisites')]:
         selected = commands.add_parser(command, help=help_text)
@@ -1039,18 +1101,24 @@ if __name__ == '__main__':
                                   help='Read the current stage; operations default to entry, explicit rule IDs retain direct reads')
             selected.add_argument('--offset', type=int, default=0, help='Character offset returned by the preceding page')
             selected.add_argument('--limit', type=int, default=16000, help='Maximum body characters per page')
+            selected.add_argument('--format', choices=('json', 'compact'), default='json')
+            selected.add_argument('--seen', action='append', default=[], help='Hash of a complete body still present in this intact context')
     args = parser.parse_args()
+    if args.command == 'index' and (args.family or args.query or args.all_conditions) and not args.operation:
+        parser.error('condition filters require --operation')
     script_root = Path(__file__).resolve().parent.parent
     root = args.root or (script_root if args.layout == 'source' else script_root.parent)
     routes = load_routes(root, args.layout)
     if args.command == 'index':
         print(resource_index(routes, args.resource) if args.resource else
-              native_index(routes, operation=args.operation), end='')
+              native_index(routes, operation=args.operation, family=args.family, query=args.query,
+                           all_conditions=args.all_conditions), end='')
     elif args.command == 'read':
         result = read_selected(routes, root, args.operation, layout=args.layout, mode=args.mode,
                                conditions=args.condition, user_profile=args.user_profile,
                                project_profile=args.project_profile, offset=args.offset, limit=args.limit,
-                               stage=args.stage or (None if args.operation in routes['rules'] else 'entry'))
+                               stage=args.stage or (None if args.operation in routes['rules'] else 'entry'),
+                               seen=args.seen, compact=args.format == 'compact')
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         result = resolve_operation(routes, args.operation, args.mode,
