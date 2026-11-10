@@ -20,7 +20,5 @@ Return the requested question, derivation or design with its determining economi
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations
 
-Generated from registry/operations.json; the request determines the actual target and authority.
-
 - `design`: Choose a research question, model, identification strategy, study design or policy action.
 <!-- END GENERATED MODES -->

@@ -1,60 +1,28 @@
-# Paragraph and argument execution
+# Paragraph and argument composition
 
-## Required writing path
+## Construct the argument
 
-Use [econ-writing's common process](artifact-writing.md#compose-for-the-medium-and-language) to complete the requested argument and its integrated editorial review. The sections below describe the existing composition dependencies. These are reasoning and integration performed in the draft; they create no extra agents, passes, records or gates. Use the parts that resolve the actual dependencies of a long argument.
+Identify the reader's question, central answer and supporting premises/evidence. Select sources once for a substantive reason. Derive each parent proposition from the concrete relation among its supporting claims: compare their objects and conditions, identify a missing premise or discriminating observation, and obtain that dependency through its existing owner. For bottom-up reasoning, partition source-bound atomic claims under a common classification and derive each parent until the central answer is established. Keep the question, answer and admitted source identities/hashes fixed; problem comparisons and verification tasks cite that evidence.
 
-## A. Global Argument Architect
+Recover the relation making each result usable by the next claim: measurement defines the compared object, identification maps variation to an estimand, optimality/equilibrium determines a response, and aggregation maps responses into a total. Use those relations to order the explanation before shortening it.
 
-Identify the reader's question, the central answer, its premises and evidence. Work through the dependency from each supporting claim to the answer and select the order in which a reader can follow it. Build that explanation before shortening the draft.
+## Compose the paragraph
 
-Derive each parent proposition from the concrete relation among its supporting claims. Start from the actual findings when the parent is unclear, compare their common objects and conditions, and locate the additional premise or discriminating observation needed for the inference. Send that precise dependency to its existing research or analysis owner within the task's authority. Integrate the returned result into the argument and retain unaffected work.
+Give each paragraph one proposition, the reader question it answers, establishing evidence/mechanism and its connection to neighboring claims. Allocate space by inferential work. A result passage connects object/population to the estimand, proposition or counterfactual, then its variation/equation/conditions and direction/magnitude to the adopted comparison and next claim. Preserve units, denominators, periods and scenarios. Choose the needed equation, direct contrast or aggregation before selecting saved values. Establish a mechanism through intermediate evidence or a derivation, and economic magnitude through its baseline, scale or allocation consequence.
 
-Select each admitted source once with a substantive reason. For bottom-up reasoning, extract source-bound atomic claims, partition each frontier under a common classification, and derive a parent for each group until the central answer is established. Keep the original question and answer, source IDs and hashes fixed. Problem comparisons and their verification tasks cite the admitted evidence.
+Use the selected source/result bindings for this inference. Joint diagnostics require the tested vector, covariance-based statistic and reference distribution; group comparisons their direct contrast and inference; welfare its allocation, valuation and population weights. Retrieve those objects through [empirical guidance](paper-workflow.md#identification-and-empirical-method) and [model guidance](paper-workflow.md#theory-model-and-proof). Carry their defining relation into abstracts and conclusions.
 
-Identify what makes each supporting result usable by the next claim. Measurement defines the compared object; an identifying condition maps variation to the estimand; an optimality or equilibrium relation determines a model response; an aggregation rule maps individual responses into a total. Recover the particular relation from the adopted source. Use it to decide the order and content of the paragraphs carrying that inference.
+Begin at the reader's established premises. Write the sentences establishing the proposition, combining sentences for one relation and separating distinct propositions. Retain actors and economic objects across changes of population, time or choice margin. In Japanese, develop a complete natural spoken explanation before compression. Put these choices in the ordinary draft; persist paragraph specifications only for requested versioned composition. A delegated paragraph receives its exact inference, neighboring consumer, scope, sources and fixed definitions under TEAM.
 
-## B. Paragraph Specification Designer
+## Integrate the argument
 
-Give each necessary paragraph one central proposition and the reader question it answers. Decide which evidence or mechanism establishes that proposition and how it connects to the surrounding paragraphs. Allocate space by the work each step performs. Express these choices in the ordinary draft; use the existing paragraph specifications when resumable composition requires them.
+Arrange paragraph claims to establish the section's proposition; define before use, preserve citations and repair missing premises from their source or completed analysis. Reconcile returned actors, population, period, estimand, assumptions and result status with the parent. Resolve differences through the analysis owner, retaining unaffected results. Integrate actual evidence; a completed child paragraph establishes only its supported claim. Keep operation returns in their operational destination and apply PROSE to the integrated wording.
 
-For a result-based passage, connect the economic object and its population to the named estimand, proposition or counterfactual; recover the identifying variation, equation and determining conditions; interpret the direction and magnitude against the adopted comparison; and establish the claim used by the next paragraph. Keep units, denominators, periods and scenario definitions with their quantities. Select the equation, direct contrast or aggregation that makes the proposed inference valid before choosing which saved values to include. A mechanism uses the study's intermediate evidence or model derivation; an economic magnitude uses its baseline, scale or allocation consequence.
-
-Select the supporting inputs for that inference through the same source/result bindings. A paragraph using a joint diagnostic needs its tested vector, covariance-based statistic and reference distribution; a paragraph comparing groups needs the direct contrast and its saved inference; a welfare paragraph needs the allocation, valuation and population weights used in its total. Read those selected objects through the relevant [paper guidance](paper-workflow.md#identification-and-empirical-method) and [model argument](paper-workflow.md#theory-model-and-proof). State the resulting economic proposition in the paragraph and carry its defining relation into any abstract or conclusion that uses it.
-
-Begin where the reader's established premises end. Turn those relations into the sentences needed to establish the paragraph's proposition, selecting their order and length from its inferential task. Combine sentences establishing one relation and give a distinct proposition its own paragraph. Retain the actor and economic object through the transition so a change of population, time or choice margin is explicit. Reuse these choices in the existing paragraph specification when versioned composition is requested.
-
-Carry the applicable purpose, scope, source identity, adopted definitions and settled decisions into any delegated passage through the existing TEAM handoff. State the unresolved relation the writer must establish and the neighboring claim that will use it. Preserve the authoritative instructions in their existing owners and read them at execution; a paragraph assignment supplies the specific work to perform.
-
-## C. Paragraph Writers
-
-Write the completed paragraph that establishes its assigned claim and connects with neighboring paragraphs. Develop the evidence-to-claim inference in the actual wording, using the selected source passages, saved quantities and adopted equations. For Japanese, reconstruct the complete explanation aloud in natural wording before compression. Preserve source-supported actors, operations, quantities and relations while applying PROSE's language rules.
-
-## D. Local Quality Control
-
-Resolve the local claim, source correspondence, mechanism and wording during composition, then include that text in the single review under [Global Integration](#f-global-integration). CORE governs any additional automated check.
-
-## E. Section Integration
-
-Arrange the paragraphs so their concrete claims establish the section's proposition. Connect the steps, place definitions before use and preserve citations. Remove repeated or empty paragraphs and restore a missing premise from the source or completed analysis.
-
-Integrate returned passages by matching their actors, population, period, estimand, assumptions and result status to the parent argument. A change in one of these objects requires its explicit analytical connection. Resolve the difference through the responsible analysis and update affected passages. Make the combined inference using the actual returned evidence; a completed paragraph establishes only the claim supported within it. Select the returned proposition, evidence and determining conditions for the parent draft. Remove effort-based self-justification, self-evaluations and defensive content under PROSE before adapting the passage's wording. Retain the actual operation results in their existing operational destination.
-
-## F. Global Integration
-
-Complete [PROSE's passage review](../../../runtime/PROSE.md#finish-the-passage) on the finished long argument, covering the answer, evidence, logical order, paragraph connections and expression. Reconcile the title, abstract, introduction, exhibits and conclusion with the body. Trace compressed claims through their establishing paragraphs; retain the relation each conclusion needs. Repair discovered defects and reread the affected passages and connections within that review.
+CORE's single review covers answer, evidence, order, paragraph connections and expression. Reconcile title, abstract, introduction, exhibits and conclusion with the body, tracing compressed claims to their establishing paragraphs. Repair demonstrated defects and reread affected connections. This reasoning creates no extra agents, passes, records or gates.
 
 ## State, changes and resumption
 
-Use the existing project record when interrupted work needs a durable handoff. Preserve source identity, settled choices, completed work and the next dependency. The existing paragraph state retains requested source and dependency bindings; ordinary writing creates no parallel ledger.
-
-An argument repair retains the fixed request, authority, purpose, reader, admitted sources and completion conditions. Attribute each changed node to its actual finding, preserve nodes outside the affected dependencies, save the revised version and invalidate the affected reviews.
-
-Resume from the original request, applicable rule bodies and current canonical sources, using the existing EXECUTION state to recover completed outputs and pending dependencies. Restore the binding scope and adopted definitions before integrating a new passage. Keep source-linked quantities and conditions in the draft as it is condensed; reload their authoritative records when a compressed handoff omits them.
-
-## Verification and comparison
-
-Apply [CORE's completion rule](../../../runtime/CORE.md#completion-and-reporting) to additional checks. Source correspondence and PROSE judgment belong to the integrated review above, including paraphrases and rhetorical function.
+Use existing paragraph/argument state for requested source correspondence or persistent dependencies. Preserve the request, authority, purpose, reader, admitted sources, definitions and completion conditions; attribute changes to actual findings, retain unaffected nodes and invalidate affected reviews. TEAM restores original applicable bodies and settled decisions before resumed integration. Reload source-bound quantities or conditions omitted by a compressed handoff; ordinary writing creates no parallel ledger.
 
 ## Command entry points
 

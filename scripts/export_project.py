@@ -768,8 +768,10 @@ def export_plugin(target):
         resource_catalog['resources'][owner]['source_path'] = output_paths[owner]
     contents[resource_catalog_path] = json.dumps(resource_catalog, ensure_ascii=False, indent=2) + '\n'
     contents['OPTIONAL_INPUTS.md'] = optional_inputs(omitted)
-    operations = [resolve_operation(routes, op['id'], conditions=op['conditions'])
-                  for op in routes['operations']]
+    operations = [resolve_operation(routes, op['id']) for op in routes['operations']]
+    for cid, condition in routes['condition_definitions'].items():
+        active, _ = required_closure(routes, condition.get('required_rules', []), [cid], cid)
+        operations.append({'canonical_operation': cid, 'active_rules': active})
     selections = {rid: {'whole_resource': True} for rid in selected}
     validate_required_bodies(routes, operations, selections,
                             lambda rid: contents[output_paths[rid]])

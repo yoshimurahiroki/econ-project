@@ -1,47 +1,33 @@
-# Shared work, resumption and handoff
+# Delegation and continuation
 
 ## Native model roles
 
-The lead owns the question, adopted specification, decisions, integration and completion. Specialists retain subject ownership. Execution roles are independent of model/provider: `lead` resolves and integrates; `implementer` handles bounded changes or calculations; `retriever` performs settled retrieval or conversion; `specialist` resolves a consequential hard core after substantive lead attempts and cause-specific repair.
+The lead owns the question, specification, adoption, integration and completion; Skills retain subject ownership. Execution roles are independent of provider: lead resolves and integrates; implementer executes a bounded specification; retriever performs settled retrieval/conversion; specialist resolves a consequential core left unresolved after substantive lead attempts and cause-specific repair. Length, routine review, general complexity or a first failure alone does not justify a specialist.
 
-Inherit the host model by default. Use a supported override within the host's instructions and the user's authorized model choices when its capability, cost or completion time improves the assignment; host launch fields establish actual model and effort. Role labels and requested settings do not prove runtime identity.
+Inherit the host model by default. Within host instructions and authorized model choices, select a supported override when capability, cost or completion time improves the assignment. Actual launch fields establish model and effort; role labels and requested settings cannot prove runtime identity. Supply supported settings through the real launch schema.
 
-The parent selects the role from task independence, workload and downstream use, then supplies supported model and reasoning settings through the actual launch schema. A lead can assign an independent child lead, bounded implementer or settled retriever; implementers may delegate related retrieval, and specialists may delegate calculations/retrieval for their assigned core. Length, general complexity, routine review or a first failure alone does not justify a specialist: pass the actual lead attempts, cause-specific repair, unresolved mechanism and dependent result.
-
-Use the [host delegation limits](../docs/ai/config-templates/README.md#native-delegation-limits). Retrievers cannot delegate. Without nesting or capacity, return the dependency for sequential work. Start fresh child context with its bounded assignment and parent constraints. Each child reads its applicable AGENTS, CORE, PROSE, TEAM, specialist and activated dependencies completely; a parent summary cannot replace them.
+A lead may assign a child lead, implementer or retriever; implementers may delegate related retrieval and specialists related calculation/retrieval. Retrievers cannot delegate. Respect [host nesting and capacity](../docs/ai/config-templates/README.md#native-delegation-limits); without capacity return the dependency for sequential execution.
 
 ## Shared work
 
-Delegate separable work only when its benefit exceeds briefing and integration. Each assignment identifies the parent result, obstacle, exact source/rule versions, fixed specification, delegated choices, write scope, output, consumer and completion condition. Assign one writer per file or disjoint region; coordinate shared sessions and external targets.
+Delegate separable work when its benefit exceeds briefing/integration. Supply the parent result, obstacle, exact sources/rules, fixed specification, delegated choices, write scope, output, consumer and completion condition. A specialist also receives the actual lead attempts, repair and unresolved mechanism. Use fresh bounded context, one writer per file or disjoint region, and coordinate shared sessions/targets. Each worker reads its original applicable AGENTS, CORE, PROSE, TEAM, specialist and activated prerequisites; the assignment cannot replace them.
 
 ## Return and integration
 
-Return the substantive result, implication, changed paths, producing inputs/versions, evidence, actual operation returns and remaining dependency to the direct parent. Keep large artifacts in owned paths. The parent matches the return to its assignment, reconciles scientific definitions and interfaces, repairs mismatches at the producer and completes the original deliverable. Give one integrated user response; use existing context for coordination.
+Return the substantive result and implication, changed paths, producing inputs/versions, evidence, actual operation returns and remaining dependency to the direct parent. Keep large artifacts in owned paths. The parent compares the return with its assignment and original deliverable, reconciles estimands, units, population, conditions, authority and interfaces, repairs mismatches at their producer and completes dependent work. A child closes only its assignment. Give one integrated user response; keep coordination in existing context.
 
-A child closes only its assignment. Reconcile estimands, units, population, conditions and authority before integrating its return. Progress updates identify a determining result, failed dependency or next operation affecting completion; add no parallel status files or meetings.
-
-## Retry and capacity
-
-Before retrying an interrupted external write, inspect that target's actual status. Repair the returned cause, retry the affected action and preserve completed independent work. Select worker count from actual capacity and separable work.
+Progress reports identify a determining result, failed dependency or next operation affecting completion. Create no parallel status files or meetings. Before retrying an interrupted external write, inspect its actual destination, repair the returned cause and retry only the affected action, preserving completed independent work.
 
 ## Resumption
 
-After compaction, resumption, a model change or a handoff, restore the original request, central problem, fixed specification, authority, completed results and next authorized action. Recover original applicable rule bodies under [CORE](CORE.md#task-entry), and reuse outputs only with matching consumed versions. An interrupted native task resumes only on an actual user continuation, restoring those original bodies before dependent work; cancellation/completion never restarts automatically. Reconcile older worker returns before integration. Use the existing [governing context](../harness/state.md#governing-context) and [saved-work lookup](../harness/state.md#find-saved-work) when persistence is needed.
+After compaction, resumption, model change or handoff, restore the original request, central problem, fixed specification, authority, completed results and next authorized action. Recover original applicable bodies under [CORE](CORE.md#task-entry), and reuse only matching consumed versions. Handoffs include canonical source/output locations, the parent proposition, adopted decision, permitted switching condition and essential user-held input. Reconcile older worker returns before integration.
 
-## Handoff
-
-Pass that same recovery context with canonical source/output locations, the parent proposition, adopted decision, permitted switching condition and essential user-held input for the next action.
+An interrupted native task resumes on actual user continuation; cancellation or completion never restarts it. Use existing [governing context](../harness/state.md#governing-context) and [saved work](../harness/state.md#find-saved-work) when persistence is needed.
 
 ## Requested usage accounting
 
-Collect usage only when requested, from actual host fields and existing outputs. Use the [usage interface](../harness/state.md#observed-execution-usage) for local aggregation. Retain source-backed role, requested/observed model and effort, times and exposed token/usage values; never invent telemetry, prices or subscription percentages. A solo/team comparison uses equal inputs, specification and completion criteria, including briefing/integration costs.
+Collect requested usage from actual host fields and outputs through the existing [usage interface](../harness/state.md#observed-execution-usage). Retain source-backed roles, requested/observed model and effort, time and exposed usage; invent no telemetry, price or subscription percentage. Compare solo/team work under equal inputs, specification and completion criteria, including briefing/integration.
 
 ## Review findings and independence
 
-Independent review requires an explicit request or platform instruction. Preserve its scope and evidence; add no standing approval role. CORE's integrated review remains with the task owner.
-
-For a selected independent or blinded comparison, retain actual reviewer identity and prior exposure, use fresh context, fix criteria before the revision, and reveal only the assigned inputs permitted by the comparison. Inspect revised evidence before the author response when re-review requires it. Record observed context limitations rather than asserting independence from a role label.
-
-## Paragraph assignments
-
-Assign coherent arguments with distinct sources. The editorial owner integrates terminology, evidence and logical dependencies through econ-writing.
+For explicitly selected independent or blinded review, preserve scope, evidence, actual reviewer identity and prior exposure. Use fresh context and criteria fixed before revision, reveal only permitted assigned inputs, and inspect revised evidence before the author response when required. Report observed context limits; a role label cannot establish independence.

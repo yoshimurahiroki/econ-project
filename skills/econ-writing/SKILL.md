@@ -5,7 +5,7 @@ description: Write, revise, explain, translate or format economics prose, papers
 
 ## Native entry contract
 
-Select the requested writing mode. Explicit execution-prompt creation belongs to project-work:prompt.
+Select the requested writing mode; explicit execution-prompt creation uses project-work:prompt. For an assigned paper activate `paper_reading`; for saved-result articles/slides activate `research_result_artifacts`. Select the requested medium/render procedure in [artifact writing](references/artifact-writing.md).
 
 # Write the requested economics artifact
 
@@ -16,8 +16,6 @@ Return the finished wording or artifact first, at the requested depth. Preserve 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations
 
-Generated from registry/operations.json; the request determines the actual target and authority.
-
 - [compose](references/compose.md#compose): Compose academic prose and research materials from the adopted sources.
 - [revise](references/revise.md#revise): Revise supplied prose, including natural Japanese, spoken explanations and requests such as 自然な日本語に, 何を言いたいの, 直訳っぽい, 口頭で説明して and わかりやすく短く.
 - [translate](references/translate.md#translate): Translate supplied prose into natural Japanese or English while preserving its claims and sources.
@@ -26,7 +24,3 @@ Generated from registry/operations.json; the request determines the actual targe
 - [explain](references/explain.md#explain): Explain a paper, theory, institution, method or result through its question, mechanism, evidence and answer.
 - [profile](references/profile.md#profile): Create or revise a reusable writing profile only when explicitly requested.
 <!-- END GENERATED MODES -->
-
-## Select the operation
-
-Use the registered operations; the [econ-writing procedure](references/artifact-writing.md) owns the selected specialist steps.

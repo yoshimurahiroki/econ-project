@@ -29,7 +29,7 @@ Compatibility names:
 | econ-assertive | econ-writing:guidance |  |
 | econ-edit | econ-writing:revise |  |
 | EDIT | econ-writing:revise | default_input=immediately_preceding_answer |
-| econ-handoff | handoff | requested_section=Handoff; required_rules=core.all, team.handoff; resolve_owner_by=existing_result_owner |
+| econ-handoff | handoff | requested_section=Handoff; required_rules=core.all, team.resumption; resolve_owner_by=existing_result_owner |
 | econ-style | econ-writing:profile |  |
 | explain-before-shorten | econ-writing:revise |  |
 

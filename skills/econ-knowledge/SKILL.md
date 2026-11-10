@@ -20,7 +20,5 @@ Return selected IDs, required prerequisite bodies and versions, the equations or
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations
 
-Generated from registry/operations.json; the request determines the actual target and authority.
-
 - `lookup`: Retrieve the economics definitions, derivations, model conditions or worked examples needed by the current specialist.
 <!-- END GENERATED MODES -->

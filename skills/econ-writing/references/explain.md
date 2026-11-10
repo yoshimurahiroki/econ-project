@@ -1,7 +1,5 @@
 # Explain economics prose
 
-Use the [shared writing contract](../SKILL.md) and read this complete mode before its operation.
-
 ## Explain
 
 Explain the specified paper, theory, institution, method or result at the requested depth. Select the relevant question and answer, then develop the source-supported mechanism and evidence through the common process.

@@ -1,37 +1,21 @@
-# Execute on identified inputs and outputs
-
-Use [publication](../harness/publication.md) for complete writes and [state](../harness/state.md) for persistent continuation.
+# Execute scoped operations
 
 ## Select the operation and working area
 
-Identify the target, write scope, current instructions and existing edits. Keep temporary files outside requested destinations. Use the supported purpose-built operation under current schemas and permissions; repair the actual argument, network or target error. Stage owned changes and keep credentials in their authorized storage.
+Identify the exact target, authority, current instructions and existing edits; keep temporary work outside deliverable destinations. Read the owning function/passage, callers and consequential dependencies through scoped `rg`, then change producer and consumers together under the [implementation rules](../skills/econ-data/references/implementation.md#functions-types-and-failure-boundaries). Stage only owned changes and keep credentials in authorized storage.
 
-## Checks and completion
-
-Within CORE's review, establish success from the required output and actual return: computation's saved quantities, Git's repository/branch/parent/commit, or a plugin's identity/expected release/returned source. A submitted or running operation retains that status.
-
-Bind file results through their resolved producing file operation or the existing scientific result owner. An opaque command's terminal return establishes that command's status; unrelated files supply no production evidence. Compare only its resolved targets and relevant registered outputs.
+Use the supported operation, runner and execution root. Bind actual scripts, specifications, referenced inputs, consumed outputs, interpreter and used packages/executables. Preserve project connections in configuration. Use a simple command for a short chain or the existing dependency system for selective rebuilding. Establish scientific inputs and official interfaces before a costly run.
 
 ## Compare changed outputs
 
-Trace a changed scientific input through its definition, official interface and affected consumers. Preserve sample, keys, multiplicities, target, units, inference and original numerical tolerances. Presentation changes reuse calculations; render and inspect requested PDFs, slides or figures through their existing owner.
-
-## Project-file ownership
-
-Locate the existing entry, full changed function/passage, callers and dependencies with scoped `rg`. Change the canonical producer and its affected consumers together. [Implementation rules](../skills/econ-data/references/implementation.md#functions-types-and-failure-boundaries) own code structure and boundary validation.
-
-## Entry point and dependencies
-
-Use the existing runner and declared execution root. Bind scripts, specifications, referenced files, consumed outputs, interpreter and actually used packages/executables. Preserve project-specific connections in configuration. Use a simple command for a short chain and the existing dependency system for selective rebuilding. Establish scientific inputs and the official interface before a costly run.
+Trace changed scientific inputs through their definition, official interface and consumers. Preserve sample, keys, multiplicities, target, units, inference and original tolerances. Reuse calculations for presentation edits; render and inspect requested PDFs, slides or figures through their existing owner. Versioned writing binds source, specification and manuscript through econ-writing; activate paragraph execution only for requested correspondence or persistent dependencies.
 
 ## Complete outputs and failure propagation
 
-Publish complete outputs through [publication](../harness/publication.md#complete-generation-boundary), preserving the preceding complete result on failure. Propagate child failures and interruption. Retain only the diagnostic needed by the existing result record. After repair, resume the failed stage at its documented restart boundary when prerequisites match; otherwise rebuild affected descendants. TEAM owns interrupted external-write reconciliation.
+Use [publication](../harness/publication.md#complete-generation-boundary) to expose complete outputs while retaining the preceding result on failure. Propagate child failures and interruption; keep necessary diagnostics in the existing result record. Repair the actual argument, network, input or target error. Resume the failed stage only when its documented restart inputs match; otherwise rebuild affected descendants. TEAM owns interrupted external-write reconciliation.
+
+Within CORE's review, establish success from actual returns and requested destinations: saved computational quantities, Git repository/branch/parent/commit, or plugin identity/expected release/readback. Running or submitted work retains that status. Bind file results through their resolved producing operation or scientific result owner; an opaque command's return establishes its status, while unrelated files supply no production evidence. Compare only changed targets and relevant outputs.
 
 ## Record and artifact boundaries
 
-Keep operational status in existing task context, scientific definitions in the adopted specification and provenance with its result. For instruction maintenance, use the [distribution contract](../docs/ai/integration.md#distribution-contract). Record-format changes alone do not invalidate scientific results.
-
-## Writing dependency execution
-
-Use econ-writing for composition; activate [paragraph execution](../skills/econ-writing/references/paragraph-workflow.md) only when requested correspondence or persistent dependencies require it. Bind source, specification and manuscript versions and rebuild affected consumers.
+Keep status in existing task context, scientific definitions in the adopted specification and provenance with the result. Use [state](../harness/state.md) for persistent continuation and the [distribution contract](../docs/ai/integration.md#distribution-contract) for instruction maintenance. Record-format changes alone do not invalidate scientific results.

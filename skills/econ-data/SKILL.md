@@ -20,8 +20,6 @@ Return the requested data, code or calculation, its actual producing inputs/oper
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations
 
-Generated from registry/operations.json; the request determines the actual target and authority.
-
 - `execute`: Acquire, transform, join, calculate, estimate or change research data and code.
 - `equity`: Evaluate Japanese, US and overseas equities from public filings, IR and market observations; estimate competition, compute sustainable cash flows, reverse valuation, after-tax investment decisions and news-driven changes.
 <!-- END GENERATED MODES -->

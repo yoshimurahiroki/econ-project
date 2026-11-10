@@ -43,11 +43,7 @@ def load_routes(root, layout='source'):
         conditional = [r['resource_id'] for r in operation.get('conditional_resources', [])]
         if set(required + conditional) - resources.keys():
             raise ValueError('Operation refers to an unknown resource')
-    registry = routes['conditions']
-    for cid, selection in registry.items():
-        if set(selection) - resources.keys():
-            raise ValueError(f'Unknown condition resource: {cid}')
-        merge_selection({}, selection)
+    registry = routes['condition_definitions']
     for obj in [*routes['operations'], routes.get('placements', {})]:
         if set(obj.get('conditions', [])) - registry.keys():
             raise ValueError('Unknown condition ID in operation')
@@ -113,13 +109,16 @@ def resolve_operation(routes, selector, mode=None, *, user_profile=None, project
     active_rules, selection = required_closure(routes, pending, conditions, result.get('id', requested))
     origins = {rule_id: result.get('id', requested) for rule_id in active_rules}
     for cid in conditions:
-        merge_selection(selection, routes['conditions'][cid])
+        for eid in routes['condition_definitions'][cid].get('optional_examples', []):
+            example = routes['examples'][eid]
+            locator = routes['sections'][example['resource_id']][example['section_id']]
+            merge_selection(selection, {example['resource_id']: {'whole_resource': True}
+                if locator.get('whole_resource') else {'sections': [locator['heading']]}})
     profile = user_profile or project_profile or 'default-micro'
     uses_profile = result.get('uses_writing_profile', result['skill_id'] == 'econ-writing')
     uses_profile = uses_profile or (bool(user_profile) and result.get('explicit_profile_allowed', False))
     uses_profile = uses_profile or any(
-        edge.get('uses_profile', False) and edge.get('when') in conditions
-        for edge in result.get('conditional_rules', [])
+        routes['condition_definitions'][cid].get('uses_profile', False) for cid in conditions
     )
     if uses_profile:
         selection.pop('default-micro', None)
@@ -207,27 +206,26 @@ def native_index(routes, *, links=False, operation=None, family=None, query=None
                  'Select the conditions actually present in the request. `read ' + selected['canonical_operation']
                  + ' --stage STAGE --condition CONDITION --format compact` delivers the current stage\'s complete bodies and prerequisites.', '',
                  '| Condition | Direct required bodies | Optional examples |', '| --- | --- | --- |']
-        candidates = list(routes['condition_definitions']) if family or query else list(dict.fromkeys(selected['conditions']))
-        families = {cid: '-'.join(cid.split('_')[:2]) if cid.split('_')[0] in {'method', 'section', 'example'}
-                    else cid.split('_')[0] for cid in candidates}
+        candidates = list(routes['condition_definitions'])
         if not (family or query or all_conditions):
             lines = ['# ' + selected['canonical_operation'], '', selected['description'], '',
                      'Choose the requested purpose, then use `index --operation ' + selected['canonical_operation']
                      + ' --family FAMILY` or `--query TEXT` for exact conditions. Filters include registered common conditions.', '']
-            purposes = [cid for cid in candidates if cid.startswith('equity_')]
+            purposes = [cid for cid in candidates if cid.startswith('equity_')] if selected['mode'] == 'equity' else []
             if purposes:
                 lines += ['| Purpose condition | Required sections |', '| --- | --- |']
                 for cid in purposes:
                     labels = [routes['sections'][routes['rules'][key]['resource_id']][routes['rules'][key]['section_id']].get('heading', 'complete body')
                               for key in routes['condition_definitions'][cid].get('required_rules', [])]
                     lines.append('| `' + cid + '` | ' + '; '.join(labels) + ' |')
-            counts = {name: sum(value == name for value in families.values()) for name in sorted(set(families.values()))}
-            lines += ['', '| Family | Conditions |', '| --- | --- |']
-            lines += ['| ' + name + ' | ' + str(count) + ' |' for name, count in counts.items()]
+            lines += ['', 'Search by the requested method, task or tool. Use `--all-conditions` only for a complete catalog.']
             return '\n'.join(lines) + '\n'
         for cid in candidates:
-            if family and families[cid] != family:
-                continue
+            if family:
+                parts = cid.split('_')
+                category = '-'.join(parts[:2]) if parts[0] in {'method', 'section', 'example'} else parts[0]
+                if category != family:
+                    continue
             condition = routes['condition_definitions'][cid]
             bodies = []
             for rule_id in condition.get('required_rules', []):
@@ -294,7 +292,7 @@ def resource_index(routes, resource_id):
                       if key in value.get('required_rules', [])]
         active = ', '.join('`' + cid + '`' for cid in conditions)
         dependencies = []
-        for dep in rule['requires']:
+        for dep in rule.get('requires', []):
             edge = routes['rules'][dep]
             source = routes['resources'][edge['resource_id']]['source_path']
             target = posixpath.relpath(source, parent)
@@ -854,8 +852,6 @@ def load_registry(root, layout='source'):
     if set(resource_data['resources']) != set(placement_data['resources']):
         raise ValueError('Resource and placement IDs differ')
     for rid, resource in resource_data['resources'].items():
-        if resource.get('resource_id') != rid:
-            raise ValueError('Resource key and resource_id differ: ' + rid)
         resources[rid] = {**resource, **placement_data['resources'][rid]}
         if resource.get('source_distribution_only'):
             resources[rid]['snapshot'] = 'source_distribution_only'
@@ -865,14 +861,14 @@ def load_registry(root, layout='source'):
               'aliases': op_data.get('aliases', {}), 'operations': [],
               'condition_definitions': op_data.get('conditions', {}),
               'reading_stages': resource_data.get('reading_stages', {}),
-              'conditions': {}, 'registry_source_paths': names,
+              'registry_source_paths': names,
               'placements': {k: v for k, v in placement_data.items() if k not in ('schema_version', 'resources')}}
     # Runtime consumers get joined pointer records.
     routes['placements']['policy_pointers'] = [
         {**resources[p['resource_id']], 'template_id': p['template_id']}
         for p in placement_data.get('policy_pointers', [])]
     for key, rule in routes['rules'].items():
-        if key != rule.get('rule_id') or not isinstance(rule.get('requires'), list):
+        if not isinstance(rule.get('requires', []), list):
             raise ValueError('Invalid required rule: ' + key)
         rule_selection(routes, key)
     for stage, reading in routes['reading_stages'].items():
@@ -891,66 +887,49 @@ def load_registry(root, layout='source'):
         if not assigned or sid != 'all' and not any(sid in ids or 'all' in ids for ids in assigned):
             raise ValueError('Required rule has no declared reading stage: ' + rule_id)
     for cid, definition in routes['condition_definitions'].items():
-        if definition.get('when') != cid:
-            raise ValueError('Condition key and when differ: ' + cid)
         ids = definition.get('required_rules', [])
         example_ids = definition.get('optional_examples', [])
         if not ids and not example_ids:
             raise ValueError('Condition adds no body: ' + cid)
-        _, selection = required_closure(routes, ids, [cid], 'condition ' + cid)
+        for rule_id in ids:
+            rule_selection(routes, rule_id, 'condition ' + cid)
+        if 'uses_profile' in definition and type(definition['uses_profile']) is not bool:
+            raise ValueError('Invalid condition profile flag: ' + cid)
         for eid in example_ids:
             example = routes['examples'].get(eid)
             if not example:
                 raise ValueError('Unknown optional example: ' + eid)
-            rid, sid = example['resource_id'], example['section_id']
-            locator = routes['sections'][rid][sid]
-            merge_selection(selection, {rid: {'whole_resource': True} if locator.get('whole_resource') else {'sections': [locator['heading']]}})
-        routes['conditions'][cid] = selection
     seen = set()
     for op in op_data['operations']:
-        required_fields = {'id', 'owner_skill', 'mode', 'trigger', 'required_rules', 'conditional_rules'}
+        required_fields = {'id', 'owner_skill', 'mode', 'trigger', 'required_rules'}
         if required_fields - op.keys() or op['id'] in seen:
             raise ValueError('Invalid or duplicate operation: ' + str(op.get('id')))
         if any(type(op[key]) is not bool for key in ('uses_profile', 'explicit_profile_allowed') if key in op):
             raise ValueError('Invalid operation profile flag: ' + op['id'])
         seen.add(op['id'])
         active_rules, selection = required_closure(routes, op['required_rules'], origin=op['id'])
-        condition_ids = []
-        for edge in op['conditional_rules']:
-            cid = edge['when']
-            if 'uses_profile' in edge and type(edge['uses_profile']) is not bool:
-                raise ValueError('Invalid conditional profile flag: ' + op['id'])
-            if cid not in routes['conditions']:
-                raise ValueError('Unknown operation condition: ' + cid)
-            condition_ids.append(cid)
-        # Conditions owned by mandatory rules must be discoverable from the
-        # operation index too, without duplicating their declarations per Skill.
-        for rule_id in active_rules:
-            for edge in routes['rules'][rule_id].get('conditional_requires', []):
-                cid = edge['when']
-                if cid not in routes['conditions']:
-                    raise ValueError('Unknown required-rule condition: ' + cid)
-                if cid not in condition_ids:
-                    condition_ids.append(cid)
         routes['operations'].append({**op, 'skill_id': op['owner_skill'], 'operation': op['mode'],
             'description': op['trigger'], 'uses_writing_profile': op.get('uses_profile', False),
-            'required_resources': list(selection), 'resource_sections': selection,
-            'conditions': condition_ids})
+            'required_resources': list(selection), 'resource_sections': selection})
     for alias, definition in routes['aliases'].items():
         if definition.get('operation_id') and definition['operation_id'] not in seen:
             raise ValueError('Unknown alias target: ' + alias)
     # Validate unused dependency definitions too, after operation errors can name their owner.
     for key, rule in routes['rules'].items():
-        for dep in rule['requires']:
+        for dep in rule.get('requires', []):
             rule_selection(routes, dep, key)
+        for edge in rule.get('conditional_requires', []):
+            if edge['when'] not in routes['condition_definitions']:
+                raise ValueError('Unknown required-rule condition: ' + edge['when'])
+            for dep in edge['required_rules']:
+                rule_selection(routes, dep, key)
     return routes
 
 
 
 
 def generated_mode_block(routes, owner):
-    lines = ['<!-- BEGIN GENERATED MODES -->', '## Registered operations', '',
-             'Generated from registry/operations.json; the request determines the actual target and authority.', '']
+    lines = ['<!-- BEGIN GENERATED MODES -->', '## Registered operations', '']
     for op in routes['operations']:
         if op['owner_skill'] == owner:
             label = f"`{op['mode']}`"
@@ -1087,7 +1066,7 @@ if __name__ == '__main__':
     selection.add_argument('--operation')
     index.add_argument('--family', help='Filter condition family for an operation')
     index.add_argument('--query', help='Match every word against condition names and section titles')
-    index.add_argument('--all-conditions', action='store_true', help='List the operation conditions in the complete legacy table')
+    index.add_argument('--all-conditions', action='store_true', help='List every registered condition in one table')
     for command, help_text in [('resolve', 'show the selected contract and rule closure'),
                                ('read', 'read exact selected rule bodies and prerequisites')]:
         selected = commands.add_parser(command, help=help_text)
@@ -1101,7 +1080,7 @@ if __name__ == '__main__':
                                   help='Read the current stage; operations default to entry, explicit rule IDs retain direct reads')
             selected.add_argument('--offset', type=int, default=0, help='Character offset returned by the preceding page')
             selected.add_argument('--limit', type=int, default=16000, help='Maximum body characters per page')
-            selected.add_argument('--format', choices=('json', 'compact'), default='json')
+            selected.add_argument('--format', choices=('json', 'compact'), default='compact')
             selected.add_argument('--seen', action='append', default=[], help='Hash of a complete body still present in this intact context')
     args = parser.parse_args()
     if args.command == 'index' and (args.family or args.query or args.all_conditions) and not args.operation:

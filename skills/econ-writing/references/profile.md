@@ -1,7 +1,5 @@
 # Profile economics prose
 
-Use the [shared writing contract](../SKILL.md) and read this complete mode before its operation.
-
 ## Profile
 
 Create or update a reusable profile only when requested. Derive its writing operations from the user's adopted text and independently authored examples, applying the common composition process to each worked example.

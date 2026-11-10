@@ -1,16 +1,14 @@
-# Build the requested prose
-
-The [lexical dictionary](../quality/prose_rules.json) locates patterns for the same judgment.
+# Expression and argument
 
 ## Common output
 
-Preserve meaning, facts, quantities, units, population, attribution, truth conditions and editing scope. State the direct answer, economic mechanism and actual result, established by determining sources, derivations or actual operation returns. Resolve a determining missing source, calculation or failed operation at its owner.
+Preserve meaning, facts, quantities, units, population, attribution, truth conditions and editing scope. State the direct answer, mechanism and actual result established by determining sources, derivations or operation returns. Resolve a determining missing source, calculation or failed operation at its producer; compression cannot invent or strengthen a finding.
 
-Report statistical uncertainty only as numerical measures or numerical interval/set notation, such as standard errors, confidence or credible intervals, and p values. Include the measure labels, confidence levels, units and interval/set labels needed to read those numbers. Do not express statistical uncertainty through qualitative narrative, hedging, judgments about evidential strength or significance stars.
+Report statistical uncertainty only numerically: standard errors, confidence or credible intervals, p values or interval/set notation, with necessary measure labels, levels, units and set labels. Prohibit qualitative uncertainty, hedging, evidence-strength judgments and significance stars.
 
-Keep assumptions, scientific conditions and qualitative judgments about evidential strength in internal reasoning, specifications and computation; their user-facing exposition remains prohibited. Remove disclaimers, reservations, concessions, qualifications, embellishment, caution, conservatism, ambiguity, weakness, verbosity, supplements, annotations and defensive content, syntax and expression other than the numerical reporting notation and necessary labels specified above. The numerical reporting rule and these expression prohibitions apply equally to paraphrases, quotations, parentheses, translations, summaries, captions, footnotes and delegated passages; specialist templates and scientific conventions do not alter them.
+Keep assumptions, scientific conditions and qualitative evidence-strength judgments in reasoning, specifications and computation; prohibit their user-facing exposition. Remove disclaimers, reservations, concessions, qualifications, embellishment, caution, conservatism, ambiguity, weakness, verbosity, supplements, annotations and defensive content, syntax and expression, except the numerical reporting notation and labels above. Apply these rules to paraphrases, quotations, parentheses, translations, summaries, captions, footnotes and delegated text; specialist templates and scientific conventions grant no exception.
 
-Remove negative contrast and negative-definition framing, including titles and transitions; define objects directly. Preserve mathematical exclusions, observed absences and failed operations as exact conditions, values or statuses. Put planning, prospective investigation, temporary placement, self-evaluation and execution history only in requested operational content; retain completion blockers in the task report. Compression cannot invent or strengthen a finding.
+Remove negative contrast and negative-definition framing from content, titles and transitions. Define objects directly; retain mathematical exclusions, observed absences and failures as exact conditions, values or statuses. Put plans, prospective investigation, temporary placement, self-evaluation and execution history only in requested operational content; retain completion blockers in the task report.
 
 ## Select the economic argument
 
@@ -18,24 +16,20 @@ Select the proposition answering the request, its establishing source or derivat
 
 ## Connect the explanation
 
-Give each paragraph one advancing proposition with its premises. Define before use and keep decisive steps beside conclusions. Explain the actors, information, incentives, constraints and responses determining behavior, equilibrium, welfare or action; support causal links with observations or derivations. Compare common quantities, units, population, period and denominator with adopted rounding. Name a source with its finding and connect actions to their objective and completion claims to actual outputs.
+Give each paragraph one advancing proposition and its premises. Define before use and keep decisive steps beside conclusions. Explain how actors' information, incentives, constraints and responses determine behavior, equilibrium, welfare or action. Establish causal links by observations or derivations. Compare common quantities, units, population, period and denominator with adopted rounding. Connect sources to findings, actions to objectives and completion claims to actual outputs.
 
 ## Select the profile
 
-Use the requested profile, then the project profile or [default-micro](../profiles/default-micro/PROFILE.md). Preserve audience and medium; retrieve examples only for an unresolved writing choice. Economics exposition assumes doctoral core knowledge and starts at the study-specific question, institution, measurement or restriction; do not re-teach shared basics or assess the reader's ability. For explicitly non-specialist readers, introduce terms through actors' choices, constraints and incentives and their resulting prices, quantities or adjustment. Use and explain equations or diagrams when they clarify that relation.
-
-<a id="revise-for-the-requested-language"></a>
+Use the requested profile, then the project profile or [default-micro](../profiles/default-micro/PROFILE.md). Preserve audience and medium; retrieve examples only for an unresolved writing choice. Economics exposition assumes doctoral core knowledge and begins with the study-specific question, institution, measurement or restriction. Do not re-teach shared basics or assess reader ability. For explicitly non-specialist readers, introduce terms through actors' choices, constraints, incentives and resulting prices, quantities or adjustment. Use equations or diagrams when they clarify that relation.
 
 ## Revise for the requested language
 
-Use natural Japanese with explicit actors, consistent terms, clear causal links and one advancing point per sentence; academic prose uses plain form. Repair translated order, ambiguous modifiers, distant subjects and excessive nominalization. Use precise ordinary English, preserving effective source wording and technical terms.
-
-Remove mechanical triples, repeated sentence or paragraph openings, uniform writing templates, decorative emphasis and empty connectors. Use lists for parallel items and tables for comparisons. Add no invented finding, opinion, experience or causal step.
+Use natural Japanese with explicit actors, consistent terms, causal links and one advancing point per sentence; academic prose uses plain form. Repair translated order, ambiguous modifiers, distant subjects and excessive nominalization. Use precise ordinary English, preserving effective source wording and technical terms. Remove mechanical triples, repeated openings, uniform templates, decorative emphasis and empty connectors. Use lists for parallel items and tables for comparisons. Invent no finding, opinion, experience or causal step.
 
 ## Finish the passage
 
-Within CORE's single substantive review, correct source correspondence, logic, rhetorical function and natural language. After the result is adequate, do not repeat full-manuscript checks or fixed rewriting passes. Use the lexical scanner only for a requested check or a concrete defect meeting CORE's verification conditions; a match locates text, while its complete proposition determines the correction. Return corrected wording and positions when requested.
+CORE's integrated review covers source correspondence, logic, rhetorical function and natural expression. Do not add fixed rewriting passes or repeat adequate manuscript checks. The [lexical dictionary](../quality/prose_rules.json) locates patterns; use its scanner only for a requested check or a concrete defect meeting CORE's verification conditions. Judge the complete proposition, and return corrected wording and positions when requested.
 
 ## Hierarchical argument and paragraph composition
 
-Organize long arguments under their central answer. Read [paragraph guidance](../skills/econ-writing/references/paragraph-workflow.md) for an actual structural choice. Activate argument/paragraph state only for requested correspondence or persistent dependencies.
+Organize long arguments under their central answer. Read [paragraph guidance](../skills/econ-writing/references/paragraph-workflow.md) for an actual structural choice; use argument/paragraph state only for requested correspondence or persistent dependencies.

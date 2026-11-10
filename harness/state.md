@@ -1,6 +1,6 @@
 # State, consumed dependencies and resumption
 
-Use this interface for durable state, saved-result reuse or resumption under [CORE](../runtime/CORE.md). [TEAM](../runtime/TEAM.md#resumption) owns recovery of the governing task, and [EXECUTION](../runtime/EXECUTION.md#checks-and-completion) owns operation completion.
+Use this interface for durable state, saved-result reuse or resumption under [CORE](../runtime/CORE.md). [TEAM](../runtime/TEAM.md#resumption) owns recovery of the governing task, and [EXECUTION](../runtime/EXECUTION.md#complete-outputs-and-failure-propagation) owns operation completion.
 
 ## State and version contract
 

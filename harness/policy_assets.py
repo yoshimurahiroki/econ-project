@@ -9,7 +9,7 @@ from pathlib import Path, PurePosixPath
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.94.0'
+POLICY_ID = 'economics-native-0.95.0'
 PRIMARY_EXPRESSION_RULE = "Apply PROSE's reporting and expression rules to every answer and generated artifact."
 PRIMARY_STYLE_RULE = ('Report statistical uncertainty only as numerical measures such as standard errors, intervals and p values; '
                       'keep scientific conditions and qualitative evidence-strength judgments internal. '
@@ -129,7 +129,7 @@ def _resource_records(assets):
     if not isinstance(data, dict) or data.get('schema_version') != 2 or not isinstance(data.get('resources'), dict):
         raise ValueError('invalid policy resource registry')
     for rid, record in data['resources'].items():
-        if not isinstance(record, dict) or record.get('resource_id') != rid:
+        if not isinstance(rid, str) or not rid or not isinstance(record, dict):
             raise ValueError('invalid policy resource ID: ' + str(rid))
         safe_path(record.get('source_path'))
     return data['resources']

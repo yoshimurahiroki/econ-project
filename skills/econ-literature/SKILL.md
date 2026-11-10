@@ -16,7 +16,5 @@ Registry conditions select the owning [literature method](references/literature-
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations
 
-Generated from registry/operations.json; the request determines the actual target and authority.
-
 - `investigate`: Find and select source information that resolves a research question or citation task.
 <!-- END GENERATED MODES -->

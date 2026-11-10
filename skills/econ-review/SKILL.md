@@ -12,15 +12,10 @@ Assess the named claim or artifact within its requested scope, using its intende
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations
 
-Generated from registry/operations.json; the request determines the actual target and authority.
-
 - `assess`: Assess the specified claim or artifact and return findings and proposed repairs.
 - `assess+repair`: Assess the specified target and repair it within the requested change scope.
 <!-- END GENERATED MODES -->
 
-## Select the operation
-
-Use the registered operations; the [econ-review procedure](references/review.md) owns the selected specialist steps.
 
 ## Output
 

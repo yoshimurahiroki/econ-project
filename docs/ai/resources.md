@@ -240,5 +240,4 @@ Generated from the resource and placement registries. Use this catalog only for 
 - data-structural-execution: skills/econ-data/references/implementation-structural.md
 - data-numerical-execution: skills/econ-data/references/implementation-numerics.md
 - data-worked-examples: skills/econ-data/references/implementation-examples.md
-- routing: runtime/ROUTING.md
 - review-procedure: skills/econ-review/references/review.md
