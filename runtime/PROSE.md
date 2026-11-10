@@ -32,7 +32,7 @@ Use natural Japanese with explicit actors, consistent terms, causal links and on
 
 ## Finish the passage
 
-Review the entire artifact against the common output rule by meaning and rhetorical function. Repair the producing instruction or passage and reread affected material. Keep evidence and calculations intact, and report the actual authorized operation result.
+Review the entire artifact against the common output rule by meaning and rhetorical function. Before delivering each user-facing local artifact created or materially edited for the request, read its actual authored content and revise noncompliant passages once in the saved file. Include prose in tables, slides, captions and labels, including artifacts produced by scripts or delegated work. For generated formats, revise the producing source, regenerate the deliverable and inspect the affected output. Preserve data, calculations, equations, citations, source attribution, code behavior and unrelated existing content. Report an artifact that could not be inspected or corrected; do not claim a semantic review based only on a lexical scan. Repair the producing instruction or passage and reread affected material. Keep evidence and calculations intact, and report the actual authorized operation result.
 
 ## Hierarchical argument and paragraph composition
 
