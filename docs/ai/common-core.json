@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "44069cc973e8b71dcf95df6c47d83b619e5f42b1",
+  "source_base_commit": "6f6aafd41d963b73a22779d74d78f969ab137f0c",
   "source_state": "committed",
-  "common_content_id": "d273972624e74741d976b62115de2544988f58a5a3593e835fdfab5d886f4cd0",
+  "common_content_id": "2d80fbfaef6def0cbeb93832018dae80438a19e8657211f6ba7e358cbf5641e0",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -241,8 +241,8 @@
     {
       "path": "harness/codex_hooks.py",
       "state": "present",
-      "sha256": "23a59ee8a3aa5b7fc436df776a6268bd6952fba8593c103e092bca5177663ea9",
-      "git_blob": "48c7d93f50fd7533b80daf5df8ad8ee9de15f727",
+      "sha256": "286c94b2c8bc374d696cce992d8b5de97373daaf5cc2278e4c30b96f545c771b",
+      "git_blob": "0de3ff0082691448e75a841ca187cc716da12ccf",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -305,8 +305,8 @@
     {
       "path": "harness/policy_assets.py",
       "state": "present",
-      "sha256": "164a619abcad6f29c540fcb4fc0645c284efb0e0a3001a1f8f1f1c1d27d557ac",
-      "git_blob": "01c784e4efe8bd864a08c90c3373d9761f235361",
+      "sha256": "ab02b4f75c63856bf793726a770f69ac3666900a85a4a2c9118729204b4ae08a",
+      "git_blob": "bad8893f83171d9c0abe40fb73dadc3fb9dd4bdc",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -393,8 +393,8 @@
     {
       "path": "harness/state.md",
       "state": "present",
-      "sha256": "23d56584afa7a64113ea56ae874c52c682a05c7634f1b0dd2be819f4375524b4",
-      "git_blob": "e3b586dfac85a47217e1195bee9860a15d083637",
+      "sha256": "6e70826c99f8d6a3173013eb6953bac73c829f7505fd4579db1f630d40ef7c03",
+      "git_blob": "7a5cc25cfc604d99879d825e69c25b49c98027ff",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -681,8 +681,8 @@
     {
       "path": "runtime/PROSE.md",
       "state": "present",
-      "sha256": "a6cb2b9a9014b4c480434cf243a213efdeb63df9c65df4eeac915268865d3e61",
-      "git_blob": "a4c9aa404f82c6f53d3dcfe0bc6eef57a5bf15d9",
+      "sha256": "21b389768e8801be477e29bd3e17f78f9f09833bc02323e2bcb84908406ef7d6",
+      "git_blob": "0fc5d4291b5ad8bce2ef0e8e0400850ffb49ba3d",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },

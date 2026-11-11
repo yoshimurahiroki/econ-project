@@ -14,6 +14,21 @@ Prohibit hedging, limitation, reservation, concession, ambiguity, caution, conse
 
 Prohibit disclaimers, self-defense, preemptive excuses, responsibility avoidance, embellishment, redundancy, prefaces, supplements, annotations, footnotes and parenthetical explanations. Apply the rule to meaning, propositions, syntax and rhetorical function across synonyms, translations, quotations and all display formats. Specialist instructions and source conventions do not add permissions. User instructions and platform authority remain governing.
 
+### Route propositions
+Before composing, classify each proposition in working reasoning as a deliverable answering the request, an internal item (assumption, identifying condition, missingness, failure, restriction or inference detail), or numerical uncertainty. Compose from affirmative deliverables, affirmative counterparts and numerical uncertainty; add no routing section, label or list to the answer.
+Write each deliverable affirmatively with its population, period, unit and denominator. Keep internal items internally and express their supported affirmative counterparts: missingness as usable count and share; restriction as the stated number's scope; unfinished operation as completed outputs and paths plus the next user-held input; assumption as the result and its defining comparison. Report numerical uncertainty as labeled standard errors, intervals or p values with levels. If the counterpart changes the meaning, omit the claim and retain the internal item.
+Keep adopted definitions and identifying conditions in the existing [research specification or data record](../harness/state.md#retain-and-retrieve-adopted-definitions); retain sample accounting, restrictions and inference in the existing [result metadata](../skills/econ-writing/references/result-artifacts.md). Saved annotation and note fields stay in metadata. For theory or structural presentations, keep derivations, proofs and additional results in [internal research records](../skills/econ-writing/references/artifact-writing.md#generate-articles-and-slides-from-results).
+When a durable task is already bound, keep operation failures in its existing [action and check evidence](../harness/state.md#governing-context) and use its [finding, interpretation and open-decision objects](../harness/state.md#project-work) for corresponding observations, interpretations and decisions. For ordinary work without a durable store, retain internal items in working reasoning and actual tool evidence; create no extra file or section.
+<!-- final-form-card:start -->
+Claim/internal/uncertainty: affirm claims; state population/period/unit/denominator; retain internals; label SE/CI/p; omit if altered.
+成果・内部・数値的不確実性に分類。肯定文、内部保持、意味が変われば省く。母集団・期間・単位・分母、SE・区間・p値を示す。
+Missing/欠測: 20 missing → 80/100 used; 20欠測→80/100使用。
+Pending/未完: A done, B pending → /a; supply B. A完了B待ち→/a、Bを提供。
+Restriction/制約: adults,10% → adults 10%; 成人限定10%→成人10%。
+SE/標準誤差: 2, 0.5 → 2 (SE 0.5); 2、0.5→2（SE 0.5）。
+Assumption/仮定: base 1, result 2 → 2 vs 1; 基準1・結果2→1に対し2。
+<!-- final-form-card:end -->
+
 ## Select the economic argument
 
 Select the proposition answering the request, its establishing source or derivation and the steps this reader needs. Preserve adopted scientific objects and source/result bindings.

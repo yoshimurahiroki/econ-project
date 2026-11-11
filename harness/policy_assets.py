@@ -6,10 +6,11 @@ import hashlib
 import json
 import os
 from pathlib import Path, PurePosixPath
+import shlex
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.95.5'
+POLICY_ID = 'economics-native-0.95.11'
 PRIMARY_EXPRESSION_RULE = "Apply PROSE's reporting and expression rules to every answer and generated artifact."
 PRIMARY_STYLE_RULE = ('Report statistical uncertainty only as numerical measures such as standard errors, intervals and p values; '
                       'keep scientific conditions and qualitative evidence-strength judgments internal. '
@@ -520,6 +521,21 @@ def section_ranges(routes, resource_id, text, resolver, section_ids=None, cache=
     return result
 
 
+def final_form_card(root, manifest):
+    record = manifest['assets']['prose']
+    raw = regular_bytes(Path(root) / record['path'])
+    if digest(raw) != record['sha256']:
+        raise ValueError('final-form card source changed')
+    source = raw.decode('utf-8')
+    start, end = '<!-- final-form-card:start -->\n', '\n<!-- final-form-card:end -->'
+    if source.count(start) != 1 or source.count(end) != 1:
+        raise ValueError('invalid final-form card markers')
+    card = source.split(start, 1)[1].split(end, 1)[0]
+    if not card or len(card.encode('utf-8')) > 700:
+        raise ValueError('invalid final-form card size')
+    return card
+
+
 def instruction_context(root=None, *, manifest=None, status=None, stage=None, role=None, reader_id=None,
                         request_text=None, restore=False, instruction_event=None, retained_bodies=()):
     """One short current instruction packet for local hooks and MCP/UI.
@@ -651,10 +667,16 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
     short = ('Preserve the original request, authority and holds. Read complete current-stage rule bodies before dependent work; '
              'reuse only matching complete text in the intact context. Open and finish the saved full packet when shown a preview; '
              'a preview or receipt is not a rule-body read.')
-    rule_refs = [row['path'] + ('' if row['section_id'] == 'all' else '#' + row['section_id']) +
-                 ' (MCP: ' + row['rule_ids'][0] + ')' for row in direct_refs]
-    if rule_refs:
-        short += ' Unread or changed rules (' + manifest['policy_id'] + '): ' + ', '.join(rule_refs) + '.'
+    pending_direct = [row for row in direct_refs if row['remaining_ranges'] and not present_in_context(row)]
+    pending_direct.sort(key=lambda row: 0 if row['resource_id'] == 'prose' and row['section_id'] == 'common-output' else 1)
+    if pending_direct:
+        row = pending_direct[0]
+        source = resource_bytes(row, row['resource_id'], 'reading resource changed: ').decode('utf-8')
+        first = source.count('\n', 0, row['start']) + 1
+        last = source.count('\n', 0, max(row['start'], row['end'] - 1)) + 1
+        name = row['resource_id'] + '.' + row['section_id']
+        command = f"sed -n '{first},{last}p' {shlex.quote(str(root / row['path']))}"
+        short += '\nUnread or changed rules (' + manifest['policy_id'] + '): ' + name + '; ' + command + '\n'
     if unmet_ids:
         short += ' Unmet IDs: ' + ', '.join(unmet_ids) + '.'
     if next_names:
@@ -701,6 +723,9 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
             'stage': stage, 'adopted_selection': manifest.get('selection'),
             'settled_decisions': status.get('settled_decisions', []),
             'unmet_ids': unmet_ids, 'next_actions': actions, 'lifecycle': terminal}).decode('utf-8')
+    operation = (manifest.get('selection') or {}).get('operation') or ''
+    if stage == 'compose' and operation.startswith(('econ-writing:', 'econ-data:')):
+        text += '\n\n[Final-form card]\n' + final_form_card(root, manifest)
     text = primary_instruction(text)
     return {'schema_version': 1, 'policy_id': manifest['policy_id'],
             'primary_expression_rule': PRIMARY_EXPRESSION_RULE,

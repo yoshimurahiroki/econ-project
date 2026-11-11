@@ -686,6 +686,13 @@ def _retain_exposed_rule_bodies(directory, event):
                 collect(item, depth + 1)
     collect(event.get('tool_response'))
     source_root = Path(record['instruction_body_root'])
+    observed = {actual for _, actual in _observed_read_paths(event, source_root)}
+    args = event.get('tool_input') or {}
+    command = args.get('cmd', args.get('command', '')) if isinstance(args, dict) else ''
+    try:
+        parts = shlex.split(command) if observed and isinstance(command, str) else []
+    except ValueError:
+        parts = []
     sources = {}
     for row in pending:
         path = source_root / row['path']
@@ -701,11 +708,65 @@ def _retain_exposed_rule_bodies(directory, event):
         if digest != row['sha256']:
             continue
         body = source[row['start']:row['end']]
-        if body and any(body in text for text in texts):
+        credited = False
+        if path.resolve() in observed and parts:
+            if parts[0] == 'cat':
+                credited = True
+            elif parts[0] == 'sed' and len(parts) >= 4:
+                bounds = parts[2][:-1].split(',')
+                first, last = int(bounds[0]), int(bounds[-1])
+                body_first = source.count('\n', 0, row['start']) + 1
+                body_last = source.count('\n', 0, max(row['start'], row['end'] - 1)) + 1
+                credited = first <= body_first and last >= body_last
+        if body and (credited or any(body in text for text in texts)):
             retained.append(row)
             seen.add(identity(row))
     if retained != record.get('instruction_read_bodies', []):
         save_record(directory / 'reinjection.json', {**record, 'instruction_read_bodies': retained})
+
+
+def _unread_instruction_bodies(directory, turn=None):
+    record = _read(directory / 'reinjection.json', {})
+    def identity(row):
+        return tuple(row[key] for key in ('path', 'sha256', 'start', 'end'))
+    seen = {identity(row) for row in record.get('instruction_read_bodies', [])}
+    if turn is not None and record.get('instruction_emitted_turn') == turn:
+        seen.update(identity(row) for row in record.get('instruction_emitted_bodies', []))
+    rows = [row for row in record.get('instruction_body_refs', []) if identity(row) not in seen]
+    # Registry order supplies stage order; CORE and PROSE lead within the stage.
+    return sorted(rows, key=lambda row: (0 if row.get('resource_id') == 'core' else
+                                         1 if row.get('resource_id') == 'prose' else 2))
+
+
+def _instruction_body_command(directory, row):
+    record = _read(directory / 'reinjection.json', {})
+    path = Path(record['instruction_body_root']) / row['path']
+    raw = gate.regular_bytes(path)
+    gate.require(gate.sha(raw) == row['sha256'], 'instruction source changed: ' + str(path))
+    source = raw.decode('utf-8')
+    start = source.count('\n', 0, row['start']) + 1
+    end = source.count('\n', 0, max(row['start'], row['end'] - 1)) + 1
+    return str(path), start, end, f"sed -n '{start},{end}p' {shlex.quote(str(path))}"
+
+
+def _retain_hook_emission(directory, event, result):
+    if event.get('agent_id') or not event.get('turn_id'):
+        return
+    record = _read(directory / 'reinjection.json', {})
+    if not record.get('instruction_body_root'):
+        return
+    # Exposure establishes text presence, not semantic reading.
+    emitted = list(record.get('instruction_emitted_bodies', [])) if record.get('instruction_emitted_turn') == event['turn_id'] else []
+    output = result.get('hookSpecificOutput', {})
+    texts = [output.get('additionalContext', ''), result.get('systemMessage', ''), result.get('reason', '')]
+    for row in record.get('instruction_body_refs', []):
+        raw = gate.regular_bytes(Path(record['instruction_body_root']) / row['path'])
+        if gate.sha(raw) == row['sha256']:
+            body = raw.decode('utf-8')[row['start']:row['end']]
+            if body and any(body in text for text in texts if isinstance(text, str)) and row not in emitted:
+                emitted.append(row)
+    record.update(instruction_emitted_turn=event['turn_id'], instruction_emitted_bodies=emitted)
+    save_record(directory / 'reinjection.json', record)
 
 
 def focus_saved_research(module, task, *, view='selected', offset=0, limit=100):
@@ -1421,6 +1482,26 @@ def _review_final_prose(event, root, directory):
                  'prose review turn is not registered in this task')
     if membership.get('prose_review_requested'):
         return None
+    reading = ''
+    try:
+        unread = _unread_instruction_bodies(directory, turn)
+        if unread:
+            commands = []
+            for row in unread:
+                try:
+                    commands.append(_instruction_body_command(directory, row)[3])
+                except (OSError, ValueError, UnicodeError):
+                    source = Path(_read(directory / 'reinjection.json', {})['instruction_body_root']) / row['path']
+                    commands.append('cat ' + shlex.quote(str(source)))
+            reading = '\nRead these instruction bodies first:\n' + '\n'.join(commands)
+    except (OSError, ValueError, KeyError, TypeError):
+        pass  # A damaged advisory snapshot must not suppress the prose review.
+    card = ''
+    try:
+        policy, owner, _, manifest, _ = _policy_snapshot(root, directory)
+        card = '\n[Final-form card]\n' + policy.final_form_card(owner, manifest)
+    except (OSError, ValueError, KeyError, TypeError, ImportError):
+        pass  # An unavailable advisory card must not suppress the prose review.
     membership['prose_review_requested'] = True
     save_record(path, membership)
     return {'decision': 'block', 'reason': (
@@ -1429,6 +1510,9 @@ def _review_final_prose(event, root, directory):
         'the complete proposed final answer, the exact relevant local artifact paths and CORE and PROSE. '
         'Ask the subagent to semantically review the entire proposed final answer and '
         'each user-facing local artifact created or materially edited for this request against CORE and PROSE. '
+        'Apply the routing procedure to the answer and each artifact; rewrite internal items as their '
+        'affirmative counterparts or omit the claims when meaning changes. Confirm durable internal items '
+        'are in their existing destinations. '
         'Identify the actual deliverable files from the request and work performed, including files '
         'generated by scripts or delegated work. Read the authored content in each actual artifact, '
         'including prose in tables, slides, captions and labels, and rewrite noncompliant passages '
@@ -1441,7 +1525,7 @@ def _review_final_prose(event, root, directory):
         'return, integrate its saved artifact changes and return its complete revised final answer. '
         'If native subagents are unavailable, disallowed or fail, perform the same pass yourself and '
         'report the actual result; never claim a subagent ran when it did not. Do not launch another '
-        'review subagent on re-entry. The next Stop will be allowed.')}
+        'review subagent on re-entry. The next Stop will be allowed.' + reading + card)}
 
 
 def _verify_ordinary_stop(event, root, directory):
@@ -2543,7 +2627,17 @@ def dispatch(event, expected_event):
         if expected_event == 'PreToolUse':
             if lifecycle == 'paused':
                 return failure('PreToolUse', 'the task is waiting for the next actual user input')
-            return _pre_tool(event, root, directory, state)
+            result = _pre_tool(event, root, directory, state)
+            if not agent_id and _tool_effect(event, root, directory, enforce_authority=False)[4] != 'read':
+                unread = _unread_instruction_bodies(directory, event.get('turn_id'))
+                if unread:
+                    commands = [_instruction_body_command(directory, row)[3] for row in unread[:3]]
+                    reminder = 'Economics task check: Read the applicable instruction bodies:\n' + '\n'.join(commands)
+                    if not result:
+                        return feedback(expected_event, reminder)
+                    output = result.setdefault('hookSpecificOutput', {'hookEventName': expected_event})
+                    output['additionalContext'] = reminder + '\n\n[Task context]\n' + output.get('additionalContext', '')
+            return result
         if expected_event in ('SubagentStart', 'SubagentStop'):
             return _child(event, root, directory, state, manifest)
         if expected_event in ('PostToolUse', 'SessionStart'):
@@ -2661,6 +2755,26 @@ def dispatch(event, expected_event):
 def _limit_repeated_warning(event, result):
     """Show identical check warnings twice per turn while retaining every callback."""
     output = result.get('hookSpecificOutput', {})
+    # The policy packet's unread-rule note shares the existing advisory budget.
+    for container, key in ((output, 'additionalContext'), (result, 'systemMessage')):
+        text = container.get(key)
+        if not isinstance(text, str) or '\nUnread or changed rules (' not in text:
+            continue
+        lines = text.splitlines(keepends=True)
+        for index, line in enumerate(lines):
+            if not line.startswith('Unread or changed rules ('):
+                continue
+            data = absolute(os.environ.get('PLUGIN_DATA'))
+            directory = _active_directory(event, data)
+            unread = _unread_instruction_bodies(directory, event.get('turn_id')) if directory else []
+            name = line.partition('): ')[2].partition(';')[0]
+            pending = any(row.get('resource_id', '') + '.' + row.get('section_id', '') == name for row in unread)
+            marker = feedback(event.get('hook_event_name'),
+                              'Economics task check: Read the applicable instruction bodies: ' + gate.sha(line.encode()))
+            allowed = _limit_repeated_warning(event, marker) if pending else {}
+            if not allowed.get('hookSpecificOutput', {}).get('additionalContext') and not allowed.get('systemMessage'):
+                lines[index] = ''
+        container[key] = ''.join(lines)
     field = 'additionalContext' if output.get('additionalContext', '').startswith('Economics task check:') else None
     container = output
     if field is None and result.get('systemMessage'):
@@ -2681,6 +2795,25 @@ def _limit_repeated_warning(event, result):
     directory.mkdir(parents=True, mode=0o700, exist_ok=True)
     warning, separator, context = container[field].partition('\n\n[Task context]\n')
     digest = gate.sha(warning.encode('utf-8'))
+    unread_warning = warning.startswith('Economics task check: Read the applicable instruction bodies:')
+    task_directory = _active_directory(event, data) if unread_warning else None
+    suppressed = None
+    if task_directory:
+        notices = directory.parent
+        suppressed = notices / ('suppressed-' + gate.sha(str(task_directory).encode()))
+        # Include the complete set, including bodies outside the displayed three.
+        unread = _unread_instruction_bodies(task_directory, turn)
+        fingerprint = gate.sha(gate.canonical([tuple(row[key] for key in ('path', 'sha256', 'start', 'end'))
+                                               for row in unread]))
+        digest = gate.sha(('unread:' + str(task_directory)).encode())
+        if suppressed.exists():
+            if separator:
+                container[field] = context
+            else:
+                del container[field]
+                if container is output:
+                    result.pop('hookSpecificOutput', None)
+            return result
     for slot in range(2):
         try:
             fd = os.open(directory / (digest + '-' + str(slot)),
@@ -2688,6 +2821,20 @@ def _limit_repeated_warning(event, result):
         except FileExistsError:
             continue
         os.close(fd)
+        if task_directory:
+            marker = directory / (fingerprint + '-set')
+            marker_fd = os.open(marker, os.O_WRONLY | os.O_CREAT | getattr(os, 'O_NOFOLLOW', 0), 0o600)
+            os.close(marker_fd)
+            context_record = _read(task_directory / 'context.json', {})
+            turns = [context_record.get('turn_id')] + [row.get('turn_id') for row in
+                     _read(task_directory / 'task-messages.json', [])]
+            if turn in turns:
+                index = turns.index(turn)
+                recent = turns[max(0, index - 2):index + 1]
+                if len(recent) == 3 and all(isinstance(item, str) and
+                        (directory.parent / gate.sha(item.encode()) / (fingerprint + '-set')).is_file() for item in recent):
+                    fd = os.open(suppressed, os.O_WRONLY | os.O_CREAT | getattr(os, 'O_NOFOLLOW', 0), 0o600)
+                    os.close(fd)
         return result
     if separator:
         container[field] = context
@@ -2733,16 +2880,50 @@ def main(expected_event):
                 digest = gate.sha(text.encode('utf-8'))
                 packet = directory / 'instruction-context' / (digest + '.json')
                 save_record(packet, {'text': text, 'content_sha256': digest}, replace=False)
+                companion = packet.with_suffix('.md')
+                raw_text = text.encode('utf-8')
+                temporary = companion.parent / ('.hook-' + str(uuid.uuid4()))
+                try:
+                    with open(temporary, 'xb') as out:
+                        os.chmod(temporary, 0o600)
+                        out.write(raw_text)
+                        out.flush()
+                        os.fsync(out.fileno())
+                    try:
+                        gate.publish_file(temporary, companion)
+                    except FileExistsError:
+                        gate.require(gate.regular_bytes(companion) == raw_text, 'existing packet companion differs')
+                    gate.sync_directory(companion.parent)
+                finally:
+                    temporary.unlink(missing_ok=True)
+                policy = sibling(root / 'harness/policy_assets.py')
+                lines = max(1, text.count('\n') + (not text.endswith('\n')))
+                pages = [f"sed -n '{start},{min(start + 119, lines)}p' {shlex.quote(str(companion))}"
+                         for start in range(1, lines + 1, 120)]
                 container[key] = (
-                    'Read the complete saved instruction packet before dependent work: ' + str(packet) +
-                    '. content_sha256=' + digest +
-                    '. Its UTF-8 JSON text field contains the exact request, adopted rules and current context. '
-                    'Read that field in bounded character pages through its end and reuse complete same-version reads. '
-                    'This locator is not a reading receipt; a host-truncated preview cannot restore required instructions.')
+                    policy.primary_instruction('') + '\nRead the saved instruction packet: ' + str(packet) +
+                    ' (content_sha256=' + digest + '). Read every page:\n' + '\n'.join(pages))
+                note = next((line for line in text.splitlines() if line.startswith('Unread or changed rules (')), None)
+                if note:
+                    container[key] += '\n' + note
+                if '\n[Final-form card]\n' in text:
+                    try:
+                        selected_policy, owner, _, manifest, _ = _policy_snapshot(root, directory)
+                        card = selected_policy.final_form_card(owner, manifest)
+                        if '\n[Final-form card]\n' + card in text:
+                            container[key] += '\n[Final-form card]\n' + card
+                    except (OSError, ValueError, KeyError, TypeError, ImportError):
+                        pass  # The complete packet remains available at its locator.
+        try:
+            directory = _active_directory(event, absolute(os.environ.get('PLUGIN_DATA')))
+            if directory is not None:
+                _retain_hook_emission(directory, event, result)
+        except Exception:
+            pass  # Exposure bookkeeping must never stop the host.
     except Exception as exc:
         if not startup_complete:
-            result = {'decision': 'block', 'reason': ('State management could not start: ' + str(exc) +
-                      '. Correct the startup problem and resubmit the request; no automatic retry was started.')[:500]}
+            result = dict(decision='block', reason=('State management could not start: ' + str(exc) +
+                      '. Correct the startup problem and resubmit the request; no automatic retry was started.')[:500])
         else:
             result = failure(expected_event, ('hook error: ' + str(exc))[:500])
         try:
