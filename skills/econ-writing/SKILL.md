@@ -5,13 +5,14 @@ description: Write, revise, explain, translate or format economics prose, papers
 
 ## Native entry contract
 
-Select the requested writing mode; explicit execution-prompt creation uses project-work:prompt. For an assigned paper activate `paper_reading`; for saved-result articles/slides activate `research_result_artifacts`. Select the requested medium/render procedure in [artifact writing](references/artifact-writing.md).
+1. **Output: writing target; consumer: selected mode.** Recover the requested artifact, audience, language, medium and sources. Choose the writing mode; execution-prompt creation uses project-work:prompt.
+2. **Output: applicable procedure; consumer: composition.** Activate `paper_reading` for assigned papers or `research_result_artifacts` for saved-result articles/slides. Read the selected mode, PROSE and [medium/render procedure](references/artifact-writing.md).
 
 # Write the requested economics artifact
 
 ## Output
 
-Return the finished wording or artifact first, at the requested depth. Preserve audience and medium and report actual saved/rendered destinations. A pending source, calculation or render continues through its producing owner.
+1. **Output: inspected wording/artifact; consumer: user.** Apply PROSE's finish steps, then return the finished result first at the requested depth with actual saved/rendered destinations. Route a pending source, calculation or render to its producing owner.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

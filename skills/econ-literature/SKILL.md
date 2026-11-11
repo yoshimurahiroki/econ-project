@@ -7,11 +7,12 @@ description: Find literature, assess novelty, check citations against the cited 
 
 ## Purpose and input
 
-Resolve the requested literature, novelty, citation or institutional-source question from supplied materials and existing holdings.
+1. **Output: source question; consumer: retrieval.** Recover the requested literature, novelty, citation or institutional-source question, supplied materials and existing holdings.
 
 ## Select the source operation
 
-Registry conditions select the owning [literature method](references/literature-methods.md): search and ranking, novelty, replication, numerical implementation, citation/date checks, interviews or AI-method assessment. [Search priority](references/search-priority.md) owns journal ordering; its data file remains machine input.
+1. **Output: inspected source record; consumer: analysis/writing.** Read the registry-selected [literature method](references/literature-methods.md) and execute DECIDE's source-investigation steps. [Search priority](references/search-priority.md) owns journal ordering; its data file remains machine input.
+2. **Output: source-backed answer; consumer: user or parent specialist.** Return the requested findings with exact inspected passages and versions in the evidence record; select public propositions through PROSE.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

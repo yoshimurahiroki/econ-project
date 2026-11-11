@@ -7,9 +7,9 @@ description: Clarify task requirements and work approaches; create or improve re
 
 ## Purpose and entry
 
-Use `clarify` for requested requirements/work-approach consultation, `prompt` for an executable prompt, `contribute` for an assigned case contribution and `manage` for case/team/resource ownership. Ordinary analysis, implementation and writing stay with their specialists, including necessary clarification there.
-
-Input is the original request, materials, current specifications, decisions, authority and requested output. For a real case, use [case connection](references/practice.md#connect-the-current-case); `project_github_operations` selects actual Issue/Project operations. The lead retains the parent question and final adoption; design, literature, data, writing and review supply their specialist returns.
+1. **Output: project target; consumer: operation selection.** Recover the original request, materials, specifications, decisions, authority and output. Select `clarify` for requested consultation, `prompt` for executable prompts, `contribute` for assigned case work or `manage` for case/team/resources. Ordinary analysis, implementation and writing use their specialists.
+2. **Output: connected assignment; consumer: specialist or project execution.** For a real case use [case connection](references/practice.md#connect-the-current-case); select `project_github_operations` for actual Issue/Project operations. The lead retains parent question/adoption and integrates specialist returns through TEAM.
+3. **Output: completed project result; consumer: user.** Apply DECIDE's action comparison and PROSE's final wording steps to the requested brief, prompt, contribution or management result.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

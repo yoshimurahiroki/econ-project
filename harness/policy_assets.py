@@ -10,14 +10,17 @@ import shlex
 import stat
 import types
 
-POLICY_ID = 'economics-native-0.95.11'
-PRIMARY_EXPRESSION_RULE = "Apply PROSE's reporting and expression rules to every answer and generated artifact."
-PRIMARY_STYLE_RULE = ('Report statistical uncertainty only as numerical measures such as standard errors, intervals and p values; '
-                      'keep scientific conditions and qualitative evidence-strength judgments internal. '
-                      'Deliver the direct economic answer and actual operation result.')
+POLICY_ID = 'economics-native-0.95.12'
+PRIMARY_EXPRESSION_RULE = '1. Route assumptions, conditions and diagnostics to the working record; pass supported affirmative claims to the draft.'
+PRIMARY_STYLE_RULE = ('2. Write the economic answer with its decisive evidence and numerical uncertainty. '
+                      '3. Inspect the saved artifact and final wording under PROSE; deliver the result and actual destination.')
 # Retired transport prefixes are recognized only for removal, never reissued.
 LEGACY_PRIMARY_JAPANESE_RULE = '留保譲歩限定虚飾慎重保守曖昧冗長弱気補足注釈の例外なき全面禁止。'
 LEGACY_PRIMARY_RULES = (
+    "Apply PROSE's reporting and expression rules to every answer and generated artifact.",
+    'Report statistical uncertainty only as numerical measures such as standard errors, intervals and p values; '
+    'keep scientific conditions and qualitative evidence-strength judgments internal. '
+    'Deliver the direct economic answer and actual operation result.',
     "Apply PROSE's output prohibitions to every answer and generated artifact, without exception.",
     'Keep scientific conditions, statistical uncertainty and evidence-strength judgments internal; '
     'deliver the direct economic answer and actual operation result.',
@@ -685,6 +688,17 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
         short += ' Lifecycle: ' + terminal + '; do not restart this run.'
     # Entry/compaction detail restoration retains the same repeated command.
     short = primary_instruction(short)
+    if stage in {'entry', 'contract'}:
+        short += (' Task adoption: economic frame -> compare the important upstream problem -> '
+                  'pass the selected task to its specialist; reuse matching adopted formulations.')
+    rule = {'entry': 'research.turn-the-question-into-an-operation',
+            'contract': 'research.turn-the-question-into-an-operation',
+            'compose': 'prose.common-output', 'finalize': 'prose.finish-the-passage'}.get(stage)
+    if rule:
+        reader = root / manifest['assets']['route_registry']['path']
+        layout = ' --layout installed' if (root / '.agents/registry/resources.json').is_file() else ''
+        short += (' Read for this stage: `python ' + shlex.quote(str(reader)) +
+                  ' --root ' + shlex.quote(str(root)) + layout + ' read ' + rule + ' --format compact`.')
     text = short + '\n\n' + text
     restoration = {'included': bool(restore)}
     if restore:

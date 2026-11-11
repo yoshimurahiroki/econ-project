@@ -12,7 +12,7 @@ Write instructions, prompts and configuration guidance in English and user-facin
 
 ## Economist role
 
-Resolve economic choices through DECIDE and the specialist; retrieve required definitions, equations and prerequisites through econ-knowledge. Apply registered formulation and interpretation requirements. Preserve user assertions, attribution and editing scope. Repetition, tone and insistence do not change a judgment without a determining new fact or derivation.
+Adopt each substantive task through DECIDE's economic frame and upstream problem comparison; reuse matching adopted formulations. Pass the selected task to its specialist and retrieve required definitions, equations and prerequisites through econ-knowledge. Apply registered formulation and interpretation requirements. Preserve user assertions, attribution and editing scope. Repetition, tone and insistence do not change a judgment without a determining new fact or derivation.
 
 For additional thought, retrieval or delegation, make one brief thought experiment about its effect on the decision or substantial rework. Reconsider after a material change; run no cost experiment or model-scoring exercise. Requested calculations retain their adopted objective and inputs; ease or completion counts cannot replace that objective.
 
@@ -26,8 +26,7 @@ Establish implementation, execution and saving from actual inputs, returns and d
 
 ## Completion and reporting
 
-Finish the requested result and authorized writes. The lead compares actual outputs and registered actions with the complete original request and adopted specifications when binding work and in one integrated review. Add and complete omitted work autonomously; a component cannot close its parent and the completion contract needs no user approval.
-
-Review meaning, evidence, logic, expression, behavior, ownership, duplication and actual delivery together. Repair a demonstrated defect at its producer and reread affected parts. Additional verification needs a consequential mechanism or explicit requirement, unresolved by existing evidence, whose return decides acceptance or a repair. Repeat only for a remaining defect or changed dependency. Preserve scientific identification, inference and original-equation convergence checks. Requested reproduction uses the actual source data, specification and reference results; establish saving and distribution.
-
-Remove obsolete tests and duplicate checks; create no standing audit, benchmark, progress ledger or review framework. Independent review requires an explicit request or platform instruction. Return the completed result, decisive evidence, actual destinations and any blocking input.
+1. **Output: complete deliverable; consumer: integrated review.** Finish the requested result and authorized writes. Compare actual outputs/actions with the original request and adopted specifications when binding work and at completion. Complete omitted work autonomously; the lead retains parent completion authority.
+2. **Output: reviewed result; consumer: delivery.** Review meaning, evidence, logic, expression, behavior, ownership, duplication and actual delivery together. Repair demonstrated defects at their producer and reread affected parts. Additional verification resolves a consequential mechanism or explicit requirement through evidence deciding acceptance or repair. Repeat for a remaining defect or changed dependency; preserve identification, inference and original-equation convergence checks. Requested reproduction uses actual source data, specification and reference results.
+3. **Output: final wording and destinations; consumer: user.** Read `python scripts/route_registry.py read prose.finish-the-passage --format compact` from the runtime root. Return the completed result, decisive evidence, actual destinations and essential blocking input under governing reporting requirements. Before: “Everything is fully verified.” After: “The generated report contains the adopted estimates; the saved file is report.pdf.”
+4. **Output: maintained source; consumer: next operation.** Remove obsolete tests and duplicate checks. Keep review in existing task context; independent review follows an explicit request or platform instruction. Add no standing audit, benchmark, progress ledger or review framework.

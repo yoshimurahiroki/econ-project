@@ -7,15 +7,15 @@ description: Retrieve local economics knowledge and host-provided domain sources
 
 ## Ownership and input
 
-Retrieve definitions, equations and model conditions for the pending economic question. The design, data, literature, writing or review specialist retains its task and adoption authority.
+1. **Output: knowledge target; consumer: retrieval.** Name the definitions, equations and model conditions needed by the pending specialist. That specialist retains task and adoption authority.
 
 ## Select the needed procedure
 
-Use established IDs directly; otherwise select a domain and candidate through [retrieval](references/retrieval.md#domains-and-search). Read the selected bodies and true prerequisites before applying them. Registry conditions select search, classification, model contracts, external sources, reuse or content maintenance.
+1. **Output: selected bodies; consumer: application.** Use known IDs directly or choose a domain/candidate through [retrieval](references/retrieval.md#domains-and-search). Read complete bodies and true prerequisites using registry-selected search, classification, model-contract, external-source, reuse or maintenance procedures.
 
 ## Return
 
-Return selected IDs, required prerequisite bodies and versions, the equations or conditions used and their implication for the pending decision. For a pending method/source choice, include the selection reason, determining source question and observation that would change the adopted choice. Bind persistent source/calculation references to the existing artifact and continue through its specialist.
+1. **Output: applicable knowledge; consumer: requesting specialist.** Return IDs, complete prerequisite bodies/versions, equations/conditions and their decision implication. For method/source choice, include the reason, determining source question and observation changing the choice. Bind persistent references to the existing artifact; apply PROSE to public wording.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

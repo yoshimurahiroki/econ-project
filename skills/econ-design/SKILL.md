@@ -7,15 +7,15 @@ description: Develop an economics question or model, design identification and i
 
 ## Purpose and input
 
-Develop the requested question, model or identification strategy from supplied premises. Use literature for a requested contribution comparison and documented data fields for measurement feasibility. A named artifact assessment stays with econ-review.
+1. **Output: design target; consumer: formulation.** Recover the requested question, model or identification strategy and supplied premises. Use literature for contribution comparisons, documented fields for measurement feasibility and econ-review for named artifact assessment.
 
 ## Select the operation
 
-Use `design`; the registry's conditions select the relevant sections of [design workflow](references/workflow.md).
+1. **Output: adopted design procedure; consumer: derivation.** Select `design` and read the registry-selected [design workflow](references/workflow.md). Apply DECIDE's formulation steps before adopting a new question, estimand or model.
 
 ## Output
 
-Return the requested question, derivation or design with its determining economic comparison, conditions and next operation. Bind sources and calculations to the adopted estimand, population, timing and units.
+1. **Output: question/derivation/design; consumer: next specialist.** Bind sources and calculations to the adopted estimand, population, timing and units. Pass the determining comparison, scientific conditions and next operation with the design; route public claims through PROSE.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

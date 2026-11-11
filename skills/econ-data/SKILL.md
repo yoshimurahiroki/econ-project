@@ -7,15 +7,16 @@ description: Acquire, transform, estimate and reproduce economic data and result
 
 ## Purpose and input
 
-Execute the requested data operation or code change from its adopted specification, source documentation and saved results.
+1. **Output: execution target; consumer: operation selection.** Recover the requested data operation or code change, adopted specification, source documentation and saved results.
 
 ## Select the operation
 
-Use `execute` for data, calculations and code, or `equity` for valuation. Registry conditions select the relevant [workflow](references/workflow.md) and implementation sections. Start a bounded change at its affected stage; use [source to analysis](references/implementation-data.md#source-to-analysis) for a new pipeline.
+1. **Output: executable procedure; consumer: producer.** Select `execute` for data/calculations/code or `equity` for valuation. Read the registry-selected [workflow](references/workflow.md) and implementation sections. Start a bounded change at its affected stage; a new pipeline uses [source to analysis](references/implementation-data.md#source-to-analysis).
 
 ## Deliver the data operation and its economic meaning
 
-Return the requested data, code or calculation, its actual producing inputs/operation, output location and required verification. Define quantities by population, period, units and denominator; return fitted specification, effective engine and inference to their consumer. Use econ-writing:explain when the request includes an economic explanation.
+1. **Output: data/code/result; consumer: analysis or artifact.** Return actual inputs, producing operation, location and required verification. Carry population, period, units, denominator, fitted specification, effective engine and inference with quantities.
+2. **Output: economic answer; consumer: user.** Use econ-writing:explain for a requested explanation; apply PROSE's selection and finish steps to the final result.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

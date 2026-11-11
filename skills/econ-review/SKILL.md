@@ -7,7 +7,8 @@ description: Judge a requested economics claim or artifact by comparing its clai
 
 ## Purpose and input
 
-Assess the named claim or artifact within its requested scope, using its intended reader, cited sources and saved calculations. `assess` returns findings; `assess+repair` also repairs the target within granted authority. Editorial assessment activates its writing/profile conditions; reconstruction uses writing's compose procedure.
+1. **Output: review target; consumer: assessment.** Recover the named claim/artifact, scope, reader, cited sources and saved calculations. Select `assess` for findings or `assess+repair` for authorized repairs.
+2. **Output: applicable procedure; consumer: reviewer.** Read the selected review rules; activate writing/profile conditions for editorial assessment and writing's compose procedure for reconstruction.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations
@@ -19,4 +20,4 @@ Assess the named claim or artifact within its requested scope, using its intende
 
 ## Output
 
-Return the [requested assessment](references/review.md#deliver-the-assessment).
+1. **Output: evidence-backed assessment; consumer: user or repair owner.** Deliver the [requested assessment](references/review.md#deliver-the-assessment) and authorized revised target through PROSE's final wording procedure.

@@ -10,19 +10,19 @@ A lead may assign a child lead, implementer or retriever; implementers may deleg
 
 ## Shared work
 
-Delegate separable work when its benefit exceeds briefing/integration. Supply the parent result, obstacle, exact sources/rules, fixed specification, delegated choices, write scope, output, consumer and completion condition. A specialist also receives the actual lead attempts, repair and unresolved mechanism. Use fresh bounded context, one writer per file or disjoint region, and coordinate shared sessions/targets. Each worker reads its original applicable AGENTS, CORE, PROSE, TEAM, specialist and activated prerequisites; the assignment cannot replace them.
+1. **Output: bounded assignment; consumer: worker.** Delegate separable work whose benefit exceeds briefing/integration. Supply parent result, obstacle, exact sources/rules, fixed specification, delegated choices, write scope, output, consumer and completion condition. A specialist also receives actual lead attempts, repair and unresolved mechanism.
+2. **Output: executable worker context; consumer: assigned operation.** Use fresh bounded context and one writer per file/disjoint region; coordinate shared sessions/targets. Each worker reads original applicable AGENTS, CORE, PROSE, TEAM, specialist and activated prerequisites.
 
 ## Return and integration
 
-Return the substantive result and implication, changed paths, producing inputs/versions, evidence, actual operation returns and remaining dependency to the direct parent. Keep large artifacts in owned paths. The parent compares the return with its assignment and original deliverable, reconciles estimands, units, population, conditions, authority and interfaces, repairs mismatches at their producer and completes dependent work. A child closes only its assignment. Give one integrated user response; keep coordination in existing context.
-
-Progress reports identify a determining result, failed dependency or next operation affecting completion. Create no parallel status files or meetings. Before retrying an interrupted external write, inspect its actual destination, repair the returned cause and retry only the affected action, preserving completed independent work.
+1. **Output: worker return; consumer: direct parent.** Return substantive result/implication, changed paths, producing inputs/versions, evidence, actual operation returns and remaining dependency. Keep large artifacts in owned paths.
+2. **Output: integrated parent result; consumer: delivery.** Compare the return with assignment and original deliverable; reconcile estimands, units, population, conditions, authority and interfaces. Repair mismatches at their producer and complete dependent work. The parent owns completion and one integrated response; keep coordination in existing context.
+3. **Output: next executable action; consumer: current owner.** Progress reports identify a determining result, failed dependency or consequential next operation. Before retrying interrupted external writes inspect the actual destination and repair the returned cause; retry the affected action while preserving completed independent work.
 
 ## Resumption
 
-After compaction, resumption, model change or handoff, restore the original request, central problem, fixed specification, authority, completed results and next authorized action. Recover original applicable bodies under [CORE](CORE.md#task-entry), and reuse only matching consumed versions. Handoffs include canonical source/output locations, the parent proposition, adopted decision, permitted switching condition and essential user-held input. Reconcile older worker returns before integration.
-
-An interrupted native task resumes on actual user continuation; cancellation or completion never restarts it. Use existing [governing context](../harness/state.md#governing-context) and [saved work](../harness/state.md#find-saved-work) when persistence is needed.
+1. **Output: restored task; consumer: resumed operation.** After compaction, resumption, model change or handoff recover the original request, central problem, fixed specification, authority, completed results and next authorized action. Read original applicable bodies under [CORE](CORE.md#task-entry); reuse matching consumed versions.
+2. **Output: reconciled handoff; consumer: next owner.** Include canonical source/output paths, parent proposition, adopted decision, permitted switching condition and essential user-held input. Reconcile older worker returns. Resume interruption on actual user continuation; preserve terminal cancellation/completion. Use existing [governing context](../harness/state.md#governing-context) and [saved work](../harness/state.md#find-saved-work) for persistence.
 
 ## Requested usage accounting
 

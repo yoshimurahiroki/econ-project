@@ -4006,6 +4006,9 @@
       "requires": [
         "prose.common-output",
         "prose.revise-for-the-requested-language",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.finish-the-passage",
         "research.turn-the-question-into-an-operation"
       ],
       "conditional_requires": [
@@ -4112,7 +4115,10 @@
     },
     "prose.finish-the-passage": {
       "resource_id": "prose",
-      "section_id": "finish-the-passage"
+      "section_id": "finish-the-passage",
+      "requires": [
+        "prose.common-output"
+      ]
     },
     "research.all": {
       "resource_id": "research",
@@ -8403,6 +8409,7 @@
       ],
       "prose": [
         "common-output",
+        "finish-the-passage",
         "revise-for-the-requested-language"
       ],
       "execution": [
