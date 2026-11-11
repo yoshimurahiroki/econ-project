@@ -45,6 +45,33 @@ def absolute(value):
     return path
 
 
+def _ensure_session_state(event):
+    """Start the existing state owner once, without creating a task contract."""
+    gate.require(isinstance(event, dict) and event.get('hook_event_name') == 'UserPromptSubmit',
+                 'invalid startup event')
+    session_id = event.get('session_id')
+    gate.require(isinstance(session_id, str) and session_id.strip(), 'missing session identity')
+    data = absolute(os.environ.get('PLUGIN_DATA'))
+    session = data / 'economics' / gate.sha(session_id.encode('utf-8'))
+    state_root = absolute(str(session / 'runtime-state'))
+    for directory in (data, data / 'economics', session, state_root):
+        directory.mkdir(parents=True, mode=0o700, exist_ok=True)
+    store = state_root / '.agents/state/team.json'
+    module = sibling(Path(__file__).resolve().parent / 'state.py')
+    if not store.exists():
+        try:
+            module.main(['--root', str(state_root), 'init'])
+        except (OSError, ValueError):
+            if not store.is_file():
+                raise
+    state = _read(store)
+    gate.require(isinstance(state, dict) and state.get('version') == 5
+                 and isinstance(state.get('tasks'), dict)
+                 and isinstance(state.get('limits'), dict)
+                 and isinstance(state.get('limit_sources'), dict), 'invalid existing session state')
+    return store
+
+
 def save_record(path, value, replace=True):
     """Atomic private operational record."""
     path = absolute(str(path))
@@ -2080,6 +2107,9 @@ def _state_control_preflight(args, root, directory, event):
 
 def _pre_tool(event, root, directory, state):
     """Check only the authority and targets of a modifying operation."""
+    context = _read(directory / 'context.json', {})
+    if context.get('state_binding') is None and context.get('completion_contract') is None:
+        return {}  # Ordinary work needs no state contract or preflight registration.
     tool, arguments, name, operation, effect, normalized, resolved_effects, command_action, opaque_action, input_bound, state_args = (
         _tool_effect(event, root, directory))
     if effect in {'read', 'local-control'}:
@@ -2432,13 +2462,10 @@ def dispatch(event, expected_event):
             state['request_sha256'] = context['prompt_sha256']
             text = coordinator
             text += '\n' + _restoration(root, directory, state, instruction_event='task-start')
-            text += ('\nRead the selected operation and applicable bodies. Answer-only work needs no completion contract '
-                     'or durable store. Before modifications or external actions, bind all original '
-                     'outputs/actions, exact targets and authority. '
-                     'Use codex_hooks.py --root ' + json.dumps(str(cwd)) +
-                     ' bind-operation --hook-context ' + json.dumps(str(context_path)) +
-                     ' --operation OPERATION --operation-kind KIND with the requested --required-output, --required-action '
-                     'and --authority, applicable --condition and optional --profile. Use state.py only for durable continuation.')
+            text += ('\nSession state was started automatically. Read the selected operation and applicable bodies, '
+                     'then proceed with the requested work. Do not create a work contract or register actions '
+                     'merely to start state or perform ordinary operations. Use detailed task state only when '
+                     'actually needed for durable continuation or explicitly requested.')
             return feedback(expected_event, text)
         if lifecycle in {'interrupted', 'cancelled'}:
             return failure(expected_event, 'turn ' + lifecycle + '; no automatic restart', failure_class='cancelled')
@@ -2673,10 +2700,14 @@ def _limit_repeated_warning(event, result):
 
 def main(expected_event):
     event = None
+    startup_complete = expected_event != 'UserPromptSubmit'
     try:
         raw = sys.stdin.buffer.read(4 * gate.MAX_BYTES + 1)
         gate.require(len(raw) <= 4 * gate.MAX_BYTES, 'hook event exceeds input budget')
         event = gate.parse_json(raw)
+        if not startup_complete:
+            _ensure_session_state(event)
+            startup_complete = True
         result = dispatch(event, expected_event)
         try:
             result = _limit_repeated_warning(event, result)
@@ -2709,7 +2740,11 @@ def main(expected_event):
                     'Read that field in bounded character pages through its end and reuse complete same-version reads. '
                     'This locator is not a reading receipt; a host-truncated preview cannot restore required instructions.')
     except Exception as exc:
-        result = failure(expected_event, ('hook error: ' + str(exc))[:500])
+        if not startup_complete:
+            result = {'decision': 'block', 'reason': ('State management could not start: ' + str(exc) +
+                      '. Correct the startup problem and resubmit the request; no automatic retry was started.')[:500]}
+        else:
+            result = failure(expected_event, ('hook error: ' + str(exc))[:500])
         try:
             result = _limit_repeated_warning(event, result)
         except Exception:

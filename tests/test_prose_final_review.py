@@ -99,7 +99,18 @@ with hook_tempdir() as temp:
                                 text=True, capture_output=True, env=env)
         assert result.returncode == 0, result.stderr
         return json.loads(result.stdout)
+    started = invoke('UserPromptSubmit', prompt='Explain the source data.')
+    assert started.get('decision') != 'block', started
+    session = temp / 'economics' / gate.sha(base['session_id'].encode())
+    store = session / 'runtime-state/.agents/state/team.json'
+    state_bytes = store.read_bytes()
+    state = json.loads(state_bytes)
+    assert state['version'] == 5 and state['tasks'] == {}, state
+    active = hooks._active_directory({**base, 'hook_event_name':'Stop'}, temp)
+    assert json.loads((active/'original-prompt.json').read_text())['text'] == 'Explain the source data.'
+    assert 'completion_contract' not in json.loads((active/'context.json').read_text())
     invoke('UserPromptSubmit', prompt='Explain the source data.')
+    assert store.read_bytes() == state_bytes  # Existing state is reused, not reset.
     for name, arguments in (
         ('exec_command', {'cmd':'git status --short --branch'}),
         ('mcp__codex_apps__github__get_repo', {'repository_full_name':'owner/repo'}),
@@ -109,11 +120,10 @@ with hook_tempdir() as temp:
         assert result == {}, result
     denied = invoke('PreToolUse', tool_name='exec_command',
         tool_input={'cmd':'git config --global core.pager unsafe'}, tool_use_id='write')
-    assert 'additionalContext' in denied['hookSpecificOutput'] and 'permissionDecision' not in denied['hookSpecificOutput'], denied
+    assert denied == {}, denied
     unknown = invoke('PreToolUse', tool_name='mcp__codex_apps__github__unknown',
         tool_input={}, tool_use_id='unknown')
-    assert 'additionalContext' in unknown['hookSpecificOutput'] and 'permissionDecision' not in unknown['hookSpecificOutput'], unknown
-    active = hooks._active_directory({**base, 'hook_event_name':'Stop'}, temp)
+    assert unknown == {}, unknown
     output = temp / 'authorized-output.txt'
     command = shlex.join([sys.executable, '-c',
         'from pathlib import Path; Path(' + repr(str(output)) + ').write_text("authorized")'])
@@ -145,4 +155,35 @@ with hook_tempdir() as temp:
     assert complete == {}, complete
     failed_check = invoke('Stop', stop_hook_active=True, last_assistant_message='')
     assert 'decision' not in failed_check and 'systemMessage' in failed_check, failed_check
+
+with hook_tempdir() as temp:
+    env = {**os.environ, 'PLUGIN_ROOT':str(root), 'PLUGIN_DATA':str(temp)}
+    session_id = 'broken-startup'
+    store = temp / 'economics' / gate.sha(session_id.encode()) / 'runtime-state/.agents/state/team.json'
+    store.parent.mkdir(parents=True)
+    store.write_text('invalid existing state', encoding='utf-8')
+    event = {'session_id': session_id, 'turn_id': 'turn-a', 'cwd': str(root),
+             'hook_event_name': 'UserPromptSubmit', 'prompt': 'Start the task.'}
+    result = subprocess.run([sys.executable, str(root/'hooks/check.py'), 'UserPromptSubmit'],
+                            input=json.dumps(event), text=True, capture_output=True, env=env)
+    assert result.returncode == 0, result.stderr
+    response = json.loads(result.stdout)
+    assert response.get('decision') == 'block' and 'State management could not start' in response.get('reason', ''), response
+    assert store.read_text(encoding='utf-8') == 'invalid existing state'
+
+if os.name != 'nt':
+    with hook_tempdir() as temp:
+        env = {**os.environ, 'PLUGIN_ROOT':str(root), 'HOME':str(temp)}
+        env.pop('PLUGIN_DATA', None)
+        event = {'session_id': 'default-storage', 'turn_id': 'turn-a', 'cwd': str(root),
+                 'hook_event_name': 'UserPromptSubmit', 'prompt': 'Start the task.'}
+        result = subprocess.run([sys.executable, str(root/'hooks/check.py'), 'UserPromptSubmit'],
+                                input=json.dumps(event), text=True, capture_output=True, env=env)
+        assert result.returncode == 0 and json.loads(result.stdout).get('decision') != 'block', result.stderr
+        store = temp / '.local/state/economics-research-skills/economics' / gate.sha(event['session_id'].encode())
+        assert (store / 'runtime-state/.agents/state/team.json').is_file()
+        env.pop('PLUGIN_ROOT')
+        result = subprocess.run([sys.executable, str(root/'hooks/check.py'), 'UserPromptSubmit'],
+                                input=json.dumps(event), text=True, capture_output=True, env=env)
+        assert json.loads(result.stdout).get('decision') == 'block'
 print('Read classification, advisory checks and one-time semantic revision passed.')

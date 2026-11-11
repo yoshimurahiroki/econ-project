@@ -22,7 +22,7 @@ Platform instructions and the user's request and amendments precede repository, 
 
 ## Execution records
 
-Establish implementation, execution and saving from actual inputs, returns and destinations; invent no evidence, quantities, citations or completion. Answer-only work needs the request and integrated review, without a completion contract or store. Before modifications or external actions, bind original outputs, producing actions, exact targets and existing authority on hosts with that interface. Use existing task/result records only for durable continuation or dependencies; reuse evidence whose inputs and output versions match.
+Establish implementation, execution and saving from actual inputs, returns and destinations; invent no evidence, quantities, citations or completion. On a host with the native UserPromptSubmit hook, session state starts automatically before the request runs. That startup creates no work contract or task records. Continue ordinary work directly under the user's authority and host controls; do not register contracts or actions merely to start state or perform routine operations. Use detailed task/result records only when actually needed for durable continuation or dependencies, or explicitly requested; reuse evidence whose inputs and output versions match.
 
 ## Completion and reporting
 

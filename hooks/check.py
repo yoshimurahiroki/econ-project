@@ -11,6 +11,8 @@ sys.dont_write_bytecode = True
 
 event = sys.argv[1] if len(sys.argv) == 2 else 'Stop'
 try:
+    if 'PLUGIN_DATA' not in os.environ:
+        os.environ['PLUGIN_DATA'] = str(Path.home() / '.local' / 'state' / 'economics-research-skills')
     root = Path(os.environ['PLUGIN_ROOT'])
     if not root.is_absolute() or Path(__file__).resolve() != root.resolve() / 'hooks/check.py':
         raise ValueError('invalid plugin root')
@@ -19,10 +21,14 @@ try:
     spec.loader.exec_module(module)
 except Exception as exc:
     reason = ('Economics hook unavailable: ' + str(exc))[:500]
-    result = ({'hookSpecificOutput': {'hookEventName': event, 'additionalContext': reason}}
-              if event in {'UserPromptSubmit', 'PreToolUse', 'PostToolUse', 'SubagentStart', 'SessionStart'}
+    result = ({'decision': 'block', 'reason': reason + '; state startup requires a working hook. Resubmit after repair.'}
+              if event == 'UserPromptSubmit' else
+              {'hookSpecificOutput': {'hookEventName': event, 'additionalContext': reason}}
+              if event in {'PreToolUse', 'PostToolUse', 'SubagentStart', 'SessionStart'}
               else {'systemMessage': reason})
     try:
+        if event == 'UserPromptSubmit':
+            raise ValueError('startup failure must remain visible')
         payload = json.load(sys.stdin)
         session, turn = payload.get('session_id'), payload.get('turn_id')
         data = Path(os.environ['PLUGIN_DATA'])
