@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "afe88360f3727ea613a13d732137524e3eae4ec7",
+  "source_base_commit": "7c764caf3be3eecd0d0c2426210dd2161b756fd8",
   "source_state": "committed",
-  "common_content_id": "03d074bed3acaaf66106de4e0aaed0abef24331dee66a4e71376862caf7047c7",
+  "common_content_id": "bb22882a3b16827115fb88e8bd015a1b3e70605a6fb795aa62a293cabace586a",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -393,8 +393,8 @@
     {
       "path": "harness/state.md",
       "state": "present",
-      "sha256": "6e70826c99f8d6a3173013eb6953bac73c829f7505fd4579db1f630d40ef7c03",
-      "git_blob": "7a5cc25cfc604d99879d825e69c25b49c98027ff",
+      "sha256": "f52805073d0b4c68ef1c28a82b117e9593c81ff1c15be9d79ec6fdaaf0f09fdf",
+      "git_blob": "cb4e4597f7a1b3a3cb70c826e2c22e9c101f2378",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },

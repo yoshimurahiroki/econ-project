@@ -719,7 +719,7 @@
     },
     "resource:state-contract": {
       "path": "harness/state.md",
-      "sha256": "6e70826c99f8d6a3173013eb6953bac73c829f7505fd4579db1f630d40ef7c03"
+      "sha256": "f52805073d0b4c68ef1c28a82b117e9593c81ff1c15be9d79ec6fdaaf0f09fdf"
     },
     "resource:tool-pack-context-sh": {
       "path": "scripts/pack_context.sh",
