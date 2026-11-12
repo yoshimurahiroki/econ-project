@@ -1,0 +1,64 @@
+{
+  "specification_id": "equipment-renewal-v1",
+  "model_contract_id": "MC-replacement-ddc",
+  "question": "Which renewal technology maximizes firms' expected discounted operating value after its adoption cost?",
+  "population": "480 fictional independent firms, each operating one machine; 80 machines in each initial wear state",
+  "period": "32 observed quarters; infinite quarterly horizon for technology choice at the fixed initial population",
+  "unit": "thousand JPY per machine at adoption",
+  "economic_model": {
+    "actors": "Each firm operates one machine and chooses maintenance or replacement each quarter. Before quarterly choices begin, it selects one permanent renewal technology.",
+    "objective": "Maximize expected discounted quasilinear operating payoff. Technology choice maximizes the equally weighted mean inclusive-value gain over the fixed initial states, converted to thousand JPY, less the technology's one-time adoption cost.",
+    "choices": "Each quarter action 0 maintains and action 1 replaces. The initial technology alternatives are baseline, standard and advanced.",
+    "incentives": "Wear raises maintenance cost. Replacement restores the machine's state. A technology reduces the resource cost of each future replacement, and its upfront deployment cost is paid at adoption.",
+    "constraints": "States are integers 0 through 5. Each firm's upfront adoption budget is 350 thousand JPY. The technology choice is common across the fixed initial population and precedes the first action shock.",
+    "information": "The firm knows its state, technology, costs, transition rule and discount factor, and observes independent action-specific shocks before each quarterly decision. The analyst observes firm, quarter, state, action and next state.",
+    "flow": "In utility units, maintenance payoff is -c*s and replacement payoff is -R plus the selected technology's replacement-cost reduction. Independent unit-scale type-I extreme-value shocks have Euler's constant normalized to zero. One utility unit equals 100 thousand JPY of quasilinear payoff.",
+    "transition": "Maintenance moves to min(s+1,5); replacement moves to state 0. The same transition applies to all technologies.",
+    "identification": "State variation changes maintenance cost while replacement has a common cost. At fixed discount factor, shock scale and transition, the two independent directions of the state-specific choice-score Jacobian identify c and R locally.",
+    "mechanism": "A replacement-cost reduction changes both current replacement payoff and the continuation value of restored equipment. Re-solve the infinite-horizon Bellman equation at each technology, retaining the same initial states, cost estimates and quarterly discount factor.",
+    "decision": "Choose the feasible technology with the greatest estimated mean net present gain. Baseline gain and adoption cost are zero. Exact ties retain the earlier technology in the declared order. Save every pairwise net-gain contrast with its covariance-based interval."
+  },
+  "simulation": {
+    "seed": 20261112,
+    "generator": "NumPy PCG64",
+    "firms": 480,
+    "quarters": 32,
+    "states": 6,
+    "maintenance_cost": 0.35,
+    "replacement_cost": 2.8,
+    "discount_factor": 0.95,
+    "money_scale_thousand_jpy": 100
+  },
+  "estimation": {
+    "method": "NFXP through the pinned official ruspy criterion",
+    "starts": [[0.2, 1.6], [0.6, 4.0], [0.1, 6.0]],
+    "parameter_order": ["maintenance_cost", "replacement_cost"],
+    "finite_comparison_quarters": 32,
+    "mean_score_tolerance": 0.00001,
+    "multistart_likelihood_tolerance": 0.00001,
+    "inference": {
+      "cluster": "firm_id",
+      "bread": "Sum of conditional expected information across observed states, evaluated at the fitted model",
+      "meat": "Sum of outer products of firm-level sums of the original-model action scores",
+      "finite_sample_factor": "M/(M-1), where M is the number of independent firms",
+      "level": 0.95,
+      "reference": "Standard normal, pointwise Wald intervals",
+      "post_estimation": "Analytic implicit Bellman derivatives and the delta method; retain the full covariance of all technology gains and their pairwise contrasts"
+    }
+  },
+  "technologies": [
+    {"name": "baseline", "replacement_cost_reduction": 0, "adoption_cost_thousand_jpy": 0},
+    {"name": "standard", "replacement_cost_reduction": 0.4, "adoption_cost_thousand_jpy": 120},
+    {"name": "advanced", "replacement_cost_reduction": 0.8, "adoption_cost_thousand_jpy": 300}
+  ],
+  "adoption_budget_thousand_jpy": 350,
+  "internal": {
+    "initial_question": "How does wear predict the timing of equipment replacement?",
+    "upstream_comparison": "Timing summarizes a firm's current rule. Technology adoption changes all future replacement opportunities and consumes resources today. Comparing discounted gains net of deployment costs resolves the firm's consequential investment choice while retaining the timing estimates as an input.",
+    "decisive_calculation": "Construct the same firm-quarter sample, estimate maintenance and replacement costs, solve each technology's Bellman equation, and compare initial-population mean inclusive values net of one adoption cost. A technology's replacement probability alone cannot rank its net investment value.",
+    "source": "The author independently fixed all fictional simulation inputs, technology costs and comparison rules before execution.",
+    "inference_scope": "Inference conditions on the declared initial states, deterministic transition, discount factor, shock scale and technology costs. Independent firms supply the sampling units. The expected-information bread uses the adopted correctly specified conditional choice model. CCP estimates are retained as internal diagnostics; their first-stage sampling uncertainty is not reported as NFXP inference.",
+    "accounting": "Inclusive value includes the expected optimized action shocks in the adopted monetary normalization. Adoption costs are subtracted once at time zero. These are firm operating-value comparisons, not aggregate social-welfare claims. The runner's finite-horizon calculation has zero terminal value and is retained internally, separately from the infinite-horizon decision.",
+    "validation": "Check firm and panel keys, foreign-key coverage, exact transitions and initial-state counts, common fitted sample, original Bellman and likelihood equations, multiple starts, score rank and stationarity, implicit derivatives, firm-cluster covariance, money conversion and pairwise gain covariance."
+  }
+}

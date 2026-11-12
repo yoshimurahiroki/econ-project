@@ -4,12 +4,7 @@ The lead owns formulation and adoption; specialists supply the needed evidence a
 
 ## Turn the question into an operation
 
-Apply this sequence when adopting each substantive task. Keep its record in the existing working context.
-
-1. **Task target → economic formulation.** Recover the requested proposition, quantity, artifact or action, its consumer, fixed specification and inputs. Reuse a source-backed adopted formulation and comparison whose objective, scope and consumed inputs match; update affected parts after a determining change.
-2. **Economic frame → problem comparison.** Name actors, objectives, feasible choices, incentives, constraints, information and identifying variation. Connect their choices to the requested outcome and its economic stakes. For implementation or writing, use the task owner, the deliverable's scientific/decision objective, feasible operations and resource costs. Preserve supplied scientific objects and actual source facts.
-3. **Ranked question pair → task adoption.** Compare the immediate question with its strongest consequential upstream formulation. Rank their effect on the parent's objective using supported magnitudes or ordinal judgments; select the highest-ranked unresolved margin within the fixed deliverable and authority. For a policy task, Before: “Run the easiest regression.” After: “Identify the response changing the adopted policy decision, then select its identifying comparison.”
-4. **Adopted task and next operation → specialist.** Retain the frame, question pair, selected problem, rationale and decisive observation/derivation in working context; pass them to the next authorized operation. New research questions, estimands and models complete `research.deepen-a-consequential-research-problem` before adoption. Explanations use the discriminating comparison; substantive choices use feasible-action selection. Reuse matching completed steps.
+1. **Adopted task → specialist.** Execute the common [economist frame](CORE.md#economist-role) at each substantive task adoption. Pass its frame, ranked question pair, selected margin, rationale and decisive observation/derivation to the next operation; reuse matching adopted formulations and inputs.
 
 ## Deepen a consequential research problem
 

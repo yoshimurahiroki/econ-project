@@ -1,5 +1,5 @@
 % !TEX program = lualatex
-\documentclass[unicode, mathserif, m, 12pt, unknownkeysallowed]{beamer}
+\documentclass[unicode, mathserif, t, 12pt, aspectratio=169, unknownkeysallowed]{beamer}
 %\includeonlyframes{current}
 
 \usepackage{color}
@@ -19,6 +19,23 @@
 \definecolor{Orange}{HTML}{CF4A30}
 \setbeamercolor{alerted text}{fg=Orange}
 \setbeamercolor{frametitle}{bg=Waseda}
+\geometry{paperwidth=960bp,paperheight=540bp}
+\setbeamersize{text margin left=54bp,text margin right=54bp}
+\newcommand{\ersbodyfontsize}{24}
+\makeatletter
+\renewcommand\normalsize{\@setfontsize\normalsize{\ersbodyfontsize}{30}}
+\makeatother
+\DeclareMathSizes{24}{24}{17}{12}
+\setbeamerfont{normal text}{size=\normalsize}
+\setbeamerfont{itemize/enumerate body}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
+\setbeamerfont{title}{size=\fontsize{40}{48}\selectfont}
+\setbeamerfont{subtitle}{size=\fontsize{28}{35}\selectfont}
+\setbeamerfont{frametitle}{size=\fontsize{32}{40}\selectfont,series=\bfseries}
+\setbeamerfont{author}{size=\normalsize}
+\setbeamerfont{date}{size=\normalsize}
+\setbeamerfont{caption}{size=\fontsize{20}{25}\selectfont}
+\AtBeginDocument{\normalsize}
 
 \title[Footer title]{TITLE}
 \subtitle{SUBTITLE}
@@ -58,7 +75,7 @@
 
 \IfFileExists{../bibliography.bib}{
 \begin{frame}{References}
-    \scriptsize
+    \normalsize
     \bibliography{../bibliography}  % Bibliography file (usually '*.bib')
     \bibliographystyle{../paper/ecta-fullname} % Style BST file
 

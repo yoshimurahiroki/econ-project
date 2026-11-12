@@ -15,6 +15,7 @@ import sys
 import zipfile
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from route_registry import load_routes, resource_path, resolve_operation, native_index, entry_contract, relative, merge_selection, rule_selection, required_closure, generate_entries, validate_rule_bodies, markdown_sections, heading_id, transform_entry_references, inline_code_mask, optional_reference, extract_sections
 ROOT = Path(__file__).resolve().parents[1]
@@ -244,7 +245,7 @@ def validate_internal_links(contents, contexts=None, non_prose=()):
         rewrite_markdown(text, validate_link)
 
 
-def knowledge_assets(root, layout, ids=(), *, source_assets=False):
+def knowledge_assets(root, layout, ids=(), *, source_assets=False, required_contracts=()):
     """Read the saved generation and its selected prerequisite closure."""
     prefix = Path('skills/econ-knowledge') if layout == 'source' else Path('.agents/skills/econ-knowledge')
     helper = root / prefix / 'scripts/knowledge.py'
@@ -261,6 +262,11 @@ def knowledge_assets(root, layout, ids=(), *, source_assets=False):
     manifest = reader.manifest
     selected = list(dict.fromkeys(ids)) if ids else (
         reader.selection['selected_ids'] if reader.selection else list(manifest['units']))
+    if ids and required_contracts:
+        required = reader.plan(required_contracts)
+        if required['application_cycles']:
+            raise ValueError('Cyclic required model-contract knowledge')
+        selected = list(dict.fromkeys([*selected, *required['required_ids']]))
     reader.domains()
     selection = reader.units(selected)
     if reader.spec_version == getattr(module, 'SEMANTIC_VERSION', 'knowledge-v2'):
@@ -354,7 +360,22 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
     for item in support:
         selector, separator, support_mode = item.partition(':')
         selectors.append((selector, support_mode if separator else None))
-    operations = [resolve_operation(routes, selector, selected_mode, user_profile=style_profile, project_profile=config['writing_profile'], conditions=conditions) for selector, selected_mode in selectors]
+    unknown = set(conditions) - routes['condition_definitions'].keys()
+    if unknown:
+        raise ValueError('Unknown condition: ' + ', '.join(sorted(unknown)))
+    operations, consumed = [], set()
+    for selector, selected_mode in selectors:
+        selected = resolve_operation(routes, selector, selected_mode)
+        compatible = [cid for cid in conditions
+                      if routes['condition_definitions'][cid].get('applies_to', '*') == '*'
+                      or selected['canonical_operation'] in routes['condition_definitions'][cid]['applies_to']]
+        consumed.update(compatible)
+        operations.append(resolve_operation(routes, selector, selected_mode,
+            user_profile=style_profile, project_profile=config['writing_profile'], conditions=compatible))
+    if set(conditions) - consumed:
+        cid = sorted(set(conditions) - consumed)[0]
+        raise ValueError('Condition ' + cid + ' applies to: '
+                         + ', '.join(routes['condition_definitions'][cid]['applies_to']))
     final_operations = [op for op in operations if not op.get('runtime_action')]
     if (effective_profile and effective_profile != 'default-micro'
             and any(op.get('selected_profile') == effective_profile for op in operations)):
@@ -371,7 +392,7 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
         if len(matches) != 1:
             raise ValueError(f'Select a registered reference ID or path: {value}')
         merge_selection(selections, {matches[0]: {'whole_resource': True}})
-        if routes.get('schema_version') == 2:
+        if routes.get('schema_version') in (2, 3):
             rid = matches[0]
             rule_ids = ([rid + '.all'] if rid + '.all' in routes['rules'] else
                         [rule_id for rule_id, rule in routes['rules'].items() if rule['resource_id'] == rid])
@@ -478,7 +499,7 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
                 logical_source = root / resources[source_id]['source_path']
                 legacy_path = (logical_source.parent / clean if clean else logical_source).resolve()
                 rid = path_ids.get(legacy_path)
-        if routes.get('schema_version') == 2 and rid in ('registry-operations', 'native-index'):
+        if routes.get('schema_version') in (2, 3) and rid in ('registry-operations', 'native-index'):
             return local(generated['ECON_INDEX.md'])
         if rid in selected:
             if parts.fragment and unquote(parts.fragment) not in active_anchors[rid]:
@@ -544,7 +565,9 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
         contents[output_paths[rid]] = text
     knowledge_outputs = set()
     if knowledge_selected:
-        _, asset_files = knowledge_assets(root, layout, knowledge_ids)
+        required_contracts = list(dict.fromkeys(kid for cid in conditions
+                                  for kid in routes['condition_definitions'][cid].get('knowledge', [])))
+        _, asset_files = knowledge_assets(root, layout, knowledge_ids, required_contracts=required_contracts)
         asset_target = (Path('knowledge/references') if output_format == 'flat'
                         else Path('.agents/skills/econ-knowledge/references'))
         for name, data in asset_files.items():
@@ -696,23 +719,48 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
     return len(contents)
 
 
-def _prepare_distribution(root, routes=None):
-    """Generate canonical entries and one shared policy catalog."""
+def _prepare_distribution(root, routes=None, *, check=False):
+    """Compute canonical entries and their catalog; check without source writes."""
     root = Path(root).resolve()
     validate_package_versions(root, required=True)
-    routes = generate_entries(root, routes)
+    registration = json.loads((root / 'hooks/hooks.json').read_text(encoding='utf-8'))
+    for event in ('UserPromptSubmit', 'SessionStart', 'SubagentStart', 'PreToolUse',
+                  'PostToolUse', 'Stop', 'SubagentStop', 'Interrupt', 'PostCompact'):
+        handlers = [hook for entry in registration['hooks'].get(event, [])
+                    for hook in entry.get('hooks', [])
+                    if isinstance(hook.get('command'), str) and 'hooks/check.py' in hook['command']
+                    and hook['command'].rstrip().endswith(event)]
+        if (len(handlers) != 1 or type(handlers[0].get('additionalContextLimit')) is not int
+                or handlers[0]['additionalContextLimit'] <= 0):
+            raise ValueError('Declare one positive additionalContextLimit for ' + event)
+    outputs = {}
+    routes = generate_entries(root, routes, outputs=outputs)
+    knowledge_ids = {kid for condition in routes['condition_definitions'].values()
+                     for kid in condition.get('knowledge', [])}
+    if knowledge_ids:
+        base = root / 'skills/econ-knowledge/references'
+        contracts = json.loads((base / 'model-contracts.json').read_text(encoding='utf-8'))
+        manifest = json.loads((base / 'manifest.json').read_text(encoding='utf-8'))
+        available = {contract['id'] for contract in contracts['contracts']} | set(manifest['units'])
+        if knowledge_ids - available:
+            raise ValueError('Unknown condition knowledge IDs: ' + ', '.join(sorted(knowledge_ids - available)))
     spec = importlib.util.spec_from_file_location('distribution_policy', root / 'harness/policy_assets.py')
     policy = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(policy)
     paths = {policy.resource_key(rid): record['source_path']
              for rid, record in routes['resources'].items()
              if rid != 'policy-manifest' and not record.get('source_distribution_only')}
-    assets = {key: (root / path).read_bytes() for key, path in paths.items()}
+    assets = {key: outputs[path] if path in outputs else (root / path).read_bytes()
+              for key, path in paths.items()}
     encoded = (json.dumps(policy.build_manifest(assets, paths=paths),
                           ensure_ascii=False, indent=2) + '\n').encode('utf-8')
-    manifest = root / routes['resources']['policy-manifest']['source_path']
-    if not manifest.is_file() or manifest.read_bytes() != encoded:
-        manifest.write_bytes(encoded)
+    outputs[routes['resources']['policy-manifest']['source_path']] = encoded
+    changed = sorted(name for name, data in outputs.items()
+                     if not (root / name).is_file() or (root / name).read_bytes() != data)
+    if check:
+        return changed
+    for name in changed:
+        (root / name).write_bytes(outputs[name])
     return routes
 
 
@@ -724,6 +772,9 @@ def export_plugin(target):
         raise ValueError('Refuse symlink output ancestor')
     if target.exists() or target.is_symlink() or target.resolve().is_relative_to(root):
         raise ValueError('Choose a fresh output directory outside the source tree')
+    changed = _prepare_distribution(root, check=True)
+    if changed:
+        raise ValueError('Regenerate entries before export: ' + ', '.join(changed))
     routes = load_routes(root)
     resources = routes['resources']
     selected = {rid for rid, item in resources.items()
@@ -909,6 +960,9 @@ def _generate_distribution(root):
     source_paths = {Path(record['source_path']) for record in routes['resources'].values()
                     if not record.get('source_distribution_only')}
     source_paths.update(Path(name) for name in ('plugin.json', '.codex-plugin/plugin.json'))
+    if any(condition.get('knowledge') for condition in routes['condition_definitions'].values()):
+        source_paths.update(Path('skills/econ-knowledge/references') / name
+                            for name in ('model-contracts.json', 'manifest.json'))
     source_paths.update(targets)
     scope = sorted(source_paths | set(targets))
     def snapshot():
@@ -1025,8 +1079,17 @@ def main():
     parser.add_argument('--style-profile')
     parser.add_argument('--generate-index', type=Path)
     parser.add_argument('--generate-entries', action='store_true')
+    parser.add_argument('--check', action='store_true', help='Compare generated entries and manifest without writing')
     args = parser.parse_args()
     try:
+        if args.check:
+            if args.generate_entries or args.generate_index or args.output:
+                parser.error('--check is a read-only operation; use it separately')
+            changed = _prepare_distribution(ROOT, check=True)
+            if changed:
+                print('\n'.join(changed))
+                raise SystemExit(1)
+            return
         if args.generate_entries:
             generate_distribution(ROOT)
             return

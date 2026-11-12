@@ -2,11 +2,18 @@
 
 ## Native model roles
 
-The lead owns the question, specification, adoption, integration and completion; Skills retain subject ownership. Execution roles are independent of provider: lead resolves and integrates; implementer executes a bounded specification; retriever performs settled retrieval/conversion; specialist resolves a consequential core left unresolved after substantive lead attempts and cause-specific repair. Length, routine review, general complexity or a first failure alone does not justify a specialist.
+1. **Owned decision → role.** The lead retains question, specification, adoption, integration and completion; Skills retain subject ownership. Match the remaining operation to this provider-independent table.
 
-Inherit the host model by default. Within host instructions and authorized model choices, select a supported override when capability, cost or completion time improves the assignment. Actual launch fields establish model and effort; role labels and requested settings cannot prove runtime identity. Supply supported settings through the real launch schema.
+| Role | Model selection and effort | Input → output → consumer | Delegation |
+|---|---|---|---|
+| Lead | Host Terra-class model; high | Original request and economic frame → adopted question, judgment and integrated result → user or parent | Child lead, implementer, retriever |
+| Implementer | Host model or supported lighter model; medium | Fixed specification, inputs, write scope and completion criterion → calculated/edited artifact and verification → lead | Related retrieval |
+| Retriever | Lightest supported model for the settled operation; low | Exact sources and extraction/conversion target → source-bound return → assigning owner | Return dependencies to parent |
+| Specialist | Terra-class model; highest supported effort | Consequential unresolved core, substantive lead attempts and cause-specific repair → determining derivation/calculation → lead | Related calculation/retrieval |
+| Independent reviewer | Fresh context; inherited supported model; high | Once-per-turn Stop assignment or explicit user review request → evidence, finding/repair and actual review return → lead | Return dependencies to parent |
 
-A lead may assign a child lead, implementer or retriever; implementers may delegate related retrieval and specialists related calculation/retrieval. Retrievers cannot delegate. Respect [host nesting and capacity](../docs/ai/config-templates/README.md#native-delegation-limits); without capacity return the dependency for sequential execution.
+2. **Role choice → native launch.** Inherit the host model by default. Apply a supported authorized override when capability, cost or completion time improves the assignment. Read the actual launch schema and available model/effort values; put the selected settings in those fields. Preserve tighter host/user settings. Retain requested settings and actual returned identity separately in the existing context. Before: “Label this worker a specialist.” After: “Send the unresolved Bellman residual and prior repair; set the supported model and highest supported effort in the native launch.” Length, routine review, general complexity or a first failure alone does not justify a specialist.
+3. **Capacity → executable assignment.** Apply [host nesting and capacity](../docs/ai/config-templates/README.md#native-delegation-limits) to the whole hierarchy. Retrievers and independent reviewers return dependencies to their parent; available capacity determines the parent's next launch or sequential operation.
 
 ## Shared work
 

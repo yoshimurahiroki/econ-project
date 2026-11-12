@@ -2121,9 +2121,9 @@ def _project_github_config(config):
                 or project.get('owner_type', 'user') not in ('user', 'organization')):
             raise ValueError('GitHub project requires owner, positive number and user/organization owner_type')
     fields = config.get('fields', {})
-    if (not isinstance(fields, dict) or set(fields) - set(_GITHUB_FIELDS)
+    if (not isinstance(fields, dict) or set(fields) - (set(_GITHUB_FIELDS) | {'publication_stage'})
             or any(not isinstance(value, str) or not value.strip() for value in fields.values())):
-        raise ValueError('GitHub fields maps status, priority, due_date, classification and progress to Project field names')
+        raise ValueError('GitHub fields maps status, priority, due_date, classification, progress and publication_stage to Project field names')
     groups = config.get('status_groups', {})
     if (not isinstance(groups, dict) or set(groups) - {'completed', 'active', 'next', 'blocked'}
             or any(not isinstance(values, list) or any(not isinstance(v, str) or not v.strip() for v in values)
@@ -2262,6 +2262,8 @@ def _github_project_fetch(config, extra_fields=()):
                       and item['content'].get('repository', {}).get('nameWithOwner', '').casefold() == config['repository'].casefold()):
                     values = {fields[key]: next((value[k] for k in ('name', 'text', 'date', 'number', 'title') if k in value), None)
                               for key in fields if (value := item.get(key))}
+                    if 'publication_stage' in fields:
+                        values.setdefault(fields['publication_stage'], None)
                     project['items'].append({'id': item['id'], 'issue_number': item['content']['number'], 'fields': values})
     if not _github_snapshot_matches(config, {'repository': config['repository'], 'project': project}):
         raise ValueError('GitHub returned a different Project')
@@ -2288,6 +2290,7 @@ def _project_github_fetch(config, work):
 def _github_form_fields(body):
     aliases = {'priority': {'priority', '優先順位'}, 'due_date': {'due date', '期限'},
                'classification': {'classification', '分類'}, 'progress': {'progress', '進捗'},
+               'publication_stage': {'publication stage', '投稿段階'},
                'related_research': {'related research', '関連研究'}}
     sections = re.split(r'^###\s+(.+?)\s*$', body or '', flags=re.MULTILINE)
     result = {}
@@ -2368,7 +2371,7 @@ def _project_github(root, definition, snapshots):
         values = _github_form_fields(issue.get('body'))
         fields = items.get(number, {}).get('fields', {})
         for key, name in field_names.items():
-            if fields.get(name) is not None:
+            if fields.get(name) is not None or (key == 'publication_stage' and name in fields):
                 values[key] = fields[name]
         status = values.get('status') or issue['state']
         status_name = str(status).casefold()
@@ -2387,6 +2390,7 @@ def _project_github(root, definition, snapshots):
         issues.append({'number': number, 'title': issue['title'], 'url': issue['html_url'],
                        'assignees': [row['login'] for row in issue['assignees']], 'state': issue['state'], 'status': status,
                        **{key: values.get(key) for key in ('priority', 'due_date', 'classification', 'progress')},
+                       **({'publication_stage': values['publication_stage']} if 'publication_stage' in values else {}),
                        'updated_at': issue.get('updated_at'), 'closed_at': issue.get('closed_at'),
                        'bucket': bucket, 'dependencies': dependencies, 'project_item_id': items.get(number, {}).get('id'),
                        'execution_task_ids': [row['task_id'] for row in linked],
@@ -3160,6 +3164,8 @@ def _project_view(root, tasks, task_id, role, view, owner, others, priority=None
                 row['execution_owner'] = row.pop('owner')
                 row['assignees'] = human.get(key, {}).get('assignees', [])
                 row['issue_url'] = human.get(key, {}).get('url')
+                if 'publication_stage' in human.get(key, {}):
+                    row['publication_stage'] = human[key]['publication_stage']
         if owner is not None:
             forecast['schedule'] = {key: value for key, value in forecast['schedule'].items() if selected_owner(key)}
             forecast['next_tasks'] = [key for key in forecast['next_tasks'] if selected_owner(key)]
@@ -3221,6 +3227,8 @@ def _project_view(root, tasks, task_id, role, view, owner, others, priority=None
                 row['execution'] = {key: row[key] for key in ('owner', 'status', 'after', 'next_action')}
                 issue = human.get(row['task_id'], {})
                 row.update({key: issue.get(key) for key in ('title', 'url', 'status', 'priority', 'due_date', 'classification', 'progress')})
+                if 'publication_stage' in issue:
+                    row['publication_stage'] = issue['publication_stage']
                 row['assignees'] = issue.get('assignees', [])
                 row['owner'] = ', '.join(row['assignees']) or None
                 row['dependencies'] = issue.get('dependencies')
@@ -3338,7 +3346,7 @@ def parse_cli_args(argv=None, *, default_root=None):
     prepare.add_argument('--task-id')
     prepare.add_argument('--release-hold')
     prepare.add_argument('--instruction-ref', action='append', default=[])
-    add = sub.add_parser('add')
+    add = sub.add_parser('add', help='Declare a task; create the store on the first valid declaration')
     add.add_argument('id')
     add.add_argument('--owner', required=True)
     add.add_argument('--record')
@@ -3524,10 +3532,10 @@ def main(argv=None):
     _, _, mutate = cli_effect(args)
     refresh_state = mutate or args.command in {'inspect', 'show'}
     def execute():
-        if args.command == 'init':
+        if args.command == 'init' or args.command == 'add' and not path.exists():
             if path.exists():
                 raise ValueError('Store exists; resume its saved state')
-            limits = {k: getattr(args, k) for k in ['max_active', 'max_depth', 'max_attempts']}
+            limits = {k: getattr(args, k, None) for k in ['max_active', 'max_depth', 'max_attempts']}
             if any(value is not None and value < 1 for value in limits.values()):
                 raise ValueError('Limits must be positive')
             state = {'version': 5, 'created': now(), 'limits': limits, 'limit_sources': {k: 'explicit' if v is not None else 'unset' for k, v in limits.items()}, 'tasks': {}}
@@ -4147,11 +4155,14 @@ def main(argv=None):
         else:
             output = {'command': args.command, 'tasks': len(tasks)}
         if mutate:
-            save(path, state)
+            hooks = None
             if args.command in {'add', 'set-context'} and args.hook_context:
                 spec = importlib.util.spec_from_file_location('state_codex_hooks', _base / 'codex_hooks.py')
                 hooks = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(hooks)
+                hooks.bind_state(args.hook_context, path, root, args.id, proposed_state=state)
+            save(path, state)
+            if hooks is not None:
                 output['hook_binding'] = hooks.bind_state(args.hook_context, path, root, args.id)
         return output
     if mutate or args.command in {'prepare-context', 'project-update'}:

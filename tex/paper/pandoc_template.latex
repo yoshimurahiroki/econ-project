@@ -19,7 +19,7 @@
 \def\econselectedclass{$documentclass$}
 \def\econjournalclass{econsocart}
 \ifx\econselectedclass\econjournalclass
-\documentclass[ecta,nameyear,draft]{econsocart}
+\documentclass[ecta,nameyear,$if(classoption)$$for(classoption)$$classoption$$sep$,$endfor$$else$final$endif$]{econsocart}
 \else
 \documentclass[$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 \fi
@@ -45,6 +45,7 @@ $if(bibliography)$$else$\let\bibliographystyle\econbibstyle
 $endif$$for(header-includes)$
 $header-includes$
 $endfor$
+\raggedbottom
 \AtBeginEnvironment{longtable}{\def\_{\textunderscore\allowbreak}}
 \newcounter{pandocauthor}
 \newcommand{\pandocauthor}[1]{\stepcounter{pandocauthor}\author[id=au\arabic{pandocauthor},addressref={add1}]{\fnms{}~\snm{#1}\ead[label=e\arabic{pandocauthor}]{}}}
@@ -115,7 +116,7 @@ $endfor$
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \address[id=add1]{}
 
-\support{}
+$if(support)$\support{$support$}$endif$
 
 %% Put support info here.  Reminder: do not thank the handling coeditor anonymously or by name
 %% \support{We thank ???.}

@@ -20,7 +20,7 @@ try:
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 except Exception as exc:
-    reason = ('Economics hook unavailable: ' + str(exc))[:500]
+    reason = ('Economics hook unavailable: ' + str(exc)).encode('utf-8')[:240].decode('utf-8', errors='ignore')
     result = ({'decision': 'block', 'reason': reason + '; state startup requires a working hook. Resubmit after repair.'}
               if event == 'UserPromptSubmit' else
               {'hookSpecificOutput': {'hookEventName': event, 'additionalContext': reason}}

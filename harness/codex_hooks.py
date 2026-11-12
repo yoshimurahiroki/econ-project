@@ -46,30 +46,184 @@ def absolute(value):
 
 
 def _ensure_session_state(event):
-    """Start the existing state owner once, without creating a task contract."""
-    gate.require(isinstance(event, dict) and event.get('hook_event_name') == 'UserPromptSubmit',
-                 'invalid startup event')
+    """Initialize ordinary bookkeeping; validate an existing durable store in place."""
+    gate.require(isinstance(event, dict), 'invalid startup event')
     session_id = event.get('session_id')
     gate.require(isinstance(session_id, str) and session_id.strip(), 'missing session identity')
     data = absolute(os.environ.get('PLUGIN_DATA'))
     session = data / 'economics' / gate.sha(session_id.encode('utf-8'))
-    state_root = absolute(str(session / 'runtime-state'))
-    for directory in (data, data / 'economics', session, state_root):
-        directory.mkdir(parents=True, mode=0o700, exist_ok=True)
-    store = state_root / '.agents/state/team.json'
-    module = sibling(Path(__file__).resolve().parent / 'state.py')
-    if not store.exists():
-        try:
-            module.main(['--root', str(state_root), 'init'])
-        except (OSError, ValueError):
-            if not store.is_file():
-                raise
-    state = _read(store)
-    gate.require(isinstance(state, dict) and state.get('version') == 5
-                 and isinstance(state.get('tasks'), dict)
-                 and isinstance(state.get('limits'), dict)
-                 and isinstance(state.get('limit_sources'), dict), 'invalid existing session state')
-    return store
+    path = session / 'session.json'
+    with turn_lock(session):
+        record = _read(path)
+        if record is None:
+            record = {'schema_version': 1, 'session_id': session_id, 'plugin_data': str(data), 'kernel_contexts': {},
+                      'reviewed_turns': [], 'children': {}, 'notices': {}}
+            save_record(path, record, replace=False)
+        _session_record(path, session_id)
+        store = session / 'runtime-state/.agents/state/team.json'
+        if store.exists():
+            state = _read_state_store(store)
+            gate.require(isinstance(state, dict) and state.get('version') == 5
+                         and isinstance(state.get('tasks'), dict)
+                         and isinstance(state.get('limits'), dict)
+                         and isinstance(state.get('limit_sources'), dict), 'invalid existing session state')
+    return path
+
+
+def _session_record(path, session_id):
+    record = _read(path)
+    gate.require(isinstance(record, dict) and record.get('schema_version') == 1
+                 and record.get('session_id') == session_id
+                 and isinstance(record.get('kernel_contexts'), dict)
+                 and isinstance(record.get('reviewed_turns'), list)
+                 and isinstance(record.get('children'), dict)
+                 and isinstance(record.get('notices'), dict), 'invalid session record')
+    return record
+
+
+def _ordinary_session(event, root, data):
+    """Carry ordinary context, exact child returns and one review in session.json."""
+    path = _ensure_session_state(event)
+    name = event['hook_event_name']
+    agent = event.get('agent_id')
+    key = 'agent:' + agent if agent else 'root'
+    with turn_lock(path.parent):
+        record = _session_record(path, event['session_id'])
+        if name == 'UserPromptSubmit':
+            prompt = event.get('prompt')
+            gate.require(isinstance(prompt, str) and prompt.strip()
+                         and len(prompt.encode('utf-8')) <= gate.MAX_BYTES, 'missing or oversized host prompt')
+            if record.get('turn_id') == event['turn_id']:
+                gate.require(record.get('prompt') == prompt, 'same host turn carries a different prompt')
+            new_scope = (record.get('turn_id') != event['turn_id'] and
+                         (_new_task_requested(prompt) or record.get('completed_turn') and
+                          not _continuation_prompt(prompt) and _stop_requested(prompt)['kind'] == 'none'))
+            if 'original_prompt' not in record or new_scope:
+                fields = ('original_prompt', 'original_turn', 'messages', 'holds', 'children',
+                          'pending_restoration', 'interrupted_turn', 'completed_turn')
+                if 'original_prompt' in record:
+                    record.setdefault('task_history', []).append({key: record[key] for key in fields if key in record})
+                for field in fields:
+                    record.pop(field, None)
+                record.update(original_prompt=prompt, original_turn=event['turn_id'], messages=[],
+                              children={}, holds=[], pending_restoration={})
+            elif record.get('turn_id') != event['turn_id']:
+                stopping = _stop_requested(prompt)
+                kind = ('partial-stop' if stopping['kind'] == 'partial' else
+                        'continuation' if _continuation_prompt(prompt) else 'amendment')
+                record['messages'].append({'turn_id': event['turn_id'], 'text': prompt,
+                    'text_sha256': gate.sha(prompt.encode('utf-8')), 'kind': kind})
+                if stopping['kind'] == 'partial':
+                    record.setdefault('holds', []).append(stopping)
+            record.pop('completed_turn', None)
+            record.update(turn_id=event['turn_id'], prompt=prompt, cwd=event['cwd'], plugin_root=str(root))
+        scope = record
+        if agent and agent not in record['children']:
+            scope = next((old for old in reversed(record.get('task_history', []))
+                          if agent in old.get('children', {})), record)
+        if name == 'PostCompact':
+            scope.setdefault('pending_restoration', {})[key] = True
+            record['kernel_contexts'].pop(key, None)
+            save_record(path, record)
+            return {}
+        if name == 'Interrupt':
+            record['interrupted_turn'] = event['turn_id']
+            save_record(path, record)
+            return {}
+        if name == 'SessionStart':
+            gate.require(event.get('source') in {'startup', 'resume', 'clear', 'compact', 'fork'},
+                         'unknown SessionStart source')
+            if event.get('source') != 'startup':
+                scope.setdefault('pending_restoration', {})[key] = True
+            record['kernel_contexts'].pop(key, None)
+        if name in {'SubagentStart', 'SubagentStop'}:
+            gate.require(agent and isinstance(event.get('agent_type'), str) and event['agent_type'],
+                         'missing host child identity')
+            child = scope['children'].get(agent, {})
+            if name == 'SubagentStop':
+                gate.require(type(event.get('stop_hook_active')) is bool and child.get('start_observation')
+                             and child.get('agent_type') == event['agent_type'], 'child start or return identity is unavailable')
+            else:
+                gate.require(child.get('agent_type') in (None, event['agent_type']), 'host child identity changed')
+            scope['children'][agent] = child
+            if name == 'SubagentStart':
+                child.update(agent_id=agent, agent_type=event['agent_type'], status='running',
+                             start_observation={'event': name, 'agent_id': agent, 'payload_sha256': gate.sha(gate.canonical(event))})
+                record['kernel_contexts'].pop(key, None)
+            else:
+                message = event.get('last_assistant_message')
+                gate.require(isinstance(message, str) and message.strip()
+                             and len(message.encode('utf-8')) <= gate.MAX_BYTES, 'return the assigned child scope')
+                return_sha = gate.sha(message.encode('utf-8'))
+                child.update(agent_id=agent, agent_type=event['agent_type'], status='returned',
+                             return_sha256=return_sha, pending=True,
+                             return_observation={'event': name, 'agent_id': agent, 'payload_sha256': gate.sha(gate.canonical(event))})
+                if len(message.encode('utf-8')) > 32000:
+                    saved = path.parent / 'child-returns' / (return_sha + '.txt')
+                    save_text(saved, message)
+                    child['return_path'] = str(saved)
+                    child.pop('return_text', None)
+                else:
+                    child['return_text'] = message
+                    child.pop('return_path', None)
+        text = ''
+        if name == 'PostToolUse':
+            spawned = _spawn_assignment(event)
+            if spawned:
+                child = scope['children'].setdefault(spawned, {})
+                inputs = event['tool_input']
+                raw_launch = gate.canonical(event)
+                launch_sha = gate.sha(raw_launch)
+                if len(raw_launch) > 32000:
+                    source = path.parent / 'child-launches' / (launch_sha + '.json')
+                    save_text(source, raw_launch.decode('utf-8'))
+                    child['launch_reference'] = {'path': str(source), 'sha256': launch_sha}
+                    child.pop('assignment', None)
+                    child.pop('launch_observation', None)
+                else:
+                    child['assignment'] = inputs.get('message', inputs.get('prompt'))
+                    child['launch_observation'] = {'event': event, 'payload_sha256': launch_sha,
+                                                   'provenance_authenticated': False}
+                    child.pop('launch_reference', None)
+            if not agent:
+                pending = {identity: child.get('return_text') or packet_command(root, event['cwd'],
+                               child['return_path'], child['return_sha256'])
+                           for identity, child in scope['children'].items() if child.get('pending')}
+                if pending:
+                    text = 'Integrate these actual child returns with their assignments:\n' + json.dumps(pending, ensure_ascii=False)
+                    for identity in pending:
+                        scope['children'][identity]['pending'] = False
+        policy, owner, _, manifest, _ = _policy_snapshot(root)
+        kernel, digest = policy.kernel_context(owner, manifest)
+        if record['kernel_contexts'].get(key) != digest:
+            text = kernel + ('\n' + text if text else '')
+            record['kernel_contexts'][key] = digest
+            if scope.setdefault('pending_restoration', {}).pop(key, False):
+                text += '\n[Original request]\n' + scope.get('original_prompt', '')
+                text += '\n[Verbatim task messages]\n' + json.dumps(scope.get('messages', []), ensure_ascii=False)
+            if agent:
+                assignment = _ordinary_assignment(scope['children'].get(agent, {}))
+                text += ('\n[Original child assignment]\n' + assignment if assignment else
+                         '\nRecover the original child assignment from the parent before dependent work.')
+            if not agent:
+                text += '\nSession record: ' + shlex.quote(str(path))
+        if name == 'SubagentStart':
+            text += '\nExecute the original host child assignment and return its actual result to the parent.'
+        save_record(path, record)
+        if name == 'Stop':
+            gate.require(type(event.get('stop_hook_active')) is bool, 'missing Stop re-entry state')
+            review = _review_final_prose(event, root, path.parent, session_record=record)
+            pending = [identity for identity, child in scope['children'].items()
+                       if child.get('pending') or child.get('status') == 'running']
+            if review is None and not pending:
+                scope['completed_turn'] = event['turn_id']
+                save_record(path, record)
+            notice = failure(name, 'integrate the child scope before parent completion: ' + ', '.join(pending)) if pending else {}
+            result = {**notice, **(review or {})}
+            if text:
+                result['systemMessage'] = text + ('\n\n' + result['systemMessage'] if result.get('systemMessage') else '')
+            return result
+        return feedback(name, text) if text else {}
 
 
 def save_record(path, value, replace=True):
@@ -77,6 +231,7 @@ def save_record(path, value, replace=True):
     path = absolute(str(path))
     path.parent.mkdir(parents=True, mode=0o700, exist_ok=True)
     raw = gate.canonical(value)
+    gate.require(len(raw) <= gate.MAX_BYTES, 'operational record exceeds its readable size; retain large bodies in referenced outputs')
     if path.exists():
         info = path.stat()
         gate.require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1, 'invalid operational record')
@@ -232,16 +387,43 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
     """Adopt the explicitly selected operation and its exact source-bound closure."""
     path = absolute(str(context_path))
     with turn_lock(path.parent):
-        context = _read(path)
-        gate.require(isinstance(context, dict) and context.get('schema_version') == 2,
-                     'operation binding requires a current task context')
-        session = absolute(context['plugin_data']) / 'economics' / gate.sha(context['session_id'].encode())
-        gate.require(path == session / 'tasks' / gate.sha(context['task_id'].encode()) / 'context.json'
-                     and _read(session / 'active-task.json') == {'task_id': context['task_id']},
-                     'operation binding is not the active host task context')
+        promoting = path.name == 'session.json'
+        session_record = _read(path) if promoting else None
+        if promoting:
+            gate.require(isinstance(session_record, dict), 'session record is missing')
+            session_record = _session_record(path, session_record.get('session_id'))
+            session = path.parent
+            gate.require(session == absolute(session_record['plugin_data']) / 'economics' /
+                         gate.sha(session_record['session_id'].encode()), 'session record path mismatch')
+            gate.require(_read(session / 'active-task.json') is None, 'bind the existing active task context')
+            gate.require(operation_kind is not None, 'ordinary rule selection uses the registry reader; declare a durable contract to bind')
+            prompt = session_record.get('original_prompt')
+            gate.require(isinstance(prompt, str) and prompt.strip() and session_record.get('turn_id'),
+                         'a host prompt is required before durable adoption')
+            task_id = session_record['original_turn']
+            path = session / 'tasks' / gate.sha(task_id.encode()) / 'context.json'
+            gate.require(not path.exists(), 'task context already exists; reconcile its retained contract')
+            context = {'schema_version': 2, 'session_id': session_record['session_id'],
+                       'turn_id': task_id, 'task_id': task_id, 'nonce': str(uuid.uuid4()),
+                       'cwd': session_record['cwd'], 'plugin_root': session_record['plugin_root'],
+                       'plugin_data': str(absolute(session_record['plugin_data'])),
+                       'prompt_sha256': gate.sha(prompt.encode('utf-8'))}
+            effective = prompt
+            for message in session_record.get('messages', []):
+                if message['kind'] == 'amendment':
+                    effective += '\n\n[User amendment ' + message['turn_id'] + ']\n' + message['text']
+            effective_request = effective.encode('utf-8')
+        else:
+            context = _read(path)
+            gate.require(isinstance(context, dict) and context.get('schema_version') == 2,
+                         'operation binding requires a current task context')
+            session = absolute(context['plugin_data']) / 'economics' / gate.sha(context['session_id'].encode())
+            gate.require(path == session / 'tasks' / gate.sha(context['task_id'].encode()) / 'context.json'
+                         and _read(session / 'active-task.json') == {'task_id': context['task_id']},
+                         'operation binding is not the active host task context')
+            gate.require(_lifecycle(path.parent) == 'active', 'operation binding requires an active task')
+            effective_request = _effective_request(path.parent)
         gate.require(absolute(str(state_root)) == absolute(context['cwd']), 'operation root differs from the original task root')
-        gate.require(_lifecycle(path.parent) == 'active', 'operation binding requires an active task')
-        _effective_request(path.parent)
         # An explicit rebind adopts the runtime executing this command, including
         # after a release moves its canonical files. Task authority stays intact.
         policy = sibling(base / 'policy_assets.py')
@@ -289,12 +471,12 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
             record = context.get('completion_contract')
             if record is None:
                 record = {'required_outputs': outputs, 'required_actions': actions, 'external_targets': targets}
-                module.record_contract(record, {'kind': 'hook-request', 'request_sha256': gate.sha(_effective_request(path.parent))})
+                module.record_contract(record, {'kind': 'hook-request', 'request_sha256': gate.sha(effective_request)})
             else:
                 record = gate.parse_json(gate.canonical(record))
                 module.contract_change(state_root, record, outputs, actions, targets, user_change)
             record.update(operation_kind=operation_kind, authority=authority,
-                          request_sha256=gate.sha(_effective_request(path.parent)))
+                          request_sha256=gate.sha(effective_request))
             updated['completion_contract'] = record
         elif context.get('state_binding') is not None:
             gate.require(not (required_outputs or required_actions or external_targets or operation_kind or authority or user_change),
@@ -302,9 +484,35 @@ def bind_operation(context_path, state_root, operation, conditions=(), profile=N
             bound = _bound_state(path.parent, root)
             gate.require(bound is not None and bound[2].get('completion_contract') == 1,
                          'bound state needs the original complete output/action contract')
-        if context != updated:
+        if promoting:
+            # Publish the pointer last; failed validation creates no task directory.
+            save_record(path.parent / 'original-prompt.json',
+                        {'text': prompt, 'sha256': context['prompt_sha256']}, replace=False)
+            save_record(path.parent / 'task-messages.json', session_record.get('messages', []), replace=False)
+            save_record(path.parent / 'task-holds.json', session_record.get('holds', []), replace=False)
+            for identity, child in session_record['children'].items():
+                save_record(path.parent / 'children' / (gate.sha(identity.encode()) + '.json'), child, replace=False)
+                if child.get('pending'):
+                    _queue_parent_return(path.parent, {'agent_id': identity, 'agent_type': child['agent_type'],
+                        'return_sha256': child['return_sha256'], 'payload_sha256': child['return_observation']['payload_sha256'],
+                        'status': child['status'], 'scope': 'child-assignment-only'})
+            pending = {key: {'pending_restoration': True} for key, value in
+                       session_record.get('pending_restoration', {}).items() if value}
+            if pending:
+                save_record(path.parent / 'reinjection.json', {'compactions': pending}, replace=False)
+            save_record(path, updated, replace=False)
+            turns = [context['turn_id'], *[row['turn_id'] for row in session_record.get('messages', [])]]
+            for turn in turns:
+                membership = {'task_id': context['task_id']}
+                if turn in session_record['reviewed_turns']:
+                    membership['prose_review_requested'] = True
+                save_record(path.parent / 'turns' / (gate.sha(turn.encode()) + '.json'), membership, replace=False)
+                save_record(session / 'turns' / (gate.sha(turn.encode()) + '.json'),
+                            {'task_id': context['task_id'], 'directory': path.parent.relative_to(session).as_posix()}, replace=False)
+            save_record(session / 'active-task.json', {'task_id': context['task_id']}, replace=False)
+        elif context != updated:
             save_record(path, updated)
-        return binding
+        return {**binding, 'context_path': str(path)}
 
 
 def _operation_manifest(root, context, directory=None):
@@ -320,7 +528,8 @@ def _operation_manifest(root, context, directory=None):
     return selected
 
 
-def bind_state(context_path, state_file, state_root, task_id):
+def bind_state(context_path, state_file, state_root, task_id, *, proposed_state=None):
+    """Validate a proposed store before publication; bind only its committed form."""
     path = absolute(str(context_path))
     context = _read(path)
     gate.require(isinstance(context, dict) and context.get('schema_version') == 2,
@@ -336,7 +545,7 @@ def bind_state(context_path, state_file, state_root, task_id):
     store = absolute(str(state_file))
     gate.require(store.is_relative_to(root / '.agents/state'), 'task state is outside its existing store')
     state_module = sibling(Path(context['plugin_root']) / 'harness/state.py')
-    data = _read_state_store(store)
+    data = _read_state_store(store) if proposed_state is None else proposed_state
     task = data['tasks'][task_id]
     gate.require(task.get('completion_contract') == 1, 'state binding requires the complete original output/action contract')
     task_context = task.get('task_context') or {}
@@ -364,6 +573,8 @@ def bind_state(context_path, state_file, state_root, task_id):
     gate.require(previous is None or all(previous.get(key) == binding[key]
                  for key in ('state_file', 'state_root', 'task_id')),
                  'bound task identity cannot be replaced by another state record')
+    if proposed_state is not None:
+        return binding
     if previous != binding:
         save_record(path, {**context, 'state_binding': binding})
         retained = _read(directory / 'reinjection.json', {})
@@ -515,7 +726,8 @@ def _policy_snapshot(root, directory=None, context=None, conditions=()):
     return result
 
 
-def _restoration(root, directory, state, manifest=None, conditions=(), *, restore=True, instruction_event=None):
+def _restoration(root, directory, state, manifest=None, conditions=(), *, restore=True, instruction_event=None,
+                 concise=False):
     """Restore fixed inputs, never a generated substitute for the host prompt."""
     context = _read(directory / 'context.json', {})
     original = _read(directory / 'original-prompt.json')
@@ -527,15 +739,15 @@ def _restoration(root, directory, state, manifest=None, conditions=(), *, restor
     request = _effective_request(directory).decode('utf-8') if context.get('schema_version') == 2 else prompt
     _operation_manifest(root, context, directory)
     policy, owner, policy_raw, current, _ = _policy_snapshot(root, directory, context, conditions)
+    # Recovery-only prerequisites extend this delivery, not the adopted binding.
+    binding_policy_raw = (_policy_snapshot(root, directory, context)[2] if conditions else policy_raw)
     gate.require(Path(policy.__file__).absolute() == (root / 'harness/policy_assets.py').absolute(),
                  'hook policy module does not belong to this runtime')
     gate.require(manifest is None or manifest['policy_id'] == current['policy_id'], 'adopted policy version changed')
     retained = _read(directory / 'reinjection.json', {})
     context_lost = restore
-    retained_bodies = (() if context_lost or retained.get('instruction_body_root') != str(owner)
-                       else retained.get('instruction_read_bodies', ()))
     binding_sha = gate.sha(gate.canonical(context.get('operation_binding')))
-    restore = (restore or retained.get('instruction_policy_sha256') != gate.sha(policy_raw)
+    restore = (restore or retained.get('instruction_policy_sha256') != gate.sha(binding_policy_raw)
                or retained.get('instruction_binding_sha256') != binding_sha
                or retained.get('instruction_stage') != context.get('reading_stage'))
     source_versions = {str(owner / row['path']): row['sha256']
@@ -545,7 +757,7 @@ def _restoration(root, directory, state, manifest=None, conditions=(), *, restor
     packet = policy.instruction_context(owner, manifest=current,
         status={**state, 'lifecycle': _lifecycle(directory), 'request_sha256': request_sha, 'unmet_ids': _ids(state)},
         request_text=request if restore_request else None, restore=restore, stage=context.get('reading_stage'),
-        role='author', reader_id=state.get('author_id'), retained_bodies=retained_bodies,
+        role='author', reader_id=state.get('author_id'),
         instruction_event=instruction_event or ('task-resume' if context_lost else 'post-tool'))
     gate.require(packet.get('restoration', {}).get('included') is restore,
                  'canonical original-request/rule restoration is unavailable')
@@ -634,139 +846,39 @@ def _restoration(root, directory, state, manifest=None, conditions=(), *, restor
                         text += '\n\n[Bound governing source: ' + name + ']\n' + raw.decode('utf-8')
                         included.add(ref['content_sha256'])
     reinjection = _read(directory / 'reinjection.json', {})
-    reinjection.update(instruction_policy_sha256=gate.sha(policy_raw), instruction_sources=source_versions,
+    sources_unchanged = all(retained.get('instruction_sources', {}).get(path) == digest
+                            for path, digest in source_versions.items())
+    retained_sources = {**retained.get('instruction_sources', {}), **source_versions}
+    reinjection.update(instruction_policy_sha256=gate.sha(binding_policy_raw), instruction_sources=retained_sources,
                        instruction_binding_sha256=binding_sha, instruction_stage=context.get('reading_stage'),
                        instruction_request_sha256=request_sha)
-    emitted = packet['restoration'].get('rules', [])
-    reused = packet['restoration'].get('reused_rules', [])
-    if restore:
-        reinjection.update(instruction_body_root=str(owner), instruction_body_refs=emitted + reused,
-                           instruction_read_bodies=list(retained_bodies))
+    for key in ('instruction_body_root', 'instruction_body_refs', 'instruction_read_bodies',
+                'instruction_emitted_turn', 'instruction_emitted_bodies'):
+        reinjection.pop(key, None)
     save_record(directory / 'reinjection.json', reinjection)
+    if concise and not restore and not restore_request and sources_unchanged:
+        task = bound[2] if bound is not None else context
+        identity = str(task.get('task_id', context['task_id']))
+        if len(identity.encode('utf-8')) > 16:
+            identity = gate.sha(identity.encode('utf-8'))[:16]
+        action = task.get('next') or task.get('next_action') or 'Continue the adopted operation.'
+        holds = _pending_task_holds(directory, bound)
+        status = 'Task ' + identity + ': ' + _lifecycle(directory) + '. Next: ' + str(action)
+        if holds:
+            status += ' Preserve the recorded holds.'
+        if len(status.encode('utf-8')) > 500:
+            session = absolute(context['plugin_data']) / 'economics' / gate.sha(context['session_id'].encode())
+            saved = session / 'instruction-context' / (gate.sha(str(action).encode('utf-8')) + '.md')
+            save_text(saved, str(action))
+            status = 'Task ' + identity + ': ' + _lifecycle(directory) + '. Read the next operation:\ncat ' + shlex.quote(str(saved))
+            if holds:
+                status += '\nPreserve the recorded holds.'
+            if len(status.encode('utf-8')) > 500:
+                status = 'Read the next operation:\ncat ' + shlex.quote(str(saved))
+                if holds:
+                    status += '\nPreserve the recorded holds.'
+        return status
     return text
-
-
-def _retain_exposed_rule_bodies(directory, event):
-    """Reuse only complete pinned bodies actually present in native tool output.
-
-    This extends the existing reinjection snapshot; it proves text exposure,
-    never semantic reading, task acceptance or authority. Child contexts do not
-    inherit their parent's exposed text.
-    """
-    if event.get('agent_id') or _tool_failed(event):
-        return
-    record = _read(directory / 'reinjection.json', {})
-    refs = record.get('instruction_body_refs', [])
-    if not refs or not record.get('instruction_body_root'):
-        return
-    retained = list(record.get('instruction_read_bodies', []))
-    def identity(row):
-        return tuple(row[key] for key in ('path', 'sha256', 'start', 'end'))
-    seen = {identity(row) for row in retained}
-    pending = [row for row in refs if identity(row) not in seen]
-    if not pending:
-        return
-    texts = []
-    def collect(value, depth=0):
-        if depth > 6:
-            return
-        if isinstance(value, str):
-            texts.append(value)
-            if value.lstrip().startswith(('{', '[')):
-                try:
-                    collect(json.loads(value), depth + 1)
-                except (ValueError, RecursionError):
-                    pass
-        elif isinstance(value, dict):
-            for key in ('output', 'content', 'text', 'result', 'structuredContent'):
-                if key in value:
-                    collect(value[key], depth + 1)
-        elif isinstance(value, list):
-            for item in value:
-                collect(item, depth + 1)
-    collect(event.get('tool_response'))
-    source_root = Path(record['instruction_body_root'])
-    observed = {actual for _, actual in _observed_read_paths(event, source_root)}
-    args = event.get('tool_input') or {}
-    command = args.get('cmd', args.get('command', '')) if isinstance(args, dict) else ''
-    try:
-        parts = shlex.split(command) if observed and isinstance(command, str) else []
-    except ValueError:
-        parts = []
-    sources = {}
-    for row in pending:
-        path = source_root / row['path']
-        if row['path'] not in sources:
-            try:
-                raw = gate.regular_bytes(path)
-                sources[row['path']] = gate.sha(raw), raw.decode('utf-8')
-            except (OSError, UnicodeError):
-                sources[row['path']] = None
-        if sources[row['path']] is None:
-            continue
-        digest, source = sources[row['path']]
-        if digest != row['sha256']:
-            continue
-        body = source[row['start']:row['end']]
-        credited = False
-        if path.resolve() in observed and parts:
-            if parts[0] == 'cat':
-                credited = True
-            elif parts[0] == 'sed' and len(parts) >= 4:
-                bounds = parts[2][:-1].split(',')
-                first, last = int(bounds[0]), int(bounds[-1])
-                body_first = source.count('\n', 0, row['start']) + 1
-                body_last = source.count('\n', 0, max(row['start'], row['end'] - 1)) + 1
-                credited = first <= body_first and last >= body_last
-        if body and (credited or any(body in text for text in texts)):
-            retained.append(row)
-            seen.add(identity(row))
-    if retained != record.get('instruction_read_bodies', []):
-        save_record(directory / 'reinjection.json', {**record, 'instruction_read_bodies': retained})
-
-
-def _unread_instruction_bodies(directory, turn=None):
-    record = _read(directory / 'reinjection.json', {})
-    def identity(row):
-        return tuple(row[key] for key in ('path', 'sha256', 'start', 'end'))
-    seen = {identity(row) for row in record.get('instruction_read_bodies', [])}
-    if turn is not None and record.get('instruction_emitted_turn') == turn:
-        seen.update(identity(row) for row in record.get('instruction_emitted_bodies', []))
-    rows = [row for row in record.get('instruction_body_refs', []) if identity(row) not in seen]
-    # Registry order supplies stage order; CORE and PROSE lead within the stage.
-    return sorted(rows, key=lambda row: (0 if row.get('resource_id') == 'core' else
-                                         1 if row.get('resource_id') == 'prose' else 2))
-
-
-def _instruction_body_command(directory, row):
-    record = _read(directory / 'reinjection.json', {})
-    path = Path(record['instruction_body_root']) / row['path']
-    raw = gate.regular_bytes(path)
-    gate.require(gate.sha(raw) == row['sha256'], 'instruction source changed: ' + str(path))
-    source = raw.decode('utf-8')
-    start = source.count('\n', 0, row['start']) + 1
-    end = source.count('\n', 0, max(row['start'], row['end'] - 1)) + 1
-    return str(path), start, end, f"sed -n '{start},{end}p' {shlex.quote(str(path))}"
-
-
-def _retain_hook_emission(directory, event, result):
-    if event.get('agent_id') or not event.get('turn_id'):
-        return
-    record = _read(directory / 'reinjection.json', {})
-    if not record.get('instruction_body_root'):
-        return
-    # Exposure establishes text presence, not semantic reading.
-    emitted = list(record.get('instruction_emitted_bodies', [])) if record.get('instruction_emitted_turn') == event['turn_id'] else []
-    output = result.get('hookSpecificOutput', {})
-    texts = [output.get('additionalContext', ''), result.get('systemMessage', ''), result.get('reason', '')]
-    for row in record.get('instruction_body_refs', []):
-        raw = gate.regular_bytes(Path(record['instruction_body_root']) / row['path'])
-        if gate.sha(raw) == row['sha256']:
-            body = raw.decode('utf-8')[row['start']:row['end']]
-            if body and any(body in text for text in texts if isinstance(text, str)) and row not in emitted:
-                emitted.append(row)
-    record.update(instruction_emitted_turn=event['turn_id'], instruction_emitted_bodies=emitted)
-    save_record(directory / 'reinjection.json', record)
 
 
 def focus_saved_research(module, task, *, view='selected', offset=0, limit=100):
@@ -828,44 +940,55 @@ def _coordinator(directory):
 
 
 def _active_directory(event, data):
+    """Resolve retained durable authority; retire only valid legacy ordinary pointers."""
     session = data / 'economics' / gate.sha(event['session_id'].encode())
     turn = event.get('turn_id')
     if event['hook_event_name'] != 'SessionStart':
         gate.require(isinstance(turn, str) and turn.strip(), 'missing host turn_id')
-        membership = _read(session / 'turns' / (gate.sha(turn.encode()) + '.json'))
-        if membership is not None:
-            gate.require(isinstance(membership, dict) and set(membership) == {'task_id', 'directory'}
-                         and isinstance(membership['task_id'], str), 'invalid turn task membership')
-            return session / gate.safe_relative(membership['directory'])
-    pointer = session / 'active-task.json'
-    active = _read(pointer)
-    if active is not None:
-        gate.require(isinstance(active, dict) and set(active) == {'task_id'}
-                     and isinstance(active['task_id'], str) and active['task_id'], 'invalid active task pointer')
-        current = session / 'tasks' / gate.sha(active['task_id'].encode())
-        if event['hook_event_name'] == 'UserPromptSubmit':
-            prompt = event.get('prompt', '')
-            if (_new_task_requested(prompt) or
-                    (_lifecycle(current) in TERMINAL and not _continuation_prompt(prompt)
-                     and _stop_requested(prompt)['kind'] == 'none')):
-                return session / 'tasks' / gate.sha(turn.encode())
-        return current
-    if event['hook_event_name'] != 'SessionStart':
-        # Migrate an active v1 task without replacing its fixed request.
-        if event['hook_event_name'] == 'UserPromptSubmit' and _new_task_requested(event.get('prompt', '')):
-            return session / 'tasks' / gate.sha(turn.encode())
+    with turn_lock(session):
+        pointer = session / 'active-task.json'
+        active = _read(pointer)
+        if active is not None:
+            gate.require(isinstance(active, dict) and set(active) == {'task_id'}
+                         and isinstance(active['task_id'], str) and active['task_id'], 'invalid active task pointer')
+        if turn:
+            membership = _read(session / 'turns' / (gate.sha(turn.encode()) + '.json'))
+            if membership is not None:
+                gate.require(isinstance(membership, dict) and set(membership) == {'task_id', 'directory'}
+                             and isinstance(membership['task_id'], str), 'invalid turn task membership')
+                directory = session / gate.safe_relative(membership['directory'])
+                context = _read(directory / 'context.json')
+                gate.require(isinstance(context, dict), 'registered task context is missing')
+                if context.get('state_binding') is not None or context.get('completion_contract') is not None:
+                    return directory
+        if active is not None:
+            current = session / 'tasks' / gate.sha(active['task_id'].encode())
+            if str(active['task_id']).startswith('recovery-required:'):
+                return current
+            context = _read(current / 'context.json')
+            gate.require(isinstance(context, dict) and context.get('schema_version') == 2
+                         and context.get('task_id') == active['task_id']
+                         and context.get('session_id') == event['session_id'], 'active task context is missing or invalid')
+            bound = context.get('state_binding') is not None or context.get('completion_contract') is not None
+            if event['hook_event_name'] == 'UserPromptSubmit':
+                prompt = event.get('prompt', '')
+                if (_new_task_requested(prompt) or
+                        (_lifecycle(current) in TERMINAL and not _continuation_prompt(prompt)
+                         and _stop_requested(prompt)['kind'] == 'none')):
+                    pointer.unlink()
+                    return None
+            # Existing child handoffs retain their owner until integration.
+            if bound or _pending_parent_returns(current) or any((current / 'children').glob('*.json')):
+                return current
+            pointer.unlink()
         previous = _read(session / 'active-turn.json')
         if previous is not None:
+            gate.require(isinstance(previous, dict) and set(previous) == {'turn_id'}
+                         and isinstance(previous['turn_id'], str) and previous['turn_id'], 'invalid active turn pointer')
             old = session / gate.sha(previous['turn_id'].encode())
-            if (old / 'context.json').is_file() and _lifecycle(old) not in TERMINAL:
-                return old
-        return session / 'tasks' / gate.sha(turn.encode())
-    active = _read(session / 'active-turn.json')
-    if active is None:
-        return None
-    gate.require(isinstance(active, dict) and set(active) == {'turn_id'}
-                 and isinstance(active['turn_id'], str) and active['turn_id'], 'invalid active turn pointer')
-    return session / gate.sha(active['turn_id'].encode())
+            gate.require((old / 'context.json').is_file(), 'legacy active task context is missing')
+            return old
+    return None
 
 
 def _new_task_requested(prompt):
@@ -977,12 +1100,13 @@ def _child_assignment(root, directory, agent_id):
     """Recover only an exact retained launch or complete fixed support assignment."""
     context = _read(directory / 'context.json', {})
     child = _read(directory / 'children' / (gate.sha(agent_id.encode()) + '.json'), {})
-    launch = child.get('launch_observation') if isinstance(child, dict) else None
+    launch = _launch_observation(child) if isinstance(child, dict) else None
     if isinstance(launch, dict):
         observed = launch.get('event')
         if (isinstance(observed, dict) and launch.get('payload_sha256') == gate.sha(gate.canonical(observed))
                 and _spawn_assignment(observed, agent_id)):
-            return {'source': 'children/' + gate.sha(agent_id.encode()) + '.json#launch_observation',
+            return {'source': child.get('launch_reference', {}).get('path') or
+                              'children/' + gate.sha(agent_id.encode()) + '.json#launch_observation',
                     'source_sha256': launch['payload_sha256'], 'observation': observed,
                     'provenance_authenticated': False}
     ref = child.get('assignment_reference') if isinstance(child, dict) else None
@@ -1007,6 +1131,38 @@ def _child_assignment(root, directory, agent_id):
         return {'source': 'context.json#unbound_operations', 'source_sha256': gate.sha(gate.canonical(row)),
                 'observation': row, 'provenance_authenticated': False}
     return None
+
+
+def _child_recovery_context(root, directory, agent_id):
+    """Return the exact child assignment or its existing recovery obligation."""
+    assignment = _child_assignment(root, directory, agent_id)
+    if assignment is None:
+        return ('\nThe exact child launch assignment and returned agent link are missing. Request the parent '
+                'to resend the original assignment, or bind an existing authorized task-context source with '
+                'source ID child-assignment:' + agent_id + ' using bind-child-assignment and its exact SHA-256. '
+                'Read or recovery operations can continue; child-dependent changes and completion remain held.'), True
+    return ('\n[Retained child assignment source; callback provenance is not authenticated]\n' +
+            json.dumps(assignment, ensure_ascii=False)), False
+
+
+def _launch_observation(child):
+    ref = child.get('launch_reference')
+    if ref is not None:
+        with gate._open_regular(absolute(ref['path'])) as stream:
+            raw = stream.read(4 * gate.MAX_BYTES + 1)
+        gate.require(len(raw) <= 4 * gate.MAX_BYTES and gate.sha(raw) == ref['sha256'], 'child launch source changed')
+        return {'event': gate.parse_json(raw), 'payload_sha256': ref['sha256'], 'provenance_authenticated': False}
+    return child.get('launch_observation')
+
+
+def _ordinary_assignment(child):
+    launch = _launch_observation(child)
+    if launch is not None:
+        event = launch['event']
+        gate.require(_spawn_assignment(event) is not None, 'saved child launch is invalid')
+        inputs = event['tool_input']
+        return inputs.get('message', inputs.get('prompt'))
+    return child.get('assignment')
 
 
 def _spawn_assignment(event, agent_id=None):
@@ -1158,7 +1314,7 @@ def _child(event, root, directory, state, manifest):
         start['start_observation'] = {'event': 'SubagentStart', 'agent_id': agent_id,
             'payload_sha256': gate.sha(gate.canonical(event)),
             'observed_at': datetime.now(timezone.utc).isoformat(), 'source': 'hook-callback'}
-        for key in ('launch_observation', 'assignment_reference'):
+        for key in ('launch_observation', 'launch_reference', 'assignment_reference'):
             if isinstance(observed, dict) and key in observed:
                 start[key] = observed[key]
         save_record(path, start)
@@ -1172,7 +1328,7 @@ def _child(event, root, directory, state, manifest):
     gate.require(isinstance(observed, dict) and observed.get('agent_id') == agent_id
                  and observed.get('agent_type') == agent_type, 'child start has not been observed')
     start['start_observation'] = observed.get('start_observation')
-    for key in ('launch_observation', 'assignment_reference'):
+    for key in ('launch_observation', 'launch_reference', 'assignment_reference'):
         if key in observed:
             start[key] = observed[key]
     returned = {'event': 'SubagentStop', 'agent_id': agent_id, 'payload_sha256': gate.sha(gate.canonical(event)),
@@ -1468,7 +1624,7 @@ def _verify_completion_contract(directory, bound, message, observed):
     gate.require(not missing, 'required outputs or actual operations are incomplete: ' + json.dumps(missing))
 
 
-def _review_final_prose(event, root, directory):
+def _review_final_prose(event, root, directory, *, session_record=None):
     """Request one final revision, then always allow Stop re-entry."""
     if event.get('stop_hook_active') is True:
         return None
@@ -1476,33 +1632,28 @@ def _review_final_prose(event, root, directory):
     gate.require(isinstance(message, str) and message.strip(), 'host assistant message is unavailable')
     turn = event.get('turn_id')
     gate.require(isinstance(turn, str) and turn.strip(), 'missing host turn_id for prose review')
-    path = directory / 'turns' / (gate.sha(turn.encode('utf-8')) + '.json')
-    membership = _read(path)
-    gate.require(isinstance(membership, dict) and membership.get('task_id'),
-                 'prose review turn is not registered in this task')
-    if membership.get('prose_review_requested'):
-        return None
-    reading = ''
-    try:
-        unread = _unread_instruction_bodies(directory, turn)
-        if unread:
-            commands = []
-            for row in unread:
-                try:
-                    commands.append(_instruction_body_command(directory, row)[3])
-                except (OSError, ValueError, UnicodeError):
-                    source = Path(_read(directory / 'reinjection.json', {})['instruction_body_root']) / row['path']
-                    commands.append('cat ' + shlex.quote(str(source)))
-            reading = '\nRead these instruction bodies first:\n' + '\n'.join(commands)
-    except (OSError, ValueError, KeyError, TypeError):
-        pass  # A damaged advisory snapshot must not suppress the prose review.
+    if session_record is not None:
+        path = directory / 'session.json'
+        membership = session_record
+        if turn in membership['reviewed_turns']:
+            return None
+    else:
+        path = directory / 'turns' / (gate.sha(turn.encode('utf-8')) + '.json')
+        membership = _read(path)
+        gate.require(isinstance(membership, dict) and membership.get('task_id'),
+                     'prose review turn is not registered in this task')
+        if membership.get('prose_review_requested'):
+            return None
     card = ''
     try:
-        policy, owner, _, manifest, _ = _policy_snapshot(root, directory)
+        policy, owner, _, manifest, _ = _policy_snapshot(root, directory if session_record is None else None)
         card = '\n[Final-form card]\n' + policy.final_form_card(owner, manifest)
     except (OSError, ValueError, KeyError, TypeError, ImportError):
         pass  # An unavailable advisory card must not suppress the prose review.
-    membership['prose_review_requested'] = True
+    if session_record is None:
+        membership['prose_review_requested'] = True
+    else:
+        membership['reviewed_turns'].append(turn)
     save_record(path, membership)
     root = Path(root)
     installed = (root / '.agents/registry/resources.json').is_file()
@@ -1525,7 +1676,7 @@ def _review_final_prose(event, root, directory):
         '3. Output: integrated final answer -> user. Wait for the actual reviewer return, integrate saved '
         'changes and deliver the revised answer. If native delegation is unavailable, disallowed or fails, '
         'perform this pass yourself and report the actual review method and inspection status. '
-        'This review is once per turn; the next Stop is allowed.' + reading + card)}
+        'This review is once per turn; the next Stop is allowed.' + card)}
 
 
 def _verify_ordinary_stop(event, root, directory):
@@ -1536,7 +1687,7 @@ def _verify_ordinary_stop(event, root, directory):
         for path in sorted((directory / 'children').glob('*.json')):
             child = _read(path)
             gate.require(child.get('return_observation') and child.get('status') not in {
-                'restoration-check-failed', 'scope-check-failed'}, 'child work has not returned its completed scope')
+                'restoration-check-failed', 'scope-check-failed', 'running', 'host-start-observed'}, 'child work has not returned its completed scope')
     gate.require(_read(directory / 'reinjection.json', {}).get('instruction_policy_sha256', True) is not None,
                  'a governing source changed; rebind its adopted instructions before completion')
     observed = _completion_observations(directory, _read(directory / 'context.json', {}))
@@ -1718,79 +1869,6 @@ def _simple_command(command):
     return quote is None and not escaped
 
 
-def _observed_read_paths(event, task_root):
-    """Return only literal paths named by a completed, successful read call."""
-    raw_tool = event.get('tool_name')
-    tool = str(raw_tool).rsplit('__', 1)[-1].split('.')[-1].lower()
-    args, response = event.get('tool_input'), event.get('tool_response')
-    if not isinstance(args, dict) or _tool_failed(event):
-        return []
-    if tool in {'read', 'read_file', 'read_text_file'}:
-        if not (isinstance(response, str) or isinstance(response, dict) and
-                (response.get('success') is True or response.get('isError') is False or
-                 isinstance(response.get('content'), str) or isinstance(response.get('output'), str))):
-            return []
-        names = [args.get('file_path') if tool == 'read' else args.get('path')]
-    elif tool in {'bash', 'exec_command', 'run_command'}:
-        if not isinstance(response, dict) or type(response.get('exit_code')) is not int or response['exit_code'] != 0:
-            return []
-        command = args.get('command') if tool == 'bash' else args.get('cmd')
-        if not isinstance(command, str) or re.search(r'[;&|<>\n`$\r\x00*?\[\]{}~#]', command):
-            return []
-        try:
-            parts = shlex.split(command)
-        except ValueError:
-            return []
-        if not parts or not (parts[0] == 'sed' and _trusted_system_program('sed') or
-                             _trusted_read_program(parts[0])):
-            return []
-        if parts[0] == 'cat':
-            names = [part for part in parts[1:] if part != '--']
-            if any(part.startswith('-') for part in names):
-                return []
-        elif parts[0] == 'sed':
-            if len(parts) < 4 or parts[1] != '-n' or not re.fullmatch(r'[0-9]+(?:,[0-9]+)?p', parts[2]):
-                return []
-            names = parts[3:]
-            if any(part.startswith('-') for part in names):
-                return []
-        elif parts[0] == 'rg':
-            tail = parts[1:]
-            allowed = {'-n', '--line-number', '-i', '--ignore-case', '-F', '--fixed-strings', '--hidden'}
-            while tail and tail[0] in allowed:
-                tail = tail[1:]
-            if tail and tail[0] == '--files':
-                names = tail[1:]
-            else:
-                if tail and tail[0].startswith('-'):
-                    return []
-                names = tail[1:] if len(tail) > 1 else []
-            if any(part.startswith('-') for part in names):
-                return []
-        else:
-            return []
-    else:
-        return []
-    workdir = args.get('workdir', event['cwd'])
-    if not isinstance(workdir, str):
-        return []
-    workdir = Path(os.path.abspath(os.path.join(event['cwd'], workdir)))
-    output = []
-    for name in names:
-        if not isinstance(name, str) or not name or name == '-':
-            continue
-        path = Path(os.path.abspath(workdir / name))
-        if not path.is_relative_to(task_root):
-            continue
-        try:
-            actual = path.resolve(strict=True)
-        except (OSError, RuntimeError):
-            continue
-        if actual.is_relative_to(task_root) and (actual.is_file() or actual.is_dir()):
-            output.append((path, actual))
-    return output
-
-
 def _instruction_closure(root, observations, retained=()):
     sources = {}
     available = {row['path']: row for row in retained}
@@ -1834,9 +1912,9 @@ def _instruction_closure(root, observations, retained=()):
     return sorted(sources.values(), key=lambda row: (len(Path(row['directory']).relative_to(root).parts), row['directory']))
 
 
-def _scoped_instructions(event, directory, context, *, restore=False, refresh=False, available=None,
-                         changed_paths=(), write_targets=(), read_paths=None):
-    """Retain and restore the applicable AGENTS closure for observed read paths."""
+def _scoped_instructions(event, directory, context, *, restore=False, refresh=False,
+                         changed_paths=(), write_targets=()):
+    """Restore governing AGENTS bodies for actual write targets."""
     root = Path(context['cwd']).resolve(strict=True)
     record_path = directory / 'scoped-instructions.json'
     previous = _read(record_path, {'root': str(root), 'observations': [], 'instructions': []})
@@ -1844,8 +1922,6 @@ def _scoped_instructions(event, directory, context, *, restore=False, refresh=Fa
     observations = list(previous['observations'])
     additions = []
     observed = []
-    if not restore:
-        observed = _observed_read_paths(event, root) if read_paths is None else list(read_paths)
     observed.extend((Path(target), Path(target).resolve()) for target in write_targets
                     if Path(target).is_absolute() and Path(target).is_relative_to(root))
     if not restore:
@@ -1891,9 +1967,6 @@ def _scoped_instructions(event, directory, context, *, restore=False, refresh=Fa
                        ' from ' + row['observed'][0]['tool_name'] + ' ' + row['observed'][0]['path'] + ']\n' + row['body']
                        for row in fresh)
     suffix = '\nThe applicable instruction closure changed; reconsider prior scoped judgments.' if current != old else ''
-    if available is not None and len((header + rendered + suffix + '\n').encode('utf-8')) > available:
-        rendered = ('\nRead the complete applicable AGENTS.md bodies before dependent work. '
-                    'Their paths and full text are retained in ' + str(record_path))
     updated = {'root': str(root), 'turn_id': event.get('turn_id'), 'observations': observations,
                'instructions': instructions}
     if updated != previous:
@@ -1909,18 +1982,11 @@ def _context_budget(root, event):
     handlers = [hook for entry in entries for hook in entry.get('hooks', [])
                 if isinstance(hook.get('command'), str) and 'hooks/check.py' in hook['command']
                 and hook['command'].rstrip().endswith(event)]
-    limit = handlers[0].get('additionalContextLimit', 2500) if handlers else 2500
-    gate.require(type(limit) is int and limit >= 0, 'invalid hook context limit')
+    gate.require(len(handlers) == 1, 'declare one economics hook handler for ' + event)
+    limit = handlers[0].get('additionalContextLimit')
+    gate.require(type(limit) is int and limit > 0, 'declare a positive hook context limit for ' + event)
     # A byte budget is conservative for token limits across languages.
     return limit
-
-
-def _scoped_available(root, event, base_text, policy):
-    budget = _context_budget(root, event)
-    if budget == 0:
-        return None
-    priority = policy.primary_instruction('') + '\n'
-    return max(0, budget - len((priority + base_text).encode('utf-8')))
 
 
 def _tool_effect(event, root, directory, *, enforce_authority=True):
@@ -2049,13 +2115,16 @@ def _tool_effect(event, root, directory, *, enforce_authority=True):
                         parsed = parse_control_args(tail)
                     except SystemExit as exc:
                         raise ValueError('hook control arguments are unresolved') from exc
-                    operation, effect = ('read', 'read') if parsed.command == 'focus-research' else ('state-control', 'local-control')
+                    operation, effect = ('read', 'read') if parsed.command in {'focus-research', 'read-packet'} else ('state-control', 'local-control')
                 if enforce_authority and effect == 'local-control':
                     context = _read(directory / 'context.json', {})
                     gate.require(parsed.command in {'bind-operation', 'bind-child-assignment'}
                                  and not event.get('agent_id')
                                  and _tool_target(str(parsed.root), command_cwd) == str(absolute(context['cwd']).resolve())
-                                 and _tool_target(str(parsed.hook_context), command_cwd) == str((directory / 'context.json').resolve()),
+                                 and (_tool_target(str(parsed.hook_context), command_cwd) == str((directory / 'context.json').resolve())
+                                      or parsed.command == 'bind-operation' and event['hook_event_name'] == 'PostToolUse'
+                                      and _read(directory.parent.parent / 'session.json', {}).get('turn_id') == event['turn_id']
+                                      and _tool_target(str(parsed.hook_context), command_cwd) == str(directory.parent.parent / 'session.json')),
                                  'operation binding must target this task and its original root')
             else:
                 operation, effect, command_action = 'execute_command', 'write', command
@@ -2401,20 +2470,7 @@ def dispatch(event, expected_event):
     cwd = absolute(event['cwd'])
     directory = _active_directory(event, data)
     if directory is None:
-        if expected_event == 'SessionStart':
-            source = event.get('source')
-            gate.require(source in {'startup', 'resume', 'clear', 'compact', 'fork'}, 'unknown SessionStart source')
-            if source != 'startup':
-                session = data / 'economics' / gate.sha(event['session_id'].encode())
-                save_record(session / 'active-task.json', {'task_id': 'recovery-required:' + event['session_id']}, replace=False)
-            return feedback(expected_event, _recovery_packet(root))
-        if expected_event == 'PreToolUse':
-            if _tool_effect(event, root, data, enforce_authority=False)[4] == 'read':
-                return {}
-            return failure(expected_event, 'restore the original task and bind its authority before changes')
-        if expected_event in {'Stop', 'SubagentStop'}:
-            return failure(expected_event, 'original task and completion requirements are unavailable')
-        return {}
+        return _ordinary_session(event, root, data)
     if expected_event == 'PostCompact' and not (directory / 'context.json').exists():
         session = data / 'economics' / gate.sha(event['session_id'].encode())
         gate.require(not (session / 'active-task.json').exists(), 'active task context is missing')
@@ -2512,25 +2568,44 @@ def dispatch(event, expected_event):
                         save_record(directory / 'task-holds.json', holds)
                 membership = {'task_id': task_id, 'directory': directory.relative_to(session).as_posix()}
                 save_record(session / 'turns' / (gate.sha(event['turn_id'].encode()) + '.json'), membership, replace=False)
-                save_record(directory / 'turns' / (gate.sha(event['turn_id'].encode()) + '.json'), {'task_id': task_id}, replace=False)
+                turn_path = directory / 'turns' / (gate.sha(event['turn_id'].encode()) + '.json')
+                turn_record = _read(turn_path, {'task_id': task_id})
+                gate.require(turn_record.get('task_id') == task_id, 'turn task identity changed')
+                save_record(turn_path, turn_record, replace=False)
                 state, manifest = {'status': 'ordinary-active', 'needed_actions': []}, None
                 effective = _effective_request(directory)
                 state['request_sha256'] = gate.sha(effective)
-                text = _coordinator(directory)
+                retained = _read(directory / 'reinjection.json', {})
+                pending = (retained.get('compactions') or {}).get(compaction_key) or {}
+                recovering_context = resuming_interruption or pending.get('pending_restoration', False)
+                text = ''
                 if kind == 'amendment':
                     save_record(directory / 'effective-request.json', {'text': effective.decode('utf-8'), 'sha256': gate.sha(effective)})
                     text += '\nRetained the original request and verbatim additions. Reconcile the governing requirements and current state with the changed request.'
                 if kind == 'partial-stop':
                     text += '\nRecorded a hold for the specified target. Resolve the target IDs, do not execute held operations, and continue the explicitly identified parent task.'
-                text += '\n' + _restoration(root, directory, state, manifest, restore=resuming_interruption,
-                                            instruction_event='task-resume' if resuming_interruption else 'post-tool')
-                if event['turn_id'] != old['turn_id']:
+                conditions = ()
+                if recovering_context:
+                    conditions = ('resumption_active', 'delegation_active') if agent_id else ('resumption_active',)
+                text += '\n' + _restoration(root, directory, state, manifest, conditions=conditions,
+                                            restore=recovering_context,
+                                            instruction_event='task-resume' if recovering_context else 'post-tool',
+                                            concise=kind == 'continuation')
+                assignment_required = pending.get('assignment_required', False)
+                if agent_id is not None and recovering_context:
+                    child_text, assignment_required = _child_recovery_context(root, directory, agent_id)
+                    text += child_text
+                if pending.get('pending_restoration'):
+                    latest = _read(directory / 'reinjection.json', {})
+                    latest['compactions'][compaction_key].update(pending_restoration=False,
+                        assignment_required=assignment_required, delivery_event=expected_event)
+                    save_record(directory / 'reinjection.json', latest)
+                if event['turn_id'] != old['turn_id'] or recovering_context:
                     policy = sibling(root / 'harness/policy_assets.py')
-                    available = _scoped_available(root, expected_event, text, policy)
-                    scoped = _scoped_instructions(event, directory, old, refresh=True, available=available)
+                    scoped = _scoped_instructions(event, directory, old, refresh=True, restore=recovering_context)
                     if scoped:
                         text = scoped + '\n' + text
-                return feedback(expected_event, text)
+                return feedback(expected_event, text.strip())
             nonce = old.get('nonce') if old else str(uuid.uuid4())
             context = {'schema_version': 2, 'session_id': event['session_id'], 'turn_id': event['turn_id'], 'task_id': task_id,
                        'nonce': nonce, 'cwd': str(cwd), 'plugin_root': str(root), 'plugin_data': str(data),
@@ -2588,22 +2663,13 @@ def dispatch(event, expected_event):
             text += '\n' + _restoration(root, directory, state, manifest, conditions=conditions,
                                         instruction_event='compaction')
             if agent_id is not None:
-                assignment = _child_assignment(root, directory, agent_id)
-                if assignment is None:
-                    text += ('\nThe exact child launch assignment and returned agent link are missing. Request the parent '
-                             'to resend the original assignment, or bind an existing authorized task-context source with '
-                             'source ID child-assignment:' + agent_id + ' using bind-child-assignment and its exact SHA-256. '
-                             'Read or recovery operations can continue; child-dependent changes and completion remain held.')
-                else:
-                    text += ('\n[Retained child assignment source; callback provenance is not authenticated]\n' +
-                             json.dumps(assignment, ensure_ascii=False))
-                pending_compaction['assignment_required'] = assignment is None
+                child_text, pending_compaction['assignment_required'] = _child_recovery_context(root, directory, agent_id)
+                text += child_text
             if lifecycle == 'paused':
                 text += '\nThe task is paused for the next actual user input. Preserve its holds.'
             if expected_event == 'PreToolUse':
                 policy = sibling(root / 'harness/policy_assets.py')
-                available = _scoped_available(root, expected_event, text, policy)
-                scoped = _scoped_instructions(event, directory, context, restore=True, available=available)
+                scoped = _scoped_instructions(event, directory, context, restore=True)
                 if scoped:
                     text = scoped + '\n' + text
                 result = feedback(expected_event, text)
@@ -2628,15 +2694,6 @@ def dispatch(event, expected_event):
             if lifecycle == 'paused':
                 return failure('PreToolUse', 'the task is waiting for the next actual user input')
             result = _pre_tool(event, root, directory, state)
-            if not agent_id and _tool_effect(event, root, directory, enforce_authority=False)[4] != 'read':
-                unread = _unread_instruction_bodies(directory, event.get('turn_id'))
-                if unread:
-                    commands = [_instruction_body_command(directory, row)[3] for row in unread[:3]]
-                    reminder = 'Economics task check: Read the applicable instruction bodies:\n' + '\n'.join(commands)
-                    if not result:
-                        return feedback(expected_event, reminder)
-                    output = result.setdefault('hookSpecificOutput', {'hookEventName': expected_event})
-                    output['additionalContext'] = reminder + '\n\n[Task context]\n' + output.get('additionalContext', '')
             return result
         if expected_event in ('SubagentStart', 'SubagentStop'):
             return _child(event, root, directory, state, manifest)
@@ -2696,14 +2753,11 @@ def dispatch(event, expected_event):
                             + json.dumps(pending, ensure_ascii=False)
                             + '\nCompare each actual return with its assignment and integrate the result.')
                     save_record(directory / 'pending-parent-returns.json', {'returns': []})
-                _retain_exposed_rule_bodies(directory, event)
                 scoped = ''
                 affected_instructions = any(Path(path).name == 'AGENTS.md' for path in changed_paths)
-                read_paths = _observed_read_paths(event, Path(context['cwd']))
-                if affected_instructions or read_paths:
+                if affected_instructions:
                     policy = sibling(root / 'harness/policy_assets.py')
-                    scoped = _scoped_instructions(event, directory, context, changed_paths=changed_paths,
-                        available=_scoped_available(root, expected_event, text, policy), read_paths=read_paths)
+                    scoped = _scoped_instructions(event, directory, context, changed_paths=changed_paths)
                 return feedback(expected_event, (scoped + '\n' if scoped else '') + text) if scoped or text else {}
             # PostToolUse has returned; SessionStart restores the governing text.
             conditions = ('resumption_active',) if event.get('source') != 'startup' else ()
@@ -2713,8 +2767,7 @@ def dispatch(event, expected_event):
                                         instruction_event='compaction' if event.get('source') == 'compact' else 'task-resume')
             if lifecycle == 'paused':
                 text += '\nThe task is paused for the next actual user input. Preserve its holds; do not start dependent operations automatically.'
-            available = _scoped_available(root, expected_event, text, policy)
-            scoped = _scoped_instructions(event, directory, context, restore=True, available=available)
+            scoped = _scoped_instructions(event, directory, context, restore=True)
             result = feedback(expected_event, (scoped + '\n' if scoped else '') + text)
             if event.get('source') == 'compact':
                 record = _read(directory / 'reinjection.json', {})
@@ -2743,6 +2796,7 @@ def dispatch(event, expected_event):
         if prose_review is not None:
             if notice:
                 prose_review.update(notice)
+                prose_review['reason'] = notice['systemMessage'].splitlines()[0] + '\n' + prose_review['reason']
             return prose_review
         if outcome is not None:
             _finish(directory, outcome)
@@ -2753,95 +2807,97 @@ def dispatch(event, expected_event):
 
 
 def _limit_repeated_warning(event, result):
-    """Show identical check warnings twice per turn while retaining every callback."""
+    """Spend at most two advisory notices per host turn; review has its own marker."""
+    if not isinstance(event, dict) or not event.get('session_id'):
+        return result
     output = result.get('hookSpecificOutput', {})
-    # The policy packet's unread-rule note shares the existing advisory budget.
-    for container, key in ((output, 'additionalContext'), (result, 'systemMessage')):
-        text = container.get(key)
-        if not isinstance(text, str) or '\nUnread or changed rules (' not in text:
-            continue
-        lines = text.splitlines(keepends=True)
-        for index, line in enumerate(lines):
-            if not line.startswith('Unread or changed rules ('):
-                continue
-            data = absolute(os.environ.get('PLUGIN_DATA'))
-            directory = _active_directory(event, data)
-            unread = _unread_instruction_bodies(directory, event.get('turn_id')) if directory else []
-            name = line.partition('): ')[2].partition(';')[0]
-            pending = any(row.get('resource_id', '') + '.' + row.get('section_id', '') == name for row in unread)
-            marker = feedback(event.get('hook_event_name'),
-                              'Economics task check: Read the applicable instruction bodies: ' + gate.sha(line.encode()))
-            allowed = _limit_repeated_warning(event, marker) if pending else {}
-            if not allowed.get('hookSpecificOutput', {}).get('additionalContext') and not allowed.get('systemMessage'):
-                lines[index] = ''
-        container[key] = ''.join(lines)
-    field = 'additionalContext' if output.get('additionalContext', '').startswith('Economics task check:') else None
-    container = output
-    if field is None and result.get('systemMessage'):
-        field, container = 'systemMessage', result
-    if field is None or not isinstance(event, dict):
+    fields = [(output, 'additionalContext'), (result, 'systemMessage')]
+    notices = [(container, key) for container, key in fields
+               if container.get(key, '').startswith('Economics task check:')]
+    if not notices:
         return result
-    session = event.get('session_id')
-    if not isinstance(session, str) or not session.strip():
-        return result
-    data = absolute(os.environ.get('PLUGIN_DATA'))
-    turn = event.get('turn_id')
-    if event.get('hook_event_name') == 'SessionStart' and not turn:
-        active = _read(data / 'economics' / gate.sha(session.encode()) / 'active-task.json', {})
-        turn = active.get('task_id', 'session-start')
-    if not isinstance(turn, str) or not turn.strip():
-        return result
-    directory = data / 'economics' / gate.sha(session.encode()) / 'hook-notices' / gate.sha(turn.encode())
-    directory.mkdir(parents=True, mode=0o700, exist_ok=True)
-    warning, separator, context = container[field].partition('\n\n[Task context]\n')
-    digest = gate.sha(warning.encode('utf-8'))
-    unread_warning = warning.startswith('Economics task check: Read the applicable instruction bodies:')
-    task_directory = _active_directory(event, data) if unread_warning else None
-    suppressed = None
-    if task_directory:
-        notices = directory.parent
-        suppressed = notices / ('suppressed-' + gate.sha(str(task_directory).encode()))
-        # Include the complete set, including bodies outside the displayed three.
-        unread = _unread_instruction_bodies(task_directory, turn)
-        fingerprint = gate.sha(gate.canonical([tuple(row[key] for key in ('path', 'sha256', 'start', 'end'))
-                                               for row in unread]))
-        digest = gate.sha(('unread:' + str(task_directory)).encode())
-        if suppressed.exists():
-            if separator:
-                container[field] = context
+    path = _ensure_session_state(event)
+    turn = event.get('turn_id', 'session-start')
+    with turn_lock(path.parent):
+        record = _session_record(path, event['session_id'])
+        count = record['notices'].get(turn, 0)
+        gate.require(type(count) is int and 0 <= count <= 2, 'invalid notice count')
+        for container, key in notices:
+            warning, separator, context = container[key].partition('\n\n[Task context]\n')
+            if count < 2:
+                count += 1
+            elif separator:
+                container[key] = context
             else:
-                del container[field]
-                if container is output:
-                    result.pop('hookSpecificOutput', None)
-            return result
-    for slot in range(2):
-        try:
-            fd = os.open(directory / (digest + '-' + str(slot)),
-                         os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_NOFOLLOW', 0), 0o600)
-        except FileExistsError:
-            continue
-        os.close(fd)
-        if task_directory:
-            marker = directory / (fingerprint + '-set')
-            marker_fd = os.open(marker, os.O_WRONLY | os.O_CREAT | getattr(os, 'O_NOFOLLOW', 0), 0o600)
-            os.close(marker_fd)
-            context_record = _read(task_directory / 'context.json', {})
-            turns = [context_record.get('turn_id')] + [row.get('turn_id') for row in
-                     _read(task_directory / 'task-messages.json', [])]
-            if turn in turns:
-                index = turns.index(turn)
-                recent = turns[max(0, index - 2):index + 1]
-                if len(recent) == 3 and all(isinstance(item, str) and
-                        (directory.parent / gate.sha(item.encode()) / (fingerprint + '-set')).is_file() for item in recent):
-                    fd = os.open(suppressed, os.O_WRONLY | os.O_CREAT | getattr(os, 'O_NOFOLLOW', 0), 0o600)
-                    os.close(fd)
-        return result
-    if separator:
-        container[field] = context
-        return result
-    del container[field]
-    if container is output and not container.get('additionalContext'):
+                del container[key]
+        record['notices'][turn] = count
+        save_record(path, record)
+    if output and not output.get('additionalContext') and set(output) == {'hookEventName'}:
         result.pop('hookSpecificOutput', None)
+    return result
+
+
+def save_text(path, text):
+    """Publish one immutable UTF-8 source; retain the previous readable generation."""
+    path = absolute(str(path))
+    raw = text.encode('utf-8')
+    gate.require(len(raw) <= 4 * gate.MAX_BYTES, 'saved text exceeds the hook input budget')
+    path.parent.mkdir(parents=True, mode=0o700, exist_ok=True)
+    temporary = path.parent / ('.hook-' + str(uuid.uuid4()))
+    try:
+        with open(temporary, 'xb') as out:
+            os.chmod(temporary, 0o600)
+            out.write(raw)
+            out.flush()
+            os.fsync(out.fileno())
+        try:
+            gate.publish_file(temporary, path)
+        except FileExistsError:
+            gate.require(gate.file_snapshot(path).sha256 == gate.sha(raw), 'existing instruction packet differs')
+        gate.sync_directory(path.parent)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def packet_command(root, work, path, digest):
+    return ('python ' + shlex.quote(str(Path(root) / 'harness/codex_hooks.py')) +
+            ' --root ' + shlex.quote(str(work)) + ' read-packet --path ' + shlex.quote(str(path)) +
+            ' --sha256 ' + digest + ' --offset 0')
+
+
+def _budget_result(event, result, expected_event):
+    """Bound the complete host response; retain one exact packet for overflow."""
+    root = absolute(os.environ.get('PLUGIN_ROOT'))
+    limit = _context_budget(root, expected_event)
+    if len(json.dumps(result, ensure_ascii=False).encode('utf-8')) <= limit:
+        return result
+    output = result.get('hookSpecificOutput', {})
+    fields = [(result, 'systemMessage'), (result, 'reason'), (output, 'additionalContext'),
+              (output, 'permissionDecisionReason'), (result, 'stopReason')]
+    populated = [(container, key) for container, key in fields if container.get(key)]
+    gate.require(populated, 'oversized hook response has no instruction text')
+    text = '\n\n'.join(container[key] for container, key in populated)
+    raw = text.encode('utf-8')
+    digest = gate.sha(raw)
+    data = absolute(os.environ.get('PLUGIN_DATA'))
+    directory = _active_directory(event, data)
+    if directory is None:
+        directory = data / 'economics' / gate.sha(event['session_id'].encode())
+    packet = directory / 'instruction-context' / (digest + '.md')
+    save_text(packet, text)
+    first = text.splitlines()[0]
+    command = packet_command(root, event['cwd'], packet, digest)
+    recovery = ('Read the complete saved instruction packet:\n' + command +
+                '\nRepeat with each next_offset and the same sha256 through null.')
+    destination, key = ((result, 'reason') if result.get('decision') == 'block' else populated[0])
+    for container, name in populated:
+        del container[name]
+    # Keep the required action first, including Stop's independent review.
+    destination[key] = first + '\n' + recovery
+    if len(json.dumps(result, ensure_ascii=False).encode('utf-8')) > limit:
+        destination[key] = recovery
+    gate.require(len(json.dumps(result, ensure_ascii=False).encode('utf-8')) <= limit,
+                 'instruction packet locator exceeds the declared hook budget')
     return result
 
 
@@ -2860,72 +2916,13 @@ def main(expected_event):
             result = _limit_repeated_warning(event, result)
         except Exception:
             pass  # A missing notice store must never stop the host.
-        output = result.get('hookSpecificOutput', {})
-        fields = [(output, 'additionalContext'), (output, 'permissionDecisionReason'),
-                  (result, 'reason'), (result, 'systemMessage'), (result, 'stopReason')]
-        for container, key in fields:
-            text = container.get(key)
-            if not text:
-                continue
-            root = absolute(os.environ.get('PLUGIN_ROOT'))
-            limit = _context_budget(root, expected_event)
-            # Keep the exact packet available instead of allowing host truncation.
-            if limit and len(text.encode('utf-8')) > limit:
-                data = absolute(os.environ.get('PLUGIN_DATA'))
-                if os.name == 'nt':
-                    data = Path(gate.windows_extended_path(data))
-                directory = _active_directory(event, data)
-                if directory is None:
-                    directory = data / 'economics' / gate.sha(event['session_id'].encode())
-                digest = gate.sha(text.encode('utf-8'))
-                packet = directory / 'instruction-context' / (digest + '.json')
-                save_record(packet, {'text': text, 'content_sha256': digest}, replace=False)
-                companion = packet.with_suffix('.md')
-                raw_text = text.encode('utf-8')
-                temporary = companion.parent / ('.hook-' + str(uuid.uuid4()))
-                try:
-                    with open(temporary, 'xb') as out:
-                        os.chmod(temporary, 0o600)
-                        out.write(raw_text)
-                        out.flush()
-                        os.fsync(out.fileno())
-                    try:
-                        gate.publish_file(temporary, companion)
-                    except FileExistsError:
-                        gate.require(gate.regular_bytes(companion) == raw_text, 'existing packet companion differs')
-                    gate.sync_directory(companion.parent)
-                finally:
-                    temporary.unlink(missing_ok=True)
-                policy = sibling(root / 'harness/policy_assets.py')
-                lines = max(1, text.count('\n') + (not text.endswith('\n')))
-                pages = [f"sed -n '{start},{min(start + 119, lines)}p' {shlex.quote(str(companion))}"
-                         for start in range(1, lines + 1, 120)]
-                container[key] = (
-                    policy.primary_instruction('') + '\nRead the saved instruction packet: ' + str(packet) +
-                    ' (content_sha256=' + digest + '). Read every page:\n' + '\n'.join(pages))
-                note = next((line for line in text.splitlines() if line.startswith('Unread or changed rules (')), None)
-                if note:
-                    container[key] += '\n' + note
-                if '\n[Final-form card]\n' in text:
-                    try:
-                        selected_policy, owner, _, manifest, _ = _policy_snapshot(root, directory)
-                        card = selected_policy.final_form_card(owner, manifest)
-                        if '\n[Final-form card]\n' + card in text:
-                            container[key] += '\n[Final-form card]\n' + card
-                    except (OSError, ValueError, KeyError, TypeError, ImportError):
-                        pass  # The complete packet remains available at its locator.
-        try:
-            directory = _active_directory(event, absolute(os.environ.get('PLUGIN_DATA')))
-            if directory is not None:
-                _retain_hook_emission(directory, event, result)
-        except Exception:
-            pass  # Exposure bookkeeping must never stop the host.
+        result = _budget_result(event, result, expected_event)
     except Exception as exc:
         if not startup_complete:
             result = dict(decision='block', reason=('State management could not start: ' + str(exc) +
                       '. Correct the startup problem and resubmit the request; no automatic retry was started.')[:500])
         else:
-            result = failure(expected_event, ('hook error: ' + str(exc))[:500])
+            result = failure(expected_event, ('hook error: ' + str(exc)).encode('utf-8')[:240].decode('utf-8', errors='ignore'))
         try:
             result = _limit_repeated_warning(event, result)
         except Exception:
@@ -2939,6 +2936,11 @@ def parse_control_args(argv=None):
     parser.add_argument('--root', required=True, type=Path)
     parser.add_argument('--store', default='.agents/state/team.json')
     sub = parser.add_subparsers(dest='command', required=True)
+    packet = sub.add_parser('read-packet')
+    packet.add_argument('--path', required=True, type=Path)
+    packet.add_argument('--sha256', required=True)
+    packet.add_argument('--offset', type=int, default=0)
+    packet.add_argument('--limit', type=int, default=4000)
     research = sub.add_parser('focus-research')
     research.add_argument('task_id')
     research.add_argument('--view', choices=['selected', 'log'], default='selected')
@@ -2968,6 +2970,17 @@ def inspect_saved_state(argv=None):
     """Read an existing research log or bind the current operation and instructions."""
     args = parse_control_args(argv)
     root = absolute(str(args.root))
+    if args.command == 'read-packet':
+        with gate._open_regular(absolute(str(args.path))) as stream:
+            raw = stream.read(4 * gate.MAX_BYTES + 1)
+        gate.require(len(raw) <= 4 * gate.MAX_BYTES, 'instruction packet exceeds the hook input budget')
+        gate.require(gate.hexhash(args.sha256) and gate.sha(raw) == args.sha256, 'instruction packet changed')
+        body = raw.decode('utf-8')
+        gate.require(0 <= args.offset <= len(body) and 1 <= args.limit <= 16000, 'invalid packet reading range')
+        end = min(args.offset + args.limit, len(body))
+        print(json.dumps({'content_sha256': args.sha256, 'offset': args.offset,
+                          'next_offset': end if end < len(body) else None, 'text': body[args.offset:end]}, ensure_ascii=False))
+        return 0
     if args.command == 'bind-operation':
         print(json.dumps(bind_operation(args.hook_context, root, args.operation,
                                         conditions=args.condition, profile=args.profile, required_outputs=args.required_output,

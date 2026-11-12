@@ -2,17 +2,17 @@
 
 ## Common output
 
-Apply to every user-facing answer/artifact, including quotations, tables and labels. Platform and user instructions govern; preserve the complete scientific record and faithful public claims.
+Apply to all public content, languages and formats, including quotations, tables and labels. Platform/user authority and scientific fidelity govern. Pairs use the shown inputs.
 
-1. **Proposition routing → draft.** Keep assumptions, identifying conditions, missingness, failures, restrictions and inference in the working record. Pass supported affirmative propositions with quantities, population, period, units and attribution. Retain conditional claims internally when stripping conditions changes truth; select an accurate claim about the actual object. Before: “Prices fell 2%, provided the model is correct.” After: “The fitted model estimates a price change of −2%.” Retain model assumptions internally.
-2. **Numerical uncertainty → claim.** Use standard errors, confidence/credible intervals, p values or numerical sets with levels, labels and units. Preserve signs, zeros and endpoints; replace qualitative strength and significance stars. Before: “Employment probably rose: estimate 2 pp, 95% CI [−1, 5].” After: “The employment estimate is 2 percentage points; 95% CI [−1, 5].”
-3. **Affirmative claim → paragraph.** State the established relation; route negative definitions/contrasts, absence/failure claims and their affirmative paraphrases internally. Preserve requested quantities. Before: “Mean expenditure of ¥20,000 per sampled household is not a population total.” After: “Mean expenditure per sampled household is ¥20,000.”
-4. **Direct wording → final review.** Replace hedges, concessions and defensive/ornamental framing with the supported proposition. Integrate explanation into the argument; remove prefaces, supplements, annotations, footnotes and parenthetical explanations. Apply across synonyms, languages and quotations. For an adopted derivation establishing ∂p*/∂c > 0, Before: “However, the pricing derivation seems to suggest that higher marginal cost may raise price.” After: “The pricing derivation gives a higher profit-maximizing price as marginal cost rises.”
+1. Proposition -> draft. Retain assumptions, identifying conditions, missingness, failures, restrictions and inference diagnostics internally. Pass numerical uncertainty to step 2. Select true affirmative claims; preserve quantities, population, period, units and attribution. Before: “Prices fall 2% if the model holds.” After: “The fitted model estimates a −2% price change.”
+2. Uncertainty -> claim. Use numerical uncertainty only: labeled SE, confidence/credible intervals, p values or sets with levels and units. Preserve signs, zeros and endpoints; replace significance stars. Before: “Employment probably rose: estimate 2 pp, 95% CI [−1, 5].” After: “Employment estimate 2 pp; 95% CI [−1, 5].”
+3. Meaning -> paragraph. Keep negative definitions/contrasts, absence/failure claims and affirmative paraphrases of them internally. Preserve requested quantities. Before: “¥20,000 per household is not a population total.” After: “Sampled-household mean expenditure: ¥20,000.”
+4. Wording -> review. Replace hedges, concessions, defensive/cautionary or ornamental framing with supported propositions. Integrate explanation; remove prefaces, supplements, annotations, footnotes and parenthetical explanations across synonyms/languages/quotations. Given an adopted ∂p*/∂c > 0 derivation, Before: “Higher cost may raise price.” After: “Higher marginal cost raises the profit-maximizing price.”
 
-### Internal destinations
+## Internal destinations
 
-1. **Scientific record → analysis and composition.** Keep definitions and identifying conditions in the existing [specification/data record](../harness/state.md#retain-and-retrieve-adopted-definitions); sample accounting, restrictions, inference and note fields in [result metadata](../skills/econ-writing/references/result-artifacts.md); theory derivations, proofs and additional results in [research records](../skills/econ-writing/references/artifact-writing.md#generate-articles-and-slides-from-results).
-2. **Operation record → continuation.** Bound durable tasks use existing [action/check evidence](../harness/state.md#governing-context) and [finding, interpretation and decision objects](../harness/state.md#project-work). Ordinary work retains internal items in working reasoning and actual tool evidence. Compose through the four routing steps above; keep routing labels in that working record.
+1. **Scientific record → composition.** Retain definitions/identification in the [specification](../harness/state.md#retain-and-retrieve-adopted-definitions), sample accounting/restrictions/inference/notes in [result metadata](../skills/econ-writing/references/result-artifacts.md), and derivations/proofs/results in [research records](../skills/econ-writing/references/artifact-writing.md#generate-articles-and-slides-from-results).
+2. **Operation record → continuation.** Durable tasks use existing [action/check evidence](../harness/state.md#governing-context) and [findings/interpretation/decisions](../harness/state.md#project-work). Ordinary work retains internal items and routing labels in working reasoning and actual tool evidence.
 
 <!-- final-form-card:start -->
 1. Route claims, internal items and numerical uncertainty in working context.
@@ -51,6 +51,7 @@ Model baseline1,result2 -> Model result2 against baseline1.
 
 1. **Inspected artifact → delivery.** Read actual authored content, including tables, slides, captions and labels. Apply Common output by meaning/rhetorical function. Repair saved passages once; generated formats require producer repair, regeneration and affected-output inspection. Preserve data, equations, citations, attribution, behavior and unrelated content. Before: “The script ran; the report is ready.” After: “Read the report, repair its caption source, regenerate and inspect.”
 2. **Final answer → user.** Route final propositions through Common output. Lead with result/evidence, then actual saved/rendered destinations and operation outcomes. Record inspection status truthfully under platform/user reporting requirements.
+3. **Recurring wording → semantic review.** Read `cat quality/prose_rules.json` for locators tied to Common output's steps. Inspect their propositions and the remaining passage by meaning; the integrated review owns the judgment.
 
 ## Hierarchical argument and paragraph composition
 

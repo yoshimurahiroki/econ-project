@@ -201,7 +201,7 @@ def _(artifacts, copy, item_picker, json, mo, registry_data):
     orientation = mo.ui.dropdown({'縦': 'vertical', '横': 'horizontal'},
                                  value='横' if _display.get('orientation') == 'horizontal' else '縦', label='方向')
     legend = mo.ui.switch(value=_display.get('legend', True), label='凡例')
-    legend_location = mo.ui.dropdown(['best', 'upper right', 'upper left', 'lower right', 'lower left'],
+    legend_location = mo.ui.dropdown(['best', 'above', 'upper right', 'upper left', 'lower right', 'lower left'],
                                     value=_display.get('legend_location', 'best'), label='凡例位置')
     width = mo.ui.number(start=240, stop=4000, value=_display.get('width', 960), label='幅 px')
     height = mo.ui.number(start=240, stop=4000, value=_display.get('height', 540), label='高さ px')
@@ -1152,7 +1152,7 @@ def _(
                     {'table', 'descriptive', 'descriptive_table', 'sample_composition'} else 'figure') == 'table'
                 _parts.append(mo.md(meetings.table_markdown(_entry)) if _table or not _picture
                               else mo.image(meetings.bundled_path(meeting_path, _picture), alt=_entry['title']))
-                _parts.append(mo.md(meetings.artifact_notes(_entry)))
+                _parts.append(mo.md(meetings.artifact_public_text(_entry)))
             if _section.get('caption'):
                 _parts.append(mo.md(_section['caption']))
             _pages.append(mo.vstack(_parts))

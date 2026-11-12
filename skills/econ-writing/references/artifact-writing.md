@@ -10,11 +10,22 @@ For a theory or structural presentation, select the existing `model` or `structu
 
 ## Compose a talk
 
-Build the talk around the audience's question, the economic comparison that answers it and the action or understanding that follows. Develop the complete explanation first. Arrange its necessary premises and results in the order a listener can use them, allocating the requested speaking time to the relations that determine the answer.
+1. **Output: argument sequence; consumer: slide author.** Connect the audience's question, actors' choices, identifying comparison, evidence and answer. Allocate the requested speaking time to the relations establishing that answer. Give each page one inference and its required premises; define quantities before using them.
+2. **Output: page content; consumer: template.** Write a short nominal title naming the economic object and relation. Put the supported proposition in the first sentence, then its equation or saved exhibit and the sentence explaining its implication. Before: “結果を説明する” followed by a table alone. After: “利用支援と契約継続” followed by the saved effect, its group comparison and the allocation implication. A section divider names the next argument; a results page completes an inference.
+3. **Output: composed page; consumer: renderer.** Set body, bullets and table text to a 24 pt baseline in screen slides, Beamer and native Slides; CSS 24 pt equals 32 px. Use the existing bundle's `title`, body, `artifacts` and `layout`. Use `stack` for a claim and a wide table; `figure-left` for a figure beside its interpretation; `figures` for comparable panels with common scales. Place population, period and units beside the exhibit. Attach its explanatory body to the same section and set the consumed summary section's `visible` to `false`. Fit dense content by splitting its argument across pages. Before: “Shrink the table to 10 pt.” After: “Keep 24 pt and give each comparison its own page.” Keep derivations and diagnostic commentary at their internal owners.
+4. **Output: inspected talk; consumer: audience.** Render through the existing path and inspect every changed page at presentation size. Read the title, claim, exhibit and implication in that order. Check that mathematical symbols, row labels and intervals are legible from the same view. Repair the producing layout or text, then inspect affected outputs against the adopted argument and duration.
 
-For each screen, state the proposition the audience should recover and choose the saved result, equation or diagram that establishes it. Define actors and quantities before using them in a mechanism. On an exhibit, identify the objects compared, their units and the contrast carrying the conclusion. Explain that contrast aloud before advancing to its implication. Keep intermediate derivations in internal research records and select spoken wording under PROSE.
+The existing [meeting template](../../../tex/slides/meeting_template.qmd) owns screen settings. The [Beamer source](../../../tex/slides/main.tex) and its generated [adapter](../../../tex/slides/pandoc_template.latex) share PDF typography. Adopt the model material's composition within the user's 24 pt baseline. Inspect the actual rendered fonts and page size; a Beamer class option alone does not establish the body size.
 
-Compose the actual page from those elements. Give the decisive comparison sufficient space, place its defining labels beside the marks and size the text for the display. Use [the existing render path](#render-the-requested-artifact) to inspect every changed page at presentation size. Repair clipping, unreadable symbols, mismatched values and ordering that interrupts the listener's inference, then complete the integrated review against the adopted argument and requested duration.
+| Element | Screen slides | Beamer slides | HTML research document |
+|---|---|---|---|
+| Page and text block | 1280 × 720, top-aligned, 7% outer margin | 960 × 540 PDF points, top-aligned, 54-point side margins | 44 rem reading column |
+| Title and section heading | 40 pt title, 32 pt nominal heading | 40 pt title, 32 pt frame title | 34 px title, 25 px section heading |
+| Main text | 24 pt / 32 px, line height 1.45 | 24 pt, 30 pt baseline spacing | 18 px, line height 1.8 |
+| Table | 24 pt, aligned numeric columns | 24 pt, 8 pt column padding | 16 px, horizontal rules |
+| Supporting quantity definition | 20 pt | 20 pt | 16 px |
+
+Use the selected font family consistently within each medium. A populated template carries the full question-to-answer sequence and original prose, equations and saved exhibits. The [subscription material producer](../../econ-data/examples/subscription/materials.py) supplies a same-result bilingual example; run its [documented commands](../../econ-data/examples/subscription/README.md) to inspect the actual pages.
 
 ## Compose a research site
 
@@ -31,6 +42,8 @@ For a new LaTeX paper, start from the supplied [Econometrica template](../../../
 Consult [paragraph guidance](paragraph-workflow.md) when a complex long-form argument needs structure. Perform its argument and paragraph reasoning in the draft and include it in the common integrated review. Use its existing state and source bindings when the requested composition needs persistent dependencies. Complete the same integrated review and actual delivery path.
 
 ## Compose for the medium and language
+
+A requested model material supplies the composition pattern. [Profile authoring](profile.md#profile) records its page measurements and argument operations, produces the complete original example and compares the rendered output with the original. Use that adopted pattern in the selected existing template with the current study's specification and saved results.
 
 A local revision or translation uses its selected mode and surrounding premises. A paper section uses the relevant [paper guidance](paper-workflow.md#compose-the-requested-section); a consequential long-form structural choice uses [paragraph guidance](paragraph-workflow.md). Retrieve profile examples only for a remaining language choice.
 

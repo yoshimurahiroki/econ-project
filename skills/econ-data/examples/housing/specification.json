@@ -1,0 +1,61 @@
+{
+  "specification_id": "housing-transport-v1",
+  "case_kind": "independently authored fictional economy",
+  "question": "Which transport and floor-space policy yields the largest net income-equivalent gain after residents, firms and floor owners adjust?",
+  "population": "12,000 workers in a three-district closed city and the separate owners of all local floor space",
+  "observation_unit": "district and directed residence-workplace pair",
+  "period": "one representative operating year",
+  "unit": "thousand JPY per year",
+  "model_contract_id": "MC-qse-commuting",
+  "economic_model": {
+    "actors": ["workers", "competitive producers", "floor owners", "city authority"],
+    "worker_choice": "Each worker supplies one unit of labor and chooses a residence-workplace pair and consumption of the traded good and residential floor space. Pair tastes are independent Frechet with shape epsilon. The goods expenditure share is beta; the residential expenditure share is 1-beta.",
+    "firm_choice": "Competitive firms choose labor and commercial floor space under Cobb-Douglas production with labor share alpha. The common traded good has price one. Commercial and residential floor uses pay the same district rent.",
+    "information": "Workers observe travel times, wages, rents and amenities. Firms observe productivity and factor prices. The analyst observes district resident counts, jobs, lease revenues and areas, land area, and travel times.",
+    "identification": "The calibrated elasticities and commuting kernel are fixed inputs. Baseline resident and workplace marginal distributions identify relative destination wages and origin amenities under the adopted choice model. Observed rents and firm first-order conditions recover productivity and total floor supply. This operation inverts these latent primitives at the fixed elasticities.",
+    "equilibrium": "Residence and workplace probabilities clear local labor markets. Residential and commercial floor demands sum to fixed district floor supply. Productivity and amenities use the adopted travel-time-weighted density kernels. Total worker population is fixed at 12,000.",
+    "policy": "A new link reduces travel time between the center and outer district from 40 to 20 minutes. The combined policy also expands outer-district endowed floor supply by 20%. The same original baseline primitives define both policies.",
+    "welfare": "Worker income equivalent equals the proportional change in expected optimized utility times the baseline wage bill, evaluated before pair tastes at baseline rents. Separate floor owners receive the change in total rental income and pay the annual policy resource cost. Add worker income equivalent and net owner income change with unit weights.",
+    "financing": "A lump-sum charge on the separate floor-owner group finances annual transport service and added floor-space service at the adopted resource costs. Owners consume their remaining rental income in the traded good. Their charge leaves worker budgets and firms' marginal conditions intact. Policy resource use plus net owner consumption equals gross owner rental receipts.",
+    "objective": "Choose the feasible policy with the largest aggregate net income-equivalent gain relative to baseline. The annual resource budget is 1,500,000 thousand JPY. Baseline has gain 0 and cost 0. Exact ties retain the earliest policy in the declared order.",
+    "mechanism_comparison": "The transport policy changes access, location choices, wages, rents and density spillovers. The combined policy adds outer-district floor supply. Compare worker and owner outcomes across all three districts using the same population, baseline units and annual resource accounting."
+  },
+  "calibration": {
+    "alpha": 0.75,
+    "beta": 0.7,
+    "epsilon": 4,
+    "kappa": 0.02,
+    "productivity_spillover": 0.03,
+    "productivity_decay": 0.05,
+    "amenity_spillover": 0.01,
+    "amenity_decay": 0.05
+  },
+  "measurement": {
+    "location_ids": ["center", "middle", "outer"],
+    "subdistrict_residents": [[3000, 2000], [1500, 2500], [1800, 1200]],
+    "worksite_jobs": [[3500, 2500], [2000, 1500], [1500, 1000]],
+    "lease_floor_m2": [100, 200],
+    "lease_rent_multipliers": [0.8, 1.1],
+    "annual_rent_thousand_jpy_per_m2": [30, 24, 18],
+    "land_area_m2": [1200000, 2000000, 3000000],
+    "travel_time_seconds": [[300, 1500, 2400], [1500, 300, 1800], [2400, 1800, 300]],
+    "wage_numeraire_thousand_jpy_per_worker_year": 4000,
+    "rent_aggregation": "District rent equals total annual lease revenue divided by total leased floor area, converted from JPY to thousand JPY. Resident and job counts sum disjoint subdistrict and worksite records. Land area converts square meters to square kilometers; travel seconds convert to minutes."
+  },
+  "policies": [
+    {"name": "baseline", "link_minutes": 40, "outer_floor_hat": 1, "transport_cost_thousand_jpy": 0, "added_floor_cost_thousand_jpy_per_m2": 0},
+    {"name": "transport", "link_minutes": 20, "outer_floor_hat": 1, "transport_cost_thousand_jpy": 300000, "added_floor_cost_thousand_jpy_per_m2": 0},
+    {"name": "transport-and-floor", "link_minutes": 20, "outer_floor_hat": 1.2, "transport_cost_thousand_jpy": 300000, "added_floor_cost_thousand_jpy_per_m2": 8}
+  ],
+  "policy_budget_thousand_jpy": 1500000,
+  "solver": {"tolerance": 1e-09, "max_iterations": 10000},
+  "internal": {
+    "initial_question": "How much does the new transport link raise the outer district's rent?",
+    "upstream_comparison": "Rent changes transfer purchasing power between residents and floor owners while access changes location choices, wages and productivity. The net policy comparison includes every district and the real resource costs that determine the authority's action.",
+    "decisive_calculation": "Construct district and travel tables from the specified source units, invert the baseline, reuse it for the two policy equilibria, and compare worker income equivalents plus owner income changes net of policy costs.",
+    "calibration_source": "All counts, lease quantities, travel times, elasticities and policy costs are independently authored fictional inputs fixed before execution.",
+    "inference_scope": "Finite calibrated-economy calculations at the supplied inputs. No sampling model or estimated-parameter covariance is asserted. Numerical residuals remain internal.",
+    "accounting": "The macro runner values gross endowed-floor changes. The example adds the independently specified annual resource costs at the decision layer, paid once by separate floor owners. It records gross rental receipts, net owner consumption and policy resource use separately. The decision criterion is the adopted baseline-price money metric.",
+    "validation": "Verify source and shared keys, count totals, area-weighted rents, travel unit conversion, baseline reproduction, unchanged saved baseline, original choice and floor equations, goods accounting, monetary conversion, budget and owner consumption feasibility."
+  }
+}

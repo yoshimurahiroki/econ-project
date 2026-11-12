@@ -1,5 +1,5 @@
 % !TEX program = lualatex
-\documentclass[unicode, mathserif, m, $if(fontsize)$$fontsize$$else$12pt$endif$, unknownkeysallowed$if(babel-lang)$,$babel-lang$$endif$$if(aspectratio)$,aspectratio=$aspectratio$$endif$]{beamer}
+\documentclass[unicode, mathserif, t, 12pt, unknownkeysallowed$if(babel-lang)$,$babel-lang$$endif$,aspectratio=$if(aspectratio)$$aspectratio$$else$169$endif$]{beamer}
 %\includeonlyframes{current}
 
 \usepackage{color}
@@ -19,6 +19,23 @@ $if(theme)$\usetheme{$theme$}$else$\usetheme[numbering=fraction]{metropolis}$end
 \definecolor{Orange}{HTML}{CF4A30}
 \setbeamercolor{alerted text}{fg=Orange}
 \setbeamercolor{frametitle}{bg=Waseda}
+\geometry{paperwidth=960bp,paperheight=540bp}
+\setbeamersize{text margin left=54bp,text margin right=54bp}
+\newcommand{\ersbodyfontsize}{24}
+\makeatletter
+\renewcommand\normalsize{\@setfontsize\normalsize{\ersbodyfontsize}{30}}
+\makeatother
+\DeclareMathSizes{24}{24}{17}{12}
+\setbeamerfont{normal text}{size=\normalsize}
+\setbeamerfont{itemize/enumerate body}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
+\setbeamerfont{title}{size=\fontsize{40}{48}\selectfont}
+\setbeamerfont{subtitle}{size=\fontsize{28}{35}\selectfont}
+\setbeamerfont{frametitle}{size=\fontsize{32}{40}\selectfont,series=\bfseries}
+\setbeamerfont{author}{size=\normalsize}
+\setbeamerfont{date}{size=\normalsize}
+\setbeamerfont{caption}{size=\fontsize{20}{25}\selectfont}
+\AtBeginDocument{\normalsize}
 
 $if(title)$\title{$title$}$endif$
 $if(subtitle)$\subtitle{$subtitle$}$endif$
@@ -35,8 +52,7 @@ $if(bibliography)$$else$\let\bibliographystyle\econbibstyle
 $endif$$for(header-includes)$
 $header-includes$
 $endfor$
-\setbeamerfont{caption}{size=\scriptsize}
-\AtBeginEnvironment{longtable}{\footnotesize\setlength{\tabcolsep}{2pt}}
+\AtBeginEnvironment{longtable}{\normalsize\setlength{\tabcolsep}{8pt}\renewcommand{\arraystretch}{1.25}}
 \begin{document}
 
 \begin{frame}[plain,b]
@@ -57,7 +73,7 @@ $body$
 
 
 $if(bibliography)$\begin{frame}{References}
-    \scriptsize
+    \normalsize
     \bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
     % Bibliography style is set to ecta-fullname by the renderer.
 

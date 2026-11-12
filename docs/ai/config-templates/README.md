@@ -26,7 +26,11 @@ The guarded GitHub branch-update and plugin-update connectors use registered cal
 
 ## Native roles and model selection
 
-[TEAM](../../../runtime/TEAM.md#native-model-roles) owns role assignment, model selection, escalation and inherited authority. The four native templates project that contract into each host. Defaults inherit the host's model and effort. Set another supported model in the role's native setting; the generator preserves user-edited files and reports conflicts through the ownership procedure below.
+[TEAM](../../../runtime/TEAM.md#native-model-roles) owns role assignment and inherited authority. Five native templates carry its input, operation and return steps into each host.
+
+1. **Assignment → role.** Read `cat runtime/TEAM.md`. Carry the adopted economic frame, fixed specification, sources, write scope and completion criterion into the selected role. Launch `reviewer` for the existing once-per-turn Stop request or an explicit user review assignment, with fresh bounded context.
+2. **Role → launch fields.** Read the actual host's available models and supported efforts. Select lead/reviewer high, implementer medium, retriever low and specialist highest supported effort through native fields. Generic files inherit host settings; the parent supplies supported authorized overrides at launch. Preserve tighter host/user choices. Before: “Call the worker a specialist.” After: “Pass the unresolved core and prior repair; set its supported model and highest effort in the launch fields.”
+3. **Return → parent.** Retain the requested settings and actual returned identity with the artifact and verification. The parent integrates the result under TEAM; model labels locate assignments.
 
 Preview, apply and check the existing native configuration workflow:
 
@@ -36,19 +40,27 @@ bash scripts/setup_ide_mcp.sh --agent-team --client codex --write
 bash scripts/setup_ide_mcp.sh --agent-team --client codex --check
 ```
 
-`--codex-team` remains a compatibility spelling. Ordinary team setup preserves primary model, provider, login, effort and explicit subagent defaults. It installs `.codex/agents/{lead,implementer,retriever,specialist}.toml` with no model or effort override, and retains the legacy Terra/Luna/Astra native files as explicit OpenAI model presets. Their old names map to TEAM's implementer/retriever/specialist roles without additional authority. The existing Codex example retains the OpenAI primary and subagent settings for explicit `--openai-preset` use:
+`--codex-team` remains a compatibility spelling. Ordinary setup preserves primary model, provider, login, effort and explicit subagent defaults. It installs inherited `.codex/agents/{lead,implementer,retriever,specialist,reviewer}.toml` and the explicit Terra/Luna/Astra aliases for implementer/retriever/specialist. Select the OpenAI preset to write model and effort fields into all five generic Codex roles:
 
 ```sh
 bash scripts/setup_ide_mcp.sh --agent-team --client codex --openai-preset --write
 ```
 
-That selected preset uses the existing native OpenAI model choices and `xhigh`. Project setup preserves the project provider assignment because the inspected Codex client reads `model_provider` at user scope; user-scope preset setup includes that provider. A conflicting user-owned preset value refuses the whole application before writes; use ordinary inherited setup to retain that configuration. Generic setup never starts login or API operations. Codex applies a role's model after a per-call model argument; use a generic inherited role or its explicit native override when choosing a different provider/model, rather than a conflicting model-fixed legacy role.
+| Selected preset role | Model | Effort |
+|---|---|---|
+| Primary / lead | `gpt-6.1-terra` | `high` |
+| Default child / implementer | `gpt-6.1-terra` | `medium` |
+| Retriever | `gpt-6-luna` | `low` |
+| Specialist | `gpt-6.1-terra` | `ultra` |
+| Reviewer | `gpt-6.1-terra` | `high` |
+
+These requested values match the inspected Work launch schema. Confirm the selected CLI/provider advertises them before using the preset; its model catalog owns supported efforts. The legacy aliases request Terra medium, Luna low and Astra ultra. Project setup preserves the project provider assignment; user-scope preset setup includes the example's provider. A conflicting user-owned value preserves the whole configuration before writes. Preview/apply/check use the same selected flags, including `--openai-preset`. Ordinary setup projects inherited roles again through the existing ownership merge. Codex gives role model fields precedence over per-call model arguments; select an inherited role or edit its native fields for another authorized model. Configuration generation performs local file operations.
 
 The root agent settings enable native delegation, bound V1 depth to two edges and share three child slots across the whole session. Existing tighter depth and concurrency settings remain tighter; larger settings are reduced to these adopted bounds. The legacy `max_threads` spelling is retained. At upstream revision `3a2788e6fc897fc4dd40185225167af9a9f13754`, V1 enforces `agents.max_depth`; V2 ignores it. Both share the session registry across descendants. V2 translates `agents.max_concurrent_threads_per_session = 3` to an internal root-inclusive budget of four; its dedicated `features.multi_agent_v2.max_concurrent_threads_per_session` has separate precedence. When present, the generator reduces a larger dedicated root-inclusive budget to four and preserves tighter values; unsupported edited TOML layouts are refused before writes. Keep existing host constraints and TEAM's whole-hierarchy budget, including a bridge worker, instead of assigning a new three-slot pool to each parent. Native role projection does not apply role-local provider, depth or concurrency fields.
 
 Codex CLI and IDE use `CODEX_HOME`, otherwise `~/.codex`, for user configuration. Trusted project configuration layers the repository's settings over that setup. The existing generator supports user installation through `--scope user`; its generated-content ownership, conflict checks, atomic writes and rollback apply at the selected scope. Existing MCP declarations and unrelated model/permission settings retain their ownership.
 
-Claude Code, OpenCode and Gemini CLI native adapters use the same four generic source templates through the existing generator:
+Claude Code, OpenCode and Gemini CLI native adapters use the same five generic source templates through the existing generator:
 
 ```sh
 bash scripts/setup_ide_mcp.sh --agent-team --client claude --write
@@ -69,7 +81,7 @@ python scripts/export_project.py --task econ-data \
   --format deployed --output /tmp/native-team-deployed-new
 ```
 
-Flat output carries `CODEX_AGENT_{lead,implementer,retriever,specialist,terra,luna,astra}.toml` and `CONFIG_codex.example.toml`. Deployed output maps those native templates to `.codex/agents/`. The complete source distribution supplies the configuration generator; `--layout installed` consumes the same registered deployment mappings. Every child inherits its parent's permissions, provider and source access; an explicit role choice never expands that authority.
+Flat output carries `CODEX_AGENT_{lead,implementer,retriever,specialist,reviewer,terra,luna,astra}.toml` and `CONFIG_codex.example.toml`. Deployed output maps those native templates to `.codex/agents/`. The complete source distribution supplies the configuration generator; `--layout installed` consumes the same registered deployment mappings. Every child inherits its parent's permissions, provider and source access; an explicit role choice never expands that authority.
 
 ChatGPT Work uses its exposed native schema: fresh `fork_turns="none"` with the necessary brief, and omitted model/effort fields for inheritance or supported explicit overrides when selected. The inspected CLI V1 spells fresh context `fork_context=false`; CLI V2 uses `fork_turns="none"`. Local TOML does not configure Work. A fixed primary can retain one lead bridge for substantive work while it handles transport; count that bridge among the shared worker slots.
 

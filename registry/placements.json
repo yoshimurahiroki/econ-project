@@ -73,6 +73,46 @@
       "deployment_path": ".agents/profiles/default-micro/short-examples-ja.md",
       "export_alias": "EXAMPLES_JA.md"
     },
+    "commuting-study-en": {
+      "deployment_path": ".agents/profiles/default-micro/commuting-study-en.md",
+      "export_alias": "COMMUTING_STUDY_EN.md"
+    },
+    "subscription-study-en": {
+      "deployment_path": ".agents/profiles/default-micro/subscription-study-en.md",
+      "export_alias": "SUBSCRIPTION_STUDY_EN.md"
+    },
+    "subscription-study-ja": {
+      "deployment_path": ".agents/profiles/default-micro/subscription-study-ja.md",
+      "export_alias": "SUBSCRIPTION_STUDY_JA.md"
+    },
+    "equipment-study-en": {
+      "deployment_path": ".agents/profiles/default-micro/equipment-study-en.md",
+      "export_alias": "EQUIPMENT_STUDY_EN.md"
+    },
+    "equipment-study-ja": {
+      "deployment_path": ".agents/profiles/default-micro/equipment-study-ja.md",
+      "export_alias": "EQUIPMENT_STUDY_JA.md"
+    },
+    "housing-study-en": {
+      "deployment_path": ".agents/profiles/default-micro/housing-study-en.md",
+      "export_alias": "HOUSING_STUDY_EN.md"
+    },
+    "housing-study-ja": {
+      "deployment_path": ".agents/profiles/default-micro/housing-study-ja.md",
+      "export_alias": "HOUSING_STUDY_JA.md"
+    },
+    "charging-study-en": {
+      "deployment_path": ".agents/profiles/default-micro/charging-study-en.md",
+      "export_alias": "CHARGING_STUDY_EN.md"
+    },
+    "charging-study-ja": {
+      "deployment_path": ".agents/profiles/default-micro/charging-study-ja.md",
+      "export_alias": "CHARGING_STUDY_JA.md"
+    },
+    "commuting-study-ja": {
+      "deployment_path": ".agents/profiles/default-micro/commuting-study-ja.md",
+      "export_alias": "COMMUTING_STUDY_JA.md"
+    },
     "extended-en": {
       "deployment_path": ".agents/profiles/default-micro/extended-introduction-en.md",
       "export_alias": "EXTENDED_EN.md"
@@ -384,6 +424,86 @@
     "research-causal": {
       "deployment_path": ".agents/skills/econ-data/scripts/research_causal.py",
       "export_alias": "research_causal.py"
+    },
+    "example-subscription": {
+      "deployment_path": ".agents/skills/econ-data/examples/subscription/README.md",
+      "export_alias": "subscription-example.md"
+    },
+    "example-subscription-code": {
+      "deployment_path": ".agents/skills/econ-data/examples/subscription/run.py",
+      "export_alias": "subscription-example.py"
+    },
+    "example-subscription-specification": {
+      "deployment_path": ".agents/skills/econ-data/examples/subscription/specification.json",
+      "export_alias": "subscription-specification.json"
+    },
+    "example-subscription-materials": {
+      "deployment_path": ".agents/skills/econ-data/examples/subscription/materials.py",
+      "export_alias": "subscription-materials.py"
+    },
+    "example-equipment": {
+      "deployment_path": ".agents/skills/econ-data/examples/equipment/README.md",
+      "export_alias": "equipment-example.md"
+    },
+    "example-equipment-code": {
+      "deployment_path": ".agents/skills/econ-data/examples/equipment/run.py",
+      "export_alias": "equipment-example.py"
+    },
+    "example-equipment-specification": {
+      "deployment_path": ".agents/skills/econ-data/examples/equipment/specification.json",
+      "export_alias": "equipment-specification.json"
+    },
+    "example-equipment-materials": {
+      "deployment_path": ".agents/skills/econ-data/examples/equipment/materials.py",
+      "export_alias": "equipment-materials.py"
+    },
+    "example-housing": {
+      "deployment_path": ".agents/skills/econ-data/examples/housing/README.md",
+      "export_alias": "housing-example.md"
+    },
+    "example-housing-code": {
+      "deployment_path": ".agents/skills/econ-data/examples/housing/run.py",
+      "export_alias": "housing-example.py"
+    },
+    "example-housing-specification": {
+      "deployment_path": ".agents/skills/econ-data/examples/housing/specification.json",
+      "export_alias": "housing-specification.json"
+    },
+    "example-housing-materials": {
+      "deployment_path": ".agents/skills/econ-data/examples/housing/materials.py",
+      "export_alias": "housing-materials.py"
+    },
+    "example-charging": {
+      "deployment_path": ".agents/skills/econ-data/examples/charging/README.md",
+      "export_alias": "charging-example.md"
+    },
+    "example-charging-code": {
+      "deployment_path": ".agents/skills/econ-data/examples/charging/run.py",
+      "export_alias": "charging-example.py"
+    },
+    "example-charging-specification": {
+      "deployment_path": ".agents/skills/econ-data/examples/charging/specification.json",
+      "export_alias": "charging-specification.json"
+    },
+    "example-charging-materials": {
+      "deployment_path": ".agents/skills/econ-data/examples/charging/materials.py",
+      "export_alias": "charging-materials.py"
+    },
+    "example-commuting": {
+      "deployment_path": ".agents/skills/econ-data/examples/commuting/README.md",
+      "export_alias": "commuting-example.md"
+    },
+    "example-commuting-code": {
+      "deployment_path": ".agents/skills/econ-data/examples/commuting/run.py",
+      "export_alias": "commuting-example.py"
+    },
+    "example-commuting-specification": {
+      "deployment_path": ".agents/skills/econ-data/examples/commuting/specification.json",
+      "export_alias": "commuting-specification.json"
+    },
+    "example-commuting-materials": {
+      "deployment_path": ".agents/skills/econ-data/examples/commuting/materials.py",
+      "export_alias": "commuting-materials.py"
     },
     "research-rct": {
       "deployment_path": ".agents/skills/econ-data/scripts/research_rct.R",
@@ -716,6 +836,10 @@
     "policy-codex-agent-specialist": {
       "deployment_path": ".codex/agents/specialist.toml",
       "export_alias": "CODEX_AGENT_specialist.toml"
+    },
+    "policy-codex-agent-reviewer": {
+      "deployment_path": ".codex/agents/reviewer.toml",
+      "export_alias": "CODEX_AGENT_reviewer.toml"
     },
     "research-gallery": {
       "deployment_path": ".agents/harness/research_gallery.py",

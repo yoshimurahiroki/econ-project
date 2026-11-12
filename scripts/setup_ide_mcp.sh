@@ -431,7 +431,17 @@ def main():
             plan[path] = (before, after)
     if args.codex_team:
         client = selected[0]
-        roles = ('lead', 'implementer', 'retriever', 'specialist')
+        roles = ('lead', 'implementer', 'retriever', 'specialist', 'reviewer')
+        role_presets = {}
+        if args.openai_preset:
+            # Explicit selection owns these native fields; ordinary setup inherits.
+            role_presets = {
+                'lead': (template['model'], 'high'),
+                'implementer': (template['model'], 'medium'),
+                'retriever': ('gpt-6-luna', 'low'),
+                'specialist': (template['model'], 'ultra'),
+                'reviewer': (template['model'], 'high'),
+            }
         if client == 'codex':
             roles += ('terra', 'luna', 'astra')
         for role in roles:
@@ -446,6 +456,11 @@ def main():
             if client == 'codex':
                 relative = f'{"agents" if args.scope == "user" else ".codex/agents"}/{role}.toml'
                 content = source_bytes.decode()
+                if role in role_presets:
+                    model, effort = role_presets[role]
+                    content = ('model = ' + json.dumps(model) + '\n' +
+                               'model_reasoning_effort = ' + json.dumps(effort) + '\n' + content)
+                    tomllib.loads(content)
             else:
                 relative = f'.{client}/agents/{role}.md'
                 fields = ['---']

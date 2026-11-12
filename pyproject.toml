@@ -381,6 +381,13 @@ nest-asyncio = ">=1.6.0,<2"
 format = "make format"
 research-ui = "python -m marimo run harness/research_gallery.py"
 
+[tool.pixi.feature.julia.dependencies]
+julia = "==1.12.7"
+
+[tool.pixi.environments]
+default = { features = [] }
+julia = { features = ["julia"], no-default-feature = true }
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"

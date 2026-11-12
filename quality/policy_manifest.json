@@ -11,19 +11,19 @@
     },
     "codex_hooks": {
       "path": "harness/codex_hooks.py",
-      "sha256": "2ec2e10c679bcc98ddbe0a48a78a6b41edb6acbe24d02c57e362ce36225c7315"
+      "sha256": "d1bba1436491b98bbc5228355ab927f455e511a794f37a5c81e7c281db99db68"
     },
     "core": {
       "path": "runtime/CORE.md",
-      "sha256": "367df091d6ba67cdce96e20083973b20918498115a962356d9d84006c29d6390"
+      "sha256": "96ac329216729630d05aad6417778bf8297c1ed57f457af4477e22384be57903"
     },
     "decide": {
       "path": "runtime/DECIDE.md",
-      "sha256": "fee182c125587d332b57311acec927df72bb4cada10573418537d18c48ba81f9"
+      "sha256": "2038c06854fd9511f26cfa2927dd66083a71985157a2464c62ff16849ea8ee6b"
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
-      "sha256": "1dc8949c2c188325899e6e27d4c285e1b96d4cf9acfca2d600601a01f64c017d"
+      "sha256": "53ba9635e64c74fe27d3b14df963a83c4c5d9b50276530b6171b8c7940ed4792"
     },
     "execution": {
       "path": "runtime/EXECUTION.md",
@@ -43,27 +43,27 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "4b69b10c2818c1fdd6b393a124f714fecc857e57170700f5af0d4f8f3701d213"
+      "sha256": "8721ba92ef9aaaf4a109c682f771b65260bc43d1fa6dcdfa73580817d18e4f63"
     },
     "prose": {
       "path": "runtime/PROSE.md",
-      "sha256": "1b3341f08f2eca4f121a73ca798e1ff21421f69c6abe50f691766a3fe4750b23"
+      "sha256": "ac44856901aff892a18d7af9d70cc4d0829ef60f2eefad9e443e9032b239061e"
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
-      "sha256": "f16d6663ec7f2727783673b838d9294f9c0b0f02bb3d00e4f005262c4219daa6"
+      "sha256": "5710f50b67c602aa2a3fbea678ddb79f9317b5f141cb9b2674865e024e1d3639"
     },
     "registry_operations": {
       "path": "registry/operations.json",
-      "sha256": "e2c17573bdfe30b9a4dcc60fe0237b61b1fead05120be5ba857c7f7a1e984eac"
+      "sha256": "6febefb590094238b7708e93f3c87b389a5b93aa0edb13a2b5ff162182164859"
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "74174175c7c3683489244be5103bc1fc553b405437e25b2c1280355f4d42a0d2"
+      "sha256": "946d101c0256a5a0f58b87a54a4ccfef58cc74a25560b208f55a4dddbe53fbfe"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "fe0b131a589fb45aa5cf6712c23e74ca8476b0cce6d04d46d1212f78ab2aaa29"
+      "sha256": "62a4208d687f536234ee271c1253e795f5a4ad05818210ad47ab06b8f047af2b"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -77,13 +77,29 @@
       "path": "harness/argument.schema.json",
       "sha256": "396055609d2b33b299c9ef02389e18e7e54e4737bc6ffb7b4f01ca99aaa9df2a"
     },
+    "resource:charging-study-en": {
+      "path": "profiles/default-micro/charging-study-en.md",
+      "sha256": "8b60dad847dea4215660ff39d34d4c0f7305448e78ceb50d03b2fd3b9fd009e5"
+    },
+    "resource:charging-study-ja": {
+      "path": "profiles/default-micro/charging-study-ja.md",
+      "sha256": "d446d8261ca0727ced30b3c0a4a02b4f0cec674de7b4c58c80118f3634e583c9"
+    },
+    "resource:commuting-study-en": {
+      "path": "profiles/default-micro/commuting-study-en.md",
+      "sha256": "720e536572a8f9f164c4045ecab8220dc50e5ef3e3c8d783f4105e03023b23a7"
+    },
+    "resource:commuting-study-ja": {
+      "path": "profiles/default-micro/commuting-study-ja.md",
+      "sha256": "2d06b1415e05a146cc3bef8f050adbd61ee0e0aa8323d587ba18c7a06c8b7e24"
+    },
     "resource:config-template-claude-mcp-example-json": {
       "path": "docs/ai/config-templates/claude-mcp.example.json",
       "sha256": "7e098a33b20cda19ae9067ffc8252f2637bf0314963893df85110fe3120fee63"
     },
     "resource:config-template-codex-example-toml": {
       "path": "docs/ai/config-templates/codex.example.toml",
-      "sha256": "a35c0376ab845d80f75a59884910b0a2e393aa96388b8ecad88ebc383adf414d"
+      "sha256": "116ce78f0b49afe65f78a649cf7db34c6d5e87df7422f1cd52f80ea8debb9410"
     },
     "resource:config-template-mcp-example-json": {
       "path": "docs/ai/config-templates/mcp.example.json",
@@ -91,7 +107,7 @@
     },
     "resource:config-template-readme-md": {
       "path": "docs/ai/config-templates/README.md",
-      "sha256": "2fe5437f871a23dddd01357fba80b44af3d9462f3169d655acd039dc64dd6cd2"
+      "sha256": "43a44ce79a623b310b57f85b9ea6ae472bc6c7d005d6cc9cc389f018a2e66b1e"
     },
     "resource:data-descriptive": {
       "path": "skills/econ-data/references/implementation-descriptive.md",
@@ -99,11 +115,11 @@
     },
     "resource:data-engine-selection": {
       "path": "skills/econ-data/references/implementation-engines.md",
-      "sha256": "eb766c557523c46ba29ca615cc4696f19c60e7c1e014c61f0a8cd3553171bfcd"
+      "sha256": "9a0dd130fe211891d06f07cc8ed2f6477bb14bcff5fca0d0bd100542bf1422c6"
     },
     "resource:data-implementation": {
       "path": "skills/econ-data/references/implementation.md",
-      "sha256": "d146afe5365f30da1af847d44d6861bf096a5e5c7f25c93d3c3edc8eea444332"
+      "sha256": "dc062ea50bff9981ac375f5b199934f574e709299f60a90cf94b214c47087786"
     },
     "resource:data-native-calls": {
       "path": "skills/econ-data/references/implementation-calls.md",
@@ -131,11 +147,11 @@
     },
     "resource:data-workflow": {
       "path": "skills/econ-data/references/workflow.md",
-      "sha256": "4ee70d7df045fc824649042022ff5ba74b1308e4df96fb200599723a39fdfb8e"
+      "sha256": "a0fcbbe52392bcf5e2b1d2c8e0613c32adcb9f9df770087f67ee92e36c04086b"
     },
     "resource:default-micro": {
       "path": "profiles/default-micro/PROFILE.md",
-      "sha256": "0584a6b90e49329886b259628ad6e73e7bb5185294452a07443450bfbde7a434"
+      "sha256": "09d43bcb0868ce5787461ba7b171059be0a366613f95f72db7459581ba26612e"
     },
     "resource:design-methods": {
       "path": "skills/econ-design/references/designs.md",
@@ -147,7 +163,7 @@
     },
     "resource:econ-data": {
       "path": "skills/econ-data/SKILL.md",
-      "sha256": "82f74195e48a8dd507b5c035d324c741b0a9f5223c27da93c3a225a8e8df18df"
+      "sha256": "0efa12e1e1d08c0eec5da8ebc79e4274dbbae2959a6d33d7aaede9ef600d67a3"
     },
     "resource:econ-design": {
       "path": "skills/econ-design/SKILL.md",
@@ -168,6 +184,14 @@
     "resource:econ-writing": {
       "path": "skills/econ-writing/SKILL.md",
       "sha256": "4b998b2932c895e6e2eaef32adbef7e796b0c9b99735c0d1e4876a34e627bbc3"
+    },
+    "resource:equipment-study-en": {
+      "path": "profiles/default-micro/equipment-study-en.md",
+      "sha256": "eec094aa080fe9358f11414b1fe56cb0b6dd3564d37ee7839211e345604b0e83"
+    },
+    "resource:equipment-study-ja": {
+      "path": "profiles/default-micro/equipment-study-ja.md",
+      "sha256": "4d74382fe670d2c2406eb7ce0b97c78b1eb5114ee5926c4ebd4a65156ae2cfa7"
     },
     "resource:equity-airline-case": {
       "path": "skills/econ-data/scripts/equity_airline_case.py",
@@ -201,13 +225,93 @@
       "path": "skills/econ-data/scripts/equity_sources.py",
       "sha256": "e904110035f2aff4e1ff53ca36f36c8443e7db2910612b4ac5e00d47afbd28ca"
     },
+    "resource:example-charging": {
+      "path": "skills/econ-data/examples/charging/README.md",
+      "sha256": "62e24bd3019609c1673542ca3053604e1b6c4718b554c8bccdf687ef012693cd"
+    },
+    "resource:example-charging-code": {
+      "path": "skills/econ-data/examples/charging/run.py",
+      "sha256": "c4186bd1e6c4e8b8f5e6f15977503362601fba103ff1777189cc43f69c9a2e57"
+    },
+    "resource:example-charging-materials": {
+      "path": "skills/econ-data/examples/charging/materials.py",
+      "sha256": "1b8bfad439ddc754066f0ec5029dfaaf2f88e2285c903e61bd61791f9051d7fe"
+    },
+    "resource:example-charging-specification": {
+      "path": "skills/econ-data/examples/charging/specification.json",
+      "sha256": "a42c51a863a8f04330a3c6d30b4e62fcffb934d805b3107ac3eedfd6c56a56b8"
+    },
+    "resource:example-commuting": {
+      "path": "skills/econ-data/examples/commuting/README.md",
+      "sha256": "bcc72e8588df601a0f0b83499ac091581443a410201b2b418781a524bf50e492"
+    },
+    "resource:example-commuting-code": {
+      "path": "skills/econ-data/examples/commuting/run.py",
+      "sha256": "59c811378d1358b81299a6e6d6a71505b835d5b575286e699c627d44f84d5240"
+    },
+    "resource:example-commuting-materials": {
+      "path": "skills/econ-data/examples/commuting/materials.py",
+      "sha256": "1df26e205ee5997b97f1684e8548c9e83dcae6b68f20aaf6a06df21c33aaef0a"
+    },
+    "resource:example-commuting-specification": {
+      "path": "skills/econ-data/examples/commuting/specification.json",
+      "sha256": "a2367eaf3196c0de5093120f14dcfe56b671fac2627e7888ce32e732612420ff"
+    },
+    "resource:example-equipment": {
+      "path": "skills/econ-data/examples/equipment/README.md",
+      "sha256": "6a998bd874f5276c29740ab70260b583353a4b29ee10b2e67c1f7d2630215dc9"
+    },
+    "resource:example-equipment-code": {
+      "path": "skills/econ-data/examples/equipment/run.py",
+      "sha256": "c6b9e9d2ecd8510b26efdc8565bd0ba0d7139b6724aa28d67d00d3938db2f3cf"
+    },
+    "resource:example-equipment-materials": {
+      "path": "skills/econ-data/examples/equipment/materials.py",
+      "sha256": "8b1c90ad15f5ac9f5ca5689090fa03db184a59cfcdc247ec11a3f4ac7f250d2c"
+    },
+    "resource:example-equipment-specification": {
+      "path": "skills/econ-data/examples/equipment/specification.json",
+      "sha256": "19ab5a61e77c45a512b61848bad1df60f6eaefb498c170f2aac0edac13297823"
+    },
+    "resource:example-housing": {
+      "path": "skills/econ-data/examples/housing/README.md",
+      "sha256": "94c1fdf991e5b3fa235f2eec85a7996bf607c38d4b70eb1c01145b7cfc5e3aab"
+    },
+    "resource:example-housing-code": {
+      "path": "skills/econ-data/examples/housing/run.py",
+      "sha256": "5af8ace771f2211af738d231f713ed5f88077cb9dd80ba9d929f33e4c7028010"
+    },
+    "resource:example-housing-materials": {
+      "path": "skills/econ-data/examples/housing/materials.py",
+      "sha256": "6b5eebb60cdde15ad0aeaa75dc13186b5c324596b503a90a2ec693296b6f3a0c"
+    },
+    "resource:example-housing-specification": {
+      "path": "skills/econ-data/examples/housing/specification.json",
+      "sha256": "d41edc844fe2f63665cb07f662dcd78bd29e5535a7e7aac00d9b02cec24bfa05"
+    },
+    "resource:example-subscription": {
+      "path": "skills/econ-data/examples/subscription/README.md",
+      "sha256": "bb2f35b14eab47832f0a09497afce7ca4db40428316bc2f6639124cd77512860"
+    },
+    "resource:example-subscription-code": {
+      "path": "skills/econ-data/examples/subscription/run.py",
+      "sha256": "cfd12c3e262a515c3548769a0d9ec7e3b809c2722ffdf6bbf03bfc5b01f8a5df"
+    },
+    "resource:example-subscription-materials": {
+      "path": "skills/econ-data/examples/subscription/materials.py",
+      "sha256": "b6cfe424bd46712e7425c3113047d9defc22d9a89c5ae41ecb2cad4bdc13ec72"
+    },
+    "resource:example-subscription-specification": {
+      "path": "skills/econ-data/examples/subscription/specification.json",
+      "sha256": "78e9683ff4c9398bf6f06b3b80833ef4aeb851cc5a6a2860bf562b6d59b2f752"
+    },
     "resource:examples-en": {
       "path": "profiles/default-micro/short-examples-en.md",
-      "sha256": "61be590bde68a4ae1eae027c6e6a3dcbd3f2e88adf8549327fa64279e1656645"
+      "sha256": "64bbd3170477db8607dcbed12e0e6259521f38316111b18dea55811cc0511dcb"
     },
     "resource:examples-ja": {
       "path": "profiles/default-micro/short-examples-ja.md",
-      "sha256": "fc701f0648fa6d4a93f3f9f2a6bf1235c38d69c7a2bc71e1db22df2d5215dd65"
+      "sha256": "f01ffd28bda2418a40a49c13e3e6149b157e8383c87a0ecb8e5cd948cc26204d"
     },
     "resource:extended-en": {
       "path": "profiles/default-micro/extended-introduction-en.md",
@@ -219,11 +323,19 @@
     },
     "resource:hook-registration": {
       "path": "hooks/hooks.json",
-      "sha256": "47331d9bd903ccf8ed113da051b19e3df01d32f2236e06bf9ef4531be27aef70"
+      "sha256": "1d03c5ca504f13f23902e289ec04d85588bf1975a0c87d9cb180c034bc7d1871"
     },
     "resource:hook-wrapper": {
       "path": "hooks/check.py",
-      "sha256": "33d64af29358c37cda2cebdb59a9521f337761829abc4364430044c453ff130a"
+      "sha256": "96bf70ad32602a4bea5fd930d55b7b150253a65f64a78a9280bed971e7983ae8"
+    },
+    "resource:housing-study-en": {
+      "path": "profiles/default-micro/housing-study-en.md",
+      "sha256": "36a8d52797b158fbf27d88fce467f8895f6469ec9e692eaab70bb2402b790f8f"
+    },
+    "resource:housing-study-ja": {
+      "path": "profiles/default-micro/housing-study-ja.md",
+      "sha256": "00eeb4a5246ad79cd1d0785f50f7fd0553933bfd45db29d701c80178f627c2d1"
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
@@ -259,7 +371,7 @@
     },
     "resource:latex-paper-pandoc": {
       "path": "tex/paper/pandoc_template.latex",
-      "sha256": "7295679ed25f030062d7f320b83492cc1060ae8378f5fd3c9c2bc3f9542f5c3f"
+      "sha256": "9c736e1e97b75bfd81797036c483e0c06f18f79ac9ba689d82ed25ea6fa27020"
     },
     "resource:latex-paper-quarto": {
       "path": "tex/paper/quarto_template.qmd",
@@ -275,7 +387,7 @@
     },
     "resource:latex-slides-pandoc": {
       "path": "tex/slides/pandoc_template.latex",
-      "sha256": "e455d742bda2a51b01ed9b006ec4e55297b2018cf201b2c532856a6bc5fdbfc7"
+      "sha256": "f22f03ed004d3a578d88d490edb3a89f31573d582688dfb5a09f8ee6ddcaae98"
     },
     "resource:latex-slides-quarto": {
       "path": "tex/slides/quarto_template.qmd",
@@ -283,7 +395,7 @@
     },
     "resource:latex-slides-template": {
       "path": "tex/slides/main.tex",
-      "sha256": "214007e13329478052487563f409720e4b08b3605153ad2c0abcb02531e99868"
+      "sha256": "a91da81aca10f8c684714d877fe141e672e6863b4778ce0ffaf0db6b2b4d9d49"
     },
     "resource:literature-methods": {
       "path": "skills/econ-literature/references/literature-methods.md",
@@ -295,11 +407,11 @@
     },
     "resource:meeting-materials": {
       "path": "harness/meetings.md",
-      "sha256": "b0bd941dd46b229640d91b2b374d3cb7bfcb4ddd6de91ca1f0053a4e2ec428da"
+      "sha256": "bd328842534de99a757e23c0aa0cf2c115150b6cf5ffb6370a7cbc0acc115527"
     },
     "resource:meeting-quarto-template": {
       "path": "tex/slides/meeting_template.qmd",
-      "sha256": "fa0b58f3963ae959f71c562334e36fae8f929d95df241686931267a75e91ac69"
+      "sha256": "9aa1497d799a5bdb505e5675ec387e8a1df122050e86044f4949214930d01a40"
     },
     "resource:meeting-templates": {
       "path": "tex/slides/meeting_templates.json",
@@ -423,7 +535,7 @@
     },
     "resource:native-index": {
       "path": "docs/ai/compiled_ai_skills.md",
-      "sha256": "6d09166b33418db4c52a40a3325f765918ef62fe1d9f7bafdaf5fd4a06121849"
+      "sha256": "308bd06997a978e2a3e7c51b15c7b704d86f090e64571ad4b41bdc945169ec0c"
     },
     "resource:package-notices": {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -431,19 +543,19 @@
     },
     "resource:paper-empirical": {
       "path": "skills/econ-literature/references/read-empirical.md",
-      "sha256": "6fda907d07feac6071006ee97baf2d8ad37e722e0f42f20d907b9677a7bb0a08"
+      "sha256": "d0375ebf3322c8e1214e221c6c3e5c6c47f4c8f07619f7a2d2dd9f0108d99713"
     },
     "resource:paper-reading": {
       "path": "skills/econ-literature/references/paper-reading.md",
-      "sha256": "5e96d44b9ca11d14f369fba8500012f20e1120c9cd3ef4ceae96ca6c7936b73c"
+      "sha256": "d3475e9c0b455b8d048a485e5ab80792d1849a95f010e564ff6b59631712cb67"
     },
     "resource:paper-structural": {
       "path": "skills/econ-literature/references/read-structural.md",
-      "sha256": "921cf4516e5ed1a6cee53fda84359a9cbd9cf1c53c1c958372f42363b4086a28"
+      "sha256": "887525cceca64900548aeb2c51d49dc9fb7e154c1bb35992bac9a62ea9e31a99"
     },
     "resource:paper-theory": {
       "path": "skills/econ-literature/references/read-theory.md",
-      "sha256": "fdbcc1f1075c980ff0285ddac2b0d432af8ccbbbedabb2f1195f8fa44c4ecec9"
+      "sha256": "9e1678bda764435e133d31b93214b4b476c6453b0d7d648ebccdcbec3a980049"
     },
     "resource:paper-workflow": {
       "path": "skills/econ-writing/references/paper-workflow.md",
@@ -459,7 +571,7 @@
     },
     "resource:plugin-integration-guide": {
       "path": "docs/ai/plugin-integration.md",
-      "sha256": "9e0082a80b80ff7cfa098116e3493aa2614f951d5fafd2e2cd9baf7d2d392640"
+      "sha256": "097323c67a7b8784c04b5225d40bb43cd422e96e52a20f19093a32612d77f97e"
     },
     "resource:policy-agents-agentsmd": {
       "path": "references/repository-policy/.agents/AGENTS.md",
@@ -487,31 +599,35 @@
     },
     "resource:policy-codex-agent-astra": {
       "path": "references/repository-policy/.codex/agents/astra.toml",
-      "sha256": "ae05a7bac9c939a03e32603d00b6eee4744445e188f3cdb2ec480d4bc54bfcfc"
+      "sha256": "f0399d26ff7a5753e4943f0d84dcc0baeefba379327f4b6e9d197b1f95655699"
     },
     "resource:policy-codex-agent-implementer": {
       "path": "references/repository-policy/.codex/agents/implementer.toml",
-      "sha256": "a0c933e224019e3717a7b33318926c9d2a459d82749db2e780873b50a6c3189a"
+      "sha256": "f03b2686083a082f15f43379fe5503be79f6c2a665ac90f71c92f40ae10dae64"
     },
     "resource:policy-codex-agent-lead": {
       "path": "references/repository-policy/.codex/agents/lead.toml",
-      "sha256": "bd027c2dd737937cd51d5698bb8a0fb0dda2e237236c30f5a82ccfb0d0c35669"
+      "sha256": "65720bca48e51d79587108c657177d49f386758fd0ff91ddf93a7d8ef9e5502c"
     },
     "resource:policy-codex-agent-luna": {
       "path": "references/repository-policy/.codex/agents/luna.toml",
-      "sha256": "2de2939be05612b6253d355c521fe2df7c4b872dcb4cdd72263b2b91b5a6f589"
+      "sha256": "b5e947eff6bee9ce580c93f0afba461dcbf5b8058c12ce28661976a2f6fbca87"
     },
     "resource:policy-codex-agent-retriever": {
       "path": "references/repository-policy/.codex/agents/retriever.toml",
-      "sha256": "60cbd1afaca8701a2fce3eb54606e464aa6aecd77b8b1f4ad97e6f1d828a0aa4"
+      "sha256": "dbc6d48f7dff2cefbace6c10e3034ca385064f22eae78cad14f4dd3cbfaab10c"
+    },
+    "resource:policy-codex-agent-reviewer": {
+      "path": "references/repository-policy/.codex/agents/reviewer.toml",
+      "sha256": "c8059cff60ed7904eb4ae9a5ee8818a58f6d6366e2fb5910ce60b0e6bf95264a"
     },
     "resource:policy-codex-agent-specialist": {
       "path": "references/repository-policy/.codex/agents/specialist.toml",
-      "sha256": "e2fc0c631ebe1999071a1032b47c1d50a8eadae4698759344408da7caf865f0a"
+      "sha256": "ab9235da87eaea885efeb61a4a383f2a4713a87eddb9a10551bba41cab78b390"
     },
     "resource:policy-codex-agent-terra": {
       "path": "references/repository-policy/.codex/agents/terra.toml",
-      "sha256": "087e2ca1df81e6073166443bec6af67a30977b44fe67fcf59d5858bc480ab600"
+      "sha256": "e8e14b31b7da91c3b4cd69d87a341b9a3e90807ab1ff8b373ceb9f990eb5fa39"
     },
     "resource:policy-codexmd": {
       "path": "references/repository-policy/CODEX.md",
@@ -563,7 +679,7 @@
     },
     "resource:research-artifacts": {
       "path": "harness/research_artifacts.py",
-      "sha256": "3d11144ee59acaf87701e61bf927f5f430d8676817b7d496896a130e542aba8f"
+      "sha256": "26343bbaffb0cb726258e88f343530351f8d2ef745bfd6dcf93fa06a5a216dc7"
     },
     "resource:research-causal": {
       "path": "skills/econ-data/scripts/research_causal.py",
@@ -631,7 +747,7 @@
     },
     "resource:research-gallery": {
       "path": "harness/research_gallery.py",
-      "sha256": "a60b675117d5bb5d3eccbf854aa1c8935582665fdfd01f7d976ce1c54d99996c"
+      "sha256": "8a4a0b5f2dd22175a6be1723bb4dcd89cc22857f47cd18ea36dbb668f6bb1794"
     },
     "resource:research-lifecycle-dependencies": {
       "path": "skills/econ-data/scripts/requirements-lifecycle.txt",
@@ -659,7 +775,7 @@
     },
     "resource:research-meetings": {
       "path": "harness/research_meetings.py",
-      "sha256": "1c7dcf490e30c203b679852e5fed36cb70fb1fdfb225287c43dbec5c0502f989"
+      "sha256": "d7c40c1c9666bca86120f356be29bc1ce510817b207596b24ccb20c239980151"
     },
     "resource:research-numerics": {
       "path": "skills/econ-data/scripts/research_numerics.py",
@@ -695,11 +811,11 @@
     },
     "resource:resource-guide": {
       "path": "docs/ai/resources.md",
-      "sha256": "c3b63250bea250d997beb694723c96931466e6a0d1cea505eda89d5c25edfe61"
+      "sha256": "667952684afb17144024728b94ca8d3672c8cf9a87e987a2397b0453e8cb39a6"
     },
     "resource:result-artifacts": {
       "path": "skills/econ-writing/references/result-artifacts.md",
-      "sha256": "178c35e7cd18efcd822bb695b1d060058edd1bcdf5e391df1a1a6058b3d94e93"
+      "sha256": "aaa7fb7dbefae38b8279769571b0e279cc43d62d953a080bf34fe44c5f6e7860"
     },
     "resource:review-methods": {
       "path": "skills/econ-review/references/oversight.md",
@@ -707,7 +823,7 @@
     },
     "resource:review-procedure": {
       "path": "skills/econ-review/references/review.md",
-      "sha256": "28845acd33f4dede1d93fc611242aa00a954922675dbe1343d4f0d742022468d"
+      "sha256": "dcefd97ce8ae3deac858ed841b6247f1a3175db20df336052250c8ec2d4a1bb8"
     },
     "resource:search-priority": {
       "path": "skills/econ-literature/references/search-priority.md",
@@ -719,7 +835,15 @@
     },
     "resource:state-contract": {
       "path": "harness/state.md",
-      "sha256": "f52805073d0b4c68ef1c28a82b117e9593c81ff1c15be9d79ec6fdaaf0f09fdf"
+      "sha256": "9d1ce8d3e7bf3f591cee6049f27459fab08cc1c6a756f1374eb858273933df6f"
+    },
+    "resource:subscription-study-en": {
+      "path": "profiles/default-micro/subscription-study-en.md",
+      "sha256": "e52a02f6c7ed4670d62fedcb9bdae7bae18ff32a88e8df7584ece4838fc1ed32"
+    },
+    "resource:subscription-study-ja": {
+      "path": "profiles/default-micro/subscription-study-ja.md",
+      "sha256": "fa9f581ad7f0c855140050460fb9e7c17dcba76a34450bfce6a25ed257ee55ac"
     },
     "resource:tool-pack-context-sh": {
       "path": "scripts/pack_context.sh",
@@ -727,7 +851,7 @@
     },
     "resource:writing-artifacts": {
       "path": "skills/econ-writing/references/artifact-writing.md",
-      "sha256": "b610dd24d12a3fdbd36945f4eb512f74d7ac87fefcabcf3513fa12dc2d68ee9c"
+      "sha256": "88afe9b89a67f7661439a9582b1d8fe1fc9421abb8730b7d9b456e3295544cfb"
     },
     "resource:writing-compose": {
       "path": "skills/econ-writing/references/compose.md",
@@ -747,7 +871,7 @@
     },
     "resource:writing-profile": {
       "path": "skills/econ-writing/references/profile.md",
-      "sha256": "21a5d639bc0fe7616d45fb37bb5a9c3736e750a03170607a9616305bf8f439ff"
+      "sha256": "20581265fcc4346fe83d80f614abcdcd561b800ad539cdbcb1a52b34b5e58fb3"
     },
     "resource:writing-revise": {
       "path": "skills/econ-writing/references/revise.md",
@@ -763,15 +887,15 @@
     },
     "route_registry": {
       "path": "scripts/route_registry.py",
-      "sha256": "a225f94db129c023e6bdf2dc1ee0d808ba3ecbe1c9dbb9a7cecec7f06ff87be6"
+      "sha256": "f9f64f9dbad914621aa813cc6ccbb2b9910cf7081d8ae52f7b3e004fa0a651e7"
     },
     "state": {
       "path": "harness/state.py",
-      "sha256": "170a5d25fc6ca99ca14ffd7e0c77a104dcab90fb7701dda746ebdb20441246e6"
+      "sha256": "6cfec58cc30af3bf465fdcb18cfdac5c5ad6d40555bdffda4334c57e43b52555"
     },
     "team": {
       "path": "runtime/TEAM.md",
-      "sha256": "f29ea01065e60e074f75484abf85071572193c2ae8e3e9d75c5e434829ddc507"
+      "sha256": "479111d6980cbc4038e60a93af40de35e18677ef66e1d5493dc691be6e053bb5"
     }
   }
 }

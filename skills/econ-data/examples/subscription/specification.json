@@ -1,0 +1,65 @@
+{
+  "specification_id": "subscription-allocation-v1",
+  "case_kind": "independently authored fictional economy",
+  "question": "Which allocation of onboarding support maximizes quarterly subscription contribution after contact costs within the firm's contact capacity?",
+  "population": "8,000 fictional subscribers, with 4,000 training customers and a fixed evaluation cohort of 4,000 customers",
+  "observation_unit": "one customer's quarterly renewal decision",
+  "period": "one quarter",
+  "unit": "thousand JPY per evaluation customer per quarter",
+  "economic_model": {
+    "actors": ["subscribers", "subscription firm"],
+    "customer_objective": "Renew when quarterly service utility exceeds the outside-option utility.",
+    "information": "Before contacting customers the firm observes prior disengagement and previously reported onboarding needs. Each customer observes the offered support and their own utility shock.",
+    "utility": "The utility difference from renewal is 2 - 4*r + a*(0.2 + 1.6*z) - epsilon. The prior disengagement index r is uniform on [0,1]; onboarding need z is Bernoulli(0.5); epsilon is standard logistic.",
+    "choice": "Y_i(a) = 1{epsilon_i <= 2 - 4*r_i + a*(0.2 + 1.6*z_i)}; the same customer shock defines both potential renewal outcomes.",
+    "mechanism": "Support reduces the effort of learning the service. Customers with a recorded onboarding need receive a larger utility increment. Renewal revenue and service costs give a contribution of 20 thousand JPY for each renewed contract.",
+    "firm_objective": "Maximize sum_i [20*E(Y_i(a_i)|X_i) - 2*a_i] over the fixed evaluation cohort.",
+    "constraints": "Each customer receives action 0 or 1; at most 800 customers receive support; total contact spending is at most 1,600 thousand JPY.",
+    "switching_condition": "A contact's incremental contribution is 20*tau(X_i)-2. Under the capacity constraint, assign contacts to the largest positive incremental contributions. The policy-tree implementation ranks its training-fitted leaf rewards.",
+    "identification": "Independent customer-level Bernoulli(0.5) support assignment precedes renewal. Training and evaluation customers are disjoint; both potential outcomes and pretreatment information are fixed in assignment inference. Each customer's outcome depends on that customer's assigned support."
+  },
+  "simulation": {
+    "customers": 8000,
+    "training_customers": 4000,
+    "population_seed": 20261112,
+    "assignment_seed": 713,
+    "learning_seed": 941,
+    "utility_intercept": 2,
+    "disengagement_slope": -4,
+    "support_increment": 0.2,
+    "need_increment": 1.6,
+    "support_need_probability": 0.5,
+    "assignment_probability": 0.5,
+    "renewal_contribution": 20,
+    "contact_cost": 2,
+    "maximum_contacts": 800,
+    "contact_budget": 1600
+  },
+  "learning": {
+    "n_folds": 4,
+    "regressors": ["disengagement", "support_need"],
+    "outcome_learner": {"type": "random_forest_regressor", "params": {"n_estimators": 200, "min_samples_leaf": 40, "max_depth": 6}},
+    "policy_tree": {"max_depth": 2, "min_samples_leaf": 100, "honest": false},
+    "risk_comparator": "Contact the 800 customers with the lowest training-fitted control renewal probability; break ties by customer ID.",
+    "baseline": "Provide the existing subscription service to every evaluation customer.",
+    "selection": "Select the feasible policy with the largest cohort mean training-fitted net contribution among baseline, risk targeting and constrained policy-tree allocation. Selection is a function of training-fitted outcome means and frozen candidate actions on evaluation pretreatment covariates. Exact ties select fewer contacts, then the named order baseline, risk, policy."
+  },
+  "inference": {
+    "target": "Mean fixed-cohort renewal outcome and firm net contribution under each training-fixed allocation, conditional on training data, evaluation covariates and potential outcomes",
+    "estimator": "Known-propensity augmented inverse-probability scores with outcome models fitted on the training customers",
+    "covariance": "For the joint policy values, sum the outer products of each customer's uncentered normalized IPW residual corrections; derive paired contrasts from this complete covariance",
+    "confidence_level": 0.95,
+    "reference": "normal",
+    "interval_family": "pointwise for each prespecified policy value, paired policy contrast and pretreatment onboarding-need group effect",
+    "prediction": "Control-arm held-out Brier loss and fixed probability-bin calibration for the training-fitted control renewal model",
+    "heterogeneity": "AIPW renewal-effect means in the prespecified onboarding-need groups z=0 and z=1, and their direct difference"
+  },
+  "internal": {
+    "initial_question": "Which customers are most likely to cancel their subscription?",
+    "upstream_comparison": "A cancellation forecast describes the customer's existing renewal choice. Contact allocation uses how support changes that choice, the margin on a renewed contract, contact costs and the opportunity cost of using a capacity slot. The adopted question ranks complete feasible allocations on firm contribution.",
+    "decisive_calculation": "Estimate control renewal and support response from randomized training records, freeze feasible allocations using training predictions and evaluation pretreatment information, and estimate their paired net-contribution contrasts on the held-out cohort.",
+    "calibration": "All primitives, costs and budgets are authored for this fictional example. The utility model generates the source records; its potential outcomes remain in the internal scientific record and never enter learning or allocation.",
+    "conditions": "The fixed-batch covariance is an upper bound on conditional assignment variance. Normal intervals use the many-independent-customer approximation. Training-fixed selection preserves the declared holdout evaluation. Individual conditional-effect predictions are model quantities; group effects use separate held-out AIPW scores.",
+    "scope": "The firm's one-quarter contribution is the adopted objective. Contact costs are charged for every allocated contact. Customer surplus, subsequent quarters and prices are retained outside this objective."
+  }
+}

@@ -5,6 +5,7 @@ import ast
 import html
 import unicodedata
 import posixpath
+import shlex
 from collections import deque
 from pathlib import Path
 
@@ -105,6 +106,9 @@ def resolve_operation(routes, selector, mode=None, *, user_profile=None, project
     for cid in conditions:
         if cid not in routes['condition_definitions']:
             raise ValueError('Unknown condition: ' + cid)
+        allowed = routes['condition_definitions'][cid].get('applies_to', '*')
+        if allowed != '*' and result.get('id') not in allowed:
+            raise ValueError('Condition ' + cid + ' applies to: ' + ', '.join(allowed))
         pending.extend(routes['condition_definitions'][cid].get('required_rules', []))
     active_rules, selection = required_closure(routes, pending, conditions, result.get('id', requested))
     origins = {rule_id: result.get('id', requested) for rule_id in active_rules}
@@ -177,6 +181,10 @@ def select_reading_sections(routes, manifest, stage, role=None, reader_id=None, 
     # A current-stage body needs its prerequisites now, including prerequisites
     # assigned to another stage. Future unrelated bodies remain deferred.
     seeds = [key for row in result for key in row['rule_ids']]
+    # Every entry stage, including a bounded task starting mid-workflow, restores
+    # the kernel. Only explicit complete-body --seen evidence suppresses it.
+    if 'core' in adopted and 'kernel.all' in routes['rules']:
+        seeds.append('kernel.all')
     conditions = manifest.get('selection', {}).get('conditions', [])
     active, _ = required_closure(routes, seeds, conditions, 'reading stage ' + stage)
     seen = {(row['resource_id'], row['section_id']) for row in result}
@@ -204,12 +212,14 @@ def native_index(routes, *, links=False, operation=None, family=None, query=None
                  'Select the conditions actually present in the request. `read ' + selected['canonical_operation']
                  + ' --stage STAGE --condition CONDITION --format compact` delivers the current stage\'s complete bodies and prerequisites.', '',
                  '| Condition | Direct required bodies | Optional examples |', '| --- | --- | --- |']
-        candidates = list(routes['condition_definitions'])
+        candidates = [cid for cid, definition in routes['condition_definitions'].items()
+                      if definition.get('applies_to', '*') == '*'
+                      or selected['canonical_operation'] in definition['applies_to']]
         if not (family or query or all_conditions):
             lines = ['# ' + selected['canonical_operation'], '', selected['description'], '',
                      'Choose the requested purpose, then use `index --operation ' + selected['canonical_operation']
                      + ' --family FAMILY` or `--query TEXT` for exact conditions. Filters include registered common conditions.', '']
-            purposes = [cid for cid in candidates if cid.startswith('equity_')] if selected['mode'] == 'equity' else []
+            purposes = selected.get('purpose_conditions', [])
             if purposes:
                 lines += ['| Purpose condition | Required sections |', '| --- | --- |']
                 for cid in purposes:
@@ -236,7 +246,13 @@ def native_index(routes, *, links=False, operation=None, family=None, query=None
                 continue
             lines.append('| `' + cid + '` | ' + '; '.join(bodies) + ' | ' + examples + ' |')
         return '\n'.join(lines) + '\n'
-    lines = ['# Economics operation index', '', 'Generated from registry/operations.json. Select the final operation, then read CORE, the selected PROSE rules and complete required operation bodies. Support continues the same task.', '']
+    lines = ['# Economics operation index', '',
+             'Generated from registry/operations.json. Support continues the adopted task.', '',
+             '## Read the pending operation', '',
+             '1. **Selected operation → reader.** Read CORE and PROSE Common output, then select the final operation below. Find conditions with `python scripts/route_registry.py index --operation OPERATION --family FAMILY` or `--query TEXT`.',
+             '2. **Complete bodies → execution.** Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION --format compact`. Stages: entry classifies; contract adopts question/method/inputs; compose executes/writes; review interprets/repairs; finalize saves/delivers. Direct `read RULE_ID` returns that rule and prerequisites.',
+             '3. **Retained bodies → next stage.** Follow every `next_offset` under the same `content_sha256` and seen arguments. `bodies` identifies complete bodies and `reused` names omissions. Pass `--seen BODY_SHA256` only for complete matching bodies still in intact context. After compaction, handoff or model change read originals without seen arguments.',
+             '4. **Runtime root → reader.** Deployed trees run `python .agents/scripts/route_registry.py --layout installed read OPERATION --stage STAGE --format compact`; expand incomplete snapshots from canonical source. Skill-scoped hosts read specialist `instructions.md` and common `project-work/references/shared/` bodies, acquiring the matching runtime bundle once for execution.', '']
     for op in routes['operations']:
         label = op['skill_id'] + ' / ' + op['mode']
         if links:
@@ -403,6 +419,14 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
                 unread.append(body)
         if unread:
             delivered.append('# Resource: ' + rid + '\n\n' + ''.join(unread).rstrip())
+    if stage == 'contract':
+        knowledge = list(dict.fromkeys(kid for cid in conditions
+                         for kid in routes['condition_definitions'][cid].get('knowledge', [])))
+        if knowledge:
+            helper = resource_path(root, routes['resources']['knowledge-retrieval'], layout)
+            commands = [shlex.join(['python', str(helper), 'plan', kid, '--read']) for kid in knowledge]
+            delivered.append('# Selected method knowledge\n\nRead the complete bodies and prerequisites before adoption:\n'
+                             + '\n'.join(commands))
     text = '\n\n'.join(delivered) + ('\n' if delivered or not body_hashes else '')
     if offset > len(text):
         raise ValueError('Reading offset exceeds the selected body')
@@ -425,7 +449,7 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
 def _read_registry(root, path):
     source = resource_path(root, {'source_path': path}, 'source')
     obj = json.loads(source.read_text(encoding='utf-8'), object_pairs_hook=unique_object)
-    if obj.get('schema_version') != 2:
+    if type(obj.get('schema_version')) is not int or obj['schema_version'] not in (2, 3):
         raise ValueError(f'Unsupported registry schema_version: {path}')
     return obj
 
@@ -853,7 +877,7 @@ def load_registry(root, layout='source'):
         resources[rid] = {**resource, **placement_data['resources'][rid]}
         if resource.get('source_distribution_only'):
             resources[rid]['snapshot'] = 'source_distribution_only'
-    routes = {'schema_version': 2, 'resources': resources,
+    routes = {'schema_version': op_data['schema_version'], 'resources': resources,
               'rules': resource_data['rules'], 'sections': resource_data['sections'],
               'examples': resource_data.get('examples', {}),
               'aliases': op_data.get('aliases', {}), 'operations': [],
@@ -885,6 +909,18 @@ def load_registry(root, layout='source'):
         if not assigned or sid != 'all' and not any(sid in ids or 'all' in ids for ids in assigned):
             raise ValueError('Required rule has no declared reading stage: ' + rule_id)
     for cid, definition in routes['condition_definitions'].items():
+        knowledge = definition.get('knowledge', [])
+        if (not isinstance(knowledge, list) or any(not isinstance(kid, str)
+                or not re.fullmatch(r'(?:MC-[A-Za-z0-9][A-Za-z0-9_-]*|[A-Z]+-[0-9]{2})', kid)
+                for kid in knowledge) or len(knowledge) != len(set(knowledge))):
+            raise ValueError('Invalid condition knowledge IDs: ' + cid)
+        if routes['schema_version'] >= 3:
+            allowed = definition.get('applies_to')
+            operation_ids = {op['id'] for op in op_data['operations']}
+            if allowed != '*' and (not isinstance(allowed, list) or not allowed
+                    or any(not isinstance(op, str) for op in allowed)
+                    or len(allowed) != len(set(allowed)) or set(allowed) - operation_ids):
+                raise ValueError('Invalid condition applies_to: ' + cid)
         ids = definition.get('required_rules', [])
         example_ids = definition.get('optional_examples', [])
         if not ids and not example_ids:
@@ -904,6 +940,15 @@ def load_registry(root, layout='source'):
             raise ValueError('Invalid or duplicate operation: ' + str(op.get('id')))
         if any(type(op[key]) is not bool for key in ('uses_profile', 'explicit_profile_allowed') if key in op):
             raise ValueError('Invalid operation profile flag: ' + op['id'])
+        purposes = op.get('purpose_conditions', [])
+        if (not isinstance(purposes, list) or any(not isinstance(cid, str) for cid in purposes)
+                or len(purposes) != len(set(purposes))
+                or set(purposes) - routes['condition_definitions'].keys()):
+            raise ValueError('Invalid purpose conditions: ' + op['id'])
+        for cid in purposes:
+            allowed = routes['condition_definitions'][cid].get('applies_to', '*')
+            if allowed != '*' and op['id'] not in allowed:
+                raise ValueError('Purpose condition excludes its operation: ' + cid)
         seen.add(op['id'])
         active_rules, selection = required_closure(routes, op['required_rules'], origin=op['id'])
         routes['operations'].append({**op, 'skill_id': op['owner_skill'], 'operation': op['mode'],
@@ -995,7 +1040,7 @@ def transform_entry_references(routes, resource_id, text):
     return rewrite_markdown(text, destination)
 
 
-def generate_entries(root, routes=None):
+def generate_entries(root, routes=None, *, outputs=None):
     """Regenerate human entries; never infer operation modes from handwritten prose."""
     import os
     import re
@@ -1003,6 +1048,9 @@ def generate_entries(root, routes=None):
     routes = load_routes(root) if routes is None else routes
     def write_changed(path, text, previous=None):
         raw = text.encode('utf-8')
+        if outputs is not None:
+            outputs[path.relative_to(root).as_posix()] = raw
+            return
         previous = path.read_bytes() if previous is None and path.is_file() else previous
         if raw != previous:
             path.write_bytes(raw)
@@ -1042,8 +1090,6 @@ def generate_entries(root, routes=None):
             body = re.sub(entry_pattern, lambda _: entry, body, flags=re.S)
         block = generated_mode_block(routes, owner)
         body = replace_generated_section(body, 'Registered operations', block, 'MODES')
-        if owner == 'econ-review':
-            body = re.sub(r'^Mode `assess`.*?\n\n', '', body, flags=re.M)
         body = transform_entry_references(routes, owner, body)
         write_changed(path, body, previous)
     modes = [op['mode'] for op in routes['operations'] if op['owner_skill'] == 'econ-writing']

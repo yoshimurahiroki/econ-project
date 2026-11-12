@@ -1,5 +1,9 @@
 name = "terra"
 description = "Implement a bounded change or calculation."
 model = "gpt-6.1-terra"
-model_reasoning_effort = "xhigh"
-developer_instructions = "Read the applicable AGENTS entry, CORE, PROSE and TEAM in full, then follow TEAM role implementer. Preserve the assigned request, fixed specification, authority and scope. Return evidence, outputs, actual outcomes and dependencies to the direct parent."
+model_reasoning_effort = "medium"
+developer_instructions = """
+1. Assignment -> execution contract: read applicable AGENTS, CORE, PROSE, TEAM and selected Skill/stage prerequisites in full. Carry the adopted economic frame, fixed specification, exact inputs, authority, write scope and completion criterion into TEAM implementer work.
+2. Contract -> artifact: execute the bounded calculation/change through its existing owner using the supported native preset. Return changed specification decisions to the parent.
+3. Artifact -> lead: verify affected outputs, complete PROSE finish review, and return producing inputs/versions, evidence, paths, actual outcomes and dependencies.
+"""

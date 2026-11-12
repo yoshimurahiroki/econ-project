@@ -21,7 +21,7 @@ Lead with the choice, calculate net benefits in the same period and currency, an
 Original fictional study: Cedar Plain has 48 municipalities with 100 eligible households each. A lottery assigned 24 municipalities to send households a benefit-application notice giving the deadline and office address. Application completion within eight weeks was 42 percent in assigned municipalities and 34 percent in the controls. The saved assignment-effect estimate is 8 percentage points, with a municipality-clustered 95 percent interval of 3 to 13 percentage points. Write the conclusion using this evidence.
 
 **Ideal output:**
-Notices giving the application deadline and office address increased completion within eight weeks by 8 percentage points. Random assignment across 48 municipalities identifies this response among 4,800 eligible households. The result establishes that this administrative communication raises timely applications in Cedar Plain.
+Notices giving the application deadline and office address increased completion within eight weeks by 8 percentage points. Random assignment across 48 municipalities identifies this response among 4,800 eligible households in Cedar Plain. The 95 percent confidence interval is 3 to 13 percentage points.
 
 **Generalizable operation:**
 End with the measured behavioral response and the evidence establishing it. Keep the intervention, outcome, horizon and population fixed as the result becomes the conclusion.
@@ -83,10 +83,10 @@ Place the observed population, period, comparison width and outcome unit in the 
 Original fictional trial: 24 of Cedar Plain's 48 municipalities were randomly assigned to send benefit-application notices to their 100 eligible households. The other 24 municipalities formed the control group. Saved completion rates at eight weeks are 42 and 34 percent. The saved assignment effect is 8 percentage points with a municipality-clustered 95 percent interval [3, 13]. The exhibit is Table 2, column 1.
 
 **Ideal output:**
-Application notices increased completion within eight weeks by 8 percentage points (Table 2, column 1). Completion reached 42 percent in assigned municipalities and 34 percent in the control municipalities. These estimates measure the response of the 4,800 eligible households to assignment of the notice program.
+Table 2, column 1 reports that application notices increased completion within eight weeks by 8 percentage points, with a 95 percent confidence interval of 3 to 13 percentage points. Completion reached 42 percent in assigned municipalities and 34 percent in the control municipalities. These estimates measure the response of the 4,800 eligible households to assignment of the notice program.
 
 **Generalizable operation:**
-Use the saved inference internally and connect the reported effect to its group rates, outcome horizon and population under PROSE. Keep assignment at the municipality level and the measured outcome at the household level in direct sentences.
+Report the saved estimate and interval with their level and unit; connect them to group rates, outcome horizon and population. Retain inference assumptions and diagnostics internally under PROSE. Keep assignment at the municipality level and the measured outcome at the household level in direct sentences.
 
 ### Model counterfactual and transfer accounting
 
@@ -135,7 +135,7 @@ Rebuild the sentence around the tenant's right, the two required conditions and 
 Original fictional revision record: Section 3 now defines Cedar Plain's outcome as a household completing its application within eight weeks. Table 2, column 1 now states that assignment and clustering are at the municipality level. The estimate remains 8 percentage points and the saved 95 percent interval remains [3, 13]. A referee requested the outcome and inference units.
 
 **Ideal output:**
-Section 3 now defines the outcome as household application completion within eight weeks. Table 2, column 1 states the municipality-level assignment and clustering. It reports an 8-percentage-point assignment effect.
+Section 3 now defines the outcome as household application completion within eight weeks. Table 2, column 1 states the municipality-level assignment and clustering. It reports an 8-percentage-point assignment effect and a 95 percent confidence interval of 3 to 13 percentage points.
 
 **Generalizable operation:**
 Answer the requested substantive point with the completed change, its location and the retained result. Preserve actual revision status when applying this operation to a real manuscript.
@@ -175,7 +175,7 @@ Original fictional study: 48 municipalities in Cedar Plain contain 4,800 eligibl
 Application notices and timely benefit applications
 
 **Abstract:**
-Notices giving the application deadline and office address increased completion within eight weeks by 8 percentage points. We estimate this effect using random assignment of a notice program across 48 municipalities and 4,800 eligible households in Cedar Plain. Completion rates were 42 percent in assigned municipalities and 34 percent in the controls. Administrative communication increased timely applications among the eligible households.
+Notices giving the application deadline and office address increased completion within eight weeks by 8 percentage points. We estimate this effect using random assignment of a notice program across 48 municipalities and 4,800 eligible households in Cedar Plain. Completion rates were 42 percent in assigned municipalities and 34 percent in the controls. The 95 percent confidence interval for the assignment effect is 3 to 13 percentage points.
 
 **Generalizable operation:**
 Build the title and abstract from the body's same intervention, comparison and measured response. Preserve the assignment unit and the actor delivering the notice as the argument is compressed.
@@ -201,7 +201,7 @@ Original fictional Cedar Plain trial: 48 municipalities have 100 eligible househ
 **Ideal output:**
 Can a notice giving the application deadline and office address increase timely benefit applications? We study this question by randomly assigning a notice program across 48 municipalities in Cedar Plain. Municipal staff sent the notice to eligible households in the 24 selected municipalities. The program increased completion within eight weeks by 8 percentage points.
 
-The trial follows 4,800 eligible households. Completion reached 42 percent in the municipalities assigned to the program and 34 percent in the control municipalities. The comparison establishes the response of timely applications to this administrative communication.
+The trial follows 4,800 eligible households. Completion reached 42 percent in the municipalities assigned to the program and 34 percent in the control municipalities. The 95 percent confidence interval for the assignment effect is 3 to 13 percentage points.
 
 **Generalizable operation:**
 Open with the choice being studied, state the answer, then develop the assignment and measured comparison establishing it. Each additional paragraph contributes evidence to the same economic object.

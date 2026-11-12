@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "operations": [
     {
       "id": "econ-design:design",
@@ -7,9 +7,13 @@
       "mode": "design",
       "trigger": "Choose a research question, model, identification strategy, study design or policy action.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "econ-design.all",
-        "econ-design.identify-the-requested-design-work"
+        "econ-design.identify-the-requested-design-work",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false,
       "default": true
@@ -20,8 +24,12 @@
       "mode": "execute",
       "trigger": "Acquire, transform, join, calculate, estimate or change research data and code.",
       "required_rules": [
-        "core.all",
-        "econ-data.all"
+        "kernel.all",
+        "econ-data.all",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false,
       "default": true
@@ -32,7 +40,7 @@
       "mode": "equity",
       "trigger": "Evaluate Japanese, US and overseas equities from public filings, IR and market observations; estimate competition, compute sustainable cash flows, reverse valuation, after-tax investment decisions and news-driven changes.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "econ-data.all",
         "equity-guide.purpose-and-entry",
         "equity-guide.execution-rules",
@@ -40,9 +48,21 @@
         "equity-guide.trading-flow-scope",
         "prose.select-the-economic-argument",
         "prose.connect-the-explanation",
-        "econ-data.equity-evaluation"
+        "econ-data.equity-evaluation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
-      "uses_profile": false
+      "uses_profile": false,
+      "purpose_conditions": [
+        "equity_acquisition",
+        "equity_cash_flow",
+        "equity_fit",
+        "equity_dynamic",
+        "equity_valuation",
+        "equity_rates",
+        "equity_news_update",
+        "equity_investment_decision"
+      ]
     },
     {
       "id": "econ-literature:investigate",
@@ -50,9 +70,13 @@
       "mode": "investigate",
       "trigger": "Find and select source information that resolves a research question or citation task.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "econ-literature.all",
-        "research.investigate-source-claims"
+        "research.investigate-source-claims",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false,
       "default": true
@@ -63,9 +87,13 @@
       "mode": "compose",
       "trigger": "Compose academic prose and research materials from the adopted sources.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "econ-writing.compose",
-        "econ-writing.output"
+        "econ-writing.output",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": true,
       "default": true
@@ -76,9 +104,13 @@
       "mode": "revise",
       "trigger": "Revise supplied prose, including natural Japanese, spoken explanations and requests such as 自然な日本語に, 何を言いたいの, 直訳っぽい, 口頭で説明して and わかりやすく短く.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "econ-writing.revise",
-        "econ-writing.output"
+        "econ-writing.output",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": true
     },
@@ -88,9 +120,13 @@
       "mode": "translate",
       "trigger": "Translate supplied prose into natural Japanese or English with source attribution under PROSE.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "econ-writing.translate",
-        "econ-writing.output"
+        "econ-writing.output",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": true
     },
@@ -100,9 +136,13 @@
       "mode": "convert",
       "trigger": "Convert adopted content into a paper, slides, research site or requested format.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "econ-writing.convert",
-        "econ-writing.output"
+        "econ-writing.output",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": true
     },
@@ -112,9 +152,13 @@
       "mode": "guidance",
       "trigger": "Explain a concrete writing decision and show the needed revision.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "econ-writing.guidance",
-        "econ-writing.output"
+        "econ-writing.output",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false,
       "explicit_profile_allowed": true
@@ -125,9 +169,13 @@
       "mode": "explain",
       "trigger": "Explain a paper, theory, institution, method or result through its question, mechanism, evidence and answer.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "econ-writing.explain",
-        "econ-writing.output"
+        "econ-writing.output",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": true
     },
@@ -137,9 +185,13 @@
       "mode": "profile",
       "trigger": "Create or revise a reusable writing profile only when explicitly requested.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "econ-writing.profile",
-        "econ-writing.output"
+        "econ-writing.output",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false
     },
@@ -149,8 +201,12 @@
       "mode": "assess",
       "trigger": "Assess the specified claim or artifact and return findings and proposed repairs.",
       "required_rules": [
-        "core.all",
-        "econ-review.all"
+        "kernel.all",
+        "econ-review.all",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false,
       "default": true
@@ -161,8 +217,12 @@
       "mode": "assess+repair",
       "trigger": "Assess the specified target and repair it within the requested change scope.",
       "required_rules": [
-        "core.all",
-        "econ-review.all"
+        "kernel.all",
+        "econ-review.all",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false
     },
@@ -172,8 +232,12 @@
       "mode": "lookup",
       "trigger": "Retrieve the economics definitions, derivations, model conditions or worked examples needed by the current specialist.",
       "required_rules": [
-        "core.all",
-        "econ-knowledge.all"
+        "kernel.all",
+        "econ-knowledge.all",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false,
       "default": true
@@ -184,11 +248,15 @@
       "mode": "contribute",
       "trigger": "Complete an assigned project contribution from its adopted economic model through research, calculations, consultation drafts and actual artifacts.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "project-work.all",
         "project-practice.connect-the-current-case",
         "project-practice.complete-the-assigned-contribution",
-        "state-contract.project-work"
+        "state-contract.project-work",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false,
       "default": true
@@ -199,11 +267,15 @@
       "mode": "manage",
       "trigger": "Manage a project or shared portfolio through its economic decision, evidence, work, resources, authorized changes, outcomes and handover.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "project-work.all",
         "project-practice.connect-the-current-case",
         "project-practice.manage-the-case",
-        "state-contract.project-work"
+        "state-contract.project-work",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false,
       "default": false
@@ -214,9 +286,13 @@
       "mode": "clarify",
       "trigger": "Clarify requested task requirements, scope or work approaches; compare consequential alternatives and complete the adopted brief or specification.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "project-work.all",
-        "project-practice.define-the-task"
+        "project-practice.define-the-task",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false,
       "default": false
@@ -227,9 +303,13 @@
       "mode": "prompt",
       "trigger": "Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request.",
       "required_rules": [
-        "core.all",
+        "kernel.all",
         "project-work.all",
-        "project-practice.write-the-execution-prompt"
+        "project-practice.write-the-execution-prompt",
+        "prose.select-the-economic-argument",
+        "prose.connect-the-explanation",
+        "prose.revise-for-the-requested-language",
+        "prose.finish-the-passage"
       ],
       "uses_profile": false,
       "default": false
@@ -240,39 +320,45 @@
       "required_rules": [
         "research.select-a-feasible-action",
         "research.source-integration-and-method-selection"
-      ]
+      ],
+      "applies_to": "*"
     },
     "economic_method_needed": {
       "required_rules": [
         "design-methods.choose-the-estimand-and-method",
         "design-methods.select-the-needed-section",
         "research.source-integration-and-method-selection"
-      ]
+      ],
+      "applies_to": "*"
     },
     "numerical_outputs_or_dependency_update": {
       "required_rules": [
         "data-results.entry-point-and-dependencies",
         "data-results.carry-analysis-results-into-tables-figures-and-prose"
-      ]
+      ],
+      "applies_to": "*"
     },
     "files_calculation_external_or_resume": {
       "required_rules": [
         "execution.select-the-operation-and-working-area",
         "execution.compare-changed-outputs",
         "execution.complete-outputs-and-failure-propagation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "source_comparison_or_method_choice_unresolved": {
       "required_rules": [
         "research.separate-explanations-with-a-comparison",
         "research.source-integration-and-method-selection"
-      ]
+      ],
+      "applies_to": "*"
     },
     "source_derivation_requires_economic_method": {
       "required_rules": [
         "design-methods.select-the-needed-section",
         "research.source-integration-and-method-selection"
-      ]
+      ],
+      "applies_to": "*"
     },
     "whole_paper_abstract_introduction_or_section_architecture": {
       "required_rules": [
@@ -280,63 +366,74 @@
         "paper-workflow.design-the-papers-argument",
         "paper-workflow.compose-the-requested-section",
         "prose.hierarchical-argument-and-paragraph-composition"
-      ]
+      ],
+      "applies_to": "*"
     },
     "exhibit_composition": {
       "required_rules": [
         "paper-workflow.choose-and-explain-descriptive-exhibits"
-      ]
+      ],
+      "applies_to": "*"
     },
     "whole_paper_architecture_revision": {
       "required_rules": [
         "paper-workflow.establish-the-argument-from-the-research",
         "paper-workflow.design-the-papers-argument",
         "prose.hierarchical-argument-and-paragraph-composition"
-      ]
+      ],
+      "applies_to": "*"
     },
     "file_output_or_format_rendering": {
       "required_rules": [
         "execution.select-the-operation-and-working-area",
         "execution.complete-outputs-and-failure-propagation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "assessment_method_comparison_or_independence_needed": {
       "required_rules": [
         "review-methods.review-findings-and-independence"
-      ]
+      ],
+      "applies_to": "*"
     },
     "independent_review_requested_or_needed": {
       "required_rules": [
         "team.shared-work",
         "team.review-findings-and-independence"
-      ]
+      ],
+      "applies_to": "*"
     },
     "default_profile_is_requested_target_or_comparison": {
       "required_rules": [
         "default-micro.principles",
         "default-micro.select-the-passage-function"
-      ]
+      ],
+      "applies_to": "*"
     },
     "prose_generation_revision_or_explanation": {
       "required_rules": [
         "prose.select-the-economic-argument",
         "prose.connect-the-explanation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "english_cumulative_multiparagraph_logic_needed": {
       "optional_examples": [
         "example.en.extended-introduction"
-      ]
+      ],
+      "applies_to": "*"
     },
     "japanese_cumulative_multiparagraph_logic_needed": {
       "optional_examples": [
         "example.ja.extended-introduction"
-      ]
+      ],
+      "applies_to": "*"
     },
     "requested_distribution_configuration_or_installation": {
       "required_rules": [
         "integration.distribution-and-settings-contract"
-      ]
+      ],
+      "applies_to": "*"
     },
     "native_agent_configuration_requested": {
       "required_rules": [
@@ -345,16 +442,19 @@
         "policy-codex-agent-implementer.all",
         "policy-codex-agent-retriever.all",
         "policy-codex-agent-specialist.all",
+        "policy-codex-agent-reviewer.all",
         "policy-codex-agent-terra.all",
         "policy-codex-agent-luna.all",
         "policy-codex-agent-astra.all",
         "config-template-codex-example-toml.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "requested_local_state_helper_operation": {
       "required_rules": [
         "team-state-helper.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "data_pipeline_new": {
       "required_rules": [
@@ -368,12 +468,28 @@
         "econ-data.map-the-object-to-the-existing-execution-path",
         "econ-data.construct-a-requested-data-design",
         "data-implementation.shared-tables-and-language-handoff"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_acquisition_or_update": {
       "required_rules": [
         "data-implementation.acquisition",
         "data-implementation.1-establish-the-received-source-and-revision"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_schema_measurement_or_grain": {
@@ -381,23 +497,55 @@
         "data-implementation.2-establish-schema-measurement-and-grain",
         "design-methods.economic-variable-adoption",
         "econ-data.construct-a-requested-data-design"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_sample_change": {
       "required_rules": [
         "data-implementation.3-construct-the-shared-sample-and-account-for-exclusions",
         "data-implementation.4-prepare-the-estimation-input"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_join_time_or_reshape": {
       "required_rules": [
         "data-implementation.data-contracts-and-joins"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_descriptive_statistics": {
       "required_rules": [
         "data-implementation.choose-descriptive-statistics-from-the-question",
         "econ-data.descriptive-statistics"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_estimator_or_engine_change": {
@@ -405,16 +553,40 @@
         "design-methods.choose-the-estimand-and-method",
         "data-implementation.estimator-engine-and-algorithm-selection",
         "data-implementation.fit-results-and-execution-handoff"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_numerical_or_simulation": {
       "required_rules": [
         "data-implementation.numerical-methods"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_measured_performance_or_memory": {
       "required_rules": [
         "data-implementation.measured-performance-and-memory"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "delegation_active": {
@@ -423,211 +595,252 @@
         "team.shared-work",
         "team.return-and-integration",
         "research.resolve-dependencies-and-integrate-findings"
-      ]
+      ],
+      "applies_to": "*"
     },
     "resumption_active": {
       "required_rules": [
         "team.resumption"
-      ]
+      ],
+      "applies_to": "*"
     },
     "handoff_active": {
       "required_rules": [
         "team.resumption"
-      ]
+      ],
+      "applies_to": "*"
     },
     "dependency_order_unresolved": {
       "required_rules": [
         "research.turn-the-question-into-an-operation",
         "research.select-a-feasible-action",
         "research.resolve-dependencies-and-integrate-findings"
-      ]
+      ],
+      "applies_to": "*"
     },
     "persistent_state_needed": {
       "required_rules": [
         "state-contract.state-and-version-contract",
         "state-contract.local-state-helper"
-      ]
+      ],
+      "applies_to": "*"
     },
     "publication_requested": {
       "required_rules": [
         "publication.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_model_construction": {
       "required_rules": [
         "design-methods.model-construction"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_design_elements": {
       "required_rules": [
         "design-methods.design-elements"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_difference_in_differences_and_event_studies": {
       "required_rules": [
         "design-methods.difference-in-differences-and-event-studies"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_random_assignment_and_interventions": {
       "required_rules": [
         "design-methods.random-assignment-and-interventions"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_regression_discontinuity": {
       "required_rules": [
         "design-methods.regression-discontinuity"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_instrumental_variables_and_assignment_leniency": {
       "required_rules": [
         "design-methods.instrumental-variables-and-assignment-leniency"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_shift_share_designs": {
       "required_rules": [
         "design-methods.shift-share-designs"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_networks_and_spillovers": {
       "required_rules": [
         "design-methods.networks-and-spillovers"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_synthetic_controls_and_panel_counterfactuals": {
       "required_rules": [
         "design-methods.synthetic-controls-and-panel-counterfactuals"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_inference_and_interpretation": {
       "required_rules": [
         "design-methods.inference-and-interpretation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_connect_observed_choices_and_outcomes_to_the_model_and_interventions": {
       "required_rules": [
         "design-methods.connect-observed-choices-and-outcomes-to-the-model-and-interventions"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_construct_restrictions_and_set_valued_predictions": {
       "required_rules": [
         "design-methods.construct-restrictions-and-set-valued-predictions"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_select_the_economic_object": {
       "required_rules": [
         "design-methods.select-the-economic-object"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_reuse_or_calculate_the_requested_quantities": {
       "required_rules": [
         "design-methods.reuse-or-calculate-the-requested-quantities"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_deliver_the_selected_result": {
       "required_rules": [
         "design-methods.deliver-the-selected-result"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_en_conclusion_comparison": {
       "optional_examples": [
         "default-micro.en.conclusion"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_en_institution_mechanism": {
       "optional_examples": [
         "default-micro.en.mechanism"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_en_quantity_relation": {
       "optional_examples": [
         "default-micro.en.quantities"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_en_revision_translation": {
       "optional_examples": [
         "default-micro.en.translation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_en_abstract": {
       "optional_examples": [
         "default-micro.en.abstract"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_en_introduction_opening": {
       "optional_examples": [
         "default-micro.en.introduction"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_en_assignment_comparison": {
       "optional_examples": [
         "default-micro.en.assignment"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_ja_conclusion_comparison": {
       "optional_examples": [
         "default-micro.ja.conclusion"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_ja_institution_mechanism": {
       "optional_examples": [
         "default-micro.ja.mechanism"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_ja_quantity_relation": {
       "optional_examples": [
         "default-micro.ja.quantities"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_ja_revision_translation": {
       "optional_examples": [
         "default-micro.ja.translation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_ja_abstract": {
       "optional_examples": [
         "default-micro.ja.abstract"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_ja_introduction_opening": {
       "optional_examples": [
         "default-micro.ja.introduction"
-      ]
+      ],
+      "applies_to": "*"
     },
     "example_ja_assignment_comparison": {
       "optional_examples": [
         "default-micro.ja.assignment"
-      ]
+      ],
+      "applies_to": "*"
     },
     "talk_requested": {
       "required_rules": [
         "econ-writing.compose-a-talk"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_site_requested": {
       "required_rules": [
         "econ-writing.compose-a-research-site"
-      ]
+      ],
+      "applies_to": "*"
     },
     "artifact_rendering_requested": {
       "required_rules": [
         "econ-writing.render-the-requested-artifact"
-      ]
+      ],
+      "applies_to": "*"
     },
     "source_investigation_active": {
       "required_rules": [
         "research.investigate-source-claims"
-      ]
+      ],
+      "applies_to": "*"
     },
     "requested_artifact_files": {
       "required_rules": [
         "execution.select-the-operation-and-working-area",
         "execution.complete-outputs-and-failure-propagation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "operational_plan_requested": {
       "required_rules": [
         "research.operational-plans"
-      ]
+      ],
+      "applies_to": "*"
     },
     "paragraph_execution_requested": {
       "required_rules": [
@@ -637,7 +850,8 @@
         "paragraph-schema.all",
         "argument-schema.all",
         "prose.hierarchical-argument-and-paragraph-composition"
-      ]
+      ],
+      "applies_to": "*"
     },
     "data_code_change": {
       "required_rules": [
@@ -645,12 +859,21 @@
         "execution.select-the-operation-and-working-area",
         "execution.complete-outputs-and-failure-propagation",
         "research.resolve-dependencies-and-integrate-findings"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "method_choose_the_estimand_and_method": {
       "required_rules": [
         "design-methods.choose-the-estimand-and-method"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_outcome_scale_and_conditional_mean": {
       "required_rules": [
@@ -658,7 +881,8 @@
         "design-methods.choose-the-estimand-and-method",
         "design-methods.outcome-scale-and-conditional-mean",
         "research.interpret-a-consequential-result"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_orthogonal_scores_and_heterogeneous_effects": {
       "required_rules": [
@@ -666,7 +890,8 @@
         "design-methods.choose-the-estimand-and-method",
         "design-methods.orthogonal-scores-and-heterogeneous-effects",
         "research.interpret-a-consequential-result"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_structural_estimation_and_counterfactuals": {
       "required_rules": [
@@ -675,12 +900,14 @@
         "design-methods.structural-estimation-and-counterfactuals",
         "econ-data.execute-structural-estimation-and-equilibrium",
         "data-implementation.structural-model-execution"
-      ]
+      ],
+      "applies_to": "*"
     },
     "usage_accounting_requested": {
       "required_rules": [
         "team.requested-usage-accounting"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_pipeline_requested": {
       "required_rules": [
@@ -691,237 +918,430 @@
         "data-results.carry-analysis-results-into-tables-figures-and-prose",
         "state-contract.state-and-version-contract",
         "state-contract.governing-context"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_extended_causal": {
       "required_rules": [
         "models-causal.causal-scope",
         "models-causal.method-selection",
         "models-causal.specification-and-result"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_shift_share": {
       "required_rules": [
         "models-causal.shift-share-inference"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_sensitivity": {
       "required_rules": [
         "models-causal.sensitivity-from-saved-ols-quantities"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_family_inference": {
       "required_rules": [
         "models-causal.declared-families-and-spatial-covariance"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_spatial": {
       "required_rules": [
         "models-causal.declared-families-and-spatial-covariance"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_lp_did": {
       "required_rules": [
         "models-causal.did-and-synthetic-controls"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_bacon": {
       "required_rules": [
         "models-causal.did-and-synthetic-controls"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_synthetic_controls": {
       "required_rules": [
         "models-causal.did-and-synthetic-controls"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_mediation": {
       "required_rules": [
         "models-causal.mediation-and-heterogeneous-treatment-effects"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_ml": {
       "required_rules": [
         "models-causal.mediation-and-heterogeneous-treatment-effects"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_decomposition": {
       "required_rules": [
         "models-causal.decomposition-and-duration"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_survival": {
       "required_rules": [
         "models-causal.decomposition-and-duration"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_bayesian_model": {
       "required_rules": [
-        "models-causal.bayesian-project-model-execution"
+        "models-causal.bayesian-project-model-execution",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-bayesian-workflow"
       ]
     },
     "method_causal_julia": {
       "required_rules": [
         "models-causal.julia-fixed-effects-and-iv"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_extended_markets": {
       "required_rules": [
         "models-markets.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_extended_dynamic": {
       "required_rules": [
         "models-dynamic.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_extended_macro": {
       "required_rules": [
         "models-macro-extended.all",
         "models-dsge.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_agent_simulation": {
       "required_rules": [
         "models-abm.all",
         "research.interpret-a-consequential-result"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_extended_numerics": {
       "required_rules": [
         "models-numerics.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_source_discovery": {
       "required_rules": [
         "source-discovery.source-scope",
         "source-discovery.select-a-field-and-retain-its-ranking"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_data_discovery": {
       "required_rules": [
         "research-data-guide.data-scope",
         "research-data-guide.acquisition-and-catalogues"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_adaptive_experiments": {
       "required_rules": [
         "adaptive-research.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_result_artifacts": {
       "required_rules": [
         "result-artifacts.artifact-scope",
         "result-artifacts.source-basis-for-reuse-and-provenance",
         "result-artifacts.adopt-an-artifact-specification"
-      ]
+      ],
+      "applies_to": "*"
     },
     "operational_procedure_reuse": {
       "required_rules": [
         "research-execution.retain-and-reuse-an-observed-procedure",
         "econ-data.map-the-object-to-the-existing-execution-path"
-      ]
+      ],
+      "applies_to": "*"
     },
     "economic_knowledge_needed": {
       "required_rules": [
         "econ-knowledge.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "review_editorial_requested": {
       "required_rules": [
         "econ-writing.native-entry-contract",
         "econ-writing.compose-for-the-medium-and-language"
       ],
-      "uses_profile": true
+      "uses_profile": true,
+      "applies_to": [
+        "econ-review:assess",
+        "econ-review:assess+repair"
+      ]
     },
     "review_prose_repair_requested": {
       "required_rules": [
         "econ-writing.revise",
         "econ-writing.output"
+      ],
+      "applies_to": [
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "review_prose_reconstruction_requested": {
       "required_rules": [
         "econ-writing.compose",
         "econ-writing.output"
+      ],
+      "applies_to": [
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "project_resources": {
       "required_rules": [
         "project-practice.resources-and-dates"
+      ],
+      "applies_to": [
+        "project-work:contribute",
+        "project-work:manage",
+        "project-work:clarify",
+        "project-work:prompt"
       ]
     },
     "project_change": {
       "required_rules": [
         "project-practice.change-and-recovery"
+      ],
+      "applies_to": [
+        "project-work:contribute",
+        "project-work:manage",
+        "project-work:clarify",
+        "project-work:prompt"
       ]
     },
     "project_discussion": {
       "required_rules": [
         "project-practice.discussion-and-interviews"
+      ],
+      "applies_to": [
+        "project-work:contribute",
+        "project-work:manage",
+        "project-work:clarify",
+        "project-work:prompt"
       ]
     },
     "project_contact": {
       "required_rules": [
         "project-practice.contact-drafts"
+      ],
+      "applies_to": [
+        "project-work:contribute",
+        "project-work:manage",
+        "project-work:clarify",
+        "project-work:prompt"
       ]
     },
     "project_artifact": {
       "required_rules": [
         "project-practice.artifacts-and-integration"
+      ],
+      "applies_to": [
+        "project-work:contribute",
+        "project-work:manage",
+        "project-work:clarify",
+        "project-work:prompt"
       ]
     },
     "project_outcome": {
       "required_rules": [
         "project-practice.outcomes-and-handover"
+      ],
+      "applies_to": [
+        "project-work:contribute",
+        "project-work:manage",
+        "project-work:clarify",
+        "project-work:prompt"
       ]
     },
     "research_meeting_materials": {
       "required_rules": [
         "meeting-materials.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_literature_search": {
       "required_rules": [
         "search-priority.all",
         "literature-methods.public-source-acquisition"
-      ]
+      ],
+      "applies_to": "*"
     },
     "literature_novelty": {
       "required_rules": [
         "literature-methods.novelty-and-coverage",
         "literature-methods.research-discovery"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "literature_method": {
       "required_rules": [
         "literature-methods.economic-methods-and-replication"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "literature_structural": {
       "required_rules": [
         "literature-methods.economic-methods-and-replication",
         "literature-methods.structural-methods"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "literature_numerical": {
       "required_rules": [
         "literature-methods.numerical-implementation"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "literature_citation": {
       "required_rules": [
         "literature-methods.citation-and-institutional-checks"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "literature_interview": {
       "required_rules": [
         "literature-methods.interview-evidence"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "literature_ai_method": {
       "required_rules": [
         "literature-methods.ai-method-assessment"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "paper_reading": {
@@ -929,734 +1349,1379 @@
         "paper-reading.select-the-reading-target",
         "paper-reading.follow-the-argument-to-its-evidence",
         "paper-reading.retain-the-inspected-source-and-hand-it-forward"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "paper_empirical": {
       "required_rules": [
         "paper-reading.read-an-empirical-paper"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "paper_theory": {
       "required_rules": [
         "paper-reading.read-a-theory-paper"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "paper_structural": {
       "required_rules": [
         "paper-reading.read-a-structural-paper"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "method_causal_selection": {
       "required_rules": [
         "models-causal.heckman-sample-selection"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_doubleml": {
       "required_rules": [
         "models-causal.official-doubleml-fits"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_grf": {
       "required_rules": [
         "models-causal.grf-heterogeneous-treatment-effects"
-      ]
+      ],
+      "applies_to": "*"
+    },
+    "example_subscription_allocation": {
+      "required_rules": ["example-subscription.all"],
+      "applies_to": ["econ-data:execute", "econ-design:design", "econ-review:assess", "econ-writing:compose"]
+    },
+    "example_equipment_renewal": {
+      "required_rules": ["example-equipment.all"],
+      "applies_to": ["econ-data:execute", "econ-design:design", "econ-review:assess", "econ-writing:compose"]
+    },
+    "example_housing_transport": {
+      "required_rules": ["example-housing.all"],
+      "applies_to": ["econ-data:execute", "econ-design:design", "econ-review:assess", "econ-writing:compose"]
+    },
+    "example_charging_market": {
+      "required_rules": ["example-charging.all"],
+      "applies_to": ["econ-data:execute", "econ-design:design", "econ-review:assess", "econ-writing:compose"]
+    },
+    "example_commuting_market": {
+      "required_rules": ["example-commuting.all"],
+      "applies_to": ["econ-data:execute", "econ-design:design", "econ-review:assess", "econ-writing:compose"]
     },
     "method_rct_design": {
       "required_rules": [
         "models-causal.rct-design-assignment-and-diagnosis"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_core_methods": {
       "required_rules": [
         "models-causal.core-methods"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_specification_and_result": {
       "required_rules": [
         "models-causal.specification-and-result"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_multi_arm_policy_learning_and_evaluation": {
       "required_rules": [
         "models-causal.multi-arm-policy-learning-and-evaluation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_fixed_dose_continuous_did": {
       "required_rules": [
         "models-causal.fixed-dose-continuous-did"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_duration_and_proportional_hazards": {
       "required_rules": [
         "models-causal.duration-and-proportional-hazards"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_oaxacablinder_mean_decomposition": {
       "required_rules": [
         "models-causal.oaxacablinder-mean-decomposition"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_bunching_at_a_kink": {
       "required_rules": [
         "models-causal.bunching-at-a-kink"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_marginal_quantile_and_counterfactual_distribution_effects": {
       "required_rules": [
         "models-causal.marginal-quantile-and-counterfactual-distribution-effects"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_saved_fit_marginal_effects_predictions_and_contrasts": {
       "required_rules": [
         "models-causal.saved-fit-marginal-effects-predictions-and-contrasts"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_network_exposure_and_partial_identification": {
       "required_rules": [
         "models-causal.network-exposure-and-partial-identification"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_shift_share_sensitivity_and_simultaneous_inference": {
       "required_rules": [
         "models-causal.shift-share-sensitivity-and-simultaneous-inference"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_select_the_implementing_function": {
       "required_rules": [
         "models-causal.select-the-implementing-function"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_official_r_calls_in_the_same_runner": {
       "required_rules": [
         "models-causal.official-r-calls-in-the-same-runner"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_causal_official_causal_extensions": {
       "required_rules": [
         "models-causal.official-causal-extensions"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_dynamic_official_finite_horizon_and_lifecycle_selection": {
       "required_rules": [
         "models-dynamic.official-finite-horizon-and-lifecycle-selection"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_dynamic_execute_and_reuse_a_respy_fit": {
       "required_rules": [
-        "models-dynamic.execute-and-reuse-a-respy-fit"
+        "models-dynamic.execute-and-reuse-a-respy-fit",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-respy-finite-choice"
       ]
     },
     "method_dynamic_observed_data_and_executable_specifications": {
       "required_rules": [
         "models-dynamic.observed-data-and-executable-specifications"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_dynamic_replacement": {
       "required_rules": [
-        "models-dynamic.replacement"
+        "models-dynamic.replacement",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-replacement-ddc"
       ]
     },
     "method_dynamic_persistent_latent_replacement_type": {
       "required_rules": [
         "models-dynamic.persistent-latent-replacement-type"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_dynamic_simulated_moments_for_the_replacement_model": {
       "required_rules": [
         "models-dynamic.simulated-moments-for-the-replacement-model"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_dynamic_continuous_time_entry_and_exit": {
       "required_rules": [
         "models-dynamic.continuous-time-entry-and-exit"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_dynamic_discrete_time_entry_game_and_policy_deviations": {
       "required_rules": [
         "models-dynamic.discrete-time-entry-game-and-policy-deviations"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_dynamic_sequential_estimation_under_game_equilibrium": {
       "required_rules": [
         "models-dynamic.sequential-estimation-under-game-equilibrium"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_dynamic_capacity_and_product_choice_game": {
       "required_rules": [
         "models-dynamic.capacity-and-product-choice-game"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_dynamic_dynamic_durable_adoption_and_share_inversion": {
       "required_rules": [
         "models-dynamic.dynamic-durable-adoption-and-share-inversion"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_macro_household_consumption_and_savings": {
       "required_rules": [
-        "models-macro-extended.household-consumption-and-savings"
+        "models-macro-extended.household-consumption-and-savings",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-hark-consumption-saving"
       ]
     },
     "method_macro_lifecycle_regimes_native_solutions_and_forward_histories": {
       "required_rules": [
-        "models-macro-extended.lifecycle-regimes-native-solutions-and-forward-histories"
+        "models-macro-extended.lifecycle-regimes-native-solutions-and-forward-histories",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-lifecycle-regimes"
       ]
     },
     "method_macro_overlapping_generations": {
       "required_rules": [
         "models-macro-extended.overlapping-generations"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_macro_stationary_aiyagari_equilibrium": {
       "required_rules": [
-        "models-macro-extended.stationary-aiyagari-equilibrium"
+        "models-macro-extended.stationary-aiyagari-equilibrium",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-aiyagari-stationary"
       ]
     },
     "method_macro_closed_city_commuting_and_floor_space_equilibrium": {
       "required_rules": [
-        "models-macro-extended.closed-city-commuting-and-floor-space-equilibrium"
+        "models-macro-extended.closed-city-commuting-and-floor-space-equilibrium",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-qse-commuting"
       ]
     },
     "method_macro_open_city_commuting_with_free_migration": {
       "required_rules": [
-        "models-macro-extended.open-city-commuting-with-free-migration"
+        "models-macro-extended.open-city-commuting-with-free-migration",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-qse-open-city"
       ]
     },
     "method_macro_city_and_hinterland_with_imperfect_mobility": {
       "required_rules": [
-        "models-macro-extended.city-and-hinterland-with-imperfect-mobility"
+        "models-macro-extended.city-and-hinterland-with-imperfect-mobility",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-qse-imperfect-mobility"
       ]
     },
     "design_question_formation": {
       "required_rules": [
         "econ-design.identify-the-requested-design-work"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "design_empirical_specification": {
       "required_rules": [
         "econ-design.for-an-empirical-specification",
         "design-methods.choose-the-estimand-and-method"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "design_theoretical_model": {
       "required_rules": [
         "econ-design.for-a-theoretical-model",
         "design-methods.model-construction"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "design_behavioral_response": {
       "required_rules": [
         "econ-design.for-behavioral-responses-and-group-comparisons"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "design_feasibility": {
       "required_rules": [
         "econ-design.establish-feasibility"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "design_choice": {
       "required_rules": [
         "econ-design.choose-among-research-designs"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "data_power_or_simulation": {
       "required_rules": [
         "econ-data.power-and-estimator-simulation",
         "data-implementation.power-calculation-inputs"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_specification_search": {
       "required_rules": [
         "econ-data.specification-search-and-recovery"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_macro_calculation": {
       "required_rules": [
-        "econ-data.finite-horizon-macro-calculation"
+        "econ-data.finite-horizon-macro-calculation",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
+      ],
+      "knowledge": [
+        "MC-ramsey-cf"
       ]
     },
     "knowledge_search": {
       "required_rules": [
         "knowledge-guide.domains-and-search"
-      ]
+      ],
+      "applies_to": "*"
     },
     "knowledge_classification": {
       "required_rules": [
         "knowledge-guide.concepts-and-classifications"
-      ]
+      ],
+      "applies_to": "*"
     },
     "knowledge_model_contract": {
       "required_rules": [
         "knowledge-guide.model-contracts-and-execution"
-      ]
+      ],
+      "applies_to": "*"
     },
     "knowledge_external_source": {
       "required_rules": [
         "knowledge-guide.external-domain-sources"
-      ]
+      ],
+      "applies_to": "*"
     },
     "knowledge_task_reuse": {
       "required_rules": [
         "knowledge-guide.versioned-reuse-and-continuation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "knowledge_content_update": {
       "required_rules": [
         "knowledge-guide.canonical-content-and-distribution"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_run_recovery": {
       "required_rules": [
         "research-execution.recover-interrupted-attempts",
         "state-contract.state-and-version-contract"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_reproduction_package": {
       "required_rules": [
         "research-execution.package-and-reproduce-a-completed-research-result"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_environment": {
       "required_rules": [
         "research-execution.capture-the-selected-python-r-or-julia-environment"
-      ]
+      ],
+      "applies_to": "*"
     },
     "research_specification_search": {
       "required_rules": [
         "research-execution.compare-specifications-on-a-frozen-protocol"
-      ]
+      ],
+      "applies_to": "*"
     },
     "distribution_sync": {
       "required_rules": [
         "integration.common-core",
         "integration.distribution-and-settings-contract",
         "publication.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "distribution_plugin": {
       "required_rules": [
         "integration.distribution-and-settings-contract",
         "publication.all",
         "plugin-integration-guide.all"
-      ]
+      ],
+      "applies_to": "*"
     },
     "distribution_snapshot": {
       "required_rules": [
         "integration.standalone-project-snapshots",
         "integration.layout-and-generated-index",
         "integration.distribution-and-settings-contract"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_market_differentiated_demand_and_supply": {
       "required_rules": [
         "models-markets.differentiated-demand-and-supply"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_market_auction_models": {
       "required_rules": [
         "models-markets.auction-models"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_market_search_bargaining_and_platforms": {
       "required_rules": [
         "models-markets.search-bargaining-and-platforms"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_market_matching": {
       "required_rules": [
         "models-markets.matching"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_market_estimated_and_fixed_parameters": {
       "required_rules": [
         "models-markets.estimated-and-fixed-parameters"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_market_estimating_auction_value_distributions": {
       "required_rules": [
         "models-markets.estimating-auction-value-distributions"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_dsge_stochastic_rbc_model_and_estimation": {
       "required_rules": [
-        "models-dsge.stochastic-rbc-model-and-estimation"
+        "models-dsge.stochastic-rbc-model-and-estimation",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-stochastic-rbc"
       ]
     },
     "method_dsge_one_asset_hank_equilibrium_and_transitions": {
       "required_rules": [
-        "models-dsge.one-asset-hank-equilibrium-and-transitions"
+        "models-dsge.one-asset-hank-equilibrium-and-transitions",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-hank-one-asset"
       ]
     },
     "method_dsge_dolo_yaml_and_time_iteration": {
       "required_rules": [
         "models-dsge.dolo-yaml-and-time-iteration"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_numerical_finite_economic_model_execution": {
       "required_rules": [
         "models-numerics.finite-economic-model-execution"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_numerical_moment_identification_and_estimation": {
       "required_rules": [
         "models-numerics.moment-identification-and-estimation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_numerical_derivatives_devices_and_sparse_systems": {
       "required_rules": [
         "models-numerics.derivatives-devices-and-sparse-systems"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_numerical_entry_point": {
       "required_rules": [
         "models-numerics.entry-point"
-      ]
+      ],
+      "applies_to": "*"
     },
     "data_regression_implementation_selection": {
       "required_rules": [
         "data-implementation.regression-and-causal-implementation-candidates"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_market_implementation_selection": {
       "required_rules": [
         "data-implementation.market-model-implementation-candidates"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_dynamic_implementation_selection": {
       "required_rules": [
         "data-implementation.dynamic-and-numerical-implementation-candidates"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_shared_table_handoff": {
       "required_rules": [
         "data-implementation.shared-tables-and-language-handoff"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_fit_result_handoff": {
       "required_rules": [
         "data-implementation.fit-results-and-execution-handoff"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "method_native_regression": {
       "required_rules": [
         "data-implementation.native-regression-calls-and-results"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_staggered_did_execution": {
       "required_rules": [
         "data-implementation.staggered-did-fits-and-display"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_two_period_did_execution": {
       "required_rules": [
         "data-implementation.did-nuisance-specifications",
         "data-implementation.official-r-calls-and-inference-bindings"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_np_demand": {
       "required_rules": [
         "data-implementation.shape-constrained-demand-in-julia"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_native_dynamic_policy": {
       "required_rules": [
         "data-implementation.dynamic-policy-and-value-outputs"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_pyblp_execution": {
       "required_rules": [
-        "data-implementation.blp-estimation-and-equilibrium-counterfactuals"
+        "data-implementation.blp-estimation-and-equilibrium-counterfactuals",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-pyblp-bertrand"
       ]
     },
     "method_finite_state_game_execution": {
       "required_rules": [
         "data-implementation.finite-state-dynamic-game-estimation"
-      ]
+      ],
+      "applies_to": "*"
     },
     "method_ccp_or_simulated_moments": {
       "required_rules": [
         "data-implementation.ccp-and-simulation-estimators"
-      ]
+      ],
+      "applies_to": "*"
     },
     "data_backend_change": {
       "required_rules": [
         "data-implementation.backend-and-algorithm-changes"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_row_compression": {
       "required_rules": [
         "data-implementation.exact-row-compression"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_resampling": {
       "required_rules": [
         "data-implementation.resampling-multiplicities"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "data_parallel_calculation": {
       "required_rules": [
         "data-implementation.parallel-tasks-and-random-streams"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "method_bayesian_implementation_selection": {
       "required_rules": [
-        "data-implementation.bayesian-project-implementations"
+        "data-implementation.bayesian-project-implementations",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-bayesian-workflow"
       ]
     },
     "method_marketing_customer_implementation": {
       "required_rules": [
-        "data-implementation.marketing-and-customer-implementations"
+        "data-implementation.marketing-and-customer-implementations",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-marketing-mmm",
+        "MC-customer-lifetime"
       ]
     },
     "method_forecast_inventory_implementation": {
       "required_rules": [
-        "data-implementation.forecast-and-inventory-implementations"
+        "data-implementation.forecast-and-inventory-implementations",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-demand-inventory"
       ]
     },
     "method_operations_domain_implementation": {
       "required_rules": [
-        "data-implementation.operations-and-domain-implementations"
+        "data-implementation.operations-and-domain-implementations",
+        "econ-knowledge.all",
+        "knowledge-guide.model-contracts-and-execution"
+      ],
+      "applies_to": "*",
+      "knowledge": [
+        "MC-business-allocation"
       ]
     },
     "research_problem_deepening": {
       "required_rules": [
         "research.deepen-a-consequential-research-problem"
-      ]
+      ],
+      "applies_to": "*"
     },
     "consequential_result_interpretation": {
       "required_rules": [
         "research.interpret-a-consequential-result"
-      ]
+      ],
+      "applies_to": "*"
     },
     "project_github_operations": {
       "required_rules": [
         "state-contract.github-issues-and-projects",
         "state-contract.explicit-github-updates"
+      ],
+      "applies_to": [
+        "project-work:contribute",
+        "project-work:manage",
+        "project-work:clarify",
+        "project-work:prompt"
       ]
     },
     "section_result_artifacts_artifact_scope": {
       "required_rules": [
         "result-artifacts.artifact-scope"
-      ]
+      ],
+      "applies_to": "*"
     },
     "section_result_artifacts_save_displays_at_analysis_or_registration": {
       "required_rules": [
         "result-artifacts.save-displays-at-analysis-or-registration"
-      ]
+      ],
+      "applies_to": "*"
     },
     "section_result_artifacts_browse_compare_and_edit_saved_results": {
       "required_rules": [
         "result-artifacts.browse-compare-and-edit-saved-results"
-      ]
+      ],
+      "applies_to": "*"
     },
     "section_result_artifacts_source_basis_for_reuse_and_provenance": {
       "required_rules": [
         "result-artifacts.source-basis-for-reuse-and-provenance"
-      ]
+      ],
+      "applies_to": "*"
     },
     "section_result_artifacts_default_latex_family": {
       "required_rules": [
         "result-artifacts.default-latex-family"
-      ]
+      ],
+      "applies_to": "*"
     },
     "section_result_artifacts_adopt_an_artifact_specification": {
       "required_rules": [
         "result-artifacts.adopt-an-artifact-specification"
-      ]
+      ],
+      "applies_to": "*"
     },
     "section_result_artifacts_claims_coverage_and_requested_re_review": {
       "required_rules": [
         "result-artifacts.claims-coverage-and-requested-re-review"
-      ]
+      ],
+      "applies_to": "*"
     },
     "section_research_data_guide_data_scope": {
       "required_rules": [
         "research-data-guide.data-scope"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_research_data_guide_acquisition_and_catalogues": {
       "required_rules": [
         "research-data-guide.acquisition-and-catalogues"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_research_data_guide_data_used_in_existing_research": {
       "required_rules": [
         "research-data-guide.data-used-in-existing-research"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_research_data_guide_document_tables": {
       "required_rules": [
         "research-data-guide.document-tables"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_research_data_guide_joining_panels_and_geographic_data": {
       "required_rules": [
         "research-data-guide.joining-panels-and-geographic-data"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_research_data_guide_shared_tables_across_sql_python_r_and_julia": {
       "required_rules": [
         "research-data-guide.shared-tables-across-sql-python-r-and-julia"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_research_data_guide_constructed_variables_and_analysis_samples": {
       "required_rules": [
         "research-data-guide.constructed-variables-and-analysis-samples"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_research_data_guide_saved_descriptive_results": {
       "required_rules": [
         "research-data-guide.saved-descriptive-results"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_source_discovery_source_scope": {
       "required_rules": [
         "source-discovery.source-scope"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_source_discovery_select_a_field_and_retain_its_ranking": {
       "required_rules": [
         "source-discovery.select-a-field-and-retain-its-ranking"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_source_discovery_read_a_bounded_saved_selection": {
       "required_rules": [
         "source-discovery.read-a-bounded-saved-selection"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_source_discovery_discover_current_doleac_sources": {
       "required_rules": [
         "source-discovery.discover-current-doleac-sources"
+      ],
+      "applies_to": [
+        "econ-design:design",
+        "econ-data:execute",
+        "econ-data:equity",
+        "econ-literature:investigate",
+        "econ-writing:compose",
+        "econ-writing:revise",
+        "econ-writing:translate",
+        "econ-writing:convert",
+        "econ-writing:guidance",
+        "econ-writing:explain",
+        "econ-writing:profile",
+        "econ-review:assess",
+        "econ-review:assess+repair",
+        "project-work:contribute"
       ]
     },
     "section_equity_models_model_scope": {
       "required_rules": [
         "equity-models.model-scope"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_models_valuation_target_and_identification": {
       "required_rules": [
         "equity-models.valuation-target-and-identification"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_models_differentiated_demand_and_pricing": {
       "required_rules": [
         "equity-models.differentiated-demand-and-pricing"
       ],
-      "description": "BLP, PyBLP, logit, differentiated demand, supply and equilibrium pricing."
+      "description": "BLP, PyBLP, logit, differentiated demand, supply and equilibrium pricing.",
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
+      ]
     },
     "section_equity_models_homogeneous_goods_and_capacity": {
       "required_rules": [
         "equity-models.homogeneous-goods-and-capacity"
       ],
-      "description": "Cournot, homogeneous goods, capacity, inverse demand and supply."
+      "description": "Cournot, homogeneous goods, capacity, inverse demand and supply.",
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
+      ]
     },
     "section_equity_models_productivity_and_markups": {
       "required_rules": [
         "equity-models.productivity-and-markups"
       ],
-      "description": "Production functions, productivity, markups and cost identification."
+      "description": "Production functions, productivity, markups and cost identification.",
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
+      ]
     },
     "section_equity_models_entry_investment_and_persistence": {
       "required_rules": [
         "equity-models.entry-investment-and-persistence"
       ],
-      "description": "Entry, dynamic games, investment and persistence."
+      "description": "Entry, dynamic games, investment and persistence.",
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
+      ]
     },
     "section_equity_models_switching_search_and_acquisition": {
       "required_rules": [
         "equity-models.switching-search-and-acquisition"
       ],
-      "description": "Consumer switching, search, customer acquisition and state-dependent demand."
+      "description": "Consumer switching, search, customer acquisition and state-dependent demand.",
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
+      ]
     },
     "section_equity_models_vertical_contracts_and_platforms": {
       "required_rules": [
         "equity-models.vertical-contracts-and-platforms"
       ],
-      "description": "Bargaining, vertical contracts, platforms and two-sided participation."
+      "description": "Bargaining, vertical contracts, platforms and two-sided participation.",
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
+      ]
     },
     "section_equity_models_sustainable_free_cash_flow": {
       "required_rules": [
         "equity-models.sustainable-free-cash-flow"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_models_cash_finance_and_valuation": {
       "required_rules": [
         "equity-models.cash-finance-and-valuation"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_models_reverse_dcf_and_action_choice": {
       "required_rules": [
         "equity-models.reverse-dcf-and-action-choice"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_models_news_and_economic_conditions": {
       "required_rules": [
         "equity-models.news-and-economic-conditions"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_models_calculation_sequence": {
       "required_rules": [
         "equity-models.calculation-sequence"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_purpose_and_entry": {
       "required_rules": [
         "equity-guide.purpose-and-entry"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_execution_rules": {
       "required_rules": [
         "equity-guide.execution-rules"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_company_market_and_date": {
       "required_rules": [
         "equity-guide.company-market-and-date"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_free_data_and_mcp": {
       "required_rules": [
         "equity-guide.free-data-and-mcp"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_accounting_to_free_cash_flow": {
       "required_rules": [
         "equity-guide.accounting-to-free-cash-flow"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_select_and_estimate_the_io_model": {
       "required_rules": [
         "equity-guide.select-and-estimate-the-io-model"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_rates_and_sector_valuation": {
       "required_rules": [
         "equity-guide.rates-and-sector-valuation"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_price_and_investment_returns": {
       "required_rules": [
         "equity-guide.price-and-investment-returns"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_public_data_company_example": {
       "required_rules": [
         "equity-guide.public-data-company-example"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_update_from_new_information": {
       "required_rules": [
         "equity-guide.update-from-new-information"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_trading_flow_scope": {
       "required_rules": [
         "equity-guide.trading-flow-scope"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "section_equity_guide_implementations_and_primary_sources": {
       "required_rules": [
         "equity-guide.implementations-and-primary-sources"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "requested_state_migration": {
@@ -1664,12 +2729,18 @@
         "state-contract.resumption-and-migration",
         "state-contract.compatibility-interfaces",
         "integration.state-migration"
-      ]
+      ],
+      "applies_to": "*"
     },
     "equity_acquisition": {
       "description": "Company and market documents, free public data and MCP access.",
       "required_rules": [
         "equity-guide.free-data-and-mcp"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "equity_cash_flow": {
@@ -1678,6 +2749,11 @@
         "equity-guide.accounting-to-free-cash-flow",
         "equity-models.sustainable-free-cash-flow",
         "equity-models.calculation-sequence"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "equity_fit": {
@@ -1685,6 +2761,11 @@
       "required_rules": [
         "equity-guide.select-and-estimate-the-io-model",
         "equity-models.calculation-sequence"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "equity_dynamic": {
@@ -1693,6 +2774,11 @@
         "equity-guide.select-and-estimate-the-io-model",
         "equity-models.entry-investment-and-persistence",
         "equity-models.calculation-sequence"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "equity_valuation": {
@@ -1702,6 +2788,11 @@
         "equity-models.cash-finance-and-valuation",
         "equity-models.sustainable-free-cash-flow",
         "equity-models.calculation-sequence"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "equity_rates": {
@@ -1709,6 +2800,11 @@
       "required_rules": [
         "equity-guide.rates-and-sector-valuation",
         "equity-models.cash-finance-and-valuation"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "equity_news_update": {
@@ -1719,6 +2815,11 @@
         "equity-guide.price-and-investment-returns",
         "equity-models.cash-finance-and-valuation",
         "equity-models.calculation-sequence"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     },
     "equity_investment_decision": {
@@ -1728,6 +2829,11 @@
         "equity-guide.price-and-investment-returns",
         "equity-models.cash-finance-and-valuation",
         "equity-models.calculation-sequence"
+      ],
+      "applies_to": [
+        "econ-data:equity",
+        "econ-review:assess",
+        "econ-review:assess+repair"
       ]
     }
   },

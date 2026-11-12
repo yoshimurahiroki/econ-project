@@ -31,7 +31,7 @@ GALLERY_KINDS = ('descriptive', 'sample_composition', 'distribution', 'time_seri
 PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study', 'density', 'ecdf', 'box',
               'att_gt', 'cohort_event', 'parallel_trends', 'rdd', 'iv_first_stage', 'iv_reduced_form',
               'iv_confidence_set', 'scm', 'scm_gap', 'scm_placebo', 'binned_scatter', 'smd', 'structural', 'geo')
-GALLERY_RENDER_VERSION = 18
+GALLERY_RENDER_VERSION = 21
 DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_order',
                   'sort_by', 'ascending', 'notes', 'plot_type', 'x', 'y', 'lower', 'upper',
                   'series', 'visible_series', 'selected_result_ids', 'x_label', 'y_label',
@@ -454,6 +454,7 @@ def validate_gallery_item(item):
         raise ValueError('notes must be a list of text')
     if not isinstance(item.get('metadata'), dict) or not isinstance(item.get('links'), dict):
         raise ValueError('metadata and links must be objects')
+    gallery_public_text(item)
     if not isinstance(item.get('interpretation'), str) or not isinstance(item.get('status'), str) or not item['status']:
         raise ValueError('interpretation and status must be text')
     for field in ('findings', 'issues', 'adoption_decision'):
@@ -465,6 +466,73 @@ def validate_gallery_item(item):
         raise ValueError('files must be project-relative display paths')
     json.dumps(item, allow_nan=False)
     return item
+
+
+def gallery_public_text(item, *, row_indices=None):
+    """Render adopted claims and numerical uncertainty from saved display cells."""
+    # Selected views carry the producer's resolved text; their rows can hide
+    # uncertainty columns. Edits and registration operate on the original item.
+    if 'row_indices' in item and 'public_text' in item:
+        return copy.deepcopy(item['public_text'])
+    metadata = item.get('metadata', {})
+    claims = metadata.get('public_claims', [])
+    uncertainty = metadata.get('uncertainty', [])
+    if not isinstance(claims, list) or any(not isinstance(text, str) or not text.strip() for text in claims):
+        raise ValueError('public_claims must contain nonempty adopted propositions')
+    if not isinstance(metadata.get('internal', {}), dict):
+        raise ValueError('internal must retain a scientific record object')
+    if not isinstance(uncertainty, list):
+        raise ValueError('uncertainty must contain saved-row references')
+    kinds = {'se': ('SE', 1), 'p_value': ('p', 1),
+             'confidence_interval': ('CI', 2), 'credible_interval': ('CrI', 2)}
+    keys = {column['key'] for column in item.get('columns', [])}
+    rows = item.get('rows', [])
+    # A free-text claim binds the complete saved display. A row-filtered view
+    # exposes its selected numerical evidence until its own claim is adopted.
+    parts = list(claims) if row_indices is None or set(row_indices) == set(range(len(rows))) else []
+    for entry in uncertainty:
+        if (not isinstance(entry, dict) or set(entry) - {'kind', 'row', 'columns', 'label', 'unit', 'level'}
+                or entry.get('kind') not in kinds):
+            raise ValueError('uncertainty requires a supported numerical kind and saved cells')
+        label, count = kinds[entry['kind']]
+        index, columns = entry.get('row'), entry.get('columns')
+        if (type(index) is not int or not 0 <= index < len(rows) or not isinstance(columns, list)
+                or len(columns) != count or any(not isinstance(key, str) or key not in keys for key in columns)):
+            raise ValueError('uncertainty must select an existing row and its saved columns')
+        if any(not isinstance(entry.get(field), str) or not entry[field].strip() for field in ('label', 'unit')):
+            raise ValueError('uncertainty requires its quantity label and unit')
+        definition = {**metadata, **metadata.get('result_definitions', {}).get(rows[index].get('result_id'), {})}
+        column_units = [column['unit'] for column in item['columns'] if column['key'] in columns and column['unit']]
+        saved_units = [rows[index].get('unit'), definition.get('unit'), *column_units]
+        if entry['kind'] == 'p_value':
+            saved_units = ['1', *column_units]
+        if any(unit and entry['unit'] != unit for unit in saved_units):
+            raise ValueError('uncertainty unit must match the saved quantity')
+        values = [rows[index].get(key) for key in columns]
+        if any(type(value) not in (int, float) or not math.isfinite(value) for value in values):
+            raise ValueError('uncertainty cells must be saved finite numbers')
+        if count == 2:
+            level = entry.get('level')
+            if type(level) not in (int, float) or not 0 < level < 1 or values[0] > values[1]:
+                raise ValueError('intervals require their saved level and ordered endpoints')
+            inference = definition.get('inference') or {}
+            saved_level = definition.get('confidence_level', inference.get('confidence_level'))
+            if saved_level is not None and level != saved_level:
+                raise ValueError('uncertainty level must match the saved interval')
+            for saved_kind in (definition.get('interval_type'), definition.get('ci_kind'),
+                               inference.get('interval_type'), inference.get('ci_kind')):
+                family = str(saved_kind).lower().replace('-', '_').replace(' ', '_')
+                if family in ('confidence_interval', 'credible_interval') and family != entry['kind']:
+                    raise ValueError('uncertainty kind must match the saved interval family')
+            label = format(level * 100, '.12g') + '% ' + label
+        elif 'level' in entry or values[0] < 0 or (entry['kind'] == 'p_value' and values[0] > 1):
+            raise ValueError('SE and p values require their numerical domain')
+        if row_indices is not None and index not in row_indices:
+            continue
+        numbers = [gallery_cell(value, key, item.get('display', {})) for key, value in zip(columns, values)]
+        value = '[' + ', '.join(numbers) + ']' if count == 2 else numbers[0]
+        parts.append(entry['label'] + ': ' + label + ' ' + value + (' ' + entry['unit'] if entry['unit'] != '1' else ''))
+    return parts
 
 
 def gallery_projection(item):
@@ -494,6 +562,7 @@ def gallery_projection(item):
             selected['unit'] = row['unit']
         view['rows'].append(selected)
     view['row_indices'] = [i for i, _ in rows]
+    view['public_text'] = gallery_public_text(item, row_indices=view['row_indices'])
     view['title'] = display.get('title', item['title'])
     used = {row['result_id'] for _, row in rows}
     view['result_ids'] = [result_id for result_id in chosen if result_id in used]
@@ -848,7 +917,7 @@ def composition_context(root, registry_path, *, result_ids, item_ids=(), gallery
                   if key not in ('effective_options', 'options')}
             for rid in admitted}
         display = {key: copy.deepcopy(item[key]) for key in
-                   ('id', 'title', 'kind', 'columns', 'display', 'interpretation', 'status', 'links', 'files', 'source_reference')}
+                   ('id', 'title', 'kind', 'columns', 'display', 'interpretation', 'status', 'links', 'files', 'source_reference', 'public_text')}
         display['result_ids'] = admitted
         display['display']['selected_result_ids'] = admitted
         if 'model_labels' in display['display']:
@@ -861,6 +930,8 @@ def composition_context(root, registry_path, *, result_ids, item_ids=(), gallery
             if row['result_id'] in admitted:
                 display['rows'].append(copy.deepcopy(row))
                 display['row_indices'].append(index)
+        display['public_text'] = gallery_public_text(display_registry['items'][item['id']],
+                                                   row_indices=display['row_indices'])
         for key in ('findings', 'issues', 'adoption_decision'):
             if key in item:
                 display[key] = copy.deepcopy(item[key])
@@ -1299,19 +1370,15 @@ def gallery_regression_comparison(items):
     labels = [display.get('model_labels', {}).get(key, display.get('model_labels', {}).get(model_info[identity]['model'], key)) for key, identity in zip(keys, identities)]
     headers.append([{'text': '項目', 'colspan': 1}, *[{'text': label, 'colspan': 1} for label in labels]])
     headers.append([{'text': '', 'colspan': 1}, *[{'text': '(' + str(index + 1) + ')', 'colspan': 1} for index in range(len(keys))]])
-    notes = list(dict.fromkeys(note for item in items for note in gallery_notes(item)))
-    presentation = {'headers': headers, 'body': body, 'footer': footer, 'notes': notes,
+    public_text = list(dict.fromkeys(text for item in items for text in
+                                    (item['public_text'] if 'public_text' in item else gallery_public_text(item))))
+    presentation = {'headers': headers, 'body': body, 'footer': footer, 'notes': [], 'public_text': public_text,
                     'caption': display.get('title', items[0].get('title', '') if items else ''),
                     'label': display.get('latex_label', ''), 'number': str(display.get('table_number', '')),
                     'preset': display.get('preset', 'meeting' if display.get('style') == 'presentation' else 'paper')}
     return {'rows': rows, 'columns': [{'key': 'quantity', 'label': '項目', 'unit': ''},
                                      *[{'key': key, 'label': label, 'unit': ''} for key, label in zip(keys, labels)]],
             'presentation': presentation}
-
-
-def gallery_notes(item):
-    """Keep saved annotation fields in their internal metadata."""
-    return []
 
 
 def gallery_table_presentation(item):
@@ -1324,7 +1391,7 @@ def gallery_table_presentation(item):
     cells = [[gallery_cell(row.get(col['key']), col['key'], display) for col in view['columns']] for row in view['rows']]
     return {'headers': [[{'text': heading, 'colspan': 1} for heading in headings]],
             'body': [{'kind': 'row', 'label': row[0], 'cells': row[1:]} for row in cells],
-            'footer': [], 'notes': gallery_notes(item), 'caption': view['title'],
+            'footer': [], 'notes': [], 'public_text': view['public_text'], 'caption': view['title'],
             'label': display.get('latex_label', ''), 'number': str(display.get('table_number', '')),
             'preset': display.get('preset', 'meeting' if display.get('style') == 'presentation' else 'paper')}
 
@@ -1341,7 +1408,8 @@ def gallery_presentation(presentation, markdown=False):
             headers.append(expanded)
         combined = ['<br>'.join(dict.fromkeys(row[index] for row in headers if row[index])) for index in range(count)]
         rows = [[row['label'], *row['cells']] for row in presentation['body'] + presentation['footer']]
-        return '\n'.join([line(combined), line(['---'] * count), *(line(row) for row in rows)]) + '\n'
+        table = '\n'.join([line(combined), line(['---'] * count), *(line(row) for row in rows)]) + '\n'
+        return '\n\n'.join([*presentation.get('public_text', []), table])
     headers = ''.join('<tr>' + ''.join('<th colspan="' + str(cell['colspan']) + '">' + html.escape(cell['text']) + '</th>' for cell in header) + '</tr>' for header in presentation['headers'])
     rows = []
     for row in presentation['body']:
@@ -1359,7 +1427,8 @@ def gallery_presentation(presentation, markdown=False):
              '.econ-table .panel th{font-weight:600;padding-top:14px;border-top:1px solid #aab2ba;}'
              '.econ-table .se td,.econ-table .ci td,.econ-table .p td{padding-top:0;color:#46505c;}'
              '.econ-table .coefficient td{padding-bottom:2px;}.econ-table.meeting{font-size:18px;}</style>')
-    return style + '<table class="econ-table ' + presentation.get('preset', 'paper') + '"><thead>' + headers + '</thead><tbody>' + ''.join(rows) + '</tbody><tfoot>' + footer + '</tfoot></table>'
+    prose = ''.join('<p>' + html.escape(text) + '</p>' for text in presentation.get('public_text', []))
+    return style + prose + '<table class="econ-table ' + presentation.get('preset', 'paper') + '"><thead>' + headers + '</thead><tbody>' + ''.join(rows) + '</tbody><tfoot>' + footer + '</tfoot></table>'
 
 
 def gallery_table(item, markdown=False):
@@ -1726,7 +1795,10 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
     handles, labels = axis.get_legend_handles_labels()
     if display.get('legend', True) and handles:
         unique = dict(zip(labels, handles))
-        axis.legend(unique.values(), unique.keys(), loc=display.get('legend_location', 'best'), frameon=False,
+        location = display.get('legend_location', 'best')
+        placement = {'loc': 'lower center', 'bbox_to_anchor': (.5, 1.02), 'ncol': min(3, len(unique)),
+                     'handlelength': 1, 'handletextpad': .4, 'columnspacing': .5} if location == 'above' else {'loc': location}
+        axis.legend(unique.values(), unique.keys(), **placement, frameon=False,
                     prop={'family': family, 'size': font_size})
 
 
@@ -1749,9 +1821,9 @@ def gallery_plot(item):
     font_size = display.get('font_size', 14 if meeting else 10)
     plot_type = display.get('plot_type', 'table')
     presentation = gallery_table_presentation(item) if plot_type == 'table' else None
-    note_list = presentation['notes'] if presentation else gallery_notes(view)
+    public_text = presentation['public_text'] if presentation else view['public_text']
     width = display.get('width', 960)
-    notes = '\n'.join(textwrap.fill(note, max(35, width // 9)) for note in note_list)
+    notes = '\n'.join(textwrap.fill(text, max(35, width // 9)) for text in public_text)
     note_lines = len(notes.splitlines())
     height = display.get('height', 540)
     figure = Figure(figsize=(width / 100, height / 100), dpi=100)
@@ -1796,9 +1868,10 @@ def gallery_plot(item):
         axis.tick_params(labelsize=font_size)
         for label in [*axis.get_xticklabels(), *axis.get_yticklabels(), axis.xaxis.label, axis.yaxis.label]:
             label.set_fontfamily(family)
+            label.set_fontsize(font_size)
     bottom = min(.5, .02 + (note_lines * 15 + 20) / height) if notes else .03
     if notes:
-        figure.text(.06, .02, notes, fontsize=9, color='#425466', va='bottom', fontfamily=family)
+        figure.text(.06, .02, notes, fontsize=font_size, color='#213547', va='bottom', fontfamily=family)
     figure.tight_layout(rect=(.02, bottom, .99, .94))
     return figure
 
@@ -1818,8 +1891,7 @@ def gallery_preview(item, svg=None):
         presentation = gallery_table_presentation(item)
         title = ('Table ' + presentation['number'] + '. ' if presentation['number'] else '') + presentation['caption']
         title = html.escape(title)
-        notes = ''.join('<p>' + html.escape(note) + '</p>' for note in presentation['notes'])
-        body = '<h3>' + title + '</h3>' + body + notes
+        body = '<h3>' + title + '</h3>' + body
     return ('<section class="research-display"><style>.research-display{font-family:system-ui,sans-serif;color:#213547;overflow-x:auto;}'
             '.research-display svg{max-width:100%;height:auto;}'
             '.research-display p{font-size:13px;color:#425466;}</style>'
@@ -1836,7 +1908,9 @@ def gallery_latex(item):
     lines = [r'\begingroup', r'\begin{table}[htbp]' if is_table else r'\begin{figure}[htbp]', r'\centering']
     if presentation and presentation['number']:
         lines.append(r'\renewcommand{\thetable}{' + escape(presentation['number']) + '}')
-    lines.append(r'\caption{' + escape(presentation['caption'] if presentation else display.get('title', item['title'])) + '}')
+    caption = presentation['caption'] if presentation else display.get('title', item['title'])
+    public_text = presentation['public_text'] if presentation else gallery_projection(item)['public_text']
+    lines.append(r'\caption{' + escape(' '.join([caption, *public_text])) + '}')
     label = display.get('latex_label') or ('tab:' if is_table else 'fig:') + item['id']
     if not re.fullmatch(r'[A-Za-z0-9:_.-]+', label):
         raise ValueError('latex_label must contain letters, digits, colon, underscore, dot or hyphen')
@@ -1859,10 +1933,6 @@ def gallery_latex(item):
         lines += [r'\bottomrule', r'\end{tabular}']
     else:
         lines.append(r'\includegraphics[width=\linewidth]{display.pdf}')
-    notes = presentation['notes'] if presentation else gallery_notes(item)
-    if notes:
-        lines += [r'\par\medskip\begin{minipage}{\linewidth}\footnotesize',
-                  r'\par '.join(escape(note) for note in notes), r'\end{minipage}']
     lines += [r'\end{table}' if is_table else r'\end{figure}', r'\endgroup']
     return '\n'.join(lines) + '\n'
 
@@ -2015,8 +2085,10 @@ def latex_adapter(source, kind):
             '$common.latex()$\n$if(bibliography)$$else$\\let\\bibliographystyle\\econbibstyle\n$endif$'
             '$for(header-includes)$\n$header-includes$\n$endfor$\n')
     if kind=='paper':
-        common += '\\AtBeginEnvironment{longtable}{\\def\\_{\\textunderscore\\allowbreak}}\n'
+        common += '\\raggedbottom\n\\AtBeginEnvironment{longtable}{\\def\\_{\\textunderscore\\allowbreak}}\n'
         source=replace_once(source,'\\documentclass[ecta,nameyear,draft]{econsocart}', '\\RequirePackage{fontspec}\n\\def\\econselectedclass{$documentclass$}\n\\def\\econjournalclass{econsocart}\n\\ifx\\econselectedclass\\econjournalclass\n\\documentclass[ecta,nameyear,draft]{econsocart}\n\\else\n\\documentclass[$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}\n\\fi')
+        source=replace_once(source,'\\documentclass[ecta,nameyear,draft]{econsocart}', '\\documentclass[ecta,nameyear,$if(classoption)$$for(classoption)$$classoption$$sep$,$endfor$$else$final$endif$]{econsocart}')
+        source=replace_once(source,'\\support{}', '$if(support)$\\support{$support$}$endif$')
         source=replace_once(source,'\\startlocaldefs',common+'\\newcounter{pandocauthor}\n\\newcommand{\\pandocauthor}[1]{\\stepcounter{pandocauthor}\\author[id=au\\arabic{pandocauthor},addressref={add1}]{\\fnms{}~\\snm{#1}\\ead[label=e\\arabic{pandocauthor}]{}}}\n\\ifx\\econselectedclass\\econjournalclass\n\\startlocaldefs')
         source=replace_once(source,'\\endlocaldefs','\\endlocaldefs\n\\fi')
         source=replace_once(source,'\\begin{frontmatter}','\\ifx\\econselectedclass\\econjournalclass\n\\begin{frontmatter}')
@@ -2030,10 +2102,10 @@ def latex_adapter(source, kind):
         source=replace_once(source,'\\bibliography{../bibliography}  % Bibliography file (usually \'*.bib\')', '$if(bibliography)$\\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}$endif$')
     elif kind=='slides':
         # Pandoc's common preamble selects Babel's locale through the class option.
-        source=replace_once(source,'\\documentclass[unicode, mathserif, m, 12pt, unknownkeysallowed]{beamer}', '\\documentclass[unicode, mathserif, m, $if(fontsize)$$fontsize$$else$12pt$endif$, unknownkeysallowed$if(babel-lang)$,$babel-lang$$endif$$if(aspectratio)$,aspectratio=$aspectratio$$endif$]{beamer}')
+        source=replace_once(source,'\\documentclass[unicode, mathserif, t, 12pt, aspectratio=169, unknownkeysallowed]{beamer}', '\\documentclass[unicode, mathserif, t, 12pt, unknownkeysallowed$if(babel-lang)$,$babel-lang$$endif$,aspectratio=$if(aspectratio)$$aspectratio$$else$169$endif$]{beamer}')
         source=replace_once(source,'\\usetheme[numbering=fraction]{metropolis}', '$if(theme)$\\usetheme{$theme$}$else$\\usetheme[numbering=fraction]{metropolis}$endif$')
         source=replace_once(source,'\\title[Footer title]{TITLE}\n\\subtitle{SUBTITLE}\n\\author{Author}\n\\institute{}\n\\date{\\today}', '$if(title)$\\title{$title$}$endif$\n$if(subtitle)$\\subtitle{$subtitle$}$endif$\n\\author{$for(author)$$author$$sep$ \\and $endfor$}\n$if(institute)$\\institute{$institute$}$endif$\n\\date{$if(date)$$date$$else$\\today$endif$}')
-        source=replace_once(source,'\\usepackage{amsmath}\n\\begin{document}', '\\usepackage{amsmath}\n'+common+'\\setbeamerfont{caption}{size=\\scriptsize}\n\\AtBeginEnvironment{longtable}{\\footnotesize\\setlength{\\tabcolsep}{2pt}}\n\\begin{document}')
+        source=replace_once(source,'\\usepackage{amsmath}\n\\begin{document}', '\\usepackage{amsmath}\n'+common+'\\AtBeginEnvironment{longtable}{\\normalsize\\setlength{\\tabcolsep}{8pt}\\renewcommand{\\arraystretch}{1.25}}\n\\begin{document}')
         start=source.index('\\begin{frame}{}'); end=source.index('\\appendix',start)
         source=source[:start]+'$body$\n\n'+source[end:]
         guard='\\IfFileExists{../bibliography.bib}{\n'

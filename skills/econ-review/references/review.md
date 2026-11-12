@@ -36,7 +36,9 @@ Separate sample/measurement/target changes from method changes. Compare subgroup
 
 ### Deliver the assessment
 
-Return demonstrated defects, their consequences and repairs, plus the corrected target when authorized. Explain economic claims through their generating comparison or derivation. Referee responses answer the substantive point with evidence and exact manuscript locations. Reconcile affected Abstract, Introduction, Results and Conclusion. Use existing operational context for pending actions; report success from the inspected artifact and actual returns.
+1. **Finding record → repair owner.** Retain each diagnostic, consequence, source passage/calculation, finding ID and required repair internally. Preserve the adopted criteria and actual inspection result.
+2. **Public finding → user.** State the supported repair and its exact target, with the determining quantity or derivation. Before: “Table 2 is inconsistent with the text.” After, using the saved coefficient 1.8: “Set Table 2 and the Results paragraph to the saved estimate 1.8.” For findings-only work, this is the requested action.
+3. **Authorized repair → delivered result.** Revise the producer and affected Abstract, Introduction, Results and Conclusion; inspect the regenerated target. Then state the established result: “Table 2 and the Results paragraph report 1.8.” Referee responses connect the substantive question to its evidence and exact revised locations. Apply PROSE's internal routing and numerical uncertainty to every public finding.
 
 ## Evaluate specialized calculations and artifacts
 

@@ -145,7 +145,10 @@ def task_lines(tasks):
             owners = [owners]
         owners = [item.get("login", "") if isinstance(item, dict) else str(item) for item in owners]
         details = [", ".join(owners), task.get("due_date") or task.get("due") or ""]
-        lines.append("- " + label + ("（" + "、".join(str(x) for x in details if x) + "）" if any(details) else ""))
+        stage = task.get("publication_stage")
+        if stage is not None and stage != "":
+            details.append("投稿段階: " + str(stage))
+        lines.append("- " + label + (" — " + " / ".join(str(x) for x in details if x) if any(details) else ""))
     return "\n".join(lines)
 
 
@@ -188,14 +191,10 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
     sections = copy.deepcopy(formats[kind]["sections"])
     bodies = {section["id"]: "" for section in sections}
     bodies.update({
-        "previous": summary_lines(prior_bodies.get("decisions") or prior.get("decisions", [])),
+        "previous": summary_lines(prior_bodies.get("decisions", "")),
         "previous-todos": prior_bodies.get("next") or task_lines(prior.get("next_actions", [])),
         "completed": task_lines(completed),
         "active": task_lines(view.get("active", view.get("in_progress", []))),
-        "findings": summary_lines(view.get("findings", [])),
-        "interpretation": summary_lines(view.get("interpretations", [])),
-        "discussion": summary_lines(view.get("open_decisions", [])),
-        "decisions": summary_lines(view.get("adopted_decisions", [])),
         "next": task_lines(view.get("next", view.get("next_actions", []))),
         "question": str(view.get("research_question", view.get("central_question", ""))),
         "plan": summary_lines(view.get("plan", [])),
@@ -203,11 +202,6 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
         "specification": summary_lines(view.get("specification_description", [])),
         "results": summary_lines(view.get("results_summary", [])),
     })
-    for section_id, field in (("findings", "findings"), ("interpretation", "interpretation"),
-                              ("discussion", "issues"), ("decisions", "adoption_decision")):
-        if not bodies.get(section_id):
-            bodies[section_id] = "\n\n".join(entry.get("title", entry["id"]) + ": " + entry[field]
-                                               for entry in entries if entry.get(field))
     section_content = view.get("section_content", {})
     if (not isinstance(section_content, dict) or
             any(not isinstance(value, str) for value in section_content.values())):
@@ -221,13 +215,14 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
         (stage / "assets").mkdir(parents=True)
         artifacts = {}
         for index, entry in enumerate(entries):
+            artifact_public_text(entry)
             identity = str(entry["id"])
             if identity in artifacts:
                 raise ValueError("Duplicate selected artifact: " + identity)
             exported = {key: copy.deepcopy(entry[key]) for key in
                         ("id", "title", "kind", "plot_type", "metadata", "provenance", "rows", "columns",
                          "interpretation", "findings", "issues", "adoption_decision", "status", "links",
-                         "display", "result_ids", "source_reference", "presentation") if key in entry}
+                         "display", "result_ids", "source_reference", "presentation", "public_text", "row_indices") if key in entry}
             if "columns" in exported:
                 exported["columns"] = [{"key": column, "label": column} if isinstance(column, str) else column
                                        for column in exported["columns"]]
@@ -272,7 +267,7 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
                 arranged.append({"id": sid, "title": entry.get("title", entry["id"]),
                                  "visible": True, "layout": "stack", "artifacts": [entry["id"]],
                                  "caption": "", "speaker_notes": "", "source_section": section["id"]})
-                bodies[sid] = entry.get("interpretation", "")
+                bodies[sid] = ""
         if placements:
             raise ValueError("Template needs an exhibit section for selected saved results")
         sections = arranged
@@ -283,6 +278,8 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
             section.setdefault("caption", "")
             section.setdefault("speaker_notes", "")
         meeting = {"schema": "ers-meeting-v1", "title": title, "date": date, "kind": kind,
+                   "abstract": str(view.get("abstract", "")),
+                   "language": view.get("language", "ja"),
                    "document_type": formats[kind].get("document_type", "slides"),
                    "issue_url": issue_url, "github_source": github_source, "cloud_export": False,
                    "cloud_formats": ["html", "pdf"],
@@ -292,6 +289,8 @@ def create_bundle(root, output, entries, *, title, kind="meeting", project_view=
                    "next_actions": copy.deepcopy(view.get("next", view.get("next_actions", []))),
                    "task_snapshot": copy.deepcopy(view.get("tasks", [])),
                    "task_source": copy.deepcopy(view.get("github", {})),
+                   "internal": {field: copy.deepcopy(view[field]) for field in
+                                ("findings", "interpretations", "open_decisions") if field in view},
                    "editions": []}
         write_json(stage / "meeting.json", meeting)
         write_text(stage / "content.md", content_text(sections, bodies))
@@ -354,58 +353,12 @@ def change_sections(bundle, *, expected_revision, order=None, add=None, remove=N
     return {"source_revision": load_meeting(bundle)[2], "analysis_executed": False}
 
 
-def artifact_notes(entry, *, output_format="html"):
-    metadata = entry.get("metadata", {})
-    labels = {"sample": "標本", "population": "母集団", "observation_unit": "観測単位", "comparison": "比較", "period": "期間",
-              "unit": "単位", "estimand": "推定対象", "estimator": "推定方法", "clustering": "クラスタ",
-              "n": "N", "source": "出所",
-              "measurement_units": "単位", "data_source": "データ出所",
-              "weights": "重み", "weight_type": "重みの種類", "denominator": "分母",
-              "reference_event_time": "基準期", "base_period": "基準期の定義",
-              "aggregation": "集計", "treatment_history": "処置履歴", "treatment_time": "処置時点",
-              "treatment_group": "処置群", "control_group": "対照群", "inference_unit": "推論単位",
-              "cutoff": "cutoff", "bandwidth": "bandwidth", "model_contract": "モデル契約",
-              "scenario": "シナリオ", "parameter_definition": "パラメータ定義",
-              "parameter_status": "パラメータの扱い", "value_definition": "価値の定義",
-              "terminal_condition": "終端条件", "time_definition": "時点の定義"}
-    if output_format == "pdf":
-        labels.update({"population": "母集団", "variables": "変数"})
-    parts = []
-    notes = entry.get("display", {}).get("notes")
-    if notes:
-        parts.append(" ".join(str(note) for note in notes) if isinstance(notes, list) else str(notes))
-    for note in entry.get("presentation", {}).get("notes", []):
-        if note and note not in (notes or []):
-            parts.append(str(note))
-    definitions = metadata.get("result_definitions") or {key: metadata[key] for key in entry.get("result_ids", [])
-                                                       if isinstance(metadata.get(key), dict)}
-    for identity, definition in [("", metadata), *definitions.items()]:
-        description = []
-        for key, label in labels.items():
-            value = definition.get(key)
-            if value is None or value == "" or (identity and value == metadata.get(key)):
-                continue
-            if isinstance(value, dict):
-                value = ", ".join(str(name) + ": " + str(item) for name, item in value.items() if item not in (None, "", []))
-            elif isinstance(value, list):
-                value = ", ".join(str(item) for item in value)
-            description.append(label + ": " + str(value))
-        if description:
-            parts.append((identity + ": " if identity else "") + "、".join(description))
-    if entry.get("result_ids"):
-        parts.append("結果ID: " + ", ".join(entry["result_ids"]))
-    if output_format == "pdf":
-        for identity in entry.get("result_ids", []):
-            producer = metadata.get("producers", {}).get(identity, {})
-            origin = dict(producer.get("identity") or {})
-            if producer.get("run_id"):
-                origin["run_id"] = producer["run_id"]
-            origin = {name: str(value)[:12] if re.fullmatch(r"[0-9a-f]{64}", str(value)) else value
-                      for name, value in origin.items()}
-            if origin:
-                parts.append(identity + " 生成元: " + ", ".join(str(name) + ": " + str(value)
-                                                               for name, value in origin.items()))
-    return "。".join(part.rstrip("。") for part in parts)
+def artifact_public_text(entry):
+    """Consume the Gallery's explicit public projection; retain metadata in the bundle."""
+    parts = entry.get("public_text", [])
+    if not isinstance(parts, list) or any(not isinstance(text, str) or not text.strip() for text in parts):
+        raise ValueError("public_text must contain the selected Gallery's public propositions")
+    return "\n\n".join(parts)
 
 
 def is_table(entry):
@@ -453,7 +406,7 @@ def table_markdown(entry):
         return ""
     def line(values):
         return "| " + " | ".join(str(value).replace("|", "\\|").replace("\n", " ") for value in values) + " |"
-    return "\n".join([line(headers[0]), line(["---"] * len(headers[0])),
+    return "\n".join([line(headers[0]), line(["---", *(["---:"] * (len(headers[0]) - 1))]),
                       *(line(row) for row in [*headers[1:], *rows])])
 
 
@@ -461,7 +414,7 @@ def exhibit_markdown(entry, output_format="html", *, slides=False, caption=""):
     files = entry.get("files", {})
     extensions = (".pdf", ".png", ".jpg", ".jpeg", ".svg") if output_format == "pdf" else (".png", ".jpg", ".jpeg", ".svg")
     image = next((value for extension in extensions for value in files.values() if Path(value).suffix.lower() == extension), None)
-    notes = artifact_notes(entry, output_format=output_format)
+    notes = artifact_public_text(entry)
     if output_format == "pdf" and caption:
         notes = (notes.rstrip("。") + "。" if notes else "") + caption
     if is_table(entry) and entry.get("rows"):
@@ -472,13 +425,13 @@ def exhibit_markdown(entry, output_format="html", *, slides=False, caption=""):
         caption = entry.get("title", "")
         if output_format == "pdf" and notes:
             caption += ". " + notes
-        size = (" height=1.5in" if len(caption) > 500 else " height=2in") if output_format == "pdf" and slides else ""
+        size = (" height=3in" if len(caption) > 500 else " height=4.25in") if output_format == "pdf" and slides else ""
         content = "![" + caption.replace("[", "\\[").replace("]", "\\]") + "](" + image + "){fig-alt=" + json.dumps(entry.get("title", ""), ensure_ascii=False) + size + "}"
         if output_format == "pdf":
             return content
     else:
         content = table_markdown(entry)
-    return content + ("\n\n::: {.exhibit-note}\n" + notes + "\n:::" if notes else "")
+    return content + ("\n\n" + notes if notes else "")
 
 
 def document_source(root, meeting, bodies, output_format="html"):
@@ -524,14 +477,16 @@ def document_source(root, meeting, bodies, output_format="html"):
                 cell_width = max(12, 85 // len(headers[0]))
                 lines = sum(max((len(str(cell)) + cell_width - 1) // cell_width for cell in row)
                             for row in [*headers, *rows])
-                lines += (len(artifact_notes(entry, output_format="pdf")) + len(body) + 84) // 85
+                lines += (len(artifact_public_text(entry)) + len(body) + 84) // 85
                 if lines <= 28:
                     section_text = "```{=latex}\n\\begin{minipage}{\\linewidth}\n```\n\n" + section_text + "\n\n```{=latex}\n\\end{minipage}\n```"
         slides.append(section_text)
     substitutions = {"title": json.dumps(meeting["title"], ensure_ascii=False),
+                     "abstract": json.dumps(meeting.get("abstract", ""), ensure_ascii=False),
                      "date": json.dumps(meeting.get("date", ""), ensure_ascii=False),
+                     "language": json.dumps(meeting.get("language", "ja"), ensure_ascii=False),
                      "body": "\n\n".join(slides)}
-    return re.sub(r"\{\{(title|date|body)\}\}", lambda match: substitutions[match.group(1)], template.read_text(encoding="utf-8"))
+    return re.sub(r"\{\{(title|abstract|date|language|body)\}\}", lambda match: substitutions[match.group(1)], template.read_text(encoding="utf-8"))
 
 
 def preview_markdown(bundle, *, asset_base_url=""):
@@ -551,7 +506,7 @@ def preview_markdown(bundle, *, asset_base_url=""):
             else:
                 url = asset_base_url.rstrip("/") + "/" + quote(picture, safe="/") if asset_base_url else picture
                 output.append("![" + entry.get("title", key).replace("]", "\\]") + "](" + url + ")")
-            output.append(artifact_notes(entry))
+            output.append(artifact_public_text(entry))
         output.append(section.get("caption", ""))
     if meeting.get("issue_url"):
         output.append("[関連 Issue](" + meeting["issue_url"] + ")")
@@ -714,16 +669,15 @@ def native_slides_requests(bundle, *, asset_base_url=None):
         return identity
     cover = prefix + "cover"
     requests.append({"createSlide": {"objectId": cover, "slideLayoutReference": {"predefinedLayout": "BLANK"}}})
-    box(cover, "cover_title", meeting["title"], 40, 120, 640, 110, 34,
+    box(cover, "cover_title", meeting["title"], 40, 120, 640, 110, 40,
         {"red": 146 / 255, "green": 46 / 255, "blue": 65 / 255})
-    box(cover, "cover_date", meeting.get("date", ""), 40, 260, 640, 35, 18)
-    notes[cover] = "\n".join(value for value in [meeting.get("issue_url", ""), meeting.get("github_source", ""),
-                                                "Source revision: " + revision] if value)
+    box(cover, "cover_date", meeting.get("date", ""), 40, 260, 640, 40, 24)
+    notes[cover] = ""
     for index, section in enumerate(row for row in meeting["sections"] if row.get("visible", True)):
         page = prefix + "slide_" + str(index)
         requests.append({"createSlide": {"objectId": page, "slideLayoutReference": {"predefinedLayout": "BLANK"}}})
-        title_height = text_height(section["title"], 664, 28)
-        box(page, "title_" + str(index), section["title"], 28, 18, 664, title_height, 28,
+        title_height = text_height(section["title"], 664, 32)
+        box(page, "title_" + str(index), section["title"], 28, 18, 664, title_height, 32,
             {"red": 146 / 255, "green": 46 / 255, "blue": 65 / 255})
         entries = [meeting["artifacts"][key] for key in section.get("artifacts", [])]
         lines, bullet_ranges, position = [], [], 0
@@ -740,8 +694,9 @@ def native_slides_requests(bundle, *, asset_base_url=None):
         body = "\n".join(lines)
         layout = section.get("layout", "stack")
         content_y = 18 + title_height + 10
-        caption = section.get("caption", "")
-        caption_height = text_height(caption, 650, 10)
+        caption = "\n\n".join(part for part in [*(artifact_public_text(entry) for entry in entries),
+                                               section.get("caption", "")] if part)
+        caption_height = text_height(caption, 650, 20)
         exhibit_bottom = 390 - caption_height
         if entries and layout in {"figure-left", "figure-right"}:
             body_x, image_x = (388, 30) if layout == "figure-left" else (30, 350)
@@ -751,12 +706,12 @@ def native_slides_requests(bundle, *, asset_base_url=None):
         else:
             body_x, image_x = 30, 30
             body_width, image_width = 650, 650
-            body_height = text_height(body, body_width, 18) if entries else exhibit_bottom - content_y
+            body_height = text_height(body, body_width, 24) if entries else exhibit_bottom - content_y
             image_y = content_y + body_height + (8 if body else 0)
             image_height = exhibit_bottom - image_y
         if entries and image_height < 80:
             raise ValueError("Section text fills its exhibit area; shorten the body or select a side layout: " + section["id"])
-        body_id = box(page, "body_" + str(index), body, body_x, content_y, body_width, body_height, 18)
+        body_id = box(page, "body_" + str(index), body, body_x, content_y, body_width, body_height, 24)
         for text_range in bullet_ranges:
             requests.append({"createParagraphBullets": {"objectId": body_id, "textRange": text_range, "bulletPreset": "BULLET_DISC_CIRCLE_SQUARE"}})
         for number, entry in enumerate(entries):
@@ -785,7 +740,7 @@ def native_slides_requests(bundle, *, asset_base_url=None):
                             continue
                         requests.append({"insertText": {"objectId": identity, "cellLocation": location, "text": cell}})
                         requests.append({"updateTextStyle": {"objectId": identity, "cellLocation": location, "textRange": {"type": "ALL"},
-                            "style": {"fontFamily": "Noto Sans JP", "fontSize": {"magnitude": 14 if row_index < len(headers) else 16, "unit": "PT"}, "bold": row_index < len(headers)}, "fields": "fontFamily,fontSize,bold"}})
+                            "style": {"fontFamily": "Noto Sans JP", "fontSize": {"magnitude": 24, "unit": "PT"}, "bold": row_index < len(headers)}, "fields": "fontFamily,fontSize,bold"}})
             elif picture:
                 local = str(bundled_path(bundle, picture))
                 url = asset_base_url.rstrip("/") + "/" + quote(picture, safe="/") if asset_base_url else local
@@ -798,11 +753,8 @@ def native_slides_requests(bundle, *, asset_base_url=None):
                     images.append({"object_id": identity, "path": local})
             else:
                 raise ValueError("Native Slides requires a saved PNG/JPEG or saved table rows: " + entry["id"])
-        box(page, "caption_" + str(index), caption, 30, exhibit_bottom, 650, caption_height, 10)
-        note_parts = [section.get("speaker_notes", "")]
-        for entry in entries:
-            note_parts.extend([entry["title"], artifact_notes(entry)])
-        notes[page] = "\n\n".join(part for part in note_parts if part)
+        box(page, "caption_" + str(index), caption, 30, exhibit_bottom, 650, caption_height, 20)
+        notes[page] = section.get("speaker_notes", "")
     return {"title": meeting["title"] + (" — " + meeting["date"] if meeting.get("date") else ""),
             "mime_type": "application/vnd.google-apps.presentation", "source_revision": revision,
             "requests": requests, "speaker_notes": notes, "images": images,

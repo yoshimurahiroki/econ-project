@@ -8,6 +8,12 @@ The artifact operations extend `harness/research_evidence.py` and generate a man
 
 ## Save displays at analysis or registration
 
+1. **Routed result → display metadata.** Save supported affirmative sentences in `metadata.public_claims`; save assumptions, restrictions, missingness, failures and notes in `metadata.internal`. Keep the complete scientific result and existing diagnostic fields at their original owner. Before: “The sample is limited to 2018.” After: public claim “The sample covers 2018”; internal record retains the sampling restriction.
+2. **Saved uncertainty → renderer.** `metadata.uncertainty` selects numerical cells by zero-based `row`, `columns`, `kind`, quantity `label` and `unit`. Use `se` or `p_value` with one column; p values use the dimensionless unit `"1"`. Use `confidence_interval` or `credible_interval` with two ordered endpoint columns and the saved fractional `level`. Example: `{"kind":"confidence_interval","row":0,"columns":["ci_low","ci_high"],"label":"Employment","unit":"pp","level":0.95}` renders `Employment: 95% CI [-1, 5] pp` from those saved cells. The renderer preserves signs and zeros and applies the saved column formats. Existing numerical rows and confidence-set displays retain their source definitions, including nulls, disconnected components and unbounded sets.
+3. **Selected display → public artifact.** Gallery resolves those fields into `public_text` for HTML, Markdown, LaTeX, plots and meeting consumers. Selection retains scientific metadata and internal records for writing; public renderers use the explicit projection. Register metadata changes through the existing result-registration path and regenerate affected assets. Review titles, labels and claims against PROSE and the selected population, period, unit and result. Before: “The estimate probably rose.” After, from estimate 2 and SE 0.5: public claim “The estimate is 2 pp” with a saved-cell SE reference rendering `Employment: SE 0.5 pp`.
+
+Public claims bind the complete saved display. A row-filtered selection emits its selected numerical uncertainty and retains the original claims internally; adopt a claim for the new selection through result registration. Gallery's returned `public_text` is the resolved read-only projection consumed by meeting formats. Edit the original registered item and select it again to update that projection.
+
 The same `research-artifact-registry-v1` registry holds an `items` object keyed by stable display IDs. Save the rows needed by a table or plot when the analysis produces them. A saved source result can carry `display_items`, an array of the display records below, or `display:{kind,rows,metadata}` with nested saved blocks. Named additional blocks in `displays` retain separate pointwise/simultaneous or design-specific views. Normalization maps those blocks to the existing items; a source without display rows receives a named coefficient or statistic table. Register an existing saved registry to create one PNG per selected display, usable in previews and native Google Slides:
 
 
@@ -48,6 +54,8 @@ The producing analysis supplies each specialized display's coordinates and defin
 | Geography | A saved region/location ID, serialized GeoJSON geometry and the corresponding value. The producing analysis owns the geographic-ID mapping and boundary version; the renderer draws the saved mapping without joining another geographic dataset. |
 
 Axis and series selection choose existing saved columns. Binning, curve estimation, effect aggregation, confidence-set inversion, donor fitting and equilibrium solution remain with the producing analysis.
+
+For presentation figures, inspect axis and legend text at the rendered slide size. Set `font_size` and the figure dimensions together to carry the 24 pt slide baseline into the exhibit. Select `legend_location:"above"` to place series labels above the plotting area in up to three columns; wrap long labels with a newline. Before: enlarge a legend over the bars. After: retain the enlarged labels above the bars and keep every bar visible.
 
 ### Draw the model's economic relationship
 

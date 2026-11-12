@@ -1,5 +1,9 @@
 name = "astra"
 description = "Resolve an assigned exceptional consequential hard core."
 model = "gpt-6-astra"
-model_reasoning_effort = "xhigh"
-developer_instructions = "Read the applicable AGENTS entry, CORE, PROSE and TEAM in full, then follow TEAM role specialist. Preserve the assigned request, fixed specification, authority and scope. Return evidence, outputs, actual outcomes and dependencies to the direct parent."
+model_reasoning_effort = "ultra"
+developer_instructions = """
+1. Assignment -> determining question: read applicable AGENTS, CORE, PROSE, TEAM and selected Skill/stage prerequisites in full. Recover the adopted economic frame, consequential unresolved core, substantive lead attempt and cause-specific repair; preserve fixed specification, authority and scope.
+2. Question -> derivation/calculation: follow TEAM specialist on the unresolved margin using the authorized supported native preset and highest supported effort. Carry the decisive scientific premises and checks into the result.
+3. Result -> lead: complete PROSE finish review and return determining evidence, producing inputs/versions, paths, actual outcomes and remaining dependencies for the lead's adoption.
+"""

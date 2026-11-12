@@ -130,7 +130,7 @@ def resource_key(resource_id):
 
 def _resource_records(assets):
     data = parse(assets['registry_resources'])
-    if not isinstance(data, dict) or data.get('schema_version') != 2 or not isinstance(data.get('resources'), dict):
+    if not isinstance(data, dict) or data.get('schema_version') not in (2, 3) or not isinstance(data.get('resources'), dict):
         raise ValueError('invalid policy resource registry')
     for rid, record in data['resources'].items():
         if not isinstance(rid, str) or not rid or not isinstance(record, dict):
@@ -200,7 +200,7 @@ def _routes(assets):
     records = {}
     for path, key in REGISTRY_KEYS.items():
         obj = parse(assets[key])
-        if not isinstance(obj, dict) or type(obj.get('schema_version')) is not int or obj['schema_version'] != 2:
+        if not isinstance(obj, dict) or type(obj.get('schema_version')) is not int or obj['schema_version'] not in (2, 3):
             raise ValueError('unsupported policy registry: ' + key)
         records[path] = obj
     resolver = types.ModuleType('adopted_route_registry')
@@ -522,6 +522,27 @@ def section_ranges(routes, resource_id, text, resolver, section_ids=None, cache=
                 raise ValueError('missing or ambiguous reading section: ' + resource_id + '/' + sid)
             result[sid] = (offsets[matches[0]['start']], offsets[matches[0]['end']])
     return result
+
+
+def kernel_context(root, manifest):
+    """Return the exact common bodies and their identities for native delivery."""
+    root = Path(root)
+    assets = {key: regular_bytes(root / manifest['assets'][key]['path'])
+              for key in (*REGISTRY_KEYS.values(), 'route_registry')}
+    resolver, routes = _routes(assets)
+    bodies, hashes = {}, {}
+    for resource, section in (('core', 'all'), ('prose', 'common-output')):
+        record = manifest['assets'][resource_key(resource)]
+        raw = regular_bytes(root / record['path'])
+        if digest(raw) != record['sha256']:
+            raise ValueError('kernel source changed: ' + resource)
+        source = raw.decode('utf-8')
+        start, end = section_ranges(routes, resource, source, resolver, {section})[section]
+        bodies[resource] = source[start:end]
+        hashes[resource] = digest(bodies[resource].encode('utf-8'))
+    text = ('[Kernel core=' + hashes['core'] + ' prose-common=' + hashes['prose'] + ']\n' +
+            bodies['core'] + '\n' + bodies['prose'])
+    return text, digest(text.encode('utf-8'))
 
 
 def final_form_card(root, manifest):
