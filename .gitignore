@@ -130,6 +130,7 @@ references/repository-policy/.codex/agents/*
 !references/repository-policy/.codex/agents/implementer.toml
 !references/repository-policy/.codex/agents/retriever.toml
 !references/repository-policy/.codex/agents/specialist.toml
+!references/repository-policy/.codex/agents/reviewer.toml
 !references/repository-policy/.codex/agents/terra.toml
 !references/repository-policy/.codex/agents/luna.toml
 !references/repository-policy/.codex/agents/astra.toml
