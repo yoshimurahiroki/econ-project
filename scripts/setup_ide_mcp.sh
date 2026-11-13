@@ -437,9 +437,9 @@ def main():
             # Explicit selection owns these native fields; ordinary setup inherits.
             role_presets = {
                 'lead': (template['model'], 'high'),
-                'implementer': (template['model'], 'medium'),
-                'retriever': ('gpt-6-luna', 'low'),
-                'specialist': (template['model'], 'ultra'),
+                'implementer': (template['model'], 'xhigh'),
+                'retriever': ('gpt-6-luna', 'xhigh'),
+                'specialist': (template['model'], 'xhigh'),
                 'reviewer': (template['model'], 'high'),
             }
         if client == 'codex':

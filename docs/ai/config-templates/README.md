@@ -49,12 +49,12 @@ bash scripts/setup_ide_mcp.sh --agent-team --client codex --openai-preset --writ
 | Selected preset role | Model | Effort |
 |---|---|---|
 | Primary / lead | `gpt-6.1-terra` | `high` |
-| Default child / implementer | `gpt-6.1-terra` | `medium` |
-| Retriever | `gpt-6-luna` | `low` |
-| Specialist | `gpt-6.1-terra` | `ultra` |
+| Default child / implementer | `gpt-6.1-terra` | `xhigh` |
+| Retriever | `gpt-6-luna` | `xhigh` |
+| Specialist | `gpt-6.1-terra` | `xhigh` |
 | Reviewer | `gpt-6.1-terra` | `high` |
 
-These requested values match the inspected Work launch schema. Confirm the selected CLI/provider advertises them before using the preset; its model catalog owns supported efforts. The legacy aliases request Terra medium, Luna low and Astra ultra. Project setup preserves the project provider assignment; user-scope preset setup includes the example's provider. A conflicting user-owned value preserves the whole configuration before writes. Preview/apply/check use the same selected flags, including `--openai-preset`. Ordinary setup projects inherited roles again through the existing ownership merge. Codex gives role model fields precedence over per-call model arguments; select an inherited role or edit its native fields for another authorized model. Configuration generation performs local file operations.
+These requested values match the inspected Work launch schema. Confirm the selected CLI/provider advertises them before using the preset; its model catalog owns supported efforts. The Terra, Luna and Astra aliases request xhigh. Project setup preserves the project provider assignment; user-scope preset setup includes the example's provider. A conflicting user-owned value preserves the whole configuration before writes. Preview/apply/check use the same selected flags, including `--openai-preset`. Ordinary setup projects inherited roles again through the existing ownership merge. Codex gives role model fields precedence over per-call model arguments; select an inherited role or edit its native fields for another authorized model. Configuration generation performs local file operations.
 
 The root agent settings enable native delegation, bound V1 depth to two edges and share three child slots across the whole session. Existing tighter depth and concurrency settings remain tighter; larger settings are reduced to these adopted bounds. The legacy `max_threads` spelling is retained. At upstream revision `3a2788e6fc897fc4dd40185225167af9a9f13754`, V1 enforces `agents.max_depth`; V2 ignores it. Both share the session registry across descendants. V2 translates `agents.max_concurrent_threads_per_session = 3` to an internal root-inclusive budget of four; its dedicated `features.multi_agent_v2.max_concurrent_threads_per_session` has separate precedence. When present, the generator reduces a larger dedicated root-inclusive budget to four and preserves tighter values; unsupported edited TOML layouts are refused before writes. Keep existing host constraints and TEAM's whole-hierarchy budget, including a bridge worker, instead of assigning a new three-slot pool to each parent. Native role projection does not apply role-local provider, depth or concurrency fields.
 

@@ -99,7 +99,7 @@
     },
     "resource:config-template-codex-example-toml": {
       "path": "docs/ai/config-templates/codex.example.toml",
-      "sha256": "116ce78f0b49afe65f78a649cf7db34c6d5e87df7422f1cd52f80ea8debb9410"
+      "sha256": "e681e94025da4be61305347659c8309a829ee84c28bd33ce122e720261e5070d"
     },
     "resource:config-template-mcp-example-json": {
       "path": "docs/ai/config-templates/mcp.example.json",
@@ -107,7 +107,7 @@
     },
     "resource:config-template-readme-md": {
       "path": "docs/ai/config-templates/README.md",
-      "sha256": "43a44ce79a623b310b57f85b9ea6ae472bc6c7d005d6cc9cc389f018a2e66b1e"
+      "sha256": "8e03d846d6c05447d263c728e33128d9ae73e15f1a065f0aae93e182182b6ca8"
     },
     "resource:data-descriptive": {
       "path": "skills/econ-data/references/implementation-descriptive.md",
@@ -571,11 +571,11 @@
     },
     "resource:policy-codex-agent-astra": {
       "path": "references/repository-policy/.codex/agents/astra.toml",
-      "sha256": "f0399d26ff7a5753e4943f0d84dcc0baeefba379327f4b6e9d197b1f95655699"
+      "sha256": "82d24c6be87c213632df8aec6ecfa56c8ad91abb269fa53c0b1d167d8356df61"
     },
     "resource:policy-codex-agent-implementer": {
       "path": "references/repository-policy/.codex/agents/implementer.toml",
-      "sha256": "f03b2686083a082f15f43379fe5503be79f6c2a665ac90f71c92f40ae10dae64"
+      "sha256": "932a732ee4726a700f61fa9919a012a58c41ad36a7a6150ce41578a345e501a9"
     },
     "resource:policy-codex-agent-lead": {
       "path": "references/repository-policy/.codex/agents/lead.toml",
@@ -583,11 +583,11 @@
     },
     "resource:policy-codex-agent-luna": {
       "path": "references/repository-policy/.codex/agents/luna.toml",
-      "sha256": "b5e947eff6bee9ce580c93f0afba461dcbf5b8058c12ce28661976a2f6fbca87"
+      "sha256": "f174cde7d599a9651a022e5a703b777da8a3119dd5cbf4b3fcaa192a2f9bd2c5"
     },
     "resource:policy-codex-agent-retriever": {
       "path": "references/repository-policy/.codex/agents/retriever.toml",
-      "sha256": "dbc6d48f7dff2cefbace6c10e3034ca385064f22eae78cad14f4dd3cbfaab10c"
+      "sha256": "78c45fa69f56086d74202b41ef2f50b5dfdbcadb66de0d0c220c1b4571fb8d73"
     },
     "resource:policy-codex-agent-reviewer": {
       "path": "references/repository-policy/.codex/agents/reviewer.toml",
@@ -599,7 +599,7 @@
     },
     "resource:policy-codex-agent-terra": {
       "path": "references/repository-policy/.codex/agents/terra.toml",
-      "sha256": "e8e14b31b7da91c3b4cd69d87a341b9a3e90807ab1ff8b373ceb9f990eb5fa39"
+      "sha256": "b917a85b99948c03ba867d93b634b6fd8c7fea0e66d7a9c9c4aa4d1875945380"
     },
     "resource:policy-codexmd": {
       "path": "references/repository-policy/CODEX.md",
@@ -963,7 +963,7 @@
     },
     "team": {
       "path": "runtime/TEAM.md",
-      "sha256": "5543393bc89f17da791ed5ecfeddb6a82bf90afa3b4f58f9b140ee775548abb3"
+      "sha256": "7816a1937a9abda04ab4c8d134b0a34607c9f577d0b1f2bc7c7dabcbaecdb035"
     }
   }
 }
