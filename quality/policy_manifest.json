@@ -11,11 +11,11 @@
     },
     "codex_hooks": {
       "path": "harness/codex_hooks.py",
-      "sha256": "5cba14ee6f6185cb3aa1e2ea4e1f8e474603054fa8fd119d6bdb4826584b0bac"
+      "sha256": "2fce492fbffd031a0f61819a1533b105171d90e59e31efdcf57f50d0559c5df3"
     },
     "core": {
       "path": "runtime/CORE.md",
-      "sha256": "46617cb442136c9a5655573efdf49fa7fd0ff39d37789d00cf1fbfa6406dd728"
+      "sha256": "53924b11a27f94ffc97cccfea637144151ca1bb323e991d60e71f269562c70f6"
     },
     "decide": {
       "path": "runtime/DECIDE.md",
@@ -955,7 +955,7 @@
     },
     "route_registry": {
       "path": "scripts/route_registry.py",
-      "sha256": "a1bd907c78026ab2bf14932a8b598153b4c7fe1c6875443c45d9ee4e6916cfae"
+      "sha256": "927a515040cab3a2b859829f3f666588e32c50299b92d7ed85143f749c316400"
     },
     "state": {
       "path": "harness/state.py",

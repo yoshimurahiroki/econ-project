@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "13cb2b4834c7f8cefb754035f5e4b80e9e83e649",
+  "source_base_commit": "2f2cdbb8ed608df3db328a663b2d3f56f7f2c0da",
   "source_state": "committed",
-  "common_content_id": "e424619ef9e697625aad7ff63eb79361bf86d75602f6aee8531c6651a2df94fd",
+  "common_content_id": "f06b6e73bc3a665058136825728aa523414a4c5fad10097ce5c8d2fc29cce42e",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -241,8 +241,8 @@
     {
       "path": "harness/codex_hooks.py",
       "state": "present",
-      "sha256": "5cba14ee6f6185cb3aa1e2ea4e1f8e474603054fa8fd119d6bdb4826584b0bac",
-      "git_blob": "a08b7fcb70e3669c518e794c50b956030adf4934",
+      "sha256": "2fce492fbffd031a0f61819a1533b105171d90e59e31efdcf57f50d0559c5df3",
+      "git_blob": "7de87f42608f0d4195429b15a4a0966bab640c78",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -985,8 +985,8 @@
     {
       "path": "runtime/CORE.md",
       "state": "present",
-      "sha256": "46617cb442136c9a5655573efdf49fa7fd0ff39d37789d00cf1fbfa6406dd728",
-      "git_blob": "2f368f1a133c199ef28ce53ca9cabb2ab93579fe",
+      "sha256": "53924b11a27f94ffc97cccfea637144151ca1bb323e991d60e71f269562c70f6",
+      "git_blob": "928fb1a217d5789b04c8d3d6cc7a984f6d7d8144",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1065,8 +1065,8 @@
     {
       "path": "scripts/route_registry.py",
       "state": "present",
-      "sha256": "a1bd907c78026ab2bf14932a8b598153b4c7fe1c6875443c45d9ee4e6916cfae",
-      "git_blob": "6b90f0d08059180119b30a2a4edd481debc393ab",
+      "sha256": "927a515040cab3a2b859829f3f666588e32c50299b92d7ed85143f749c316400",
+      "git_blob": "52f2ace4f25476b368919c7f63255bd87ff2d6c4",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },

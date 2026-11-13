@@ -2903,6 +2903,8 @@ def _budget_result(event, result, expected_event):
     command = packet_command(root, event['cwd'], packet, digest)
     recovery = ('Read the complete saved instruction packet:\n' + command +
                 '\nRepeat with each next_offset and the same sha256 through null.')
+    if first.startswith('[Kernel '):
+        recovery += '\nThis packet carries CORE and PROSE Common output; add `--kernel-delivered` to the entry `read`.'
     destination, key = ((result, 'reason') if result.get('decision') == 'block' else populated[0])
     for container, name in populated:
         del container[name]

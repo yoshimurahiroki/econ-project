@@ -354,7 +354,7 @@ def extract_sections(text, selection, resource):
 
 def read_selected(routes, root, selector, *, layout='source', mode=None, conditions=(),
                   user_profile=None, project_profile=None, offset=0, limit=16000, stage=None,
-                  seen=(), compact=False, restore=False):
+                  seen=(), compact=False, restore=False, kernel_delivered=False):
     """Deliver exact selected bodies; pagination never marks them as read.
 
     Stages after entry omit the kernel (CORE and PROSE Common output) that entry
@@ -388,11 +388,12 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
             'selection': {'conditions': list(conditions)}}, stage)
         selection = {}
         active = []
-        if stage != 'entry' and not restore:
+        if (stage != 'entry' or kernel_delivered) and not restore:
             stages = routes['reading_stages']
             def assigned(name):
                 return {(rid, sid) for rid, ids in stages.get(name, {}).items() for sid in ids}
-            delivered_at_entry = assigned('entry') - assigned(stage)
+            delivered_at_entry = (assigned('entry') - assigned(stage) if stage != 'entry' else
+                {('core', 'all'), ('prose', 'common-output'), ('research', 'turn-the-question-into-an-operation')})
             whole = {rid for rid, sid in delivered_at_entry if sid == 'all'}
             kept = [row for row in refs
                     if row['resource_id'] not in whole
@@ -460,7 +461,7 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
             delivered.append('# Selected method knowledge\n\nRead the complete bodies and prerequisites before adoption:\n'
                              + '\n'.join(commands))
     if kernel_omitted:
-        delivered.insert(0, 'CORE and PROSE Common output were delivered at entry; rerun with `--restore` if they are absent from context.')
+        delivered.insert(0, 'CORE and PROSE Common output were delivered earlier; rerun with `--restore` if they are absent from context.')
     text = '\n\n'.join(delivered) + ('\n' if delivered or not body_hashes else '')
     if offset > len(text):
         raise ValueError('Reading offset exceeds the selected body')
@@ -1161,6 +1162,7 @@ if __name__ == '__main__':
             selected.add_argument('--limit', type=int, default=16000, help='Maximum body characters per page')
             selected.add_argument('--format', choices=('json', 'compact'), default='compact')
             selected.add_argument('--seen', action='append', default=[], help='Hash of a complete body still present in this intact context')
+            selected.add_argument('--kernel-delivered', action='store_true', help='Omit CORE and PROSE Common output that a hook packet already delivered')
             selected.add_argument('--restore', action='store_true', help='Deliver CORE and PROSE Common output at a stage after entry (context loss, handoff, model change)')
     args = parser.parse_args()
     if args.command == 'index' and (args.family or args.query or args.all_conditions) and not args.operation:
@@ -1177,7 +1179,7 @@ if __name__ == '__main__':
                                conditions=args.condition, user_profile=args.user_profile,
                                project_profile=args.project_profile, offset=args.offset, limit=args.limit,
                                stage=args.stage or (None if args.operation in routes['rules'] else 'entry'),
-                               seen=args.seen, compact=args.format == 'compact', restore=args.restore)
+                               seen=args.seen, compact=args.format == 'compact', restore=args.restore, kernel_delivered=args.kernel_delivered)
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         result = resolve_operation(routes, args.operation, args.mode,
