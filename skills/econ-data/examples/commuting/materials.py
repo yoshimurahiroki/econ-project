@@ -55,7 +55,7 @@ def prose(results, parameters, selected, language):
             "data": f"架空経済の{markets}市場に各{per_market}世帯を配置し、同じ{markets * per_market:,}世帯の雇用、家計余剰、企業利益、財政支出を評価する。市場ごとに0円、2万円、4万円の支援を割り当てる。",
             "specification": "家計は賃金と給付から通勤費用を引いた額を家事生産の価値と比較して就業を選ぶ。企業は限界生産物と賃金を比較して採用数を決める。市場単位の無作為割当から、各給付額の世帯平均の効果を推定する。",
             "results": f"4万円支援の雇用効果は{employment}ポイント、95%信頼区間は[{lower}, {upper}]ポイントである。家計の労働供給の拡大と賃金調整が、企業の採用増加を支える。",
-            "interpretation": f"家計余剰と企業利益に就業1人あたり{external:g}千円の社会的便益を加え、給付支出とその{burden:g}倍の資金調達費用を差し引く。4万円支援の余剰効果は1世帯あたり{surplus}千円、95%信頼区間は[{slo}, {shi}]千円である。推定余剰の順位は{selected_yen:,.0f}円支援を選ぶ。",
+            "interpretation": f"家計余剰と企業利益に就業1人あたり{external / 10:g}万円の社会的便益を加え、給付支出とその{burden:g}倍の資金調達費用を差し引く。4万円支援の余剰効果は1世帯あたり{surplus}千円、95%信頼区間は[{slo}, {shi}]千円である。推定余剰の順位は{selected_yen:,.0f}円支援を選ぶ。",
         }
     return {
         "title": "Commuting Support and the Allocation of Employment",
@@ -118,14 +118,20 @@ def build(root, run, output, language):
         unit = results[name]["statistics"]["coefficient.subsidy40-control"]["unit"]
         titles = {"employment": ("雇用の割当効果", "Employment assignment effects"),
                   "social_surplus": ("社会的余剰の割当効果", "Social-surplus assignment effects")}
-        labels = {"subsidy20-control": "20,000 − 0", "subsidy40-control": "40,000 − 0",
-                  "subsidy40-subsidy20": "40,000 − 20,000"}
+        labels = ({"subsidy20-control": "2万円 − 0円", "subsidy40-control": "4万円 − 0円",
+                   "subsidy40-subsidy20": "4万円 − 2万円"} if language == "ja" else
+                  {"subsidy20-control": "20,000 − 0", "subsidy40-control": "40,000 − 0",
+                   "subsidy40-subsidy20": "40,000 − 20,000"})
+        captions = {"employment": ("1世帯あたり就業者数・8週間。95%信頼区間。", "Employed workers per household over eight weeks. 95% confidence intervals."),
+                    "social_surplus": ("1世帯あたり千円・8週間。95%信頼区間。", "Thousand JPY per household over eight weeks. 95% confidence intervals.")}
         rows = [{**row, "comparison": labels[row["term"]]} for row in item["rows"]]
-        columns = item["columns"] + [{"key": "comparison", "label": "支援額の比較・円" if language == "ja" else "Subsidy contrast, JPY", "unit": ""}]
-        column_labels = {"estimate": "推定値", "ci_low": "95% CI 下限", "ci_high": "95% CI 上限"} if language == "ja" else {"estimate": "Estimate", "ci_low": "95% CI lower", "ci_high": "95% CI upper"}
+        # The caption carries the unit, so the numeric columns print their labels alone.
+        columns = [{**column, "unit": ""} if column["key"] in ("estimate", "ci_low", "ci_high") else column for column in item["columns"]]
+        columns += [{"key": "comparison", "label": "支援額の比較" if language == "ja" else "Subsidy contrast, JPY", "unit": ""}]
+        column_labels = {"estimate": "推定値", "ci_low": "95%下限", "ci_high": "95%上限"} if language == "ja" else {"estimate": "Estimate", "ci_low": "95% CI lower", "ci_high": "95% CI upper"}
         definitions.append({"id": item["id"], "rows": rows, "columns": columns,
                             "title": titles[name][language == "en"],
-                            "metadata": {"public_claims": [unit], "internal": {"case_specification": reference(root, spec_path)}},
+                            "metadata": {"public_claims": [captions[name][language == "en"]], "unit": unit, "internal": {"case_specification": reference(root, spec_path)}},
                             "display": {"plot_type": "table", "column_order": ["comparison", "estimate", "ci_low", "ci_high"],
                                         "column_labels": column_labels, "formats": {key: ".3f" for key in ("estimate", "ci_low", "ci_high")}}})
     save(output / "display-items.json", definitions)

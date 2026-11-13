@@ -200,6 +200,10 @@ def build(root, run, output, language):
         meetings.create_bundle(root, bundle, entries, title=body["title"], kind=kind, project_view=view)
         for section in sections:
             meetings.edit_section(bundle, section, {"title": headings[section][not ja]}, expected_revision=meetings.load_meeting(bundle)[2])
+        if kind == "structural":
+            # Each exhibit page carries the claim it supports.
+            for source, exhibit, layout in (("parameters", "result-1", "stack"), ("counterfactual", "result-2", "figure-left"), ("welfare", "result-3", "stack")):
+                meetings.fold_into_exhibit(bundle, source, exhibit, layout=layout)
     save(output / "material-inputs.json", {"result_index": reference(root, run / "result-index.json"),
         "producer": reference(root, Path(__file__)), "language": language, "analysis_executed": False})
     return {"output": str(output), "bundles": ["brief", "structural"], "analysis_executed": False}

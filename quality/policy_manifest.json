@@ -227,7 +227,7 @@
     },
     "resource:example-charging-materials": {
       "path": "skills/econ-data/examples/charging/materials.py",
-      "sha256": "bdba63b305772ce60cf97baee3ecbf531d1ec888790bbafab3aaeb00b8407bab"
+      "sha256": "0e6080313985b6f3c545b6b986158aeacd35e99a9cf5bd90120b97f0c9f55e82"
     },
     "resource:example-charging-specification": {
       "path": "skills/econ-data/examples/charging/specification.json",
@@ -243,7 +243,7 @@
     },
     "resource:example-commuting-materials": {
       "path": "skills/econ-data/examples/commuting/materials.py",
-      "sha256": "1df26e205ee5997b97f1684e8548c9e83dcae6b68f20aaf6a06df21c33aaef0a"
+      "sha256": "ec1b7d371de3fd31a1ac5401359335f5147f6a86749bd26756fb6bb0c055549a"
     },
     "resource:example-commuting-specification": {
       "path": "skills/econ-data/examples/commuting/specification.json",
@@ -259,7 +259,7 @@
     },
     "resource:example-equipment-materials": {
       "path": "skills/econ-data/examples/equipment/materials.py",
-      "sha256": "bdf9cc41b42f16ad72a17a4e64a3ae9dc777ab18529b27ad5c600948456b323b"
+      "sha256": "1ab84d0e167b651b6c931d93d56bf44f6208e1f46cdb7897923d813d0b09aaed"
     },
     "resource:example-equipment-specification": {
       "path": "skills/econ-data/examples/equipment/specification.json",
@@ -275,7 +275,7 @@
     },
     "resource:example-housing-materials": {
       "path": "skills/econ-data/examples/housing/materials.py",
-      "sha256": "291b0626d5cc0099469f86a7da207303e0441941f292b86e3f714e558086515f"
+      "sha256": "17b3de131c5363f07cc5c09e125a33afc001253c843d4fe367e57e192c2c3e7a"
     },
     "resource:example-housing-specification": {
       "path": "skills/econ-data/examples/housing/specification.json",
@@ -291,11 +291,11 @@
     },
     "resource:example-subscription-manuscript-en": {
       "path": "skills/econ-data/examples/subscription/manuscript-en.md",
-      "sha256": "53dcec16535a36254a639b7786eeaa94ea8a344ec04d15e86ceb10af46a70e43"
+      "sha256": "4567ebf1ba4d9ed17ae1c9071fbd711a410734a57ad134c74f1ec7142c2e5d37"
     },
     "resource:example-subscription-materials": {
       "path": "skills/econ-data/examples/subscription/materials.py",
-      "sha256": "257c4d3f15d682a85ea91f6afa279abd667040c6adf3e0f8d7dd9ea002c45f75"
+      "sha256": "4118fc81dbd21e816112ff178f762b749496ace512bbdab2de948bfb0349bce0"
     },
     "resource:example-subscription-specification": {
       "path": "skills/econ-data/examples/subscription/specification.json",
@@ -651,7 +651,7 @@
     },
     "resource:research-artifacts": {
       "path": "harness/research_artifacts.py",
-      "sha256": "b0fa69dbb29457c0c90e3c89d59faeeeb741b93fdb849bacb87f66da4c4ec59c"
+      "sha256": "2a74bcb183f43e05e5d88a2bf172d0fdec33be87cabdbfb8cb06be37ab503b55"
     },
     "resource:research-causal": {
       "path": "skills/econ-data/scripts/research_causal.py",
@@ -747,7 +747,7 @@
     },
     "resource:research-meetings": {
       "path": "harness/research_meetings.py",
-      "sha256": "e050801591ea4203d9fe8d141ddf8bb7af978d4359f7a124e9365531b68a630e"
+      "sha256": "4132b81efacfb5c9e73b47a6cb55f8d916c855fffec3cf654af18e60a2cf89b9"
     },
     "resource:research-numerics": {
       "path": "skills/econ-data/scripts/research_numerics.py",
@@ -759,7 +759,7 @@
     },
     "resource:research-rct": {
       "path": "skills/econ-data/scripts/research_rct.R",
-      "sha256": "868c8bd25d7a3d458da0414c58b9df643f52a3b5a3ec36911790035680b0539f"
+      "sha256": "767ac0d1632cd422fc501810bb7a3bc7d1d483fe6abb6652aa2046cd794e6ac0"
     },
     "resource:research-reproduction": {
       "path": "harness/reproduction.py",

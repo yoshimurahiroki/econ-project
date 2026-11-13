@@ -1724,7 +1724,7 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
                     positions = xs if histogram else [x + (index - (len(groups) - 1) / 2) * width for x in xs]
                     (axis.barh if horizontal else axis.bar)(positions, ys, **({'height': width} if horizontal else {'width': width}), alpha=.65 if histogram else 1, **kwargs)
                 elif point:
-                    axis.scatter(ys if horizontal else xs, xs if horizontal else ys, s=32, **kwargs)
+                    axis.scatter(ys if horizontal else xs, xs if horizontal else ys, s=max(32, 2.5 * font_size), **kwargs)
                     label_key = display.get('point_label')
                     if label_key:
                         for x, y, row in zip(xs, ys, segment):
@@ -1794,6 +1794,9 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
     for reference in metadata.get('reference_lines', []):
         if reference.get('axis') in ('x', 'y') and type(reference.get('value')) in (int, float):
             (axis.axvline if reference['axis'] == 'x' else axis.axhline)(reference['value'], color='#73808c', linestyle=':', linewidth=.8, label=reference.get('label'))
+        elif reference.get('axis') == 'identity':
+            # The 45-degree line of calibration and fit plots: predicted equals observed.
+            axis.axline((0, 0), slope=1, color='#73808c', linestyle='--', linewidth=.8, label=reference.get('label'))
     for name in ('x', 'y'):
         if display.get(name + '_limits') is not None:
             getattr(axis, 'set_' + name + 'lim')(*display[name + '_limits'])

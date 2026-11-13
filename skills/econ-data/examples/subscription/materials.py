@@ -275,10 +275,12 @@ def build(root, run, output, language):
          "metadata": {"report_role": "additional", "unit": "probability",
              "public_claims": [f"通常サービス{index['prediction']['observed_customers']:,}人・確率0.2幅" if ja else
                  f"Control: {index['prediction']['observed_customers']:,}; bin width: 0.2"],
-             "internal": {"bin_closure": index["prediction"]["calibration_bin_closure"], "source_key": "prediction.calibration"}},
-         "display": {"plot_type": "line", "x": "predicted", "y": "observed", "style": "presentation", "title": "",
+             "internal": {"bin_closure": index["prediction"]["calibration_bin_closure"], "source_key": "prediction.calibration"},
+             "reference_lines": [{"axis": "identity"}]},
+         "display": {"plot_type": "scatter", "x": "predicted", "y": "observed", "style": "presentation", "title": "",
+             "x_limits": [0, 1], "y_limits": [0, 1],
              "x_label": "平均予測確率" if ja else "Mean prediction",
-             "y_label": "契約継続率" if ja else "Renewal rate", "width": 720, "height": 600,
+             "y_label": "契約継続率" if ja else "Renewal rate", "width": 760, "height": 640,
              "font_size": 32, "legend": False, "colors": {"": "#922E41"}}}]
     paper_calibration = {**definitions[2], "id": "subscription-calibration-paper",
                          "display": {**definitions[2]["display"], "style": "paper", "font_size": 14}}

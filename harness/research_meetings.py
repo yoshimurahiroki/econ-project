@@ -322,6 +322,21 @@ def edit_section(bundle, section_id, changes, *, expected_revision, body=None):
     return {"source_revision": load_meeting(bundle)[2], "analysis_executed": False}
 
 
+def fold_into_exhibit(bundle, source_id, exhibit_id, *, layout="stack"):
+    """Move a prose section onto the exhibit it explains and hide the prose-only page.
+
+    The exhibit page takes the prose section's heading and body, so the claim and
+    its table or figure share one page.
+    """
+    meeting, bodies, revision = load_meeting(bundle)
+    source = next((row for row in meeting["sections"] if row["id"] == source_id), None)
+    if source is None:
+        raise ValueError("Unknown section: " + source_id)
+    edit_section(bundle, exhibit_id, {"title": source["title"], "layout": layout},
+                 body=bodies.get(source_id, ""), expected_revision=revision)
+    edit_section(bundle, source_id, {"visible": False}, expected_revision=load_meeting(bundle)[2])
+
+
 def change_sections(bundle, *, expected_revision, order=None, add=None, remove=None):
     meeting, bodies, revision = load_meeting(bundle)
     if revision != expected_revision:
