@@ -2990,6 +2990,18 @@
         "academic-ja.equipment-subsidy"
       ],
       "applies_to": "*"
+    },
+    "example_academic_ja_slides_seminar": {
+      "optional_examples": [
+        "academic-ja.slides-seminar"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_slides_seminar": {
+      "optional_examples": [
+        "top-five-en.slides-seminar"
+      ],
+      "applies_to": "*"
     }
   },
   "aliases": {

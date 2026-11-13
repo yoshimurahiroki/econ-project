@@ -2000,6 +2000,16 @@
       "source_path": "profiles/academic-ja/PROFILE.md",
       "resource_kind": "profile",
       "content_version": "1.0.0"
+    },
+    "academic-ja-slides-seminar": {
+      "source_path": "profiles/academic-ja/slides-seminar.md",
+      "resource_kind": "profile",
+      "content_version": "1.0.0"
+    },
+    "top-five-en-slides-seminar": {
+      "source_path": "profiles/top-five-en/slides-seminar.md",
+      "resource_kind": "profile",
+      "content_version": "1.0.0"
     }
   },
   "sections": {
@@ -4503,6 +4513,16 @@
       }
     },
     "academic-ja": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "academic-ja-slides-seminar": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "top-five-en-slides-seminar": {
       "all": {
         "whole_resource": true
       }
@@ -8043,7 +8063,10 @@
     },
     "top-five-en.all": {
       "resource_id": "top-five-en",
-      "section_id": "all"
+      "section_id": "all",
+      "optional_examples": [
+        "top-five-en.slides-seminar"
+      ]
     },
     "top-five-en-abstract-labor-public.all": {
       "resource_id": "top-five-en-abstract-labor-public",
@@ -8167,8 +8190,17 @@
       "optional_examples": [
         "academic-ja.childcare-employment",
         "academic-ja.attention-plan-choice",
-        "academic-ja.equipment-subsidy"
+        "academic-ja.equipment-subsidy",
+        "academic-ja.slides-seminar"
       ]
+    },
+    "academic-ja-slides-seminar.all": {
+      "resource_id": "academic-ja-slides-seminar",
+      "section_id": "all"
+    },
+    "top-five-en-slides-seminar.all": {
+      "resource_id": "top-five-en-slides-seminar",
+      "section_id": "all"
     }
   },
   "examples": {
@@ -8422,6 +8454,24 @@
       "language": "ja",
       "function": "literature-survey",
       "field": "investment and policy evaluation",
+      "extended": true
+    },
+    "academic-ja.slides-seminar": {
+      "example_id": "academic-ja.slides-seminar",
+      "resource_id": "academic-ja-slides-seminar",
+      "section_id": "all",
+      "language": "ja",
+      "function": "seminar-slides",
+      "field": "labor and public economics",
+      "extended": true
+    },
+    "top-five-en.slides-seminar": {
+      "example_id": "top-five-en.slides-seminar",
+      "resource_id": "top-five-en-slides-seminar",
+      "section_id": "all",
+      "language": "en",
+      "function": "seminar-slides",
+      "field": "labor and public economics",
       "extended": true
     }
   },
@@ -8787,6 +8837,12 @@
         "all"
       ],
       "academic-ja": [
+        "all"
+      ],
+      "academic-ja-slides-seminar": [
+        "all"
+      ],
+      "top-five-en-slides-seminar": [
         "all"
       ]
     },
@@ -9249,6 +9305,12 @@
       ],
       "academic-ja-equipment-subsidy": [
         "all"
+      ],
+      "academic-ja-slides-seminar": [
+        "all"
+      ],
+      "top-five-en-slides-seminar": [
+        "all"
       ]
     },
     "review": {
@@ -9477,6 +9539,12 @@
         "all"
       ],
       "academic-ja-equipment-subsidy": [
+        "all"
+      ],
+      "academic-ja-slides-seminar": [
+        "all"
+      ],
+      "top-five-en-slides-seminar": [
         "all"
       ]
     },

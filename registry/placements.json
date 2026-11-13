@@ -1140,6 +1140,14 @@
     "academic-ja-equipment-subsidy": {
       "deployment_path": ".agents/profiles/academic-ja/equipment-subsidy.md",
       "export_alias": "ACADEMIC_JA_EQUIPMENT_SUBSIDY.md"
+    },
+    "academic-ja-slides-seminar": {
+      "deployment_path": ".agents/profiles/academic-ja/slides-seminar.md",
+      "export_alias": "ACADEMIC_JA_SLIDES_SEMINAR.md"
+    },
+    "top-five-en-slides-seminar": {
+      "deployment_path": ".agents/profiles/top-five-en/slides-seminar.md",
+      "export_alias": "TOP_FIVE_EN_SLIDES_SEMINAR.md"
     }
   },
   "source": {

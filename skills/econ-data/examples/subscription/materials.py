@@ -311,7 +311,7 @@ def build(root, run, output, language):
         "interpretation": ("支援枠1件の価値", "The value of a contact slot"),
         "decisions": ("採用する配分と実行規模", "Selected allocation and implementation")}
     for kind in ("brief", "results"):
-        sections = slide_prose(index, spec, language)
+        sections = {key: meetings.sentence_bullets(value) for key, value in slide_prose(index, spec, language).items()}
         if kind == "brief":
             sections = {key: body[key] for key in ("question", "data", "specification", "table1", "results")}
             sections["interpretation"] = body["interpretation"] + "\n\n" + body["decisions"]

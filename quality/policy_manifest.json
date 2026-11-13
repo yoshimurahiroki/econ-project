@@ -55,15 +55,15 @@
     },
     "registry_operations": {
       "path": "registry/operations.json",
-      "sha256": "6126e186b7e3199c289d2c713f2ac499dc317e28467b85fe12657231e2cb92bd"
+      "sha256": "2936f8db08803b01dfc341e6c5ee21a81c19b39e89e2fc9618475081480d4aa3"
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "67874e031996efddb4ddc6ecd31fcea4514fd1ac3fa3a4200f54aac17c16a08d"
+      "sha256": "68fce8e299973fb8d7637fe735fa4b1b958d747a2d6ab6e816bc6c51733e65b1"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "85ba00aacea6032fd35bc8a7b1f61d57a8eae8eba95b82b8a2360a28a7967c77"
+      "sha256": "daa6be9f5e0b74ae008c2978b6850ad05fce11dbb88febdfeb77f8cec0f3f0a1"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -71,7 +71,7 @@
     },
     "resource:academic-ja": {
       "path": "profiles/academic-ja/PROFILE.md",
-      "sha256": "b442cdaf454e03298861f7a4d8bc9e149075e09d3889c5b02368fa29bb3b730e"
+      "sha256": "fa478c4a61ab2a90d67884104d7432f89209ce475eac1e32f195ccc39821c13a"
     },
     "resource:academic-ja-attention-plan-choice": {
       "path": "profiles/academic-ja/attention-plan-choice.md",
@@ -84,6 +84,10 @@
     "resource:academic-ja-equipment-subsidy": {
       "path": "profiles/academic-ja/equipment-subsidy.md",
       "sha256": "2882557a1c2e549cda8015b73b7482753cad11228bfb0cb2a69687b40e563283"
+    },
+    "resource:academic-ja-slides-seminar": {
+      "path": "profiles/academic-ja/slides-seminar.md",
+      "sha256": "870b704e3bad27adde63fdc5311ba8e800108fba8654335bedc1c05fc6460403"
     },
     "resource:adaptive-research": {
       "path": "skills/econ-design/references/adaptive-research.md",
@@ -227,7 +231,7 @@
     },
     "resource:example-charging-materials": {
       "path": "skills/econ-data/examples/charging/materials.py",
-      "sha256": "bfbb836b59d1aab96299e0d0dc2242249fd08d5ab9863b864cc339c33a30366d"
+      "sha256": "d266ff8cf1020e04d63888eb9bd48ca5a2bc88ce571c0db3c77a48bf3fdaf259"
     },
     "resource:example-charging-specification": {
       "path": "skills/econ-data/examples/charging/specification.json",
@@ -243,7 +247,7 @@
     },
     "resource:example-commuting-materials": {
       "path": "skills/econ-data/examples/commuting/materials.py",
-      "sha256": "69b56d61f4282ad4e5a0858d887621380ca970dd52de9b18c33540934af51bd2"
+      "sha256": "72835182617753554b10c504eafec741f08e0874fdf19a278ce5b25e43f56d7a"
     },
     "resource:example-commuting-specification": {
       "path": "skills/econ-data/examples/commuting/specification.json",
@@ -259,7 +263,7 @@
     },
     "resource:example-equipment-materials": {
       "path": "skills/econ-data/examples/equipment/materials.py",
-      "sha256": "d4566961a7681b9e603f618377e3fcebdb78b8738dbf43199761b177728c78c5"
+      "sha256": "d41b8069cac67567920032c9f51fdaec854b4cd648f3bb40d8704fb25f0e44a9"
     },
     "resource:example-equipment-specification": {
       "path": "skills/econ-data/examples/equipment/specification.json",
@@ -275,7 +279,7 @@
     },
     "resource:example-housing-materials": {
       "path": "skills/econ-data/examples/housing/materials.py",
-      "sha256": "9cbc3163d03690a511abe2085d33212c018c8f402a3a406de0a721c97837bb33"
+      "sha256": "ae17a7a4854791f70030c8e134c69c7b53533081225443d53fb1e4e5b52c5f21"
     },
     "resource:example-housing-specification": {
       "path": "skills/econ-data/examples/housing/specification.json",
@@ -295,7 +299,7 @@
     },
     "resource:example-subscription-materials": {
       "path": "skills/econ-data/examples/subscription/materials.py",
-      "sha256": "f09d636f33e2a51cba2c28040dcfe3d68e56f835bc83cdf81cdd047d3edd282d"
+      "sha256": "402f71aa79c4fa69b8274909699a1a78fcd4d0d9b090fafa78e33d1cd2a928d4"
     },
     "resource:example-subscription-specification": {
       "path": "skills/econ-data/examples/subscription/specification.json",
@@ -379,7 +383,7 @@
     },
     "resource:meeting-materials": {
       "path": "harness/meetings.md",
-      "sha256": "d9d082553c42a8f7abeeb7de2cc431e1504af8bb21fadef986dd9f67185e8afa"
+      "sha256": "f0b8a169993ac7ca00ffb4ce3f4e523d8a0ea07c1501aa7d5e0469b580d56e47"
     },
     "resource:meeting-quarto-template": {
       "path": "tex/slides/meeting_template.qmd",
@@ -747,7 +751,7 @@
     },
     "resource:research-meetings": {
       "path": "harness/research_meetings.py",
-      "sha256": "0474db0d7402ce7996bc5c9ccbe1b6e751e90137fbd588d135ffab5681d0f524"
+      "sha256": "3e0fd1a17d659479e97ab9f6accb4c1ffcf017a3f9e4dd87533c3d534e7212e5"
     },
     "resource:research-numerics": {
       "path": "skills/econ-data/scripts/research_numerics.py",
@@ -783,7 +787,7 @@
     },
     "resource:resource-guide": {
       "path": "docs/ai/resources.md",
-      "sha256": "ec66c1f7e856625b8cdf6bf1f1b7ba44ede42dd1f8e55a249a6c5c8d96ee7dd0"
+      "sha256": "26a15fe3522dacf4f56e7d52739c9e784f3bc0af58233b21265de0670647dd74"
     },
     "resource:result-artifacts": {
       "path": "skills/econ-writing/references/result-artifacts.md",
@@ -815,7 +819,7 @@
     },
     "resource:top-five-en": {
       "path": "profiles/top-five-en/PROFILE.md",
-      "sha256": "42a33cee931d464f22e669be2a81c650808e388d0cc7016582d73a3e035e1510"
+      "sha256": "2ea4cfe3116b94317ac5e2ccb4e811ce17569e72e3b6bae8ec3f484b8e97bf33"
     },
     "resource:top-five-en-abstract-econometrics": {
       "path": "profiles/top-five-en/abstract-econometrics.md",
@@ -917,9 +921,13 @@
       "path": "profiles/top-five-en/introduction-theory.md",
       "sha256": "b18817c6104d0971fce51f12fb9b3579c1f2f92468c6345aeb21f85013598051"
     },
+    "resource:top-five-en-slides-seminar": {
+      "path": "profiles/top-five-en/slides-seminar.md",
+      "sha256": "372355509549680825cec6c075e99d8d5fa9bdd2b49f32d4ea0fc0bc53851299"
+    },
     "resource:writing-artifacts": {
       "path": "skills/econ-writing/references/artifact-writing.md",
-      "sha256": "fdbad87870f5f2231b96b69c63a9cff85e221a803016e26430cf7a8a1c39267d"
+      "sha256": "b13f73cb2c108b3402a3e75d33a1e99119b0d28db9c5e7e8dd0a7ff324898c40"
     },
     "resource:writing-compose": {
       "path": "skills/econ-writing/references/compose.md",

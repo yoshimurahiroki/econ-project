@@ -60,7 +60,7 @@ def prose(index, spec, language):
             "counterfactual": "交換費用が下がると，企業はより低い摩耗状態で設備を交換するようになる．図は，技術ごとに摩耗状態別の四半期の交換確率を示している．",
             "welfare": f"高度技術による期待操業価値の増分は，設備1台あたり現在価値で{money(advanced, 'operating_value_gain')}千円である．導入費用{advanced['adoption_cost']:,.0f}千円を差し引いた純現在価値は{money(advanced, 'net_present_gain')}千円(95%信頼区間{interval(advanced)})となる．",
             "interpretation": f"高度技術の純現在価値は，標準技術を1台あたり{money(contrast, 'net_gain_difference')}千円(95%信頼区間{interval(contrast)})上回る．両技術の価値は同じ費用推定値から計算されるため，差の信頼区間には両者の共分散を反映している．",
-            "decisions": f"平均純現在価値の基準による選択は{names[index['selected_action']][0]}である．純現在価値は標準技術で{money(standard, 'net_present_gain')}千円，高度技術で{money(advanced, 'net_present_gain')}千円となる．1台あたりの導入予算は{spec['adoption_budget_thousand_jpy']:,.0f}千円である．",
+            "decisions": f"平均純現在価値が最も大きい{names[index['selected_action']][0]}を導入する．純現在価値は標準技術で{money(standard, 'net_present_gain')}千円，高度技術で{money(advanced, 'net_present_gain')}千円となる．1台あたりの導入予算は{spec['adoption_budget_thousand_jpy']:,.0f}千円である．",
         }
     return {
         "title": "Equipment Renewal and the Value of Adoption",

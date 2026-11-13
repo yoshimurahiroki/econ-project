@@ -6,7 +6,7 @@ Profile family: top-five-en. Language: English.
 
 Apply [PROSE Common output](../../runtime/PROSE.md#common-output) to every element selected from this profile.
 
-Select and read the complete sample matching the current passage’s function and research field. Ground adopted expressions and visual elements in the original sources. The 25 body files contain the user-adopted English samples. Preserve their text, equations, headings and table contents. Profile selection and usage instructions belong in this index and the routing registry.
+Select and read the complete sample matching the current passage’s function and research field. Ground adopted expressions and visual elements in the original sources. The 25 paper body files contain the user-adopted English samples; the seminar-slide profile presents the empirical study as a talk in the order motivation, question, this paper, preview of findings, setting, data, strategy, results, mechanism and bottom line. Preserve their text, equations, headings and table contents. Profile selection and usage instructions belong in this index and the routing registry.
 
 ## Select a profile
 
@@ -44,6 +44,7 @@ python scripts/route_registry.py read top-five-en-field-spatial.all
 | field sections | field experiments | [field-experiment](field-experiment.md) |
 | field sections | computational methods | [field-computation](field-computation.md) |
 | field sections | economic history | [field-history](field-history.md) |
+| seminar slides | applied microeconomics | [slides-seminar](slides-seminar.md) |
 
 ## Read connected sections
 

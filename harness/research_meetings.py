@@ -322,18 +322,44 @@ def edit_section(bundle, section_id, changes, *, expected_revision, body=None):
     return {"source_revision": load_meeting(bundle)[2], "analysis_executed": False}
 
 
+JAPANESE = re.compile(r"[\u3040-\u30ff\u4e00-\u9fff]")
+
+
+def slide_line(line):
+    """Slide register: bullets without a terminal stop; Japanese lines use 「、」."""
+    if not JAPANESE.search(line):
+        return line[:-1] if line.startswith("- ") and line.endswith(".") else line
+    line = line.replace("，", "、").replace("．", "。")
+    return line[:-1] if line.endswith("。") else line
+
+
 def sentence_bullets(text):
     """Set a prose paragraph as slide bullets, one sentence per bullet.
 
-    Japanese sentences end with the full stop "．" or "。"; English sentences end
-    with ". ". Display equations, existing lists and single sentences stay as they are.
+    Japanese sentences end with "．" or "。"; English sentences end with ". ".
+    Existing lists and single sentences keep their structure, display equations
+    stay as written, and Japanese lines take the slide register of slide_line.
     """
-    if "$$" in text or text.lstrip().startswith("- "):
-        return text
-    sentences = [part for part in re.split(r"(?<=[．。])|(?<=\.) (?=[A-Z])", text.strip()) if part and part.strip()]
-    if len(sentences) < 2:
-        return text
-    return "\n".join("- " + sentence.strip() for sentence in sentences)
+    blocks = []
+    for part in re.split(r"(\$\$.*?\$\$)", text.strip(), flags=re.S):
+        if part.startswith("$$"):
+            blocks.append(part)
+            continue
+        lines = []
+        for paragraph in part.split("\n\n"):
+            if not paragraph.strip():
+                continue
+            if paragraph.lstrip().startswith("- ") or "\n" in paragraph.strip():
+                lines.append("\n".join(slide_line(line) for line in paragraph.strip().split("\n")))
+                continue
+            sentences = [piece.strip() for piece in re.split(r"(?<=[．。])|(?<=\.) (?=[A-Z])", paragraph.strip()) if piece.strip()]
+            if len(sentences) < 2:
+                lines.append(slide_line(paragraph.strip()))
+            else:
+                lines.append("\n".join("- " + slide_line(sentence) for sentence in sentences))
+        if lines:
+            blocks.append("\n\n".join(lines))
+    return "\n\n".join(blocks)
 
 
 def fold_into_exhibit(bundle, source_id, exhibit_id, *, layout="stack"):

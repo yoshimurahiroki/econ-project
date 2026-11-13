@@ -287,3 +287,5 @@ Generated from the resource and placement registries. Use this catalog only for 
 - academic-ja-attention-plan-choice: profiles/academic-ja/attention-plan-choice.md
 - academic-ja-equipment-subsidy: profiles/academic-ja/equipment-subsidy.md
 - academic-ja: profiles/academic-ja/PROFILE.md
+- academic-ja-slides-seminar: profiles/academic-ja/slides-seminar.md
+- top-five-en-slides-seminar: profiles/top-five-en/slides-seminar.md

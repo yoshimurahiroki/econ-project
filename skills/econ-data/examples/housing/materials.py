@@ -48,13 +48,13 @@ def prose(index, spec, language):
             "title": "通勤アクセスと床供給の政策評価",
             "question": "都市当局は交通整備に床供給の拡張を組み合わせるべきか．交通整備は通勤時間を短縮し，労働者の居住地と勤務地の選択を変える．労働者が郊外へ移ると郊外の賃料が上がり，床供給が制約されていれば便益の一部は所有者に帰着する．本稿では，定量的空間均衡モデルを用いて，交通整備単独と床供給拡張との組合せの年間純便益を比較する．",
             "model": "労働者は，賃金，賃料，通勤時間，居住環境に基づいて居住地と勤務地の組を選ぶ．企業は労働と事業用床を投入して財を生産する．各地区の床市場では，住宅用と事業用の床需要の合計が床供給に等しい．居住と雇用の密度は，それぞれ居住環境と生産性に集積効果として作用する．",
-            "identification": "弾力性と通勤費用の係数は既存研究の値を採用する．その下で，地区別の居住者数，就業者数，賃料を均衡条件に代入し，観察されない賃金，生産性，居住環境，床供給を基準均衡として復元する．",
+            "identification": "弾力性と通勤費用の係数は仕様で定めた値を用いる．その下で，地区別の居住者数，就業者数，賃料を均衡条件に代入し，観察されない賃金，生産性，居住環境，床供給を基準均衡として復元する．",
             "data": "分析には，架空都市の3地区に暮らす労働者12,000人のデータを用いる．地区別に居住者数と事業所の就業者数を集計した．地区の賃料は，年間の賃料収入総額を賃貸床面積で割って求めている．居住地と勤務地の9つの組について移動時間を対応させた．",
             "parameters": "基準均衡の平均年賃金は400万円である．交通整備は中心部と郊外の間の移動時間を40分から20分に短縮する．組合せ政策では，これに加えて郊外の床供給を20%拡張する．いずれの政策も同じ基準均衡から反実仮想の均衡を計算する．",
             "counterfactual": f"交通整備の年間費用は{money(transport, 'policy_resource_cost')}百万円である．組合せ政策は{combined['additional_floor_m2']:,.0f}平方メートルの床を追加し，年間費用は{money(combined, 'policy_resource_cost')}百万円となる．年間の資源予算は{spec['policy_budget_thousand_jpy'] / 1000:,.0f}百万円である．",
             "welfare": f"組合せ政策による労働者の便益は，所得換算で{money(combined, 'worker_income_equivalent')}百万円である．所有者の賃料収入は{money(combined, 'owner_income_change_gross')}百万円増加し，政策費用を負担した後の所得変化は{money(combined, 'owner_income_change_net')}百万円となる．両者を合計した年間純便益は{money(combined, 'net_income_equivalent')}百万円である．",
             "interpretation": f"平均通勤時間は，基準均衡の{rows['baseline']['mean_commute_minutes']:.1f}分から組合せ政策では{combined['mean_commute_minutes']:.1f}分となる．政策の便益は，この立地の再配分を織り込んで評価される．",
-            "decisions": f"年間純便益の基準による選択は{names[index['selected_action']][0]}である．年間純便益は交通整備単独で{money(transport, 'net_income_equivalent')}百万円，床供給拡張との組合せで{money(combined, 'net_income_equivalent')}百万円となる．",
+            "decisions": f"年間純便益が最も大きい{names[index['selected_action']][0]}を採用する．年間純便益は交通整備単独で{money(transport, 'net_income_equivalent')}百万円，床供給拡張との組合せで{money(combined, 'net_income_equivalent')}百万円となる．",
         }
     return {
         "title": "Commuting Access, Floor Supply, and Policy Gains",
