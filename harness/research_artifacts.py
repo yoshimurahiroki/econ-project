@@ -2097,42 +2097,42 @@ def latex_adapter(source, kind):
     def replace_once(body, old, new):
         if body.count(old)!=1: raise ValueError('LaTeX template slot changed: '+kind)
         return body.replace(old,new,1)
+    def replace_region(body, name, new):
+        """Replace the lines between %% BEGIN NAME and %% END NAME, markers included."""
+        start,end='%% BEGIN '+name+'\n','%% END '+name+'\n'
+        if body.count(start)!=1 or body.count(end)!=1: raise ValueError('LaTeX template region changed: '+kind+' '+name)
+        i=body.index(start); j=body.index(end,i)
+        return body[:i]+new+'\n'+body[j+len(end):]
     common=('$if(bibliography)$$else$\\let\\econbibstyle\\bibliographystyle\n'
             '\\renewcommand{\\bibliographystyle}[1]{}\n$endif$'
             '$common.latex()$\n$if(bibliography)$$else$\\let\\bibliographystyle\\econbibstyle\n$endif$'
-            '$for(header-includes)$\n$header-includes$\n$endfor$\n')
+            # Quarto's common.latex already emits header-includes; Pandoc's partial leaves them to the template.
+            '$if(standalone-renderer)$$for(header-includes)$\n$header-includes$\n$endfor$\n$endif$')
     if kind=='paper':
         common += '$if(japanese)$\n\\AtBeginDocument{\\renewcommand{\\tablename}{表}\\renewcommand{\\figurename}{図}\\renewcommand{\\thetable}{\\arabic{table}}\\renewcommand{\\thefigure}{\\arabic{figure}}}\n$endif$\n\\raggedbottom\n\\AtBeginEnvironment{longtable}{\\def\\_{\\textunderscore\\allowbreak}}\n'
         source=replace_once(source,'\\documentclass[ecta,nameyear,draft]{econsocart}', '\\RequirePackage{fontspec}\n\\def\\econselectedclass{$documentclass$}\n\\def\\econjournalclass{econsocart}\n\\ifx\\econselectedclass\\econjournalclass\n\\documentclass[ecta,nameyear,draft]{econsocart}\n\\else\n\\documentclass[$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}\n\\fi')
         source=replace_once(source,'\\documentclass[ecta,nameyear,draft]{econsocart}', '\\documentclass[ecta,nameyear,$if(classoption)$$for(classoption)$$classoption$$sep$,$endfor$$else$final$endif$]{econsocart}')
-        source=replace_once(source,'\\support{}', '$if(support)$\\support{$support$}$endif$')
         source=replace_once(source,'\\startlocaldefs',common+'\\newcounter{pandocauthor}\n\\newcommand{\\pandocauthor}[1]{\\stepcounter{pandocauthor}\\author[id=au\\arabic{pandocauthor},addressref={add1}]{\\fnms{}~\\snm{#1}\\ead[label=e\\arabic{pandocauthor}]{}}}\n\\ifx\\econselectedclass\\econjournalclass\n\\startlocaldefs')
         source=replace_once(source,'\\endlocaldefs','\\endlocaldefs\n\\fi')
         source=replace_once(source,'\\begin{frontmatter}','\\ifx\\econselectedclass\\econjournalclass\n\\begin{frontmatter}')
         source=replace_once(source,'\\end{frontmatter}', '\\end{frontmatter}\n\\else\n$if(title)$\\title{$title$}$endif$\n\\author{$for(author)$$author$$sep$ \\and $endfor$}\n$if(date)$\\date{$date$}$endif$\n$if(title)$\\maketitle$endif$\n$if(abstract)$\\begin{abstract}$abstract$\\end{abstract}$endif$\n$if(keywords)$\\noindent\\textbf{Keywords:} $for(keywords)$$keywords$$sep$, $endfor$$endif$\n\\fi')
-        source=replace_once(source,'\\title{???}\n\\runtitle{???}', '$if(title)$\\title{$title$}\n\\runtitle{$title$}$endif$')
-        source=replace_once(source,'\\author[id=au1,addressref={add1}]{\\fnms{}~\\snm{}\\ead[label=e1]{}}', '$for(author)$\\pandocauthor{$author$}\n$endfor$')
-        source=replace_once(source,'\\begin{abstract}\n???\n\\end{abstract}', '$if(abstract)$\\begin{abstract}\n$abstract$\n\\end{abstract}$endif$')
-        source=replace_once(source,'\\begin{keyword}\n\\kwd{???}\n\\kwd{???}\n\\end{keyword}', '$if(keywords)$\\begin{keyword}\n$for(keywords)$\\kwd{$keywords$}\n$endfor$\\end{keyword}$endif$')
-        source=replace_once(source,'\\section{???}\n???', '$body$')
-        source=replace_once(source,'\\bibliographystyle{ecta-fullname} % Style BST file', '% Bibliography style is set to ecta-fullname by the renderer.')
-        source=replace_once(source,'\\bibliography{../bibliography}  % Bibliography file (usually \'*.bib\')', '$if(bibliography)$\\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}$endif$')
+        regions={'TITLE':'$if(title)$\\title{$title$}\n\\runtitle{$title$}$endif$',
+                 'AUTHORS':'$for(author)$\\pandocauthor{$author$}\n$endfor$\\address[id=add1]{}',
+                 'SUPPORT':'$if(support)$\\support{$support$}$endif$',
+                 'ABSTRACT':'$if(abstract)$\\begin{abstract}\n$abstract$\n\\end{abstract}$endif$',
+                 'KEYWORDS':'$if(keywords)$\\begin{keyword}\n$for(keywords)$\\kwd{$keywords$}\n$endfor$\\end{keyword}$endif$',
+                 'BODY':'$body$',
+                 'BIBLIOGRAPHY':'% Bibliography style is set to ecta-fullname by the renderer.\n$if(bibliography)$\\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}$endif$'}
+        for name,content in regions.items(): source=replace_region(source,name,content)
     elif kind=='slides':
         # Pandoc's common preamble selects Babel's locale through the class option.
         source=replace_once(source,'\\documentclass[unicode, t, 12pt, aspectratio=169, unknownkeysallowed]{beamer}', '\\documentclass[unicode, t, 12pt, unknownkeysallowed$if(babel-lang)$,$babel-lang$$endif$,aspectratio=$if(aspectratio)$$aspectratio$$else$169$endif$]{beamer}')
         source=replace_once(source,'\\usetheme[numbering=fraction]{metropolis}', '$if(theme)$\\usetheme{$theme$}$else$\\usetheme[numbering=fraction]{metropolis}$endif$')
-        source=replace_once(source,'\\title[Footer title]{TITLE}\n\\subtitle{SUBTITLE}\n\\author{Author}\n\\institute{}\n\\date{\\today}', '$if(title)$\\title{$title$}$endif$\n$if(subtitle)$\\subtitle{$subtitle$}$endif$\n\\author{$for(author)$$author$$sep$ \\and $endfor$}\n$if(institute)$\\institute{$institute$}$endif$\n\\date{$if(date)$$date$$else$\\today$endif$}')
         source=replace_once(source,'\\usepackage{amsmath}\n\\begin{document}', '\\usepackage{amsmath}\n'+common+'\\AtBeginEnvironment{longtable}{\\normalsize\\setlength{\\tabcolsep}{8pt}\\renewcommand{\\arraystretch}{1.25}}\n\\begin{document}')
-        start=source.index('\\begin{frame}{}'); end=source.index('\\appendix',start)
-        source=source[:start]+'$body$\n\n'+source[end:]
-        guard='\\IfFileExists{../bibliography.bib}{\n'
-        if guard in source:
-            source=replace_once(source,guard+'\\begin{frame}{References}','\\begin{frame}{References}')
-            source=replace_once(source,'\\end{frame}\n}{}\n\n\\end{document}','\\end{frame}\n\n\\end{document}')
-        source=replace_once(source,'\\begin{frame}{References}', '$if(bibliography)$\\begin{frame}{References}')
-        source=replace_once(source,'\\bibliography{../bibliography}  % Bibliography file (usually \'*.bib\')', '\\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}')
-        source=replace_once(source,'\\end{frame}\n\n\\end{document}', '\\end{frame}$endif$\n\n\\end{document}')
-        source=replace_once(source,'\\bibliographystyle{../paper/ecta-fullname} % Style BST file', '% Bibliography style is set to ecta-fullname by the renderer.')
+        regions={'TITLE':'$if(title)$\\title{$title$}$endif$\n$if(subtitle)$\\subtitle{$subtitle$}$endif$\n\\author{$for(author)$$author$$sep$ \\and $endfor$}\n$if(institute)$\\institute{$institute$}$endif$\n\\date{$if(date)$$date$$else$\\today$endif$}',
+                 'BODY':'$body$',
+                 'BIBLIOGRAPHY':'$if(bibliography)$\\begin{frame}{References}\n    \\normalsize\n    \\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}\n    % Bibliography style is set to ecta-fullname by the renderer.\n\n    \\nocite{*}\n\\end{frame}$endif$'}
+        for name,content in regions.items(): source=replace_region(source,name,content)
     else: raise ValueError('Unknown LaTeX template kind')
     return source
 

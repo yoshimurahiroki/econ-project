@@ -1,7 +1,8 @@
 ---
-title: "TITLE"
-subtitle: "SUBTITLE"
+title: "Title"
+subtitle: "Subtitle"
 author: "Author"
+institute: "University"
 date: today
 format:
   beamer:
@@ -12,3 +13,60 @@ format:
     slide-level: 1
 ---
 
+# Motivation
+
+- The fact, anecdote or policy decision that makes the question matter
+- The quantity the decision depends on
+
+# Question
+
+What happens to OUTCOME when POLICY changes?
+
+- Counterfactual: what would happen if ...
+- Parameter: how large is ...
+
+# This paper
+
+- Setting and source of variation
+- Data that measure the response
+- What the paper adds
+
+# Preview of findings
+
+- Main estimate with its standard error and units
+- Response in the comparison group
+- Bottom line: the policy or welfare magnitude
+
+# Data
+
+- Source of each variable and its unit of observation
+- Sample, period and number of observations
+
+# Model
+
+$$
+y_{it} = \alpha_i + \delta_t + \beta x_{it} + \varepsilon_{it}
+$$
+
+- $y_{it}$: outcome of unit $i$ in period $t$
+- $\alpha_i$, $\delta_t$: unit and period fixed effects
+- Identification: $\mathrm{E}(\varepsilon_{it}\mid x_{it},\alpha_i,\delta_t)=0$
+
+# Bottom line
+
+- $\gamma$: the cost per unit of the policy
+- $\beta/\gamma$: the share of the cost borne by the outcome group
+
+# Key magnitudes
+
+|                             | Estimate | SE   |
+|:----------------------------|:--------:|:----:|
+| Effect on outcome           | 0.00     | 0.00 |
+| Effect on comparison group  | 0.00     | 0.00 |
+| Bottom line, $\beta/\gamma$ | 0.00     | 0.00 |
+
+# Conclusion
+
+- The answer to the question
+- Its magnitude
+- The decision it informs

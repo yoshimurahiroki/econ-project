@@ -1,148 +1,212 @@
 % !TEX program = lualatex
-
-% Template for the submission to:
-%   Econometrica   [ecta]
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% In this template, the places where you   %%
-%% need to fill in your information are     %%
-%% indicated by '???'.                      %%
-%%                                          %%
-%% Please do not use \input{...} to include %%
-%% other tex files. Submit your LaTeX       %%
-%% manuscript as one .tex document.         %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% use option [draft] for initial submission
-%            [final] for the prepublication
+% Econometrica manuscript on the Econometric Society class (econsocart.cls,
+% econsocart.cfg, ecta-fullname.bst). Option [draft] typesets the submission
+% version; [final] the prepublication version. Grey angle-bracket slots mark
+% the content each sentence carries.
 \documentclass[ecta,nameyear,draft]{econsocart}
-%
-%
 
 \RequirePackage[colorlinks,citecolor=blue,linkcolor=blue,urlcolor=blue,pagebackref]{hyperref}
-
-% 日本語対応のためのパッケージ
-% \usepackage{luatexja}
 \usepackage{luatexja-fontspec}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{bm}
 \usepackage{float}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{threeparttable}
+\ifdefined\abovecaptionskip\else\newlength{\abovecaptionskip}\fi
+\usepackage{graphicx}
 \newcommand{\hiddenlabel}[1]{\refstepcounter{equation}\label{#1}}
 \newcommand{\hiddenfiglabel}[1]{\refstepcounter{figure}\label{#1}}
 \newcommand{\hiddentablabel}[1]{\refstepcounter{table}\label{#1}}
 
 \startlocaldefs
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                          %%
-%% Uncomment next line to change            %%
-%% the type of equation numbering           %%
-%%                                          %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\numberwithin{equation}{section}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                          %%
-%% For Assumption, Axiom, Claim, Corollary, %%
-%% Lemma, Theorem, Proposition, Hypothezis, %%
-%% Fact                                     %%
-%% use \theoremstyle{plain}                 %%
-%%                                          %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\theoremstyle{plain}
-%\newtheorem{???}{???}
-%\newtheorem*{???}{???}
-%\newtheorem{???}{???}[???]
-%\newtheorem{???}[???]{???}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                          %%
-%% For Definition, Example, Remark,         %%
-%% Notation, Property                       %%
-%% use \theoremstyle{remark}                %%
-%%                                          %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\theoremstyle{remark}
-%\newtheorem{???}{???}
-%\newtheorem*{???}{???}
-%\newtheorem{???}{???}[???]
-%\newtheorem{???}[???]{???}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Please put your definitions here:        %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+\newcommand{\econtheorem}[3]{\ifcsname #1\endcsname\else\theoremstyle{#2}\newtheorem{#1}{#3}\fi}
+\econtheorem{assumption}{plain}{Assumption}
+\econtheorem{proposition}{plain}{Proposition}
+\econtheorem{lemma}{plain}{Lemma}
+\econtheorem{corollary}{plain}{Corollary}
+\econtheorem{definition}{remark}{Definition}
+\econtheorem{example}{remark}{Example}
+\ifdefined\slot\else\DeclareRobustCommand{\slot}[1]{{\color{gray}\itshape\ensuremath{\langle}#1\ensuremath{\rangle}}}\fi
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
 \endlocaldefs
 
 \begin{document}
 
 \begin{frontmatter}
 
-\title{???}
-\runtitle{???}
+%% BEGIN TITLE
+\title{\slot{Title}}
+\runtitle{\slot{Running title}}
+%% END TITLE
 
 \begin{aug}
-% use \particle for den|der|de|van|von (only lc!)
-% [id=?,addressref=?,corref]{\fnms{}~\snm{}\ead[label=e?]{}\thanksref{}}
-%
-%% e-mail is mandatory for each author
-%
-%%% initials in fnms (if any) with spaces
-%
-\author[id=au1,addressref={add1}]{\fnms{}~\snm{}\ead[label=e1]{}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Addresses                                %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\address[id=add1]{}
+%% BEGIN AUTHORS
+\author[id=au1,addressref={add1}]{\fnms{First}~\snm{Author}\ead[label=e1]{author@university.edu}}
+\address[id=add1]{\orgdiv{Department of Economics}, \orgname{University}}
+%% END AUTHORS
 
-\support{}
+%% BEGIN SUPPORT
+\support{We thank \slot{research assistants} for research support and \slot{discussants}, the editor, three anonymous referees and seminar participants for comments. \slot{Author} received financial support from \slot{funder}.}
+%% END SUPPORT
 
-%% Put support info here.  Reminder: do not thank the handling coeditor anonymously or by name
-%% \support{We thank ???.}
-%
+%% BEGIN ABSTRACT
 \begin{abstract}
-???
+This paper studies the effect of \slot{treatment} on \slot{outcome}. We focus on \slot{setting}, which \slot{scale and reach}. Using \slot{data, population and period}, we estimate \slot{estimand}. \slot{Source of variation} assigns \slot{treatment} independently of \slot{potential outcomes}. We find that \slot{main result with magnitude}. \slot{Mechanism or welfare implication}.
 \end{abstract}
+%% END ABSTRACT
 
+%% BEGIN KEYWORDS
 \begin{keyword}
-\kwd{???}
-\kwd{???}
+\kwd{\slot{Keyword}}
+\kwd{\slot{Keyword}}
+\kwd{\slot{Keyword}}
 \end{keyword}
+%% END KEYWORDS
 
 \end{aug}
 
 \end{frontmatter}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%% Main text entry area:
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{???}
-???
+%% BEGIN BODY
+\section{Introduction}\label{sec:introduction}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Single Appendix:            %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{appendix}
-%\section*{???} %% if no title is needed, leave empty \section*{}.
-%\end{appendix}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Multiple Appendixes:        %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{appendix}
-%\section{???}
-%
-%\section{???}
-%\end{appendix}
+A growing literature documents \slot{established fact}. It remains open whether \slot{the paper's question}. This paper answers the question by studying \slot{setting}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Bibliography:                            %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% IMPORTANT: References in the bibliography should be complete,
-%% including the first and last names, and date of publication.
+\slot{Why the setting decides the question: the agents, the stakes and the margin the policy moves.}
 
-%% If your bibliography is in bibtex format, uncomment commands:
-\bibliographystyle{ecta-fullname} % Style BST file
-\bibliography{../bibliography}  % Bibliography file (usually '*.bib')
+This paper analyzes the effect of \slot{treatment} by linking \slot{first data source, period} with \slot{second data source, period}. We use \slot{design}, leveraging \slot{the rule, date or assignment that generates the variation}.
 
+We estimate the effect on three outcomes. First, \slot{outcome and estimate with standard error}. Second, \slot{outcome and estimate}. Third, \slot{outcome and estimate}.
 
+These results answer \slot{the question}: \slot{the economic magnitude, incidence or welfare quantity implied by the estimates}.
+
+This paper contributes to three literatures. \slot{Literature one, its benchmark estimate and the estimate this paper adds.} \slot{Literature two.} \slot{Literature three.}
+
+Section~\ref{sec:setting} describes the institutional setting. Section~\ref{sec:data} presents the data. Section~\ref{sec:framework} lays out the conceptual framework. Section~\ref{sec:strategy} describes the empirical strategy. Section~\ref{sec:results} reports the results. Section~\ref{sec:mechanisms} studies the mechanisms. Section~\ref{sec:conclusion} concludes.
+
+\section{Institutional Setting}\label{sec:setting}
+
+\slot{The rule, its history and timing, the agents it reaches and the choice margin it moves.}
+
+\section{Data}\label{sec:data}
+
+\slot{Sources, linkage, unit of observation, period, sample restrictions and outcome construction.} Table~\ref{tab:summary} reports summary statistics.
+
+\begin{table}[t]
+\centering
+\caption{Summary Statistics}\label{tab:summary}
+\begin{threeparttable}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & All & Treated & Comparison \\
+ & (1) & (2) & (3) \\
+\midrule
+\slot{Outcome} & 0.000 & 0.000 & 0.000 \\
+ & [0.000] & [0.000] & [0.000] \\
+\slot{Covariate} & 0.000 & 0.000 & 0.000 \\
+ & [0.000] & [0.000] & [0.000] \\
+\midrule
+\textit{N} & 0 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item \textit{Notes.} Means and standard deviations (in brackets) for \slot{sample, period and unit}. Column (2) includes \slot{treated units}; column (3) includes \slot{comparison units}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Conceptual Framework}\label{sec:framework}
+
+\slot{Agents, objectives, choice sets, information and equilibrium.} The framework delivers the prediction that Section~\ref{sec:mechanisms} takes to the data.
+
+\begin{assumption}\label{ass:primitive}
+\slot{Primitive restriction.}
+\end{assumption}
+
+\begin{proposition}\label{prop:main}
+Under Assumption~\ref{ass:primitive}, \slot{prediction}.
+\end{proposition}
+
+Appendix~\ref{app:proofs} proves Proposition~\ref{prop:main}.
+
+\section{Empirical Strategy}\label{sec:strategy}
+
+We estimate
+\begin{equation}\label{eq:main}
+y_{it} = \alpha_i + \lambda_{t} + \beta D_{it} + X_{it}'\gamma + \varepsilon_{it},
+\end{equation}
+where $y_{it}$ is \slot{outcome} for unit $i$ in period $t$, $\alpha_i$ and $\lambda_t$ are unit and period fixed effects, $D_{it}$ indicates \slot{treatment} and $X_{it}$ contains \slot{controls}. The parameter $\beta$ identifies \slot{estimand} under
+\begin{equation}\label{eq:identification}
+\E\left[\varepsilon_{it}\mid D_{it}, X_{it}, \alpha_i, \lambda_t\right] = 0,
+\end{equation}
+which states that \slot{the economic content of the condition}. Standard errors are clustered by \slot{level of assignment}.
+
+\section{Results}\label{sec:results}
+
+Figure~\ref{fig:main} presents event-study estimates of the effect of \slot{treatment} on \slot{outcome}. Table~\ref{tab:main} summarizes the estimates.
+
+\begin{figure}[t]
+\centering
+\IfFileExists{figures/main.pdf}{\includegraphics[width=0.85\textwidth]{figures/main.pdf}}{\fbox{\parbox[c][0.32\textwidth][c]{0.85\textwidth}{\centering figures/main.pdf}}}
+\caption{The Effect of \slot{Treatment} on \slot{Outcome}}\label{fig:main}
+\begin{minipage}{0.85\textwidth}\footnotesize
+The figure presents event-study estimates of the effect of \slot{treatment} on \slot{outcome}. The sample is \slot{sample}. Regressions include \slot{fixed effects}. Error spikes give 95\% confidence intervals, with standard errors clustered by \slot{level}.
+\end{minipage}
+\end{figure}
+
+\begin{table}[t]
+\centering
+\caption{Regression Estimates: Effect of \slot{Treatment} on \slot{Outcomes}}\label{tab:main}
+\begin{threeparttable}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ & \multicolumn{2}{c}{\slot{Outcome A}} & \multicolumn{2}{c}{\slot{Outcome B}} \\
+\cmidrule(lr){2-3}\cmidrule(l){4-5}
+ & (1) & (2) & (3) & (4) \\
+\midrule
+\slot{Treatment} & 0.000 & 0.000 & 0.000 & 0.000 \\
+ & (0.000) & (0.000) & (0.000) & (0.000) \\
+\midrule
+Mean of outcome & 0.000 & 0.000 & 0.000 & 0.000 \\
+\textit{N} & 0 & 0 & 0 & 0 \\
+Unit fixed effects & X & X & X & X \\
+Period fixed effects & X & X & X & X \\
+Controls &  & X &  & X \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]\footnotesize
+\item \textit{Notes.} Estimates of $\beta$ in equation~\eqref{eq:main} for the outcomes indicated by column headers. Columns (2) and (4) add \slot{controls}. Standard errors (in parentheses) are clustered at the \slot{level}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Mechanisms}\label{sec:mechanisms}
+
+\slot{The test of Proposition~\ref{prop:main} and its estimate; the counterfactual, incidence or welfare calculation.}
+
+\section{Conclusion}\label{sec:conclusion}
+
+\slot{The answer, its magnitude and the decision it informs.}
+
+\begin{appendix}
+\section{Proofs}\label{app:proofs}
+
+\begin{proof}[Proof of Proposition~\ref{prop:main}]
+\slot{Proof.}
+\end{proof}
+
+\section{Additional Results}\label{app:additional}
+
+\slot{Additional tables and figures.}
+\end{appendix}
+%% END BODY
+
+%% BEGIN BIBLIOGRAPHY
+\bibliographystyle{ecta-fullname}
+\bibliography{../bibliography}
+%% END BIBLIOGRAPHY
 
 \end{document}

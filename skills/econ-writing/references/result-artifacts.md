@@ -143,7 +143,7 @@ The renderer supports specialized layouts informed by the event-study and balanc
 
 ## Default LaTeX family
 
-New paper and slide exports use the supplied [Econometrica paper](../../../tex/paper/ecta_template.tex) and [metropolis slides](../../../tex/slides/main.tex). Their original author/title/body placeholders remain available for source-bound borrowing, imitation and minimal adjustment; inspect corresponding real source pages and slides for all content and visual choices. Keep the paper's class, configuration and `ecta-fullname.bst` together. A citing direct document reads its project bibliography at `tex/bibliography.bib`; a missing requested bibliography remains a build error.
+New paper and slide exports use the supplied [Econometrica paper](../../../tex/paper/ecta_template.tex) and [metropolis slides](../../../tex/slides/main.tex). The generator replaces each `%% BEGIN NAME` … `%% END NAME` region of the two templates (title, authors, support, abstract, keywords, body, bibliography) and keeps the preamble, so `python harness/research_artifacts.py generate-adapters --root .` rebuilds both adapters after a template edit; inspect corresponding real source pages and slides for all content and visual choices. Keep the paper's class, configuration and `ecta-fullname.bst` together. A citing direct document reads its project bibliography at `tex/bibliography.bib`; a missing requested bibliography remains a build error.
 
 The existing artifact helper derives Pandoc adapters from those exact source templates:
 

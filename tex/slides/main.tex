@@ -41,11 +41,13 @@
 \setbeamerfont{footnote}{size=\normalsize}
 \AtBeginDocument{\normalsize}
 
-\title[Footer title]{TITLE}
-\subtitle{SUBTITLE}
+%% BEGIN TITLE
+\title{Title}
+\subtitle{Subtitle}
 \author{Author}
-\institute{}
+\institute{University}
 \date{\today}
+%% END TITLE
 
 %%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{amsmath}
@@ -55,28 +57,91 @@
  \titlepage
 \end{frame}
 
-\begin{comment}
-\begin{frame}{目次}
-    \tableofcontents
-\end{frame}
-\end{comment}
-
-
-\begin{frame}{}
-    \textbf{}
+%% BEGIN BODY
+\begin{frame}{Motivation}
     \begin{itemize}
-        \item
-        \item
-        \item
+        \item The fact, anecdote or policy decision that makes the question matter
+        \item The quantity the decision depends on
     \end{itemize}
 \end{frame}
 
+\begin{frame}{Question}
+    What happens to \alert{outcome} when \alert{policy} changes?
+    \begin{itemize}
+        \item Counterfactual: what would happen if \dots
+        \item Parameter: how large is \dots
+    \end{itemize}
+\end{frame}
 
+\begin{frame}{This paper}
+    \begin{itemize}
+        \item Setting and source of variation
+        \item Data that measure the response
+        \item What the paper adds
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Preview of findings}
+    \begin{itemize}
+        \item Main estimate with its standard error and units
+        \item Response in the comparison group
+        \item Bottom line: the policy or welfare magnitude
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Data}
+    \begin{itemize}
+        \item Source of each variable and its unit of observation
+        \item Sample, period and number of observations
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Model}
+    \[
+    y_{it} = \alpha_i + \delta_t + \beta x_{it} + \varepsilon_{it}
+    \]
+    \begin{itemize}
+        \item $y_{it}$: outcome of unit $i$ in period $t$
+        \item $\alpha_i$, $\delta_t$: unit and period fixed effects
+        \item Identification: $\mathrm{E}(\varepsilon_{it}\mid x_{it},\alpha_i,\delta_t)=0$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Bottom line}
+    \begin{itemize}
+        \item $\gamma$: the cost per unit of the policy
+        \item $\beta/\gamma$: the share of the cost borne by the outcome group
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Main result}
+    \centering
+    \IfFileExists{figures/main.pdf}{\includegraphics[height=0.72\textheight]{figures/main.pdf}}{\fbox{\parbox[c][0.6\textheight][c]{0.8\textwidth}{\centering figures/main.pdf}}}
+\end{frame}
+
+\begin{frame}{Key magnitudes}
+    \centering
+    \begin{tabular}{lcc}
+        & Estimate & SE \\
+        \hline
+        Effect on outcome & 0.00 & 0.00 \\
+        Effect on comparison group & 0.00 & 0.00 \\
+        Bottom line, $\beta/\gamma$ & 0.00 & 0.00 \\
+    \end{tabular}
+\end{frame}
+
+\begin{frame}{Conclusion}
+    \begin{itemize}
+        \item The answer to the question
+        \item Its magnitude
+        \item The decision it informs
+    \end{itemize}
+\end{frame}
+%% END BODY
 
 \appendix
 
-
-
+%% BEGIN BIBLIOGRAPHY
 \IfFileExists{../bibliography.bib}{
 \begin{frame}{References}
     \normalsize
@@ -86,5 +151,6 @@
     \nocite{*}
 \end{frame}
 }{}
+%% END BIBLIOGRAPHY
 
 \end{document}

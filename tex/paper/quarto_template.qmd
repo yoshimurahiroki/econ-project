@@ -1,11 +1,95 @@
 ---
 title: "Title"
-author: "Author"
-abstract: "Abstract."
+author:
+  - "First Author"
+support: "We thank research assistants for research support and the editor, three anonymous referees and seminar participants for comments."
+abstract: |
+  This paper studies the effect of TREATMENT on OUTCOME. We focus on SETTING, which SCALE AND REACH. Using DATA, POPULATION AND PERIOD, we estimate ESTIMAND. SOURCE OF VARIATION assigns TREATMENT independently of POTENTIAL OUTCOMES. We find that MAIN RESULT WITH MAGNITUDE. MECHANISM OR WELFARE IMPLICATION.
 keywords:
-  - keyword
+  - Keyword
+  - Keyword
+  - Keyword
 ---
 
-# Introduction
+# Introduction {#sec-introduction}
 
-Text.
+A growing literature documents ESTABLISHED FACT. It remains open whether THE PAPER'S QUESTION. This paper answers the question by studying SETTING.
+
+WHY THE SETTING DECIDES THE QUESTION: THE AGENTS, THE STAKES AND THE MARGIN THE POLICY MOVES.
+
+This paper analyzes the effect of TREATMENT by linking FIRST DATA SOURCE, PERIOD with SECOND DATA SOURCE, PERIOD. We use DESIGN, leveraging THE RULE, DATE OR ASSIGNMENT THAT GENERATES THE VARIATION.
+
+We estimate the effect on three outcomes. First, OUTCOME AND ESTIMATE WITH STANDARD ERROR. Second, OUTCOME AND ESTIMATE. Third, OUTCOME AND ESTIMATE.
+
+These results answer THE QUESTION: THE ECONOMIC MAGNITUDE, INCIDENCE OR WELFARE QUANTITY IMPLIED BY THE ESTIMATES.
+
+This paper contributes to three literatures. LITERATURE ONE, ITS BENCHMARK ESTIMATE AND THE ESTIMATE THIS PAPER ADDS. LITERATURE TWO. LITERATURE THREE.
+
+@sec-setting describes the institutional setting. @sec-data presents the data. @sec-framework lays out the conceptual framework. @sec-strategy describes the empirical strategy. @sec-results reports the results. @sec-mechanisms studies the mechanisms. @sec-conclusion concludes.
+
+# Institutional Setting {#sec-setting}
+
+THE RULE, ITS HISTORY AND TIMING, THE AGENTS IT REACHES AND THE CHOICE MARGIN IT MOVES.
+
+# Data {#sec-data}
+
+SOURCES, LINKAGE, UNIT OF OBSERVATION, PERIOD, SAMPLE RESTRICTIONS AND OUTCOME CONSTRUCTION. @tbl-summary reports summary statistics.
+
+|           | All     | Treated | Comparison |
+|:----------|:-------:|:-------:|:----------:|
+|           | (1)     | (2)     | (3)        |
+| OUTCOME   | 0.000   | 0.000   | 0.000      |
+|           | [0.000] | [0.000] | [0.000]    |
+| COVARIATE | 0.000   | 0.000   | 0.000      |
+|           | [0.000] | [0.000] | [0.000]    |
+| *N*       | 0       | 0       | 0          |
+
+: Summary Statistics {#tbl-summary}
+
+*Notes.* Means and standard deviations (in brackets) for SAMPLE, PERIOD AND UNIT. Column (2) includes TREATED UNITS; column (3) includes COMPARISON UNITS.
+
+# Conceptual Framework {#sec-framework}
+
+AGENTS, OBJECTIVES, CHOICE SETS, INFORMATION AND EQUILIBRIUM. The framework delivers the prediction that @sec-mechanisms takes to the data.
+
+::: {#prp-main}
+Under PRIMITIVE RESTRICTION, PREDICTION.
+:::
+
+# Empirical Strategy {#sec-strategy}
+
+We estimate
+$$
+y_{it} = \alpha_i + \lambda_t + \beta D_{it} + X_{it}'\gamma + \varepsilon_{it},
+$$ {#eq-main}
+where $y_{it}$ is OUTCOME for unit $i$ in period $t$, $\alpha_i$ and $\lambda_t$ are unit and period fixed effects, $D_{it}$ indicates TREATMENT and $X_{it}$ contains CONTROLS. The parameter $\beta$ identifies ESTIMAND under
+$$
+\mathbb{E}\left[\varepsilon_{it}\mid D_{it}, X_{it}, \alpha_i, \lambda_t\right] = 0,
+$$ {#eq-identification}
+which states that THE ECONOMIC CONTENT OF THE CONDITION. Standard errors are clustered by LEVEL OF ASSIGNMENT.
+
+# Results {#sec-results}
+
+@tbl-main summarizes the estimates of $\beta$ in @eq-main.
+
+|               | (1)     | (2)     | (3)     | (4)     |
+|:--------------|:-------:|:-------:|:-------:|:-------:|
+| TREATMENT     | 0.000   | 0.000   | 0.000   | 0.000   |
+|               | (0.000) | (0.000) | (0.000) | (0.000) |
+| Mean of outcome | 0.000 | 0.000   | 0.000   | 0.000   |
+| *N*           | 0       | 0       | 0       | 0       |
+| Unit fixed effects | X  | X       | X       | X       |
+| Period fixed effects | X | X      | X       | X       |
+| Controls      |         | X       |         | X       |
+
+: Regression Estimates: Effect of TREATMENT on OUTCOMES {#tbl-main}
+
+*Notes.* Columns (1) and (2) report OUTCOME A; columns (3) and (4) report OUTCOME B. Columns (2) and (4) add CONTROLS. Standard errors (in parentheses) are clustered at the LEVEL.
+
+# Mechanisms {#sec-mechanisms}
+
+THE TEST OF @prp-main AND ITS ESTIMATE; THE COUNTERFACTUAL, INCIDENCE OR WELFARE CALCULATION.
+
+# Conclusion {#sec-conclusion}
+
+THE ANSWER, ITS MAGNITUDE AND THE DECISION IT INFORMS.

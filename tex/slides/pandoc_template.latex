@@ -53,28 +53,19 @@ $if(bibliography)$$else$\let\econbibstyle\bibliographystyle
 \renewcommand{\bibliographystyle}[1]{}
 $endif$$common.latex()$
 $if(bibliography)$$else$\let\bibliographystyle\econbibstyle
-$endif$$for(header-includes)$
+$endif$$if(standalone-renderer)$$for(header-includes)$
 $header-includes$
 $endfor$
-\AtBeginEnvironment{longtable}{\normalsize\setlength{\tabcolsep}{8pt}\renewcommand{\arraystretch}{1.25}}
+$endif$\AtBeginEnvironment{longtable}{\normalsize\setlength{\tabcolsep}{8pt}\renewcommand{\arraystretch}{1.25}}
 \begin{document}
 
 \begin{frame}[plain,b]
  \titlepage
 \end{frame}
 
-\begin{comment}
-\begin{frame}{目次}
-    \tableofcontents
-\end{frame}
-\end{comment}
-
-
 $body$
 
 \appendix
-
-
 
 $if(bibliography)$\begin{frame}{References}
     \normalsize
