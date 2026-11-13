@@ -725,7 +725,7 @@ def instruction_context(root=None, *, manifest=None, status=None, stage=None, ro
         reader = root / manifest['assets']['route_registry']['path']
         layout = ' --layout installed' if (root / '.agents/registry/resources.json').is_file() else ''
         short += (' Read for this stage: `python ' + shlex.quote(str(reader)) +
-                  ' --root ' + shlex.quote(str(root)) + layout + ' read ' + rule + ' --format compact`.')
+                  ' --root ' + shlex.quote(str(root)) + layout + ' read ' + rule + '`.')
     text = short + '\n\n' + text
     restoration = {'included': bool(restore)}
     if restore:

@@ -43,7 +43,7 @@
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "b3f6cecc19bd9a66dd9da6a16424f9ab2daaf88364704428b6e435c47cd59f0f"
+      "sha256": "2a9a5aed1d940f7dc9d438e9f9e35f3d90abd36a5fef63103a25f6df66743533"
     },
     "prose": {
       "path": "runtime/PROSE.md",
@@ -119,7 +119,7 @@
     },
     "resource:data-implementation": {
       "path": "skills/econ-data/references/implementation.md",
-      "sha256": "dc062ea50bff9981ac375f5b199934f574e709299f60a90cf94b214c47087786"
+      "sha256": "b2b8f0025ef4f55cda8a0d3130d0e37065e09a795dbc8f170e281c27821622f9"
     },
     "resource:data-native-calls": {
       "path": "skills/econ-data/references/implementation-calls.md",
@@ -923,7 +923,7 @@
     },
     "resource:writing-compose": {
       "path": "skills/econ-writing/references/compose.md",
-      "sha256": "20b136b1f384c3f8d5c119342a42a053f45cd473198b15b5a3d1f313ea1b5a7e"
+      "sha256": "415c4ea2787fbdd18aa035e5d34522aa0caa1269c10da777b671318fbdf97c08"
     },
     "resource:writing-convert": {
       "path": "skills/econ-writing/references/convert.md",

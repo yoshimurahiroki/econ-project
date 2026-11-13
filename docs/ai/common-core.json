@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "1b572fd5650e59057f917eecb27a40e850207452",
+  "source_base_commit": "a06dce4e8d5b50ad10acd76ca0ca3ae9fc69d522",
   "source_state": "committed",
-  "common_content_id": "13f5065ac0f20ddc5f046ffc6acd9d01dbb1a871b046837441635bdd0ea963c3",
+  "common_content_id": "5b62d187a4acf9ccde3b7ce790eef1d086dd1e240855b9208d71491a4784fc0c",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -297,8 +297,8 @@
     {
       "path": "harness/policy_assets.py",
       "state": "present",
-      "sha256": "b3f6cecc19bd9a66dd9da6a16424f9ab2daaf88364704428b6e435c47cd59f0f",
-      "git_blob": "1e42e710cd4817362ef5def27875c478dadec615",
+      "sha256": "2a9a5aed1d940f7dc9d438e9f9e35f3d90abd36a5fef63103a25f6df66743533",
+      "git_blob": "fbc3624366b25d142b26dfd2fc3a07bb79fa8c90",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -1337,8 +1337,8 @@
     {
       "path": "skills/econ-data/references/implementation.md",
       "state": "present",
-      "sha256": "dc062ea50bff9981ac375f5b199934f574e709299f60a90cf94b214c47087786",
-      "git_blob": "71a8ce36f6fe50d2182b3c355f73c2663728d3a3",
+      "sha256": "b2b8f0025ef4f55cda8a0d3130d0e37065e09a795dbc8f170e281c27821622f9",
+      "git_blob": "7ed8c12665870e194e6ce024c57aed8ef0ebf1d4",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
@@ -4673,8 +4673,8 @@
     {
       "path": "skills/econ-writing/references/compose.md",
       "state": "present",
-      "sha256": "20b136b1f384c3f8d5c119342a42a053f45cd473198b15b5a3d1f313ea1b5a7e",
-      "git_blob": "20c82c25352b8f0e332538c6889fa2b5de50ef4a",
+      "sha256": "415c4ea2787fbdd18aa035e5d34522aa0caa1269c10da777b671318fbdf97c08",
+      "git_blob": "6698a3f8d0a1ccb8dc7a532e0da966148b21e155",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
