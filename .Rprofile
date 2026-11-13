@@ -13,11 +13,14 @@ find_project_root <- function(path = getwd()) {
 }
 
 project_root <- find_project_root()
-rv_library <- local({
-  previous_directory <- setwd(project_root)
-  on.exit(setwd(previous_directory))
-  system2("rv", "library", stdout = TRUE)
-})
+rv_library <- character(0)
+if (nzchar(Sys.which("rv"))) {
+  rv_library <- tryCatch(local({
+    previous_directory <- setwd(project_root)
+    on.exit(setwd(previous_directory))
+    system2("rv", "library", stdout = TRUE)
+  }), error = function(e) character(0), warning = function(w) character(0))
+}
 
 if (length(rv_library) == 1L && dir.exists(rv_library)) {
   .libPaths(unique(c(rv_library, .libPaths())))

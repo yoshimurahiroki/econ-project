@@ -19,6 +19,6 @@ These three profiles contain the samples adopted from the user’s uploaded manu
 Each row is a separate registered writing profile and example. Use `academic-ja.` followed by the filename stem as the example ID. Select the complete sample closest to the current writing task.
 
 ```sh
-python scripts/route_registry.py read academic-ja-attention-plan-choice.all --format compact
-python scripts/route_registry.py read econ-writing:compose --user-profile academic-ja-equipment-subsidy --stage compose --format compact
+python scripts/route_registry.py read academic-ja-attention-plan-choice.all
+python scripts/route_registry.py read econ-writing:compose --user-profile academic-ja-equipment-subsidy --stage compose
 ```

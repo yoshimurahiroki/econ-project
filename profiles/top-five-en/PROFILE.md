@@ -13,8 +13,8 @@ Select and read the complete sample matching the current passage’s function an
 Each row is a separate selectable writing profile. The registered profile ID is `top-five-en-` followed by the filename stem; the example ID uses `top-five-en.` followed by the same stem. Read the complete selected body through the existing profile or example reader.
 
 ```sh
-python scripts/route_registry.py read econ-writing:compose --user-profile top-five-en-introduction-empirical --stage compose --format compact
-python scripts/route_registry.py read top-five-en-field-spatial.all --format compact
+python scripts/route_registry.py read econ-writing:compose --user-profile top-five-en-introduction-empirical --stage compose
+python scripts/route_registry.py read top-five-en-field-spatial.all
 ```
 
 | Function | Field | Profile body |

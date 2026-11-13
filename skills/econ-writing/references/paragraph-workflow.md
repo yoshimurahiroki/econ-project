@@ -2,8 +2,6 @@
 
 ## Construct the argument
 
-Do not invent prose or arguments. For every request, including a short passage, one-word edit, translation, formatting or an existing draft, first search and read the relevant original sections and their surroundings, pages, slides and exhibits in sources suited to the task: papers and slides from the five leading journals from 2020 onward, major economics handbooks, review articles and guides, economics textbooks, and economics course materials (lecture notes, class slides and handouts). No output needs every source category. For Japanese, find and borrow the corresponding Japanese original; do not create a literal translation of English prose. When a matching passage is missing, search and read further rather than inventing or freely paraphrasing.
-
 Apply [PROSE Common output](../../../runtime/PROSE.md#common-output) to every element.
 
 Identify the reader's question, central answer and supporting premises/evidence from the request and sources. Keep the question, answer and admitted source identities/hashes fixed; problem comparisons and verification tasks cite that evidence. Establish dependencies through the existing owner and use source-bound claims and actual evidence. Preserve the relations needed to make results usable, including measurement, identification, optimality or equilibrium, and aggregation; borrow their ordering and expression from applicable read sources.

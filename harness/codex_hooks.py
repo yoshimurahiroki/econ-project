@@ -1672,7 +1672,7 @@ def _review_final_prose(event, root, directory, *, session_record=None):
     reader = root / ('.agents/scripts/route_registry.py' if installed else 'scripts/route_registry.py')
     read_command = ('python ' + shlex.quote(str(reader)) + ' --root ' + shlex.quote(str(root)) +
                     (' --layout installed' if installed else '') +
-                    ' read prose.finish-the-passage --format compact')
+                    ' read prose.finish-the-passage')
     return {'decision': 'block', 'reason': (
         'Perform one final review this turn.\n'
         '1. Output: review assignment -> one fresh native subagent. Supply the actual request, complete '
@@ -2901,8 +2901,9 @@ def _budget_result(event, result, expected_event):
     save_text(packet, text)
     first = text.splitlines()[0]
     command = packet_command(root, event['cwd'], packet, digest)
-    recovery = ('Read the complete saved instruction packet:\n' + command +
-                '\nRepeat with each next_offset and the same sha256 through null.')
+    recovery = ('Read the complete saved instruction packet:\n' + command)
+    if len(text) > 16000:
+        recovery += '\nContinue with each next_offset and the same sha256 through null.'
     if first.startswith('[Kernel '):
         recovery += '\nThis packet carries CORE and PROSE Common output; add `--kernel-delivered` to the entry `read`.'
     destination, key = ((result, 'reason') if result.get('decision') == 'block' else populated[0])
@@ -2956,7 +2957,7 @@ def parse_control_args(argv=None):
     packet.add_argument('--path', required=True, type=Path)
     packet.add_argument('--sha256', required=True)
     packet.add_argument('--offset', type=int, default=0)
-    packet.add_argument('--limit', type=int, default=4000)
+    packet.add_argument('--limit', type=int, default=16000)
     research = sub.add_parser('focus-research')
     research.add_argument('task_id')
     research.add_argument('--view', choices=['selected', 'log'], default='selected')

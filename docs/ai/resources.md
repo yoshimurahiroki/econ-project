@@ -205,7 +205,6 @@ Generated from the resource and placement registries. Use this catalog only for 
 - meeting-templates: tex/slides/meeting_templates.json
 - meeting-cloud-workflow: .github/workflows/meetings.yml (complete source distribution only)
 - research-task-form: .github/ISSUE_TEMPLATE/research-task.yml (complete source distribution only)
-- economics-writing-comparison: docs/ai/economics-writing-comparison.md (complete source distribution only)
 - research-respy-dependencies: skills/econ-data/scripts/requirements-respy.txt
 - research-lifecycle-dependencies: skills/econ-data/scripts/requirements-lifecycle.txt
 - research-dolo-dependencies: skills/econ-data/scripts/requirements-dolo.txt

@@ -1505,12 +1505,6 @@
       "content_version": "0.53.0",
       "source_distribution_only": true
     },
-    "economics-writing-comparison": {
-      "source_path": "docs/ai/economics-writing-comparison.md",
-      "resource_kind": "support",
-      "content_version": "0.84.0",
-      "source_distribution_only": true
-    },
     "research-respy-dependencies": {
       "source_path": "skills/econ-data/scripts/requirements-respy.txt",
       "resource_kind": "support",

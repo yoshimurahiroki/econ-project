@@ -11,7 +11,7 @@ description: Acquire, transform, estimate and reproduce economic data and result
 
 ## Select the operation
 
-1. **Output: executable procedure; consumer: producer.** Select `execute` for data/calculations/code or `equity` for valuation. Read the registry-selected [workflow](references/workflow.md) and implementation sections. Resolve an unknown data/code operation with `python scripts/route_registry.py read data-implementation.select-the-operation-specific-rules --format compact`. Start a bounded change at its affected stage; a new pipeline uses [source to analysis](references/implementation-data.md#source-to-analysis).
+1. **Output: executable procedure; consumer: producer.** Select `execute` for data/calculations/code or `equity` for valuation. Read the registry-selected [workflow](references/workflow.md) and implementation sections. Resolve an unknown data/code operation with `python scripts/route_registry.py read data-implementation.select-the-operation-specific-rules`. Start a bounded change at its affected stage; a new pipeline uses [source to analysis](references/implementation-data.md#source-to-analysis).
 
 ## Deliver the data operation and its economic meaning
 

@@ -5,9 +5,9 @@ Generated from registry/operations.json. Support continues the adopted task.
 ## Read the pending operation
 
 1. **Selected operation → reader.** Read CORE and PROSE Common output, then select the final operation below. Find conditions with `python scripts/route_registry.py index --operation OPERATION --family FAMILY` or `--query TEXT`.
-2. **Complete bodies → execution.** Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION --format compact`. Stages: entry classifies; contract adopts question/method/inputs; compose executes by borrowing, imitating and minimally adapting read sources for writing; review interprets/repairs; finalize saves/delivers. Direct `read RULE_ID` returns that rule and prerequisites.
-3. **Retained bodies → next stage.** Follow every `next_offset` under the same `content_sha256` and seen arguments. `bodies` identifies complete bodies and `reused` names omissions. Pass `--seen BODY_SHA256` only for complete matching bodies still in intact context. Stages after entry omit CORE and PROSE Common output. After compaction, handoff or model change read originals with `--restore` and without seen arguments.
-4. **Runtime root → reader.** Deployed trees run `python .agents/scripts/route_registry.py --layout installed read OPERATION --stage STAGE --format compact`; expand incomplete snapshots from canonical source. Skill-scoped hosts read specialist `instructions.md` and common `project-work/references/shared/` bodies, acquiring the matching runtime bundle once for execution.
+2. **Complete bodies → execution.** Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION`. Stages: entry classifies; contract adopts question/method/inputs; compose executes by borrowing, imitating and minimally adapting read sources for writing; review interprets/repairs; finalize saves/delivers. Direct `read RULE_ID` returns that rule and prerequisites.
+3. **Continuation → next stage.** Each read returns its complete bodies; a non-null `next_offset` continues the same read with `--offset`. Stages after entry return their own bodies; `--restore` delivers CORE and PROSE Common output again after compaction, handoff or model change.
+4. **Runtime root → reader.** Deployed trees run `python .agents/scripts/route_registry.py --layout installed read OPERATION --stage STAGE`; expand incomplete snapshots from canonical source. Skill-scoped hosts read specialist `instructions.md` and common `project-work/references/shared/` bodies, acquiring the matching runtime bundle once for execution.
 
 - [econ-design / design](../../skills/econ-design/SKILL.md): Choose a research question, model, identification strategy, study design or policy action.
 - [econ-data / execute](../../skills/econ-data/SKILL.md): Acquire, transform, join, calculate, estimate or change research data and code.
@@ -56,5 +56,5 @@ Choose the operation above, then the applicable field or method below. Read the 
 - [research-execution](../../harness/research.md)
 - [result-artifacts](../../skills/econ-writing/references/result-artifacts.md)
 
-For local or extracted runtimes, go directly to a known `read OPERATION --condition CONDITION`. `index --operation OPERATION` lists its conditions and bodies; `index --resource RESOURCE_ID` lists a method hierarchy and prerequisites. Read pages through `next_offset` until null. `read RULE_ID` returns that rule with its prerequisites. Reuse complete same-version reads.
+For local or extracted runtimes, go directly to a known `read OPERATION --condition CONDITION`. `index --operation OPERATION` lists its conditions and bodies; `index --resource RESOURCE_ID` lists a method hierarchy and prerequisites. `read RULE_ID` returns that rule with its prerequisites.
 
