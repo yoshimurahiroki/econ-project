@@ -50,6 +50,6 @@ Select individual methods through `index --operation econ-design:design` when se
 
 ## Design specification
 
-An empirical design establishes the question, estimand, identifying comparison, measures and inference. A theory design establishes primitives, feasible choices, solution concept and the proposition sought. A design-only result does not start estimation.
+An empirical design establishes the question, estimand, identifying comparison, measures and inference. A theory design establishes primitives, feasible choices, solution concept and the proposition sought. A design-only result ends with the adopted design.
 
 Retrieve the needed definitions and model equations through econ-knowledge. Connect their conditions to the selected method and, when execution is requested, its econ-data owner. The [method selector](workflow.md#specialized-executable-designs) supplies executable causal, structural, dynamic and equilibrium contracts.

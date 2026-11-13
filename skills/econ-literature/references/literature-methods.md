@@ -42,7 +42,7 @@ For a requested AI-method adoption, use [task resources](../../../docs/ai/resour
 
 ### Find the work that answers the comparison
 
-Apply [DECIDE's source procedure](../../../runtime/DECIDE.md#investigate-source-claims). Select papers by the unresolved mechanism, parameter or competing prediction they can establish. Distinguish a definition, documented event, causal contrast and population frequency; a case establishes occurrence, while prevalence requires its sampling frame and denominator. Use econ-writing:explain for a paper explanation.
+Apply [DECIDE's source procedure](../../../runtime/DECIDE.md#investigate-source-claims). Select papers by the unresolved mechanism, parameter or competing prediction they can establish. Treat a definition, a documented event, a causal contrast and a population frequency as four claim types; a case establishes occurrence, and prevalence rests on its sampling frame and denominator. Use econ-writing:explain for a paper explanation.
 
 ### Establish the supporting passages and versions
 

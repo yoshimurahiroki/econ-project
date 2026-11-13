@@ -47,7 +47,7 @@
     },
     "prose": {
       "path": "runtime/PROSE.md",
-      "sha256": "4a7a07d2f6023e75fe0a41872dd757b0473ed9f21711cb0de45c44329b960568"
+      "sha256": "5402176e3be568a0db0bf1c3e89ac2f0ba35965278683de52d0baedcc91460d7"
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
@@ -159,7 +159,7 @@
     },
     "resource:design-workflow": {
       "path": "skills/econ-design/references/workflow.md",
-      "sha256": "e8f954b6f11064b4696faa35f8241027de7af13fd146e5ce3b0e1dfecd28b932"
+      "sha256": "b1568b867c776dbf4dbb0c78854baea6e262c726cc848c49f52c686810f760d7"
     },
     "resource:econ-data": {
       "path": "skills/econ-data/SKILL.md",
@@ -203,7 +203,7 @@
     },
     "resource:equity-guide": {
       "path": "skills/econ-data/references/equity.md",
-      "sha256": "bbe3e6ea8f74209f9bc500f3d34d8218b2df51bb3a8509b5ae109a67621e436f"
+      "sha256": "c97fa13bca900d1ac405ef2e079976e4ad014e14e2a76a97aefd9e8d90795e7b"
     },
     "resource:equity-io": {
       "path": "skills/econ-data/scripts/equity_io.py",
@@ -311,7 +311,7 @@
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
-      "sha256": "2e05a871eedb190b318fdce1952d38753023265313f7924d4bf5042f3f36bc42"
+      "sha256": "f1c5808db73493cc272b35da98092410b0cca74b85c91395a0c5bf5f12761efe"
     },
     "resource:journal-priority": {
       "path": "skills/econ-literature/references/journal-priority.json",
@@ -371,7 +371,7 @@
     },
     "resource:literature-methods": {
       "path": "skills/econ-literature/references/literature-methods.md",
-      "sha256": "eb69be29706c0bb9a4f925e2c19486dbc551475126216b6bc9b0b854c1c9faaf"
+      "sha256": "0f75a35931cc7c656cc9c7d81992f25a91a680316b6b36ebc8e0f677f2124ce5"
     },
     "resource:local-checks-guide": {
       "path": "harness/local_checks.md",
@@ -511,7 +511,7 @@
     },
     "resource:package-notices": {
       "path": "THIRD_PARTY_NOTICES.md",
-      "sha256": "d89d1308a1d7687d8ef3a40cdf51e35b7952fd83033630836f97cd9d7c35aed5"
+      "sha256": "7af1019a9e76e5cf6624951c2c92787ee7a598f75e524afda31dee025870f054"
     },
     "resource:paper-empirical": {
       "path": "skills/econ-literature/references/read-empirical.md",
@@ -795,7 +795,7 @@
     },
     "resource:review-procedure": {
       "path": "skills/econ-review/references/review.md",
-      "sha256": "f0d0c1ae97fabec9a1f26a9c15f12607a1dd296473b51de251ba04e292709d78"
+      "sha256": "1fa5cb110946f51907c9005dc3d68cf0881120c8b0f603462f35a2d304d23840"
     },
     "resource:search-priority": {
       "path": "skills/econ-literature/references/search-priority.md",

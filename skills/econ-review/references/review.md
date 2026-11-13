@@ -12,7 +12,7 @@ Editorial review applies PROSE and the selected writing procedure. Claims and de
 
 Trace a decisive numerical statement, table or point to its statistic, sample, unit, definition and successful run. Compare saved values with declared display rounding. Reproduction uses its requested source data and tolerances. A changed producer rebuilds affected exhibits and prose; reuse unchanged calculations.
 
-For literature-backed claims, `research_evidence.py review CONTRACT --root PROJECT --output PACKET` returns the hash-bound target and original passages. Read their arguments and judge claim meaning, source meaning and the connecting inference. Hash agreement alone cannot supply that judgment. Use [claim coverage and re-review](../../econ-writing/references/result-artifacts.md#claims-coverage-and-requested-re-review) only when requested; it owns finding IDs, revised-evidence assessment before `response_after`, claim dependencies and the response-writing callback. A response letter refers to the inspected revision and its exact changed locations.
+For literature-backed claims, `research_evidence.py review CONTRACT --root PROJECT --output PACKET` returns the hash-bound target and original passages. Read their arguments and judge claim meaning, source meaning and the connecting inference. Reading the evidence supplies that judgment; hash agreement confirms byte identity. Use [claim coverage and re-review](../../econ-writing/references/result-artifacts.md#claims-coverage-and-requested-re-review) only when requested; it owns finding IDs, revised-evidence assessment before `response_after`, claim dependencies and the response-writing callback. A response letter refers to the inspected revision and its exact changed locations.
 
 For requested exact correspondence, the [evidence binder](../../../harness/research_evidence.py) connects manuscript/source spans, statistic units, equations/code, residuals and symbol/parameter construction. Inspect the actual mapping and its semantic inference. Specification-search review retains the frozen estimand, sample, inference, evaluator, validation choice and winner-only holdout.
 
@@ -20,7 +20,7 @@ For structural results, follow the [adopted model](../../econ-design/references/
 
 For empirical claims, reconstruct the population contrast, observation weights and identifying restriction; match coefficients/direct subgroup contrasts to their covariance and reference distribution. A diagnostic tests its own null. For theory, recover complete quantifiers/domain and the determining proof step; a counterexample must satisfy every hypothesis. Revision/translation review preserves those relations and the actor, group, period and comparison attached to each unchanged number.
 
-For each defect, identify its target, consequence, evidence and producing cause. Repair source/premise at the cited material, transformation at its operation, inference at its connecting argument, presentation at the unsupported parent proposition and execution at the failed producer. Route requested prose repair through econ-writing. Reconcile affected restatements and artifacts; changed wording cannot repair an unchanged faulty calculation.
+For each defect, identify its target, consequence, evidence and producing cause. Repair source/premise at the cited material, transformation at its operation, inference at its connecting argument, presentation at the unsupported parent proposition and execution at the failed producer. Route requested prose repair through econ-writing. Reconcile affected restatements and artifacts; a faulty calculation is repaired at its producer.
 
 Adjudicate a contested finding against the actual cited passage or producing calculation. Preserve a correct claim when the proposed finding lacks that support. Read the linked response/re-review contract before a requested referee letter; it owns finding IDs, original comments, revised spans, response callbacks and actual saved letter correspondence.
 
@@ -30,7 +30,7 @@ Inspect slides and figure-heavy artifacts before the author's layout explanation
 
 ### Compare versions or decisions when requested
 
-Retain an accessible original and compare actual versions under common inputs, authority and completion criteria. Assess substantive outcome separately from resources and mathematical validity; self-ratings and instruction compliance do not establish improvement.
+Retain an accessible original and compare actual versions under common inputs, authority and completion criteria. Assess substantive outcome, resources and mathematical validity each on its own evidence; measured outcomes establish improvement.
 
 Separate sample/measurement/target changes from method changes. Compare subgroup differences directly; inspect joint group transitions when averages hide who gains. Action comparisons retain budget, constraints and selection-error losses. Decision-maker comparisons consider their objective, information and unobserved outcomes. Fixed evidence/criteria preserve the judgment despite changed insistence; determining new evidence changes the affected conclusion. For multi-stage work, inspect the actual adopted decision, outputs and resumption bindings. [Oversight notes](oversight.md) apply to expressly requested independent or blinded assessment.
 
