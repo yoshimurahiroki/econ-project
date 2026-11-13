@@ -1400,12 +1400,6 @@
       "resource_kind": "support",
       "content_version": "0.28.0"
     },
-    "knowledge-storage-requirements": {
-      "source_path": "scripts/requirements-knowledge-storage.txt",
-      "resource_kind": "support",
-      "content_version": "0.29.0",
-      "source_distribution_only": true
-    },
     "project-work": {
       "source_path": "skills/project-work/SKILL.md",
       "resource_kind": "rule",
@@ -3425,11 +3419,6 @@
       }
     },
     "package-notices": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "knowledge-storage-requirements": {
       "all": {
         "whole_resource": true
       }
@@ -6438,10 +6427,6 @@
     },
     "package-notices.all": {
       "resource_id": "package-notices",
-      "section_id": "all"
-    },
-    "knowledge-storage-requirements.all": {
-      "resource_id": "knowledge-storage-requirements",
       "section_id": "all"
     },
     "project-work.all": {

@@ -1,5 +1,0 @@
-# Optional local storage experiment; SQLite is included in Python.
-numpy==2.3.5
-onnxruntime==1.31.1
-tokenizers==0.23.3
-kuzu==0.11.3

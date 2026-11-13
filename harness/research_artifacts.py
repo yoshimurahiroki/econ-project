@@ -2102,7 +2102,7 @@ def latex_adapter(source, kind):
             '$common.latex()$\n$if(bibliography)$$else$\\let\\bibliographystyle\\econbibstyle\n$endif$'
             '$for(header-includes)$\n$header-includes$\n$endfor$\n')
     if kind=='paper':
-        common += '\\raggedbottom\n\\AtBeginEnvironment{longtable}{\\def\\_{\\textunderscore\\allowbreak}}\n'
+        common += '$if(japanese)$\n\\AtBeginDocument{\\renewcommand{\\tablename}{表}\\renewcommand{\\figurename}{図}\\renewcommand{\\thetable}{\\arabic{table}}\\renewcommand{\\thefigure}{\\arabic{figure}}}\n$endif$\n\\raggedbottom\n\\AtBeginEnvironment{longtable}{\\def\\_{\\textunderscore\\allowbreak}}\n'
         source=replace_once(source,'\\documentclass[ecta,nameyear,draft]{econsocart}', '\\RequirePackage{fontspec}\n\\def\\econselectedclass{$documentclass$}\n\\def\\econjournalclass{econsocart}\n\\ifx\\econselectedclass\\econjournalclass\n\\documentclass[ecta,nameyear,draft]{econsocart}\n\\else\n\\documentclass[$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}\n\\fi')
         source=replace_once(source,'\\documentclass[ecta,nameyear,draft]{econsocart}', '\\documentclass[ecta,nameyear,$if(classoption)$$for(classoption)$$classoption$$sep$,$endfor$$else$final$endif$]{econsocart}')
         source=replace_once(source,'\\support{}', '$if(support)$\\support{$support$}$endif$')

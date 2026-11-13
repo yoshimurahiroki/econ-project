@@ -189,7 +189,6 @@ Generated from the resource and placement registries. Use this catalog only for 
 - latex-paper-quarto: tex/paper/quarto_template.qmd
 - latex-slides-quarto: tex/slides/quarto_template.qmd
 - package-notices: THIRD_PARTY_NOTICES.md
-- knowledge-storage-requirements: scripts/requirements-knowledge-storage.txt (complete source distribution only)
 - project-work: skills/project-work/SKILL.md
 - project-practice: skills/project-work/references/practice.md
 - vscode-extension-recommendations: .vscode/extensions.json (complete source distribution only)

@@ -749,10 +749,6 @@
       "deployment_path": ".agents/THIRD_PARTY_NOTICES.md",
       "export_alias": "THIRD_PARTY_NOTICES.md"
     },
-    "knowledge-storage-requirements": {
-      "deployment_path": "scripts/requirements-knowledge-storage.txt",
-      "export_alias": "requirements-knowledge-storage.txt"
-    },
     "project-work": {
       "deployment_path": ".agents/skills/project-work/SKILL.md",
       "export_alias": "PROJECT_WORK.md"
