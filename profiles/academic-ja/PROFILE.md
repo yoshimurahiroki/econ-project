@@ -2,24 +2,20 @@
 
 Profile family: academic-ja. Language: Japanese.
 
-## Principles
+## Use
 
-Apply [PROSE Common output](../../runtime/PROSE.md#common-output) to every element selected from this profile.
+Japanese papers, explanations and slides are composed as Japanese from Japanese originals. Every sentence, heading, sentence ending, term, punctuation mark, table and slide layout is borrowed from the corresponding passage of a real Japanese economics paper, lecture deck or research deck in the user's connected document library and adjusted only for the study's own facts, names, numbers, units and citations. An English draft is never translated into Japanese.
 
-The first three profiles contain the samples adopted from the user’s uploaded manuscript. The seminar-slide profile presents the first sample's study as a talk, in the register of Japanese graduate lecture slides: noun-phrase headings, plain-form bullets without a terminal stop, 「、」 punctuation and 「項目: 内容」 definitions. Read the complete selected sample and ground adopted Japanese expressions and visual elements in corresponding Japanese originals. The body files retain the uploaded Japanese prose. Equations, mathematical variables and Greek letters use LaTeX notation. Keep selection instructions in this index.
+1. Select the Japanese original closest to the study in genre (journal article, policy paper, lecture deck, research deck), field and design, then the passage that performs the same function as the passage being written.
+2. Read the passage in the original PDF with its surrounding pages.
+3. Copy its sentences into the private working record by function and draft each sentence by substituting the study's facts into one copied sentence. Nouns, numerals, units and proper names change; particles, predicates, sentence endings and punctuation stay as in the source.
+4. Leave out content with no corresponding source sentence.
 
-## Select a profile
+The source sheet, the identity of each original and every mapping stay in the private working record. The samples below are fictional studies assembled by the same procedure; they show the register and architecture, and their facts, names and citations are invented.
 
-| Writing task | Profile ID | Complete sample |
+## Samples
+
+| Genre | Sample ID | Sample |
 |---|---|---|
-| Explain an institution, identification, estimates and policy calculations | `academic-ja-childcare-employment` | [夕刻預かり事業と母親の就業](childcare-employment.md) |
-| Explain a choice model, identification, estimation and counterfactual demand | `academic-ja-attention-plan-choice` | [料金プラン選択における注意の推定](attention-plan-choice.md) |
-| Review empirical studies through their settings, methods and estimates | `academic-ja-equipment-subsidy` | [設備更新補助の投資効果](equipment-subsidy.md) |
-| Present a study as seminar or research-meeting slides | `academic-ja-slides-seminar` | [夕刻預かり事業と母親の就業：研究報告スライド](slides-seminar.md) |
-
-Each row is a separate registered writing profile and example. Use `academic-ja.` followed by the filename stem as the example ID. Select the complete sample closest to the current writing task.
-
-```sh
-python scripts/route_registry.py read academic-ja-attention-plan-choice.all
-python scripts/route_registry.py read econ-writing:compose --user-profile academic-ja-equipment-subsidy --stage compose
-```
+| Journal article: method, application, comparison and simulation | `academic-ja-paper-scm-plant-closure` | [Synthetic Control Method を用いた大規模工場閉鎖の雇用効果の識別](paper-scm-plant-closure.md) |
+| Research or lecture deck | `academic-ja-slides-scm-plant-closure` | [大規模工場閉鎖の雇用効果：研究報告スライド](slides-scm-plant-closure.md) |

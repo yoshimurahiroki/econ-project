@@ -4,7 +4,7 @@
 
 Apply [PROSE Common output](../../../runtime/PROSE.md#common-output) to every element.
 
-Create or update a reusable profile when requested. Carry the adopted research question, scientific specification, audience, language and medium into the steps below. Preserve the BODY of the 28 adopted profiles and the removal of the 14 retired profiles; connect actual textual and visual choices to eligible real sources.
+Create or update a reusable profile when requested. Carry the adopted research question, scientific specification, audience, language and medium into the steps below. A profile sample is a fictional study assembled by the [borrowing procedure](../../../runtime/PROSE.md#common-output): every sentence, heading and layout element substitutes invented facts, names and citations into a sentence or element of a real original, and the original's identity stays in the private working record.
 
 ### Select source passages
 

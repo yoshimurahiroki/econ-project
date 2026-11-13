@@ -620,8 +620,7 @@
       "required_resources": [
         "example-subscription-code",
         "example-subscription-specification",
-        "example-subscription-materials",
-        "example-subscription-manuscript-en"
+        "example-subscription-materials"
       ]
     },
     "example-subscription-code": {
@@ -648,8 +647,7 @@
         "example-subscription-specification",
         "research-design",
         "research-artifacts",
-        "research-meetings",
-        "example-subscription-manuscript-en"
+        "research-meetings"
       ]
     },
     "example-equipment": {
@@ -1851,163 +1849,28 @@
       "resource_kind": "profile",
       "content_version": "1.0.0"
     },
-    "top-five-en-abstract-labor-public": {
-      "source_path": "profiles/top-five-en/abstract-labor-public.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-abstract-micro-theory": {
-      "source_path": "profiles/top-five-en/abstract-micro-theory.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-abstract-io-identification": {
-      "source_path": "profiles/top-five-en/abstract-io-identification.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-abstract-spatial": {
-      "source_path": "profiles/top-five-en/abstract-spatial.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-abstract-econometrics": {
-      "source_path": "profiles/top-five-en/abstract-econometrics.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-abstract-field-experiment": {
-      "source_path": "profiles/top-five-en/abstract-field-experiment.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-abstract-macro-finance": {
-      "source_path": "profiles/top-five-en/abstract-macro-finance.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-introduction-empirical": {
-      "source_path": "profiles/top-five-en/introduction-empirical.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-introduction-theory": {
-      "source_path": "profiles/top-five-en/introduction-theory.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-empirical-institution": {
-      "source_path": "profiles/top-five-en/empirical-institution.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-empirical-data": {
-      "source_path": "profiles/top-five-en/empirical-data.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-empirical-framework": {
-      "source_path": "profiles/top-five-en/empirical-framework.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-empirical-strategy": {
-      "source_path": "profiles/top-five-en/empirical-strategy.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-empirical-older-workers": {
-      "source_path": "profiles/top-five-en/empirical-older-workers.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-empirical-firms-younger-workers": {
-      "source_path": "profiles/top-five-en/empirical-firms-younger-workers.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-empirical-mechanisms": {
-      "source_path": "profiles/top-five-en/empirical-mechanisms.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-empirical-conclusion": {
-      "source_path": "profiles/top-five-en/empirical-conclusion.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-field-micro-theory": {
-      "source_path": "profiles/top-five-en/field-micro-theory.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-field-io-demand": {
-      "source_path": "profiles/top-five-en/field-io-demand.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-field-econometrics": {
-      "source_path": "profiles/top-five-en/field-econometrics.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-field-spatial": {
-      "source_path": "profiles/top-five-en/field-spatial.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-field-macro-finance": {
-      "source_path": "profiles/top-five-en/field-macro-finance.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-field-experiment": {
-      "source_path": "profiles/top-five-en/field-experiment.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-field-computation": {
-      "source_path": "profiles/top-five-en/field-computation.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-field-history": {
-      "source_path": "profiles/top-five-en/field-history.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "example-subscription-manuscript-en": {
-      "source_path": "skills/econ-data/examples/subscription/manuscript-en.md",
-      "resource_kind": "support",
-      "content_version": "1.0.0"
-    },
-    "academic-ja-childcare-employment": {
-      "source_path": "profiles/academic-ja/childcare-employment.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "academic-ja-attention-plan-choice": {
-      "source_path": "profiles/academic-ja/attention-plan-choice.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "academic-ja-equipment-subsidy": {
-      "source_path": "profiles/academic-ja/equipment-subsidy.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
     "academic-ja": {
       "source_path": "profiles/academic-ja/PROFILE.md",
       "resource_kind": "profile",
       "content_version": "1.0.0"
     },
-    "academic-ja-slides-seminar": {
-      "source_path": "profiles/academic-ja/slides-seminar.md",
+    "academic-ja-paper-scm-plant-closure": {
+      "source_path": "profiles/academic-ja/paper-scm-plant-closure.md",
       "resource_kind": "profile",
       "content_version": "1.0.0"
     },
-    "top-five-en-slides-seminar": {
-      "source_path": "profiles/top-five-en/slides-seminar.md",
+    "academic-ja-slides-scm-plant-closure": {
+      "source_path": "profiles/academic-ja/slides-scm-plant-closure.md",
+      "resource_kind": "profile",
+      "content_version": "1.0.0"
+    },
+    "top-five-en-paper-plant-closures": {
+      "source_path": "profiles/top-five-en/paper-plant-closures.md",
+      "resource_kind": "profile",
+      "content_version": "1.0.0"
+    },
+    "top-five-en-slides-plant-closures": {
+      "source_path": "profiles/top-five-en/slides-plant-closures.md",
       "resource_kind": "profile",
       "content_version": "1.0.0"
     }
@@ -4367,162 +4230,27 @@
         "whole_resource": true
       }
     },
-    "top-five-en-abstract-labor-public": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-abstract-micro-theory": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-abstract-io-identification": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-abstract-spatial": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-abstract-econometrics": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-abstract-field-experiment": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-abstract-macro-finance": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-introduction-empirical": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-introduction-theory": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-empirical-institution": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-empirical-data": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-empirical-framework": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-empirical-strategy": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-empirical-older-workers": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-empirical-firms-younger-workers": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-empirical-mechanisms": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-empirical-conclusion": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-field-micro-theory": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-field-io-demand": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-field-econometrics": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-field-spatial": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-field-macro-finance": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-field-experiment": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-field-computation": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-field-history": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-subscription-manuscript-en": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "academic-ja-childcare-employment": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "academic-ja-attention-plan-choice": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "academic-ja-equipment-subsidy": {
-      "all": {
-        "whole_resource": true
-      }
-    },
     "academic-ja": {
       "all": {
         "whole_resource": true
       }
     },
-    "academic-ja-slides-seminar": {
+    "academic-ja-paper-scm-plant-closure": {
       "all": {
         "whole_resource": true
       }
     },
-    "top-five-en-slides-seminar": {
+    "academic-ja-slides-scm-plant-closure": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "top-five-en-paper-plant-closures": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "top-five-en-slides-plant-closures": {
       "all": {
         "whole_resource": true
       }
@@ -4611,37 +4339,7 @@
     },
     "prose.select-the-profile": {
       "resource_id": "prose",
-      "section_id": "select-the-profile",
-      "optional_examples": [
-        "academic-ja.childcare-employment",
-        "academic-ja.attention-plan-choice",
-        "academic-ja.equipment-subsidy",
-        "top-five-en.abstract-labor-public",
-        "top-five-en.abstract-micro-theory",
-        "top-five-en.abstract-io-identification",
-        "top-five-en.abstract-spatial",
-        "top-five-en.abstract-econometrics",
-        "top-five-en.abstract-field-experiment",
-        "top-five-en.abstract-macro-finance",
-        "top-five-en.introduction-empirical",
-        "top-five-en.introduction-theory",
-        "top-five-en.empirical-institution",
-        "top-five-en.empirical-data",
-        "top-five-en.empirical-framework",
-        "top-five-en.empirical-strategy",
-        "top-five-en.empirical-older-workers",
-        "top-five-en.empirical-firms-younger-workers",
-        "top-five-en.empirical-mechanisms",
-        "top-five-en.empirical-conclusion",
-        "top-five-en.field-micro-theory",
-        "top-five-en.field-io-demand",
-        "top-five-en.field-econometrics",
-        "top-five-en.field-spatial",
-        "top-five-en.field-macro-finance",
-        "top-five-en.field-experiment",
-        "top-five-en.field-computation",
-        "top-five-en.field-history"
-      ]
+      "section_id": "select-the-profile"
     },
     "prose.revise-for-the-requested-language": {
       "resource_id": "prose",
@@ -5376,37 +5074,7 @@
     },
     "default-micro.all": {
       "resource_id": "default-micro",
-      "section_id": "all",
-      "optional_examples": [
-        "academic-ja.childcare-employment",
-        "academic-ja.attention-plan-choice",
-        "academic-ja.equipment-subsidy",
-        "top-five-en.abstract-labor-public",
-        "top-five-en.abstract-micro-theory",
-        "top-five-en.abstract-io-identification",
-        "top-five-en.abstract-spatial",
-        "top-five-en.abstract-econometrics",
-        "top-five-en.abstract-field-experiment",
-        "top-five-en.abstract-macro-finance",
-        "top-five-en.introduction-empirical",
-        "top-five-en.introduction-theory",
-        "top-five-en.empirical-institution",
-        "top-five-en.empirical-data",
-        "top-five-en.empirical-framework",
-        "top-five-en.empirical-strategy",
-        "top-five-en.empirical-older-workers",
-        "top-five-en.empirical-firms-younger-workers",
-        "top-five-en.empirical-mechanisms",
-        "top-five-en.empirical-conclusion",
-        "top-five-en.field-micro-theory",
-        "top-five-en.field-io-demand",
-        "top-five-en.field-econometrics",
-        "top-five-en.field-spatial",
-        "top-five-en.field-macro-finance",
-        "top-five-en.field-experiment",
-        "top-five-en.field-computation",
-        "top-five-en.field-history"
-      ]
+      "section_id": "all"
     },
     "default-micro.principles": {
       "resource_id": "default-micro",
@@ -8065,413 +7733,70 @@
       "resource_id": "top-five-en",
       "section_id": "all",
       "optional_examples": [
-        "top-five-en.slides-seminar"
+        "top-five-en.paper-plant-closures",
+        "top-five-en.slides-plant-closures"
       ]
-    },
-    "top-five-en-abstract-labor-public.all": {
-      "resource_id": "top-five-en-abstract-labor-public",
-      "section_id": "all"
-    },
-    "top-five-en-abstract-micro-theory.all": {
-      "resource_id": "top-five-en-abstract-micro-theory",
-      "section_id": "all"
-    },
-    "top-five-en-abstract-io-identification.all": {
-      "resource_id": "top-five-en-abstract-io-identification",
-      "section_id": "all"
-    },
-    "top-five-en-abstract-spatial.all": {
-      "resource_id": "top-five-en-abstract-spatial",
-      "section_id": "all"
-    },
-    "top-five-en-abstract-econometrics.all": {
-      "resource_id": "top-five-en-abstract-econometrics",
-      "section_id": "all"
-    },
-    "top-five-en-abstract-field-experiment.all": {
-      "resource_id": "top-five-en-abstract-field-experiment",
-      "section_id": "all"
-    },
-    "top-five-en-abstract-macro-finance.all": {
-      "resource_id": "top-five-en-abstract-macro-finance",
-      "section_id": "all"
-    },
-    "top-five-en-introduction-empirical.all": {
-      "resource_id": "top-five-en-introduction-empirical",
-      "section_id": "all"
-    },
-    "top-five-en-introduction-theory.all": {
-      "resource_id": "top-five-en-introduction-theory",
-      "section_id": "all"
-    },
-    "top-five-en-empirical-institution.all": {
-      "resource_id": "top-five-en-empirical-institution",
-      "section_id": "all"
-    },
-    "top-five-en-empirical-data.all": {
-      "resource_id": "top-five-en-empirical-data",
-      "section_id": "all"
-    },
-    "top-five-en-empirical-framework.all": {
-      "resource_id": "top-five-en-empirical-framework",
-      "section_id": "all"
-    },
-    "top-five-en-empirical-strategy.all": {
-      "resource_id": "top-five-en-empirical-strategy",
-      "section_id": "all"
-    },
-    "top-five-en-empirical-older-workers.all": {
-      "resource_id": "top-five-en-empirical-older-workers",
-      "section_id": "all"
-    },
-    "top-five-en-empirical-firms-younger-workers.all": {
-      "resource_id": "top-five-en-empirical-firms-younger-workers",
-      "section_id": "all"
-    },
-    "top-five-en-empirical-mechanisms.all": {
-      "resource_id": "top-five-en-empirical-mechanisms",
-      "section_id": "all"
-    },
-    "top-five-en-empirical-conclusion.all": {
-      "resource_id": "top-five-en-empirical-conclusion",
-      "section_id": "all"
-    },
-    "top-five-en-field-micro-theory.all": {
-      "resource_id": "top-five-en-field-micro-theory",
-      "section_id": "all"
-    },
-    "top-five-en-field-io-demand.all": {
-      "resource_id": "top-five-en-field-io-demand",
-      "section_id": "all"
-    },
-    "top-five-en-field-econometrics.all": {
-      "resource_id": "top-five-en-field-econometrics",
-      "section_id": "all"
-    },
-    "top-five-en-field-spatial.all": {
-      "resource_id": "top-five-en-field-spatial",
-      "section_id": "all"
-    },
-    "top-five-en-field-macro-finance.all": {
-      "resource_id": "top-five-en-field-macro-finance",
-      "section_id": "all"
-    },
-    "top-five-en-field-experiment.all": {
-      "resource_id": "top-five-en-field-experiment",
-      "section_id": "all"
-    },
-    "top-five-en-field-computation.all": {
-      "resource_id": "top-five-en-field-computation",
-      "section_id": "all"
-    },
-    "top-five-en-field-history.all": {
-      "resource_id": "top-five-en-field-history",
-      "section_id": "all"
-    },
-    "example-subscription-manuscript-en.all": {
-      "resource_id": "example-subscription-manuscript-en",
-      "section_id": "all"
-    },
-    "academic-ja-childcare-employment.all": {
-      "resource_id": "academic-ja-childcare-employment",
-      "section_id": "all"
-    },
-    "academic-ja-attention-plan-choice.all": {
-      "resource_id": "academic-ja-attention-plan-choice",
-      "section_id": "all"
-    },
-    "academic-ja-equipment-subsidy.all": {
-      "resource_id": "academic-ja-equipment-subsidy",
-      "section_id": "all"
     },
     "academic-ja.all": {
       "resource_id": "academic-ja",
       "section_id": "all",
       "optional_examples": [
-        "academic-ja.childcare-employment",
-        "academic-ja.attention-plan-choice",
-        "academic-ja.equipment-subsidy",
-        "academic-ja.slides-seminar"
+        "academic-ja.paper-scm-plant-closure",
+        "academic-ja.slides-scm-plant-closure"
       ]
     },
-    "academic-ja-slides-seminar.all": {
-      "resource_id": "academic-ja-slides-seminar",
+    "academic-ja-paper-scm-plant-closure.all": {
+      "resource_id": "academic-ja-paper-scm-plant-closure",
       "section_id": "all"
     },
-    "top-five-en-slides-seminar.all": {
-      "resource_id": "top-five-en-slides-seminar",
+    "academic-ja-slides-scm-plant-closure.all": {
+      "resource_id": "academic-ja-slides-scm-plant-closure",
+      "section_id": "all"
+    },
+    "top-five-en-paper-plant-closures.all": {
+      "resource_id": "top-five-en-paper-plant-closures",
+      "section_id": "all"
+    },
+    "top-five-en-slides-plant-closures.all": {
+      "resource_id": "top-five-en-slides-plant-closures",
       "section_id": "all"
     }
   },
   "examples": {
-    "top-five-en.abstract-labor-public": {
-      "example_id": "top-five-en.abstract-labor-public",
-      "resource_id": "top-five-en-abstract-labor-public",
-      "section_id": "all",
-      "language": "en",
-      "function": "abstract",
-      "field": "labor and public economics",
-      "extended": false
-    },
-    "top-five-en.abstract-micro-theory": {
-      "example_id": "top-five-en.abstract-micro-theory",
-      "resource_id": "top-five-en-abstract-micro-theory",
-      "section_id": "all",
-      "language": "en",
-      "function": "abstract",
-      "field": "microeconomic theory",
-      "extended": false
-    },
-    "top-five-en.abstract-io-identification": {
-      "example_id": "top-five-en.abstract-io-identification",
-      "resource_id": "top-five-en-abstract-io-identification",
-      "section_id": "all",
-      "language": "en",
-      "function": "abstract",
-      "field": "industrial organization and identification",
-      "extended": false
-    },
-    "top-five-en.abstract-spatial": {
-      "example_id": "top-five-en.abstract-spatial",
-      "resource_id": "top-five-en-abstract-spatial",
-      "section_id": "all",
-      "language": "en",
-      "function": "abstract",
-      "field": "urban and spatial economics",
-      "extended": false
-    },
-    "top-five-en.abstract-econometrics": {
-      "example_id": "top-five-en.abstract-econometrics",
-      "resource_id": "top-five-en-abstract-econometrics",
-      "section_id": "all",
-      "language": "en",
-      "function": "abstract",
-      "field": "econometrics",
-      "extended": false
-    },
-    "top-five-en.abstract-field-experiment": {
-      "example_id": "top-five-en.abstract-field-experiment",
-      "resource_id": "top-five-en-abstract-field-experiment",
-      "section_id": "all",
-      "language": "en",
-      "function": "abstract",
-      "field": "field experiments and development",
-      "extended": false
-    },
-    "top-five-en.abstract-macro-finance": {
-      "example_id": "top-five-en.abstract-macro-finance",
-      "resource_id": "top-five-en-abstract-macro-finance",
-      "section_id": "all",
-      "language": "en",
-      "function": "abstract",
-      "field": "macro and finance",
-      "extended": false
-    },
-    "top-five-en.introduction-empirical": {
-      "example_id": "top-five-en.introduction-empirical",
-      "resource_id": "top-five-en-introduction-empirical",
-      "section_id": "all",
-      "language": "en",
-      "function": "introduction",
-      "field": "applied microeconomics",
-      "extended": true
-    },
-    "top-five-en.introduction-theory": {
-      "example_id": "top-five-en.introduction-theory",
-      "resource_id": "top-five-en-introduction-theory",
-      "section_id": "all",
-      "language": "en",
-      "function": "introduction",
-      "field": "microeconomic theory",
-      "extended": true
-    },
-    "top-five-en.empirical-institution": {
-      "example_id": "top-five-en.empirical-institution",
-      "resource_id": "top-five-en-empirical-institution",
-      "section_id": "all",
-      "language": "en",
-      "function": "institutional setting",
-      "field": "applied microeconomics",
-      "extended": true
-    },
-    "top-five-en.empirical-data": {
-      "example_id": "top-five-en.empirical-data",
-      "resource_id": "top-five-en-empirical-data",
-      "section_id": "all",
-      "language": "en",
-      "function": "data",
-      "field": "applied microeconomics",
-      "extended": true
-    },
-    "top-five-en.empirical-framework": {
-      "example_id": "top-five-en.empirical-framework",
-      "resource_id": "top-five-en-empirical-framework",
-      "section_id": "all",
-      "language": "en",
-      "function": "conceptual framework",
-      "field": "applied microeconomics",
-      "extended": true
-    },
-    "top-five-en.empirical-strategy": {
-      "example_id": "top-five-en.empirical-strategy",
-      "resource_id": "top-five-en-empirical-strategy",
-      "section_id": "all",
-      "language": "en",
-      "function": "empirical strategy",
-      "field": "applied microeconomics",
-      "extended": true
-    },
-    "top-five-en.empirical-older-workers": {
-      "example_id": "top-five-en.empirical-older-workers",
-      "resource_id": "top-five-en-empirical-older-workers",
-      "section_id": "all",
-      "language": "en",
-      "function": "results: older workers",
-      "field": "applied microeconomics",
-      "extended": true
-    },
-    "top-five-en.empirical-firms-younger-workers": {
-      "example_id": "top-five-en.empirical-firms-younger-workers",
-      "resource_id": "top-five-en-empirical-firms-younger-workers",
-      "section_id": "all",
-      "language": "en",
-      "function": "results: firms and younger workers",
-      "field": "applied microeconomics",
-      "extended": true
-    },
-    "top-five-en.empirical-mechanisms": {
-      "example_id": "top-five-en.empirical-mechanisms",
-      "resource_id": "top-five-en-empirical-mechanisms",
-      "section_id": "all",
-      "language": "en",
-      "function": "mechanisms and heterogeneity",
-      "field": "applied microeconomics",
-      "extended": true
-    },
-    "top-five-en.empirical-conclusion": {
-      "example_id": "top-five-en.empirical-conclusion",
-      "resource_id": "top-five-en-empirical-conclusion",
-      "section_id": "all",
-      "language": "en",
-      "function": "conclusion",
-      "field": "applied microeconomics",
-      "extended": true
-    },
-    "top-five-en.field-micro-theory": {
-      "example_id": "top-five-en.field-micro-theory",
-      "resource_id": "top-five-en-field-micro-theory",
-      "section_id": "all",
-      "language": "en",
-      "function": "field sections",
-      "field": "microeconomic theory",
-      "extended": true
-    },
-    "top-five-en.field-io-demand": {
-      "example_id": "top-five-en.field-io-demand",
-      "resource_id": "top-five-en-field-io-demand",
-      "section_id": "all",
-      "language": "en",
-      "function": "field sections",
-      "field": "industrial organization",
-      "extended": true
-    },
-    "top-five-en.field-econometrics": {
-      "example_id": "top-five-en.field-econometrics",
-      "resource_id": "top-five-en-field-econometrics",
-      "section_id": "all",
-      "language": "en",
-      "function": "field sections",
-      "field": "econometrics",
-      "extended": true
-    },
-    "top-five-en.field-spatial": {
-      "example_id": "top-five-en.field-spatial",
-      "resource_id": "top-five-en-field-spatial",
-      "section_id": "all",
-      "language": "en",
-      "function": "field sections",
-      "field": "spatial economics",
-      "extended": true
-    },
-    "top-five-en.field-macro-finance": {
-      "example_id": "top-five-en.field-macro-finance",
-      "resource_id": "top-five-en-field-macro-finance",
-      "section_id": "all",
-      "language": "en",
-      "function": "field sections",
-      "field": "macro and finance",
-      "extended": true
-    },
-    "top-five-en.field-experiment": {
-      "example_id": "top-five-en.field-experiment",
-      "resource_id": "top-five-en-field-experiment",
-      "section_id": "all",
-      "language": "en",
-      "function": "field sections",
-      "field": "field experiments",
-      "extended": true
-    },
-    "top-five-en.field-computation": {
-      "example_id": "top-five-en.field-computation",
-      "resource_id": "top-five-en-field-computation",
-      "section_id": "all",
-      "language": "en",
-      "function": "field sections",
-      "field": "computational methods",
-      "extended": true
-    },
-    "top-five-en.field-history": {
-      "example_id": "top-five-en.field-history",
-      "resource_id": "top-five-en-field-history",
-      "section_id": "all",
-      "language": "en",
-      "function": "field sections",
-      "field": "economic history",
-      "extended": true
-    },
-    "academic-ja.childcare-employment": {
-      "example_id": "academic-ja.childcare-employment",
-      "resource_id": "academic-ja-childcare-employment",
+    "academic-ja.paper-scm-plant-closure": {
+      "example_id": "academic-ja.paper-scm-plant-closure",
+      "resource_id": "academic-ja-paper-scm-plant-closure",
       "section_id": "all",
       "language": "ja",
-      "function": "empirical-policy-study",
-      "field": "labor and public economics",
+      "function": "journal-article",
+      "field": "econometrics and labor",
       "extended": true
     },
-    "academic-ja.attention-plan-choice": {
-      "example_id": "academic-ja.attention-plan-choice",
-      "resource_id": "academic-ja-attention-plan-choice",
-      "section_id": "all",
-      "language": "ja",
-      "function": "structural-demand-study",
-      "field": "industrial organization",
-      "extended": true
-    },
-    "academic-ja.equipment-subsidy": {
-      "example_id": "academic-ja.equipment-subsidy",
-      "resource_id": "academic-ja-equipment-subsidy",
-      "section_id": "all",
-      "language": "ja",
-      "function": "literature-survey",
-      "field": "investment and policy evaluation",
-      "extended": true
-    },
-    "academic-ja.slides-seminar": {
-      "example_id": "academic-ja.slides-seminar",
-      "resource_id": "academic-ja-slides-seminar",
+    "academic-ja.slides-scm-plant-closure": {
+      "example_id": "academic-ja.slides-scm-plant-closure",
+      "resource_id": "academic-ja-slides-scm-plant-closure",
       "section_id": "all",
       "language": "ja",
       "function": "seminar-slides",
-      "field": "labor and public economics",
+      "field": "econometrics and labor",
       "extended": true
     },
-    "top-five-en.slides-seminar": {
-      "example_id": "top-five-en.slides-seminar",
-      "resource_id": "top-five-en-slides-seminar",
+    "top-five-en.paper-plant-closures": {
+      "example_id": "top-five-en.paper-plant-closures",
+      "resource_id": "top-five-en-paper-plant-closures",
+      "section_id": "all",
+      "language": "en",
+      "function": "journal-article",
+      "field": "labor and urban economics",
+      "extended": true
+    },
+    "top-five-en.slides-plant-closures": {
+      "example_id": "top-five-en.slides-plant-closures",
+      "resource_id": "top-five-en-slides-plant-closures",
       "section_id": "all",
       "language": "en",
       "function": "seminar-slides",
-      "field": "labor and public economics",
+      "field": "labor and urban economics",
       "extended": true
     }
   },
@@ -8752,97 +8077,19 @@
       "top-five-en": [
         "all"
       ],
-      "top-five-en-abstract-labor-public": [
-        "all"
-      ],
-      "top-five-en-abstract-micro-theory": [
-        "all"
-      ],
-      "top-five-en-abstract-io-identification": [
-        "all"
-      ],
-      "top-five-en-abstract-spatial": [
-        "all"
-      ],
-      "top-five-en-abstract-econometrics": [
-        "all"
-      ],
-      "top-five-en-abstract-field-experiment": [
-        "all"
-      ],
-      "top-five-en-abstract-macro-finance": [
-        "all"
-      ],
-      "top-five-en-introduction-empirical": [
-        "all"
-      ],
-      "top-five-en-introduction-theory": [
-        "all"
-      ],
-      "top-five-en-empirical-institution": [
-        "all"
-      ],
-      "top-five-en-empirical-data": [
-        "all"
-      ],
-      "top-five-en-empirical-framework": [
-        "all"
-      ],
-      "top-five-en-empirical-strategy": [
-        "all"
-      ],
-      "top-five-en-empirical-older-workers": [
-        "all"
-      ],
-      "top-five-en-empirical-firms-younger-workers": [
-        "all"
-      ],
-      "top-five-en-empirical-mechanisms": [
-        "all"
-      ],
-      "top-five-en-empirical-conclusion": [
-        "all"
-      ],
-      "top-five-en-field-micro-theory": [
-        "all"
-      ],
-      "top-five-en-field-io-demand": [
-        "all"
-      ],
-      "top-five-en-field-econometrics": [
-        "all"
-      ],
-      "top-five-en-field-spatial": [
-        "all"
-      ],
-      "top-five-en-field-macro-finance": [
-        "all"
-      ],
-      "top-five-en-field-experiment": [
-        "all"
-      ],
-      "top-five-en-field-computation": [
-        "all"
-      ],
-      "top-five-en-field-history": [
-        "all"
-      ],
-      "academic-ja-childcare-employment": [
-        "all"
-      ],
-      "academic-ja-attention-plan-choice": [
-        "all"
-      ],
-      "academic-ja-equipment-subsidy": [
-        "all"
-      ],
       "academic-ja": [
         "all"
       ],
-      "academic-ja-slides-seminar": [
+      "academic-ja-paper-scm-plant-closure": [
         "all"
       ],
-      "top-five-en-slides-seminar": [
+      "academic-ja-slides-scm-plant-closure": [
+        "all"
+      ],
+      "top-five-en-paper-plant-closures": [
+        "all"
+      ],
+      "top-five-en-slides-plant-closures": [
         "all"
       ]
     },
@@ -9219,97 +8466,16 @@
       "knowledge-guide": [
         "all"
       ],
-      "top-five-en-abstract-labor-public": [
+      "academic-ja-paper-scm-plant-closure": [
         "all"
       ],
-      "top-five-en-abstract-micro-theory": [
+      "academic-ja-slides-scm-plant-closure": [
         "all"
       ],
-      "top-five-en-abstract-io-identification": [
+      "top-five-en-paper-plant-closures": [
         "all"
       ],
-      "top-five-en-abstract-spatial": [
-        "all"
-      ],
-      "top-five-en-abstract-econometrics": [
-        "all"
-      ],
-      "top-five-en-abstract-field-experiment": [
-        "all"
-      ],
-      "top-five-en-abstract-macro-finance": [
-        "all"
-      ],
-      "top-five-en-introduction-empirical": [
-        "all"
-      ],
-      "top-five-en-introduction-theory": [
-        "all"
-      ],
-      "top-five-en-empirical-institution": [
-        "all"
-      ],
-      "top-five-en-empirical-data": [
-        "all"
-      ],
-      "top-five-en-empirical-framework": [
-        "all"
-      ],
-      "top-five-en-empirical-strategy": [
-        "all"
-      ],
-      "top-five-en-empirical-older-workers": [
-        "all"
-      ],
-      "top-five-en-empirical-firms-younger-workers": [
-        "all"
-      ],
-      "top-five-en-empirical-mechanisms": [
-        "all"
-      ],
-      "top-five-en-empirical-conclusion": [
-        "all"
-      ],
-      "top-five-en-field-micro-theory": [
-        "all"
-      ],
-      "top-five-en-field-io-demand": [
-        "all"
-      ],
-      "top-five-en-field-econometrics": [
-        "all"
-      ],
-      "top-five-en-field-spatial": [
-        "all"
-      ],
-      "top-five-en-field-macro-finance": [
-        "all"
-      ],
-      "top-five-en-field-experiment": [
-        "all"
-      ],
-      "top-five-en-field-computation": [
-        "all"
-      ],
-      "top-five-en-field-history": [
-        "all"
-      ],
-      "example-subscription-manuscript-en": [
-        "all"
-      ],
-      "academic-ja-childcare-employment": [
-        "all"
-      ],
-      "academic-ja-attention-plan-choice": [
-        "all"
-      ],
-      "academic-ja-equipment-subsidy": [
-        "all"
-      ],
-      "academic-ja-slides-seminar": [
-        "all"
-      ],
-      "top-five-en-slides-seminar": [
+      "top-five-en-slides-plant-closures": [
         "all"
       ]
     },
@@ -9457,94 +8623,16 @@
       "review-procedure": [
         "all"
       ],
-      "top-five-en-abstract-labor-public": [
+      "academic-ja-paper-scm-plant-closure": [
         "all"
       ],
-      "top-five-en-abstract-micro-theory": [
+      "academic-ja-slides-scm-plant-closure": [
         "all"
       ],
-      "top-five-en-abstract-io-identification": [
+      "top-five-en-paper-plant-closures": [
         "all"
       ],
-      "top-five-en-abstract-spatial": [
-        "all"
-      ],
-      "top-five-en-abstract-econometrics": [
-        "all"
-      ],
-      "top-five-en-abstract-field-experiment": [
-        "all"
-      ],
-      "top-five-en-abstract-macro-finance": [
-        "all"
-      ],
-      "top-five-en-introduction-empirical": [
-        "all"
-      ],
-      "top-five-en-introduction-theory": [
-        "all"
-      ],
-      "top-five-en-empirical-institution": [
-        "all"
-      ],
-      "top-five-en-empirical-data": [
-        "all"
-      ],
-      "top-five-en-empirical-framework": [
-        "all"
-      ],
-      "top-five-en-empirical-strategy": [
-        "all"
-      ],
-      "top-five-en-empirical-older-workers": [
-        "all"
-      ],
-      "top-five-en-empirical-firms-younger-workers": [
-        "all"
-      ],
-      "top-five-en-empirical-mechanisms": [
-        "all"
-      ],
-      "top-five-en-empirical-conclusion": [
-        "all"
-      ],
-      "top-five-en-field-micro-theory": [
-        "all"
-      ],
-      "top-five-en-field-io-demand": [
-        "all"
-      ],
-      "top-five-en-field-econometrics": [
-        "all"
-      ],
-      "top-five-en-field-spatial": [
-        "all"
-      ],
-      "top-five-en-field-macro-finance": [
-        "all"
-      ],
-      "top-five-en-field-experiment": [
-        "all"
-      ],
-      "top-five-en-field-computation": [
-        "all"
-      ],
-      "top-five-en-field-history": [
-        "all"
-      ],
-      "academic-ja-childcare-employment": [
-        "all"
-      ],
-      "academic-ja-attention-plan-choice": [
-        "all"
-      ],
-      "academic-ja-equipment-subsidy": [
-        "all"
-      ],
-      "academic-ja-slides-seminar": [
-        "all"
-      ],
-      "top-five-en-slides-seminar": [
+      "top-five-en-slides-plant-closures": [
         "all"
       ]
     },

@@ -17,16 +17,14 @@ The output names a new generation. The flat export command is `python charging-e
 
 The result index retains full-precision source bindings, original logit-share and pricing residuals, monetary accounting, native inference and the applied objective. A changed primitive, sample, model or intervention creates a new calculation generation. Changes to prose or layout consume the selected saved generation through the existing artifact owners.
 
-## Compose from the saved comparison
+## Materials
 
-1. **Output: selected passage; consumer: draft.** Select an [English writing profile](../../../../profiles/top-five-en/PROFILE.md) for the current section or select a [Japanese writing profile](../../../../profiles/academic-ja/PROFILE.md). Carry the sequence from drivers' choices through joint pricing and procurement to the total-surplus decision into the current argument.
-2. **Output: bound displays and materials; consumer: renderer.** Execute [materials.py](materials.py) on the saved generation. It binds the index, source specification, native result references and adopted interpretation through the existing artifact owners. The Gallery retains full-precision quantities; the welfare display converts hundred JPY to million JPY. The brief and structural presentation use the same two exhibits and numerical prose.
+[materials.py](materials.py) registers the saved exhibits in the Gallery and creates the `brief` and `structural` bundles. Each bundle holds the exhibits, their labels and units, and takes the specification ID as its title. Headings, prose and slide text enter at task time through [econ-writing](../../../econ-writing/SKILL.md) and the [borrowing procedure](../../../../runtime/PROSE.md#common-output); slide and document headings are noun phrases.
 
 ```sh
 python skills/econ-data/examples/charging/materials.py --root /path/to/project \
   --run /path/to/project/private/charging-run --output /path/to/project/private/charging-materials --language ja
+python harness/research.py meeting render --root /path/to/project \
+  --bundle /path/to/project/private/charging-materials/structural \
+  --output /path/to/project/private/charging-structural-pdf --format pdf
 ```
-
-Use a project root containing the selected runtime and result paths. The flat command uses `charging-materials.py`; `--language en` selects English. Each execution creates a new material directory with `brief` and `structural` bundles.
-
-3. **Output: inspected pages; consumer: reader.** Render each bundle through `python harness/research.py meeting render --root /path/to/project --bundle /path/to/project/private/charging-materials/structural --output /path/to/project/private/charging-slides-html --format html`. Select `pdf` with a new output directory for PDF. In a flat export, use `research.py`. Read the actual pages under PROSE and retain their input hashes and inspection evidence in the private working record.

@@ -1,53 +1,21 @@
-# English economics paper profiles
+# English economics writing profiles
 
 Profile family: top-five-en. Language: English.
 
-## Principles
+## Use
 
-Apply [PROSE Common output](../../runtime/PROSE.md#common-output) to every element selected from this profile.
+Every English sentence, section architecture, table, figure and slide is borrowed from the corresponding passage of a real Top Five paper or seminar deck in the user's connected document library and adjusted only for the study's own facts, names, numbers, units and citations.
 
-Select and read the complete sample matching the current passage’s function and research field. Ground adopted expressions and visual elements in the original sources. The 25 paper body files contain the user-adopted English samples; the seminar-slide profile presents the empirical study as a talk in the order motivation, question, this paper, preview of findings, setting, data, strategy, results, mechanism and bottom line. Preserve their text, equations, headings and table contents. Profile selection and usage instructions belong in this index and the routing registry.
+1. Select the original closest to the study in field and design, then the passage that performs the same function as the passage being written: abstract, introduction paragraph, institutional setting, data, framework, empirical strategy, results, mechanism, welfare, conclusion, table notes, figure notes or slide.
+2. Read the passage in the original PDF with its surrounding pages.
+3. Copy its sentences into the private working record by function and draft each sentence by substituting the study's facts into one copied sentence.
+4. Leave out content with no corresponding source sentence.
 
-## Select a profile
+The source sheet, the identity of each original and every mapping stay in the private working record. The samples below are fictional studies assembled by the same procedure; they show the register and architecture, and their facts, names and citations are invented.
 
-Each row is a separate selectable writing profile. The registered profile ID is `top-five-en-` followed by the filename stem; the example ID uses `top-five-en.` followed by the same stem. Read the complete selected body through the existing profile or example reader.
+## Samples
 
-```sh
-python scripts/route_registry.py read econ-writing:compose --user-profile top-five-en-introduction-empirical --stage compose
-python scripts/route_registry.py read top-five-en-field-spatial.all
-```
-
-| Function | Field | Profile body |
+| Genre | Sample ID | Sample |
 |---|---|---|
-| abstract | labor and public economics | [abstract-labor-public](abstract-labor-public.md) |
-| abstract | microeconomic theory | [abstract-micro-theory](abstract-micro-theory.md) |
-| abstract | industrial organization and identification | [abstract-io-identification](abstract-io-identification.md) |
-| abstract | urban and spatial economics | [abstract-spatial](abstract-spatial.md) |
-| abstract | econometrics | [abstract-econometrics](abstract-econometrics.md) |
-| abstract | field experiments and development | [abstract-field-experiment](abstract-field-experiment.md) |
-| abstract | macro and finance | [abstract-macro-finance](abstract-macro-finance.md) |
-| introduction | applied microeconomics | [introduction-empirical](introduction-empirical.md) |
-| introduction | microeconomic theory | [introduction-theory](introduction-theory.md) |
-| institutional setting | applied microeconomics | [empirical-institution](empirical-institution.md) |
-| data | applied microeconomics | [empirical-data](empirical-data.md) |
-| conceptual framework | applied microeconomics | [empirical-framework](empirical-framework.md) |
-| empirical strategy | applied microeconomics | [empirical-strategy](empirical-strategy.md) |
-| results: older workers | applied microeconomics | [empirical-older-workers](empirical-older-workers.md) |
-| results: firms and younger workers | applied microeconomics | [empirical-firms-younger-workers](empirical-firms-younger-workers.md) |
-| mechanisms and heterogeneity | applied microeconomics | [empirical-mechanisms](empirical-mechanisms.md) |
-| conclusion | applied microeconomics | [empirical-conclusion](empirical-conclusion.md) |
-| field sections | microeconomic theory | [field-micro-theory](field-micro-theory.md) |
-| field sections | industrial organization | [field-io-demand](field-io-demand.md) |
-| field sections | econometrics | [field-econometrics](field-econometrics.md) |
-| field sections | spatial economics | [field-spatial](field-spatial.md) |
-| field sections | macro and finance | [field-macro-finance](field-macro-finance.md) |
-| field sections | field experiments | [field-experiment](field-experiment.md) |
-| field sections | computational methods | [field-computation](field-computation.md) |
-| field sections | economic history | [field-history](field-history.md) |
-| seminar slides | applied microeconomics | [slides-seminar](slides-seminar.md) |
-
-## Read connected sections
-
-For the empirical study, read the labor/public abstract, empirical introduction, and empirical sections in this order: institution, data, framework, strategy, older workers, firms and younger workers, mechanisms, conclusion.
-
-For microeconomic theory, read the theory abstract, theory introduction, and microeconomic-theory field profile. For the remaining fields, select the corresponding abstract and field profile where available.
+| Journal article: abstract, introduction, table and figure notes | `top-five-en-paper-plant-closures` | [Plant Closures and the Local Labor Market](paper-plant-closures.md) |
+| Seminar deck | `top-five-en-slides-plant-closures` | [Plant Closures and the Local Labor Market: seminar slides](slides-plant-closures.md) |

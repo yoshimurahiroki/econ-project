@@ -17,22 +17,14 @@ The output path names a new generation. The R environment uses `jsonlite` 2.0.0,
 
 Each result retains the common sample, actual package versions, native fitted object and producer hashes. Changing an economic primitive, assignment, outcome or valuation creates a new calculation generation. Wording and layout consume the selected saved generation through the existing artifact owners.
 
-## Compose and render the study
+## Materials
 
-1. **Output: selected prose pattern; consumer: author.** Select a [Japanese writing profile](../../../../profiles/academic-ja/PROFILE.md) or an [English writing profile](../../../../profiles/top-five-en/PROFILE.md) for the current section. Carry the policy question → household and firm choices → randomized comparison → monetary policy ranking into the current argument using this specification and its saved results.
-2. **Output: Gallery selection and editable bundles; consumer: renderer.** Run [materials.py](materials.py) on the saved generation. Its seven bound interpretations and Gallery registry preserve the original estimates. The `brief` and `results` bundles place the research question, mechanism, employment and surplus exhibits, and policy choice in that order. Use `--language en` for English. Keep the output in the private project working area; `--root` contains the runtime, calculation and material paths.
-3. **Output: inspected documents and slides; consumer: reader.** Render each bundle through the existing meeting owner. Read the generated pages and apply PROSE to their headings, text and tables. For a wording or layout revision, edit the bundle's `content.md` or `meeting.json` and render a new edition.
+[materials.py](materials.py) registers the saved exhibits in the Gallery and creates the `brief` and `results` bundles. Each bundle holds the exhibits, their labels and units, and takes the specification ID as its title. Headings, prose and slide text enter at task time through [econ-writing](../../../econ-writing/SKILL.md) and the [borrowing procedure](../../../../runtime/PROSE.md#common-output); slide and document headings are noun phrases.
 
 ```sh
-python skills/econ-data/examples/commuting/materials.py \
-  --root /path/to/project --run /path/to/project/private/commuting-run \
-  --output /path/to/project/private/commuting-materials --language ja
-python harness/research.py meeting render --root /path/to/project \
-  --bundle /path/to/project/private/commuting-materials/brief \
-  --output /path/to/project/private/commuting-brief-html --format html
+python skills/econ-data/examples/commuting/materials.py --root /path/to/project \
+  --run /path/to/project/private/commuting-run --output /path/to/project/private/commuting-materials --language ja
 python harness/research.py meeting render --root /path/to/project \
   --bundle /path/to/project/private/commuting-materials/results \
-  --output /path/to/project/private/commuting-slides-pdf --format pdf
+  --output /path/to/project/private/commuting-results-pdf --format pdf
 ```
-
-Use `--format pdf` for the brief PDF and `--format html` for the HTML slides. The flat export provides `commuting-materials.py` and `research.py` at its root. Each edition retains the result IDs and producer hashes in its internal record; its body presents the adopted economic argument and numerical intervals.

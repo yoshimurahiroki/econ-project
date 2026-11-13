@@ -19,12 +19,15 @@ The annual budget is 1.5 billion JPY. A lump-sum charge on floor owners funds th
 
 Official interfaces: [DuckDB Python SQL](https://duckdb.org/docs/stable/clients/python/reference) and [SciPy least squares](https://docs.scipy.org/doc/scipy-1.17.0/reference/generated/scipy.optimize.least_squares.html). The existing macro runner owns the equilibrium equations and their saved residuals. Changes to source quantities, calibration or policy inputs create a new calculation generation; wording and layout consume its saved quantities.
 
-Select an [English writing profile](../../../../profiles/top-five-en/PROFILE.md) for the current section. For Japanese prose, select a [Japanese writing profile](../../../../profiles/academic-ja/PROFILE.md) and use this example's saved measurement, equilibrium and annual policy comparison.
 
-Build the existing brief and structural material bundles from that saved generation with the [material producer](materials.py). Set `--root` to the common project directory containing the runtime and saved results. Select `--language ja` or `--language en`; each invocation creates a new output directory.
+## Materials
+
+[materials.py](materials.py) registers the saved exhibits in the Gallery and creates the `brief` and `structural` bundles. Each bundle holds the exhibits, their labels and units, and takes the specification ID as its title. Headings, prose and slide text enter at task time through [econ-writing](../../../econ-writing/SKILL.md) and the [borrowing procedure](../../../../runtime/PROSE.md#common-output); slide and document headings are noun phrases.
 
 ```sh
-python skills/econ-data/examples/housing/materials.py --root /path/to/project --run /path/to/project/housing-run --output /path/to/project/housing-materials-ja --language ja
+python skills/econ-data/examples/housing/materials.py --root /path/to/project \
+  --run /path/to/project/private/housing-run --output /path/to/project/private/housing-materials --language ja
+python harness/research.py meeting render --root /path/to/project \
+  --bundle /path/to/project/private/housing-materials/structural \
+  --output /path/to/project/private/housing-structural-pdf --format pdf
 ```
-
-The flat command uses `python housing-materials.py` with the same arguments. The producer binds the saved result, registers annual costs, worker and owner gains and mean commuting times, and creates Gallery exhibits and both material bundles. Use the existing [meeting renderer](../../../../harness/meetings.md#edit-prose-and-structure) to generate each bundle's HTML and PDF. Wording and layout consume the saved calculation; a revised scientific input returns to the example runner.

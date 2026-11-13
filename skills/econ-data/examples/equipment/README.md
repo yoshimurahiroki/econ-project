@@ -19,22 +19,14 @@ The official [ruspy criterion factory](https://github.com/OpenSourceEconomics/ru
 
 `result-index.json` links the formulation, shared tables, official fit and technology solutions. Its `parameters`, `replacement_probabilities`, `decision_quantities` and `uncertainty` supply named quantities to consumers; `internal` retains the scientific and execution record. A changed cost, sample or technology regenerates these calculations. A display change reads the selected saved result.
 
-## Write and render the investment comparison
+## Materials
 
-1. **Output: original study prose; consumer: composition.** Select an [English writing profile](../../../../profiles/top-five-en/PROFILE.md) for the current section or select a [Japanese writing profile](../../../../profiles/academic-ja/PROFILE.md). Carry the recurring replacement choice into permanent adoption through costs, continuation values and the saved net-gain comparison.
-2. **Output: saved-result displays and material bundles; consumer: rendering.** Run [materials.py](materials.py) against the completed generation. It binds the result, specification and producer, retains inference internally, and creates cost estimates, replacement probabilities and net-present-gain displays through Gallery. The existing `brief` and `structural` templates consume the same result IDs.
-3. **Output: inspected document and presentation; consumer: researcher.** Render each selected bundle through the existing meeting command. Inspect the prose, labels, units, intervals and page layout; presentation edits consume the saved numerical results.
+[materials.py](materials.py) registers the saved exhibits in the Gallery and creates the `brief` and `structural` bundles. Each bundle holds the exhibits, their labels and units, and takes the specification ID as its title. Headings, prose and slide text enter at task time through [econ-writing](../../../econ-writing/SKILL.md) and the [borrowing procedure](../../../../runtime/PROSE.md#common-output); slide and document headings are noun phrases.
 
 ```sh
-python skills/econ-data/examples/equipment/materials.py \
-  --root /path/to/project --run /path/to/project/equipment-run \
-  --output /path/to/project/equipment-ja --language ja
+python skills/econ-data/examples/equipment/materials.py --root /path/to/project \
+  --run /path/to/project/private/equipment-run --output /path/to/project/private/equipment-materials --language ja
 python harness/research.py meeting render --root /path/to/project \
-  --bundle /path/to/project/equipment-ja/brief \
-  --output /path/to/project/equipment-ja/brief-html --format html
-python harness/research.py meeting render --root /path/to/project \
-  --bundle /path/to/project/equipment-ja/structural \
-  --output /path/to/project/equipment-ja/structural-pdf --format pdf
+  --bundle /path/to/project/private/equipment-materials/structural \
+  --output /path/to/project/private/equipment-structural-pdf --format pdf
 ```
-
-Use `--language en` and fresh destinations for English materials. In the flat export, the producer is `equipment-materials.py` and the renderer is `research.py`. Select an interpreter with the [artifact-rendering dependencies](../../../econ-writing/references/result-artifacts.md). The declared root contains the saved generation, its specification and producer, and the output destination.

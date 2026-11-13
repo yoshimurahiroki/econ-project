@@ -90,7 +90,7 @@ Text after `<!-- section:ID -->` in `content.md` supplies the section body. `sec
 
 The local marimo interface edits these fields through forms. Its explicit save button checks the existing saved revision's hash before writing. Change scientific definitions through the existing specification-update and result-registration paths. Presentation edits consume saved results without invoking estimation.
 
-Producers place each exhibit on the page of the claim it supports with `fold_into_exhibit(bundle, source_id, exhibit_id, layout=...)`, which moves the prose section's heading and body onto the exhibit section and hides the prose-only page. `sentence_bullets(text)` sets a prose paragraph as slide bullets, one sentence per bullet, without terminal stops; Japanese lines take 「、」. Slide headings are noun phrases.
+Producers place each exhibit on the page of the claim it supports with `fold_into_exhibit(bundle, source_id, exhibit_id, layout=...)`, which moves the prose section's heading and body onto the exhibit section and hides the prose-only page. Slide headings are noun phrases.
 
 Editing one section preserves the other section bodies and draft text retained after a section is removed. Re-adding a removed section ID restores its retained draft unless the addition supplies replacement prose. Structural `<!-- section:ID -->` markers belong to the section structure and cannot appear inside a section's body.
 

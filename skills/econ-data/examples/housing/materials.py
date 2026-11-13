@@ -36,40 +36,6 @@ def checked_reference(root, ref):
     return path
 
 
-def prose(index, spec, language):
-    rows = {row["scenario"]: row for row in index["decision_quantities"]["rows"]}
-    combined, transport = rows["transport-and-floor"], rows["transport"]
-    money = lambda row, key: f"{row[key] / 1000:,.1f}".replace("-", "−")
-    names = {"baseline": ("基準の配分", "the baseline allocation"),
-             "transport": ("交通整備", "transport investment"),
-             "transport-and-floor": ("交通整備と床供給拡張の組合せ", "combined transport investment and floor expansion")}
-    if language == "ja":
-        return {
-            "title": "通勤アクセスと床供給の政策評価",
-            "question": "都市当局は交通整備に床供給の拡張を組み合わせるべきか．交通整備は通勤時間を短縮し，労働者の居住地と勤務地の選択を変える．労働者が郊外へ移ると郊外の賃料が上がり，床供給が制約されていれば便益の一部は所有者に帰着する．本稿では，定量的空間均衡モデルを用いて，交通整備単独と床供給拡張との組合せの年間純便益を比較する．",
-            "model": "労働者は，賃金，賃料，通勤時間，居住環境に基づいて居住地と勤務地の組を選ぶ．企業は労働と事業用床を投入して財を生産する．各地区の床市場では，住宅用と事業用の床需要の合計が床供給に等しい．居住と雇用の密度は，それぞれ居住環境と生産性に集積効果として作用する．",
-            "identification": "弾力性と通勤費用の係数は仕様で定めた値を用いる．その下で，地区別の居住者数，就業者数，賃料を均衡条件に代入し，観察されない賃金，生産性，居住環境，床供給を基準均衡として復元する．",
-            "data": "分析には，架空都市の3地区に暮らす労働者12,000人のデータを用いる．地区別に居住者数と事業所の就業者数を集計した．地区の賃料は，年間の賃料収入総額を賃貸床面積で割って求めている．居住地と勤務地の9つの組について移動時間を対応させた．",
-            "parameters": "基準均衡の平均年賃金は400万円である．交通整備は中心部と郊外の間の移動時間を40分から20分に短縮する．組合せ政策では，これに加えて郊外の床供給を20%拡張する．いずれの政策も同じ基準均衡から反実仮想の均衡を計算する．",
-            "counterfactual": f"交通整備の年間費用は{money(transport, 'policy_resource_cost')}百万円である．組合せ政策は{combined['additional_floor_m2']:,.0f}平方メートルの床を追加し，年間費用は{money(combined, 'policy_resource_cost')}百万円となる．年間の資源予算は{spec['policy_budget_thousand_jpy'] / 1000:,.0f}百万円である．",
-            "welfare": f"組合せ政策による労働者の便益は，所得換算で{money(combined, 'worker_income_equivalent')}百万円である．所有者の賃料収入は{money(combined, 'owner_income_change_gross')}百万円増加し，政策費用を負担した後の所得変化は{money(combined, 'owner_income_change_net')}百万円となる．両者を合計した年間純便益は{money(combined, 'net_income_equivalent')}百万円である．",
-            "interpretation": f"平均通勤時間は，基準均衡の{rows['baseline']['mean_commute_minutes']:.1f}分から組合せ政策では{combined['mean_commute_minutes']:.1f}分となる．政策の便益は，この立地の再配分を織り込んで評価される．",
-            "decisions": f"年間純便益が最も大きい{names[index['selected_action']][0]}を採用する．年間純便益は交通整備単独で{money(transport, 'net_income_equivalent')}百万円，床供給拡張との組合せで{money(combined, 'net_income_equivalent')}百万円となる．",
-        }
-    return {
-        "title": "Commuting Access, Floor Supply, and Policy Gains",
-        "question": "Transport investment changes residence-workplace choices and distributes gains through wages and rents. The authority selects a policy by adding the worker income equivalent to the change in owners' net income.",
-        "model": "Workers choose where to live and work using wages, rents, travel times and amenities. Firms produce the traded good with labor and commercial floor space. Residential and commercial demand exhaust district floor supply. Residential and employment density affect amenities and productivity.",
-        "identification": "At the adopted elasticities and commuting-cost coefficient, district residents, jobs and rents recover baseline wages, productivity, amenities and floor supply.",
-        "data": "The fictional city contains 12,000 workers in three districts. We aggregate residents and jobs from disjoint subdistrict and workplace records. Annual lease revenue divided by leased floor area gives district rent. Nine directed residence-workplace travel pairs complete the shared tables.",
-        "parameters": "The baseline mean annual wage is JPY 4 million. Transport investment reduces center–outer travel time from 40 to 20 minutes. The combined policy also expands outer-district floor supply by 20%. Both policies carry forward the same baseline equilibrium.",
-        "counterfactual": f"Transport service costs JPY {money(transport, 'policy_resource_cost')} million annually. The combined policy adds {combined['additional_floor_m2']:,.0f} square meters of floor services and costs JPY {money(combined, 'policy_resource_cost')} million annually. The annual resource budget is JPY {spec['policy_budget_thousand_jpy'] / 1000:,.0f} million.",
-        "welfare": f"The combined policy gives workers JPY {money(combined, 'worker_income_equivalent')} million of income equivalent. Owners' rental receipts rise by JPY {money(combined, 'owner_income_change_gross')} million, and their income after the policy charge changes by JPY {money(combined, 'owner_income_change_net')} million. The annual net gain is JPY {money(combined, 'net_income_equivalent')} million.",
-        "interpretation": f"The composition of residences and workplaces determines mean commuting time. Its baseline value is {rows['baseline']['mean_commute_minutes']:.1f} minutes; the combined policy gives {combined['mean_commute_minutes']:.1f} minutes. Valuing workers' utility changes at baseline prices and adding owners' net income changes connects the allocation to the policy objective.",
-        "decisions": f"The annual net income-equivalent criterion selects {names[index['selected_action']][1]}. Transport investment yields JPY {money(transport, 'net_income_equivalent')} million of net gains; adding floor supply yields JPY {money(combined, 'net_income_equivalent')} million.",
-    }
-
-
 def build(root, run, output, language):
     index = read(run / "result-index.json")
     spec_path = checked_reference(root, index["specification"])
@@ -160,39 +126,10 @@ def build(root, run, output, language):
     for entry in entries:
         entry["title"] = exhibit_titles[entry["id"]]
     save(output / "selection.json", entries)
-    body = prose(index, spec, language)
-    titles = {"question": ("交通整備と床供給の政策評価", "Evaluating transport and floor supply citywide"),
-              "model": ("居住地・勤務地選択と床市場", "Residence, workplace and floor use"),
-              "identification": ("基準均衡の復元", "Recovering equilibrium from district populations and prices"),
-              "data": ("3地区の人口・賃料・移動時間", "Connecting population, prices and travel across three districts"),
-              "parameters": ("基準均衡と政策の設定", "Computing policies from the baseline equilibrium"),
-              "counterfactual": ("政策の年間費用と純便益", "Costs of transport investment and floor supply"),
-              "welfare": ("労働者と所有者への便益の帰着", "Allocating gains to workers and owners"),
-              "interpretation": ("立地の再配分と平均通勤時間", "Connecting location choices to policy gains"),
-              "decisions": ("採用する政策", "Selecting policy by annual net gains")}
-    for kind in ("brief", "structural"):
-        sections = {key: value for key, value in body.items() if key != "title"}
-        headings = dict(titles)
-        if kind == "brief":
-            sections = {"question": body["question"], "data": body["data"],
-                        "specification": body["model"] + "\n\n" + body["identification"],
-                        "results": body["parameters"] + "\n\n" + body["counterfactual"] + "\n\n" + body["welfare"],
-                        "interpretation": body["interpretation"] + "\n\n" + body["decisions"]}
-            headings.update(specification=("空間均衡モデル", "Equilibrium linking locations and floor markets"),
-                            results=("政策費用と便益の配分", "Policy costs and the allocation of gains"))
-        if kind == "structural":
-            sections = {key: meetings.sentence_bullets(value) for key, value in sections.items()}
-        view = {"language": language, "section_content": sections}
-        save(output / (kind + "-view.json"), view)
-        bundle = output / kind
-        meetings.create_bundle(root, bundle, entries, title=body["title"], kind=kind, project_view=view)
-        for section in sections:
-            revision = meetings.load_meeting(bundle)[2]
-            meetings.edit_section(bundle, section, {"title": headings[section][not ja]}, expected_revision=revision)
-        if kind == "structural":
-            # Each exhibit page carries the claim it supports.
-            for source, exhibit, layout in (("counterfactual", "result-1", "stack"), ("welfare", "result-2", "figure-left")):
-                meetings.fold_into_exhibit(bundle, source, exhibit, layout=layout)
+    # Bundles carry the saved exhibits; prose is composed at task time from inspected sources.
+    for kind in ('brief', 'structural'):
+        meetings.create_bundle(root, output / kind, entries, title=spec["specification_id"], kind=kind,
+                               project_view={"language": language})
     save(output / "material-inputs.json", {"result_index": reference(root, run / "result-index.json"),
         "producer": reference(root, Path(__file__)), "language": language, "analysis_executed": False})
     return {"output": str(output), "bundles": ["brief", "structural"], "analysis_executed": False}

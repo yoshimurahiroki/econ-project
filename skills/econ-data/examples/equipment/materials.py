@@ -36,48 +36,6 @@ def checked_reference(root, ref):
     return path
 
 
-def prose(index, spec, language):
-    rows = {row["scenario"]: row for row in index["decision_quantities"]["rows"]}
-    advanced, standard = rows["advanced"], rows["standard"]
-    c, replacement = index["parameters"]["rows"]
-    contrast = next(row for row in index["uncertainty"]["pairwise_contrasts"]
-                    if row["scenario"] == "advanced" and row["comparator"] == "standard")
-    s = spec["simulation"]
-    money = lambda row, key: f"{row[key]:,.1f}".replace("-", "−")
-    interval = lambda row: f"[{row['ci_lower']:,.1f}, {row['ci_upper']:,.1f}]".replace("-", "−")
-    names = {"baseline": ("基準技術", "baseline technology"), "standard": ("標準技術", "standard technology"),
-             "advanced": ("高度技術", "advanced technology")}
-    if language == "ja":
-        return {
-            "title": "設備更新と技術導入の投資価値",
-            "question": "企業は設備の交換費用を下げる更新技術を導入すべきか．交換費用が下がると，企業は摩耗した設備をより早い時期に交換し，維持費用の負担を減らす．導入の価値は，この行動の変化を織り込んだ将来の操業価値の増分で測られる．本稿では，動学的離散選択モデルを推定し，標準技術と高度技術の導入による純現在価値を比較する．",
-            "model": f"企業は毎四半期，設備を維持するか交換するかを選ぶ．維持費用は摩耗とともに増加し，交換すると摩耗は状態0に戻る．企業は当期の利得と割り引いた継続価値の和を最大にするように行動を選び，その価値はベルマン方程式で表される．四半期の割引因子は{s['discount_factor']:.2f}，利得1単位は{s['money_scale_thousand_jpy']:.0f}千円である．",
-            "identification": "維持費用は摩耗状態に応じて変化し，交換費用は状態によらず一定である．交換確率が摩耗状態とともにどれだけ上昇するかが維持費用の係数を，交換確率の水準が交換費用を識別する．",
-            "data": f"分析には，架空の{s['firms']:,}社がそれぞれ1台の設備を操業するパネルデータを用いる．観測期間は{s['quarters']}四半期，観測数は{s['firms'] * s['quarters']:,}である．各観測には摩耗状態，維持か交換かの行動，次期の摩耗状態が含まれる．初期時点では各摩耗状態に{s['firms'] // s['states']}台を配置した．",
-            "specification": "パラメータは，観測された行動の選択確率に基づく最尤法で推定する．標準誤差は企業単位でクラスターして求め，同じ企業の四半期間の行動の相関を反映する．",
-            "numerical": "推定したパラメータの下でベルマン方程式を解き，摩耗状態ごとの継続価値と交換確率を求める．技術ごとの交換費用で価値関数を解き直し，同じ初期状態の分布で価値の増分を平均する．投資価値の標準誤差は，価値関数のパラメータ微分と推定値の共分散から計算する．",
-            "parameters": f"維持費用の係数は摩耗1段階あたり{c['estimate']:.4f}利得単位(SE:{c['std_error']:.4f})である．交換費用は{replacement['estimate']:.4f}利得単位(SE:{replacement['std_error']:.4f})となる．",
-            "counterfactual": "交換費用が下がると，企業はより低い摩耗状態で設備を交換するようになる．図は，技術ごとに摩耗状態別の四半期の交換確率を示している．",
-            "welfare": f"高度技術による期待操業価値の増分は，設備1台あたり現在価値で{money(advanced, 'operating_value_gain')}千円である．導入費用{advanced['adoption_cost']:,.0f}千円を差し引いた純現在価値は{money(advanced, 'net_present_gain')}千円(95%信頼区間{interval(advanced)})となる．",
-            "interpretation": f"高度技術の純現在価値は，標準技術を1台あたり{money(contrast, 'net_gain_difference')}千円(95%信頼区間{interval(contrast)})上回る．両技術の価値は同じ費用推定値から計算されるため，差の信頼区間には両者の共分散を反映している．",
-            "decisions": f"平均純現在価値が最も大きい{names[index['selected_action']][0]}を導入する．純現在価値は標準技術で{money(standard, 'net_present_gain')}千円，高度技術で{money(advanced, 'net_present_gain')}千円となる．1台あたりの導入予算は{spec['adoption_budget_thousand_jpy']:,.0f}千円である．",
-        }
-    return {
-        "title": "Equipment Renewal and the Value of Adoption",
-        "question": "A renewal technology changes future replacement costs and the timing of maintenance decisions. We select a common technology by its mean discounted operating-value gain after adoption costs over the initial machine population.",
-        "model": f"Each quarter, a firm maintains or replaces its machine. Maintenance costs rise with wear; replacement restores state 0. The firm combines current payoff with continuation value when choosing its action. The quarterly discount factor is {s['discount_factor']:.2f}, and one payoff unit equals JPY {s['money_scale_thousand_jpy']:.0f} thousand.",
-        "identification": "Wear changes maintenance costs while replacement has a common cost. Variation in quarterly actions across wear states identifies the maintenance-cost coefficient and replacement cost in the adopted model.",
-        "data": f"The fictional panel follows {s['firms']:,} firms, each with one machine, for {s['quarters']} quarters. Its {s['firms'] * s['quarters']:,} firm-quarter observations join firm and choice tables and retain wear, action and next state. Each initial wear state contains {s['firms'] // s['states']} machines.",
-        "specification": "The probabilities of observed quarterly actions supply the likelihood for cost estimation. Firm-level clustering carries dependence among a firm's quarterly choices into inference.",
-        "numerical": "The Bellman equation supplies state values and action probabilities. We solve each technology at its replacement cost and average value gains over the same initial states. Value-function derivatives and the estimated cost covariance give standard errors for investment values.",
-        "parameters": f"The estimated maintenance-cost coefficient is {c['estimate']:.4f} payoff units per wear state, with SE {c['std_error']:.4f}. The estimated replacement cost is {replacement['estimate']:.4f} payoff units, with SE {replacement['std_error']:.4f}.",
-        "counterfactual": "A lower replacement cost changes the payoff from replacing today and the continuation value of a machine with future replacement opportunities. State-specific replacement probabilities trace this behavioral adjustment across technologies.",
-        "welfare": f"Advanced technology yields an expected discounted operating-value gain of JPY {money(advanced, 'operating_value_gain')} thousand per machine. Subtracting its JPY {advanced['adoption_cost']:,.0f} thousand adoption cost gives a net present gain of JPY {money(advanced, 'net_present_gain')} thousand; the 95% confidence interval is {interval(advanced)}.",
-        "interpretation": f"The advanced technology's net gain exceeds the standard technology's by JPY {money(contrast, 'net_gain_difference')} thousand per machine; the 95% confidence interval is {interval(contrast)}. The comparison uses the joint covariance of gains sharing the same estimated costs.",
-        "decisions": f"The mean net present gain criterion selects {names[index['selected_action']][1]}. Standard technology yields JPY {money(standard, 'net_present_gain')} thousand per machine; advanced technology yields JPY {money(advanced, 'net_present_gain')} thousand. The adoption budget is JPY {spec['adoption_budget_thousand_jpy']:,.0f} thousand per machine.",
-    }
-
-
 def build(root, run, output, language):
     index = read(run / "result-index.json")
     spec_path = checked_reference(root, index["specification"])
@@ -173,39 +131,10 @@ def build(root, run, output, language):
     for entry in entries:
         entry["title"] = exhibit_titles[entry["id"]]
     save(output / "selection.json", entries)
-    body = prose(index, spec, language)
-    titles = {"question": ("更新技術の導入価値", "Valuing adoption through future replacement choices"),
-              "model": ("維持・交換の動学的選択", "Maintenance, replacement and continuation value"),
-              "identification": ("摩耗状態別の交換確率による識別", "Identifying costs from wear and actions"),
-              "data": ("480社・32四半期のパネル", "Connecting quarterly actions across 480 firms"),
-              "specification": ("最尤法による推定と推論", "Estimating costs from action probabilities"),
-              "numerical": ("価値関数と投資価値の計算", "Connecting value functions to investment gains"),
-              "parameters": ("維持費用と交換費用の推定値", "Estimated maintenance and replacement costs"),
-              "counterfactual": ("技術別の交換確率", "Technology changes replacement behavior"),
-              "welfare": ("導入費用控除後の投資価値", "Investment value after adoption costs"),
-              "interpretation": ("高度技術と標準技術の差", "Net present gain from the additional investment"),
-              "decisions": ("導入技術の選択", "Selecting technology by mean net present gain")}
-    for kind in ("brief", "structural"):
-        sections = {key: value for key, value in body.items() if key != "title"}
-        headings = dict(titles)
-        if kind == "brief":
-            sections = {"question": body["question"], "data": body["data"],
-                        "specification": "\n\n".join(body[key] for key in ("model", "identification", "specification")),
-                        "results": "\n\n".join(body[key] for key in ("parameters", "welfare")),
-                        "interpretation": body["interpretation"] + "\n\n" + body["decisions"]}
-            headings.update(results=("費用推定値と技術の投資価値", "Estimated costs and technology investment values"))
-        if kind == "structural":
-            sections = {key: meetings.sentence_bullets(value) for key, value in sections.items()}
-        view = {"language": language, "section_content": sections}
-        save(output / (kind + "-view.json"), view)
-        bundle = output / kind
-        meetings.create_bundle(root, bundle, entries, title=body["title"], kind=kind, project_view=view)
-        for section in sections:
-            meetings.edit_section(bundle, section, {"title": headings[section][not ja]}, expected_revision=meetings.load_meeting(bundle)[2])
-        if kind == "structural":
-            # Each exhibit page carries the claim it supports.
-            for source, exhibit, layout in (("parameters", "result-1", "stack"), ("counterfactual", "result-2", "figure-left"), ("welfare", "result-3", "stack")):
-                meetings.fold_into_exhibit(bundle, source, exhibit, layout=layout)
+    # Bundles carry the saved exhibits; prose is composed at task time from inspected sources.
+    for kind in ('brief', 'structural'):
+        meetings.create_bundle(root, output / kind, entries, title=spec["specification_id"], kind=kind,
+                               project_view={"language": language})
     save(output / "material-inputs.json", {"result_index": reference(root, run / "result-index.json"),
         "producer": reference(root, Path(__file__)), "language": language, "analysis_executed": False})
     return {"output": str(output), "bundles": ["brief", "structural"], "analysis_executed": False}

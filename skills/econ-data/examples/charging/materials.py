@@ -36,42 +36,6 @@ def checked_reference(root, ref):
     return path
 
 
-def prose(index, spec, language):
-    p = spec["parameters"]
-    changes = index["decision_quantities"]["changes_from_baseline"]
-    coefficient = index["uncertainty"]["coefficients"]["prices"]
-    def money(scenario, quantity):
-        return f"{changes[scenario][quantity] / 10000:,.1f}".replace("-", "−")
-    cost = p["integration_cost_per_potential_occasion"] * index["decision_quantities"]["population"] / 10000
-    reduction = p["merged_cost_reduction"] * 100
-    estimate, lo, hi = (f"{coefficient[key]:.3f}" for key in ("estimate", "lower", "upper"))
-    if language == "ja":
-        return {
-            "title": "充電サービスの企業結合と余剰の配分",
-            "question": "競争当局は充電事業者の企業結合を承認すべきか．結合によって当事会社は2つのサービスの価格を共同で設定し，サービス間で移る顧客の利益を内部化する．統合は調達費用を引き下げ，統合そのものには実物資源を要する．本稿では，統合費用を含めた1週間の総余剰を基準に，結合前の所有，費用削減を伴わない共同価格設定，費用削減を伴う統合の3つを比較する．",
-            "model": "利用者は，3つの充電サービスと外部選択肢の中から効用が最も高いものを選ぶ．効用は価格，品質，観察されない需要ショックに依存し，選択確率はロジット型となる．各企業は自社サービスの利益を最大にするように価格を設定し，価格はベルトラン・ナッシュ均衡で決まる．共同所有の下では，結合企業は2つのサービスの利益の合計を最大にする．",
-            "identification": "価格は観察されない需要ショックと相関するため，価格係数の識別には需要と無関係に費用を動かす変動が必要となる．本稿では調達価格の変動を操作変数として用いる．調達価格は需要ショックと独立に決まり，限界費用を通じて均衡価格を動かす．",
-            "data": f"分析には，架空経済の{p['markets']}市場に各{p['products_per_market']}サービスを配置したデータを用いる．1市場あたり{p['occasions_per_market']:,}回，計{index['decision_quantities']['population']:,}回の潜在的な10kWh充電機会について，1週間の価格，品質，調達価格，市場シェアを観測している．",
-            "parameters": f"価格係数の推定値は100円あたり{estimate}(95%信頼区間[{lo}, {hi}])である．単位は正規化した効用である．この係数が自社と競合サービスの価格弾力性を定め，共同価格設定による値上げの幅を決める．",
-            "counterfactual": f"費用削減を伴わない共同価格設定では，総余剰は{money('ownership-only', 'social_welfare')}百万円変化する．統合では，結合する2サービスの限界費用が{reduction:g}%下がり，統合費用として{cost:g}百万円の実物資源を要する．",
-            "welfare": f"統合による消費者余剰の変化は{money('integrated', 'consumer_surplus')}百万円，生産者余剰の変化は{money('integrated', 'producer_surplus')}百万円である．統合費用を差し引いた総余剰の変化は{money('integrated', 'social_welfare')}百万円となる．",
-            "interpretation": "共同価格設定は利用者から企業へ余剰を移し，費用削減は総余剰そのものを増やす．統合の是非は，費用削減による資源の節約が価格上昇による死荷重と統合費用を上回るかで決まる．",
-            "decisions": f"統合は総余剰を{money('integrated', 'social_welfare')}百万円増やすため，企業結合を承認する．" if index["selected_action"] == "approve" else "結合前の所有の総余剰が最も大きいため，結合前の所有を維持する．",
-        }
-    return {
-        "title": "Charging-Service Mergers and the Allocation of Surplus",
-        "question": "A charging-service merger changes consumer and producer surplus through joint pricing and procurement costs. The authority chooses approval by total surplus over one operating week, including the real integration cost.",
-        "model": "Drivers choose one of three charging services or the outside option. Firms choose prices to maximize profit on their services. Joint ownership brings substitution between the merging services into the same pricing objective.",
-        "identification": "Procurement-price variation moves marginal costs and equilibrium prices. We use this variation to estimate the price coefficient in logit demand with quality and an intercept.",
-        "data": f"The fictional economy contains {p['markets']} markets with {p['products_per_market']} services each. We evaluate {p['occasions_per_market']:,} potential 10-kWh charging occasions per market, totaling {index['decision_quantities']['population']:,} over one operating week.",
-        "parameters": f"The price coefficient is {estimate} normalized utility units per hundred JPY; its 95% confidence interval is [{lo}, {hi}]. Drivers' responses to prices and quality determine the demand facing joint pricing.",
-        "counterfactual": f"Joint pricing at baseline costs changes total surplus by JPY {money('ownership-only', 'social_welfare')} million. The integrated merger reduces the two merging services' marginal costs by {reduction:g}% and uses JPY {cost:g} million in real integration resources.",
-        "welfare": f"The integrated merger changes consumer surplus by JPY {money('integrated', 'consumer_surplus')} million and producer surplus by JPY {money('integrated', 'producer_surplus')} million. The total-surplus change, including the integration cost, is JPY {money('integrated', 'social_welfare')} million.",
-        "interpretation": "Joint pricing and procurement savings determine the allocation of surplus between drivers and firms. Summing surplus over the same population and period connects price responses and resource costs to the decision criterion.",
-        "decisions": "The total-surplus rule selects merger approval." if index["selected_action"] == "approve" else "The total-surplus rule selects baseline ownership.",
-    }
-
-
 def build(root, run, output, language):
     index = read(run / "result-index.json")
     spec_path = checked_reference(root, index["specification"])
@@ -149,39 +113,10 @@ def build(root, run, output, language):
     artifacts.register_gallery(root, registry_path, definitions, formats=())
     entries = artifacts.gallery_items(root, registry_path, item_ids=[item["id"] for item in definitions])
     save(output / "selection.json", entries)
-    body = prose(index, spec, language)
-    titles = {"question": ("総余剰による企業結合審査", "Evaluating the merger by total surplus"),
-              "model": ("利用者の選択と価格競争", "Driver choice and joint pricing"),
-              "identification": ("調達価格による需要の識別", "Estimating demand from procurement prices"),
-              "data": ("100市場・300サービスのデータ", "Charging services in 100 markets"),
-              "parameters": ("需要の価格係数", "Drivers' response to prices"),
-              "counterfactual": ("共同価格設定と費用削減", "Joint pricing and procurement savings"),
-              "welfare": ("統合による余剰の変化", "Surplus allocated to drivers and firms"),
-              "interpretation": ("余剰の移転と資源の節約", "Connecting prices and resource costs to the decision"),
-              "decisions": ("審査の結論", "The total-surplus choice")}
-    for kind in ("brief", "structural"):
-        sections = {key: value for key, value in body.items() if key != "title"}
-        headings = dict(titles)
-        if kind == "brief":
-            sections = {"question": body["question"], "data": body["data"],
-                        "specification": body["model"] + "\n\n" + body["identification"],
-                        "results": body["parameters"] + "\n\n" + body["counterfactual"] + "\n\n" + body["welfare"],
-                        "interpretation": body["interpretation"] + "\n\n" + body["decisions"]}
-            headings.update(specification=("需要体系と価格係数の識別", "Demand linking choices and prices"),
-                            results=("価格係数と余剰の推定結果", "Demand and surplus estimates"))
-        if kind == "structural":
-            sections = {key: meetings.sentence_bullets(value) for key, value in sections.items()}
-        view = {"language": language, "section_content": sections}
-        save(output / (kind + "-view.json"), view)
-        bundle = output / kind
-        meetings.create_bundle(root, bundle, entries, title=body["title"], kind=kind, project_view=view)
-        for section in sections:
-            revision = meetings.load_meeting(bundle)[2]
-            meetings.edit_section(bundle, section, {"title": headings[section][not ja]}, expected_revision=revision)
-        if kind == "structural":
-            # Each exhibit page carries the claim it supports.
-            for source, exhibit, layout in (("parameters", "result-1", "stack"), ("welfare", "result-2", "stack")):
-                meetings.fold_into_exhibit(bundle, source, exhibit, layout=layout)
+    # Bundles carry the saved exhibits; prose is composed at task time from inspected sources.
+    for kind in ('brief', 'structural'):
+        meetings.create_bundle(root, output / kind, entries, title=spec["specification_id"], kind=kind,
+                               project_view={"language": language})
     save(output / "material-inputs.json", {"result_index": reference(root, run / "result-index.json"),
         "producer": reference(root, Path(__file__)), "language": language, "analysis_executed": False})
     return {"output": str(output), "bundles": ["brief", "structural"], "analysis_executed": False}

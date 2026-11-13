@@ -21,25 +21,14 @@ The [policy contract](../../../econ-design/references/causal-models/policy.md) o
 
 `result-index.json` binds the specification, producer, formulation, shared tables, fitted result and frozen allocations. Its `prediction`, `heterogeneity`, `decision_quantities`, `public_claims` and `uncertainty` supply saved quantities to artifact consumers. `internal` retains the full inference contract and simulation primitives. A changed utility, assignment, cost or capacity regenerates the analysis; wording and display changes consume its saved result.
 
-## Write and render the allocation comparison
+## Materials
 
-1. **Output: original study prose; consumer: composition.** Select an [English writing profile](../../../../profiles/top-five-en/PROFILE.md) for the current section or select a [Japanese writing profile](../../../../profiles/academic-ja/PROFILE.md). Connect the customer's renewal choice to randomized support effects, then to the firm's contribution and contact capacity. The [English example manuscript](manuscript-en.md) supplies the computational fixture for this example's renderer.
-2. **Output: saved-result displays and material bundles; consumer: rendering.** Run [materials.py](materials.py) against the completed generation. It binds the result, specification and producer, registers named quantities and creates group-effect, allocation-gain and prediction-calibration exhibits. The `brief` and `results` templates consume the same saved result. The `manuscript` bundle consumes the example manuscript's abstract and five complete chapters and records its source binding.
-3. **Output: inspected document and presentation; consumer: researcher.** Render each selected bundle through the existing meeting command. Inspect chapter connections, labels, units, intervals, figure placement and page density. Slide body and table text use the shared 28 pt baseline. Presentation edits consume saved values.
+[materials.py](materials.py) registers the saved exhibits in the Gallery and creates the `brief` and `results` bundles. Each bundle holds the exhibits, their labels and units, and takes the specification ID as its title. Headings, prose and slide text enter at task time through [econ-writing](../../../econ-writing/SKILL.md) and the [borrowing procedure](../../../../runtime/PROSE.md#common-output); slide and document headings are noun phrases.
 
 ```sh
-python skills/econ-data/examples/subscription/materials.py \
-  --root /path/to/project --run /path/to/project/subscription-run \
-  --output /path/to/project/subscription-ja --language ja
+python skills/econ-data/examples/subscription/materials.py --root /path/to/project \
+  --run /path/to/project/private/subscription-run --output /path/to/project/private/subscription-materials --language ja
 python harness/research.py meeting render --root /path/to/project \
-  --bundle /path/to/project/subscription-ja/brief \
-  --output /path/to/project/subscription-ja/brief-html --format html
-python harness/research.py meeting render --root /path/to/project \
-  --bundle /path/to/project/subscription-ja/results \
-  --output /path/to/project/subscription-ja/results-pdf --format pdf
-python harness/research.py meeting render --root /path/to/project \
-  --bundle /path/to/project/subscription-ja/manuscript \
-  --output /path/to/project/subscription-ja/manuscript-pdf --format pdf
+  --bundle /path/to/project/private/subscription-materials/results \
+  --output /path/to/project/private/subscription-results-pdf --format pdf
 ```
-
-Use `--language en` and fresh destinations for English materials. The flat-export producer is `subscription-materials.py` and the renderer is `research.py`. Select an interpreter with the [artifact dependencies](../../../econ-writing/references/result-artifacts.md). The declared root contains the saved generation, its specification and producer, and the output destination.
