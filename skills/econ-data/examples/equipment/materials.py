@@ -43,8 +43,8 @@ def prose(index, spec, language):
     contrast = next(row for row in index["uncertainty"]["pairwise_contrasts"]
                     if row["scenario"] == "advanced" and row["comparator"] == "standard")
     s = spec["simulation"]
-    money = lambda row, key: f"{row[key]:,.3f}"
-    interval = lambda row: f"[{row['ci_lower']:,.3f}, {row['ci_upper']:,.3f}]"
+    money = lambda row, key: f"{row[key]:,.1f}".replace("-", "−")
+    interval = lambda row: f"[{row['ci_lower']:,.1f}, {row['ci_upper']:,.1f}]".replace("-", "−")
     names = {"baseline": ("基準技術", "baseline technology"), "standard": ("標準技術", "standard technology"),
              "advanced": ("高度技術", "advanced technology")}
     if language == "ja":
@@ -165,7 +165,7 @@ def build(root, run, output, language):
          "metadata": {"report_role": "welfare", "unit": spec["unit"], "model_contract": spec["model_contract_id"],
              "public_claims": ["設備1台あたり千円。初期集団の平均。95%信頼区間。" if ja else "Thousand JPY per machine at adoption. Initial-population means. 95% confidence intervals."],
              "internal": {"source_keys": list(gain_keys[1:]), "inference": spec["estimation"]["inference"], "accounting": spec["internal"]["accounting"]}},
-         "display": {"plot_type": "table", "column_order": list(gain_keys), "formats": {key: ".3f" for key in gain_keys[1:]}}}]
+         "display": {"plot_type": "table", "column_order": list(gain_keys), "formats": {key: ".1f" for key in gain_keys[1:]}}}]
     save(output / "display-items.json", definitions)
     artifacts.register_gallery(root, registry_path, definitions, formats=("png", "pdf"))
     entries = artifacts.gallery_items(root, registry_path, item_ids=[item["id"] for item in definitions])

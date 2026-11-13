@@ -39,7 +39,7 @@ def checked_reference(root, ref):
 def prose(index, spec, language):
     rows = {row["scenario"]: row for row in index["decision_quantities"]["rows"]}
     combined, transport = rows["transport-and-floor"], rows["transport"]
-    money = lambda row, key: f"{row[key] / 1000:,.3f}"
+    money = lambda row, key: f"{row[key] / 1000:,.1f}".replace("-", "−")
     names = {"baseline": ("基準の配分", "the baseline allocation"),
              "transport": ("交通整備", "transport investment"),
              "transport-and-floor": ("交通整備と床供給拡張の組合せ", "combined transport investment and floor expansion")}
@@ -51,9 +51,9 @@ def prose(index, spec, language):
             "identification": "採用した弾力性と通勤費用の係数を用い、地区の居住者数、就業者数、賃料から基準均衡の賃金、生産性、居住環境と床供給を復元する。",
             "data": "架空都市の3地区に12,000人の労働者が暮らす。小地区の居住者数と事業所の就業者数を集計し、年間の賃料収入総額を賃貸床面積で割って地区賃料を構築する。9組の居住地・勤務地間の移動時間を結合する。",
             "parameters": "基準の平均年賃金は4百万円である。中心部と郊外の移動時間を40分から20分へ短縮し、組合せ政策では郊外の床供給を20%拡張する。両政策は同じ基準均衡を引き継ぐ。",
-            "counterfactual": f"交通整備の年間費用は{money(transport, 'policy_resource_cost')}百万円である。組合せ政策は{combined['additional_floor_m2']:,.3f}平方メートルの床サービスを追加し、年間費用は{money(combined, 'policy_resource_cost')}百万円となる。年間資源予算は{spec['policy_budget_thousand_jpy'] / 1000:,.0f}百万円である。",
+            "counterfactual": f"交通整備の年間費用は{money(transport, 'policy_resource_cost')}百万円である。組合せ政策は{combined['additional_floor_m2']:,.0f}平方メートルの床サービスを追加し、年間費用は{money(combined, 'policy_resource_cost')}百万円となる。年間資源予算は{spec['policy_budget_thousand_jpy'] / 1000:,.0f}百万円である。",
             "welfare": f"組合せ政策の労働者の所得換算便益は{money(combined, 'worker_income_equivalent')}百万円となる。所有者の賃料収入は{money(combined, 'owner_income_change_gross')}百万円増加し、政策費用支払い後の所得変化は{money(combined, 'owner_income_change_net')}百万円となる。合計した年間純便益は{money(combined, 'net_income_equivalent')}百万円である。",
-            "interpretation": f"居住地と勤務地の構成が都市の平均通勤時間を決める。基準の平均は{rows['baseline']['mean_commute_minutes']:.3f}分、組合せ政策では{combined['mean_commute_minutes']:.3f}分となる。労働者の効用変化を基準価格で所得へ換算し、所有者の純所得変化と合計して政策を評価する。",
+            "interpretation": f"居住地と勤務地の構成が都市の平均通勤時間を決める。基準の平均は{rows['baseline']['mean_commute_minutes']:.1f}分、組合せ政策では{combined['mean_commute_minutes']:.1f}分となる。労働者の効用変化を基準価格で所得へ換算し、所有者の純所得変化と合計して政策を評価する。",
             "decisions": f"年間の純所得換算便益に基づき、{names[index['selected_action']][0]}を選ぶ。交通整備の純便益は{money(transport, 'net_income_equivalent')}百万円、床供給拡張を加えた純便益は{money(combined, 'net_income_equivalent')}百万円である。",
         }
     return {
@@ -63,9 +63,9 @@ def prose(index, spec, language):
         "identification": "At the adopted elasticities and commuting-cost coefficient, district residents, jobs and rents recover baseline wages, productivity, amenities and floor supply.",
         "data": "The fictional city contains 12,000 workers in three districts. We aggregate residents and jobs from disjoint subdistrict and workplace records. Annual lease revenue divided by leased floor area gives district rent. Nine directed residence-workplace travel pairs complete the shared tables.",
         "parameters": "The baseline mean annual wage is JPY 4 million. Transport investment reduces center–outer travel time from 40 to 20 minutes. The combined policy also expands outer-district floor supply by 20%. Both policies carry forward the same baseline equilibrium.",
-        "counterfactual": f"Transport service costs JPY {money(transport, 'policy_resource_cost')} million annually. The combined policy adds {combined['additional_floor_m2']:,.3f} square meters of floor services and costs JPY {money(combined, 'policy_resource_cost')} million annually. The annual resource budget is JPY {spec['policy_budget_thousand_jpy'] / 1000:,.0f} million.",
+        "counterfactual": f"Transport service costs JPY {money(transport, 'policy_resource_cost')} million annually. The combined policy adds {combined['additional_floor_m2']:,.0f} square meters of floor services and costs JPY {money(combined, 'policy_resource_cost')} million annually. The annual resource budget is JPY {spec['policy_budget_thousand_jpy'] / 1000:,.0f} million.",
         "welfare": f"The combined policy gives workers JPY {money(combined, 'worker_income_equivalent')} million of income equivalent. Owners' rental receipts rise by JPY {money(combined, 'owner_income_change_gross')} million, and their income after the policy charge changes by JPY {money(combined, 'owner_income_change_net')} million. The annual net gain is JPY {money(combined, 'net_income_equivalent')} million.",
-        "interpretation": f"The composition of residences and workplaces determines mean commuting time. Its baseline value is {rows['baseline']['mean_commute_minutes']:.3f} minutes; the combined policy gives {combined['mean_commute_minutes']:.3f} minutes. Valuing workers' utility changes at baseline prices and adding owners' net income changes connects the allocation to the policy objective.",
+        "interpretation": f"The composition of residences and workplaces determines mean commuting time. Its baseline value is {rows['baseline']['mean_commute_minutes']:.1f} minutes; the combined policy gives {combined['mean_commute_minutes']:.1f} minutes. Valuing workers' utility changes at baseline prices and adding owners' net income changes connects the allocation to the policy objective.",
         "decisions": f"The annual net income-equivalent criterion selects {names[index['selected_action']][1]}. Transport investment yields JPY {money(transport, 'net_income_equivalent')} million of net gains; adding floor supply yields JPY {money(combined, 'net_income_equivalent')} million.",
     }
 
@@ -136,7 +136,7 @@ def build(root, run, output, language):
          "metadata": {"report_role": "counterfactual", "unit": "million JPY per year",
              "public_claims": ["単位：百万円／年。労働者12,000人と床所有者。" if ja else "Million JPY per year for 12,000 workers and floor owners."],
              "internal": {"source_keys": list(money_keys[1:]), "display_multiplier": .001}},
-         "display": {"plot_type": "table", "column_order": list(money_keys), "formats": {key: ".3f" for key in money_keys[1:]}}},
+         "display": {"plot_type": "table", "column_order": list(money_keys), "formats": {key: ".1f" for key in money_keys[1:]}}},
         {"id": "housing-welfare", "title": "労働者と所有者への便益配分" if ja else "Gains allocated to workers and owners", "kind": "descriptive", "result_ids": ["housing"],
          "rows": welfare_rows, "columns": [{"key": key, "label": label, "unit": ""} for key, label in
              zip(("scenario", "group", "value"), ("政策", "主体・合計", "年間所得換算便益") if ja else ("Policy", "Group or total", "Annual income equivalent"))],
@@ -152,7 +152,7 @@ def build(root, run, output, language):
                      {"key": "minutes", "label": "平均通勤時間" if ja else "Mean commuting time", "unit": "分" if ja else "minutes"}],
          "metadata": {"report_role": "counterfactual", "public_claims": ["同じ12,000人の居住地・勤務地選択で重み付けした平均。" if ja else "Mean weighted by the residence-workplace choices of the same 12,000 workers."],
              "internal": {"source_key": "mean_commute_minutes"}},
-         "display": {"plot_type": "table", "column_order": ["scenario", "minutes"], "formats": {"minutes": ".3f"}}}]
+         "display": {"plot_type": "table", "column_order": ["scenario", "minutes"], "formats": {"minutes": ".1f"}}}]
     save(output / "display-items.json", definitions)
     artifacts.register_gallery(root, registry_path, definitions, formats=("png", "pdf"))
     entries = artifacts.gallery_items(root, registry_path, item_ids=[item["id"] for item in definitions])

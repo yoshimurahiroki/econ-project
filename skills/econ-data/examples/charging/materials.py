@@ -41,7 +41,7 @@ def prose(index, spec, language):
     changes = index["decision_quantities"]["changes_from_baseline"]
     coefficient = index["uncertainty"]["coefficients"]["prices"]
     def money(scenario, quantity):
-        return f"{changes[scenario][quantity] / 10000:.3f}"
+        return f"{changes[scenario][quantity] / 10000:,.1f}".replace("-", "−")
     cost = p["integration_cost_per_potential_occasion"] * index["decision_quantities"]["population"] / 10000
     reduction = p["merged_cost_reduction"] * 100
     estimate, lo, hi = (f"{coefficient[key]:.3f}" for key in ("estimate", "lower", "upper"))
@@ -144,7 +144,7 @@ def build(root, run, output, language):
          "columns": [{"key": key, "label": label, "unit": ""} for key, label in zip(welfare_keys, welfare_labels)],
          "metadata": {"report_role": "welfare", "unit": "million JPY", "public_claims": ["単位：百万円。1週間・潜在的な充電機会10万回。統合費用を含む。" if ja else "Million JPY over one week and 100,000 potential charging occasions, including integration costs."],
                       "internal": {"source_group": ["decision_quantities", "changes_from_baseline"], "display_multiplier": 0.0001}},
-         "display": {"plot_type": "table", "column_order": list(welfare_keys), "formats": {key: ".3f" for key in welfare_keys[1:]}}}]
+         "display": {"plot_type": "table", "column_order": list(welfare_keys), "formats": {key: ".1f" for key in welfare_keys[1:]}}}]
     save(output / "display-items.json", definitions)
     artifacts.register_gallery(root, registry_path, definitions, formats=())
     entries = artifacts.gallery_items(root, registry_path, item_ids=[item["id"] for item in definitions])

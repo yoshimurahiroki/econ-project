@@ -527,6 +527,8 @@ def render_bundle(root, bundle, output, *, quarto="quarto", output_format="html"
             # econsocart defines none of the caption names Babel's language setup reads; luatexja-fontspec
             # sets the Japanese text, so the PDF article omits the Babel language.
             source = re.sub(r"^lang:.*\n", "", source, count=1, flags=re.MULTILINE)
+            if str(meeting.get("language", "ja")).startswith("ja") and source.startswith("---\n"):
+                source = "---\njapanese: true\n" + source[4:]
         (stage / "index.qmd").write_text(source, encoding="utf-8")
         # An isolated document root prevents repository render hooks and engines
         # from participating in a saved-exhibit render.

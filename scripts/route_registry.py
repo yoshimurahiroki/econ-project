@@ -1133,6 +1133,13 @@ def generate_entries(root, routes=None, *, outputs=None):
     modes = [op['mode'] for op in routes['operations'] if op['owner_skill'] == 'econ-writing']
     ui = 'interface:\n  display_name: "Economics Writing"\n  short_description: "Find economics sources first; borrow and imitate prose and visuals"\n  default_prompt: "Use $econ-writing in ' + ', '.join(modes) + ' mode. Read CORE, PROSE and the selected mode. PROSE Common output governs every English or Japanese element, including short edits, translation, formatting and existing drafts: read real sources first, borrow and imitate them with minimal adjustments, record the mapping and compare each element. Complete the integrated review."\npolicy:\n  allow_implicit_invocation: true\n'
     write_changed(root / 'skills/econ-writing/agents/openai.yaml', ui)
+    root_manifest = root / 'plugin.json'
+    if root_manifest.is_file() and (root / '.codex-plugin').is_dir():
+        manifest = json.loads(root_manifest.read_text(encoding='utf-8'))
+        codex = {key: manifest[key] for key in ('name', 'version', 'description', 'author', 'keywords')}
+        codex['interface'] = {**manifest['extensions']['com.openai']['interface'], 'capabilities': []}
+        codex['skills'] = './skills'
+        write_changed(root / '.codex-plugin/plugin.json', json.dumps(codex, ensure_ascii=False, indent=2) + '\n')
     return routes
 
 

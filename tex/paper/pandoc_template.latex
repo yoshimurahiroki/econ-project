@@ -45,6 +45,9 @@ $if(bibliography)$$else$\let\bibliographystyle\econbibstyle
 $endif$$for(header-includes)$
 $header-includes$
 $endfor$
+$if(japanese)$
+\AtBeginDocument{\renewcommand{\tablename}{表}\renewcommand{\figurename}{図}\renewcommand{\thetable}{\arabic{table}}\renewcommand{\thefigure}{\arabic{figure}}}
+$endif$
 \raggedbottom
 \AtBeginEnvironment{longtable}{\def\_{\textunderscore\allowbreak}}
 \newcounter{pandocauthor}

@@ -2,7 +2,7 @@
 
 ## Source and distribution
 
-[econ-project-mini](https://github.com/yoshimurahiroki/econ-project-mini) owns the shared instructions and implementation. Its canonical files are `runtime/`, `skills/`, `registry/`, `quality/`, `profiles/`, `harness/` and the registered maintenance scripts. `registry/resources.json` declares ownership; `registry/placements.json` declares repository and Project output paths.
+[econ-project-mini](https://github.com/yoshimurahiroki/econ-project-mini) owns the shared instructions and implementation. Its canonical files are `runtime/`, `skills/`, `registry/`, `quality/`, `profiles/`, `harness/` and the registered maintenance scripts. `registry/resources.json` declares ownership; `registry/placements.json` declares repository and Project output paths. `plugin.json` is the single manifest source; `--generate-entries` writes `.codex-plugin/plugin.json` from it.
 
 The common source is synchronized to explicitly selected public or private destinations. Public manifests contain the skills without account-specific apps, MCP endpoints or credentials. A private distribution owns its account release, authenticated app bindings and service source; these are outside the common resource registry. Repository `.agents/` files, IDE entrances, Project exports and the plugin runtime use the same canonical instructions. Plugin knowledge files live at root `knowledge/references` and in the execution bundle, outside Skill-local file inventories. Native lookup retains the same CLI; cloud lookup without an executor uses the entrance's fixed source revision and the same prerequisite graph. The synchronization receipt in `docs/ai/common-core.json` binds each synchronized destination to its source commit and managed file hashes.
 

@@ -32,6 +32,8 @@ PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 
               'att_gt', 'cohort_event', 'parallel_trends', 'rdd', 'iv_first_stage', 'iv_reduced_form',
               'iv_confidence_set', 'scm', 'scm_gap', 'scm_placebo', 'binned_scatter', 'smd', 'structural', 'geo')
 GALLERY_RENDER_VERSION = 22
+JAPANESE_FONT_FAMILIES = ('Noto Sans CJK JP', 'Noto Sans JP', 'Source Han Sans JP', 'IPAexGothic', 'IPAGothic', 'IPAPGothic',
+                         'TakaoPGothic', 'TakaoGothic', 'BIZ UDPGothic', 'Yu Gothic', 'Meiryo', 'Hiragino Sans', 'MS Gothic')
 DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_order',
                   'sort_by', 'ascending', 'notes', 'plot_type', 'x', 'y', 'lower', 'upper',
                   'series', 'visible_series', 'selected_result_ids', 'x_label', 'y_label',
@@ -1827,7 +1829,9 @@ def gallery_plot(item):
             if Path(path).name == 'NotoSansCJK-Regular.ttc':
                 font_manager.fontManager.addfont(path)
         font_names = {font.name for font in font_manager.fontManager.ttflist}
-    family = next((name for name in ('Noto Sans CJK JP', 'Noto Sans JP', 'IPAexGothic') if name in font_names), 'DejaVu Sans')
+    family = next((name for name in JAPANESE_FONT_FAMILIES if name in font_names), 'DejaVu Sans')
+    if family == 'DejaVu Sans' and re.search(r'[\u3040-\u30ff\u3400-\u9fff\uff00-\uffef]', json.dumps({key: item.get(key) for key in ('title', 'columns', 'rows', 'display')}, ensure_ascii=False)):
+        raise ValueError('Japanese exhibit text needs an installed Japanese font such as Noto Sans CJK JP or IPAexGothic')
     meeting = display.get('preset') == 'meeting' or display.get('style') == 'presentation'
     font_size = gallery_font_size(display)
     plot_type = display.get('plot_type', 'table')
