@@ -1,6 +1,6 @@
 interface:
   display_name: "Economics Writing"
-  short_description: "Write, explain and revise natural academic prose"
-  default_prompt: "Use $econ-writing in compose, revise, translate, convert, guidance, explain, profile mode. Read CORE, the selected PROSE rules and mode; build the explanation before shortening and complete the integrated review."
+  short_description: "Find economics sources first; borrow and imitate prose and visuals"
+  default_prompt: "Use $econ-writing in compose, revise, translate, convert, guidance, explain, profile mode. Read CORE, the selected PROSE rules and mode. For every English or Japanese writing task, including short edits, translation, formatting and existing drafts, first search real 2020 onward top-five economics journal papers and slides, major economics handbooks, reviews, guides and textbooks, and economics course materials including lecture notes, course slides and handouts; read the relevant passages and surrounding context, pages, slides and figures. Map every content choice, structure, expression and visual element to a source; borrow and imitate it, making only the minimum adjustments needed for the confirmed task facts and medium. Use Japanese originals for Japanese expressions; do not transfer source findings or empirical conditions to the task. Record sources and adjustments, and compare every element with the originals. If sources are insufficient, continue searching and reading. Apply this without exceptions; complete the integrated review."
 policy:
   allow_implicit_invocation: true

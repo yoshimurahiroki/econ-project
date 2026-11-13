@@ -125,7 +125,23 @@ def resolve_operation(routes, selector, mode=None, *, user_profile=None, project
         routes['condition_definitions'][cid].get('uses_profile', False) for cid in conditions
     )
     if uses_profile and profile == 'default-micro' and profile in routes['resources']:
-        merge_selection(selection, {profile: {'sections': [routes['sections'][profile]['principles']['heading']]}})
+        added, profile_selection = required_closure(routes, [profile + '.principles'], conditions, requested)
+        merge_selection(selection, profile_selection)
+        active_rules = list(dict.fromkeys([*active_rules, *added]))
+        origins.update({rule_id: requested for rule_id in added})
+    elif uses_profile and profile in routes['resources']:
+        resource = routes['resources'][profile]
+        source = Path(resource['source_path'])
+        if resource.get('resource_kind') != 'profile' and not (source.parts[0] == 'profiles' and source.name == 'PROFILE.md'):
+            raise ValueError('Selected resource is not a writing profile: ' + profile)
+        profile_rules = [rule_id for rule_id, rule in routes['rules'].items()
+                         if rule['resource_id'] == profile
+                         and routes['sections'][profile][rule['section_id']].get('whole_resource')]
+        added, profile_selection = required_closure(routes, profile_rules, conditions, requested)
+        merge_selection(selection, profile_selection)
+        merge_selection(selection, {profile: {'whole_resource': True}})
+        active_rules = list(dict.fromkeys([*active_rules, *added]))
+        origins.update({rule_id: requested for rule_id in added})
     result.update(requested_selector=requested,
                   canonical_operation=result.get('id', result['skill_id'] + ':' + result['mode']),
                   owner_skill=result['skill_id'], default_input=metadata.get('default_input', result.get('default_input')),
@@ -181,8 +197,8 @@ def select_reading_sections(routes, manifest, stage, role=None, reader_id=None, 
     # A current-stage body needs its prerequisites now, including prerequisites
     # assigned to another stage. Future unrelated bodies remain deferred.
     seeds = [key for row in result for key in row['rule_ids']]
-    # Every entry stage, including a bounded task starting mid-workflow, restores
-    # the kernel. Only explicit complete-body --seen evidence suppresses it.
+    # Selection always includes the kernel; the reader omits it after entry
+    # unless restore is requested.
     if 'core' in adopted and 'kernel.all' in routes['rules']:
         seeds.append('kernel.all')
     conditions = manifest.get('selection', {}).get('conditions', [])
@@ -250,8 +266,8 @@ def native_index(routes, *, links=False, operation=None, family=None, query=None
              'Generated from registry/operations.json. Support continues the adopted task.', '',
              '## Read the pending operation', '',
              '1. **Selected operation → reader.** Read CORE and PROSE Common output, then select the final operation below. Find conditions with `python scripts/route_registry.py index --operation OPERATION --family FAMILY` or `--query TEXT`.',
-             '2. **Complete bodies → execution.** Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION --format compact`. Stages: entry classifies; contract adopts question/method/inputs; compose executes/writes; review interprets/repairs; finalize saves/delivers. Direct `read RULE_ID` returns that rule and prerequisites.',
-             '3. **Retained bodies → next stage.** Follow every `next_offset` under the same `content_sha256` and seen arguments. `bodies` identifies complete bodies and `reused` names omissions. Pass `--seen BODY_SHA256` only for complete matching bodies still in intact context. After compaction, handoff or model change read originals without seen arguments.',
+             '2. **Complete bodies → execution.** Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION --format compact`. Stages: entry classifies; contract adopts question/method/inputs; compose executes by borrowing, imitating and minimally adapting read sources for writing; review interprets/repairs; finalize saves/delivers. Direct `read RULE_ID` returns that rule and prerequisites.',
+             '3. **Retained bodies → next stage.** Follow every `next_offset` under the same `content_sha256` and seen arguments. `bodies` identifies complete bodies and `reused` names omissions. Pass `--seen BODY_SHA256` only for complete matching bodies still in intact context. Stages after entry omit CORE and PROSE Common output. After compaction, handoff or model change read originals with `--restore` and without seen arguments.',
              '4. **Runtime root → reader.** Deployed trees run `python .agents/scripts/route_registry.py --layout installed read OPERATION --stage STAGE --format compact`; expand incomplete snapshots from canonical source. Skill-scoped hosts read specialist `instructions.md` and common `project-work/references/shared/` bodies, acquiring the matching runtime bundle once for execution.', '']
     for op in routes['operations']:
         label = op['skill_id'] + ' / ' + op['mode']
@@ -338,8 +354,12 @@ def extract_sections(text, selection, resource):
 
 def read_selected(routes, root, selector, *, layout='source', mode=None, conditions=(),
                   user_profile=None, project_profile=None, offset=0, limit=16000, stage=None,
-                  seen=(), compact=False):
-    """Deliver exact selected bodies; pagination never marks them as read."""
+                  seen=(), compact=False, restore=False):
+    """Deliver exact selected bodies; pagination never marks them as read.
+
+    Stages after entry omit the kernel (CORE and PROSE Common output) that entry
+    delivered; restore=True delivers it again after context loss.
+    """
     import hashlib
     if offset < 0 or limit < 1:
         raise ValueError('Reading offset must be nonnegative and limit positive')
@@ -349,6 +369,7 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
     if unknown:
         raise ValueError('Unknown condition: ' + ', '.join(sorted(unknown)))
     custom_profile = None
+    kernel_omitted = False
     if selector in routes['rules']:
         active, selection = required_closure(routes, [selector], conditions, selector)
     else:
@@ -357,7 +378,7 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
         stage = stage or 'entry'
         active, selection = operation['active_rules'], operation['resource_sections']
         profile = operation.get('selected_profile')
-        if profile and profile != 'default-micro':
+        if profile and profile not in routes['resources']:
             custom_profile = Path(profile)
             if not custom_profile.is_absolute():
                 custom_profile = Path(root) / custom_profile
@@ -367,6 +388,17 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
             'selection': {'conditions': list(conditions)}}, stage)
         selection = {}
         active = []
+        if stage != 'entry' and not restore:
+            stages = routes['reading_stages']
+            def assigned(name):
+                return {(rid, sid) for rid, ids in stages.get(name, {}).items() for sid in ids}
+            delivered_at_entry = assigned('entry') - assigned(stage)
+            whole = {rid for rid, sid in delivered_at_entry if sid == 'all'}
+            kept = [row for row in refs
+                    if row['resource_id'] not in whole
+                    and (row['resource_id'], row['section_id']) not in delivered_at_entry]
+            kernel_omitted = len(kept) != len(refs)
+            refs = kept
         for row in refs:
             locator = routes['sections'][row['resource_id']][row['section_id']]
             merge_selection(selection, {row['resource_id']: {'whole_resource': True}
@@ -427,6 +459,8 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
             commands = [shlex.join(['python', str(helper), 'plan', kid, '--read']) for kid in knowledge]
             delivered.append('# Selected method knowledge\n\nRead the complete bodies and prerequisites before adoption:\n'
                              + '\n'.join(commands))
+    if kernel_omitted:
+        delivered.insert(0, 'CORE and PROSE Common output were delivered at entry; rerun with `--restore` if they are absent from context.')
     text = '\n\n'.join(delivered) + ('\n' if delivered or not body_hashes else '')
     if offset > len(text):
         raise ValueError('Reading offset exceeds the selected body')
@@ -434,7 +468,8 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
     if compact:
         return {'content_sha256': hashlib.sha256(text.encode('utf-8')).hexdigest(),
                 'offset': offset, 'next_offset': end if end < len(text) else None,
-                'bodies': body_hashes, 'reused': reused, 'text': text[offset:end]}
+                'bodies': body_hashes, 'reused': reused,
+                'omitted': ['core', 'prose#common-output'] if kernel_omitted else [], 'text': text[offset:end]}
     result = {'selector': selector, 'stage': stage, 'required_rules': active,
             'adopted_required_rules': adopted_rules, 'sources': sources,
             'content_sha256': hashlib.sha256(text.encode('utf-8')).hexdigest(),
@@ -1093,7 +1128,7 @@ def generate_entries(root, routes=None, *, outputs=None):
         body = transform_entry_references(routes, owner, body)
         write_changed(path, body, previous)
     modes = [op['mode'] for op in routes['operations'] if op['owner_skill'] == 'econ-writing']
-    ui = 'interface:\n  display_name: "Economics Writing"\n  short_description: "Write, explain and revise natural academic prose"\n  default_prompt: "Use $econ-writing in ' + ', '.join(modes) + ' mode. Read CORE, the selected PROSE rules and mode; build the explanation before shortening and complete the integrated review."\npolicy:\n  allow_implicit_invocation: true\n'
+    ui = 'interface:\n  display_name: "Economics Writing"\n  short_description: "Find economics sources first; borrow and imitate prose and visuals"\n  default_prompt: "Use $econ-writing in ' + ', '.join(modes) + ' mode. Read CORE, the selected PROSE rules and mode. For every English or Japanese writing task, including short edits, translation, formatting and existing drafts, first search real 2020 onward top-five economics journal papers and slides, major economics handbooks, reviews, guides and textbooks, and economics course materials including lecture notes, course slides and handouts; read the relevant passages and surrounding context, pages, slides and figures. Map every content choice, structure, expression and visual element to a source; borrow and imitate it, making only the minimum adjustments needed for the confirmed task facts and medium. Use Japanese originals for Japanese expressions; do not transfer source findings or empirical conditions to the task. Record sources and adjustments, and compare every element with the originals. If sources are insufficient, continue searching and reading. Apply this without exceptions; complete the integrated review."\npolicy:\n  allow_implicit_invocation: true\n'
     write_changed(root / 'skills/econ-writing/agents/openai.yaml', ui)
     return routes
 
@@ -1126,6 +1161,7 @@ if __name__ == '__main__':
             selected.add_argument('--limit', type=int, default=16000, help='Maximum body characters per page')
             selected.add_argument('--format', choices=('json', 'compact'), default='compact')
             selected.add_argument('--seen', action='append', default=[], help='Hash of a complete body still present in this intact context')
+            selected.add_argument('--restore', action='store_true', help='Deliver CORE and PROSE Common output at a stage after entry (context loss, handoff, model change)')
     args = parser.parse_args()
     if args.command == 'index' and (args.family or args.query or args.all_conditions) and not args.operation:
         parser.error('condition filters require --operation')
@@ -1141,7 +1177,7 @@ if __name__ == '__main__':
                                conditions=args.condition, user_profile=args.user_profile,
                                project_profile=args.project_profile, offset=args.offset, limit=args.limit,
                                stage=args.stage or (None if args.operation in routes['rules'] else 'entry'),
-                               seen=args.seen, compact=args.format == 'compact')
+                               seen=args.seen, compact=args.format == 'compact', restore=args.restore)
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         result = resolve_operation(routes, args.operation, args.mode,

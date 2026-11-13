@@ -9,7 +9,6 @@ import math
 import os
 from pathlib import Path
 import pickle
-import sys
 import tempfile
 
 import numpy as np

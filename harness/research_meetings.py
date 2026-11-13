@@ -523,6 +523,10 @@ def render_bundle(root, bundle, output, *, quarto="quarto", output_format="html"
     output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix=".ers-meeting-render-", dir=output.parent) as temporary:
         stage = Path(temporary)
+        if meeting.get("document_type") == "article" and output_format == "pdf":
+            # econsocart defines none of the caption names Babel's language setup reads; luatexja-fontspec
+            # sets the Japanese text, so the PDF article omits the Babel language.
+            source = re.sub(r"^lang:.*\n", "", source, count=1, flags=re.MULTILINE)
         (stage / "index.qmd").write_text(source, encoding="utf-8")
         # An isolated document root prevents repository render hooks and engines
         # from participating in a saved-exhibit render.
@@ -640,6 +644,7 @@ def native_slides_requests(bundle, *, asset_base_url=None):
     meeting, bodies, revision = load_meeting(bundle)
     requests, notes, images = [], {}, []
     prefix = "ers_" + revision[:12] + "_"
+    body_size = 28
 
     def text_height(text, width, size):
         if not text:
@@ -671,7 +676,7 @@ def native_slides_requests(bundle, *, asset_base_url=None):
     requests.append({"createSlide": {"objectId": cover, "slideLayoutReference": {"predefinedLayout": "BLANK"}}})
     box(cover, "cover_title", meeting["title"], 40, 120, 640, 110, 40,
         {"red": 146 / 255, "green": 46 / 255, "blue": 65 / 255})
-    box(cover, "cover_date", meeting.get("date", ""), 40, 260, 640, 40, 24)
+    box(cover, "cover_date", meeting.get("date", ""), 40, 260, 640, 45, body_size)
     notes[cover] = ""
     for index, section in enumerate(row for row in meeting["sections"] if row.get("visible", True)):
         page = prefix + "slide_" + str(index)
@@ -696,7 +701,7 @@ def native_slides_requests(bundle, *, asset_base_url=None):
         content_y = 18 + title_height + 10
         caption = "\n\n".join(part for part in [*(artifact_public_text(entry) for entry in entries),
                                                section.get("caption", "")] if part)
-        caption_height = text_height(caption, 650, 20)
+        caption_height = text_height(caption, 650, body_size)
         exhibit_bottom = 390 - caption_height
         if entries and layout in {"figure-left", "figure-right"}:
             body_x, image_x = (388, 30) if layout == "figure-left" else (30, 350)
@@ -706,12 +711,16 @@ def native_slides_requests(bundle, *, asset_base_url=None):
         else:
             body_x, image_x = 30, 30
             body_width, image_width = 650, 650
-            body_height = text_height(body, body_width, 24) if entries else exhibit_bottom - content_y
+            body_height = text_height(body, body_width, body_size) if entries else exhibit_bottom - content_y
             image_y = content_y + body_height + (8 if body else 0)
             image_height = exhibit_bottom - image_y
         if entries and image_height < 80:
             raise ValueError("Section text fills its exhibit area; shorten the body or select a side layout: " + section["id"])
-        body_id = box(page, "body_" + str(index), body, body_x, content_y, body_width, body_height, 24)
+        if text_height(body, body_width, body_size) > body_height:
+            raise ValueError("Section text fills its slide at 28 pt; split the section: " + section["id"])
+        if caption_height > 390 - content_y:
+            raise ValueError("Section caption fills its slide at 28 pt; split the section: " + section["id"])
+        body_id = box(page, "body_" + str(index), body, body_x, content_y, body_width, body_height, body_size)
         for text_range in bullet_ranges:
             requests.append({"createParagraphBullets": {"objectId": body_id, "textRange": text_range, "bulletPreset": "BULLET_DISC_CIRCLE_SQUARE"}})
         for number, entry in enumerate(entries):
@@ -724,6 +733,13 @@ def native_slides_requests(bundle, *, asset_base_url=None):
                 headers, rows = table_cells(entry)
                 column_count = len(headers[-1])
                 values = [*headers, *rows]
+                cell_width = (tile_width - 12) / column_count
+                if cell_width <= 16:
+                    raise ValueError("Section table columns are too narrow at 28 pt; split the table: " + section["id"])
+                required_row_height = max(text_height("—" if value is None else str(value), cell_width, body_size)
+                                          for values_row in values for value in values_row)
+                if required_row_height * len(values) > image_height:
+                    raise ValueError("Section table fills its slide at 28 pt; split the table or its section: " + section["id"])
                 identity = prefix + "table_" + str(index) + "_" + str(number)
                 requests.append({"createTable": {"objectId": identity, "rows": len(values), "columns": column_count, "elementProperties": {
                     "pageObjectId": page, "size": {"width": {"magnitude": tile_width - 12, "unit": "PT"}, "height": {"magnitude": image_height, "unit": "PT"}},
@@ -740,7 +756,7 @@ def native_slides_requests(bundle, *, asset_base_url=None):
                             continue
                         requests.append({"insertText": {"objectId": identity, "cellLocation": location, "text": cell}})
                         requests.append({"updateTextStyle": {"objectId": identity, "cellLocation": location, "textRange": {"type": "ALL"},
-                            "style": {"fontFamily": "Noto Sans JP", "fontSize": {"magnitude": 24, "unit": "PT"}, "bold": row_index < len(headers)}, "fields": "fontFamily,fontSize,bold"}})
+                            "style": {"fontFamily": "Noto Sans JP", "fontSize": {"magnitude": body_size, "unit": "PT"}, "bold": row_index < len(headers)}, "fields": "fontFamily,fontSize,bold"}})
             elif picture:
                 local = str(bundled_path(bundle, picture))
                 url = asset_base_url.rstrip("/") + "/" + quote(picture, safe="/") if asset_base_url else local
@@ -753,7 +769,7 @@ def native_slides_requests(bundle, *, asset_base_url=None):
                     images.append({"object_id": identity, "path": local})
             else:
                 raise ValueError("Native Slides requires a saved PNG/JPEG or saved table rows: " + entry["id"])
-        box(page, "caption_" + str(index), caption, 30, exhibit_bottom, 650, caption_height, 20)
+        box(page, "caption_" + str(index), caption, 30, exhibit_bottom, 650, caption_height, body_size)
         notes[page] = section.get("speaker_notes", "")
     return {"title": meeting["title"] + (" — " + meeting["date"] if meeting.get("date") else ""),
             "mime_type": "application/vnd.google-apps.presentation", "source_revision": revision,

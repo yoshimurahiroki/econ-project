@@ -19,7 +19,7 @@ import re
 import shutil
 import sys
 import unicodedata
-from urllib.parse import quote, urlencode, urljoin, urlsplit
+from urllib.parse import urlencode, urljoin, urlsplit
 
 MISSING_VALUES = ('', '.', 'NA', ':')
 

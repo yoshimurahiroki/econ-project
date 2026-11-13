@@ -4,19 +4,23 @@
 
 Recover the request, existing materials, adopted decisions, result owner, scope, inputs, authority and observable completion conditions. Resolve consequential alternatives under the same fixed requirements and recommend a supported choice. Ask only for missing user-held information or judgment changing the result. Use the host question mechanism for one focused question or an inseparable bundle, with plain-text fallback; silence supplies no answer. Continue independent work while it is pending.
 
-Apply each answer to affected requirements without reopening settled choices. A clear request needs no interview or approval round. For a complex change, distinguish observable requirements, adopted design and dependency-ordered implementation, including consequential interface/ownership/failure cases. Use existing specifications and [requirements mapping](../../../harness/state.md#adopted-specification-boundary) when persistence is needed. Return the requested brief or continue already-authorized execution.
+Apply each answer to affected requirements without reopening settled choices. A clear request needs no interview or approval round. For a complex change, list observable requirements, adopted design and dependency-ordered implementation in that order, including consequential interface/ownership/failure cases. Use existing specifications and [requirements mapping](../../../harness/state.md#adopted-specification-boundary) when persistence is needed. Return the requested brief or continue already-authorized execution.
+
+## Writing and material outputs
+
+Apply [PROSE Common output](../../../runtime/PROSE.md#common-output) to every writing or material output in this reference, including prompts, interview questions, contact drafts, reports, explanations, figures and slides at every scale.
 
 ## Write the execution prompt
 
 Return a complete ready-to-copy prompt carrying the objective, actual task/targets, adopted criteria, constraints, authority, necessary order, outputs and completion conditions. Preserve quantities, prohibitions and prior decisions from the supplied draft. Resolve consequential conflicts from their source or needed user judgment; invent no requirement or deliverable.
 
-Include available original inputs or accessible versioned references. A hash without its body or an inaccessible path cannot supply the executor's input. Reusable templates may obtain instance materials later; retain placeholders only when a template is requested. Use the requested language and smallest clear structure. Add no compulsory stack or review gate.
+Include available original inputs or accessible versioned references. The executor's input is the body or an accessible path. Reusable templates obtain instance materials later; retain placeholders only when a template is requested. Use the requested language and a source-mapped structure suited to the request. Add no compulsory stack or review gate.
 
-In CORE's review, follow the prompt as its executor and compare available input, next operation, resulting artifact and completion evidence with the original request. Deliver the prompt first. Drafting it does not execute its operations.
+In CORE's review, follow the prompt as its executor and compare available input, next operation, resulting artifact and completion evidence with the original request. Deliver the prompt first. Drafting it prepares the operations for the executor.
 
 ## Connect the current case
 
-Recover the case's original request, adopted answer/model, role, authority, argument and valid results. DECIDE owns its economic intervention and comparison. Reuse one source-bound argument and the existing task store: summary gives the current answer/next decision, story its supporting relations, and workplan its executable dependencies. Allocating work cannot remove required deliverables or change the adopted specification.
+Recover the case's original request, adopted answer/model, role, authority, argument and valid results. DECIDE owns its economic intervention and comparison. Reuse one source-bound argument and the existing task store: summary gives the current answer/next decision, story its supporting relations, and workplan its executable dependencies. Allocated work keeps the required deliverables and the adopted specification.
 
 For persistent views, [state](../../../harness/state.md#project-work) binds the existing definition/argument/source catalog with `project-bind`, derives views with `project-view` and locates affected outputs with `project-impact`. External systems retain their official assignments and decisions; updates require the actual authorized service operation.
 
@@ -40,19 +44,19 @@ Preserve target, approved, forecast and actual dates separately. An observed del
 
 ## Change and recovery
 
-Identify the new evidence/decision, changed premise and its consumers. `project-impact` separates schedule effects from scientific invalidation and returns affected/reusable tasks; `--project` includes shared portfolios and `--references` classifies source effects. Review, recalculate, regenerate or obtain authority according to the returned action. Updated evidence alone does not adopt a changed estimand/model.
+Identify the new evidence/decision, changed premise and its consumers. `project-impact` separates schedule effects from scientific invalidation and returns affected/reusable tasks; `--project` includes shared portfolios and `--references` classifies source effects. Review, recalculate, regenerate or obtain authority according to the returned action. Updated evidence reaches a changed estimand/model through adoption.
 
 Retain preceding plan/argument versions. Bind an authorized amendment through its actual previous/replacement hashes; update affected decisions and execute their existing requeue/input/output/context operations. Display changes reuse estimates; changed consumed inputs rebuild their scientific descendants. Reconcile drift before continuing. EXECUTION owns failure repair and TEAM restores the governing request, project sources, authority, outputs and next action.
 
 ## Discussion and interviews
 
-Choose discussion to resolve a real premise or decision. Identify the deciding actor, each participant's information and the comparison distinguishing explanations. Interview questions seek concrete choices, dates and contrasting cases tied to the model. Retain actual responses with attribution/date/source version through econ-literature, then connect them to the finding they establish.
+Choose discussion to resolve a real premise or decision. Identify the deciding actor, each participant's information and the comparison among explanations. Borrow and minimally adjust source-mapped interview questions to seek concrete choices, dates and contrasting cases tied to the model. Retain actual responses with attribution/date/source version through econ-literature, then connect them to the finding they establish.
 
 After discussion, extract the actual decision, actor, work, date and changed condition. Preserve proposals as proposals and apply authorized changes to affected arguments, tasks and artifacts.
 
 ## Contact drafts
 
-Return the complete message with recipient, purpose, timing, requested judgment/information and supporting material. Email, chat, invitations and reminders remain drafts unless the user specifically instructs sending through the actual destination operation.
+Return the complete source-mapped message with recipient, purpose, timing, requested judgment/information and supporting material, borrowing and minimally adjusting the actual source expressions. Email, chat, invitations and reminders remain drafts unless the user specifically instructs sending through the actual destination operation.
 
 ## Artifacts and integration
 
@@ -60,7 +64,7 @@ Use econ-writing to produce the requested report, proposal, figure, slides or ex
 
 ## Outcomes and handover
 
-Assess adoption through actual choices, incentives, information, ability, access, workload and equipment. Define adoption/outcome measures by population, period, units, numerator/denominator and target. Administrative task completion does not establish the economic outcome.
+Assess adoption through actual choices, incentives, information, ability, access, workload and equipment. Define adoption/outcome measures by population, period, units, numerator/denominator and target. The economic outcome comes from its measured result; task completion records the administrative step.
 
 Existing [project observations](../../../harness/state.md#project-work) bind judgment, acceptance, handover, outcomes and actual timing to actor, date, evidence and target version. Preserve acceptance authority and reported provenance. Deliver usable artifacts/instructions to the receiving owner, identify remaining obligations and outcome-measurement responsibility, and establish that the next operator can use them.
 

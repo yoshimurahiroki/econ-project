@@ -206,8 +206,7 @@ def _(artifacts, copy, item_picker, json, mo, registry_data):
     width = mo.ui.number(start=240, stop=4000, value=_display.get('width', 960), label='幅 px')
     height = mo.ui.number(start=240, stop=4000, value=_display.get('height', 540), label='高さ px')
     presentation_style = mo.ui.dropdown({'論文': 'paper', '発表': 'presentation'},
-                                        value='発表' if _display.get('style') == 'presentation' else '論文', label='用途')
-    font_size = mo.ui.number(start=6, stop=40, value=_display.get('font_size', 11), label='文字サイズ pt')
+                                        value='発表' if _display.get('style') == 'presentation' or _display.get('preset') == 'meeting' else '論文', label='用途')
     save_display = mo.ui.run_button(label='表示を保存', disabled=editing_item is None, kind='success')
     item_revision = artifacts.state.content_hash(editing_item) if editing_item else None
     return (
@@ -215,8 +214,18 @@ def _(artifacts, copy, item_picker, json, mo, registry_data):
         legend, legend_location, lower_column, notes_input, orientation, plot_type, row_order,
         save_display, selected_specs, series_column, sort_column, title_input, upper_column,
         width, x_column, x_label, x_limits, x_scale, y_column, y_label, y_limits, y_scale,
-        presentation_style, font_size,
+        presentation_style,
     )
+
+
+@app.cell
+def _(artifacts, editing_item, mo, presentation_style):
+    _display = editing_item.get('display', {}) if editing_item else {}
+    _selected = {**_display, 'style': presentation_style.value,
+                 'preset': 'meeting' if presentation_style.value == 'presentation' else 'paper'}
+    font_size = mo.ui.number(start=6, stop=40, value=artifacts.gallery_font_size(_selected, paper_default=11),
+                             label='文字サイズ pt')
+    return (font_size,)
 
 
 @app.cell

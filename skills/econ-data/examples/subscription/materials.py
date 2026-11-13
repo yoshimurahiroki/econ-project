@@ -125,16 +125,35 @@ def slide_prose(index, spec, language):
     }
 
 
-def manuscript(root, output, entries, language):
-    """Use the registered complete passage as the paper's prose source."""
-    profile = (RUNTIME / ("SUBSCRIPTION_STUDY_" + language.upper() + ".md") if FLAT else
-               RUNTIME / "profiles/default-micro" / ("subscription-study-" + language + ".md"))
-    text = profile.read_text(encoding="utf-8")
+def manuscript(root, output, entries, language, prose_sections=None, chapter_titles=None):
+    """Render the English fixture or Japanese prose from saved results."""
+    if language == "en":
+        source = (RUNTIME / "SUBSCRIPTION_MANUSCRIPT_EN.md" if FLAT else
+                  Path(__file__).resolve().parent / "manuscript-en.md")
+    else:
+        if prose_sections is None or chapter_titles is None:
+            raise ValueError("Japanese manuscript rendering requires the saved-result prose and chapter titles")
+        source = output / "manuscript-ja.md"
+        chapters = [
+            (chapter_titles["question"][0], prose_sections["question"]),
+            (chapter_titles["specification"][0], prose_sections["specification"]),
+            (chapter_titles["data"][0], prose_sections["data"]),
+            (chapter_titles["results"][0], "### 学習した配分の利益\n\n"
+             + prose_sections["table1"] + "\n\n" + prose_sections["results"]
+             + "\n\n### 継続予測と配分判断\n\n" + prose_sections["additional"]
+             + "\n\n" + prose_sections["interpretation"]),
+            (chapter_titles["decisions"][0], prose_sections["decisions"]),
+        ]
+        text = "# " + prose_sections["title"] + "\n\n## 要旨\n\n"
+        text += prose_sections["question"] + "\n\n" + prose_sections["results"] + "\n\n"
+        text += "\n\n".join("## " + title + "\n\n" + body for title, body in chapters) + "\n"
+        source.write_text(text, encoding="utf-8")
+    text = source.read_text(encoding="utf-8")
     abstract_heading = "要旨" if language == "ja" else "Abstract"
     public = text.partition("## " + abstract_heading + "\n")[2]
     parts = re.split(r"^## (.+)\n", public, flags=re.MULTILINE)
     if len(parts) != 11:
-        raise ValueError("The registered profile must contain its abstract and five complete paper sections")
+        raise ValueError("The example manuscript must contain its abstract and five complete paper sections")
     bundle = output / "manuscript"
     meetings.create_bundle(root, bundle, entries, title=text.splitlines()[0].removeprefix("# "),
                            kind="manuscript", project_view={"language": language, "abstract": parts[0].strip()})
@@ -161,7 +180,7 @@ def manuscript(root, output, entries, language):
     order = ["paper-introduction", "paper-model", "paper-design", "paper-results", "paper-conclusion"]
     order.extend(section["id"] for section in current["sections"] if section["id"] not in order)
     meetings.change_sections(bundle, expected_revision=meetings.load_meeting(bundle)[2], order=order)
-    return reference(root, profile)
+    return reference(root, source)
 
 
 def build(root, run, output, language):
@@ -305,8 +324,9 @@ def build(root, run, output, language):
     paper_entry = artifacts.gallery_items(root, registry_path, item_ids=[paper_calibration["id"]])[0]
     paper_entry["title"] = paper_calibration["title"]
     paper_entry["public_text"] = []
-    profile = manuscript(root, output, [*entries[:2], paper_entry], language)
-    save(output / "material-inputs.json", {"result_index": reference(root, run / "result-index.json"), "profile": profile,
+    source = manuscript(root, output, [*entries[:2], paper_entry], language,
+                        prose_sections=body, chapter_titles=titles)
+    save(output / "material-inputs.json", {"result_index": reference(root, run / "result-index.json"), "manuscript_source": source,
         "producer": reference(root, Path(__file__)), "language": language, "analysis_executed": False})
     return {"output": str(output), "bundles": ["brief", "results", "manuscript"], "analysis_executed": False}
 

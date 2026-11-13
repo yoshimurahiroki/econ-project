@@ -21,7 +21,7 @@ The official [ruspy criterion factory](https://github.com/OpenSourceEconomics/ru
 
 ## Write and render the investment comparison
 
-1. **Output: original study prose; consumer: composition.** Read the complete [English profile](../../../../profiles/default-micro/equipment-study-en.md) or [Japanese profile](../../../../profiles/default-micro/equipment-study-ja.md). Carry the recurring replacement choice into permanent adoption through costs, continuation values and the saved net-gain comparison.
+1. **Output: original study prose; consumer: composition.** Select an [English writing profile](../../../../profiles/top-five-en/PROFILE.md) for the current section or select a [Japanese writing profile](../../../../profiles/academic-ja/PROFILE.md). Carry the recurring replacement choice into permanent adoption through costs, continuation values and the saved net-gain comparison.
 2. **Output: saved-result displays and material bundles; consumer: rendering.** Run [materials.py](materials.py) against the completed generation. It binds the result, specification and producer, retains inference internally, and creates cost estimates, replacement probabilities and net-present-gain displays through Gallery. The existing `brief` and `structural` templates consume the same result IDs.
 3. **Output: inspected document and presentation; consumer: researcher.** Render each selected bundle through the existing meeting command. Inspect the prose, labels, units, intervals and page layout; presentation edits consume the saved numerical results.
 

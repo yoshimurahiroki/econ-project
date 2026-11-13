@@ -5,8 +5,8 @@ Generated from registry/operations.json. Support continues the adopted task.
 ## Read the pending operation
 
 1. **Selected operation → reader.** Read CORE and PROSE Common output, then select the final operation below. Find conditions with `python scripts/route_registry.py index --operation OPERATION --family FAMILY` or `--query TEXT`.
-2. **Complete bodies → execution.** Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION --format compact`. Stages: entry classifies; contract adopts question/method/inputs; compose executes/writes; review interprets/repairs; finalize saves/delivers. Direct `read RULE_ID` returns that rule and prerequisites.
-3. **Retained bodies → next stage.** Follow every `next_offset` under the same `content_sha256` and seen arguments. `bodies` identifies complete bodies and `reused` names omissions. Pass `--seen BODY_SHA256` only for complete matching bodies still in intact context. After compaction, handoff or model change read originals without seen arguments.
+2. **Complete bodies → execution.** Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION --format compact`. Stages: entry classifies; contract adopts question/method/inputs; compose executes by borrowing, imitating and minimally adapting read sources for writing; review interprets/repairs; finalize saves/delivers. Direct `read RULE_ID` returns that rule and prerequisites.
+3. **Retained bodies → next stage.** Follow every `next_offset` under the same `content_sha256` and seen arguments. `bodies` identifies complete bodies and `reused` names omissions. Pass `--seen BODY_SHA256` only for complete matching bodies still in intact context. Stages after entry omit CORE and PROSE Common output. After compaction, handoff or model change read originals with `--restore` and without seen arguments.
 4. **Runtime root → reader.** Deployed trees run `python .agents/scripts/route_registry.py --layout installed read OPERATION --stage STAGE --format compact`; expand incomplete snapshots from canonical source. Skill-scoped hosts read specialist `instructions.md` and common `project-work/references/shared/` bodies, acquiring the matching runtime bundle once for execution.
 
 - [econ-design / design](../../skills/econ-design/SKILL.md): Choose a research question, model, identification strategy, study design or policy action.
@@ -26,7 +26,7 @@ Generated from registry/operations.json. Support continues the adopted task.
 - [project-work / contribute](../../skills/project-work/SKILL.md): Complete an assigned project contribution from its adopted economic model through research, calculations, consultation drafts and actual artifacts.
 - [project-work / manage](../../skills/project-work/SKILL.md): Manage a project or shared portfolio through its economic decision, evidence, work, resources, authorized changes, outcomes and handover.
 - [project-work / clarify](../../skills/project-work/SKILL.md): Clarify requested task requirements, scope or work approaches; compare consequential alternatives and complete the adopted brief or specification.
-- [project-work / prompt](../../skills/project-work/SKILL.md): Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request.
+- [project-work / prompt](../../skills/project-work/SKILL.md): Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request. Preserve technical instructions, inputs, outputs and validation examples.
 
 Compatibility names:
 

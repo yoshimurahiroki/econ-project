@@ -7,7 +7,6 @@ stage exact bytes before an atomic no-overwrite directory rename.
 import argparse
 import ctypes
 import errno
-import codecs
 import hashlib
 import html
 import importlib
@@ -180,37 +179,6 @@ class FileSnapshot(io.BufferedIOBase):
     def strip(self, *args):
         require(self.size <= MAX_BYTES, 'text body exceeds byte budget')
         return b''.join(self.chunks()).strip(*args)
-
-
-class UTF8Text:
-    """Character-coordinate access to a large fixed original with bounded slices."""
-    def __init__(self, data):
-        self.data, self.length = data, 0
-        for text in self._chunks():
-            self.length += len(text)
-
-    def _chunks(self):
-        decoder = codecs.getincrementaldecoder('utf-8')('strict')
-        for raw in self.data.chunks():
-            yield decoder.decode(raw)
-        yield decoder.decode(b'', final=True)
-
-    def __len__(self):
-        return self.length
-
-    def __getitem__(self, key):
-        require(isinstance(key, slice) and key.step in (None, 1), 'text access requires a character range')
-        start, end, _ = key.indices(self.length)
-        parts, position, size = [], 0, 0
-        for text in self._chunks():
-            left, right = max(0, start - position), min(len(text), end - position)
-            if right > left:
-                part = text[left:right]
-                size += len(part.encode('utf-8'))
-                require(size <= MAX_BYTES, 'selected original text exceeds inspection byte budget')
-                parts.append(part)
-            position += len(text)
-        return ''.join(parts)
 
 
 def _open_regular(path):

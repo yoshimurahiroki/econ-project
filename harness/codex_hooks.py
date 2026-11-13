@@ -1624,12 +1624,24 @@ def _verify_completion_contract(directory, bound, message, observed):
     gate.require(not missing, 'required outputs or actual operations are incomplete: ' + json.dumps(missing))
 
 
+REVIEW_MIN_CHARACTERS = 200
+REVIEW_ARTIFACT_SUFFIXES = re.compile(r'\.(?:md|tex|qmd|txt|html|docx|pptx|pdf|bib)\b')
+
+
+def _has_user_facing_prose(message):
+    """A turn needs prose review when its answer is substantive or names a prose artifact."""
+    text = unicodedata.normalize('NFKC', message).strip()
+    return len(text) >= REVIEW_MIN_CHARACTERS or bool(REVIEW_ARTIFACT_SUFFIXES.search(text))
+
+
 def _review_final_prose(event, root, directory, *, session_record=None):
-    """Request one final revision, then always allow Stop re-entry."""
+    """Request one final revision on turns with user-facing prose, then always allow Stop re-entry."""
     if event.get('stop_hook_active') is True:
         return None
     message = event.get('last_assistant_message')
     gate.require(isinstance(message, str) and message.strip(), 'host assistant message is unavailable')
+    if not _has_user_facing_prose(message):
+        return None
     turn = event.get('turn_id')
     gate.require(isinstance(turn, str) and turn.strip(), 'missing host turn_id for prose review')
     if session_record is not None:
@@ -1666,13 +1678,15 @@ def _review_final_prose(event, root, directory, *, session_record=None):
         '1. Output: review assignment -> one fresh native subagent. Supply the actual request, complete '
         'proposed final answer, paths of all created/materially edited user-facing artifacts, CORE and PROSE. '
         'Read `' + read_command + '`.\n'
-        '2. Output: reviewed answer and saved artifacts -> lead. Read actual authored content, including '
-        'tables, slides, captions and labels. Judge meaning, evidence, logic and rhetorical function under '
-        'CORE and PROSE. Route internal conditions/diagnostics to the working record; retain accurate '
-        'affirmative claims and numerical uncertainty. Confirm durable internal items in their existing '
-        'destinations. Repair saved passages once; for generated artifacts '
-        'repair the producer, regenerate and inspect affected output. Preserve data, equations, citations, '
-        'attribution, code behavior and unrelated content. A lexical scan locates candidates for this judgment.\n'
+        '2. Output: reviewed answer and saved artifacts -> lead. Apply PROSE Common output to every element '
+        'of the completed answer and artifacts, including tables, slides, captions and labels; compare the '
+        'actual originals with each element. Judge meaning, '
+        'evidence, logic and rhetorical function under CORE and PROSE. Route internal conditions/diagnostics '
+        'to the working record; retain accurate affirmative claims and numerical uncertainty. Confirm '
+        'durable internal items in their existing destinations. Repair saved passages once; for generated '
+        'artifacts repair the producer, regenerate and inspect affected output. Preserve data, equations, '
+        'citations, attribution, code behavior and unrelated content. A lexical scan locates candidates '
+        'for this judgment.\n'
         '3. Output: integrated final answer -> user. Wait for the actual reviewer return, integrate saved '
         'changes and deliver the revised answer. If native delegation is unavailable, disallowed or fails, '
         'perform this pass yourself and report the actual review method and inspection status. '

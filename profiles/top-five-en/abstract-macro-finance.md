@@ -1,0 +1,3 @@
+Credit Conditions and House Prices
+A model of housing with collateral constraints links house prices to mortgage credit conditions. We estimate the central elasticity of the model with variation from the 2013 relaxation of loan-to-value limits across 41 lending regions of Marden. A 10 percentage point increase in the limit raises house prices by 6.8 percent and leaves rents unchanged. The model, calibrated to these moments, explains 82 percent of the 2013 to 2018 price boom, and the interaction of the limit with lower mortgage rates accounts for 14 percent of the explained boom. Price growth concentrates in regions where 40 percent or more of households face binding constraints.
+JEL: E44, G21, R31

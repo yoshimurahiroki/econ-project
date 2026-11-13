@@ -60,7 +60,7 @@ Run the requested path through its actual entry point and inspect the requested 
 
 ## Deliver the reproduced result
 
-Deliver the requested result and comparison with the source under econ-data's output and reporting rules. Generate requested text and exhibits from the reproduced quantities and definitions.
+Deliver the requested result and comparison with the source under econ-data's output and reporting rules. For requested text and exhibits, apply the source-search, reading, borrowing, minimum-adjustment, recording and comparison procedure in the example below to each expression and visual element, using the reproduced quantities and definitions.
 
 ## Worked project operations
 
@@ -97,7 +97,7 @@ statistics:
 **Operation trace:**
 
 1. Complete the fit, retain its sample and design mapping, and extract estimates by semantic term key. Match the covariance calculation, cluster IDs, reference distribution and degrees of freedom to the adopted inference specification. Save the complete result under `hours_s3_r02`; the existing selection for the main output then points to that run. The version identifies the record format; the specification and run keys identify the research choices and execution separately.
-2. The table and figure read `coefficient.training`, and the prose renderer uses its value and units. The sentence states, “Training participation is associated with 1.25 additional weekly hours.” All three use the same selected run. A label correction rebuilds the affected display while reusing the fit. Preserve the age coefficient's estimated zero and the producer's unrounded value.
+2. The table and figure read `coefficient.training`, and the prose renderer uses its value and units. For the public sentence expressing the synthetic association of 1.25 additional hours per week, first search for and read the relevant passage and its surrounding context in an actual source: a 2020-or-later top-five-journal paper or slides, a major economics handbook, review or guide, an economics textbook, or economics course materials (lecture notes, course slides or handouts). Borrow and closely imitate the corresponding expression, making only the minimum adjustments needed for the established result; do not import the source’s empirical conditions or conclusions. Record the source-to-output correspondence and adjustments in the existing work record, then compare the completed sentence with the read source; if the relevant passage is insufficient, return to search and reading. All three use the same selected run. A label correction rebuilds the affected display while reusing the fit. Preserve the age coefficient's estimated zero and the producer's unrounded value.
 3. A requested point contrast involving training and age uses a defined change in age and a named weighted combination of their estimates. Compute the contrast from the saved values. Retrieve the matching complete covariance or draws for any requested post-estimation calculation that consumes them; obtain missing inputs from the matching fit. Preserve the completed point contrast for its own consumers.
 4. An authorized specification `hours_s4` adds a control with missing values. Save a new fitted-sample record and run. Compare fitted IDs as well as estimates. If the requested comparison needs to isolate the control's contribution and permits the calculation, fit `hours_s3` on the new common sample as a separately identified diagnostic. Distinguish its comparison with `hours_s4` from the change caused by restricting the original sample.
 5. If the new control is collinear, record that term as `omitted` with reason `collinear` and no estimated value; do not print 0.00. If the run fails instead, retain a failed run status without publishing a replacement estimate. An output requesting `hours_s4` stays blocked; the completed `hours_s3_r02` remains usable only for outputs still selecting that specification. A delayed `hours_s3` attempt cannot replace a later adopted selection merely because it finishes last.
@@ -126,7 +126,7 @@ The input file is tracked by its contents. The existing runner also tracks produ
 
 **Expected operation trace:**
 
-- Title correction: change only `figure_labels` from “Mean weekly hour” to “Mean weekly hours.” Rebuild the figure. Reuse `records`, `sample`, `estimate`, and `table`; their numerical provenance is unchanged.
+- Title correction: follow the source-search, reading, borrowing, minimum-adjustment, recording and comparison procedure above for the title, then change only `figure_labels`. Rebuild the figure. Reuse `records`, `sample`, `estimate`, and `table`; their numerical provenance is unchanged.
 - Approved sample revision: change minimum age from 18 to 21. In this fictional input, some retained people are aged 18–20 and their removal changes the mean. Rebuild `sample`, `estimate`, `table`, and `figure`. Reuse `records`, because the input bytes and import definition are unchanged. Update the sample revision attached to the estimate and exhibits.
 - Source correction at the same CSV path: a changed content fingerprint invalidates `records`; reassess and rebuild the affected descendants. Reuse requires matching content and definition dependencies plus established completion.
 

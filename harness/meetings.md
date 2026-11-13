@@ -2,9 +2,15 @@
 
 Select research artifacts in the local marimo interface and build materials from the previous decisions, tasks and GitHub progress. A material bundle consists of `meeting.json`, `content.md` and the selected `assets/`. Supported outputs are HTML slides, Markdown, PDF through the existing Beamer templates, and native Google Slides.
 
-1. **Selected result → bundle.** Register the [public claims and numerical uncertainty](../skills/econ-writing/references/result-artifacts.md#save-displays-at-analysis-or-registration) at Gallery, then select its resolved `public_text` and saved rows. Keep conditions, diagnostics and producer identities in the bundle's metadata and internal record.
-2. **Adopted argument → document.** Supply affirmative section prose through `section_content` or `content.md`. Before: “The effect may be positive, subject to the sample restriction.” After, using the saved result: “Employment effect: 2 pp; SE 0.5 pp.” Retain the restriction internally with its scientific owner.
+1. **Selected result → bundle.** Register the [public claims and numerical uncertainty](../skills/econ-writing/references/result-artifacts.md#save-displays-at-analysis-or-registration) at Gallery, then select its resolved `public_text` and saved rows. Keep conditions, diagnostics and producer identities in the bundle's metadata and internal record. Report conditions, failures and sample accounting needed for scientific fidelity and actual outcomes publicly through direct, precise expressions drawn from corresponding inspected sources under PROSE.
+2. **Adopted argument → document.** Supply section prose through `section_content` or `content.md` using the source-first borrowing procedure below and the saved result. Retain restrictions internally with their scientific owner and report those needed for scientific fidelity in the output through direct, precise expressions drawn from corresponding inspected sources under PROSE.
 3. **Rendered material → user.** Read the generated body, labels, captions and speaker text through PROSE's finish step. Repair the producing field, regenerate and inspect the selected formats.
+
+Saved-result mechanical fields: estimate `2 pp`; SE `0.5 pp`.
+
+Apply [PROSE Common output](../runtime/PROSE.md#common-output) to every material and existing draft.
+
+Apply this procedure also to short text, single-word edits, translation, formatting, labels, automated summaries, headings, captions, speaker notes, figures, tables, layouts and template defaults, including carried-forward or user-authored drafts. A template, automatic output or saved content is not itself an exemption: search and read corresponding actual sources and adjust its producing fields as needed. Record source-to-output locations and adjustments in the existing material or work record, then compare every element of the finished material with its source. If a corresponding passage or visual is missing, resume searching and reading; do not fill gaps with free paraphrase, invented examples, or independently composed arguments or designs.
 
 ## Create a bundle
 
@@ -35,26 +41,26 @@ Omit `--previous` for the first meeting. Choose `--kind` from the templates belo
 | `appendix` | Notation, model, derivations and proofs, identification, data construction, estimation and inference, numerical computation, additional results | Document / Econometrica |
 | `manuscript` | Data, empirical specification, results, exhibits, interpretation | Document / Econometrica |
 
-Keep templates in the existing `tex/slides/meeting_templates.json`. Initialize manuscript Data, Specification and Results sections from `data_description`, `specification_description` and `results_summary` in `project-view`. Edit the prose in `content.md`. Exhibits retain the selected result IDs and saved values.
+Keep templates in the existing `tex/slides/meeting_templates.json`. Initialize manuscript Data, Specification and Results sections from `data_description`, `specification_description` and `results_summary` in `project-view`, applying the source-first procedure to these inputs and any automatic summaries. Edit the prose in `content.md` by that procedure. Exhibits retain the selected result IDs and saved values.
 
 Set `project-view.language` to the document's language tag, such as `ja` or `en`. The bundle retains it as `meeting.json.language`; rendering uses that value for generated table names and other localized labels. Existing bundles use `ja`.
 
 Set `project-view.abstract` to the completed article abstract. The bundle preserves it in `meeting.json.abstract`, and the article renderer places it before the chapters. Add complete chapters through the existing section operations and order them with the saved exhibits. The [subscription producer](../skills/econ-data/examples/subscription/materials.py) consumes its registered bilingual profile as a complete manuscript.
 
-For theory and structural materials, supply section IDs and adopted Markdown prose in the same `project-view` object's `section_content`. Send equations and explanations to sections in the selected template, such as `model`, `information`, `optimality`, `equilibrium`, `propositions`, `identification` and `numerical`. Build the text from the adopted model contract's actors, constraints, information and equilibrium conditions. State the identified parameters and observed variation, optimality conditions and numerical methods, and the primitives held fixed in each counterfactual. Put notation and definitions in `notation`; put propositions and proofs in `propositions` or the appendix's `derivation`. Supplied prose takes precedence over automatic summaries. Section IDs must belong to the selected template.
+For theory and structural materials, supply section IDs and adopted Markdown prose in the same `project-view` object's `section_content`. Send equations and explanations to sections in the selected template, such as `model`, `information`, `optimality`, `equilibrium`, `propositions`, `identification` and `numerical`. Borrow and imitate corresponding source text, making only the necessary adjustments to the adopted model contract's actors, constraints, information and equilibrium conditions. State the identified parameters and observed variation, optimality conditions and numerical methods, and the primitives held fixed in each counterfactual. Put notation and definitions in `notation`; put propositions and proofs in `propositions` or the appendix's `derivation`. Supplied prose takes precedence over automatic summaries. Section IDs must belong to the selected template.
 
 ```json
 {
-  "research_question": "企業結合は価格と消費者余剰をどう変えるか。",
+  "research_question": "<research_question>",
   "section_content": {
-    "model": "消費者は一つの製品か外部選択肢を選ぶ。企業は所有する製品の利潤を最大化する価格を同時に選ぶ。",
-    "identification": "需要式から除外した費用シフターを価格の操作変数に使う。",
-    "numerical": "保存済みの需要推定値と限界費用を固定し、所有構造変更後の価格一階条件を解く。"
+    "model": "<model>",
+    "identification": "<identification>",
+    "numerical": "<numerical>"
   }
 }
 ```
 
-This example shows the prose input for `--kind structural`. Actual materials specify the adopted demand equation, instruments, cost structure, equilibrium selection and executed results. `section_content` supplies document content; analysis specifications and saved results remain at their scientific owners.
+These mechanical placeholders identify input fields for `--kind structural`; apply the source-first procedure above to their content. Actual materials specify the adopted demand equation, instruments, cost structure, equilibrium selection and executed results. `section_content` supplies document content; analysis specifications and saved results remain at their scientific owners.
 
 The template's `artifact_role` determines where descriptive statistics, main results, event studies and additional results appear. Set the selected result's `metadata.report_role` to `descriptive`, `main`, `event_study` or `additional` when its role is explicit. Otherwise placement follows the saved exhibit type. Keep the main-result summary before its exhibits. The bundle retains findings, interpretations, issues and adopted judgments internally; the author selects the supported public argument into `section_content`.
 
@@ -93,7 +99,7 @@ python harness/research.py meeting render --root "$PROJECT" \
 
 `--format markdown` produces Markdown; `--format pdf` produces LuaLaTeX output. Documents use the existing `tex/paper/pandoc_template.latex` and Econometrica class and settings. Slides use the existing `tex/slides/pandoc_template.latex`, metropolis, Waseda colors and Japanese fonts. HTML and PDF destinations contain the completed files and `render.json`. Markdown output also includes images referenced by its text. Keep editable prose, structure and exhibits in the source bundle; regenerate intermediate Quarto, TeX and style files during rendering. `render.json` records each consumed LaTeX file's hash in `latex_files`. Prefer saved PDF, PNG and JPEG assets for PDF output; use `rsvg-convert` for figures available only as SVG.
 
-Gallery's `public_text` supplies supported claims and numerical uncertainty to HTML, Markdown, PDF and native Slides. Existing diagnostic/annotation fields, complete inference definitions and producer hashes remain in bundle metadata. Select population, period, units and comparison into the public claim when they define its quantity. Preserve adopted exhibit cells and user-authored content; inspect the latter through PROSE before delivery. Place a section's `caption` after its last exhibit; speaker text uses the explicit `speaker_notes` field. Slides use 24 pt body, bullet and table text, with 32 pt headings and 20 pt supporting definitions. CSS renders 24 pt as 32 px; Beamer uses a 960 × 540-point page and explicit 24 pt body fonts. Split dense arguments across pages and inspect figure labels at their placed size. Keep a short document table's heading, rows and caption on one page. Break long table identifiers at underscores. The Pandoc adapter carries Quarto's `include-in-header` through the same path, including Japanese document PDF settings.
+Gallery's `public_text` supplies supported claims and numerical uncertainty to HTML, Markdown, PDF and native Slides. Existing diagnostic/annotation fields, complete inference definitions and producer hashes remain in bundle metadata. Report conditions, failures, sample accounting and actual outcomes needed for scientific fidelity in public output through direct, precise expressions drawn from corresponding inspected sources under PROSE. Select population, period, units and comparison into the public claim when they define its quantity. Preserve adopted exhibit cells and user-authored content while applying the source-first procedure to its expression and presentation; inspect it through PROSE before delivery. Place a section's `caption` after its last exhibit; speaker text uses the explicit `speaker_notes` field. Slides use 28 pt body, bullet and table text, with 32 pt headings and 28 pt supporting definitions. CSS renders 28 pt as 37.33 px; Beamer uses a 960 × 540-point page and explicit 28 pt body fonts. Split dense arguments across pages and inspect figure labels at their placed size. Keep a short document table's heading, rows and caption on one page. Break long table identifiers at underscores. The Pandoc adapter carries Quarto's `include-in-header` through the same path, including Japanese document PDF settings.
 
 Quarto renders prose and saved exhibits in an isolated working directory with `engine: markdown` and `--no-execute`. Select exhibits through `sections[].artifacts`; use the body for prose, equations, lists and links. Check saved exhibit hashes and write the completed version to a new output directory. `render.json` retains the input revision, consumed exhibit and template hashes, executed command, Quarto version and output hashes.
 
@@ -115,7 +121,7 @@ python harness/research.py meeting google-slides \
 
 The packet contains Google Slides API `createSlide` requests and native text, table and image requests. Create a new presentation (`application/vnd.google-apps.presentation`) through connected Google Drive / Slides and pass `requests` to `batchUpdate`. Supply local PNG/JPEG files from `images` through the connected tool's image-upload arguments. For published images, `--asset-base-url` can specify the bundle's HTTPS URL.
 
-After creation, retrieve `slides[].slideProperties.notesPage.notesProperties.speakerNotesObjectId` and use `insertText` to place the packet's `speaker_notes` in the corresponding notes shapes. Use the user's Drive `ChatGPT` folder as the destination. Edit prose, order and exhibit layout in the Google Slides GUI.
+After creation, retrieve `slides[].slideProperties.notesPage.notesProperties.speakerNotesObjectId` and use `insertText` to place the packet's `speaker_notes` in the corresponding notes shapes. Use the user's Drive `ChatGPT` folder as the destination. Edit prose, order and exhibit layout in the Google Slides GUI using the same source-first procedure and record and compare every element.
 
 ```sh
 python harness/research.py meeting link-edition --bundle meetings/current \

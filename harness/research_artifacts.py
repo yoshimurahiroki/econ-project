@@ -31,7 +31,7 @@ GALLERY_KINDS = ('descriptive', 'sample_composition', 'distribution', 'time_seri
 PLOT_TYPES = ('table', 'bar', 'line', 'scatter', 'step', 'area', 'coefficient', 'event_study', 'density', 'ecdf', 'box',
               'att_gt', 'cohort_event', 'parallel_trends', 'rdd', 'iv_first_stage', 'iv_reduced_form',
               'iv_confidence_set', 'scm', 'scm_gap', 'scm_placebo', 'binned_scatter', 'smd', 'structural', 'geo')
-GALLERY_RENDER_VERSION = 21
+GALLERY_RENDER_VERSION = 22
 DISPLAY_FIELDS = {'title', 'column_order', 'column_labels', 'formats', 'row_order',
                   'sort_by', 'ascending', 'notes', 'plot_type', 'x', 'y', 'lower', 'upper',
                   'series', 'visible_series', 'selected_result_ids', 'x_label', 'y_label',
@@ -1375,7 +1375,8 @@ def gallery_regression_comparison(items):
     presentation = {'headers': headers, 'body': body, 'footer': footer, 'notes': [], 'public_text': public_text,
                     'caption': display.get('title', items[0].get('title', '') if items else ''),
                     'label': display.get('latex_label', ''), 'number': str(display.get('table_number', '')),
-                    'preset': display.get('preset', 'meeting' if display.get('style') == 'presentation' else 'paper')}
+                    'preset': display.get('preset', 'meeting' if display.get('style') == 'presentation' else 'paper'),
+                    **({'font_size': display['font_size']} if 'font_size' in display else {})}
     return {'rows': rows, 'columns': [{'key': 'quantity', 'label': '項目', 'unit': ''},
                                      *[{'key': key, 'label': label, 'unit': ''} for key, label in zip(keys, labels)]],
             'presentation': presentation}
@@ -1393,7 +1394,8 @@ def gallery_table_presentation(item):
             'body': [{'kind': 'row', 'label': row[0], 'cells': row[1:]} for row in cells],
             'footer': [], 'notes': [], 'public_text': view['public_text'], 'caption': view['title'],
             'label': display.get('latex_label', ''), 'number': str(display.get('table_number', '')),
-            'preset': display.get('preset', 'meeting' if display.get('style') == 'presentation' else 'paper')}
+            'preset': display.get('preset', 'meeting' if display.get('style') == 'presentation' else 'paper'),
+            **({'font_size': display['font_size']} if 'font_size' in display else {})}
 
 
 def gallery_presentation(presentation, markdown=False):
@@ -1426,9 +1428,12 @@ def gallery_presentation(presentation, markdown=False):
              '.econ-table thead{border-bottom:1px solid #65717e;}.econ-table tfoot{border-top:1px solid #65717e;}'
              '.econ-table .panel th{font-weight:600;padding-top:14px;border-top:1px solid #aab2ba;}'
              '.econ-table .se td,.econ-table .ci td,.econ-table .p td{padding-top:0;color:#46505c;}'
-             '.econ-table .coefficient td{padding-bottom:2px;}.econ-table.meeting{font-size:18px;}</style>')
-    prose = ''.join('<p>' + html.escape(text) + '</p>' for text in presentation.get('public_text', []))
-    return style + prose + '<table class="econ-table ' + presentation.get('preset', 'paper') + '"><thead>' + headers + '</thead><tbody>' + ''.join(rows) + '</tbody><tfoot>' + footer + '</tfoot></table>'
+             '.econ-table .coefficient td{padding-bottom:2px;}.econ-table.meeting{font-size:28pt;}</style>')
+    font = presentation.get('font_size')
+    font_style = ' style="font-size:' + str(font) + 'pt"' if type(font) in (int, float) else ''
+    prose_style = font_style or (' style="font-size:28pt"' if presentation.get('preset') == 'meeting' else '')
+    prose = ''.join('<p' + prose_style + '>' + html.escape(text) + '</p>' for text in presentation.get('public_text', []))
+    return style + prose + '<table class="econ-table ' + presentation.get('preset', 'paper') + '"' + font_style + '><thead>' + headers + '</thead><tbody>' + ''.join(rows) + '</tbody><tfoot>' + footer + '</tfoot></table>'
 
 
 def gallery_table(item, markdown=False):
@@ -1802,6 +1807,12 @@ def gallery_plot_panel(axis, rows, display, metadata, columns, family, font_size
                     prop={'family': family, 'size': font_size})
 
 
+def gallery_font_size(display, *, paper_default=10):
+    """Keep explicit sizes and use the slide baseline for presentation displays."""
+    meeting = display.get('preset') == 'meeting' or display.get('style') == 'presentation'
+    return display.get('font_size', 28 if meeting else paper_default)
+
+
 def gallery_plot(item):
     """Render saved aggregates or estimates; no statistic is computed here."""
     from matplotlib.figure import Figure
@@ -1818,12 +1829,14 @@ def gallery_plot(item):
         font_names = {font.name for font in font_manager.fontManager.ttflist}
     family = next((name for name in ('Noto Sans CJK JP', 'Noto Sans JP', 'IPAexGothic') if name in font_names), 'DejaVu Sans')
     meeting = display.get('preset') == 'meeting' or display.get('style') == 'presentation'
-    font_size = display.get('font_size', 14 if meeting else 10)
+    font_size = gallery_font_size(display)
     plot_type = display.get('plot_type', 'table')
     presentation = gallery_table_presentation(item) if plot_type == 'table' else None
     public_text = presentation['public_text'] if presentation else view['public_text']
     width = display.get('width', 960)
-    notes = '\n'.join(textwrap.fill(text, max(35, width // 9)) for text in public_text)
+    note_line_height = font_size * 100 / 72 * 1.2 if meeting else 15
+    note_width = max(12, int(width / (font_size * 100 / 72 * .55))) if meeting else max(35, width // 9)
+    notes = '\n'.join(textwrap.fill(text, note_width) for text in public_text)
     note_lines = len(notes.splitlines())
     height = display.get('height', 540)
     figure = Figure(figsize=(width / 100, height / 100), dpi=100)
@@ -1835,7 +1848,7 @@ def gallery_plot(item):
     if presentation:
         axis = figure.subplots()
         line_height = gallery_plot_table(axis, presentation, family, font_size, width)
-        height = max(height, int(line_height * font_size * 100 / 72 * 1.25 + note_lines * 15 + 90))
+        height = max(height, int(line_height * font_size * 100 / 72 * 1.25 + note_lines * note_line_height + 90))
         figure.set_size_inches(width / 100, height / 100)
     else:
         facet = display.get('facet')
@@ -1866,10 +1879,10 @@ def gallery_plot(item):
     # Color bars create additional axes; apply the same scientific-label font.
     for axis in figure.axes:
         axis.tick_params(labelsize=font_size)
-        for label in [*axis.get_xticklabels(), *axis.get_yticklabels(), axis.xaxis.label, axis.yaxis.label]:
+        for label in [*axis.texts, *axis.get_xticklabels(), *axis.get_yticklabels(), axis.xaxis.label, axis.yaxis.label]:
             label.set_fontfamily(family)
             label.set_fontsize(font_size)
-    bottom = min(.5, .02 + (note_lines * 15 + 20) / height) if notes else .03
+    bottom = min(.5, .02 + (note_lines * note_line_height + 20) / height) if notes else .03
     if notes:
         figure.text(.06, .02, notes, fontsize=font_size, color='#213547', va='bottom', fontfamily=family)
     figure.tight_layout(rect=(.02, bottom, .99, .94))
@@ -2102,7 +2115,7 @@ def latex_adapter(source, kind):
         source=replace_once(source,'\\bibliography{../bibliography}  % Bibliography file (usually \'*.bib\')', '$if(bibliography)$\\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}$endif$')
     elif kind=='slides':
         # Pandoc's common preamble selects Babel's locale through the class option.
-        source=replace_once(source,'\\documentclass[unicode, mathserif, t, 12pt, aspectratio=169, unknownkeysallowed]{beamer}', '\\documentclass[unicode, mathserif, t, 12pt, unknownkeysallowed$if(babel-lang)$,$babel-lang$$endif$,aspectratio=$if(aspectratio)$$aspectratio$$else$169$endif$]{beamer}')
+        source=replace_once(source,'\\documentclass[unicode, t, 12pt, aspectratio=169, unknownkeysallowed]{beamer}', '\\documentclass[unicode, t, 12pt, unknownkeysallowed$if(babel-lang)$,$babel-lang$$endif$,aspectratio=$if(aspectratio)$$aspectratio$$else$169$endif$]{beamer}')
         source=replace_once(source,'\\usetheme[numbering=fraction]{metropolis}', '$if(theme)$\\usetheme{$theme$}$else$\\usetheme[numbering=fraction]{metropolis}$endif$')
         source=replace_once(source,'\\title[Footer title]{TITLE}\n\\subtitle{SUBTITLE}\n\\author{Author}\n\\institute{}\n\\date{\\today}', '$if(title)$\\title{$title$}$endif$\n$if(subtitle)$\\subtitle{$subtitle$}$endif$\n\\author{$for(author)$$author$$sep$ \\and $endfor$}\n$if(institute)$\\institute{$institute$}$endif$\n\\date{$if(date)$$date$$else$\\today$endif$}')
         source=replace_once(source,'\\usepackage{amsmath}\n\\begin{document}', '\\usepackage{amsmath}\n'+common+'\\AtBeginEnvironment{longtable}{\\normalsize\\setlength{\\tabcolsep}{8pt}\\renewcommand{\\arraystretch}{1.25}}\n\\begin{document}')

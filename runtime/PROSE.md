@@ -2,57 +2,57 @@
 
 ## Common output
 
-Apply to all public content, languages and formats, including quotations, tables and labels. Platform/user authority and scientific fidelity govern. Pairs use the shown inputs.
+Apply to all public content, languages and formats, including quotations, tables and labels. Platform/user authority and scientific fidelity govern. Do not invent prose or visual material: search actual 2020-or-later Top Five papers and slides, major economics handbooks, reviews, guides, textbooks and economics course materials (lecture notes, course slides and handouts); read the relevant passage and surrounding context or actual page, slide or exhibit before proceeding. Map every choice of content, argument, wording, transition, ending, placement and appearance to an inspected source, borrow and imitate it, and substitute only the task's established facts, names, variables, symbols, population, period, numbers, units, citations, grammatical agreement and medium/28pt requirements. Use the source categories applicable to each output. Search and read further when coverage is insufficient. Apply this to even one word, short edits, translation, formatting and existing drafts. Record each source mapping and adjustment in existing material or work records; compare every element with its original. Do not transfer the reference study's empirical conditions or conclusions to the task.
 
-1. Proposition -> draft. Retain assumptions, identifying conditions, missingness, failures, restrictions and inference diagnostics internally. Pass numerical uncertainty to step 2. Select true affirmative claims; preserve quantities, population, period, units and attribution. Before: “Prices fall 2% if the model holds.” After: “The fitted model estimates a −2% price change.”
-2. Uncertainty -> claim. Use numerical uncertainty only: labeled SE, confidence/credible intervals, p values or sets with levels and units. Preserve signs, zeros and endpoints; replace significance stars. Before: “Employment probably rose: estimate 2 pp, 95% CI [−1, 5].” After: “Employment estimate 2 pp; 95% CI [−1, 5].”
-3. Meaning -> paragraph. Keep negative definitions/contrasts, absence/failure claims and affirmative paraphrases of them internally. Preserve requested quantities. Before: “¥20,000 per household is not a population total.” After: “Sampled-household mean expenditure: ¥20,000.”
-4. Wording -> review. Replace hedges, concessions, defensive/cautionary or ornamental framing with supported propositions. Integrate explanation; remove prefaces, supplements, annotations, footnotes and parenthetical explanations across synonyms/languages/quotations. Given an adopted ∂p*/∂c > 0 derivation, Before: “Higher cost may raise price.” After: “Higher marginal cost raises the profit-maximizing price.”
+1. Proposition -> draft. Retain assumptions, identifying conditions, missingness, failures, restrictions and inference diagnostics in the scientific record and report those needed for scientific fidelity in the output. Pass numerical uncertainty to step 2. Report the actual findings and preserve scientific definitions, conditions, quantities, population, period, units and attribution through direct, precise expressions drawn from corresponding inspected sources.
+2. Uncertainty -> claim. Use numerical uncertainty only: labeled SE, confidence/credible intervals, p values or sets with levels and units. Preserve signs, zeros and endpoints; replace significance stars. Exclude hedges and vague or weak wording; search for corresponding direct source expressions.
+3. Meaning -> paragraph. Report definitions, absence and failure findings needed for scientific fidelity through direct, precise source-bound definitions, domains and quantities; retain the rest in the scientific record. Preserve requested quantities. Exclude not A, not A but B, A rather than B, and rhetoric that says A and B differ, are separate or must be distinguished, including synonyms across languages.
+4. Wording -> review. Exclude disclaimers, reservations, concessions, limiting, defensive, cautious, conservative, vague, redundant, weak and ornamental framing, supplements, annotations, footnotes and parenthetical explanations, including synonyms across languages. Avoid exaggeration and abstract value judgments. Use direct, natural, fluent and neutral academic economics expressions selected from inspected sources. Preserve scientific facts and numerical uncertainty.
 
 ## Internal destinations
 
 1. **Scientific record → composition.** Retain definitions/identification in the [specification](../harness/state.md#retain-and-retrieve-adopted-definitions), sample accounting/restrictions/inference/notes in [result metadata](../skills/econ-writing/references/result-artifacts.md), and derivations/proofs/results in [research records](../skills/econ-writing/references/artifact-writing.md#generate-articles-and-slides-from-results).
-2. **Operation record → continuation.** Durable tasks use existing [action/check evidence](../harness/state.md#governing-context) and [findings/interpretation/decisions](../harness/state.md#project-work). Ordinary work retains internal items and routing labels in working reasoning and actual tool evidence.
+2. **Operation record → continuation.** Durable tasks use existing [action/check evidence](../harness/state.md#governing-context) and [findings/interpretation/decisions](../harness/state.md#project-work). Record inspected source locations, correspondence and minimal adjustments in existing records, alongside actual tool evidence. A record does not replace reading originals.
+
+## Final-form card
 
 <!-- final-form-card:start -->
-1. Route claims, internal items and numerical uncertainty in working context.
-2. Draft supported affirmative claims with population/period/unit/denominator and labeled SE/CI/p.
-3. Inspect meaning; retain a claim internally when its counterpart changes truth.
-Worked pairs:
-100 records,80 used,20 missing -> 80/100 used.
-A saved at /a,user-held input B pending -> Saved /a; provide B.
-Adults,rate10% -> Adults:10%.
-Estimate2,SE0.5 -> Estimate2; SE0.5.
-Model baseline1,result2 -> Model result2 against baseline1.
+Do not invent text or visuals. For every word, language, translation and existing draft, search real 2020+ Top Five papers/slides, economics handbooks, reviews, guides, textbooks and economics course materials (lecture notes, course slides, handouts); read passages in context or inspect pages/slides/exhibits. Map content, argument, wording and appearance; borrow and imitate with minimal factual, grammar and medium/28pt adjustments. Search/read for gaps; record mappings/adjustments; compare every element. Preserve facts and uncertainty; do not import source conditions or findings. Exclude hedges, concessions, disclaimers, ornament, supplements and not-A/contrast rhetoric. See Common output.
 <!-- final-form-card:end -->
 
 ## Select the economic argument
 
-1. **Answer candidate → evidence selection.** State the answer to the original request and locate its source passage or saved result.
-2. **Selected evidence → argument.** Keep evidence establishing the answer, separating consequential explanations, changing feasible action or quantifying economic magnitude. Retain other inspected material internally. Before: “Report every regression.” After: “Use the adopted employment contrast and its 95% interval.”
-3. **Argument spine → composition.** Order question → actors' choices/comparison → evidence/derivation → answer/action. Include needed premises; preserve scientific objects and source/result bindings.
+1. **Answer candidate → evidence selection.** Locate the original request's answer in its source passage or saved result. Search and read actual reference passages for the relevant content and argument operations.
+2. **Selected evidence → argument.** Preserve evidence needed to establish the answer, its consequential explanations and economic magnitude. Borrow the artifact's expression and structure from inspected references.
+3. **Argument spine → composition.** Map each structural choice to an inspected reference and minimally adapt it to established task facts. Include needed premises; preserve scientific objects and source/result bindings.
 
 ## Connect the explanation
 
-1. **Mechanism → paragraph.** Connect information, incentives and constraints to choices, equilibrium, welfare or adjustment through inspected evidence/derivation. Before: “The subsidy improves welfare.” After, using the fitted demand and fiscal calculation: “The price reduction and fiscal cost determine the welfare change.”
-2. **Connected paragraph → artifact.** Give each paragraph one advancing proposition, definitions before use and decisive premises beside conclusions. Compare common quantities, units, population, period and denominator with adopted rounding; bind findings to sources and actions to objectives.
+1. **Mechanism → paragraph.** Borrow the relevant explanatory relation from inspected sources and minimally adapt it to task evidence or derivation.
+2. **Connected paragraph → artifact.** Map paragraph connections, definitions and premises to inspected references; preserve common quantities, units, population, period and denominator with adopted rounding. Bind findings to sources and actions to objectives.
 
 ## Select the profile
 
-1. **Audience/medium → composition.** Use the requested profile, then project profile or [default-micro](../profiles/default-micro/PROFILE.md); retrieve examples for concrete writing choices.
-2. **Opening/definitions → reader.** Economics exposition starts with the study-specific question, institution, measurement or restriction using doctoral core knowledge. Explicit non-specialist requests introduce terms through actors' choices and resulting prices/quantities/adjustment. Equations or diagrams explain that relation.
+1. **Audience/medium → composition.** Use the requested profile, then the project profile. English paper prose defaults to the [Top Five English profiles](../profiles/top-five-en/PROFILE.md); Japanese prose uses the three adopted [Japanese economics profiles](../profiles/academic-ja/PROFILE.md). Retrieve the complete matching example, while grounding actual wording and visual choices in inspected real sources under Common output.
+2. **Opening/definitions → reader.** Find and read corresponding real-source openings and definitions for the requested audience and medium; borrow their arrangements and expressions with minimal adaptation to the study's established question, institution, measurement or restriction.
 
 ## Revise for the requested language
 
-1. **Language draft → final review.** Use the user's language. Japanese uses explicit actors, consistent terms, causal links, one point per sentence and plain academic form. English uses precise ordinary words and technical terms. Preserve meaning/attribution.
-2. **Concise passage → artifact.** Repair translated order/distant subjects; replace nominalization/repeated framing with verbs. Before: “An implementation of demand estimation was conducted.” After: “We estimated demand.” Lists serve parallel items; tables serve comparisons.
+1. **Adopted meaning → Japanese draft.** Search and read corresponding Japanese originals for Japanese wording, argument and layout; borrow and imitate them with minimal adaptation to adopted facts. Do not create a literal translation of an English draft. Preserve requested quotations, identifiers and established technical terms.
+2. **Reader's question → connected Japanese.** Map topic, referents, clause connections and paragraph order to the inspected Japanese passages. Adjust particles, subjects and predicates only as needed for the target facts and grammatical agreement.
+3. **Translated construction → Japanese expression.** Replace constructions that obscure the relation by borrowing the corresponding expression from a read Japanese original. Preserve established technical usage and the source claim.
+4. **Field meaning → terminology and register.** Borrow established Japanese terminology and register from corresponding read originals, retaining technical nouns, equations and distinctions at the requested research level.
+5. **Wording repair → preserved claim.** Preserve actor, population, quantifier, logical scope, conditions, comparison, uncertainty, claim strength, quantities, units, equations and attribution, including association versus causation. Apply the same source procedure within the authorized editing scope and retain effective original wording when supported by inspected references. Translation preserves the source's scientific content using corresponding Japanese originals.
+6. **Assembled Japanese → integrated review.** Read titles, captions, tables and labels in Japanese; compare all elements with their inspected originals and verify meaning against adopted evidence. Search and read further sources for any unsupported element, minimally repair it, and reread surrounding sentences.
+7. **English draft → final review.** Use the same source mapping, borrowing, minimal adaptation and comparison for English words, technical terms, sentences, lists and tables.
+
 
 ## Finish the passage
 
-1. **Inspected artifact → delivery.** Read actual authored content, including tables, slides, captions and labels. Apply Common output by meaning/rhetorical function. Repair saved passages once; generated formats require producer repair, regeneration and affected-output inspection. Preserve data, equations, citations, attribution, behavior and unrelated content. Before: “The script ran; the report is ready.” After: “Read the report, repair its caption source, regenerate and inspect.”
-2. **Final answer → user.** Route final propositions through Common output. Lead with result/evidence, then actual saved/rendered destinations and operation outcomes. Record inspection status truthfully under platform/user reporting requirements.
-3. **Recurring wording → semantic review.** Read `cat quality/prose_rules.json` for locators tied to Common output's steps. Inspect their propositions and the remaining passage by meaning; the integrated review owns the judgment.
+1. **Inspected artifact → delivery.** Read actual content, including tables, slides, captions and labels. Apply Common output and the [requested-language rules](#revise-for-the-requested-language); compare every element with the inspected original and verify scientific fidelity. Repair saved passages; for generated formats repair the producer, regenerate and inspect affected output. Preserve data, equations, citations, attribution, behavior and unrelated content.
+2. **Final answer → user.** Apply Common output to final propositions. Report actual saved/rendered destinations, operation outcomes and inspection status truthfully under platform/user reporting requirements.
+3. **Recurring wording → semantic review.** Read `cat quality/prose_rules.json` for locators tied to Common output's steps. Inspect their propositions and the remaining passage by meaning and source correspondence; the integrated review owns the judgment.
 
 ## Hierarchical argument and paragraph composition
 
-1. **Section hierarchy → long-form draft.** Organize under the central answer. Read [paragraph guidance](../skills/econ-writing/references/paragraph-workflow.md) for structural choices; activate state for requested correspondence or persistent dependencies.
+1. **Section hierarchy → long-form draft.** Borrow the hierarchy and paragraph operations from inspected corresponding sources and minimally adapt them to the central answer. Read [paragraph guidance](../skills/econ-writing/references/paragraph-workflow.md) for structural choices; activate state for requested correspondence or persistent dependencies.

@@ -65,62 +65,6 @@
       "deployment_path": ".agents/profiles/default-micro/PROFILE.md",
       "export_alias": "DEFAULT_MICRO.md"
     },
-    "examples-en": {
-      "deployment_path": ".agents/profiles/default-micro/short-examples-en.md",
-      "export_alias": "EXAMPLES_EN.md"
-    },
-    "examples-ja": {
-      "deployment_path": ".agents/profiles/default-micro/short-examples-ja.md",
-      "export_alias": "EXAMPLES_JA.md"
-    },
-    "commuting-study-en": {
-      "deployment_path": ".agents/profiles/default-micro/commuting-study-en.md",
-      "export_alias": "COMMUTING_STUDY_EN.md"
-    },
-    "subscription-study-en": {
-      "deployment_path": ".agents/profiles/default-micro/subscription-study-en.md",
-      "export_alias": "SUBSCRIPTION_STUDY_EN.md"
-    },
-    "subscription-study-ja": {
-      "deployment_path": ".agents/profiles/default-micro/subscription-study-ja.md",
-      "export_alias": "SUBSCRIPTION_STUDY_JA.md"
-    },
-    "equipment-study-en": {
-      "deployment_path": ".agents/profiles/default-micro/equipment-study-en.md",
-      "export_alias": "EQUIPMENT_STUDY_EN.md"
-    },
-    "equipment-study-ja": {
-      "deployment_path": ".agents/profiles/default-micro/equipment-study-ja.md",
-      "export_alias": "EQUIPMENT_STUDY_JA.md"
-    },
-    "housing-study-en": {
-      "deployment_path": ".agents/profiles/default-micro/housing-study-en.md",
-      "export_alias": "HOUSING_STUDY_EN.md"
-    },
-    "housing-study-ja": {
-      "deployment_path": ".agents/profiles/default-micro/housing-study-ja.md",
-      "export_alias": "HOUSING_STUDY_JA.md"
-    },
-    "charging-study-en": {
-      "deployment_path": ".agents/profiles/default-micro/charging-study-en.md",
-      "export_alias": "CHARGING_STUDY_EN.md"
-    },
-    "charging-study-ja": {
-      "deployment_path": ".agents/profiles/default-micro/charging-study-ja.md",
-      "export_alias": "CHARGING_STUDY_JA.md"
-    },
-    "commuting-study-ja": {
-      "deployment_path": ".agents/profiles/default-micro/commuting-study-ja.md",
-      "export_alias": "COMMUTING_STUDY_JA.md"
-    },
-    "extended-en": {
-      "deployment_path": ".agents/profiles/default-micro/extended-introduction-en.md",
-      "export_alias": "EXTENDED_EN.md"
-    },
-    "extended-ja": {
-      "deployment_path": ".agents/profiles/default-micro/extended-introduction-ja.md",
-      "export_alias": "EXTENDED_JA.md"
-    },
     "repository-policy": {
       "deployment_path": ".cursorrules",
       "export_alias": "REPOSITORY_POLICY.md"
@@ -1080,6 +1024,130 @@
     "review-procedure": {
       "deployment_path": ".agents/skills/econ-review/references/review.md",
       "export_alias": "REVIEW_PROCEDURE.md"
+    },
+    "top-five-en": {
+      "deployment_path": ".agents/profiles/top-five-en/PROFILE.md",
+      "export_alias": "TOP_FIVE_EN_PROFILE.md"
+    },
+    "top-five-en-abstract-labor-public": {
+      "deployment_path": ".agents/profiles/top-five-en/abstract-labor-public.md",
+      "export_alias": "TOP_FIVE_EN_ABSTRACT_LABOR_PUBLIC.md"
+    },
+    "top-five-en-abstract-micro-theory": {
+      "deployment_path": ".agents/profiles/top-five-en/abstract-micro-theory.md",
+      "export_alias": "TOP_FIVE_EN_ABSTRACT_MICRO_THEORY.md"
+    },
+    "top-five-en-abstract-io-identification": {
+      "deployment_path": ".agents/profiles/top-five-en/abstract-io-identification.md",
+      "export_alias": "TOP_FIVE_EN_ABSTRACT_IO_IDENTIFICATION.md"
+    },
+    "top-five-en-abstract-spatial": {
+      "deployment_path": ".agents/profiles/top-five-en/abstract-spatial.md",
+      "export_alias": "TOP_FIVE_EN_ABSTRACT_SPATIAL.md"
+    },
+    "top-five-en-abstract-econometrics": {
+      "deployment_path": ".agents/profiles/top-five-en/abstract-econometrics.md",
+      "export_alias": "TOP_FIVE_EN_ABSTRACT_ECONOMETRICS.md"
+    },
+    "top-five-en-abstract-field-experiment": {
+      "deployment_path": ".agents/profiles/top-five-en/abstract-field-experiment.md",
+      "export_alias": "TOP_FIVE_EN_ABSTRACT_FIELD_EXPERIMENT.md"
+    },
+    "top-five-en-abstract-macro-finance": {
+      "deployment_path": ".agents/profiles/top-five-en/abstract-macro-finance.md",
+      "export_alias": "TOP_FIVE_EN_ABSTRACT_MACRO_FINANCE.md"
+    },
+    "top-five-en-introduction-empirical": {
+      "deployment_path": ".agents/profiles/top-five-en/introduction-empirical.md",
+      "export_alias": "TOP_FIVE_EN_INTRODUCTION_EMPIRICAL.md"
+    },
+    "top-five-en-introduction-theory": {
+      "deployment_path": ".agents/profiles/top-five-en/introduction-theory.md",
+      "export_alias": "TOP_FIVE_EN_INTRODUCTION_THEORY.md"
+    },
+    "top-five-en-empirical-institution": {
+      "deployment_path": ".agents/profiles/top-five-en/empirical-institution.md",
+      "export_alias": "TOP_FIVE_EN_EMPIRICAL_INSTITUTION.md"
+    },
+    "top-five-en-empirical-data": {
+      "deployment_path": ".agents/profiles/top-five-en/empirical-data.md",
+      "export_alias": "TOP_FIVE_EN_EMPIRICAL_DATA.md"
+    },
+    "top-five-en-empirical-framework": {
+      "deployment_path": ".agents/profiles/top-five-en/empirical-framework.md",
+      "export_alias": "TOP_FIVE_EN_EMPIRICAL_FRAMEWORK.md"
+    },
+    "top-five-en-empirical-strategy": {
+      "deployment_path": ".agents/profiles/top-five-en/empirical-strategy.md",
+      "export_alias": "TOP_FIVE_EN_EMPIRICAL_STRATEGY.md"
+    },
+    "top-five-en-empirical-older-workers": {
+      "deployment_path": ".agents/profiles/top-five-en/empirical-older-workers.md",
+      "export_alias": "TOP_FIVE_EN_EMPIRICAL_OLDER_WORKERS.md"
+    },
+    "top-five-en-empirical-firms-younger-workers": {
+      "deployment_path": ".agents/profiles/top-five-en/empirical-firms-younger-workers.md",
+      "export_alias": "TOP_FIVE_EN_EMPIRICAL_FIRMS_YOUNGER_WORKERS.md"
+    },
+    "top-five-en-empirical-mechanisms": {
+      "deployment_path": ".agents/profiles/top-five-en/empirical-mechanisms.md",
+      "export_alias": "TOP_FIVE_EN_EMPIRICAL_MECHANISMS.md"
+    },
+    "top-five-en-empirical-conclusion": {
+      "deployment_path": ".agents/profiles/top-five-en/empirical-conclusion.md",
+      "export_alias": "TOP_FIVE_EN_EMPIRICAL_CONCLUSION.md"
+    },
+    "top-five-en-field-micro-theory": {
+      "deployment_path": ".agents/profiles/top-five-en/field-micro-theory.md",
+      "export_alias": "TOP_FIVE_EN_FIELD_MICRO_THEORY.md"
+    },
+    "top-five-en-field-io-demand": {
+      "deployment_path": ".agents/profiles/top-five-en/field-io-demand.md",
+      "export_alias": "TOP_FIVE_EN_FIELD_IO_DEMAND.md"
+    },
+    "top-five-en-field-econometrics": {
+      "deployment_path": ".agents/profiles/top-five-en/field-econometrics.md",
+      "export_alias": "TOP_FIVE_EN_FIELD_ECONOMETRICS.md"
+    },
+    "top-five-en-field-spatial": {
+      "deployment_path": ".agents/profiles/top-five-en/field-spatial.md",
+      "export_alias": "TOP_FIVE_EN_FIELD_SPATIAL.md"
+    },
+    "top-five-en-field-macro-finance": {
+      "deployment_path": ".agents/profiles/top-five-en/field-macro-finance.md",
+      "export_alias": "TOP_FIVE_EN_FIELD_MACRO_FINANCE.md"
+    },
+    "top-five-en-field-experiment": {
+      "deployment_path": ".agents/profiles/top-five-en/field-experiment.md",
+      "export_alias": "TOP_FIVE_EN_FIELD_EXPERIMENT.md"
+    },
+    "top-five-en-field-computation": {
+      "deployment_path": ".agents/profiles/top-five-en/field-computation.md",
+      "export_alias": "TOP_FIVE_EN_FIELD_COMPUTATION.md"
+    },
+    "top-five-en-field-history": {
+      "deployment_path": ".agents/profiles/top-five-en/field-history.md",
+      "export_alias": "TOP_FIVE_EN_FIELD_HISTORY.md"
+    },
+    "example-subscription-manuscript-en": {
+      "deployment_path": ".agents/skills/econ-data/examples/subscription/manuscript-en.md",
+      "export_alias": "SUBSCRIPTION_MANUSCRIPT_EN.md"
+    },
+    "academic-ja": {
+      "deployment_path": ".agents/profiles/academic-ja/PROFILE.md",
+      "export_alias": "ACADEMIC_JA_PROFILE.md"
+    },
+    "academic-ja-childcare-employment": {
+      "deployment_path": ".agents/profiles/academic-ja/childcare-employment.md",
+      "export_alias": "ACADEMIC_JA_CHILDCARE_EMPLOYMENT.md"
+    },
+    "academic-ja-attention-plan-choice": {
+      "deployment_path": ".agents/profiles/academic-ja/attention-plan-choice.md",
+      "export_alias": "ACADEMIC_JA_ATTENTION_PLAN_CHOICE.md"
+    },
+    "academic-ja-equipment-subsidy": {
+      "deployment_path": ".agents/profiles/academic-ja/equipment-subsidy.md",
+      "export_alias": "ACADEMIC_JA_EQUIPMENT_SUBSIDY.md"
     }
   },
   "source": {
@@ -1152,7 +1220,7 @@
     }
   ],
   "pointer_templates": {
-    "economics-task-entry": "# Economics task entry\n\nSelect the owner, mode and active conditions from the [operation index]({index}) when unresolved; go directly to a known operation. Before substantive work, read [CORE]({core}), [PROSE]({prose}), the complete selected Skill/mode and activated prerequisites. CORE owns authority, complete-body reading and reuse, and completion. Obtain the selected knowledge, source code and saved results through that operation.\n"
+    "economics-task-entry": "# Economics task entry\n\nSelect the owner, mode and active conditions from the [operation index]({index}) when unresolved; go directly to a known operation. Before substantive work, read [CORE]({core}), [PROSE]({prose}), the complete selected Skill/mode and activated prerequisites. CORE owns authority, complete-body reading and reuse, and completion. Obtain the selected knowledge, source code and saved results through that operation. For every prose or visual expression being authored in any mode, including in prompts, short edits, single words, translation, formatting and existing drafts, first search real top-five economics journal papers or slides from 2020 onward, major economics handbooks, reviews or guides, economics textbooks, or economics course materials including lecture notes, course slides and handouts; read the relevant passage and surroundings or the actual pages, slides and exhibits. Map content selection, argument, wording, endings, connections, placement and visual style to those passages, borrow and imitate them, and make only the minimal adjustments required by the confirmed task facts, names, variables and symbols, affected subject, periods, numbers and units, citations, grammar, medium and 28pt slide body setting. Do not import a source study’s empirical conditions or conclusions into the task. Use corresponding Japanese originals for Japanese expression rather than newly translating English prose. If references are insufficient, continue searching and reading; do not invent, freely paraphrase, design from scratch or fill gaps without references. Record each source correspondence and adjustment in the existing source or work record, and compare every completed prose or visual element with the original. Preserve technical instructions, inputs, outputs and validation examples.\n"
   },
   "configuration": {
     "clients": [

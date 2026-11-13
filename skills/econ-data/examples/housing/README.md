@@ -19,7 +19,7 @@ The annual budget is 1.5 billion JPY. A lump-sum charge on floor owners funds th
 
 Official interfaces: [DuckDB Python SQL](https://duckdb.org/docs/stable/clients/python/reference) and [SciPy least squares](https://docs.scipy.org/doc/scipy-1.17.0/reference/generated/scipy.optimize.least_squares.html). The existing macro runner owns the equilibrium equations and their saved residuals. Changes to source quantities, calibration or policy inputs create a new calculation generation; wording and layout consume its saved quantities.
 
-The complete [English profile](../../../../profiles/default-micro/housing-study-en.md) and [Japanese profile](../../../../profiles/default-micro/housing-study-ja.md) carry the same measurement, equilibrium and annual policy comparison from Abstract through Conclusion.
+Select an [English writing profile](../../../../profiles/top-five-en/PROFILE.md) for the current section. For Japanese prose, select a [Japanese writing profile](../../../../profiles/academic-ja/PROFILE.md) and use this example's saved measurement, equilibrium and annual policy comparison.
 
 Build the existing brief and structural material bundles from that saved generation with the [material producer](materials.py). Set `--root` to the common project directory containing the runtime and saved results. Select `--language ja` or `--language en`; each invocation creates a new output directory.
 

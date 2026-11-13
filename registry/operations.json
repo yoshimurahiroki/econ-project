@@ -301,7 +301,7 @@
       "id": "project-work:prompt",
       "owner_skill": "project-work",
       "mode": "prompt",
-      "trigger": "Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request.",
+      "trigger": "Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request. Preserve technical instructions, inputs, outputs and validation examples.",
       "required_rules": [
         "kernel.all",
         "project-work.all",
@@ -419,13 +419,7 @@
     },
     "english_cumulative_multiparagraph_logic_needed": {
       "optional_examples": [
-        "example.en.extended-introduction"
-      ],
-      "applies_to": "*"
-    },
-    "japanese_cumulative_multiparagraph_logic_needed": {
-      "optional_examples": [
-        "example.ja.extended-introduction"
+        "top-five-en.introduction-empirical"
       ],
       "applies_to": "*"
     },
@@ -723,85 +717,43 @@
     },
     "example_en_conclusion_comparison": {
       "optional_examples": [
-        "default-micro.en.conclusion"
+        "top-five-en.empirical-conclusion"
       ],
       "applies_to": "*"
     },
     "example_en_institution_mechanism": {
       "optional_examples": [
-        "default-micro.en.mechanism"
+        "top-five-en.empirical-mechanisms"
       ],
       "applies_to": "*"
     },
     "example_en_quantity_relation": {
       "optional_examples": [
-        "default-micro.en.quantities"
+        "top-five-en.empirical-older-workers"
       ],
       "applies_to": "*"
     },
     "example_en_revision_translation": {
       "optional_examples": [
-        "default-micro.en.translation"
+        "top-five-en.introduction-empirical"
       ],
       "applies_to": "*"
     },
     "example_en_abstract": {
       "optional_examples": [
-        "default-micro.en.abstract"
+        "top-five-en.abstract-labor-public"
       ],
       "applies_to": "*"
     },
     "example_en_introduction_opening": {
       "optional_examples": [
-        "default-micro.en.introduction"
+        "top-five-en.introduction-empirical"
       ],
       "applies_to": "*"
     },
     "example_en_assignment_comparison": {
       "optional_examples": [
-        "default-micro.en.assignment"
-      ],
-      "applies_to": "*"
-    },
-    "example_ja_conclusion_comparison": {
-      "optional_examples": [
-        "default-micro.ja.conclusion"
-      ],
-      "applies_to": "*"
-    },
-    "example_ja_institution_mechanism": {
-      "optional_examples": [
-        "default-micro.ja.mechanism"
-      ],
-      "applies_to": "*"
-    },
-    "example_ja_quantity_relation": {
-      "optional_examples": [
-        "default-micro.ja.quantities"
-      ],
-      "applies_to": "*"
-    },
-    "example_ja_revision_translation": {
-      "optional_examples": [
-        "default-micro.ja.translation"
-      ],
-      "applies_to": "*"
-    },
-    "example_ja_abstract": {
-      "optional_examples": [
-        "default-micro.ja.abstract"
-      ],
-      "applies_to": "*"
-    },
-    "example_ja_introduction_opening": {
-      "optional_examples": [
-        "default-micro.ja.introduction"
-      ],
-      "applies_to": "*"
-    },
-    "example_ja_assignment_comparison": {
-      "optional_examples": [
-        "default-micro.ja.assignment"
+        "top-five-en.empirical-strategy"
       ],
       "applies_to": "*"
     },
@@ -1449,24 +1401,59 @@
       "applies_to": "*"
     },
     "example_subscription_allocation": {
-      "required_rules": ["example-subscription.all"],
-      "applies_to": ["econ-data:execute", "econ-design:design", "econ-review:assess", "econ-writing:compose"]
+      "required_rules": [
+        "example-subscription.all"
+      ],
+      "applies_to": [
+        "econ-data:execute",
+        "econ-design:design",
+        "econ-review:assess",
+        "econ-writing:compose"
+      ]
     },
     "example_equipment_renewal": {
-      "required_rules": ["example-equipment.all"],
-      "applies_to": ["econ-data:execute", "econ-design:design", "econ-review:assess", "econ-writing:compose"]
+      "required_rules": [
+        "example-equipment.all"
+      ],
+      "applies_to": [
+        "econ-data:execute",
+        "econ-design:design",
+        "econ-review:assess",
+        "econ-writing:compose"
+      ]
     },
     "example_housing_transport": {
-      "required_rules": ["example-housing.all"],
-      "applies_to": ["econ-data:execute", "econ-design:design", "econ-review:assess", "econ-writing:compose"]
+      "required_rules": [
+        "example-housing.all"
+      ],
+      "applies_to": [
+        "econ-data:execute",
+        "econ-design:design",
+        "econ-review:assess",
+        "econ-writing:compose"
+      ]
     },
     "example_charging_market": {
-      "required_rules": ["example-charging.all"],
-      "applies_to": ["econ-data:execute", "econ-design:design", "econ-review:assess", "econ-writing:compose"]
+      "required_rules": [
+        "example-charging.all"
+      ],
+      "applies_to": [
+        "econ-data:execute",
+        "econ-design:design",
+        "econ-review:assess",
+        "econ-writing:compose"
+      ]
     },
     "example_commuting_market": {
-      "required_rules": ["example-commuting.all"],
-      "applies_to": ["econ-data:execute", "econ-design:design", "econ-review:assess", "econ-writing:compose"]
+      "required_rules": [
+        "example-commuting.all"
+      ],
+      "applies_to": [
+        "econ-data:execute",
+        "econ-design:design",
+        "econ-review:assess",
+        "econ-writing:compose"
+      ]
     },
     "method_rct_design": {
       "required_rules": [
@@ -2835,6 +2822,174 @@
         "econ-review:assess",
         "econ-review:assess+repair"
       ]
+    },
+    "example_top_five_en_abstract_labor_public": {
+      "optional_examples": [
+        "top-five-en.abstract-labor-public"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_abstract_micro_theory": {
+      "optional_examples": [
+        "top-five-en.abstract-micro-theory"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_abstract_io_identification": {
+      "optional_examples": [
+        "top-five-en.abstract-io-identification"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_abstract_spatial": {
+      "optional_examples": [
+        "top-five-en.abstract-spatial"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_abstract_econometrics": {
+      "optional_examples": [
+        "top-five-en.abstract-econometrics"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_abstract_field_experiment": {
+      "optional_examples": [
+        "top-five-en.abstract-field-experiment"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_abstract_macro_finance": {
+      "optional_examples": [
+        "top-five-en.abstract-macro-finance"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_introduction_empirical": {
+      "optional_examples": [
+        "top-five-en.introduction-empirical"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_introduction_theory": {
+      "optional_examples": [
+        "top-five-en.introduction-theory"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_empirical_institution": {
+      "optional_examples": [
+        "top-five-en.empirical-institution"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_empirical_data": {
+      "optional_examples": [
+        "top-five-en.empirical-data"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_empirical_framework": {
+      "optional_examples": [
+        "top-five-en.empirical-framework"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_empirical_strategy": {
+      "optional_examples": [
+        "top-five-en.empirical-strategy"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_empirical_older_workers": {
+      "optional_examples": [
+        "top-five-en.empirical-older-workers"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_empirical_firms_younger_workers": {
+      "optional_examples": [
+        "top-five-en.empirical-firms-younger-workers"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_empirical_mechanisms": {
+      "optional_examples": [
+        "top-five-en.empirical-mechanisms"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_empirical_conclusion": {
+      "optional_examples": [
+        "top-five-en.empirical-conclusion"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_field_micro_theory": {
+      "optional_examples": [
+        "top-five-en.field-micro-theory"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_field_io_demand": {
+      "optional_examples": [
+        "top-five-en.field-io-demand"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_field_econometrics": {
+      "optional_examples": [
+        "top-five-en.field-econometrics"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_field_spatial": {
+      "optional_examples": [
+        "top-five-en.field-spatial"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_field_macro_finance": {
+      "optional_examples": [
+        "top-five-en.field-macro-finance"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_field_experiment": {
+      "optional_examples": [
+        "top-five-en.field-experiment"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_field_computation": {
+      "optional_examples": [
+        "top-five-en.field-computation"
+      ],
+      "applies_to": "*"
+    },
+    "example_top_five_en_field_history": {
+      "optional_examples": [
+        "top-five-en.field-history"
+      ],
+      "applies_to": "*"
+    },
+    "example_academic_ja_childcare_employment": {
+      "optional_examples": [
+        "academic-ja.childcare-employment"
+      ],
+      "applies_to": "*"
+    },
+    "example_academic_ja_attention_plan_choice": {
+      "optional_examples": [
+        "academic-ja.attention-plan-choice"
+      ],
+      "applies_to": "*"
+    },
+    "example_academic_ja_equipment_subsidy": {
+      "optional_examples": [
+        "academic-ja.equipment-subsidy"
+      ],
+      "applies_to": "*"
     }
   },
   "aliases": {

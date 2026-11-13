@@ -17,5 +17,5 @@ description: Clarify task requirements and work approaches; create or improve re
 - `contribute`: Complete an assigned project contribution from its adopted economic model through research, calculations, consultation drafts and actual artifacts.
 - `manage`: Manage a project or shared portfolio through its economic decision, evidence, work, resources, authorized changes, outcomes and handover.
 - `clarify`: Clarify requested task requirements, scope or work approaches; compare consequential alternatives and complete the adopted brief or specification.
-- `prompt`: Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request.
+- `prompt`: Create, rewrite or improve a ready-to-execute prompt from the user request or supplied draft; do not substitute prompt drafting for an ordinary execution request. Preserve technical instructions, inputs, outputs and validation examples.
 <!-- END GENERATED MODES -->

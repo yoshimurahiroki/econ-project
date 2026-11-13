@@ -19,7 +19,7 @@ The result index retains full-precision source bindings, original logit-share an
 
 ## Compose from the saved comparison
 
-1. **Output: selected passage; consumer: draft.** Read the complete [English study](../../../../profiles/default-micro/charging-study-en.md) or [Japanese study](../../../../profiles/default-micro/charging-study-ja.md). Carry the sequence from drivers' choices through joint pricing and procurement to the total-surplus decision into the current argument.
+1. **Output: selected passage; consumer: draft.** Select an [English writing profile](../../../../profiles/top-five-en/PROFILE.md) for the current section or select a [Japanese writing profile](../../../../profiles/academic-ja/PROFILE.md). Carry the sequence from drivers' choices through joint pricing and procurement to the total-surplus decision into the current argument.
 2. **Output: bound displays and materials; consumer: renderer.** Execute [materials.py](materials.py) on the saved generation. It binds the index, source specification, native result references and adopted interpretation through the existing artifact owners. The Gallery retains full-precision quantities; the welfare display converts hundred JPY to million JPY. The brief and structural presentation use the same two exhibits and numerical prose.
 
 ```sh

@@ -19,7 +19,7 @@ Each result retains the common sample, actual package versions, native fitted ob
 
 ## Compose and render the study
 
-1. **Output: selected prose pattern; consumer: author.** Read the [Japanese study](../../../../profiles/default-micro/commuting-study-ja.md) or [English study](../../../../profiles/default-micro/commuting-study-en.md). Follow its policy question → household and firm choices → randomized comparison → monetary policy ranking. The completed passages use this specification and its fixed-seed results.
+1. **Output: selected prose pattern; consumer: author.** Select a [Japanese writing profile](../../../../profiles/academic-ja/PROFILE.md) or an [English writing profile](../../../../profiles/top-five-en/PROFILE.md) for the current section. Carry the policy question → household and firm choices → randomized comparison → monetary policy ranking into the current argument using this specification and its saved results.
 2. **Output: Gallery selection and editable bundles; consumer: renderer.** Run [materials.py](materials.py) on the saved generation. Its seven bound interpretations and Gallery registry preserve the original estimates. The `brief` and `results` bundles place the research question, mechanism, employment and surplus exhibits, and policy choice in that order. Use `--language en` for English. Keep the output in the private project working area; `--root` contains the runtime, calculation and material paths.
 3. **Output: inspected documents and slides; consumer: reader.** Render each bundle through the existing meeting owner. Read the generated pages and apply PROSE to their headings, text and tables. For a wording or layout revision, edit the bundle's `content.md` or `meeting.json` and render a new edition.
 

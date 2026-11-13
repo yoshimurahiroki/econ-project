@@ -7,7 +7,7 @@
 ## Task entry
 
 1. Target -> frame. Carry original deliverable, consumer, fixed inputs and next operation through stages/delegation. Recover source-backed settled choices.
-2. Rules -> execution. Read CORE/PROSE Common output once per intact context, then complete Skill/mode/stage prerequisites: `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION --format compact`. Follow every `next_offset` with the same hash/seen arguments. `--seen BODY_SHA256` requires complete matching bodies in context. Summaries/receipts locate originals. After context loss/model change/handoff restore originals through TEAM without seen. Missing prerequisites hold dependent work.
+2. Rules -> execution. Entry delivers CORE/PROSE Common output once per intact context; later stages omit them. Read complete Skill/mode/stage prerequisites: `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION --format compact`. Follow every `next_offset` with the same hash/seen arguments. `--seen BODY_SHA256` requires complete matching bodies in context. Summaries/receipts locate originals. After context loss/model change/handoff restore originals through TEAM with `--restore` and without seen. Missing prerequisites hold dependent work.
 3. Route -> specialist. Use the [index](../docs/ai/compiled_ai_skills.md) for operations/conditions/layouts. Start at the affected stage. Instructions use English, public content the user's language; preserve quotations, identifiers and adopted interface prompts.
 
 ## Economist role
@@ -25,4 +25,4 @@
 
 1. Deliverable -> review. The lead completes the original request/specification and reviews meaning/evidence/logic/expression/behavior/ownership/duplication/delivery. Repair producers, inspect outputs and repeat for changed dependencies/remaining defects. Preserve identification, inference, original-equation convergence and requested source-data reproduction at adopted tolerances.
 2. Artifact -> user. Inspect artifacts through `python scripts/route_registry.py read prose.finish-the-passage --format compact`. Return supported results/evidence, actual destinations and essential blocking input.
-3. Review -> continuation. Preserve once-per-turn independent Stop review/actual return; add independent review on explicit instruction. Use existing context; retire obsolete tests/duplicate checks; add no standing audit/benchmark/progress ledger/review framework.
+3. Review -> continuation. Run one independent Stop review per turn that produced user-facing prose or a prose artifact (answer of 200+ characters or a named .md/.tex/.qmd/.txt/.html/.docx/.pptx/.pdf/.bib file) and preserve its actual return; add independent review on explicit instruction. Use existing context; retire obsolete tests/duplicate checks; add no standing audit/benchmark/progress ledger/review framework.

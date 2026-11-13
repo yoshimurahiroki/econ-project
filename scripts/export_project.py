@@ -9,7 +9,6 @@ import json
 import os
 import re
 import shutil
-import subprocess
 import tempfile
 import sys
 import zipfile
@@ -377,7 +376,7 @@ def export(target, profile='standalone', skills=None, *, task=None, support=(), 
         raise ValueError('Condition ' + cid + ' applies to: '
                          + ', '.join(routes['condition_definitions'][cid]['applies_to']))
     final_operations = [op for op in operations if not op.get('runtime_action')]
-    if (effective_profile and effective_profile != 'default-micro'
+    if (effective_profile and effective_profile not in resources
             and any(op.get('selected_profile') == effective_profile for op in operations)):
         custom = Path(effective_profile)
         custom = custom if custom.is_absolute() else root / relative(effective_profile)
