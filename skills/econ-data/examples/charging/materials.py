@@ -48,15 +48,15 @@ def prose(index, spec, language):
     if language == "ja":
         return {
             "title": "充電サービスの企業結合と余剰の配分",
-            "question": "充電事業者の結合は、共同価格設定と調達費用を通じて利用者と企業の余剰を変える。競争当局は、統合費用を含む1週間の総余剰から承認を選ぶ。",
-            "model": "利用者は3つの充電サービスまたは外部選択肢を選ぶ。企業は自社サービスの利益を最大にする価格を選ぶ。共同所有により、両サービス間の代替が結合企業の価格設定へ入る。",
-            "identification": "調達価格の変動が限界費用と均衡価格を動かす。この変動から、品質と定数項を含むロジット需要式の価格係数を推定する。",
-            "data": f"架空経済の{p['markets']}市場に各{p['products_per_market']}サービスを配置する。1市場あたり{p['occasions_per_market']:,}回、計{index['decision_quantities']['population']:,}回の潜在的な10-kWh充電機会を1週間について評価する。",
-            "parameters": f"価格係数は100円あたり{estimate}正規化効用単位、95%信頼区間は[{lo}, {hi}]である。価格と品質に対する利用者の選択が、共同価格設定の需要を決める。",
-            "counterfactual": f"結合前の費用による共同価格設定の総余剰変化は{money('ownership-only', 'social_welfare')}百万円である。統合では、結合する2サービスの限界費用を{reduction:g}%削減し、{cost:g}百万円の実物資源を使う。",
-            "welfare": f"統合の消費者余剰変化は{money('integrated', 'consumer_surplus')}百万円、生産者余剰変化は{money('integrated', 'producer_surplus')}百万円となる。統合費用を含む総余剰変化は{money('integrated', 'social_welfare')}百万円である。",
-            "interpretation": "共同価格設定と調達費用の削減が、利用者と企業の間の余剰配分を決める。同じ人口と期間の余剰を合計することで、価格への反応と資源費用が判断基準へ結び付く。",
-            "decisions": "総余剰に基づく判断は企業結合の承認を選ぶ。" if index["selected_action"] == "approve" else "総余剰に基づく判断は結合前の所有を選ぶ。",
+            "question": "競争当局は充電事業者の企業結合を承認すべきか．結合によって当事会社は2つのサービスの価格を共同で設定し，サービス間で移る顧客の利益を内部化する．統合は調達費用を引き下げ，統合そのものには実物資源を要する．本稿では，統合費用を含めた1週間の総余剰を基準に，結合前の所有，費用削減を伴わない共同価格設定，費用削減を伴う統合の3つを比較する．",
+            "model": "利用者は，3つの充電サービスと外部選択肢の中から効用が最も高いものを選ぶ．効用は価格，品質，観察されない需要ショックに依存し，選択確率はロジット型となる．各企業は自社サービスの利益を最大にするように価格を設定し，価格はベルトラン・ナッシュ均衡で決まる．共同所有の下では，結合企業は2つのサービスの利益の合計を最大にする．",
+            "identification": "価格は観察されない需要ショックと相関するため，価格係数の識別には需要と無関係に費用を動かす変動が必要となる．本稿では調達価格の変動を操作変数として用いる．調達価格は限界費用を通じて均衡価格を動かし，需要ショックとは独立である．",
+            "data": f"分析には，架空経済の{p['markets']}市場に各{p['products_per_market']}サービスを配置したデータを用いる．1市場あたり{p['occasions_per_market']:,}回，計{index['decision_quantities']['population']:,}回の潜在的な10kWh充電機会について，1週間の価格，品質，調達価格，市場シェアを観測している．",
+            "parameters": f"価格係数の推定値は100円あたり{estimate}(95%信頼区間[{lo}, {hi}])である．単位は正規化した効用である．この係数が自社と競合サービスの価格弾力性を定め，共同価格設定による値上げの幅を決める．",
+            "counterfactual": f"費用削減を伴わない共同価格設定では，総余剰は{money('ownership-only', 'social_welfare')}百万円変化する．統合では，結合する2サービスの限界費用が{reduction:g}%下がり，統合費用として{cost:g}百万円の実物資源を要する．",
+            "welfare": f"統合による消費者余剰の変化は{money('integrated', 'consumer_surplus')}百万円，生産者余剰の変化は{money('integrated', 'producer_surplus')}百万円である．統合費用を差し引いた総余剰の変化は{money('integrated', 'social_welfare')}百万円となる．",
+            "interpretation": "共同価格設定は利用者から企業へ余剰を移し，費用削減は総余剰そのものを増やす．統合の是非は，費用削減による資源の節約が価格上昇による死荷重と統合費用を上回るかで決まる．",
+            "decisions": "総余剰の基準による判断は企業結合の承認である．" if index["selected_action"] == "approve" else "総余剰の基準による判断は結合前の所有の維持である．",
         }
     return {
         "title": "Charging-Service Mergers and the Allocation of Surplus",
@@ -127,7 +127,7 @@ def build(root, run, output, language):
     ja = language == "ja"
     price = index["uncertainty"]["coefficients"]["prices"]
     price_keys = ("estimate", "standard_error", "lower", "upper")
-    price_labels = ("推定値", "標準誤差", "95% CI 下限", "95% CI 上限") if ja else ("Estimate", "SE", "95% CI lower", "95% CI upper")
+    price_labels = ("推定値", "標準誤差", "95%下限", "95%上限") if ja else ("Estimate", "SE", "95% CI lower", "95% CI upper")
     welfare_keys = ("scenario", "consumer_surplus", "producer_surplus", "social_welfare")
     welfare_labels = ("シナリオ", "消費者余剰", "生産者余剰", "総余剰") if ja else ("Scenario", "Consumer surplus", "Producer surplus", "Total surplus")
     names = {"baseline": ("結合前", "Baseline"), "ownership-only": ("共同価格", "Joint pricing"), "integrated": ("調達統合", "Integration")}
@@ -142,7 +142,7 @@ def build(root, run, output, language):
          "rows": [{"scenario": names[scenario][not ja], **{key: value / 10000 for key, value in values.items()}}
                   for scenario, values in decision["changes_from_baseline"].items()],
          "columns": [{"key": key, "label": label, "unit": ""} for key, label in zip(welfare_keys, welfare_labels)],
-         "metadata": {"report_role": "welfare", "unit": "million JPY", "public_claims": ["単位：百万円。1週間・潜在的な充電機会10万回。統合費用を含む。" if ja else "Million JPY over one week and 100,000 potential charging occasions, including integration costs."],
+         "metadata": {"report_role": "welfare", "unit": "million JPY", "public_claims": ["単位：百万円．1週間・潜在的な充電機会10万回．統合費用を含む．" if ja else "Million JPY over one week and 100,000 potential charging occasions, including integration costs."],
                       "internal": {"source_group": ["decision_quantities", "changes_from_baseline"], "display_multiplier": 0.0001}},
          "display": {"plot_type": "table", "column_order": list(welfare_keys), "formats": {key: ".1f" for key in welfare_keys[1:]}}}]
     save(output / "display-items.json", definitions)
@@ -150,15 +150,15 @@ def build(root, run, output, language):
     entries = artifacts.gallery_items(root, registry_path, item_ids=[item["id"] for item in definitions])
     save(output / "selection.json", entries)
     body = prose(index, spec, language)
-    titles = {"question": ("企業結合を総余剰で評価する", "Evaluating the merger by total surplus"),
-              "model": ("利用者の選択と共同価格設定", "Driver choice and joint pricing"),
-              "identification": ("調達価格から需要を推定する", "Estimating demand from procurement prices"),
-              "data": ("100市場の充電サービス", "Charging services in 100 markets"),
-              "parameters": ("利用者の価格への反応", "Drivers' response to prices"),
-              "counterfactual": ("共同価格と調達費用の削減", "Joint pricing and procurement savings"),
-              "welfare": ("利用者と企業への余剰配分", "Surplus allocated to drivers and firms"),
-              "interpretation": ("価格と資源費用を判断へ結ぶ", "Connecting prices and resource costs to the decision"),
-              "decisions": ("総余剰による選択", "The total-surplus choice")}
+    titles = {"question": ("総余剰による企業結合審査", "Evaluating the merger by total surplus"),
+              "model": ("利用者の選択と価格競争", "Driver choice and joint pricing"),
+              "identification": ("調達価格による需要の識別", "Estimating demand from procurement prices"),
+              "data": ("100市場・300サービスのデータ", "Charging services in 100 markets"),
+              "parameters": ("需要の価格係数", "Drivers' response to prices"),
+              "counterfactual": ("共同価格設定と費用削減", "Joint pricing and procurement savings"),
+              "welfare": ("統合による余剰の変化", "Surplus allocated to drivers and firms"),
+              "interpretation": ("余剰の移転と資源の節約", "Connecting prices and resource costs to the decision"),
+              "decisions": ("審査の結論", "The total-surplus choice")}
     for kind in ("brief", "structural"):
         sections = {key: value for key, value in body.items() if key != "title"}
         headings = dict(titles)
@@ -167,8 +167,10 @@ def build(root, run, output, language):
                         "specification": body["model"] + "\n\n" + body["identification"],
                         "results": body["parameters"] + "\n\n" + body["counterfactual"] + "\n\n" + body["welfare"],
                         "interpretation": body["interpretation"] + "\n\n" + body["decisions"]}
-            headings.update(specification=("選択と価格を結ぶ需要", "Demand linking choices and prices"),
-                            results=("需要と余剰の推定結果", "Demand and surplus estimates"))
+            headings.update(specification=("需要体系と価格係数の識別", "Demand linking choices and prices"),
+                            results=("価格係数と余剰の推定結果", "Demand and surplus estimates"))
+        if kind == "structural":
+            sections = {key: meetings.sentence_bullets(value) for key, value in sections.items()}
         view = {"language": language, "section_content": sections}
         save(output / (kind + "-view.json"), view)
         bundle = output / kind

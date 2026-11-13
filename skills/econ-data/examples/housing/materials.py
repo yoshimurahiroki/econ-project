@@ -46,15 +46,15 @@ def prose(index, spec, language):
     if language == "ja":
         return {
             "title": "通勤アクセスと床供給の政策評価",
-            "question": "交通整備は居住地と勤務地の選択を変え、賃金と賃料を通じて便益を配分する。都市当局は労働者の所得換算便益と所有者の純所得変化を合計し、実行する政策を選ぶ。",
-            "model": "労働者は賃金、賃料、通勤時間、居住環境から居住地と勤務地を選ぶ。企業は労働と事業用床を使って財を生産する。住宅用と事業用の床需要が地区の床供給に一致し、人口と雇用の密度が生産性と居住環境へ作用する。",
-            "identification": "採用した弾力性と通勤費用の係数を用い、地区の居住者数、就業者数、賃料から基準均衡の賃金、生産性、居住環境と床供給を復元する。",
-            "data": "架空都市の3地区に12,000人の労働者が暮らす。小地区の居住者数と事業所の就業者数を集計し、年間の賃料収入総額を賃貸床面積で割って地区賃料を構築する。9組の居住地・勤務地間の移動時間を結合する。",
-            "parameters": "基準の平均年賃金は4百万円である。中心部と郊外の移動時間を40分から20分へ短縮し、組合せ政策では郊外の床供給を20%拡張する。両政策は同じ基準均衡を引き継ぐ。",
-            "counterfactual": f"交通整備の年間費用は{money(transport, 'policy_resource_cost')}百万円である。組合せ政策は{combined['additional_floor_m2']:,.0f}平方メートルの床サービスを追加し、年間費用は{money(combined, 'policy_resource_cost')}百万円となる。年間資源予算は{spec['policy_budget_thousand_jpy'] / 1000:,.0f}百万円である。",
-            "welfare": f"組合せ政策の労働者の所得換算便益は{money(combined, 'worker_income_equivalent')}百万円となる。所有者の賃料収入は{money(combined, 'owner_income_change_gross')}百万円増加し、政策費用支払い後の所得変化は{money(combined, 'owner_income_change_net')}百万円となる。合計した年間純便益は{money(combined, 'net_income_equivalent')}百万円である。",
-            "interpretation": f"居住地と勤務地の構成が都市の平均通勤時間を決める。基準の平均は{rows['baseline']['mean_commute_minutes']:.1f}分、組合せ政策では{combined['mean_commute_minutes']:.1f}分となる。労働者の効用変化を基準価格で所得へ換算し、所有者の純所得変化と合計して政策を評価する。",
-            "decisions": f"年間の純所得換算便益に基づき、{names[index['selected_action']][0]}を選ぶ。交通整備の純便益は{money(transport, 'net_income_equivalent')}百万円、床供給拡張を加えた純便益は{money(combined, 'net_income_equivalent')}百万円である。",
+            "question": "都市当局は交通整備に床供給の拡張を組み合わせるべきか．交通整備は通勤時間を短縮し，労働者の居住地と勤務地の選択を変える．労働者が郊外へ移ると郊外の賃料が上がり，床供給が制約されていれば便益の一部は所有者に帰着する．本稿では，定量的空間均衡モデルを用いて，交通整備単独と床供給拡張との組合せの年間純便益を比較する．",
+            "model": "労働者は，賃金，賃料，通勤時間，居住環境に基づいて居住地と勤務地の組を選ぶ．企業は労働と事業用床を投入して財を生産する．各地区の床市場では，住宅用と事業用の床需要の合計が床供給に等しい．居住と雇用の密度は，それぞれ居住環境と生産性に集積効果として作用する．",
+            "identification": "弾力性と通勤費用の係数は既存研究の値を採用する．その下で，地区別の居住者数，就業者数，賃料を均衡条件に代入し，観察されない賃金，生産性，居住環境，床供給を基準均衡として復元する．",
+            "data": "分析には，架空都市の3地区に暮らす労働者12,000人のデータを用いる．地区別に居住者数と事業所の就業者数を集計した．地区の賃料は，年間の賃料収入総額を賃貸床面積で割って求めている．居住地と勤務地の9つの組について移動時間を対応させた．",
+            "parameters": "基準均衡の平均年賃金は400万円である．交通整備は中心部と郊外の間の移動時間を40分から20分に短縮する．組合せ政策では，これに加えて郊外の床供給を20%拡張する．いずれの政策も同じ基準均衡から反実仮想の均衡を計算する．",
+            "counterfactual": f"交通整備の年間費用は{money(transport, 'policy_resource_cost')}百万円である．組合せ政策は{combined['additional_floor_m2']:,.0f}平方メートルの床を追加し，年間費用は{money(combined, 'policy_resource_cost')}百万円となる．年間の資源予算は{spec['policy_budget_thousand_jpy'] / 1000:,.0f}百万円である．",
+            "welfare": f"組合せ政策による労働者の便益は，所得換算で{money(combined, 'worker_income_equivalent')}百万円である．所有者の賃料収入は{money(combined, 'owner_income_change_gross')}百万円増加し，政策費用を負担した後の所得変化は{money(combined, 'owner_income_change_net')}百万円となる．両者を合計した年間純便益は{money(combined, 'net_income_equivalent')}百万円である．",
+            "interpretation": f"平均通勤時間は，基準均衡の{rows['baseline']['mean_commute_minutes']:.1f}分から組合せ政策では{combined['mean_commute_minutes']:.1f}分となる．政策の便益は，この立地の再配分を織り込んで評価される．",
+            "decisions": f"年間純便益の基準による選択は{names[index['selected_action']][0]}である．年間純便益は交通整備単独で{money(transport, 'net_income_equivalent')}百万円，床供給拡張との組合せで{money(combined, 'net_income_equivalent')}百万円となる．",
         }
     return {
         "title": "Commuting Access, Floor Supply, and Policy Gains",
@@ -134,7 +134,7 @@ def build(root, run, output, language):
          "rows": [{"scenario": names[row["scenario"]][not ja], **{key: row[key] / 1000 for key in money_keys[1:]}} for row in rows],
          "columns": [{"key": key, "label": label, "unit": ""} for key, label in zip(money_keys, money_labels)],
          "metadata": {"report_role": "counterfactual", "unit": "million JPY per year",
-             "public_claims": ["単位：百万円／年。労働者12,000人と床所有者。" if ja else "Million JPY per year for 12,000 workers and floor owners."],
+             "public_claims": ["単位：百万円／年．労働者12,000人と床所有者．" if ja else "Million JPY per year for 12,000 workers and floor owners."],
              "internal": {"source_keys": list(money_keys[1:]), "display_multiplier": .001}},
          "display": {"plot_type": "table", "column_order": list(money_keys), "formats": {key: ".1f" for key in money_keys[1:]}}},
         {"id": "housing-welfare", "title": "労働者と所有者への便益配分" if ja else "Gains allocated to workers and owners", "kind": "descriptive", "result_ids": ["housing"],
@@ -150,7 +150,7 @@ def build(root, run, output, language):
          "rows": [{"scenario": names[row["scenario"]][not ja], "minutes": row["mean_commute_minutes"]} for row in rows],
          "columns": [{"key": "scenario", "label": "政策" if ja else "Policy", "unit": ""},
                      {"key": "minutes", "label": "平均通勤時間" if ja else "Mean commuting time", "unit": "分" if ja else "minutes"}],
-         "metadata": {"report_role": "counterfactual", "public_claims": ["同じ12,000人の居住地・勤務地選択で重み付けした平均。" if ja else "Mean weighted by the residence-workplace choices of the same 12,000 workers."],
+         "metadata": {"report_role": "counterfactual", "public_claims": ["同じ12,000人の居住地・勤務地選択で重み付けした平均．" if ja else "Mean weighted by the residence-workplace choices of the same 12,000 workers."],
              "internal": {"source_key": "mean_commute_minutes"}},
          "display": {"plot_type": "table", "column_order": ["scenario", "minutes"], "formats": {"minutes": ".1f"}}}]
     save(output / "display-items.json", definitions)
@@ -161,15 +161,15 @@ def build(root, run, output, language):
         entry["title"] = exhibit_titles[entry["id"]]
     save(output / "selection.json", entries)
     body = prose(index, spec, language)
-    titles = {"question": ("交通と床供給を都市全体で評価する", "Evaluating transport and floor supply citywide"),
-              "model": ("居住地・勤務地と床利用の選択", "Residence, workplace and floor use"),
-              "identification": ("地区の人口と価格から均衡を復元する", "Recovering equilibrium from district populations and prices"),
-              "data": ("3地区の人口・価格・交通を結ぶ", "Connecting population, prices and travel across three districts"),
-              "parameters": ("基準均衡から政策を計算する", "Computing policies from the baseline equilibrium"),
-              "counterfactual": ("交通整備と床供給の費用", "Costs of transport investment and floor supply"),
-              "welfare": ("労働者と所有者への便益配分", "Allocating gains to workers and owners"),
-              "interpretation": ("立地配分を政策の便益へ結ぶ", "Connecting location choices to policy gains"),
-              "decisions": ("年間純便益による政策選択", "Selecting policy by annual net gains")}
+    titles = {"question": ("交通整備と床供給の政策評価", "Evaluating transport and floor supply citywide"),
+              "model": ("居住地・勤務地選択と床市場", "Residence, workplace and floor use"),
+              "identification": ("基準均衡の復元", "Recovering equilibrium from district populations and prices"),
+              "data": ("3地区の人口・賃料・移動時間", "Connecting population, prices and travel across three districts"),
+              "parameters": ("基準均衡と政策の設定", "Computing policies from the baseline equilibrium"),
+              "counterfactual": ("政策の年間費用と純便益", "Costs of transport investment and floor supply"),
+              "welfare": ("労働者と所有者への便益の帰着", "Allocating gains to workers and owners"),
+              "interpretation": ("立地の再配分と平均通勤時間", "Connecting location choices to policy gains"),
+              "decisions": ("採用する政策", "Selecting policy by annual net gains")}
     for kind in ("brief", "structural"):
         sections = {key: value for key, value in body.items() if key != "title"}
         headings = dict(titles)
@@ -178,8 +178,10 @@ def build(root, run, output, language):
                         "specification": body["model"] + "\n\n" + body["identification"],
                         "results": body["parameters"] + "\n\n" + body["counterfactual"] + "\n\n" + body["welfare"],
                         "interpretation": body["interpretation"] + "\n\n" + body["decisions"]}
-            headings.update(specification=("立地と床市場を結ぶ均衡", "Equilibrium linking locations and floor markets"),
+            headings.update(specification=("空間均衡モデル", "Equilibrium linking locations and floor markets"),
                             results=("政策費用と便益の配分", "Policy costs and the allocation of gains"))
+        if kind == "structural":
+            sections = {key: meetings.sentence_bullets(value) for key, value in sections.items()}
         view = {"language": language, "section_content": sections}
         save(output / (kind + "-view.json"), view)
         bundle = output / kind

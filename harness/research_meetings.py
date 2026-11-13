@@ -322,6 +322,20 @@ def edit_section(bundle, section_id, changes, *, expected_revision, body=None):
     return {"source_revision": load_meeting(bundle)[2], "analysis_executed": False}
 
 
+def sentence_bullets(text):
+    """Set a prose paragraph as slide bullets, one sentence per bullet.
+
+    Japanese sentences end with the full stop "．" or "。"; English sentences end
+    with ". ". Display equations, existing lists and single sentences stay as they are.
+    """
+    if "$$" in text or text.lstrip().startswith("- "):
+        return text
+    sentences = [part for part in re.split(r"(?<=[．。])|(?<=\.) (?=[A-Z])", text.strip()) if part and part.strip()]
+    if len(sentences) < 2:
+        return text
+    return "\n".join("- " + sentence.strip() for sentence in sentences)
+
+
 def fold_into_exhibit(bundle, source_id, exhibit_id, *, layout="stack"):
     """Move a prose section onto the exhibit it explains and hide the prose-only page.
 

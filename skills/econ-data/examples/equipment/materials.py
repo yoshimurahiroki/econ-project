@@ -50,17 +50,17 @@ def prose(index, spec, language):
     if language == "ja":
         return {
             "title": "設備更新と技術導入の投資価値",
-            "question": "更新技術の導入は、将来の設備交換費用と維持・交換の時期を変える。初期の設備集団について操業価値の増分を金額へ換算し、導入費用を差し引いた平均純現在価値から共通技術を選ぶ。",
-            "model": f"企業は毎四半期に設備の維持か交換を選ぶ。維持の費用は摩耗とともに増加し、交換すると摩耗は状態0へ戻る。企業は当期の利得と継続価値を合計して行動を決める。四半期の割引因子は{s['discount_factor']:.2f}、利得1単位は{s['money_scale_thousand_jpy']:.0f}千円である。",
-            "identification": "維持の費用は摩耗状態に応じて変化し、交換には共通の費用がかかる。採用したモデルでは、摩耗状態ごとの行動の変動が維持費用の係数と交換費用を識別する。",
-            "data": f"架空の{s['firms']:,}社が各1台の設備を操業する。{s['quarters']}四半期のパネルは{s['firms'] * s['quarters']:,}件の企業・四半期観測を持つ。企業表と選択表を結合し、摩耗状態、行動、次の状態を同じ観測単位で使う。初期の各摩耗状態には{s['firms'] // s['states']}台を配置する。",
-            "specification": "各四半期に選ばれた行動の確率を使って費用を最尤推定する。企業単位のクラスタリングを用い、同じ企業の四半期行動の依存を推論へ反映する。",
-            "numerical": "ベルマン方程式から各状態の継続価値と行動確率を計算する。各技術の交換費用で価値関数を解き、同じ初期状態で価値の増分を平均する。価値関数のパラメータ微分と費用推定値の共分散から、投資価値の標準誤差を求める。",
-            "parameters": f"維持費用の係数は摩耗1段階あたり{c['estimate']:.4f}利得単位、標準誤差は{c['std_error']:.4f}となる。交換費用は{replacement['estimate']:.4f}利得単位、標準誤差は{replacement['std_error']:.4f}である。",
-            "counterfactual": "交換費用を引き下げると、当期の交換利得と、将来の交換機会を持つ設備の継続価値が変わる。各技術の摩耗状態別の交換確率が、その行動調整を表す。",
-            "welfare": f"高度技術の期待操業価値の現在価値増分は、設備1台あたり{money(advanced, 'operating_value_gain')}千円となる。導入費用{advanced['adoption_cost']:,.0f}千円を差し引いた純現在価値は{money(advanced, 'net_present_gain')}千円、95%信頼区間は{interval(advanced)}千円である。",
-            "interpretation": f"高度技術の純現在価値は、標準技術を1台あたり{money(contrast, 'net_gain_difference')}千円上回る。差の95%信頼区間は{interval(contrast)}千円となる。同じ推定費用から得られる両技術の価値の共分散を、この比較へ反映する。",
-            "decisions": f"平均純現在価値に基づき、{names[index['selected_action']][0]}を選ぶ。標準技術の純現在価値は{money(standard, 'net_present_gain')}千円、高度技術では{money(advanced, 'net_present_gain')}千円となる。1台あたりの導入予算は{spec['adoption_budget_thousand_jpy']:,.0f}千円である。",
+            "question": "企業は設備の交換費用を下げる更新技術を導入すべきか．交換費用が下がると，企業は摩耗した設備をより早い時期に交換し，維持費用の負担を減らす．導入の価値は，この行動の変化を織り込んだ将来の操業価値の増分で測られる．本稿では，動学的離散選択モデルを推定し，標準技術と高度技術の導入による純現在価値を比較する．",
+            "model": f"企業は毎四半期，設備を維持するか交換するかを選ぶ．維持費用は摩耗とともに増加し，交換すると摩耗は状態0に戻る．企業は当期の利得と割り引いた継続価値の和を最大にするように行動を選び，その価値はベルマン方程式で表される．四半期の割引因子は{s['discount_factor']:.2f}，利得1単位は{s['money_scale_thousand_jpy']:.0f}千円である．",
+            "identification": "維持費用は摩耗状態に応じて変化し，交換費用は状態によらず一定である．交換確率が摩耗状態とともにどれだけ上昇するかが維持費用の係数を，交換確率の水準が交換費用を識別する．",
+            "data": f"分析には，架空の{s['firms']:,}社がそれぞれ1台の設備を操業するパネルデータを用いる．観測期間は{s['quarters']}四半期，観測数は{s['firms'] * s['quarters']:,}である．各観測には摩耗状態，維持か交換かの行動，次期の摩耗状態が含まれる．初期時点では各摩耗状態に{s['firms'] // s['states']}台を配置した．",
+            "specification": "パラメータは，観測された行動の選択確率に基づく最尤法で推定する．標準誤差は企業単位でクラスターして求め，同じ企業の四半期間の行動の相関を反映する．",
+            "numerical": "推定したパラメータの下でベルマン方程式を解き，摩耗状態ごとの継続価値と交換確率を求める．技術ごとの交換費用で価値関数を解き直し，同じ初期状態の分布で価値の増分を平均する．投資価値の標準誤差は，価値関数のパラメータ微分と推定値の共分散から計算する．",
+            "parameters": f"維持費用の係数は摩耗1段階あたり{c['estimate']:.4f}利得単位(SE:{c['std_error']:.4f})である．交換費用は{replacement['estimate']:.4f}利得単位(SE:{replacement['std_error']:.4f})となる．",
+            "counterfactual": "交換費用が下がると，企業はより低い摩耗状態で設備を交換するようになる．図は，技術ごとに摩耗状態別の四半期の交換確率を示している．",
+            "welfare": f"高度技術による期待操業価値の増分は，設備1台あたり現在価値で{money(advanced, 'operating_value_gain')}千円である．導入費用{advanced['adoption_cost']:,.0f}千円を差し引いた純現在価値は{money(advanced, 'net_present_gain')}千円(95%信頼区間{interval(advanced)})となる．",
+            "interpretation": f"高度技術の純現在価値は，標準技術を1台あたり{money(contrast, 'net_gain_difference')}千円(95%信頼区間{interval(contrast)})上回る．両技術の価値は同じ費用推定値から計算されるため，差の信頼区間には両者の共分散を反映している．",
+            "decisions": f"平均純現在価値の基準による選択は{names[index['selected_action']][0]}である．純現在価値は標準技術で{money(standard, 'net_present_gain')}千円，高度技術で{money(advanced, 'net_present_gain')}千円となる．1台あたりの導入予算は{spec['adoption_budget_thousand_jpy']:,.0f}千円である．",
         }
     return {
         "title": "Equipment Renewal and the Value of Adoption",
@@ -147,7 +147,7 @@ def build(root, run, output, language):
          "rows": [{"parameter": parameters[row["parameter"]][not ja], "estimate": row["estimate"], "std_error": row["std_error"]} for row in index["parameters"]["rows"]],
          "columns": [{"key": key, "label": label, "unit": ""} for key, label in zip(("parameter", "estimate", "std_error"), param_labels)],
          "metadata": {"report_role": "parameters", "model_contract": spec["model_contract_id"],
-             "public_claims": ["利得1単位＝100千円。維持費用係数は摩耗1段階あたり。" if ja else "One payoff unit = JPY 100 thousand. Maintenance coefficient per wear state."],
+             "public_claims": ["利得1単位＝100千円．維持費用係数は摩耗1段階あたり．" if ja else "One payoff unit = JPY 100 thousand. Maintenance coefficient per wear state."],
              "internal": {"parameter_treatment": "estimated", "inference": spec["estimation"]["inference"]}},
          "display": {"plot_type": "table", "column_order": ["parameter", "estimate", "std_error"], "formats": {"estimate": ".4f", "std_error": ".4f"}}},
         {"id": "equipment-replacement", "title": "摩耗状態ごとの交換確率" if ja else "Replacement probabilities across wear states", "kind": "descriptive", "result_ids": ["equipment"],
@@ -163,7 +163,7 @@ def build(root, run, output, language):
          "rows": [{"scenario": names[row["scenario"]][not ja], **{key: row[key] for key in gain_keys[1:]}} for row in rows],
          "columns": [{"key": key, "label": label, "unit": ""} for key, label in zip(gain_keys, gain_labels)],
          "metadata": {"report_role": "welfare", "unit": spec["unit"], "model_contract": spec["model_contract_id"],
-             "public_claims": ["設備1台あたり千円。初期集団の平均。95%信頼区間。" if ja else "Thousand JPY per machine at adoption. Initial-population means. 95% confidence intervals."],
+             "public_claims": ["設備1台あたり千円．初期集団の平均．95%信頼区間．" if ja else "Thousand JPY per machine at adoption. Initial-population means. 95% confidence intervals."],
              "internal": {"source_keys": list(gain_keys[1:]), "inference": spec["estimation"]["inference"], "accounting": spec["internal"]["accounting"]}},
          "display": {"plot_type": "table", "column_order": list(gain_keys), "formats": {key: ".1f" for key in gain_keys[1:]}}}]
     save(output / "display-items.json", definitions)
@@ -174,17 +174,17 @@ def build(root, run, output, language):
         entry["title"] = exhibit_titles[entry["id"]]
     save(output / "selection.json", entries)
     body = prose(index, spec, language)
-    titles = {"question": ("将来の交換機会から導入価値を測る", "Valuing adoption through future replacement choices"),
-              "model": ("維持・交換と継続価値", "Maintenance, replacement and continuation value"),
-              "identification": ("摩耗状態と行動から費用を識別する", "Identifying costs from wear and actions"),
-              "data": ("480社の四半期行動を結ぶ", "Connecting quarterly actions across 480 firms"),
-              "specification": ("行動確率から費用を推定する", "Estimating costs from action probabilities"),
-              "numerical": ("価値関数を投資価値へつなぐ", "Connecting value functions to investment gains"),
-              "parameters": ("維持と交換の費用推定値", "Estimated maintenance and replacement costs"),
-              "counterfactual": ("技術が交換行動を変える", "Technology changes replacement behavior"),
-              "welfare": ("導入費用を含む投資価値", "Investment value after adoption costs"),
-              "interpretation": ("追加投資の純現在価値", "Net present gain from the additional investment"),
-              "decisions": ("平均純現在価値から技術を選ぶ", "Selecting technology by mean net present gain")}
+    titles = {"question": ("更新技術の導入価値", "Valuing adoption through future replacement choices"),
+              "model": ("維持・交換の動学的選択", "Maintenance, replacement and continuation value"),
+              "identification": ("摩耗状態別の交換確率による識別", "Identifying costs from wear and actions"),
+              "data": ("480社・32四半期のパネル", "Connecting quarterly actions across 480 firms"),
+              "specification": ("最尤法による推定と推論", "Estimating costs from action probabilities"),
+              "numerical": ("価値関数と投資価値の計算", "Connecting value functions to investment gains"),
+              "parameters": ("維持費用と交換費用の推定値", "Estimated maintenance and replacement costs"),
+              "counterfactual": ("技術別の交換確率", "Technology changes replacement behavior"),
+              "welfare": ("導入費用控除後の投資価値", "Investment value after adoption costs"),
+              "interpretation": ("高度技術と標準技術の差", "Net present gain from the additional investment"),
+              "decisions": ("導入技術の選択", "Selecting technology by mean net present gain")}
     for kind in ("brief", "structural"):
         sections = {key: value for key, value in body.items() if key != "title"}
         headings = dict(titles)
@@ -194,6 +194,8 @@ def build(root, run, output, language):
                         "results": "\n\n".join(body[key] for key in ("parameters", "welfare")),
                         "interpretation": body["interpretation"] + "\n\n" + body["decisions"]}
             headings.update(results=("費用推定値と技術の投資価値", "Estimated costs and technology investment values"))
+        if kind == "structural":
+            sections = {key: meetings.sentence_bullets(value) for key, value in sections.items()}
         view = {"language": language, "section_content": sections}
         save(output / (kind + "-view.json"), view)
         bundle = output / kind

@@ -44,8 +44,8 @@ if (level %in% c(0, 1)) fail("confidence_level must be strictly between zero and
 alpha <- 1 - level
 for (p in c("randomizr", "estimatr"))
   if (!requireNamespace(p, quietly = TRUE)) fail(paste("Install the declared R dependency", p))
-if (packageVersion("estimatr") < "2.0.1")
-  fail("RCT design requires estimatr >= 2.0.1 for declaration-based multi-arm HT variance")
+if (packageVersion("estimatr") < "2.1.0")
+  fail("RCT design requires estimatr >= 2.1.0 for declaration-based multi-arm HT variance")
 
 factor_cells <- NULL
 if (!is.null(ed$factorial)) {

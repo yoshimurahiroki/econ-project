@@ -47,16 +47,17 @@ def prose(index, spec, language):
                 "policy": ("決定木を使った配分", "the learned policy allocation")}[index["selected_action"]][language == "en"]
     interval = lambda row, scale=1: f"[{row['ci_lower'] * scale:,.2f}, {row['ci_upper'] * scale:,.2f}]"
     if language == "ja":
+        g0, g1 = groups[0], groups[1]
         return {
             "title": "継続契約と利用支援の配分",
-            "question": "企業は、契約継続から得る四半期の利益を最大にする利用支援の配分を選ぶ。支援は利用方法を習得する負担を減らし、顧客が契約を更新する便益を高める。対応人数の上限が、支援先を選ぶ基準に入る。",
-            "data": f"架空経済の{s['customers']:,}人に支援を無作為に割り当てる。{s['training_customers']:,}人を学習用、残る{s['customers'] - s['training_customers']:,}人を評価用に固定する。事前の利用離れを表す指標、利用支援の必要性、支援の割当、四半期の契約更新を同じ顧客IDで結ぶ。",
-            "specification": f"各顧客への支援確率は{s['assignment_probability']:.1f}である。学習用標本から支援行動別の継続を予測し、決定木で配分候補を作る。企業は継続契約1件から{s['renewal_contribution']:g}千円を得て、支援1件に{s['contact_cost']:g}千円を支払う。対応能力{s['maximum_contacts']:,}人、予算{s['contact_budget']:,.0f}千円の範囲で、予測利益が最大の配分を選ぶ。",
-            "table1": f"利用支援の必要性を事前に申告した群の推定継続効果は{groups[1]['renewal_effect']:.2f}ポイント、95%信頼区間は{interval(groups[1])}ポイントである。申告指標0の群との効果差は{difference['estimate']:.2f}ポイント、95%区間は{interval(difference)}ポイントとなる。",
-            "results": f"学習した配分は{s['maximum_contacts']:,}人を支援する。現在のサービスに対する利益増加は評価対象の顧客1人あたり{gain['net_gain_difference'] * 1000:,.0f}円、95%信頼区間は[{gain['ci_lower'] * 1000:,.0f}, {gain['ci_upper'] * 1000:,.0f}]円となる。支援による契約継続の増加を対応費用と合わせて評価する。",
-            "additional": f"継続予測は評価用標本の通常サービスを受けた{index['prediction']['observed_customers']:,}人で評価する。二乗誤差は{index['prediction']['brier_loss']:.3f}である。図は予測確率の区間ごとに、平均予測値と実際の契約継続率を示す。",
-            "interpretation": f"同じ対応人数を使う解約予測に基づく配分に対し、学習した配分の利益は顧客1人あたり{advantage['net_gain_difference'] * 1000:,.0f}円高い。差の95%信頼区間は[{advantage['ci_lower'] * 1000:,.0f}, {advantage['ci_upper'] * 1000:,.0f}]円となる。顧客の反応を同じ利益単位で比較することが、対応能力1枠の価値を定める。",
-            "decisions": f"学習用標本の予測利益に基づき、{selected}を採用する。継続契約の利益、顧客の反応、対応費用を同じ評価対象について結び付ける。"}
+            "question": f"サブスクリプション企業は，限られた支援枠を顧客にどう配分すべきか．利用支援は，サービスの使い方を習得する負担を下げ，契約を更新する便益を高める．支援への反応が大きい顧客に枠を回せば，同じ費用で更新件数が増える．本稿では，評価対象{s['customers'] - s['training_customers']:,}人に{s['maximum_contacts']:,}件の支援を配分する問題を取り上げ，四半期の契約利益を最大にする配分を求める．",
+            "data": f"分析には，架空経済の顧客{s['customers']:,}人の記録を用いる．支援は各顧客に確率{s['assignment_probability']:.1f}で無作為に割り当てた．顧客IDによって{s['training_customers']:,}人を学習用，残る{s['customers'] - s['training_customers']:,}人を評価用に固定している．記録には，事前の利用離れの指標，利用支援の必要性の申告，支援の割当，四半期の契約更新が含まれる．",
+            "specification": f"継続契約1件の利益は{s['renewal_contribution']:g}千円，支援1件の費用は{s['contact_cost']:g}千円である．学習用標本から支援の有無別に更新確率を推定し，決定木によって顧客ごとの支援の増分利益を求める．配分は，対応枠{s['maximum_contacts']:,}人と予算{s['contact_budget'] / 10:,.0f}万円の範囲で，増分利益の大きい顧客から順に支援を割り当てる整数計画として解く．",
+            "table1": f"分析の結果明らかになったのは，支援への反応が利用支援の必要性によって大きく異なることだ．必要性を申告した群では，支援が更新確率を{g1['renewal_effect']:.2f}ポイント(95%信頼区間{interval(g1)})高めた．申告しなかった群の効果は{g0['renewal_effect']:.2f}ポイント(95%信頼区間{interval(g0)})である．両群の効果の差は{difference['estimate']:.2f}ポイント(95%信頼区間{interval(difference)})となる．",
+            "results": f"学習配分は，現在のサービスと比べて四半期の利益を評価対象の顧客1人あたり{gain['net_gain_difference'] * 1000:,.0f}円(95%信頼区間[{gain['ci_lower'] * 1000:,.0f}, {gain['ci_upper'] * 1000:,.0f}])増やす．支援{s['maximum_contacts']:,}件の費用を差し引いた後の値である．",
+            "additional": f"継続予測の精度は，通常サービスを受けた評価用の{index['prediction']['observed_customers']:,}人で確かめた．二乗誤差は{index['prediction']['brier_loss']:.3f}である．図は，予測確率の区間ごとに平均予測値と実際の更新率を示している．",
+            "interpretation": f"同じ対応枠を解約予測の高い顧客から順に配分すると，利益は学習配分より顧客1人あたり{advantage['net_gain_difference'] * 1000:,.0f}円(95%信頼区間[{advantage['ci_lower'] * 1000:,.0f}, {advantage['ci_upper'] * 1000:,.0f}])少ない．支援枠1件の価値は，誰に支援を回すかで決まる．",
+            "decisions": f"学習用標本で予測利益が最も大きい{selected}を採用する．実行規模は支援{s['maximum_contacts']:,}人，費用{s['contact_budget'] / 10:,.0f}万円である．"}
     return {
         "title": "Subscription Support and Quarterly Contribution",
         "question": "A subscription firm chooses support allocations to maximize quarterly contribution. Support reduces the effort of learning the service and raises the customer's return to renewal. Contact capacity enters the choice of which customers receive support.",
@@ -79,27 +80,34 @@ def slide_prose(index, spec, language):
                 + rf"\sum_i a_i\leq {s['maximum_contacts']},\quad "
                 + rf"{s['contact_cost']:g}\sum_i a_i\leq {s['contact_budget']:g}.$$" )
     if language == "ja":
+        advantage = contrast["policy", "risk"]
         return {
-            "question": "利用支援は、サービスを使い続ける顧客の便益を高める。\n\n"
-                + f"- 企業の目的：四半期の契約利益の最大化。\n- 選択：評価対象{s['customers'] - s['training_customers']:,}人への支援配分。\n"
-                + f"- 対応能力：{s['maximum_contacts']:,}人、支援1件の費用{s['contact_cost'] * 1000:,.0f}円。",
-            "data": f"架空経済で支援を確率{s['assignment_probability']:.1f}で無作為に割り当て、同じ四半期の契約更新を観測する。\n\n"
-                + f"- 学習用{s['training_customers']:,}人：行動別の継続予測と配分規則の推定。\n"
-                + f"- 評価用{s['customers'] - s['training_customers']:,}人：固定した配分の利益と配分間の差の推定。\n"
-                + "- 事前情報：利用離れの指標、利用支援の必要性。",
-            "specification": "学習した決定木が与える支援の増分利益を $\\widehat g_i$ 千円とする。\n\n"
-                + equation + "\n\n契約継続の増分に契約利益を掛け、対応費用を差し引く。対応枠は、この予測増分利益に沿って配分する。",
-            "table1": f"申告指標1の群の支援効果は、指標0の群を{difference['estimate']:.2f}ポイント上回る。\n\n"
-                + f"差の95%信頼区間：[{difference['ci_lower']:.2f}, {difference['ci_upper']:.2f}]ポイント。事前の必要性が支援の増分価値を捉える。",
-            "results": f"学習配分による四半期の利益増加は、評価対象の顧客1人あたり{gain['net_gain_difference'] * 1000:,.0f}円。\n\n"
-                + "共通の対応能力と費用のもとで、支援への反応が配分の利益を決める。",
-            "additional": f"通常サービスを受けた{index['prediction']['observed_customers']:,}人で継続予測を評価する。\n\n"
-                + f"二乗誤差：{index['prediction']['brier_loss']:.3f}。\n\n予測確率の区間ごとに、予測平均と実際の継続率を対応させる。",
-            "interpretation": prose(index, spec, language)["interpretation"],
-            "decisions": "予測利益が最大の学習配分を採用する。\n\n"
-                + f"- 実行規模：{s['maximum_contacts']:,}人、対応費用{s['contact_budget'] / 10:,.0f}万円。\n"
-                + f"- 評価した利益増加：顧客1人・四半期あたり{gain['net_gain_difference'] * 1000:,.0f}円。\n"
-                + "- 配分の根拠：支援によって増える契約継続の価値。",
+            "question": "限られた支援枠を更新への反応が大きい顧客に回す配分問題\n\n"
+                + "- 企業の目的：四半期の契約利益の最大化\n"
+                + f"- 選択：評価対象{s['customers'] - s['training_customers']:,}人への支援配分\n"
+                + f"- 制約：対応枠{s['maximum_contacts']:,}人，支援1件{s['contact_cost'] * 1000:,.0f}円",
+            "data": f"支援を確率{s['assignment_probability']:.1f}で無作為に割り当てた架空経済の顧客{s['customers']:,}人\n\n"
+                + f"- 学習用{s['training_customers']:,}人：支援の有無別の更新予測と配分規則の推定\n"
+                + f"- 評価用{s['customers'] - s['training_customers']:,}人：固定した配分の利益と配分間の差の推定\n"
+                + "- 事前情報：利用離れの指標，利用支援の必要性の申告",
+            "specification": "決定木による支援の増分利益 $\\widehat g_i$ と対応枠のもとでの配分\n\n"
+                + equation + "\n\n- 増分利益：更新確率の増分 × 契約利益 − 支援費用\n- 単位：千円",
+            "table1": "利用支援の必要性を申告した群で大きい支援効果\n\n"
+                + f"- 申告群と非申告群の効果の差：{difference['estimate']:.2f}ポイント\n"
+                + f"- 95%信頼区間：[{difference['ci_lower']:.2f}, {difference['ci_upper']:.2f}]ポイント",
+            "results": f"学習配分による四半期利益の増加：顧客1人あたり{gain['net_gain_difference'] * 1000:,.0f}円\n\n"
+                + f"- 95%信頼区間：[{gain['ci_lower'] * 1000:,.0f}, {gain['ci_upper'] * 1000:,.0f}]円\n"
+                + f"- 支援{s['maximum_contacts']:,}件の費用控除後",
+            "additional": f"通常サービスを受けた{index['prediction']['observed_customers']:,}人による継続予測の検証\n\n"
+                + f"- 二乗誤差：{index['prediction']['brier_loss']:.3f}\n"
+                + "- 予測確率の区間別の平均予測値と実際の更新率",
+            "interpretation": "支援枠1件の価値を決める配分先の選択\n\n"
+                + f"- 解約予測による配分との利益差：顧客1人あたり{advantage['net_gain_difference'] * 1000:,.0f}円\n"
+                + f"- 95%信頼区間：[{advantage['ci_lower'] * 1000:,.0f}, {advantage['ci_upper'] * 1000:,.0f}]円",
+            "decisions": "予測利益が最大の学習配分の採用\n\n"
+                + f"- 実行規模：支援{s['maximum_contacts']:,}人，費用{s['contact_budget'] / 10:,.0f}万円\n"
+                + f"- 利益増加：顧客1人・四半期あたり{gain['net_gain_difference'] * 1000:,.0f}円\n"
+                + "- 配分の根拠：支援による契約更新の増分価値",
         }
     return {
         "question": "Support raises the customer's return to continued use.\n\n"
@@ -255,7 +263,7 @@ def build(root, run, output, language):
          "rows": [{"group": str(row["support_need"]), **{key: row[key] for key in effect_keys[1:]}} for row in groups],
          "columns": [{"key": key, "label": label, "unit": ""} for key, label in zip(effect_keys, effect_labels)],
          "metadata": {"report_role": "descriptive", "unit": "percentage points of quarterly renewal",
-             "public_claims": ["評価対象4,000人。契約継続率の変化・ポイント。95%信頼区間。" if ja else "4,000 evaluation customers. Renewal effects in percentage points. 95% confidence intervals."],
+             "public_claims": ["評価対象4,000人．契約継続率の変化・ポイント．95%信頼区間．" if ja else "4,000 evaluation customers. Renewal effects in percentage points. 95% confidence intervals."],
              "internal": {"inference": spec["inference"], "source_key": "heterogeneity.rows"}},
          "display": {"plot_type": "table", "column_order": effect_keys,
              "formats": {key: ".0f" if key == "customers" else ".2f" for key in effect_keys[1:]}}},
@@ -264,7 +272,7 @@ def build(root, run, output, language):
          "rows": [{"comparison": contrast_names[j][not ja], **{key: row[key] for key in gain_keys[1:]}} for j, row in enumerate(contrasts)],
          "columns": [{"key": key, "label": label, "unit": ""} for key, label in zip(gain_keys, gain_labels)],
          "metadata": {"report_role": "main", "unit": spec["unit"],
-             "public_claims": ["評価対象の顧客1人あたり・四半期・千円。95%信頼区間。" if ja else "Thousand JPY per evaluation customer per quarter. 95% confidence intervals."],
+             "public_claims": ["評価対象の顧客1人あたり・四半期・千円．95%信頼区間．" if ja else "Thousand JPY per evaluation customer per quarter. 95% confidence intervals."],
              "internal": {"inference": spec["inference"], "source_key": "uncertainty.pairwise_contrasts"}},
          "display": {"plot_type": "table", "column_order": gain_keys, "formats": {key: ".3f" for key in gain_keys[1:]}}},
         {"id": "subscription-calibration", "title": "契約継続の予測と観測" if ja else "Predicted and observed renewal",
@@ -294,14 +302,14 @@ def build(root, run, output, language):
             entry["public_text"] = []
     save(output / "selection.json", entries)
     body = prose(index, spec, language)
-    titles = {"question": ("利用支援と企業の配分問題", "Support and the firm's allocation problem"),
-        "data": ("支援の無作為割当と契約更新", "Randomized support and contract renewal"),
-        "specification": ("顧客の反応と支援の増分利益", "Customer response and incremental contribution"),
-        "table1": ("事前の必要性と支援への反応", "Prior need and response to support"),
-        "results": ("800人への支援配分が生む利益", "Contribution from 800 support contacts"),
-        "additional": ("契約継続の予測と観測", "Predicted and observed renewal"),
-        "interpretation": ("対応能力1枠の価値", "The value of a contact slot"),
-        "decisions": ("支援配分の選択と実行規模", "Selected allocation and implementation")}
+    titles = {"question": ("利用支援の配分問題", "Support and the firm's allocation problem"),
+        "data": ("支援の無作為割当と標本", "Randomized support and contract renewal"),
+        "specification": ("支援の増分利益と配分規則", "Customer response and incremental contribution"),
+        "table1": ("利用支援の必要性と支援効果", "Prior need and response to support"),
+        "results": ("学習配分の利益", "Contribution from 800 support contacts"),
+        "additional": ("継続予測の較正", "Predicted and observed renewal"),
+        "interpretation": ("支援枠1件の価値", "The value of a contact slot"),
+        "decisions": ("採用する配分と実行規模", "Selected allocation and implementation")}
     for kind in ("brief", "results"):
         sections = slide_prose(index, spec, language)
         if kind == "brief":
@@ -317,10 +325,7 @@ def build(root, run, output, language):
         # Each displayed comparison carries its own economic interpretation.
         for source, exhibit in (("table1", "result-1"), ("results", "result-2"), ("additional", "result-3")):
             if source in sections:
-                meetings.edit_section(bundle, exhibit,
-                    {"title": titles[source][not ja], "layout": "figure-left" if source == "additional" else "stack"},
-                    body=sections[source], expected_revision=meetings.load_meeting(bundle)[2])
-                meetings.edit_section(bundle, source, {"visible": False}, expected_revision=meetings.load_meeting(bundle)[2])
+                meetings.fold_into_exhibit(bundle, source, exhibit, layout="figure-left" if source == "additional" else "stack")
         if kind == "results":
             meetings.edit_section(bundle, "interpretation", {"visible": False}, expected_revision=meetings.load_meeting(bundle)[2])
     paper_entry = artifacts.gallery_items(root, registry_path, item_ids=[paper_calibration["id"]])[0]
