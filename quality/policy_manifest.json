@@ -363,11 +363,11 @@
     },
     "resource:latex-slides-quarto": {
       "path": "tex/slides/quarto_template.qmd",
-      "sha256": "e0ecb8b4b2791be5d7f01d7e77ff0fc2d7df63e26e749628819950218143fd64"
+      "sha256": "20cfb2b073be725c6342e3ff4cc8d0d1867a83b0ee7912278e8e3a9923969dde"
     },
     "resource:latex-slides-template": {
       "path": "tex/slides/main.tex",
-      "sha256": "60b8deae5a19d654991e20efa36ed425d01bd792c7bfa2f26b83161dc56791bb"
+      "sha256": "01bfaa4cbc6f189989adbe987634f4e139939177478d35c680e6294f82b7b67d"
     },
     "resource:literature-methods": {
       "path": "skills/econ-literature/references/literature-methods.md",

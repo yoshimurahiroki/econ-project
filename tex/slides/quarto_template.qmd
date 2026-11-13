@@ -34,7 +34,7 @@ What happens to OUTCOME when POLICY changes?
 # Preview of findings
 
 - Main estimate with its standard error and units
-- Response in the comparison group
+- Second outcome or margin
 - Bottom line: the policy or welfare magnitude
 
 # Data
@@ -54,16 +54,16 @@ $$
 
 # Bottom line
 
-- $\gamma$: the cost per unit of the policy
-- $\beta/\gamma$: the share of the cost borne by the outcome group
+- The decision quantity and its definition in model parameters
+- The estimate that maps into it
 
 # Key magnitudes
 
 |                             | Estimate | SE   |
 |:----------------------------|:--------:|:----:|
-| Effect on outcome           | 0.00     | 0.00 |
-| Effect on comparison group  | 0.00     | 0.00 |
-| Bottom line, $\beta/\gamma$ | 0.00     | 0.00 |
+| Main estimate               | 0.00     | 0.00 |
+| Second outcome              | 0.00     | 0.00 |
+| Decision quantity           | 0.00     | 0.00 |
 
 # Conclusion
 
