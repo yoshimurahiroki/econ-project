@@ -21,6 +21,8 @@ The steps reproduce how an economist works: name the decision, turn it into a qu
 
 Write who decides what, and what is at stake in that decision in money, people, welfare or time. Name the actors whose choices produce the outcome: households, workers, firms, governments, platforms. State the magnitude that makes the question matter: the size of the market, the budget, the population affected or the policy margin.
 
+Investigate before modelling, and write the results as `Facts and magnitudes:` with source tags: baseline levels and trends from official series (`skills/econ-data/scripts/research_data.py`, sources by country in the [context layer](context/README.md)), the institutional rules that bind the choice, and prior estimates of the key quantity (`skills/econ-literature/scripts/literature_search.py search`). The model's parameter ranges and the stake come from these facts.
+
 A request phrased as an operation ("run a regression", "make slides") still starts here: identify the decision or understanding the output must change. Before: "Estimate the subsidy coefficient." After: "Estimate how the subsidy changes firms' entry and employment, the margin the ministry decides on next year."
 
 ## 2. Question
@@ -58,10 +60,11 @@ Write the estimand in the model's terms, the variation that identifies it, the c
 Select the method from the design references and the implementation table; the method is chosen there, never invented:
 
 - [estimand to method](../skills/econ-design/references/designs.md#choose-the-estimand-and-method) and the design section for the selected family (difference-in-differences, IV, RD, RCT, structural, dynamic, macro);
+- the [method cards](../skills/econ-design/references/causal-models.md#which-method): when to use each method, its options, checks and pitfalls;
 - [implementation table](../skills/econ-data/references/implementation-engines.md): the package call for that object;
 - `python3 skills/econ-design/scripts/research_design.py select CONTRACT --root . --output outputs/selection.json` when a saved selection contract exists.
 
-Write the selected method, the package call and the inference (cluster level, number of clusters, bootstrap) in the worksheet.
+Write the selected method, the package call and the inference (cluster level, number of clusters, bootstrap) in the worksheet. Then write the `Plan:`: the analyses in order, the decision each one can change, and the result at which further work stops.
 
 ## 5. Execution
 
@@ -86,11 +89,22 @@ Convert the estimate into an economic magnitude: relative to the baseline mean, 
 
 A precisely estimated zero is a finding with its interval. An imprecise estimate that cannot separate the mechanisms sends the task back to step 4 for a sharper comparison or more data.
 
+Before deciding, write `Objections and answers:` as a referee would raise them: the strongest alternative mechanism that fits the same result, the threat to the identifying comparison, and whether the magnitude is plausible against prior estimates and the baseline. Answer each with evidence, a check, or a switching condition. A decision that someone will carry out gets `Actions (owner, date):`.
+
 ## 7. Expression
 
 Write the deliverable from the worksheet: the question (step 2), the mechanism and predictions (step 3), the comparison (step 4), the estimates (step 6) and the decision (step 1). Every paragraph and slide carries one of these; content the worksheet does not contain does not enter.
 
-Follow [WRITING](WRITING.md) for argument structure, Japanese expression and form, and the templates in `tex/` for layout.
+Follow [WRITING](WRITING.md) for argument structure, Japanese expression and form, and the templates in `tex/` for layout. The deliverable selects its procedure:
+
+| Deliverable | Procedure |
+| --- | --- |
+| Answer in conversation | the four elements above, from the worksheet |
+| Paper, notes | [paper workflow](../skills/econ-writing/references/paper-workflow.md) |
+| Slides, meeting material | [slides and materials](../skills/econ-writing/references/artifact-writing.md) |
+| Decision proposal for a firm | [decision proposal](../skills/econ-writing/references/proposals.md#a-decision-proposal) |
+| Pre-analysis plan | [pre-analysis plan](../skills/econ-writing/references/proposals.md#b-pre-analysis-plan) |
+| Review of a claim or artifact | [review](../skills/econ-review/references/review.md) |
 
 ## Sources and literature
 

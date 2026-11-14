@@ -988,6 +988,10 @@
     "models-causal-regression-cards": {
       "deployment_path": ".agents/skills/econ-design/references/causal-models/regression-engines.md",
       "export_alias": "MODELS_CAUSAL_REGRESSION.md"
+    },
+    "writing-proposals": {
+      "deployment_path": ".agents/skills/econ-writing/references/proposals.md",
+      "export_alias": "WRITING_PROPOSALS.md"
     }
   },
   "source": {
@@ -1060,7 +1064,7 @@
     }
   ],
   "pointer_templates": {
-    "economics-task-entry": "# Economics task entry\n\nRead [CORE]({core}) before substantive work: it owns authority, operation selection, complete-body reading and reuse, and completion. [PROSE]({prose}) owns expression; its Common output (borrow and imitate inspected 2020-or-later Top Five papers and slides, handbooks, textbooks and course materials for every authored element) governs every answer and artifact. Select the owner, mode and active conditions from the [operation index]({index}) when unresolved; go directly to a known operation. Retrieve the complete selected Skill/mode and activated prerequisites through that entry. Preserve technical instructions, inputs, outputs and validation examples.\n"
+    "economics-task-entry": "# Economics task entry\n\nThis repository makes an agent work as an economist: set a consequential question, reason through the economics, run established methods and produce research materials.\n\n1. Every request, without exception, follows the [economist's procedure]({core}): situation and stakes, question, mechanism and predictions, estimand and identification, execution, interpretation, expression. Results go into the worksheet `work/<topic>.md`.\n2. Every answer, text, slide and table follows [WRITING]({prose}). Argument structure comes from English originals and Japanese expression from Japanese originals, through the user's exemplar library.\n3. Choose the skill and operation from the [operation index]({index}); read the skill for the task, then only the references its step names.\n\nInstructions are in English; output is in the user's language. User and platform instructions take precedence. Report what was actually run, saved and rendered."
   },
   "configuration": {
     "clients": [

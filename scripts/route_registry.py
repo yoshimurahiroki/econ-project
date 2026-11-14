@@ -265,9 +265,9 @@ def native_index(routes, *, links=False, operation=None, family=None, query=None
     lines = ['# Economics operation index', '',
              'Generated from registry/operations.json. Support continues the adopted task.', '',
              '## Read the pending operation', '',
-             '1. **Selected operation → reader.** Read CORE and PROSE Common output, then select the final operation below. Find conditions with `python scripts/route_registry.py index --operation OPERATION --family FAMILY` or `--query TEXT`.',
+             '1. **Selected operation → reader.** Read runtime/ECONOMIST.md (the economist procedure) and runtime/WRITING.md, then select the final operation below. Find conditions with `python scripts/route_registry.py index --operation OPERATION --family FAMILY` or `--query TEXT`.',
              '2. **Complete bodies → execution.** Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION`. Stages: entry classifies; contract adopts question/method/inputs; compose executes by borrowing, imitating and minimally adapting read sources for writing; review interprets/repairs; finalize saves/delivers. Direct `read RULE_ID` returns that rule and prerequisites.',
-             '3. **Continuation → next stage.** Each read returns its complete bodies; a non-null `next_offset` continues the same read with `--offset`. Stages after entry return their own bodies; `--restore` delivers CORE and PROSE Common output again after compaction, handoff or model change.',
+             '3. **Continuation → next stage.** Each read returns its complete bodies; a non-null `next_offset` continues the same read with `--offset`. Stages after entry return their own bodies; `--restore` delivers ECONOMIST and WRITING again after compaction, handoff or model change.',
              '4. **Runtime root → reader.** Deployed trees run `python .agents/scripts/route_registry.py --layout installed read OPERATION --stage STAGE`; expand incomplete snapshots from canonical source. Skill-scoped hosts read specialist `instructions.md` and common `project-work/references/shared/` bodies, acquiring the matching runtime bundle once for execution.', '']
     for op in routes['operations']:
         label = op['skill_id'] + ' / ' + op['mode']
@@ -357,7 +357,7 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
                   seen=(), compact=False, restore=False, kernel_delivered=False):
     """Deliver exact selected bodies; pagination never marks them as read.
 
-    Stages after entry omit the kernel (CORE and PROSE Common output) that entry
+    Stages after entry omit the kernel (ECONOMIST and WRITING) that entry
     delivered; restore=True delivers it again after context loss.
     """
     import hashlib
@@ -463,7 +463,7 @@ def read_selected(routes, root, selector, *, layout='source', mode=None, conditi
             delivered.append('# Selected method knowledge\n\nRead the complete bodies and prerequisites before adoption:\n'
                              + '\n'.join(commands))
     if kernel_omitted:
-        delivered.insert(0, 'CORE and PROSE Common output were delivered earlier; rerun with `--restore` if they are absent from context.')
+        delivered.insert(0, 'ECONOMIST and WRITING were delivered earlier; rerun with `--restore` if they are absent from context.')
     text = '\n\n'.join(delivered) + ('\n' if delivered or not body_hashes else '')
     if offset > len(text):
         raise ValueError('Reading offset exceeds the selected body')
@@ -1131,7 +1131,7 @@ def generate_entries(root, routes=None, *, outputs=None):
         body = transform_entry_references(routes, owner, body)
         write_changed(path, body, previous)
     modes = [op['mode'] for op in routes['operations'] if op['owner_skill'] == 'econ-writing']
-    ui = 'interface:\n  display_name: "Economics Writing"\n  short_description: "Find economics sources first; borrow and imitate prose and visuals"\n  default_prompt: "Use $econ-writing in ' + ', '.join(modes) + ' mode. Read CORE, PROSE and the selected mode. PROSE Common output governs every English or Japanese element, including short edits, translation, formatting and existing drafts: read real sources first, borrow and imitate them with minimal adjustments, record the mapping and compare each element. Complete the integrated review."\npolicy:\n  allow_implicit_invocation: true\n'
+    ui = 'interface:\n  display_name: "Economics Writing"\n  short_description: "Find economics sources first; borrow and imitate prose and visuals"\n  default_prompt: "Use $econ-writing in ' + ', '.join(modes) + ' mode. Read runtime/ECONOMIST.md, runtime/WRITING.md and the selected mode. Content comes from the worksheet; argument structure from English exemplars and Japanese expression from Japanese exemplars (exemplars.py outline, find, style). Read the rendered output against WRITING before finishing."\npolicy:\n  allow_implicit_invocation: true\n'
     write_changed(root / 'skills/econ-writing/agents/openai.yaml', ui)
     root_manifest = root / 'plugin.json'
     if root_manifest.is_file() and (root / '.codex-plugin').is_dir():
@@ -1171,8 +1171,8 @@ if __name__ == '__main__':
             selected.add_argument('--limit', type=int, default=48000, help='Maximum body characters per page')
             selected.add_argument('--format', choices=('text', 'compact', 'json'), default='text', help='text prints the bodies; compact and json print the delivery record')
             selected.add_argument('--seen', action='append', default=[], help='Hash of a complete body still present in this intact context')
-            selected.add_argument('--kernel-delivered', action='store_true', help='Omit CORE and PROSE Common output that a hook packet already delivered')
-            selected.add_argument('--restore', action='store_true', help='Deliver CORE and PROSE Common output at a stage after entry (context loss, handoff, model change)')
+            selected.add_argument('--kernel-delivered', action='store_true', help='Omit ECONOMIST and WRITING that a hook packet already delivered')
+            selected.add_argument('--restore', action='store_true', help='Deliver ECONOMIST and WRITING at a stage after entry (context loss, handoff, model change)')
     args = parser.parse_args()
     if args.command == 'index' and (args.family or args.query or args.all_conditions) and not args.operation:
         parser.error('condition filters require --operation')

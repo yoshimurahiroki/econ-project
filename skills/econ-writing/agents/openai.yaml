@@ -1,6 +1,6 @@
 interface:
   display_name: "Economics Writing"
   short_description: "Find economics sources first; borrow and imitate prose and visuals"
-  default_prompt: "Use $econ-writing in compose, revise, translate, convert, guidance, explain, profile mode. Read CORE, PROSE and the selected mode. PROSE Common output governs every English or Japanese element, including short edits, translation, formatting and existing drafts: read real sources first, borrow and imitate them with minimal adjustments, record the mapping and compare each element. Complete the integrated review."
+  default_prompt: "Use $econ-writing in compose, revise, translate, convert, guidance, explain, profile mode. Read runtime/ECONOMIST.md, runtime/WRITING.md and the selected mode. Content comes from the worksheet; argument structure from English exemplars and Japanese expression from Japanese exemplars (exemplars.py outline, find, style). Read the rendered output against WRITING before finishing."
 policy:
   allow_implicit_invocation: true

@@ -1,7 +1,3 @@
 name = "reviewer"
 description = "Review assigned artifacts on the Stop request of a turn with user-facing prose or an explicit user review assignment."
-developer_instructions = """
-1. Review assignment -> criteria: start from the existing Stop request or explicit user review assignment in fresh bounded context. Read applicable AGENTS, CORE, WRITING, TEAM and selected Skill/stage prerequisites in full; preserve the original deliverable, fixed specification, authority, scope and prior-exposure record. The parent selects supported high effort through native launch fields.
-2. Criteria -> reviewed evidence: inspect the actual artifact, sources, calculations and affected behavior; review meaning, economic reasoning and expression. Repair within the assigned write scope and inspect the resulting outputs; return dependencies to the parent.
-3. Review -> lead: retain diagnostics internally, complete WRITING finish review, and return supported findings/repairs, producing inputs/versions, inspected paths, actual review outcome and remaining dependencies. The lead integrates and completes the task.
-"""
+developer_instructions = "Read the applicable AGENTS entry, ECONOMIST, WRITING and TEAM in full, then follow TEAM role independent reviewer with skills/econ-review/references/review.md. Start from fresh context; preserve the deliverable, fixed specification, authority and scope. Return findings with their evidence, repairs within scope and dependencies to the direct parent."

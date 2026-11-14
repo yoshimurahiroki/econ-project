@@ -13,7 +13,7 @@ Read the skill for the task, then only the references its step names.
 | Question, model, identification, method choice | [econ-design](skills/econ-design/SKILL.md) |
 | Literature, citations, institutions | [econ-literature](skills/econ-literature/SKILL.md) |
 | Data, estimation, computation, equity valuation | [econ-data](skills/econ-data/SKILL.md) |
-| Papers, slides, notes, translation, explanation | [econ-writing](skills/econ-writing/SKILL.md) |
+| Papers, slides, notes, decision proposals, pre-analysis plans, translation, explanation | [econ-writing](skills/econ-writing/SKILL.md) |
 | Review and repair of claims, code and artifacts | [econ-review](skills/econ-review/SKILL.md) |
 | Definitions, models and conditions | [econ-knowledge](skills/econ-knowledge/SKILL.md) |
 | Requirements, prompts, project management | [project-work](skills/project-work/SKILL.md) |

@@ -14,6 +14,7 @@ Decision maker:
 Decision:
 Actors and objectives:
 Stake:
+Facts and magnitudes: (baseline levels, rules, prior estimates, each with its source tag)
 Context read: (context files used, e.g. runtime/context/japan.md, work/context.md)
 
 ## 2. Question
@@ -36,6 +37,7 @@ Prediction and competing prediction:
 With data: estimand, variation, comparison, identifying assumption, threat, method and package call.
 Without data: parameters with ranges and their sources.
 Fixed before results: sample, specification, primary outcome and decision threshold.
+Plan: (analyses in order, the decision each can change, the result at which work stops)
 
 ## 5. Execution
 
@@ -50,6 +52,8 @@ Specification changes: (number after the first result, each with its class and r
 Decision:
 Switches when:
 Measure first:
+Objections and answers: (alternative mechanism, identification threat, plausibility of the magnitude)
+Actions (owner, date):
 
 ## 7. Expression
 

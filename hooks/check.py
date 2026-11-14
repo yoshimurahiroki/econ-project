@@ -35,6 +35,14 @@ REVIEW = ('Before finishing, reread the answer once against runtime/WRITING.md: 
           'condition that determines the choice, its prediction or comparative static, and the decision with its '
           'switching condition. Add any missing element and revise any failing sentence; otherwise finish without '
           'comment.')
+REFEREE = ('Before the writing check, review the answer once as a referee would, using '
+           'skills/econ-review/references/review.md (R2 and the R3 checks that apply): is the question consequential '
+           'and does it beat its upstream alternative; does the comparison identify the estimand; is the magnitude '
+           'plausible against the baseline and prior estimates; what is the strongest alternative mechanism that fits '
+           'the same result, and the main threat to identification. Write these objections and their answers (evidence, '
+           'a check, or a switching condition) in the worksheet line "Objections and answers:", run any check that '
+           'an objection requires, and revise the answer and the decision where an objection holds; otherwise finish '
+           'without comment.')
 WORKER_REVIEW = ('Before returning, check the return against runtime/ECONOMIST.md: it states the economic object it '
                  'serves, the model or method used with knowledge unit IDs, the actual commands run and saved files, '
                  'and the result the parent needs. Add what is missing; otherwise return without comment.')
@@ -57,7 +65,7 @@ def load_state(session):
     try:
         return json.loads(state_path(session).read_text(encoding='utf-8'))
     except Exception:
-        return {'start': 0.0, 'blocks': 0, 'reviewed': False}
+        return {'start': 0.0, 'blocks': 0, 'refereed': False, 'reviewed': False}
 
 
 def save_state(session, state):
@@ -189,7 +197,7 @@ def main(event):
     cwd = payload.get('cwd') or os.getcwd()
     if event in ('SessionStart', 'UserPromptSubmit'):
         if event == 'UserPromptSubmit':
-            save_state(session, {'start': time.time(), 'blocks': 0, 'reviewed': False})
+            save_state(session, {'start': time.time(), 'blocks': 0, 'refereed': False, 'reviewed': False})
         context = POINTER
         if event == 'SessionStart':
             pending = open_worksheets(cwd)
@@ -222,6 +230,10 @@ def main(event):
         if problems:
             return {'systemMessage': 'Economics worksheet incomplete after ' + str(MAX_STOP_BLOCKS)
                     + ' requests: ' + '; '.join(problems)}
+        if not state.get('refereed'):
+            state['refereed'] = True
+            save_state(session, state)
+            return {'decision': 'block', 'reason': REFEREE}
         if not state.get('reviewed'):
             state['reviewed'] = True
             save_state(session, state)

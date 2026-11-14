@@ -1676,12 +1676,12 @@ def _review_final_prose(event, root, directory, *, session_record=None):
     return {'decision': 'block', 'reason': (
         'Perform one final review this turn.\n'
         '1. Output: review assignment -> one fresh native subagent. Supply the actual request, complete '
-        'proposed final answer, paths of all created/materially edited user-facing artifacts, CORE and PROSE. '
+        'proposed final answer, paths of all created/materially edited user-facing artifacts, ECONOMIST and WRITING. '
         'Read `' + read_command + '`.\n'
-        '2. Output: reviewed answer and saved artifacts -> lead. Apply PROSE Common output to every element '
+        '2. Output: reviewed answer and saved artifacts -> lead. Apply WRITING to every element '
         'of the completed answer and artifacts, including tables, slides, captions and labels; compare the '
         'actual originals with each element. Judge meaning, '
-        'evidence, logic and rhetorical function under CORE and PROSE. Route internal conditions/diagnostics '
+        'evidence, logic and rhetorical function under ECONOMIST and WRITING. Route internal conditions/diagnostics '
         'to the working record; retain accurate affirmative claims and numerical uncertainty. Confirm '
         'durable internal items in their existing destinations. Repair saved passages once; for generated '
         'artifacts repair the producer, regenerate and inspect affected output. Preserve data, equations, '
@@ -2905,7 +2905,7 @@ def _budget_result(event, result, expected_event):
     if len(text) > 16000:
         recovery += '\nContinue with each next_offset and the same sha256 through null.'
     if first.startswith('[Kernel '):
-        recovery += '\nThis packet carries CORE and PROSE Common output; add `--kernel-delivered` to the entry `read`.'
+        recovery += '\nThis packet carries ECONOMIST and WRITING; add `--kernel-delivered` to the entry `read`.'
     destination, key = ((result, 'reason') if result.get('decision') == 'block' else populated[0])
     for container, name in populated:
         del container[name]

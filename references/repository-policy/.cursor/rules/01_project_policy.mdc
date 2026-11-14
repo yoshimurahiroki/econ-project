@@ -1,3 +1,9 @@
 # Economics task entry
 
-Read [CORE](../../../../runtime/ECONOMIST.md) before substantive work: it owns authority, operation selection, complete-body reading and reuse, and completion. [PROSE](../../../../runtime/WRITING.md) owns expression; its Common output (borrow and imitate inspected 2020-or-later Top Five papers and slides, handbooks, textbooks and course materials for every authored element) governs every answer and artifact. Select the owner, mode and active conditions from the [operation index](../../../../docs/ai/compiled_ai_skills.md) when unresolved; go directly to a known operation. Retrieve the complete selected Skill/mode and activated prerequisites through that entry. Preserve technical instructions, inputs, outputs and validation examples.
+This repository makes an agent work as an economist: set a consequential question, reason through the economics, run established methods and produce research materials.
+
+1. Every request, without exception, follows the [economist's procedure](../../../../runtime/ECONOMIST.md): situation and stakes, question, mechanism and predictions, estimand and identification, execution, interpretation, expression. Results go into the worksheet `work/<topic>.md`.
+2. Every answer, text, slide and table follows [WRITING](../../../../runtime/WRITING.md). Argument structure comes from English originals and Japanese expression from Japanese originals, through the user's exemplar library.
+3. Choose the skill and operation from the [operation index](../../../../docs/ai/compiled_ai_skills.md); read the skill for the task, then only the references its step names.
+
+Instructions are in English; output is in the user's language. User and platform instructions take precedence. Report what was actually run, saved and rendered.

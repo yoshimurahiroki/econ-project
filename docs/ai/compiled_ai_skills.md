@@ -4,9 +4,9 @@ Generated from registry/operations.json. Support continues the adopted task.
 
 ## Read the pending operation
 
-1. **Selected operation → reader.** Read CORE and PROSE Common output, then select the final operation below. Find conditions with `python scripts/route_registry.py index --operation OPERATION --family FAMILY` or `--query TEXT`.
+1. **Selected operation → reader.** Read runtime/ECONOMIST.md (the economist procedure) and runtime/WRITING.md, then select the final operation below. Find conditions with `python scripts/route_registry.py index --operation OPERATION --family FAMILY` or `--query TEXT`.
 2. **Complete bodies → execution.** Run `python scripts/route_registry.py read OPERATION --stage STAGE --condition CONDITION`. Stages: entry classifies; contract adopts question/method/inputs; compose executes by borrowing, imitating and minimally adapting read sources for writing; review interprets/repairs; finalize saves/delivers. Direct `read RULE_ID` returns that rule and prerequisites.
-3. **Continuation → next stage.** Each read returns its complete bodies; a non-null `next_offset` continues the same read with `--offset`. Stages after entry return their own bodies; `--restore` delivers CORE and PROSE Common output again after compaction, handoff or model change.
+3. **Continuation → next stage.** Each read returns its complete bodies; a non-null `next_offset` continues the same read with `--offset`. Stages after entry return their own bodies; `--restore` delivers ECONOMIST and WRITING again after compaction, handoff or model change.
 4. **Runtime root → reader.** Deployed trees run `python .agents/scripts/route_registry.py --layout installed read OPERATION --stage STAGE`; expand incomplete snapshots from canonical source. Skill-scoped hosts read specialist `instructions.md` and common `project-work/references/shared/` bodies, acquiring the matching runtime bundle once for execution.
 
 - [econ-design / design](../../skills/econ-design/SKILL.md): Choose a research question, model, identification strategy, study design or policy action.
@@ -15,7 +15,7 @@ Generated from registry/operations.json. Support continues the adopted task.
 - [econ-literature / investigate](../../skills/econ-literature/SKILL.md): Find and select source information that resolves a research question or citation task.
 - [econ-writing / compose](../../skills/econ-writing/SKILL.md): Compose academic prose and research materials from the adopted sources.
 - [econ-writing / revise](../../skills/econ-writing/SKILL.md): Revise supplied prose, including natural Japanese, spoken explanations and requests such as 自然な日本語に, 何を言いたいの, 直訳っぽい, 口頭で説明して and わかりやすく短く.
-- [econ-writing / translate](../../skills/econ-writing/SKILL.md): Translate supplied prose into natural Japanese or English with source attribution under PROSE.
+- [econ-writing / translate](../../skills/econ-writing/SKILL.md): Translate supplied prose into natural Japanese or English with source attribution under WRITING.
 - [econ-writing / convert](../../skills/econ-writing/SKILL.md): Convert adopted content into a paper, slides, research site or requested format.
 - [econ-writing / guidance](../../skills/econ-writing/SKILL.md): Explain a concrete writing decision and show the needed revision.
 - [econ-writing / explain](../../skills/econ-writing/SKILL.md): Explain a paper, theory, institution, method or result through its question, mechanism, evidence and answer.

@@ -1723,6 +1723,11 @@
       "source_path": "skills/econ-design/references/causal-models/regression-engines.md",
       "resource_kind": "rule",
       "content_version": "0.99.0"
+    },
+    "writing-proposals": {
+      "source_path": "skills/econ-writing/references/proposals.md",
+      "resource_kind": "rule",
+      "content_version": "0.99.0"
     }
   },
   "sections": {
@@ -3976,6 +3981,11 @@
       }
     },
     "models-causal-regression-cards": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "writing-proposals": {
       "all": {
         "whole_resource": true
       }
@@ -7258,6 +7268,10 @@
     "models-causal-regression-cards.all": {
       "resource_id": "models-causal-regression-cards",
       "section_id": "all"
+    },
+    "writing-proposals.all": {
+      "resource_id": "writing-proposals",
+      "section_id": "all"
     }
   },
   "examples": {},
@@ -7556,6 +7570,9 @@
         "all"
       ],
       "models-causal-regression-cards": [
+        "all"
+      ],
+      "writing-proposals": [
         "all"
       ]
     },
@@ -7889,6 +7906,9 @@
         "all"
       ],
       "models-causal-regression-cards": [
+        "all"
+      ],
+      "writing-proposals": [
         "all"
       ]
     },
