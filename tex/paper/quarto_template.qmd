@@ -27,7 +27,7 @@ delete sections and exhibits the paper does not use. -->
 
 [fill: contribution: for each literature, its benchmark estimate or result and what this paper changes]
 
-[fill: roadmap of the sections that remain]
+[fill: roadmap, only when the order of sections is unusual]
 
 # Institutional Setting {#sec-setting}
 

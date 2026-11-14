@@ -44,7 +44,8 @@ exhibit and a one-line reading; delete slides the talk does not use. -->
 
 # [fill: main result]
 
-![[fill: one-line reading: the estimate and the prediction it supports]](figures/main.pdf)
+- [fill: the figure or table from the saved result]
+- [fill: one-line reading: the estimate and the prediction it supports]
 
 # [fill: magnitude and decision]
 

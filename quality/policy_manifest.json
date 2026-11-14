@@ -39,7 +39,7 @@
     },
     "prose": {
       "path": "runtime/WRITING.md",
-      "sha256": "b1cd5e89187e0b13787b5e7029533833ca6e47c7e53d8228957242c455cfabc0"
+      "sha256": "5c5e7007514ce2a6d4322a2c559b320f73033e8a7c223fd28b222286066b13fd"
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
@@ -267,11 +267,11 @@
     },
     "resource:latex-paper-quarto": {
       "path": "tex/paper/quarto_template.qmd",
-      "sha256": "859af9a1dc52b0413202a85d8cc87001fc0877c53971a5c312c2f17f10783db8"
+      "sha256": "ee8b7804dcb2e10e447db315b74afa978f88194bcb59090493885cf393b6d97e"
     },
     "resource:latex-paper-template": {
       "path": "tex/paper/ecta_template.tex",
-      "sha256": "e51e0de636e4e2c15276e222114d864a06db2cfea4fe70a0139a39ca42eb6e9c"
+      "sha256": "54cc85293100fedbbd2dca05dcb49363d988d5304cfb6e7a72eaf120a44b8847"
     },
     "resource:latex-quarto-project": {
       "path": "_quarto.yml",
@@ -283,7 +283,7 @@
     },
     "resource:latex-slides-quarto": {
       "path": "tex/slides/quarto_template.qmd",
-      "sha256": "5b2280c4b2e77ba745206ed526773490dd1a7d33257087c94677367b72ab76d4"
+      "sha256": "e6a7c66fe0f94b87725f9f3d325c3629c0152ec58f6e59303c6fad55daa43632"
     },
     "resource:latex-slides-template": {
       "path": "tex/slides/main.tex",

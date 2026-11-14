@@ -11,7 +11,7 @@ python3 skills/econ-writing/scripts/exemplars.py add ~/papers ~/lectures
 python3 skills/econ-writing/scripts/exemplars.py list
 ```
 
-The library is a local SQLite file (`$ERS_EXEMPLARS`, or the user data directory). Texts and passages stay on the user's machine and never enter a commit. If no library exists, ask the user once to register their files and continue with the profiles in the meantime.
+The library is a local SQLite file (`$ERS_EXEMPLARS`, or the user data directory). Texts and passages stay on the user's machine and never enter a commit. If no library exists, ask the user once to register their files. Until they are registered, structure follows the [paper procedure](../skills/econ-writing/references/paper-workflow.md) or the [slide procedure](../skills/econ-writing/references/artifact-writing.md), form follows the profile, and the answer states that no exemplars were used.
 
 ## 1. Borrow the argument from English originals
 
