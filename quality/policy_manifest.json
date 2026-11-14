@@ -103,7 +103,7 @@
     },
     "resource:data-empirical": {
       "path": "skills/econ-data/references/empirical.md",
-      "sha256": "3392efee4f9358f84342dbe3af67236b4eab3d7c2542880f0225dcc1278a0790"
+      "sha256": "ab4acdad2f9272945a3bd789e01a0b5facc3cf00ce78c9dd22135db82c49f4ac"
     },
     "resource:data-engine-selection": {
       "path": "skills/econ-data/references/implementation-engines.md",
@@ -387,7 +387,7 @@
     },
     "resource:models-causal-rdiv-cards": {
       "path": "skills/econ-design/references/causal-models/rd-iv-experiments.md",
-      "sha256": "2ea4f46f9c7b4bdc6d235498d2091468732c65420e6c255606a093fb29e8547d"
+      "sha256": "3ac617d949154e88d648c0cae4a4575e94367ac264e81f36ed90062fb7565f20"
     },
     "resource:models-dsge": {
       "path": "skills/econ-design/references/dsge-models.md",

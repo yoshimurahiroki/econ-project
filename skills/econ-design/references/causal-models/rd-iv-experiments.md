@@ -238,11 +238,11 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Returns.** `Fstat`: Anderson–Rubin test statistic; `ci`: Computed Anderson–Rubin confidence set; `ci.print`: Formatted confidence-set representation; `bounded`: Whether AR confidence set is bounded.
 
-**Checks before reporting.** Robust Anderson–Rubin inference: Report confidence-set topology, including infinite endpoints. Report the effective first-stage F from the saved stages. With weak-identification risk the AR set is the reported interval; a first-stage F of 10 is a heuristic, not a validity condition. With one instrument, a 5% t-test on the 2SLS estimate needs a first-stage F above 104.7 (Lee, McCrary, Moreira and Porter 2022).
+**Checks before reporting.** Robust Anderson–Rubin inference: Report confidence-set topology, including infinite endpoints. Report the effective first-stage F from the saved stages. With weak-identification risk the AR set is the reported interval; a first-stage F of 10 is a heuristic, not a validity condition.
 
 **Pitfalls.** AR confidence sets may be unbounded under weak identification.
 
-**Sources.** https://www.rdocumentation.org/packages/ivDiag/versions/1.0.8/topics/AR_test, https://doi.org/10.1257/aer.20211063, https://doi.org/10.1146/annurev-economics-080218-025643.
+**Sources.** https://www.rdocumentation.org/packages/ivDiag/versions/1.0.8/topics/AR_test, https://doi.org/10.1146/annurev-economics-080218-025643.
 
 ## Experiments
 
