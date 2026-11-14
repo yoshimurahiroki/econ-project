@@ -1,161 +1,130 @@
+# Selection, duration, decomposition and bunching
+
+Four estimators for outcomes that need their own model: outcomes observed only for a selected group, durations with censoring, mean gaps between two groups, and excess mass at a kink. Every method runs through `python3 skills/econ-data/scripts/research_causal.py run SPEC.json --output RESULT.json` with the shared fields of the [specification and result](contract.md#specification-and-result). Each card gives: when to use it, the identifying conditions, the run settings, the options, the saved output, the checks before reporting, and what the interface does not cover.
+
 ## Heckman sample selection
 
-Use for sample selection (Heckman), duration and hazards, Oaxaca–Blinder decompositions and bunching at a kink.
+**Use when** the outcome is observed only for a selected group (wages of workers, prices of traded goods) and the target is the latent-outcome coefficient.
 
-- Read the common [specification and result](contract.md#specification-and-result).
-- Select `design="sample_selection"` for a `structural_parameter` or `conditional_mean` target, then execute `method="heckman"` through the existing `run` command with `inference={"type":"official"}`.
-- Selection requires `dependence="independent"`, unweighted observations and pointwise inference.
-- The adopted conditions are `outcome_support="continuous"`, `joint_gaussian_errors=true`, `exclusion=true` and `iid=true`.
-- Supply them in the selection request's `conditions` or the adopted `options.definitions.conditions`.
+**Model and identification.** Selection S = 1{W′γ + u > 0}; outcome Y* = X′β + ε, observed when S = 1; (u, ε) jointly normal with Var(u) = 1, Var(ε) = σ², Cov(u, ε) = ρσ. At least one variable in W is excluded from X, and the worksheet states why it moves selection and not the outcome.
 
-- The model is `S_i = 1{W_i'gamma + u_i > 0}`, `Y_i* = X_i'beta + epsilon_i`, with `Y_i*` observed when `S_i=1`.
-- Conditional on the declared regressors, the errors have zero means and a joint Gaussian distribution, `Var(u_i)=1`, `Var(epsilon_i)=sigma^2` and `Cov(u_i,epsilon_i)=rho*sigma`.
-- `W` contains the named selection covariates; `X` contains the outcome covariates.
-- At least one explicitly named variable in `W` is excluded from `X`.
-- The adopted identification statement explains its effect on selection and its exclusion from the latent outcome equation.
-- The target is the continuous latent-outcome coefficient under these restrictions.
+**Run.**
 
-- Required options are `selection`, the binary 0/1 column; `selection_regressors`, the distinct selection-covariate columns; `estimation_method`, either `"2step"` or `"ml"`; and `definitions`, including the adopted conditions.
-- `spec.regressors` supplies the outcome covariates.
-- The selection-only set is `selection_regressors` minus `regressors` and must be nonempty.
-- Both equations include an intercept.
-- `endogenous` and `instruments` are empty.
-- Optional `confidence_level` defaults to 0.95.
-- `args` and `columns` are omitted or empty objects; the named options bind the equations and the unweighted iid inference directly.
+| Setting | Value |
+| --- | --- |
+| Selection | `design="sample_selection"`, target `structural_parameter` or `conditional_mean`; conditions `outcome_support="continuous"`, `joint_gaussian_errors=true`, `exclusion=true`, `iid=true` |
+| Method | `method="heckman"`, `inference={"type":"official"}` |
+| Dependence and weights | `dependence="independent"`, unweighted, pointwise inference |
 
-- Retain the selection population in the canonical table.
-- Require finite selection indicators and selection regressors for its eligible rows, and finite observed outcomes and outcome regressors when `selection=1`.
-- Missing outcomes on unselected rows remain missing and those rows contribute to the selection equation.
-- Apply adopted sample restrictions before the native call: the package's two-step dispatch returns before processing the public `subset` and model-retention flags.
-- Give the native data frame the canonical IDs as row names.
-- Two-step selection IDs come from `rownames(fit$probit$x)` and outcome IDs from `rownames(model.frame(fit$lm))`.
-- ML retains its native model frames and selection response with `mfs=mfo=ys=xs=yo=xo=TRUE`.
-- `sample.included_ids` and `sample.selection_ids` identify the retained selection or joint-likelihood sample; `sample.observed_outcome_ids` and `sample.unselected_ids` preserve its two subsets.
-- The shared `data_record` membership comparison uses the selection sample.
-- Native `param$nObs`, `N0` and `N1` supply the corresponding counts.
+**Options.**
 
-- The runner calls `sampleSelection::heckit`, which delegates to `selection(type=2)` and its official fitting functions.
-- Two-step estimation uses the native probit, outcome regression and `heckitVcov` correction.
-- The runner obtains `coef(summary(fit), part="full")` and `vcov(fit, part="full")` once, then selects their outcome rows with `fit$param$index$outcome`, preserving matrix dimensions.
-- The two-step outcome block includes the inverse-Mills coefficient `rho*sigma` and its covariance corrected for first-stage estimation.
-- The native `lm` remains in the saved fit.
-- ML uses the official joint likelihood, gradient and Hessian, with native two-step starting values.
-- Both methods retain the complete native fit, all coefficients and equation-specific parameter indices.
-- The full covariance preserves its native `NA` entries as JSON `null`; the two-step cross-equation blocks and `sigma`/`rho` variances remain in that form.
+| Option | Meaning |
+| --- | --- |
+| `selection` | binary 0/1 selection column |
+| `selection_regressors` | selection covariates; those absent from `regressors` are the exclusion set and must be nonempty |
+| `estimation_method` | `"2step"` or `"ml"` |
+| `definitions` | the adopted conditions |
+| `confidence_level` | default 0.95 |
 
-- Both native summaries use the Student t reference with `fit$param$df`.
-- The result retains the native SEs and p values and forms pointwise Wald intervals at `confidence_level` with that same reference and degrees of freedom.
-- Coefficient identities include their equation because selection and outcome terms can have the same name.
-- The full covariance uses the ordered names in `diagnostics.full_parameters`; `parameter_names_ref` identifies that coordinate source.
-- The adopted optimizer is the native default Newton-Raphson.
-- Save `maxLik::returnCode`, `returnMessage` and `nIter` for the ML fit or the two-step fit's native probit.
-- Normal stopping codes are 1 (gradient), 2 (absolute objective change) and 8 (relative objective change).
-- The two-step outcome regression retains its rank and finite corrected covariance.
-- Save joint `logLik(fit)` for ML; the two-step first-stage likelihood has its own selection-equation identity.
+`regressors` holds the outcome covariates; both equations get an intercept; `endogenous`, `instruments`, `args` and `columns` stay empty.
 
-- The source release is `sampleSelection` **1.2-16**, revision `5115e01a03d09a46ac1b92813c785c5799b4d654`; R's `packageVersion` representation is **1.2.16**.
-- Retain the source release and actual installed package versions in their respective provenance fields.
-- Direct dependencies are `miscTools`, `systemfit`, `Formula`, `VGAM`, `mvtnorm` and `maxLik` in the existing R requirements closure.
+**Sample.** Keep the whole selection population in the table: selection indicator and selection regressors finite for every eligible row; outcome and outcome regressors finite where `selection=1`; outcomes of unselected rows stay missing. Apply sample restrictions before the call. Saved IDs: `sample.included_ids`, `selection_ids`, `observed_outcome_ids`, `unselected_ids`.
 
-- The packaged Mroz87 example supplies 753 married women from PSID, with 428 selected wage observations and 325 unselected observations.
-- Its selection formula is `lfp ~ nwifeinc + educ + exper + I(exper^2) + age + kids5 + kids618`; its outcome formula is `log(wage) ~ educ + exper + I(exper^2)`.
-- `nwifeinc`, `age`, `kids5` and `kids618` are the declared selection-only columns.
-- When using this official example through the column-based interface, construct the adopted squared-experience and log-wage columns once, preserving missing log wages for nonworkers.
-- The source data's nonworker wage values are zero.
-- Use the supplied `nwifeinc` column unchanged.
+**Output.** All coefficients by equation, the inverse-Mills coefficient ρσ (two-step) with covariance corrected for the first stage, σ and ρ, the full covariance (`NA` kept as `null`), Student-t intervals with the native degrees of freedom, the native fit, and for ML the joint log-likelihood.
 
-Versioned official sources: [public selection interface and sample handling](https://github.com/cran/sampleSelection/blob/5115e01a03d09a46ac1b92813c785c5799b4d654/R/selection.R), [two-step estimator and corrected covariance](https://github.com/cran/sampleSelection/blob/5115e01a03d09a46ac1b92813c785c5799b4d654/R/heckit2fit.R), [continuous-outcome ML](https://github.com/cran/sampleSelection/blob/5115e01a03d09a46ac1b92813c785c5799b4d654/R/tobit2fit.R), [native coefficient inference](https://github.com/cran/sampleSelection/blob/5115e01a03d09a46ac1b92813c785c5799b4d654/R/summary.selection.R), [maxLik stopping codes](https://github.com/cran/maxLik/blob/10e82c3fad3f9fdce2b9c68d2944cbc428a2b7ea/man/returnCode.Rd), and [Mroz87 definitions and official example](https://github.com/cran/sampleSelection/blob/5115e01a03d09a46ac1b92813c785c5799b4d654/man/Mroz87.Rd).
+**Checks.** Optimizer return code 1, 2 or 8 (`maxLik::returnCode`), the number of iterations, a full-rank outcome regression, and the size and sign of ρ against the economic story of selection.
+
+**Not covered.** Discrete outcomes, sampling weights, clustered inference.
+
+**Source.** `sampleSelection` 1.2-16 ([selection](https://github.com/cran/sampleSelection/blob/5115e01a03d09a46ac1b92813c785c5799b4d654/R/selection.R), [two-step](https://github.com/cran/sampleSelection/blob/5115e01a03d09a46ac1b92813c785c5799b4d654/R/heckit2fit.R), [ML](https://github.com/cran/sampleSelection/blob/5115e01a03d09a46ac1b92813c785c5799b4d654/R/tobit2fit.R)) with dependencies `miscTools`, `systemfit`, `Formula`, `VGAM`, `mvtnorm`, `maxLik`.
 
 ## Duration and proportional hazards
 
-- `survival` calls `statsmodels.duration.hazard_regression.PHReg` on the declared complete-case sample.
-- `outcome` is the nonnegative duration.
-- Required `options.status` names the binary event indicator (1 for an event, 0 for right censoring), and `options.ties` selects `breslow` or `efron`.
-- `regressors` contains the numeric covariates without an intercept.
-- Optional `entry`, `strata` and `offset` bind columns to the native arguments.
-- Entry is nonnegative and no later than duration.
-- The model is h(t|X,stratum)=h0,stratum(t) exp(X beta+offset); proportional hazards and conditionally independent censoring/truncation identify its conditional log hazard ratios.
+**Use when** the outcome is a time to an event with right censoring (unemployment spells, firm survival, time to adoption) and the target is a hazard ratio.
 
-- Use `inference={"type":"official"}` for native likelihood covariance or `{"type":"cluster","cluster":"column"}` for the native group sandwich.
-- `confidence_level` defaults to .95.
-- Native Newton fitting uses `maxiter` (default 100) and `tol` (default 1e-8).
-- The runner preserves the likelihood, score, event count, ties and actual column bindings.
-- It stops on nonconvergence or nonfinite inference.
-- PHReg's internal risk sets remove strata with no events and rows outside their event support; `sample.included_ids` follows `model.surv.stratum_rows`, while `excluded_engine_ids` records the other complete rows.
-- The 0.14.6 group sandwich sums every supplied row's score residual, including undefined residuals outside those risk sets.
-- Clustered execution therefore requires an explicitly adopted input sample in which every complete row contributes to an event risk set.
-- The runner preserves the input and rejects that combination before fitting.
+**Model and identification.** h(t | X, stratum) = h₀,stratum(t) · exp(X′β + offset); proportional hazards and censoring or truncation independent of the event given X identify β as conditional log hazard ratios.
 
-- Selection uses `design="survival"` with `target.kind="log_hazard_ratio"` or `"hazard_ratio"`.
-- It binds the requested cluster and level.
-- `effect_scale="log_hazard"` saves the coefficient display on the beta scale; `"hazard_ratio"` displays exp(beta) with exponentiated native log-scale endpoints.
-- `coefficients`, covariance and standard errors retain their log-hazard scale, and the statistics identify both scales.
-- `displays.baseline_survival` saves each stratum's native baseline survival and cumulative hazard at its actual event times.
-- PHReg 0.14.6 returns cumulative hazard immediately before each event; those coordinates and this timing definition remain attached.
-- `definitions.duration_unit` supplies the time-axis unit.
-- Observation weights and simultaneous intervals require their corresponding estimator.
+**Run.**
 
-Source: [PHReg 0.14.6 constructor, fit, risk sets and baseline calculation](https://github.com/statsmodels/statsmodels/blob/40e6a84d26ac74623c6b94b718f0987ef0351c53/statsmodels/duration/hazard_regression.py).
+| Setting | Value |
+| --- | --- |
+| Selection | `design="survival"`, target `log_hazard_ratio` or `hazard_ratio` |
+| Method | `method="survival"` (`statsmodels` `PHReg`) |
+| Inference | `{"type":"official"}` (likelihood) or `{"type":"cluster","cluster":"<column>"}` (group sandwich) |
+
+**Options.**
+
+| Option | Meaning |
+| --- | --- |
+| `status` | 1 = event, 0 = right-censored |
+| `ties` | `breslow` or `efron` |
+| `entry`, `strata`, `offset` | optional columns; entry ≤ duration |
+| `maxiter`, `tol` | Newton settings, default 100 and 1e-8 |
+| `effect_scale` | `log_hazard` or `hazard_ratio` for the display |
+
+`outcome` is the nonnegative duration; `regressors` are numeric, without an intercept; `definitions.duration_unit` names the time unit.
+
+**Sample.** Strata without events and rows outside an event risk set leave the fit (`excluded_engine_ids`). With clustered inference every complete row must enter a risk set; restrict the sample first, or the runner stops.
+
+**Output.** Coefficients and covariance on the log-hazard scale (both scales labelled), likelihood, score, event count, ties, and `displays.baseline_survival` with each stratum's baseline survival and cumulative hazard just before each event time.
+
+**Checks.** Convergence, finite inference, the number of events per covariate, and the proportional-hazards assumption (log-log survival curves by group or time-interacted covariates).
+
+**Not covered.** Observation weights, simultaneous intervals, time-varying covariates in counting-process form.
+
+**Source.** [statsmodels 0.14.6 PHReg](https://github.com/statsmodels/statsmodels/blob/40e6a84d26ac74623c6b94b718f0987ef0351c53/statsmodels/duration/hazard_regression.py).
 
 ## Oaxaca–Blinder mean decomposition
 
-- `oaxaca` calls `statsmodels.stats.oaxaca.OaxacaBlinder`.
-- `outcome` and `regressors` define the two group-specific linear projections; the runner adds an intercept.
-- Required options are `group`, `group_order`, `decomposition` and `bootstrap`.
-- `group_order` contains the two observed labels as strings, in first-minus-second order.
-- The actual call uses `swap=false`, preserving that direction even when the first group's mean is smaller.
-- Each group must have a full-rank design and positive residual degrees of freedom.
-- `inference={"type":"official"}` selects the native row bootstrap.
+**Use when** a mean gap between two groups (wages by gender, prices by region) is split into a part explained by characteristics and a part from different coefficients. The decomposition is descriptive; a causal reading needs its own design.
 
-- `decomposition="two_fold"` requires `two_fold_type="pooled"`, `"nuemark"`, `"cotton"`, `"reimers"` or `"self_submitted"`.
-- The native `nuemark` spelling selects the pooled projection without the group indicator; `pooled` includes that indicator when estimating the reference coefficients.
-- Cotton uses group sample shares, Reimers uses equal coefficient weights, and `self_submitted` uses `submitted_weight` on the explicitly first group's coefficients.
-- The saved reference vector defines explained=(xbar_first−xbar_second) beta_ref and unexplained=xbar_first(beta_first−beta_ref)+xbar_second(beta_ref−beta_second).
+**Definitions.** Two-fold with reference coefficients β_ref: explained = (x̄₁ − x̄₂)β_ref; unexplained = x̄₁(β₁ − β_ref) + x̄₂(β_ref − β₂). Three-fold with group 2 as reference: endowments = (x̄₁ − x̄₂)β₂; coefficients = x̄₂(β₁ − β₂); interaction = (x̄₁ − x̄₂)(β₁ − β₂).
 
-- `decomposition="three_fold"` uses the second group's coefficients as its reference.
-- Its components are endowments=(xbar_first−xbar_second) beta_second, coefficients=xbar_second(beta_first−beta_second), and interaction=(xbar_first−xbar_second)(beta_first−beta_second).
-- Both forms save the observed mean gap, group means, group coefficients, regressor means, sample IDs and the component-sum residual.
-- They describe the adopted mean decomposition; a causal interpretation requires its additional identifying design.
+**Run.** `method="oaxaca"`, selection `design="oaxaca"` with target `mean_decomposition`, `inference={"type":"official"}` (row bootstrap).
 
-- `bootstrap={"n":199,"conf":0.99,"seed":72613}` passes the exact native `n` and `conf` while preserving the caller's random state.
-- `n` is at least two.
-- The native procedure resamples individual rows, sorts each component's draws and calculates the population standard deviation over the slice `int(n*(1-conf)):int(n*conf)`.
-- Thus `conf` defines retained bootstrap draws.
-- The result records that slice, `ddof=0` and the seed.
-- It saves the official component standard deviations and no confidence endpoints or joint covariance.
-- The observed gap has no native bootstrap standard error in this interface.
-- Sampling weights, cluster resampling and a requested interval level require an implementation with that contract.
-- Selection uses `design="oaxaca"` and `target.kind="mean_decomposition"`.
+**Options.**
 
-Source: [OaxacaBlinder 0.14.6 group ordering, two-fold/three-fold definitions and bootstrap](https://github.com/statsmodels/statsmodels/blob/40e6a84d26ac74623c6b94b718f0987ef0351c53/statsmodels/stats/oaxaca.py).
+| Option | Meaning |
+| --- | --- |
+| `group`, `group_order` | group column and the two labels as strings, first minus second (kept even when the first mean is smaller) |
+| `decomposition` | `two_fold` or `three_fold` |
+| `two_fold_type` | `pooled` (with group indicator), `nuemark` (pooled without it), `cotton` (sample shares), `reimers` (equal weights), `self_submitted` with `submitted_weight` |
+| `bootstrap` | `{"n": ≥2, "conf": c, "seed": s}` |
+
+**Output.** Gap, group means, coefficients and regressor means, each component, the sum residual, and bootstrap standard deviations computed over the central slice of sorted draws defined by `conf` (no confidence endpoints, no joint covariance, no standard error for the gap).
+
+**Checks.** Full-rank design and positive residual degrees of freedom in each group; the components add up to the gap; the reference choice is written in the worksheet because it changes the split.
+
+**Not covered.** Sampling weights, cluster resampling, a chosen interval level, nonlinear decompositions.
+
+**Source.** [statsmodels 0.14.6 OaxacaBlinder](https://github.com/statsmodels/statsmodels/blob/40e6a84d26ac74623c6b94b718f0987ef0351c53/statsmodels/stats/oaxaca.py).
 
 ## Bunching at a kink
 
-- `bunching` calls `bunching::bunchit` through the existing official R runner.
-- `outcome` names the unbinned numerical variable, and `regressors`, `endogenous` and `instruments` are empty.
-- Required options are a nonnegative integer `seed` and `definitions.running_unit`.
-- Native `args` must declare `zstar`, `binwidth`, `bins_l`, `bins_r`, `poly`, `t0` and `t1`.
-- They carry the kink, binning window, counterfactual polynomial and marginal tax rates.
-- Native exclusion bins, extra fixed effects, round-number controls and integration correction pass through the same argument interface.
-- `args.n_boot` defaults to 100 and is at least two.
-- The actual native seed equals `options.seed`.
+**Use when** a budget-set kink (tax bracket, benefit phase-out) produces excess mass in the distribution of the choice variable and the target is the excess mass or the implied elasticity.
 
-- The 0.8.6 contract uses `notch=false`.
-- Its `do_bootstrap` calls `marginal_buncher` without the notch and alpha arguments, and its integration-corrected elasticity bootstrap passes the upper bound as both parametric bounds.
-- The runner rejects notch execution and retains the requested specification.
-- This kink route identifies excess mass through the adopted smooth counterfactual density outside the excluded region.
-- Its elasticity additionally uses the declared tax schedule and the package's adopted behavioral mapping.
+**Identification.** A smooth counterfactual density fitted outside the excluded window gives the excess mass; the elasticity adds the tax rates on both sides and the package's behavioral mapping.
 
-- The result preserves native B (excess observations), b (B divided by the mean counterfactual bin count in the excluded region), e (elasticity), and the marginal buncher's location, with their individual units, bootstrap draws and standard deviations.
-- The native output rounds these quantities to nine decimal places; the saved values preserve that output.
-- `inference={"type":"official"}` records the residual bootstrap over binned-frequency residuals and saves no constructed confidence interval.
-- The interface has no sampling-weight or cluster-resampling argument.
-- `quantity="b"` or `"e"` selects the main display.
-- Selection maps `target.kind="bunching_mass"` or `"elasticity"` to that option.
+**Run.** `method="bunching"` through the official R runner (`bunching::bunchit`), selection target `bunching_mass` or `elasticity`, `inference={"type":"official"}` (residual bootstrap over binned counts).
 
-- `displays.bunching_density` stores the native bin coordinates, observed frequencies and fitted counterfactual counts.
-- `displays.bunching_summary` stores all four quantities.
-- The package exports binned counts without raw-row membership, so `sample.observations` is the sum of native `freq_orig`, `input_ids` retains complete input IDs, and `included_ids_available=false`.
-- Missing input IDs remain in `excluded_incomplete_ids`; the raw-data hash, actual arguments, native fit and official bin data remain in the same saved result.
+**Options.**
 
-Sources: [bunchit 0.8.6](https://github.com/cran/bunching/blob/8869c136e3b1d3075a117c4d422efa9cf5c2ef16/R/bunchit.R), [binning](https://github.com/cran/bunching/blob/8869c136e3b1d3075a117c4d422efa9cf5c2ef16/R/bin_data.R), [counterfactual fit and normalization](https://github.com/cran/bunching/blob/8869c136e3b1d3075a117c4d422efa9cf5c2ef16/R/fit_bunching.R), [residual bootstrap](https://github.com/cran/bunching/blob/8869c136e3b1d3075a117c4d422efa9cf5c2ef16/R/do_bootstrap.R).
+| Option | Meaning |
+| --- | --- |
+| `seed` | nonnegative integer, passed to the native call |
+| `definitions.running_unit` | unit of the running variable |
+| `args.zstar`, `binwidth`, `bins_l`, `bins_r` | kink and binning window |
+| `args.poly` | degree of the counterfactual polynomial |
+| `args.t0`, `args.t1` | marginal tax rates below and above the kink |
+| `args.n_boot` | bootstrap draws, default 100, at least 2 |
+| `quantity` | `b` or `e` for the main display |
+
+`outcome` is the unbinned variable; `regressors`, `endogenous` and `instruments` are empty. Exclusion bins, extra fixed effects, round-number controls and the integration correction pass through `args`.
+
+**Output.** B (excess count), b (B over the mean counterfactual bin count in the excluded window), e (elasticity) and the marginal buncher, each with bootstrap draws and standard deviation (rounded to nine decimals by the package); `displays.bunching_density` with bin coordinates, observed and counterfactual counts. The sample is reported as binned counts (`included_ids_available=false`).
+
+**Checks.** Sensitivity of b to the polynomial degree and the excluded window; round-number heaping near the kink; the counterfactual fit outside the window.
+
+**Not covered.** Notches (`notch=true` is rejected), sampling weights, cluster resampling, confidence intervals.
+
+**Source.** `bunching` 0.8.6 ([bunchit](https://github.com/cran/bunching/blob/8869c136e3b1d3075a117c4d422efa9cf5c2ef16/R/bunchit.R), [fit](https://github.com/cran/bunching/blob/8869c136e3b1d3075a117c4d422efa9cf5c2ef16/R/fit_bunching.R), [bootstrap](https://github.com/cran/bunching/blob/8869c136e3b1d3075a117c4d422efa9cf5c2ef16/R/do_bootstrap.R)).

@@ -351,7 +351,7 @@
     },
     "resource:models-causal-outcomes": {
       "path": "skills/econ-design/references/causal-models/outcomes.md",
-      "sha256": "ec6eb70e43d46cb83008869e18f2d65e66d0fa7a7cf4d8581b2dfd2a527f789a"
+      "sha256": "0f29aed2be4fd21ab5c320e4f55e7b4f6d739190251b71c542772da8fb359ea4"
     },
     "resource:models-causal-policy": {
       "path": "skills/econ-design/references/causal-models/policy.md",
