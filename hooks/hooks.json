@@ -1,5 +1,5 @@
 {
-  "description": "Economics task pointer and one writing review per prose turn",
+  "description": "Economist worksheet gate for edits and turn ends, procedure pointer and one writing review per answer",
   "hooks": {
     "SessionStart": [
       {
@@ -39,6 +39,34 @@
             "timeout": 10,
             "statusMessage": "Economics task context",
             "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','Stop'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\"",
+            "additionalContextLimit": 6000
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" PreToolUse",
+            "timeout": 10,
+            "statusMessage": "Economics task context",
+            "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','PreToolUse'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\"",
+            "additionalContextLimit": 6000
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" SubagentStop",
+            "timeout": 10,
+            "statusMessage": "Economics task context",
+            "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','SubagentStop'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\"",
             "additionalContextLimit": 6000
           }
         ]

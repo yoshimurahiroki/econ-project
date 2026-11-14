@@ -7,6 +7,7 @@ description: Acquire, transform, estimate and reproduce economic data and result
 
 This skill carries step 5 of the [economist's procedure](../../runtime/ECONOMIST.md): run the design from the worksheet with the existing scripts.
 
+0. **Procedure.** Empirical work follows the [empirical procedure](references/empirical.md): estimand, data audit, raw facts, design by decision rules, the specification ladder (`templates/estimate_ladder.py`), diagnostics and interpretation, each step filled in the worksheet.
 1. **Data.** Acquire and build tables through [research data](references/research-data.md) and [source to analysis](references/implementation-data.md#source-to-analysis).
 2. **Estimation.** Run the selected method from the [implementation table](references/implementation-engines.md) with the matching script: `scripts/research_causal.py` (and `research_causal.R`, `research_rct.R`), `research_markets.py`, `research_dynamic.py`, `research_macro.py`, `research_macro_extended.py`, `research_dsge.py`, `research_numerics.py`. Specification fields and calls are in [implementation calls](references/implementation-calls.md); worked runs in [implementation examples](references/implementation-examples.md).
 3. **Projects.** Multi-stage work runs through `python3 harness/research.py --root . research.json` ([research runner](../../harness/research.md)).

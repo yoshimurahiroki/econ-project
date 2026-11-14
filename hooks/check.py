@@ -1,53 +1,155 @@
 #!/usr/bin/env python3
-"""Economics task hooks for Codex and Claude Code: a short pointer at session start and on each prompt, and one
-writing review before a turn with substantial prose ends."""
+"""Economics task hooks for Codex and Claude Code.
+
+SessionStart / UserPromptSubmit: state the procedure and record the start of the turn.
+PreToolUse: an edit inside the project and outside work/ waits until this turn's worksheet has its situation,
+question and model.
+Stop: the turn ends only when this turn's worksheet has all seven sections, knowledge unit IDs, a decision and its
+switching condition, and the answer has been reread against WRITING once.
+SubagentStop: a worker rereads its return against the procedure once.
+"""
+import hashlib
 import json
+import os
+import re
 import sys
+import time
+from pathlib import Path
 
 sys.dont_write_bytecode = True
 
 POINTER = ('Economics research entry: follow AGENTS.md. Every request, without exception (code, data, writing, '
            'formatting, everyday questions), runs the economist\'s procedure (runtime/ECONOMIST.md): set the deep, '
-           'consequential problem first. '
-           'Every answer carries: the actors and their incentives; a small model with the condition that determines '
-           'the choice, built from standard models and existing knowledge (knowledge.py search) fitted to the case and simulated; its prediction or comparative static; the recommended decision '
-           'with its switching condition. Without data, solve the model over parameter ranges. Text follows '
-           'runtime/WRITING.md: argument from English originals, Japanese expression from Japanese exemplars '
-           '(skills/econ-writing/scripts/exemplars.py find/style), direct claims, numerical uncertainty only.')
+           'consequential problem first. Copy runtime/WORKSHEET.md to work/<topic>.md and fill it: sections 1-3 '
+           '(situation, question, model with knowledge unit IDs) before editing any project file, all seven '
+           'sections with a decision and its switching condition before the turn ends; the hooks check this. '
+           'Models are built from standard models and existing knowledge (knowledge.py search), fitted to the case '
+           'and solved as a complexity ladder (skills/econ-design/references/modeling.md); empirical work follows '
+           'skills/econ-data/references/empirical.md. Text follows runtime/WRITING.md.')
 REVIEW = ('Before finishing, reread the answer once against runtime/WRITING.md: section 3 (direct claims, numerical '
           'uncertainty only, no hedges, disclaimers, limitations, ornament or negation contrasts) and, for Japanese, '
           'section 2 (connectives, endings, vocabulary and rhythm from the Japanese exemplars). Check that the answer '
-          'carries the economist\'s four elements: actors and incentives, a model with the condition that determines '
-          'the choice, its prediction or comparative static, and the decision with its switching condition. Add any '
-          'missing element and revise any failing sentence; otherwise finish without comment.')
-MIN_REVIEW_CHARS = 1
+          'carries the economist\'s four elements from the worksheet: actors and incentives, a model with the '
+          'condition that determines the choice, its prediction or comparative static, and the decision with its '
+          'switching condition. Add any missing element and revise any failing sentence; otherwise finish without '
+          'comment.')
+WORKER_REVIEW = ('Before returning, check the return against runtime/ECONOMIST.md: it states the economic object it '
+                 'serves, the model or method used with knowledge unit IDs, the actual commands run and saved files, '
+                 'and the result the parent needs. Add what is missing; otherwise return without comment.')
+SECTIONS = ['1. Situation and stakes', '2. Question', '3. Model', '4. Estimand and identification',
+            '5. Execution', '6. Interpretation and decision', '7. Expression']
+KNOWLEDGE_ID = re.compile(r'\b(?:MC-[A-Za-z0-9-]+|[A-Z]{2,}(?:-[A-Z]+)?-\d{2})\b')
+EDIT_TOOLS = {'Write', 'Edit', 'MultiEdit', 'NotebookEdit', 'apply_patch', 'edit', 'write'}
+MAX_STOP_BLOCKS = 3
+MIN_FILLED = 15
 
 
-def last_message(payload):
-    """Codex passes the final message; Claude Code passes the transcript path."""
-    message = payload.get('last_assistant_message')
-    if isinstance(message, str):
-        return message
-    path = payload.get('transcript_path')
+def state_path(session):
+    base = Path(os.environ.get('PLUGIN_DATA') or os.environ.get('CLAUDE_PLUGIN_DATA')
+                or Path.home() / '.local' / 'state' / 'econ-harness')
+    return base / (hashlib.sha256(str(session).encode('utf-8')).hexdigest()[:32] + '.json')
+
+
+def load_state(session):
     try:
-        lines = open(path, encoding='utf-8').read().splitlines()
+        return json.loads(state_path(session).read_text(encoding='utf-8'))
     except Exception:
-        return ''
-    for line in reversed(lines):
-        try:
-            entry = json.loads(line)
-        except ValueError:
+        return {'start': 0.0, 'blocks': 0, 'reviewed': False}
+
+
+def save_state(session, state):
+    try:
+        path = state_path(session)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(state), encoding='utf-8')
+    except Exception:
+        pass
+
+
+def template_lines():
+    try:
+        text = (Path(__file__).resolve().parent.parent / 'runtime' / 'WORKSHEET.md').read_text(encoding='utf-8')
+    except Exception:
+        return set()
+    return {line.strip() for line in text.splitlines() if line.strip()}
+
+
+def sections(text):
+    found, current = {}, None
+    for line in text.splitlines():
+        match = re.match(r'^##\s+(\d)\.', line)
+        if match:
+            index = int(match.group(1)) - 1
+            current = SECTIONS[index] if 0 <= index < len(SECTIONS) else None
+            if current:
+                found[current] = []
             continue
-        body = entry.get('message') if isinstance(entry.get('message'), dict) else entry
-        if body.get('role') == 'assistant' or entry.get('type') == 'assistant':
-            content = body.get('content')
-            if isinstance(content, str):
-                return content
-            if isinstance(content, list):
-                return ''.join(part.get('text', '') for part in content if isinstance(part, dict))
-        if entry.get('type') == 'user' and not entry.get('toolUseResult'):
-            return ''
+        if line.startswith('#'):
+            current = None
+        elif current:
+            found[current].append(line)
+    return found
+
+
+def filled(lines, template):
+    """Characters written beyond the template text and empty labels."""
+    total = 0
+    for line in lines:
+        stripped = line.strip()
+        if not stripped or stripped in template:
+            continue
+        label = re.match(r'^[^:：]{1,60}[:：]\s*(.*)$', stripped)
+        value = label.group(1) if label else stripped
+        total += len(re.sub(r'\(IDs from knowledge\.py[^)]*\)', '', value).strip(' -–'))
+    return total
+
+
+def label_value(lines, label):
+    for line in lines:
+        match = re.match(r'^\s*' + re.escape(label) + r'\s*[:：]\s*(.*)$', line)
+        if match:
+            return match.group(1).strip()
     return ''
+
+
+def worksheet_problems(cwd, start, upto):
+    """Problems with the most recently written worksheet of this turn, checked through section `upto`."""
+    work = Path(cwd) / 'work'
+    candidates = sorted((p for p in work.glob('*.md') if p.stat().st_mtime >= start - 1),
+                        key=lambda p: p.stat().st_mtime, reverse=True) if work.is_dir() else []
+    if not candidates:
+        return None, ['no worksheet in work/ was written in this turn: copy runtime/WORKSHEET.md to '
+                      'work/<topic>.md (or update the existing one for this topic) and fill it']
+    path = candidates[0]
+    found, template, problems = sections(path.read_text(encoding='utf-8', errors='replace')), template_lines(), []
+    for name in SECTIONS[:upto]:
+        if name not in found:
+            problems.append(f'section "## {name}" is missing')
+        elif filled(found[name], template) < MIN_FILLED:
+            problems.append(f'section "## {name}" is not filled')
+    if '3. Model' in found and not KNOWLEDGE_ID.search('\n'.join(found['3. Model'])):
+        problems.append('section 3 names no knowledge unit ID: run knowledge.py search and read the matching units')
+    if upto >= 6 and '6. Interpretation and decision' in found:
+        for label in ('Decision', 'Switches when'):
+            if not label_value(found['6. Interpretation and decision'], label):
+                problems.append(f'section 6 has no "{label}:" entry')
+    return path, problems
+
+
+def edit_targets(payload):
+    tool_input = payload.get('tool_input') or {}
+    paths = [tool_input.get(key) for key in ('file_path', 'path', 'notebook_path') if tool_input.get(key)]
+    patch = tool_input.get('patch') or tool_input.get('input') or tool_input.get('command') or ''
+    if isinstance(patch, str):
+        paths += [p.strip() for p in re.findall(r'^\*\*\* (?:Add|Update|Delete) File:\s*(.+)$', patch, re.M)]
+    return [p for p in paths if isinstance(p, str)]
+
+
+def gated(path, cwd):
+    """Edits inside the project and outside work/ are gated; scratch and temporary files are not."""
+    root = Path(cwd).resolve()
+    target = (Path(path) if Path(path).is_absolute() else root / path).resolve()
+    return root in target.parents and (root / 'work') not in target.parents
 
 
 def main(event):
@@ -55,12 +157,43 @@ def main(event):
         payload = json.load(sys.stdin)
     except Exception:
         payload = {}
+    session = payload.get('session_id') or 'default'
+    cwd = payload.get('cwd') or os.getcwd()
     if event in ('SessionStart', 'UserPromptSubmit'):
+        if event == 'UserPromptSubmit':
+            save_state(session, {'start': time.time(), 'blocks': 0, 'reviewed': False})
         return {'hookSpecificOutput': {'hookEventName': event, 'additionalContext': POINTER}}
-    if event == 'Stop':
-        if payload.get('stop_hook_active') or len(last_message(payload)) < MIN_REVIEW_CHARS:
+    state = load_state(session)
+    if event == 'PreToolUse':
+        if str(payload.get('tool_name', '')).rsplit('__', 1)[-1] not in EDIT_TOOLS:
             return {}
-        return {'decision': 'block', 'reason': REVIEW}
+        targets = [p for p in edit_targets(payload) if gated(p, cwd)]
+        if not targets:
+            return {}
+        _, problems = worksheet_problems(cwd, state.get('start', 0.0), 3)
+        if not problems:
+            return {}
+        return {'hookSpecificOutput': {'hookEventName': 'PreToolUse', 'permissionDecision': 'deny',
+                                       'permissionDecisionReason': 'Fill sections 1-3 of this turn\'s worksheet '
+                                       'before editing ' + ', '.join(targets[:3]) + ': ' + '; '.join(problems) + '.'}}
+    if event == 'SubagentStop':
+        return {} if payload.get('stop_hook_active') else {'decision': 'block', 'reason': WORKER_REVIEW}
+    if event == 'Stop':
+        path, problems = worksheet_problems(cwd, state.get('start', 0.0), 7)
+        if problems and state.get('blocks', 0) < MAX_STOP_BLOCKS:
+            state['blocks'] = state.get('blocks', 0) + 1
+            save_state(session, state)
+            where = f' ({path.name})' if path else ''
+            return {'decision': 'block', 'reason': 'Complete the worksheet' + where + ' before finishing: '
+                    + '; '.join(problems) + '. Then align the answer with it.'}
+        if problems:
+            return {'systemMessage': 'Economics worksheet incomplete after ' + str(MAX_STOP_BLOCKS)
+                    + ' requests: ' + '; '.join(problems)}
+        if not state.get('reviewed'):
+            state['reviewed'] = True
+            save_state(session, state)
+            return {'decision': 'block', 'reason': REVIEW}
+        return {}
     return {}
 
 

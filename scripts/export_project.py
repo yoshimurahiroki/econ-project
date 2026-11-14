@@ -723,7 +723,7 @@ def _prepare_distribution(root, routes=None, *, check=False):
     root = Path(root).resolve()
     validate_package_versions(root, required=True)
     registration = json.loads((root / 'hooks/hooks.json').read_text(encoding='utf-8'))
-    for event in ('UserPromptSubmit', 'SessionStart', 'Stop'):
+    for event in ('UserPromptSubmit', 'SessionStart', 'PreToolUse', 'Stop', 'SubagentStop'):
         handlers = [hook for entry in registration['hooks'].get(event, [])
                     for hook in entry.get('hooks', [])
                     if isinstance(hook.get('command'), str) and 'hooks/check.py' in hook['command']

@@ -134,7 +134,10 @@ references/repository-policy/.codex/agents/*
 !references/repository-policy/.codex/agents/terra.toml
 !references/repository-policy/.codex/agents/luna.toml
 !references/repository-policy/.codex/agents/astra.toml
-.claude/
+.claude/*
+!.claude/settings.json
+!.claude/AGENTS.md
+!.claude/settings.json
 .cursor/
 .gemini/
 .opencode/

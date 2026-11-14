@@ -17,7 +17,7 @@
 
 ## Shared work
 
-1. **Output: bounded assignment; consumer: worker.** Delegate separable work whose benefit exceeds briefing/integration. Supply parent result, obstacle, exact sources/rules, fixed specification, delegated choices, write scope, output, consumer and completion condition. A specialist also receives actual lead attempts, repair and unresolved mechanism.
+1. **Output: bounded assignment; consumer: worker.** Delegate separable work whose benefit exceeds briefing/integration. Every assignment carries the worksheet path and the section it serves; the worker follows the same procedure for its part, and the SubagentStop hook checks its return. Supply parent result, obstacle, exact sources/rules, fixed specification, delegated choices, write scope, output, consumer and completion condition. A specialist also receives actual lead attempts, repair and unresolved mechanism.
 2. **Output: executable worker context; consumer: assigned operation.** Use fresh bounded context and one writer per file/disjoint region; coordinate shared sessions/targets. Each worker reads original applicable AGENTS, the economist's procedure, WRITING, TEAM, specialist and activated prerequisites.
 
 ## Return and integration

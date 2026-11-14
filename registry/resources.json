@@ -1853,6 +1853,21 @@
       "source_path": "skills/econ-design/templates/simulate_model.py",
       "resource_kind": "tool",
       "content_version": "0.97.0"
+    },
+    "data-empirical": {
+      "source_path": "skills/econ-data/references/empirical.md",
+      "resource_kind": "rule",
+      "content_version": "0.97.0"
+    },
+    "data-estimate-template": {
+      "source_path": "skills/econ-data/templates/estimate_ladder.py",
+      "resource_kind": "tool",
+      "content_version": "0.97.0"
+    },
+    "worksheet": {
+      "source_path": "runtime/WORKSHEET.md",
+      "resource_kind": "rule",
+      "content_version": "0.97.0"
     }
   },
   "sections": {
@@ -4161,6 +4176,16 @@
       }
     },
     "design-modeling": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "data-empirical": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "worksheet": {
       "all": {
         "whole_resource": true
       }
@@ -7510,6 +7535,14 @@
     "design-modeling.all": {
       "resource_id": "design-modeling",
       "section_id": "all"
+    },
+    "data-empirical.all": {
+      "resource_id": "data-empirical",
+      "section_id": "all"
+    },
+    "worksheet.all": {
+      "resource_id": "worksheet",
+      "section_id": "all"
     }
   },
   "examples": {},
@@ -7781,6 +7814,12 @@
         "all"
       ],
       "design-modeling": [
+        "all"
+      ],
+      "data-empirical": [
+        "all"
+      ],
+      "worksheet": [
         "all"
       ]
     },
@@ -8147,6 +8186,12 @@
         "all"
       ],
       "design-modeling": [
+        "all"
+      ],
+      "data-empirical": [
+        "all"
+      ],
+      "worksheet": [
         "all"
       ]
     },

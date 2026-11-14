@@ -1024,6 +1024,18 @@
     "design-simulation-template": {
       "deployment_path": ".agents/skills/econ-design/templates/simulate_model.py",
       "export_alias": "SIMULATE_MODEL.py"
+    },
+    "data-empirical": {
+      "deployment_path": ".agents/skills/econ-data/references/empirical.md",
+      "export_alias": "DATA_EMPIRICAL.md"
+    },
+    "data-estimate-template": {
+      "deployment_path": ".agents/skills/econ-data/templates/estimate_ladder.py",
+      "export_alias": "ESTIMATE_LADDER.py"
+    },
+    "worksheet": {
+      "deployment_path": ".agents/runtime/WORKSHEET.md",
+      "export_alias": "WORKSHEET.md"
     }
   },
   "source": {

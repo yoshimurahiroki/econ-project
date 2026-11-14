@@ -258,3 +258,6 @@ Generated from the resource and placement registries. Use this catalog only for 
 - academic-ja: profiles/academic-ja/PROFILE.md
 - design-modeling: skills/econ-design/references/modeling.md
 - design-simulation-template: skills/econ-design/templates/simulate_model.py
+- data-empirical: skills/econ-data/references/empirical.md
+- data-estimate-template: skills/econ-data/templates/estimate_ladder.py
+- worksheet: runtime/WORKSHEET.md

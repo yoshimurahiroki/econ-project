@@ -15,7 +15,7 @@
     },
     "core": {
       "path": "runtime/ECONOMIST.md",
-      "sha256": "9fc30cd9b31c9e6fa132dd9b81c34707c0edd9e8bbb25e303cb66d1297ff3788"
+      "sha256": "3c4de3e987b09e6efc78264dba0f51e3108079445579ed9b18d7108a6bfb7e1d"
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
@@ -51,11 +51,11 @@
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "7760bf77c991a1ab94d84d938170113fc92d9b7bb74358bf70128fb339ce6b64"
+      "sha256": "1ea4c11e439faa77d265f75f57622fa8e633aa5b2b1c80570904a75c06c2ff80"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "ebddcac34abb78464970ec06a5e2e5f0576f70f8856a74b441144ba04633db35"
+      "sha256": "f8b54bc121d8a31902979b1a23c0083aab3e777d2def3826737816f1411e4c9f"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -93,9 +93,17 @@
       "path": "skills/econ-data/references/implementation-descriptive.md",
       "sha256": "74dffd59f0ea487e15eb76fc36ad52e679ed898888e2e347b8eaf398df7b4a0d"
     },
+    "resource:data-empirical": {
+      "path": "skills/econ-data/references/empirical.md",
+      "sha256": "6beb2326e5116885d429fc3ac2d1e76eb12a392c3dc54ad58cd17ed54a276d61"
+    },
     "resource:data-engine-selection": {
       "path": "skills/econ-data/references/implementation-engines.md",
       "sha256": "9a0dd130fe211891d06f07cc8ed2f6477bb14bcff5fca0d0bd100542bf1422c6"
+    },
+    "resource:data-estimate-template": {
+      "path": "skills/econ-data/templates/estimate_ladder.py",
+      "sha256": "1242100c052c3cedc7e565bf2d7dbba10baf8e3bf18766364207118f56d9ba5d"
     },
     "resource:data-implementation": {
       "path": "skills/econ-data/references/implementation.md",
@@ -151,7 +159,7 @@
     },
     "resource:econ-data": {
       "path": "skills/econ-data/SKILL.md",
-      "sha256": "1d2cc7aa058a4e0de6267c06f0fa3664d2d346ce69cb6fcbc82a099d8c1e060b"
+      "sha256": "7820f70970a5e0c55a6e7c46a4a37de35905c61d45d5250fe67520da3f31336f"
     },
     "resource:econ-design": {
       "path": "skills/econ-design/SKILL.md",
@@ -287,11 +295,11 @@
     },
     "resource:hook-registration": {
       "path": "hooks/hooks.json",
-      "sha256": "a58d58ddf1cfbb93a4973ef1139a986a060a3e61ab088693525d821cc548c8c0"
+      "sha256": "127d0eba3293a25ff6ecd6f53b2dcb0fc8ee3147ffcd598425d99c5c8fd20964"
     },
     "resource:hook-wrapper": {
       "path": "hooks/check.py",
-      "sha256": "33c3c29f0e7d25a23e2d1e724ac0f98cca954d8b440c88a595c9e5049f0a0785"
+      "sha256": "03b9f29e3bf949b108fa0dd51f6b62dc1b41dfe7c1507fd4eb9e95a3dad4ea4b"
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
@@ -643,7 +651,7 @@
     },
     "resource:research-causal-dependencies": {
       "path": "skills/econ-data/scripts/requirements-causal.txt",
-      "sha256": "0d9453f8019efb36784edcf7a758aaaf231f3f9182ad270c18dd765eb3bfcfd7"
+      "sha256": "d391f632fd17c18fb578390cc42e8ca0127ce9feccfb33d2fec21e6baf457d46"
     },
     "resource:research-causal-r": {
       "path": "skills/econ-data/scripts/research_causal.R",
@@ -767,7 +775,7 @@
     },
     "resource:resource-guide": {
       "path": "docs/ai/resources.md",
-      "sha256": "1e6e95f46dd1235183d0d033c4239705dfe684587dd638b1a3f74c7199fe77b2"
+      "sha256": "85644afedd4500ef0f34c6cd95dd12a57dfee28ba2badc964eef81051ab726ea"
     },
     "resource:result-artifacts": {
       "path": "skills/econ-writing/references/result-artifacts.md",
@@ -800,6 +808,10 @@
     "resource:top-five-en": {
       "path": "profiles/top-five-en/PROFILE.md",
       "sha256": "6def7233a14c0b5f06d994e03530984ddda0f7552c2ff29b431a60c5a8072b0c"
+    },
+    "resource:worksheet": {
+      "path": "runtime/WORKSHEET.md",
+      "sha256": "5d4423849eb2073889c0c51411dd1699638413db51973a7d7c15392138dd6b18"
     },
     "resource:writing-artifacts": {
       "path": "skills/econ-writing/references/artifact-writing.md",
@@ -847,7 +859,7 @@
     },
     "team": {
       "path": "runtime/TEAM.md",
-      "sha256": "ba9283504e6ad245a8c25c7fb66c9bef3c3ad84e7d676c7c62dbefa585186557"
+      "sha256": "eef8515665bdb35380fe1d14644c5e8c92cbd8583c7d12fd903883aab02fc69c"
     }
   }
 }
