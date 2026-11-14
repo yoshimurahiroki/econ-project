@@ -15,7 +15,7 @@
     },
     "core": {
       "path": "runtime/ECONOMIST.md",
-      "sha256": "8a75504ed0e464a1d0d812ff95b35f0bd29ad0e4c460e4863307ced9740a1751"
+      "sha256": "9fc30cd9b31c9e6fa132dd9b81c34707c0edd9e8bbb25e303cb66d1297ff3788"
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
@@ -139,11 +139,11 @@
     },
     "resource:design-modeling": {
       "path": "skills/econ-design/references/modeling.md",
-      "sha256": "75b1b847a6b9e9e0657772e5ac555b32196c6c6ef54096063befc3a28b8e1127"
+      "sha256": "64c11f1de91029b6b73265a36dc60acfa0f3aed2beba3174b97d0269a34e1bd2"
     },
     "resource:design-simulation-template": {
       "path": "skills/econ-design/templates/simulate_model.py",
-      "sha256": "a34a203285c4571e54587df13e9f2a9486fef79d1d6cd6a025e2de0fb2fbfb31"
+      "sha256": "6f5ef48dae02716d017c31ff39e069d91448c24637a8e90f5fe229799ca70bb8"
     },
     "resource:design-workflow": {
       "path": "skills/econ-design/references/workflow.md",

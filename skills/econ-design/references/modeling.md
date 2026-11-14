@@ -32,7 +32,7 @@ multitask         CONTRACT-07   KPI misses part of the valued work       b* = (f
 relational        CONTRACT-05   repeated play, subjective evaluation     bonus capped by the value of the relationship
 ```
 
-## Step 3. Fit to the case
+## Step 3. Fit to the case and order the ladder
 
 For each assumption of each candidate, write whether it holds in this case and what replaces it when it fails.
 
@@ -40,10 +40,17 @@ For each assumption of each candidate, write whether it holds in this case and w
 Assumption                     Holds?   Evidence from the case             Replacement
 worker risk averse             yes      fixed-salary norm                   –
 KPI captures all valued work   no       sales KPI ignores after-sales care   multitask model (g2 < f2)
-one-shot contract              partly   long tenure                         relational bound as a second check
+one-shot contract              partly   long tenure                         relational cap on the bonus
 ```
 
-Keep the candidates whose key assumptions hold; combine elements when the case needs both (here: multitask payoff with a relational cap).
+Then order the models into a complexity ladder. Rung 0 is the simplest standard model of the decision. Each higher rung adds one feature from the table, ordered by how much that feature can move the decision, and reduces exactly to the rung below when the feature is switched off (a parameter set to zero or infinity).
+
+```
+Rung   Model            Adds                                 Off switch
+0      single task      –                                    –
+1      multitask        second valued task, partial KPI       f2 = g2 = 0
+2      relational cap   credible bonus limit                  cap = ∞
+```
 
 ## Step 4. Write the model
 
@@ -65,19 +72,20 @@ cp skills/econ-design/templates/simulate_model.py work/<topic>_model.py
 python3 work/<topic>_model.py work/<topic>_model.json
 ```
 
-1. **Parameters:** each parameter with its range and the source of the range, as a dictionary of lists.
-2. **Candidate models:** one surplus or payoff function per model, written exactly as in step 4, and its optimum in closed form or by a numerical solver (`scipy.optimize`, the solvers in `skills/econ-data/scripts/research_numerics.py`).
-3. **Check:** each optimum against a grid search or the first-order residual of the same function; a failed check sends the work back to step 4.
-4. **Decision:** the recommended action per parameter point, the gain over the alternative, and the switching condition.
+1. **Parameters:** each parameter with its range and the source of the range, as a dictionary of lists, and the off switch of each feature.
+2. **Ladder:** one function per rung, simplest first, written exactly as in step 4: the optimum in closed form or by a numerical solver (`scipy.optimize`, the solvers in `skills/econ-data/scripts/research_numerics.py`).
+3. **Checks:** each optimum against a grid search or the first-order residual of the same surplus, and each rung with its feature off against the rung below. A failed check sends the work back to step 4.
+4. **Decision:** the action per parameter point and the gain that decides it.
 
-Run time: the grid should finish within about a minute. When it does not, reduce in this order and record what was dropped: coarser grid, fewer parameters varied (fix those that do not move the decision), fewer types or states, a closed form or a static version of a dynamic model.
+The run climbs the ladder from rung 0 and records, for each rung, the share of decisions that change from the rung below. It stops once two consecutive rungs leave the decision unchanged or the time budget (about a minute per rung) is spent. Rungs are solved once and their results kept; a new feature adds a rung on top. Rungs that are independent of each other and cheap can run in parallel processes; a rung that is too slow is simplified before it enters the ladder: coarser grid, fewer varied parameters, fewer types or states, a closed form or a static version.
 
 ## Step 6. Read the results
 
 Fill:
 
 ```
-Recommendation:        KPI bonus with b between 0.20 and 1.15 in 88–96% of the parameter range
+Recommendation:        KPI bonus in 94% of the parameter range, b between 0.20 and 0.60 at the top rung
+Decisive feature:      the multitask rung changes 6% of decisions; the relational cap lowers b but changes none
 Comparative statics:   b falls with KPI noise σ² and risk aversion r; falls as the KPI misses valued work (g2 < f2)
 Switching condition:   flat pay when the measurement cost K exceeds (f·g)² / (2c(|g|² + r c σ²))
 Model disagreement:    single-task and multitask agree when g2 = f2; multitask recommends a weaker bonus otherwise
