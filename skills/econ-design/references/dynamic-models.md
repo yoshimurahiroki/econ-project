@@ -1,5 +1,7 @@
 # Executable dynamic models
 
+Use for dynamic discrete choice and games run by `research_dynamic.py`: finite-horizon, replacement, adoption and dynamic games.
+
 `research_dynamic.py` implements finite-horizon respy estimation and simulation, replacement, persistent-type replacement, discrete and continuous-time entry games, capacity and product choice, and dynamic durable adoption. Its saved JSON binds the model, adopted inputs, intervention, options, full numerical results, software versions and named statistics. Run the adopted specification with `python research_dynamic.py run SPEC.json --output RESULT.json`. Install `requirements-dynamic.txt` into the selected research environment. The respy branch uses its separate Python 3.11 `requirements-respy.txt` closure: the pinned official source uses pandas `DataFrame.append`, NumPy `np.bool` and estimagic 0.4.3 utility functions. Declare the selected script, specification and environment as inputs to the existing research DAG.
 
 Select the adopted method below. Read its complete body and the prerequisite rules returned by the operation registry. The family-wide condition selects every listed body.

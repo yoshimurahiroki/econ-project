@@ -1,32 +1,32 @@
-# Design-specific methods
+# Design methods
 
-Use [ECONOMIST](../../../runtime/ECONOMIST.md) for common task rules and [the economist's procedure](../../../runtime/ECONOMIST.md) for problem formulation and decision selection.
-
-Read the branch matching the requested economic object or assignment mechanism. Choose a diagnostic by the assumption or competing explanation its result can test; use that result to retain or revise the design or interpretation.
+The reference for steps 3 and 4 of the [economist's procedure](../../../runtime/ECONOMIST.md): how to build the model and how to choose the comparison, estimand and estimator. The order of work is the [design procedure](workflow.md); this file is looked up by section. Each section opens with when to use it, then numbered rules; follow the rules in order and write their results in the worksheet.
 
 ## Select the needed section
 
-Locate the heading and retrieve the selected section completely under [the economist's procedure's resource-selection rule](../../../runtime/ECONOMIST.md). Within Model construction, select the named operations needed for the requested object.
-
-- Choices, constraints, strategic interaction, contracts or continuation → Model construction → feasible choices and the requested optimum, equilibrium, path or value.
-- Ordered discrete or nonsmooth choices, lattice interactions or fixed-point existence → Ordered choices and constructive representations → the ordered choice comparison or justified equilibrium correspondence.
-- Disclosure, acquisition, remembered information or ambiguity → Information choices and belief representations → implementable beliefs and the choice implied by the stated preference model.
-- A causal parameter and observed assignment process → Design elements → parameter, comparison, identifying assumptions and inference unit.
-- A method or estimator choice → Choose the estimand and method → the target and its implementing estimator.
-- Counts, zeros, proportions or a percentage effect → Outcome scale and conditional mean → the model and effect in the requested units.
-- Staggered adoption or event-time data → Difference-in-differences and event studies → cohort-time contrasts and requested aggregation.
-- Flexible adjustment or treatment-effect heterogeneity → Orthogonal scores and heterogeneous effects → the score, target population and decision contrast.
-- Demand, conduct, entry or investment counterfactuals → Structural estimation and counterfactuals → identified primitives and re-solved choices.
-- Random assignment → Random assignment and interventions → assignment or receipt estimand and assignment-matched inference.
-- A threshold rule → Regression discontinuity → local parameter and cutoff comparison.
-- An instrument or assigned decision-maker → Instrumental variables and assignment leniency → compliance parameter and identification-matched inference.
-- Exposure built from shares and shocks → Shift-share designs → exogeneity argument, weights and effective assignment units.
-- Connected actors or interference → Networks and spillovers → exposure mapping and direct or spillover effect.
-- A treated panel unit and donor pool → Synthetic controls and panel counterfactuals → the panel counterfactual under the selected structure.
-- Sampling inference, subgroup contrasts or a specified confounder → Inference and interpretation → the covariance, sampling distribution or conclusion-changing departure.
-- A predictive failure, inversion or policy-induced response → Connect observed choices and outcomes to the model and interventions → the repaired observation mapping or re-solved counterfactual.
-- Deviations, equilibrium multiplicity or observed budgets → Construct restrictions and set-valued predictions → valid inequalities, compatible target sets or rationalizing preferences.
-- An unresolved target or welfare aggregation → Select the economic object, then Reuse or calculate the requested quantities → the parameter, counterfactual or common-unit decision comparison.
+| The case has | Section | It returns |
+| --- | --- | --- |
+| Choices, constraints, strategic interaction, contracts, continuation | [Model construction](#model-construction) | feasible choices and the optimum, equilibrium, path or value |
+| A proposition to prove or refute | [Propositions, proofs and counterexamples](#propositions-proofs-and-counterexamples) | the proof's determining step or a counterexample |
+| Ordered discrete or nonsmooth choices, lattices, fixed points | [Ordered choices](#ordered-choices-and-constructive-representations) | monotone comparative statics or an equilibrium correspondence |
+| Disclosure, information acquisition, ambiguity | [Information choices](#information-choices-and-belief-representations) | implementable beliefs and the choice they imply |
+| A method or estimator to choose | [Choose the estimand and method](#choose-the-estimand-and-method) | the target and its estimator |
+| Counts, zeros, shares or percentage effects | [Outcome scale](#outcome-scale-and-conditional-mean) | the model and the effect in the requested units |
+| A causal parameter from an observed assignment process | [Design elements](#design-elements) | parameter, comparison, assumptions and inference unit |
+| Variables to adopt for an analysis | [Economic variable adoption](#economic-variable-adoption) | the checked variable roles |
+| Staggered adoption or event time | [Difference-in-differences](#difference-in-differences-and-event-studies) | cohort-time contrasts and their aggregation |
+| Flexible adjustment or heterogeneous effects | [Orthogonal scores](#orthogonal-scores-and-heterogeneous-effects) | score, target population and decision contrast |
+| Demand, conduct, entry, dynamics, equilibrium counterfactuals | [Structural estimation](#structural-estimation-and-counterfactuals) | identified primitives and re-solved choices |
+| Random assignment | [Random assignment](#random-assignment-and-interventions) | assignment or receipt effects with matching inference |
+| A threshold rule | [Regression discontinuity](#regression-discontinuity) | the local effect at the cutoff |
+| An instrument or assigned decision-maker | [Instrumental variables](#instrumental-variables-and-assignment-leniency) | the complier effect with valid inference |
+| Exposure from shares and shocks | [Shift-share](#shift-share-designs) | the exogeneity argument and effective units |
+| Connected actors, interference | [Networks and spillovers](#networks-and-spillovers) | exposure mapping and direct or spillover effects |
+| One treated unit and a donor pool | [Synthetic controls](#synthetic-controls-and-panel-counterfactuals) | the panel counterfactual |
+| Standard errors, subgroups, sensitivity | [Inference](#inference-and-interpretation) | the covariance, distribution or conclusion-changing departure |
+| A failed prediction, an inversion, a policy-induced response | [Connect choices and outcomes to the model](#connect-observed-choices-and-outcomes-to-the-model-and-interventions) | the repaired mapping or re-solved counterfactual |
+| Deviations, multiple equilibria, observed budgets | [Restrictions and set-valued predictions](#construct-restrictions-and-set-valued-predictions) | valid inequalities and compatible sets |
+| An unsettled target or a welfare aggregation | [Select the economic object](#select-the-economic-object), [quantities](#reuse-or-calculate-the-requested-quantities) | the parameter, counterfactual or common-unit comparison |
 
 ## Model construction
 
@@ -54,13 +54,12 @@ Start with the decision structure, primitives and requested object. Add the bran
 
 ### Propositions, proofs and counterexamples
 
-Write the complete statement before choosing a proof route. Define every variable's domain, feasible set, information set and solution concept; place universal and existential quantifiers in their actual order. State whether a claim applies to every equilibrium, at least one equilibrium or the adopted selection. Separate the existence of a feasible point, an optimizer, an equilibrium and a unique outcome by the mathematical object each establishes. Fix the adopted hypotheses and conclusion while deriving their implication.
+Use when a claim must be proved, refuted or repaired.
 
-Locate the determining step and derive its prerequisite lemmas from the stated primitives. For a fixed-point argument, establish the domain and the correspondence properties used by the selected theorem. For a deviation argument, compare feasible deviations under the actor's information and timing, including induced continuation play. For an optimization argument, retain boundary choices, complementary slackness and the global objective comparison. State the domination, integrability, compactness, differentiability or measurability condition at the operation that uses it. A cited theorem contributes its exact hypotheses and conclusion; supply the derivation that maps the present model into them.
-
-To resolve a contested statement, seek an explicit admissible counterexample at its determining boundary, tie, active constraint or equilibrium branch. Specify the primitives, strategies or allocations and calculate both the hypotheses and the conclusion. An admissible case violating the conclusion refutes the stated claim; a general affirmative claim requires its proof across the quantified domain. Use numerical calculations for their defined cases and analytic arguments for universal conclusions. Preserve derived lemmas when they remain valid and direct the next derivation at the precise remaining implication.
-
-When repair is authorized, change the assumption or clause responsible for the failed implication and derive its consequences for the economic mechanism. Preserve the original claim and its actual resolution in the existing project source. Carry the revised domain, equilibrium selection and resulting sign or ordering into all dependent propositions, comparative statics and welfare statements. Writing consumes that derivation through [the model-and-proof passage](../../econ-writing/references/paper-workflow.md#w3-compose-section-by-section). Perform the substantive mathematical and economic review within the economist's procedure's integrated review; use formal independent certification when it is explicitly selected.
+1. **Statement first.** Write the complete statement: each variable's domain, feasible set, information set and solution concept; quantifiers in their actual order; whether the claim covers every equilibrium, at least one, or the adopted selection. Keep existence of a feasible point, an optimizer, an equilibrium and a unique outcome apart.
+2. **Determining step.** Find the step that turns the hypotheses into the conclusion and derive its lemmas from the primitives. Fixed points: the domain and the correspondence properties the theorem needs. Deviations: feasible deviations under the actor's information and timing, with induced continuation play. Optimization: boundary choices, complementary slackness and the global comparison. Each regularity condition (domination, integrability, compactness, differentiability, measurability) is stated where it is used; a cited theorem brings its exact hypotheses, and the model is mapped into them.
+3. **Counterexamples.** Test a contested claim at its boundary, tie, binding constraint or equilibrium branch with explicit primitives, strategies or allocations; compute the hypotheses and the conclusion. One admissible violation refutes the claim; an affirmative claim needs a proof over the whole domain. Numerical cases settle only themselves.
+4. **Repair.** Change the assumption or clause that breaks the implication, derive what the change does to the mechanism, and carry the new domain, selection and signs into every dependent proposition, comparative static and welfare statement.
 
 ### Ordered choices and constructive representations
 
@@ -80,37 +79,50 @@ When repair is authorized, change the assumption or clause responsible for the f
 
 ## Choose the estimand and method
 
-Reuse a settled specification. For new analysis, establish requested use → target/population/period/units → observation/assignment and treatment history → identifying model/variation → estimator/inference → executable interface. An action target adds its adopted loss, welfare or profit comparison. Choose average/treated/conditional, level/relative and static/dynamic contrasts and their aggregation weights explicitly.
+Use when a new analysis needs its target and estimator. A settled specification is reused.
 
-Map the records to choices, markets, panels or repeated cross sections and their pre-choice information. Derive the conditional mean, moment, likelihood or equilibrium restrictions identifying the target; choose controls/instruments/fixed effects from those restrictions. Preserve the independent inference unit separately from assignment when needed. Match covariance/resampling and a requested pointwise/joint family to actual dependence and cluster columns; a label alone does not establish a small-sample reference.
+1. **Requested use.** The decision and its threshold; an action target adds its loss, welfare or profit comparison.
+2. **Target.** Average, on the treated or conditional; level or relative; static or dynamic; with population, period, units and aggregation weights.
+3. **Data structure.** Map the records to choices, markets, panels or repeated cross sections, with the information available before each choice; the observation unit, the assignment unit and the treatment history.
+4. **Identifying restrictions.** Derive the conditional mean, moment, likelihood or equilibrium restriction that identifies the target; controls, instruments and fixed effects follow from it.
+5. **Estimator and inference.** The estimator that implements that restriction ([implementation table](../../econ-data/references/implementation-engines.md)); covariance or resampling matched to the dependence and the actual cluster variable; pointwise or joint intervals as the claim requires.
+6. **Distinct objects.** Linear projections, proportional means, count distributions, choice probabilities, IV complier effects, cohort-time and path effects, local cutoff effects, donor counterfactuals, orthogonal-score targets, network exposures, identified sets and structural equilibria answer different questions; the estimand names which.
 
-Use the selected method's knowledge and scientific body to compare applicability. Linear projections, proportional means, count distributions, choice probabilities, IV complier effects, cohort/time/path effects, local cutoff effects, donor counterfactuals, orthogonal-score targets, heterogeneous effects, network exposures, identified sets and structural equilibria answer distinct objects. The registry's method sections own their definitions and restrictions; do not maintain a second package menu here.
-
-`research_design.py select` owns selection and `research_causal.py select` calls it. Preserve the current analysis as `adopted_specification`; `design_contract` retains population, comparison, observation/assignment units, weights and inference. Structured `economic_model`, `target`, `conditions`, `comparison` and `numerical` supply the economic chain and actual applicability facts. `design="auto"` uses `conditions.assignment_mechanism`, never a package name in narrative text. The [selection contract](causal-models/implementation.md#select-the-implementing-function) owns field definitions and execution paths.
-
-Inspect each alternative's `eligibility.excluded_by`: mismatched targets, histories or dependence exclude it before comparing cost/precision. Resolve surviving candidates' identifying restrictions, population weights and nuisance/inference choices. A proposed change preserves the adopted specification, reports changed values and executes no fit. Use the returned native options and execution specification only after required adoption; overall ATT, event-time ATT and normalized dose paths retain their different aggregation/normalization.
-
-Dynamic selection uses state/action domains, timing, transitions and constraints. Bind ambiguous `individual_dynamic_choice` to the adopted `structural_model` or `model_contract_id`; a finite respy model remains that model during simulation/welfare, while continuous-saving employment/retirement retains its lifecycle solver. Carry the same initial population and invariant primitives through execution and interpretation. Stop discovery when an eligible implementation resolves the requested quantity; reopen only for a determining new condition.
+Tooling: `research_design.py select` chooses among implementations from a contract (`research_causal.py select` calls it). The adopted analysis is `adopted_specification`; `design_contract` keeps population, comparison, units, weights and inference; `design="auto"` reads `conditions.assignment_mechanism` ([selection contract](causal-models/implementation.md#select-the-implementing-function)). Candidates listed under `eligibility.excluded_by` (mismatched target, history or dependence) are out before cost and precision are compared. Dynamic selection reads state and action domains, timing, transitions and constraints; an ambiguous `individual_dynamic_choice` is bound to the adopted `structural_model` or `model_contract_id`.
 
 ## Outcome scale and conditional mean
 
-Select the outcome model from the requested effect and conditional mean. A count with observed zeros remains admissible in a level OLS regression. With a correctly specified additive conditional mean, its slope gives a level change; under a projection interpretation, retain the projection's population and weighting. For a positive reference mean m, report a specified level contrast Δ as 100Δ/m percent of that reference. An individual growth rate 100(y1−y0)/y0 requires y0>0 and defines a different target. A mean of individual rates and a ratio of population means use different weights. Preserve the chosen denominator and calculate it on the defined population.
+Use when the outcome is a count, has zeros, is a share, or the effect is wanted in percent.
 
-For μ(x)=E[Y|X=x]=exp(x′β), use Poisson quasi-likelihood to estimate proportional mean responses with zeros included. A binary-regressor change gives 100[exp(β)−1] percent at fixed remaining regressors; a unit change in a continuous regressor has the same finite-change expression, while β is the semi-elasticity. Aggregate fitted counterfactual means over the target population when interactions or heterogeneous slopes make the requested effect differ across observations. The conditional mean and design-matched covariance determine this use of PPML for both integer and noninteger nonnegative outcomes. Adding a constant before taking logarithms changes the target and its response to measurement units.
+| Outcome and question | Model | Effect |
+| --- | --- | --- |
+| Level change, additive mean | OLS (zeros admissible) | slope in outcome units; Δ/m × 100 percent of the reference mean m |
+| Proportional change, nonnegative outcome (integer or not) | Poisson pseudo-likelihood (PPML), μ = exp(x′β) | 100[exp(β) − 1] percent for a binary regressor; β is the semi-elasticity |
+| A specified count distribution, Var = μ + αμ² | negative binomial NB2 likelihood | as PPML; overdispersion alone does not select NB2 |
+| Rate with exposure e | log link with offset log(e) | proportional effect on the rate |
+| Share with a denominator | linear share, fractional response or binomial likelihood, by the observation process | percentage points |
+| Individual growth rate | requires y0 > 0 | a different target from the change in means |
 
-For a negative binomial NB2 model, write Var(Y|X)=μ+αμ² and the chosen link. Use its likelihood when the requested distribution or maintained mean–variance structure calls for it. A marginal variance larger than the marginal mean does not select NB2: heterogeneous conditional means also produce that pattern. Specify how individual effects enter. `MASS::glm.nb(y ~ x + factor(id))` estimates group intercepts by unconditional maximum likelihood; a panel command labelled conditional negative binomial imposes its own heterogeneity model. Establish the estimator's fixed-effect argument for the panel's time dimension. For binary-response fixed effects, likewise select conditional likelihood, bias correction or a sufficiently informative time dimension according to the adopted target.
+Rules:
 
-An exposure e enters a log-link rate model as log(e) with coefficient fixed at one when the mean is e·exp(x′β). Preserve the exposure's units and positive domain. A share outcome has its stated denominator and support; select a linear share contrast, fractional-response mean or a binomial likelihood from the actual observation process. A separate zero/participation equation requires a corresponding behavioral or measurement process. For nonlinear models with absorbed effects, retain the package's dropped observations and separation handling as part of the fitted sample.
+1. A mean of individual rates and a ratio of population means use different weights; keep the chosen denominator.
+2. Adding a constant before taking logs changes the target and makes it depend on units.
+3. With interactions or heterogeneous slopes, average fitted counterfactual means over the target population.
+4. Panel fixed effects in nonlinear models: state how individual effects enter (`MASS::glm.nb(y ~ x + factor(id))` estimates group intercepts; conditional NB imposes its own heterogeneity model); binary fixed effects use conditional likelihood, bias correction or a long panel.
+5. Observations dropped for separation or absorbed effects are part of the fitted sample.
+6. A separate zero or participation equation needs a behavioral or measurement process that produces it.
 
 ## Design elements
 
-Define the comparison's treatment path or exposure mapping, potential outcomes, population, period and target parameter. Assign source-observation, analysis, policy-assignment and independent inference units their roles in the actual design; preserve source labels without assigning undocumented roles. Explain identifying variation, risk set, assignment and counterfactual through institutions, timing and observed operations. Connect the maintained assumptions to the estimator, aggregation weights and inference unit.
+Use for any causal parameter from an observed assignment process.
 
-Trace a causal threat through its common cause, timing, effect on treatment or selection, and effect on the outcome. Select controls from the causal structure and measurement timing. Explain the variation removed by a fixed-effect cell and the comparison that remains after conditioning. Predetermined measurement supplies temporal ordering. Compare the recorded assignment process with the stated exogeneity assumption.
-
-For a diagnostic, specify the suspected alternative path, an outcome or proxy it predicts, and the conditioning that preserves the design's intended variation. Interpret rejection through the assumption or specification that this comparison tests, using the statistic and its sampling distribution. State identifying assumptions as conditions linking the estimator to the parameter. Identify each reported result as an observation or estimate. Name the resulting object: association, prediction, causal effect, causal mediation or model counterfactual.
-
-When the question requires comparing different decision-makers on the same case, look for a setting with multiple judgments of that case to test rankings, and use decision order or separate decisions to assess interaction among judges.
+1. **Comparison.** Treatment path or exposure mapping, potential outcomes, population, period and the target parameter.
+2. **Units.** Source-observation, analysis, policy-assignment and inference units, each with its role.
+3. **Variation.** The identifying variation, risk set, assignment and counterfactual, explained through institutions, timing and observed operations.
+4. **Threats.** For each threat: the common cause, its timing, its effect on treatment or selection, its effect on the outcome. Controls come from the causal structure and measurement timing; state what variation each fixed-effect cell removes and what comparison remains.
+5. **Diagnostics.** For each: the alternative path it targets, the outcome or proxy that path predicts, and the conditioning that keeps the intended variation. Rejection is read against the assumption the comparison tests.
+6. **Name the object:** association, prediction, causal effect, causal mediation or model counterfactual.
+7. Comparing decision-makers on the same case needs a setting with several judgments of that case; decision order or separate decisions show interaction among judges.
 
 ## Economic variable adoption
 
@@ -159,51 +171,41 @@ python3 skills/econ-design/scripts/research_design.py variables assembly.json --
 
 ## Difference-in-differences and event studies
 
-Define adoption dates, reversals, treatment intensity, anticipation and comparison eligibility before selecting an estimator. State the target in potential-outcome notation and the scale on which untreated trends are parallel. Use these branches:
+Use for policies adopted at different times or in different places. Define adoption dates, reversals, intensity, anticipation and comparison eligibility before choosing an estimator, and state on which scale (levels or logs) untreated trends are parallel.
 
-- **One treated cohort and one pre/post contrast.** For a panel ATT under conditional parallel trends, choose an outcome-regression, inverse-weighted or doubly robust two-period estimator according to the adopted nuisance models. `DRDID` supplies distinct panel and repeated-cross-section estimators. A multi-year pre/post average is a specified outcome aggregation with its own period weights. A common-date linear fixed-effects comparison remains appropriate when its weighting and conditional mean implement the adopted target.
-- **Staggered absorbing binary treatment.** Define ATT(g,t) for cohort g at time t and select never-treated or eligible not-yet-treated comparisons. Use a group-time estimator such as `did::att_gt` and aggregate with the target's cohort/event-time weights. For a cohort-interacted event study such as Sun–Abraham, retain its comparison cohort and aggregation. A static or conventional lead/lag TWFE coefficient mixes cohort-time effects and can use already-treated comparisons; derive its weights before adopting it as the target effect.
-- **Treatment reversals or changing doses.** Specify the effect of the observed treatment path relative to its baseline path. Use a method supporting those histories, such as `DIDmultiplegtDYN::did_multiplegt_dyn`, with eligible groups sharing the baseline dose. Its non-normalized effect averages effects of the realized path relative to the baseline dose; its normalized effect is a weighted average of current and lagged dose effects. Preserve that distinction when reporting a per-unit effect, selecting horizons or comparing estimates.
-- **Fixed continuous dose with common or staggered adoption.** Select `contdid::cont_did()` for a balanced panel with each unit's dose fixed in every period, including pretreatment observations, and first-treatment cohort recorded separately with never-treated coded zero. ATT(d)=E[Y_t(d)-Y_t(0)|D=d] measures the level effect in outcome units under the adopted untreated parallel-trends restriction. ACRT(d)=E[partial Y_t(d)/partial d|D=d] measures the marginal causal response in outcome units per dose unit and requires the adopted strong parallel-trends restriction across doses. Dose aggregation retains d as the index; event-study aggregation averages the target across eligible cohorts and their doses at each event time. The [continuous-DID execution contract](causal-models/continuous-did.md#fixed-dose-continuous-did) binds these objects to the supported official arguments and inference. Selection across dose groups enters the derivative of ATT(d); interpreting that derivative as ACRT(d) requires the stronger identification restriction. A continuous-treatment TWFE coefficient needs its own derived weighting and identifying argument before adoption as either target.
-- **Several simultaneous interventions in two periods.** The existing `multitreatment_did` estimates the additive first-difference regression coefficients for its declared post-period treatment vector and pretreatment controls. Each treatment's conditional parallel trend, joint support and additive response restriction identify that coefficient. Sequential introduction and dynamic interactions require their treatment-history design and official implementation.
+| Treatment pattern | Target | Estimator |
+| --- | --- | --- |
+| One treated cohort, one pre/post contrast | panel ATT under conditional parallel trends | outcome-regression, IPW or doubly robust two-period (`DRDID`); a common-date fixed-effects comparison when its weights match the target |
+| Staggered, absorbing, binary | ATT(g, t) aggregated with the target's weights | `did::att_gt`, Sun–Abraham (`fixest::sunab`), imputation (`didimputation`, `did2s`); TWFE only after deriving its weights |
+| Reversals or changing doses | effect of the observed path against the baseline path | `DIDmultiplegtDYN::did_multiplegt_dyn` (non-normalized vs normalized effects reported as such) |
+| Fixed continuous dose | ATT(d) in outcome units; ACRT(d) per dose unit under strong parallel trends | `contdid::cont_did` ([continuous-DID contract](causal-models/continuous-did.md#fixed-dose-continuous-did)) |
+| Several simultaneous interventions, two periods | additive first-difference coefficients | `multitreatment_did` |
 
-For each event study, specify the reference period, window, eligible comparisons and contributing cohort or switcher population at each horizon. Fix the population across horizons when the requested dynamic comparison requires it. Match simultaneous or pointwise intervals to the reported family of effects. Preserve anticipation, spillover, composition and concurrent-policy conditions that determine the actual comparison.
+Rules:
 
-Choose covariates from their causal role and timing. Read [DID nuisance specifications](../../econ-data/references/implementation-calls.md#did-nuisance-specifications) for the selected score's covariate matrix, intercept, trimming, timing and inference contract. Preserve the adopted interpretation when changing the panel option. A pooled TWFE regression with the same variable names does not reproduce the DR-DID ATT. An independently specified state-by-year adjustment retains its measurement timing and identifying interpretation in each estimator.
-
-For matching, specify pre-treatment variables, measurement dates, common support, matching weights and the subsequent counterfactual-trend assumption. For future-treated comparisons, specify the eligible pre-treatment window and event-timing assumptions. Map age, birth cohort, calendar time and event time to their roles in the design.
-
-Interpret pre-treatment dynamics for the same contrast and aggregation as the post-treatment result. A nonrejected pre-trend test establishes its observed test outcome; assess a claimed economically small pre-trend against a stated magnitude and its interval. Select a concurrent-policy or placebo comparison when it tests a specified alternative causal path. Preserve the outcome scale: parallel trends in levels and in logarithms impose different restrictions.
-
-Save the cohort-time comparison and its base period with the observations and sampling weights actually used. At each reported event time, retain the contributing cohorts or switchers, their aggregation weights and the represented population. Label pretreatment contrasts, anticipation periods, normalized references and post-treatment ATT separately. Choose `balance_e` or the treatment-path estimator's `same_switchers` restriction when the adopted dynamic comparison fixes its population across horizons; changing that restriction changes the aggregate target.
-
-Match the estimator's actual aggregation and output. `fixest::sunab` builds cohort-by-event interactions; `aggregate.fixest` combines their coefficients with sample cohort shares and the fitted covariance. `didimputation::did_imputation` averages imputed treatment effects with its chosen treatment weights and estimates requested pretrends in a separate untreated-sample regression. `did2s::did2s` returns the second-stage fit with its first-stage variance correction. Their coefficients answer their specified weighting and comparison questions. Retain the original cohort covariance when the package exposes it; a list of aggregate standard errors does not supply cross-horizon covariance.
-
-The `fixes::event_study` interface selects its explicit estimator (`cs`, `sa`, `bjs`, `twm`, `flex` or `twfe`) and saves the returned estimator-specific attributes, reference, pointwise intervals and any separately returned simultaneous bands. `nonabsdid::nabs_event_study` invokes one explicit DCDH, PanelMatch or counterfactual engine. Its DCDH tidier shifts the package's native horizon by one so that the first switch is event time zero and the baseline is minus one. Use its single-engine interface with fixed horizons; the convenience multi-engine wrapper changes windows or skips failed engines. A shared time axis aligns the display. A method comparison additionally requires the same treatment path, comparison eligibility, switcher population, weights and estimand.
-
-For an adopted departure from parallel trends, use [HonestDiD](https://github.com/asheshrambachan/HonestDiD) with the saved universal-reference coefficients, ordered pre/post periods and their full joint covariance. Specify the post-treatment contrast and the relative-magnitude or smoothness restriction, including its magnitude grid. The saved sensitivity result answers that restriction-defined question. The existing `honest_did` branch consumes the saved fit quantities without estimating the outcome model again.
+1. **Event studies:** reference period, window, eligible comparisons and the cohorts contributing at each horizon; a fixed population across horizons when the dynamic comparison requires it (`balance_e`, `same_switchers`).
+2. **Covariates** by causal role and timing ([DID nuisance specifications](../../econ-data/references/implementation-calls.md#did-nuisance-specifications)); a pooled TWFE regression with the same variables does not reproduce the DR-DID ATT.
+3. **Matching:** pre-treatment variables, measurement dates, common support, weights and the counterfactual-trend assumption; future-treated comparisons need an eligible pre-window.
+4. **Pre-trends** are read for the same contrast and aggregation as the effect. A non-rejected test is that test's result; a claimed small pre-trend is judged against a stated magnitude and its interval. Departures from parallel trends: HonestDiD with the saved universal-reference coefficients, ordered periods and full covariance, under a stated relative-magnitude or smoothness restriction.
+5. **Save** cohort-time comparisons, base periods, contributing cohorts, weights and populations at each horizon; label leads, anticipation periods, references and post-treatment ATT separately. Aggregates and their cross-horizon covariance come from the package's own aggregation (`aggregate.fixest`).
+6. **Method comparisons** require the same treatment path, eligibility, switcher population, weights and estimand (`fixes::event_study` with an explicit estimator; `nonabsdid::nabs_event_study` with one engine and fixed horizons).
 
 ## Orthogonal scores and heterogeneous effects
 
-Select the target and orthogonal score before the nuisance learners. In `DoubleML`, a partially linear score targets its partially linear coefficient, while an interactive-regression score targets the configured ATE or ATT; an instrumental score adds instrument conditions. Cross-fitting estimates nuisance functions away from each scoring fold. Split at the independent sampling or assignment unit, retain required panel/cluster structure and keep tuning inside the training folds. Machine learning supplies nuisance estimates; the design supplies identification.
+Use when many controls need flexible adjustment or the effect varies across units.
 
-For `grf::causal_forest`, binary unconfounded treatment targets a conditional average effect, and continuous treatment targets the conditional covariance-to-variance slope under its stated treatment model. Choose the forest and aggregation for the requested population. Cluster weighting and unit weighting define different population averages. When the result allocates treatment, calculate value net of treatment and capacity costs on the evaluation population; train and evaluate the policy on separate information. Select heterogeneity contrasts for the competing mechanism or action threshold they resolve.
+1. Choose the target and the orthogonal score before the learners: `DoubleML` partially linear (coefficient), interactive (ATE or ATT), instrumental variants.
+2. Cross-fit at the independent sampling or assignment unit, keep panel and cluster structure, tune inside training folds. Learners estimate nuisances; the design identifies.
+3. `grf::causal_forest`: conditional average effects for binary unconfounded treatment; for continuous treatment the conditional covariance-to-variance slope. Cluster and unit weighting give different averages.
+4. Heterogeneity claims rest on direct group contrasts, calibration or projection tests on evaluation data; a treatment-allocation rule is trained and evaluated on separate data, with value net of treatment and capacity costs.
 
 ## Structural estimation and counterfactuals
 
-Write the economic model, observation process and identifying restrictions together. Identify which prices, characteristics, costs and decisions are jointly determined. Map each parameter to observed variation, excluded shifters or an explicit calibration. A fitted demand curve and an equilibrium inversion recover different objects. Choose additional structure for the parameter or counterfactual it identifies, and compare competing conduct or behavioral restrictions where they produce different observations.
+Use when the question needs behavior under conditions not observed: demand and conduct, entry, dynamic choice, general equilibrium, welfare.
 
-Keep one adopted structural specification in the project's existing research specification. Give it a revision and map its actors, objectives, feasible choices, information and decision timing, states, transition law, shock distribution, normalization, solution concept, parameters, observation process, likelihood or moments, and interventions to the equations and their code definitions. For each free parameter, identify the observed variation or moment that moves it, the exclusion or maintained restriction permitting that interpretation, and the normalization separating it from payoff scale. Mark fixed and calibrated values by their actual source. Check local moment or choice-response rank on the observed support; derive observational equivalence when different primitives reproduce those observations. A full-rank numerical Jacobian establishes that local calculation, while the economic exclusion and selection restrictions establish the interpretation.
-
-Carry that specification revision into the fitted object, baseline equilibrium, each counterfactual, numerical result and consuming table or paragraph through the existing [result lifecycle](../../econ-data/references/reproducible-workflow.md#carry-analysis-results-into-tables-figures-and-prose). When persistent continuation is needed, bind the canonical specification as a request/source reference in the existing [governing context](../../../harness/state.md#governing-context), with adopted modeling choices and their existing change authority. Preserve the actual specification body across resumption and handoff. A package option, convergence repair, worker return or remembered solution cannot amend its economic objects.
-
-For differentiated-product demand, define markets, choice sets, outside shares and price endogeneity; use excluded variation and substitution patterns to identify price sensitivity and heterogeneity. For multiproduct pricing, write q(p)−Δ(p−mc)=0 with Δ_jk=−H_jk∂q_k/∂p_j and the adopted ownership/conduct matrix H. Recover markups and marginal costs using the estimated demand derivatives, then re-solve prices and quantities after the intervention. Use `PyBLP` when its demand/supply system implements that model. Carry product withdrawal, entry or ownership changes into available choices and the equilibrium system.
-
-A calculation holding baseline shares and demand derivatives fixed supplies a local pricing approximation. For a requested equilibrium after a finite ownership or cost change, solve the new pricing equations and recompute shares, profits and surplus in that same scenario through the [specialist result methods](../../econ-data/references/implementation-engines.md#estimator-engine-and-algorithm-selection). When comparing welfare across dates or markets, establish the outside option's change: a rising inside share can reflect improved inside products or a deteriorating alternative. Holding outside utility constant is a substantive restriction for that welfare comparison.
-
-For dynamic choice or games, define the state, action, transitions, payoff normalization, discount factor and equilibrium selection. Estimate state transitions from the corresponding transitions in the data. Select a full-solution likelihood, conditional-choice-probability or simulation-based method according to the model and identifying restrictions. Re-solving the model under changed policy requires the specified invariant primitives and equilibrium rule. Use the selected package interface and [self-contained dynamic implementation](dynamic-models.md), then solve the original Bellman, moment or equilibrium conditions to the adopted tolerance.
-
-Use the structural object to select the estimation problem:
+1. **One specification.** Actors, objectives, feasible choices, information and timing, states and transitions, shocks, normalization, solution concept, parameters, observation process (likelihood or moments) and interventions, each mapped to its equation and code. The specification has a revision and travels into the fit, baseline, counterfactuals and every exhibit ([result lifecycle](../../econ-data/references/reproducible-workflow.md#carry-analysis-results-into-tables-figures-and-prose)); package options and convergence repairs do not change it.
+2. **Identification.** For each free parameter: the variation or moment that moves it, the exclusion or restriction that permits the interpretation, the normalization separating it from payoff scale; fixed and calibrated values with their sources. Check local rank on the observed support; a full-rank Jacobian establishes the calculation, the economic restrictions establish the interpretation.
+3. **Estimator by model:**
 
 | Model and target | Identification and estimator construction |
 | --- | --- |
@@ -216,56 +218,60 @@ Use the structural object to select the estimation problem:
 | Heterogeneous-agent general equilibrium | Define household asset/income states, borrowing constraints, transition risk, the cross-sectional distribution, market-clearing unknowns and aggregate targets. Solve individual policies and their distribution jointly with prices. Sequence-space impulse responses use the linearized household and market-clearing Jacobians at the adopted steady state; a finite nonlinear intervention re-solves the corresponding transition system. |
 | Agent-based market or policy experiments | Define each actor's information, budget, feasible actions and behavioral policy, market matching/clearing, shock process and initial population. Map observed moments to calibrated or estimated primitives. Fix seeds and experiment assignments, retain actor histories and market/resource accounting, and compare outcomes under the same policy intervention and population weights. |
 
-The [implemented macro contracts](macro-models.md) specify household/firm timing, a financial capacity margin, capital clearing, calibrated primitives and the productivity observation map. The [stochastic model](dsge-models.md) derives its rational-expectations policy from the original Euler and resource equations, estimates the technology process from declared observations and verifies nonlinear conditional residuals. Official `sequence_jacobian` solves the declared market-clearing derivative system; official `HARK.PerfForesightConsumerType` solves the stated lifecycle comparison. Register the actual specification, environment, policies, equilibrium, observations and scenario as stages in the same research record. A native-host behavioral experiment assigns the declared actor information and returns through TEAM under its fixed behavioral and accounting contract.
 
-Define a counterfactual by the primitive or institutional change, the parameters held invariant, available choices, transition changes, market closure, initial population/state distribution and equilibrium-selection rule. Solve its affected endogenous prices, quantities, participation and policies together; for a transition path, start from the adopted initial distribution and evolve it under each scenario's policy and transition law. Evaluate Bellman/pricing/complementarity residuals and profitable feasible deviations in the original equations. Where the model admits several equilibria, retain the adopted selection or the jointly admissible outcomes and their action ranking. Attach each outcome to its own scenario and selected equilibrium.
-
-Define welfare in the adopted monetary or utility units before aggregation. Use each scenario's consumer value or compensating variation, firm profits net of fixed and adjustment costs, public revenue, resource costs and external effects for the same population and horizon. Count transfers once under the adopted welfare objective; preserve distributional weights. A log-sum surplus formula uses its specified price coefficient and income-effect restriction. For dynamic values, identify whether action shocks enter monetary payoffs or choice probabilities and use the corresponding expected-payoff value. Derive a policy recommendation from the resulting total and group comparisons.
-
-For investment or employment adjustment, specify the cost of changing each unit, the fixed cost of adjusting at all and irreversibility. Compare adjustment with waiting or inaction before fitting a smooth adjustment equation. Connecting market-to-book value to the marginal value of capital requires the production, competition and adjustment-cost restrictions that equate them. A cash-flow coefficient can reflect information about investment opportunities left out of that proxy. To identify a financing mechanism, select variation in available finance that separates it from expected profitability and derive its effect on the chosen investment margin.
+4. **Differentiated-product demand and pricing.** Markets, choice sets, outside shares and price endogeneity; excluded variation identifies price sensitivity and heterogeneity. Pricing: q(p) − Δ(p − mc) = 0, Δ_jk = −H_jk ∂q_k/∂p_j with ownership or conduct matrix H; recover markups and costs from estimated derivatives, then re-solve prices and quantities after the intervention (`PyBLP`). Holding baseline shares and derivatives fixed is a local approximation; a finite ownership or cost change is solved anew. Welfare across dates or markets needs the change in the outside option.
+5. **Dynamic choice and games.** State, action, transitions (estimated from observed transitions), payoff normalization, discount factor, equilibrium selection; full-solution likelihood, CCP or simulation estimators; re-solve under the invariant primitives and the equilibrium rule ([dynamic models](dynamic-models.md)) and check the original Bellman, moment or equilibrium conditions. Macro contracts: [macro models](macro-models.md), [DSGE](dsge-models.md).
+6. **Counterfactuals.** Define the changed primitive or institution, the invariant parameters, available choices, transition changes, market closure, initial population and equilibrium selection. Solve all affected prices, quantities, participation and policies together; transition paths start from the adopted initial distribution. Check residuals and profitable deviations in the original equations; with multiple equilibria keep the adopted selection or the admissible set and its action ranking.
+7. **Welfare.** In stated monetary or utility units: consumer value or compensating variation, profits net of fixed and adjustment costs, public revenue, resource costs and external effects, for one population and horizon; transfers counted once; distributional weights kept. A log-sum formula uses its price coefficient and income-effect restriction.
+8. **Investment and adjustment.** Specify the cost of changing each unit, the fixed cost of adjusting and irreversibility, and compare adjustment with waiting before fitting a smooth equation. Market-to-book equals the marginal value of capital only under the production, competition and adjustment-cost restrictions that make them equal; a financing mechanism needs variation in available finance separate from expected profitability.
 
 ## Random assignment and interventions
 
-Specify the parameter's assignment unit, mechanism, stratification and probabilities. Explain how implementation, take-up, attrition and spillovers enter the comparison. Define assignment effects and treatment-receipt effects as separate estimands. Define receipt estimands through their compliance assumptions. Match adjustment, weighting, randomization inference and cluster inference to the assignment structure.
-
-For an online A/B or business experiment, retrieve CAUSAL-02 through [econ-knowledge](../../econ-knowledge/SKILL.md) to bind persistent actor IDs, eligibility, assignment, outcome maturation, the metric's numerator and denominator, and the profit comparison. An experiment that changes purchase or retention keeps the complete assigned population for its assignment effect. Choose fixed-horizon or sequential stopping with its matching inference; Bayesian adoption uses STAT-07's posterior expected loss and the actual observation likelihood. Group-sequential boundaries, repeated looks and multiple outcomes belong to the adopted experiment specification.
-
-When assignment adapts to observed rewards, record each pre-assignment probability and available history. Separate cumulative experimental profit, best-arm identification and the value of a later deployment; choose the horizon and objective before the allocation algorithm. Use INFO-02's belief-state learning model for exploration and CAUSAL-02's adaptive-assignment conditions for estimation. A contextual deployment rule continues through ADVCAUSAL-02's policy-value evaluation on the adopted population. Pass the original assignment and stopping process to econ-data; a fixed-allocation estimator requires its own applicable sampling argument.
-
+1. Assignment unit, mechanism, strata and probabilities; implementation, take-up, attrition and spillovers in the comparison.
+2. Assignment effects and receipt effects are separate estimands; receipt effects rest on compliance assumptions.
+3. Adjustment, weighting, randomization inference and clustering follow the assignment structure.
+4. **Online and business experiments** (CAUSAL-02): persistent actor IDs, eligibility, outcome maturation, the metric's numerator and denominator, the profit comparison; the full assigned population for assignment effects; fixed-horizon or sequential stopping with matching inference; Bayesian adoption by posterior expected loss (STAT-07).
+5. **Adaptive assignment:** record each pre-assignment probability and history; choose the objective (in-experiment profit, best-arm identification, later deployment) before the algorithm (INFO-02, CAUSAL-02, ADVCAUSAL-02).
 
 ## Regression discontinuity
 
-Specify the running variable, cutoff, assignment rule, compliance, support and local parameter. Connect continuity or local randomization to manipulation, heaping, discretization and other cutoff rules. Specify the result's bandwidth, polynomial, kernel, bias correction and inferential procedure. For a fuzzy design, connect outcome and treatment jumps to the local compliance parameter.
-
-When the requested exhibit uses `rdplot`, calculate its bins and polynomial coordinates in the analysis. Save the actual bin intervals, cutoff, plotting bandwidths and each polynomial's side, including both cutoff endpoints. The binned-mean interval and the robust treatment-effect interval belong to different targets. Preserve those definitions in the saved display; rendering consumes the returned coordinates.
+1. Running variable, cutoff, assignment rule, compliance, support and the local parameter.
+2. Continuity or local randomization, checked against manipulation, heaping, discreteness and other rules at the same cutoff (density test, covariate continuity).
+3. Bandwidth, polynomial, kernel, bias correction and inference reported with the estimate (`rdrobust`); fuzzy designs divide the outcome jump by the treatment jump for the local compliers.
+4. `rdplot` bins and polynomial coordinates are computed in the analysis and saved; binned-mean intervals and the robust effect interval are different objects.
 
 ## Instrumental variables and assignment leniency
 
-Define the treatment, instrument, first stage and target population. Explain the economic paths that support independence, exclusion and monotonicity. Assess instrument strength with diagnostics matched to the model and inference procedure. When conventional inference relies on a strong first stage that the design does not establish, use an inference procedure valid under weak identification.
-
-For a new participation policy, derive who changes treatment under that policy. Under the instrument conditions above and policy-invariant potential outcomes, write the latent-index model D=1{U≤p} conditional on the adopted covariates, with U uniform on [0,1] and MTE(u)=E[Y₁−Y₀|U=u]. A shift p₀→p₁, with p₁>p₀, changes the population mean by ∫[p₀,p₁] MTE(u)du; dividing by p₁−p₀ gives the effect per induced participant. An instrument moving a different interval identifies a different weighted effect. Match the new interval to identified support before applying the estimate. If two effect schedules fit the historical comparison and reverse the new action's ranking, obtain variation at the new margin or carry their compatible implications into the stated decision criterion. A more precise historical LATE leaves that difference unresolved.
-
-For judge, examiner or officer leniency, establish actual assignment and within-cell variation. Choose the leave-out unit from that assignment structure. Establish how instrument-estimation error, examiner sample size, treatment dimensions, sorting and monotonicity enter the requested parameter. Map that parameter to its compliance population and institutional margin.
+1. Treatment, instrument, first stage and target population; the economic paths behind independence, exclusion and monotonicity.
+2. Strength diagnostics matched to the model and the inference; weak first stage: weak-identification-robust inference (Anderson–Rubin).
+3. **New policies:** with D = 1{U ≤ p} and MTE(u) = E[Y₁ − Y₀ | U = u], a shift p₀ → p₁ changes the mean by ∫ MTE(u) du over [p₀, p₁]; an instrument moving a different interval identifies a different weighted effect. When two effect schedules fit history and reverse the new ranking, obtain variation at the new margin.
+4. **Judge or examiner leniency:** actual random assignment within cells, the leave-out unit from the assignment structure, estimation error in leniency, sorting and monotonicity.
 
 ## Shift-share designs
 
-Identify whether shocks or shares support exogeneity. Specify share dates, shocks, concentration, exposure, leave-out construction, common components and effective assignment units. When a coefficient combines many comparisons, inspect its influential weights and examine the competing outcome paths of the components that drive it. Match inference to shock dependence and exposure overlap. Define the estimand through the chosen exogeneity argument.
+1. State whether exogeneity comes from shocks or from shares.
+2. Share dates, shocks, concentration, exposure, leave-out construction and the effective assignment units.
+3. Inspect the components with influential weights and their competing outcome paths.
+4. Inference matched to shock dependence and exposure overlap (exposure-robust standard errors).
 
 ## Networks and spillovers
 
-Define the relationship, measurement date, exposure mapping, own and peers' treatments, and interference set for the requested effect. Identify common shocks, network formation, endogenous peer selection, direct effects and spillovers through the design. Trace assignment to downstream exposure. Establish how later treatment, migration, link changes and outcome recording enter the effect. Match inference to assignment and dependence.
+1. Relationship, measurement date, exposure mapping, own and peers' treatment, interference set.
+2. Common shocks, network formation and peer selection separated from direct effects and spillovers.
+3. Later treatment, migration, link changes and outcome recording traced through the exposure; inference matched to assignment and dependence.
 
 ## Synthetic controls and panel counterfactuals
 
-Define the treated unit, donors, pre-treatment support and counterfactual structure. Establish how fit, contamination, extrapolation and regularization enter the estimate. Select placebo or sensitivity exercises to examine the specified identifying premise. Match the inferential procedure to the assignment model and sampling framework.
+1. Treated unit, donor pool, pre-treatment support and the counterfactual structure.
+2. Fit, contamination, extrapolation and regularization examined; placebo and sensitivity exercises aimed at the identifying premise.
+3. Inference matched to the assignment model and sampling framework.
 
 ## Inference and interpretation
 
-Choose standard errors, clustering, randomization inference or another justified procedure from the design's sampling and assignment variation. Map effective assignment units, dependence and small-sample corrections to that procedure. Preserve prespecified outcome families and multiple-testing adjustments. Use direct contrasts for subgroup differences. For a sensitivity analysis, choose departures from the identifying assumption that represent the suspected economic confounder, find the departure that changes the conclusion, and express it in the outcome's units over the period being evaluated.
-
-For an adopted linear-model wild cluster bootstrap, [fwildclusterboot::boottest](https://s3alfisc.github.io/fwildclusterboot/reference/boottest.fixest.html) consumes the saved model, the exact null, clustering variables, bootstrap weight distribution, repetitions and null-imposition choice. Save its test-inverted interval and bootstrap p value. For an adopted CR2 coefficient test, [clubSandwich::coef_test](https://jepusto.github.io/clubSandwich/reference/coef_test.html) consumes the saved supported model and analysis-sample cluster vector; retain its Satterthwaite degrees of freedom for each contrast. These procedures operate on the selected estimator's fitted object and preserve its sample and weights.
-
-Report the defined parameter, estimate and requested standard error, interval or test result directly. Assess the named design through its comparison, estimand and assignment mechanism. For a requested repair, define the resulting comparison and estimand and identify the assignment mechanism and reported comparison. Explain the design features that establish the requested paper claim. Keep repair history and execution status in operational records outside research artifacts.
+1. Standard errors, clustering or randomization inference from the design's sampling and assignment variation; effective units, dependence and small-sample corrections stated.
+2. Few clusters: wild cluster bootstrap (`fwildclusterboot::boottest`, `pyfixest` `wildboottest`) on the saved model with the exact null; CR2 tests with Satterthwaite degrees of freedom (`clubSandwich::coef_test`).
+3. Pre-specified outcome families get multiple-testing adjustments; subgroup differences are tested directly.
+4. Sensitivity: choose departures that represent the suspected confounder, find the departure that overturns the conclusion, and express it in outcome units over the evaluated period.
 
 ## Connect observed choices and outcomes to the model and interventions
 
@@ -289,29 +295,22 @@ Use the branch matching the supplied choices, budgets or equilibrium observation
 
 ## Select the economic object
 
-For a descriptive question, select observed patterns and comparisons that answer it. For a causal parameter, specify the identifying design and assumptions under [Design elements](#design-elements). For a structural parameter, model counterfactual or welfare question requiring behavioral structure, use the matching [model-construction operations](#model-construction). Use an identified reduced-form comparison when it suffices for the requested object. Explain how the retained assumptions determine the result.
-
-When models fit the same observed choices, compare their predictions for the requested counterfactual or action. Seek further identification when those predictions change the answer or action ranking. If choice occasions have different available sets, retain the availability information that identifies model restrictions before aggregating alternatives. To transfer a result, map the new case's choices, information, incentives and constraints to the original relationship and derive the result under the new conditions.
-
-When complete individual effects or outcome distributions are unavailable, identify the moments, bounds or group comparisons sufficient for the requested choice. When observed outcomes and maintained assumptions permit ranking choices within a restricted feasible set, such as a reallocation that holds prices fixed, compare options within that set and return the recommendation to that set.
-
-For a model used to choose an action, identify the causal response to the variable the decision-maker changes and retain the predictive state information available when that choice is made. Specify which information and other actors' responses remain fixed in the evaluated choice.
+1. Descriptive question: the observed patterns and comparisons that answer it. Causal parameter: [design elements](#design-elements). Counterfactual or welfare needing behavior: [model construction](#model-construction). A reduced-form comparison is used when it suffices.
+2. When several models fit the same choices, compare their predictions for the requested counterfactual or action; seek identification only where they disagree on the answer. Keep availability information when choice sets differ.
+3. Transfer of a result: map the new case's choices, information, incentives and constraints onto the original relationship and derive the result under the new conditions.
+4. Without full individual effects or distributions, identify the moments, bounds or group comparisons sufficient for the choice; rank options inside a restricted feasible set when only that set is identified.
+5. A model for choosing an action identifies the causal response to the variable the decision-maker changes and keeps the information available at the choice.
 
 ## Reuse or calculate the requested quantities
 
-When exposure duration mechanically restricts opportunities for the outcome, construct that path from the relevant exposure durations and comparison-group outcomes, then compare it with the observed path. Interpret the remaining difference through the assumptions used to build the benchmark and the mechanisms it can test.
-
-Reuse summaries with matching populations, periods and definitions; use econ-data for missing calculations through the existing pipeline. For sample coverage, report counts by the requested periods and groups with the eligible population as denominator. Generate captions, numerical text and language variants from the same quantities and definitions.
-
-For a contribution calculation in a nonlinear model, define the baseline and the shocks or mechanisms held active. Calculate adding a component to the baseline and removing it from the joint scenario as the distinct experiments the question requires, specifying which choices reoptimize in each.
-
-For a welfare comparison, write the valuation equation, express the included outcomes in its common units, and count effects transmitted through another included component once. Separate resource costs, transfers and the adopted distributional weights. Derive which behavioral terms disappear through individual optimization and which remain through fiscal effects, externalities or existing distortions. When those conditions yield a sufficient-statistic formula, estimate the quantities in that formula. For a finite policy change z₀→z₁, integrate the identified marginal welfare effect over that path or re-solve the adopted model; multiplying the derivative at z₀ by z₁−z₀ gives its local approximation. Resolve the response away from the baseline when it changes the action ranking. Reuse the resulting estimates and vary the valuation or behavioral assumption that decides the choice.
+1. Reuse summaries whose populations, periods and definitions match; compute missing ones through the data pipeline; coverage counts use the eligible population as denominator.
+2. Mechanical exposure benchmarks: build the path from exposure durations and comparison outcomes, then read the remaining difference through the benchmark's assumptions.
+3. Contribution in a nonlinear model: adding a component to the baseline and removing it from the joint scenario are different experiments; state which choices reoptimize.
+4. Welfare: write the valuation equation in common units, count transmitted effects once, separate resource costs, transfers and weights; derive which behavioral terms vanish by optimization (sufficient statistics) and which remain through fiscal effects, externalities or distortions. A finite change z₀ → z₁ integrates the marginal effect along the path or re-solves the model; derivative × change is a local approximation.
 
 ## Deliver the selected result
 
-For a requested model, connect its assumptions and features to the economic parameter or counterfactual. Identify internally estimated, externally calibrated and imposed quantities. Deliver descriptive and causal-effect tasks at their requested results. For a decision, compare the objective across options and state the choice determined by that comparison or its parameter conditions.
-
-Pass the requested mathematical object from design to execution and writing with its defining equations. A selected knowledge or model-contract ID locates the derivation; the adopted specification fixes the actors, information, timing, parameter roles and solution concept used in this study. Map each requested quantity to the equation that defines it and the named output that supplies it. Use the following objects for the handoff:
+Pass the mathematical object from design to execution and writing with its defining equations, the adopted symbols bound to role, indices, unit and normalization, and estimated, calibrated and imposed quantities marked:
 
 | Requested result | Definitions and derivation carried to its consumer |
 | --- | --- |
@@ -322,4 +321,5 @@ Pass the requested mathematical object from design to execution and writing with
 | A general-equilibrium comparison | Carry the household or firm policy, distribution and market-clearing prices from each scenario together. A transition comparison uses the adopted common initial distribution and each scenario's subsequent law of motion. |
 | A welfare result | Define the valuation equation, reference population, horizon, discounting, resource and transfer accounting, and utility-to-money conversion. Identify whether the result averages values over the initial population or each scenario's stationary distribution. |
 
-Use the paper's adopted symbols in this mapping. Bind each symbol to its economic role, indices, unit and normalization, and give a parameter, its estimate and its scenario value each its own defined notation. Preserve those meanings through the existing [saved-result lifecycle](../../econ-data/references/reproducible-workflow.md#carry-analysis-results-into-tables-figures-and-prose). The returned equation, named quantity and defining conditions provide writing with the premises for its economic conclusion.
+
+A decision is delivered as the objective compared across options and the choice it selects, with its parameter conditions.

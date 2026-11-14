@@ -1,5 +1,7 @@
 ## Shift-share, sensitivity and simultaneous inference
 
+Use for shift-share inference, sensitivity analysis from saved OLS quantities, multiple-testing families and spatial covariance.
+
 ### Inference extension contract
 
 The common `research_causal.py run` schema executes the methods below through official StatsPAI **1.43.1**, [revision ddb3b45f2d3fc649ea794aa15f8989bb10f8e543](https://github.com/brycewang-stanford/StatsPAI/tree/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543), and `statsmodels.stats.multitest.multipletests`. Use `inference={"type":"official","confidence_level":0.95}`; `alpha` supplies the equivalent significance level. The existing table reader accepts CSV, Parquet and Arrow IPC with explicit columns and string IDs. Saved-result inputs accept JSON and gzip JSON. Each result retains its input hash, named official functions/signatures/source hashes, actual package versions, effective options, sample information and reusable display rows.

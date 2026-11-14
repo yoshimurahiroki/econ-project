@@ -1,5 +1,7 @@
 ## Official DoubleML fits
 
+Use for double machine learning (choose the score and target before the learners) and generalized random forests (conditional effects; heterogeneity claims need direct contrasts or calibration tests).
+
 Select `design="orthogonal_score"` and its native `score`; `implementation="doubleml"` also connects sample-selection and quantile-effect targets. Retain the chosen population contrast before selecting learners. These models share the causal run schema and official fitting owner.
 
 | Method | Official score and target | Required nuisance learners |

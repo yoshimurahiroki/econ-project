@@ -1,6 +1,17 @@
 # Select the official implementation
 
-Select the required section through the [implementation index](implementation.md#select-the-operation-specific-rules). Read its complete body and registered prerequisites before applying it.
+Use at step D5 / E4 to find the official package call for the adopted estimand: regression and causal candidates, market models, dynamic and numerical solvers, and the checks that the call matches the design.
+
+Contents:
+
+- [Estimator, engine and algorithm selection](#estimator-engine-and-algorithm-selection)
+- [Regression and causal implementation candidates](#regression-and-causal-implementation-candidates)
+- [Market model implementation candidates](#market-model-implementation-candidates)
+- [Dynamic and numerical implementation candidates](#dynamic-and-numerical-implementation-candidates)
+- [Bayesian project implementations](#bayesian-project-implementations)
+- [Marketing and customer implementations](#marketing-and-customer-implementations)
+- [Forecast and inventory implementations](#forecast-and-inventory-implementations)
+- [Operations and domain implementations](#operations-and-domain-implementations)
 
 ## Estimator, engine and algorithm selection
 

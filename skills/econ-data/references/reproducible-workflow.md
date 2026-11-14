@@ -2,7 +2,7 @@
 
 Use [ECONOMIST](../../../runtime/ECONOMIST.md) for required reading, reasoning, execution, integrated review and verification. Use the [execution procedure](workflow.md) for files and delivery, [state](../../../harness/state.md) for persistent version-linked reuse and restart, and the applicable [publication](../../../harness/publication.md) section for a requested publication operation.
 
-Use the existing contracts for [complete output replacement](../../../runtime/ECONOMIST.md#5-execution), [multi-file publication](../../../harness/publication.md#complete-generation-boundary), and [Git staging, moves and scoped commits](../../../harness/publication.md#working-files-git-and-delivery). Read the [affected-branch example](#example-recompute-the-affected-branch) when that implementation is needed.
+Use the existing contracts for [complete output replacement](../../../runtime/ECONOMIST.md#5-execution), [multi-file publication](../../../harness/publication.md#complete-generation-boundary), and [Git staging, moves and scoped commits](../../../harness/publication.md#working-files-git-and-delivery).
 
 ## Locate the requested result
 
@@ -44,7 +44,7 @@ For reusable descriptive tables and plots, save the calculated summary at its de
 
 For a comparison, match named quantities and trace the changed source, sample, measure, specification and estimator. To isolate a requested component within scope, hold the other components fixed and compare the resulting named quantities. Give each common-sample or specification-specific result its own population and identity. Report the quantities that change and attribute each contribution to the comparison that establishes it.
 
-Select the current result for each intended output through the project's existing specification-to-run mapping or manifest. Publish a complete result only when it matches that selection and the selection has not been superseded, using the [publication boundary](../../../runtime/ECONOMIST.md#5-execution). This keeps exploratory variants, failed retries and older attempts finishing late from replacing the adopted result. A prior complete result remains usable for outputs selecting its dependencies; outputs requesting revised dependencies wait for a matching result. See the [worked result lifecycle](#example-reuse-a-named-estimate-without-losing-its-definition) for a compact record and operation trace.
+Select the current result for each intended output through the project's existing specification-to-run mapping or manifest. Publish a complete result only when it matches that selection and the selection has not been superseded, using the [publication boundary](../../../runtime/ECONOMIST.md#5-execution). This keeps exploratory variants, failed retries and older attempts finishing late from replacing the adopted result. A prior complete result remains usable for outputs selecting its dependencies; outputs requesting revised dependencies wait for a matching result.
 
 ## Complete outputs and failure propagation
 
@@ -61,74 +61,3 @@ Run the requested path through its actual entry point and inspect the requested 
 ## Deliver the reproduced result
 
 Deliver the requested result and comparison with the source under econ-data's output and reporting rules. Requested text and exhibits follow [WRITING](../../../runtime/WRITING.md) and use the reproduced quantities and definitions.
-
-## Worked project operations
-
-Use these fictional examples for numeric-result reuse or incremental rebuilding. General publication and Git examples are linked above.
-
-### Example: reuse a named estimate without losing its definition
-
-**Use when:** an adopted weekly-hours regression feeds a table, coefficient figure and one numerical sentence. The existing runner saves specification and sample records and publishes a selected run. The following is a fictional compact result record, not a mandatory schema. Its referenced specification defines `weekly_hours ~ training + age | site`, binary training participation, age in years, no weights, and site-clustered CR1 covariance with a t reference distribution and 23 degrees of freedom; it also records encoding and the fitted design. The sample record identifies the input snapshot, complete cases and any estimation exclusions, with fitted person IDs. The analysis concerns an association; this record alone does not establish a causal effect.
-
-```yaml
-record_version: 1
-analysis: training_hours
-specification: hours_s3
-run: hours_s3_r02
-inputs: derived_people_v7
-sample: fitted_hours_s3_v7
-fit_status: completed
-sample_summary: {observations: 480, site_clusters: 24}
-statistics:
-  coefficient.training:
-    status: estimated
-    estimate: 1.25
-    unit: hours_per_week
-    standard_error: 0.50
-    inference: {covariance: site_CR1, reference: t, degrees_of_freedom: 23}
-  coefficient.age:
-    status: estimated
-    estimate: 0.00
-    unit: hours_per_week_per_year
-    standard_error: 0.02
-    inference: {covariance: site_CR1, reference: t, degrees_of_freedom: 23}
-```
-
-**Operation trace:**
-
-1. Complete the fit, retain its sample and design mapping, and extract estimates by semantic term key. Match the covariance calculation, cluster IDs, reference distribution and degrees of freedom to the adopted inference specification. Save the complete result under `hours_s3_r02`; the existing selection for the main output then points to that run. The version identifies the record format; the specification and run keys identify the research choices and execution separately.
-2. The table and figure read `coefficient.training`, and the prose renderer uses its value and units. Compose the public sentence expressing the synthetic association of 1.25 additional hours per week under [WRITING](../../../runtime/WRITING.md). All three use the same selected run. A label correction rebuilds the affected display while reusing the fit. Preserve the age coefficient's estimated zero and the producer's unrounded value.
-3. A requested point contrast involving training and age uses a defined change in age and a named weighted combination of their estimates. Compute the contrast from the saved values. Retrieve the matching complete covariance or draws for any requested post-estimation calculation that consumes them; obtain missing inputs from the matching fit. Preserve the completed point contrast for its own consumers.
-4. An authorized specification `hours_s4` adds a control with missing values. Save a new fitted-sample record and run. Compare fitted IDs as well as estimates. If the requested comparison needs to isolate the control's contribution and permits the calculation, fit `hours_s3` on the new common sample as a separately identified diagnostic. Report its comparison with `hours_s4` and the change caused by restricting the original sample as two quantities.
-5. If the new control is collinear, record that term as `omitted` with reason `collinear` and no estimated value; do not print 0.00. If the run fails instead, retain a failed run status without publishing a replacement estimate. An output requesting `hours_s4` stays blocked; the completed `hours_s3_r02` remains usable only for outputs still selecting that specification. A delayed `hours_s3` attempt cannot replace a later adopted selection merely because it finishes last.
-
-**Decision criterion:** reuse is established by matching definitions, inputs, sample and completion, then selecting the intended named quantity. Renderers consume estimates; they do not choose the preferred specification, reinterpret missing values, or reconstruct statistical inference from formatted tables.
-
-### Example: recompute the affected branch
-
-**Use when:** deciding whether an approved edit changes a saved quantity or only its display. This operation trace follows a small existing dependency graph.
-
-The graph records these dependencies:
-
-```text
-input_file:     content of inputs/people.csv
-sample_rule:    approved minimum age and missing-age exclusion rule
-figure_labels: title and axis wording
-
-records      <- input_file
-sample       <- records, sample_rule
-estimate     <- sample
-table        <- estimate
-figure       <- estimate, figure_labels
-```
-
-The input file is tracked by its contents. The existing runner also tracks producing code, called helpers and relevant environment settings; these remain unchanged in the three traces below. `sample_rule` and `figure_labels` are separate tracked configuration inputs. The `sample` object carries selected records and the adopted rule revision; the saved estimate carries that revision and the input fingerprint forward. A renderer reads those saved quantities.
-
-**Expected operation trace:**
-
-- Title correction: rewrite the title under WRITING, then change only `figure_labels`. Rebuild the figure. Reuse `records`, `sample`, `estimate`, and `table`; their numerical provenance is unchanged.
-- Approved sample revision: change minimum age from 18 to 21. In this fictional input, some retained people are aged 18–20 and their removal changes the mean. Rebuild `sample`, `estimate`, `table`, and `figure`. Reuse `records`, because the input bytes and import definition are unchanged. Update the sample revision attached to the estimate and exhibits.
-- Source correction at the same CSV path: a changed content fingerprint invalidates `records`; reassess and rebuild the affected descendants. Reuse requires matching content and definition dependencies plus established completion.
-
-**Decision criterion:** follow declared dependencies and changes in values or required provenance. A content-aware engine may skip later computations when an upstream recomputation yields an identical tracked value. Consequently, required definition/provenance revisions must themselves be tracked dependencies; a changed sample definition cannot silently inherit an old exhibit's provenance just because a mean happens to match. Confirm the actual run/skip record before reporting what rebuilt. A request for clean reproduction has a different scope from this incremental revision.
-

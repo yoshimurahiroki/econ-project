@@ -1,5 +1,7 @@
 ## Official causal extensions
 
+Use for the StatsPAI-based extensions: DiD and synthetic-control variants, mediation, heterogeneous effects, decomposition and duration. Each row gives the required options and the saved quantity.
+
 ### Causal extension contract
 
 The existing `run SPEC.json --output RESULT.json` command binds these methods through `_causal_extensions` and the pinned **StatsPAI 1.43.1**, [revision ddb3b45f2d3fc649ea794aa15f8989bb10f8e543](https://github.com/brycewang-stanford/StatsPAI/tree/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543). They use the common scientific specification, shared table reader and result lifecycle. `options.args` contains the selected function's native arguments; role columns belong in the flat options below. `inference={"type":"official","confidence_level":0.95}` selects native inference. Supported cluster paths use `{"type":"cluster","cluster":"column","confidence_level":0.95}`. The wrapper forwards the level as native `alpha=1-confidence_level`.

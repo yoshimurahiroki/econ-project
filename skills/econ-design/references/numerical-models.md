@@ -1,5 +1,14 @@
 # Numerical methods for structural research
 
+Use for finite economic models solved by `research_numerics.py run` (equilibria, Shapley and core, clearing, multitask incentives, queues, decision rights) and their model contracts.
+
+Contents:
+
+- [Finite economic model execution](#finite-economic-model-execution)
+- [Moment identification and estimation](#moment-identification-and-estimation)
+- [Derivatives, devices and sparse systems](#derivatives-devices-and-sparse-systems)
+- [Entry point](#entry-point)
+
 The existing numerical entry point `skills/econ-data/scripts/research_numerics.py` executes finite economic models. Its reusable functions also evaluate binary-choice moments, analytic and automatic derivatives, constrained moment estimates and finite-state sparse generators. A research stage declares the adopted specification, producing code, selected environment and saved result as dependencies.
 
 ## Finite economic model execution

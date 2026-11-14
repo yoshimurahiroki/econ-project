@@ -1,5 +1,7 @@
 ## RCT design, assignment and diagnosis
 
+Use to design, assign, analyze and diagnose randomized experiments: blocks and clusters, assignment probabilities, randomization inference, power and attrition.
+
 Select `design="rct"` or `"rct_design"`, or `design="auto"` with `conditions.assignment_mechanism="randomized"`, and target `itt`, `ate` or `power`. Choose the outcome population and measurement period, assignment unit, intervention and interference mapping before allocation. Cluster assignment implements a joint intervention on the cluster; `interference="within_cluster"` defines its cluster-level assignment contrast. Cross-cluster or individual network exposure effects use the existing network-exposure owner. Receipt LATE selects the IV owner with assignment as the instrument and the adopted relevance, exclusion and monotonicity conditions.
 
 The existing command `python skills/econ-data/scripts/research_causal.py run SPEC.json --output RESULT.json` accepts `method="rct_design"` and `inference={"type":"official"}`. Its R calculation lives in the sibling `research_rct.R` and inherits the project's R startup profile, working directory and library paths. The common specification supplies data, unique row ID, outcome, population, period, outcome unit and estimand. `regressors` names numeric pretreatment covariates; `endogenous` and `instruments` are empty. An assignment roster has one row per outcome unit and no existing treatment column. `analyze` requires complete numeric outcomes and the observed assignment labels.

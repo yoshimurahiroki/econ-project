@@ -603,191 +603,6 @@
         "research-causal-r"
       ]
     },
-    "example-subscription": {
-      "source_path": "skills/econ-data/examples/subscription/README.md",
-      "resource_kind": "example",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-subscription-code",
-        "example-subscription-specification",
-        "example-subscription-materials"
-      ]
-    },
-    "example-subscription-code": {
-      "source_path": "skills/econ-data/examples/subscription/run.py",
-      "resource_kind": "support",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-subscription-specification",
-        "research-data",
-        "research-causal",
-        "research-design"
-      ]
-    },
-    "example-subscription-specification": {
-      "source_path": "skills/econ-data/examples/subscription/specification.json",
-      "resource_kind": "support",
-      "content_version": "0.96.0"
-    },
-    "example-subscription-materials": {
-      "source_path": "skills/econ-data/examples/subscription/materials.py",
-      "resource_kind": "support",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-subscription-specification",
-        "research-design",
-        "research-artifacts",
-        "research-meetings"
-      ]
-    },
-    "example-equipment": {
-      "source_path": "skills/econ-data/examples/equipment/README.md",
-      "resource_kind": "example",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-equipment-code",
-        "example-equipment-specification",
-        "example-equipment-materials"
-      ]
-    },
-    "example-equipment-code": {
-      "source_path": "skills/econ-data/examples/equipment/run.py",
-      "resource_kind": "support",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-equipment-specification",
-        "research-data",
-        "research-dynamic",
-        "research-design"
-      ]
-    },
-    "example-equipment-specification": {
-      "source_path": "skills/econ-data/examples/equipment/specification.json",
-      "resource_kind": "support",
-      "content_version": "0.96.0"
-    },
-    "example-equipment-materials": {
-      "source_path": "skills/econ-data/examples/equipment/materials.py",
-      "resource_kind": "support",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-equipment-specification",
-        "research-design",
-        "research-artifacts",
-        "research-meetings"
-      ]
-    },
-    "example-housing": {
-      "source_path": "skills/econ-data/examples/housing/README.md",
-      "resource_kind": "example",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-housing-code",
-        "example-housing-specification",
-        "example-housing-materials"
-      ]
-    },
-    "example-housing-code": {
-      "source_path": "skills/econ-data/examples/housing/run.py",
-      "resource_kind": "support",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-housing-specification",
-        "research-data",
-        "research-macro-extended",
-        "research-design"
-      ]
-    },
-    "example-housing-specification": {
-      "source_path": "skills/econ-data/examples/housing/specification.json",
-      "resource_kind": "support",
-      "content_version": "0.96.0"
-    },
-    "example-housing-materials": {
-      "source_path": "skills/econ-data/examples/housing/materials.py",
-      "resource_kind": "support",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-housing-specification",
-        "research-design",
-        "research-artifacts",
-        "research-meetings"
-      ]
-    },
-    "example-charging": {
-      "source_path": "skills/econ-data/examples/charging/README.md",
-      "resource_kind": "example",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-charging-code",
-        "example-charging-specification",
-        "example-charging-materials"
-      ]
-    },
-    "example-charging-code": {
-      "source_path": "skills/econ-data/examples/charging/run.py",
-      "resource_kind": "support",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-charging-specification",
-        "research-data",
-        "research-markets",
-        "research-design"
-      ]
-    },
-    "example-charging-specification": {
-      "source_path": "skills/econ-data/examples/charging/specification.json",
-      "resource_kind": "support",
-      "content_version": "0.96.0"
-    },
-    "example-charging-materials": {
-      "source_path": "skills/econ-data/examples/charging/materials.py",
-      "resource_kind": "support",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-charging-specification",
-        "research-design",
-        "research-artifacts",
-        "research-meetings"
-      ]
-    },
-    "example-commuting": {
-      "source_path": "skills/econ-data/examples/commuting/README.md",
-      "resource_kind": "example",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-commuting-code",
-        "example-commuting-specification",
-        "example-commuting-materials"
-      ]
-    },
-    "example-commuting-code": {
-      "source_path": "skills/econ-data/examples/commuting/run.py",
-      "resource_kind": "support",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-commuting-specification",
-        "research-data",
-        "research-causal",
-        "research-design"
-      ]
-    },
-    "example-commuting-specification": {
-      "source_path": "skills/econ-data/examples/commuting/specification.json",
-      "resource_kind": "support",
-      "content_version": "0.96.0"
-    },
-    "example-commuting-materials": {
-      "source_path": "skills/econ-data/examples/commuting/materials.py",
-      "resource_kind": "support",
-      "content_version": "0.96.0",
-      "required_resources": [
-        "example-commuting-specification",
-        "research-design",
-        "research-artifacts",
-        "research-meetings"
-      ]
-    },
     "research-rct": {
       "source_path": "skills/econ-data/scripts/research_rct.R",
       "resource_kind": "support",
@@ -2112,13 +1927,13 @@
         "heading": "Deliver the reproduced result"
       },
       "worked-project-operations": {
-        "heading": "Worked project operations"
+        "whole_resource": true
       },
       "example-reuse-a-named-estimate-without-losing-its-definition": {
-        "heading": "Example: reuse a named estimate without losing its definition"
+        "whole_resource": true
       },
       "example-recompute-the-affected-branch": {
-        "heading": "Example: recompute the affected branch"
+        "whole_resource": true
       }
     },
     "paper-workflow": {
@@ -2815,106 +2630,6 @@
         "whole_resource": true
       }
     },
-    "example-subscription": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-subscription-code": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-subscription-materials": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-subscription-specification": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-equipment": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-equipment-code": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-equipment-specification": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-equipment-materials": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-housing": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-housing-code": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-housing-specification": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-housing-materials": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-charging": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-charging-code": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-charging-specification": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-charging-materials": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-commuting": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-commuting-code": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-commuting-specification": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "example-commuting-materials": {
-      "all": {
-        "whole_resource": true
-      }
-    },
     "research-rct": {
       "all": {
         "whole_resource": true
@@ -2925,10 +2640,10 @@
         "whole_resource": true
       },
       "causal-scope": {
-        "heading": "Causal scope"
+        "whole_resource": true
       },
       "method-selection": {
-        "heading": "Method selection"
+        "whole_resource": true
       }
     },
     "research-markets-dependencies": {
@@ -5486,109 +5201,6 @@
         "research-causal-r-dependencies.all"
       ]
     },
-    "example-subscription.all": {
-      "resource_id": "example-subscription",
-      "section_id": "all",
-      "requires": [
-        "models-causal.multi-arm-policy-learning-and-evaluation",
-        "econ-data.construct-a-requested-data-design",
-        "research-data-guide.shared-tables-across-sql-python-r-and-julia"
-      ]
-    },
-    "example-subscription-materials.all": {
-      "resource_id": "example-subscription-materials",
-      "section_id": "all"
-    },
-    "example-subscription-code.all": {
-      "resource_id": "example-subscription-code",
-      "section_id": "all"
-    },
-    "example-subscription-specification.all": {
-      "resource_id": "example-subscription-specification",
-      "section_id": "all"
-    },
-    "example-equipment.all": {
-      "resource_id": "example-equipment",
-      "section_id": "all",
-      "requires": [
-        "models-dynamic.replacement",
-        "econ-data.construct-a-requested-data-design",
-        "research-data-guide.shared-tables-across-sql-python-r-and-julia"
-      ]
-    },
-    "example-equipment-code.all": {
-      "resource_id": "example-equipment-code",
-      "section_id": "all"
-    },
-    "example-equipment-specification.all": {
-      "resource_id": "example-equipment-specification",
-      "section_id": "all"
-    },
-    "example-equipment-materials.all": {
-      "resource_id": "example-equipment-materials",
-      "section_id": "all"
-    },
-    "example-housing.all": {
-      "resource_id": "example-housing",
-      "section_id": "all",
-      "requires": [
-        "models-macro-extended.closed-city-commuting-and-floor-space-equilibrium",
-        "econ-data.construct-a-requested-data-design",
-        "research-data-guide.shared-tables-across-sql-python-r-and-julia"
-      ]
-    },
-    "example-housing-code.all": {
-      "resource_id": "example-housing-code",
-      "section_id": "all"
-    },
-    "example-housing-specification.all": {
-      "resource_id": "example-housing-specification",
-      "section_id": "all"
-    },
-    "example-housing-materials.all": {
-      "resource_id": "example-housing-materials",
-      "section_id": "all"
-    },
-    "example-charging.all": {
-      "resource_id": "example-charging",
-      "section_id": "all",
-      "requires": [
-        "models-markets.differentiated-demand-and-supply",
-        "econ-data.construct-a-requested-data-design"
-      ]
-    },
-    "example-charging-code.all": {
-      "resource_id": "example-charging-code",
-      "section_id": "all"
-    },
-    "example-charging-specification.all": {
-      "resource_id": "example-charging-specification",
-      "section_id": "all"
-    },
-    "example-charging-materials.all": {
-      "resource_id": "example-charging-materials",
-      "section_id": "all"
-    },
-    "example-commuting.all": {
-      "resource_id": "example-commuting",
-      "section_id": "all",
-      "requires": [
-        "models-causal.rct-design-assignment-and-diagnosis",
-        "econ-data.construct-a-requested-data-design"
-      ]
-    },
-    "example-commuting-code.all": {
-      "resource_id": "example-commuting-code",
-      "section_id": "all"
-    },
-    "example-commuting-specification.all": {
-      "resource_id": "example-commuting-specification",
-      "section_id": "all"
-    },
-    "example-commuting-materials.all": {
-      "resource_id": "example-commuting-materials",
-      "section_id": "all"
-    },
     "research-rct.all": {
       "resource_id": "research-rct",
       "section_id": "all"
@@ -7824,66 +7436,6 @@
       ]
     },
     "compose": {
-      "example-subscription": [
-        "all"
-      ],
-      "example-subscription-code": [
-        "all"
-      ],
-      "example-subscription-specification": [
-        "all"
-      ],
-      "example-subscription-materials": [
-        "all"
-      ],
-      "example-equipment": [
-        "all"
-      ],
-      "example-equipment-code": [
-        "all"
-      ],
-      "example-equipment-specification": [
-        "all"
-      ],
-      "example-equipment-materials": [
-        "all"
-      ],
-      "example-housing": [
-        "all"
-      ],
-      "example-housing-code": [
-        "all"
-      ],
-      "example-housing-specification": [
-        "all"
-      ],
-      "example-housing-materials": [
-        "all"
-      ],
-      "example-charging": [
-        "all"
-      ],
-      "example-charging-code": [
-        "all"
-      ],
-      "example-charging-specification": [
-        "all"
-      ],
-      "example-charging-materials": [
-        "all"
-      ],
-      "example-commuting": [
-        "all"
-      ],
-      "example-commuting-code": [
-        "all"
-      ],
-      "example-commuting-specification": [
-        "all"
-      ],
-      "example-commuting-materials": [
-        "all"
-      ],
       "prose": [
         "select-the-economic-argument",
         "connect-the-explanation",

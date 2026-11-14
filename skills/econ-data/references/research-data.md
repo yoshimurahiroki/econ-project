@@ -1,5 +1,18 @@
 # Public data acquisition and research tables
 
+Use for data acquisition and construction through the assembly specification: sources, constructed variables, analysis samples, shared tables across SQL, Python, R and Julia.
+
+Contents:
+
+- [Data scope](#data-scope)
+- [Acquisition and catalogues](#acquisition-and-catalogues)
+- [Data used in existing research](#data-used-in-existing-research)
+- [Document tables](#document-tables)
+- [Joining, panels and geographic data](#joining-panels-and-geographic-data)
+- [Shared tables across SQL, Python, R and Julia](#shared-tables-across-sql-python-r-and-julia)
+- [Constructed variables and analysis samples](#constructed-variables-and-analysis-samples)
+- [Saved descriptive results](#saved-descriptive-results)
+
 ## Data scope
 
 `skills/econ-data/scripts/research_data.py` retrieves specified official observations, preserves the original response bytes and response hashes, and builds research tables from hashed source snapshots. It uses the existing `research_sources.py` connector for HTTP retrieval and World Bank definitions. The researcher chooses the observation unit, period, variables, data conditions and join keys before acquisition; `research_design.py assess` evaluates a declared question, period, population, grain, required fields, missingness, variation and linkage against the actual records and cited source spans.

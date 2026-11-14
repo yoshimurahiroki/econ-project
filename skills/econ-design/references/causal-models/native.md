@@ -1,5 +1,7 @@
 ## Bayesian project-model execution
 
+Use for Bayesian project models (PyMC, CausalPy, Stan engines) and Julia fixed effects and IV.
+
 `bayesian_model` uses the same causal `run` command with `inference={"type":"posterior","credible_level":0.95}`. Required options are `engine`, `model_file`, `builder`, `posterior_output`, `var_names` and `sampling`. The selector binds the package environment to `engine`:
 
 | Engine | Official package versions | Native posterior |

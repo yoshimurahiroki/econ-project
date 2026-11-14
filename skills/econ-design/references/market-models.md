@@ -1,5 +1,16 @@
 # Executable market models
 
+Use for market models run by `research_markets.py`: demand, conduct, entry and the baseline and scenario specification of a counterfactual.
+
+Contents:
+
+- [Differentiated demand and supply](#differentiated-demand-and-supply)
+- [Auction models](#auction-models)
+- [Search, bargaining and platforms](#search-bargaining-and-platforms)
+- [Matching](#matching)
+- [Estimated and fixed parameters](#estimated-and-fixed-parameters)
+- [Estimating auction value distributions](#estimating-auction-value-distributions)
+
 The market runner accepts JSON containing `model`, a complete `baseline`, a complete `scenario` (or null when the selected engine owns its counterfactual), `unit`, and `sources`. Sources identify the input with a description, path, or URL. Objects reject unknown fields. Run `python skills/econ-data/scripts/research_markets.py run SPEC.json --output RESULT.json`. The caller provides an existing output parent. Outputs contain model, engine, adopted inputs, options, finite named statistics with units, scenario results, and the specification hash. Existing research DAG commands can invoke this CLI with an argument array.
 
 ## Differentiated demand and supply

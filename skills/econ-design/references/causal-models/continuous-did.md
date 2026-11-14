@@ -1,5 +1,7 @@
 ## Fixed-dose continuous DID
 
+Use when every unit keeps a fixed dose and adoption is common or staggered. Choose ATT(d) for level effects under parallel trends; ACRT(d) only under strong parallel trends.
+
 `continuous_did` calls the authors' `contdid::cont_did()` 0.1.2 through the existing official R execution path. Select `design="continuous_did"`, or `design="did"` with `treatment_pattern="fixed_dose_common"` / `"fixed_dose_staggered"`. Under `design="auto"`, the parallel-trends assignment mechanism reaches the same branch. `conditions.dose_time_invariant=true` also selects this branch for the supported continuous-DID targets. The selector retains an adopted specification and records target-implied changes in its execution proposal.
 
 Preserve the adopted ERS definition `ATT(d)=E[Y_t(d)-Y_t(0)|D=d]`, in outcome units. [arXiv v8, Section 3.1](https://arxiv.org/html/2107.02637v8) denotes this local parameter `ATT(d|d)` and reserves `ATT(d)` for the entire treated population, `D>0`. Standard parallel trends identifies the local level effect (Theorem 3.1).

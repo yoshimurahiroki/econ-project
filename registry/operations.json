@@ -1284,61 +1284,6 @@
       ],
       "applies_to": "*"
     },
-    "example_subscription_allocation": {
-      "required_rules": [
-        "example-subscription.all"
-      ],
-      "applies_to": [
-        "econ-data:execute",
-        "econ-design:design",
-        "econ-review:assess",
-        "econ-writing:compose"
-      ]
-    },
-    "example_equipment_renewal": {
-      "required_rules": [
-        "example-equipment.all"
-      ],
-      "applies_to": [
-        "econ-data:execute",
-        "econ-design:design",
-        "econ-review:assess",
-        "econ-writing:compose"
-      ]
-    },
-    "example_housing_transport": {
-      "required_rules": [
-        "example-housing.all"
-      ],
-      "applies_to": [
-        "econ-data:execute",
-        "econ-design:design",
-        "econ-review:assess",
-        "econ-writing:compose"
-      ]
-    },
-    "example_charging_market": {
-      "required_rules": [
-        "example-charging.all"
-      ],
-      "applies_to": [
-        "econ-data:execute",
-        "econ-design:design",
-        "econ-review:assess",
-        "econ-writing:compose"
-      ]
-    },
-    "example_commuting_market": {
-      "required_rules": [
-        "example-commuting.all"
-      ],
-      "applies_to": [
-        "econ-data:execute",
-        "econ-design:design",
-        "econ-review:assess",
-        "econ-writing:compose"
-      ]
-    },
     "method_rct_design": {
       "required_rules": [
         "models-causal.rct-design-assignment-and-diagnosis"

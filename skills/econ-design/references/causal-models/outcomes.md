@@ -1,5 +1,7 @@
 ## Heckman sample selection
 
+Use for sample selection (Heckman), duration and hazards, Oaxaca–Blinder decompositions and bunching at a kink.
+
 Read the common [specification and result](contract.md#specification-and-result). Select `design="sample_selection"` for a `structural_parameter` or `conditional_mean` target, then execute `method="heckman"` through the existing `run` command with `inference={"type":"official"}`. Selection requires `dependence="independent"`, unweighted observations and pointwise inference. The adopted conditions are `outcome_support="continuous"`, `joint_gaussian_errors=true`, `exclusion=true` and `iid=true`. Supply them in the selection request's `conditions` or the adopted `options.definitions.conditions`.
 
 The model is `S_i = 1{W_i'gamma + u_i > 0}`, `Y_i* = X_i'beta + epsilon_i`, with `Y_i*` observed when `S_i=1`. Conditional on the declared regressors, the errors have zero means and a joint Gaussian distribution, `Var(u_i)=1`, `Var(epsilon_i)=sigma^2` and `Cov(u_i,epsilon_i)=rho*sigma`. `W` contains the named selection covariates; `X` contains the outcome covariates. At least one explicitly named variable in `W` is excluded from `X`. The adopted identification statement explains its effect on selection and its exclusion from the latent outcome equation. The target is the continuous latent-outcome coefficient under these restrictions.

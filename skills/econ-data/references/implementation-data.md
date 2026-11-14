@@ -1,6 +1,12 @@
 # Source, sample and data correspondence
 
-Select the required section through the [implementation index](implementation.md#select-the-operation-specific-rules). Read its complete body and registered prerequisites before applying it.
+Use when building data: acquisition and versions, schema, measurement and grain, the shared sample with exclusion accounting, joins, time alignment and reshaping.
+
+Contents:
+
+- [Source to analysis](#source-to-analysis)
+- [Acquisition](#acquisition)
+- [Data contracts and joins](#data-contracts-and-joins)
 
 ## Source to analysis
 

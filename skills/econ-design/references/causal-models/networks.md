@@ -1,5 +1,7 @@
 ## Network exposure and partial identification
 
+Use when treatment of others affects outcomes (network exposure contrasts) or when only bounds are identified (Manski, Lee, Balke–Pearl).
+
 The existing causal runner calls the official Python functions in **StatsPAI 1.43.1**, pinned to [commit ddb3b45f2d3fc649ea794aa15f8989bb10f8e543](https://github.com/brycewang-stanford/StatsPAI/tree/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543). Methods are `network_exposure`, `manski_bounds`, `lee_bounds` and `balke_pearl`. Use the common run schema with empty `regressors`, `endogenous` and `instruments`; role columns and scientific restrictions are flat `options` fields. `options.definitions` may hold adopted interpretation and units. Each input contains at least two distinct nonempty IDs, observed binary treatment, and distinct role columns. The result preserves input IDs, method-specific population membership, effective native arguments, package versions, official source-file hash and distribution commit.
 
 | Method | Required `options` | Additional options | Run inference |

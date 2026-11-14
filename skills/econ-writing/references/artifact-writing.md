@@ -37,7 +37,7 @@ Templates: paper `tex/paper/ecta_template.tex` (econsocart; Top Five section ord
 
 ## S4. Results-based materials
 
-Register named quantities and units from saved estimates and generate tables, figures, articles and slides through the [result artifacts](result-artifacts.md) producers and the research DAG; article and slides read the same quantities. Meeting materials come from saved displays and progress records ([meetings](../../../harness/meetings.md)), with editable Markdown, Quarto rendering and native Google Slides editions. The [subscription example](../../econ-data/examples/subscription/README.md) builds a bilingual bundle from one result.
+Register named quantities and units from saved estimates and generate tables, figures, articles and slides through the [result artifacts](result-artifacts.md) producers and the research DAG; article and slides read the same quantities. Meeting materials come from saved displays and progress records ([meetings](../../../harness/meetings.md)), with editable Markdown, Quarto rendering and native Google Slides editions.
 
 ## S5. Other documents
 

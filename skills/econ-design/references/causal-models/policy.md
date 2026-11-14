@@ -1,5 +1,7 @@
 ## Multi-arm policy learning and evaluation
 
+Use to learn and evaluate a treatment-assignment rule: policy value on an independent holdout, budgets and capacities.
+
 Select `design="policy_learning"` and `target.kind="policy_value"`; the same target with `design="auto"` and randomized or selection-on-observables assignment reaches this owner. A policy value is the expected potential outcome under the declared action rule on its evaluation population. The mean of a fitted CATE surface retains its separate effect target. The original `options={"treatment":"d","propensity":"p","partition":"split","seed":512}` remains the binary DRPolicyTree/IPW route with its original defaults and output.
 
 The extension requires `options.treatment`, `partition`, `seed` and `policy`. Optional `options.weights` names positive pretreatment target-population weights. Use `inference={"type":"policy","confidence_level":0.95}` and add `cluster` for one independent cluster partition. Selection binds the adopted weights, confidence level and cluster column. All declared input columns are complete and finite. The data owner constructs the adopted sample before learning. `regressors` names pretreatment covariates for both nuisance models and tree splits.

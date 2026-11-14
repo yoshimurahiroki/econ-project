@@ -1,5 +1,7 @@
 ## Marginal quantile and counterfactual-distribution effects
 
+Use for quantile treatment effects, distributional DiD (quantile DiD, changes in changes) and post-estimation predictions and contrasts from a saved fit.
+
 The official `qte` 2.0.0 functions estimate marginal quantile effects. `qte` calls `qte::unc_qte(target="qte")` for Q_Y(1)(τ)−Q_Y(0)(τ) in the full target population; `qtt` calls the same function with `target="qtt"` for that difference among treated units. Conditional exchangeability, consistency and target-population overlap identify the distributions. The adopted `est_method` chooses IPW, outcome regression or AIPW and their corresponding nuisance restrictions. The existing `quantile` method estimates the conditional quantile coefficient β_τ in Q_τ(Y given X)=Xβ_τ.
 
 `quantile_did` calls `qte::qdid`; `changes_in_changes` calls `qte::cic`. Both request `gt_type="qtt"`. Quantile DID requires parallel trends in the untreated marginal quantiles at the adopted ranks, no anticipation and stable comparison populations. Changes in changes uses an outcome transformation strictly increasing in the latent rank and a time-invariant latent-rank distribution within each group. The observed common-support condition determines where the counterfactual distribution is identified. Conditional implementations use the official native covariate adjustment before forming the marginal target. Mean parallel trends alone does not select either distributional identification design.

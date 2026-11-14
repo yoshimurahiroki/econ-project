@@ -1,5 +1,13 @@
 # Stochastic RBC, one-asset HANK and native Dolo models
 
+Use for stochastic DSGE models: the RBC model and its estimation, HANK and Dolo models with policy solution and residual checks.
+
+Contents:
+
+- [Stochastic RBC model and estimation](#stochastic-rbc-model-and-estimation)
+- [One-asset HANK equilibrium and transitions](#one-asset-hank-equilibrium-and-transitions)
+- [Dolo YAML and time iteration](#dolo-yaml-and-time-iteration)
+
 ## Stochastic RBC model and estimation
 
 `skills/econ-data/scripts/research_dsge.py` solves a stochastic representative-household economy. The household maximizes `E₀ Σ βᵗ log(cₜ)` and chooses consumption and next-period capital subject to `cₜ+kₜ₊₁=exp(zₜ)kₜ^α+(1−δ)kₜ`. Productivity follows `zₜ₊₁=ρzₜ+εₜ₊₁`, with independent Gaussian innovations of variance `σ²`. Competitive production has a fixed unit labor endowment. The stochastic Euler equation is

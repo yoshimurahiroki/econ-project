@@ -1,6 +1,19 @@
 # Official causal calls and saved results
 
-Select the required section through the [implementation index](implementation.md#select-the-operation-specific-rules). Read its complete body and registered prerequisites before applying it.
+Use when writing the specification for a runner call: native regression calls, causal selection hand-off, DID nuisance specifications, DoubleML scores, official R calls, Julia, and how fit results are saved.
+
+Contents:
+
+- [Shared tables and language handoff](#shared-tables-and-language-handoff)
+- [Fit results and execution handoff](#fit-results-and-execution-handoff)
+- [Native regression calls and results](#native-regression-calls-and-results)
+- [Causal selection and execution handoff](#causal-selection-and-execution-handoff)
+- [Official R calls and inference bindings](#official-r-calls-and-inference-bindings)
+- [DID nuisance specifications](#did-nuisance-specifications)
+- [Staggered DID fits and display](#staggered-did-fits-and-display)
+- [Official DoubleML score fitting](#official-doubleml-score-fitting)
+- [Julia fixed effects and IV execution](#julia-fixed-effects-and-iv-execution)
+- [Official project scripts](#official-project-scripts)
 
 ## Shared tables and language handoff
 

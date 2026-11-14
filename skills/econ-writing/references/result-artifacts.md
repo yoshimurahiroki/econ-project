@@ -1,5 +1,22 @@
 # Generate artifacts from saved research results
 
+Use to turn saved results into tables, figures, numerical text and slides: registration, display specifications, inference blocks, model-based displays and claim coverage.
+
+Contents:
+
+- [Artifact scope](#artifact-scope)
+- [Save displays at analysis or registration](#save-displays-at-analysis-or-registration)
+- [Browse compare and edit saved results](#browse-compare-and-edit-saved-results)
+- [Source basis for reuse and provenance](#source-basis-for-reuse-and-provenance)
+- [Default LaTeX family](#default-latex-family)
+- [Adopt an artifact specification](#adopt-an-artifact-specification)
+- [Claims, coverage and requested re-review](#claims-coverage-and-requested-re-review)
+- [Interface: Save displays at analysis or registration](#interface-save-displays-at-analysis-or-registration)
+- [Interface: Browse compare and edit saved results](#interface-browse-compare-and-edit-saved-results)
+- [Interface: Default LaTeX family](#interface-default-latex-family)
+- [Interface: Adopt an artifact specification](#interface-adopt-an-artifact-specification)
+- [Interface: Claims, coverage and requested re-review](#interface-claims-coverage-and-requested-re-review)
+
 ## Artifact scope
 
 Apply [WRITING](../../../runtime/WRITING.md) to every prose and visual choice. Existing technical interfaces and scientific results below remain in force.

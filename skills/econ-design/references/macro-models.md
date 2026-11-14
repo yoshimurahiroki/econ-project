@@ -1,5 +1,7 @@
 # General equilibrium with heterogeneous households
 
+Use for macro models: household problems, equilibrium and spatial models with their solvers.
+
 Select the adopted method below. Read its complete body and the prerequisite rules returned by the operation registry. The family-wide condition selects every listed body.
 
 <!-- BEGIN GENERATED METHOD INDEX -->

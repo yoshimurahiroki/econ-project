@@ -1,6 +1,17 @@
 # Numerical calculation and computational resources
 
-Select the required section through the [implementation index](implementation.md#select-the-operation-specific-rules). Read its complete body and registered prerequisites before applying it.
+Use for numerical work: solvers, convergence on the original equations, derivatives, quadrature and simulation, and their tolerances.
+
+Contents:
+
+- [Computation](#computation)
+- [Backend and algorithm changes](#backend-and-algorithm-changes)
+- [Exact row compression](#exact-row-compression)
+- [Resampling multiplicities](#resampling-multiplicities)
+- [Parallel tasks and random streams](#parallel-tasks-and-random-streams)
+- [Measured performance and memory](#measured-performance-and-memory)
+- [Numerical methods](#numerical-methods)
+- [Power calculation inputs](#power-calculation-inputs)
 
 ## Computation
 

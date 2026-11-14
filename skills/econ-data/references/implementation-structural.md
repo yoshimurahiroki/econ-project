@@ -1,6 +1,16 @@
 # Structural estimation and equilibrium execution
 
-Select the required section through the [implementation index](implementation.md#select-the-operation-specific-rules). Read its complete body and registered prerequisites before applying it.
+Use when executing structural estimation: demand and supply systems, dynamic estimators, equilibrium solution and counterfactual re-solution.
+
+Contents:
+
+- [Shape-constrained demand in Julia](#shape-constrained-demand-in-julia)
+- [Structural model execution](#structural-model-execution)
+- [Dolo stochastic equilibrium execution](#dolo-stochastic-equilibrium-execution)
+- [Dynamic policy and value outputs](#dynamic-policy-and-value-outputs)
+- [BLP estimation and equilibrium counterfactuals](#blp-estimation-and-equilibrium-counterfactuals)
+- [Finite-state dynamic game estimation](#finite-state-dynamic-game-estimation)
+- [CCP and simulation estimators](#ccp-and-simulation-estimators)
 
 ## Shape-constrained demand in Julia
 

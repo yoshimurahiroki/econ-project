@@ -1,6 +1,6 @@
 # Descriptive quantities and inference
 
-Select the required section through the [implementation index](implementation.md#select-the-operation-specific-rules). Read its complete body and registered prerequisites before applying it.
+Use for descriptive statistics: choosing the population, unit, weights and summary from the question, and reporting denominators.
 
 ## Choose descriptive statistics from the question
 

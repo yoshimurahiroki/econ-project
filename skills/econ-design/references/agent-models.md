@@ -1,5 +1,7 @@
 # Household–firm interactions and agent models
 
+Use for agent-based market and policy experiments: actor rules, matching and clearing, seeds and accounting.
+
 A household–firm goods market specifies production, preferences, cash constraints, inventories, encounter order and price adjustment. For a representative finite model, each of `m` firms produces `s` units per period, and household marginal willingness to pay after purchasing `q` units is `v/(1+q)`. Given ask `p` and sales tax `τ`, trade occurs when the bid is at least `p(1+τ)`. A declared bargaining rule can set the gross unit price to `(1−b)p(1+τ)+b v/(1+q)`. Traded quantity is bounded by one unit, inventory and household cash divided by gross price. The firm receives the gross payment divided by `1+τ`; the remaining payment is tax. Redistributing revenue and taxes to household owners completes the period's cash accounting. Encounter order, market access and stopping conditions determine which trades occur.
 
 A bounded stockout rule is `p_next=clip[p exp(η(I_stockout−1/2)),p_min,p_max]`, where `η ∈ [0,1]` and all bounds are adopted primitives. Initial cash equals household plus firm cash, and cumulative production equals cumulative consumption plus remaining inventories. State and accounting residuals belong in the producing research result. For utility `v log(1+q)`, monetary policy valuation requires the adopted resource costs, transfers and terminal inventory value. A recorded sum of `log(1+q)` is a consumption index with its stated scale.
