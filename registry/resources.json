@@ -1683,6 +1683,11 @@
       "source_path": "runtime/WORKSHEET.md",
       "resource_kind": "rule",
       "content_version": "0.97.0"
+    },
+    "literature-search-tool": {
+      "source_path": "skills/econ-literature/scripts/literature_search.py",
+      "resource_kind": "tool",
+      "content_version": "0.98.0"
     }
   },
   "sections": {

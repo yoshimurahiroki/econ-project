@@ -956,6 +956,10 @@
     "worksheet": {
       "deployment_path": ".agents/runtime/WORKSHEET.md",
       "export_alias": "WORKSHEET.md"
+    },
+    "literature-search-tool": {
+      "deployment_path": ".agents/skills/econ-literature/scripts/literature_search.py",
+      "export_alias": "LITERATURE_SEARCH.py"
     }
   },
   "source": {

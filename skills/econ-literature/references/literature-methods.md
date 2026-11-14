@@ -21,26 +21,38 @@ What would settle it: the passage, table, equation, code or record
 
 ## L2. Search
 
-Search in this order and record each query and its result count:
-
-1. The user's holdings and connected libraries (local PDFs, CSL-JSON, Google Drive).
-2. Journals in the order of [search priority](search-priority.md), within the execution-year window it sets.
-3. Crossref through the source connector:
+Run the federated search first; it queries every source at once, merges editions and duplicates by DOI and title, and ranks by the journal and working-paper policy ([search priority](search-priority.md)) before relevance and citations:
 
 ```sh
-python3 skills/econ-literature/scripts/research_sources.py literature --query "minimum wage monopsony" --limit 20 --output work/sources
-python3 skills/econ-literature/scripts/research_sources.py references --doi 10.xxxx/xxxxx --output work/sources
-python3 skills/econ-literature/scripts/research_sources.py literature-multi --query "..." --query "..." --output work/sources
+python3 skills/econ-literature/scripts/literature_search.py search --query "minimum wage employment" \
+    --query "minimum wage monopsony" --from 2010 --field labor --output work/lit/<topic>
+python3 skills/econ-literature/scripts/literature_search.py search --query "最低賃金 雇用" --sources cinii,jstage --output work/lit/<topic>-ja
+python3 skills/econ-literature/scripts/literature_search.py snowball --doi 10.1093/restud/rdad091 --field labor --output work/lit/<topic>-snowball
+python3 skills/econ-literature/scripts/literature_search.py contexts --doi <DOI> --output work/lit/<topic>-contexts
 ```
 
-4. Backward references and forward citations of the closest paper, and the authors' related work.
+| Source | What it adds |
+| --- | --- |
+| `journals` | Crossref restricted to the top five, the `--field` journals and NBER: leading publications surface first |
+| `crossref` | general journal and working-paper metadata, reference lists |
+| `openalex` | broad index with abstracts, open-access links and citation graph (`OPENALEX_API_KEY` when the shared quota is used up) |
+| `semanticscholar` | relevance search, forward citations and citation contexts (`SEMANTIC_SCHOLAR_API_KEY` for a higher rate limit) |
+| `arxiv` | econ.EM, econ.GN, econ.TH, q-fin.EC and stat.ME preprints |
+| `cinii`, `jstage` | Japanese journals, bulletins and discussion papers |
+
+Each run writes `ranked.md` (tier, year, title, authors, venue, citations, relevance, sources, link), `works.json` and every raw response under `raw/`. Then:
+
+1. Use several queries per question: the mechanism, the policy, the outcome and the method in different words; add a Japanese query for Japanese institutions.
+2. Take the closest two or three papers and run `snowball` on each: backward references give the foundations, forward citations give the replies and newer evidence.
+3. Run `contexts` on the closest paper to see what later papers say about it.
+4. Search the user's own holdings and connected libraries (local PDFs, Google Drive) and, for crime and justice, the sources in [search priority](search-priority.md).
 
 ```
-Queries and results:   <query: n results>
+Queries and results:   <query: merged n, top tiers>
 Candidates:            <author year, venue, why it may settle the claim>
 ```
 
-Stop searching when the claim is settled by read passages or when further leads repeat the same evidence; an empty search shows only that the query found nothing.
+Stop searching when the claim is settled by read passages or further leads repeat the same evidence; an empty search shows only that the query found nothing.
 
 ## L3. Read
 

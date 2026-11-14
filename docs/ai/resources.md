@@ -241,3 +241,4 @@ Generated from the resource and placement registries. Use this catalog only for 
 - data-empirical: skills/econ-data/references/empirical.md
 - data-estimate-template: skills/econ-data/templates/estimate_ladder.py
 - worksheet: runtime/WORKSHEET.md
+- literature-search-tool: skills/econ-literature/scripts/literature_search.py
