@@ -389,7 +389,7 @@ Method cards for the difference-in-differences, event-study and synthetic-contro
 
 **Native arguments that change the result.** `X0` (Donor-unit pre-intervention predictor matrix; default none; built by the runner from the panel); `X1` (Treated-unit pre-intervention predictor vector; default none; built by the runner from the panel); `Z0` (Donor-unit pre-intervention outcomes; default none; built by the runner from the panel); `Z1` (Treated-unit pre-intervention outcomes; default none; built by the runner from the panel); `custom_V` (User-specified predictor importance matrix; default None; fixed by the runner (data-driven V)).
 
-**Checks before reporting.** Pre-intervention donor fit: Compare preintervention treated outcomes with the synthetic control.
+**Checks before reporting.** Pre-intervention donor fit: Compare preintervention treated outcomes with the synthetic control. Treated unit and donor pool fixed before estimation, with each excluded donor and its reason saved in `definitions`. Inference comes from placebos run with `scm_diagnostics` (in-space and in-time), not from the OLS standard error.
 
 **Sources.** https://sdfordham.github.io/pysyncon/synth.html.
 
@@ -409,7 +409,7 @@ Method cards for the difference-in-differences, event-study and synthetic-contro
 
 **Native arguments that change the result.** `method` (Select classic synthetic control; default classic; via options.args); `treatment_time` (Intervention onset separating pre- and post-treatment observations; default none; top-level option); `covariates` (Optional outcome-predictor covariate list; default none; via options.args).
 
-**Checks before reporting.** Pre-treatment RMSPE: Poor fit flagged when pre-treatment RMSPE exceeds post-treatment effect. Placebo inference: Placebo p-value >= 0.1 triggers AssumptionWarning even with visible gap.
+**Checks before reporting.** Pre-treatment RMSPE: Poor fit flagged when pre-treatment RMSPE exceeds post-treatment effect. Placebo inference: Placebo p-value >= 0.1 triggers AssumptionWarning even with visible gap. Treated unit and donor pool fixed before estimation, with each excluded donor and its reason saved in `definitions`. In-space placebos (`args.placebo_units`) and an in-time placebo (`args.placebo_time`, a false treatment date inside the pre-period) are both reported, with leave-one-out donors (`args.loo`). Save the donor weights and the pre-treatment fit statistics. This runner has no conformal procedure.
 
 **Pitfalls.** Classic SCM is listed for one treated unit, few pre-periods, and good donor fit.
 
@@ -433,7 +433,7 @@ Method cards for the difference-in-differences, event-study and synthetic-contro
 
 **Returns.** `estimate`: Average treatment effect estimate over treated block; `weights`: Unit and time weights attached as estimate attributes; `setup`: Panel matrix and treatment-block structure attached as attributes.
 
-**Checks before reporting.** Pre-treatment fit of the weighted controls. State the variance method (placebo, bootstrap or jackknife).
+**Checks before reporting.** Pre-treatment fit of the weighted controls. Treated unit and donor pool fixed before estimation, with each excluded donor and its reason saved in `definitions`. Set the variance in `options.variance` (`method` placebo, bootstrap or jackknife, and `replications`) and report both; placebo variance needs more control units than treated units. The saved effect curve has no covariance across periods, so no joint band is built over it.
 
 **Pitfalls.** panel.matrices requires a balanced panel and simultaneous treatment adoption.
 
@@ -457,7 +457,7 @@ Method cards for the difference-in-differences, event-study and synthetic-contro
 
 **Returns.** `att.avg`: Overall average treatment effect on treated units; `att`: Estimated treated-group effects by time; `Y.ct`: Estimated untreated counterfactual outcomes for treated units; `r.cv`: Selected or supplied number of factors.
 
-**Checks before reporting.** Pre-treatment fit of the imputed counterfactual for treated units at the chosen number of factors. Sensitivity of the ATT to the number of factors (rerun with factors one lower and one higher).
+**Checks before reporting.** Pre-treatment fit of the imputed counterfactual for treated units at the chosen number of factors. Sensitivity of the ATT to the number of factors (rerun with factors one lower and one higher). Treated unit and donor pool fixed before estimation, with each excluded donor and its reason saved in `definitions`.
 
 **Pitfalls.** Units with fewer than min.T0 pre-treatment observations are automatically removed.
 

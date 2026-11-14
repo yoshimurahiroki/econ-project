@@ -262,9 +262,10 @@ Use when the question needs behavior under conditions not observed: demand and c
 
 ## Synthetic controls and panel counterfactuals
 
-1. Treated unit, donor pool, pre-treatment support and the counterfactual structure.
+1. Treated unit, donor pool, pre-treatment support and the counterfactual structure, fixed before estimation; excluded donors are saved with their reasons.
 2. Fit, contamination, extrapolation and regularization examined; placebo and sensitivity exercises aimed at the identifying premise.
-3. Inference matched to the assignment model and sampling framework.
+3. Inference matched to the assignment model and sampling framework: in-space placebos (each donor treated in turn) and in-time placebos (a false treatment date in the pre-period), or a design-valid conformal procedure where one is implemented. Donor weights and pre-treatment fit statistics are kept with the result.
+4. Synthetic difference-in-differences: the variance method (placebo, bootstrap or jackknife) and its replications are stated. A joint band across periods needs a covariance returned by the method; none is constructed otherwise.
 
 ## Inference and interpretation
 

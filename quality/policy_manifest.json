@@ -103,7 +103,7 @@
     },
     "resource:data-empirical": {
       "path": "skills/econ-data/references/empirical.md",
-      "sha256": "ab4acdad2f9272945a3bd789e01a0b5facc3cf00ce78c9dd22135db82c49f4ac"
+      "sha256": "000a1cb64fa92b0405970bd0c2b46265a331098ef7e010a96acb8e2f8c027ac0"
     },
     "resource:data-engine-selection": {
       "path": "skills/econ-data/references/implementation-engines.md",
@@ -151,7 +151,7 @@
     },
     "resource:design-methods": {
       "path": "skills/econ-design/references/designs.md",
-      "sha256": "004b36f6fcdf8598c550b16053811b7bb6ec6a3e914bfa162c48cedaf74a72d0"
+      "sha256": "9fb16df718c3591ac33cab7de0084e86e7cfeb28c4687273f74bfef30d4fcc6e"
     },
     "resource:design-modeling": {
       "path": "skills/econ-design/references/modeling.md",
@@ -339,7 +339,7 @@
     },
     "resource:models-causal-did-cards": {
       "path": "skills/econ-design/references/causal-models/did.md",
-      "sha256": "f0063af1878cb560c22e335b605fa41819cc2b1017395029afb51e1254cec28b"
+      "sha256": "f839d195c6b75923be0a83b4263bb12f194299ab0d1530a4bfce19aa23f8534c"
     },
     "resource:models-causal-extensions": {
       "path": "skills/econ-design/references/causal-models/extensions.md",
