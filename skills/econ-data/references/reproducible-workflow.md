@@ -1,6 +1,6 @@
 # Reproducible execution
 
-Use [ECONOMIST](../../../runtime/ECONOMIST.md) for required reading, reasoning, execution, integrated review and verification. Use [EXECUTION](../../../runtime/ECONOMIST.md#5-execution) for general files and delivery, [state](../../../harness/state.md) for persistent version-linked reuse and restart, and the applicable [publication](../../../harness/publication.md) section for a requested publication operation.
+Use [ECONOMIST](../../../runtime/ECONOMIST.md) for required reading, reasoning, execution, integrated review and verification. Use the [execution procedure](workflow.md) for files and delivery, [state](../../../harness/state.md) for persistent version-linked reuse and restart, and the applicable [publication](../../../harness/publication.md) section for a requested publication operation.
 
 Use the existing contracts for [complete output replacement](../../../runtime/ECONOMIST.md#5-execution), [multi-file publication](../../../harness/publication.md#complete-generation-boundary), and [Git staging, moves and scoped commits](../../../harness/publication.md#working-files-git-and-delivery). Read the [affected-branch example](#example-recompute-the-affected-branch) when that implementation is needed.
 
@@ -12,7 +12,7 @@ Map each requested table, figure or numerical claim to its saved inputs, sample,
 
 The [local research runner](../../../harness/research.md) implements this lifecycle through `state.py`: declare the adopted stages, actual files and named consumed outputs in one analysis manifest, then execute commands or numerical templates. Each successful stage selects a complete generation only after its outputs and current dependencies match. The same unchanged invocation reuses its completed stages. A changed source, helper, environment or adopted definition rebuilds its affected branch; failed stages preserve previous generations and block their current dependents. Connect rendering placeholders to the exact saved statistic and unit.
 
-Use [EXECUTION's runner and environment rules](../../../runtime/ECONOMIST.md#5-execution). Trace the numeric chain input → transformation → estimate → exhibit, attaching the adopted sample and estimator definitions at the stages that establish them.
+Use the runner and environment rules of the [execution procedure](workflow.md). Trace the numeric chain input → transformation → estimate → exhibit, attaching the adopted sample and estimator definitions at the stages that establish them.
 
 Bind the selected Python, R or Julia interpreter and package closure through the [existing runtime contract](../../../harness/research.md#capture-the-selected-python-r-or-julia-environment). Put the actual interpreter in `argv` and `runtime.probe_argv`, and any interpreter invoked by that stage in `runtime.companions`. Use `runtime.packages` for the selected package versions and `runtime.files` for the adopted requirements, Pixi/rv locks or Julia Project/Manifest files; also declare those files as stage inputs. Use `runtime.requirements` when the complete named requirement file defines the selected environment.
 
@@ -60,11 +60,11 @@ Run the requested path through its actual entry point and inspect the requested 
 
 ## Deliver the reproduced result
 
-Deliver the requested result and comparison with the source under econ-data's output and reporting rules. For requested text and exhibits, apply the source-search, reading, borrowing, minimum-adjustment, recording and comparison procedure in the example below to each expression and visual element, using the reproduced quantities and definitions.
+Deliver the requested result and comparison with the source under econ-data's output and reporting rules. Requested text and exhibits follow [WRITING](../../../runtime/WRITING.md) and use the reproduced quantities and definitions.
 
 ## Worked project operations
 
-Use these fictional examples for numeric-result reuse or incremental rebuilding. General publication and Git examples are linked above in EXECUTION.
+Use these fictional examples for numeric-result reuse or incremental rebuilding. General publication and Git examples are linked above.
 
 ### Example: reuse a named estimate without losing its definition
 
@@ -126,7 +126,7 @@ The input file is tracked by its contents. The existing runner also tracks produ
 
 **Expected operation trace:**
 
-- Title correction: follow the source-search, reading, borrowing, minimum-adjustment, recording and comparison procedure above for the title, then change only `figure_labels`. Rebuild the figure. Reuse `records`, `sample`, `estimate`, and `table`; their numerical provenance is unchanged.
+- Title correction: rewrite the title under WRITING, then change only `figure_labels`. Rebuild the figure. Reuse `records`, `sample`, `estimate`, and `table`; their numerical provenance is unchanged.
 - Approved sample revision: change minimum age from 18 to 21. In this fictional input, some retained people are aged 18–20 and their removal changes the mean. Rebuild `sample`, `estimate`, `table`, and `figure`. Reuse `records`, because the input bytes and import definition are unchanged. Update the sample revision attached to the estimate and exhibits.
 - Source correction at the same CSV path: a changed content fingerprint invalidates `records`; reassess and rebuild the affected descendants. Reuse requires matching content and definition dependencies plus established completion.
 

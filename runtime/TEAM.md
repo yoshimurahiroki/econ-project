@@ -17,19 +17,19 @@
 
 ## Shared work
 
-1. **Output: bounded assignment; consumer: worker.** Delegate separable work whose benefit exceeds briefing/integration. Every assignment carries the worksheet path and the section it serves; the worker follows the same procedure for its part, and the SubagentStop hook checks its return. Supply parent result, obstacle, exact sources/rules, fixed specification, delegated choices, write scope, output, consumer and completion condition. A specialist also receives actual lead attempts, repair and unresolved mechanism.
-2. **Output: executable worker context; consumer: assigned operation.** Use fresh bounded context and one writer per file/disjoint region; coordinate shared sessions/targets. Each worker reads original applicable AGENTS, the economist's procedure, WRITING, TEAM, specialist and activated prerequisites.
+1. **Bounded assignment.** Delegate separable work whose benefit exceeds briefing/integration. Every assignment carries the worksheet path and the section it serves; the worker follows the same procedure for its part, and the SubagentStop hook checks its return. Supply parent result, obstacle, exact sources/rules, fixed specification, delegated choices, write scope, output, consumer and completion condition. A specialist also receives actual lead attempts, repair and unresolved mechanism.
+2. **Executable worker context.** Use fresh bounded context and one writer per file/disjoint region; coordinate shared sessions/targets. Each worker reads original applicable AGENTS, the economist's procedure, WRITING, TEAM, specialist and activated prerequisites.
 
 ## Return and integration
 
-1. **Output: worker return; consumer: direct parent.** Return substantive result/implication, changed paths, producing inputs/versions, evidence, actual operation returns and remaining dependency. Keep large artifacts in owned paths.
-2. **Output: integrated parent result; consumer: delivery.** Compare the return with assignment and original deliverable; reconcile estimands, units, population, conditions, authority and interfaces. Repair mismatches at their producer and complete dependent work. The parent owns completion and one integrated response; keep coordination in existing context.
-3. **Output: next executable action; consumer: current owner.** Progress reports identify a determining result, failed dependency or consequential next operation. Before retrying interrupted external writes inspect the actual destination and repair the returned cause; retry the affected action while preserving completed independent work.
+1. **Worker return.** Return substantive result/implication, changed paths, producing inputs/versions, evidence, actual operation returns and remaining dependency. Keep large artifacts in owned paths.
+2. **Integrated parent result.** Compare the return with assignment and original deliverable; reconcile estimands, units, population, conditions, authority and interfaces. Repair mismatches at their producer and complete dependent work. The parent owns completion and one integrated response; keep coordination in existing context.
+3. **Next executable action.** Progress reports identify a determining result, failed dependency or consequential next operation. Before retrying interrupted external writes inspect the actual destination and repair the returned cause; retry the affected action while preserving completed independent work.
 
 ## Resumption
 
-1. **Output: restored task; consumer: resumed operation.** After compaction, resumption, model change or handoff recover the original request, central problem, fixed specification, authority, completed results and next authorized action. Read original applicable bodies under [ECONOMIST](ECONOMIST.md); reuse matching consumed versions.
-2. **Output: reconciled handoff; consumer: next owner.** Include canonical source/output paths, parent proposition, adopted decision, permitted switching condition and essential user-held input. Reconcile older worker returns. Resume interruption on actual user continuation; preserve terminal cancellation/completion. Use existing [governing context](../harness/state.md#governing-context) and [saved work](../harness/state.md#find-saved-work) for persistence.
+1. **Restored task.** After compaction, resumption, model change or handoff recover the original request, central problem, fixed specification, authority, completed results and next authorized action. Read original applicable bodies under [ECONOMIST](ECONOMIST.md); reuse matching consumed versions.
+2. **Reconciled handoff.** Include canonical source/output paths, parent proposition, adopted decision, permitted switching condition and essential user-held input. Reconcile older worker returns. Resume interruption on actual user continuation; preserve terminal cancellation/completion. Use existing [governing context](../harness/state.md#governing-context) and [saved work](../harness/state.md#find-saved-work) for persistence.
 
 ## Requested usage accounting
 

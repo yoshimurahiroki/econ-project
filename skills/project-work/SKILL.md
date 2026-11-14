@@ -7,7 +7,7 @@ description: Clarify task requirements and work approaches; create or improve re
 
 1. `clarify` settles requirements and work approaches, `prompt` writes executable prompts, `contribute` completes assigned case work and `manage` runs a project, its resources and handover. Ordinary analysis and writing go to their skills.
 2. Frame the project decision with steps 1 and 2 of the [economist's procedure](../../runtime/ECONOMIST.md): who decides, what is at stake, which allocation of work and resources changes the outcome.
-3. Real cases use [case connection](references/practice.md#connect-the-current-case). Results follow [WRITING](../../runtime/WRITING.md).
+3. Real cases use [case connection](references/practice.md). Results follow [WRITING](../../runtime/WRITING.md).
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

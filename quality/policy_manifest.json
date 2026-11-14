@@ -43,7 +43,7 @@
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
-      "sha256": "838d09f8f342f67a6f5ca7468e360eac537fe8e4e6194fc87aea1d94f6b9c07f"
+      "sha256": "b251c0ba35473f376eb3e892509944f88558b78c8f1b91d03f38ab2e6c06cac5"
     },
     "registry_operations": {
       "path": "registry/operations.json",
@@ -55,7 +55,7 @@
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "f8b54bc121d8a31902979b1a23c0083aab3e777d2def3826737816f1411e4c9f"
+      "sha256": "590472cf5fbbc20ddb1c645da3b47cc488a2c074cd5dbc188b7d4cd8e271a787"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -99,7 +99,7 @@
     },
     "resource:data-engine-selection": {
       "path": "skills/econ-data/references/implementation-engines.md",
-      "sha256": "9a0dd130fe211891d06f07cc8ed2f6477bb14bcff5fca0d0bd100542bf1422c6"
+      "sha256": "ae6e3f6f8214a8388a96c5c8cb7c42dd71624586edcd385bc630631db2a1fec0"
     },
     "resource:data-estimate-template": {
       "path": "skills/econ-data/templates/estimate_ladder.py",
@@ -107,7 +107,7 @@
     },
     "resource:data-implementation": {
       "path": "skills/econ-data/references/implementation.md",
-      "sha256": "b2c6c6caa8eb8d27f1daaf9986caa968ccb11b1f58dc223cc853498ce09f3756"
+      "sha256": "3b13bc0153ed9e81b680283464ec652e14750af9dc152d6d042e8bae308a805c"
     },
     "resource:data-native-calls": {
       "path": "skills/econ-data/references/implementation-calls.md",
@@ -119,11 +119,11 @@
     },
     "resource:data-results": {
       "path": "skills/econ-data/references/reproducible-workflow.md",
-      "sha256": "7d3c499ca57e070ad1aab20249c5aed3acc32cb837881361ee39281bb990a54c"
+      "sha256": "30c8b8e76a3e57776ec25f929a87e3f8795ccd1c391577b7150d685c2458b2a2"
     },
     "resource:data-source": {
       "path": "skills/econ-data/references/implementation-data.md",
-      "sha256": "8c0bb5575bb63d0a8528245597ca5273d1b67e16982369f51bbb896947db2a4d"
+      "sha256": "a37856938892e144d7928c31b599357fcdc6b37f6a94603f316af69088266640"
     },
     "resource:data-structural-execution": {
       "path": "skills/econ-data/references/implementation-structural.md",
@@ -135,7 +135,7 @@
     },
     "resource:data-workflow": {
       "path": "skills/econ-data/references/workflow.md",
-      "sha256": "4142fbf2867650870be3285886045f42e0eeb15a7c9a30f92b677af7c24f890e"
+      "sha256": "f94d662e262a3b971b670562e3673165da70083c07be32312a2ef8bf13f0ca6e"
     },
     "resource:default-micro": {
       "path": "profiles/default-micro/PROFILE.md",
@@ -143,7 +143,7 @@
     },
     "resource:design-methods": {
       "path": "skills/econ-design/references/designs.md",
-      "sha256": "c3f0ce4c3478776ceb7578046978de0117e8dbb3ceec5f21e18854a6e73d5519"
+      "sha256": "51ac583abcd3a0ccd5d26bb8f4ae89f097abafbb0951c9dd60890d298a287c13"
     },
     "resource:design-modeling": {
       "path": "skills/econ-design/references/modeling.md",
@@ -155,7 +155,7 @@
     },
     "resource:design-workflow": {
       "path": "skills/econ-design/references/workflow.md",
-      "sha256": "63e05c060de70a958b8de1de8ffcc2b62d0f0d85e57fc498b663b9554fa3a58a"
+      "sha256": "16567f95740c7d412ea5144c3f26cb4de50f4683ac86b13a3552928e38ea3af9"
     },
     "resource:econ-data": {
       "path": "skills/econ-data/SKILL.md",
@@ -215,7 +215,7 @@
     },
     "resource:example-charging": {
       "path": "skills/econ-data/examples/charging/README.md",
-      "sha256": "80616a0b896444f7ca1e9a762ff745fdfffa983ea84430eb17c3d056778c5b98"
+      "sha256": "e8fe12a9b7af7e0a60644c79dc17a567b7332ab12217428059420c4669d3a979"
     },
     "resource:example-charging-code": {
       "path": "skills/econ-data/examples/charging/run.py",
@@ -231,7 +231,7 @@
     },
     "resource:example-commuting": {
       "path": "skills/econ-data/examples/commuting/README.md",
-      "sha256": "9ff4ceb71bef763aa3051417f00e310f79bf34fc87dad4132ebeed5c0ab74c51"
+      "sha256": "69e8ea4d1a2062ff32062e3f35d095c20da96a207637ebc0e14977dfbca60689"
     },
     "resource:example-commuting-code": {
       "path": "skills/econ-data/examples/commuting/run.py",
@@ -247,7 +247,7 @@
     },
     "resource:example-equipment": {
       "path": "skills/econ-data/examples/equipment/README.md",
-      "sha256": "f108b243259b6f04addd51fe0c992d942f420ef4e7284e14feccaddfac2aa2a3"
+      "sha256": "c409a4063aa5ba4cef13e12044ccf3592b8b7dfc26db0dd96d5956a55460b001"
     },
     "resource:example-equipment-code": {
       "path": "skills/econ-data/examples/equipment/run.py",
@@ -263,7 +263,7 @@
     },
     "resource:example-housing": {
       "path": "skills/econ-data/examples/housing/README.md",
-      "sha256": "7736959fa9c916a3f9ea4f2ac56021b398db5ccd2c72acef6672f2dbd3ddbfc8"
+      "sha256": "f404b1e58eb05aaf200f2d5341ea20803b4d198af151ea138b98465fa04bc816"
     },
     "resource:example-housing-code": {
       "path": "skills/econ-data/examples/housing/run.py",
@@ -279,7 +279,7 @@
     },
     "resource:example-subscription": {
       "path": "skills/econ-data/examples/subscription/README.md",
-      "sha256": "53e59a8972bdca59085e719a87f718594d19f145081e86514ac771221683eddb"
+      "sha256": "3d74c5fdc0c47d053c274b7cf03838e3f6faf3e13b0565fa37f8ef221ba965ae"
     },
     "resource:example-subscription-code": {
       "path": "skills/econ-data/examples/subscription/run.py",
@@ -363,7 +363,7 @@
     },
     "resource:literature-methods": {
       "path": "skills/econ-literature/references/literature-methods.md",
-      "sha256": "365c18117d912a3ef8593f2b214b0b46a1f56d84d50e675377fb47a962a351b1"
+      "sha256": "5e24c040cfea8bc37c84a284b5279f6b19e4473d7d0f5a604990d9cac1734190"
     },
     "resource:local-checks-guide": {
       "path": "harness/local_checks.md",
@@ -507,23 +507,23 @@
     },
     "resource:paper-empirical": {
       "path": "skills/econ-literature/references/read-empirical.md",
-      "sha256": "d0375ebf3322c8e1214e221c6c3e5c6c47f4c8f07619f7a2d2dd9f0108d99713"
+      "sha256": "45674d107b9f6a3ebb25666e6be55d66d4cc6008d79450140979254369d866d8"
     },
     "resource:paper-reading": {
       "path": "skills/econ-literature/references/paper-reading.md",
-      "sha256": "cf8079e0f712695b3e47d2466f3eb19058f91ca37d136e6a504d3fbf7cca815e"
+      "sha256": "22bc2e71279fd5d14ce63502fc3c59b908bcea9583e5bc60c1648c2802d717f2"
     },
     "resource:paper-structural": {
       "path": "skills/econ-literature/references/read-structural.md",
-      "sha256": "887525cceca64900548aeb2c51d49dc9fb7e154c1bb35992bac9a62ea9e31a99"
+      "sha256": "e3a38b7f904fe32c52d6ba17a16079091bf74e6ab062f3c1f59de43ba96af94c"
     },
     "resource:paper-theory": {
       "path": "skills/econ-literature/references/read-theory.md",
-      "sha256": "9e1678bda764435e133d31b93214b4b476c6453b0d7d648ebccdcbec3a980049"
+      "sha256": "13d65b6a0b8048a954d9e6f76d296c4afe7406c1c403008d027d23115954c008"
     },
     "resource:paper-workflow": {
       "path": "skills/econ-writing/references/paper-workflow.md",
-      "sha256": "2063f507becc8c56db8da6aed8c8f4ee0069d9ae2b1a99d41c5ee4c362371cee"
+      "sha256": "a0105d409c12faa8fac62c52cd6ccd1be883b6865865e75b8dd263d5901f2ba6"
     },
     "resource:paragraph-schema": {
       "path": "harness/paragraph.schema.json",
@@ -531,7 +531,7 @@
     },
     "resource:paragraph-workflow": {
       "path": "skills/econ-writing/references/paragraph-workflow.md",
-      "sha256": "92de31be704d48a4799a7e5da6daf20ceb7b1d050e4e3d439f83ad221a06e607"
+      "sha256": "d511ce7902cae6c71bf5f5fa9ec4295c30e415d0112fe54dbde33180b9b70115"
     },
     "resource:plugin-integration-guide": {
       "path": "docs/ai/plugin-integration.md",
@@ -623,11 +623,11 @@
     },
     "resource:project-practice": {
       "path": "skills/project-work/references/practice.md",
-      "sha256": "ec3cc6dd067817d3487cecca715e1e27ab6e485252d9de6a7771867bdcb79d36"
+      "sha256": "1b1975039a4bce3fccfc00eaaab83e02386eab7ab6c3d23c53058719c42faca0"
     },
     "resource:project-work": {
       "path": "skills/project-work/SKILL.md",
-      "sha256": "6310ef4e560c5b28bb74b6351c9296906643438c37952580b1409da5cb95541c"
+      "sha256": "9ee5b469714fb1cc973d243af94f243732d54778f2c369bc878a10b69d212818"
     },
     "resource:publication": {
       "path": "harness/publication.md",
@@ -779,15 +779,15 @@
     },
     "resource:result-artifacts": {
       "path": "skills/econ-writing/references/result-artifacts.md",
-      "sha256": "84d071dd5632a64fe0b40cee97e976abfa4d3182d97ad5ac36b7c7bcfaa5afd7"
+      "sha256": "4ca0f55344bb80b8fd69c48c5cc909170eae6f4a4672226e161e5c0b209aea43"
     },
     "resource:review-methods": {
       "path": "skills/econ-review/references/oversight.md",
-      "sha256": "715a1b56080b9058f86407a40ddeb29b968cd9098d38cbf279670f3db865beeb"
+      "sha256": "deb073f1d2e1b93fad80723ce5ac52f89c1666078543ab4256c694e30634ed1f"
     },
     "resource:review-procedure": {
       "path": "skills/econ-review/references/review.md",
-      "sha256": "8627fc10db768fe96921f8f9b57b0a66785e646fffc2fc9c0a497f5b598ab28f"
+      "sha256": "daab5b8328257b3a56e892e4a881a7e8e8e640bf4497b99b33243b3fa91f7b16"
     },
     "resource:search-priority": {
       "path": "skills/econ-literature/references/search-priority.md",
@@ -815,15 +815,15 @@
     },
     "resource:writing-artifacts": {
       "path": "skills/econ-writing/references/artifact-writing.md",
-      "sha256": "b964615e4983cff4c3b4ac384f4add984d8d9e6397347456470a6aaa7b116c50"
+      "sha256": "5ef295247faf35f14983c2a7ea49c51bfd04c3613e62cb37646fefd13cbf383f"
     },
     "resource:writing-compose": {
       "path": "skills/econ-writing/references/compose.md",
-      "sha256": "22106f9dbc055af95a0cfef146dc4c9c668698b8278f115fa007c4cda304499f"
+      "sha256": "66ad0594dea2de3cfe405042765ab81b0f9f5b033b065bcb0bb40f77df383d57"
     },
     "resource:writing-convert": {
       "path": "skills/econ-writing/references/convert.md",
-      "sha256": "ab62a6ad5c0fab081929c993682c2be4fb1ed7a1e52e774082c7f81f93ff224c"
+      "sha256": "0076e492c8dd940fe94743b4544bd01ba4d40fae7e1e2685784a194da91f8df0"
     },
     "resource:writing-explain": {
       "path": "skills/econ-writing/references/explain.md",
@@ -839,7 +839,7 @@
     },
     "resource:writing-revise": {
       "path": "skills/econ-writing/references/revise.md",
-      "sha256": "b61e93aab5755b879ab6f502e7263349055cc74e006d78bf639fa9e065adc575"
+      "sha256": "3790e3115614b009fd51cdb53e595ac2ce179ff1d3d139367892ed8893bb9800"
     },
     "resource:writing-translate": {
       "path": "skills/econ-writing/references/translate.md",
@@ -859,7 +859,7 @@
     },
     "team": {
       "path": "runtime/TEAM.md",
-      "sha256": "eef8515665bdb35380fe1d14644c5e8c92cbd8583c7d12fd903883aab02fc69c"
+      "sha256": "0a35d53fbf3d4b62553404324641a37677d180ef0cc98ba16c44b9151c031921"
     }
   }
 }

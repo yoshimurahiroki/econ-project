@@ -1,52 +1,55 @@
-# Compose and deliver a research artifact
+# Slides, materials and rendering
 
-Select the sections needed by the requested output under the [shared writing contract](../SKILL.md). Apply [WRITING](../../../runtime/WRITING.md) to every element.
+Talks, meeting materials, research sites and the rendering of every artifact. The content comes from the worksheet and saved results; text follows [WRITING](../../../runtime/WRITING.md). Work through the steps in order and record the output paths in section 7 of the worksheet.
 
-## Generate articles and slides from results
+## S1. Talk plan
 
-Select `research_result_artifacts` and use [result artifacts](result-artifacts.md) to register named quantities and units from saved estimates, preserve their covariance and inference, and generate the requested article, table, figure and slide sources through the existing research DAG. Materialize the project's adopted artifact specification from its completed results and source-borrowed text. Bind the adopted equations and parameters to their actual code, specification and result. A changed producer or result rebuilds its affected consumers while preserving completed generations. Use the same selected quantities when revising article and slide arguments. Select `research_meeting_materials` for [meeting materials](../../../harness/meetings.md) assembled from saved displays and GitHub progress, with editable Markdown, Quarto rendering and independent native Google Slides editions. Source and trace every textual and visual element as above.
+Read the sequence of a strong talk of the same type:
 
-For a theory or structural presentation, select the existing `model` or `structural` material template. Keep derivations, proofs and additional results in internal research records. Supply adopted equations and source-borrowed explanations through `project-view.section_content` and select the saved parameter, fit, equilibrium and welfare displays by their result IDs. Their `metadata.report_role` places each display in the corresponding section. CLI and gallery read these templates from the same `tex/slides/meeting_templates.json`; presentation edits reuse the saved scientific result. Match the template's populated elements to actual source passages and visuals, adjusting only as specified above.
+```sh
+python3 skills/econ-writing/scripts/exemplars.py find --lang en --kind slide --query "<topic words>" --limit 3
+```
 
-## Compose a talk
+Talks not yet in the library come from the user's Drive, authors' homepages, NBER Summer Institute and Methods Lectures, conference programs and course pages. Fill one line per slide:
 
-1. **Output: argument sequence; consumer: slide author.** Find source slides in the user's connected Google Drive first (talk guides and course slide decks), then through the author's homepage, NBER Summer Institute and Methods Lectures pages, annual-meeting programs, institute seminar pages and university course pages (MIT OpenCourseWare among them) with queries such as `"<paper title> slides filetype:pdf"` or `"<論文題名> スライド pdf"`; open the PDF pages to read the sequence, titles, exhibit placement and design. Search and read actual source sequences and surrounding material, map each relation and its content selection to a source, and borrow the sequence with only necessary adjustments to the verified audience question, actors' choices, identifying comparison, evidence and answer. Allocate speaking time and pages by reference to the read source sequence; define quantities before using them.
-2. **Output: page content; consumer: template.** Every slide title is a noun phrase taken from a corresponding source slide. Japanese slides are composed as Japanese from Japanese source slides, borrowing their heading grammar, bullet endings, punctuation and layout. Borrow each title, proposition, transition, ending, explanation and section divider from corresponding read source text, matching the saved equation or exhibit and target facts with only necessary adjustments. For Japanese use Japanese originals. Record each correspondence and adjustment.
-3. **Output: composed page; consumer: renderer.** Borrow placement, design and appearance from inspected source pages and map each element to its source. Set body, bullets, table text and captions to the slide baseline in screen slides, Beamer and native Slides: 28 pt for English and 32 pt for Japanese; CSS 28 pt equals 37.33 px. Use the existing bundle's `title`, body, `artifacts` and `layout`. Use `stack` for a claim and a wide table; `figure-left` for a figure beside its interpretation; `figures` for comparable panels with common scales, selecting and adjusting the arrangement against inspected source pages. Place population, period and units beside the exhibit. Attach its explanatory body to the same section and set the consumed summary section's `visible` to `false`. Fit dense content by splitting its argument across pages while retaining source-grounded arrangements and the slide baseline. Keep derivations and diagnostic commentary at their internal owners.
-4. **Output: inspected talk; consumer: audience.** Render through the existing path and inspect every changed page at presentation size. Compare every title, claim, exhibit, implication and visual element with its recorded source and necessary adjustments. Check that mathematical symbols, row labels and intervals are legible from the same view. Repair the producing layout or text through the same source-borrowing procedure, then inspect affected outputs against the adopted argument and duration.
+```
+Slide <n> (<minutes>):  noun-phrase title → one claim → exhibit or equation (saved result ID) → worksheet item
+```
 
-The existing [meeting template](../../../tex/slides/meeting_template.qmd) owns screen settings. The [Beamer source](../../../tex/slides/main.tex) and its generated [adapter](../../../tex/slides/pandoc_template.latex) share PDF typography. Adopt the model material's composition only where mapped to actual source material, within the user's slide baseline (English 28 pt, Japanese 32 pt). Inspect the actual rendered fonts and page size; the rendered fonts establish the body size.
+The default applied-micro sequence: motivation, question, this paper, preview of findings, data, model or design, bottom line, main result, key magnitudes, mechanism, conclusion; appendix slides for derivations, extra estimates and definitions. Allocate minutes to the slides that carry the answer; quantities are defined before they are used.
 
-| Element | Screen slides | Beamer slides | HTML research document |
+## S2. Compose slides
+
+1. **Titles** are noun phrases. **Each slide carries one claim**, with its figure or table and a one-line reading of it, and the magnitude with its unit.
+2. **Japanese slides** take their heading grammar, bullet endings, punctuation and layout from Japanese slide exemplars (`find --lang ja --kind slide`, `style --lang ja --kind slide`), at 32 pt body text with lines of up to 24 characters.
+3. **Layouts** in meeting bundles: `stack` for a claim with a wide table; `figure-left` for a figure beside its interpretation; `figures` for comparable panels on common scales. Population, period and units sit beside the exhibit. Dense content is split across slides at the same type size.
+4. **Theory and structural talks** use the `model` or `structural` material template (`tex/slides/meeting_templates.json`); saved parameter, fit, equilibrium and welfare displays are placed by their result IDs.
+
+## S3. Type sizes and templates
+
+| Element | Screen slides (Quarto) | Beamer | HTML document |
 |---|---|---|---|
-| Page and text block | 1280 × 720, top-aligned, 7% outer margin | 960 × 540 PDF points, top-aligned, 54-point side margins | 44 rem reading column |
-| Title and section heading | English 40 pt title and 32 pt heading; Japanese 44 pt and 36 pt | English 40 pt title and 32 pt frame title; Japanese 44 pt and 36 pt | 34 px title, 25 px section heading |
-| Main text | English 28 pt / 37.33 px, Japanese 32 pt, line height 1.45 | English 28 pt, Japanese 32 pt with metropolis | 18 px, line height 1.8 |
-| Table | body size, aligned numeric columns | body size, 8 pt column padding | 16 px, horizontal rules |
-| Supporting quantity definition | body size | body size | 16 px |
+| Page | 1280 × 720, top-aligned, 7% margin | 960 × 540 pt, top-aligned, 54 pt side margins | 44 rem column |
+| Title / heading | English 40 / 32 pt; Japanese 44 / 36 pt | English 40 / 32 pt; Japanese 44 / 36 pt | 34 px / 25 px |
+| Body, bullets, tables, captions | English 28 pt (37.33 px); Japanese 32 pt; line height 1.45 | English 28 pt; Japanese 32 pt (`japanese: true` or `\ersjapanesetrue`) | 18 px, line height 1.8 |
 
-Use the selected font family consistently within each medium. A populated template carries the source-mapped question-to-answer sequence, borrowed prose, equations and saved exhibits. The [subscription material producer](../../econ-data/examples/subscription/materials.py) supplies a same-result bilingual example; run its [documented commands](../../econ-data/examples/subscription/README.md) to inspect the actual pages. Treat existing examples as technical references and map each adopted element to the specified actual sources, including Japanese originals.
+Templates: paper `tex/paper/ecta_template.tex` (econsocart; Top Five section order with slots for each element), Beamer `tex/slides/main.tex` (metropolis, Waseda colors, Harano Aji fonts; the applied-micro sequence above), Quarto `tex/paper/quarto_template.qmd` and `tex/slides/quarto_template.qmd`, meeting `tex/slides/meeting_template.qmd`. Replace every slot with content and delete unused sections and frames. `scripts/build_latex.py` handles LuaLaTeX, citations and keeps the previous PDF when a build fails.
 
-## Compose a research site
+## S4. Results-based materials
 
-Use the project's existing publication and analysis objects and preserve canonical links. Search and read corresponding source pages and passages first; borrow and map each page's content selection, explanation, reading order and visual elements, adjusting only to verified target facts and the requested medium.
+Register named quantities and units from saved estimates and generate tables, figures, articles and slides through the [result artifacts](result-artifacts.md) producers and the research DAG; article and slides read the same quantities. Meeting materials come from saved displays and progress records ([meetings](../../../harness/meetings.md)), with editable Markdown, Quarto rendering and native Google Slides editions. The [subscription example](../../econ-data/examples/subscription/README.md) builds a bilingual bundle from one result.
 
-## Render the requested artifact
+## S5. Other documents
 
-Use the existing build path and view the actual resulting page or slide when layout affects delivery. Compare every element to its recorded actual source and adjustments. Avoid unrelated rebuilds.
+Research sites, decision reports, proposals, progress reviews and meeting records take their structure from exemplars of the same purpose and their content from the worksheet and project records: decisions, basis, responsibility, timing and dependencies.
 
-For a new LaTeX paper, start from the supplied [Econometrica template](../../../tex/paper/ecta_template.tex) with its class, configuration and bibliography style. For new slides, use the supplied [Beamer template](../../../tex/slides/main.tex), retaining metropolis, Waseda colors and Harano Aji Japanese fonts. The paper template carries the section sequence of the [Top Five English profiles](../../../profiles/top-five-en/PROFILE.md) from Introduction to Conclusion and Appendix, with a summary-statistics table, a regression table, an event-study figure, an assumption, a proposition and the estimating equation; grey slots name the content of each sentence. The Beamer template carries the applied-micro talk sequence: motivation, question, this paper, preview of findings, data, model, bottom line, main result, key magnitudes and conclusion. Replace each slot with source-borrowed elements minimally adjusted to verified requested content, and delete the sections and frames the study leaves unused. The [Quarto paper](../../../tex/paper/quarto_template.qmd) and [Quarto slides](../../../tex/slides/quarto_template.qmd) carry the same sequences. The [shared build helper](../../../scripts/build_latex.py) owns LuaLaTeX compatibility, citation processing and preservation of the previous PDF on failure. The [result-artifact renderer](result-artifacts.md) and Quarto consume the same default family through their produced Pandoc adapters. Preserve a user's adopted document format and existing research files when the request concerns only new defaults.
+## S6. Render and read
 
-## Execute paragraph and argument contracts
+Build through the existing path (`make build-slides`, `make slides-pdf QMD=...`, `make build-paper`, `harness/research.py meeting render`) and read every changed page at its presentation size:
 
-Consult [paragraph guidance](paragraph-workflow.md) for the requested argument. Perform its argument and paragraph work by reading and mapping actual source passages and borrowing their structure and wording with only necessary adjustments; include the mapping in the common integrated review. Use its existing state and source bindings when the requested composition needs persistent dependencies. Complete the same integrated review and actual delivery path.
+```
+Page <n>:   title and claim match the plan; numbers match the saved result; symbols, labels and intervals legible;
+            rendered body size (pdffonts or measurement) as in S3
+```
 
-## Compose for the medium and language
-
-A requested model material supplies a composition pattern only when its elements are mapped to the specified actual sources. [Profile authoring](profile.md#profile) records its page measurements and argument operations and compares the rendered output with the original. Use that adopted pattern in the selected existing template with the current study's specification and saved results, borrowing every prose and visual element from read actual sources. Apply [WRITING's Common output](../../../runtime/WRITING.md) and [language rules](../../../runtime/WRITING.md) to the prose in every medium; source Japanese expression from corresponding Japanese originals.
-
-A local revision or translation uses its selected mode and surrounding premises and follows the same search, reading, mapping, borrowing and comparison procedure, even for a single word. A paper section uses the relevant [paper guidance](paper-workflow.md#compose-the-requested-section); a consequential long-form structural choice uses [paragraph guidance](paragraph-workflow.md). Retrieve and read actual source examples for every language choice, returning to search if a corresponding passage is missing.
-
-Select the paper guidance for the actual scientific argument: empirical identification and contrasts, structural estimation/equilibrium/welfare, or theory/proof. Bind numerical text, equations and exhibits through the selected [result contract](result-artifacts.md). Preserve estimated/calibrated/fixed parameter roles and each quantity's population, timing, units, denominator and scenario. Resolve a missing derivation or comparison through econ-design/data within the existing editing authority, then update affected passages and exhibits through the same source-borrowing procedure.
-
-For explanations, decision reports, proposals, progress reviews, meetings and records, search and read actual corresponding sources for the content selection, argument, wording and presentation appropriate to the requested purpose. Map each element and minimally adjust it to verified project facts, including decisions, basis, responsibility, timing and dependencies in existing project context. Compose an inference, meeting agenda or layout from mapped sources; return to search and reading when the source correspondence is missing.
+Repair at the producer (text, layout or result), rebuild, and read the affected pages again. Check the total against the speaking time.

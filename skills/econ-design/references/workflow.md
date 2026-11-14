@@ -1,55 +1,148 @@
-# Design operations
+# Design procedure
 
-Select the applicable registered section; the economist's procedure owns formulation and comparison.
+Steps 2 to 4 of the [economist's procedure](../../../runtime/ECONOMIST.md) in detail: from a request to an adopted question, model and design. Work through the steps in order. Each step ends with a block copied into the worksheet `work/<topic>.md` and filled; a step whose block is empty is not done, and the hooks hold edits and the end of the turn until sections 1 to 3 and then all sections are filled.
 
-## Procedure
+Three rules hold throughout:
 
-### Identify the requested design work
+1. **Write before choosing.** Every choice (question, model, design, method) is written in the worksheet with its reason before the next step uses it.
+2. **Compare, then adopt.** Every adopted item names the alternative it beat and the observation or calculation that decided.
+3. **Decision rules decide.** When a table in this file or in [designs](designs.md) covers the case, its first matching row decides; deviations are written with their reason.
 
-Select the question, derivation, empirical design or recommendation sought. A research question identifies the behavior, incentive, information constraint or equilibrium it explains and its contribution relative to close literature. Bind new research's applied formulation comparison to its existing design artifact under the economist's procedure. Assessment support returns its technical judgment to econ-review.
+## D1. Kind of design work
 
-For conflicting model predictions, align choices/outcomes in a common model and vary the condition reversing the result. Narrow the contribution if definitions resolve it. A behavioral hypothesis names the driver, independent measure and comparison separating predictions. A diagnostic design derives the margin connecting the obstacle, intervention and resulting choice, including displacement or participant responses affecting total value.
+Pick the first row that matches the request.
 
-### For an empirical specification
+| Request | Output of this procedure | Steps |
+| --- | --- | --- |
+| A research question or project idea | adopted question with contribution | D2, D3, D4, D7 |
+| A model, a derivation or a proof | model, solution and proposition | D2, D3 ([modeling](modeling.md)) |
+| An empirical design for a given question | estimand, comparison, method, inference | D2, D4, D5, D6, D7 |
+| A choice among designs or methods | ranked designs with the switching condition | D2, D5, D8 |
+| A policy or business recommendation | model, simulation and decision rule | D2, D3, [modeling](modeling.md) steps 4 to 6 |
+| Preregistration, grant or data plan | design with confirmatory and exploratory branches | D2 to D7 |
 
-Use the [estimand-to-method sequence](designs.md#choose-the-estimand-and-method): requested use, population/contrast, observation/assignment units, outcome scale, identifying variation and inference. Resolve these before a package choice; reuse an adopted specification for a bounded change.
+```
+Kind of work:   <row>
+Deliverable:    <file or answer>
+```
 
-Find the determining gap in measurement, identified response or effect-to-action mapping. A policy expansion compares actors moved by the new policy with those moved by the identifying variation; a finite intervention needs the response over its path. Define eligibility and the information, actions or payoffs changed, retaining eligible nonparticipants. Timing gaps may fix one choice while another responds. When an announced eligibility/score rule changes behavior, account for anticipation and input-manipulation costs in the comparison.
+## D2. Question
 
-Use [design elements](designs.md#design-elements) and the selected method for controls, weights, heterogeneity, treatment paths and dependence. Interpret diagnostics through their own null and sampling design. Pass the adopted parameter, sample, timing, weight meaning and inference to econ-data's selected interface; representation changes preserve that contract.
+Fill:
 
-Bind economic variable roles and documented measurement/timing/source fields in the assembly specification's `definitions`, and estimator columns in `analyses`. `variable_design` checks those roles before construction. Preserve the identifying adjustment set when predictive learners select nuisance features. Carry the construction record into estimates and writing.
+```
+Decision and decision maker:        who acts on the answer, and what they choose
+Behavior or mechanism explained:    the choice, incentive, information problem or equilibrium at the core
+Question (one sentence):            how does <change> affect <choice/outcome> of <actors>, <population>, <period>
+Closest existing answer:            paper or result, and what it leaves open (econ-literature)
+What this question adds:            new variation, new mechanism, new population, new decision margin
+Upstream alternative:               the question whose answer would move the decision more; why this one is kept
+Central obstacle:                   the premise whose failure would overturn the answer
+```
 
-### For a theoretical model
+Rules:
 
-Use [model construction](designs.md#model-construction) for the requested payoff, choice, equilibrium, path or value. Keep features whose omission changes it, including waiting, nonparticipation, switching and composition. A baseline institution preserves objectives, rights and priority; changing them defines an intervention. Payoff comparison and behavioral choice require their respective objects.
+- A question that names only a statistical operation ("regress y on x") is restated as a change in choices or outcomes. Before: "Estimate the subsidy coefficient." After: "Estimate how the subsidy changes firms' entry and employment under next year's policy contrast."
+- When the closest existing answer already settles the question for this population and margin, narrow the question to the margin it leaves open or report the existing answer.
+- When exact knowledge of a missing number would still leave the decision open because the objective is undefined, settle the objective first.
 
-Include displacement and affected partners' responses in the requested aggregation. Connect observations and interventions through the [observation map](designs.md#connect-observed-choices-and-outcomes-to-the-model-and-interventions); [restrictions and set-valued predictions](designs.md#construct-restrictions-and-set-valued-predictions) handle deviations and multiple equilibria. Reassess affected actors' eligibility as untreated comparisons.
+## D3. Model and predictions
 
-### For behavioral responses and group comparisons
+Run [modeling step by step](modeling.md): candidates from the knowledge library, the fit table, the complexity ladder, the solved model. Then fill:
 
-Distinguish total/fixed from marginal costs. Derive changed choices from the actor's rule, initial choice and participation/supply threshold. Keep net gains and actions distinct. An individual monotone comparative static does not establish a group quantity change: convert threshold crossings into quantity units and apply population weights. Compare entry/exit contributions, initial distributions, opportunities and response margins. Choose the window from adjustment and duration.
+```
+Adopted model (rung):                <model>, knowledge units <IDs>
+Prediction of interest:              sign or size of the effect, comparative static
+Competing model and its prediction:  <model>: <prediction>
+Separating observation:              sign, group difference, timing, dose response or non-effect that differs
+```
 
-### Establish feasibility
+Rules:
 
-For a requested preregistration, grant or data plan, carry the question, estimand, comparison, accessible sample and inference into that artifact. Distinguish confirmatory/exploratory branches, permitted changes and access/retention authority.
+- **Two predictions at least.** A design with one prediction cannot fail; add the strongest competing mechanism.
+- **Conflicting model predictions:** put the choices and outcomes of both models into one common model and vary the condition that reverses the result; the separating observation is that condition.
+- **Behavioral hypothesis:** name the driver, an independent measure of it, and the comparison where standard and behavioral predictions differ.
+- **Diagnosis of a problem:** derive the margin linking obstacle, intervention and resulting choice, including displaced activity and responses of existing participants; a local target can improve while total value falls.
 
-For end-to-end research, connect each candidate's closest literature answer, added mechanism and target to documented source fields, grain, period, keys and identifying variation. Inspect real documentation/data through existing source/data owners. The [design assessment](../scripts/research_design.py) binds original passages, contribution judgment and actual grain/missingness/variation/linkage. Execute the first feasible candidate in the adopted economic order; interpret its consequential result through the economist's procedure and continue to the requested artifact.
+## D4. Comparison that separates the predictions
 
-For theoretical/computational work, establish compatible conditions and a feasible derivation/solution within task resources. Preserve supplied candidate IDs, fixed scientific choices and partition/evaluation roles. Repair authorized input defects; retain actual missing fields or permissions for dependent work.
+Fill:
 
-### Choose among research designs
+```
+Population, period or boundary where predictions differ:
+Treated and comparison units:
+Assignment of the variation:         random / rule / timing / threshold / instrument / none
+Groups, sample and criteria fixed before seeing results:  yes, written in the worksheet
+```
 
-Compare feasible designs on the same requested object, identifying conditions or proposition, data/computation and delay costs. Judge precision against a decision-relevant threshold; obtain an absent threshold only if it changes selection. the economist's procedure owns ranking and switching conditions. Keep adoption/status in existing context and scientific reasoning in the artifact.
+Rules:
 
-## Specialized executable designs
+- **Policy expansion:** compare the actors moved by the new policy with those moved by the identifying variation; a mismatch is a different estimand and is written as such.
+- **Finite or phased interventions:** the response over the whole path is the object; one-period contrasts are rungs.
+- **Eligibility:** define who is eligible and what changes for them (information, actions, payoffs), keeping eligible nonparticipants in the population.
+- **Timing gaps:** when one choice is fixed and another responds, the estimand names which.
+- **Announced rules:** when an eligibility or score rule is announced, include anticipation and manipulation of the score in the comparison.
 
-Select individual methods through `index --operation econ-design:design` when selection is unresolved. Registered conditions locate causal, market, dynamic, macro, DSGE, agent and numerical bodies with their true prerequisites. An identified method needs no family-wide `method_extended_*` load; family-wide requests retain it. The same contracts serve execution and review.
+## D5. Estimand and method
 
-`research_adaptive_experiments` selects [source comparisons and adaptive experiments](adaptive-research.md). The lead adopts the target and permitted axes; the existing runner generates candidates under the fixed evaluation and retains the final holdout for the selected candidate.
+Follow the estimand-to-method sequence in this order and fill each line:
 
-## Design specification
+```
+Requested use of the estimate:        the decision of D2 and its threshold
+Population and contrast:
+Observation unit and assignment unit:
+Outcome and scale:                    levels, logs, rates, shares, counts
+Identifying variation:
+Inference:                            cluster level, number of clusters, small-sample rule
+Method:                               the first matching row of empirical.md step E4
+Package call:                         from the implementation table
+```
 
-An empirical design establishes the question, estimand, identifying comparison, measures and inference. A theory design establishes primitives, feasible choices, solution concept and the proposition sought. A design-only result ends with the adopted design.
+Use [designs: estimand and method](designs.md#choose-the-estimand-and-method), the family section of [designs](designs.md) (difference-in-differences, RD, IV, shift-share, synthetic control, structural, networks) and the [implementation table](../../econ-data/references/implementation-engines.md). A saved selection contract runs through `python3 skills/econ-design/scripts/research_design.py select CONTRACT --root . --output outputs/selection.json`. A structural model uses the matching file: [market](market-models.md), [dynamic](dynamic-models.md), [macro](macro-models.md), [DSGE](dsge-models.md), [numerical](numerical-models.md), [agent-based](agent-models.md).
 
-Retrieve the needed definitions and model equations through econ-knowledge. Connect their conditions to the selected method and, when execution is requested, its econ-data owner. The [method selector](workflow.md#specialized-executable-designs) supplies executable causal, structural, dynamic and equilibrium contracts.
+## D6. Variables
+
+For each variable, one line:
+
+```
+<name>: role (outcome / treatment / instrument / running variable / control / weight / cluster), definition,
+        unit, timing relative to treatment, source field, construction
+```
+
+Rules:
+
+- Controls are measured before treatment; a post-treatment variable enters only as an outcome or a mediator.
+- Weights state whose average they produce.
+- When predictive learners choose nuisance controls, the identifying adjustment set stays in the model.
+- The construction record travels with the data into estimates and writing (`research_design.py variables`).
+
+## D7. Feasibility
+
+Fill:
+
+```
+Data source and documentation read:   <source>, <fields>, <grain>, <period>, <keys>
+Variation present in the data:        number of treated units, timing, support near the threshold, first stage
+Expected precision:                   minimum detectable effect against the decision threshold of D5
+Access and permissions:
+Confirmatory and exploratory branches (for preregistration):
+```
+
+Rules:
+
+- Inspect the real documentation or a data sample before adopting a design; a design without its variation in the data returns to D4.
+- When the minimum detectable effect exceeds the decision threshold, report this and return to D4 or D5 for a sharper comparison or more data.
+
+## D8. Choice among designs
+
+When several designs remain, fill one row each:
+
+```
+Design   Estimand   Identifying assumption   Precision vs threshold   Data and delay cost   Decision it supports
+```
+
+Rule: rank by whether the design can change the decision of D2 (precision against the threshold), then by cost and delay; the same winner across the admissible range is adopted, otherwise write the switching condition. Novelty of a method and the length of a menu carry no weight.
+
+## Hand-off
+
+Copy into the worksheet sections 2 to 4: the question (D2), the model and predictions (D3), the comparison, estimand, method and inference (D4 to D6), and pass the design to [econ-data](../../econ-data/SKILL.md) for execution through the [empirical procedure](../../econ-data/references/empirical.md).

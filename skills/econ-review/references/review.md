@@ -1,46 +1,86 @@
-# Assess the requested economics artifact
+# Review procedure
 
-## Procedure
+Review asks one question: does the artifact's answer follow from its question, model, comparison and numbers? Work through the steps in order and fill each block in the worksheet. Every finding names the exact place, the evidence that shows the defect, its consequence for the answer, and the repair.
 
-### Choose the review target
+## R1. Target
 
-Recover the central claim, intended decision and required outcome. Prioritize defects changing that answer, invalidating its economic comparison or blocking delivery. A local review stays with the named passage/result and its determining dependencies.
+```
+Artifact and version:     <file, section, slide, commit>
+Central claim:            <the answer the artifact gives>
+Decision it informs:      <who acts on it>
+Scope:                    whole artifact / named passage / code path / referee comments
+Mode:                     findings only / findings and repair
+```
 
-Editorial review applies WRITING and the selected writing procedure. Claims and derivations use their cited passages, equations and calculations. Code/pipeline review follows adopted definitions through the producer and consumers. Conduct review compares actual operations with authority; plan review applies the economist's procedure's action comparison and preserves user-required frequencies.
+## R2. Rebuild the economist's chain
 
-### Locate and repair the cause
+Fill the seven-step chain of the [economist's procedure](../../../runtime/ECONOMIST.md) from the artifact itself, before judging it:
 
-Trace a decisive numerical statement, table or point to its statistic, sample, unit, definition and successful run. Compare saved values with declared display rounding. Reproduction uses its requested source data and tolerances. A changed producer rebuilds affected exhibits and prose; reuse unchanged calculations.
+```
+Question (actors, choices, change, outcome):
+Model and predictions (with the competing prediction):
+Comparison / estimand / identifying assumption:
+Method and inference:
+Results (numbers with population, units, table):
+Interpretation and decision:
+```
 
-For literature-backed claims, `research_evidence.py review CONTRACT --root PROJECT --output PACKET` returns the hash-bound target and original passages. Read their arguments and judge claim meaning, source meaning and the connecting inference. Reading the evidence supplies that judgment; hash agreement confirms byte identity. Use [claim coverage and re-review](../../econ-writing/references/result-artifacts.md#claims-coverage-and-requested-re-review) only when requested; it owns finding IDs, revised-evidence assessment before `response_after`, claim dependencies and the response-writing callback. A response letter refers to the inspected revision and its exact changed locations.
+A link the artifact does not supply is already a finding.
 
-For requested exact correspondence, the [evidence binder](../../../harness/research_evidence.py) connects manuscript/source spans, statistic units, equations/code, residuals and symbol/parameter construction. Inspect the actual mapping and its semantic inference. Specification-search review retains the frozen estimand, sample, inference, evaluator, validation choice and winner-only holdout.
+## R3. Checks by kind of claim
 
-For structural results, follow the [adopted model](../../econ-design/references/designs.md#structural-estimation-and-counterfactuals): parameter order and roles, normalized payoffs, information/timing, transitions and moments/likelihood. Assess identifying variation and exclusion/selection. Inspect original Bellman, pricing, feasibility or deviation residuals at the returned solution. Interventions must carry changed choices, ownership, costs or transitions through all affected best responses; scenario-consistent prices, shares, profits and consumer values determine welfare with adopted transfers, horizon and weights.
+Run every check that applies and record its result as pass or as a finding.
 
-For empirical claims, reconstruct the population contrast, observation weights and identifying restriction; match coefficients/direct subgroup contrasts to their covariance and reference distribution. A diagnostic tests its own null. For theory, recover complete quantifiers/domain and the determining proof step; a counterexample must satisfy every hypothesis. Revision/translation review preserves those relations and the actor, group, period and comparison attached to each unchanged number.
+**Question and model**
+- The question names actors, choices and a change; it beats its upstream alternative.
+- The model's assumptions fit the case; at least two mechanisms with different predictions are compared.
 
-For each defect, identify its target, consequence, evidence and producing cause. Repair source/premise at the cited material, transformation at its operation, inference at its connecting argument, presentation at the unsupported parent proposition and execution at the failed producer. Route requested prose repair through econ-writing. Reconcile affected restatements and artifacts; a faulty calculation is repaired at its producer.
+**Empirical claims**
+- Reconstruct the population contrast, weights and identifying restriction from the text and code.
+- Coefficients and subgroup contrasts match their covariance and reference distribution; subgroup differences are estimated directly.
+- Clustering at the assignment level; few clusters handled by the wild cluster bootstrap; staggered adoption estimated with a heterogeneity-robust estimator (the decision rules of the [empirical procedure](../../econ-data/references/empirical.md)).
+- Each diagnostic is read against its own null.
 
-Adjudicate a contested finding against the actual cited passage or producing calculation. Preserve a correct claim when the proposed finding lacks that support. Read the linked response/re-review contract before a requested referee letter; it owns finding IDs, original comments, revised spans, response callbacks and actual saved letter correspondence.
+**Structural and numerical claims**
+- Parameter roles, normalizations, timing, transitions and moments match the [adopted model](../../econ-design/references/designs.md#structural-estimation-and-counterfactuals).
+- Residuals of the original Bellman, pricing, feasibility or deviation conditions at the returned solution are within tolerance.
+- Counterfactuals carry the change through all affected best responses; prices, shares, profits and consumer values come from the same scenario.
 
-For each referee comment, locate its substantive question and premise in the manuscript, appendix, equation, exhibit or source. Retain a correct result with its derivation; repair a demonstrated defect. Findings-only work returns the needed repair; authorized repair continues to the actual revised target. Keep permission and version bindings in existing evidence/task context.
+**Theory**
+- Domain and quantifiers are complete; the determining proof step holds; a proposed counterexample satisfies every hypothesis.
 
-Inspect slides and figure-heavy artifacts before the author's layout explanation. Recover their question, comparison and evidence, then apply the selected [medium/render procedure](../../econ-writing/references/artifact-writing.md). Match scales, axes and labels to the original result; check requested speaking time or controls. Stop when affected claims follow from their sources and the requested artifact/operation is complete.
+**Numbers in text and exhibits**
+- Trace each decisive number to its saved result, sample, unit and definition; compare with the display rounding.
+- `python3 harness/research_evidence.py review CONTRACT --root PROJECT --output PACKET` returns the cited source passages for literature-backed claims; read them and judge the claim against them.
 
-### Compare versions or decisions when requested
+**Code and pipelines**
+- Follow the definitions from producer to every consumer; check keys, joins, sample, weights and formula ([implementation rules](../../econ-data/references/implementation.md)).
 
-Retain an accessible original and compare actual versions under common inputs, authority and completion criteria. Assess substantive outcome, resources and mathematical validity each on its own evidence; measured outcomes establish improvement.
+**Writing, slides and figures**
+- Apply [WRITING](../../../runtime/WRITING.md); for slides and figures, check scales, axes, labels and speaking time against the [rendering procedure](../../econ-writing/references/artifact-writing.md), before reading the author's explanation of the layout.
 
-Separate sample/measurement/target changes from method changes. Compare subgroup differences directly; inspect joint group transitions when averages hide who gains. Action comparisons retain budget, constraints and selection-error losses. Decision-maker comparisons consider their objective, information and unobserved outcomes. Fixed evidence/criteria preserve the judgment despite changed insistence; determining new evidence changes the affected conclusion. For multi-stage work, inspect the actual adopted decision, outputs and resumption bindings. [Oversight notes](oversight.md) apply to expressly requested independent or blinded assessment.
+## R4. Findings
 
-### Deliver the assessment
+One block per finding, ranked by consequence for the central claim:
 
-1. **Finding record → repair owner.** Retain each diagnostic, consequence, source passage/calculation, finding ID and required repair internally. Preserve the adopted criteria and actual inspection result.
-2. **Public finding → user.** Convey the supported repair and its exact target, with the determining quantity or derivation. For findings-only work, this is the requested action. Apply [WRITING](../../../runtime/WRITING.md) to every public finding and response, down to one-word edits, translations, labels and existing drafts.
-3. **Authorized repair → delivered result.** Revise the producer and affected Abstract, Introduction, Results and Conclusion; inspect the regenerated target. Convey the established result at the exact revised locations. Referee responses connect the substantive question to its evidence and exact revised locations. Apply the same source-first borrowing procedure and WRITING's internal routing and numerical uncertainty to every public finding and response.
+```
+Finding <n>:     <place>
+Evidence:        <passage, number, residual or counterexample>
+Consequence:     changes the answer / weakens the comparison / presentation only
+Cause:           source / transformation / inference / presentation / execution
+Repair:          <exact change, and where it is made>
+```
 
-## Evaluate specialized calculations and artifacts
+Rules:
 
-Activate the registered scientific condition for the actual causal, market, dynamic, macro, stochastic, agent or numerical model and read its required bodies. Compare its identifying inputs and original equations with the saved sample, fitted model, policies and counterfactual. `research_adaptive_experiments` selects adaptive-protocol review; `research_result_artifacts` selects result bindings and changed-input detection. Keep assessment with this owner.
+- A defect is repaired where it is produced: a source at the cited material, a transformation at its operation, an inference at the argument, a calculation at its producer (then every exhibit and sentence that uses it is rebuilt).
+- A contested finding is settled against the cited passage or the producing calculation; a correct claim stays.
+- Referee comments: locate the substantive question of each comment in the manuscript, keep a correct result with its derivation, repair a demonstrated defect, and answer with the exact revised locations ([claim coverage and re-review](../../econ-writing/references/result-artifacts.md#claims-coverage-and-requested-re-review)).
 
+## R5. Versions and decisions
+
+When comparing versions or proposed changes, hold inputs, authority and criteria fixed; separate changes in sample, measurement or target from changes in method; compare subgroup differences directly. Fixed evidence keeps the judgment fixed whatever the insistence; new determining evidence changes it.
+
+## R6. Delivery
+
+Findings only: report the ranked findings with their repairs. Findings and repair: revise the producer and the affected abstract, introduction, results and conclusion, render the target, read it, and report the revised locations. Independent or blinded assessment follows the [oversight notes](oversight.md).

@@ -2126,28 +2126,28 @@
         "whole_resource": true
       },
       "establish-the-argument-from-the-research": {
-        "heading": "Establish the argument from the research"
+        "whole_resource": true
       },
       "design-the-papers-argument": {
-        "heading": "Design the paper's argument"
+        "whole_resource": true
       },
       "compose-the-requested-section": {
-        "heading": "Compose the requested section"
+        "whole_resource": true
       },
       "choose-and-explain-descriptive-exhibits": {
-        "heading": "Choose and explain descriptive exhibits"
+        "whole_resource": true
       },
       "example-draw-an-already-calculated-group-share": {
-        "heading": "Example: draw an already calculated group share"
+        "whole_resource": true
       },
       "connect-the-prose": {
-        "heading": "Connect the prose"
+        "whole_resource": true
       },
       "revise-the-integrated-manuscript": {
-        "heading": "Revise the integrated manuscript"
+        "whole_resource": true
       },
       "execute-the-paragraph-architecture": {
-        "heading": "Execute the paragraph architecture"
+        "whole_resource": true
       }
     },
     "review-methods": {
@@ -2155,10 +2155,10 @@
         "whole_resource": true
       },
       "review-findings-and-independence": {
-        "heading": "Review findings and independence"
+        "whole_resource": true
       },
       "compare-a-proposed-change-when-requested": {
-        "heading": "Compare a proposed change when requested"
+        "whole_resource": true
       }
     },
     "default-micro": {
@@ -3246,40 +3246,40 @@
     },
     "project-practice": {
       "connect-the-current-case": {
-        "heading": "Connect the current case"
+        "whole_resource": true
       },
       "complete-the-assigned-contribution": {
-        "heading": "Complete the assigned contribution"
+        "whole_resource": true
       },
       "manage-the-case": {
-        "heading": "Manage the case"
+        "whole_resource": true
       },
       "resources-and-dates": {
-        "heading": "Resources and dates"
+        "whole_resource": true
       },
       "change-and-recovery": {
-        "heading": "Change and recovery"
+        "whole_resource": true
       },
       "discussion-and-interviews": {
-        "heading": "Discussion and interviews"
+        "whole_resource": true
       },
       "contact-drafts": {
-        "heading": "Contact drafts"
+        "whole_resource": true
       },
       "artifacts-and-integration": {
-        "heading": "Artifacts and integration"
+        "whole_resource": true
       },
       "outcomes-and-handover": {
-        "heading": "Outcomes and handover"
+        "whole_resource": true
       },
       "all": {
         "whole_resource": true
       },
       "define-the-task": {
-        "heading": "Define the task"
+        "whole_resource": true
       },
       "write-the-execution-prompt": {
-        "heading": "Write the execution prompt"
+        "whole_resource": true
       }
     },
     "policy-codex-agent-lead": {
@@ -3352,43 +3352,43 @@
         "whole_resource": true
       },
       "economic-methods-and-replication": {
-        "heading": "Economic methods and replication"
+        "whole_resource": true
       },
       "novelty-and-coverage": {
-        "heading": "Novelty and coverage"
+        "whole_resource": true
       },
       "public-source-acquisition": {
-        "heading": "Public source acquisition"
+        "whole_resource": true
       },
       "research-discovery": {
-        "heading": "Research discovery"
+        "whole_resource": true
       },
       "structural-methods": {
-        "heading": "Structural methods"
+        "whole_resource": true
       },
       "numerical-implementation": {
-        "heading": "Numerical implementation"
+        "whole_resource": true
       },
       "citation-and-institutional-checks": {
-        "heading": "Citation and institutional checks"
+        "whole_resource": true
       },
       "interview-evidence": {
-        "heading": "Interview evidence"
+        "whole_resource": true
       },
       "ai-method-assessment": {
-        "heading": "AI-method assessment"
+        "whole_resource": true
       },
       "find-the-work-that-answers-the-comparison": {
-        "heading": "Find the work that answers the comparison"
+        "whole_resource": true
       },
       "establish-the-supporting-passages-and-versions": {
-        "heading": "Establish the supporting passages and versions"
+        "whole_resource": true
       },
       "deliver-the-literatures-economic-relevance": {
-        "heading": "Deliver the literature's economic relevance"
+        "whole_resource": true
       },
       "source-and-data-discovery": {
-        "heading": "Source and data discovery"
+        "whole_resource": true
       }
     },
     "search-priority": {
@@ -3401,13 +3401,13 @@
         "whole_resource": true
       },
       "select-the-reading-target": {
-        "heading": "Select the reading target"
+        "whole_resource": true
       },
       "follow-the-argument-to-its-evidence": {
-        "heading": "Follow the argument to its evidence"
+        "whole_resource": true
       },
       "retain-the-inspected-source-and-hand-it-forward": {
-        "heading": "Retain the inspected source and hand it forward"
+        "whole_resource": true
       }
     },
     "writing-compose": {
@@ -3495,22 +3495,22 @@
         "whole_resource": true
       },
       "generate-articles-and-slides-from-results": {
-        "heading": "Generate articles and slides from results"
+        "whole_resource": true
       },
       "compose-a-talk": {
-        "heading": "Compose a talk"
+        "whole_resource": true
       },
       "compose-a-research-site": {
-        "heading": "Compose a research site"
+        "whole_resource": true
       },
       "render-the-requested-artifact": {
-        "heading": "Render the requested artifact"
+        "whole_resource": true
       },
       "execute-paragraph-and-argument-contracts": {
-        "heading": "Execute paragraph and argument contracts"
+        "whole_resource": true
       },
       "compose-for-the-medium-and-language": {
-        "heading": "Compose for the medium and language"
+        "whole_resource": true
       }
     },
     "paper-empirical": {
@@ -3518,7 +3518,7 @@
         "whole_resource": true
       },
       "read-an-empirical-paper": {
-        "heading": "Read an empirical paper"
+        "whole_resource": true
       }
     },
     "paper-theory": {
@@ -3526,7 +3526,7 @@
         "whole_resource": true
       },
       "read-a-theory-paper": {
-        "heading": "Read a theory paper"
+        "whole_resource": true
       }
     },
     "paper-structural": {
@@ -3534,7 +3534,7 @@
         "whole_resource": true
       },
       "read-a-structural-paper": {
-        "heading": "Read a structural paper"
+        "whole_resource": true
       }
     },
     "journal-priority": {
@@ -3845,49 +3845,49 @@
         "whole_resource": true
       },
       "data-execution-operations": {
-        "heading": "Data execution operations"
+        "whole_resource": true
       },
       "equity-evaluation": {
-        "heading": "Equity evaluation"
+        "whole_resource": true
       },
       "procedure": {
-        "heading": "Procedure"
+        "whole_resource": true
       },
       "execute-structural-estimation-and-equilibrium": {
-        "heading": "Execute structural estimation and equilibrium"
+        "whole_resource": true
       },
       "map-the-object-to-the-existing-execution-path": {
-        "heading": "Map the object to the existing execution path"
+        "whole_resource": true
       },
       "construct-a-requested-data-design": {
-        "heading": "Construct a requested data design"
+        "whole_resource": true
       },
       "implement-at-the-existing-owner": {
-        "heading": "Implement at the existing owner"
+        "whole_resource": true
       },
       "select-a-specialized-research-calculation": {
-        "heading": "Select a specialized research calculation"
+        "whole_resource": true
       },
       "produce-the-result-by-dependency": {
-        "heading": "Produce the result by dependency"
+        "whole_resource": true
       },
       "power-and-estimator-simulation": {
-        "heading": "Power and estimator simulation"
+        "whole_resource": true
       },
       "specification-search-and-recovery": {
-        "heading": "Specification search and recovery"
+        "whole_resource": true
       },
       "finite-horizon-macro-calculation": {
-        "heading": "Finite-horizon macro calculation"
+        "whole_resource": true
       },
       "descriptive-statistics": {
-        "heading": "Descriptive statistics"
+        "whole_resource": true
       },
       "check-the-changed-calculation": {
-        "heading": "Check the changed calculation"
+        "whole_resource": true
       },
       "execution-specification": {
-        "heading": "Execution specification"
+        "whole_resource": true
       }
     },
     "design-workflow": {
@@ -3895,34 +3895,34 @@
         "whole_resource": true
       },
       "design-operations": {
-        "heading": "Design operations"
+        "whole_resource": true
       },
       "procedure": {
-        "heading": "Procedure"
+        "whole_resource": true
       },
       "identify-the-requested-design-work": {
-        "heading": "Identify the requested design work"
+        "whole_resource": true
       },
       "for-an-empirical-specification": {
-        "heading": "For an empirical specification"
+        "whole_resource": true
       },
       "for-a-theoretical-model": {
-        "heading": "For a theoretical model"
+        "whole_resource": true
       },
       "for-behavioral-responses-and-group-comparisons": {
-        "heading": "For behavioral responses and group comparisons"
+        "whole_resource": true
       },
       "establish-feasibility": {
-        "heading": "Establish feasibility"
+        "whole_resource": true
       },
       "choose-among-research-designs": {
-        "heading": "Choose among research designs"
+        "whole_resource": true
       },
       "specialized-executable-designs": {
-        "heading": "Specialized executable designs"
+        "whole_resource": true
       },
       "design-specification": {
-        "heading": "Design specification"
+        "whole_resource": true
       }
     },
     "knowledge-guide": {
@@ -4150,19 +4150,19 @@
         "whole_resource": true
       },
       "choose-the-review-target": {
-        "heading": "Choose the review target"
+        "whole_resource": true
       },
       "locate-and-repair-the-cause": {
-        "heading": "Locate and repair the cause"
+        "whole_resource": true
       },
       "compare-versions-or-decisions-when-requested": {
-        "heading": "Compare versions or decisions when requested"
+        "whole_resource": true
       },
       "deliver-the-assessment": {
-        "heading": "Deliver the assessment"
+        "whole_resource": true
       },
       "evaluate-specialized-calculations-and-artifacts": {
-        "heading": "Evaluate specialized calculations and artifacts"
+        "whole_resource": true
       }
     },
     "top-five-en": {

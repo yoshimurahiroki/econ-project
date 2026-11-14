@@ -1,19 +1,26 @@
-# Read an economics paper for the requested result
+# Paper-reading sheet
 
-## Select the reading target
+Fill this sheet for each paper read for a task. Read the introduction, the conclusion and the section structure first, then follow each part to the section, equation, table, figure or proof that establishes it; the abstract only orients. Then complete the checklist for the paper's method: [empirical](read-empirical.md), [theory](read-theory.md) or [structural](read-structural.md), combining them when the paper uses several.
 
-1. **Output: reading target; consumer: source inspection.** Recover the requested result, stable study identity and actual edition. For screening, inspect metadata and the abstract, return the source-bound candidate judgment to selection, and continue these steps when substantive reading is adopted. For explanation, citation, method and replication tasks, match the title and authors in the body to the bibliographic record and read the supporting body. Full-paper reading covers the complete body and requested appendices; a comprehensive explanation follows the connected argument and its determining support. Restore WRITING, the selected procedure and active prerequisites under the existing reading rules.
+```
+Paper:                 author (year), title, venue, edition / version, DOI
+Question:              actors, their choices, the outcome, and why this industry, institution or period
+Why it matters:        the economic stake the paper states, with its magnitude
+Method:                theory / data / estimation / identification, with the section that sets it out
+Results:               each main quantity with population, sample, units, estimator and interval, or each proposition
+                       with its domain; table, figure or equation number
+Implications:          what the results establish about the actors' choices, and through which comparison or mechanism
+Contribution:          the advance over the cited literature, stated as the comparison the paper makes
+Passages read:         section and page of every claim above
+Open dependencies:     appendix, cited result or code still needed, and why
+```
 
-## Follow the argument to its evidence
+Rules:
 
-2. **Output: five-part argument map; consumer: detailed reading.** Read the introduction, conclusion and section structure. Identify the research question, then locate its economic importance; theory/data/estimation/identification; results and implications; and contribution relative to the cited literature. Name the actors' choices, consequential outcome and the reason for studying this industry, institution or period. Map each part to the section, equation, table, figure or proof establishing it; treat the abstract as orientation.
+- A full reading covers the whole body and the requested appendices; an explanation follows the connected argument and its determining support.
+- Estimates are read with their population, sample, outcome, comparison, estimator and inference; propositions with their domain, quantifiers and proof.
+- Implementation work also reads the authors' code or the official API that the paper uses.
+- One study keeps one identity across its working-paper and published editions; differences between editions are recorded.
+- Originals, extracted text and notes stay in the user's private records.
 
-3. **Output: inspected method and argument; consumer: source judgment.** Read the complete selected [empirical](read-empirical.md) (`paper_empirical`), [theory](read-theory.md) (`paper_theory`) or [structural](read-structural.md) (`paper_structural`) procedure; combine them when the argument uses several methods. Read the required body through each inference, following definitions, assumptions, equations, notes, captions, proofs and determining appendix or cited dependencies. Read an estimate with its population, sample, outcome, comparison, estimator and inference; read a proposition with its domain, quantifiers and proof. An exact passage check starts at its locator and follows that defining context. Implementation also reads the corresponding author code or official API. Preserve the adopted research design and saved results.
-
-4. **Output: supported five-part record; consumer: specialist.** Complete the argument map with inspected passages and the paper's actual quantities or derivations. Connect each implication to its identifying comparison or model mechanism and each contribution to its stated comparison. Retain assumptions, restrictions, diagnostics and unresolved dependencies internally. Additional literature retrieval follows the shared search-priority rule and execution-year windows; the assigned paper retains its identity across discovery, reading and interpretation.
-
-## Retain the inspected source and hand it forward
-
-5. **Output: version-bound reading record; consumer: reuse and verification.** Keep originals, extracted text, propositions, relations, reading observations and uses in the existing private [source record](source-discovery.md). Preserve one study identity across explicitly reconciled editions. Bind each inspected passage to its document ID, edition, raw/page hashes, exact range and equation/table locator. Record AI observations for text actually delivered and inspected, and human assertions from the researcher's declaration. Attribute source claims and derived interpretations to their actual authors. Keep originals, excerpts and reading logs outside distributed profiles, repositories and plugin packages.
-
-6. **Output: source-backed assignment; consumer: next operation.** Pass the supported five-part record to econ-design for model/identification, econ-data for calculation, econ-review for assessment or econ-writing for the requested prose or profile. Carry venue, publication status, dates and selection reason; route public claims through WRITING. For every English or Japanese output, including a short question, search and read the relevant passages and surrounding context in real sources before selecting content or expression: papers and slides from the five major journals published in 2020 or later, major economics handbooks, reviews and guides, economics textbooks, and economics course materials (lecture notes, course slides and handouts). Borrow and closely imitate the corresponding content, argument structure, wording, transitions, endings and visual elements, making only the minimum adjustments needed for established target facts; do not transfer a source’s empirical conditions or conclusions to the target. Use corresponding Japanese originals for Japanese expression. Record the source-to-output correspondence and adjustments in the existing record and compare every output element with the source. If a passage is missing, resume search and reading rather than inventing or freely paraphrasing it. A changed edition updates affected claims and uses through the existing record; reuse matching passages and calculations under the economist's procedure's reading rules.
+Pass the filled sheet to the step that asked for it: design (econ-design), calculation (econ-data), assessment (econ-review) or writing (econ-writing, which also explains papers in five points).

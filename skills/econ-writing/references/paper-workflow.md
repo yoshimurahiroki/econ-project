@@ -1,211 +1,126 @@
-# From research records to a paper
-
-Apply [WRITING](../../../runtime/WRITING.md) to every instruction in this workflow, including research-type tables, section choices, exhibits, examples, revisions and callbacks. The scientific and evidence requirements below constrain the target facts and calculations; existing profile BODY text remains intact.
-
-Use this workflow for a complete economics paper, a requested manuscript section or its revision. Inherit [ECONOMIST](../../../runtime/ECONOMIST.md), [WRITING](../../../runtime/WRITING.md) and [econ-writing's common process](artifact-writing.md#compose-for-the-medium-and-language). Keep the requested mode, language, audience and editing authority. Read the section that resolves the current composition choice and deliver wording borrowed and minimally adjusted from inspected sources under the requirements above.
-
-## Establish the argument from the research
-
-Read the adopted research specification, the relevant manuscript body and the saved results supporting the requested passage. Recover the economic question, central answer, identifying comparison or proposition, and the knowledge changed by that answer. Bind every selected numerical result to its population, outcome definition, unit, denominator, period, comparison and producing result. Recover assignment, treatment receipt, delivery actor, observation and analysis units from their actual definitions. Preserve these identities in every restatement.
-
-Use the body and its supporting calculations to establish the paper's results. Read each cited source at the passage supporting its attributed finding. Use current submission instructions for the requested format. An opening, abstract or earlier draft is a passage to reconcile with those sources. Carry the exact result and adopted specification into the new wording; report saved statistical inference only numerically under WRITING. Send a missing consequential derivation or computation through the responsible specialist within the task's authority; retain completed passages whose inputs still match.
-
-Establish the contribution from the completed finding and the closest verified work. Recover the earlier paper's answer, economic object and determining conditions from its supporting passage. Match the present result to that object and identify the observation, identifying variation or derived implication that changes the answer. For theory, name the restriction or choice margin generating the added proposition; for empirical work, name the previously unresolved quantity or comparison now established. A new dataset contributes through the economic quantity it measures, and a new setting through the mechanism or comparison it reveals. Record the supported population, parameter domain and horizon internally; select external claims under WRITING. Route an unresolved literature comparison through econ-literature and retain its source correspondence in the existing source/result record.
-
-Use inspected source structures for the paper's central inferential task, mapping their information and order to verified target facts. Preserve the following scientific relationships:
-
-| Research type | Connection to develop from the adopted study |
-| --- | --- |
-| Causal | Connect assignment or identifying variation and its conditions to the estimand, population and behavioral margin, then explain the estimated response and its economic magnitude. |
-| Pure theory | Develop the conditions, proposition and decisive proof or optimization step, then explain the resulting incentives, best responses and equilibrium implication. Preserve the proposition's domain and quantifiers. |
-| Structural | Connect variation and restrictions identifying primitives to the model's optimized behavior, baseline equilibrium and changed equilibrium, then its defined welfare comparison. |
-| Descriptive or measurement | Connect source records, construction, sample and aggregation to the measured economic object, then establish the pattern through comparable quantities and their denominators. |
-| Historical | Connect original documents, their authorship and recording purpose to the institutional sequence and comparison they establish. Align document creation, events and measurement dates; carry record survival, boundary and classification changes into the observed population. |
-| Macro | Define the shock or policy, initial and terminal conditions and horizon; use the transition and equilibrium relations to explain the aggregate or distributional path and its adopted welfare criterion. |
-| Mixed | Explain each component's actual mathematical or empirical role: the observation disciplining a parameter, its mapping into an equilibrium response, and the valuation and resource accounting applied to that allocation. Carry population, horizon and scenario through those links. |
-
-State the contribution through the completed inferential advance and its verified relation to earlier work. Borrow the relative space assigned to components from inspected corresponding passages, minimally adjusted to the supported central answer. Use the same central object throughout the paper.
-
-When completed body paragraphs already have versioned state, select their IDs through the [existing design command](paragraph-workflow.md#command-entry-points). It passes their exact text, claims, source/result metadata, definitions, quantities and dependency closure to the architect and specification callbacks. Retain the canonical question, answer and contribution in the adopted design. Borrow the exposition for the brief's research type, reader, language and requested section from mapped inspected passages. Compose Title, Abstract, Introduction and Conclusion from those same supported claims; their paragraph wording supplies each section's distinct function. The saved body and its calculations remain the inputs to this operation.
-
-## Design the paper's argument
-
-Borrow section propositions and their arrangement from mapped source passages, minimally adjusting them to the supported central answer. Put institutional rules before the comparisons that use them and variable construction before dependent inferences. Arrange dependent results in the order of their inference and parallel results by their contribution to the answer. Search for and borrow ordering and placement from mapped inspected passages that preserve these scientific dependencies, searching and reading until one does. Borrow paragraph count and length from the mapped source, minimally adjusting for those relations and the requested medium.
-
-For each main result, identify the observation or derivation establishing it, the economic mechanism supported by that evidence and the next inference it enables. Evaluate a secondary outcome, subgroup contrast or additional exercise in the internal evidence when its result changes that inference. Preserve the adopted hierarchy of primary and exploratory results. Explain a subgroup comparison through its estimated direct contrast and saved inference. Use the relevant [design methods](../../econ-design/references/designs.md) for a consequential unresolved inference.
-
-Borrow the section transition and its placement from a mapped inspected passage, minimally adjusting it to the relation needed to answer the target question. A result about one choice becomes an allocation result through the study's substitution, participation or market-clearing relation. A change in an allocation becomes a welfare result through its defined valuation and cost accounting. Preserve the supporting observation, equation or saved calculation and borrow its placement from a mapped inspected passage. Use the existing argument dependencies when these links must persist across revisions.
-
-Borrow the placement of quantities and symbols from mapped inspected passages, minimally adjusting as necessary to introduce quantities and symbols before use. Keep a manuscript's adopted definitions, index order, units, notation and references consistent with its model specification. Reuse its existing glossary or macros. Define a new symbol at or before its first substantive use, adjusting the source-mapped placement only as necessary, and preserve it in text, equations, exhibits and proofs. Resolve a conflict at the owning specification before revising dependent passages.
-
-Borrow the placement of the question, answer, credibility, contribution, supporting derivations, comparisons, diagnostics and appendix material from mapped inspected passages. Preserve the scientific relationship of each diagnostic to its claim and of each referenced construction, proof or calculation to its supporting material. Every promised result must have its actual supporting passage or exhibit.
-
-## Compose the requested section
-
-Choose the requested heading below. For a local revision, retain the supplied scope and read its surrounding argument. For a whole paper, borrow section selection and arrangement from mapped inspected sources, minimally adjusting for the adopted research. Title, Abstract and Conclusion consume the completed body. Their wording preserves the same object, result hierarchy and saved numerical inference. Use the [profile](../../../runtime/WRITING.md) while grounding every language and paragraph-function choice in inspected original sources.
-
-### Title
-
-Select the central economic object and the relationship, mechanism or measurement the paper establishes. Make every content word agree with the body. Include a setting, population, design or horizon when it determines the claim a reader can recover from the title. Use the requested journal's title convention and length. For requested alternatives, borrow each information order or emphasis from mapped inspected titles and preserve the same supported contribution. Keep a secondary result at its adopted place in the argument.
-
-### Abstract
-
-Borrow the abstract structure and wording from a mapped inspected abstract, minimally adjusting it to the supported question, decisive evidence, principal answer and economic meaning. Name the identifying variation or model operation that produces the result. Give the main magnitude with its exact object, unit, comparison and horizon. Retain a second result when it changes the interpretation of the first. For theory, select a supported proposition under WRITING. For a structural paper, identify the counterfactual intervention and the computed outcome. Meet the supplied word limit by borrowing a suitable mapped source pattern and making only necessary adjustments while preserving determining premises. Count the final requested language using the journal's actual convention when the limit determines delivery.
-
-### Introduction
-
-Borrow the opening and its placement from a mapped inspected introduction, minimally adjusting to the supported economic relationship, institutional choice or empirical fact behind the target question. Supply its source and explain the specific problem it raises. Borrow the placement of the question and principal answer from mapped inspected passages while preserving what the paper establishes. Develop the credibility of that answer through the adopted variation, measurement construction, theoretical argument or model discipline. Borrow the sequence of connected findings from mapped inspected passages while preserving the target mechanism and economic magnitude.
-
-Position the contribution against the closest verified studies on the axis that matters: measured object, variation, population, behavioral margin, model restriction or derived implication. Record the earlier study's actual finding and determining conditions internally; select supported external claims under WRITING. Complete the comparison by explaining the economic conclusion a reader can now draw. If the model changes a restriction, trace that change through the identified object or equilibrium response before claiming the contribution. Use each citation for the particular earlier finding, institutional fact or mechanism its inspected passage establishes.
-
-Borrow the opening, result sequence and any roadmap from mapped inspected introductions, minimally adjusting to the study-specific choice, pattern or historical sequence, its evidence and inference and the actual dependencies.
-
-Match every promised contribution to the body. Keep a finding's repeated mentions informative by adding its necessary mechanism, evidence or implication. Delete repeated magnitudes and background. Compose the final introduction as one connected argument under WRITING.
-
-### Literature review and survey
-
-Define the research question organizing the literature and the object being compared. Borrow the grouping and order of studies from mapped inspected reviews, minimally adjusting to their actual propositions, mechanisms and evidence. Explain the relation between those findings using their actual populations, definitions and designs. Preserve each source's attribution and source-supported conclusion. Borrow the placement of the synthesis from a mapped inspected source, minimally adjusting to its role in the paper.
-
-For a survey, make the synthesis the central answer. Keep the conditions producing each result in the internal source record. Present supported regularities and questions under WRITING. Build the discussion from inspected original passages. Preserve the adopted search scope and inclusion decisions through econ-literature. Use the journal's actual genre and length requirements; chapter length and citation count follow the requested argument.
-
-### Institutional background and data
-
-Describe the rule, timing, eligibility, information or incentive that changes actors' choices or creates the empirical comparison. Explain the economically relevant sequence of events. Use the institutional source applicable to the study's period. Retain the exact actors responsible for assignment, delivery and receipt.
-
-Connect the economic object to its source records, observation unit, measurement, sample construction, geography and period. State the denominator and aggregation of a rate, share or average. Describe the variables used in the adopted estimation and the sample actually producing the result. Use saved descriptive exhibits to establish the population and variation needed by the argument. Sample construction and measurement changes belong to the existing data owner. Preserve the adopted treatment of unavailable observations.
-
-### Identification and empirical method
-
-Borrow the opening and the placement of estimand and estimator from a mapped inspected method section, minimally adjusting to the target behavioral or policy contrast, intervention outcomes, weighted population and horizon. Define the estimand in that population before naming its estimator; search for a mapped inspected method section that preserves this order. Record the study's assignment, exclusion, continuity, trend and selection restrictions internally and select external claims under WRITING. Write the actual estimating equation or score, its sample, weights and fixed effects, and show which coefficient or aggregation produces the target. An adjusted projection coefficient describes its projection population; the causal interpretation follows from the particular identifying argument.
-
-For the internal specification, derivation and evidence record: Keep the units of observation, assignment, analysis and inference distinct in the explanation. A person-period record, a district-level assignment, an individual average and a district cluster each determine a different operation. Recover their actual identities from the specification and fitted sample. State the population represented by the estimator's weights and the observations surviving its transformations. When specifications change both method and sample, use their saved common-sample comparison to isolate the method's contribution, or explain the two changed objects directly. Select user-facing claims under WRITING.
-
-For the internal specification, derivation and evidence record: For a linear contrast $a'\hat\beta$, retrieve the named coefficients and the saved variance $a'\widehat V a$, including the covariance terms. For a transformed or aggregated target, use its saved post-estimation result and adopted delta-method, bootstrap or randomization calculation. Carry the null, reference distribution, degrees of freedom, confidence level and interval family with that result. A subgroup difference uses its direct contrast; an inverted confidence set retains every component and its open or unbounded endpoints. Let the reported estimate and interval answer the economic question in its outcome units. Use existing methods knowledge for the scientific argument and the following writing operations for its exposition. Select user-facing claims under WRITING.
-
-For the internal specification, derivation and evidence record: For each diagnostic used by the argument, recover the exact null, tested coefficients or contrasts, sample, covariance scaling, reference distribution and interval family. An event contrast $a'd$ tests $a'd=0$ using its saved contrast variance; a joint test of $d=0$ uses the covariance of the tested vector and its saved degrees of freedom. Read both outcomes through those objects, including the actual reference periods and aggregation weights. Use the defining counterfactual condition to derive the causal interpretation. Use the executed test to state the result for its observable null and explain how it bears on that identifying comparison. A central diagnostic enters the internal interpretation and its consuming evidence records. An economically small departure requires the study's stated magnitude and saved interval or sensitivity result. Select user-facing claims under WRITING.
-
-| Adopted design | Explanatory relation to establish from the study |
-| --- | --- |
-| RCT or randomized encouragement | Internal specification and evidence: Define the assigned offer, assignment unit and eligibility. Explain the treatment actually delivered and the outcome measured. Preserve the adopted assignment effect as the primary estimand where applicable; borrow its placement from a mapped inspected source. Tie a treatment-receipt effect to the saved first stage and the study's identification conditions. Carry the randomization scheme into the reported inference. Select user-facing claims under WRITING. |
-| DiD and event study | Internal specification and evidence: Explain the intervention, comparison population and counterfactual trend condition. Define group-time effects, anticipation, reference periods and the weights and contributing cohorts at each horizon. For pretreatment contrasts, recover adjacent-period or fixed-reference construction and the cells entering a joint test. Report the saved pointwise or simultaneous interval with its family. An aggregate effect describes its weighted population; a statement about each cohort uses the corresponding cohort results. A time profile uses the population represented at each point. Select user-facing claims under WRITING. |
-| IV | Describe the instrument's institutional source, the endogenous choice it moves and the outcome contrast. Connect the first stage and reduced form to the response for the adopted compliance population. Keep the exclusion, assignment and monotonicity conditions and their economic paths in the internal specification. Read instrument-strength diagnostics through their fitted model, null and inference units. Report the saved parameter inference, including every component of an inverted confidence set. |
-| RDD | Define the running variable, cutoff, eligibility rule and local population. Keep the continuity condition in the internal specification and connect a fuzzy design's treatment and outcome jumps to its supported effect under WRITING. Read density and predetermined-covariate diagnostics through their own continuity restrictions. Retain the fitted side, polynomial, bandwidth and inference. Give binned outcomes, fitted curves and treatment-effect intervals their saved targets. |
-| Synthetic control or synthetic DiD | Internal specification and evidence: Describe treated units, donor eligibility, fitting period and adopted counterfactual restrictions. Explain the outcome reproduced by the saved unit and time weights and the intervention-period contrast. Read pretreatment fit in its outcome units. Connect a placebo or permutation comparison to its reassignment population and the assignment or exchangeability condition supporting that inference. Preserve the selected implementation's saved fit and inference. Select user-facing claims under WRITING. |
-| Shift-share | Define the shares, their reference period, the shocks and their exposure aggregation. Explain the adopted identifying variation and the population or shock-level comparison it supports. Record the actual shock construction, leave-one-out operation, concentration and inference internally; select external claims under WRITING. |
-| Bunching | Explain the choice, incentive change and threshold. Connect the saved density and counterfactual mass to the behavioral response under the adopted optimization model. Keep the model conditions internally and state the supported quantity interpreted as an elasticity under WRITING. Keep the fitting range and adjustment assumptions in the internal specification. |
-| Orthogonal scores or heterogeneous effects | Internal specification and evidence: Name the causal target, score, identifying assumptions and population weights. Explain the actual splitting, cross-fitting and tuning samples. A CATE distribution reports fitted conditional responses; establish a heterogeneity claim through the saved direct group contrast, calibration or projection test and its evaluation sample. Give a ranking or policy result its own target, such as RATE or held-out policy value, with the adopted assignment rule, costs and population. Read each evaluation through its null and saved inference. Select user-facing claims under WRITING. |
-| Multiple designs | State each result's target, population, margin and identifying comparison. Explain how the results jointly establish the central argument through their actual mappings and direct contrasts. Preserve the adopted primary result and each supplementary exercise's purpose. |
-
-Writing consumes the adopted design and completed estimates. An inspected original source supplies the exposition pattern; the current study supplies the estimator, sample, assumptions and diagnostics. Any additional calculation requires the existing scientific owner's authority and execution record.
-
-### Theory, model and proof
-
-For the internal specification, derivation and evidence record: Introduce the economic environment through its actors, objectives, feasible choices, information and timing. Define the equilibrium concept and the conditions connecting choices, beliefs, feasibility and market clearing. Preserve each assumption’s role in determining behavior or the result; borrow its placement from a mapped inspected source. Preserve parameter domains, quantifiers, selection rules and the exact proposition established by the proof. Select user-facing claims under WRITING.
-
-For the internal specification, derivation and evidence record: Give each proposition its economic content, formal statement and decisive proof step. State whether its quantifier ranges over all admissible parameters and equilibria or an explicitly selected branch. Establish existence, optimality and uniqueness by the arguments each claim requires. For an optimization result, derive feasible candidates, active constraints, participation and boundary choices, then establish the global comparison through curvature or their objective values. A complete proof supplies every inference needed by the proposition; place its decisive and remaining steps in the internal proof record. A calculated example supplies the allocation for its stated primitives. Select user-facing claims under WRITING.
-
-For the internal specification, derivation and evidence record: Recover the [proof's dependency](../../econ-design/references/designs.md#propositions-proofs-and-counterexamples) before writing its explanation. State the step that turns the hypotheses into the conclusion and the assumption used at that step. Preserve the order of universal and existential quantifiers, weak or strict inequalities, tie behavior and the selected equilibrium. Translate a mathematical implication into the actor's payoff, feasible deviation or market response that makes it hold. A counterexample supplies its admissible primitives and allocation, the verified hypotheses and the failed conclusion; use that result to state the corrected mathematical claim under its adopted authority. Select user-facing claims under WRITING.
-
-For the internal specification, derivation and evidence record: Explain the mathematical step carrying the result through its economic operation: the constraint that binds, the payoff difference that changes sign, the response entering another actor's choice, or the feasibility condition closing the market. Give a central assumption its role in that step. For a dynamic model, name the state, feasible action, transition law, value criterion and terminal condition. Use the optimality relation to explain the policy function, then follow its choices through the state and allocation path. Preserve the proof's information, timing, weak or strict inequality and equilibrium selection in this explanation. Select user-facing claims under WRITING.
-
-For the internal specification, derivation and evidence record: For comparative statics, define the changed primitive and fixed objects, then follow every affected choice, price and quantity through the optimality and equilibrium equations. Establish the derivative's domain and account for changes in active constraints or selected equilibria. A finite comparison uses the corresponding endpoint allocations and any intervening threshold. If a threshold permits several optimal choices, state their allocations and the adopted tie rule before describing a jump; borrow this order from a mapped inspected source that preserves the dependency. Select user-facing claims under WRITING.
-
-For welfare, write the optimizing actor's objective and the evaluated criterion with their populations, weights, transfers, resource costs and horizon. Name the value level and reference level before reporting a change; borrow this order from a mapped inspected source that preserves the dependency. Apply an envelope argument to its actual optimized objective; trace external benefits, other actors' responses and distribution weights through the evaluated allocation. When an intervention expands the feasible choice set, use the old feasible choice to establish the corresponding ordering of optimized values. An individual response becomes an aggregate through the model's explicit population sum or integral. Route a consequential proof or model repair through econ-design while preserving the adopted specification and completed text.
-
-Borrow the figure and its visual design from a mapped, inspected source that expresses the relationship doing that explanatory work; adjust only to the verified model and saved results. Use the existing [model display roles](result-artifacts.md#draw-the-models-economic-relationship) and selected saved result IDs. Carry the same equation, primitives, scenario, units and equilibrium labels into the caption and paragraph. Apply WRITING's audience rule to the labels and explanation.
-
-### Structural estimation and quantitative counterfactuals
-
-For the internal specification, derivation and evidence record: Explain why the economic question uses the model's choice and interaction structure. Connect each reported parameter to the observed variation, likelihood or moment and maintained restrictions informing it. Describe endogenous prices and decisions through their common determinants and the exclusions used by the adopted model. State the normalization or root selection determining the recovered primitive. Name estimated, calibrated and fixed quantities with their sources. Present saved fit in the observations' units and use the relevant identifying restriction to explain the parameter's economic meaning. Select user-facing claims under WRITING.
-
-For the internal specification, derivation and evidence record: Expose the three operations producing a structural conclusion. The primitive vector $\theta$ enters actors' objectives, feasible choices and information. The equilibrium system $F(y;\theta,z)=0$ maps those primitives and institution $z$ into endogenous choices and prices $y$. The observation equation, likelihood or moments links that solution to the measured data and the estimate $\hat\theta$. A policy comparison changes $z$, carries the adopted invariant primitives into the new system and uses the saved solution $y(\hat\theta,z')$. Explain identification through the observed variation and restrictions, fit through matched observations and model predictions, and numerical solution through the original equilibrium equations. Carry the same fitted parameter vector and each scenario's endogenous objects into the welfare formula. Select user-facing claims under WRITING.
-
-For the internal specification, derivation and evidence record: Read the selected saved result's model definitions alongside its displayed quantities through [result artifacts](result-artifacts.md#save-displays-at-analysis-or-registration). Use its equation, notation, parameter roles, normalization, equilibrium selection and welfare definition to write the model-to-result connection. Select the knowledge or method reference resolving a specific derivation or interpretation through its existing specialist owner. Select user-facing claims under WRITING.
-
-Read `computation` with the saved parameter and solution objects before naming the result in prose. A likelihood or weighted moment criterion evaluates candidate structural parameters; its saved definition supplies the sign, normalization and weights. Structural parameter inference uses the adopted curvature or moment covariance, including the recorded first-stage and simulation contribution. A backward-induction result supplies policy and value functions at its stated parameters. A forward simulation supplies histories under those policies, initial states and draws. State each quantity through that producing operation and carry its definition into the Abstract, Results and Discussion.
-
-For dynamic welfare, evaluate the adopted population at its common initial states. An initial value function already contains the specified continuation value. A path-based calculation sums chosen flow utility with its discount weights and terminal continuation. Preserve the chosen expression in the text and its table unit. For sequence-space results, a linear impulse gives deviations from the saved steady state under the linearized equilibrium equations; a nonlinear transition gives the solved finite-shock path and its original residuals. Use the saved response scale, initial distribution, terminal condition and market equations to connect each path to the economic conclusion.
-
-For demand, connect a price coefficient to the model's derivative and the reported elasticity. With market shares, $\varepsilon_{jk}=(\partial s_j/\partial p_k)p_k/s_j$ uses the specified market, prices and shares. Explain recovered markups and marginal costs through the demand derivatives, ownership and conduct in the pricing equations. A cost shifter enters the adopted cost equation in its stated units. Define the intervention and solve its affected prices and choices through the existing scientific owner; a completed finite counterfactual supplies the shares, profits and surplus evaluated at that same equilibrium.
-
-Tie each result to its scenario, population, horizon and unit. For heterogeneous agents, identify the type-specific response and integration weights; for multiple markets, use the saved market populations to move from a per-person quantity to a total. Compose a group comparison from that group's same weighted population in both scenarios. State consumer value, producer profit, transfers and resource costs through the welfare definition, including the outside option and monetary normalization it uses. Match the reported total to its saved aggregation and original-equation residuals through the existing evidence bindings.
-
-### Results
-
-Borrow the section organization from a mapped inspected results section, minimally adjusting to the questions answered by the adopted estimates, measurements or model results. State the result, magnitude and comparison producing it. Give its baseline, denominator, population, period or economic benchmark. Use the producing analysis's saved transformations and retain their equations: a level contrast divided by a baseline, a percentage-point difference in shares, or $100[\exp(\beta\Delta x)-1]$ for the adopted multiplicative comparison. A log-outcome coefficient describes a conditional log difference; a conditional level mean uses its adopted retransformation. A log-link conditional-mean model supplies its own mean-ratio interpretation. Carry the resulting quantity and unit into every restatement.
-
-Explain a table by the economic contrast carried by its selected columns and rows. Explain a figure by the objects compared, axes, reference and observed pattern. Borrow the exhibit placement from a mapped inspected source while preserving its link to the inference it establishes. Describe a subgroup response through its direct contrast and saved covariance-based inference. Report saved estimates and numerical intervals with their labels and units under WRITING. Evaluate robustness evidence in the internal evidence record.
-
-Use a mechanism claim supported by the study's intermediate evidence, design or model derivation. Follow the actor's changed incentive or constraint through the measured choice and the resulting outcome. Give a proposed causal channel the variation or equation establishing that link. Preserve a bundled intervention as the causal subject; a component effect uses the corresponding component comparison. Keep a counterfactual quantity with the model operation generating it. Use [saved-result artifacts](result-artifacts.md) for numerical passages, tables and figures.
-
-### Discussion and conclusion
-
-Derive the economic implication from the established results and their connecting mechanism. Explain how the finding changes the relevant theory, behavioral margin, allocation or evaluated policy choice. A policy comparison uses the study's supported outcomes, costs, feasible actions and population. Preserve the source's horizon and accounting of transfers and resource costs.
-
-Borrow the conclusion's ending, sequence and selection from a mapped inspected conclusion, minimally adjusting to the central answer, its economic meaning, necessary findings and implication actually established by the body. Remove duplicated coefficients, a second literature inventory, research-planning commentary and prospective placeholders. Apply WRITING throughout the conclusion and keep determining conditions in the internal evidence.
-
-### Appendix, submission and referee response
-
-Borrow the arrangement of appendix material from mapped inspected sources, minimally adjusting to the claims it supports. Link proofs, measurement details, extra exhibits and computational definitions to their actual main-text use. Keep symbols, sample definitions, exhibit labels and references aligned with the main paper.
-
-For a requested submission, obtain the journal's current instructions and apply its actual length, anonymity, abstract, reference, exhibit and supplement requirements. Preserve the adopted document class and existing source files. Use the established build path and inspect the requested rendering. Keep submission itself within its explicit authority.
-
-Read the selected referee comments together and locate each question, factual premise and requested change in the manuscript, equations, exhibits and producing results. Resolve comments sharing a determining premise through one repair at its owner, retaining each comment's ID and substantive question. Order dependent changes by their scientific relation: a corrected estimand changes its result interpretation and the contribution that uses it. Revise the actual passages and affected exhibits, then update their dependent Abstract, Introduction and Conclusion. Assess the current claims through the existing review round with its fixed criteria, exact changed passages and source/result correspondence. Preserve completed calculations and judgments whose dependencies match.
-
-Borrow every element of the finished response structure, ordering and wording from corresponding mapped inspected sources in the eligible categories above, minimally adjusting to that assessed revision. Source categories supply the referee-response text; when corresponding eligible material is unavailable, return to search and reading. State the substantive answer, the change actually made, the economic reasoning or result that answers the comment, and the exact manuscript location. Give a retained conclusion its supporting evidence and reasoning. Use the existing [response draft and writing callback](result-artifacts.md#claims-coverage-and-requested-re-review) when the task uses that correspondence; its selected revised passages and evidence supply the material for compose, revise or translate. Keep the paper's argument complete in its revised body and apply WRITING to the response itself.
-
-## Choose and explain descriptive exhibits
-
-Define the comparison the reader must recover, then select its already calculated quantities through [the result lifecycle](../../econ-data/references/reproducible-workflow.md#carry-analysis-results-into-tables-figures-and-prose). Bind each displayed object to its saved value, unit and population. A change in measurement, sample, weights or aggregation belongs to [the data owner](../../econ-data/references/workflow.md#produce-the-result-by-dependency); a change in labels or page arrangement redraws the same quantities.
-
-| Question | Required observations | Source-bound representation and defining quantity |
-| --- | --- | --- |
-| How is a population distributed? | Individual values, frequencies or saved interval counts | Histogram height is count, proportion or density as declared. Density equals proportion divided by interval width, so area represents population share. An empirical cumulative curve sums observed frequencies at their values. |
-| Which groups differ? | Comparable group statistics and denominators | Borrow the form and arrangement from an inspected corresponding display; if the borrowed display uses bars, bar length starts at zero, and if it uses dots, a restricted range is labeled. Use within-group rates for prevalence and totals for aggregate quantities. |
-| Which option performs better on several attributes? | Values under common definitions | Borrow the arrangement of options and attributes from an inspected source. Give each column its unit, period and aggregation, then derive the decision in the text. |
-| How do estimates compare? | Saved estimates and interval endpoints | Borrow the visual form, scale arrangement and placement of labels from an inspected corresponding display, minimally adjusting to make the reference and interval construction accurate. A requested difference uses its saved direct contrast. |
-| How does the outcome change over time? | Repeated observations with actual dates | Borrow the visual form and placement from an inspected corresponding display, minimally adjusting to represent actual time spacing and observed gaps and identify an index's base period and value. |
-| How do two quantities vary together? | Paired observations at the declared unit | Borrow a plot form from an inspected source for each pair. State the unit of grouped averages. Compute required bins or densities in the producing analysis. |
-
-Retain eligibility, missingness, period, observation unit and weight definitions in the internal record; label displays under WRITING. Define each share by its numerator and denominator. Borrow the comparison form, binning, axes and unit placement from inspected corresponding displays, minimally adjusting for valid comparisons. When comparing binned distributions, use common bins and group proportions for unequal group sizes; preserve counts when size answers the question. Use shared axes for comparable panels and place each panel's unit next to its scale, minimally adjusting the mapped inspected display as necessary for the comparison. A logarithmic axis displays positive levels. A transformed outcome or added constant follows the upstream measurement specification.
-
-Borrow names, unit placement, ticks, shapes, line styles and colors from mapped inspected displays, minimally adjusting for accurate identification and legibility. Use distinguishable shapes or line styles together with any selected color so the marks stay readable in grayscale; if the inspected display lacks the needed shapes or line styles, search and inspect another corresponding display and map the borrowed elements. Apply WRITING to captions and label numerical intervals. Explain the implication from its actual comparison. Inspect the rendered page at its intended size and repair clipped text, illegible symbols and mismatched labels.
-
-### Example: draw an already calculated group share
-
-Search for and inspect an original display of the corresponding group share and its surrounding explanation. Borrow its visual arrangement, labels and caption expressions, adjusting only for the saved target values, denominators, period, units and specified medium. Record the source-to-output mapping and verify every displayed element against the original and the saved result. If the source is insufficient, search and read further.
-
-Execute the numerical regression check below. For an exhibit, inspect and map an eligible source for every label, caption and visual element, adjust the producer to the saved target values and denominators, and verify the rendered result against both the source and the saved result. The existing display producer supplies the output path and format for a requested artifact.
-
-```python
-import matplotlib.pyplot as plt
-
-period = 2024
-participants = [40, 30]
-eligible = [100, 50]
-participation_pct = [40.0, 60.0]
-assert [100 * n / d for n, d in zip(participants, eligible)] == participation_pct
-fig, ax = plt.subplots()
-bars = ax.bar([0, 1], participation_pct)
-assert [bar.get_y() for bar in bars] == [0, 0]
-assert [bar.get_height() for bar in bars] == participation_pct
-plt.close(fig)
+# Paper procedure
+
+From a filled worksheet and saved results to a paper, a section or a revision. Work through the steps in order; each ends with a block in section 7 of the worksheet `work/<topic>.md`. Text follows [WRITING](../../../runtime/WRITING.md): structure from English originals (`exemplars.py outline`), Japanese expression from Japanese exemplars (`exemplars.py find` and `style`), direct claims and numerical uncertainty.
+
+Three rules hold throughout:
+
+1. **The worksheet is the content.** Every paragraph carries the question, the model and its predictions, the comparison, an estimate or a decision from the worksheet. Content missing from the worksheet goes back to the step that produces it.
+2. **One central object.** The same question, estimand, population and units appear in the title, abstract, introduction, body and conclusion.
+3. **Numbers from saved results.** Every number comes from a saved result through the [result artifacts](result-artifacts.md) producers, with its unit, population and period.
+
+## W1. Argument sheet
+
+Fill before writing any prose:
+
+```
+Question:                 actors, choice, change, outcome (worksheet 2)
+Answer:                   the main result with its magnitude, units, population (worksheet 6)
+Why it matters:           the stake with its size (worksheet 1)
+How we know:              variation or model operation that produces the answer (worksheet 4)
+Mechanism:                the incentive or constraint that explains it, and the competing mechanism it rejects
+Closest existing answer:  author (year): their result and its conditions (econ-literature)
+Contribution:             what this paper establishes that the closest answer leaves open: a new quantity,
+                          comparison, mechanism, population or derived implication
+Decision implication:     the action it selects and its switching condition
+Research type:            causal / theory / structural / descriptive / historical / macro / mixed
 ```
 
-## Connect the prose
+The research type fixes the chain the paper must make visible:
 
-Apply [WRITING's explanation](../../../runtime/WRITING.md) and [language rules](../../../runtime/WRITING.md) to paragraph claims, evidence, transitions and natural Japanese or English. Preserve supported author terms, quantities, equations and citations within the editing scope; retain wording only where mapped to inspected originals under the source-first rule. Borrow each section transition from a corresponding inspected passage, adjusting only to the supported relation between the target claims. Establish that relation before using the conclusion in an abstract or policy passage.
+| Type | Chain |
+| --- | --- |
+| Causal | variation and its conditions → estimand, population and behavioral margin → estimated response → economic magnitude |
+| Theory | conditions → proposition → decisive proof or optimization step → incentives, best responses, equilibrium implication |
+| Structural | variation and restrictions → primitives → optimized behavior and baseline equilibrium → changed equilibrium → welfare |
+| Descriptive or measurement | records, construction, sample, aggregation → measured object → comparable quantities with denominators |
+| Historical | documents, authorship and purpose → institutional sequence → comparison they establish |
+| Macro | shock or policy, initial and terminal conditions, horizon → transition and equilibrium → aggregate or distributional path → welfare |
+| Mixed | for each component: the observation that disciplines a parameter → its equilibrium response → its valuation |
 
-## Revise the integrated manuscript
+## W2. Section plan
 
-Read the completed paper as one argument. Recover each paragraph's proposition and its contribution to the central answer. Repair missing premises from the adopted sources, preserve links between explanations and the claims they establish, borrow their placement from mapped inspected passages, and remove repeated work only as needed. Reconcile the title, abstract, introduction, exhibits and conclusion with the body. Preserve source identities, research definitions, terms and notation across all passages. Use [writing:revise](revise.md#revise) for scoped editing and the existing econ-review operation for a requested assessment.
+Read the structure of two strong papers of the same type:
 
-Apply one integrated substantive review to factual support, logical dependencies, economic interpretation, natural language and WRITING's content selection. Review source-to-output coverage as well as output-to-source correspondence: the central finding and its necessary premise must remain visible after shortening. Trace the answer from Results through the implications in Discussion and back to Title, Abstract, Introduction and Conclusion, preserving each section's function. A change in an estimate, source, definition or supported interpretation reopens its actual dependent passages and exhibits through the existing result/argument records. Update the repeated claim and its contribution wherever that change alters their meaning, including when the numerical values stay fixed. Reuse completed calculations and unaffected text.
+```sh
+python3 skills/econ-writing/scripts/exemplars.py outline --lang en --function introduction --query "<topic words>"
+python3 skills/econ-writing/scripts/exemplars.py outline --lang en --function results --query "<topic words>"
+```
 
-A user's requested grant, preregistration or data-management document uses its own adopted design, resources and access requirements through the existing project workflow. Its actual purpose determines the artifact. Ordinary paper prose presents the study's economic argument and completed evidence.
+Fill one line per section and per paragraph:
 
-## Execute the paragraph architecture
+```
+Section:      <name>: the reader's question it answers; its exhibits
+  Para <n>:   <move from the exemplar outline> → <worksheet item it carries>
+```
 
-Use [paragraph and argument guidance](paragraph-workflow.md) for a long argument's actual dependencies. Borrow paragraph roles, ordering and section conclusion from mapped inspected passages, minimally adjusting to the target reader question, propositions, supporting sources or results and their scientific relations. Preserve the adopted research content through rewriting, translation and format conversion.
+Ordering rules: institutions before the comparisons that use them; variable construction before the results that depend on it; dependent results in the order of inference; parallel results by their weight in the answer; symbols defined at or before first use.
 
-Perform ordinary composition through econ-writing using the same source-first borrowing, imitation and minimal adjustment requirements. Use existing paragraph state and host callbacks when the requested manuscript needs versioned dependencies or resumable composition. Use the existing evidence contract for requested claim-to-source or claim-to-result correspondence. The selected operation returns the finished passage or artifact, its source/result identities and the actual save or render result to the same task owner.
+## W3. Compose section by section
+
+Write each section from its plan lines and the checklist below; then read it against the plan.
+
+**Title.** The central economic object and the relationship the paper establishes; setting, population or design only when the claim needs them.
+
+**Abstract.** Question → identifying variation or model operation → main magnitude with object, unit, comparison and horizon → second result only when it changes the reading of the first → economic meaning. Meet the word limit by dropping detail, never the determining premise.
+
+**Introduction.**
+1. Opening: the economic fact, institutional choice or problem behind the question, with its source and size.
+2. The question and the answer in the first page.
+3. Why the answer is credible: the variation, measurement or model discipline.
+4. Findings in sequence, each with its mechanism and magnitude.
+5. Contribution against the closest studies on the axis that matters (object, variation, population, margin, restriction, implication), each citation tied to the finding its passage establishes.
+6. Roadmap only when the paper's order is unusual.
+
+**Literature review or survey.** Organize studies by the question and the object compared, explain how their findings relate through their populations and designs, and end with the synthesis the paper uses.
+
+**Institutional background and data.** The rule, timing, eligibility, information or incentive that changes choices or creates the comparison; who assigns, delivers and receives. Then source records, observation unit, measurement, sample, geography and period; the denominator of each rate; descriptive exhibits that show the population and the variation.
+
+**Identification and empirical method.** Define the estimand in its population before the estimator. Write the estimating equation, sample, weights and fixed effects, and show which coefficient or aggregation gives the estimand. Keep observation, assignment, analysis and inference units distinct. By design:
+
+| Design | What the section establishes |
+| --- | --- |
+| RCT or encouragement | assigned offer, assignment unit, eligibility; delivered treatment; assignment effect as primary; receipt effect through the first stage; inference matching the randomization |
+| DiD and event study | intervention, comparison group, trend condition; group-time effects, anticipation, reference period, weights by horizon; leads with their joint test; the population each aggregate describes |
+| IV | instrument's institutional source, the choice it moves, first stage and reduced form, complier population; strength diagnostics with their null |
+| RD | running variable, cutoff, rule, local population; fuzzy jumps; density and covariate continuity; bandwidth, polynomial, kernel and inference |
+| Synthetic control | treated units, donor pool, fitting period, weights, pre-period fit in outcome units, placebo inference |
+| Shift-share | shares and their reference period, shocks, exposure; identifying variation and exposure-robust inference |
+| Bunching | choice, incentive change, threshold; excess mass and the counterfactual density; the elasticity under the optimization model |
+| Orthogonal scores, heterogeneity | target, score, cross-fitting; heterogeneity through direct group contrasts or calibration tests; policy value on held-out data |
+
+**Theory, model and proof.** Actors, objectives, feasible choices, information, timing; the equilibrium concept. Each proposition: its economic content, formal statement with domain and quantifiers, and the decisive step with the assumption it uses, explained as the payoff, deviation or market response that makes it hold. Comparative statics through every affected choice, price and quantity, with changes in binding constraints. Welfare: objective, population, weights, transfers, costs and horizon, with the reference level named before the change.
+
+**Structural estimation and counterfactuals.** Why the question needs the model's choice and interaction structure; each parameter with the variation, moment or likelihood that informs it; estimated, calibrated and fixed quantities with sources; fit in the data's units. The chain: primitives θ → equilibrium F(y; θ, z) = 0 → observation equation → estimate θ̂ → counterfactual y(θ̂, z′) → welfare from the same θ̂ and each scenario's equilibrium. Elasticities, markups and costs through the demand derivatives, ownership and conduct.
+
+**Results.** One subsection per question the results answer. Each result: the estimate, its interval, the comparison that produces it, and a benchmark (baseline mean, denominator, population, period). Transformations stated with their formula: percent of baseline, percentage points, 100[exp(βΔx) − 1]. Tables explained by the contrast in their columns; figures by the objects compared, axes, reference and pattern. Mechanisms only with the intermediate evidence or derivation that supports them; subgroup claims through direct contrasts.
+
+**Discussion and conclusion.** The implication for theory, behavior, allocation or policy, with costs, feasible actions and population; then the answer and its meaning. No repeated coefficients, second literature review or research plans.
+
+**Appendix.** Proofs, measurement details, extra exhibits and computational definitions, each linked to its use in the main text, with the same symbols and labels.
+
+## W4. Exhibits
+
+For each table and figure, fill:
+
+```
+Exhibit <n>:   question it answers; saved result IDs; units, population, period; the sentence that reads it
+```
+
+Choose the display by the question: distribution → histogram or empirical distribution with declared height; group differences → dots or bars from zero with within-group rates; estimates → points with intervals around a marked reference; change over time → actual date spacing and marked base period; joint variation → scatter or binned scatter at a stated unit. Common bins and shared axes for comparable panels; shapes or line styles readable in grayscale. Tables follow the AEA rules in the profile. Render and read every exhibit at its final size.
+
+## W5. Integrate and revise
+
+1. Read the whole paper as one argument: each paragraph's proposition and its role in the answer.
+2. Trace the answer from the results to the discussion and back to title, abstract, introduction and conclusion; they state the same object and numbers.
+3. Check coverage both ways: every worksheet item the answer needs appears in the text, and every claim in the text has its worksheet item or saved result.
+4. A changed estimate, source or definition reopens every passage and exhibit that uses it.
+5. Japanese text: compare each sentence with its exemplar passages under WRITING section 2.
+
+## W6. Submission and referee response
+
+- **Submission:** apply the journal's current instructions on length, anonymity, abstract, references, exhibits and supplements; keep the document class; build and read the output.
+- **Referee comments:** read all comments together; locate each comment's question and premise in the manuscript, equations, exhibits and results; repair shared premises once, at their source; update dependent passages, then abstract, introduction and conclusion. The response states for each comment the answer, the change made, the evidence or reasoning, and the exact location ([claim coverage and re-review](result-artifacts.md#claims-coverage-and-requested-re-review)).
+
+## W7. Render and report
+
+Build with the templates (`make build-paper`, `make qmd-pdf QMD=...`), read the rendered pages, repair at the producer, and record the output path in worksheet section 7. Long manuscripts with versioned paragraph dependencies use the [paragraph procedure](paragraph-workflow.md).

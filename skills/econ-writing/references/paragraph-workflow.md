@@ -1,28 +1,38 @@
-# Paragraph and argument composition
+# Paragraph procedure
 
-## Construct the argument
+For one paragraph, a section or a long argument whose paragraphs depend on each other. The paper's content comes from the worksheet and the [paper procedure](paper-workflow.md); this file governs how each paragraph is built and connected. Text follows [WRITING](../../../runtime/WRITING.md).
 
-Apply [WRITING](../../../runtime/WRITING.md) to every element.
+## G1. Paragraph sheet
 
-Identify the reader's question, central answer and supporting premises/evidence from the request and sources. Keep the question, answer and admitted source identities/hashes fixed; problem comparisons and verification tasks cite that evidence. Establish dependencies through the existing owner and use source-bound claims and actual evidence. Preserve the relations needed to make results usable, including measurement, identification, optimality or equilibrium, and aggregation; borrow their ordering and expression from applicable read sources.
+Fill one line per paragraph before writing it:
 
-## Compose the paragraph
+```
+Para <n>:   reader's question → proposition (one) → evidence (saved result, derivation or source passage)
+            → link to the next paragraph
+```
 
-Borrow the paragraph's proposition, sequence, connections and expression from applicable read source passages, with only the necessary adjustments above. Bind each target proposition to its evidence and neighboring claims; preserve actors, economic objects, populations, units, denominators, periods, scenarios and result status. Connect a result's estimand, proposition or counterfactual, variation, equation, conditions, direction and magnitude to the adopted comparison and next claim as supported by the evidence. Establish mechanisms through intermediate evidence or derivation, and economic magnitude through its baseline, scale or allocation consequence.
+Rules:
 
-Use the selected source/result bindings for this inference. Joint diagnostics require the tested vector, covariance-based statistic and reference distribution; group comparisons their direct contrast and inference; welfare its allocation, valuation and population weights. Retrieve those objects through [empirical guidance](paper-workflow.md#identification-and-empirical-method) and [model guidance](paper-workflow.md#theory-model-and-proof). Carry their defining relation into abstracts and conclusions using corresponding read source passages.
+- **One proposition per paragraph.** A paragraph that needs two propositions becomes two paragraphs.
+- **Evidence with the claim.** An estimate travels with its estimand, population, units, interval and comparison; a mechanism with the intermediate evidence or derivation; a magnitude with its baseline or allocation consequence; a group difference with its direct contrast; a joint diagnostic with its tested vector and reference distribution; welfare with its allocation, valuation and population weights.
+- **Defined before used.** Terms, symbols and samples are defined in or before the paragraph that first uses them.
 
-Apply [WRITING's language rules](../../../runtime/WRITING.md) to Japanese sentence connections and compression by borrowing from corresponding Japanese originals. Record the source and adjustment for each choice in the existing work record; persist paragraph specifications for requested versioned composition. A delegated paragraph receives its exact inference, neighboring consumer, scope, sources and fixed definitions under TEAM, including the original passages and correspondence needed to imitate them.
+## G2. Compose
 
-## Integrate the argument
+1. Take the paragraph's move from the English exemplar of the same function (`exemplars.py find --lang en --function F`): how it opens, where the evidence sits, how it closes.
+2. Japanese paragraphs take their connectives, endings, vocabulary and rhythm from Japanese exemplars (`exemplars.py find --lang ja` and `style`), sentence by sentence.
+3. Write the paragraph from its sheet line; every sentence carries part of the proposition, its evidence or the link.
 
-Borrow the section's arrangement and transitions from read source passages and adjust only as necessary for the target. Define before use, preserve citations and repair missing premises from their source or completed analysis. Reconcile actors, population, period, estimand, assumptions and result status with the parent. Resolve differences through the analysis owner, retaining unaffected results. Integrate actual evidence; a completed child paragraph establishes only its supported claim. Keep operation returns in their operational destination and apply WRITING and the source correspondences to the integrated wording.
+## G3. Integrate
 
-the economist's procedure's single review covers answer, evidence, order, paragraph connections and expression. Reconcile title, abstract, introduction, exhibits and conclusion with the body, tracing compressed claims to their establishing paragraphs. Compare every output element with its read original and the recorded adjustments. Repair demonstrated defects by returning to sources and reread affected connections. This reasoning creates no extra agents, passes, records or gates.
+1. Read the section through: each paragraph answers the question raised by the one before.
+2. Reconcile actors, population, period, estimand, assumptions and numbers with the parent section and the worksheet.
+3. Trace compressed claims in the title, abstract, introduction and conclusion back to the paragraphs that establish them.
+4. A changed result or definition reopens the paragraphs that use it; unaffected paragraphs stay.
 
-## State, changes and resumption
+## G4. Delegated paragraphs
 
-Use existing paragraph/argument state and materials or work records for source correspondence and dependencies. Preserve the request, authority, purpose, reader, admitted sources, definitions and completion conditions; attribute changes to actual findings, retain unaffected nodes and invalidate affected reviews. TEAM restores original applicable bodies and settled decisions before resumed integration. Reload source-bound quantities, conditions and original passages omitted by a compressed handoff; use the existing record rather than a parallel ledger.
+A paragraph written by a worker receives its sheet line, the neighboring paragraphs, the sources and saved results, and the fixed definitions ([TEAM](../../../runtime/TEAM.md)); the parent integrates it under G3.
 
 ## Command entry points
 

@@ -1,23 +1,10 @@
 # Oversight notes
 
-Use [ECONOMIST](../../../runtime/ECONOMIST.md) for common task rules and [TEAM](../../../runtime/TEAM.md) for independent reviewers and blinded comparison protocols.
+For requested independent, blinded or comparative assessment. The review itself follows the [review procedure](review.md); reviewer independence follows [TEAM](../../../runtime/TEAM.md#review-findings-and-independence).
 
-Use the review target and scope already established by econ-review.
-
-## Review findings and independence
-
-Use [TEAM's independence protocol](../../../runtime/TEAM.md#review-findings-and-independence) for actual reviewer identity, context freshness, prior exposure and blinded inputs.
-
-Separate each observed defect from its proposed cause; revise the explanation when passages or calculations contradict it. Preserve the actual assessment separately from producer revisions, with consequential disagreements or dependencies in the existing operational record. The coordinator owns integration and authorized disposition.
-
-When a comparison cannot answer the requested question, return the mismatch to the existing result owner for resolution within the user's scope, adopted specifications and permissions. Use econ-review's cause-based repair and completion procedure.
-
-## Compare a proposed change when requested
-
-Choose comparison criteria independently of the implementation. For editorial usefulness, assess whether the reader can recover the question, mechanism, supporting observations or calculations, and conclusion needed for the requested use. Compare effort and cost among approaches meeting those criteria. Keep feedback used for a revision with that revision's record.
-
-Define the assessed task separately from comparison bookkeeping. The comparison owner collects and preserves first answers, read sets and measurement records; assign that work to the producer only when it is part of the task being assessed. If the producer performs collection or persistence, record that expanded task boundary and distinguish its effort from the operation being compared. Use the existing comparison record; this separation does not require another worker or document.
-
-For a requested transfer assessment, use another task whose conditions reveal whether the learned relationship still selects the appropriate action. Preserve the existing discovery, counterexample and unseen-evaluation partitions. Develop rules from the designated development material, test their boundaries with the designated counterexamples, and freeze the candidate before opening unseen content or outcomes. Keep unseen content and feedback out of rule creation and revision. If exposure occurs before the candidate is frozen, mark that case as exposed in the existing comparison record and reserve a fresh case for the unseen assessment. Published text establishes the argument presented to readers; it does not reveal the author's private reasoning process.
-
-Assess explanation of the development case, choice in the new case and the resulting outcome separately. Use actual returned calculations, tool operations and artifacts to establish results; distinguish an executed model comparison from a deterministic check of the harness. Preserve unchanged choices, regressions and inconclusive results in the comparison record. Keep implementation and adoption decisions in the operational record and apply the adoption criterion already specified by the user. Use [TEAM's independence protocol](../../../runtime/TEAM.md#review-findings-and-independence) when the requested comparison requires independent, blinded or sealed inputs.
+1. **Independence.** The reviewer works from a fresh context with the inputs the protocol allows; prior exposure is recorded.
+2. **Observed defect and proposed cause** are recorded separately; the explanation changes when passages or calculations contradict it.
+3. **Criteria before results.** Comparison criteria are chosen before the compared outputs are read. For editorial usefulness: can the reader recover the question, mechanism, evidence and conclusion needed for the use?
+4. **Transfer assessment.** Rules are developed on the development material, tested on the designated counterexamples and frozen before unseen material is opened; an exposed case is marked and replaced.
+5. **Separate outcomes.** Explanation of the development case, choice in the new case and the resulting outcome are assessed separately, from actual returned calculations and artifacts.
+6. **Disposition.** The coordinator integrates findings and decides; a comparison that cannot answer the question goes back to the result owner.

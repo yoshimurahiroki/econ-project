@@ -1,48 +1,46 @@
-# Implementation notes
+# Implementation rules
 
-Select a worked example only for a concrete unresolved implementation choice.
+How to write and change analysis code. The order of work is the [execution procedure](workflow.md); this file holds the code rules and the map from each operation to its detailed reference.
 
 ## Select the operation-specific rules
 
-1. **Output: selected operation; consumer: contract reader.** Carry the adopted economic question, specification and saved inputs into the row below matching the changed object. A new pipeline starts at A; an existing calculation starts at its first affected operation. Reuse completed inputs at matching versions.
-2. **Output: executable contract; consumer: implementation.** Read the selected condition with `python scripts/route_registry.py read econ-data:execute --stage contract --condition CONDITION`, replacing `CONDITION` with the selected row's value. Follow its model-knowledge command. At calculation, read the same selection with `--stage compose`; combine conditions for objects that actually change.
-3. **Output: saved operation result; consumer: next row or artifact.** Pass the row's named output with its producing specification, source version and result identity. Keep language transfers at shared-table or saved-result boundaries. Before: “Estimate each language's imported sample.” After: “Build the shared table once, pass its row IDs to the selected estimator, and save that fitted sample with the result.”
+Find the row of the object that changes; a new pipeline starts at A, a change to an existing calculation at its first affected row. Read the linked section before writing code for that row.
 
-| Operation and selection | Input → output → consumer | Registered condition |
+| Operation | Input → output | Read |
 | --- | --- | --- |
-| A. Acquire and construct shared data | Source release, coverage and dictionary → normalized tables with grain, keys, units, periods and source correspondence → B. Use SQL for relational construction and Arrow/Parquet for adopted transfers. | New pipeline: `data_pipeline_new`; source refresh: `data_acquisition_or_update`; shared-table transfer: `data_shared_table_handoff` |
-| B. Transform and describe | Shared tables and adopted eligibility, variables and weights → analysis sample, Table 1 and saved distribution/group quantities → C–F or G. | `data_sample_change` for sample construction; `data_descriptive_statistics` for summaries |
-| C. Estimate regression and causal quantities | Analysis sample, estimand, design and inference → official fit, covariance and population contrast → G. | `data_regression_implementation_selection` |
-| D. Predict and estimate heterogeneity | Analysis sample, prediction-time information, target population and loss/score → fitted nuisance functions, held-out predictions or treatment-effect quantities with their inference → G or a decision in F. | Causal effects: `method_orthogonal_scores_and_heterogeneous_effects`, then the selected `method_causal_doubleml` or `method_causal_grf` native fit. Prediction uses the direct read below. |
-| E. Estimate structural behavior and market outcomes | Choice/market data, economic equations, moments and identification → fitted parameters, equilibrium counterfactuals and welfare → G. | `data_market_implementation_selection`; dynamic estimators use `data_dynamic_implementation_selection` |
-| F. Solve dynamics and numerical decisions | Adopted states, transitions, payoffs, constraints and numerical accuracy → policies, equilibria, simulations or action values with original-equation residuals → G. | `data_dynamic_implementation_selection`; a settled numerical method uses `data_numerical_or_simulation`. Select the adopted family with `method_bayesian_implementation_selection`, `method_forecast_inventory_implementation` or `method_marketing_customer_implementation`. |
-| G. Save results and build artifacts | Native fits, full-precision quantities and scientific metadata → saved result, public claims and numerical uncertainty → figures, tables, prose and project decisions. Rebuild calculations for changed scientific inputs; redraw saved quantities for presentation changes. | `data_fit_result_handoff` |
+| A. Acquire and construct shared data | source release and dictionary → tables with grain, keys, units and periods | [source to analysis](implementation-data.md#source-to-analysis), [acquisition](implementation-data.md#acquisition), [data contracts and joins](implementation-data.md#data-contracts-and-joins) |
+| B. Transform and describe | shared tables, eligibility, variables, weights → analysis sample and descriptive table | [descriptive choices](implementation-descriptive.md#choose-descriptive-statistics-from-the-question) |
+| C. Regression and causal estimation | sample, estimand, design, inference → official fit and covariance | [empirical procedure](empirical.md), [regression and causal candidates](implementation-engines.md#regression-and-causal-implementation-candidates) |
+| D. Prediction and heterogeneous effects | sample, prediction-time information, loss → held-out predictions or effect functions | [prediction](#prediction), [orthogonal scores](../../econ-design/references/causal-models/heterogeneity.md) |
+| E. Structural behavior and markets | choice and market data, equations, moments → parameters, counterfactuals, welfare | [market candidates](implementation-engines.md#market-model-implementation-candidates), [structural implementation](implementation-structural.md) |
+| F. Dynamics and numerical decisions | states, transitions, payoffs, accuracy → policies, equilibria, simulations with residuals | [dynamic and numerical candidates](implementation-engines.md#dynamic-and-numerical-implementation-candidates), [numerics](implementation-numerics.md) |
+| G. Save results and build exhibits | fits and full-precision quantities → saved result → tables, figures, text | [fit results and hand-off](implementation-calls.md#fit-results-and-execution-handoff), [reproducible workflow](reproducible-workflow.md) |
 
-Prediction reads `python scripts/route_registry.py read data-implementation.prediction`. The selected model contract and official API own each estimator. R supplies the adopted empirical/causal fit, Python the adopted structural/learning implementation and runner connection, and Julia the adopted fixed-effect or numerical implementation. Select the language from the required mathematical object and existing environment through [engine selection](implementation-engines.md#estimator-engine-and-algorithm-selection).
+Language follows the mathematical object and the existing environment: R for the adopted empirical and causal fits, Python for structural and learning implementations and the runners, Julia for the adopted fixed-effect or numerical implementations ([engine selection](implementation-engines.md#estimator-engine-and-algorithm-selection)). Transfers between languages happen at shared tables or saved results. Before: "Estimate each language's imported sample." After: "Build the shared table once, pass its row IDs to the selected estimator and save that fitted sample with the result."
 
 ## Functions, types and failure boundaries
 
-Inspect the canonical definition, relevant callers and actual package dispatch. Prefer an existing local or official-library operation to new parsing, estimation, validation or retry code. Keep direct control flow, explicit inputs/returns and cohesive logic. Avoid one-use wrappers, speculative configuration/service layers, fragmented files and dense conditionals; add an abstraction only for a necessary shared responsibility or substantive named calculation.
+Before writing code, read the existing definition, its callers and the package call it dispatches to. Then:
 
-Return a scalar for one quantity and a simple named record for related outputs used together; keep transparent one-use expressions local. Name quantities by economic role and computational state. Expose result-changing choices as parameters and use shared types for real interfaces. Separate acquisition/writes from calculations where order or effects matter. Explain non-obvious economic or implementation choices in comments.
-
-Validate external types, units, options, authority and persistence at their first boundary. Validate again only after a relevant transformation or at an independently exposed interface. Remove repeated coercions and checks of established invariants; preserve cleanup, transactions, concurrency and timeouts.
-
-Repair the first incorrect state using the actual command, options, sample, versions and diagnostic. Catch errors only where the code can recover, add useful context or clean up; otherwise propagate them. Bound retries to documented recoverable failures. Defaults, fallbacks and compatibility branches need an actual supported case. Preserve authentication, authoritative-storage and invariant failures explicitly; empty results, synthetic values and stale estimates cannot replace a failed calculation.
-
-Update producers, consumers and imports together. Remove superseded shapes, dead helpers and duplicate branches while preserving persisted user data and active public formats. [Named totals](implementation-examples.md#example-name-a-calculation-and-its-related-totals) illustrates a substantive shared calculation.
+1. **Reuse.** Call an existing local function or official library for parsing, estimation, validation and retries; write new code only for a missing piece.
+2. **Plain structure.** Direct control flow, explicit inputs and returns, one responsibility per function. No one-use wrappers, configuration layers or scattered files; a new abstraction serves a shared responsibility or a named economic calculation.
+3. **Names and returns.** Name quantities by economic role and state (`employment_pre`, `att_hat`). Return a scalar for one quantity and a small named record for related outputs. Expose every choice that changes the result as a parameter.
+4. **Boundaries.** Check types, units and options where external data enter, and again only after a transformation that can break them.
+5. **Failures.** Repair the first wrong state using the actual command, sample, versions and diagnostic. Catch an error only to recover, add context or clean up; otherwise let it propagate. Empty results, synthetic values and stale estimates never stand in for a failed calculation.
+6. **Change together.** Update producers, consumers and imports in the same change and delete superseded code, keeping user data and public formats. [Named totals](implementation-examples.md#example-name-a-calculation-and-its-related-totals) shows a shared calculation.
+7. **Comments.** Explain non-obvious economic and implementation choices in the code.
 
 ## Compare changed calculations
 
-Trace the affected sample, weights, formula, inference or interface through the adopted definition, official call and saved-result consumers. Keep identification, inference, input validation and original-equation convergence inside the calculation. The economist's procedure owns the single integrated review; [reproducible execution](reproducible-workflow.md) owns requested source-data/reference reproduction.
+Trace the affected sample, weights, formula, inference or interface through the definition, the official call and every consumer of the saved result. Record the old and new value of each affected quantity in the worksheet. Identification, inference, input checks and convergence of the original equations stay inside the calculation; requested reproduction of published results follows [reproducible execution](reproducible-workflow.md).
 
 ## Prediction
 
-Define target, prediction time and available information. Split future observations for future prediction or groups for new-group prediction; keep shared information together to prevent leakage. Fit preprocessing on training data. Evaluate the intended population/period with the adopted loss or decision objective, including requested probability calibration. Return the target, split and predictions/performance.
+Define the target, the prediction time and the information available then. Split by future periods for forecasting and by groups for new-group prediction, keeping shared information on one side. Fit preprocessing on training data only. Evaluate on the intended population and period with the adopted loss or decision objective, including calibration when probabilities are used.
 
 ## Replication
 
-Use [reproducible execution](reproducible-workflow.md) for exhibit tracing and discrepancy repair; apply journal requirements to requested submissions.
+Use [reproducible execution](reproducible-workflow.md) to trace exhibits to code and repair discrepancies.
 
 <!-- BEGIN GENERATED METHOD INDEX -->
 ## Select a method
@@ -61,7 +59,7 @@ Use [reproducible execution](reproducible-workflow.md) for exhibit tracing and d
 | [Functions, types and failure boundaries](implementation.md#functions-types-and-failure-boundaries) | `data-implementation.functions-types-and-failure-boundaries` |  |  |
 | [Compare changed calculations](implementation.md#compare-changed-calculations) | `data-implementation.compare-changed-calculations` |  |  |
 | [Numerical methods](implementation-numerics.md#numerical-methods) | `data-implementation.numerical-methods` | `data_numerical_or_simulation` |  |
-| [Power calculation inputs](implementation-numerics.md#power-calculation-inputs) | `data-implementation.power-calculation-inputs` | `data_power_or_simulation` | [econ-data.power-and-estimator-simulation](workflow.md#power-and-estimator-simulation) |
+| [Power calculation inputs](implementation-numerics.md#power-calculation-inputs) | `data-implementation.power-calculation-inputs` | `data_power_or_simulation` | [econ-data.power-and-estimator-simulation](workflow.md) |
 | [Measured performance and memory](implementation-numerics.md#measured-performance-and-memory) | `data-implementation.measured-performance-and-memory` | `data_measured_performance_or_memory` | [data-implementation.computation](implementation-numerics.md#computation), [data-implementation.estimator-engine-and-algorithm-selection](implementation-engines.md#estimator-engine-and-algorithm-selection) |
 | [Worked data examples](implementation-examples.md#worked-data-examples) | `data-implementation.worked-data-examples` |  |  |
 | [Bayesian project implementations](implementation-engines.md#bayesian-project-implementations) | `data-implementation.bayesian-project-implementations` | `method_bayesian_implementation_selection` | [data-implementation.official-project-scripts](implementation-calls.md#official-project-scripts) |

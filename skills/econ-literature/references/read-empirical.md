@@ -1,9 +1,17 @@
-# Empirical paper evidence
+# Empirical paper checklist
 
-Read the [common paper-reading procedure](paper-reading.md) and this complete method procedure. Combine method procedures when the requested argument uses them together.
+Use with the [paper-reading sheet](paper-reading.md).
 
-## Read an empirical paper
-
-1. **Output: empirical question and method; consumer: evidence reading.** Populate the common five-part map with the intervention, target population, estimand and identifying variation. Follow the observation, assignment, analysis and inference units into the data source, period, measurement, sample and equation. Read treatment timing, comparison groups, weights, fixed effects and identifying assumptions together; trace transformations and aggregation to reported units.
-2. **Output: inspected result; consumer: mechanism judgment.** Read the estimate with its standard error or interval, reference distribution, table notes and underlying contrast. Follow diagnostics, alternative specifications, heterogeneous effects and additional outcomes when they resolve the mechanism or central conclusion.
-3. **Output: supported contribution; consumer: five-part record.** Connect the observed contrast to its causal interpretation through the identifying restrictions. Explain what the result establishes about the actors' choices and the important research question. Bind the contribution to the inspected evidence and literature comparison; retain conditions and diagnostics in the internal record.
+```
+Intervention and target population:
+Estimand:
+Identifying variation and comparison group:
+Units:                 observation / assignment / analysis / inference (cluster)
+Data:                  source, period, measurement, sample restrictions
+Equation:              specification, fixed effects, weights, controls, treatment timing
+Identifying assumptions and the evidence offered for them:
+Main estimate:         value, standard error or interval, units, table
+Diagnostics and alternatives that bear on the mechanism:
+Heterogeneity and additional outcomes:
+What the contrast establishes about the actors' choices:
+```

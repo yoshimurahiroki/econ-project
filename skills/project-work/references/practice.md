@@ -1,70 +1,68 @@
-# Connect project decisions and actual work
+# Project procedure
 
-## Define the task
+Project work treats the project as an economic decision: who decides, what each allocation of work and resources produces, and which allocation the objective selects. Every mode runs the [economist's procedure](../../../runtime/ECONOMIST.md) first; this file adds the steps for each mode. Fill each block in the worksheet.
 
-Recover the request, existing materials, adopted decisions, result owner, scope, inputs, authority and observable completion conditions. Resolve consequential alternatives under the same fixed requirements and recommend a supported choice. Ask only for missing user-held information or judgment changing the result. Use the host question mechanism for one focused question or an inseparable bundle, with plain-text fallback; silence supplies no answer. Continue independent work while it is pending.
+## P1. Mode
 
-Apply each answer to affected requirements without reopening settled choices. A clear request needs no interview or approval round. For a complex change, list observable requirements, adopted design and dependency-ordered implementation in that order, including consequential interface/ownership/failure cases. Use existing specifications and [requirements mapping](../../../harness/state.md#adopted-specification-boundary) when persistence is needed. Return the requested brief or continue already-authorized execution.
+| Request | Mode | Steps |
+| --- | --- | --- |
+| Clarify requirements, scope or approach | `clarify` | P2, P3 |
+| Write or improve an executable prompt | `prompt` | P2, P4 |
+| Complete an assigned contribution in a case | `contribute` | P2, P5 |
+| Run a project: work, people, resources, dates, handover | `manage` | P2, P6, P7, P8 |
 
-## Writing and material outputs
+## P2. Project decision
 
-Apply [WRITING](../../../runtime/WRITING.md) to every writing or material output in this reference, including prompts, interview questions, contact drafts, reports, explanations, figures and slides at every scale.
+```
+Decision maker and decision:      who chooses what, by when
+Objective:                        the outcome the project serves, in its units
+Feasible actions:                 the options, with their resource use and dates
+Information and incentives:       who knows what; what each participant is rewarded for
+Fixed requirements and authority: what cannot change, and who may change what
+Completion condition:             the observable state that ends the work
+```
 
-## Write the execution prompt
+When the division of work matters, model it before assigning: effort and measurement (CONTRACT-01, CONTRACT-07), decision rights (CONTRACT-08), team production and coordination (CONTRACT-05, CONTRACT-09); capacity and queues (MATH-04, MATH-07, MATH-09); waiting and information (INFO-02, DYN-07). Search the knowledge library with the project's words before choosing.
 
-Return a complete ready-to-copy prompt carrying the objective, actual task/targets, adopted criteria, constraints, authority, necessary order, outputs and completion conditions. Preserve quantities, prohibitions and prior decisions from the supplied draft. Resolve consequential conflicts from their source or needed user judgment; invent no requirement or deliverable.
+## P3. Clarify
 
-Include available original inputs or accessible versioned references. The executor's input is the body or an accessible path. Reusable templates obtain instance materials later; retain placeholders only when a template is requested. Use the requested language and a source-mapped structure suited to the request. Add no compulsory stack or review gate.
+1. List the consequential alternatives under the same fixed requirements and recommend one with its reason and switching condition.
+2. Ask the user only for information or judgment that changes the result; one focused question at a time, continuing independent work meanwhile. A clear request needs no interview.
+3. For a complex change, write in this order: observable requirements, the adopted design, the implementation steps ordered by dependency, and the interface, ownership and failure cases that matter.
 
-In the economist's procedure's review, follow the prompt as its executor and compare available input, next operation, resulting artifact and completion evidence with the original request. Deliver the prompt first. Drafting it prepares the operations for the executor.
+## P4. Prompt
 
-## Connect the current case
+The prompt carries: objective, actual targets and inputs (bodies or accessible paths), adopted criteria, constraints, authority, the necessary order, outputs and completion conditions. Keep the quantities, prohibitions and decisions of a supplied draft. Then read the prompt as its executor would: can the executor find each input, take the first action and recognize completion? Repair what fails. Deliver the prompt first.
 
-Recover the case's original request, adopted answer/model, role, authority, argument and valid results. the economist's procedure owns its economic intervention and comparison. Reuse one source-bound argument and the existing task store: summary gives the current answer/next decision, story its supporting relations, and workplan its executable dependencies. Allocated work keeps the required deliverables and the adopted specification.
+## P5. Contribute
 
-For persistent views, [state](../../../harness/state.md#project-work) binds the existing definition/argument/source catalog with `project-bind`, derives views with `project-view` and locates affected outputs with `project-impact`. External systems retain their official assignments and decisions; updates require the actual authorized service operation.
+```
+Assignment and parent premise:   the proposition or artifact it completes
+Inputs and versions:
+Acceptance condition:
+Result and its implication for the parent:
+```
 
-## Complete the assigned contribution
+Complete the calculation, source comparison or artifact through the specialist skill and return the result with its version; when new evidence changes it, update the consumers.
 
-Recover the assignment, determining parent premise, adopted population/units, input versions and acceptance condition. Complete its concrete calculation, source comparison or artifact through the specialist. Return its implication and actual result version to the parent; update affected consumers when new evidence changes it. Requested practice advice uses observed work, feedback and the next concrete improvement in this assignment.
+## P6. Manage: work and allocation
 
-## Manage the case
+1. Connect the final judgment to the propositions it needs, each proposition to the evidence and work that settles it, and each piece of work to its owner, capacity and consumers.
+2. Rank work by its effect on the final judgment and the feasible action, relative to its time and cost; work that changes no decision is dropped.
+3. Compare complete feasible allocations under the objective, decision rights and deadlines, counting displaced use of shared capacity and delay; choose with the [action selection](../../../runtime/ECONOMIST.md#selecting-an-action) rule.
+4. Persistent projects use the state tools: `project-bind` binds the definitions, argument and sources; `project-view --view forecast` computes feasibility, waits, finish dates and costs under an order (repeat with `--priority TASK` and `--capacity JSON` to compare proposals); the adopted comparison is saved as `project_judgment` ([state](../../../harness/state.md#project-work)).
 
-Derive the intervention from the economic objective and mechanism. Connect necessary propositions to evidence, work, responsible actors, capacity and downstream use. the economist's procedure selects the next work by its effect on the final judgment and feasible action; TEAM owns separable assignments. Preserve inherited choices, valid calculations and externally approved commitments.
+## P7. Manage: changes, dates and recovery
 
-When division of work is consequential, compare capabilities, information, incentives and briefing/integration costs. CONTRACT-01/07/08 supply effort and decision-right models; CONTRACT-05/09 supply coordination/specialization. Use those knowledge bodies only when their mechanism determines the allocation.
+1. Keep target, approved, forecast and actual dates apart.
+2. On new evidence or a delay, name the changed premise and its consumers; `project-impact` separates schedule effects from invalidated results and returns the affected and reusable tasks.
+3. Compare recovery actions, adopt one under the authority that holds, bind the amendment to its previous version, and rebuild only the affected results.
 
-## Resources and dates
+## P8. Manage: discussion, contact, artifacts and handover
 
-Declare effort, duration, resource units/capacity, releases, dependencies and costs, including existing resource uses. Compare resulting outcomes, displacement and deadline losses through the adopted economic objective. Use the selected optimization interface when solving an allocation model is requested.
+- **Discussion and interviews:** hold a discussion only to settle a real premise or decision; ask for concrete choices, dates and contrasting cases tied to the model; record decisions with actor, date and changed condition, and keep proposals as proposals.
+- **Contact drafts:** return the complete message with recipient, purpose, timing, the information requested and the supporting material. Messages stay drafts until the user instructs sending through the actual service.
+- **Artifacts:** reports, proposals, figures and slides come from econ-writing, bound to their saved results.
+- **Outcomes and handover:** define adoption and outcome measures with population, period, units and denominator; deliver usable artifacts and instructions to the receiving owner, with the remaining obligations and who measures the outcome.
 
-`project-view --view forecast` computes feasibility under the adopted order. Repeated `--priority TASK` and `--capacity JSON` compare proposals without adoption. Inspect critical paths, waits, finish/delay dates and direct costs; the economist's procedure owns their valuation. Save the authorized comparison as existing `project_judgment`, binding its actor, evidence, target, current project sources, priority and rationale. State validates decision rights and returns executable next tasks. Shared portfolios require each affected project's authority.
-
-Preserve target, approved, forecast and actual dates separately. An observed delay changes its actual duration/capacity/release through the authorized versioned plan. Compare recovery actions, then implement the adopted change. MATH-04/07/09 locate capacity/allocation knowledge; INFO-02 and DYN-07 locate consequential information/waiting models.
-
-## Change and recovery
-
-Identify the new evidence/decision, changed premise and its consumers. `project-impact` separates schedule effects from scientific invalidation and returns affected/reusable tasks; `--project` includes shared portfolios and `--references` classifies source effects. Review, recalculate, regenerate or obtain authority according to the returned action. Updated evidence reaches a changed estimand/model through adoption.
-
-Retain preceding plan/argument versions. Bind an authorized amendment through its actual previous/replacement hashes; update affected decisions and execute their existing requeue/input/output/context operations. Display changes reuse estimates; changed consumed inputs rebuild their scientific descendants. Reconcile drift before continuing. EXECUTION owns failure repair and TEAM restores the governing request, project sources, authority, outputs and next action.
-
-## Discussion and interviews
-
-Choose discussion to resolve a real premise or decision. Identify the deciding actor, each participant's information and the comparison among explanations. Borrow and minimally adjust source-mapped interview questions to seek concrete choices, dates and contrasting cases tied to the model. Retain actual responses with attribution/date/source version through econ-literature, then connect them to the finding they establish.
-
-After discussion, extract the actual decision, actor, work, date and changed condition. Preserve proposals as proposals and apply authorized changes to affected arguments, tasks and artifacts.
-
-## Contact drafts
-
-Return the complete source-mapped message with recipient, purpose, timing, requested judgment/information and supporting material, borrowing and minimally adjusting the actual source expressions. Email, chat, invitations and reminders remain drafts unless the user specifically instructs sending through the actual destination operation.
-
-## Artifacts and integration
-
-Use econ-writing to produce the requested report, proposal, figure, slides or explanation from its model, evidence and calculations. Bind exhibit source/statistic identities; changed results update affected narrative/exhibits. Render and inspect the actual output and requested oral explanation. TEAM integrates worker returns against assignments and versions while retaining the original parent deliverable.
-
-## Outcomes and handover
-
-Assess adoption through actual choices, incentives, information, ability, access, workload and equipment. Define adoption/outcome measures by population, period, units, numerator/denominator and target. The economic outcome comes from its measured result; task completion records the administrative step.
-
-Existing [project observations](../../../harness/state.md#project-work) bind judgment, acceptance, handover, outcomes and actual timing to actor, date, evidence and target version. Preserve acceptance authority and reported provenance. Deliver usable artifacts/instructions to the receiving owner, identify remaining obligations and outcome-measurement responsibility, and establish that the next operator can use them.
-
+All text follows [WRITING](../../../runtime/WRITING.md).

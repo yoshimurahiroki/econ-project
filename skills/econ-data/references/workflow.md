@@ -1,74 +1,95 @@
-# Data execution operations
+# Execution procedure
 
-Select the applicable registered operation and section.
+Step 5 of the [economist's procedure](../../../runtime/ECONOMIST.md): turn the adopted design into saved results. Work through the steps in order; each ends with a block in section 5 of the worksheet `work/<topic>.md`. A result that is not saved to a file with its inputs does not exist for later steps, and numbers in any answer, table or slide come only from saved results.
 
-## Equity evaluation
+Three rules hold throughout:
 
-Select the actual purpose: `equity_acquisition`, `equity_cash_flow`, `equity_fit`, `equity_dynamic`, `equity_valuation`, `equity_rates`, `equity_news_update` or `equity_investment_decision`. A full company evaluation combines acquisition, cash flow, the adopted model fit/dynamics, valuation and investment decision; reuse valid saved inputs and fits under the economist's procedure. For a model-specific derivation, use `index --operation econ-data:equity --family section-equity --query TEXT` and activate the matching section. Add rate transmission when it affects the selected case. Read every selected section completely before its dependent calculation.
+1. **Existing paths first.** Use the existing scripts, runners and official package calls. New code covers data preparation and case-specific models that no script covers.
+2. **Print before trusting.** Every step prints counts, keys, ranges and diagnostics, and the worksheet records them.
+3. **One source of numbers.** Tables, figures and text read the same saved result file.
 
-Mode `equity` uses the [equity workflow](equity.md) and [valuation models](equity-models.md). Acquire real company/market observations, estimate the identified competition model, solve responses, forecast physical cash flows and market-implied performance, and compare attainable after-tax decisions. Complete the requested numerical stage. Public execution uses public data and the user's credentials; private connections and records remain user-owned.
+## X1. Kind of execution
 
-## Procedure
+Pick the first row that matches.
 
-### Execute structural estimation and equilibrium
+| Work | Procedure | Entry |
+| --- | --- | --- |
+| Reduced-form estimation (DiD, RD, IV, RCT, panel) | [empirical procedure](empirical.md) | `templates/estimate_ladder.py`, `scripts/research_causal.py run` |
+| Structural estimation and counterfactuals | X4 below and [structural implementation](implementation-structural.md) | `scripts/research_markets.py`, `research_dynamic.py`, `equity.py fit` |
+| Model simulation without data | [modeling step by step](../../econ-design/references/modeling.md) | `econ-design/templates/simulate_model.py` |
+| Macro and DSGE calculation | X4 below | `scripts/research_macro.py`, `research_macro_extended.py`, `research_dsge.py` |
+| Data acquisition and construction only | X2, X3 | [research data](research-data.md) |
+| Descriptive statistics | X3 and [descriptive choices](implementation-descriptive.md#choose-descriptive-statistics-from-the-question) | — |
+| Power, minimum detectable effect, estimator simulation | X5 | `scripts/research.py power` |
+| Equity valuation | [equity](equity.md), [valuation models](equity-models.md) | `scripts/equity.py` |
+| Code change in an existing analysis | X6 and [implementation rules](implementation.md) | the existing entry |
 
-Read the adopted [structural specification](../../econ-design/references/designs.md#structural-estimation-and-counterfactuals), selected engine and numerical procedure. Carry identification, state/action timing, transitions, normalization and equilibrium selection into the specialist interface. Estimate and solve baseline/intervention outcomes from the same fitted primitives; retain specification revision and scenario with prices, quantities, policies, profits and welfare. Existing demand/game calculations also use `equity.py fit` and `dynamic`.
+```
+Kind of execution:   <row>
+Entry command:       <command>
+```
 
-### Map the object to the existing execution path
+## X2. Source to variables
 
-Locate the operation's entry, specification, source documentation and saved result. Select the relevant implementation or [result lifecycle](reproducible-workflow.md) procedure. For observed command/environment reuse, activate `operational_procedure_reuse` and match the [saved procedure](../../../harness/research.md#retain-and-reuse-an-observed-procedure) to actual inputs, failure and current authority.
+Fill one line per variable before writing any cleaning code:
 
-Map the economic object to records, fields, keys and transformations. Preserve population, period, observation unit, units, denominator and observation-status treatment. If the intervention changes reporting/detection, use a source or stage responding differently to distinguish recording from the outcome. Evaluate a constructed classification/score against separate target information.
+```
+<variable>: source file and field, population, observation unit, period, unit, numerator / denominator,
+            timing, treatment of missing / suppressed / censored values
+```
 
-### Construct a requested data design
+Rules:
 
-1. **Output: source-to-variable map; consumer: source-specific cleaning.** Inspect the original fields and adopted economic definitions. Specify population, observation unit, period, units, numerator/denominator, timing and observation statuses in the existing [assembly `definitions`](research-data.md#constructed-variables-and-analysis-samples). Retain amount due/paid, level/change and conditional/population targets in their adopted roles. Bind source version and inspected documentation through [definition references](../../../harness/state.md#retain-and-retrieve-adopted-definitions).
-2. **Output: normalized shared tables and dictionary; consumer: analysis construction.** Clean each source through its existing `assemble` stage. Store reusable attributes at their determining grain, with complete primary keys in `grain`, foreign-key relationships in the declared joins, and source/version/units in `data-record.json`. Save one shared table per adopted grain through the [SQL and language handoff](research-data.md#shared-tables-across-sql-python-r-and-julia). Preserve the source population and observation statuses in these tables; apply analysis eligibility in step 3. Before: “Each estimator parses household and programme files.” After: “Build household, programme-month and household-month tables once; join their saved keys for each adopted analysis.”
-3. **Output: analysis inputs and sample accounting; consumer: estimation and description.** Read the hashed shared tables, construct the adopted variables, weights and calendar histories, then build the shared sample once. Form pre-treatment groups from prior information and retain their membership. Use `analyses` for estimator columns and explicitly adopted analysis-specific samples. Pass the selected table, hashed `data_record`, definitions and retained row IDs to the existing runner; its saved result carries fitted membership and inference to artifacts.
-4. **Output: affected generations; consumer: dependent calculations.** Add new source information at the shared table's existing producer, update its dictionary and bind the new table/record hashes in dependent stages. Rebuild the affected analysis and result descendants through the existing DAG; reuse matching results for display changes. Retain originals and inspected source passages in the private research record; distribute independently authored examples and public citations under the release procedure.
+- Read the source documentation for each field; record its version and the passage that defines the field.
+- Keep observed zeros apart from missing, suppressed and censored values; a suppressed amount never becomes zero.
+- Keep amounts due and paid, levels and changes, conditional and population targets in their adopted roles.
+- When the intervention changes reporting or detection, use a source or stage that responds differently, so recording and the outcome can be told apart.
 
-### Implement at the existing owner
+## X3. Shared tables and the analysis sample
 
-Match the adopted parameter to an [official estimator/interface](implementation-engines.md#estimator-engine-and-algorithm-selection) and call it from the existing analysis entry. Carry sample, weights, fixed effects, covariance and post-estimation requirements into that call. An unsupported feature requires a matching implementation; custom estimation requires a demonstrated missing specialist feature.
+1. Clean each source once, through its `assemble` stage, into one table per grain (household, firm, household-month); keys are complete and unique, joins are declared, and `data-record.json` stores source, version and units ([shared tables](research-data.md#shared-tables-across-sql-python-r-and-julia)).
+2. Build the analysis variables, weights and histories from the shared tables, then the analysis sample once, with groups formed from pre-treatment information.
+3. Print and record the sample accounting:
 
-Resolve an implementation choice governing many fits/exhibits before expanding them. Reuse valid fitted objects and keep each scenario's prices, shares, costs and policies together in its decision quantity. [Implementation rules](implementation.md#functions-types-and-failure-boundaries) own code structure; EXECUTION owns files and dependencies.
+```
+Rows in source -> after each restriction (rule: count) -> analysis sample
+Unique keys:            yes / duplicates and their treatment
+Treated / control:      counts by period
+```
 
-### Select a specialized research calculation
+Before: "Each estimator parses the household and programme files." After: "Build household, programme-month and household-month tables once and join their saved keys for each analysis."
 
-Use `index --operation econ-data:execute` only to resolve an unknown method condition. Select the individual `method_*` for a known calculation; `method_extended_*` loads a whole family only when that coverage is requested. The registry supplies complete equations, scientific restrictions and execution dependencies, replacing a second hand-maintained method table here.
+## X4. Estimation and solution
 
-Select `research_data_discovery` for data acquisition/analysis tables, `research_adaptive_experiments` for source-grounded proposals and `research_result_artifacts` for saved-statistic articles/slides. Use each family's pinned interpreter/requirements; respy, pylcm and Dolo retain separate compatible environments. Preserve existing Pixi, R and project infrastructure.
+1. Match the adopted parameter to the official call in the [implementation table](implementation-engines.md#estimator-engine-and-algorithm-selection); carry sample, weights, fixed effects and covariance into the call. A feature the package lacks is implemented only after confirming it is missing.
+2. Structural work: estimate the primitives once, then solve baseline and intervention from the same fitted primitives; save prices, quantities, policies, profits and welfare for each scenario together.
+3. Multi-stage projects run through `python3 harness/research.py --root . research.json`, which binds sources, scripts, environment and specifications and reuses stages whose inputs are unchanged ([research runner](../../../harness/research.md)).
+4. Record in the worksheet:
 
-### Produce the result by dependency
+```
+Command:                <command and arguments>
+Saved result:           <path>
+Package and version:    <name version>
+Convergence / residual: <value against tolerance>
+Diagnostics:            <the diagnostics required by the design>
+Seed:                   <seed>
+```
 
-Execute an adopted analysis DAG through the [research runner](../../../harness/research.md), binding actual sources, scripts, helpers, environment, specifications and consumed output IDs. `--parent` carries the governing task's request, choices, scope and holds. Declare Python/R/Julia and its package closure; use a named profile when execution paths differ.
+## X5. Power and simulation
 
-The causal selector/runner supplies official DoubleML, GRF and randomizr interfaces. `research.py` retains OLS, IV, partial-linear orthogonal-score and two-period panel-DID execution with its declared requirements, fitted IDs, covariance and folds. Other selected scientific owners execute their adopted model.
+Match the data-generating process, assignment, dependence and test to the estimand. `research.py power` covers the two-arm Gaussian individual and cluster designs; other designs simulate their own data-generating process with the adopted estimator. Record the minimum detectable effect against the decision threshold.
 
-Trace source→derived data→fit→exhibit. Reuse matching stages; changed inputs, mappings or definitions rebuild affected descendants. Tables, figures and numerical prose use the same selected saved quantities. Preserve stochastic seeds and actual dependency versions; reproduction packages use the exact current saved stages.
+## X6. Changing an existing calculation
 
-### Power and estimator simulation
+1. Locate the entry, specification, source documentation and saved result of the calculation.
+2. Trace the change through keys, joins, sample, weights, formula and interface to every consumer ([compare changed calculations](implementation.md#compare-changed-calculations)).
+3. Rebuild the affected stages through the runner; display-only changes reuse the saved result.
+4. Record the old and new value of every affected quantity.
 
-For requested power/MDE/simulation, match DGP, assignment/dependence and test to the estimand. `research.py power` supports its two-arm Gaussian pooled-t individual/cluster design, noncentral-t power/MDE and seeded Monte Carlo diagnostics. DID, IV or structural power uses its own adopted DGP/estimator. Retain specification, code and runtime identities.
+## X7. Specification search
 
-### Specification search and recovery
+Freeze the target, population, sample, evaluator, inference and the discovery, validation and holdout roles before searching. Run the declared finite grid, keep the failed candidates and their returns, and execute the selected branch. Predictive loss alone does not select a causal specification; the identifying restriction and the diagnostic comparison do.
 
-Freeze target, population, sample, evaluator, inference and discovery/validation/holdout roles. Run the finite declared grid, retain unsuccessful candidates/returns and execute the selected branch. Causal candidates retain their identifying restrictions and target parameter and use the adopted diagnostic comparison; predictive loss alone does not establish causal validity. `research.py evaluate` supports fixed-split OLS/Ridge with train-only preprocessing. Read [recovery](../../../harness/research.md#recover-interrupted-attempts) for killed-process reconciliation or observed repair reuse.
+## Hand-off
 
-### Finite-horizon macro calculation
-
-Use [the macro solver](../scripts/research_macro.py) for the representative-household growth model with explicit initial/terminal capital, productivity, tax paths, parameters and residual tolerance. It returns positive scenario paths/welfare and original Euler/resource/derivative checks. Other macro models use their selected package and observation map.
-
-### Descriptive statistics
-
-Choose population, analysis unit and summary from the economic question through [descriptive choices](implementation-descriptive.md#choose-descriptive-statistics-from-the-question). Use adopted available-case/model samples and record/entity weights. Save counts, denominators, weights, period and units. Define each rate/mean's denominator in its heading, axis or text; include observation-opportunity differences determining the comparison.
-
-### Check the changed calculation
-
-Apply [changed-calculation review](implementation.md#compare-changed-calculations) to affected keys, joins, sample, weights, formula or interface. Keep scientific inference and numerical convergence inside execution.
-
-## Execution specification
-
-Use the existing producer and official package interface. Carry population, timing, measurement, sample, weights, estimator and inference through its saved result and artifact consumer. [Implementation rules](implementation.md) own code structure; [engine selection](implementation-engines.md) owns estimator and runtime choices. Numerical, structural, dependency and recovery procedures apply only to their registered cases.
-
-Read the selected model contract's equations, inputs and outputs through econ-knowledge. Resolve its registered engine and dependencies; a contract without an implementation supplies a mathematical interface for derivation or calculation through existing libraries.
+Section 5 of the worksheet lists every command, saved file, version, convergence value and diagnostic. Step 6 reads the saved results against the predictions of section 3.
