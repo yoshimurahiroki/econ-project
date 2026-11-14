@@ -1713,6 +1713,11 @@
       "source_path": "skills/econ-design/references/causal-models/ml-heterogeneity.md",
       "resource_kind": "rule",
       "content_version": "0.99.0"
+    },
+    "models-causal-outcomes-cards": {
+      "source_path": "skills/econ-design/references/causal-models/outcomes-bounds-sensitivity.md",
+      "resource_kind": "rule",
+      "content_version": "0.99.0"
     }
   },
   "sections": {
@@ -3956,6 +3961,11 @@
       }
     },
     "models-causal-ml-cards": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "models-causal-outcomes-cards": {
       "all": {
         "whole_resource": true
       }
@@ -7230,6 +7240,10 @@
     "models-causal-ml-cards.all": {
       "resource_id": "models-causal-ml-cards",
       "section_id": "all"
+    },
+    "models-causal-outcomes-cards.all": {
+      "resource_id": "models-causal-outcomes-cards",
+      "section_id": "all"
     }
   },
   "examples": {},
@@ -7522,6 +7536,9 @@
         "all"
       ],
       "models-causal-ml-cards": [
+        "all"
+      ],
+      "models-causal-outcomes-cards": [
         "all"
       ]
     },
@@ -7849,6 +7866,9 @@
         "all"
       ],
       "models-causal-ml-cards": [
+        "all"
+      ],
+      "models-causal-outcomes-cards": [
         "all"
       ]
     },

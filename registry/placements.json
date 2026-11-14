@@ -980,6 +980,10 @@
     "models-causal-ml-cards": {
       "deployment_path": ".agents/skills/econ-design/references/causal-models/ml-heterogeneity.md",
       "export_alias": "MODELS_CAUSAL_ML.md"
+    },
+    "models-causal-outcomes-cards": {
+      "deployment_path": ".agents/skills/econ-design/references/causal-models/outcomes-bounds-sensitivity.md",
+      "export_alias": "MODELS_CAUSAL_OUTCOMES.md"
     }
   },
   "source": {
