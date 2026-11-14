@@ -15,7 +15,7 @@
     },
     "core": {
       "path": "runtime/ECONOMIST.md",
-      "sha256": "3c4de3e987b09e6efc78264dba0f51e3108079445579ed9b18d7108a6bfb7e1d"
+      "sha256": "827411ad2e584cdbee927a417fe136e62abcbd56f44dcce5956f0faabdf12e25"
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
@@ -51,11 +51,11 @@
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "6948e013901e316b8308e21bf73d2f0d69d880aa6bc619f5e4803611ed596f9b"
+      "sha256": "70cb8249e21e608df69de752ff046bb8157d9da2f7cd6583e2d5b930e6b5fc21"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "7a72835aeab9cc4dc33e53ae0509e503b878e0d188f2baf812350a5b81b4564d"
+      "sha256": "11043ac757e418e778a6c20710220d6d90cf366779f5bb49057989b32487ead5"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -89,13 +89,21 @@
       "path": "docs/ai/config-templates/README.md",
       "sha256": "abedc37aa8a7572005359e976e83826a2d0af3819af2f1df5b87740bac68a356"
     },
+    "resource:context-japan": {
+      "path": "runtime/context/japan.md",
+      "sha256": "75cb7351abc2b8fab230d9672e323d259cb33aecbb2b84dc0430ca95eb32935e"
+    },
+    "resource:context-readme": {
+      "path": "runtime/context/README.md",
+      "sha256": "9535ca07805d91f09ed054d0ce68f25234ba3218346b2c81878f3e9f1cc28d8e"
+    },
     "resource:data-descriptive": {
       "path": "skills/econ-data/references/implementation-descriptive.md",
       "sha256": "193e2d32fcca3bbcff5c34f99ec25d74e10d0a677de0e954293cd3f907a19da0"
     },
     "resource:data-empirical": {
       "path": "skills/econ-data/references/empirical.md",
-      "sha256": "6beb2326e5116885d429fc3ac2d1e76eb12a392c3dc54ad58cd17ed54a276d61"
+      "sha256": "1bd20ffe3f144d2698e4b675f847cc698970b57d7d1befe3ab52eaceb86a4e0c"
     },
     "resource:data-engine-selection": {
       "path": "skills/econ-data/references/implementation-engines.md",
@@ -219,7 +227,7 @@
     },
     "resource:hook-wrapper": {
       "path": "hooks/check.py",
-      "sha256": "03b9f29e3bf949b108fa0dd51f6b62dc1b41dfe7c1507fd4eb9e95a3dad4ea4b"
+      "sha256": "11d7cc7c5a450641c59c9d01d0333872a5243b89b2dfd7df05915a20f7b7c6a5"
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
@@ -587,11 +595,11 @@
     },
     "resource:research-data": {
       "path": "skills/econ-data/scripts/research_data.py",
-      "sha256": "4e3e1f18a6c158d934a1555f8d93dde3b0c1e33d45c4d82429071a1e5f51fb3b"
+      "sha256": "33f301a7d0e3d3b0af75bd2d911b3686d3b0923e0a9f465aa4c7ace59ea60dec"
     },
     "resource:research-data-guide": {
       "path": "skills/econ-data/references/research-data.md",
-      "sha256": "5adda49b402b8090a0343a074346ee324d706be73b56a5c200fe88ed2c86e97f"
+      "sha256": "5d650064f9fdc22df2ef4fde28526e283cc948eb82d737b722604410d0c95db3"
     },
     "resource:research-dependencies": {
       "path": "skills/econ-data/scripts/requirements-research.txt",
@@ -699,7 +707,7 @@
     },
     "resource:resource-guide": {
       "path": "docs/ai/resources.md",
-      "sha256": "fda65cbcca40e1aef42a1135810bafad5ef9e81148c6d58e4c2b0a0e7bf0492d"
+      "sha256": "8906846860bf3dc31a574907437ca0a250c247070c0895cf64d6f37bf974fcd4"
     },
     "resource:result-artifacts": {
       "path": "skills/econ-writing/references/result-artifacts.md",
@@ -735,7 +743,7 @@
     },
     "resource:worksheet": {
       "path": "runtime/WORKSHEET.md",
-      "sha256": "5d4423849eb2073889c0c51411dd1699638413db51973a7d7c15392138dd6b18"
+      "sha256": "90682620bdbe6b424d15df1a8068b7b8d5d9941ff0c54e02e1dd5b351e50b6af"
     },
     "resource:writing-artifacts": {
       "path": "skills/econ-writing/references/artifact-writing.md",

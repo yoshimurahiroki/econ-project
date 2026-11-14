@@ -19,7 +19,7 @@ import re
 import shutil
 import sys
 import unicodedata
-from urllib.parse import urlencode, urljoin, urlsplit
+from urllib.parse import urlencode, urljoin, urlsplit, quote
 
 MISSING_VALUES = ('', '.', 'NA', ':')
 
@@ -365,12 +365,61 @@ def acquire(spec, directory):
     provider = spec.get('provider')
     allowed = {'provider', 'series', 'start', 'end', 'unit', 'definition', 'countries', 'filters', 'year', 'geography'}
     require(not set(spec) - allowed, 'Unknown acquisition fields')
-    require(provider in ('fred', 'worldbank', 'imf', 'eurostat', 'census'), 'Select a supported official provider')
+    require(provider in ('fred', 'worldbank', 'imf', 'eurostat', 'census', 'dbnomics', 'estat'), 'Select a supported official provider')
     require(all(isinstance(spec.get(k), str) and spec[k].strip() for k in ('unit', 'definition')), 'Adopt the quantity unit and definition')
     directory = Path(directory)
     directory.mkdir(parents=True, exist_ok=True)
     responses, observations, definitions = [], [], {}
-    if provider == 'worldbank':
+    if provider == 'dbnomics':
+        # One DBnomics series 'PROVIDER/DATASET/SERIES' (ECB, OECD, IMF, BIS, Eurostat, BOJ, ESRI, METI, JILPT, ...).
+        series = spec['series']
+        require(isinstance(series, str) and series.count('/') == 2 and all(series.split('/')), 'DBnomics series is PROVIDER/DATASET/SERIES')
+        provider_code, dataset_code, series_code = series.split('/')
+        url = ('https://api.db.nomics.world/v22/series/' + '/'.join(quote(x, safe='') for x in (provider_code, dataset_code, series_code))
+               + '?' + urlencode({'observations': 1, 'format': 'json'}))
+        payload, response = sources.get_json(url, directory / 'original', 'dbnomics.json')
+        responses.append(response)
+        docs = (payload.get('series') or {}).get('docs') if isinstance(payload, dict) else None
+        require(isinstance(docs, list) and len(docs) == 1, 'DBnomics returned no unique series: ' + str(payload.get('message', ''))[:200] if isinstance(payload, dict) else 'DBnomics response invalid')
+        doc = docs[0]
+        require(len(doc.get('period', [])) == len(doc.get('value', [])), 'DBnomics periods and values differ in length')
+        for period, value in zip(doc['period'], doc['value']):
+            if str(spec['start']) <= period <= str(spec['end']) + '~':
+                observations.append({'entity': series, 'period': period, 'value': None if value == 'NA' else numeric(value),
+                                     'status': 'NA' if value == 'NA' else '', 'unit': spec['unit']})
+        definitions = {'series': series, 'series_name': doc.get('series_name'), 'dataset_name': doc.get('dataset_name'),
+                       'frequency': doc.get('@frequency'), 'dimensions': doc.get('dimensions'), 'indexed_at': doc.get('indexed_at'),
+                       'metadata': 'https://db.nomics.world/' + series}
+        conditions = 'https://db.nomics.world/ (terms of the original provider apply)'
+    elif provider == 'estat':
+        # e-Stat getStatsData: series is the statsDataId; filters are e-Stat query parameters (cdArea, cdCat01, cdTime...).
+        # Needs a free application ID in ESTAT_APP_ID.
+        app_id = os.environ.get('ESTAT_APP_ID', '').strip()
+        require(app_id, 'e-Stat needs a free application ID in ESTAT_APP_ID (https://www.e-stat.go.jp/api/)')
+        series, filters = spec['series'], spec.get('filters') or {}
+        require(isinstance(series, str) and re.fullmatch(r'\d{10}', series), 'e-Stat statsDataId has ten digits')
+        require(isinstance(filters, dict) and all(isinstance(k, str) and isinstance(v, str) for k, v in filters.items()), 'e-Stat filters are string parameters')
+        url = 'https://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?' + urlencode({'appId': app_id, 'statsDataId': series, 'lang': 'J', **filters})
+        payload, response = sources.get_json(url, directory / 'original', 'estat.json')
+        response = {k: (v.replace(app_id, '<appId>') if isinstance(v, str) else v) for k, v in response.items()} if isinstance(response, dict) else response
+        responses.append(response)
+        root = (payload or {}).get('GET_STATS_DATA', {})
+        require(str(root.get('RESULT', {}).get('STATUS')) in ('0', '1'), 'e-Stat error: ' + str(root.get('RESULT', {}).get('ERROR_MSG')))
+        data = root.get('STATISTICAL_DATA', {})
+        values = data.get('DATA_INF', {}).get('VALUE', [])
+        values = values if isinstance(values, list) else [values]
+        for cell in values:
+            period = cell.get('@time', '')
+            dims = {k[1:]: v for k, v in cell.items() if k.startswith('@') and k not in ('@time', '@unit')}
+            raw_value = cell.get('$')
+            missing = raw_value in (None, '', '-', '…', '***', 'x', 'X')
+            observations.append({'entity': '|'.join(f'{k}={v}' for k, v in sorted(dims.items())) or series, 'period': period,
+                                 'value': None if missing else numeric(raw_value), 'status': raw_value if missing else '',
+                                 'unit': cell.get('@unit') or spec['unit']})
+        definitions = {'statsDataId': series, 'table': data.get('TABLE_INF'), 'class': data.get('CLASS_INF'),
+                       'metadata': 'https://www.e-stat.go.jp/dbview?sid=' + series}
+        conditions = 'https://www.e-stat.go.jp/terms-of-use'
+    elif provider == 'worldbank':
         result = sources.series(spec['series'], spec['countries'], int(spec['start']), int(spec['end']), directory / 'original')
         observations = [{'entity': row['country_code'], 'period': str(row['year']), 'value': row['value'], 'status': row['obs_status'], 'unit': spec['unit']} for row in result['observations']]
         responses = result['responses'] + result['definition_responses']

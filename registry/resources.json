@@ -1688,6 +1688,16 @@
       "source_path": "skills/econ-literature/scripts/literature_search.py",
       "resource_kind": "tool",
       "content_version": "0.98.0"
+    },
+    "context-readme": {
+      "source_path": "runtime/context/README.md",
+      "resource_kind": "rule",
+      "content_version": "0.98.0"
+    },
+    "context-japan": {
+      "source_path": "runtime/context/japan.md",
+      "resource_kind": "rule",
+      "content_version": "0.98.0"
     }
   },
   "sections": {
@@ -3906,6 +3916,16 @@
       }
     },
     "worksheet": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "context-readme": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "context-japan": {
       "all": {
         "whole_resource": true
       }
@@ -7160,6 +7180,14 @@
     "worksheet.all": {
       "resource_id": "worksheet",
       "section_id": "all"
+    },
+    "context-readme.all": {
+      "resource_id": "context-readme",
+      "section_id": "all"
+    },
+    "context-japan.all": {
+      "resource_id": "context-japan",
+      "section_id": "all"
     }
   },
   "examples": {},
@@ -7437,6 +7465,12 @@
         "all"
       ],
       "worksheet": [
+        "all"
+      ],
+      "context-readme": [
+        "all"
+      ],
+      "context-japan": [
         "all"
       ]
     },
@@ -7749,6 +7783,12 @@
         "all"
       ],
       "worksheet": [
+        "all"
+      ],
+      "context-readme": [
+        "all"
+      ],
+      "context-japan": [
         "all"
       ]
     },

@@ -242,3 +242,5 @@ Generated from the resource and placement registries. Use this catalog only for 
 - data-estimate-template: skills/econ-data/templates/estimate_ladder.py
 - worksheet: runtime/WORKSHEET.md
 - literature-search-tool: skills/econ-literature/scripts/literature_search.py
+- context-readme: runtime/context/README.md
+- context-japan: runtime/context/japan.md

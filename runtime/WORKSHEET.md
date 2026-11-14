@@ -2,12 +2,19 @@
 
 Copy to `work/<topic>.md` at the start of a request and fill each section in the user's language. The hooks read the labels and the knowledge unit IDs, so keep the headings and the labels as written. A later request on the same topic updates the same worksheet and adds what changed.
 
+Every decision line ends with its source in brackets: [user], [context: file], [knowledge: UNIT-ID], [literature: author year], [data: result file], [assumption]. An [assumption] is a choice made from general knowledge without a specific source; the answer names it as such.
+
+Status: open
+Current step:
+Next action:
+
 ## 1. Situation and stakes
 
 Decision maker:
 Decision:
 Actors and objectives:
 Stake:
+Context read: (context files used, e.g. runtime/context/japan.md, work/context.md)
 
 ## 2. Question
 
@@ -28,6 +35,7 @@ Prediction and competing prediction:
 
 With data: estimand, variation, comparison, identifying assumption, threat, method and package call.
 Without data: parameters with ranges and their sources.
+Fixed before results: sample, specification, primary outcome and decision threshold.
 
 ## 5. Execution
 
@@ -38,6 +46,7 @@ Checks (convergence, nesting, diagnostics):
 
 Result against the predictions:
 Magnitude:
+Specification changes: (number after the first result, each with its class and reason; "none" when the first specification stands)
 Decision:
 Switches when:
 Measure first:
@@ -46,3 +55,4 @@ Measure first:
 
 Deliverable and its path:
 Exemplars used (structure, Japanese expression):
+Status at close: (closed when the deliverable is delivered; open with the next action otherwise)

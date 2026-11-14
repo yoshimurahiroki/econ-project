@@ -960,6 +960,14 @@
     "literature-search-tool": {
       "deployment_path": ".agents/skills/econ-literature/scripts/literature_search.py",
       "export_alias": "LITERATURE_SEARCH.py"
+    },
+    "context-readme": {
+      "deployment_path": ".agents/runtime/context/README.md",
+      "export_alias": "CONTEXT.md"
+    },
+    "context-japan": {
+      "deployment_path": ".agents/runtime/context/japan.md",
+      "export_alias": "CONTEXT_JAPAN.md"
     }
   },
   "source": {

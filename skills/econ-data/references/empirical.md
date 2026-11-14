@@ -70,11 +70,30 @@ Stop adding rungs when a further change keeps the estimate inside the headline i
 
 Fill the diagnostics of the chosen row of step E4 with numbers: leads and their joint test, balance, density test, first-stage F, overlap, pre-period fit. A failed diagnostic sends the work back to step E4 for another design or a narrower population.
 
+## Step E6b. Specification changes after the first result
+
+The first specification, fixed in step E4 before seeing results, is the baseline and stays in the report. When an estimate or diagnostic looks wrong, find the cause first and route it by class:
+
+| Class | Examples | Action |
+| --- | --- | --- |
+| 1. Implementation or data error | wrong transformation, misaligned sample, mislabelled series, coding slip | fix and rerun automatically; record the fix |
+| 2. Pre-specified statistical rule | lag length by the stated criterion, the documented default for a failed diagnostic | apply and rerun automatically; record the rule |
+| 3. Economically motivated change | different controls, sample period, outcome definition, identification, clustering, anything that would move results toward expected signs | never automatic: propose it with the failed check and its economic reason; run it as a labelled sensitivity next to the baseline |
+| 4. Unexpected but clean result | sign or size against the prior with no error found | report and interpret; it may be the finding |
+
+Rules:
+
+1. Classes 1 and 2 share a budget of five automatic reruns; after that, present every attempt and ask the user.
+2. A specification is never chosen by its results. "Try X until it is significant" is replaced by a pre-specified design.
+3. The report states the number of specification changes after the first result (zero included) and what each changed, from worksheet section 6 (`Specification changes:`). With class 3 changes, the reported intervals carry that search: the baseline is reported first.
+4. Named anomalies are flagged before results are delivered: estimates outside the plausible range of the literature, wrong-signed first stages, weak instruments, failed pre-trends, explosive dynamics, implausible magnitudes against the baseline mean.
+
 ## Step E7. Interpretation
 
 ```
 Headline estimate:     <value> (SE <value>), 95% interval [<low>, <high>], <units>, <population>, <period>
 Magnitude:             relative to the baseline mean, per unit of treatment, elasticity, cost per outcome
+Specification changes: number after the first result, each with its class (E6b) and reason
 Against predictions:   which mechanism of section 3 the estimate supports and which it rejects
 Decision:              the action it selects at the threshold of step E1
 Switches when:         the effect size or cost at which the decision changes

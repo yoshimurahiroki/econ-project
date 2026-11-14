@@ -4,6 +4,7 @@ Use for data acquisition and construction through the assembly specification: so
 
 Contents:
 
+- [Official series by provider](#official-series-by-provider)
 - [Data scope](#data-scope)
 - [Acquisition and catalogues](#acquisition-and-catalogues)
 - [Data used in existing research](#data-used-in-existing-research)
@@ -12,6 +13,23 @@ Contents:
 - [Shared tables across SQL, Python, R and Julia](#shared-tables-across-sql-python-r-and-julia)
 - [Constructed variables and analysis samples](#constructed-variables-and-analysis-samples)
 - [Saved descriptive results](#saved-descriptive-results)
+
+
+## Official series by provider
+
+`python3 skills/econ-data/scripts/research_data.py acquire SPEC.json --output DIR` saves the original responses, `observations.csv` and `data-record.json` with source, definition and terms of use.
+
+| Provider | `series` | Key | Coverage |
+| --- | --- | --- | --- |
+| `dbnomics` | `PROVIDER/DATASET/SERIES`, e.g. `IMF/IFS/A.JP.11____XDC` | none | ECB, OECD, IMF, BIS, Eurostat, ILO, World Bank, BOJ, ESRI, METI, JILPT and other providers through one interface |
+| `estat` | ten-digit statsDataId; `filters` with e-Stat parameters (`cdArea`, `cdCat01`, `cdTime`) | `ESTAT_APP_ID` (free) | Japanese government statistics |
+| `fred` | FRED series ID | none | US and international series on FRED |
+| `worldbank` | indicator code with `countries` | none | World Development Indicators |
+| `imf` | DataMapper indicator with `countries` | none | IMF DataMapper |
+| `eurostat` | dataset code with `filters` | none | Eurostat |
+| `census` | ACS variable or `POPESTIMATE` with `geography` | `CENSUS_API_KEY` optional | US Census |
+
+Each dataset keeps its original responses, definition, vintage date and terms of use in its `data-record.json`; the terms of the original provider apply, including limits on redistribution and on use with AI systems. Record the dataset in the project context (`work/context.md`, Data holdings) so later tasks reuse it.
 
 ## Data scope
 
