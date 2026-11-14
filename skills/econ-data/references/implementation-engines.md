@@ -73,9 +73,15 @@ Use the following branches to find the eligible implementation. The listed funct
 
 ## Bayesian project implementations
 
-The existing [`bayesian_model` runner](../../econ-design/references/causal-models/native.md#bayesian-project-model-execution) remains the primary PyMC/ArviZ route. Its `engine="pymc"` selects PyMC 6.4.0 with ArviZ 1.3.0 and native DataTree storage. `engine="causalpy"` retains the CausalPy 0.9.0, PyMC 5.28.5 and ArviZ 0.23.4 InferenceData interface. Keep those environments distinct.
+- The existing [`bayesian_model` runner](../../econ-design/references/causal-models/native.md#bayesian-project-model-execution) remains the primary PyMC/ArviZ route.
+- Its `engine="pymc"` selects PyMC 6.4.0 with ArviZ 1.3.0 and native DataTree storage.
+- `engine="causalpy"` retains the CausalPy 0.9.0, PyMC 5.28.5 and ArviZ 0.23.4 InferenceData interface.
+- Keep those environments distinct.
 
-Select an adopted Stan, NumPyro or Turing model with `design="bayesian_model"` and the corresponding `options.engine` below. The selector returns the native call, exact selected package versions, install conditions and the [existing project-script stage](implementation-calls.md#official-project-scripts). The model program owns its likelihood, priors, transformations, observation map and economic quantities. Select the implementation from the adopted model, required distributions, constraints, automatic differentiation, dtype/device and existing project language.
+- Select an adopted Stan, NumPyro or Turing model with `design="bayesian_model"` and the corresponding `options.engine` below.
+- The selector returns the native call, exact selected package versions, install conditions and the [existing project-script stage](implementation-calls.md#official-project-scripts).
+- The model program owns its likelihood, priors, transformations, observation map and economic quantities.
+- Select the implementation from the adopted model, required distributions, constraints, automatic differentiation, dtype/device and existing project language.
 
 | Engine | Selected official implementation | Native result and inference | Installation |
 | --- | --- | --- | --- |
@@ -84,14 +90,18 @@ Select an adopted Stan, NumPyro or Turing model with `design="bayesian_model"` a
 | `brms` | brms 2.23.0 [`brm`](https://paulbuerkner.com/brms/reference/brm.html) with adopted formula, family, priors and `backend="cmdstanr"` | Saved `brmsfit`, `posterior_epred`, `posterior_predict`, `pp_check` and `loo`; retain the original grouping and prediction population. | Its R imports, cmdstanr 0.9.0 and CmdStan 2.40.0. |
 | `numpyro` | NumPyro 0.22.0 [`NUTS` and `MCMC.run`](https://num.pyro.ai/en/stable/mcmc.html), then [`Predictive`](https://num.pyro.ai/en/stable/utilities.html#predictive) | `get_samples(group_by_chain=True)`, `get_extra_fields(group_by_chain=True)` and `numpyro.diagnostics.summary`; request the sampler fields needed by the adopted diagnostics. | Selected compatible CPU/GPU JAX build; record actual JAX/jaxlib, precision, device and chain method. |
 | `turing` | Turing.jl 0.49.0 [`sample`](https://turinglang.org/docs/core-functionality/) for an adopted `@model`, sampler and multiple-chain executor | Native FlexiChains `VNChain` draws/summaries, predictive/generated quantities and model-defined economic transformations. An adopted MCMCChains result explicitly loads its extension and selects `chain_type`. | Julia >=1.10.8 and adopted Project.toml/Manifest.toml; [versioned dependencies](https://github.com/TuringLang/Turing.jl/blob/v0.49.0/Project.toml) select FlexiChains 0.6. |
-
-All routes retain posterior predictive quantities, chain diagnostics and draw-level actions under the same adopted model. Select VI through the chosen package's native interface when adopted; retain its objective, approximation family and predictive comparison. Use the saved predictive distribution and adopted loss to compute expected profit/loss for feasible actions. Identification, exchangeability, exclusion, treatment timing and aggregation remain in the economic design and model contract.
+- All routes retain posterior predictive quantities, chain diagnostics and draw-level actions under the same adopted model.
+- Select VI through the chosen package's native interface when adopted; retain its objective, approximation family and predictive comparison.
+- Use the saved predictive distribution and adopted loss to compute expected profit/loss for feasible actions.
+- Identification, exchangeability, exclusion, treatment timing and aggregation remain in the economic design and model contract.
 
 The source versions are the official [CmdStanPy release](https://pypi.org/project/cmdstanpy/1.3.2/), [CmdStan release](https://github.com/stan-dev/cmdstan/releases/tag/v2.40.0), [cmdstanr release](https://github.com/stan-dev/cmdstanr/releases/tag/v0.9.0), [brms DESCRIPTION](https://github.com/cran/brms/blob/master/DESCRIPTION), [NumPyro release](https://pypi.org/project/numpyro/0.22.0/) and [Turing registry](https://github.com/JuliaRegistries/General/blob/master/T/Turing/Versions.toml). The selected interpreter's runtime/API binding establishes the actual installed call before research execution.
 
 ## Marketing and customer implementations
 
-Use `design="marketing_mmm"` with `implementation="pymc_marketing"` or `"meridian"`. `design="customer_lifetime_value"` selects PyMC-Marketing's repeat-purchase model; `design="customer_survival"` selects lifelines when contractual duration and predicted survival determine the customer value. The selector returns only the chosen package closure.
+- Use `design="marketing_mmm"` with `implementation="pymc_marketing"` or `"meridian"`.
+- `design="customer_lifetime_value"` selects PyMC-Marketing's repeat-purchase model; `design="customer_survival"` selects lifelines when contractual duration and predicted survival determine the customer value.
+- The selector returns only the chosen package closure.
 
 | Required model | Official call and adopted inputs | Saved quantities and decision |
 | --- | --- | --- |
@@ -99,22 +109,40 @@ Use `design="marketing_mmm"` with `implementation="pymc_marketing"` or `"meridia
 | Geo/time MMM with ROI calibration | Meridian 2.2.0 [`Meridian.sample_posterior(n_chains, n_adapt, n_burnin, n_keep, seed)`](https://developers.google.com/meridian/reference/api/meridian/model/model/Meridian): native InputData, ModelSpec, geo/time KPI, media/spend, controls, population and revenue conversion. | Native inference data and Analyzer quantities; [`BudgetOptimizer.optimize`](https://developers.google.com/meridian/reference/api/meridian/analysis/optimizer/BudgetOptimizer) returns the adopted spend allocation and outcome/revenue comparison. Convert response draws to contribution profit using the adopted margins and costs. |
 | Noncontractual transactions and customer contribution value | PyMC-Marketing [`BetaGeoModel.fit(data=...)`](https://www.pymc-marketing.io/en/stable/api/generated/pymc_marketing.clv.models.beta_geo.BetaGeoModel.html), `expected_purchases`; GammaGammaModel `fit(data=...)` and [`expected_customer_lifetime_value`](https://www.pymc-marketing.io/en/stable/api/generated/pymc_marketing.clv.models.gamma_gamma.GammaGammaModel.expected_customer_lifetime_value.html). Data retain customer ID, repeat frequency, recency, T and positive repeat monetary value. | Posterior transaction/spend quantities and discounted customer value. Match transaction/discount time units, separate revenue from contribution margin, then deduct adopted acquisition/retention cost. Retain BG/NBD and Gamma-Gamma's behavioral and spend-frequency conditions. |
 | Contractual churn/duration and survival-weighted customer value | lifelines 0.30.3 [`CoxPHFitter.fit`](https://lifelines.readthedocs.io/en/latest/fitters/regression/CoxPHFitter.html), followed by `predict_survival_function(X, times=...)`: durations/events, entry, covariates, strata and declared covariance/cluster columns. | Native fit and survival curves on the declared customer population; discounted survival-weighted contribution and action costs. Preserve censoring/truncation and proportional-hazard conditions. Existing PHReg coefficient inference retains its existing route. |
+- For PyMC-Marketing MCMC, supply `draws`, `tune`, `chains`, `cores` and `nuts_kwargs` directly to `fit` or through the model's `sampler_config`.
+- In version 1.3.0, `sample_kwargs` configures variational draws; MCMC uses the direct sampler keywords.
+- Read the actual chain/draw coordinates and sampler status from the native result.
+- MMM posterior-predictive `y` is on the scaled likelihood response; use `mmm.data.to_original_scale(prediction["y"])` before saving quantities in the original outcome units or converting them into profit.
 
-For PyMC-Marketing MCMC, supply `draws`, `tune`, `chains`, `cores` and `nuts_kwargs` directly to `fit` or through the model's `sampler_config`. In version 1.3.0, `sample_kwargs` configures variational draws; MCMC uses the direct sampler keywords. Read the actual chain/draw coordinates and sampler status from the native result. MMM posterior-predictive `y` is on the scaled likelihood response; use `mmm.data.to_original_scale(prediction["y"])` before saving quantities in the original outcome units or converting them into profit.
+- Meridian 2.2.0 rounds monetary allocations to integers on its native grid.
+- Confirm the returned total budget and channel bounds after rounding.
+- A monetary-unit conversion must preserve both spend and revenue conversion, reproduce native responses in the original currency, and retain the saved fit and priors.
 
-Meridian 2.2.0 rounds monetary allocations to integers on its native grid. Confirm the returned total budget and channel bounds after rounding. A monetary-unit conversion must preserve both spend and revenue conversion, reproduce native responses in the original currency, and retain the saved fit and priors.
-
-PyMC-Marketing 1.3.0's [metadata](https://pypi.org/project/pymc-marketing/1.3.0/) requires PyMC >=6.3.1,<6.4.0; its selected profile uses PyMC 6.3.1 and ArviZ 1.3.0. Meridian 2.2.0's [metadata](https://pypi.org/project/google-meridian/2.2.0/) requires ArviZ<0.20, pandas<3, NumPy<2.4, JAX<1 and its TensorFlow/TFP closure. lifelines 0.30.3 also requires pandas<3. Restore these selected environments separately from incompatible primary families. Each project stage retains the actual transitive versions. Calibration experiments and confounding adjustment identify the response; posterior inference and budget optimization consume that identified response.
+- PyMC-Marketing 1.3.0's [metadata](https://pypi.org/project/pymc-marketing/1.3.0/) requires PyMC >=6.3.1,<6.4.0; its selected profile uses PyMC 6.3.1 and ArviZ 1.3.0.
+- Meridian 2.2.0's [metadata](https://pypi.org/project/google-meridian/2.2.0/) requires ArviZ<0.20, pandas<3, NumPy<2.4, JAX<1 and its TensorFlow/TFP closure. lifelines 0.30.3 also requires pandas<3.
+- Restore these selected environments separately from incompatible primary families.
+- Each project stage retains the actual transitive versions.
+- Calibration experiments and confounding adjustment identify the response; posterior inference and budget optimization consume that identified response.
 
 ## Forecast and inventory implementations
 
 `design="demand_forecast"` selects StatsForecast 2.1.1; `design="hierarchical_forecast"` selects HierarchicalForecast 1.5.3. The existing [project-script stage](implementation-calls.md#official-project-scripts) carries the adopted forecast table into the same saved-result dependencies used by inventory optimization.
 
-StatsForecast [`forecast(h, df, X_df, level, ...)`](https://nixtlaverse.nixtla.io/statsforecast/src/core/core.html#statsforecast.forecast) consumes canonical `unique_id`, `ds`, `y`, declared frequency, adopted model family and known future regressors. Select AutoARIMA/AutoETS for their adopted dynamics and CrostonOptimized/ADIDA/IMAPA for their intermittent-demand targets. Preserve each model's native point/interval support. [`cross_validation`](https://nixtlaverse.nixtla.io/statsforecast/src/core/core.html#statsforecast.cross_validation) binds horizon, origins/windows, step size and refitting. Save origin/horizon and item/store keys beside actual forecast losses.
+- StatsForecast [`forecast(h, df, X_df, level, ...)`](https://nixtlaverse.nixtla.io/statsforecast/src/core/core.html#statsforecast.forecast) consumes canonical `unique_id`, `ds`, `y`, declared frequency, adopted model family and known future regressors.
+- Select AutoARIMA/AutoETS for their adopted dynamics and CrostonOptimized/ADIDA/IMAPA for their intermittent-demand targets.
+- Preserve each model's native point/interval support.
+- [`cross_validation`](https://nixtlaverse.nixtla.io/statsforecast/src/core/core.html#statsforecast.cross_validation) binds horizon, origins/windows, step size and refitting.
+- Save origin/horizon and item/store keys beside actual forecast losses.
 
-HierarchicalForecast [`HierarchicalReconciliation.reconcile(Y_hat_df, tags, S_df, Y_df, level, intervals_method, ...)`](https://nixtlaverse.nixtla.io/hierarchicalforecast/src/core.html#hierarchicalreconciliation.reconcile) consumes labelled base forecasts, the exact summing matrix and hierarchy tags, with training residual inputs required by the selected BottomUp/MinTrace method. Retain native series ordering, covariance, level, normality/bootstrap/PERMBU choice, sample count and seed. Save coherent point forecasts and the selected native probabilistic output.
+- HierarchicalForecast [`HierarchicalReconciliation.reconcile(Y_hat_df, tags, S_df, Y_df, level, intervals_method, ...)`](https://nixtlaverse.nixtla.io/hierarchicalforecast/src/core.html#hierarchicalreconciliation.reconcile) consumes labelled base forecasts, the exact summing matrix and hierarchy tags, with training residual inputs required by the selected BottomUp/MinTrace method.
+- Retain native series ordering, covariance, level, normality/bootstrap/PERMBU choice, sample count and seed.
+- Save coherent point forecasts and the selected native probabilistic output.
 
-Inventory consumers use lead-time demand in the adopted time/quantity units. Point forecasts, marginal intervals and joint predictive samples retain their distinct output definitions. A newsvendor quantity uses the adopted underage/overage critical fractile; capacity, service-level and multiple-product decisions use the saved demand scenarios and their probability weights in the chosen optimizer. Evaluate forecast and inventory loss over the same feasible actions, lead times, stockout-observation rule and rolling origins. StatsForecast's [release metadata](https://pypi.org/project/statsforecast/2.1.1/) requires pandas<3; the [reconciliation family](https://pypi.org/project/hierarchicalforecast/1.5.3/) can share that selected environment.
+- Inventory consumers use lead-time demand in the adopted time/quantity units.
+- Point forecasts, marginal intervals and joint predictive samples retain their distinct output definitions.
+- A newsvendor quantity uses the adopted underage/overage critical fractile; capacity, service-level and multiple-product decisions use the saved demand scenarios and their probability weights in the chosen optimizer.
+- Evaluate forecast and inventory loss over the same feasible actions, lead times, stockout-observation rule and rolling origins.
+- StatsForecast's [release metadata](https://pypi.org/project/statsforecast/2.1.1/) requires pandas<3; the [reconciliation family](https://pypi.org/project/hierarchicalforecast/1.5.3/) can share that selected environment.
 
 ## Operations and domain implementations
 
@@ -128,5 +156,8 @@ Inventory consumers use lead-time demand in the adopted time/quantity units. Poi
 | `energy_system` / `pypsa` | PyPSA 1.4.0 [`Network.optimize`](https://docs.pypsa.org/latest/api/networks/optimize/) | Buses, network, generators, storage, loads, snapshot/investment weights, costs and emissions/capacity constraints. Save status, dispatch/investment, costs and supported dual prices. Its pandas>=3 closure uses the selected PyPSA environment and solver. |
 | `network_allocation` / `networkx` | NetworkX 3.7 [`maximum_flow(G, s, t, capacity=...)`](https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.flow.maximum_flow.html) | Canonical node/edge IDs, directed nonnegative capacities, source and sink. Save flow value/dictionary, capacity and conservation quantities; retain the economic objective defining the flow. |
 | `agent_simulation` / `mesa` | Mesa 3.5.2 [`Model.run_model`](https://mesa.readthedocs.io/stable/mesa.html#mesa.model.Model), model-defined Agent/AgentSet activation and DataCollector | Existing project program with economic choices, information, transitions, interaction graph, calibration, seed, stopping rule and scenario. Save collected prices, quantities, profits and welfare under that adopted model. |
-
-The exact optional package pins and native API bindings are owned by `OFFICIAL_PROJECT_IMPLEMENTATIONS` in the existing selector. Its returned `install_requirements` contains the chosen Python packages. R and Julia restore their selected native projects. The primary research, market, causal and mini-template dependency families retain their current roles. Package imports, actual fitted results and solver outputs determine the saved execution.
+- The exact optional package pins and native API bindings are owned by `OFFICIAL_PROJECT_IMPLEMENTATIONS` in the existing selector.
+- Its returned `install_requirements` contains the chosen Python packages.
+- R and Julia restore their selected native projects.
+- The primary research, market, causal and mini-template dependency families retain their current roles.
+- Package imports, actual fitted results and solver outputs determine the saved execution.

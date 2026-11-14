@@ -2,11 +2,22 @@
 
 Use when every unit keeps a fixed dose and adoption is common or staggered. Choose ATT(d) for level effects under parallel trends; ACRT(d) only under strong parallel trends.
 
-`continuous_did` calls the authors' `contdid::cont_did()` 0.1.2 through the existing official R execution path. Select `design="continuous_did"`, or `design="did"` with `treatment_pattern="fixed_dose_common"` / `"fixed_dose_staggered"`. Under `design="auto"`, the parallel-trends assignment mechanism reaches the same branch. `conditions.dose_time_invariant=true` also selects this branch for the supported continuous-DID targets. The selector retains an adopted specification and records target-implied changes in its execution proposal.
+- `continuous_did` calls the authors' `contdid::cont_did()` 0.1.2 through the existing official R execution path.
+- Select `design="continuous_did"`, or `design="did"` with `treatment_pattern="fixed_dose_common"` / `"fixed_dose_staggered"`.
+- Under `design="auto"`, the parallel-trends assignment mechanism reaches the same branch.
+- `conditions.dose_time_invariant=true` also selects this branch for the supported continuous-DID targets.
+- The selector retains an adopted specification and records target-implied changes in its execution proposal.
 
-Preserve the adopted ERS definition `ATT(d)=E[Y_t(d)-Y_t(0)|D=d]`, in outcome units. [arXiv v8, Section 3.1](https://arxiv.org/html/2107.02637v8) denotes this local parameter `ATT(d|d)` and reserves `ATT(d)` for the entire treated population, `D>0`. Standard parallel trends identifies the local level effect (Theorem 3.1).
+- Preserve the adopted ERS definition `ATT(d)=E[Y_t(d)-Y_t(0)|D=d]`, in outcome units.
+- [arXiv v8, Section 3.1](https://arxiv.org/html/2107.02637v8) denotes this local parameter `ATT(d|d)` and reserves `ATT(d)` for the entire treated population, `D>0`.
+- Standard parallel trends identifies the local level effect (Theorem 3.1).
 
-Local `ACRT(d)=partial E[Y_t(l)|D=d]/partial l` evaluated at `l=d` holds the population fixed and uses outcome units per dose unit. The derivative across local ATT groups contains a selection term (Theorem 3.2). Adopt `conditions.strong_parallel_trends=true` for this causal response, with the dose-group restrictions of Appendix C's SPT-MP and Theorem C.1. Section 3.2.2's SPT instead identifies the whole-treated-population response. Preserve the chosen population and restriction in `definitions.parallel_trends_type="standard"` / `"strong"` and the identification statement. A continuous-treatment TWFE coefficient retains its own projection weights and target.
+- Local `ACRT(d)=partial E[Y_t(l)|D=d]/partial l` evaluated at `l=d` holds the population fixed and uses outcome units per dose unit.
+- The derivative across local ATT groups contains a selection term (Theorem 3.2).
+- Adopt `conditions.strong_parallel_trends=true` for this causal response, with the dose-group restrictions of Appendix C's SPT-MP and Theorem C.1.
+- Section 3.2.2's SPT instead identifies the whole-treated-population response.
+- Preserve the chosen population and restriction in `definitions.parallel_trends_type="standard"` / `"strong"` and the identification statement.
+- A continuous-treatment TWFE coefficient retains its own projection weights and target.
 
 | Selection target | Native parameter and aggregation | Main quantity |
 | --- | --- | --- |
@@ -15,20 +26,52 @@ Local `ACRT(d)=partial E[Y_t(l)|D=d]/partial l` evaluated at `l=d` holds the pop
 | `att` / `acrt` | `level` / `slope`, `dose` | `quantity="overall"`: official scalar aggregate |
 | `event_time_att` / `event_time_acrt` | `level` / `slope`, `eventstudy` | `quantity="curve"`: native event-time aggregate |
 | `dose_response` | Explicit `target_parameter`, `dose` | `quantity="curve"`: the specified level or marginal curve |
+- The native `ptetools::process_dose_gt` uses `overall_weights`: cohort shares among ever-treated entities, divided equally across each cohort's observed post-treatment periods.
+- These weights are constant across dose coordinates.
+- Appendix C's natural dose-group target instead uses `P(G=g|D=d,G<=T)/(T-g+1)`.
+- For a staggered dose curve, selection requires `conditions.dose_cohort_independence=true` or explicit `comparison.aggregation="fixed_cohort_weights"`.
+- Record `definitions.dose_aggregation="fixed_cohort_weights"` in execution.
+- This preserves the adopted population and makes the official standardization explicit.
+- Overall effects average observed treated-dose effects within cohorts before their cohort aggregation; event studies use the cohorts observed at each event time.
 
-The native `ptetools::process_dose_gt` uses `overall_weights`: cohort shares among ever-treated entities, divided equally across each cohort's observed post-treatment periods. These weights are constant across dose coordinates. Appendix C's natural dose-group target instead uses `P(G=g|D=d,G<=T)/(T-g+1)`. For a staggered dose curve, selection requires `conditions.dose_cohort_independence=true` or explicit `comparison.aggregation="fixed_cohort_weights"`. Record `definitions.dose_aggregation="fixed_cohort_weights"` in execution. This preserves the adopted population and makes the official standardization explicit. Overall effects average observed treated-dose effects within cohorts before their cohort aggregation; event studies use the cohorts observed at each event time.
+- The common run specification uses empty `regressors`, `endogenous` and `instruments`, `inference={"type":"official"}`, and named native arguments in `options.args`.
+- Bind `options.entity`, `time`, `cohort` and `dose` to distinct analysis columns, set a nonnegative integer `seed`, and supply `definitions.outcome_unit` and `dose_unit`.
+- `args.target_parameter` and `args.aggregation` are explicit.
+- `options.quantity` defaults to `curve`; `overall` selects the scalar corresponding to `target_parameter` while retaining the curve displays.
 
-The common run specification uses empty `regressors`, `endogenous` and `instruments`, `inference={"type":"official"}`, and named native arguments in `options.args`. Bind `options.entity`, `time`, `cohort` and `dose` to distinct analysis columns, set a nonnegative integer `seed`, and supply `definitions.outcome_unit` and `dose_unit`. `args.target_parameter` and `args.aggregation` are explicit. `options.quantity` defaults to `curve`; `overall` selects the scalar corresponding to `target_parameter` while retaining the curve displays.
+- The input is a finite complete balanced panel with unique entity-time pairs and a separate unique row `id`.
+- Periods are positive integers.
+- Cohort is fixed within entity, uses zero for never-treated entities, and names an observed adoption period after the first period for treated entities.
+- A never-treated group is present.
+- Dose is zero for never-treated entities and positive and constant for treated entities in every period, including pretreatment.
+- The runner rejects incompatible observations and checks native row identities against the entire input sample.
+- Existing `research_data.py` treatment-history and analysis-sample construction owns explicitly adopted transformations.
 
-The input is a finite complete balanced panel with unique entity-time pairs and a separate unique row `id`. Periods are positive integers. Cohort is fixed within entity, uses zero for never-treated entities, and names an observed adoption period after the first period for treated entities. A never-treated group is present. Dose is zero for never-treated entities and positive and constant for treated entities in every period, including pretreatment. The runner rejects incompatible observations and checks native row identities against the entire input sample. Existing `research_data.py` treatment-history and analysis-sample construction owns explicitly adopted transformations.
+- The adopted execution uses `contdid` 0.1.2 and `ptetools` 1.0.1, `xformula=~1`, `control_group="notyettreated"`, `base_period="varying"`, `anticipation=0`, `bstrap=true`, `boot_type="multiplier"` and independent panel entities.
+- `clustervars` may name that entity column.
+- The public `control_group`, `base_period`, `bstrap` and `clustervars` arguments are omitted from 0.1.2's internal `pte` call.
+- Its setup also omits anticipation forwarding.
+- The runner rejects different comparisons, external clusters, analytical-only inference, sampling weights and covariate adjustment.
+- Varying doses, repeated cross sections, unbalanced panels, discrete treatment and `aggregation="none"` require their adopted implementing method.
+- Changing treatment paths retain `did_multiplegt_dyn`; the additive two-period multi-intervention regression retains `multitreatment_did`.
 
-The adopted execution uses `contdid` 0.1.2 and `ptetools` 1.0.1, `xformula=~1`, `control_group="notyettreated"`, `base_period="varying"`, `anticipation=0`, `bstrap=true`, `boot_type="multiplier"` and independent panel entities. `clustervars` may name that entity column. The public `control_group`, `base_period`, `bstrap` and `clustervars` arguments are omitted from 0.1.2's internal `pte` call. Its setup also omits anticipation forwarding. The runner rejects different comparisons, external clusters, analytical-only inference, sampling weights and covariate adjustment. Varying doses, repeated cross sections, unbalanced panels, discrete treatment and `aggregation="none"` require their adopted implementing method. Changing treatment paths retain `did_multiplegt_dyn`; the additive two-period multi-intervention regression retains `multitreatment_did`.
+- `dose_est_method="parametric"` uses B-splines with native defaults `degree=3`, `num_knots=0`, `alp=.05`, `cband=false` and `biters=1000`.
+- An explicit `dvals` contains at least two increasing finite positive doses; omission uses the native positive-dose percentiles from .10 through .99 in .01 increments.
+- The native estimate and its SE come from the selected package.
+- Saved pointwise endpoints use its normal critical value; uniform endpoints use the returned bootstrap critical value.
+- ATT and ACRT uniform bands form separate curve families.
+- The result records the effective repetition counts by component, including the native group-time bootstrap's fixed 1,000 draws.
 
-`dose_est_method="parametric"` uses B-splines with native defaults `degree=3`, `num_knots=0`, `alp=.05`, `cband=false` and `biters=1000`. An explicit `dvals` contains at least two increasing finite positive doses; omission uses the native positive-dose percentiles from .10 through .99 in .01 increments. The native estimate and its SE come from the selected package. Saved pointwise endpoints use its normal critical value; uniform endpoints use the returned bootstrap critical value. ATT and ACRT uniform bands form separate curve families. The result records the effective repetition counts by component, including the native group-time bootstrap's fixed 1,000 draws.
+- The versioned [`cont_did_acrt` source](https://github.com/bcallaway11/contdid/blob/b45e42e0739d88db7160d4a25c8693e0232ab4cc/R/cont_did_acrt.R) calls `bSpline(dose[dose>0],...)` for training and calls `bSpline(dvals,...)` and `dbs(dvals,...)` separately for evaluation.
+- These calls omit `Boundary.knots`, so their default boundary support follows their respective input ranges.
+- ERS preserves the resulting native curve values, derivatives, standard errors and bands.
+- A shared-boundary spline specification requires a separately adopted estimator change.
 
-The versioned [`cont_did_acrt` source](https://github.com/bcallaway11/contdid/blob/b45e42e0739d88db7160d4a25c8693e0232ab4cc/R/cont_did_acrt.R) calls `bSpline(dose[dose>0],...)` for training and calls `bSpline(dvals,...)` and `dbs(dvals,...)` separately for evaluation. These calls omit `Boundary.knots`, so their default boundary support follows their respective input ranges. ERS preserves the resulting native curve values, derivatives, standard errors and bands. A shared-boundary spline specification requires a separately adopted estimator change.
-
-`dose_est_method="cck"` additionally requires two periods, one treated cohort, dose aggregation, `npiv` 0.1.3, `cband=true`, `alp=.05`, `degree=3`, `num_knots=0` and omitted `dvals`. The native call fixes `npiv`'s bootstrap at 999 draws and chooses its cubic spline dimension from data. It passes `dvals` as `X.grid` for basis selection and returns effects at observed treated doses through the default `X.eval`; the wrapper therefore preserves the sorted observed-dose coordinates. Native `biters` still governs the overall-effect computation. The 0.1.2 `cband=false` branch resets the ATT critical value twice and leaves the ACRT critical value unchanged, so that setting is rejected for CCK.
+- `dose_est_method="cck"` additionally requires two periods, one treated cohort, dose aggregation, `npiv` 0.1.3, `cband=true`, `alp=.05`, `degree=3`, `num_knots=0` and omitted `dvals`.
+- The native call fixes `npiv`'s bootstrap at 999 draws and chooses its cubic spline dimension from data.
+- It passes `dvals` as `X.grid` for basis selection and returns effects at observed treated doses through the default `X.eval`; the wrapper therefore preserves the sorted observed-dose coordinates.
+- Native `biters` still governs the overall-effect computation.
+- The 0.1.2 `cband=false` branch resets the ATT critical value twice and leaves the ACRT critical value unchanged, so that setting is rejected for CCK.
 
 | Native return | Saved extraction |
 | --- | --- |
@@ -36,10 +79,15 @@ The versioned [`cont_did_acrt` source](https://github.com/bcallaway11/contdid/bl
 | Dose scalar summaries | `overall_att`, `overall_att_se`, `overall_acrt`, `overall_acrt_se` in `displays.overall_effects`, with each row's own unit. |
 | Event-study `pte_results` | `event_study.egt`, `att.egt`, `se.egt`, `crit.val.egt`; `target_parameter="slope"` identifies these native `att`-named fields as ACRT. Negative event times retain their varying-base diagnostic role. |
 | Event-study scalar summaries | `overall_att.overall.att` / `overall_att.overall.se` give the cohort-weighted post-treatment average; `event_study.overall.att` / `event_study.overall.se` give the equal-weight average over nonnegative event times. Both keep separate rows and definitions. |
+- Rows retain full-precision estimates, SEs, `ci_low` / `ci_high` for the selected family, separate `pointwise_ci_low/high`, and `uniform_ci_low/high` when computed.
+- Scalar summaries use pointwise intervals.
+- `native_fit` retains the official object, data and row IDs as a hashed `R-serialize-v3` bundle.
+- Package versions, effective bindings, entity doses, periods and inference accompany the same result.
 
-Rows retain full-precision estimates, SEs, `ci_low` / `ci_high` for the selected family, separate `pointwise_ci_low/high`, and `uniform_ci_low/high` when computed. Scalar summaries use pointwise intervals. `native_fit` retains the official object, data and row IDs as a hashed `R-serialize-v3` bundle. Package versions, effective bindings, entity doses, periods and inference accompany the same result.
-
-Optional `options.plot={"path":"figures/dose.pdf","width":7,"height":4.5,"dpi":160}` restores that native bundle, calls `contdid::ggcont_did(fit,type="att"/"acrt")`, sets the corresponding ATT/ACRT and unit labels, and saves the official figure with `ggplot2::ggsave`. The path is relative to the specification; PDF, PNG and SVG are supported, and dimensions are in inches. `official_plot` records its absolute path, SHA-256, function, target, aggregation, format and native-fit hash. This plot uses the existing fit. The gallery and Writing consume its figure reference or the saved curve rows and definitions through the [result artifact owner](../../../econ-writing/references/result-artifacts.md).
+- Optional `options.plot={"path":"figures/dose.pdf","width":7,"height":4.5,"dpi":160}` restores that native bundle, calls `contdid::ggcont_did(fit,type="att"/"acrt")`, sets the corresponding ATT/ACRT and unit labels, and saves the official figure with `ggplot2::ggsave`.
+- The path is relative to the specification; PDF, PNG and SVG are supported, and dimensions are in inches.
+- `official_plot` records its absolute path, SHA-256, function, target, aggregation, format and native-fit hash.
+- This plot uses the existing fit.
+- The gallery and Writing consume its figure reference or the saved curve rows and definitions through the [result artifact owner](../../../econ-writing/references/result-artifacts.md).
 
 Sources: Callaway, Goodman-Bacon and Sant'Anna, [arXiv v8, December 31, 2025, Sections 3.1-3.2 and 5.2, Appendix C](https://arxiv.org/html/2107.02637v8); [NBER Working Paper 32117](https://www.nber.org/papers/w32117); [contdid 0.1.2 CRAN source](https://cran.r-project.org/src/contrib/contdid_0.1.2.tar.gz); [versioned author source, commit b45e42e](https://github.com/bcallaway11/contdid/blob/b45e42e0739d88db7160d4a25c8693e0232ab4cc/R/cont_did.R); [official function](https://bcallaway11.github.io/contdid/reference/cont_did.html); [official plotting function](https://bcallaway11.github.io/contdid/reference/ggcont_did.html). The versioned source and returned object establish the actual forwarding, weighting and inference contract.
-

@@ -1,32 +1,108 @@
 ## Overlapping generations
 
-`skills/econ-data/scripts/research_macro_extended.py` implements a two-period deterministic-perfect-foresight model conditional on the supplied technology path. Each period a unit mass of young households and a unit mass of old households coexist. Young types `i` have weights `ω_i` summing to one and labor efficiencies `e_i`; effective labor is `L = Σω_i e_i`. Young income is `m_i = w e_i + Π − G`; young consumption and investment are `c_i = m_i − s_i`. Old consumption is `d_i = (1−δ+r)s_i` one period after saving. Young households maximize `log(c_i)+β log(d_i)` subject to `0 ≤ s_i ≤ θ m_i`. Hence `s_i = min{β/(1+β), θ} m_i`. The multiplier on the investment limit is `β/s_i − 1/c_i`; it is zero when slack and positive when binding. The limit represents financial capacity tied to current disposable income. It is an explicit saving/investment constraint, whose collateral capacity is `θ m_i`.
+- `skills/econ-data/scripts/research_macro_extended.py` implements a two-period deterministic-perfect-foresight model conditional on the supplied technology path.
+- Each period a unit mass of young households and a unit mass of old households coexist.
+- Young types `i` have weights `ω_i` summing to one and labor efficiencies `e_i`; effective labor is `L = Σω_i e_i`.
+- Young income is `m_i = w e_i + Π − G`; young consumption and investment are `c_i = m_i − s_i`.
+- Old consumption is `d_i = (1−δ+r)s_i` one period after saving.
+- Young households maximize `log(c_i)+β log(d_i)` subject to `0 ≤ s_i ≤ θ m_i`.
+- Hence `s_i = min{β/(1+β), θ} m_i`.
+- The multiplier on the investment limit is `β/s_i − 1/c_i`; it is zero when slack and positive when binding.
+- The limit represents financial capacity tied to current disposable income.
+- It is an explicit saving/investment constraint, whose collateral capacity is `θ m_i`.
 
-Firm `j` has fixed labor fraction `ℓ_j`, productivity `A_j` and output `A_j K_j^α(ℓ_j L)^(1−α)`. Firms pay common factor prices equal to marginal products divided by the gross markup `μ ≥ 1`, and distribute profits uniformly to the young. The allocation equalizes marginal products: `K_j/K = ℓ_j A_j^(1/(1−α)) / Σ_j ℓ_j A_j^(1/(1−α))`. Aggregate output is `Y = exp(z) A K^α L^(1−α)`, with `A = [Σ_j ℓ_j A_j^(1/(1−α))]^(1−α)`. Factor prices are `w=(1−α)Y/(μL)` and `r=αY/(μK)`; profits are `Π=(1−1/μ)Y`. The markup is an exogenous reduced-form competition wedge, so this is a macro–IO comparison through factor prices and profit rebating. Government absorbs `G=gY`, financed by a uniform lump-sum levy on young households. Inputs must make every type's disposable income positive.
+- Firm `j` has fixed labor fraction `ℓ_j`, productivity `A_j` and output `A_j K_j^α(ℓ_j L)^(1−α)`.
+- Firms pay common factor prices equal to marginal products divided by the gross markup `μ ≥ 1`, and distribute profits uniformly to the young.
+- The allocation equalizes marginal products: `K_j/K = ℓ_j A_j^(1/(1−α)) / Σ_j ℓ_j A_j^(1/(1−α))`.
+- Aggregate output is `Y = exp(z) A K^α L^(1−α)`, with `A = [Σ_j ℓ_j A_j^(1/(1−α))]^(1−α)`.
+- Factor prices are `w=(1−α)Y/(μL)` and `r=αY/(μK)`; profits are `Π=(1−1/μ)Y`.
+- The markup is an exogenous reduced-form competition wedge, so this is a macro–IO comparison through factor prices and profit rebating.
+- Government absorbs `G=gY`, financed by a uniform lump-sum levy on young households.
+- Inputs must make every type's disposable income positive.
 
-Markets clear when `K[t+1]=Σω_i s_i[t]`. Given the steady saving fraction `b=min{β/(1+β), θ}`, stationary capital is `[b((1−α)/μ+1−1/μ−g) A L^(1−α)]^(1/(1−α))`. The reported resource residual is `Σω_i(c_i[t]+d_i[t])+G[t]+K[t+1]−[(1−δ)K[t]+Y[t]]`; the capital-market residual is `K[t+1]−Σω_i s_i[t]`. Cohort welfare uses its actual next-period return, including the scenario's next technology value. The final cohort uses the AR(1) continuation value of technology and constant policy. The initial old cohort holds the baseline steady-state asset distribution. Thus transitions include both old and young allocations. The model supplies a finite-horizon perfect-foresight transition conditional on the stated technology path and steady state, with type distributions, investment, government absorption, profits and welfare.
+- Markets clear when `K[t+1]=Σω_i s_i[t]`.
+- Given the steady saving fraction `b=min{β/(1+β), θ}`, stationary capital is `[b((1−α)/μ+1−1/μ−g) A L^(1−α)]^(1/(1−α))`.
+- The reported resource residual is `Σω_i(c_i[t]+d_i[t])+G[t]+K[t+1]−[(1−δ)K[t]+Y[t]]`; the capital-market residual is `K[t+1]−Σω_i s_i[t]`.
+- Cohort welfare uses its actual next-period return, including the scenario's next technology value.
+- The final cohort uses the AR(1) continuation value of technology and constant policy.
+- The initial old cohort holds the baseline steady-state asset distribution.
+- Thus transitions include both old and young allocations.
+- The model supplies a finite-horizon perfect-foresight transition conditional on the stated technology path and steady state, with type distributions, investment, government absorption, profits and welfare.
 
-The observation equation is `z[t]=ρ z[t−1]+ε[t]`. `scipy.optimize.least_squares` minimizes the sum of squared innovations over `−.99 ≤ ρ ≤ .99`. The estimand is conditional persistence; identification uses nonzero lag variation and orthogonality of innovations to lagged productivity. The result records the actual residuals, objective, Jacobian rank and norm, and optimizer settings. Each specification identifies a CSV path, SHA-256, period column, productivity column, source and observation type. Period IDs must be ordered consecutive integers; productivity must be finite and represent equally spaced log productivity. Relative paths resolve against the specification directory. The result records the verified hash, column IDs, period bounds and row count.
+- The observation equation is `z[t]=ρ z[t−1]+ε[t]`.
+- `scipy.optimize.least_squares` minimizes the sum of squared innovations over `−.99 ≤ ρ ≤ .99`.
+- The estimand is conditional persistence; identification uses nonzero lag variation and orthogonality of innovations to lagged productivity.
+- The result records the actual residuals, objective, Jacobian rank and norm, and optimizer settings.
+- Each specification identifies a CSV path, SHA-256, period column, productivity column, source and observation type.
+- Period IDs must be ordered consecutive integers; productivity must be finite and represent equally spaced log productivity.
+- Relative paths resolve against the specification directory.
+- The result records the verified hash, column IDs, period bounds and row count.
 
-The official Sequence-Jacobian `simple` block and `solve_jacobian` solve the capital-clearing equation and map a vector of log technology changes to output changes at the baseline steady state. Since `d log K[t+1]=α d log K[t]+dz[t]`, `dY[t]/dz[s]=Y*α^(t−s)` for `s ≤ t` and zero otherwise. The program checks the official result against the analytic matrix with maximum absolute error below `1e−7`; the saved `analytic_max_abs_error` retains that original-equation comparison. The general transition compares a specified technology shock `z[t]=shock*ρ^t` and scenario policy against the stationary baseline; its differences are the joint policy and technology response. Run one change at a time to attribute individual shocks.
+- The official Sequence-Jacobian `simple` block and `solve_jacobian` solve the capital-clearing equation and map a vector of log technology changes to output changes at the baseline steady state.
+- Since `d log K[t+1]=α d log K[t]+dz[t]`, `dY[t]/dz[s]=Y*α^(t−s)` for `s ≤ t` and zero otherwise.
+- The program checks the official result against the analytic matrix with maximum absolute error below `1e−7`; the saved `analytic_max_abs_error` retains that original-equation comparison.
+- The general transition compares a specified technology shock `z[t]=shock*ρ^t` and scenario policy against the stationary baseline; its differences are the joint policy and technology response.
+- Run one change at a time to attribute individual shocks.
 
-The JSON specification requires `parameters` with `alpha`, `beta`, `delta`, `household_weights`, `household_efficiency`, `firm_labor_shares`, `firm_productivity`; `observations.path`, `observations.sha256`, `observations.period_column`, `observations.value_column`, `observations.type`, `observations.source`; baseline and scenario objects with `markup`, `collateral_income_limit`, `government_share`; `horizon` and `technology_shock`. Shares are positive and sum to one. Periods are discrete and all levels are model units per cohort. The optimizer runs in SciPy and the aggregate solution uses the equations above. Resource residuals exceeding `1e−8` cause failure. Named finite statistics carry units; paths, the observation equation, the full specification and package versions are retained.
+- The JSON specification requires `parameters` with `alpha`, `beta`, `delta`, `household_weights`, `household_efficiency`, `firm_labor_shares`, `firm_productivity`; `observations.path`, `observations.sha256`, `observations.period_column`, `observations.value_column`, `observations.type`, `observations.source`; baseline and scenario objects with `markup`, `collateral_income_limit`, `government_share`; `horizon` and `technology_shock`.
+- Shares are positive and sum to one.
+- Periods are discrete and all levels are model units per cohort.
+- The optimizer runs in SciPy and the aggregate solution uses the equations above.
+- Resource residuals exceeding `1e−8` cause failure.
+- Named finite statistics carry units; paths, the observation equation, the full specification and package versions are retained.
 
-Run `python skills/econ-data/scripts/research_macro_extended.py run SPEC.json --output RESULT.json`. `requirements-macro.txt` specifies NumPy, SciPy, statsmodels 0.14.6, Sequence-Jacobian 1.0.0 and HARK 0.17.2 (`econ-ark`). The existing `research_macro.py` separately solves an infinite-lived representative household over a finite horizon with a fixed terminal capital condition.
+- Run `python skills/econ-data/scripts/research_macro_extended.py run SPEC.json --output RESULT.json`.
+- `requirements-macro.txt` specifies NumPy, SciPy, statsmodels 0.14.6, Sequence-Jacobian 1.0.0 and HARK 0.17.2 (`econ-ark`).
+- The existing `research_macro.py` separately solves an infinite-lived representative household over a finite horizon with a fixed terminal capital condition.
 
 ## Stationary Aiyagari equilibrium
 
-Set `model: "aiyagari"` in the same runner. A unit mass of infinitely lived households supplies labor efficiency `z` inelastically, receives competitive wages and capital returns, and chooses next-period assets from the supplied finite grid. Efficiency follows the supplied irreducible Markov matrix `P`. The household maximizes `E Σ beta^t u(c_t)`, where `u(c)=log(c)` for `crra=1` and `u(c)=c^(1−crra)/(1−crra)` otherwise. Its budget is `c+a'=wz+(1+r)a`, with strictly positive consumption and `a'` on the asset grid. The smallest and largest grid points are the model's asset bounds. The Bellman equation is `V(a,z)=max_a' {u(wz+(1+r)a−a')+beta Σ_z' P[z,z'] V(a',z')}`. The maximizing policy is `g(a,z)`.
+- Set `model: "aiyagari"` in the same runner.
+- A unit mass of infinitely lived households supplies labor efficiency `z` inelastically, receives competitive wages and capital returns, and chooses next-period assets from the supplied finite grid.
+- Efficiency follows the supplied irreducible Markov matrix `P`.
+- The household maximizes `E Σ beta^t u(c_t)`, where `u(c)=log(c)` for `crra=1` and `u(c)=c^(1−crra)/(1−crra)` otherwise.
+- Its budget is `c+a'=wz+(1+r)a`, with strictly positive consumption and `a'` on the asset grid.
+- The smallest and largest grid points are the model's asset bounds.
+- The Bellman equation is `V(a,z)=max_a' {u(wz+(1+r)a−a')+beta Σ_z' P[z,z'] V(a',z')}`.
+- The maximizing policy is `g(a,z)`.
 
-Let `pi` be the invariant distribution of the income process and `L=Σ_z pi(z)z`. The competitive firm produces `Y=A K^alpha L^(1−alpha)` and pays `r=alpha Y/K−delta` and `w=(1−alpha)Y/L`. The joint stationary distribution satisfies `mu(a',z')=Σ_a,z mu(a,z) 1[g(a,z)=a'] P[z,z']`. A stationary general equilibrium also satisfies `K=Σ_a,z mu(a,z)a` and `Y=C+delta K`. Baseline and scenario each solve the household problem, its invariant distribution and the capital market at their own productivity. The two outputs are stationary equilibria.
+- Let `pi` be the invariant distribution of the income process and `L=Σ_z pi(z)z`.
+- The competitive firm produces `Y=A K^alpha L^(1−alpha)` and pays `r=alpha Y/K−delta` and `w=(1−alpha)Y/L`.
+- The joint stationary distribution satisfies `mu(a',z')=Σ_a,z mu(a,z) 1[g(a,z)=a'] P[z,z']`.
+- A stationary general equilibrium also satisfies `K=Σ_a,z mu(a,z)a` and `Y=C+delta K`.
+- Baseline and scenario each solve the household problem, its invariant distribution and the capital market at their own productivity.
+- The two outputs are stationary equilibria.
 
-The implementation passes feasible state-action rewards and a SciPy sparse transition matrix directly to official `quantecon.markov.DiscreteDP(R,Q,beta,s_indices,a_indices).solve(method="policy_iteration",max_iter=...)`. With finite states and actions and `0<beta<1`, policy iteration evaluates and improves a policy until it stops changing. The returned `mc.stationary_distributions` supplies the joint invariant distribution. This runner requires one recurrent class for every evaluated household policy. Multiple classes produce an error identifying their count; the runner makes no distribution selection. The [QuantEcon DiscreteDP source](https://github.com/QuantEcon/QuantEcon.py/blob/d30c9000a96d7ae1d434bdecb4aa63d285a18599/quantecon/markov/ddp.py) and [MarkovChain source](https://github.com/QuantEcon/QuantEcon.py/blob/d30c9000a96d7ae1d434bdecb4aa63d285a18599/quantecon/markov/core.py) define these APIs. The dependency pin is `quantecon==0.13.1`. The [official Aiyagari model](https://github.com/QuantEcon/lecture-python.myst/blob/4d82fffbb1280f8f6980a45dbe518e677f5c9a39/lectures/aiyagari.md) states the household budget, firm prices and stationary market-clearing conditions.
+- The implementation passes feasible state-action rewards and a SciPy sparse transition matrix directly to official `quantecon.markov.DiscreteDP(R,Q,beta,s_indices,a_indices).solve(method="policy_iteration",max_iter=...)`.
+- With finite states and actions and `0<beta<1`, policy iteration evaluates and improves a policy until it stops changing.
+- The returned `mc.stationary_distributions` supplies the joint invariant distribution.
+- This runner requires one recurrent class for every evaluated household policy.
+- Multiple classes produce an error identifying their count; the runner makes no distribution selection.
+- The [QuantEcon DiscreteDP source](https://github.com/QuantEcon/QuantEcon.py/blob/d30c9000a96d7ae1d434bdecb4aa63d285a18599/quantecon/markov/ddp.py) and [MarkovChain source](https://github.com/QuantEcon/QuantEcon.py/blob/d30c9000a96d7ae1d434bdecb4aa63d285a18599/quantecon/markov/core.py) define these APIs.
+- The dependency pin is `quantecon==0.13.1`.
+- The [official Aiyagari model](https://github.com/QuantEcon/lecture-python.myst/blob/4d82fffbb1280f8f6980a45dbe518e677f5c9a39/lectures/aiyagari.md) states the household budget, firm prices and stationary market-clearing conditions.
 
-SciPy `brentq` searches the declared capital bracket. At each candidate capital the household problem and stationary distribution are solved again. Finite asset choices give a capital-supply curve with jumps. The result selects the evaluated candidate with the smallest absolute capital-market residual and accepts it only when both the declared capital and resource tolerances hold and the root search has converged. A small root interval alone cannot complete the calculation. The saved diagnostics evaluate the original Bellman maximum, chosen-policy value equation, household budgets, distribution propagation, total mass, income marginal, capital market and aggregate resources. They also return minimum consumption, mass at both asset-grid boundaries, and the stationary identity `Σmu V=Σmu u(c)/(1−beta)`. Bellman and distribution residuals must meet their respective declared tolerances.
+- SciPy `brentq` searches the declared capital bracket.
+- At each candidate capital the household problem and stationary distribution are solved again.
+- Finite asset choices give a capital-supply curve with jumps.
+- The result selects the evaluated candidate with the smallest absolute capital-market residual and accepts it only when both the declared capital and resource tolerances hold and the root search has converged.
+- A small root interval alone cannot complete the calculation.
+- The saved diagnostics evaluate the original Bellman maximum, chosen-policy value equation, household budgets, distribution propagation, total mass, income marginal, capital market and aggregate resources.
+- They also return minimum consumption, mass at both asset-grid boundaries, and the stationary identity `Σmu V=Σmu u(c)/(1−beta)`.
+- Bellman and distribution residuals must meet their respective declared tolerances.
 
-The specification requires `calibration_source`; `parameters.alpha`, `beta`, `delta`, `crra`, `asset_grid`, `income_states`, `income_transition`; `baseline.productivity`; `scenario.productivity`; and `solver.capital_bracket`, `capital_tolerance`, `bellman_tolerance`, `distribution_tolerance`, `resource_tolerance`, `max_iterations`. Asset points must be finite and increasing; labor efficiencies must be positive; transition rows must be nonnegative and sum to one. Every state must admit positive consumption at every evaluated price. All supplied primitives are calibrated, and `calibration.estimated_parameters` is empty. The result records the full adopted specification, package versions, input and producer hashes, every evaluated market residual, policy iteration counts, prices, aggregates, policies, values and distributions. State arrays use asset-major, income-minor order.
+- The specification requires `calibration_source`; `parameters.alpha`, `beta`, `delta`, `crra`, `asset_grid`, `income_states`, `income_transition`; `baseline.productivity`; `scenario.productivity`; and `solver.capital_bracket`, `capital_tolerance`, `bellman_tolerance`, `distribution_tolerance`, `resource_tolerance`, `max_iterations`.
+- Asset points must be finite and increasing; labor efficiencies must be positive; transition rows must be nonnegative and sum to one.
+- Every state must admit positive consumption at every evaluated price.
+- All supplied primitives are calibrated, and `calibration.estimated_parameters` is empty.
+- The result records the full adopted specification, package versions, input and producer hashes, every evaluated market residual, policy iteration counts, prices, aggregates, policies, values and distributions.
+- State arrays use asset-major, income-minor order.
 
-The saved `displays` dictionary contains `equilibrium`, `asset_policy`, `distribution`, `welfare` and `diagnostics`. Each display supplies `rows`, `columns`, `metadata` and its plotting specification for the existing gallery. Policy and distribution rows identify scenario, current asset, income state, labor efficiency, series, value and unit. Capital is goods per household; consumption and output are goods per household per period; invariant mass is a population probability. Welfare is `Σmu V` in expected discounted utility per household using each scenario's stationary distribution. The stationary consumption equivalent is the permanent fraction change in baseline consumption yielding scenario stationary utility: `(W_s/W_b)^(1/(1−crra))−1` for CRRA and `exp((1−beta)(W_s−W_b))−1` for log utility.
+- The saved `displays` dictionary contains `equilibrium`, `asset_policy`, `distribution`, `welfare` and `diagnostics`.
+- Each display supplies `rows`, `columns`, `metadata` and its plotting specification for the existing gallery.
+- Policy and distribution rows identify scenario, current asset, income state, labor efficiency, series, value and unit.
+- Capital is goods per household; consumption and output are goods per household per period; invariant mass is a population probability.
+- Welfare is `Σmu V` in expected discounted utility per household using each scenario's stationary distribution.
+- The stationary consumption equivalent is the permanent fraction change in baseline consumption yielding scenario stationary utility: `(W_s/W_b)^(1/(1−crra))−1` for CRRA and `exp((1−beta)(W_s−W_b))−1` for log utility.
 
 Run the adopted Aiyagari specification through `python skills/econ-data/scripts/research_macro_extended.py run SPEC.json --output RESULT.json`. A specification with `model="olg"` or without a `model` field uses the OLG entry point.
-

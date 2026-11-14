@@ -2,37 +2,113 @@
 
 Use for quantile treatment effects, distributional DiD (quantile DiD, changes in changes) and post-estimation predictions and contrasts from a saved fit.
 
-The official `qte` 2.0.0 functions estimate marginal quantile effects. `qte` calls `qte::unc_qte(target="qte")` for Q_Y(1)(τ)−Q_Y(0)(τ) in the full target population; `qtt` calls the same function with `target="qtt"` for that difference among treated units. Conditional exchangeability, consistency and target-population overlap identify the distributions. The adopted `est_method` chooses IPW, outcome regression or AIPW and their corresponding nuisance restrictions. The existing `quantile` method estimates the conditional quantile coefficient β_τ in Q_τ(Y given X)=Xβ_τ.
+- The official `qte` 2.0.0 functions estimate marginal quantile effects.
+- `qte` calls `qte::unc_qte(target="qte")` for Q_Y(1)(τ)−Q_Y(0)(τ) in the full target population; `qtt` calls the same function with `target="qtt"` for that difference among treated units.
+- Conditional exchangeability, consistency and target-population overlap identify the distributions.
+- The adopted `est_method` chooses IPW, outcome regression or AIPW and their corresponding nuisance restrictions.
+- The existing `quantile` method estimates the conditional quantile coefficient β_τ in Q_τ(Y given X)=Xβ_τ.
 
-`quantile_did` calls `qte::qdid`; `changes_in_changes` calls `qte::cic`. Both request `gt_type="qtt"`. Quantile DID requires parallel trends in the untreated marginal quantiles at the adopted ranks, no anticipation and stable comparison populations. Changes in changes uses an outcome transformation strictly increasing in the latent rank and a time-invariant latent-rank distribution within each group. The observed common-support condition determines where the counterfactual distribution is identified. Conditional implementations use the official native covariate adjustment before forming the marginal target. Mean parallel trends alone does not select either distributional identification design.
+- `quantile_did` calls `qte::qdid`; `changes_in_changes` calls `qte::cic`.
+- Both request `gt_type="qtt"`.
+- Quantile DID requires parallel trends in the untreated marginal quantiles at the adopted ranks, no anticipation and stable comparison populations.
+- Changes in changes uses an outcome transformation strictly increasing in the latent rank and a time-invariant latent-rank distribution within each group.
+- The observed common-support condition determines where the counterfactual distribution is identified.
+- Conditional implementations use the official native covariate adjustment before forming the marginal target.
+- Mean parallel trends alone does not select either distributional identification design.
 
-Use the common run schema with `inference={"type":"official"}`, numerical `outcome`, pretreatment `regressors` and empty `endogenous`/`instruments`. Cross-sectional methods require `options.treatment` and a nonnegative integer `seed`. The panel or repeated-cross-section methods require `options.entity`, `time`, `cohort` and `seed`; `cohort` is the first-treatment period, with never-treated units coded zero. Each input row has a unique `id`; panel entity-time pairs are unique. Native `args.panel`, `control_group`, `anticipation`, `method`, `est_method` and other supported arguments retain their official definitions. The 2.0.0 setup requires a never-treated cohort. Complete-case exclusions and subsequent official preprocessing exclusions are saved by original row ID.
+- Use the common run schema with `inference={"type":"official"}`, numerical `outcome`, pretreatment `regressors` and empty `endogenous`/`instruments`.
+- Cross-sectional methods require `options.treatment` and a nonnegative integer `seed`.
+- The panel or repeated-cross-section methods require `options.entity`, `time`, `cohort` and `seed`; `cohort` is the first-treatment period, with never-treated units coded zero.
+- Each input row has a unique `id`; panel entity-time pairs are unique.
+- Native `args.panel`, `control_group`, `anticipation`, `method`, `est_method` and other supported arguments retain their official definitions.
+- The 2.0.0 setup requires a never-treated cohort.
+- Complete-case exclusions and subsequent official preprocessing exclusions are saved by original row ID.
 
-`options.args.probs` is an increasing grid strictly between zero and one; its default is .05 through .95 in .05 steps. `args.weightsname` binds positive sampling weights to a data column. `args.biters` sets the seeded official empirical bootstrap, `args.alp` is the significance level and `args.cl` sets native workers. The runner defaults to 100 repetitions and one worker. Cross-sectional resampling uses observations; panel resampling uses entities. These native functions expose no additional cluster argument. `unc_qte` 2.0.0 resamples data without resampling its separate weight vector. `ptetools` 1.0.1 and 1.0.2 omit `weightsname` when rebuilding QTT bootstrap samples, resetting their weights to one. The runner rejects sampling-weight arguments for these versions. A weighted target requires an official implementation that preserves observation-weight correspondence in its bootstrap. `unc_qte` 2.0.0 computes pointwise normal-reference intervals from bootstrap standard errors; its `cband` argument does not change the returned endpoints in that version, so this route requires `cband=false`. `qdid` and `cic` return pointwise and simultaneous endpoints; `args.cband` selects the saved family, with the simultaneous family applying across quantiles within each curve.
+- `options.args.probs` is an increasing grid strictly between zero and one; its default is .05 through .95 in .05 steps.
+- `args.weightsname` binds positive sampling weights to a data column.
+- `args.biters` sets the seeded official empirical bootstrap, `args.alp` is the significance level and `args.cl` sets native workers.
+- The runner defaults to 100 repetitions and one worker.
+- Cross-sectional resampling uses observations; panel resampling uses entities.
+- These native functions expose no additional cluster argument.
+- `unc_qte` 2.0.0 resamples data without resampling its separate weight vector.
+- `ptetools` 1.0.1 and 1.0.2 omit `weightsname` when rebuilding QTT bootstrap samples, resetting their weights to one.
+- The runner rejects sampling-weight arguments for these versions.
+- A weighted target requires an official implementation that preserves observation-weight correspondence in its bootstrap.
+- `unc_qte` 2.0.0 computes pointwise normal-reference intervals from bootstrap standard errors; its `cband` argument does not change the returned endpoints in that version, so this route requires `cband=false`.
+- `qdid` and `cic` return pointwise and simultaneous endpoints; `args.cband` selects the saved family, with the simultaneous family applying across quantiles within each curve.
 
-For DID, `options.aggregation` selects `overall` (default), `dynamic` or `group`. Official `ptetools` aggregation mixes the relevant potential-outcome CDFs using its cohort-period weights, then extracts their quantiles. Saved native fits retain the official preprocessing and aggregation object. Result rows retain the quantile, effect, bootstrap standard error, selected interval and event/cohort component. The main display has `kind="qte"`.
+- For DID, `options.aggregation` selects `overall` (default), `dynamic` or `group`.
+- Official `ptetools` aggregation mixes the relevant potential-outcome CDFs using its cohort-period weights, then extracts their quantiles.
+- Saved native fits retain the official preprocessing and aggregation object.
+- Result rows retain the quantile, effect, bootstrap standard error, selected interval and event/cohort component.
+- The main display has `kind="qte"`.
 
-For `quantile_did` and `changes_in_changes`, `displays.counterfactual_distribution` saves the official overall untreated counterfactual and treated potential-outcome CDFs at `options.distribution_grid`, or at their combined knots. Its explicit ECDF display uses `component` to separate the curves, probability on the vertical axis and `outcome_unit` on the horizontal axis. For `qdid`/`cic`, these are the native aggregated F0/F1 functions. For `unc_qte` 2.0.0, `displays.quantile_grid_distribution` saves its returned F objects: ECDFs of the potential-outcome quantiles on the requested `probs` grid. The grid ECDF has a distinct target from the potential-outcome CDF; the display name and estimand record that target. Their CDF coordinates carry no inferred confidence band. Sources: [qte 2.0.0 release and source](https://cran.rstudio.com/web/packages/qte/index.html), [unc_qte interface](https://bcallaway11.github.io/qte/reference/unc_qte.html), [qdid interface](https://bcallaway11.github.io/qte/reference/qdid.html) and [ptetools 1.0.1 source](https://cran.rstudio.com/src/contrib/ptetools_1.0.1.tar.gz).
+- For `quantile_did` and `changes_in_changes`, `displays.counterfactual_distribution` saves the official overall untreated counterfactual and treated potential-outcome CDFs at `options.distribution_grid`, or at their combined knots.
+- Its explicit ECDF display uses `component` to separate the curves, probability on the vertical axis and `outcome_unit` on the horizontal axis.
+- For `qdid`/`cic`, these are the native aggregated F0/F1 functions.
+- For `unc_qte` 2.0.0, `displays.quantile_grid_distribution` saves its returned F objects: ECDFs of the potential-outcome quantiles on the requested `probs` grid.
+- The grid ECDF has a distinct target from the potential-outcome CDF; the display name and estimand record that target.
+- Their CDF coordinates carry no inferred confidence band.
+- Sources: [qte 2.0.0 release and source](https://cran.rstudio.com/web/packages/qte/index.html), [unc_qte interface](https://bcallaway11.github.io/qte/reference/unc_qte.html), [qdid interface](https://bcallaway11.github.io/qte/reference/qdid.html) and [ptetools 1.0.1 source](https://cran.rstudio.com/src/contrib/ptetools_1.0.1.tar.gz).
 
 ## Saved-fit marginal effects, predictions and contrasts
 
-`marginaleffects` calls the official function named by `options.function`: `slopes`, `avg_slopes`, `predictions`, `avg_predictions`, `comparisons` or `avg_comparisons`. The adopted source is **1.0.0.10005**, [commit 9ac42288138c25966ab901f64c60c859bc23e664](https://github.com/vincentarelbundock/marginaleffects/tree/9ac42288138c25966ab901f64c60c859bc23e664/r). Use the common run schema with `data` pointing to a saved result JSON containing the hashed `R-serialize-v3` fit/data/IDs bundle, and `inference={"type":"official"}`. The runner loads the original model package from the saved `source_model.engine`, falling back to `engine` for an initial fitted result. It restores the native fit, attaches the original estimation data with `marginaleffects::set_modeldata`, and computes the requested quantity. Each post-estimation result preserves the original `source_model` and the fit/data/IDs bundle, so a saved post-estimation result can supply the model for another call.
+- `marginaleffects` calls the official function named by `options.function`: `slopes`, `avg_slopes`, `predictions`, `avg_predictions`, `comparisons` or `avg_comparisons`.
+- The adopted source is **1.0.0.10005**, [commit 9ac42288138c25966ab901f64c60c859bc23e664](https://github.com/vincentarelbundock/marginaleffects/tree/9ac42288138c25966ab901f64c60c859bc23e664/r).
+- Use the common run schema with `data` pointing to a saved result JSON containing the hashed `R-serialize-v3` fit/data/IDs bundle, and `inference={"type":"official"}`.
+- The runner loads the original model package from the saved `source_model.engine`, falling back to `engine` for an initial fitted result.
+- It restores the native fit, attaches the original estimation data with `marginaleffects::set_modeldata`, and computes the requested quantity.
+- Each post-estimation result preserves the original `source_model` and the fit/data/IDs bundle, so a saved post-estimation result can supply the model for another call.
 
-Select `design="post_estimation"` and the exact native function. The target/function pairs are `marginal_effect`/`slopes`, `average_marginal_effect`/`avg_slopes`, `prediction` or `probability`/`predictions` or `avg_predictions`, and `prediction_contrast`/`comparisons` or `avg_comparisons`. The selector binds the adopted evaluation-weight column, confidence level and cluster formula into native arguments. Its `probability` target binds `args.type="response"`; a direct run retains the explicitly supplied model-supported scale, including `type="probs"` for `nnet::multinom`.
+- Select `design="post_estimation"` and the exact native function.
+- The target/function pairs are `marginal_effect`/`slopes`, `average_marginal_effect`/`avg_slopes`, `prediction` or `probability`/`predictions` or `avg_predictions`, and `prediction_contrast`/`comparisons` or `avg_comparisons`.
+- The selector binds the adopted evaluation-weight column, confidence level and cluster formula into native arguments.
+- Its `probability` target binds `args.type="response"`; a direct run retains the explicitly supplied model-supported scale, including `type="probs"` for `nnet::multinom`.
 
-The original estimation sample is the default evaluation population. An alternative population supplies both `options.evaluation_data` (CSV) and `evaluation_id`; its IDs are nonmissing, unique and retained in input order. `population`, `period`, `estimand` and `unit` describe this evaluation target. `options.args` contains the selected function's native arguments; `model` and `newdata` are bound by the saved source and evaluation specification. `source_model` records the original engine, versions, native-fit hash, sample and adopted specification. Diagnostics retain the estimation and evaluation IDs, weights and counts separately. Saved-result inputs accept plain JSON and gzip-compressed JSON through the shared result reader. Both representations pass the same parsed result to R and retain the native-fit bytes and hash.
+- The original estimation sample is the default evaluation population.
+- An alternative population supplies both `options.evaluation_data` (CSV) and `evaluation_id`; its IDs are nonmissing, unique and retained in input order.
+- `population`, `period`, `estimand` and `unit` describe this evaluation target.
+- `options.args` contains the selected function's native arguments; `model` and `newdata` are bound by the saved source and evaluation specification.
+- `source_model` records the original engine, versions, native-fit hash, sample and adopted specification.
+- Diagnostics retain the estimation and evaluation IDs, weights and counts separately.
+- Saved-result inputs accept plain JSON and gzip-compressed JSON through the shared result reader.
+- Both representations pass the same parsed result to R and retain the native-fit bytes and hash.
 
-The runner restores each evaluation factor's levels and ordering from the saved model data and rejects values outside those levels. When official [`pad()`](https://github.com/vincentarelbundock/marginaleffects/blob/9ac42288138c25966ab901f64c60c859bc23e664/r/R/pad.R) constructs rows for factor levels, it assigns unique IDs `-seq_len(nrow(padding))`; official `unpad()` retains positive IDs in the estimate table. `components(result,"newdata")` still contains the padding rows. ERS records their negative IDs in `diagnostics.padding_row_ids` and removes those rows before constructing evaluation IDs or weight denominators. These rows support prediction-matrix construction and carry zero population membership in the saved result.
+- The runner restores each evaluation factor's levels and ordering from the saved model data and rejects values outside those levels.
+- When official [`pad()`](https://github.com/vincentarelbundock/marginaleffects/blob/9ac42288138c25966ab901f64c60c859bc23e664/r/R/pad.R) constructs rows for factor levels, it assigns unique IDs `-seq_len(nrow(padding))`; official `unpad()` retains positive IDs in the estimate table.
+- `components(result,"newdata")` still contains the padding rows.
+- ERS records their negative IDs in `diagnostics.padding_row_ids` and removes those rows before constructing evaluation IDs or weight denominators.
+- These rows support prediction-matrix construction and carry zero population membership in the saved result.
 
-Slopes differentiate the fitted prediction. Comparisons evaluate a specified change, such as `args.variables={"am":[0,1]}`. Their `avg_` variants average the unit-level quantities over the declared evaluation population. Native `args.variables`, `type`, `comparison`, `by` and other accepted arguments retain their official meanings. Multiple response categories remain in the returned `group` column, while individual estimates retain `rowid` and the corresponding `observation_id`.
+- Slopes differentiate the fitted prediction.
+- Comparisons evaluate a specified change, such as `args.variables={"am":[0,1]}`.
+- Their `avg_` variants average the unit-level quantities over the declared evaluation population.
+- Native `args.variables`, `type`, `comparison`, `by` and other accepted arguments retain their official meanings.
+- Multiple response categories remain in the returned `group` column, while individual estimates retain `rowid` and the corresponding `observation_id`.
 
-Saved `term` and statistic keys retain their function-and-row identifiers, and `variable` stores the native term. Average slopes and comparisons set the saved display's `term_column="variable"` for regression-table alignment. Their display rows serialize the returned `contrast`, response `group` and specified `by` columns into `panel`, preserving column names and values in sorted JSON form; a data-frame `by` uses its returned `by` label. Plot `term_labels` map the unchanged row identifiers to the native variable and `by` values, with `facet="contrast"` and `series="group"` when those columns are returned.
+- Saved `term` and statistic keys retain their function-and-row identifiers, and `variable` stores the native term.
+- Average slopes and comparisons set the saved display's `term_column="variable"` for regression-table alignment.
+- Their display rows serialize the returned `contrast`, response `group` and specified `by` columns into `panel`, preserving column names and values in sorted JSON form; a data-frame `by` uses its returned `by` label.
+- Plot `term_labels` map the unchanged row identifiers to the native variable and `by` values, with `facet="contrast"` and `series="group"` when those columns are returned.
 
-`args.wts=false` gives equal evaluation-row weights. A column name such as `"w"` or a numeric vector supplies evaluation weights; `true` retrieves the model interface's weight-column name and reads that column in the evaluation data. The official function rejects an unavailable weight column. These weights enter post-estimation averaging; the original fitting weights remain attached to the saved model. After excluding padding, ERS reads `marginaleffects_wts_internal` from the official processed data, preserves weights replicated across counterfactual scenarios, and records the total mass and each `by` group's row count and denominator. `rowidcf`, when present, maps expanded scenarios to original evaluation IDs. Response-category rows use the corresponding population denominator; repeated output categories do not multiply the population mass.
+- `args.wts=false` gives equal evaluation-row weights.
+- A column name such as `"w"` or a numeric vector supplies evaluation weights; `true` retrieves the model interface's weight-column name and reads that column in the evaluation data.
+- The official function rejects an unavailable weight column.
+- These weights enter post-estimation averaging; the original fitting weights remain attached to the saved model.
+- After excluding padding, ERS reads `marginaleffects_wts_internal` from the official processed data, preserves weights replicated across counterfactual scenarios, and records the total mass and each `by` group's row count and denominator.
+- `rowidcf`, when present, maps expanded scenarios to original evaluation IDs.
+- Response-category rows use the corresponding population denominator; repeated output categories do not multiply the population mass.
 
-The official function calculates standard errors and intervals from `args.vcov`, `df`, `conf_level` and `numderiv`. Omitted `vcov` uses the saved model covariance; a string beginning with `~` becomes an R cluster formula, and `vcov=false` suppresses inference. The default confidence level is .95 and the default reference has `df=Inf`, recorded explicitly in metadata. The runner retains returned pointwise endpoints, group labels, scale and finite-degree references. Each result saves native output, effective arguments, source and evaluation hashes, package versions and the original fit bundle. The gallery and Writing consume these saved rows and definitions.
+- The official function calculates standard errors and intervals from `args.vcov`, `df`, `conf_level` and `numderiv`.
+- Omitted `vcov` uses the saved model covariance; a string beginning with `~` becomes an R cluster formula, and `vcov=false` suppresses inference.
+- The default confidence level is .95 and the default reference has `df=Inf`, recorded explicitly in metadata.
+- The runner retains returned pointwise endpoints, group labels, scale and finite-degree references.
+- Each result saves native output, effective arguments, source and evaluation hashes, package versions and the original fit bundle.
+- The gallery and Writing consume these saved rows and definitions.
 
-The version guards retain the 0.66 restriction on `comparison="expdydx"`, `"expdydxavg"` and `"expdydxavgwts"` through version 1.0.0, whose derivative implementation divides by an extra `exp(eps)`; see the [official derivative correction](https://github.com/vincentarelbundock/marginaleffects/commit/870f15a0f79525cedebc6b73ee2446851f8bc66d). Factor padding requires at least **1.0.0.10004**, which supplies [unique negative row IDs](https://github.com/vincentarelbundock/marginaleffects/commit/701d7d8670e678d2d196e0975cf5342a6bd6987d). Prediction grouping by `Predicted`, `SE`, `CI_low` or `CI_high` requires at least **1.0.0.10005**, which [preserves the numerical result columns](https://github.com/vincentarelbundock/marginaleffects/commit/9ac42288138c25966ab901f64c60c859bc23e664). These guards apply before the affected official call.
+- The version guards retain the 0.66 restriction on `comparison="expdydx"`, `"expdydxavg"` and `"expdydxavgwts"` through version 1.0.0, whose derivative implementation divides by an extra `exp(eps)`; see the [official derivative correction](https://github.com/vincentarelbundock/marginaleffects/commit/870f15a0f79525cedebc6b73ee2446851f8bc66d).
+- Factor padding requires at least **1.0.0.10004**, which supplies [unique negative row IDs](https://github.com/vincentarelbundock/marginaleffects/commit/701d7d8670e678d2d196e0975cf5342a6bd6987d).
+- Prediction grouping by `Predicted`, `SE`, `CI_low` or `CI_high` requires at least **1.0.0.10005**, which [preserves the numerical result columns](https://github.com/vincentarelbundock/marginaleffects/commit/9ac42288138c25966ab901f64c60c859bc23e664).
+- These guards apply before the affected official call.
 
 Sources: versioned [slopes](https://github.com/vincentarelbundock/marginaleffects/blob/9ac42288138c25966ab901f64c60c859bc23e664/r/R/slopes.R), [predictions](https://github.com/vincentarelbundock/marginaleffects/blob/9ac42288138c25966ab901f64c60c859bc23e664/r/R/predictions.R), [comparisons](https://github.com/vincentarelbundock/marginaleffects/blob/9ac42288138c25966ab901f64c60c859bc23e664/r/R/comparisons.R) and [padding](https://github.com/vincentarelbundock/marginaleffects/blob/9ac42288138c25966ab901f64c60c859bc23e664/r/R/pad.R).
-

@@ -1,32 +1,81 @@
 ## Continuous-time entry and exit
 
-Two firms observe both activity indicators. Independent Poisson opportunities arrive at rate `λ` for each firm. At an opportunity the firm chooses whether to toggle activity, paying entry cost `K_e` or exit cost `K_x` if it toggles. Active firm `i` earns flow `π_i(s)=s_i(A-Bs_j)`. The discount rate is `ρ>0`; choice shocks are independent unit-scale type-I extreme value and normalized to mean zero for the inclusive calculation.
+- Two firms observe both activity indicators.
+- Independent Poisson opportunities arrive at rate `λ` for each firm.
+- At an opportunity the firm chooses whether to toggle activity, paying entry cost `K_e` or exit cost `K_x` if it toggles.
+- Active firm `i` earns flow `π_i(s)=s_i(A-Bs_j)`.
+- The discount rate is `ρ>0`; choice shocks are independent unit-scale type-I extreme value and normalized to mean zero for the inclusive calculation.
 
 With `T_i s` toggling firm `i`, let `d_i(s)=V_i(T_i s)-V_i(s)-K_i(s)` and `p_i(s)=1/(1+exp[-d_i(s)])`. Values solve the coupled equilibrium equations
 
 `ρV_i(s)=π_i(s)+λ log(1+exp[d_i(s)])+λ p_j(s)[V_i(T_j s)-V_i(s)]`.
 
-The first term after flow is the firm's optimal response at its own opportunity; the last is the rival's transition at its opportunity. The solver starts at zero values, records that selection rule, and checks the original coupled equations and policy response. Distinct roots can exist for different primitives and starts. A specification that selects another equilibrium requires its own documented selection procedure.
+- The first term after flow is the firm's optimal response at its own opportunity; the last is the rival's transition at its opportunity.
+- The solver starts at zero values, records that selection rule, and checks the original coupled equations and policy response.
+- Distinct roots can exist for different primitives and starts.
+- A specification that selects another equilibrium requires its own documented selection procedure.
 
-The endogenous generator has off-diagonal `Q(s,T_i s)=λ p_i(s)` and diagonal `-Σ_i λp_i(s)`. For `ν=max_s[-Q(s,s)]`, the sparse matrix `P=I+Q/ν` is stochastic, and the one-unit transition is `exp(Q)=exp(-ν) Σ_{k≥0} ν^k P^k/k!`. The execution calls official [`scipy.linalg.expm(Q)`](https://docs.scipy.org/doc/scipy-1.17.0/reference/generated/scipy.linalg.expm.html) directly and reports generator row sums, probability row sums and nonnegativity. `transition_probability_residual` and its named statistic `ct_transition_probability_residual` replace the former comparison between two implementations of the same matrix exponential. When opportunity data are supplied, a nested likelihood re-solves the coupled equilibrium while estimating entry cost, with the discount rate, arrival rate, flow parameters and exit cost fixed. The output reports the likelihood score, local choice information and response rank. The scenario resolves the fitted game after changing entry cost; its change in summed initial-state values is a private-value comparison, including the firms' normalized taste shocks.
+- The endogenous generator has off-diagonal `Q(s,T_i s)=λ p_i(s)` and diagonal `-Σ_i λp_i(s)`.
+- For `ν=max_s[-Q(s,s)]`, the sparse matrix `P=I+Q/ν` is stochastic, and the one-unit transition is `exp(Q)=exp(-ν) Σ_{k≥0} ν^k P^k/k!`.
+- The execution calls official [`scipy.linalg.expm(Q)`](https://docs.scipy.org/doc/scipy-1.17.0/reference/generated/scipy.linalg.expm.html) directly and reports generator row sums, probability row sums and nonnegativity.
+- `transition_probability_residual` and its named statistic `ct_transition_probability_residual` replace the former comparison between two implementations of the same matrix exponential.
+- When opportunity data are supplied, a nested likelihood re-solves the coupled equilibrium while estimating entry cost, with the discount rate, arrival rate, flow parameters and exit cost fixed.
+- The output reports the likelihood score, local choice information and response rank.
+- The scenario resolves the fitted game after changing entry cost; its change in summed initial-state values is a private-value comparison, including the firms' normalized taste shocks.
 
 These routines implement the stated models. The general finite-state game NFXP and MPEC interface is owned by `equity.py dynamic` and `equity_io.py`.
 
 ## Discrete-time entry game and policy deviations
 
-Two firms observe last period's activity `s=(s₁,s₂)` and independently choose current activity `a=(a₁,a₂)` simultaneously after receiving independent private type-I extreme-value shocks. Next period's state is `a`. Firm `i` earns `a_i(A-Ba_j)-K a_i(1-s_i)`. Discounting, shock normalization and zero-logit starting values select the recorded stationary Markov equilibrium. For each candidate policy, policy evaluation solves `V_i = (I-βP)^-1(r_i+H_i)` where `P` is the induced joint-action transition and `H_i` is the firm's binary entropy. A root solver equates each firm's policy to the logit of its two expected action values, integrating over the rival's contemporaneous policy. The saved policy residual evaluates this original best-response condition.
+- Two firms observe last period's activity `s=(s₁,s₂)` and independently choose current activity `a=(a₁,a₂)` simultaneously after receiving independent private type-I extreme-value shocks.
+- Next period's state is `a`.
+- Firm `i` earns `a_i(A-Ba_j)-K a_i(1-s_i)`.
+- Discounting, shock normalization and zero-logit starting values select the recorded stationary Markov equilibrium.
+- For each candidate policy, policy evaluation solves `V_i = (I-βP)^-1(r_i+H_i)` where `P` is the induced joint-action transition and `H_i` is the firm's binary entropy.
+- A root solver equates each firm's policy to the logit of its two expected action values, integrating over the rival's contemporaneous policy.
+- The saved policy residual evaluates this original best-response condition.
 
-The runner estimates state-specific choice probabilities from the supplied panel and forms alternative policies by adding each listed constant to one firm's log odds at every state while holding its rival's estimated policy fixed. The other payoff parameters, discount and transition are fixed at their declared values. The implementation evaluates equilibrium and alternative discounted values by the exact finite-state Markov equation. For every firm, initial state and deviation, optimality implies `V_i(p)-V_i(p_i',p_j) ≥ 0`; the estimation criterion sums squared negative parts of these gains. They are affine in entry cost. The saved `sample_inequality_set` is their exact intersection with the declared cost bounds, and the displayed representative cost is its midpoint when the intersection is nonempty. When it is empty the representative minimizes the criterion. This finite-deviation BBL-style estimator reports the sample inequality set; statistical inference for the set requires a separate sampling procedure. The result retains the input identity, estimated probabilities, deviations and gains. The policy scenario resolves the equilibrium after changing entry cost. The runner also re-solves both equilibria at the EPL entry-cost estimate; values sum firms' expected discounted payoffs including normalized private shocks.
+- The runner estimates state-specific choice probabilities from the supplied panel and forms alternative policies by adding each listed constant to one firm's log odds at every state while holding its rival's estimated policy fixed.
+- The other payoff parameters, discount and transition are fixed at their declared values.
+- The implementation evaluates equilibrium and alternative discounted values by the exact finite-state Markov equation.
+- For every firm, initial state and deviation, optimality implies `V_i(p)-V_i(p_i',p_j) ≥ 0`; the estimation criterion sums squared negative parts of these gains.
+- They are affine in entry cost.
+- The saved `sample_inequality_set` is their exact intersection with the declared cost bounds, and the displayed representative cost is its midpoint when the intersection is nonempty.
+- When it is empty the representative minimizes the criterion.
+- This finite-deviation BBL-style estimator reports the sample inequality set; statistical inference for the set requires a separate sampling procedure.
+- The result retains the input identity, estimated probabilities, deviations and gains.
+- The policy scenario resolves the equilibrium after changing entry cost.
+- The runner also re-solves both equilibria at the EPL entry-cost estimate; values sum firms' expected discounted payoffs including normalized private shocks.
 
 ## Sequential estimation under game equilibrium
 
-For the discrete entry game, write `x` for the eight policy log odds and `Ψ(x,K)` for the vector of logit best-response indices after evaluating the continuation values under `x`. Equilibrium is `G(x,K)=x-Ψ(x,K)=0`. The data criterion is the negative sum of the two firms' conditional binary log likelihoods, evaluated on observed states and actions. Entry cost is estimated while the discount factor, profit, competition and transition are fixed. The initial iterate uses the empirical state-specific choice probabilities. Every method uses the same bounded scalar likelihood optimization and saves its iteration trace.
+- For the discrete entry game, write `x` for the eight policy log odds and `Ψ(x,K)` for the vector of logit best-response indices after evaluating the continuation values under `x`.
+- Equilibrium is `G(x,K)=x-Ψ(x,K)=0`.
+- The data criterion is the negative sum of the two firms' conditional binary log likelihoods, evaluated on observed states and actions.
+- Entry cost is estimated while the discount factor, profit, competition and transition are fixed.
+- The initial iterate uses the empirical state-specific choice probabilities.
+- Every method uses the same bounded scalar likelihood optimization and saves its iteration trace.
 
-Sequential pseudo-likelihood (NPL) holds the current policy fixed while maximizing the likelihood at `Ψ(x_k,K)`; it then sets `x_{k+1}=Ψ(x_k,K_{k+1})`. EPL instead uses the Newton-corrected mapping `N(x_k,K)=x_k-G_x(x_k,K)^-1G(x_k,K)` in the likelihood and updates `x_{k+1}=N(x_k,K_{k+1})`. SLC evaluates `G_x` and `G_K` at `(x_k,K_k)`, solves `G_x z=-G` and `G_x y=-G_K`, and maximizes the likelihood on the affine linearized equilibrium `x_k+z+y(K-K_k)`; that affine prediction supplies `x_{k+1}`. The routines use the existing numerical adapter to official `scipy.differentiate.jacobian` for the central-difference policy Jacobian, record the condition number of `G_x`, and require convergence of both cost changes and the original equilibrium equation. The saved pseudo-score checks the NPL fixed-point first-order condition. The constrained score uses `dx/dK=-G_x^-1G_K` and checks the original equilibrium-constrained likelihood for EPL and SLC. Each method selects the local equilibrium reached from the empirical initial policies and recorded cost starting point.
+- Sequential pseudo-likelihood (NPL) holds the current policy fixed while maximizing the likelihood at `Ψ(x_k,K)`; it then sets `x_{k+1}=Ψ(x_k,K_{k+1})`.
+- EPL instead uses the Newton-corrected mapping `N(x_k,K)=x_k-G_x(x_k,K)^-1G(x_k,K)` in the likelihood and updates `x_{k+1}=N(x_k,K_{k+1})`.
+- SLC evaluates `G_x` and `G_K` at `(x_k,K_k)`, solves `G_x z=-G` and `G_x y=-G_K`, and maximizes the likelihood on the affine linearized equilibrium `x_k+z+y(K-K_k)`; that affine prediction supplies `x_{k+1}`.
+- The routines use the existing numerical adapter to official `scipy.differentiate.jacobian` for the central-difference policy Jacobian, record the condition number of `G_x`, and require convergence of both cost changes and the original equilibrium equation.
+- The saved pseudo-score checks the NPL fixed-point first-order condition.
+- The constrained score uses `dx/dK=-G_x^-1G_K` and checks the original equilibrium-constrained likelihood for EPL and SLC.
+- Each method selects the local equilibrium reached from the empirical initial policies and recorded cost starting point.
 
 ## Capacity and product choice game
 
-Two firms observe last period's pair of actions and simultaneously choose one of four alternatives: inactive, product A with capacity one, product A with capacity two, or product B with capacity one. The chosen pair becomes the next state. Firm `i`'s payoff is `q_i[m(product_i)-B q_j h(product_i,product_j)]-K max(q_i-q_i,previous,0)-C 1{active before and after and product changes}`, where `h` is 1 for the same product and 0.3 for different products. Demand margins, competition, investment and switching costs are supplied in the specification. Independent unit-scale private extreme-value shocks produce multinomial logit policies.
+- Two firms observe last period's pair of actions and simultaneously choose one of four alternatives: inactive, product A with capacity one, product A with capacity two, or product B with capacity one.
+- The chosen pair becomes the next state.
+- Firm `i`'s payoff is `q_i[m(product_i)-B q_j h(product_i,product_j)]-K max(q_i-q_i,previous,0)-C 1{active before and after and product changes}`, where `h` is 1 for the same product and 0.3 for different products.
+- Demand margins, competition, investment and switching costs are supplied in the specification.
+- Independent unit-scale private extreme-value shocks produce multinomial logit policies.
 
-For the 16 joint states, the policy-weighted transition and flow plus own entropy determine each firm's value by a 16-by-16 linear solve. For each firm, state and own action, the response integrates current payoff and continuation value over the rival's action. Equilibrium equates the three log odds relative to inactivity to these action-value differences; the root starts at zero log odds. The output records all 32 firm-state policies, transition matrix, values, the original policy and Bellman residuals and the selection start. Observed joint state/action panels identify investment cost through a nested likelihood with the other primitives fixed. The solver records local choice information, response rank, likelihood score and original equilibrium residuals. The scenario resolves the game at the fitted cost and after its specified change, and compares total private value from the empty market.
-
+- For the 16 joint states, the policy-weighted transition and flow plus own entropy determine each firm's value by a 16-by-16 linear solve.
+- For each firm, state and own action, the response integrates current payoff and continuation value over the rival's action.
+- Equilibrium equates the three log odds relative to inactivity to these action-value differences; the root starts at zero log odds.
+- The output records all 32 firm-state policies, transition matrix, values, the original policy and Bellman residuals and the selection start.
+- Observed joint state/action panels identify investment cost through a nested likelihood with the other primitives fixed.
+- The solver records local choice information, response rank, likelihood score and original equilibrium residuals.
+- The scenario resolves the game at the fitted cost and after its specified change, and compares total private value from the empty market.

@@ -4,7 +4,11 @@ Use for shift-share inference, sensitivity analysis from saved OLS quantities, m
 
 ### Inference extension contract
 
-The common `research_causal.py run` schema executes the methods below through official StatsPAI **1.43.1**, [revision ddb3b45f2d3fc649ea794aa15f8989bb10f8e543](https://github.com/brycewang-stanford/StatsPAI/tree/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543), and `statsmodels.stats.multitest.multipletests`. Use `inference={"type":"official","confidence_level":0.95}`; `alpha` supplies the equivalent significance level. The existing table reader accepts CSV, Parquet and Arrow IPC with explicit columns and string IDs. Saved-result inputs accept JSON and gzip JSON. Each result retains its input hash, named official functions/signatures/source hashes, actual package versions, effective options, sample information and reusable display rows.
+- The common `research_causal.py run` schema executes the methods below through official StatsPAI **1.43.1**, [revision ddb3b45f2d3fc649ea794aa15f8989bb10f8e543](https://github.com/brycewang-stanford/StatsPAI/tree/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543), and `statsmodels.stats.multitest.multipletests`.
+- Use `inference={"type":"official","confidence_level":0.95}`; `alpha` supplies the equivalent significance level.
+- The existing table reader accepts CSV, Parquet and Arrow IPC with explicit columns and string IDs.
+- Saved-result inputs accept JSON and gzip JSON.
+- Each result retains its input hash, named official functions/signatures/source hashes, actual package versions, effective options, sample information and reusable display rows.
 
 | Method | Required options and bindings | Saved quantity |
 | --- | --- | --- |
@@ -16,40 +20,98 @@ The common `research_causal.py run` schema executes the methods below through of
 | `specification_curve` | `treatment`, `controls` as a list of control sets, explicit `se_types`, `family`; `regressors` equals the union of control sets; optional `fe`, `subsets`, `cluster` | Every declared specification's estimate, SE, raw p-value, Holm p-value and Bonferroni simultaneous interval |
 | `holm` | Saved result in `data`; `p_values` maps hypothesis names to JSON key paths; `family` | Holm adjusted p-values and rejection decisions without refitting |
 | `spatial_conley` | `lat`, `lon`, positive `dist_cutoff`, `kernel`, `distance`; numeric `regressors`; optional panel settings below | Native OLS coefficients, complete Conley covariance and Student t intervals |
-
-All methods except `shift_share_inference` use empty `endogenous` and `instruments`. `options.definitions` carries adopted economic definitions. Multiple-outcome units can be supplied through `definitions.outcome_units={"outcome_column":"unit"}`; otherwise each outcome uses `spec.unit`.
+- All methods except `shift_share_inference` use empty `endogenous` and `instruments`.
+- `options.definitions` carries adopted economic definitions.
+- Multiple-outcome units can be supplied through `definitions.outcome_units={"outcome_column":"unit"}`; otherwise each outcome uses `spec.unit`.
 
 ### Shift-share inference
 
-`shift_share_inference` preserves the existing `shift_share` method and requires an explicit `identification_basis`. `definitions.baseline_period`, `share_population` and `identifying_variation` state the adopted exposure timing, represented population and source of exogeneity. Shares are nonnegative, sum to one within each location and have the same order as the finite shock vector. `statspai.bartik(leave_one_out=False)` supplies the official IV and Rotemberg decomposition for that fixed shock vector.
+- `shift_share_inference` preserves the existing `shift_share` method and requires an explicit `identification_basis`.
+- `definitions.baseline_period`, `share_population` and `identifying_variation` state the adopted exposure timing, represented population and source of exogeneity.
+- Shares are nonnegative, sum to one within each location and have the same order as the finite shock vector.
+- `statspai.bartik(leave_one_out=False)` supplies the official IV and Rotemberg decomposition for that fixed shock vector.
 
-With `identification_basis="shocks"`, `statspai.ssaggregate` supplies AKM exposure-robust inference and BHJ shock aggregation. Set `definitions.shock_dependence="independent"` for the supplied shock units and adopt the many-shock asymptotic conditions with their recorded exposure concentration. Nonnegative analytic location weights follow the native weighted estimator; an optional region cluster contributes its separately named diagnostic covariance. Correlated shock groups require a shock-group covariance implementation selected through the existing engine-selection contract. With `identification_basis="shares"`, the main result uses Bartik's location HC1 covariance and Student t reference. A declared location cluster selects the existing official `linearmodels.iv.IV2SLS(...).fit(cov_type="clustered",debiased=True)` on the same constructed instrument, complete-case sample and positive analytic weights. The result records `shock_inference_selected=false` for that exposure-side contract. Both routes save actual shock counts, normalized exposure weights, `1/sum(s_n^2)` and each location's share HHI.
+- With `identification_basis="shocks"`, `statspai.ssaggregate` supplies AKM exposure-robust inference and BHJ shock aggregation.
+- Set `definitions.shock_dependence="independent"` for the supplied shock units and adopt the many-shock asymptotic conditions with their recorded exposure concentration.
+- Nonnegative analytic location weights follow the native weighted estimator; an optional region cluster contributes its separately named diagnostic covariance.
+- Correlated shock groups require a shock-group covariance implementation selected through the existing engine-selection contract.
+- With `identification_basis="shares"`, the main result uses Bartik's location HC1 covariance and Student t reference.
+- A declared location cluster selects the existing official `linearmodels.iv.IV2SLS(...).fit(cov_type="clustered",debiased=True)` on the same constructed instrument, complete-case sample and positive analytic weights.
+- The result records `shock_inference_selected=false` for that exposure-side contract.
+- Both routes save actual shock counts, normalized exposure weights, `1/sum(s_n^2)` and each location's share HHI.
 
-For the shock route, the main display uses the native AKM estimate, SE and normal interval. `inference.akm0_confidence_set` preserves `bounded`, `union` or `real_line` from the official null-imposed quadratic inversion. A union is `(-infinity, upper]` together with `[lower, infinity)`; null endpoints carry explicit unbounded flags. `displays.akm0` consumes those components. `diagnostics.shock_data` contains every shock's normalized exposure weight, residualized outcome/treatment means and shock value. `displays.bhj` retains the official shock-level coefficient and HC0 SE. In both routes, `displays.rotemberg_weights` and the complete diagnostic table retain all industries, including negative weights.
+- For the shock route, the main display uses the native AKM estimate, SE and normal interval.
+- `inference.akm0_confidence_set` preserves `bounded`, `union` or `real_line` from the official null-imposed quadratic inversion.
+- A union is `(-infinity, upper]` together with `[lower, infinity)`; null endpoints carry explicit unbounded flags.
+- `displays.akm0` consumes those components.
+- `diagnostics.shock_data` contains every shock's normalized exposure weight, residualized outcome/treatment means and shock value.
+- `displays.bhj` retains the official shock-level coefficient and HC0 SE.
+- In both routes, `displays.rotemberg_weights` and the complete diagnostic table retain all industries, including negative weights.
 
 Sources: [`ssaggregate`, `shift_share_se` and diagnostic extraction](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/bartik/adao_correction.py), [AKM/AKM0 and BHJ equations](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/bartik/_akm.py), [Bartik and Rotemberg decomposition](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/bartik/shift_share.py).
 
 ### Sensitivity from saved OLS quantities
 
-The existing `research.py estimate` OLS result saves `diagnostics.ols_sensitivity`: the native coefficient, classical covariance-derived SE, residual degrees of freedom, R-squared, sample IDs, outcome variance and treatment residual variance. The result's adopted HC1 or clustered covariance remains attached to its original estimates. These additional classical OLS quantities supply the linear omitted-variable-bias calculation.
+- The existing `research.py estimate` OLS result saves `diagnostics.ols_sensitivity`: the native coefficient, classical covariance-derived SE, residual degrees of freedom, R-squared, sample IDs, outcome variance and treatment residual variance.
+- The result's adopted HC1 or clustered covariance remains attached to its original estimates.
+- These additional classical OLS quantities supply the linear omitted-variable-bias calculation.
 
-For saved Oster analysis, `data` names the long-model result and `options.baseline_result` names the short-model result. Supply `term`, `r_max` and `delta`. Both models must use an intercept, the same outcome, source hash and ordered sample, and nested exogenous columns. The official summary call receives both saved coefficients/R-squared values, outcome variance, the short-model residual treatment variance and the long-model residual treatment variance. This matches native `oster_bounds(...,moments={sigma_yy,sigma_xx,t_x})` and performs no fit. A prior Oster result can instead supply its `diagnostics.oster_inputs`; another saved result can use `options.summary` to bind seven JSON paths named `beta_short`, `r2_short`, `beta_long`, `r2_long`, `sigma_yy`, `sigma_xx`, `t_x`. Numerical `r_max` is at most one and exceeds the long-model R-squared. Data mode calls native `oster_bounds(data,y,treat,controls,...)`; `absorb` and `absorb_controls` list existing fixed-effect columns. Saved bounds retain the declared proportional-selection parameter and the native exact root convention.
+- For saved Oster analysis, `data` names the long-model result and `options.baseline_result` names the short-model result.
+- Supply `term`, `r_max` and `delta`.
+- Both models must use an intercept, the same outcome, source hash and ordered sample, and nested exogenous columns.
+- The official summary call receives both saved coefficients/R-squared values, outcome variance, the short-model residual treatment variance and the long-model residual treatment variance.
+- This matches native `oster_bounds(...,moments={sigma_yy,sigma_xx,t_x})` and performs no fit.
+- A prior Oster result can instead supply its `diagnostics.oster_inputs`; another saved result can use `options.summary` to bind seven JSON paths named `beta_short`, `r2_short`, `beta_long`, `r2_long`, `sigma_yy`, `sigma_xx`, `t_x`.
+- Numerical `r_max` is at most one and exceeds the long-model R-squared.
+- Data mode calls native `oster_bounds(data,y,treat,controls,...)`; `absorb` and `absorb_controls` list existing fixed-effect columns.
+- Saved bounds retain the declared proportional-selection parameter and the native exact root convention.
 
-For saved Cinelli-Hazlett analysis, `term` selects the saved coefficient. The default SE and df paths consume `diagnostics.ols_sensitivity.classical_standard_errors[term]` and `residual_df`. Explicit `se_key` and `df_key` bind other saved JSON paths with `covariance="classical_ols"`. Residual df is an integer above one; `q` defaults to one. The pinned native `_robustness_value(t_statistic,dof,q=...,alpha=...)` returns the two robustness values; partial R-squared is `t^2/(t^2+dof)`. The source hash identifies this versioned helper. Data mode uses official `sensemakr` and preserves every benchmark row and adjusted estimate/SE/interval.
+- For saved Cinelli-Hazlett analysis, `term` selects the saved coefficient.
+- The default SE and df paths consume `diagnostics.ols_sensitivity.classical_standard_errors[term]` and `residual_df`.
+- Explicit `se_key` and `df_key` bind other saved JSON paths with `covariance="classical_ols"`.
+- Residual df is an integer above one; `q` defaults to one.
+- The pinned native `_robustness_value(t_statistic,dof,q=...,alpha=...)` returns the two robustness values; partial R-squared is `t^2/(t^2+dof)`.
+- The source hash identifies this versioned helper.
+- Data mode uses official `sensemakr` and preserves every benchmark row and adjusted estimate/SE/interval.
 
-E-value analysis reads the named saved coefficient and interval. `coefficient_scale="log"` exponentiates log RR/OR/HR coefficients and their endpoints before the native call. An identity-scale ratio requires its saved interval. OLS standardization uses explicit `sd` or the saved OLS outcome variance. The saved interval's level must match the requested level. Native `rare`, `delta` and `true` retain their scale and contrast definitions; each E-value remains tied to that source coefficient and its fitted sample.
+- E-value analysis reads the named saved coefficient and interval.
+- `coefficient_scale="log"` exponentiates log RR/OR/HR coefficients and their endpoints before the native call.
+- An identity-scale ratio requires its saved interval.
+- OLS standardization uses explicit `sd` or the saved OLS outcome variance.
+- The saved interval's level must match the requested level.
+- Native `rare`, `delta` and `true` retain their scale and contrast definitions; each E-value remains tied to that source coefficient and its fitted sample.
 
 Sources: [Oster data and summary interface](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/diagnostics/sensitivity.py), [exact Oster moments and roots](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/diagnostics/_oster.py), [Cinelli-Hazlett data and saved-statistic functions](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/diagnostics/sensemakr.py), [E-value measures and transformations](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/diagnostics/evalue.py).
 
 ### Declared families and spatial covariance
 
-Romano-Wolf, specification curves and Holm require `family={"name":"...","status":"prespecified"}`. Status also accepts `exploratory` and `post_selection`. It is carried unchanged into inference and display metadata. The calculations adjust the declared finite family; `selection_adjusted=false` records that data-dependent family selection has no additional adjustment.
+- Romano-Wolf, specification curves and Holm require `family={"name":"...","status":"prespecified"}`.
+- Status also accepts `exploratory` and `post_selection`.
+- It is carried unchanged into inference and display metadata.
+- The calculations adjust the declared finite family; `selection_adjusted=false` records that data-dependent family selection has no additional adjustment.
 
-Romano-Wolf uses the native joint row or cluster bootstrap and studentized, recentered test statistics. Each outcome retains its own complete-case sample. `outcomes` contains at least two distinct columns and includes the common schema's `outcome`. Every requested draw must identify the treatment contrasts; a native discarded-draw return stops this execution.
+- Romano-Wolf uses the native joint row or cluster bootstrap and studentized, recentered test statistics.
+- Each outcome retains its own complete-case sample.
+- `outcomes` contains at least two distinct columns and includes the common schema's `outcome`.
+- Every requested draw must identify the treatment contrasts; a native discarded-draw return stops this execution.
 
-The specification family is the Cartesian product of `controls`, `fe`, `se_types` and `subsets`. `se_types` explicitly lists `nonrobust`, `hc1` or `cluster`; a cluster column requires that family member. `subsets` maps labels to complete zero/one inclusion columns, with null selecting the full input. Outcomes stay on their declared scale. For M members, the official `spec_curve` receives `alpha/M` once and returns Bonferroni simultaneous endpoints. `multipletests(method="holm")` adjusts its raw p-values without refitting. Every declared member must be estimable. Saved per-specification records identify eligible IDs and native fitted counts; absorbed-FE members expose `included_ids_available=false` because the native curve return supplies counts without post-singleton IDs. Ordinary members save their fitted IDs. All specification rows, choices and native diagnostics are retained.
+- The specification family is the Cartesian product of `controls`, `fe`, `se_types` and `subsets`.
+- `se_types` explicitly lists `nonrobust`, `hc1` or `cluster`; a cluster column requires that family member.
+- `subsets` maps labels to complete zero/one inclusion columns, with null selecting the full input.
+- Outcomes stay on their declared scale.
+- For M members, the official `spec_curve` receives `alpha/M` once and returns Bonferroni simultaneous endpoints.
+- `multipletests(method="holm")` adjusts its raw p-values without refitting.
+- Every declared member must be estimable.
+- Saved per-specification records identify eligible IDs and native fitted counts; absorbed-FE members expose `included_ids_available=false` because the native curve return supplies counts without post-singleton IDs.
+- Ordinary members save their fitted IDs.
+- All specification rows, choices and native diagnostics are retained.
 
-Conley coordinates are in degrees; `dist_cutoff` is kilometres. Spatial `kernel` is `uniform` or `bartlett`, and `distance` is `haversine` or `planar`. A panel additionally binds `time`, `panel_unit` and `lag_cutoff` together, with optional `time_kernel` and `lag_cutoff_cross`. The native default cross-unit lag bandwidth is zero; within-unit temporal dependence uses its separately declared bandwidth. The official `regress` fit and `conley` call share one recorded complete-case sample. The full covariance and native `t(n-k)` interval are saved. The existing `iv_ar_robust` continues to supply `F.effective` and AR confidence sets, while the existing saved-model `wild_cluster_bootstrap` and `club_sandwich` paths retain their separate bootstrap/CR2 contracts.
+- Conley coordinates are in degrees; `dist_cutoff` is kilometres.
+- Spatial `kernel` is `uniform` or `bartlett`, and `distance` is `haversine` or `planar`.
+- A panel additionally binds `time`, `panel_unit` and `lag_cutoff` together, with optional `time_kernel` and `lag_cutoff_cross`.
+- The native default cross-unit lag bandwidth is zero; within-unit temporal dependence uses its separately declared bandwidth.
+- The official `regress` fit and `conley` call share one recorded complete-case sample.
+- The full covariance and native `t(n-k)` interval are saved.
+- The existing `iv_ar_robust` continues to supply `F.effective` and AR confidence sets, while the existing saved-model `wild_cluster_bootstrap` and `club_sandwich` paths retain their separate bootstrap/CR2 contracts.
 
 Sources: [Romano-Wolf](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/mht/romano_wolf.py), [specification curve](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/robustness/spec_curve.py), [Holm official interface](https://www.statsmodels.org/v0.14.6/generated/statsmodels.stats.multitest.multipletests.html), [Conley covariance and inference](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/inference/conley.py).
-

@@ -2,7 +2,12 @@
 
 Use when treatment of others affects outcomes (network exposure contrasts) or when only bounds are identified (Manski, Lee, Balke–Pearl).
 
-The existing causal runner calls the official Python functions in **StatsPAI 1.43.1**, pinned to [commit ddb3b45f2d3fc649ea794aa15f8989bb10f8e543](https://github.com/brycewang-stanford/StatsPAI/tree/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543). Methods are `network_exposure`, `manski_bounds`, `lee_bounds` and `balke_pearl`. Use the common run schema with empty `regressors`, `endogenous` and `instruments`; role columns and scientific restrictions are flat `options` fields. `options.definitions` may hold adopted interpretation and units. Each input contains at least two distinct nonempty IDs, observed binary treatment, and distinct role columns. The result preserves input IDs, method-specific population membership, effective native arguments, package versions, official source-file hash and distribution commit.
+- The existing causal runner calls the official Python functions in **StatsPAI 1.43.1**, pinned to [commit ddb3b45f2d3fc649ea794aa15f8989bb10f8e543](https://github.com/brycewang-stanford/StatsPAI/tree/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543).
+- Methods are `network_exposure`, `manski_bounds`, `lee_bounds` and `balke_pearl`.
+- Use the common run schema with empty `regressors`, `endogenous` and `instruments`; role columns and scientific restrictions are flat `options` fields.
+- `options.definitions` may hold adopted interpretation and units.
+- Each input contains at least two distinct nonempty IDs, observed binary treatment, and distinct role columns.
+- The result preserves input IDs, method-specific population membership, effective native arguments, package versions, official source-file hash and distribution commit.
 
 | Method | Required `options` | Additional options | Run inference |
 | --- | --- | --- | --- |
@@ -10,38 +15,89 @@ The existing causal runner calls the official Python functions in **StatsPAI 1.4
 | `manski_bounds` | `treatment`, `y_lower`, `y_upper`, `assumption`, `n_bootstrap`, `seed` | — | `{"type":"official","confidence_level":0.95}` |
 | `lee_bounds` | `treatment`, `selection`, `monotonicity`, `n_bootstrap`, `seed` | `covariates`: names of adopted discrete pretreatment cells | `{"type":"official","confidence_level":0.95}` |
 | `balke_pearl` | `treatment`, `instrument`, `monotonicity` | — | `{"type":"none"}` |
-
-The three official-inference routes require an explicit confidence level strictly between zero and one. Manski and Lee require integer `n_bootstrap>=2` and nonnegative integer `seed`. Their bootstrap resamples the adopted independent population units. Sampling-weight and cluster arguments are outside these execution bindings.
+- The three official-inference routes require an explicit confidence level strictly between zero and one.
+- Manski and Lee require integer `n_bootstrap>=2` and nonnegative integer `seed`.
+- Their bootstrap resamples the adopted independent population units.
+- Sampling-weight and cluster arguments are outside these execution bindings.
 
 ### Network exposure contrasts
 
-Select `design="network_interference"`, `target.kind="exposure_contrast"`, cross-sectional observations and `dependence="network"` or `"local_interference"`. The adopted assignment is independent Bernoulli treatment with known common probability `p_treat` in `(0,1)`. Specify the exposure mapping as part of the potential-outcome model. The target is the finite-population average contrast between two exposure states among eligible units.
+- Select `design="network_interference"`, `target.kind="exposure_contrast"`, cross-sectional observations and `dependence="network"` or `"local_interference"`.
+- The adopted assignment is independent Bernoulli treatment with known common probability `p_treat` in `(0,1)`.
+- Specify the exposure mapping as part of the potential-outcome model.
+- The target is the finite-population average contrast between two exposure states among eligible units.
 
-`options.adjacency` names a CSV, relative to the specification, with exactly `source,target` columns. Each directed edge means **the source unit's outcome is exposed to the target unit's treatment**. IDs must belong to the input sample; duplicate and self edges are rejected. The runner constructs the adjacency matrix in input-ID order. An undirected scientific network is represented by both directed rows for each link.
+- `options.adjacency` names a CSV, relative to the specification, with exactly `source,target` columns.
+- Each directed edge means **the source unit's outcome is exposed to the target unit's treatment**.
+- IDs must belong to the input sample; duplicate and self edges are rejected.
+- The runner constructs the adjacency matrix in input-ID order.
+- An undirected scientific network is represented by both directed rows for each link.
 
-`mapping="as4"` combines own treatment and the presence of any treated neighbor: `c00`, `c01`, `c10`, `c11`, with own treatment as the first digit. `mapping="fraction"` combines own treatment with the treated-neighbor fraction binned by explicitly supplied increasing `thresholds` in `[0,1]`. Its labels are `z0_bk` / `z1_bk`; the native `numpy.digitize` rule assigns a value equal to a threshold to the bin on its right. Use distinct ordered `contrasts` such as `[["c11","c00"],["c01","c00"]]`; each pair reports the first exposure mean minus the second.
+- `mapping="as4"` combines own treatment and the presence of any treated neighbor: `c00`, `c01`, `c10`, `c11`, with own treatment as the first digit.
+- `mapping="fraction"` combines own treatment with the treated-neighbor fraction binned by explicitly supplied increasing `thresholds` in `[0,1]`.
+- Its labels are `z0_bk` / `z1_bk`; the native `numpy.digitize` rule assigns a value equal to a threshold to the bin on its right.
+- Use distinct ordered `contrasts` such as `[["c11","c00"],["c01","c00"]]`; each pair reports the first exposure mean minus the second.
 
-Set `eligible_population="all_exposures_above_min_prob"` and an explicit `min_prob` in `[0,1)`. A unit belongs to this target population only when every exposure level returned by the mapping has probability strictly above `min_prob`. This criterion applies to all levels, including levels outside the requested contrast pair. The full assignment network determines exposures and dependence before restriction to eligible outcome units. An isolated unit is ineligible under `as4`. The saved sample lists both eligible and excluded IDs, and diagnostics retain the probability matrix in original-ID order, realized exposures, exposure means and the adjacency hash.
+- Set `eligible_population="all_exposures_above_min_prob"` and an explicit `min_prob` in `[0,1)`.
+- A unit belongs to this target population only when every exposure level returned by the mapping has probability strictly above `min_prob`.
+- This criterion applies to all levels, including levels outside the requested contrast pair.
+- The full assignment network determines exposures and dependence before restriction to eligible outcome units.
+- An isolated unit is ineligible under `as4`.
+- The saved sample lists both eligible and excluded IDs, and diagnostics retain the probability matrix in original-ID order, realized exposures, exposure means and the adjacency hash.
 
-For exposure `h`, the official weight is `Gamma_i(h)=1{H_i=h}/P(H_i=h)`. `estimator="hajek"` returns `sum(Gamma_i Y_i)/sum(Gamma_i)` over eligible units; `"ht"` returns `sum(Gamma_i Y_i)/n_eligible`. ERS fixes `design="bernoulli"` and `variance="hac_psd"`. The official covariance uses linearized exposure terms and the positive-semidefinite part of the local-dependence graph. Contrast SEs include the covariance between exposure means, and intervals use the normal critical value at the adopted level. The pinned PSD implementation accepts at most 6,000 eligible units. Every requested contrast needs realized eligible observations in both exposure cells; failed support or nonfinite output stops the call.
+- For exposure `h`, the official weight is `Gamma_i(h)=1{H_i=h}/P(H_i=h)`.
+- `estimator="hajek"` returns `sum(Gamma_i Y_i)/sum(Gamma_i)` over eligible units; `"ht"` returns `sum(Gamma_i Y_i)/n_eligible`.
+- ERS fixes `design="bernoulli"` and `variance="hac_psd"`.
+- The official covariance uses linearized exposure terms and the positive-semidefinite part of the local-dependence graph.
+- Contrast SEs include the covariance between exposure means, and intervals use the normal critical value at the adopted level.
+- The pinned PSD implementation accepts at most 6,000 eligible units.
+- Every requested contrast needs realized eligible observations in both exposure cells; failed support or nonfinite output stops the call.
 
-The result saves native contrast estimates, SEs, p values and pointwise intervals, with `display.kind="coefficient"`. The scalar contrast outputs do not supply a joint contrast-covariance matrix. The existing `network_spillover` regression retains its row-standardized OLS interpretation. Source: [`network_exposure`, mappings, probabilities and covariance](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/interference/network_exposure.py).
+- The result saves native contrast estimates, SEs, p values and pointwise intervals, with `display.kind="coefficient"`.
+- The scalar contrast outputs do not supply a joint contrast-covariance matrix.
+- The existing `network_spillover` regression retains its row-standardized OLS interpretation.
+- Source: [`network_exposure`, mappings, probabilities and covariance](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/interference/network_exposure.py).
 
 ### Identified sets and their sampling regions
 
-Select `design="partial_identification"`, `target.kind="identified_set"`, cross-sectional units, `dependence="independent"`, and `conditions.estimator="manski"`, `"lee"` or `"balke_pearl"`. The selector records the relevant support, selection or instrument restrictions. The execution retains the adopted sample and rejects inconsistent input or restrictions. Native errors propagate with the adopted specification intact.
+- Select `design="partial_identification"`, `target.kind="identified_set"`, cross-sectional units, `dependence="independent"`, and `conditions.estimator="manski"`, `"lee"` or `"balke_pearl"`.
+- The selector records the relevant support, selection or instrument restrictions.
+- The execution retains the adopted sample and rejects inconsistent input or restrictions.
+- Native errors propagate with the adopted specification intact.
 
 | Method | Identified target and restrictions | Saved sampling region |
 | --- | --- | --- |
 | `manski_bounds` | ATE within declared population outcome support; `none`, `mtr`, `mts` or `mts_mtr` | `confidence_region.target="identified_set"`: lower endpoint minus `z_(1-alpha/2) * se_lower`, upper endpoint plus `z_(1-alpha/2) * se_upper`, using official row-bootstrap endpoint SEs |
 | `lee_bounds` | Treatment effect in the always-observed principal stratum under randomized treatment or conditional independence and adopted selection monotonicity | `confidence_region.target="parameter"`: the official Imbens–Manski critical value and bootstrap endpoint SEs |
 | `balke_pearl` | Binary-outcome ATE under instrument independence and exclusion, plus adopted treatment monotonicity when selected | `inference.type="none"`; the official function supplies identified-set endpoints |
+- For Manski, `y_lower<y_upper` must be finite population support containing every observed outcome.
+- Both treatment arms and finite outcomes are required.
+- `assumption="mtr"` imposes `Y(1)>=Y(0)`; `"mts"` imposes positive treatment selection, `E[Y(d)|D=1]>=E[Y(d)|D=0]` for each potential treatment state; `"mts_mtr"` imposes both.
+- The support is an adopted scientific input.
+- The runner does not infer it from the sample minimum and maximum.
+- Source: [`manski_bounds` and `_compute_manski_bounds`](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/bounds/lee_manski.py).
 
-For Manski, `y_lower<y_upper` must be finite population support containing every observed outcome. Both treatment arms and finite outcomes are required. `assumption="mtr"` imposes `Y(1)>=Y(0)`; `"mts"` imposes positive treatment selection, `E[Y(d)|D=1]>=E[Y(d)|D=0]` for each potential treatment state; `"mts_mtr"` imposes both. The support is an adopted scientific input. The runner does not infer it from the sample minimum and maximum. Source: [`manski_bounds` and `_compute_manski_bounds`](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/bounds/lee_manski.py).
+- For Lee, `selection` is an observed zero/one retention indicator.
+- Outcomes must be finite where `selection=1`; outcome values may be missing where `selection=0`.
+- All assigned units remain in the retention-rate denominators and saved input sample.
+- `monotonicity="increasing"` adopts `S_i(1)>=S_i(0)` for every unit; `"decreasing"` adopts the reverse.
+- Each adopted pretreatment cell must contain both treatment arms, positive retention in each arm and observed retention rates consistent with the declared common direction.
+- Optional `covariates` name observed discrete cells; their construction remains with the adopted data transformation.
+- The runner calls official `lee_bounds` with `trimming="exact"` and `se_method="bootstrap"`.
+- Exact trimming allocates fractional mass at tied outcomes in the arm with higher retention.
+- Conditional bounds aggregate cell results over the always-observed population.
+- The saved sample distinguishes observed and unobserved outcome IDs while retaining both in its input count.
+- Source: [`lee_bounds`, exact trimming and cell aggregation](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/bounds/lee_manski.py).
 
-For Lee, `selection` is an observed zero/one retention indicator. Outcomes must be finite where `selection=1`; outcome values may be missing where `selection=0`. All assigned units remain in the retention-rate denominators and saved input sample. `monotonicity="increasing"` adopts `S_i(1)>=S_i(0)` for every unit; `"decreasing"` adopts the reverse. Each adopted pretreatment cell must contain both treatment arms, positive retention in each arm and observed retention rates consistent with the declared common direction. Optional `covariates` name observed discrete cells; their construction remains with the adopted data transformation. The runner calls official `lee_bounds` with `trimming="exact"` and `se_method="bootstrap"`. Exact trimming allocates fractional mass at tied outcomes in the arm with higher retention. Conditional bounds aggregate cell results over the always-observed population. The saved sample distinguishes observed and unobserved outcome IDs while retaining both in its input count. Source: [`lee_bounds`, exact trimming and cell aggregation](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/bounds/lee_manski.py).
+- For Balke–Pearl, outcome, treatment and instrument are binary, outcomes are observed, and both instrument arms are present.
+- `monotonicity="none"` selects the unrestricted official endpoints.
+- `"increasing"` adopts `D(1)>=D(0)` and `"decreasing"` adopts `D(1)<=D(0)`.
+- The runner checks the official first-stage direction against that choice before selecting the monotone endpoints.
+- Joint probabilities and the chosen restrictions accompany the set.
+- Source: [`balke_pearl`](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/bounds/balke_pearl.py).
 
-For Balke–Pearl, outcome, treatment and instrument are binary, outcomes are observed, and both instrument arms are present. `monotonicity="none"` selects the unrestricted official endpoints. `"increasing"` adopts `D(1)>=D(0)` and `"decreasing"` adopts `D(1)<=D(0)`. The runner checks the official first-stage direction against that choice before selecting the monotone endpoints. Joint probabilities and the chosen restrictions accompany the set. Source: [`balke_pearl`](https://github.com/brycewang-stanford/StatsPAI/blob/ddb3b45f2d3fc649ea794aa15f8989bb10f8e543/src/statspai/bounds/balke_pearl.py).
-
-All three methods save `identified_set.lower`, `upper`, target, population, units, restrictions and `set_type` (`interval`, `point` or `empty` when returned). Manski and Lee separately save the official `confidence_region` with its level, procedure and coverage target. Their native midpoint and average endpoint SE do not become an ATE coefficient and SE. `display.kind="identified_set"` retains identification endpoints and sampling-region endpoints in distinct fields; `statistics` uses `bounds.lower/upper` and `confidence_region.lower/upper`. The existing gallery and Writing preserve these names and coverage targets when building figures, tables and prose from saved results.
-
+- All three methods save `identified_set.lower`, `upper`, target, population, units, restrictions and `set_type` (`interval`, `point` or `empty` when returned).
+- Manski and Lee separately save the official `confidence_region` with its level, procedure and coverage target.
+- Their native midpoint and average endpoint SE do not become an ATE coefficient and SE.
+- `display.kind="identified_set"` retains identification endpoints and sampling-region endpoints in distinct fields; `statistics` uses `bounds.lower/upper` and `confidence_region.lower/upper`.
+- The existing gallery and Writing preserve these names and coverage targets when building figures, tables and prose from saved results.

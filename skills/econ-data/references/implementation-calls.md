@@ -17,21 +17,41 @@ Contents:
 
 ## Shared tables and language handoff
 
-Use SQL for relational selection, joins and valid aggregation before collection, through the existing [assembly and shared-table contract](research-data.md#shared-tables-across-sql-python-r-and-julia). DuckDB [pushes supported projections and predicates into Arrow datasets](https://duckdb.org/docs/stable/guides/python/sql_on_arrow); Python or R can retain an existing in-memory calculation when its working set fits. Pass one canonical Parquet/Arrow `table.path` and its hashed `data_record` directly to the selected Python, R or Julia reader; CSV remains supported. Carry the recorded schema, column order, IDs, observation unit, sample, clusters and weights with that reference. Declare the source, specification, scripts and selected [runtime](../../../harness/research.md#capture-the-selected-python-r-or-julia-environment) in the existing DAG. Reuse completed stages with matching dependencies and rebuild affected descendants. Read saved R models, Julia serialized fits and named results for subsequent inference or rendering; those operations retain the original estimation.
+- Use SQL for relational selection, joins and valid aggregation before collection, through the existing [assembly and shared-table contract](research-data.md#shared-tables-across-sql-python-r-and-julia).
+- DuckDB [pushes supported projections and predicates into Arrow datasets](https://duckdb.org/docs/stable/guides/python/sql_on_arrow); Python or R can retain an existing in-memory calculation when its working set fits.
+- Pass one canonical Parquet/Arrow `table.path` and its hashed `data_record` directly to the selected Python, R or Julia reader; CSV remains supported.
+- Carry the recorded schema, column order, IDs, observation unit, sample, clusters and weights with that reference.
+- Declare the source, specification, scripts and selected [runtime](../../../harness/research.md#capture-the-selected-python-r-or-julia-environment) in the existing DAG.
+- Reuse completed stages with matching dependencies and rebuild affected descendants.
+- Read saved R models, Julia serialized fits and named results for subsequent inference or rendering; those operations retain the original estimation.
 
 ## Fit results and execution handoff
 
-Execute the fit, extract named estimates and the requested economic contrast using the package's documented post-estimation methods. Use an established contrast implementation such as `marginaleffects` when it supports the fitted model and required covariance. Save the actual sample, effective options, package version, convergence result, estimates and needed inference in the existing [result lifecycle](reproducible-workflow.md#carry-analysis-results-into-tables-figures-and-prose). Produce the requested table, figure or action comparison from those saved quantities. A completed package survey, successful import or optimizer return establishes only its own stage.
+- Execute the fit, extract named estimates and the requested economic contrast using the package's documented post-estimation methods.
+- Use an established contrast implementation such as `marginaleffects` when it supports the fitted model and required covariance.
+- Save the actual sample, effective options, package version, convergence result, estimates and needed inference in the existing [result lifecycle](reproducible-workflow.md#carry-analysis-results-into-tables-figures-and-prose).
+- Produce the requested table, figure or action comparison from those saved quantities.
+- A completed package survey, successful import or optimizer return establishes only its own stage.
 
-Bind each requested manuscript quantity to the selected native return before building its display. Preserve the native coordinate labels, sample or state mapping, effective inference and scenario in the saved result. Read the native-return section for the selected engine and resolve its actual signature through the [version procedure](implementation-engines.md#estimator-engine-and-algorithm-selection).
+- Bind each requested manuscript quantity to the selected native return before building its display.
+- Preserve the native coordinate labels, sample or state mapping, effective inference and scenario in the saved result.
+- Read the native-return section for the selected engine and resolve its actual signature through the [version procedure](implementation-engines.md#estimator-engine-and-algorithm-selection).
 
-For a selected mathematical contract, retain the decisive derivation and equation-defined output under the same adopted specification. For a registered runner or external API, retain its actual producing call and return. Carry both through the [design handoff](../../econ-design/references/designs.md#deliver-the-selected-result) and the existing saved-result lifecycle. Parameter estimates, calibrated inputs, policy functions and welfare aggregates keep their own economic roles in the resulting manuscript.
+- For a selected mathematical contract, retain the decisive derivation and equation-defined output under the same adopted specification.
+- For a registered runner or external API, retain its actual producing call and return.
+- Carry both through the [design handoff](../../econ-design/references/designs.md#deliver-the-selected-result) and the existing saved-result lifecycle.
+- Parameter estimates, calibrated inputs, policy functions and welfare aggregates keep their own economic roles in the resulting manuscript.
 
-Keep frequency, analytic, probability and iterative working weights distinct. Compute weighted means or losses with their defined weight total and normalization; do not replace that total with row count. Retain the fitted row identities, exclusions, column order and encoding needed by post-estimation rather than reconstructing a different sample from raw data.
+- Keep frequency, analytic, probability and iterative working weights distinct.
+- Compute weighted means or losses with their defined weight total and normalization; do not replace that total with row count.
+- Retain the fitted row identities, exclusions, column order and encoding needed by post-estimation rather than reconstructing a different sample from raw data.
 
 ## Native regression calls and results
 
-Call the selected package directly from the existing analysis entry point. For example, an adopted level model with unit and year effects and state-clustered inference can use `fit <- fixest::feols(y ~ treatment + x | id + year, data = d, vcov = ~state)` after constructing its specified sample. An adopted exponential conditional-mean model can use the corresponding `fepois` call; changing that function changes the model and requires the corresponding design choice. Derive requested contrasts from the saved fit, its sample mapping and official post-estimation methods.
+- Call the selected package directly from the existing analysis entry point.
+- For example, an adopted level model with unit and year effects and state-clustered inference can use `fit <- fixest::feols(y ~ treatment + x | id + year, data = d, vcov = ~state)` after constructing its specified sample.
+- An adopted exponential conditional-mean model can use the corresponding `fepois` call; changing that function changes the model and requires the corresponding design choice.
+- Derive requested contrasts from the saved fit, its sample mapping and official post-estimation methods.
 
 | Native result | Extraction into the existing result owner |
 | --- | --- |
@@ -39,31 +59,82 @@ Call the selected package directly from the existing analysis entry point. For e
 
 ## Causal selection and execution handoff
 
-The existing `research_causal.py select` command accepts `--stage entry|contract|compose|review|finalize`. Selection attaches `method_selection.stage_knowledge`: the selected method/model's complete current-stage units, exact contracts and true prerequisites from the canonical knowledge reader. `entry` and `finalize` defer technical bodies. Pass the existing `--task`, `--root` and `--store` to reuse matching task-bound bodies; use `--restore` after actual context loss. No estimate is run by selection. Apply the returned body before adopting the method and continue through the saved execution specification. A missing curated binding is returned as `knowledge_required`, not a completed knowledge read.
+- The existing `research_causal.py select` command accepts `--stage entry|contract|compose|review|finalize`.
+- Selection attaches `method_selection.stage_knowledge`: the selected method/model's complete current-stage units, exact contracts and true prerequisites from the canonical knowledge reader.
+- `entry` and `finalize` defer technical bodies.
+- Pass the existing `--task`, `--root` and `--store` to reuse matching task-bound bodies; use `--restore` after actual context loss.
+- No estimate is run by selection.
+- Apply the returned body before adopting the method and continue through the saved execution specification.
+- A missing curated binding is returned as `knowledge_required`, not a completed knowledge read.
 
-For a complete selection-to-execution handoff, supply the ordinary run fields or an adopted run specification. `official_implementation.execution_specification.specification` is the existing causal runner's JSON input, with `missing_fields`, `unbound_inputs` and `adoption_required` beside it. Execute that input through the returned command after completing its bindings and required design decision. `official_implementation.dependencies` supplies existing registry resource IDs and requirements paths. Restore the corresponding family, or bind the selected pins through `runtime.packages` and their requirements source through `runtime.files` and stage inputs. Use the existing harness's `runtime.requirements` when the complete declared family is installed; its version probe checks every pin in that file.
+- For a complete selection-to-execution handoff, supply the ordinary run fields or an adopted run specification.
+- `official_implementation.execution_specification.specification` is the existing causal runner's JSON input, with `missing_fields`, `unbound_inputs` and `adoption_required` beside it.
+- Execute that input through the returned command after completing its bindings and required design decision.
+- `official_implementation.dependencies` supplies existing registry resource IDs and requirements paths.
+- Restore the corresponding family, or bind the selected pins through `runtime.packages` and their requirements source through `runtime.files` and stage inputs.
+- Use the existing harness's `runtime.requirements` when the complete declared family is installed; its version probe checks every pin in that file.
 
 ## Official R calls and inference bindings
 
-The existing [causal runner](../../econ-design/references/causal-models/r-calls.md#official-r-calls-in-the-same-runner) connects its documented R functions through its `run` command. `options.args` carries native scalar/vector arguments; `options.columns` binds native arguments to analysis columns. The runner checks the installed exported function or selected S3 method against `formals`, rejects unimplemented names, records the actual interface and package version, and saves the official numerical result with a native serialized fit. Subsequent `wild_cluster_bootstrap`, `club_sandwich` and `honest_did` operations consume saved results. Preserve the original coefficient, model and sample when the requested operation only adds a specified inference calculation.
+- The existing [causal runner](../../econ-design/references/causal-models/r-calls.md#official-r-calls-in-the-same-runner) connects its documented R functions through its `run` command.
+- `options.args` carries native scalar/vector arguments; `options.columns` binds native arguments to analysis columns.
+- The runner checks the installed exported function or selected S3 method against `formals`, rejects unimplemented names, records the actual interface and package version, and saves the official numerical result with a native serialized fit.
+- Subsequent `wild_cluster_bootstrap`, `club_sandwich` and `honest_did` operations consume saved results.
+- Preserve the original coefficient, model and sample when the requested operation only adds a specified inference calculation.
 
-Restore the selected R dependencies and any pinned author-source revisions from [the existing requirements file](../scripts/requirements-causal-r.json). This includes the GitHub revisions for `fwildclusterboot` and its `summclust` dependency; CRAN alone does not provide those adopted packages. `nonabs_did` additionally uses `DIDmultiplegtDYN` for `DCDH`, `PanelMatch` for `PanelMatch`, and `fect` for `FE`, `IFE` or `MC`. `DIDmultiplegtDYN` and `DCDH` require the declared R `polars`, which the existing R companion loads before fitting. Its official `LIBR_POLARS_BUILD=false` installation uses the release's checksummed prebuilt Rust library. Bind the selected engine in the same R runtime as the wrapper.
+- Restore the selected R dependencies and any pinned author-source revisions from [the existing requirements file](../scripts/requirements-causal-r.json).
+- This includes the GitHub revisions for `fwildclusterboot` and its `summclust` dependency; CRAN alone does not provide those adopted packages.
+- `nonabs_did` additionally uses `DIDmultiplegtDYN` for `DCDH`, `PanelMatch` for `PanelMatch`, and `fect` for `FE`, `IFE` or `MC`.
+- `DIDmultiplegtDYN` and `DCDH` require the declared R `polars`, which the existing R companion loads before fitting.
+- Its official `LIBR_POLARS_BUILD=false` installation uses the release's checksummed prebuilt Rust library.
+- Bind the selected engine in the same R runtime as the wrapper.
 
-`research_design.py select` binds the structured inference contract to the native call: DID cluster columns, `alp`, `cband` and `bstrap` reach both `did::att_gt` and `did::aggte`; the robust IV cluster reaches `ivDiag::AR_test(cl=...)`. A simultaneous DID family enables the multiplier bootstrap. A cluster-only request can retain did 2.5.1's analytical cluster covariance. Use `inference.cluster` or `inference.clusters` for column bindings and retain the economic unit in `inference_unit`. The returned proposal records changed options and missing bindings, preserving the adopted specification. The [pinned did source](https://github.com/cran/did/blob/453a1be859411edc1c8933891940cb3a570d7095/R/att_gt.R) supplies the actual inferential interface.
+- `research_design.py select` binds the structured inference contract to the native call: DID cluster columns, `alp`, `cband` and `bstrap` reach both `did::att_gt` and `did::aggte`; the robust IV cluster reaches `ivDiag::AR_test(cl=...)`.
+- A simultaneous DID family enables the multiplier bootstrap.
+- A cluster-only request can retain did 2.5.1's analytical cluster covariance.
+- Use `inference.cluster` or `inference.clusters` for column bindings and retain the economic unit in `inference_unit`.
+- The returned proposal records changed options and missing bindings, preserving the adopted specification.
+- The [pinned did source](https://github.com/cran/did/blob/453a1be859411edc1c8933891940cb3a570d7095/R/att_gt.R) supplies the actual inferential interface.
 
-The same inference binding passes explicit cluster columns and confidence levels to the existing fixest and RDD calls. `fixest::feols`/`fepois` receive a `vcov` cluster formula with the adopted cluster columns; the runner invokes the official fitted object's `confint(level=...)`. `rdrobust::rdrobust` receives `level` in percent and one cluster vector through `options.columns.cluster`; a fuzzy effect requires its receipt vector. RDD records the official `N` and `N_h`, retaining input IDs separately because the official object does not export fitted row IDs. The [fixest interface](https://lrberge.github.io/fixest/reference/feols.html) and [pinned rdrobust source](https://github.com/rdpackages/rdrobust/blob/0e990b829bc123334b5227f1ae7d820faff14726/R/rdrobust/R/rdrobust.R) define these argument and count contracts.
+- The same inference binding passes explicit cluster columns and confidence levels to the existing fixest and RDD calls.
+- `fixest::feols`/`fepois` receive a `vcov` cluster formula with the adopted cluster columns; the runner invokes the official fitted object's `confint(level=...)`.
+- `rdrobust::rdrobust` receives `level` in percent and one cluster vector through `options.columns.cluster`; a fuzzy effect requires its receipt vector.
+- RDD records the official `N` and `N_h`, retaining input IDs separately because the official object does not export fitted row IDs.
+- The [fixest interface](https://lrberge.github.io/fixest/reference/feols.html) and [pinned rdrobust source](https://github.com/rdpackages/rdrobust/blob/0e990b829bc123334b5227f1ae7d820faff14726/R/rdrobust/R/rdrobust.R) define these argument and count contracts.
 
-For cluster inference, retain the declared independent cluster count, treated-cluster count and common shocks, and reconcile them with the fitted sample. The selector's inference comparisons connect saved linear-model fits to the existing `fwildclusterboot::boottest` or `clubSandwich::coef_test` operation. They preserve the fitted sample, coefficient contrast and null, report the supported model class and leave the adopted inference intact. An explicit wild-bootstrap `options.seed` seeds both R and the package's `dqrng` generator. CR2/Satterthwaite and a null-imposed wild bootstrap use their own working covariance, leverage, bootstrap weight and assignment conditions. A count threshold alone does not choose their reference distribution. Saved group-time ATT and Anderson–Rubin confidence sets retain their estimator-specific inference.
+- For cluster inference, retain the declared independent cluster count, treated-cluster count and common shocks, and reconcile them with the fitted sample.
+- The selector's inference comparisons connect saved linear-model fits to the existing `fwildclusterboot::boottest` or `clubSandwich::coef_test` operation.
+- They preserve the fitted sample, coefficient contrast and null, report the supported model class and leave the adopted inference intact.
+- An explicit wild-bootstrap `options.seed` seeds both R and the package's `dqrng` generator.
+- CR2/Satterthwaite and a null-imposed wild bootstrap use their own working covariance, leverage, bootstrap weight and assignment conditions.
+- A count threshold alone does not choose their reference distribution.
+- Saved group-time ATT and Anderson–Rubin confidence sets retain their estimator-specific inference.
 
 ## DID nuisance specifications
 
-Match nuisance specifications as carefully as the final regression. `DRDID::drdid_panel` uses one supplied covariate matrix in both propensity and outcome nuisance models, expects a supplied intercept, and exposes a control-group trimming threshold. A requirement for different nuisance covariate sets needs an implementation that supports the chosen score and its inference. In a balanced-panel `did::att_gt` comparison, time-varying covariates use the earlier period; the unbalanced-panel/repeated-cross-section path uses period-specific covariates. Select that path deliberately and use the adopted group-time aggregation. Ordinary individual-level standard errors do not become clustered by supplying a cluster column elsewhere in the data. Use a documented procedure that carries the independent sampling unit into the chosen score or resampling calculation.
+- Match nuisance specifications as carefully as the final regression.
+- `DRDID::drdid_panel` uses one supplied covariate matrix in both propensity and outcome nuisance models, expects a supplied intercept, and exposes a control-group trimming threshold.
+- A requirement for different nuisance covariate sets needs an implementation that supports the chosen score and its inference.
+- In a balanced-panel `did::att_gt` comparison, time-varying covariates use the earlier period; the unbalanced-panel/repeated-cross-section path uses period-specific covariates.
+- Select that path deliberately and use the adopted group-time aggregation.
+- Ordinary individual-level standard errors do not become clustered by supplying a cluster column elsewhere in the data.
+- Use a documented procedure that carries the independent sampling unit into the chosen score or resampling calculation.
 
 ## Staggered DID fits and display
 
-For `staggered_did`, pass all adopted inference choices to `did::att_gt`, then pass the adopted `aggte` settings. The runner retains its historical defaults for existing specifications and forwards explicit `clustervars`, `bstrap`, `biters`, `cband`, `alp`, `base_period`, `anticipation`, panel/unbalanced-panel settings and `weightsname`. Aggregation can specify `type`, `balance_e`, event window and its bootstrap settings. Save official standard errors and critical values directly. The joint analytical covariance of the official influence functions and bootstrap standard errors are separately named. Keep the normalized reference in the display as a reference row; save pretreatment diagnostic rows and post-treatment ATT with their distinct roles. Each event-time aggregate carries its cohort weights and actual target-sample IDs.
+- For `staggered_did`, pass all adopted inference choices to `did::att_gt`, then pass the adopted `aggte` settings.
+- The runner retains its historical defaults for existing specifications and forwards explicit `clustervars`, `bstrap`, `biters`, `cband`, `alp`, `base_period`, `anticipation`, panel/unbalanced-panel settings and `weightsname`.
+- Aggregation can specify `type`, `balance_e`, event window and its bootstrap settings.
+- Save official standard errors and critical values directly.
+- The joint analytical covariance of the official influence functions and bootstrap standard errors are separately named.
+- Keep the normalized reference in the display as a reference row; save pretreatment diagnostic rows and post-treatment ATT with their distinct roles.
+- Each event-time aggregate carries its cohort weights and actual target-sample IDs.
 
-Use the returned `display.rows` for tables and figures. Event-study rows carry `event_time`, estimate, standard error, saved interval endpoints, population count, units and role. `display.metadata` carries the aggregation, interval family, level and adopted reference. The existing gallery renders these saved values. A gallery operation has no estimation or re-inference step.
+- Use the returned `display.rows` for tables and figures.
+- Event-study rows carry `event_time`, estimate, standard error, saved interval endpoints, population count, units and role.
+- `display.metadata` carries the aggregation, interval family, level and adopted reference.
+- The existing gallery renders these saved values.
+- A gallery operation has no estimation or re-inference step.
 
 | Native result | Extraction into the existing result owner |
 | --- | --- |
@@ -71,22 +142,47 @@ Use the returned `display.rows` for tables and figures. Event-study rows carry `
 
 ## Official DoubleML score fitting
 
-DoubleML selection materializes the official score and the [causal runner's executable specification](../../econ-design/references/causal-models/heterogeneity.md#official-doubleml-fits): IRM uses `ATE` or `ATTE`, PLIV preserves `partialling out` or `IV-type`, and IIVM uses `LATE`. `run` constructs the official class with the adopted treatment/instrument roles, nuisance learners, independent-unit folds and supported clustering, then saves official coefficients, SEs, p values and confidence intervals in the common result. Actual folds, score components, nuisance predictions, weight definitions and repeated-split estimates remain attached to their sample IDs. The same selector and causal runner execute PLR (`partialling out` or `IV-type`) and two-period panel DID (`observational` or `experimental`). Existing `research.py estimate` inputs retain their supported interface and call that same fitting function, carrying their original KFold or StratifiedKFold identities and learner defaults into its explicit sample-splitting input. Their saved results also retain the official score components and nuisance predictions. The versioned IIVM normalization restriction and official correction are recorded in the causal contract; an unsupported setting is rejected before fitting.
+- DoubleML selection materializes the official score and the [causal runner's executable specification](../../econ-design/references/causal-models/heterogeneity.md#official-doubleml-fits): IRM uses `ATE` or `ATTE`, PLIV preserves `partialling out` or `IV-type`, and IIVM uses `LATE`.
+- `run` constructs the official class with the adopted treatment/instrument roles, nuisance learners, independent-unit folds and supported clustering, then saves official coefficients, SEs, p values and confidence intervals in the common result.
+- Actual folds, score components, nuisance predictions, weight definitions and repeated-split estimates remain attached to their sample IDs.
+- The same selector and causal runner execute PLR (`partialling out` or `IV-type`) and two-period panel DID (`observational` or `experimental`).
+- Existing `research.py estimate` inputs retain their supported interface and call that same fitting function, carrying their original KFold or StratifiedKFold identities and learner defaults into its explicit sample-splitting input.
+- Their saved results also retain the official score components and nuisance predictions.
+- The versioned IIVM normalization restriction and official correction are recorded in the causal contract; an unsupported setting is rejected before fitting.
 
 ## Julia fixed effects and IV execution
 
-The causal runner's `fixed_effects_julia` calls [FixedEffectModels.jl 2.2.0 `reg`](https://github.com/FixedEffects/FixedEffectModels.jl/blob/d2ed2c727072af20a79767bc66f4b5a562e2ad98/src/fit.jl) for the adopted linear projection or IV model with declared fixed-effect columns. It binds analytic weights, homoskedastic/HC1/cluster covariance, demeaning tolerance, iteration limit and singleton rule, and executes on CPU in Float64. The saved result retains the official coefficient names, covariance, intervals, `esample`, convergence and Julia/package versions, plus the serialized fit and data identity. Bind the project's Julia executable and `Project.toml`/`Manifest.toml` to the existing stage; select this implementation from its required function or observed performance on the adopted calculation.
+- The causal runner's `fixed_effects_julia` calls [FixedEffectModels.jl 2.2.0 `reg`](https://github.com/FixedEffects/FixedEffectModels.jl/blob/d2ed2c727072af20a79767bc66f4b5a562e2ad98/src/fit.jl) for the adopted linear projection or IV model with declared fixed-effect columns.
+- It binds analytic weights, homoskedastic/HC1/cluster covariance, demeaning tolerance, iteration limit and singleton rule, and executes on CPU in Float64.
+- The saved result retains the official coefficient names, covariance, intervals, `esample`, convergence and Julia/package versions, plus the serialized fit and data identity.
+- Bind the project's Julia executable and `Project.toml`/`Manifest.toml` to the existing stage; select this implementation from its required function or observed performance on the adopted calculation.
 
 ## Official project scripts
 
-The [official implementation selector](../../econ-design/scripts/research_design.py) also binds model-specific native programs to the existing [research argv stage](../../../harness/research.md#capture-the-selected-python-r-or-julia-environment). Select the adopted Bayesian engine or business design from the corresponding sections in [implementation selection](implementation-engines.md#bayesian-project-implementations). Retain each existing project's model program and native package calls in that stage.
+- The [official implementation selector](../../econ-design/scripts/research_design.py) also binds model-specific native programs to the existing [research argv stage](../../../harness/research.md#capture-the-selected-python-r-or-julia-environment).
+- Select the adopted Bayesian engine or business design from the corresponding sections in [implementation selection](implementation-engines.md#bayesian-project-implementations).
+- Retain each existing project's model program and native package calls in that stage.
 
-Supply `options.stage` using the harness's existing stage object: `id`, literal `argv`, declared `inputs`, `depends` (an empty object for an independent stage), named `outputs` and `runtime` with its actual `language` and `probe_argv` interpreter/options prefix. Declare the canonical data, adopted specification, model program, helper files and native model sources in stage inputs. `runtime.files` tracks the selected lock/project files; Julia includes Project.toml and Manifest.toml with the actual `--project` prefix. External CmdStan/toolchain binaries use the stage's existing `executables` and tracked installation/model files. The normal harness owns input paths, placeholders, runtime identity, failure propagation and complete output publication.
+- Supply `options.stage` using the harness's existing stage object: `id`, literal `argv`, declared `inputs`, `depends` (an empty object for an independent stage), named `outputs` and `runtime` with its actual `language` and `probe_argv` interpreter/options prefix.
+- Declare the canonical data, adopted specification, model program, helper files and native model sources in stage inputs.
+- `runtime.files` tracks the selected lock/project files; Julia includes Project.toml and Manifest.toml with the actual `--project` prefix.
+- External CmdStan/toolchain binaries use the stage's existing `executables` and tracked installation/model files.
+- The normal harness owns input paths, placeholders, runtime identity, failure propagation and complete output publication.
 
-Selection returns `official_implementation.execution_specification.stage`. The selector merges the chosen exact package pins and supported Python/R `runtime.apis` into the supplied stage, retains its scientific inputs/outputs and rejects conflicting selected versions. It tracks the selector source owning those pins. `status="inputs_required"` lists absent stage bindings; `status="specified"` carries the adopted stage into the existing manifest. The installed API probe checks its actual version/signature in the same interpreter that executes the program. Install only the returned Python `install_requirements` or restore the selected R/Julia project according to `installation`; the actual runtime records its full installed dependency closure.
+- Selection returns `official_implementation.execution_specification.stage`.
+- The selector merges the chosen exact package pins and supported Python/R `runtime.apis` into the supplied stage, retains its scientific inputs/outputs and rejects conflicting selected versions.
+- It tracks the selector source owning those pins.
+- `status="inputs_required"` lists absent stage bindings; `status="specified"` carries the adopted stage into the existing manifest.
+- The installed API probe checks its actual version/signature in the same interpreter that executes the program.
+- Install only the returned Python `install_requirements` or restore the selected R/Julia project according to `installation`; the actual runtime records its full installed dependency closure.
 
-The native program converts the canonical table to the selected API's declared model input: Stan/NumPyro/Turing arguments; MMM geo/time/channel arrays; CLV customer summaries; forecast ID/time tables and summing matrix; optimizer variables/constraints; survival duration/event tables; energy components; or graph/agent initial states. Preserve observation IDs, temporal ordering, sample/weights, units, parameter roles and scenario definitions through that transformation. Use the selected official fit, predictive, diagnostic, reconciliation or solver function directly.
+- The native program converts the canonical table to the selected API's declared model input: Stan/NumPyro/Turing arguments; MMM geo/time/channel arrays; CLV customer summaries; forecast ID/time tables and summing matrix; optimizer variables/constraints; survival duration/event tables; energy components; or graph/agent initial states.
+- Preserve observation IDs, temporal ordering, sample/weights, units, parameter roles and scenario definitions through that transformation.
+- Use the selected official fit, predictive, diagnostic, reconciliation or solver function directly.
 
-Save the complete native fit, chain files, predictive samples or network/model artifact among the stage's named outputs. Its result summary retains the adopted specification/data identities, actual package/runtime/call/options, coefficient/draw/series/node labels, scientific convergence or solver status, inference/diagnostics and economic units. Bayesian actions retain draw-level expected profit/loss and feasible constraints; forecast/inventory actions retain lead-time demand/scenario probabilities and the adopted underage/overage costs; budget/capacity actions retain both the objective and resource restrictions. Bind tables, figures and prose to these saved quantities through the same result dependencies and renderer used by existing fits.
+- Save the complete native fit, chain files, predictive samples or network/model artifact among the stage's named outputs.
+- Its result summary retains the adopted specification/data identities, actual package/runtime/call/options, coefficient/draw/series/node labels, scientific convergence or solver status, inference/diagnostics and economic units.
+- Bayesian actions retain draw-level expected profit/loss and feasible constraints; forecast/inventory actions retain lead-time demand/scenario probabilities and the adopted underage/overage costs; budget/capacity actions retain both the objective and resource restrictions.
+- Bind tables, figures and prose to these saved quantities through the same result dependencies and renderer used by existing fits.
 
 The selector describes the required native result in `result_contract`; the program's producing call and returned output establish the result. Existing `bayesian_model` PyMC/CausalPy specifications continue through their native causal-runner interface with `model_file`, `builder`, sampling and posterior output.

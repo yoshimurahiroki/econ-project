@@ -1,66 +1,167 @@
 ## Closed-city commuting and floor-space equilibrium
 
-Set `model="qse_commuting"` for `MC-qse-commuting` in the same macro runner. This implements the mixed-use closed-city ARSW (2015) economy: workers choose a residence and workplace, firms rent labor and commercial floor space, and fixed floor supply is allocated between commercial and residential use. The homogeneous traded good has price one. The source comparison is the [QSETRANSPORT Python inversion](https://github.com/Ahlfeldt/QSETRANSPORT-toolkit/blob/c3e212843bff81a9d69df75bb7e6aac022bea8c8/QUETRANSPORT-PythonOnly/src/python/functions/inversion/baseline.py) and [equilibrium core](https://github.com/Ahlfeldt/QSETRANSPORT-toolkit/blob/c3e212843bff81a9d69df75bb7e6aac022bea8c8/QUETRANSPORT-PythonOnly/src/python/functions/equilibrium/model.py). Its spatial preprocessing and map rendering are separate upstream operations. The existing `spatial_lag` estimator retains its regression contract.
+- Set `model="qse_commuting"` for `MC-qse-commuting` in the same macro runner.
+- This implements the mixed-use closed-city ARSW (2015) economy: workers choose a residence and workplace, firms rent labor and commercial floor space, and fixed floor supply is allocated between commercial and residential use.
+- The homogeneous traded good has price one.
+- The source comparison is the [QSETRANSPORT Python inversion](https://github.com/Ahlfeldt/QSETRANSPORT-toolkit/blob/c3e212843bff81a9d69df75bb7e6aac022bea8c8/QUETRANSPORT-PythonOnly/src/python/functions/inversion/baseline.py) and [equilibrium core](https://github.com/Ahlfeldt/QSETRANSPORT-toolkit/blob/c3e212843bff81a9d69df75bb7e6aac022bea8c8/QUETRANSPORT-PythonOnly/src/python/functions/equilibrium/model.py).
+- Its spatial preprocessing and map rendering are separate upstream operations.
+- The existing `spatial_lag` estimator retains its regression contract.
 
 ### Model and inversion
 
-Let `alpha` be the labor share, `beta` the **goods expenditure share**, `epsilon>1` the Fréchet shape and `kappa` the commuting utility cost per travel-time unit. All locations have positive residence population, workplace employment, rent, land area, productivity, amenities and total floor supply. Workers have one unit of labor and iid Fréchet tastes over residence-workplace pairs. With residence rows and workplace columns,
+- Let `alpha` be the labor share, `beta` the **goods expenditure share**, `epsilon>1` the Fréchet shape and `kappa` the commuting utility cost per travel-time unit.
+- All locations have positive residence population, workplace employment, rent, land area, productivity, amenities and total floor supply.
+- Workers have one unit of labor and iid Fréchet tastes over residence-workplace pairs.
+- With residence rows and workplace columns,
 
 `phi_ij = exp(-epsilon*kappa*t_ij)*B_i^epsilon*q_i^(-(1-beta)*epsilon)*w_j^epsilon`,
 `pi_ij = phi_ij/sum(phi)`, `R_i=N*sum_j pi_ij`, `L_j=N*sum_i pi_ij`, and `I_i=N*sum_j pi_ij*w_j`.
 
-Total productivity is `A_i=a_i*[sum_j exp(-productivity_decay*t_ij)*L_j/area_j]^productivity_spillover`. Total amenities are `B_i=b_i*[sum_j exp(-amenity_decay*t_ij)*R_j/area_j]^amenity_spillover`. The invariant primitives are `a,b,F,area,N`; policies multiply `a,b,F` or replace `t`. Each changed equilibrium recalculates both density kernels and their population inputs.
+- Total productivity is `A_i=a_i*[sum_j exp(-productivity_decay*t_ij)*L_j/area_j]^productivity_spillover`.
+- Total amenities are `B_i=b_i*[sum_j exp(-amenity_decay*t_ij)*R_j/area_j]^amenity_spillover`.
+- The invariant primitives are `a,b,F,area,N`; policies multiply `a,b,F` or replace `t`.
+- Each changed equilibrium recalculates both density kernels and their population inputs.
 
-Firms produce `Y_i=A_i*L_i^alpha*S_i^(1-alpha)`, with `w_i=alpha*Y_i/L_i` and `q_i=(1-alpha)*Y_i/S_i`. Residential floor demand is `H_i=(1-beta)*I_i/q_i`. Total floor clearing is `S_i+H_i=F_i`, and the endogenous commercial share is `theta_i=S_i/F_i` in `(0,1)`. Equal commercial and residential rents implement free allocation between uses. Saving `F_i` directly preserves the upstream construction quantity `density_i*area_i^construction_land_share` at the supplied land area.
+- Firms produce `Y_i=A_i*L_i^alpha*S_i^(1-alpha)`, with `w_i=alpha*Y_i/L_i` and `q_i=(1-alpha)*Y_i/S_i`.
+- Residential floor demand is `H_i=(1-beta)*I_i/q_i`.
+- Total floor clearing is `S_i+H_i=F_i`, and the endogenous commercial share is `theta_i=S_i/F_i` in `(0,1)`.
+- Equal commercial and residential rents implement free allocation between uses.
+- Saving `F_i` directly preserves the upstream construction quantity `density_i*area_i^construction_land_share` at the supplied land area.
 
-`operation="invert_baseline"` takes `parameters`, `calibration_source`, and `baseline` containing `location_ids`, `population`, `employment`, `rent`, `land_area`, `wage_numeraire`, `travel_time` and `source`. The vectors and square travel matrix share the declared location order; times are finite and nonnegative. Population and employment totals must match. `wage_numeraire` is the positive baseline employment-weighted mean wage in the rent's currency and period. The runner divides observed rents by it and normalizes the recovered employment-weighted mean wage to one. The baseline population-weighted mean total amenity is also one. `source` identifies the observations, their period and units; `calibration_source` identifies the fixed elasticities and decay coefficients.
+- `operation="invert_baseline"` takes `parameters`, `calibration_source`, and `baseline` containing `location_ids`, `population`, `employment`, `rent`, `land_area`, `wage_numeraire`, `travel_time` and `source`.
+- The vectors and square travel matrix share the declared location order; times are finite and nonnegative.
+- Population and employment totals must match.
+- `wage_numeraire` is the positive baseline employment-weighted mean wage in the rent's currency and period.
+- The runner divides observed rents by it and normalizes the recovered employment-weighted mean wage to one.
+- The baseline population-weighted mean total amenity is also one.
+- `source` identifies the observations, their period and units; `calibration_source` identifies the fixed elasticities and decay coefficients.
 
-The inversion passes the commuting marginal equations to official SciPy `least_squares(method="trf")` in log destination multipliers. One destination multiplier is fixed at zero to remove the scale indeterminacy; origin multipliers follow analytically from the observed residence shares. Acceptance evaluates every original origin and destination marginal with log residual at most `min(solver.tolerance,1e-11)`. The saved `inversion.iterations` records the official function-evaluation count. Destination multipliers recover wages; origin multipliers and observed rents recover total amenities. Firm first-order conditions give `A_i=(w_i/alpha)^alpha*(q_i/(1-alpha))^(1-alpha)`. Floor demands recover `F_i`; division by the two baseline density kernels recovers `a_i,b_i`. The calibrated elasticities remain fixed during this inversion. The output records balancing convergence, inverted primitives and baseline reproduction gaps.
+- The inversion passes the commuting marginal equations to official SciPy `least_squares(method="trf")` in log destination multipliers.
+- One destination multiplier is fixed at zero to remove the scale indeterminacy; origin multipliers follow analytically from the observed residence shares.
+- Acceptance evaluates every original origin and destination marginal with log residual at most `min(solver.tolerance,1e-11)`.
+- The saved `inversion.iterations` records the official function-evaluation count.
+- Destination multipliers recover wages; origin multipliers and observed rents recover total amenities.
+- Firm first-order conditions give `A_i=(w_i/alpha)^alpha*(q_i/(1-alpha))^(1-alpha)`.
+- Floor demands recover `F_i`; division by the two baseline density kernels recovers `a_i,b_i`.
+- The calibrated elasticities remain fixed during this inversion.
+- The output records balancing convergence, inverted primitives and baseline reproduction gaps.
 
-The forward solution uses SciPy trust-region `least_squares` on log wages, rents, employment and residential population. Labor choice, residence choice, firm zero profit and total floor clearing supply its `4*n` equations. The returned allocation is substituted into the original labor, commercial/residential floor, firm-profit, goods and population equations. `solver.tolerance` defaults to `1e-9` and accepts `[1e-12,1e-3)`; `max_iterations` defaults to 10000. The saved original residuals retain their units, with relative and log residuals in `diagnostics`. The selected root starts from the inverted baseline; counterfactuals retain the baseline units and primitive normalization.
+- The forward solution uses SciPy trust-region `least_squares` on log wages, rents, employment and residential population.
+- Labor choice, residence choice, firm zero profit and total floor clearing supply its `4*n` equations.
+- The returned allocation is substituted into the original labor, commercial/residential floor, firm-profit, goods and population equations.
+- `solver.tolerance` defaults to `1e-9` and accepts `[1e-12,1e-3)`; `max_iterations` defaults to 10000.
+- The saved original residuals retain their units, with relative and log residuals in `diagnostics`.
+- The selected root starts from the inverted baseline; counterfactuals retain the baseline units and primitive normalization.
 
 ### Saved counterfactuals and welfare
 
-`operation="counterfactual"` takes `saved_solution:{path,sha256}` and `scenario`. The saved result supplies the baseline inputs, parameters, primitives and complete equilibrium. The file hash, result format, model contract, equation bodies and `qse_numerical_contract_version=1` must match. Reuse reevaluates the original baseline equations and expected utility without inversion or baseline solving. Versionless 0.68 results produced by SHA-256 `103b6ed7349325aac7fdef778da8fdcacf87b7d20722eb9181152c0ff23778cc` have the same numerical contract. The actual producer hash remains in provenance; unrelated edits to the shared macro script preserve this QSE compatibility. A saved closed- or open-city counterfactual can supply the same original baseline for another policy. The destination must differ from the saved source.
+- `operation="counterfactual"` takes `saved_solution:{path,sha256}` and `scenario`.
+- The saved result supplies the baseline inputs, parameters, primitives and complete equilibrium.
+- The file hash, result format, model contract, equation bodies and `qse_numerical_contract_version=1` must match.
+- Reuse reevaluates the original baseline equations and expected utility without inversion or baseline solving.
+- Versionless 0.68 results produced by SHA-256 `103b6ed7349325aac7fdef778da8fdcacf87b7d20722eb9181152c0ff23778cc` have the same numerical contract.
+- The actual producer hash remains in provenance; unrelated edits to the shared macro script preserve this QSE compatibility.
+- A saved closed- or open-city counterfactual can supply the same original baseline for another policy.
+- The destination must differ from the saved source.
 
-`scenario` accepts `name`, positive `productivity_hat`, `amenity_hat`, `floor_space_hat` and a nonnegative `travel_time` matrix. Hats are scalars or one value per location; omitted hats equal one and omitted times use the baseline. The example below improves commuting and expands floor supply at location `b`. It consumes the previous result without repeating baseline observations or parameters.
+- `scenario` accepts `name`, positive `productivity_hat`, `amenity_hat`, `floor_space_hat` and a nonnegative `travel_time` matrix.
+- Hats are scalars or one value per location; omitted hats equal one and omitted times use the baseline.
+- The example below improves commuting and expands floor supply at location `b`.
+- It consumes the previous result without repeating baseline observations or parameters.
 
 ```json
 {"model":"qse_commuting","operation":"counterfactual","saved_solution":{"path":"baseline-result.json","sha256":"RESULT_SHA256"},"scenario":{"floor_space_hat":[1,1.15,1],"travel_time":[[3,12,22],[15,4,12],[20,14,2]]}}
 ```
+- Expected optimized worker utility is `U=Gamma(1-1/epsilon)*(sum(phi))^(1/epsilon)`.
+- The fixed population consists of the same `N` workers before their taste draws.
+- Set `chi=U_s/U_b-1`.
+- Multiplying every potential baseline workplace wage by `1+chi`, with baseline rents fixed, gives the scenario expected utility.
+- Its expected transfer is `EV_workers=chi*sum_j w_bj*L_bj`, using baseline commuting probabilities and the baseline wage bill.
+- Local `residence_fixed_expected_utility` holds residence at the indicated location and optimizes the workplace choice; its definition travels with its saved row.
 
-Expected optimized worker utility is `U=Gamma(1-1/epsilon)*(sum(phi))^(1/epsilon)`. The fixed population consists of the same `N` workers before their taste draws. Set `chi=U_s/U_b-1`. Multiplying every potential baseline workplace wage by `1+chi`, with baseline rents fixed, gives the scenario expected utility. Its expected transfer is `EV_workers=chi*sum_j w_bj*L_bj`, using baseline commuting probabilities and the baseline wage bill. Local `residence_fixed_expected_utility` holds residence at the indicated location and optimizes the workplace choice; its definition travels with its saved row.
+- Floor owners are outside the worker population and own all commercial and residential floor space.
+- Their receipts `q_i*F_i` are consumed in the numeraire good; their linear-utility equivalent is `EV_owners=sum_i(q_si*F_si-q_bi*F_bi)`.
+- Firms have zero profits.
+- Workers consume `beta*sum_i I_i`, so the aggregate goods constraint is `sum_i Y_i-beta*sum_i I_i-sum_i q_i*F_i=0`.
+- Travel costs enter worker utility.
+- Floor-supply policies change an endowed quantity with zero construction resource cost.
+- `baseline_price_worker_and_external_owner_equivalent` sums the worker and owner income equivalents with unit weights.
+- Their individual amounts, worker utility ratio and firm-profit change have separate named statistics.
 
-Floor owners are outside the worker population and own all commercial and residential floor space. Their receipts `q_i*F_i` are consumed in the numeraire good; their linear-utility equivalent is `EV_owners=sum_i(q_si*F_si-q_bi*F_bi)`. Firms have zero profits. Workers consume `beta*sum_i I_i`, so the aggregate goods constraint is `sum_i Y_i-beta*sum_i I_i-sum_i q_i*F_i=0`. Travel costs enter worker utility. Floor-supply policies change an endowed quantity with zero construction resource cost. `baseline_price_worker_and_external_owner_equivalent` sums the worker and owner income equivalents with unit weights. Their individual amounts, worker utility ratio and firm-profit change have separate named statistics.
-
-The result saves the complete baseline, scenario, original residuals, commuting probabilities and worker counts, local net exports of the common good, calibrated parameter roles and definitions. Local and aggregate quantities enter `statistics` and `displays` for the existing registry, gallery and Writing path. Figures and prose reuse these saved values. The model uses NumPy and SciPy already declared by the macro requirements.
+- The result saves the complete baseline, scenario, original residuals, commuting probabilities and worker counts, local net exports of the common good, calibrated parameter roles and definitions.
+- Local and aggregate quantities enter `statistics` and `displays` for the existing registry, gallery and Writing path.
+- Figures and prose reuse these saved values.
+- The model uses NumPy and SciPy already declared by the macro requirements.
 
 ## Open-city commuting with free migration
 
-Set `model="qse_open_city"` for `MC-qse-open-city` in the same macro runner. Its operation is `counterfactual`; supply `saved_solution:{path,sha256}`, `scenario` and optional `solver` with the preceding QSE input definitions. Obtain a new observed baseline through `qse_commuting`'s `invert_baseline` operation. Both models use the same `solve_qse` implementation, commuting tastes, calibrated elasticities, density spillovers, common traded good, fixed mixed-use floor supply and external floor owners. The open city replaces fixed total population with free migration at the saved baseline's expected utility `U_b`.
+- Set `model="qse_open_city"` for `MC-qse-open-city` in the same macro runner.
+- Its operation is `counterfactual`; supply `saved_solution:{path,sha256}`, `scenario` and optional `solver` with the preceding QSE input definitions.
+- Obtain a new observed baseline through `qse_commuting`'s `invert_baseline` operation.
+- Both models use the same `solve_qse` implementation, commuting tastes, calibrated elasticities, density spillovers, common traded good, fixed mixed-use floor supply and external floor owners.
+- The open city replaces fixed total population with free migration at the saved baseline's expected utility `U_b`.
 
-All original residence, workplace, production and floor-market equations hold with endogenous positive population `N_s`. The solver adds `log(N_s)` to the unknowns and `log(U_s/U_b)=0` to the original equations. It starts from the saved baseline wages, rents, local employment, residents and total population. Each candidate population enters both density externalities and the commuting flows. The resulting equilibrium satisfies labor, floor and goods clearing together with migration indifference. The [official `solve_closure("open", ..., reservation_utility=U_b)`](https://github.com/Ahlfeldt/QSETRANSPORT-toolkit/blob/c3e212843bff81a9d69df75bb7e6aac022bea8c8/QUETRANSPORT-PythonOnly/src/python/functions/equilibrium/model.py) supplies the same closure through its population update.
+- All original residence, workplace, production and floor-market equations hold with endogenous positive population `N_s`.
+- The solver adds `log(N_s)` to the unknowns and `log(U_s/U_b)=0` to the original equations.
+- It starts from the saved baseline wages, rents, local employment, residents and total population.
+- Each candidate population enters both density externalities and the commuting flows.
+- The resulting equilibrium satisfies labor, floor and goods clearing together with migration indifference.
+- The [official `solve_closure("open", ..., reservation_utility=U_b)`](https://github.com/Ahlfeldt/QSETRANSPORT-toolkit/blob/c3e212843bff81a9d69df75bb7e6aac022bea8c8/QUETRANSPORT-PythonOnly/src/python/functions/equilibrium/model.py) supplies the same closure through its population update.
 
-The original baseline workers retain expected utility `U_b` under free migration. `worker_expected_utility_ratio` records `U_s/U_b`, and `population_change` and `population_change_fraction` record `N_s-N_b` and `N_s/N_b-1`. For the original baseline worker population, `worker_income_equivalent_fraction=U_s/U_b-1` and `worker_income_equivalent=(U_s/U_b-1)*sum_j(w_bj*L_bj)` give the equivalent proportional wage change and expected transfer at fixed baseline rents; free migration makes both zero at the equilibrium tolerance. External floor owners retain the linear-utility income equivalent `sum_i(q_si F_si-q_bi F_bi)`. These per-worker utility, baseline-population transfers, migration and owner-income quantities have separate definitions and units. The outside option enters through its fixed expected utility; the result reports the city allocations and the external floor owners' income. `migration_utility_log_residual` and the original utility difference accompany the existing market residuals. The saved equation, population, equilibrium-selection and welfare definitions enter all displays and the existing Writing handoff.
+- The original baseline workers retain expected utility `U_b` under free migration.
+- `worker_expected_utility_ratio` records `U_s/U_b`, and `population_change` and `population_change_fraction` record `N_s-N_b` and `N_s/N_b-1`.
+- For the original baseline worker population, `worker_income_equivalent_fraction=U_s/U_b-1` and `worker_income_equivalent=(U_s/U_b-1)*sum_j(w_bj*L_bj)` give the equivalent proportional wage change and expected transfer at fixed baseline rents; free migration makes both zero at the equilibrium tolerance.
+- External floor owners retain the linear-utility income equivalent `sum_i(q_si F_si-q_bi F_bi)`.
+- These per-worker utility, baseline-population transfers, migration and owner-income quantities have separate definitions and units.
+- The outside option enters through its fixed expected utility; the result reports the city allocations and the external floor owners' income.
+- `migration_utility_log_residual` and the original utility difference accompany the existing market residuals.
+- The saved equation, population, equilibrium-selection and welfare definitions enter all displays and the existing Writing handoff.
 
 ## City and hinterland with imperfect mobility
 
-Set `model="qse_imperfect_mobility"` for `MC-qse-imperfect-mobility`, with `operation="counterfactual"`, a hash-bound `saved_solution`, and the same `scenario` and `solver` inputs. The existing `solve_qse` retains the ARSW commuting, production, mixed-use floor markets and density spillovers above. Its additional city-population equation uses the migration primitive in [ABSJ2027 `solver`](https://github.com/Ahlfeldt/ABSJ2027-toolkit/blob/b5c8d32ccab117cb7b85f581cf29569c1eea893a/Python/functions/solver.py), from Ahlfeldt, Baum-Snow and Jedwab, *The Skyscraper Revolution: Global Economic Development and Land Savings*. Supply `migration={"zeta":...,"baseline_urban_share":...,"source":"..."}`. `zeta>0` is the elasticity of city-versus-hinterland population odds to city utility; `baseline_urban_share` is the observed fraction `s_b` of regional workers living in the baseline city, strictly between zero and one. `source` identifies this observation and the shape calibration.
+- Set `model="qse_imperfect_mobility"` for `MC-qse-imperfect-mobility`, with `operation="counterfactual"`, a hash-bound `saved_solution`, and the same `scenario` and `solver` inputs.
+- The existing `solve_qse` retains the ARSW commuting, production, mixed-use floor markets and density spillovers above.
+- Its additional city-population equation uses the migration primitive in [ABSJ2027 `solver`](https://github.com/Ahlfeldt/ABSJ2027-toolkit/blob/b5c8d32ccab117cb7b85f581cf29569c1eea893a/Python/functions/solver.py), from Ahlfeldt, Baum-Snow and Jedwab, *The Skyscraper Revolution: Global Economic Development and Land Savings*.
+- Supply `migration={"zeta":...,"baseline_urban_share":...,"source":"..."}`.
+- `zeta>0` is the elasticity of city-versus-hinterland population odds to city utility; `baseline_urban_share` is the observed fraction `s_b` of regional workers living in the baseline city, strictly between zero and one.
+- `source` identifies this observation and the shape calibration.
 
-The saved baseline supplies city population `N_b` and expected city utility `U_b`. The fixed regional population is `N_bar=N_b/s_b`. Calibrate the fixed hinterland attractiveness to `U_tilde=U_b^zeta*(1-s_b)/s_b`, the identity used by [ABSJ2027 `find_utilde`](https://github.com/Ahlfeldt/ABSJ2027-toolkit/blob/b5c8d32ccab117cb7b85f581cf29569c1eea893a/Python/functions/find_utilde.py). In each scenario,
+- The saved baseline supplies city population `N_b` and expected city utility `U_b`.
+- The fixed regional population is `N_bar=N_b/s_b`.
+- Calibrate the fixed hinterland attractiveness to `U_tilde=U_b^zeta*(1-s_b)/s_b`, the identity used by [ABSJ2027 `find_utilde`](https://github.com/Ahlfeldt/ABSJ2027-toolkit/blob/b5c8d32ccab117cb7b85f581cf29569c1eea893a/Python/functions/find_utilde.py).
+- In each scenario,
 
 `N=N_bar*U^zeta/(U^zeta+U_tilde)`,
 `logit(N/N_bar)-logit(s_b)=zeta*log(U/U_b)`.
 
-The regional worker chooses between the city opportunity value and a fixed hinterland opportunity before drawing the within-city residence-workplace tastes. At this outer choice, log opportunity values have iid extreme-value shocks of scale `1/zeta`. The population elasticity is `d log N/d log U=zeta*(1-N/N_bar)`. Population and city utility adjust together after a productivity, amenity, endowed-floor or travel-time intervention. Hinterland population is `N_bar-N`; its opportunity value remains fixed through the counterfactual.
+- The regional worker chooses between the city opportunity value and a fixed hinterland opportunity before drawing the within-city residence-workplace tastes.
+- At this outer choice, log opportunity values have iid extreme-value shocks of scale `1/zeta`.
+- The population elasticity is `d log N/d log U=zeta*(1-N/N_bar)`.
+- Population and city utility adjust together after a productivity, amenity, endowed-floor or travel-time intervention.
+- Hinterland population is `N_bar-N`; its opportunity value remains fixed through the counterfactual.
 
-The solver adds one log-odds coordinate to the same `4*n` log wage, rent, employment and residence unknowns. It recovers `N` with the logistic map and includes the migration log-odds equation in the existing trust-region residual vector. The original city labor, residence, production, floor and goods equations use this candidate population. The initial state is the saved baseline and `logit(s_b)`. The saved `state_log` ends with this population log-odds coordinate. `migration_log_odds_residual`, `migration_population_relative_residual` and `original_residuals.migration_population` accompany the existing original-equation residuals and tolerance. No baseline inversion or solve is repeated.
+- The solver adds one log-odds coordinate to the same `4*n` log wage, rent, employment and residence unknowns.
+- It recovers `N` with the logistic map and includes the migration log-odds equation in the existing trust-region residual vector.
+- The original city labor, residence, production, floor and goods equations use this candidate population.
+- The initial state is the saved baseline and `logit(s_b)`.
+- The saved `state_log` ends with this population log-odds coordinate.
+- `migration_log_odds_residual`, `migration_population_relative_residual` and `original_residuals.migration_population` accompany the existing original-equation residuals and tolerance.
+- No baseline inversion or solve is repeated.
 
 Regional welfare uses the ABSJ index `V=(U^zeta+U_tilde)^(1/zeta)`. With the common outer shock constant normalized to zero, `log(V)` is expected optimized log opportunity value per regional worker. The saved ratio is evaluated directly in log coordinates:
 
 `log(V_s/V_b)=log((1-s_b)+s_b*(U_s/U_b)^zeta)/zeta`.
 
-`regional_welfare_index_ratio` and `regional_expected_log_utility_change` refer to the same fixed regional population. `city_worker_income_equivalent_fraction=U_s/U_b-1` and `city_worker_income_equivalent=(U_s/U_b-1)*sum_j(w_bj*L_bj)` value the change in city opportunities for the original baseline city population conditional on city residence, at baseline rents. `owner_income_change` retains the external floor owners' income difference. These quantities keep their respective population and utility or income units. `population_change` and its fraction record migration into the city. The original fixed-population and perfectly open-city welfare calculations retain their definitions.
+- `regional_welfare_index_ratio` and `regional_expected_log_utility_change` refer to the same fixed regional population.
+- `city_worker_income_equivalent_fraction=U_s/U_b-1` and `city_worker_income_equivalent=(U_s/U_b-1)*sum_j(w_bj*L_bj)` value the change in city opportunities for the original baseline city population conditional on city residence, at baseline rents.
+- `owner_income_change` retains the external floor owners' income difference.
+- These quantities keep their respective population and utility or income units.
+- `population_change` and its fraction record migration into the city.
+- The original fixed-population and perfectly open-city welfare calculations retain their definitions.
 
-The result saves `migration`, `mobility.regional_population`, `mobility.outside_log_utility`, and each scenario's urban share, hinterland population and regional welfare comparison. Named statistics and aggregate/welfare display rows carry these values through the existing gallery and writing path. A saved imperfect-mobility result can supply its original baseline and migration inputs for another policy; omit `migration` to restore them, or provide the same values. A new migration calibration starts from the original closed- or open-city baseline result. All routes retain the same QSE numerical-contract checks and require a destination distinct from the saved source. NumPy and SciPy remain the execution dependencies.
-
+- The result saves `migration`, `mobility.regional_population`, `mobility.outside_log_utility`, and each scenario's urban share, hinterland population and regional welfare comparison.
+- Named statistics and aggregate/welfare display rows carry these values through the existing gallery and writing path.
+- A saved imperfect-mobility result can supply its original baseline and migration inputs for another policy; omit `migration` to restore them, or provide the same values.
+- A new migration calibration starts from the original closed- or open-city baseline result.
+- All routes retain the same QSE numerical-contract checks and require a destination distinct from the saved source.
+- NumPy and SciPy remain the execution dependencies.

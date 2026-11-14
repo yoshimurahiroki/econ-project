@@ -2,7 +2,9 @@
 
 Use for double machine learning (choose the score and target before the learners) and generalized random forests (conditional effects; heterogeneity claims need direct contrasts or calibration tests).
 
-Select `design="orthogonal_score"` and its native `score`; `implementation="doubleml"` also connects sample-selection and quantile-effect targets. Retain the chosen population contrast before selecting learners. These models share the causal run schema and official fitting owner.
+- Select `design="orthogonal_score"` and its native `score`; `implementation="doubleml"` also connects sample-selection and quantile-effect targets.
+- Retain the chosen population contrast before selecting learners.
+- These models share the causal run schema and official fitting owner.
 
 | Method | Official score and target | Required nuisance learners |
 | --- | --- | --- |
@@ -16,34 +18,76 @@ Select `design="orthogonal_score"` and its native `score`; `implementation="doub
 | `dml_pq` | `PQ`: the marginal potential-outcome quantile Q_Y(d)(τ) at the declared binary treatment level d, under conditional exchangeability, overlap and the native density regularity conditions. | Classifier `ml_g` estimates the conditional outcome CDF at the preliminary quantile; classifier `ml_m` estimates treatment propensity. The native derivative uses its weighted Gaussian KDE with Silverman bandwidth. |
 | `dml_cvar` | `CVaR`: C_τ(d)=q_τ(d)+E[(Y(d)−q_τ(d))_+]/(1−τ), the upper-tail potential-outcome mean. | Regression `ml_g` learns the threshold-transformed outcome; classifier `ml_m` learns treatment propensity. Native preliminary potential-quantile estimation supplies the threshold. |
 | `dml_apo` | `APO`: E[Y(d)] at one observed numeric treatment level d in a binary or multivalued treatment, under conditional exchangeability and overlap for that level. | `ml_g` learns conditional outcomes at d and its complement; classifier `ml_m` learns P(D=d given X). Binary outcomes also permit a classifier `ml_g`. |
+- `regressors` names covariates.
+- PLIV uses one endogenous treatment and excluded instruments; IIVM uses binary treatment/instrument.
+- Other models use `options.treatment`, with empty `endogenous`; instruments enter only nonignorable SSM and LPQ.
+- Binary variables contain 0/1 and column roles are distinct.
+- DID takes one row per unit, post outcome and `options.outcome_pre`; it passes their difference to `DoubleMLDIDData` using pretreatment covariates.
 
-`regressors` names covariates. PLIV uses one endogenous treatment and excluded instruments; IIVM uses binary treatment/instrument. Other models use `options.treatment`, with empty `endogenous`; instruments enter only nonignorable SSM and LPQ. Binary variables contain 0/1 and column roles are distinct. DID takes one row per unit, post outcome and `options.outcome_pre`; it passes their difference to `DoubleMLDIDData` using pretreatment covariates.
+- Common options are `score`, `n_folds>=2`, nonnegative integer `seed` and official-name `learners`.
+- Each learner supplies `type` and optional native constructor `params`: `linear`, `ridge`, `lasso`, `logistic`, `random_forest_regressor`, `random_forest_classifier`, `hist_gradient_boosting_regressor`, or `hist_gradient_boosting_classifier`.
+- IRM/IIVM permit classifier `ml_g` for binary outcomes; the runner retains effective settings, supplies omitted stochastic seeds and one worker, and the official class validates regression/classification interfaces.
+- Select the actual learner through the existing interface rather than reproducing its constructors here.
 
-Common options are `score`, `n_folds>=2`, nonnegative integer `seed` and official-name `learners`. Each learner supplies `type` and optional native constructor `params`: `linear`, `ridge`, `lasso`, `logistic`, `random_forest_regressor`, `random_forest_classifier`, `hist_gradient_boosting_regressor`, or `hist_gradient_boosting_classifier`. IRM/IIVM permit classifier `ml_g` for binary outcomes; the runner retains effective settings, supplies omitted stochastic seeds and one worker, and the official class validates regression/classification interfaces. Select the actual learner through the existing interface rather than reproducing its constructors here.
+- SSM adds binary `selection`.
+- MAR has no instruments; nonignorable selection requires excluded selection instruments, relevance, outcome exclusion/conditional independence, scalar-threshold selection S=1{V≤ξ(D,X,Z)}, V independent of D,Z given X, treatment overlap conditional on X/selection propensity and conditional effect homogeneity.
+- Read the [official SSM model](https://docs.doubleml.org/stable/guide/models.html#sample-selection-models-ssm) for that adopted model.
+- Keep S=0 rows with missing Y; only the estimator frame substitutes Y=0 there, since the score multiplies their outcome residual by S. Save selection/observed/unselected IDs.
+- Native `ml_pi` stays untrimmed; nonignorable `ml_g` is a regressor, while MAR permits a classifier for binary Y. Heckman retains its separate joint-Gaussian coefficient target.
 
-SSM adds binary `selection`. MAR has no instruments; nonignorable selection requires excluded selection instruments, relevance, outcome exclusion/conditional independence, scalar-threshold selection S=1{V≤ξ(D,X,Z)}, V independent of D,Z given X, treatment overlap conditional on X/selection propensity and conditional effect homogeneity. Read the [official SSM model](https://docs.doubleml.org/stable/guide/models.html#sample-selection-models-ssm) for that adopted model. Keep S=0 rows with missing Y; only the estimator frame substitutes Y=0 there, since the score multiplies their outcome residual by S. Save selection/observed/unselected IDs. Native `ml_pi` stays untrimmed; nonignorable `ml_g` is a regressor, while MAR permits a classifier for binary Y. Heckman retains its separate joint-Gaussian coefficient target.
+- QTE takes strictly increasing `quantiles` in (0,1); LPQ adds one binary instrument.
+- PQ/CVaR take a scalar `quantile` and binary `treatment_level`.
+- APO's finite observed numeric treatment level needs another level and at least five selected-level observations.
+- Retain each potential-quantile, upper-tail or potential-mean coordinate; other distributional/DID routes preserve their own targets.
 
-QTE takes strictly increasing `quantiles` in (0,1); LPQ adds one binary instrument. PQ/CVaR take a scalar `quantile` and binary `treatment_level`. APO's finite observed numeric treatment level needs another level and at least five selected-level observations. Retain each potential-quantile, upper-tail or potential-mean coordinate; other distributional/DID routes preserve their own targets.
+- `n_rep` defaults to 1.
+- Official folds split independent units: DID/IRM/APO/quantile models stratify by D, IIVM by D+2Z, SSM by D+2S; clustering splits labels.
+- `inference.type="official"` uses independent observations; `cluster` binds one `cluster` or two `clusters` columns.
+- QTE/PQ/CVaR and nonignorable SSM require independent rows because native preliminary splits operate within training samples.
+- MAR SSM/APO support clustering.
+- `n_folds` is per cluster dimension.
 
-`n_rep` defaults to 1. Official folds split independent units: DID/IRM/APO/quantile models stratify by D, IIVM by D+2Z, SSM by D+2S; clustering splits labels. `inference.type="official"` uses independent observations; `cluster` binds one `cluster` or two `clusters` columns. QTE/PQ/CVaR and nonignorable SSM require independent rows because native preliminary splits operate within training samples. MAR SSM/APO support clustering. `n_folds` is per cluster dimension.
+- Adopted `sample_splitting` supplies repetitions of fold objects with string `train_ids`/`test_ids`; cluster folds also bind `train_clusters`/`test_clusters`.
+- Their row sets equal the intersection of partitioned cluster dimensions.
+- Official `set_sample_splitting` validates them.
+- Preserve nested half-sample seed 42, strata, propensity folds and actual observation IDs in the result.
 
-Adopted `sample_splitting` supplies repetitions of fold objects with string `train_ids`/`test_ids`; cluster folds also bind `train_clusters`/`test_clusters`. Their row sets equal the intersection of partitioned cluster dimensions. Official `set_sample_splitting` validates them. Preserve nested half-sample seed 42, strata, propensity folds and actual observation IDs in the result.
+- Retain official repeated-split estimates and inference; `confidence_level` defaults to .95.
+- `joint=true` requires `bootstrap={"method":"normal","n_rep_boot":500}` (also `Bayes`/`wild`); retain returned native t statistics and official `coef`, `se`, `pval`, `confint(level=...)`.
+- Version 0.11.4's bootstrap supports independent observations; clustered estimates use native analytical score variance.
+- QTE uses paired potential-outcome models and the native joint framework.
+- Unexported cross-quantile covariance is JSON `null`, while joint intervals use the actual native bootstrap.
 
-Retain official repeated-split estimates and inference; `confidence_level` defaults to .95. `joint=true` requires `bootstrap={"method":"normal","n_rep_boot":500}` (also `Bayes`/`wild`); retain returned native t statistics and official `coef`, `se`, `pval`, `confint(level=...)`. Version 0.11.4's bootstrap supports independent observations; clustered estimates use native analytical score variance. QTE uses paired potential-outcome models and the native joint framework. Unexported cross-quantile covariance is JSON `null`, while joint intervals use the actual native bootstrap.
-
-IRM/IIVM/SSM/quantile/APO families expose `ps_processor_config`, `trimming_rule`, `trimming_threshold` and `normalize_ipw`; IIVM preserves `subgroups={"always_takers":true,"never_takers":true}` or the adopted one-sided restriction. IRM ATE and APO accept a weight column or native input-order vector/dictionary. A dictionary supplies `weights` by input row and `weights_bar` by input row/repetition; a weights-only dictionary becomes the native vector. Subset weights to the recorded sample without rescaling. Native `psi_a=-weights/mean(weights)` and outcome/correction weights define the adopted target; propensity normalization is separate. SSM, quantile/tail, PLR and DID have no sampling-weight argument. PLR retains residual-treatment weighting; DID retains native ATT normalization (`in_sample_normalization=true`) and clipping (`clipping_threshold=.01`, strictly between 0 and .5).
+- IRM/IIVM/SSM/quantile/APO families expose `ps_processor_config`, `trimming_rule`, `trimming_threshold` and `normalize_ipw`; IIVM preserves `subgroups={"always_takers":true,"never_takers":true}` or the adopted one-sided restriction.
+- IRM ATE and APO accept a weight column or native input-order vector/dictionary.
+- A dictionary supplies `weights` by input row and `weights_bar` by input row/repetition; a weights-only dictionary becomes the native vector.
+- Subset weights to the recorded sample without rescaling.
+- Native `psi_a=-weights/mean(weights)` and outcome/correction weights define the adopted target; propensity normalization is separate.
+- SSM, quantile/tail, PLR and DID have no sampling-weight argument.
+- PLR retains residual-treatment weighting; DID retains native ATT normalization (`in_sample_normalization=true`) and clipping (`clipping_threshold=.01`, strictly between 0 and .5).
 
 On pinned 0.11.4, IIVM and SSM reject `normalize_ipw=true` pending their official corrections: [IIVM e31e61e](https://github.com/DoubleML/doubleml-for-py/commit/e31e61efe8864c160c04488d91f1306e1e25c129), [SSM 7d2225b](https://github.com/DoubleML/doubleml-for-py/commit/7d2225b6756f4329ce7fe47a3002f48eb3b30dff). Preserve the adopted setting; do not silently change it.
 
-Saved results bind model/score/target, sample, treatment/quantile coordinates, selection/exclusion, weight equation and splitting role in `orthogonal_score`. They retain IDs, folds/clusters, score components, out-of-fold predictions, effective learners, repeated estimates, normalization/clipping/subgroups and actual package/API versions. `statistics` and `display.rows` include every requested quantile; `definitions` supplies adopted display interpretation. Reuse those results through the existing gallery.
+- Saved results bind model/score/target, sample, treatment/quantile coordinates, selection/exclusion, weight equation and splitting role in `orthogonal_score`.
+- They retain IDs, folds/clusters, score components, out-of-fold predictions, effective learners, repeated estimates, normalization/clipping/subgroups and actual package/API versions.
+- `statistics` and `display.rows` include every requested quantile; `definitions` supplies adopted display interpretation.
+- Reuse those results through the existing gallery.
 
 The causal requirements pin supplies the [official 0.11.4 implementation](https://github.com/DoubleML/doubleml-for-py/tree/0.11.4/doubleml). Its constructor, propensity processing, native scores and framework remain the API authority.
 
 ## GRF heterogeneous treatment effects
 
-`research_design.py select` binds `design="heterogeneous_effect"` to the adopted target. `cate`, `conditional_iv_effect` and `multi_arm_cate` select conditional output; `ate`, `att`, `aclate` and `multi_arm_ate` select their population aggregate. `survival_effect` also binds `target.quantity` to `conditional` or `average`. The proposal records target-implied option changes before adoption.
+- `research_design.py select` binds `design="heterogeneous_effect"` to the adopted target.
+- `cate`, `conditional_iv_effect` and `multi_arm_cate` select conditional output; `ate`, `att`, `aclate` and `multi_arm_ate` select their population aggregate.
+- `survival_effect` also binds `target.quantity` to `conditional` or `average`.
+- The proposal records target-implied option changes before adoption.
 
-The existing official R path calls the pinned GRF 2.6.1 functions directly. `inference={"type":"official"}` and `regressors` bind the pretreatment effect covariates. `options.args` supplies native options, and `options.columns` binds vectors or ordered matrices to analysis columns. `quantity="average"` is the default: the main rows contain the native population aggregate and its standard error, with out-of-bag conditional predictions saved separately. `quantity="conditional"` makes the out-of-bag conditional predictions, native pointwise variances and normal intervals the main rows and executes no average-effect calculation. The existing `grf` default and the separate EconML `causal_forest` path retain their targets.
+- The existing official R path calls the pinned GRF 2.6.1 functions directly.
+- `inference={"type":"official"}` and `regressors` bind the pretreatment effect covariates.
+- `options.args` supplies native options, and `options.columns` binds vectors or ordered matrices to analysis columns.
+- `quantity="average"` is the default: the main rows contain the native population aggregate and its standard error, with out-of-bag conditional predictions saved separately.
+- `quantity="conditional"` makes the out-of-bag conditional predictions, native pointwise variances and normal intervals the main rows and executes no average-effect calculation.
+- The existing `grf` default and the separate EconML `causal_forest` path retain their targets.
 
 | Method | Required role bindings | Conditional target and aggregate |
 | --- | --- | --- |
@@ -51,15 +95,35 @@ The existing official R path calls the pinned GRF 2.6.1 functions directly. `inf
 | `grf_instrumental` | `treatment`, `instrument`, `definitions.iv_estimand` | `instrumental_forest`: `tau(x)=Cov[Y,Z | X=x]/Cov[W,Z | X=x]`. `iv_estimand="conditional_late"` requires binary 0/1 treatment and instrument plus a nonempty `definitions.compliance_population`; relevance, exclusion, conditional instrument exogeneity and monotonicity identify this conditional complier effect. `"conditional_iv_ratio"` retains the ratio target and its adopted structural interpretation. |
 | `grf_multi_arm` | `treatment`, `arms` | `multi_arm_causal_forest`: `E[Y(a)-Y(reference) | X=x]` for every nonreference arm under conditional exchangeability and arm overlap. `arms` contains distinct strings in adopted order; its first element is the reference factor level. Every arm occurs in the fitted sample. The common run has one outcome, matching native pointwise variance support. |
 | `grf_survival` | `treatment`, `status`, `definitions.time_unit`, `definitions.censoring`, `args.target`, `args.horizon` | `causal_survival_forest`: `target="RMST"` estimates the effect on `min(T,horizon)`; `"survival.probability"` estimates the survival-probability difference at that horizon. `status` is 1 for an observed event and 0 for right censoring. The positive finite horizon has `time_unit`. Conditional treatment exchangeability, overlap, independent right censoring given treatment and covariates, and follow-up support identify the target. Continuous treatment uses the corresponding conditional covariance-to-variance slope. |
+- The three additional forests aggregate through `average_treatment_effect(method="AIPW", target.sample="all")`.
+- Instrumental aggregation requires a binary 0/1 instrument in the native `get_scores` implementation.
+- Its complier aggregate is ACLATE, `E_X[tau(X)]`, using the declared covariate population and observation weights.
+- A pooled compliance-share-weighted LATE has a different population weighting.
+- Numeric instruments are supported for `quantity="conditional"`.
+- Native `compliance.score`, `debiasing.weights` and `num.trees.for.weights` remain available through `aggregation`.
+- The result distinguishes a conditional IV ratio from a conditional complier LATE.
+- These R role bindings use empty top-level `endogenous` and `instruments` lists; the treatment and instrument columns are explicit options.
 
-The three additional forests aggregate through `average_treatment_effect(method="AIPW", target.sample="all")`. Instrumental aggregation requires a binary 0/1 instrument in the native `get_scores` implementation. Its complier aggregate is ACLATE, `E_X[tau(X)]`, using the declared covariate population and observation weights. A pooled compliance-share-weighted LATE has a different population weighting. Numeric instruments are supported for `quantity="conditional"`. Native `compliance.score`, `debiasing.weights` and `num.trees.for.weights` remain available through `aggregation`. The result distinguishes a conditional IV ratio from a conditional complier LATE. These R role bindings use empty top-level `endogenous` and `instruments` lists; the treatment and instrument columns are explicit options.
+- Multi-arm `columns.W.hat` names one propensity column per arm in `arms` order; the runner assigns those native matrix labels and checks positive probabilities summing to one.
+- Native estimates retain their contrast labels.
+- `predict.multi_arm_causal_forest` supplies a pointwise variance per contrast and `average_treatment_effect` supplies each contrast's standard error.
+- The saved joint covariance is unavailable for multiple contrasts because those native returns contain marginal variances.
+- A single contrast retains its scalar covariance.
+- The survival result preserves event coding, horizon, native target, supplied failure-time grid and the adopted censoring definition.
+- Binary survival-probability contrasts use probability-difference units; RMST and continuous-treatment slopes retain the adopted coefficient unit.
 
-Multi-arm `columns.W.hat` names one propensity column per arm in `arms` order; the runner assigns those native matrix labels and checks positive probabilities summing to one. Native estimates retain their contrast labels. `predict.multi_arm_causal_forest` supplies a pointwise variance per contrast and `average_treatment_effect` supplies each contrast's standard error. The saved joint covariance is unavailable for multiple contrasts because those native returns contain marginal variances. A single contrast retains its scalar covariance. The survival result preserves event coding, horizon, native target, supplied failure-time grid and the adopted censoring definition. Binary survival-probability contrasts use probability-difference units; RMST and continuous-treatment slopes retain the adopted coefficient unit.
+- All four forests forward native honesty, nuisance predictions, tree settings, sample weights and clusters.
+- Cluster columns are read as text and then factored, preserving their original labels.
+- `equalize.cluster.weights=TRUE` gives every cluster equal weight and requires absent `sample.weights`; the default gives observations equal weight, or uses the supplied sample weights.
+- Native `observation_weights` normalizes the resulting weights.
+- `aggregation.subset` identifies a prespecified covariate-defined population; its IDs and target IDs are retained.
+- The treated/control/overlap aggregate applies its own native score weights after this observation weighting.
+- A conditional prediction, ATE, ATT, ACLATE and independently evaluated policy value keep their own definitions.
 
-All four forests forward native honesty, nuisance predictions, tree settings, sample weights and clusters. Cluster columns are read as text and then factored, preserving their original labels. `equalize.cluster.weights=TRUE` gives every cluster equal weight and requires absent `sample.weights`; the default gives observations equal weight, or uses the supplied sample weights. Native `observation_weights` normalizes the resulting weights. `aggregation.subset` identifies a prespecified covariate-defined population; its IDs and target IDs are retained. The treated/control/overlap aggregate applies its own native score weights after this observation weighting. A conditional prediction, ATE, ATT, ACLATE and independently evaluated policy value keep their own definitions.
-
-`result.heterogeneity` and `display.metadata.heterogeneity` save the conditional target, chosen output quantity, treatment type and contrasts, reference arm, IV/compliance population or survival target, aggregation, population, units, observation weights and identifying conditions. `diagnostics.cate` retains the original `grf` prediction owner; the added methods use `diagnostics.conditional_effects`. Predictions and weights reference `sample.included_ids`. Native forest options, aggregate subset IDs, cluster count, function signatures, package version and serialized forest accompany the results. The official R program lives in `research_causal.R`; Python loads it at execution, prefixes the existing shared-table reader and records the executed companion and reader-prelude hashes.
+- `result.heterogeneity` and `display.metadata.heterogeneity` save the conditional target, chosen output quantity, treatment type and contrasts, reference arm, IV/compliance population or survival target, aggregation, population, units, observation weights and identifying conditions.
+- `diagnostics.cate` retains the original `grf` prediction owner; the added methods use `diagnostics.conditional_effects`.
+- Predictions and weights reference `sample.included_ids`.
+- Native forest options, aggregate subset IDs, cluster count, function signatures, package version and serialized forest accompany the results.
+- The official R program lives in `research_causal.R`; Python loads it at execution, prefixes the existing shared-table reader and records the executed companion and reader-prelude hashes.
 
 Versioned sources: GRF 2.6.1 [`causal_forest`](https://github.com/grf-labs/grf/blob/5bee99b51471f76cb2d63acbc8a9b0ffec408ba0/r-package/grf/R/causal_forest.R), [`instrumental_forest`](https://github.com/grf-labs/grf/blob/5bee99b51471f76cb2d63acbc8a9b0ffec408ba0/r-package/grf/R/instrumental_forest.R), [`multi_arm_causal_forest`](https://github.com/grf-labs/grf/blob/5bee99b51471f76cb2d63acbc8a9b0ffec408ba0/r-package/grf/R/multi_arm_causal_forest.R), [`causal_survival_forest`](https://github.com/grf-labs/grf/blob/5bee99b51471f76cb2d63acbc8a9b0ffec408ba0/r-package/grf/R/causal_survival_forest.R), [`average_treatment_effect`](https://github.com/grf-labs/grf/blob/5bee99b51471f76cb2d63acbc8a9b0ffec408ba0/r-package/grf/R/average_treatment_effect.R), [`get_scores`](https://github.com/grf-labs/grf/blob/5bee99b51471f76cb2d63acbc8a9b0ffec408ba0/r-package/grf/R/get_scores.R) and [observation weights](https://github.com/grf-labs/grf/blob/5bee99b51471f76cb2d63acbc8a9b0ffec408ba0/r-package/grf/R/input_utilities.R).
-
-

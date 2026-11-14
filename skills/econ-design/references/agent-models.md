@@ -2,12 +2,33 @@
 
 Use for agent-based market and policy experiments: actor rules, matching and clearing, seeds and accounting.
 
-A household–firm goods market specifies production, preferences, cash constraints, inventories, encounter order and price adjustment. For a representative finite model, each of `m` firms produces `s` units per period, and household marginal willingness to pay after purchasing `q` units is `v/(1+q)`. Given ask `p` and sales tax `τ`, trade occurs when the bid is at least `p(1+τ)`. A declared bargaining rule can set the gross unit price to `(1−b)p(1+τ)+b v/(1+q)`. Traded quantity is bounded by one unit, inventory and household cash divided by gross price. The firm receives the gross payment divided by `1+τ`; the remaining payment is tax. Redistributing revenue and taxes to household owners completes the period's cash accounting. Encounter order, market access and stopping conditions determine which trades occur.
+- A household–firm goods market specifies production, preferences, cash constraints, inventories, encounter order and price adjustment.
+- For a representative finite model, each of `m` firms produces `s` units per period, and household marginal willingness to pay after purchasing `q` units is `v/(1+q)`.
+- Given ask `p` and sales tax `τ`, trade occurs when the bid is at least `p(1+τ)`.
+- A declared bargaining rule can set the gross unit price to `(1−b)p(1+τ)+b v/(1+q)`.
+- Traded quantity is bounded by one unit, inventory and household cash divided by gross price.
+- The firm receives the gross payment divided by `1+τ`; the remaining payment is tax.
+- Redistributing revenue and taxes to household owners completes the period's cash accounting.
+- Encounter order, market access and stopping conditions determine which trades occur.
 
-A bounded stockout rule is `p_next=clip[p exp(η(I_stockout−1/2)),p_min,p_max]`, where `η ∈ [0,1]` and all bounds are adopted primitives. Initial cash equals household plus firm cash, and cumulative production equals cumulative consumption plus remaining inventories. State and accounting residuals belong in the producing research result. For utility `v log(1+q)`, monetary policy valuation requires the adopted resource costs, transfers and terminal inventory value. A recorded sum of `log(1+q)` is a consumption index with its stated scale.
+- A bounded stockout rule is `p_next=clip[p exp(η(I_stockout−1/2)),p_min,p_max]`, where `η ∈ [0,1]` and all bounds are adopted primitives.
+- Initial cash equals household plus firm cash, and cumulative production equals cumulative consumption plus remaining inventories.
+- State and accounting residuals belong in the producing research result.
+- For utility `v log(1+q)`, monetary policy valuation requires the adopted resource costs, transfers and terminal inventory value.
+- A recorded sum of `log(1+q)` is a consumption index with its stated scale.
 
-Compare policy candidates with the same initial population, primitive distributions, horizon, outcome definition and adopted random streams. Changes to taxes, bargaining, encounter networks or learning rules enter the model specification. Select the action by the adopted welfare or profit objective and resource constraints; use the existing research process for result-dependent experiments.
+- Compare policy candidates with the same initial population, primitive distributions, horizon, outcome definition and adopted random streams.
+- Changes to taxes, bargaining, encounter networks or learning rules enter the model specification.
+- Select the action by the adopted welfare or profit objective and resource constraints; use the existing research process for result-dependent experiments.
 
-The continuous price-taking benchmark with utility `v log(1+q)` has aggregate demand `n max(v/p−1,0)`. For supply `ms>0`, the market-clearing price is `p=nv/(n+ms)`. This benchmark imposes divisible goods, cash-free feasibility and same-period clearing. A decentralized bargaining allocation uses its declared cash, network and inventory constraints.
+- The continuous price-taking benchmark with utility `v log(1+q)` has aggregate demand `n max(v/p−1,0)`.
+- For supply `ms>0`, the market-clearing price is `p=nv/(n+ms)`.
+- This benchmark imposes divisible goods, cash-free feasibility and same-period clearing.
+- A decentralized bargaining allocation uses its declared cash, network and inventory constraints.
 
-For an adopted agent simulation, define the research-specific choices and transition equations in the project's existing analysis script and use official [Mesa `Model`, `Agent` and `AgentSet`](https://mesa.readthedocs.io/stable/mesa.html). `model.agents.shuffle_do("step")` supplies seeded random activation; the model defines its economic transition and stopping condition. Use [NetworkX graph and flow functions](https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.flow.maximum_flow.html) when network formation, paths or capacity flows are the requested object. Declare graph direction, capacities, agent information and timing before selecting those functions. Execute through the existing [official project-script stage](../../econ-data/references/implementation-calls.md#official-project-scripts), selecting the `mesa` or `networkx` dependency closure for that study. Preserve the adopted specification, source inputs, seed, installed package identity, accounting residuals and unit-tagged results in the existing result lifecycle.
+- For an adopted agent simulation, define the research-specific choices and transition equations in the project's existing analysis script and use official [Mesa `Model`, `Agent` and `AgentSet`](https://mesa.readthedocs.io/stable/mesa.html).
+- `model.agents.shuffle_do("step")` supplies seeded random activation; the model defines its economic transition and stopping condition.
+- Use [NetworkX graph and flow functions](https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.flow.maximum_flow.html) when network formation, paths or capacity flows are the requested object.
+- Declare graph direction, capacities, agent information and timing before selecting those functions.
+- Execute through the existing [official project-script stage](../../econ-data/references/implementation-calls.md#official-project-scripts), selecting the `mesa` or `networkx` dependency closure for that study.
+- Preserve the adopted specification, source inputs, seed, installed package identity, accounting residuals and unit-tagged results in the existing result lifecycle.

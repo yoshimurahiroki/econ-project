@@ -1,20 +1,49 @@
 # Source-backed proposals and adaptive experiments
 
-Use the existing research state and DAG for both operations. The host selects the economic question, scientific identity, permissible changes, ranking rule and stopping budget. Generated research alternatives are proposals until the host adopts a choice in the existing governing task context. An experiment may vary only the parameters authorized in that adopted context. Predictive loss ranks predictors for a fixed target; it does not rank alternative causal estimands.
+- Use the existing research state and DAG for both operations.
+- The host selects the economic question, scientific identity, permissible changes, ranking rule and stopping budget.
+- Generated research alternatives are proposals until the host adopts a choice in the existing governing task context.
+- An experiment may vary only the parameters authorized in that adopted context.
+- Predictive loss ranks predictors for a fixed target; it does not rank alternative causal estimands.
 
 ## Propose source comparisons
 
-`research_design.py assess` and `propose` accept `corpus: {path, sha256, proposition_ids}` from the existing literature record. Use qualified `document:proposition` IDs to select the actual model, identifying restrictions or result. The shared source reader checks the current raw source, page, span and proposition hashes and constructs their comparison inputs without copying a second knowledge store. The output returns the selected source knowledge and its versions. A matching passage establishes provenance; the design owner must still explain why the restriction identifies the requested parameter in the proposed population.
+- `research_design.py assess` and `propose` accept `corpus: {path, sha256, proposition_ids}` from the existing literature record.
+- Use qualified `document:proposition` IDs to select the actual model, identifying restrictions or result.
+- The shared source reader checks the current raw source, page, span and proposition hashes and constructs their comparison inputs without copying a second knowledge store.
+- The output returns the selected source knowledge and its versions.
+- A matching passage establishes provenance; the design owner must still explain why the restriction identifies the requested parameter in the proposed population.
 
-`research_design.py propose INPUT --root PROJECT --output RESULT` also accepts the source collector's `design_sources` and `design_propositions` directly. Each `design_sources` entry supplies a UTF-8 text `path` and its SHA-256. Each proposition has an `id` and a `dimensions` object with `mechanism`, `estimand`, `identifying_variation`, `measurement` and `population`. Each dimension contains `claim` and an `evidence` object with `source_id`, zero-based Unicode `start`, exclusive `end`, and exact `quote`. Incomplete propositions are listed as skipped; each referenced proposition must contain all five dimensions. Source bytes, every span and the quote are verified.
+- `research_design.py propose INPUT --root PROJECT --output RESULT` also accepts the source collector's `design_sources` and `design_propositions` directly.
+- Each `design_sources` entry supplies a UTF-8 text `path` and its SHA-256.
+- Each proposition has an `id` and a `dimensions` object with `mechanism`, `estimand`, `identifying_variation`, `measurement` and `population`.
+- Each dimension contains `claim` and an `evidence` object with `source_id`, zero-based Unicode `start`, exclusive `end`, and exact `quote`.
+- Incomplete propositions are listed as skipped; each referenced proposition must contain all five dimensions.
+- Source bytes, every span and the quote are verified.
 
-Add `datasets` using the existing `assess` dataset schema: path and hash, unit, population, period, evidence-backed documentation, grain and definition versions. Supply `permitted_dimensions`, a `priority_order` of every proposed ID, and at least two `transformations`. Each transformation contains `id`, `base` proposition ID, `changes` mapping permitted dimensions to the proposed new claims, source `evidence`, `dataset`, `requirements`, and `next_operation` with `argv` and `cwd`. Requirements use the existing feasibility checks for fields, sample, grain, observed variation, coverage, missingness and links. Priority and transformed claims are supplied by the host; source evidence binds the closest comparison and does not establish the proposed claim.
+- Add `datasets` using the existing `assess` dataset schema: path and hash, unit, population, period, evidence-backed documentation, grain and definition versions.
+- Supply `permitted_dimensions`, a `priority_order` of every proposed ID, and at least two `transformations`.
+- Each transformation contains `id`, `base` proposition ID, `changes` mapping permitted dimensions to the proposed new claims, source `evidence`, `dataset`, `requirements`, and `next_operation` with `argv` and `cwd`.
+- Requirements use the existing feasibility checks for fields, sample, grain, observed variation, coverage, missingness and links.
+- Priority and transformed claims are supplied by the host; source evidence binds the closest comparison and does not establish the proposed claim.
 
-The command constructs each candidate's complete five-dimensional comparison and invokes the existing `assess` function. It returns all candidate comparisons, observed feasibility, proposed priority, the first feasible candidate, its next operation, source and data hashes, and `adoption_required: true`. No input specification, state context or selection rule is modified. The host compares the competing mechanisms and identification restrictions and records its own adoption through the existing parent state before executing a newly selected scientific design. Re-run against new source or data versions by updating their declared hashes and preserving the adopted design until its authorized revision.
+- The command constructs each candidate's complete five-dimensional comparison and invokes the existing `assess` function.
+- It returns all candidate comparisons, observed feasibility, proposed priority, the first feasible candidate, its next operation, source and data hashes, and `adoption_required: true`.
+- No input specification, state context or selection rule is modified.
+- The host compares the competing mechanisms and identification restrictions and records its own adoption through the existing parent state before executing a newly selected scientific design.
+- Re-run against new source or data versions by updating their declared hashes and preserving the adopted design until its authorized revision.
 
 ## Adaptive stage
 
-Extend an ordinary `harness/research.py` manifest with stages of kind `adaptive`, followed by standard command evaluations and a standard `select` stage. The protocol is a tracked JSON input and contains the usual `identity`, `evaluation_protocol`, `metrics`, `tie_break`, `on_failure`, `holdout`, `seed` and `budget`. For adaptive execution the identity has exactly `estimand`, `population`, `sample`, `evaluator` and `partition`. The evaluation protocol includes the seed, the exact model and objective, `partitions` mapping `train`, `validation` and `holdout` to nonempty lists of root-relative files, and `partition_membership` mapping those roles to distinct nonempty lists of observation IDs. Paths and observation IDs are mutually disjoint across roles. Evaluators must return the actual IDs they used as `partition_membership`, with only `train` and `validation` in candidate results. They must also return the unchanged `identity`, `protocol`, parameter values and the named finite score. The final evaluation reports only its actual held-out IDs. The producer must obtain those IDs from the actual fitted and evaluated observations.
+- Extend an ordinary `harness/research.py` manifest with stages of kind `adaptive`, followed by standard command evaluations and a standard `select` stage.
+- The protocol is a tracked JSON input and contains the usual `identity`, `evaluation_protocol`, `metrics`, `tie_break`, `on_failure`, `holdout`, `seed` and `budget`.
+- For adaptive execution the identity has exactly `estimand`, `population`, `sample`, `evaluator` and `partition`.
+- The evaluation protocol includes the seed, the exact model and objective, `partitions` mapping `train`, `validation` and `holdout` to nonempty lists of root-relative files, and `partition_membership` mapping those roles to distinct nonempty lists of observation IDs.
+- Paths and observation IDs are mutually disjoint across roles.
+- Evaluators must return the actual IDs they used as `partition_membership`, with only `train` and `validation` in candidate results.
+- They must also return the unchanged `identity`, `protocol`, parameter values and the named finite score.
+- The final evaluation reports only its actual held-out IDs.
+- The producer must obtain those IDs from the actual fitted and evaluated observations.
 
 The protocol's `axes` maps each numeric parameter to `{ "min": ..., "max": ..., "step": ... }`. A stage declares:
 
@@ -24,17 +53,43 @@ The protocol's `axes` maps each numeric parameter to `{ "min": ..., "max": ..., 
  "output":"spec", "history":{"first":{"stage":"first","output":"result"},
                                 "second":{"stage":"second","output":"result"}}}}
 ```
+- Each history binding names a completed, consumed result.
+- The runner checks its identity, evaluation protocol, partition membership, objective and parameter bounds.
+- It orders feasible results by the declared metric directions and adopted tie-break order, chooses the best observed point, and proposes distinct in-bounds coordinate neighbors at step × 0.5^(round−1).
+- Seeded deterministic ordering selects a bounded batch.
+- The output contains the completed scores, parameter values and SHA-256 of every history output; proposed parameter objects depend on the actual winning score.
+- History count plus batch cannot exceed the adopted total budget.
 
-Each history binding names a completed, consumed result. The runner checks its identity, evaluation protocol, partition membership, objective and parameter bounds. It orders feasible results by the declared metric directions and adopted tie-break order, chooses the best observed point, and proposes distinct in-bounds coordinate neighbors at step × 0.5^(round−1). Seeded deterministic ordering selects a bounded batch. The output contains the completed scores, parameter values and SHA-256 of every history output; proposed parameter objects depend on the actual winning score. History count plus batch cannot exceed the adopted total budget.
+- A finite manifest can unroll further rounds.
+- Each candidate command consumes the corresponding adaptive specification and its slot; each returned result goes into the final selection.
+- The final selector includes the evaluated history and every proposed evaluation.
+- Its input protocol fixes the metric order and ties; each result is compared using the same identity, protocol and training/validation IDs.
+- Every candidate branch tracks the declared training and validation files.
+- A held-out file cannot be an input to an exploration, selection or other stage.
 
-A finite manifest can unroll further rounds. Each candidate command consumes the corresponding adaptive specification and its slot; each returned result goes into the final selection. The final selector includes the evaluated history and every proposed evaluation. Its input protocol fixes the metric order and ties; each result is compared using the same identity, protocol and training/validation IDs. Every candidate branch tracks the declared training and validation files. A held-out file cannot be an input to an exploration, selection or other stage.
+- Exactly one `final` command consumes the selector output and all held-out files.
+- Add `"final":{"protocol":"search.json","selector":{"stage":"select","output":"choice"},"output":"result"}` to that command stage.
+- Its result JSON reports the selected parameter vector, unchanged identity and protocol, and `partition_membership` with precisely the adopted `holdout` IDs; the runner checks all of them.
+- The existing state stores its terminal return and output.
+- A rerun with identical inputs reuses the same final result; after any changed upstream search, the runner blocks another terminal evaluation of the same held-out file bytes in that state store.
+- A changed search requires a newly adopted independent holdout before final evaluation.
+- Downstream rendering reads named statistics from this single final result.
 
-Exactly one `final` command consumes the selector output and all held-out files. Add `"final":{"protocol":"search.json","selector":{"stage":"select","output":"choice"},"output":"result"}` to that command stage. Its result JSON reports the selected parameter vector, unchanged identity and protocol, and `partition_membership` with precisely the adopted `holdout` IDs; the runner checks all of them. The existing state stores its terminal return and output. A rerun with identical inputs reuses the same final result; after any changed upstream search, the runner blocks another terminal evaluation of the same held-out file bytes in that state store. A changed search requires a newly adopted independent holdout before final evaluation. Downstream rendering reads named statistics from this single final result.
-
-Use actual file inputs and a runner parent whose governing context records the adopted design. The runner continues to enforce inherited holds, write scopes, stage-result hashes, code/runtime signatures, complete publication and selective invalidation. The normal stage result records are the search history; no separate experiment store or controller is needed. The executable command and data supplied by the host remain responsible for applying the declared observation IDs and computing the stated estimator.
+- Use actual file inputs and a runner parent whose governing context records the adopted design.
+- The runner continues to enforce inherited holds, write scopes, stage-result hashes, code/runtime signatures, complete publication and selective invalidation.
+- The normal stage result records are the search history; no separate experiment store or controller is needed.
+- The executable command and data supplied by the host remain responsible for applying the declared observation IDs and computing the stated estimator.
 
 ## Julia runtime identity
 
-A normal command stage may declare `runtime.language: "julia"` with the existing `probe_argv`, `version`, `packages` and `files` fields. Use an absolute Julia executable, absolute `JULIA_PROJECT` and `JULIA_DEPOT_PATH` when explicitly set, and declare the project's `Project.toml`, `Manifest.toml` and other files in stage inputs and `runtime.files`. The probe records the observed Julia version and executable hash, active project and manifest hashes when present, depot paths, and the recursively resolved selected package closure with UUIDs, versions and package-source hashes. The actual Julia stage, probe and production command use the same declared environment. A changed observed runtime or tracked input invalidates reuse.
+- A normal command stage may declare `runtime.language: "julia"` with the existing `probe_argv`, `version`, `packages` and `files` fields.
+- Use an absolute Julia executable, absolute `JULIA_PROJECT` and `JULIA_DEPOT_PATH` when explicitly set, and declare the project's `Project.toml`, `Manifest.toml` and other files in stage inputs and `runtime.files`.
+- The probe records the observed Julia version and executable hash, active project and manifest hashes when present, depot paths, and the recursively resolved selected package closure with UUIDs, versions and package-source hashes.
+- The actual Julia stage, probe and production command use the same declared environment.
+- A changed observed runtime or tracked input invalidates reuse.
 
-For a Python stage that invokes R or Julia, its `runtime` may also include `companions`: a finite list of objects using `language` (`r` or `julia`), absolute `probe_argv`, optional exact `version`, `packages` and tracked `files`. The Python stage retains its own matching probe prefix; each companion declares the executable actually called by the Python code. All probes use the stage's explicit environment. The recorded compound identity includes each interpreter, package closure and loaded native libraries; R package file hashes and Julia package-source hashes contribute to reuse decisions. The stage's producer must invoke the declared companions and include their scripts, project and manifest as tracked inputs where they determine the calculation.
+- For a Python stage that invokes R or Julia, its `runtime` may also include `companions`: a finite list of objects using `language` (`r` or `julia`), absolute `probe_argv`, optional exact `version`, `packages` and tracked `files`.
+- The Python stage retains its own matching probe prefix; each companion declares the executable actually called by the Python code.
+- All probes use the stage's explicit environment.
+- The recorded compound identity includes each interpreter, package closure and loaded native libraries; R package file hashes and Julia package-source hashes contribute to reuse decisions.
+- The stage's producer must invoke the declared companions and include their scripts, project and manifest as tracked inputs where they determine the calculation.
