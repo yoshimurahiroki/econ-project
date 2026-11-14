@@ -13,4 +13,4 @@ Apply the [borrowing procedure](../../runtime/PROSE.md#common-output) to every e
 | Japanese papers, explanations and slides | [Japanese economics writing profiles](../academic-ja/PROFILE.md) |
 | English papers and slides | [English economics writing profiles](../top-five-en/PROFILE.md) |
 
-Each profile lists fictional samples by genre and function. Read the complete sample matching the passage, then take the actual sentences from real originals.
+Each profile states the borrowing procedure and the conventions for its language. Read the complete profile, then take the actual sentences from real originals.

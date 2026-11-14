@@ -1853,26 +1853,6 @@
       "source_path": "profiles/academic-ja/PROFILE.md",
       "resource_kind": "profile",
       "content_version": "1.0.0"
-    },
-    "academic-ja-paper-scm-plant-closure": {
-      "source_path": "profiles/academic-ja/paper-scm-plant-closure.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "academic-ja-slides-scm-plant-closure": {
-      "source_path": "profiles/academic-ja/slides-scm-plant-closure.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-paper-plant-closures": {
-      "source_path": "profiles/top-five-en/paper-plant-closures.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
-    },
-    "top-five-en-slides-plant-closures": {
-      "source_path": "profiles/top-five-en/slides-plant-closures.md",
-      "resource_kind": "profile",
-      "content_version": "1.0.0"
     }
   },
   "sections": {
@@ -4231,26 +4211,6 @@
       }
     },
     "academic-ja": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "academic-ja-paper-scm-plant-closure": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "academic-ja-slides-scm-plant-closure": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-paper-plant-closures": {
-      "all": {
-        "whole_resource": true
-      }
-    },
-    "top-five-en-slides-plant-closures": {
       "all": {
         "whole_resource": true
       }
@@ -7731,75 +7691,14 @@
     },
     "top-five-en.all": {
       "resource_id": "top-five-en",
-      "section_id": "all",
-      "optional_examples": [
-        "top-five-en.paper-plant-closures",
-        "top-five-en.slides-plant-closures"
-      ]
+      "section_id": "all"
     },
     "academic-ja.all": {
       "resource_id": "academic-ja",
-      "section_id": "all",
-      "optional_examples": [
-        "academic-ja.paper-scm-plant-closure",
-        "academic-ja.slides-scm-plant-closure"
-      ]
-    },
-    "academic-ja-paper-scm-plant-closure.all": {
-      "resource_id": "academic-ja-paper-scm-plant-closure",
-      "section_id": "all"
-    },
-    "academic-ja-slides-scm-plant-closure.all": {
-      "resource_id": "academic-ja-slides-scm-plant-closure",
-      "section_id": "all"
-    },
-    "top-five-en-paper-plant-closures.all": {
-      "resource_id": "top-five-en-paper-plant-closures",
-      "section_id": "all"
-    },
-    "top-five-en-slides-plant-closures.all": {
-      "resource_id": "top-five-en-slides-plant-closures",
       "section_id": "all"
     }
   },
-  "examples": {
-    "academic-ja.paper-scm-plant-closure": {
-      "example_id": "academic-ja.paper-scm-plant-closure",
-      "resource_id": "academic-ja-paper-scm-plant-closure",
-      "section_id": "all",
-      "language": "ja",
-      "function": "journal-article",
-      "field": "econometrics and labor",
-      "extended": true
-    },
-    "academic-ja.slides-scm-plant-closure": {
-      "example_id": "academic-ja.slides-scm-plant-closure",
-      "resource_id": "academic-ja-slides-scm-plant-closure",
-      "section_id": "all",
-      "language": "ja",
-      "function": "seminar-slides",
-      "field": "econometrics and labor",
-      "extended": true
-    },
-    "top-five-en.paper-plant-closures": {
-      "example_id": "top-five-en.paper-plant-closures",
-      "resource_id": "top-five-en-paper-plant-closures",
-      "section_id": "all",
-      "language": "en",
-      "function": "journal-article",
-      "field": "labor and urban economics",
-      "extended": true
-    },
-    "top-five-en.slides-plant-closures": {
-      "example_id": "top-five-en.slides-plant-closures",
-      "resource_id": "top-five-en-slides-plant-closures",
-      "section_id": "all",
-      "language": "en",
-      "function": "seminar-slides",
-      "field": "labor and urban economics",
-      "extended": true
-    }
-  },
+  "examples": {},
   "reading_stages": {
     "entry": {
       "research": [
@@ -8078,18 +7977,6 @@
         "all"
       ],
       "academic-ja": [
-        "all"
-      ],
-      "academic-ja-paper-scm-plant-closure": [
-        "all"
-      ],
-      "academic-ja-slides-scm-plant-closure": [
-        "all"
-      ],
-      "top-five-en-paper-plant-closures": [
-        "all"
-      ],
-      "top-five-en-slides-plant-closures": [
         "all"
       ]
     },
@@ -8465,18 +8352,6 @@
       ],
       "knowledge-guide": [
         "all"
-      ],
-      "academic-ja-paper-scm-plant-closure": [
-        "all"
-      ],
-      "academic-ja-slides-scm-plant-closure": [
-        "all"
-      ],
-      "top-five-en-paper-plant-closures": [
-        "all"
-      ],
-      "top-five-en-slides-plant-closures": [
-        "all"
       ]
     },
     "review": {
@@ -8621,18 +8496,6 @@
         "deliver-the-literatures-economic-relevance"
       ],
       "review-procedure": [
-        "all"
-      ],
-      "academic-ja-paper-scm-plant-closure": [
-        "all"
-      ],
-      "academic-ja-slides-scm-plant-closure": [
-        "all"
-      ],
-      "top-five-en-paper-plant-closures": [
-        "all"
-      ],
-      "top-five-en-slides-plant-closures": [
         "all"
       ]
     },

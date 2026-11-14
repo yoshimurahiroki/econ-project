@@ -258,7 +258,3 @@ Generated from the resource and placement registries. Use this catalog only for 
 - review-procedure: skills/econ-review/references/review.md
 - top-five-en: profiles/top-five-en/PROFILE.md
 - academic-ja: profiles/academic-ja/PROFILE.md
-- academic-ja-paper-scm-plant-closure: profiles/academic-ja/paper-scm-plant-closure.md
-- academic-ja-slides-scm-plant-closure: profiles/academic-ja/slides-scm-plant-closure.md
-- top-five-en-paper-plant-closures: profiles/top-five-en/paper-plant-closures.md
-- top-five-en-slides-plant-closures: profiles/top-five-en/slides-plant-closures.md

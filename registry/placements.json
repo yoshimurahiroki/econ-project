@@ -1024,22 +1024,6 @@
     "academic-ja": {
       "deployment_path": ".agents/profiles/academic-ja/PROFILE.md",
       "export_alias": "ACADEMIC_JA_PROFILE.md"
-    },
-    "academic-ja-paper-scm-plant-closure": {
-      "deployment_path": ".agents/profiles/academic-ja/paper-scm-plant-closure.md",
-      "export_alias": "ACADEMIC_JA_PAPER_SCM_PLANT_CLOSURE.md"
-    },
-    "academic-ja-slides-scm-plant-closure": {
-      "deployment_path": ".agents/profiles/academic-ja/slides-scm-plant-closure.md",
-      "export_alias": "ACADEMIC_JA_SLIDES_SCM_PLANT_CLOSURE.md"
-    },
-    "top-five-en-paper-plant-closures": {
-      "deployment_path": ".agents/profiles/top-five-en/paper-plant-closures.md",
-      "export_alias": "TOP_FIVE_EN_PAPER_PLANT_CLOSURES.md"
-    },
-    "top-five-en-slides-plant-closures": {
-      "deployment_path": ".agents/profiles/top-five-en/slides-plant-closures.md",
-      "export_alias": "TOP_FIVE_EN_SLIDES_PLANT_CLOSURES.md"
     }
   },
   "source": {

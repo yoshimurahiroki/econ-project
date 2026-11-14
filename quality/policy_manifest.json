@@ -47,7 +47,7 @@
     },
     "prose": {
       "path": "runtime/PROSE.md",
-      "sha256": "1ebcb2bc2fa02120d7d4ecfa023124bd171545fc26568e6d8b3c5b0aad08bcc2"
+      "sha256": "64cdf19caa5d19f68f5a2a37c601ec9b57ba55bb012af891ab9f4afe3987bc3a"
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
@@ -55,15 +55,15 @@
     },
     "registry_operations": {
       "path": "registry/operations.json",
-      "sha256": "85fea75ed3e23e057672471f974e5d74d1c1e491820d2120cfae6c685f54934b"
+      "sha256": "e335061b9fb16914843fc10ca12fb46fcc88f2a0921002907ef340923301fa5f"
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "e007287522ea8897a9ab4e8bed81c4f482df70ccc46a433d6bfd9a022aa11bc8"
+      "sha256": "48fdc52d44a1b6ed8d67ea513623d0cee40274d7e9d42813451e831d051ccf1c"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "e0ebcbc984b49d0f534b0d83d83672b4ef31ee463fe55525ca0a9f0847f62d6d"
+      "sha256": "169ff68846a813f3de53bca57c4450c98dd93e4e4a5784e6eff1eac1c254573e"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -71,15 +71,7 @@
     },
     "resource:academic-ja": {
       "path": "profiles/academic-ja/PROFILE.md",
-      "sha256": "c181a781966f61450a3671dfc5b98141b26991a8acd7d4fda808e03fff372e56"
-    },
-    "resource:academic-ja-paper-scm-plant-closure": {
-      "path": "profiles/academic-ja/paper-scm-plant-closure.md",
-      "sha256": "511c286df08fbf3083fff1f44332e3aa9dcf70f6ab6284e925d05c5ffd7ca79b"
-    },
-    "resource:academic-ja-slides-scm-plant-closure": {
-      "path": "profiles/academic-ja/slides-scm-plant-closure.md",
-      "sha256": "2e1adf74d27bed1f9cd7ae5afb13a8ecd9492e85c4ba49384bc9fb3c0ae69858"
+      "sha256": "dbe329387a99c496bbb36a5f4cd5f2751ff47a9c58800b3d62828e0d6c3a8500"
     },
     "resource:adaptive-research": {
       "path": "skills/econ-design/references/adaptive-research.md",
@@ -147,7 +139,7 @@
     },
     "resource:default-micro": {
       "path": "profiles/default-micro/PROFILE.md",
-      "sha256": "479d04321762db8d0c770fd4a45b5355c42720af38945fc77ae03ed2cc0bd159"
+      "sha256": "4f97261e077606d14a73f8be0a169f12222872e5740367ce65d2300f0db6d954"
     },
     "resource:design-methods": {
       "path": "skills/econ-design/references/designs.md",
@@ -775,7 +767,7 @@
     },
     "resource:resource-guide": {
       "path": "docs/ai/resources.md",
-      "sha256": "6d314594c905291d5b80f4514a0b9220006cdd6ba480ec882ee1280c603821c3"
+      "sha256": "06a9fa6f86464e9d38e805d087df566778cfc3902ece3c3007b13198b18555f3"
     },
     "resource:result-artifacts": {
       "path": "skills/econ-writing/references/result-artifacts.md",
@@ -807,15 +799,7 @@
     },
     "resource:top-five-en": {
       "path": "profiles/top-five-en/PROFILE.md",
-      "sha256": "9adaf6334278801c380c758828f02bd0e4f618310976eacdf5dc4eac735d120e"
-    },
-    "resource:top-five-en-paper-plant-closures": {
-      "path": "profiles/top-five-en/paper-plant-closures.md",
-      "sha256": "dde3cc582bcd2ed39485886e393772f681b59c0cb68605a9f3d6b584dc91710b"
-    },
-    "resource:top-five-en-slides-plant-closures": {
-      "path": "profiles/top-five-en/slides-plant-closures.md",
-      "sha256": "a73a187ffac3a9d0ab33e046dc5df681491620a73c3f05a11db46c702733b378"
+      "sha256": "1086d9ca84c988043d2de031ec16210fcdc1f7595ea02eb30a4bb89cee4e8a9d"
     },
     "resource:writing-artifacts": {
       "path": "skills/econ-writing/references/artifact-writing.md",
@@ -839,7 +823,7 @@
     },
     "resource:writing-profile": {
       "path": "skills/econ-writing/references/profile.md",
-      "sha256": "5c40f935b6eb4dfadebf73a09c23f7533bfcbd00293b9b691bf0957c708930dd"
+      "sha256": "148d15999f1b142aba2adeee35b508867b49564058d904f6217d48238200c80d"
     },
     "resource:writing-revise": {
       "path": "skills/econ-writing/references/revise.md",

@@ -2774,30 +2774,6 @@
         "econ-review:assess",
         "econ-review:assess+repair"
       ]
-    },
-    "example_academic_ja_paper_scm_plant_closure": {
-      "optional_examples": [
-        "academic-ja.paper-scm-plant-closure"
-      ],
-      "applies_to": "*"
-    },
-    "example_academic_ja_slides_scm_plant_closure": {
-      "optional_examples": [
-        "academic-ja.slides-scm-plant-closure"
-      ],
-      "applies_to": "*"
-    },
-    "example_top_five_en_paper_plant_closures": {
-      "optional_examples": [
-        "top-five-en.paper-plant-closures"
-      ],
-      "applies_to": "*"
-    },
-    "example_top_five_en_slides_plant_closures": {
-      "optional_examples": [
-        "top-five-en.slides-plant-closures"
-      ],
-      "applies_to": "*"
     }
   },
   "aliases": {
