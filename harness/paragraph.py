@@ -1005,7 +1005,7 @@ class ParagraphRun:
                      'required_checks': list(INTEGRATION_CHECKS if section_id is not None else GLOBAL_CHECKS) if independent else [],
                      **({} if independent else {'review_instruction':
                          'Complete one integrated substantive review of meaning, inference, source/result support, '
-                         'paragraph connections and PROSE. Return the completed paragraphs and their joined text, '
+                         'paragraph connections and WRITING. Return the completed paragraphs and their joined text, '
                          'the supplied paragraph_hashes and any remaining concrete findings. Repair authorized wording '
                          'in this return. Preserve the adopted economic specification and uneditable passages.'})},
                      instruction_packet(self.state['request'], self.state['rules']))

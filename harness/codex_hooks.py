@@ -1710,7 +1710,7 @@ def _verify_ordinary_stop(event, root, directory):
         gate.require(not _pending_task_holds(directory, None), 'unresolved task hold requires continuation')
         completion = _completion_task(directory, root)
         if completion is None:
-            # Read-only answers use the retained request and CORE's integrated
+            # Read-only answers use the retained request and ECONOMIST's integrated
             # judgment. Modifying calls still require preflight authority.
             gate.require(not observed, 'modifying operations require their original task contract')
             return 'completed'

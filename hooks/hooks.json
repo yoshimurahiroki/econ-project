@@ -1,5 +1,5 @@
 {
-  "description": "Economist worksheet gate for edits and turn ends, procedure pointer and one writing review per answer",
+  "description": "Economist worksheet gate for edits and turn ends, procedure pointer, and one referee review and one writing review per answer",
   "hooks": {
     "SessionStart": [
       {

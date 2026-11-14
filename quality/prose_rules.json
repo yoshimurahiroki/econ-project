@@ -1,7 +1,7 @@
 {
   "version": "2.0",
   "owner": "prose.common-output",
-  "purpose": "Recurring locators for source-grounded semantic review under PROSE; inspect every element against read sources, preserve scientific definitions, conditions, quantities, uncertainty and attribution, and exclude the rhetoric prohibited by Common output.",
+  "purpose": "Recurring locators for source-grounded semantic review under WRITING; inspect every element against read sources, preserve scientific definitions, conditions, quantities, uncertainty and attribution, and exclude the rhetoric prohibited by Common output.",
   "categories": {
     "uncertainty": {
       "rule_id": "prose.common-output",

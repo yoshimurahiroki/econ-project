@@ -46,7 +46,7 @@ A plan that fixes the sample, specification, outcomes, inference and decision ru
 Sections 1 to 4 as usual. Before outcome data exist, sections 5 and 6 hold the planned analysis:
 
 - **5. Execution:** the planned specification run on simulated or placebo data with the planned code (the `estimate_ladder.py` simulation, `rct_design` with `operation="diagnose"`, or `rdpower`), with the saved result file. This checks that the code runs and gives the precision the plan relies on.
-- **6. Decision:** the decision rule by estimate range ("adopt when the lower bound of the 95% interval exceeds the threshold"). **Switches when:** the threshold. **Specification changes:** none (plan stage).
+- **6. Decision:** the decision rule by estimate range ("adopt when the lower bound of the interval at the user's level exceeds the threshold"). **Switches when:** the threshold. **Specification changes:** none (plan stage).
 
 ### B2. Order of the document
 

@@ -7,11 +7,11 @@
   "assets": {
     "argument": {
       "path": "harness/argument.py",
-      "sha256": "e41ed690bdcfa25df0bd4c35bac5fc05185311df13bab7f586e300101674ad59"
+      "sha256": "91b000feb6edf6ba3f0bd0dc70618652cd210f7c64cd23b2db5dea9e82f356fc"
     },
     "codex_hooks": {
       "path": "harness/codex_hooks.py",
-      "sha256": "19bc37654d0f26a2fe1d87a8cdf106f942f0590ea6a04133d6f8560963d3da35"
+      "sha256": "a220e0c92a24c5f779f134ba07ad2dcb8c14b0fc437154b38048e7fd86e2d56b"
     },
     "core": {
       "path": "runtime/ECONOMIST.md",
@@ -19,7 +19,7 @@
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
-      "sha256": "579cb8be2812ce477fa8fad591437a0fa4fc91d4be48d810666afe90f12093ab"
+      "sha256": "bf3d1f01cdf403a2f641fd2befc6c40124328610c8d49fd07e45fe72e4ca7f04"
     },
     "local_checks": {
       "path": "harness/local_checks.py",
@@ -31,11 +31,11 @@
     },
     "paragraph": {
       "path": "harness/paragraph.py",
-      "sha256": "61e001fe6cf93a2899331f2e7bc51c550c877084e3fe9a93bc5161ee5c096549"
+      "sha256": "5f9dbeb1d833d25f08bf22cb74607de243ad9c696fbd3dac48f6f9fa43185e44"
     },
     "policy_assets": {
       "path": "harness/policy_assets.py",
-      "sha256": "385fd385c019d1a3bab1e53948a5bd005950dc21652a496e887bd1a2af108bb9"
+      "sha256": "195783edf7ca9c4c55738ea5a7dee9aed6225b3e0c7a32f98172a72e40510500"
     },
     "prose": {
       "path": "runtime/WRITING.md",
@@ -43,7 +43,7 @@
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
-      "sha256": "b251c0ba35473f376eb3e892509944f88558b78c8f1b91d03f38ab2e6c06cac5"
+      "sha256": "8e95527790c498f915e25805277d3a444a4667c7b5e7dd49c3081b7d602d119c"
     },
     "registry_operations": {
       "path": "registry/operations.json",
@@ -223,7 +223,7 @@
     },
     "resource:hook-registration": {
       "path": "hooks/hooks.json",
-      "sha256": "127d0eba3293a25ff6ecd6f53b2dcb0fc8ee3147ffcd598425d99c5c8fd20964"
+      "sha256": "f47de649cfd5c71b0bb043c110918d9f02c90e49daf1d56d95506d5964d91864"
     },
     "resource:hook-wrapper": {
       "path": "hooks/check.py",
@@ -231,7 +231,7 @@
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
-      "sha256": "dcc141bf638b45144e0cba0fe07d1028c07e1e68e85d6ddf33b7ee5564877137"
+      "sha256": "90007e608133f21f79562a80bde1b54eb89481446d2f56ad677bf1d5b050b355"
     },
     "resource:journal-priority": {
       "path": "skills/econ-literature/references/journal-priority.json",
@@ -791,7 +791,7 @@
     },
     "resource:writing-proposals": {
       "path": "skills/econ-writing/references/proposals.md",
-      "sha256": "3cb353253a0fbc82349be7ab319bec648ff4693130a07efb48dc24b4de97ee27"
+      "sha256": "24727d5740f64a100f59f6836476d6ec3b521dbefaf15b1205d5cf82a62f9e83"
     },
     "resource:writing-revise": {
       "path": "skills/econ-writing/references/revise.md",
