@@ -43,7 +43,7 @@
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
-      "sha256": "c4461f02ec4d770f0d5ae94db3eb299fd14ad5a4583442ddfb338afe8d1bc9dc"
+      "sha256": "838d09f8f342f67a6f5ca7468e360eac537fe8e4e6194fc87aea1d94f6b9c07f"
     },
     "registry_operations": {
       "path": "registry/operations.json",
@@ -287,7 +287,7 @@
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
-      "sha256": "f1c5808db73493cc272b35da98092410b0cca74b85c91395a0c5bf5f12761efe"
+      "sha256": "c24b046cf328bc0169116f6113ba7ec93eba702f0a63b0a09adc23a037860fca"
     },
     "resource:journal-priority": {
       "path": "skills/econ-literature/references/journal-priority.json",

@@ -4,7 +4,7 @@
 
 ## Current research and reading path
 
-Responsibilities: CORE owns scope, reading and completion; [PROSE](../../runtime/PROSE.md) expression; [DECIDE](../../runtime/DECIDE.md) economic decisions; [TEAM](../../runtime/TEAM.md) delegation and resumption; [EXECUTION](../../runtime/EXECUTION.md) files and operations. Skills own specialist procedures; knowledge units own definitions, equations and model conditions. Registries select their canonical bodies.
+Responsibilities: CORE owns scope, reading and completion; [PROSE](../../runtime/WRITING.md) expression; [DECIDE](../../runtime/ECONOMIST.md) economic decisions; [TEAM](../../runtime/TEAM.md) delegation and resumption; [EXECUTION](../../runtime/ECONOMIST.md) files and operations. Skills own specialist procedures; knowledge units own definitions, equations and model conditions. Registries select their canonical bodies.
 
 Seven Skills select specialist work, method references and knowledge supply scientific bodies, and the existing registries select their applicable stage/case. Examples and administration stay optional.
 
