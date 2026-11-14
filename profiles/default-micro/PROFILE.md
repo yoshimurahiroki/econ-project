@@ -4,13 +4,11 @@ Profile ID: default-micro. Languages: English and Japanese.
 
 ## Principles
 
-Apply the [borrowing procedure](../../runtime/WRITING.md) to every element. Japanese output is composed from Japanese originals; English output from English originals.
+Argument structure comes from English exemplars and Japanese expression from Japanese exemplars, through [WRITING](../../runtime/WRITING.md). The profile of the output language fixes notation, numbers, exhibits, citations and layout.
 
 ## Select the passage function
 
 | Language | Profile |
 |---|---|
-| Japanese papers, explanations and slides | [Japanese economics writing profiles](../academic-ja/PROFILE.md) |
-| English papers and slides | [English economics writing profiles](../top-five-en/PROFILE.md) |
-
-Each profile states the borrowing procedure and the conventions for its language. Read the complete profile, then take the actual sentences from real originals.
+| Japanese papers, notes, explanations and slides | [Japanese economics writing profile](../academic-ja/PROFILE.md) |
+| English papers and slides | [English economics writing profile](../top-five-en/PROFILE.md) |

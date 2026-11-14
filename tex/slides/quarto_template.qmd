@@ -13,60 +13,48 @@ format:
     slide-level: 1
 ---
 
-# Motivation
+<!-- Each [fill: ...] names what the slide carries; the sequence follows a research talk of the same type
+(exemplars.py find --kind slide) and the content comes from the worksheet. One claim per slide, with its
+exhibit and a one-line reading; delete slides the talk does not use. -->
 
-- The fact, anecdote or policy decision that makes the question matter
-- The quantity the decision depends on
+# [fill: question and stake]
 
-# Question
+- [fill: the decision or fact that makes the question matter, with its magnitude]
+- [fill: the question: who chooses what, and the change under study]
 
-What happens to OUTCOME when POLICY changes?
+# [fill: answer]
 
-- Counterfactual: what would happen if ...
-- Parameter: how large is ...
+- [fill: main estimate with interval, unit, population and period]
+- [fill: the decision it implies and the condition under which it switches]
 
-# This paper
+# [fill: mechanism]
 
-- Setting and source of variation
-- Data that measure the response
-- What the paper adds
+- [fill: competing mechanisms and their predictions for the same change]
+- [fill: the observation that separates them]
 
-# Preview of findings
+# [fill: setting and data]
 
-- Main estimate with its standard error and units
-- Second outcome or margin
-- Bottom line: the policy or welfare magnitude
+- [fill: the rule or shock, its timing and the agents it reaches]
+- [fill: sources, unit of observation, sample and period]
 
-# Data
+# [fill: identifying comparison]
 
-- Source of each variable and its unit of observation
-- Sample, period and number of observations
+- [fill: estimand, the variation that identifies it and the comparison group]
+- [fill: the identifying assumption and the method from its method card]
 
-# Model
+# [fill: main result]
 
-$$
-y_{it} = \alpha_i + \delta_t + \beta x_{it} + \varepsilon_{it}
-$$
+![[fill: one-line reading: the estimate and the prediction it supports]](figures/main.pdf)
 
-- $y_{it}$: outcome of unit $i$ in period $t$
-- $\alpha_i$, $\delta_t$: unit and period fixed effects
-- Identification: $\mathrm{E}(\varepsilon_{it}\mid x_{it},\alpha_i,\delta_t)=0$
+# [fill: magnitude and decision]
 
-# Bottom line
+- [fill: the estimate converted to the decision's unit: per yen, per worker, elasticity or welfare]
+- [fill: the decision and its switching value]
 
-- The decision quantity and its definition in model parameters
-- The estimate that maps into it
+# [fill: mechanism evidence]
 
-# Key magnitudes
+- [fill: the test of the separating prediction and its result]
 
-|                             | Estimate | SE   |
-|:----------------------------|:--------:|:----:|
-| Main estimate               | 0.00     | 0.00 |
-| Second outcome              | 0.00     | 0.00 |
-| Decision quantity           | 0.00     | 0.00 |
+# [fill: conclusion]
 
-# Conclusion
-
-- The answer to the question
-- Its magnitude
-- The decision it informs
+- [fill: the answer, its magnitude and the decision it informs]

@@ -16,14 +16,15 @@ Talks not yet in the library come from the user's Drive, authors' homepages, NBE
 Slide <n> (<minutes>):  noun-phrase title → one claim → exhibit or equation (saved result ID) → worksheet item
 ```
 
-The default applied-micro sequence: motivation, question, this paper, preview of findings, data, model or design, bottom line, main result, key magnitudes, mechanism, conclusion; appendix slides for derivations, extra estimates and definitions. Allocate minutes to the slides that carry the answer; quantities are defined before they are used.
+The default sequence follows the worksheet: question and stake, answer, mechanism with competing predictions, setting and data, identifying comparison, main result, magnitude and decision, mechanism evidence, conclusion; appendix slides for derivations, extra estimates and definitions. A talk exemplar of the same type takes precedence over this default. Allocate minutes to the slides that carry the answer; quantities are defined before they are used.
 
 ## S2. Compose slides
 
 1. **Titles** are noun phrases. **Each slide carries one claim**, with its figure or table and a one-line reading of it, and the magnitude with its unit.
 2. **Japanese slides** take their heading grammar, bullet endings, punctuation and layout from Japanese slide exemplars (`find --lang ja --kind slide`, `style --lang ja --kind slide`), at 32 pt body text with lines of up to 24 characters.
-3. **Layouts** in meeting bundles: `stack` for a claim with a wide table; `figure-left` for a figure beside its interpretation; `figures` for comparable panels on common scales. Population, period and units sit beside the exhibit. Dense content is split across slides at the same type size.
-4. **Theory and structural talks** use the `model` or `structural` material template (`tex/slides/meeting_templates.json`); saved parameter, fit, equilibrium and welfare displays are placed by their result IDs.
+3. **Every exhibit slide carries its reading.** A figure or table without a one-line reading is unfinished: register the claim in the display's `metadata.public_claims` or write the section caption before rendering.
+4. **Layouts** in meeting bundles: `stack` for a claim with a wide table; `figure-left` for a figure beside its interpretation; `figures` for comparable panels on common scales. Population, period and units sit beside the exhibit. Dense content is split across slides at the same type size.
+5. **Theory and structural talks** use the `model` or `structural` material template (`tex/slides/meeting_templates.json`); saved parameter, fit, equilibrium and welfare displays are placed by their result IDs.
 
 ## S3. Type sizes and templates
 
@@ -33,7 +34,7 @@ The default applied-micro sequence: motivation, question, this paper, preview of
 | Title / heading | English 40 / 32 pt; Japanese 44 / 36 pt | English 40 / 32 pt; Japanese 44 / 36 pt | 34 px / 25 px |
 | Body, bullets, tables, captions | English 28 pt (37.33 px); Japanese 32 pt; line height 1.45 | English 28 pt; Japanese 32 pt (`japanese: true` or `\ersjapanesetrue`) | 18 px, line height 1.8 |
 
-Templates: paper `tex/paper/ecta_template.tex` (econsocart; Top Five section order with slots for each element), Beamer `tex/slides/main.tex` (metropolis, Waseda colors, Harano Aji fonts; the applied-micro sequence above), Quarto `tex/paper/quarto_template.qmd` and `tex/slides/quarto_template.qmd`, meeting `tex/slides/meeting_template.qmd`. Replace every slot with content and delete unused sections and frames. `scripts/build_latex.py` handles LuaLaTeX, citations and keeps the previous PDF when a build fails.
+Templates: paper `tex/paper/ecta_template.tex` (econsocart; Top Five section order, each slot naming the function of a paragraph), Beamer `tex/slides/main.tex` (metropolis, Waseda colors, Harano Aji fonts; the sequence above), Quarto `tex/paper/quarto_template.qmd` and `tex/slides/quarto_template.qmd`, meeting `tex/slides/meeting_template.qmd`. Replace every slot with content from the worksheet in the wording of the exemplar and delete unused sections and frames; a rendered page that still shows ⟨…⟩ or [fill: …] is unfinished. `scripts/build_latex.py` handles LuaLaTeX, citations and keeps the previous PDF when a build fails.
 
 ## S4. Results-based materials
 
@@ -41,7 +42,7 @@ Register named quantities and units from saved estimates and generate tables, fi
 
 ## S5. Other documents
 
-Research sites, decision reports, proposals, progress reviews and meeting records take their structure from exemplars of the same purpose and their content from the worksheet and project records: decisions, basis, responsibility, timing and dependencies.
+Decision proposals and pre-analysis plans follow [proposals](proposals.md). Research sites, progress reviews and meeting records take their structure from exemplars of the same purpose and their content from the worksheet and project records: decisions, basis, responsibility, timing and dependencies.
 
 ## S6. Render and read
 

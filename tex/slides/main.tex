@@ -63,6 +63,8 @@
 \date{\today}
 %% END TITLE
 
+%%%%% SLOTS
+\providecommand{\slot}[1]{{\color{gray}\itshape\ensuremath{\langle}#1\ensuremath{\rangle}}}
 %%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{amsmath}
 \begin{document}
@@ -72,83 +74,68 @@
 \end{frame}
 
 %% BEGIN BODY
-\begin{frame}{Motivation}
+% Each \slot names what the slide carries; the sequence follows a research talk of the same type
+% (exemplars.py find --kind slide) and the content comes from the worksheet. One claim per slide,
+% with its exhibit and a one-line reading; delete frames the talk does not use.
+\begin{frame}{\slot{Question and stake}}
     \begin{itemize}
-        \item The fact, anecdote or policy decision that makes the question matter
-        \item The quantity the decision depends on
+        \item \slot{The decision or fact that makes the question matter, with its magnitude}
+        \item \slot{The question: who chooses what, and the change under study}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Question}
-    What happens to \alert{outcome} when \alert{policy} changes?
+\begin{frame}{\slot{Answer}}
     \begin{itemize}
-        \item Counterfactual: what would happen if \dots
-        \item Parameter: how large is \dots
+        \item \slot{Main estimate with interval, unit, population and period}
+        \item \slot{The decision it implies and the condition under which it switches}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{This paper}
+\begin{frame}{\slot{Mechanism}}
     \begin{itemize}
-        \item Setting and source of variation
-        \item Data that measure the response
-        \item What the paper adds
+        \item \slot{Competing mechanisms and their predictions for the same change}
+        \item \slot{The observation that separates them}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Preview of findings}
+\begin{frame}{\slot{Setting and data}}
     \begin{itemize}
-        \item Main estimate with its standard error and units
-        \item Second outcome or margin
-        \item Bottom line: the policy or welfare magnitude
+        \item \slot{The rule or shock, its timing and the agents it reaches}
+        \item \slot{Sources, unit of observation, sample and period}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Data}
+\begin{frame}{\slot{Identifying comparison}}
     \begin{itemize}
-        \item Source of each variable and its unit of observation
-        \item Sample, period and number of observations
+        \item \slot{Estimand, the variation that identifies it and the comparison group}
+        \item \slot{The identifying assumption and the method from its method card}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Model}
-    \[
-    y_{it} = \alpha_i + \delta_t + \beta x_{it} + \varepsilon_{it}
-    \]
-    \begin{itemize}
-        \item $y_{it}$: outcome of unit $i$ in period $t$
-        \item $\alpha_i$, $\delta_t$: unit and period fixed effects
-        \item Identification: $\mathrm{E}(\varepsilon_{it}\mid x_{it},\alpha_i,\delta_t)=0$
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Bottom line}
-    \begin{itemize}
-        \item The decision quantity and its definition in model parameters
-        \item The estimate that maps into it
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Main result}
+\begin{frame}{\slot{Main result}}
     \centering
-    \IfFileExists{figures/main.pdf}{\includegraphics[height=0.72\textheight]{figures/main.pdf}}{\fbox{\parbox[c][0.6\textheight][c]{0.8\textwidth}{\centering figures/main.pdf}}}
+    \IfFileExists{figures/main.pdf}{\includegraphics[height=0.66\textheight]{figures/main.pdf}}{\fbox{\parbox[c][0.55\textheight][c]{0.8\textwidth}{\centering figures/main.pdf}}}
+
+    \raggedright
+    \slot{One-line reading: the estimate and the prediction it supports}
 \end{frame}
 
-\begin{frame}{Key magnitudes}
-    \centering
-    \begin{tabular}{lcc}
-        & Estimate & SE \\
-        \hline
-        Main estimate & 0.00 & 0.00 \\
-        Second outcome & 0.00 & 0.00 \\
-        Decision quantity & 0.00 & 0.00 \\
-    \end{tabular}
-\end{frame}
-
-\begin{frame}{Conclusion}
+\begin{frame}{\slot{Magnitude and decision}}
     \begin{itemize}
-        \item The answer to the question
-        \item Its magnitude
-        \item The decision it informs
+        \item \slot{The estimate converted to the decision's unit: per yen, per worker, elasticity or welfare}
+        \item \slot{The decision and its switching value}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\slot{Mechanism evidence}}
+    \begin{itemize}
+        \item \slot{The test of the separating prediction and its result}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\slot{Conclusion}}
+    \begin{itemize}
+        \item \slot{The answer, its magnitude and the decision it informs}
     \end{itemize}
 \end{frame}
 %% END BODY
@@ -162,7 +149,6 @@
     \bibliography{../bibliography}  % Bibliography file (usually '*.bib')
     \bibliographystyle{../paper/ecta-fullname} % Style BST file
 
-    \nocite{*}
 \end{frame}
 }{}
 %% END BIBLIOGRAPHY

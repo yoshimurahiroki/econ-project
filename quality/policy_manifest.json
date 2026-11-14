@@ -39,7 +39,7 @@
     },
     "prose": {
       "path": "runtime/WRITING.md",
-      "sha256": "5b54938317843c7984d3a34445c346e9f9880c9513cb620b031936bc28a8144f"
+      "sha256": "b1cd5e89187e0b13787b5e7029533833ca6e47c7e53d8228957242c455cfabc0"
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
@@ -63,7 +63,7 @@
     },
     "resource:academic-ja": {
       "path": "profiles/academic-ja/PROFILE.md",
-      "sha256": "08d8ed6f8fa4f64e59f8684ac7aba22575c79866f564d663ef2396adb53f6539"
+      "sha256": "0f55616614d0764faef7805fd045aaa1cdb8bc84e849174d94e30c516308005c"
     },
     "resource:adaptive-research": {
       "path": "skills/econ-design/references/adaptive-research.md",
@@ -147,7 +147,7 @@
     },
     "resource:default-micro": {
       "path": "profiles/default-micro/PROFILE.md",
-      "sha256": "ac10079c080b99547287ecbb35e3a8828a0de89fdb013b6cc9f6db5a5707e553"
+      "sha256": "8d3b6f53e29534d3daf4113af7b7081313e85cace82109bccce103c6f1eb627b"
     },
     "resource:design-methods": {
       "path": "skills/econ-design/references/designs.md",
@@ -267,11 +267,11 @@
     },
     "resource:latex-paper-quarto": {
       "path": "tex/paper/quarto_template.qmd",
-      "sha256": "99bbcabaedeb424d137af94ccf39c2ca85937870da6daab5380c8ddd46868532"
+      "sha256": "859af9a1dc52b0413202a85d8cc87001fc0877c53971a5c312c2f17f10783db8"
     },
     "resource:latex-paper-template": {
       "path": "tex/paper/ecta_template.tex",
-      "sha256": "c3b1b2476e69310b4b1070625ad2b9c786df86c1fd4a5d3a942a26557d892997"
+      "sha256": "e51e0de636e4e2c15276e222114d864a06db2cfea4fe70a0139a39ca42eb6e9c"
     },
     "resource:latex-quarto-project": {
       "path": "_quarto.yml",
@@ -279,15 +279,15 @@
     },
     "resource:latex-slides-pandoc": {
       "path": "tex/slides/pandoc_template.latex",
-      "sha256": "d8c40d57151c77417136810116780b6a5ce8c07168157ad6b12fe9f955c70b1e"
+      "sha256": "4991b9438a5203eb52e11d34f65067409a74740c1f8663098d31fd61ec6fe623"
     },
     "resource:latex-slides-quarto": {
       "path": "tex/slides/quarto_template.qmd",
-      "sha256": "20cfb2b073be725c6342e3ff4cc8d0d1867a83b0ee7912278e8e3a9923969dde"
+      "sha256": "5b2280c4b2e77ba745206ed526773490dd1a7d33257087c94677367b72ab76d4"
     },
     "resource:latex-slides-template": {
       "path": "tex/slides/main.tex",
-      "sha256": "ce41d2da962dc2520b676a0585848caa427ae7a302eabff083cf4bc11d17e598"
+      "sha256": "254081731d1b3776d10b2e326ebb2118bfe25ec1002bbcdf51541e6317fcaebe"
     },
     "resource:literature-methods": {
       "path": "skills/econ-literature/references/literature-methods.md",
@@ -595,7 +595,7 @@
     },
     "resource:research-artifacts": {
       "path": "harness/research_artifacts.py",
-      "sha256": "ffe35f41a69e79d41a51f78c4be47a674167e128c277e1864295f0647192720c"
+      "sha256": "65e4deb4080f8eb44971f3f340b00cddae09abccb1a9302201a1d52102d150b6"
     },
     "resource:research-causal": {
       "path": "skills/econ-data/scripts/research_causal.py",
@@ -759,7 +759,7 @@
     },
     "resource:top-five-en": {
       "path": "profiles/top-five-en/PROFILE.md",
-      "sha256": "6def7233a14c0b5f06d994e03530984ddda0f7552c2ff29b431a60c5a8072b0c"
+      "sha256": "50035e57a374eccc350de232ecccebddb13779da43647c4e647633d75f37084f"
     },
     "resource:worksheet": {
       "path": "runtime/WORKSHEET.md",
@@ -767,7 +767,7 @@
     },
     "resource:writing-artifacts": {
       "path": "skills/econ-writing/references/artifact-writing.md",
-      "sha256": "706584799265fa185dd767f3da869e8b3d8dd86589b308913a274679d34f7b71"
+      "sha256": "89990e87ca42976cc1970faae44ab92b629a673a79c2b8230683b175b41187c8"
     },
     "resource:writing-compose": {
       "path": "skills/econ-writing/references/compose.md",

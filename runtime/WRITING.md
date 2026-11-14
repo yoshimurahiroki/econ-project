@@ -36,7 +36,7 @@ python3 skills/econ-writing/scripts/exemplars.py style --lang ja --kind prose
 Use `--kind slide` for slides. `style` lists the openings and connectives, the sentence endings and the sentence-length quartiles of the matching passages. Then write each sentence under these rules:
 
 1. **Connectives and openings** are taken from the retrieved passages or the `style` list (そこで, ここで, つまり, このような場合, なお, しかし, したがって and the like). A sentence opens with one of them, or with its subject.
-2. **Endings** are taken from the `style` list (である, となる, と呼ぶ, ている, と考えられる and the like). Consecutive sentences vary their endings as the passages do.
+2. **Endings** are taken from the `style` list (である, となる, と呼ぶ, ている and the like). Consecutive sentences vary their endings as the passages do.
 3. **Rhythm** follows the quartiles: most sentences fall between the first and third quartile, with short sentences mixed in at the observed share.
 4. **Vocabulary** follows the passages: their technical terms, verbs and the way they introduce symbols (ここで，λは…を表す). A term the passages lack takes its standard Japanese textbook form.
 5. **Explanation order** follows the passages: a statement, then its reason or condition, then the consequence (このような場合は…となる). Each paragraph moves in the order of the English argument from step 1.

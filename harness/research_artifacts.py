@@ -2136,7 +2136,7 @@ def latex_adapter(source, kind):
         regions={'LANGUAGE':'\\newif\\ifersjapanese\n$if(japanese)$\\ersjapanesetrue$endif$',
                  'TITLE':'$if(title)$\\title{$title$}$endif$\n$if(subtitle)$\\subtitle{$subtitle$}$endif$\n\\author{$for(author)$$author$$sep$ \\and $endfor$}\n$if(institute)$\\institute{$institute$}$endif$\n\\date{$if(date)$$date$$else$\\today$endif$}',
                  'BODY':'$body$',
-                 'BIBLIOGRAPHY':'$if(bibliography)$\\begin{frame}{References}\n    \\normalsize\n    \\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}\n    % Bibliography style is set to ecta-fullname by the renderer.\n\n    \\nocite{*}\n\\end{frame}$endif$'}
+                 'BIBLIOGRAPHY':'$if(bibliography)$\\begin{frame}{References}\n    \\normalsize\n    \\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}\n    % Bibliography style is set to ecta-fullname by the renderer.\n\\end{frame}$endif$'}
         for name,content in regions.items(): source=replace_region(source,name,content)
     else: raise ValueError('Unknown LaTeX template kind')
     return source

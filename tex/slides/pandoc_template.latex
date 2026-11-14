@@ -58,6 +58,8 @@ $if(subtitle)$\subtitle{$subtitle$}$endif$
 $if(institute)$\institute{$institute$}$endif$
 \date{$if(date)$$date$$else$\today$endif$}
 
+%%%%% SLOTS
+\providecommand{\slot}[1]{{\color{gray}\itshape\ensuremath{\langle}#1\ensuremath{\rangle}}}
 %%%%% DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{amsmath}
 $if(bibliography)$$else$\let\econbibstyle\bibliographystyle
@@ -82,8 +84,6 @@ $if(bibliography)$\begin{frame}{References}
     \normalsize
     \bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
     % Bibliography style is set to ecta-fullname by the renderer.
-
-    \nocite{*}
 \end{frame}$endif$
 
 \end{document}

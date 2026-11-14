@@ -1,180 +1,56 @@
-# Japanese economics writing profiles
+# Japanese economics writing profile
 
 Profile family: academic-ja. Language: Japanese.
 
 ## Use
 
-Japanese output serves as native-language working drafts, notes, explanations, meeting materials and intermediate research products that a reader takes in with low cognitive load. Its form, layout and manners follow the Top Five conventions shared with the English profile; journal-specific submission rules are handled separately. Its sentences are composed as Japanese from Japanese originals: every sentence, heading, sentence ending, term and punctuation mark is borrowed from the corresponding passage of a real Japanese economics paper, lecture deck or research deck in the user's connected document library and adjusted only for the study's own facts, names, numbers, units and citations. An English draft is never translated into Japanese.
+This profile fixes notation, numbers, terms, exhibits, citations and layout for Japanese papers, notes, briefs, meeting materials and slides. Japanese output is native-language working material in Top Five form. Argument structure comes from English exemplars ([WRITING](../../runtime/WRITING.md) section 1); connectives, sentence endings, vocabulary, rhythm and explanation order come from Japanese exemplars ([WRITING](../../runtime/WRITING.md) section 2), and an English draft is never translated. Where an exemplar and this profile differ on wording, the exemplar wins. Length follows the content of the worksheet and the exemplar of the same genre.
 
-1. Select the Japanese original closest to the study in genre (journal article, policy paper, lecture deck, research deck), field and design, then the passage that performs the same function as the passage being written.
-2. Read the passage in the original PDF with its surrounding pages.
-3. Copy its sentences into the private working record by function and draft each sentence by substituting the study's facts into one copied sentence. Nouns, numerals, units and proper names change; particles, predicates, sentence endings and punctuation stay as in the source.
-4. Leave out content with no corresponding source sentence.
+## 1. Characters and punctuation
 
-The source sheet, the identity of each original and every mapping stay in the private working record. The conventions below fix notation, vocabulary, sentence, paragraph, section, whole-document, exhibit, layout and slide settings for Japanese output; the sentences themselves come from Japanese originals by the procedure above.
+- Papers, notes, briefs and meeting documents use 「，．」; slides use 「、」 and end bullets as the slide exemplars do.
+- Latin letters, Arabic numerals, operators, equations and numeric intervals are half-width; Japanese parentheses are full-width.
+- No space between Japanese characters; a half-width space between a number and a Latin unit; 年・月・人・件・円・% follow the number directly.
+- Digits for quantities, dates, sample sizes and exhibit numbers; grouping commas from 4 digits; the minus sign 「−」 and the range dash 「–」.
 
-## 1. 文字・表記
+## 2. Numbers
 
-論文・研究ブリーフ・研究計画・会議資料は「，．」を用いる．スライド本文は「、」を用い，文末は語で閉じる．
+- An estimate, its standard error and its interval share one scale and one number of decimals; a table column uses one number of decimals.
+- Display precision follows the precision of the estimates; round once from the saved value; p < 0.001 below that value.
+- Differences in proportions are in percentage points; the currency, price base year and scale of a monetary result are stated at its first appearance.
 
-英字，算用数字，演算子は半角とする．日本語の括弧は全角，数式・数値の区間・英語の括弧は半角とする．和文間の空白は0字，英語の語間は半角1字，数値と英語単位の間は半角1字とする．年・月・人・件・円・%は数値へ続ける．
+## 3. Terms
 
-数量，時点，標本数，図表番号には算用数字を用いる．慣用句には漢数字を用いる．4桁以上の数量には3桁ごとの桁区切りを置く．年，識別子，数式の添字はその記号体系を用いる．
+- One standard term per concept across text, tables, equations and slides; the first occurrence gives 「日本語術語（原語，略語）」, and later occurrences use the abbreviation.
+- Technical distinctions are kept: 推定値 (a reported number), 推定結果 (a display of results), 推定量 (an estimator); 処置群 and 対照群; 識別; 厚生.
+- Software, package and variable names keep their original spelling; katakana spellings データ, モデル, パラメータ, クラスター.
 
-観測数・人数・件数は整数，平均は小数2桁，割合は小数3桁，百分率・パーセントポイントは小数2桁，係数・標準誤差は小数3桁，比率・倍率は小数2桁を標準とする．同じ数量の推定値と区間端点の桁数をそろえる．
+## 4. Symbols and equations
 
-p値は小数3桁とし，0.001未満は p < 0.001 とする．保存値から表示桁へ一度丸める．負号は「−」，期間の範囲は「–」とする．符号，単位，分母，価格基準年は保存結果に従う．
+- Standard symbols unless the model defines others: i for a unit, t for time, β for a coefficient, ε for a disturbance; each symbol is defined where it is introduced.
+- Equations are numbered through the document and cited as 式(1); exhibits as 表1 and 図1; sections as 第2節.
 
-形式名詞・接続の「こと」「とき」「ため」「など」はひらがなとする．送り仮名は「行う」「用いる」「表す」「組み込む」「取り扱う」に統一する．
+## 5. Tables and figures
 
-定着した術語は日本語表記を用いる．ソフトウェア名，パッケージ名，変数名は原綴りとする．初出は「日本語術語（原語，略語）」とし，原語・略語の入力がある項目をこの順に表示する．略語は初出で定義し，その節以降は同じ略語を使う．
+- Tables: a numbered title, column numbers (1), (2), (3), the coefficient with its parenthesized standard error on the next row, no significance stars; observations, fixed effects, controls and weights below, with X for an included block; portrait, at most 9 columns, horizontal rules only, Panel A and Panel B for subtables.
+- Table notes: content, estimator by column, fixed effects, sample, level of clustering, weights, from the saved specification.
+- Figures: axis labels with quantity and unit; intervals labelled with the level and method from the saved result; vector PDF; panels labelled a, b, c.
 
-## 2. 語・主体
+## 6. Citations and references
 
-概念ごとに標準語を一つ割り当て，本文，図表，数式の説明，スライドで共用する．
+- 「著者（年）」 as the subject of a sentence and 「（著者 年）」 for attribution, with a half-width space between author and year; two Japanese authors joined by 「・」, three or more by the first author and 「ほか」; the reference list gives every author.
+- Entries: articles with author, year, title, journal, volume, issue, pages, DOI; books with author, year, title, publisher; working papers with author, year, title, series, number, institution, URL.
 
-数値の報告には「推定値」，結果をまとめた表示には「推定結果」，統計的な写像には「推定量」を用いる．処置の割当は「処置群」「対照群」，推定対象を定める論証は「識別」，評価対象は「厚生」とする．
+## 7. Layout
 
-行為の述語は，推定対象→推定する，変動と推定対象→識別する，結果→示す，算式と値→計算する，共通尺度の対象→比較する，データ・モデル→構築する，名称→定義する，数量→測定する，とする．
+- **Papers:** the Econometrica template in `tex/paper` (econsocart, LuaLaTeX, Harano Aji fonts for Japanese); exhibits after the paragraph that first cites them; page numbers centred at the foot.
+- **Slides:** 16:9, body 32 pt, headings 36 pt, title 44 pt, with labels, tables and captions at body size (Japanese type is set larger than English because a character carries more content); the metropolis theme and Waseda colours of `tex/slides`; page number at the lower right.
+- **Slide content:** a noun-phrase heading, one claim, its exhibit or equation with a one-line reading and the magnitude with its unit; content that does not fit moves to the next slide at the same type size.
 
-主題提示には「本稿では」，展開には「以下では」，定義には「ここで」，順序には「まず」「続いて」，例示には「例えば」，帰結には「その結果」を用いる．
+## 8. Genres
 
-研究全体の主体は「本稿」，操作の主体は分析の対象に沿って置く．連続する文では同じ主語を継承する．節の冒頭と主題が変わる文で主語を明示する．
-
-## 3. 句・数量・参照
-
-手法の句は「［入力］を用いて」「［根拠］に基づいて」「［推定対象］を推定する」「［対象］を比較する」とする．
-
-数量は，母集団→期間→結果変数→比較の基準→推定値→単位→標準誤差または区間，の順に提示する．同じ段落の第2文以降は共有済みの母集団と期間を参照キーで継承する．
-
-増減は基準値と終点値，差は二つの比較対象，割合は分子と分母，倍率は対象値と基準値を入力として持つ．基準値に対する変化率は差÷基準値×100で計算する．百分率の差の単位はパーセントポイントとする．
-
-図表参照は「表［番号］」「図［番号］」，数式参照は「式(［番号］)」，節参照は「第［番号］節」とする．初回参照を対応する図表・式の前に置く．
-
-## 4. 文
-
-一文は主題，命題，述語から構成する．機能ラベルは問い，意義，制度，データ源，標本，変数定義，推定式，識別条件，推論，結果，異質性，機構，反実仮想，厚生，貢献，構成の予告，結論とする．識別条件の内容は内部記録へ保存する．
-
-定義と手法は現在形，完了した操作と観測結果は過去形，本文に置かれた表・図・式の説明は現在形とする．常体の文末は「である」「する」「した」に統一する．
-
-問い・主題文は25–60字，定義は30–80字，データ・手法は35–90字，結果は25–80字，解釈・結論は30–80字を採用範囲とする．句読点を字数へ含め，数式は独立した表示として数える．
-
-命題は一文1個とする．結果の数値は一つの推定値とその標準誤差，または一つの推定値と区間の両端を一組とする．別の結果変数は次の文へ置く．
-
-連体修飾は25字まで，入れ子は1段までとする．長い母集団・期間の定義を先行文へ置き，結果の文には定義済みの呼称を使う．結果値と単位は隣接させる．
-
-## 5. 文の連結
-
-段落冒頭で主題を置き，第2文以降で証拠と新しい情報を加える．新しい主題は固有の名詞句で導入する．
-
-明示的な接続語は段落当たり0–2個，3文連続では1個までとする．順序は「まず」「続いて」，例示は「例えば」，帰結は「その結果」，言い換えは「すなわち」を用いる．
-
-「この」は直前1文の単一対象，「これら」は直前2文以内の列挙，「同」は同じ段落の直近の名詞句へ結び付ける．
-
-数量の換算は，結果値の文→基準値の文→換算値の文，の順に置く．百分率，倍率，人数への換算は共通の保存値から計算する．
-
-記号と術語は初回使用の直前または同じ文で定義する．定義後3文以内に最初の利用を置く．節をまたぐ再使用では初回に名称を再掲する．
-
-## 6. 段落
-
-序論の段落は問い→経済的な関係→数量的根拠→本稿の対象，データの段落は出典→分析単位→母集団と期間→変数，結果の段落は結果→値と推論→基準との比較→解釈，の順に組み立てる．
-
-機構の段落は選択または制約→行動の変化→観測量→結果への接続，理論の段落は対象→定義→命題→導出の要点，反実仮想の段落は変更する量→計算→数量→配分・厚生，の順に置く．
-
-冒頭文は段落の対象を示す．結び文はその段落で得た関係を述べる．次の論点を導入する文は次段落の冒頭へ置く．
-
-論文の段落は3–6文・180–450字，短い定義段落は2–3文・80–200字とする．研究ブリーフと会議資料の段落は2–4文・100–250字とする．
-
-一段落に入れる結果は0–2組，結果段落は1–2組，図表参照は0–2件，文献は0–3件とする．同じ文献群は一つの引用位置へまとめる．
-
-## 7. 節・見出し
-
-序論は問い→制度・選択の経済的関係→データ→識別に使う変動→主要結果→貢献→構成の予告とする．主要結果は3点までとする．
-
-小節は分析対象，推定対象，または論証の役割が変わる位置に置く．一小節は2–5段落とし，見出し階層は節と小節の2段までとする．
-
-見出しは体言，節見出しは4–18字，小節見出しは6–24字とする．番号は1，1.1，1.2の形式を用いる．
-
-本文の基準配分は，序論15%，制度10%，データ15%，手法20%，結果25%，機構・厚生10%，結論5%とする．
-
-数式は導入文→表示式→記号の定義の位置に置く．図表は初回参照の段落の直後に置く．出典・推定法・標本・推論単位の表示は対応する図表へまとめる．
-
-節の冒頭では前節で定義した対象または得られた結果を名前で受ける．節末の予告は次節で扱う対象と操作を一文で示す．
-
-## 8. 論文全体
-
-誘導形実証は問い→制度→データ→変動と推定→結果→機構→結論，構造推定は問い→制度とデータ→モデル→識別と推定→適合→反実仮想→厚生→結論とする．
-
-理論は問い→環境→定義→主命題→機構→拡張→結論，計量手法は問い→推定対象→推定量→理論的性質→数値実験→実証例→結論とする．
-
-政策評価は結論の対象→制度→対象集団とデータ→推定→効果と費用→配分→結論，サーベイは問い→文献の整理軸→理論→実証→数量比較→研究課題→結論，短報は問い→データと手法→結果→結論とする．
-
-表題は研究対象と関係を表す名詞句とし，12–28字とする．著者は氏名，所属，連絡先の順に配置する．要旨は4–6文・300–500字，問い→手法とデータ→主要結果→機構または貢献の順とする．
-
-キーワードは3–5語，JELは2–4コードとする．謝辞は提供者と提供内容を入力欄に持つ．文献は本文の引用キーから生成する．
-
-結論は主要な答え→経済的機構→数量的帰結の2–3段落とする．付録の項目は補足的な集計，変数一覧，追加図表，計算の詳細とし，A，B，Cで番号を付ける．
-
-本文の採用分量は，誘導形実証8,000–18,000字，構造推定12,000–22,000字，理論8,000–16,000字，計量手法10,000–18,000字，政策評価6,000–12,000字，サーベイ12,000–24,000字，短報3,000–6,000字とする．
-
-図表は本文の参照順に独立した連番を付ける．通常論文は表3–6点・図3–6点，短報は図表合計2–4点を採用範囲とする．同じ記号，術語，数量は全文で一つの表記にそろえる．
-
-## 9. 図表・数式・引用
-
-表題は「推定結果：［処置］の［結果変数］への効果」とする．列は対象または仕様，列番号は(1)，(2)，(3)とする．係数の次行に括弧付き標準誤差を置く．末尾の行は観測数，標本，固定効果，統制変数，重みの順とする．採用した固定効果・統制変数の欄にはXを置く．
-
-表の説明は内容→各列の手法→固定効果→標本→標準誤差の算出単位→重みの順に置く．各項目は保存した仕様値を使う．結果を示す本文では同じ推定値と単位を用いる．
-
-図題は「［結果変数］の推移」「［処置］の［結果変数］への効果」とする．横軸は時点・経過時間・処置量，縦軸は数量と単位を表示する．凡例は系列の表示順に並べ，図の上または右へ配置する．
-
-信頼区間は95%を標準とし，推定点と縦線または帯で表示する．区間の水準と推論法は保存結果から取得する．図の説明は内容→標本→回帰仕様→誤差範囲の順とする．
-
-個体添字はi，時点はt，係数はβ，誤差項はεを標準とする．式番号は本文を通した連番とし，式(1)の形で参照する．
-
-著者を文の主体にするときは「［著者］（［年］）」，命題へ出典を付けるときは「（［著者］ ［年］）」とし，括弧内の著者と年の間に半角空白1字を置く．日本語の2著者は「・」，3著者以上は筆頭著者と「ほか」で本文表示し，文献一覧には全著者を記載する．
-
-雑誌論文の一覧項目は著者，年，論題，誌名，巻，号，頁，DOIの順とする．書籍は著者，年，書名，出版社，ワーキングペーパーは著者，年，論題，シリーズ，番号，機関，URLの順とする．
-
-表は縦長に組み，見出し列を含めて9列以内とする．罫線は横線だけとし，網掛けは使わない．列見出しは略語を使わずに書く．表の区分は Panel A，Panel B で示す．小数は小数点の前に0を置く（0.357）．推定結果に有意性のアスタリスクは付けず，標準誤差を括弧で示す．特定のセルに付ける注は a，b，c で示し，出所の注は他の注の後に置く．図はベクター形式（PDF）で作り，パネルは a，b，c で区別する．付録は A，B，C とし，付録内の式・定理は (A1)，(A2) と番号を付ける．
-
-## 10. 論文の版面
-
-論文の版面は tex/paper の Econometrica テンプレート（econsocart，LuaLaTeX，和文は原ノ味フォント）に従う．図表は初回参照の段落の直後に置き，表題・図題，表示内容，説明の順序をそろえる．ページ番号は下中央に置く．
-
-## 11. スライド
-
-30分報告は本編18枚とし，表題1枚，動機と問い2枚，本研究と結果予告2枚，制度2枚，データ2枚，モデル・識別3枚，結果3枚，機構・厚生2枚，結論1枚に配分する．20分報告は12枚，45分報告は26枚を基準とする．
-
-時間は動機・問い15%，制度・データ20%，手法20%，結果30%，機構・結論15%に配分する．補足スライドは論点ごとに1枚を作り，本編の該当箇所から参照する．
-
-見出しは体言，20字までとする．一枚には中心命題1行と箇条書き，または図表1点と解釈1行を置く．体言止めと常体は同じ並列内でそろえる．
-
-本文の箇条書きは最大2階層，主項目3個，本文6行，1行24字とする．「項目: 内容」はデータ，変数，手法，作業担当など並列の属性一覧へ用いる．
-
-図表スライドでは見出しと余白を除いた本文領域を分母とし，図を上部70%，解釈を下部20%，間隔を10%に配分する．単位・母集団は図の近傍へ置く．横並びは二つの比較対象を示す画面へ用い，左右の軸と単位をそろえる．
-
-数式スライドは式→記号の定義→推定対象または計算結果の順に配置する．
-
-判型は16:9，本文32pt，見出し36pt，表題44ptとする．日本語は1字当たりの情報量が英語より多いため，英語スライド（本文28pt）より大きく組む．余白は左右6%・上6%・下5%，配色は tex/slides の metropolis テーマと Waseda 色に従う．本文・図表ラベルを同じ28ptで組む．ページ番号は右下に置く．
-
-## 12. 追加ジャンル
-
-研究ブリーフ・政策報告は，結論→結果値→対象集団→費用・便益→行動，の順に置く．本文800–1,600字，図表1–2点，行動項目1–3件とする．行動には対象，担当，期限を入力する．
-
-研究計画は，問い→経済的機構→データ→識別に使う変動→推定対象と数量の尺度→成果物→日程，の順に置く．本文1,500–3,000字とし，期待される数量は事前に保存した検出力計算・校正・既存推定の結果から取る．
-
-査読への返答は，コメント原文→対応→変更箇所，の順に置く．一つのコメントに一つの対応段落を割り当てる．対応は実施した変更，変更箇所は節・頁・行または見出しで指定する．コメントは引用入力として内部に保持し，表示には選択済みの引用文字列を用いる．
-
-会議資料は，前回の決定→進捗→新しい結果→判断事項→次の作業，の順に置く．本文1–3頁，判断事項1–3件とする．作業には担当，期限，生成する成果物を対応させる．
-
-論文解説は，問い→意義→方法→結果→貢献，の5項目とする．本文1,000–2,000字を採用範囲とし，結果には主要な推定値と数値的推論を置く．
-
-## 13. 日本語の運用
-
-文末は常体とし，定義には「である」，操作には「する」，完了した操作・結果には「した」を用いる．一段落では文末の型を2–3種類とする．
-
-術語は標準語を用い，動作・関係は和語の動詞で述べる．語種は辞書項目の属性として保持する．
-
-外来語の長音符と中黒の表記を統一する．「データ」「モデル」「パラメータ」「クラスター」を採用表記とする．記号，略語，外来語の初出定義を本文とスライドで共用する．
-
-文の結び方は当該段落の日本語型から選び，前の文で定義した対象を次の文の主題へつなぐ．
+- Decision proposals and pre-analysis plans: [proposals](../../skills/econ-writing/references/proposals.md).
+- Talks and meeting materials: [slides and materials](../../skills/econ-writing/references/artifact-writing.md).
+- Papers: [paper workflow](../../skills/econ-writing/references/paper-workflow.md).
+- Referee responses: each comment quoted, then the response, then the exact section, page or line of the change.
+- Research briefs: the conclusion with its magnitude first, then the evidence, the mechanism and the action.
