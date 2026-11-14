@@ -18,8 +18,8 @@ Pick the first row that matches.
 | Structural estimation and counterfactuals | X4 below and [structural implementation](implementation-structural.md) | `scripts/research_markets.py`, `research_dynamic.py`, `equity.py fit` |
 | Model simulation without data | [modeling step by step](../../econ-design/references/modeling.md) | `econ-design/templates/simulate_model.py` |
 | Macro and DSGE calculation | X4 below | `scripts/research_macro.py`, `research_macro_extended.py`, `research_dsge.py` |
-| Data acquisition and construction only | X2, X3 | [research data](research-data.md) |
-| Descriptive statistics | X3 and [descriptive choices](implementation-descriptive.md#choose-descriptive-statistics-from-the-question) | — |
+| Data cleaning, construction and joins | [data preparation](data-preparation.md) P1–P6, then X3 | `templates/data_audit.py`, `scripts/research_data.py assemble` |
+| Descriptive statistics and figures | [data preparation](data-preparation.md) P7–P8 | `scripts/research_data.py describe` |
 | Power, minimum detectable effect, estimator simulation | X5 | `scripts/research.py power` |
 | Equity valuation | [equity](equity.md), [valuation models](equity-models.md) | `scripts/equity.py` |
 | Code change in an existing analysis | X6 and [implementation rules](implementation.md) | the existing entry |
@@ -31,7 +31,7 @@ Entry command:       <command>
 
 ## X2. Source to variables
 
-Fill one line per variable before writing any cleaning code:
+Fill one line per variable before writing any cleaning code; cleaning itself follows the [data preparation procedure](data-preparation.md):
 
 ```
 <variable>: source file and field, population, observation unit, period, unit, numerator / denominator,

@@ -1728,6 +1728,16 @@
       "source_path": "skills/econ-writing/references/proposals.md",
       "resource_kind": "rule",
       "content_version": "0.99.0"
+    },
+    "data-preparation": {
+      "source_path": "skills/econ-data/references/data-preparation.md",
+      "resource_kind": "rule",
+      "content_version": "0.99.0"
+    },
+    "data-audit-template": {
+      "source_path": "skills/econ-data/templates/data_audit.py",
+      "resource_kind": "tool",
+      "content_version": "0.97.0"
     }
   },
   "sections": {
@@ -3986,6 +3996,11 @@
       }
     },
     "writing-proposals": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "data-preparation": {
       "all": {
         "whole_resource": true
       }
@@ -7272,6 +7287,10 @@
     "writing-proposals.all": {
       "resource_id": "writing-proposals",
       "section_id": "all"
+    },
+    "data-preparation.all": {
+      "resource_id": "data-preparation",
+      "section_id": "all"
     }
   },
   "examples": {},
@@ -7573,6 +7592,9 @@
         "all"
       ],
       "writing-proposals": [
+        "all"
+      ],
+      "data-preparation": [
         "all"
       ]
     },
@@ -7909,6 +7931,9 @@
         "all"
       ],
       "writing-proposals": [
+        "all"
+      ],
+      "data-preparation": [
         "all"
       ]
     },

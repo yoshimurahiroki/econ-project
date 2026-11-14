@@ -992,6 +992,14 @@
     "writing-proposals": {
       "deployment_path": ".agents/skills/econ-writing/references/proposals.md",
       "export_alias": "WRITING_PROPOSALS.md"
+    },
+    "data-preparation": {
+      "deployment_path": ".agents/skills/econ-data/references/data-preparation.md",
+      "export_alias": "DATA_PREPARATION.md"
+    },
+    "data-audit-template": {
+      "deployment_path": ".agents/skills/econ-data/templates/data_audit.py",
+      "export_alias": "DATA_AUDIT.py"
     }
   },
   "source": {

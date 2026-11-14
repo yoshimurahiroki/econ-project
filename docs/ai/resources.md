@@ -250,3 +250,5 @@ Generated from the resource and placement registries. Use this catalog only for 
 - models-causal-outcomes-cards: skills/econ-design/references/causal-models/outcomes-bounds-sensitivity.md
 - models-causal-regression-cards: skills/econ-design/references/causal-models/regression-engines.md
 - writing-proposals: skills/econ-writing/references/proposals.md
+- data-preparation: skills/econ-data/references/data-preparation.md
+- data-audit-template: skills/econ-data/templates/data_audit.py

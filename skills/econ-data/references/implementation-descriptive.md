@@ -5,7 +5,7 @@ Use for descriptive statistics: choosing the population, unit, weights and summa
 ## Choose descriptive statistics from the question
 
 - Start with the population and period the question concerns, the unit receiving equal or weighted representation, and the quantity to summarize.
-- Reuse adopted definitions; resolve a missing choice when it changes the economic object.
+- Reuse adopted definitions; a missing choice that changes the economic object is BLOCK and goes to the user ([data preparation P0](data-preparation.md#p0-rules-without-exceptions)).
 - Save the selected summaries with their sample definition, units, grouping keys and denominators for downstream tables and plots.
 
 - **What is observed?** On the eligible population, count usable observations, observed zeros, missing values and suppressed values separately; retain censoring information where present. Zero is a subset of observed values, not a separate exclusion. Save variable-specific usable counts for available-case summaries and display them where differences in support affect the comparison. Do not discard an observed outcome merely because an unrelated regressor is missing. For a model-sample description, use the actual fitted sample, including estimator omissions. A shared denominator must be deliberate rather than the accidental result of a library dropping rows.

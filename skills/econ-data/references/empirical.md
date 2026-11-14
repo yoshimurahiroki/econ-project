@@ -13,7 +13,7 @@ Decision threshold:  the effect size at which the decision in section 1 changes
 
 ## Step E2. Data audit
 
-Load the data and print, before any regression:
+Run the audit of [data preparation P1](data-preparation.md#p1-inventory-and-audit-of-received-files) (`templates/data_audit.py`) and print, before any regression:
 
 ```
 Unit / time / keys:         unique on (unit, time)? duplicates dropped how?

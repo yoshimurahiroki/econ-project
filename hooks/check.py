@@ -27,7 +27,9 @@ POINTER = ('Economics research entry: follow AGENTS.md. Every request, without e
            'Read runtime/context/ for the country and work/context.md for the project before deciding. '
            'Models are built from standard models and existing knowledge (knowledge.py search), fitted to the case '
            'and solved as a complexity ladder (skills/econ-design/references/modeling.md); empirical work follows '
-           'skills/econ-data/references/empirical.md. Text follows runtime/WRITING.md.')
+           'skills/econ-data/references/empirical.md; data cleaning follows skills/econ-data/references/data-preparation.md, '
+           'and imputation, outlier deletion, winsorizing and corrections come only from the user or the source documentation. '
+           'Text follows runtime/WRITING.md.')
 REVIEW = ('Before finishing, reread the answer once against runtime/WRITING.md: section 3 (direct claims, numerical '
           'uncertainty only, no hedges, disclaimers, limitations, ornament or negation contrasts, and no '
           'assumptions, conditions, threats, diagnostics or justifications of the design, and no definitions or '

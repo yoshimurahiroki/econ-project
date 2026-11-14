@@ -8,8 +8,8 @@ Find the row of the object that changes; a new pipeline starts at A, a change to
 
 | Operation | Input → output | Read |
 | --- | --- | --- |
-| A. Acquire and construct shared data | source release and dictionary → tables with grain, keys, units and periods | [source to analysis](implementation-data.md#source-to-analysis), [acquisition](implementation-data.md#acquisition), [data contracts and joins](implementation-data.md#data-contracts-and-joins) |
-| B. Transform and describe | shared tables, eligibility, variables, weights → analysis sample and descriptive table | [descriptive choices](implementation-descriptive.md#choose-descriptive-statistics-from-the-question) |
+| A. Acquire and construct shared data | source release and dictionary → tables with grain, keys, units and periods | [data preparation P0–P6](data-preparation.md), [source to analysis](implementation-data.md#source-to-analysis), [acquisition](implementation-data.md#acquisition), [data contracts and joins](implementation-data.md#data-contracts-and-joins) |
+| B. Transform and describe | shared tables, eligibility, variables, weights → analysis sample and descriptive table | [data preparation P6–P8](data-preparation.md#p6-analysis-variables), [descriptive choices](implementation-descriptive.md#choose-descriptive-statistics-from-the-question) |
 | C. Regression and causal estimation | sample, estimand, design, inference → official fit and covariance | [empirical procedure](empirical.md), [regression and causal candidates](implementation-engines.md#regression-and-causal-implementation-candidates) |
 | D. Prediction and heterogeneous effects | sample, prediction-time information, loss → held-out predictions or effect functions | [prediction](#prediction), [orthogonal scores](../../econ-design/references/causal-models/heterogeneity.md) |
 | E. Structural behavior and markets | choice and market data, equations, moments → parameters, counterfactuals, welfare | [market candidates](implementation-engines.md#market-model-implementation-candidates), [structural implementation](implementation-structural.md) |

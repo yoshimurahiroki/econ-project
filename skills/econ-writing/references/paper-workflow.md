@@ -105,7 +105,7 @@ For each table and figure, fill:
 Exhibit <n>:   question it answers; saved result IDs; units, population, period; the sentence that reads it
 ```
 
-Choose the display by the question: distribution → histogram or empirical distribution with declared height; group differences → dots or bars from zero with within-group rates; estimates → points with intervals around a marked reference; change over time → actual date spacing and marked base period; joint variation → scatter or binned scatter at a stated unit. Common bins and shared axes for comparable panels; shapes or line styles readable in grayscale. Tables follow the AEA rules in the profile. Render and read every exhibit at its final size.
+Choose the display from the figure table of [data preparation P8](../../econ-data/references/data-preparation.md#p8-figures); estimates are points with intervals around a marked reference, and time uses actual date spacing with the base period marked. Common bins and shared axes for comparable panels; shapes or line styles readable in grayscale. Tables follow the AEA rules in the profile. Render and read every exhibit at its final size.
 
 ## W5. Integrate and revise
 

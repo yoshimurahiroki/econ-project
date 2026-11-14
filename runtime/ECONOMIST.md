@@ -71,7 +71,7 @@ Write the selected method, the package call and the inference (cluster level, nu
 Run the selected method through the existing scripts and runners. Write new code for data preparation and for simulating a case-specific model that no script covers, reusing the solvers in `research_numerics.py` and the model scripts.
 
 - empirical analysis step by step, with its decision rules: [empirical procedure](../skills/econ-data/references/empirical.md);
-- data acquisition and construction: [research data](../skills/econ-data/references/research-data.md);
+- data cleaning, construction, descriptive tables and figures: [data preparation](../skills/econ-data/references/data-preparation.md); acquisition: [research data](../skills/econ-data/references/research-data.md);
 - estimation: `skills/econ-data/scripts/research_causal.py run SPEC --output FILE` (causal), `research_markets.py`, `research_dynamic.py`, `research_macro_extended.py`, `research_dsge.py`; calls and specification fields in [implementation calls](../skills/econ-data/references/implementation-calls.md);
 - multi-stage projects: `python3 harness/research.py --root . research.json` reuses completed stages and saves results with their inputs.
 

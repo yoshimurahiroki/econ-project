@@ -24,8 +24,7 @@ Contents:
 - Continue when the required partitions and documented coverage are present and the requested vintage is established.
 - Repair an incomplete delivery through the authorized acquisition path.
 - Preserve a fixed vintage.
-- When vintage selection is delegated, compare releases against the requested information set and choose under the economist's procedure; obtain available source documentation before deciding.
-- Ask only when changing a fixed vintage or a user-specific choice requires authority or input not already supplied.
+- A vintage not fixed by the user or worksheet section 4 is BLOCK: list the available releases and ask the user.
 - A later revision is not automatically the correct input.
 - A change confined to supplied values under the same contract still invalidates affected downstream results.
 - If a required source cannot be obtained, identify the missing input and continue only independent branches.
@@ -41,8 +40,7 @@ Contents:
 - Separate an observed zero from unavailable, suppressed and censored observations using source status fields or documented codes.
 - Preserve the status when creating a numeric analysis field; a suppressed amount or an unobserved record cannot become zero through parsing, filling or aggregation.
 - Use the adopted treatment of each status.
-- When a missing treatment changes the requested calculation, resolve it from authorized documentation or applicable adopted settings; choose within delegated design scope under the economist's procedure.
-- Ask only for a user-specific input or permission needed to change a fixed treatment.
+- The treatment of missing values comes from worksheet section 4 or [user]; none is chosen from the data. Imputation, outlier deletion, winsorizing, corrections and record deletion follow [data preparation P0](data-preparation.md#p0-rules-without-exceptions): worksheet section 4 or [user], written before the values are inspected; otherwise BLOCK and ask the user.
 
 - For unit conversions, record the source and target units, conversion factor or series, and applicable dates and price base.
 - Apply conversions at the unit where the factor is defined before aggregating when factors vary.
@@ -55,8 +53,7 @@ Contents:
 - When a calculation follows, continue when its required fields have known meanings and the mapping preserves its population and quantities.
 - Repair parsing, conversion or grain errors at their producer.
 - Preserve fixed measurement and aggregation definitions.
-- Select a needed definition within delegated design scope under the economist's procedure and carry it into dependent calculations; a convenient substitute is not a reason to change the economic object.
-- Ask for authorization only when the change exceeds that scope.
+- A needed definition missing from worksheet section 4 is BLOCK: write the candidate definitions and ask the user; a convenient substitute never changes the economic object.
 
 ### 3. Construct the shared sample and account for exclusions
 
@@ -74,14 +71,14 @@ Contents:
 - The [shared-sample example](implementation-examples.md#example-one-sample-for-counts-and-moments) shows how counts and moments consume one definition.
 
 - If selection uses the outcome or a post-treatment variable, identify that dependence and its effect on the target population.
-- Use [empirical design](../../econ-design/references/workflow.md) to resolve an unadopted restriction within delegated design scope under the economist's procedure; if it changes a fixed specification, obtain the missing authority.
+- A restriction not in worksheet section 4 is BLOCK: write it with its dependence on the outcome or post-treatment variables and ask the user.
 - Do not describe it as neutral cleaning or silently substitute a pre-treatment rule.
 - When already adopted, retain the rule and make its conditioning explicit in the analysis handoff.
 
 - Output: the shared sample, retained identities and exclusion accounting under one rule version.
 - Continue when membership implements the adopted rules and the counts reconcile.
 - If a required subset is unexpectedly empty, trace the first stage where it disappears through source coverage, parsing, matching and filtering.
-- Repair an implementation defect; if the adopted rules genuinely produce no observations, identify that finding and resolve the design decision within delegated scope under the economist's procedure, or ask for the missing authority to change fixed rules for an estimate requiring that subset.
+- Repair an implementation defect; if the adopted rules produce no observations, report that finding with the step where the subset disappears and ask the user.
 - Do not relax filters to manufacture observations.
 - A deliberately empty descriptive cell may be reported as empty, with undefined means or rates left undefined.
 
