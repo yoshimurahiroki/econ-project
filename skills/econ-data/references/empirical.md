@@ -38,20 +38,20 @@ Choose by the source of variation; the first matching row decides.
 | One adoption date, treated and control groups | 2×2 difference-in-differences | raw difference → two-way fixed effects → + pre-determined controls | event-study leads |
 | Adoption dates differ across units (staggered), absorbing | staggered difference-in-differences | two-way fixed effects as rung 1 only → imputation (`pf.did2s`) or `did::att_gt` | leads, cohort-specific effects, HonestDiD sensitivity |
 | Treatment switches on and off, or doses differ | treatment paths | `DIDmultiplegtDYN`, `contdid` (R) | placebo switches |
-| Eligibility by a threshold of a score | regression discontinuity | `rdrobust` local linear, data-driven bandwidth → half and double bandwidth | density test (`rddensity`), covariate continuity |
-| An excluded instrument | instrumental variables | reduced form → first stage → 2SLS (`pf.feols("y ~ 1 | fe | d ~ z")`) | effective first-stage F; below 10, Anderson–Rubin interval |
+| Eligibility by a threshold of a score | regression discontinuity | `rdd_sharp` or `rdd_fuzzy` (robust bias-corrected local linear, MSE-optimal bandwidth) → half and double bandwidth; `rdd_localrand` when few units lie near the threshold | density test (`rddensity`), covariate continuity, h and b on each side |
+| An excluded instrument | instrumental variables | reduced form → first stage → 2SLS (`pf.feols("y ~ 1 | fe | d ~ z")`) | effective first-stage F; below 104.7, the Anderson–Rubin set (`iv_ar_robust`) is the reported interval |
 | Few treated aggregate units | synthetic control | `synthdid`, `Synth` | pre-period fit, placebo units |
-| Exposure built from shares and shocks | shift-share | [shift-share design](../../econ-design/references/designs.md#shift-share-designs) | exposure-robust standard errors |
+| Exposure built from shares and shocks | shift-share | `shift_share` → `shift_share_inference` with the identification basis (shocks or shares) fixed first; [shift-share design](../../econ-design/references/designs.md#shift-share-designs) | shocks: AKM inference and effective shock count; shares: Rotemberg weights and balance |
 | Only selection on observables | conditional independence | regression → `DoubleML` with cross-fitting | overlap of propensity scores |
 
 Inference rules, applied to every row:
 
 1. Cluster at the level at which treatment is assigned.
-2. Fewer than about 40 clusters, or fewer than about 10 treated clusters: wild cluster bootstrap (`fwildclusterboot` in R; `pyfixest` `wildboottest`) and report the cluster counts.
-3. Several outcomes testing one hypothesis: name the primary outcome in advance and report family-wise adjusted p values (`pf.rwolf`, `pf.wyoung`) for the family.
+2. Few clusters, few treated clusters or very unequal cluster sizes: report the wild cluster bootstrap (`wild_cluster_bootstrap`) and the CR2 test with Satterthwaite degrees of freedom (`club_sandwich`) next to the clustered standard error, with the counts of clusters and treated clusters.
+3. Several outcomes testing one hypothesis: name the primary outcome in advance and report family-wise adjusted p values for the family (`romano_wolf`; `holm` for p values from separate saved results).
 4. Leads in an event study are evidence on parallel trends; when they are non-zero, report the sensitivity bounds (HonestDiD) next to the estimate.
 
-The full list of package calls is the [implementation table](implementation-engines.md).
+Method cards with options, checks and pitfalls: [DiD and synthetic control](../../econ-design/references/causal-models/did.md), [RD, IV, experiments and inference](../../econ-design/references/causal-models/rd-iv-experiments.md). The full list of package calls is the [implementation table](implementation-engines.md).
 
 ## Step E5. Specification ladder
 

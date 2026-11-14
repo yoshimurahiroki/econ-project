@@ -51,11 +51,11 @@
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "8fe4c4bdca983d0acc10bd9b88e1aae52327b29552b609531ae24ba8bd5e880e"
+      "sha256": "74a872a1319b30274b4a44ba388b1c53db00c4fa8920f195a757ca2a1bf3c5df"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "21b4e4ad7d9605c33192c938010c1886ac635eb0ebc409e43ec298ee7c97f71b"
+      "sha256": "230879f4f55c4f563a97cdffb1aca1ec3a11b7500595c0ee159695dd9d94d6ba"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -103,7 +103,7 @@
     },
     "resource:data-empirical": {
       "path": "skills/econ-data/references/empirical.md",
-      "sha256": "1bd20ffe3f144d2698e4b675f847cc698970b57d7d1befe3ab52eaceb86a4e0c"
+      "sha256": "5e6588f2571ef35f5bed9505b648b05e3e90773df4c149e4565c9a051d851d5d"
     },
     "resource:data-engine-selection": {
       "path": "skills/econ-data/references/implementation-engines.md",
@@ -319,7 +319,7 @@
     },
     "resource:models-causal": {
       "path": "skills/econ-design/references/causal-models.md",
-      "sha256": "bb697512bd533d2aa061aa517b4cde1781825ca8ded076734f89a6b339a46e93"
+      "sha256": "79bd7a757212c7c523d814b4d5c85e57c7ea32acd56342c537615c0c38491ad0"
     },
     "resource:models-causal-basic": {
       "path": "skills/econ-design/references/causal-models/basic.md",
@@ -380,6 +380,10 @@
     "resource:models-causal-randomization": {
       "path": "skills/econ-design/references/causal-models/randomization.md",
       "sha256": "2ec6dbc24296821102be88c6aa14316baa083c65247e0825ada93d3a1f633a97"
+    },
+    "resource:models-causal-rdiv-cards": {
+      "path": "skills/econ-design/references/causal-models/rd-iv-experiments.md",
+      "sha256": "e320db104723c8296944212bb9b5a0615da58560fcde6291cfc4a619656c6e1a"
     },
     "resource:models-dsge": {
       "path": "skills/econ-design/references/dsge-models.md",
@@ -711,7 +715,7 @@
     },
     "resource:resource-guide": {
       "path": "docs/ai/resources.md",
-      "sha256": "9f273cb48921cb6bf5821eecac424d429590f9de8fa91f8870ed9bb44a582db4"
+      "sha256": "893eeddff19241d77b020f292cf4557c60562c28ff3d03e45349d36984aa0e0b"
     },
     "resource:result-artifacts": {
       "path": "skills/econ-writing/references/result-artifacts.md",

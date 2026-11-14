@@ -13,9 +13,7 @@
 
 | Adopted design | Method names | File |
 | --- | --- | --- |
-| Randomized experiment: analysis, assignment, power | `rct`, `rct_design` | [basic](causal-models/basic.md), [randomization](causal-models/randomization.md) |
-| Regression discontinuity | `rdd_sharp`, `rdd_fuzzy`, `rdd_localrand` | [basic](causal-models/basic.md) |
-| Linear IV, GMM | `iv_gmm` and the core IV methods | [basic](causal-models/basic.md) |
+| Regression discontinuity, IV, experiments, shift-share, cluster and multiple-outcome inference (choice table and method cards) | `rdd_sharp`, `rdd_fuzzy`, `rdd_localrand`, `rdrobust_r`, `rddensity`, `rdpower`, `iv_gmm`, `iv_ar`, `iv_ar_robust`, `rct`, `rct_design`, `shift_share`, `shift_share_inference`, `wild_cluster_bootstrap`, `club_sandwich`, `spatial_conley`, `romano_wolf`, `holm` | [RD, IV, experiments and inference](causal-models/rd-iv-experiments.md); runner details in [basic](causal-models/basic.md), [randomization](causal-models/randomization.md), [R calls](causal-models/r-calls.md), [inference](causal-models/inference.md) |
 | Difference-in-differences, event studies, synthetic control (choice table and method cards) | `staggered_did`, `sunab`, `did2s`, `did_imputation`, `drdid_*`, `did_multiplegt_dyn`, `continuous_did`, `honest_did`, `synthdid`, `synthetic_control`, `generalized_synth` and more | [DiD and synthetic control](causal-models/did.md); runner details in [R calls](causal-models/r-calls.md), [extensions](causal-models/extensions.md), [continuous DID](causal-models/continuous-did.md) |
 | Mediation, decomposition, duration (extensions) | StatsPAI calls | [extensions](causal-models/extensions.md) |
 | Orthogonal scores (DML) and causal forests | `dml_plr`, `dml_did`, other `dml_*`, `grf_*` | [heterogeneity](causal-models/heterogeneity.md) |
@@ -23,7 +21,7 @@
 | Quantile effects, distributions, post-estimation contrasts | `qte`, `qtt`, `quantile_did`, `changes_in_changes`, `marginaleffects` calls | [contrasts](causal-models/contrasts.md) |
 | Sample selection, duration, Oaxaca–Blinder, bunching | `heckman`, hazard models, `oaxaca`, `bunching` | [outcomes](causal-models/outcomes.md) |
 | Network exposure, bounds | `network_exposure`, `manski_bounds`, `lee_bounds`, `balke_pearl` | [networks](causal-models/networks.md) |
-| Shift-share inference, sensitivity, multiple testing | shift-share, sensitivity, family adjustments | [inference](causal-models/inference.md) |
+| Sensitivity, specification curves | `sensitivity_oster`, `sensitivity_cinelli`, `sensitivity_evalue`, `specification_curve` | [inference](causal-models/inference.md) |
 | Bayesian project models, Julia fixed effects | `bayesian_model`, Julia FE and IV | [native](causal-models/native.md) |
 
 <!-- BEGIN GENERATED METHOD INDEX -->

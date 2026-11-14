@@ -1703,6 +1703,11 @@
       "source_path": "skills/econ-design/references/causal-models/did.md",
       "resource_kind": "rule",
       "content_version": "0.99.0"
+    },
+    "models-causal-rdiv-cards": {
+      "source_path": "skills/econ-design/references/causal-models/rd-iv-experiments.md",
+      "resource_kind": "rule",
+      "content_version": "0.99.0"
     }
   },
   "sections": {
@@ -3936,6 +3941,11 @@
       }
     },
     "models-causal-did-cards": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "models-causal-rdiv-cards": {
       "all": {
         "whole_resource": true
       }
@@ -7202,6 +7212,10 @@
     "models-causal-did-cards.all": {
       "resource_id": "models-causal-did-cards",
       "section_id": "all"
+    },
+    "models-causal-rdiv-cards.all": {
+      "resource_id": "models-causal-rdiv-cards",
+      "section_id": "all"
     }
   },
   "examples": {},
@@ -7488,6 +7502,9 @@
         "all"
       ],
       "models-causal-did-cards": [
+        "all"
+      ],
+      "models-causal-rdiv-cards": [
         "all"
       ]
     },
@@ -7809,6 +7826,9 @@
         "all"
       ],
       "models-causal-did-cards": [
+        "all"
+      ],
+      "models-causal-rdiv-cards": [
         "all"
       ]
     },

@@ -972,6 +972,10 @@
     "models-causal-did-cards": {
       "deployment_path": ".agents/skills/econ-design/references/causal-models/did.md",
       "export_alias": "MODELS_CAUSAL_DID.md"
+    },
+    "models-causal-rdiv-cards": {
+      "deployment_path": ".agents/skills/econ-design/references/causal-models/rd-iv-experiments.md",
+      "export_alias": "MODELS_CAUSAL_RDIV.md"
     }
   },
   "source": {
