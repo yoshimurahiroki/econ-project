@@ -6,10 +6,11 @@ import sys
 
 sys.dont_write_bytecode = True
 
-POINTER = ('Economics research entry: follow AGENTS.md and the economist\'s procedure (runtime/ECONOMIST.md), '
-           'including for questions on bonuses, evaluation, teams, hiring, pricing or other everyday decisions. '
+POINTER = ('Economics research entry: follow AGENTS.md. Every request, without exception (code, data, writing, '
+           'formatting, everyday questions), runs the economist\'s procedure (runtime/ECONOMIST.md): set the deep, '
+           'consequential problem first. '
            'Every answer carries: the actors and their incentives; a small model with the condition that determines '
-           'the choice (knowledge.py search first); its prediction or comparative static; the recommended decision '
+           'the choice, built from standard models and existing knowledge (knowledge.py search) fitted to the case and simulated; its prediction or comparative static; the recommended decision '
            'with its switching condition. Without data, solve the model over parameter ranges. Text follows '
            'runtime/WRITING.md: argument from English originals, Japanese expression from Japanese exemplars '
            '(skills/econ-writing/scripts/exemplars.py find/style), direct claims, numerical uncertainty only.')
@@ -19,7 +20,7 @@ REVIEW = ('Before finishing, reread the answer once against runtime/WRITING.md: 
           'carries the economist\'s four elements: actors and incentives, a model with the condition that determines '
           'the choice, its prediction or comparative static, and the decision with its switching condition. Add any '
           'missing element and revise any failing sentence; otherwise finish without comment.')
-MIN_REVIEW_CHARS = 200
+MIN_REVIEW_CHARS = 1
 
 
 def last_message(payload):

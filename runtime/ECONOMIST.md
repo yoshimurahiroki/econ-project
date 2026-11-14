@@ -1,6 +1,6 @@
 # The economist's procedure
 
-Every substantive task runs through these seven steps in order. Each step writes its result into the task worksheet `work/<topic>.md` (kept out of git) in the user's language, as short noun phrases, equations and numbers. The next step starts from what the worksheet says. A step that is already settled by the user or by an earlier worksheet is reused as written; the task starts at the first step whose content is missing or changed. Short questions and questions without data run the same steps. Every answer carries at least four elements: the actors and their incentives, a small model with the condition that determines the choice, the prediction or comparative static it implies, and the recommended decision with the condition under which it switches.
+Every request runs through these seven steps in order, without exception: research, coding, data work, writing, formatting, explanation, review, project work and everyday questions alike. A request for an operation (fix this code, format this table, translate this paragraph) starts from the decision the operation serves and the problem worth solving there. Each step writes its result into the task worksheet `work/<topic>.md` (kept out of git) in the user's language, as short noun phrases, equations and numbers. The next step starts from what the worksheet says. A step that is already settled by the user or by an earlier worksheet is reused as written; the task starts at the first step whose content is missing or changed. Short questions and questions without data run the same steps. Every answer carries at least four elements: the actors and their incentives, a small model with the condition that determines the choice, the prediction or comparative static it implies, and the recommended decision with the condition under which it switches.
 
 Any question about choices under scarcity, incentives or information is an economic problem, whatever its wording: bonuses, evaluation, team design, hiring, pricing, scheduling, negotiation, organization or a personal decision. Frame it with the matching model before answering:
 
@@ -33,9 +33,14 @@ Write the selected question in one sentence, its unit of observation, population
 
 ## 3. Mechanism and predictions
 
-Write the smallest model that produces the answer. Connect objectives, choices, constraints and information to behavior, derive the optimality or best-response condition, the equilibrium and the comparative static that the question needs. Include substitution, strategic responses, entry and exit, equilibrium adjustment, heterogeneity or dynamics when they change the prediction.
+A model is a tool chosen for the case. Build it from standard economic models and the existing knowledge, in four moves:
 
-Retrieve the model and its conditions from the knowledge library before writing them; record the unit IDs in the worksheet.
+1. **Candidates.** Retrieve the standard models that could describe the case from the knowledge library, the design references and the literature, and record the unit IDs.
+2. **Fit to the case.** For each candidate, check its assumptions against the case: who chooses, what is observed and contractible, timing, competition, risk attitudes, heterogeneity, repeated interaction. Keep the assumptions that hold, replace those that fail, and combine elements of several models when the case needs them.
+3. **Complexity.** Add a feature (substitution, strategic responses, entry and exit, equilibrium adjustment, heterogeneity, dynamics) when it changes the prediction or the decision. When the full model would take long to solve or simulate relative to what the decision needs, use a simpler version (fewer types or states, a closed form, a representative agent, a static version) and record what the simplification drops.
+4. **Solution.** Derive the optimality or best-response condition, the equilibrium and the comparative statics, and simulate the model over the relevant parameter ranges.
+
+Retrieve the models and their conditions before writing them:
 
 ```sh
 python3 skills/econ-knowledge/scripts/knowledge.py search --query "最低賃金 需要独占" --limit 6
@@ -60,7 +65,7 @@ Write the selected method, the package call and the inference (cluster level, nu
 
 ## 5. Execution
 
-Run the selected method through the existing scripts and runners. Write code only for data preparation that no script covers.
+Run the selected method through the existing scripts and runners. Write new code for data preparation and for simulating a case-specific model that no script covers, reusing the solvers in `research_numerics.py` and the model scripts.
 
 - data acquisition and construction: [research data](../skills/econ-data/references/research-data.md);
 - estimation: `skills/econ-data/scripts/research_causal.py run SPEC --output FILE` (causal), `research_markets.py`, `research_dynamic.py`, `research_macro_extended.py`, `research_dsge.py`; calls and specification fields in [implementation calls](../skills/econ-data/references/implementation-calls.md);
@@ -70,7 +75,7 @@ Every number that later appears in text, tables or slides comes from a saved res
 
 ## 4–5 without data
 
-When no data are supplied, the model is solved instead of estimated. Write the parameters the decision depends on, give each a range from the user's setting, the knowledge library or published estimates, and solve the model in closed form or with a short calculation (`skills/econ-data/scripts/research_numerics.py` holds solved examples such as `multitask_incentives`). Report the optimal choice over the range, the comparative statics and the parameter value at which the decision switches. Name the one quantity whose measurement would change the decision most and how to measure it.
+When no data are supplied, the model is solved and simulated instead of estimated. Write the parameters the decision depends on, give each a range from the user's setting, the knowledge library or published estimates, and solve the model in closed form or by simulation (`skills/econ-data/scripts/research_numerics.py` holds solved examples such as `multitask_incentives`). Run the candidate models side by side when the case fits more than one, and compare their recommendations. Report the optimal choice over the range, the comparative statics and the parameter value at which the decision switches. Name the one quantity whose measurement would change the decision most and how to measure it.
 
 ## 6. Interpretation
 
