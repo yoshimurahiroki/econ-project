@@ -976,6 +976,10 @@
     "models-causal-rdiv-cards": {
       "deployment_path": ".agents/skills/econ-design/references/causal-models/rd-iv-experiments.md",
       "export_alias": "MODELS_CAUSAL_RDIV.md"
+    },
+    "models-causal-ml-cards": {
+      "deployment_path": ".agents/skills/econ-design/references/causal-models/ml-heterogeneity.md",
+      "export_alias": "MODELS_CAUSAL_ML.md"
     }
   },
   "source": {

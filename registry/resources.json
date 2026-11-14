@@ -1708,6 +1708,11 @@
       "source_path": "skills/econ-design/references/causal-models/rd-iv-experiments.md",
       "resource_kind": "rule",
       "content_version": "0.99.0"
+    },
+    "models-causal-ml-cards": {
+      "source_path": "skills/econ-design/references/causal-models/ml-heterogeneity.md",
+      "resource_kind": "rule",
+      "content_version": "0.99.0"
     }
   },
   "sections": {
@@ -3946,6 +3951,11 @@
       }
     },
     "models-causal-rdiv-cards": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "models-causal-ml-cards": {
       "all": {
         "whole_resource": true
       }
@@ -7216,6 +7226,10 @@
     "models-causal-rdiv-cards.all": {
       "resource_id": "models-causal-rdiv-cards",
       "section_id": "all"
+    },
+    "models-causal-ml-cards.all": {
+      "resource_id": "models-causal-ml-cards",
+      "section_id": "all"
     }
   },
   "examples": {},
@@ -7505,6 +7519,9 @@
         "all"
       ],
       "models-causal-rdiv-cards": [
+        "all"
+      ],
+      "models-causal-ml-cards": [
         "all"
       ]
     },
@@ -7829,6 +7846,9 @@
         "all"
       ],
       "models-causal-rdiv-cards": [
+        "all"
+      ],
+      "models-causal-ml-cards": [
         "all"
       ]
     },

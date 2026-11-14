@@ -42,7 +42,7 @@ Choose by the source of variation; the first matching row decides.
 | An excluded instrument | instrumental variables | reduced form → first stage → 2SLS (`pf.feols("y ~ 1 | fe | d ~ z")`) | robust (effective) first-stage F; with weak-identification risk the Anderson–Rubin set (`iv_ar_robust`) is the reported interval, since F = 10 is a heuristic and one instrument needs F above 104.7 for a valid 5% t-test |
 | Few treated aggregate units | synthetic control | `synthdid`, `Synth` | pre-period fit, placebo units |
 | Exposure built from shares and shocks | shift-share | `shift_share` → `shift_share_inference` with the identification basis (shocks or shares) fixed first; [shift-share design](../../econ-design/references/designs.md#shift-share-designs) | shocks: AKM inference and effective shock count; shares: Rotemberg weights and balance |
-| Only selection on observables | conditional independence | regression → `DoubleML` with cross-fitting | overlap of propensity scores |
+| Only selection on observables | conditional independence | regression → `dml_irm` (binary) or `dml_plr` with cross-fitting → `grf` for heterogeneity | overlap of propensity scores (trimming to [0.1, 0.9] as a sensitivity), learner sensitivity |
 
 Inference rules, applied to every row:
 
@@ -51,7 +51,7 @@ Inference rules, applied to every row:
 3. Several outcomes testing one hypothesis: name the primary outcome in advance and report family-wise adjusted p values for the family (`romano_wolf`; `holm` for p values from separate saved results).
 4. Leads in an event study are evidence on parallel trends; when they are non-zero, report the sensitivity bounds (HonestDiD) next to the estimate.
 
-Method cards with options, checks and pitfalls: [DiD and synthetic control](../../econ-design/references/causal-models/did.md), [RD, IV, experiments and inference](../../econ-design/references/causal-models/rd-iv-experiments.md). The full list of package calls is the [implementation table](implementation-engines.md).
+Method cards with options, checks and pitfalls: [DiD and synthetic control](../../econ-design/references/causal-models/did.md), [RD, IV, experiments and inference](../../econ-design/references/causal-models/rd-iv-experiments.md), [ML, heterogeneity and policy](../../econ-design/references/causal-models/ml-heterogeneity.md). The full list of package calls is the [implementation table](implementation-engines.md).
 
 ## Step E5. Specification ladder
 

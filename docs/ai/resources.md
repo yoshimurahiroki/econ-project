@@ -246,3 +246,4 @@ Generated from the resource and placement registries. Use this catalog only for 
 - context-japan: runtime/context/japan.md
 - models-causal-did-cards: skills/econ-design/references/causal-models/did.md
 - models-causal-rdiv-cards: skills/econ-design/references/causal-models/rd-iv-experiments.md
+- models-causal-ml-cards: skills/econ-design/references/causal-models/ml-heterogeneity.md
