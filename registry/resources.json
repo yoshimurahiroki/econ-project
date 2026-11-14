@@ -1843,6 +1843,16 @@
       "source_path": "profiles/academic-ja/PROFILE.md",
       "resource_kind": "profile",
       "content_version": "1.0.0"
+    },
+    "design-modeling": {
+      "source_path": "skills/econ-design/references/modeling.md",
+      "resource_kind": "rule",
+      "content_version": "0.97.0"
+    },
+    "design-simulation-template": {
+      "source_path": "skills/econ-design/templates/simulate_model.py",
+      "resource_kind": "tool",
+      "content_version": "0.97.0"
     }
   },
   "sections": {
@@ -4146,6 +4156,11 @@
       }
     },
     "academic-ja": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "design-modeling": {
       "all": {
         "whole_resource": true
       }
@@ -7491,6 +7506,10 @@
     "academic-ja.all": {
       "resource_id": "academic-ja",
       "section_id": "all"
+    },
+    "design-modeling.all": {
+      "resource_id": "design-modeling",
+      "section_id": "all"
     }
   },
   "examples": {},
@@ -7759,6 +7778,9 @@
         "all"
       ],
       "academic-ja": [
+        "all"
+      ],
+      "design-modeling": [
         "all"
       ]
     },
@@ -8122,6 +8144,9 @@
         "all"
       ],
       "knowledge-guide": [
+        "all"
+      ],
+      "design-modeling": [
         "all"
       ]
     },

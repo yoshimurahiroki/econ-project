@@ -15,7 +15,7 @@
     },
     "core": {
       "path": "runtime/ECONOMIST.md",
-      "sha256": "616c2dee04a48d1c95d6e4750c81e516c0f40328368d5eb046986836c98c3fbc"
+      "sha256": "8a75504ed0e464a1d0d812ff95b35f0bd29ad0e4c460e4863307ced9740a1751"
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
@@ -51,11 +51,11 @@
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "9889ee898d025d7af8f4d9e2d228029516c0645999c749d38df099946357d405"
+      "sha256": "7760bf77c991a1ab94d84d938170113fc92d9b7bb74358bf70128fb339ce6b64"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "49a5d3960be86835a0e56cd1b9732b79d01dc44aa728cffa42bcf85452712463"
+      "sha256": "ebddcac34abb78464970ec06a5e2e5f0576f70f8856a74b441144ba04633db35"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -137,6 +137,14 @@
       "path": "skills/econ-design/references/designs.md",
       "sha256": "c3f0ce4c3478776ceb7578046978de0117e8dbb3ceec5f21e18854a6e73d5519"
     },
+    "resource:design-modeling": {
+      "path": "skills/econ-design/references/modeling.md",
+      "sha256": "75b1b847a6b9e9e0657772e5ac555b32196c6c6ef54096063befc3a28b8e1127"
+    },
+    "resource:design-simulation-template": {
+      "path": "skills/econ-design/templates/simulate_model.py",
+      "sha256": "a34a203285c4571e54587df13e9f2a9486fef79d1d6cd6a025e2de0fb2fbfb31"
+    },
     "resource:design-workflow": {
       "path": "skills/econ-design/references/workflow.md",
       "sha256": "63e05c060de70a958b8de1de8ffcc2b62d0f0d85e57fc498b663b9554fa3a58a"
@@ -147,7 +155,7 @@
     },
     "resource:econ-design": {
       "path": "skills/econ-design/SKILL.md",
-      "sha256": "10cfd4187600edb0f9fd05ee8682b36d5efc6d0c4adde318d5b85a599091db84"
+      "sha256": "3eee5fd04fd518aa3b49235b38061749a662f6c6439d0b7e908dada405f91cca"
     },
     "resource:econ-knowledge": {
       "path": "skills/econ-knowledge/SKILL.md",
@@ -759,7 +767,7 @@
     },
     "resource:resource-guide": {
       "path": "docs/ai/resources.md",
-      "sha256": "def8627cbce88e7079bbaaf83bdc8638988c8bddd3532bb0af72e42708ed5896"
+      "sha256": "1e6e95f46dd1235183d0d033c4239705dfe684587dd638b1a3f74c7199fe77b2"
     },
     "resource:result-artifacts": {
       "path": "skills/econ-writing/references/result-artifacts.md",

@@ -1016,6 +1016,14 @@
     "academic-ja": {
       "deployment_path": ".agents/profiles/academic-ja/PROFILE.md",
       "export_alias": "ACADEMIC_JA_PROFILE.md"
+    },
+    "design-modeling": {
+      "deployment_path": ".agents/skills/econ-design/references/modeling.md",
+      "export_alias": "DESIGN_MODELING.md"
+    },
+    "design-simulation-template": {
+      "deployment_path": ".agents/skills/econ-design/templates/simulate_model.py",
+      "export_alias": "SIMULATE_MODEL.py"
     }
   },
   "source": {

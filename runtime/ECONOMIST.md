@@ -33,7 +33,7 @@ Write the selected question in one sentence, its unit of observation, population
 
 ## 3. Mechanism and predictions
 
-A model is a tool chosen for the case. Build it from standard economic models and the existing knowledge, in four moves:
+A model is a tool chosen for the case. Build it from standard economic models and the existing knowledge, following [modeling step by step](../skills/econ-design/references/modeling.md) with its fill-in blocks and the simulation template `skills/econ-design/templates/simulate_model.py`. The four moves:
 
 1. **Candidates.** Retrieve the standard models that could describe the case from the knowledge library, the design references and the literature, and record the unit IDs.
 2. **Fit to the case.** For each candidate, check its assumptions against the case: who chooses, what is observed and contractible, timing, competition, risk attitudes, heterogeneity, repeated interaction. Keep the assumptions that hold, replace those that fail, and combine elements of several models when the case needs them.
@@ -75,7 +75,7 @@ Every number that later appears in text, tables or slides comes from a saved res
 
 ## 4–5 without data
 
-When no data are supplied, the model is solved and simulated instead of estimated. Write the parameters the decision depends on, give each a range from the user's setting, the knowledge library or published estimates, and solve the model in closed form or by simulation (`skills/econ-data/scripts/research_numerics.py` holds solved examples such as `multitask_incentives`). Run the candidate models side by side when the case fits more than one, and compare their recommendations. Report the optimal choice over the range, the comparative statics and the parameter value at which the decision switches. Name the one quantity whose measurement would change the decision most and how to measure it.
+When no data are supplied, the model is solved and simulated instead of estimated, through steps 4 to 6 of [modeling step by step](../skills/econ-design/references/modeling.md). Write the parameters the decision depends on, give each a range from the user's setting, the knowledge library or published estimates, and solve the model in closed form or by simulation (`skills/econ-data/scripts/research_numerics.py` holds solved examples such as `multitask_incentives`). Run the candidate models side by side when the case fits more than one, and compare their recommendations. Report the optimal choice over the range, the comparative statics and the parameter value at which the decision switches. Name the one quantity whose measurement would change the decision most and how to measure it.
 
 ## 6. Interpretation
 

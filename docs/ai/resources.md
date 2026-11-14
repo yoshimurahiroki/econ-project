@@ -256,3 +256,5 @@ Generated from the resource and placement registries. Use this catalog only for 
 - review-procedure: skills/econ-review/references/review.md
 - top-five-en: profiles/top-five-en/PROFILE.md
 - academic-ja: profiles/academic-ja/PROFILE.md
+- design-modeling: skills/econ-design/references/modeling.md
+- design-simulation-template: skills/econ-design/templates/simulate_model.py
