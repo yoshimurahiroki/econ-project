@@ -244,3 +244,4 @@ Generated from the resource and placement registries. Use this catalog only for 
 - literature-search-tool: skills/econ-literature/scripts/literature_search.py
 - context-readme: runtime/context/README.md
 - context-japan: runtime/context/japan.md
+- models-causal-did-cards: skills/econ-design/references/causal-models/did.md

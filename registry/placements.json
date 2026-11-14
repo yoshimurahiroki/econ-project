@@ -968,6 +968,10 @@
     "context-japan": {
       "deployment_path": ".agents/runtime/context/japan.md",
       "export_alias": "CONTEXT_JAPAN.md"
+    },
+    "models-causal-did-cards": {
+      "deployment_path": ".agents/skills/econ-design/references/causal-models/did.md",
+      "export_alias": "MODELS_CAUSAL_DID.md"
     }
   },
   "source": {

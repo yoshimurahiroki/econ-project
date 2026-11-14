@@ -1698,6 +1698,11 @@
       "source_path": "runtime/context/japan.md",
       "resource_kind": "rule",
       "content_version": "0.98.0"
+    },
+    "models-causal-did-cards": {
+      "source_path": "skills/econ-design/references/causal-models/did.md",
+      "resource_kind": "rule",
+      "content_version": "0.99.0"
     }
   },
   "sections": {
@@ -3926,6 +3931,11 @@
       }
     },
     "context-japan": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "models-causal-did-cards": {
       "all": {
         "whole_resource": true
       }
@@ -7188,6 +7198,10 @@
     "context-japan.all": {
       "resource_id": "context-japan",
       "section_id": "all"
+    },
+    "models-causal-did-cards.all": {
+      "resource_id": "models-causal-did-cards",
+      "section_id": "all"
     }
   },
   "examples": {},
@@ -7471,6 +7485,9 @@
         "all"
       ],
       "context-japan": [
+        "all"
+      ],
+      "models-causal-did-cards": [
         "all"
       ]
     },
@@ -7789,6 +7806,9 @@
         "all"
       ],
       "context-japan": [
+        "all"
+      ],
+      "models-causal-did-cards": [
         "all"
       ]
     },

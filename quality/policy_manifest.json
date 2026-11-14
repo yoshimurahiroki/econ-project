@@ -51,11 +51,11 @@
     },
     "registry_placements": {
       "path": "registry/placements.json",
-      "sha256": "70cb8249e21e608df69de752ff046bb8157d9da2f7cd6583e2d5b930e6b5fc21"
+      "sha256": "8fe4c4bdca983d0acc10bd9b88e1aae52327b29552b609531ae24ba8bd5e880e"
     },
     "registry_resources": {
       "path": "registry/resources.json",
-      "sha256": "11043ac757e418e778a6c20710220d6d90cf366779f5bb49057989b32487ead5"
+      "sha256": "21b4e4ad7d9605c33192c938010c1886ac635eb0ebc409e43ec298ee7c97f71b"
     },
     "requirements_check": {
       "path": "harness/requirements_check.py",
@@ -319,7 +319,7 @@
     },
     "resource:models-causal": {
       "path": "skills/econ-design/references/causal-models.md",
-      "sha256": "18ef014c80930662943edf3815ad900793bc363cb04c1c389da019a80f6e561c"
+      "sha256": "bb697512bd533d2aa061aa517b4cde1781825ca8ded076734f89a6b339a46e93"
     },
     "resource:models-causal-basic": {
       "path": "skills/econ-design/references/causal-models/basic.md",
@@ -336,6 +336,10 @@
     "resource:models-causal-contrasts": {
       "path": "skills/econ-design/references/causal-models/contrasts.md",
       "sha256": "e018b38b158dad2bc03748e373e563f10d0d52114d023e3013c35cfa598b525a"
+    },
+    "resource:models-causal-did-cards": {
+      "path": "skills/econ-design/references/causal-models/did.md",
+      "sha256": "f0063af1878cb560c22e335b605fa41819cc2b1017395029afb51e1254cec28b"
     },
     "resource:models-causal-extensions": {
       "path": "skills/econ-design/references/causal-models/extensions.md",
@@ -707,7 +711,7 @@
     },
     "resource:resource-guide": {
       "path": "docs/ai/resources.md",
-      "sha256": "8906846860bf3dc31a574907437ca0a250c247070c0895cf64d6f37bf974fcd4"
+      "sha256": "9f273cb48921cb6bf5821eecac424d429590f9de8fa91f8870ed9bb44a582db4"
     },
     "resource:result-artifacts": {
       "path": "skills/econ-writing/references/result-artifacts.md",

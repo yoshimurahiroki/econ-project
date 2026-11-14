@@ -16,9 +16,8 @@
 | Randomized experiment: analysis, assignment, power | `rct`, `rct_design` | [basic](causal-models/basic.md), [randomization](causal-models/randomization.md) |
 | Regression discontinuity | `rdd_sharp`, `rdd_fuzzy`, `rdd_localrand` | [basic](causal-models/basic.md) |
 | Linear IV, GMM | `iv_gmm` and the core IV methods | [basic](causal-models/basic.md) |
-| Staggered or two-period DiD, event studies (R packages) | `did`, `fixest_*`, `didimputation`, `did2s`, `HonestDiD` calls | [R calls](causal-models/r-calls.md), [extensions](causal-models/extensions.md) |
-| Fixed continuous dose DiD | `continuous_did` | [continuous DID](causal-models/continuous-did.md) |
-| Synthetic control, mediation, decomposition, duration (extensions) | StatsPAI calls | [extensions](causal-models/extensions.md) |
+| Difference-in-differences, event studies, synthetic control (choice table and method cards) | `staggered_did`, `sunab`, `did2s`, `did_imputation`, `drdid_*`, `did_multiplegt_dyn`, `continuous_did`, `honest_did`, `synthdid`, `synthetic_control`, `generalized_synth` and more | [DiD and synthetic control](causal-models/did.md); runner details in [R calls](causal-models/r-calls.md), [extensions](causal-models/extensions.md), [continuous DID](causal-models/continuous-did.md) |
+| Mediation, decomposition, duration (extensions) | StatsPAI calls | [extensions](causal-models/extensions.md) |
 | Orthogonal scores (DML) and causal forests | `dml_plr`, `dml_did`, other `dml_*`, `grf_*` | [heterogeneity](causal-models/heterogeneity.md) |
 | Treatment-assignment policies | `policy_learning` | [policy](causal-models/policy.md) |
 | Quantile effects, distributions, post-estimation contrasts | `qte`, `qtt`, `quantile_did`, `changes_in_changes`, `marginaleffects` calls | [contrasts](causal-models/contrasts.md) |
