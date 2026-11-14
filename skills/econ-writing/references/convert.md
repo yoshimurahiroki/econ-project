@@ -2,6 +2,7 @@
 
 ## Convert
 
-Apply [PROSE Common output](../../../runtime/PROSE.md#common-output) to every element.
-
-Identify the settled argument and the information each unit of the target medium must communicate. Apply [PROSE's language rules](../../../runtime/PROSE.md#revise-for-the-requested-language) and borrow matching original material for the paper, slide or research page. Keep determining comparisons and canonical evidence in the internal record. Apply the common process to the converted artifact and inspect the requested render when its layout is part of delivery.
+1. Take the settled argument from the source text or the worksheet.
+2. For slides, follow the sequence of a research talk (`exemplars.py find --lang en --kind slide`) and the slide rules in [WRITING](../../../runtime/WRITING.md#4-form); Japanese slides take their wording from Japanese slide exemplars (`--kind slide`).
+3. For papers and research pages, follow the section order of [paper guidance](paper-workflow.md#compose-the-requested-section).
+4. Build with the templates in `tex/` and read the rendered output.

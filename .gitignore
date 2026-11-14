@@ -156,3 +156,6 @@ mcp.json
 # Local marimo editor state and generated skill bundles
 **/__marimo__/
 skills/*/references/bundle/
+
+# Economist worksheets (task notes)
+/work/

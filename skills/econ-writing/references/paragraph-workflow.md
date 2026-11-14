@@ -2,7 +2,7 @@
 
 ## Construct the argument
 
-Apply [PROSE Common output](../../../runtime/PROSE.md#common-output) to every element.
+Apply [WRITING](../../../runtime/WRITING.md) to every element.
 
 Identify the reader's question, central answer and supporting premises/evidence from the request and sources. Keep the question, answer and admitted source identities/hashes fixed; problem comparisons and verification tasks cite that evidence. Establish dependencies through the existing owner and use source-bound claims and actual evidence. Preserve the relations needed to make results usable, including measurement, identification, optimality or equilibrium, and aggregation; borrow their ordering and expression from applicable read sources.
 
@@ -12,13 +12,13 @@ Borrow the paragraph's proposition, sequence, connections and expression from ap
 
 Use the selected source/result bindings for this inference. Joint diagnostics require the tested vector, covariance-based statistic and reference distribution; group comparisons their direct contrast and inference; welfare its allocation, valuation and population weights. Retrieve those objects through [empirical guidance](paper-workflow.md#identification-and-empirical-method) and [model guidance](paper-workflow.md#theory-model-and-proof). Carry their defining relation into abstracts and conclusions using corresponding read source passages.
 
-Apply [PROSE's language rules](../../../runtime/PROSE.md#revise-for-the-requested-language) to Japanese sentence connections and compression by borrowing from corresponding Japanese originals. Record the source and adjustment for each choice in the existing work record; persist paragraph specifications for requested versioned composition. A delegated paragraph receives its exact inference, neighboring consumer, scope, sources and fixed definitions under TEAM, including the original passages and correspondence needed to imitate them.
+Apply [WRITING's language rules](../../../runtime/WRITING.md) to Japanese sentence connections and compression by borrowing from corresponding Japanese originals. Record the source and adjustment for each choice in the existing work record; persist paragraph specifications for requested versioned composition. A delegated paragraph receives its exact inference, neighboring consumer, scope, sources and fixed definitions under TEAM, including the original passages and correspondence needed to imitate them.
 
 ## Integrate the argument
 
-Borrow the section's arrangement and transitions from read source passages and adjust only as necessary for the target. Define before use, preserve citations and repair missing premises from their source or completed analysis. Reconcile actors, population, period, estimand, assumptions and result status with the parent. Resolve differences through the analysis owner, retaining unaffected results. Integrate actual evidence; a completed child paragraph establishes only its supported claim. Keep operation returns in their operational destination and apply PROSE and the source correspondences to the integrated wording.
+Borrow the section's arrangement and transitions from read source passages and adjust only as necessary for the target. Define before use, preserve citations and repair missing premises from their source or completed analysis. Reconcile actors, population, period, estimand, assumptions and result status with the parent. Resolve differences through the analysis owner, retaining unaffected results. Integrate actual evidence; a completed child paragraph establishes only its supported claim. Keep operation returns in their operational destination and apply WRITING and the source correspondences to the integrated wording.
 
-CORE's single review covers answer, evidence, order, paragraph connections and expression. Reconcile title, abstract, introduction, exhibits and conclusion with the body, tracing compressed claims to their establishing paragraphs. Compare every output element with its read original and the recorded adjustments. Repair demonstrated defects by returning to sources and reread affected connections. This reasoning creates no extra agents, passes, records or gates.
+the economist's procedure's single review covers answer, evidence, order, paragraph connections and expression. Reconcile title, abstract, introduction, exhibits and conclusion with the body, tracing compressed claims to their establishing paragraphs. Compare every output element with its read original and the recorded adjustments. Repair demonstrated defects by returning to sources and reread affected connections. This reasoning creates no extra agents, passes, records or gates.
 
 ## State, changes and resumption
 

@@ -18,7 +18,7 @@
 ## Shared work
 
 1. **Output: bounded assignment; consumer: worker.** Delegate separable work whose benefit exceeds briefing/integration. Supply parent result, obstacle, exact sources/rules, fixed specification, delegated choices, write scope, output, consumer and completion condition. A specialist also receives actual lead attempts, repair and unresolved mechanism.
-2. **Output: executable worker context; consumer: assigned operation.** Use fresh bounded context and one writer per file/disjoint region; coordinate shared sessions/targets. Each worker reads original applicable AGENTS, CORE, PROSE, TEAM, specialist and activated prerequisites.
+2. **Output: executable worker context; consumer: assigned operation.** Use fresh bounded context and one writer per file/disjoint region; coordinate shared sessions/targets. Each worker reads original applicable AGENTS, the economist's procedure, WRITING, TEAM, specialist and activated prerequisites.
 
 ## Return and integration
 
@@ -28,7 +28,7 @@
 
 ## Resumption
 
-1. **Output: restored task; consumer: resumed operation.** After compaction, resumption, model change or handoff recover the original request, central problem, fixed specification, authority, completed results and next authorized action. Read original applicable bodies under [CORE](CORE.md#task-entry); reuse matching consumed versions.
+1. **Output: restored task; consumer: resumed operation.** After compaction, resumption, model change or handoff recover the original request, central problem, fixed specification, authority, completed results and next authorized action. Read original applicable bodies under [ECONOMIST](ECONOMIST.md); reuse matching consumed versions.
 2. **Output: reconciled handoff; consumer: next owner.** Include canonical source/output paths, parent proposition, adopted decision, permitted switching condition and essential user-held input. Reconcile older worker returns. Resume interruption on actual user continuation; preserve terminal cancellation/completion. Use existing [governing context](../harness/state.md#governing-context) and [saved work](../harness/state.md#find-saved-work) for persistence.
 
 ## Requested usage accounting

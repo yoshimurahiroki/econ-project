@@ -28,7 +28,7 @@ For a proposed numerical acceleration, inspect the mathematical approximation, t
 
 ## Citation and institutional checks
 
-For a citation check, compare the claim with its supporting passage in the requested version and resolve that version's DOI, citation key or stable ID. Record the author's assertion, observed or estimated result, identifying assumptions and the implication derived for this task in the internal evidence. Resolve conflicting claims at the comparison that separates them under [DECIDE's source rules](../../../runtime/DECIDE.md#investigate-source-claims). For institutional timing, distinguish announcement, effective and implementation dates and use the date corresponding to the event claimed.
+For a citation check, compare the claim with its supporting passage in the requested version and resolve that version's DOI, citation key or stable ID. Record the author's assertion, observed or estimated result, identifying assumptions and the implication derived for this task in the internal evidence. Resolve conflicting claims at the comparison that separates them under [the economist's procedure's source rules](../../../runtime/ECONOMIST.md). For institutional timing, distinguish announcement, effective and implementation dates and use the date corresponding to the event claimed.
 
 ## Interview evidence
 
@@ -36,13 +36,13 @@ For an interview design or supplied interview material, identify which actor had
 
 ## AI-method assessment
 
-For a requested AI-method adoption, use [task resources](../../../docs/ai/resources.md) to locate the relevant primary source and implementation. Inspect their operation permissions and dependencies. Return the source findings to econ-review for a requested assessment or to the existing result owner for authorized adoption work under [EXECUTION](../../../runtime/EXECUTION.md).
+For a requested AI-method adoption, use [task resources](../../../docs/ai/resources.md) to locate the relevant primary source and implementation. Inspect their operation permissions and dependencies. Return the source findings to econ-review for a requested assessment or to the existing result owner for authorized adoption work under [EXECUTION](../../../runtime/ECONOMIST.md#5-execution).
 
 ## Procedure
 
 ### Find the work that answers the comparison
 
-Apply [DECIDE's source procedure](../../../runtime/DECIDE.md#investigate-source-claims). Select papers by the unresolved mechanism, parameter or competing prediction they can establish. Treat a definition, a documented event, a causal contrast and a population frequency as four claim types; a case establishes occurrence, and prevalence rests on its sampling frame and denominator. Use econ-writing:explain for a paper explanation.
+Apply [the economist's procedure's source procedure](../../../runtime/ECONOMIST.md). Select papers by the unresolved mechanism, parameter or competing prediction they can establish. Treat a definition, a documented event, a causal contrast and a population frequency as four claim types; a case establishes occurrence, and prevalence rests on its sampling frame and denominator. Use econ-writing:explain for a paper explanation.
 
 ### Establish the supporting passages and versions
 

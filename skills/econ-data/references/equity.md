@@ -2,7 +2,7 @@
 
 ## 目的と実行入口
 
-日本株を中心に、米国・海外企業の需要、競争、費用、再投資から持続的FCFと株主価値を計算する。海外企業の価格、製品、設備投資、利益率、販売地域を日本企業の競争相手・取引先として組み込む。既存の[CORE](../../../runtime/CORE.md)と[PROSE](../../../runtime/PROSE.md)を適用し、結果を日本語で説明する。
+日本株を中心に、米国・海外企業の需要、競争、費用、再投資から持続的FCFと株主価値を計算する。海外企業の価格、製品、設備投資、利益率、販売地域を日本企業の競争相手・取引先として組み込む。既存の[ECONOMIST](../../../runtime/ECONOMIST.md)と[WRITING](../../../runtime/WRITING.md)を適用し、結果を日本語で説明する。
 
 取得と正規化は[equity_sources.py](../scripts/equity_sources.py)、構造推定と評価は[equity.py](../scripts/equity.py)を使う。[依存定義](../scripts/requirements-equity.txt)の無料ライブラリを現在のPython実行環境に導入し、JSON入力から実行する。実行環境のパスは現在のSkill packageから解決する。既存実装を呼び出し、会話ごとに計算器を作り直さない。
 

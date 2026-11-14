@@ -8,7 +8,7 @@ Apply each answer to affected requirements without reopening settled choices. A 
 
 ## Writing and material outputs
 
-Apply [PROSE Common output](../../../runtime/PROSE.md#common-output) to every writing or material output in this reference, including prompts, interview questions, contact drafts, reports, explanations, figures and slides at every scale.
+Apply [WRITING](../../../runtime/WRITING.md) to every writing or material output in this reference, including prompts, interview questions, contact drafts, reports, explanations, figures and slides at every scale.
 
 ## Write the execution prompt
 
@@ -16,11 +16,11 @@ Return a complete ready-to-copy prompt carrying the objective, actual task/targe
 
 Include available original inputs or accessible versioned references. The executor's input is the body or an accessible path. Reusable templates obtain instance materials later; retain placeholders only when a template is requested. Use the requested language and a source-mapped structure suited to the request. Add no compulsory stack or review gate.
 
-In CORE's review, follow the prompt as its executor and compare available input, next operation, resulting artifact and completion evidence with the original request. Deliver the prompt first. Drafting it prepares the operations for the executor.
+In the economist's procedure's review, follow the prompt as its executor and compare available input, next operation, resulting artifact and completion evidence with the original request. Deliver the prompt first. Drafting it prepares the operations for the executor.
 
 ## Connect the current case
 
-Recover the case's original request, adopted answer/model, role, authority, argument and valid results. DECIDE owns its economic intervention and comparison. Reuse one source-bound argument and the existing task store: summary gives the current answer/next decision, story its supporting relations, and workplan its executable dependencies. Allocated work keeps the required deliverables and the adopted specification.
+Recover the case's original request, adopted answer/model, role, authority, argument and valid results. the economist's procedure owns its economic intervention and comparison. Reuse one source-bound argument and the existing task store: summary gives the current answer/next decision, story its supporting relations, and workplan its executable dependencies. Allocated work keeps the required deliverables and the adopted specification.
 
 For persistent views, [state](../../../harness/state.md#project-work) binds the existing definition/argument/source catalog with `project-bind`, derives views with `project-view` and locates affected outputs with `project-impact`. External systems retain their official assignments and decisions; updates require the actual authorized service operation.
 
@@ -30,7 +30,7 @@ Recover the assignment, determining parent premise, adopted population/units, in
 
 ## Manage the case
 
-Derive the intervention from the economic objective and mechanism. Connect necessary propositions to evidence, work, responsible actors, capacity and downstream use. DECIDE selects the next work by its effect on the final judgment and feasible action; TEAM owns separable assignments. Preserve inherited choices, valid calculations and externally approved commitments.
+Derive the intervention from the economic objective and mechanism. Connect necessary propositions to evidence, work, responsible actors, capacity and downstream use. the economist's procedure selects the next work by its effect on the final judgment and feasible action; TEAM owns separable assignments. Preserve inherited choices, valid calculations and externally approved commitments.
 
 When division of work is consequential, compare capabilities, information, incentives and briefing/integration costs. CONTRACT-01/07/08 supply effort and decision-right models; CONTRACT-05/09 supply coordination/specialization. Use those knowledge bodies only when their mechanism determines the allocation.
 
@@ -38,7 +38,7 @@ When division of work is consequential, compare capabilities, information, incen
 
 Declare effort, duration, resource units/capacity, releases, dependencies and costs, including existing resource uses. Compare resulting outcomes, displacement and deadline losses through the adopted economic objective. Use the selected optimization interface when solving an allocation model is requested.
 
-`project-view --view forecast` computes feasibility under the adopted order. Repeated `--priority TASK` and `--capacity JSON` compare proposals without adoption. Inspect critical paths, waits, finish/delay dates and direct costs; DECIDE owns their valuation. Save the authorized comparison as existing `project_judgment`, binding its actor, evidence, target, current project sources, priority and rationale. State validates decision rights and returns executable next tasks. Shared portfolios require each affected project's authority.
+`project-view --view forecast` computes feasibility under the adopted order. Repeated `--priority TASK` and `--capacity JSON` compare proposals without adoption. Inspect critical paths, waits, finish/delay dates and direct costs; the economist's procedure owns their valuation. Save the authorized comparison as existing `project_judgment`, binding its actor, evidence, target, current project sources, priority and rationale. State validates decision rights and returns executable next tasks. Shared portfolios require each affected project's authority.
 
 Preserve target, approved, forecast and actual dates separately. An observed delay changes its actual duration/capacity/release through the authorized versioned plan. Compare recovery actions, then implement the adopted change. MATH-04/07/09 locate capacity/allocation knowledge; INFO-02 and DYN-07 locate consequential information/waiting models.
 

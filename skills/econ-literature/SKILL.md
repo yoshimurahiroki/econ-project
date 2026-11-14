@@ -5,14 +5,10 @@ description: Find literature, assess novelty, check citations against the cited 
 
 # Economic literature
 
-## Purpose and input
-
-1. **Output: source question; consumer: retrieval.** Recover the requested literature, novelty, citation or institutional-source question, supplied materials and existing holdings.
-
-## Select the source operation
-
-1. **Output: inspected source record; consumer: analysis/writing.** Read the registry-selected [literature method](references/literature-methods.md) and execute DECIDE's source-investigation steps. [Search priority](references/search-priority.md) owns journal ordering; its data file remains machine input.
-2. **Output: source-backed answer; consumer: user or parent specialist.** Return the requested findings with exact inspected passages and versions in the evidence record; select public propositions through PROSE.
+1. Write the source question in the worksheet: the claim, institution, method or prior finding the current step needs.
+2. Search and read through the [literature methods](references/literature-methods.md); [search priority](references/search-priority.md) orders journals.
+3. Read the original passage, table or rule with its population, period and version. A snippet or an unread citation is a lead.
+4. Record source, version and passage location in the worksheet and return the finding to the step that asked for it.
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

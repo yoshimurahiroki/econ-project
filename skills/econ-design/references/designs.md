@@ -1,12 +1,12 @@
 # Design-specific methods
 
-Use [CORE](../../../runtime/CORE.md) for common task rules and [DECIDE](../../../runtime/DECIDE.md) for problem formulation and decision selection.
+Use [ECONOMIST](../../../runtime/ECONOMIST.md) for common task rules and [the economist's procedure](../../../runtime/ECONOMIST.md) for problem formulation and decision selection.
 
 Read the branch matching the requested economic object or assignment mechanism. Choose a diagnostic by the assumption or competing explanation its result can test; use that result to retain or revise the design or interpretation.
 
 ## Select the needed section
 
-Locate the heading and retrieve the selected section completely under [CORE's resource-selection rule](../../../runtime/CORE.md). Within Model construction, select the named operations needed for the requested object.
+Locate the heading and retrieve the selected section completely under [the economist's procedure's resource-selection rule](../../../runtime/ECONOMIST.md). Within Model construction, select the named operations needed for the requested object.
 
 - Choices, constraints, strategic interaction, contracts or continuation → Model construction → feasible choices and the requested optimum, equilibrium, path or value.
 - Ordered discrete or nonsmooth choices, lattice interactions or fixed-point existence → Ordered choices and constructive representations → the ordered choice comparison or justified equilibrium correspondence.
@@ -60,7 +60,7 @@ Locate the determining step and derive its prerequisite lemmas from the stated p
 
 To resolve a contested statement, seek an explicit admissible counterexample at its determining boundary, tie, active constraint or equilibrium branch. Specify the primitives, strategies or allocations and calculate both the hypotheses and the conclusion. An admissible case violating the conclusion refutes the stated claim; a general affirmative claim requires its proof across the quantified domain. Use numerical calculations for their defined cases and analytic arguments for universal conclusions. Preserve derived lemmas when they remain valid and direct the next derivation at the precise remaining implication.
 
-When repair is authorized, change the assumption or clause responsible for the failed implication and derive its consequences for the economic mechanism. Preserve the original claim and its actual resolution in the existing project source. Carry the revised domain, equilibrium selection and resulting sign or ordering into all dependent propositions, comparative statics and welfare statements. Writing consumes that derivation through [the model-and-proof passage](../../econ-writing/references/paper-workflow.md#theory-model-and-proof). Perform the substantive mathematical and economic review within CORE's integrated review; use formal independent certification when it is explicitly selected.
+When repair is authorized, change the assumption or clause responsible for the failed implication and derive its consequences for the economic mechanism. Preserve the original claim and its actual resolution in the existing project source. Carry the revised domain, equilibrium selection and resulting sign or ordering into all dependent propositions, comparative statics and welfare statements. Writing consumes that derivation through [the model-and-proof passage](../../econ-writing/references/paper-workflow.md#theory-model-and-proof). Perform the substantive mathematical and economic review within the economist's procedure's integrated review; use formal independent certification when it is explicitly selected.
 
 ### Ordered choices and constructive representations
 

@@ -1,6 +1,6 @@
 # Executing an adopted research pipeline
 
-[CORE](../runtime/CORE.md) owns authority, preserved scientific inputs and completion; [EXECUTION](../runtime/EXECUTION.md) owns operation and failure handling. 
+[ECONOMIST](../runtime/ECONOMIST.md) owns authority, preserved scientific inputs and completion; [EXECUTION](../runtime/ECONOMIST.md#5-execution) owns operation and failure handling. 
 
 ## Run an adopted pipeline
 
@@ -60,7 +60,7 @@ Read the [interface](research.md#interface-estimate-a-linear-specification) for 
 
 ## Choose and execute the next research operation
 
-Use [DECIDE](../runtime/DECIDE.md#turn-the-question-into-an-operation) to select the determining research operation and [econ-design](../skills/econ-design/SKILL.md) to establish its scientific specification. The assessment below consumes that adopted comparison and candidate ordering.
+Use [the economist's procedure](../runtime/ECONOMIST.md) to select the determining research operation and [econ-design](../skills/econ-design/SKILL.md) to establish its scientific specification. The assessment below consumes that adopted comparison and candidate ordering.
 
 The [design assessment](../skills/econ-design/scripts/research_design.py) checks that specification against retained source bytes and actual CSV records. Its `sources` map binds IDs to `{path,sha256}`; source references use `{source_id,start,end,quote}` with character offsets into the exact UTF-8 text. Its `datasets` map declares the CSV path/hash, observation `unit`, `population`, documented `period:{start,end}`, documentation spans, `grain` keys and `definition_versions`. A candidate declares all five economic dimensions, source evidence, `closest_answers` with the same dimensions, and the owner's contribution judgment: `classification` is `replication` or `changed_contribution`, with `owner`, `rationale`, `changed_dimensions` and supporting evidence. The owner cites each closest answer in that judgment.
 
@@ -68,7 +68,7 @@ Each candidate's `requirements` declares the fields, unit, population, period an
 
 
 
-Use this result as a consumed output of the selected source, estimation or experiment stage. [DECIDE](../runtime/DECIDE.md#resolve-dependencies-and-integrate-findings) owns interpretation and continuation; native search and worker tools supply retrieval and delegation, and the local executables supply the declared calculations and persistence.
+Use this result as a consumed output of the selected source, estimation or experiment stage. [the economist's procedure](../runtime/ECONOMIST.md) owns interpretation and continuation; native search and worker tools supply retrieval and delegation, and the local executables supply the declared calculations and persistence.
 
 Bibliographic discovery supports exact DOI lookup with `work --doi DOI`, one-hop backward records with `references --doi DOI`, and union search with repeated `literature-multi --query QUERY`. All take `--output DIR`. Reference rows retain the original work, rank, reference key, DOI and complete original reference fields, including unresolved text. Union rows retain each query, its status, rank and exact response origin; normalized DOI identifies duplicates, and an exact title/year identity handles rows without DOI. A failed query publishes its attributable partial record and returns a failing status. Follow selected references and forward citations through the current source tools until their original passages resolve the research comparison.
 
@@ -241,7 +241,7 @@ Select `research_result_artifacts` for [automatic registration and article/slide
 
 The [state manual's hook contract](state.md#governing-context) defines task binding, callback evidence and compaction recovery. The registered events in `hooks/hooks.json` cover session start, prompt submission, tool pre/post callbacks, child start/stop, stop, interruption and post-compaction. Host permission and command-trust controls remain authoritative; callback records retain the task's declared targets, holds and completion evidence.
 
-`SubagentStop` retains the exact observed child return as its assigned contribution and queues a parent handoff. The next eligible parent `PostToolUse` presents pending return identities once; a child callback preserves that queue. Governing-text restoration follows the state manual's entry, binding and recovery boundaries. [TEAM](../runtime/TEAM.md#return-and-integration) owns parent integration and [CORE](../runtime/CORE.md#completion-and-reporting) owns final completion.
+`SubagentStop` retains the exact observed child return as its assigned contribution and queues a parent handoff. The next eligible parent `PostToolUse` presents pending return identities once; a child callback preserves that queue. Governing-text restoration follows the state manual's entry, binding and recovery boundaries. [TEAM](../runtime/TEAM.md#return-and-integration) owns parent integration and [ECONOMIST](../runtime/ECONOMIST.md) owns final completion.
 
 ## Formulation interface
 

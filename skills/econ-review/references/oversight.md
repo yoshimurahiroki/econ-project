@@ -1,6 +1,6 @@
 # Oversight notes
 
-Use [CORE](../../../runtime/CORE.md) for common task rules and [TEAM](../../../runtime/TEAM.md) for independent reviewers and blinded comparison protocols.
+Use [ECONOMIST](../../../runtime/ECONOMIST.md) for common task rules and [TEAM](../../../runtime/TEAM.md) for independent reviewers and blinded comparison protocols.
 
 Use the review target and scope already established by econ-review.
 

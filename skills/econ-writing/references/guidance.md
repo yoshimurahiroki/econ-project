@@ -2,6 +2,5 @@
 
 ## Guidance
 
-Apply [PROSE Common output](../../../runtime/PROSE.md#common-output) to every element.
-
-Identify the concrete obstacle to understanding and explain the writing decision using corresponding original source material. Use a source-bound revision of the supplied passage when available. Apply [PROSE's language rules](../../../runtime/PROSE.md#revise-for-the-requested-language) to the advice and any worked wording. Map content selection and logical order to the originals and complete the common review of the advice and any example. Return only the guidance needed for the requested decision.
+1. Identify the concrete writing decision that blocks the reader.
+2. Explain it through the corresponding move in an English original (`exemplars.py outline`) or the corresponding expression in a Japanese exemplar, and show the revised passage under [WRITING](../../../runtime/WRITING.md).

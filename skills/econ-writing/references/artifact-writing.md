@@ -1,6 +1,6 @@
 # Compose and deliver a research artifact
 
-Select the sections needed by the requested output under the [shared writing contract](../SKILL.md). Apply [PROSE Common output](../../../runtime/PROSE.md#common-output) to every element.
+Select the sections needed by the requested output under the [shared writing contract](../SKILL.md). Apply [WRITING](../../../runtime/WRITING.md) to every element.
 
 ## Generate articles and slides from results
 
@@ -43,7 +43,7 @@ Consult [paragraph guidance](paragraph-workflow.md) for the requested argument. 
 
 ## Compose for the medium and language
 
-A requested model material supplies a composition pattern only when its elements are mapped to the specified actual sources. [Profile authoring](profile.md#profile) records its page measurements and argument operations and compares the rendered output with the original. Use that adopted pattern in the selected existing template with the current study's specification and saved results, borrowing every prose and visual element from read actual sources. Apply [PROSE's Common output](../../../runtime/PROSE.md#common-output) and [language rules](../../../runtime/PROSE.md#revise-for-the-requested-language) to the prose in every medium; source Japanese expression from corresponding Japanese originals.
+A requested model material supplies a composition pattern only when its elements are mapped to the specified actual sources. [Profile authoring](profile.md#profile) records its page measurements and argument operations and compares the rendered output with the original. Use that adopted pattern in the selected existing template with the current study's specification and saved results, borrowing every prose and visual element from read actual sources. Apply [WRITING's Common output](../../../runtime/WRITING.md) and [language rules](../../../runtime/WRITING.md) to the prose in every medium; source Japanese expression from corresponding Japanese originals.
 
 A local revision or translation uses its selected mode and surrounding premises and follows the same search, reading, mapping, borrowing and comparison procedure, even for a single word. A paper section uses the relevant [paper guidance](paper-workflow.md#compose-the-requested-section); a consequential long-form structural choice uses [paragraph guidance](paragraph-workflow.md). Retrieve and read actual source examples for every language choice, returning to search if a corresponding passage is missing.
 

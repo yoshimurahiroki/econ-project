@@ -72,7 +72,6 @@
       "required_rules": [
         "kernel.all",
         "econ-literature.all",
-        "research.investigate-source-claims",
         "prose.select-the-economic-argument",
         "prose.connect-the-explanation",
         "prose.revise-for-the-requested-language",
@@ -316,18 +315,10 @@
     }
   ],
   "conditions": {
-    "formulation_or_choice_unresolved": {
-      "required_rules": [
-        "research.select-a-feasible-action",
-        "research.source-integration-and-method-selection"
-      ],
-      "applies_to": "*"
-    },
     "economic_method_needed": {
       "required_rules": [
         "design-methods.choose-the-estimand-and-method",
-        "design-methods.select-the-needed-section",
-        "research.source-integration-and-method-selection"
+        "design-methods.select-the-needed-section"
       ],
       "applies_to": "*"
     },
@@ -338,25 +329,9 @@
       ],
       "applies_to": "*"
     },
-    "files_calculation_external_or_resume": {
-      "required_rules": [
-        "execution.select-the-operation-and-working-area",
-        "execution.compare-changed-outputs",
-        "execution.complete-outputs-and-failure-propagation"
-      ],
-      "applies_to": "*"
-    },
-    "source_comparison_or_method_choice_unresolved": {
-      "required_rules": [
-        "research.separate-explanations-with-a-comparison",
-        "research.source-integration-and-method-selection"
-      ],
-      "applies_to": "*"
-    },
     "source_derivation_requires_economic_method": {
       "required_rules": [
-        "design-methods.select-the-needed-section",
-        "research.source-integration-and-method-selection"
+        "design-methods.select-the-needed-section"
       ],
       "applies_to": "*"
     },
@@ -365,7 +340,7 @@
         "paper-workflow.establish-the-argument-from-the-research",
         "paper-workflow.design-the-papers-argument",
         "paper-workflow.compose-the-requested-section",
-        "prose.hierarchical-argument-and-paragraph-composition"
+        "prose.select-the-economic-argument"
       ],
       "applies_to": "*"
     },
@@ -379,14 +354,7 @@
       "required_rules": [
         "paper-workflow.establish-the-argument-from-the-research",
         "paper-workflow.design-the-papers-argument",
-        "prose.hierarchical-argument-and-paragraph-composition"
-      ],
-      "applies_to": "*"
-    },
-    "file_output_or_format_rendering": {
-      "required_rules": [
-        "execution.select-the-operation-and-working-area",
-        "execution.complete-outputs-and-failure-propagation"
+        "prose.select-the-economic-argument"
       ],
       "applies_to": "*"
     },
@@ -451,8 +419,6 @@
         "data-implementation.acquisition",
         "data-implementation.data-contracts-and-joins",
         "data-implementation.computation",
-        "execution.select-the-operation-and-working-area",
-        "execution.complete-outputs-and-failure-propagation",
         "econ-data.map-the-object-to-the-existing-execution-path",
         "econ-data.construct-a-requested-data-design",
         "data-implementation.shared-tables-and-language-handoff"
@@ -581,8 +547,7 @@
       "required_rules": [
         "team.native-model-roles",
         "team.shared-work",
-        "team.return-and-integration",
-        "research.resolve-dependencies-and-integrate-findings"
+        "team.return-and-integration"
       ],
       "applies_to": "*"
     },
@@ -595,14 +560,6 @@
     "handoff_active": {
       "required_rules": [
         "team.resumption"
-      ],
-      "applies_to": "*"
-    },
-    "dependency_order_unresolved": {
-      "required_rules": [
-        "research.turn-the-question-into-an-operation",
-        "research.select-a-feasible-action",
-        "research.resolve-dependencies-and-integrate-findings"
       ],
       "applies_to": "*"
     },
@@ -727,25 +684,6 @@
       ],
       "applies_to": "*"
     },
-    "source_investigation_active": {
-      "required_rules": [
-        "research.investigate-source-claims"
-      ],
-      "applies_to": "*"
-    },
-    "requested_artifact_files": {
-      "required_rules": [
-        "execution.select-the-operation-and-working-area",
-        "execution.complete-outputs-and-failure-propagation"
-      ],
-      "applies_to": "*"
-    },
-    "operational_plan_requested": {
-      "required_rules": [
-        "research.operational-plans"
-      ],
-      "applies_to": "*"
-    },
     "paragraph_execution_requested": {
       "required_rules": [
         "paragraph-workflow.all",
@@ -753,16 +691,13 @@
         "argument-engine.all",
         "paragraph-schema.all",
         "argument-schema.all",
-        "prose.hierarchical-argument-and-paragraph-composition"
+        "prose.select-the-economic-argument"
       ],
       "applies_to": "*"
     },
     "data_code_change": {
       "required_rules": [
-        "econ-data.implement-at-the-existing-owner",
-        "execution.select-the-operation-and-working-area",
-        "execution.complete-outputs-and-failure-propagation",
-        "research.resolve-dependencies-and-integrate-findings"
+        "econ-data.implement-at-the-existing-owner"
       ],
       "applies_to": [
         "econ-design:design",
@@ -783,8 +718,7 @@
       "required_rules": [
         "design-methods.select-the-needed-section",
         "design-methods.choose-the-estimand-and-method",
-        "design-methods.outcome-scale-and-conditional-mean",
-        "research.interpret-a-consequential-result"
+        "design-methods.outcome-scale-and-conditional-mean"
       ],
       "applies_to": "*"
     },
@@ -792,8 +726,7 @@
       "required_rules": [
         "design-methods.select-the-needed-section",
         "design-methods.choose-the-estimand-and-method",
-        "design-methods.orthogonal-scores-and-heterogeneous-effects",
-        "research.interpret-a-consequential-result"
+        "design-methods.orthogonal-scores-and-heterogeneous-effects"
       ],
       "applies_to": "*"
     },
@@ -937,8 +870,7 @@
     },
     "method_agent_simulation": {
       "required_rules": [
-        "models-abm.all",
-        "research.interpret-a-consequential-result"
+        "models-abm.all"
       ],
       "applies_to": "*"
     },
@@ -2152,18 +2084,6 @@
       "knowledge": [
         "MC-business-allocation"
       ]
-    },
-    "research_problem_deepening": {
-      "required_rules": [
-        "research.deepen-a-consequential-research-problem"
-      ],
-      "applies_to": "*"
-    },
-    "consequential_result_interpretation": {
-      "required_rules": [
-        "research.interpret-a-consequential-result"
-      ],
-      "applies_to": "*"
     },
     "project_github_operations": {
       "required_rules": [

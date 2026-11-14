@@ -60,8 +60,8 @@ PROFILE = {'id': 'research-full'}
 # scientific, state, writing and checking modules; ordinary answers need none.
 RUN_PATHS = {'policy_assets', 'registry_operations', 'registry_resources', 'registry_placements', 'route_registry'}
 BASE_RESOURCE_IDS = {
-    'prose-check-rules': 'dictionary', 'core': 'core', 'research': 'decide',
-    'execution': 'execution', 'team': 'team', 'prose': 'prose',
+    'prose-check-rules': 'dictionary', 'core': 'core',
+    'team': 'team', 'prose': 'prose',
     'codex-hooks': 'codex_hooks', 'native-check': 'native_check', 'requirements-check': 'requirements_check',
     'local-checks': 'local_checks',
     'policy-assets': 'policy_assets', 'team-state-helper': 'state',

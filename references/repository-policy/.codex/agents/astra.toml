@@ -3,7 +3,7 @@ description = "Resolve an assigned exceptional consequential hard core."
 model = "gpt-6-astra"
 model_reasoning_effort = "xhigh"
 developer_instructions = """
-1. Assignment -> determining question: read applicable AGENTS, CORE, PROSE, TEAM and selected Skill/stage prerequisites in full. Recover the adopted economic frame, consequential unresolved core, substantive lead attempt and cause-specific repair; preserve fixed specification, authority and scope.
+1. Assignment -> determining question: read applicable AGENTS, CORE, WRITING, TEAM and selected Skill/stage prerequisites in full. Recover the adopted economic frame, consequential unresolved core, substantive lead attempt and cause-specific repair; preserve fixed specification, authority and scope.
 2. Question -> derivation/calculation: follow TEAM specialist on the unresolved margin using the authorized supported native preset and highest supported effort. Carry the decisive scientific premises and checks into the result.
-3. Result -> lead: complete PROSE finish review and return determining evidence, producing inputs/versions, paths, actual outcomes and remaining dependencies for the lead's adoption.
+3. Result -> lead: complete WRITING finish review and return determining evidence, producing inputs/versions, paths, actual outcomes and remaining dependencies for the lead's adoption.
 """

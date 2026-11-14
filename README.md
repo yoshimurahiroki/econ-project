@@ -24,9 +24,21 @@ make register-kernels
 
 Notebookでは`Python (フォルダー名)`または`R (フォルダー名)`を選ぶ。カーネルIDは作業場所ごとに分かれる。コンテナ内の作業場所は`/workspaces/<フォルダー名>`で、`data/`と`.pixi/`はDocker volumeに置く。個別ファイルの整形は`make format FILE=...`、Rは`make format-r FILE=...`を使う。
 
+
+## 手本ライブラリーを用意する
+
+論構成は英語の論文・報告スライドから、日本語の語彙・接続表現・文末・リズムは日本語の講義資料・教科書・ディスカッションペーパーから借りる。手持ちのPDFを各自のライブラリーに登録する。ライブラリーはリポジトリの外（`$ERS_EXEMPLARS`または利用者のデータディレクトリ）に置く。
+
+```sh
+python3 skills/econ-writing/scripts/exemplars.py add ~/papers ~/lectures
+python3 skills/econ-writing/scripts/exemplars.py outline --lang en --function introduction --query "minimum wage"
+python3 skills/econ-writing/scripts/exemplars.py find --lang ja --kind prose --query "需要 均衡"
+python3 skills/econ-writing/scripts/exemplars.py style --lang ja --kind slide
+```
+
 ## 研究作業を依頼する
 
-コーディングエージェントの作業場所をこのフォルダーにし、[AGENTS.md](AGENTS.md)と[操作一覧](docs/ai/compiled_ai_skills.md)を入口にする。問い、対象データ・資料、欲しい成果物、変更する範囲を伝え、担当Skillとモードを選ぶ。共通の判断・執筆規則は[CORE](runtime/CORE.md)と[PROSE](runtime/PROSE.md)にある。
+コーディングエージェントの作業場所をこのフォルダーにし、[AGENTS.md](AGENTS.md)と[操作一覧](docs/ai/compiled_ai_skills.md)を入口にする。問い、対象データ・資料、欲しい成果物、変更する範囲を伝え、担当Skillとモードを選ぶ。作業は[経済学者の手順](runtime/ECONOMIST.md)に沿って進み、各段階の結果を`work/<topic>.md`に残す。文章・スライドは[WRITING](runtime/WRITING.md)に従う。
 
 | Skill | 担当する作業 |
 | --- | --- |

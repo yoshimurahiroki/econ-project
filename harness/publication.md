@@ -1,8 +1,8 @@
 # Publish requested outputs and changes
 
-Use this contract for requested file moves, complete multi-file outputs, staging, commits and external publication. [CORE](../runtime/CORE.md) owns authority, preserved inputs, integrated review and completion. [EXECUTION](../runtime/EXECUTION.md) owns ordinary file and computation operations. Existing authorization persists through the work.
+Use this contract for requested file moves, complete multi-file outputs, staging, commits and external publication. [ECONOMIST](../runtime/ECONOMIST.md) owns authority, preserved inputs, integrated review and completion. [EXECUTION](../runtime/ECONOMIST.md#5-execution) owns ordinary file and computation operations. Existing authorization persists through the work.
 
-Use the actual destination operation under [CORE's completion contract](../runtime/CORE.md#completion-and-reporting). The boundaries below preserve destination ownership and concurrent writers through that operation.
+Use the actual destination operation under [the economist's procedure's completion contract](../runtime/ECONOMIST.md). The boundaries below preserve destination ownership and concurrent writers through that operation.
 
 ## Complete-generation boundary
 

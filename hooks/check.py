@@ -1,93 +1,63 @@
 #!/usr/bin/env python3
-"""Load the plugin's canonical hook handler and preserve its host response."""
-import importlib.util
-import hashlib
+"""Economics task hooks for Codex and Claude Code: a short pointer at session start and on each prompt, and one
+writing review before a turn with substantial prose ends."""
 import json
-import os
-from pathlib import Path
 import sys
 
 sys.dont_write_bytecode = True
 
-event = sys.argv[1] if len(sys.argv) == 2 else 'Stop'
-READ_TOOLS = {'read', 'read_file', 'read_text_file', 'read_multiple_files', 'list_directory',
-              'directory_tree', 'search_files', 'get_file_info', 'view_image', 'grep', 'glob'}
+POINTER = ('Economics research entry: follow AGENTS.md. Substantive tasks run the economist\'s procedure '
+           '(runtime/ECONOMIST.md) and record each step in work/<topic>.md. Text follows runtime/WRITING.md: argument '
+           'from English originals, Japanese expression from Japanese exemplars (skills/econ-writing/scripts/'
+           'exemplars.py find/style), direct claims, numerical uncertainty only.')
+REVIEW = ('Before finishing, reread the answer once against runtime/WRITING.md: section 3 (direct claims, numerical '
+          'uncertainty only, no hedges, disclaimers, limitations, ornament or negation contrasts) and, for Japanese, '
+          'section 2 (connectives, endings, vocabulary and rhythm from the Japanese exemplars). Also check that the '
+          'answer follows from the worksheet: question, mechanism, comparison, estimates, decision. Revise the answer '
+          'if any sentence fails; otherwise finish without comment.')
+MIN_REVIEW_CHARS = 200
 
 
-def awaiting(value):
-    """True when a record holds a pending restoration or a required child assignment."""
-    if isinstance(value, dict):
-        return (value.get('pending_restoration') is True or value.get('assignment_required') is True
-                or any(awaiting(item) for item in value.values()))
-    return isinstance(value, list) and any(awaiting(item) for item in value)
-
-
-def pure_read(raw):
-    """A native file read changes no task state; its callbacks are skipped unless instructions await restoration."""
+def last_message(payload):
+    """Codex passes the final message; Claude Code passes the transcript path."""
+    message = payload.get('last_assistant_message')
+    if isinstance(message, str):
+        return message
+    path = payload.get('transcript_path')
     try:
-        payload = json.loads(raw)
-        tool, session = payload['tool_name'], payload['session_id']
-        if (not isinstance(tool, str) or tool.startswith('mcp__')
-                or tool.rsplit('__', 1)[-1].split('.')[-1].lower() not in READ_TOOLS):
-            return False
-        response = payload.get('tool_response')
-        if event == 'PostToolUse' and isinstance(response, dict) and (
-                response.get('error') or response.get('isError') or response.get('success') is False):
-            return False
-        data = Path(os.environ.get('PLUGIN_DATA') or Path.home() / '.local' / 'state' / 'economics-research-skills')
-        folder = data / 'economics' / hashlib.sha256(session.encode('utf-8')).hexdigest()
-        return folder.is_dir() and not any(awaiting(json.loads(p.read_text(encoding='utf-8')))
-                                           for p in folder.rglob('reinjection.json'))
+        lines = open(path, encoding='utf-8').read().splitlines()
     except Exception:
-        return False
+        return ''
+    for line in reversed(lines):
+        try:
+            entry = json.loads(line)
+        except ValueError:
+            continue
+        body = entry.get('message') if isinstance(entry.get('message'), dict) else entry
+        if body.get('role') == 'assistant' or entry.get('type') == 'assistant':
+            content = body.get('content')
+            if isinstance(content, str):
+                return content
+            if isinstance(content, list):
+                return ''.join(part.get('text', '') for part in content if isinstance(part, dict))
+        if entry.get('type') == 'user' and not entry.get('toolUseResult'):
+            return ''
+    return ''
 
 
-if event in {'PreToolUse', 'PostToolUse'}:
-    raw_input = sys.stdin.buffer.read()
-    if pure_read(raw_input):
-        print('{}')
-        sys.exit(0)
-    import io
-    sys.stdin = io.TextIOWrapper(io.BytesIO(raw_input), encoding='utf-8')
-try:
-    if 'PLUGIN_DATA' not in os.environ:
-        os.environ['PLUGIN_DATA'] = str(Path.home() / '.local' / 'state' / 'economics-research-skills')
-    root = Path(os.environ['PLUGIN_ROOT'])
-    if not root.is_absolute() or Path(__file__).resolve() != root.resolve() / 'hooks/check.py':
-        raise ValueError('invalid plugin root')
-    spec = importlib.util.spec_from_file_location('economics_codex_hooks', root / 'harness/codex_hooks.py')
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-except Exception as exc:
-    reason = ('Economics hook unavailable: ' + str(exc)).encode('utf-8')[:240].decode('utf-8', errors='ignore')
-    result = ({'decision': 'block', 'reason': reason + '; state startup requires a working hook. Resubmit after repair.'}
-              if event == 'UserPromptSubmit' else
-              {'hookSpecificOutput': {'hookEventName': event, 'additionalContext': reason}}
-              if event in {'PreToolUse', 'PostToolUse', 'SubagentStart', 'SessionStart'}
-              else {'systemMessage': reason})
+def main(event):
     try:
-        if event == 'UserPromptSubmit':
-            raise ValueError('startup failure must remain visible')
         payload = json.load(sys.stdin)
-        session, turn = payload.get('session_id'), payload.get('turn_id')
-        data = Path(os.environ['PLUGIN_DATA'])
-        if data.is_absolute() and isinstance(session, str) and session and isinstance(turn, str) and turn:
-            sha = lambda value: hashlib.sha256(value.encode('utf-8')).hexdigest()
-            directory = data / 'economics' / sha(session) / 'hook-notices' / sha(turn)
-            directory.mkdir(parents=True, mode=0o700, exist_ok=True)
-            for slot in range(2):
-                try:
-                    fd = os.open(directory / (sha(reason) + '-' + str(slot)),
-                                 os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_NOFOLLOW', 0), 0o600)
-                except FileExistsError:
-                    continue
-                os.close(fd)
-                break
-            else:
-                result = {}
     except Exception:
-        pass
-    print(json.dumps(result, ensure_ascii=False))
-    sys.exit(0)
+        payload = {}
+    if event in ('SessionStart', 'UserPromptSubmit'):
+        return {'hookSpecificOutput': {'hookEventName': event, 'additionalContext': POINTER}}
+    if event == 'Stop':
+        if payload.get('stop_hook_active') or len(last_message(payload)) < MIN_REVIEW_CHARS:
+            return {}
+        return {'decision': 'block', 'reason': REVIEW}
+    return {}
 
-sys.exit(module.main(event))
+
+if __name__ == '__main__':
+    print(json.dumps(main(sys.argv[1] if len(sys.argv) > 1 else 'Stop'), ensure_ascii=False))

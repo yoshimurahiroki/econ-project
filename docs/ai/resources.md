@@ -2,10 +2,8 @@
 
 Generated from the resource and placement registries. Use this catalog only for requested distribution or maintenance.
 
-- core: runtime/CORE.md
-- prose: runtime/PROSE.md
-- research: runtime/DECIDE.md
-- execution: runtime/EXECUTION.md
+- core: runtime/ECONOMIST.md
+- prose: runtime/WRITING.md
 - team: runtime/TEAM.md
 - econ-design: skills/econ-design/SKILL.md
 - econ-data: skills/econ-data/SKILL.md

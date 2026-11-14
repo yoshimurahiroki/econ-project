@@ -5,18 +5,15 @@ description: Acquire, transform, estimate and reproduce economic data and result
 
 # Research data
 
-## Purpose and input
+This skill carries step 5 of the [economist's procedure](../../runtime/ECONOMIST.md): run the design from the worksheet with the existing scripts.
 
-1. **Output: execution target; consumer: operation selection.** Recover the requested data operation or code change, adopted specification, source documentation and saved results.
+1. **Data.** Acquire and build tables through [research data](references/research-data.md) and [source to analysis](references/implementation-data.md#source-to-analysis).
+2. **Estimation.** Run the selected method from the [implementation table](references/implementation-engines.md) with the matching script: `scripts/research_causal.py` (and `research_causal.R`, `research_rct.R`), `research_markets.py`, `research_dynamic.py`, `research_macro.py`, `research_macro_extended.py`, `research_dsge.py`, `research_numerics.py`. Specification fields and calls are in [implementation calls](references/implementation-calls.md); worked runs in [implementation examples](references/implementation-examples.md).
+3. **Projects.** Multi-stage work runs through `python3 harness/research.py --root . research.json` ([research runner](../../harness/research.md)).
+4. **Equity valuation.** The `equity` mode follows [equity](references/equity.md).
+5. **Return.** Save results with their inputs, sample, units, estimator and inference; write the estimates and diagnostics into the worksheet for step 6.
 
-## Select the operation
-
-1. **Output: executable procedure; consumer: producer.** Select `execute` for data/calculations/code or `equity` for valuation. Read the registry-selected [workflow](references/workflow.md) and implementation sections. Resolve an unknown data/code operation with `python scripts/route_registry.py read data-implementation.select-the-operation-specific-rules`. Start a bounded change at its affected stage; a new pipeline uses [source to analysis](references/implementation-data.md#source-to-analysis).
-
-## Deliver the data operation and its economic meaning
-
-1. **Output: data/code/result; consumer: analysis or artifact.** Return actual inputs, producing operation, location and required verification. Carry population, period, units, denominator, fitted specification, effective engine and inference with quantities.
-2. **Output: economic answer; consumer: user.** Use econ-writing:explain for a requested explanation; apply PROSE's selection and finish steps to the final result.
+The general procedure is in the [data workflow](references/workflow.md).
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

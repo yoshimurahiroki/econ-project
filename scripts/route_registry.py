@@ -1104,13 +1104,13 @@ def generate_entries(root, routes=None, *, outputs=None):
     guide += [f"- {rid}: {r['source_path']}" + (' (complete source distribution only)' if r.get('source_distribution_only') else '') for rid, r in routes['resources'].items()]
     write_changed(root / 'docs/ai/resources.md', '\n'.join(guide) + '\n')
     write_changed(root / 'docs/ai/project_instructions.txt', entry_contract(routes,
-        '../../runtime/CORE.md', '../../runtime/PROSE.md', 'compiled_ai_skills.md') + '\n')
+        '../../runtime/ECONOMIST.md', '../../runtime/WRITING.md', 'compiled_ai_skills.md') + '\n')
     for pointer in routes['placements']['policy_pointers']:
         path = root / pointer['source_path']
         template = routes['placements']['pointer_templates'][pointer['template_id']]
         body = template.format(
-            core=os.path.relpath(root / 'runtime/CORE.md', path.parent),
-            prose=os.path.relpath(root / 'runtime/PROSE.md', path.parent),
+            core=os.path.relpath(root / 'runtime/ECONOMIST.md', path.parent),
+            prose=os.path.relpath(root / 'runtime/WRITING.md', path.parent),
             operations=os.path.relpath(root / 'registry/operations.json', path.parent),
             index=os.path.relpath(root / 'docs/ai/compiled_ai_skills.md', path.parent))
         write_changed(path, body)
@@ -1122,8 +1122,8 @@ def generate_entries(root, routes=None, *, outputs=None):
         entry_pattern = r'<!-- BEGIN GENERATED ENTRY -->.*?<!-- END GENERATED ENTRY -->'
         if re.search(entry_pattern, body, re.S):
             entry = ('<!-- BEGIN GENERATED ENTRY -->\n## Native entry contract\n\n' +
-                entry_contract(routes, '../../runtime/CORE.md',
-                    '../../runtime/PROSE.md', '../../docs/ai/compiled_ai_skills.md') +
+                entry_contract(routes, '../../runtime/ECONOMIST.md',
+                    '../../runtime/WRITING.md', '../../docs/ai/compiled_ai_skills.md') +
                 '\n<!-- END GENERATED ENTRY -->')
             body = re.sub(entry_pattern, lambda _: entry, body, flags=re.S)
         block = generated_mode_block(routes, owner)

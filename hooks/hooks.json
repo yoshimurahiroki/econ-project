@@ -1,72 +1,31 @@
 {
-  "description": "Economics task instructions, operation authority and saved results",
+  "description": "Economics task pointer and one writing review per prose turn",
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact|fork",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" SessionStart",
+            "timeout": 10,
+            "statusMessage": "Economics task context",
+            "additionalContextLimit": 6000,
+            "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','SessionStart'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\""
+          }
+        ]
+      }
+    ],
     "UserPromptSubmit": [
       {
         "hooks": [
           {
             "type": "command",
             "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" UserPromptSubmit",
-            "timeout": 30,
+            "timeout": 10,
             "statusMessage": "Economics task context",
             "additionalContextLimit": 6000,
             "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','UserPromptSubmit'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\""
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" PreToolUse",
-            "timeout": 30,
-            "statusMessage": "Economics task context",
-            "additionalContextLimit": 6000,
-            "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','PreToolUse'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\""
-          }
-        ]
-      }
-    ],
-    "PostToolUse": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" PostToolUse",
-            "timeout": 30,
-            "statusMessage": "Economics task context",
-            "additionalContextLimit": 6000,
-            "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','PostToolUse'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\""
-          }
-        ]
-      }
-    ],
-    "SubagentStart": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" SubagentStart",
-            "timeout": 30,
-            "statusMessage": "Economics task context",
-            "additionalContextLimit": 6000,
-            "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','SubagentStart'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\""
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" SubagentStop",
-            "timeout": 30,
-            "statusMessage": "Economics task context",
-            "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','SubagentStop'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\"",
-            "additionalContextLimit": 6000
           }
         ]
       }
@@ -77,53 +36,10 @@
           {
             "type": "command",
             "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" Stop",
-            "timeout": 30,
+            "timeout": 10,
             "statusMessage": "Economics task context",
             "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','Stop'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\"",
             "additionalContextLimit": 6000
-          }
-        ]
-      }
-    ],
-    "Interrupt": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" Interrupt",
-            "timeout": 2,
-            "statusMessage": "Economics task context",
-            "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','Interrupt'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\"",
-            "additionalContextLimit": 500
-          }
-        ]
-      }
-    ],
-    "PostCompact": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" PostCompact",
-            "timeout": 30,
-            "statusMessage": "Economics task context",
-            "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','PostCompact'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\"",
-            "additionalContextLimit": 500
-          }
-        ]
-      }
-    ],
-    "SessionStart": [
-      {
-        "matcher": "startup|resume|clear|compact|fork",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "python3 \"$PLUGIN_ROOT/hooks/check.py\" SessionStart",
-            "timeout": 30,
-            "statusMessage": "Economics task context",
-            "additionalContextLimit": 6000,
-            "commandWindows": "py -3 -c \"import os,runpy,sys;sys.argv=['check.py','SessionStart'];runpy.run_path(os.path.join(os.environ['PLUGIN_ROOT'],'hooks','check.py'),run_name='__main__')\""
           }
         ]
       }

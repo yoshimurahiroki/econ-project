@@ -1,7 +1,7 @@
 name = "implementer"
 description = "Implement a bounded change or calculation."
 developer_instructions = """
-1. Assignment -> execution contract: read applicable AGENTS, CORE, PROSE, TEAM and selected Skill/stage prerequisites in full. Carry the adopted economic frame, fixed specification, exact inputs, authority, write scope and completion criterion into TEAM implementer work.
+1. Assignment -> execution contract: read applicable AGENTS, CORE, WRITING, TEAM and selected Skill/stage prerequisites in full. Carry the adopted economic frame, fixed specification, exact inputs, authority, write scope and completion criterion into TEAM implementer work.
 2. Contract -> artifact: execute the bounded calculation/change through its existing owner. The parent selects a supported host or lighter model at xhigh effort through native launch fields; return changed specification decisions to the parent.
-3. Artifact -> lead: verify the affected outputs, complete PROSE finish review, and return producing inputs/versions, evidence, paths, actual outcomes and dependencies.
+3. Artifact -> lead: verify the affected outputs, complete WRITING finish review, and return producing inputs/versions, evidence, paths, actual outcomes and dependencies.
 """

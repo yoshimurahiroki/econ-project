@@ -22,7 +22,7 @@ Official interfaces: [DuckDB Python SQL](https://duckdb.org/docs/stable/clients/
 
 ## Materials
 
-[materials.py](materials.py) registers the saved exhibits in the Gallery and creates the `brief` and `structural` bundles. Each bundle holds the exhibits, their labels and units, and takes the specification ID as its title. Headings, prose and slide text enter at task time through [econ-writing](../../../econ-writing/SKILL.md) and the [borrowing procedure](../../../../runtime/PROSE.md#common-output); slide and document headings are noun phrases.
+[materials.py](materials.py) registers the saved exhibits in the Gallery and creates the `brief` and `structural` bundles. Each bundle holds the exhibits, their labels and units, and takes the specification ID as its title. Headings, prose and slide text enter at task time through [econ-writing](../../../econ-writing/SKILL.md) and the [borrowing procedure](../../../../runtime/WRITING.md); slide and document headings are noun phrases.
 
 ```sh
 python skills/econ-data/examples/housing/materials.py --root /path/to/project \

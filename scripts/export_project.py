@@ -723,15 +723,13 @@ def _prepare_distribution(root, routes=None, *, check=False):
     root = Path(root).resolve()
     validate_package_versions(root, required=True)
     registration = json.loads((root / 'hooks/hooks.json').read_text(encoding='utf-8'))
-    for event in ('UserPromptSubmit', 'SessionStart', 'SubagentStart', 'PreToolUse',
-                  'PostToolUse', 'Stop', 'SubagentStop', 'Interrupt', 'PostCompact'):
+    for event in ('UserPromptSubmit', 'SessionStart', 'Stop'):
         handlers = [hook for entry in registration['hooks'].get(event, [])
                     for hook in entry.get('hooks', [])
                     if isinstance(hook.get('command'), str) and 'hooks/check.py' in hook['command']
                     and hook['command'].rstrip().endswith(event)]
-        if (len(handlers) != 1 or type(handlers[0].get('additionalContextLimit')) is not int
-                or handlers[0]['additionalContextLimit'] <= 0):
-            raise ValueError('Declare one positive additionalContextLimit for ' + event)
+        if len(handlers) != 1:
+            raise ValueError('Declare one hooks/check.py handler for ' + event)
     outputs = {}
     routes = generate_entries(root, routes, outputs=outputs)
     knowledge_ids = {kid for condition in routes['condition_definitions'].values()
@@ -887,7 +885,7 @@ def export_plugin(target):
         relative_index = os.path.relpath(shared / 'docs/ai/compiled_ai_skills.md', Path(name).parent).replace(os.sep, '/')
         body = (frontmatter + '\n# ' + owner + '\n\n'
                 + 'Read the complete [instructions](' + relative_body + ') and current-stage prerequisites. Reuse complete matching bodies still in context. Use the [index](' + relative_index + ') for an unresolved operation or condition.\n\n'
-                + 'Cloud common rules are in `project-work/references/shared/runtime/CORE.md` and `PROSE.md`; cross-Skill references use their named package. Native execution starts at the plugin root. Cloud execution uses `project-work/bundle` once: extract `references/runtime.zip` and execute from its root.\n')
+                + 'Cloud common rules are in `project-work/references/shared/runtime/ECONOMIST.md` and `WRITING.md`; cross-Skill references use their named package. Native execution starts at the plugin root. Cloud execution uses `project-work/bundle` once: extract `references/runtime.zip` and execute from its root.\n')
         if owner == 'econ-knowledge':
             body += ('\nThe complete collection is at runtime-root `knowledge/references`. Without an executor, read the pinned '
                      '[domain index](' + knowledge_source + '/domains.json), its selected `domains/NN.json`, '

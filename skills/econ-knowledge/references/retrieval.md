@@ -1,6 +1,6 @@
 # Knowledge retrieval procedures
 
-Select the procedure for the pending lookup; CORE owns complete reading and reuse.
+Select the procedure for the pending lookup; The economist's procedure owns complete reading and reuse.
 
 ## Domains and search
 
@@ -32,7 +32,7 @@ For small closures use `plan ... --read`; for larger ones pass `required_ids` to
 
 Contract availability distinguishes `theory_reference`, `numerical_example`, `internal_runner`, `internal_function` and `external_official_api`. These describe interfaces, while actual execution establishes installation, convergence and results. `selection_binding` connects `model_contract_id` in `research_causal.py select` to the registered model/implementation. The selector validates its target, conditions, algorithm and implementation and preserves proposed specification changes for adoption. Unbound theory/callable contracts return `implementation_required`; they execute nothing.
 
-An empty `implementation` list supplies a mathematical contract for econ-data to derive or calculate. Registered bindings use their declared engines/dependencies; source-only examples use their canonical source URL and hash. Retain inputs, specification and actual outputs through the existing research result. Select or compare methods under DECIDE; pass a determining source gap to econ-literature and resume its consumer afterward.
+An empty `implementation` list supplies a mathematical contract for econ-data to derive or calculate. Registered bindings use their declared engines/dependencies; source-only examples use their canonical source URL and hash. Retain inputs, specification and actual outputs through the existing research result. Select or compare methods under the economist's procedure; pass a determining source gap to econ-literature and resume its consumer afterward.
 
 ## External domain sources
 

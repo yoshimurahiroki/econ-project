@@ -2,27 +2,17 @@
   "schema_version": 3,
   "resources": {
     "core": {
-      "source_path": "runtime/CORE.md",
+      "source_path": "runtime/ECONOMIST.md",
       "resource_kind": "rule",
       "content_version": "0.96.0"
     },
     "prose": {
-      "source_path": "runtime/PROSE.md",
+      "source_path": "runtime/WRITING.md",
       "resource_kind": "rule",
       "content_version": "0.96.1",
       "required_resources": [
         "prose-check-rules"
       ]
-    },
-    "research": {
-      "source_path": "runtime/DECIDE.md",
-      "resource_kind": "rule",
-      "content_version": "0.96.0"
-    },
-    "execution": {
-      "source_path": "runtime/EXECUTION.md",
-      "resource_kind": "rule",
-      "content_version": "0.95.0"
     },
     "team": {
       "source_path": "runtime/TEAM.md",
@@ -1861,19 +1851,19 @@
         "whole_resource": true
       },
       "task-entry": {
-        "heading": "Task entry"
+        "heading": "1. Situation and stakes"
       },
       "economist-role": {
-        "heading": "Economist role"
+        "heading": "2. Question"
       },
       "authority-and-preserved-inputs": {
-        "heading": "Authority and preserved inputs"
+        "heading": "Authority"
       },
       "execution-records": {
-        "heading": "Execution records"
+        "heading": "5. Execution"
       },
       "completion-and-reporting": {
-        "heading": "Completion and reporting"
+        "heading": "Choosing what to do next"
       }
     },
     "prose": {
@@ -1881,77 +1871,22 @@
         "whole_resource": true
       },
       "select-the-economic-argument": {
-        "heading": "Select the economic argument"
+        "heading": "1. Borrow the argument from English originals"
       },
       "connect-the-explanation": {
-        "heading": "Connect the explanation"
+        "heading": "The exemplar library"
       },
       "select-the-profile": {
-        "heading": "Select the profile"
+        "heading": "4. Form"
       },
       "revise-for-the-requested-language": {
-        "heading": "Revise for the requested language"
+        "heading": "2. Borrow the Japanese expression from Japanese originals"
       },
       "finish-the-passage": {
-        "heading": "Finish the passage"
-      },
-      "hierarchical-argument-and-paragraph-composition": {
-        "heading": "Hierarchical argument and paragraph composition"
+        "heading": "5. Finish"
       },
       "common-output": {
-        "heading": "Common output"
-      },
-      "internal-destinations": {
-        "heading": "Internal destinations"
-      }
-    },
-    "research": {
-      "all": {
-        "whole_resource": true
-      },
-      "turn-the-question-into-an-operation": {
-        "heading": "Turn the question into an operation"
-      },
-      "separate-explanations-with-a-comparison": {
-        "heading": "Separate explanations with a comparison"
-      },
-      "select-a-feasible-action": {
-        "heading": "Select a feasible action"
-      },
-      "source-integration-and-method-selection": {
-        "heading": "Source integration and method selection"
-      },
-      "resolve-dependencies-and-integrate-findings": {
-        "heading": "Resolve dependencies and integrate findings"
-      },
-      "operational-plans": {
-        "heading": "Operational plans"
-      },
-      "investigate-source-claims": {
-        "heading": "Investigate source claims"
-      },
-      "deepen-a-consequential-research-problem": {
-        "heading": "Deepen a consequential research problem"
-      },
-      "interpret-a-consequential-result": {
-        "heading": "Interpret a consequential result"
-      }
-    },
-    "execution": {
-      "all": {
-        "whole_resource": true
-      },
-      "select-the-operation-and-working-area": {
-        "heading": "Select the operation and working area"
-      },
-      "compare-changed-outputs": {
-        "heading": "Compare changed outputs"
-      },
-      "complete-outputs-and-failure-propagation": {
-        "heading": "Complete outputs and failure propagation"
-      },
-      "record-and-artifact-boundaries": {
-        "heading": "Record and artifact boundaries"
+        "heading": "3. Expression rules"
       }
     },
     "team": {
@@ -1982,13 +1917,13 @@
         "whole_resource": true
       },
       "purpose-and-input": {
-        "heading": "Purpose and input"
+        "whole_resource": true
       },
       "output": {
-        "heading": "Output"
+        "whole_resource": true
       },
       "select-the-operation": {
-        "heading": "Select the operation"
+        "whole_resource": true
       }
     },
     "econ-data": {
@@ -1996,13 +1931,13 @@
         "whole_resource": true
       },
       "purpose-and-input": {
-        "heading": "Purpose and input"
+        "whole_resource": true
       },
       "deliver-the-data-operation-and-its-economic-meaning": {
-        "heading": "Deliver the data operation and its economic meaning"
+        "whole_resource": true
       },
       "select-the-operation": {
-        "heading": "Select the operation"
+        "whole_resource": true
       }
     },
     "econ-literature": {
@@ -2010,10 +1945,10 @@
         "whole_resource": true
       },
       "purpose-and-input": {
-        "heading": "Purpose and input"
+        "whole_resource": true
       },
       "select-the-source-operation": {
-        "heading": "Select the source operation"
+        "whole_resource": true
       }
     },
     "econ-writing": {
@@ -2021,10 +1956,10 @@
         "whole_resource": true
       },
       "output": {
-        "heading": "Output"
+        "whole_resource": true
       },
       "native-entry-contract": {
-        "heading": "Native entry contract"
+        "whole_resource": true
       }
     },
     "econ-review": {
@@ -2032,7 +1967,7 @@
         "whole_resource": true
       },
       "purpose-and-input": {
-        "heading": "Purpose and input"
+        "whole_resource": true
       }
     },
     "design-methods": {
@@ -3202,13 +3137,13 @@
         "whole_resource": true
       },
       "ownership-and-input": {
-        "heading": "Ownership and input"
+        "whole_resource": true
       },
       "select-the-needed-procedure": {
-        "heading": "Select the needed procedure"
+        "whole_resource": true
       },
       "return": {
-        "heading": "Return"
+        "whole_resource": true
       }
     },
     "knowledge-retrieval": {
@@ -3281,7 +3216,7 @@
         "whole_resource": true
       },
       "purpose-and-entry": {
-        "heading": "Purpose and entry"
+        "whole_resource": true
       }
     },
     "project-practice": {
@@ -3498,13 +3433,13 @@
         "heading": "Explain"
       },
       "read-and-select-the-argument": {
-        "heading": "Read and select the argument"
+        "whole_resource": true
       },
       "develop-the-connected-explanation": {
-        "heading": "Develop the connected explanation"
+        "whole_resource": true
       },
       "complete-the-requested-explanation": {
-        "heading": "Complete the requested explanation"
+        "whole_resource": true
       }
     },
     "writing-profile": {
@@ -3515,19 +3450,19 @@
         "heading": "Profile"
       },
       "select-source-passages": {
-        "heading": "Select source passages"
+        "whole_resource": true
       },
       "derive-principles-and-worked-examples": {
-        "heading": "Derive principles and worked examples"
+        "whole_resource": true
       },
       "use-a-requested-opening-or-comparison": {
-        "heading": "Use a requested opening or comparison"
+        "whole_resource": true
       },
       "save-the-profile": {
-        "heading": "Save the profile"
+        "whole_resource": true
       },
       "organize-selective-reading": {
-        "heading": "Organize selective reading"
+        "whole_resource": true
       }
     },
     "writing-artifacts": {
@@ -4222,64 +4157,41 @@
       "section_id": "all",
       "requires": [
         "prose.common-output"
-      ],
-      "conditional_requires": [
-        {
-          "when": "formulation_or_choice_unresolved",
-          "required_rules": [
-            "research.separate-explanations-with-a-comparison",
-            "research.select-a-feasible-action"
-          ]
-        }
       ]
     },
     "core.task-entry": {
       "resource_id": "core",
       "section_id": "task-entry",
       "requires": [
-        "prose.common-output",
-        "research.turn-the-question-into-an-operation"
+        "prose.common-output"
       ]
     },
     "core.economist-role": {
       "resource_id": "core",
       "section_id": "economist-role",
       "requires": [
-        "research.turn-the-question-into-an-operation",
         "prose.common-output"
-      ],
-      "conditional_requires": [
-        {
-          "when": "formulation_or_choice_unresolved",
-          "required_rules": [
-            "research.separate-explanations-with-a-comparison",
-            "research.select-a-feasible-action"
-          ]
-        }
       ]
     },
     "core.authority-and-preserved-inputs": {
       "resource_id": "core",
       "section_id": "authority-and-preserved-inputs",
       "requires": [
-        "prose.common-output",
-        "research.turn-the-question-into-an-operation"
+        "prose.common-output"
       ]
     },
     "core.execution-records": {
       "resource_id": "core",
       "section_id": "execution-records",
       "requires": [
-        "prose.common-output",
-        "research.turn-the-question-into-an-operation"
+        "prose.common-output"
       ]
     },
     "core.completion-and-reporting": {
       "resource_id": "core",
       "section_id": "completion-and-reporting",
       "requires": [
-        "prose.common-output",
-        "research.turn-the-question-into-an-operation"
+        "prose.common-output"
       ]
     },
     "prose.all": {
@@ -4290,7 +4202,7 @@
       "resource_id": "prose",
       "section_id": "select-the-economic-argument",
       "requires": [
-        "prose.internal-destinations"
+        "prose.common-output"
       ]
     },
     "prose.connect-the-explanation": {
@@ -4310,74 +4222,8 @@
       "section_id": "finish-the-passage",
       "requires": [
         "prose.common-output",
-        "prose.internal-destinations",
         "prose.revise-for-the-requested-language"
       ]
-    },
-    "research.all": {
-      "resource_id": "research",
-      "section_id": "all"
-    },
-    "research.turn-the-question-into-an-operation": {
-      "resource_id": "research",
-      "section_id": "turn-the-question-into-an-operation",
-      "requires": [
-        "core.economist-role"
-      ]
-    },
-    "research.separate-explanations-with-a-comparison": {
-      "resource_id": "research",
-      "section_id": "separate-explanations-with-a-comparison"
-    },
-    "research.select-a-feasible-action": {
-      "resource_id": "research",
-      "section_id": "select-a-feasible-action",
-      "requires": [
-        "state-contract.project-allocation-interface"
-      ]
-    },
-    "research.source-integration-and-method-selection": {
-      "resource_id": "research",
-      "section_id": "source-integration-and-method-selection"
-    },
-    "research.resolve-dependencies-and-integrate-findings": {
-      "resource_id": "research",
-      "section_id": "resolve-dependencies-and-integrate-findings"
-    },
-    "research.operational-plans": {
-      "resource_id": "research",
-      "section_id": "operational-plans"
-    },
-    "execution.all": {
-      "resource_id": "execution",
-      "section_id": "all"
-    },
-    "execution.select-the-operation-and-working-area": {
-      "resource_id": "execution",
-      "section_id": "select-the-operation-and-working-area"
-    },
-    "execution.compare-changed-outputs": {
-      "resource_id": "execution",
-      "section_id": "compare-changed-outputs",
-      "conditional_requires": [
-        {
-          "when": "paragraph_execution_requested",
-          "required_rules": [
-            "paragraph-workflow.all"
-          ]
-        }
-      ]
-    },
-    "execution.complete-outputs-and-failure-propagation": {
-      "resource_id": "execution",
-      "section_id": "complete-outputs-and-failure-propagation",
-      "requires": [
-        "publication.complete-generation-boundary"
-      ]
-    },
-    "execution.record-and-artifact-boundaries": {
-      "resource_id": "execution",
-      "section_id": "record-and-artifact-boundaries"
     },
     "team.all": {
       "resource_id": "team",
@@ -4449,25 +4295,21 @@
       "resource_id": "design-workflow",
       "section_id": "identify-the-requested-design-work",
       "requires": [
-        "econ-design.all",
-        "research.deepen-a-consequential-research-problem"
+        "econ-design.all"
       ]
     },
     "econ-design.for-an-empirical-specification": {
       "resource_id": "design-workflow",
       "section_id": "for-an-empirical-specification",
       "requires": [
-        "econ-design.all",
-        "research.deepen-a-consequential-research-problem"
+        "econ-design.all"
       ]
     },
     "econ-design.for-a-theoretical-model": {
       "resource_id": "design-workflow",
       "section_id": "for-a-theoretical-model",
       "requires": [
-        "econ-design.all",
-        "research.deepen-a-consequential-research-problem",
-        "research.interpret-a-consequential-result"
+        "econ-design.all"
       ]
     },
     "econ-design.for-behavioral-responses-and-group-comparisons": {
@@ -4481,8 +4323,7 @@
       "resource_id": "design-workflow",
       "section_id": "establish-feasibility",
       "requires": [
-        "econ-design.all",
-        "research.interpret-a-consequential-result"
+        "econ-design.all"
       ]
     },
     "econ-design.choose-among-research-designs": {
@@ -4678,9 +4519,7 @@
     "design-methods.model-construction": {
       "resource_id": "design-methods",
       "section_id": "model-construction",
-      "requires": [
-        "research.deepen-a-consequential-research-problem"
-      ]
+      "requires": []
     },
     "design-methods.ordered-choices-and-constructive-representations": {
       "resource_id": "design-methods",
@@ -4957,9 +4796,7 @@
     "data-results.carry-analysis-results-into-tables-figures-and-prose": {
       "resource_id": "data-results",
       "section_id": "carry-analysis-results-into-tables-figures-and-prose",
-      "requires": [
-        "research.interpret-a-consequential-result"
-      ]
+      "requires": []
     },
     "data-results.complete-outputs-and-failure-propagation": {
       "resource_id": "data-results",
@@ -5331,10 +5168,6 @@
       "resource_id": "policy-manifest",
       "section_id": "all"
     },
-    "research.investigate-source-claims": {
-      "resource_id": "research",
-      "section_id": "investigate-source-claims"
-    },
     "codex-hooks.all": {
       "resource_id": "codex-hooks",
       "section_id": "all",
@@ -5397,18 +5230,6 @@
     "argument-schema.all": {
       "resource_id": "argument-schema",
       "section_id": "all"
-    },
-    "prose.hierarchical-argument-and-paragraph-composition": {
-      "resource_id": "prose",
-      "section_id": "hierarchical-argument-and-paragraph-composition",
-      "conditional_requires": [
-        {
-          "when": "paragraph_execution_requested",
-          "required_rules": [
-            "paragraph-workflow.all"
-          ]
-        }
-      ]
     },
     "paper-workflow.execute-the-paragraph-architecture": {
       "resource_id": "paper-workflow",
@@ -6092,9 +5913,7 @@
     "project-practice.manage-the-case": {
       "resource_id": "project-practice",
       "section_id": "manage-the-case",
-      "requires": [
-        "research.select-a-feasible-action"
-      ]
+      "requires": []
     },
     "project-practice.resources-and-dates": {
       "resource_id": "project-practice",
@@ -6585,32 +6404,28 @@
       "resource_id": "data-workflow",
       "section_id": "power-and-estimator-simulation",
       "requires": [
-        "econ-data.all",
-        "research.interpret-a-consequential-result"
+        "econ-data.all"
       ]
     },
     "econ-data.specification-search-and-recovery": {
       "resource_id": "data-workflow",
       "section_id": "specification-search-and-recovery",
       "requires": [
-        "econ-data.all",
-        "research.interpret-a-consequential-result"
+        "econ-data.all"
       ]
     },
     "econ-data.finite-horizon-macro-calculation": {
       "resource_id": "data-workflow",
       "section_id": "finite-horizon-macro-calculation",
       "requires": [
-        "econ-data.all",
-        "research.interpret-a-consequential-result"
+        "econ-data.all"
       ]
     },
     "econ-data.descriptive-statistics": {
       "resource_id": "data-workflow",
       "section_id": "descriptive-statistics",
       "requires": [
-        "econ-data.all",
-        "research.interpret-a-consequential-result"
+        "econ-data.all"
       ]
     },
     "econ-design.specialized-executable-designs": {
@@ -6953,8 +6768,7 @@
       "resource_id": "data-native-calls",
       "section_id": "causal-selection-and-execution-handoff",
       "requires": [
-        "data-implementation.fit-results-and-execution-handoff",
-        "research.interpret-a-consequential-result"
+        "data-implementation.fit-results-and-execution-handoff"
       ]
     },
     "data-implementation.official-r-calls-and-inference-bindings": {
@@ -7171,8 +6985,7 @@
       "resource_id": "data-native-calls",
       "section_id": "official-project-scripts",
       "requires": [
-        "data-implementation.fit-results-and-execution-handoff",
-        "execution.select-the-operation-and-working-area"
+        "data-implementation.fit-results-and-execution-handoff"
       ]
     },
     "data-implementation.bayesian-project-implementations": {
@@ -7203,27 +7016,9 @@
         "data-implementation.official-project-scripts"
       ]
     },
-    "research.deepen-a-consequential-research-problem": {
-      "resource_id": "research",
-      "section_id": "deepen-a-consequential-research-problem",
-      "requires": [
-        "research-execution.formulation-interface"
-      ]
-    },
-    "research.interpret-a-consequential-result": {
-      "resource_id": "research",
-      "section_id": "interpret-a-consequential-result",
-      "requires": [
-        "research-execution.interpretation-interface"
-      ]
-    },
     "prose.common-output": {
       "resource_id": "prose",
       "section_id": "common-output"
-    },
-    "prose.internal-destinations": {
-      "resource_id": "prose",
-      "section_id": "internal-destinations"
     },
     "state-contract.github-issues-and-projects": {
       "resource_id": "state-contract",
@@ -7701,9 +7496,6 @@
   "examples": {},
   "reading_stages": {
     "entry": {
-      "research": [
-        "turn-the-question-into-an-operation"
-      ],
       "econ-design": [
         "purpose-and-input",
         "select-the-operation"
@@ -7793,16 +7585,6 @@
     "contract": {
       "prose": [
         "select-the-profile"
-      ],
-      "research": [
-        "deepen-a-consequential-research-problem",
-        "separate-explanations-with-a-comparison",
-        "select-a-feasible-action",
-        "source-integration-and-method-selection",
-        "operational-plans"
-      ],
-      "execution": [
-        "select-the-operation-and-working-area"
       ],
       "models-causal": [
         "causal-scope",
@@ -8042,20 +7824,9 @@
         "all"
       ],
       "prose": [
-        "internal-destinations",
         "select-the-economic-argument",
         "connect-the-explanation",
-        "revise-for-the-requested-language",
-        "hierarchical-argument-and-paragraph-composition"
-      ],
-      "research": [
-        "investigate-source-claims",
-        "resolve-dependencies-and-integrate-findings"
-      ],
-      "execution": [
-        "complete-outputs-and-failure-propagation",
-        "select-the-operation-and-working-area",
-        "compare-changed-outputs"
+        "revise-for-the-requested-language"
       ],
       "team": [
         "return-and-integration"
@@ -8358,9 +8129,6 @@
       "prose": [
         "finish-the-passage"
       ],
-      "research": [
-        "interpret-a-consequential-result"
-      ],
       "team": [
         "return-and-integration",
         "review-findings-and-independence"
@@ -8500,9 +8268,6 @@
       ]
     },
     "finalize": {
-      "execution": [
-        "record-and-artifact-boundaries"
-      ],
       "team": [
         "requested-usage-accounting"
       ],

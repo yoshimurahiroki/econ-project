@@ -5,11 +5,9 @@ description: Clarify task requirements and work approaches; create or improve re
 
 # Project work
 
-## Purpose and entry
-
-1. **Output: project target; consumer: operation selection.** Recover the original request, materials, specifications, decisions, authority and output. Select `clarify` for requested consultation, `prompt` for executable prompts, `contribute` for assigned case work or `manage` for case/team/resources. Ordinary analysis, implementation and writing use their specialists.
-2. **Output: connected assignment; consumer: specialist or project execution.** For a real case use [case connection](references/practice.md#connect-the-current-case); select `project_github_operations` for actual Issue/Project operations. The lead retains parent question/adoption and integrates specialist returns through TEAM.
-3. **Output: completed project result; consumer: user.** Apply DECIDE's action comparison and PROSE's final wording steps to the requested brief, prompt, contribution or management result.
+1. `clarify` settles requirements and work approaches, `prompt` writes executable prompts, `contribute` completes assigned case work and `manage` runs a project, its resources and handover. Ordinary analysis and writing go to their skills.
+2. Frame the project decision with steps 1 and 2 of the [economist's procedure](../../runtime/ECONOMIST.md): who decides, what is at stake, which allocation of work and resources changes the outcome.
+3. Real cases use [case connection](references/practice.md#connect-the-current-case). Results follow [WRITING](../../runtime/WRITING.md).
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

@@ -2,20 +2,12 @@
   "schema_version": 2,
   "resources": {
     "core": {
-      "deployment_path": ".agents/runtime/CORE.md",
+      "deployment_path": ".agents/runtime/ECONOMIST.md",
       "export_alias": "CORE.md"
     },
     "prose": {
-      "deployment_path": ".agents/runtime/PROSE.md",
+      "deployment_path": ".agents/runtime/WRITING.md",
       "export_alias": "PROSE.md"
-    },
-    "research": {
-      "deployment_path": ".agents/runtime/DECIDE.md",
-      "export_alias": "DECIDE.md"
-    },
-    "execution": {
-      "deployment_path": ".agents/runtime/EXECUTION.md",
-      "export_alias": "EXECUTION.md"
     },
     "team": {
       "deployment_path": ".agents/runtime/TEAM.md",

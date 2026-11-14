@@ -5,17 +5,14 @@ description: Develop an economics question or model, design identification and i
 
 # Economic design
 
-## Purpose and input
+This skill carries steps 1 to 4 of the [economist's procedure](../../runtime/ECONOMIST.md).
 
-1. **Output: design target; consumer: formulation.** Recover the requested question, model or identification strategy and supplied premises. Use literature for contribution comparisons, documented fields for measurement feasibility and econ-review for named artifact assessment.
+1. **Question.** Write the situation, the actors' objectives, choices, constraints and information, and the selected question into the worksheet (steps 1 and 2).
+2. **Mechanism.** Build the model through [model construction](references/designs.md#model-construction) and the knowledge library; write the competing mechanisms and the observation that separates them (step 3).
+3. **Design.** Choose the estimand and identifying comparison through [estimand to method](references/designs.md#choose-the-estimand-and-method) and the section for the selected family: [causal](references/causal-models.md), [market](references/market-models.md), [dynamic](references/dynamic-models.md), [macro](references/macro-models.md), [DSGE](references/dsge-models.md), [numerical](references/numerical-models.md), [agent](references/agent-models.md), [adaptive experiments](references/adaptive-research.md). Read only the selected section.
+4. **Method.** Pick the package call from the [implementation table](../econ-data/references/implementation-engines.md); with a saved selection contract run `python3 skills/econ-design/scripts/research_design.py select CONTRACT --root . --output outputs/selection.json`. Write the method and inference into the worksheet and hand the design to econ-data.
 
-## Select the operation
-
-1. **Output: adopted design procedure; consumer: derivation.** Select `design` and read the registry-selected [design workflow](references/workflow.md). Apply DECIDE's formulation steps before adopting a new question, estimand or model.
-
-## Output
-
-1. **Output: question/derivation/design; consumer: next specialist.** Bind sources and calculations to the adopted estimand, population, timing and units. Pass the determining comparison, scientific conditions and next operation with the design; route public claims through PROSE.
+The full design procedure for each kind of work is in the [design workflow](references/workflow.md).
 
 <!-- BEGIN GENERATED MODES -->
 ## Registered operations

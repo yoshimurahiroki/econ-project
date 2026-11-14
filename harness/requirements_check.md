@@ -14,4 +14,4 @@ Every `evidence_refs` entry requires a current nonempty source file. Existing ta
 
 An optional existing `traceability` array retains requirement, task, code, check and decision references so persisted user contracts remain readable. Its `check_ids` can be empty when the adopted contract selects no separate check. Requirements containing only final-message conditions remain supported.
 
-The evaluator reads the declared targets and sources and executes no development command. CORE and PROSE govern the integrated judgment of meaning and instruction adherence. Explicitly selected independent certification uses the existing state evidence interface.
+The evaluator reads the declared targets and sources and executes no development command. the economist's procedure and WRITING govern the integrated judgment of meaning and instruction adherence. Explicitly selected independent certification uses the existing state evidence interface.

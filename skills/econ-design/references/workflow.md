@@ -1,12 +1,12 @@
 # Design operations
 
-Select the applicable registered section; DECIDE owns formulation and comparison.
+Select the applicable registered section; the economist's procedure owns formulation and comparison.
 
 ## Procedure
 
 ### Identify the requested design work
 
-Select the question, derivation, empirical design or recommendation sought. A research question identifies the behavior, incentive, information constraint or equilibrium it explains and its contribution relative to close literature. Bind new research's applied formulation comparison to its existing design artifact under DECIDE. Assessment support returns its technical judgment to econ-review.
+Select the question, derivation, empirical design or recommendation sought. A research question identifies the behavior, incentive, information constraint or equilibrium it explains and its contribution relative to close literature. Bind new research's applied formulation comparison to its existing design artifact under the economist's procedure. Assessment support returns its technical judgment to econ-review.
 
 For conflicting model predictions, align choices/outcomes in a common model and vary the condition reversing the result. Narrow the contribution if definitions resolve it. A behavioral hypothesis names the driver, independent measure and comparison separating predictions. A diagnostic design derives the margin connecting the obstacle, intervention and resulting choice, including displacement or participant responses affecting total value.
 
@@ -34,13 +34,13 @@ Distinguish total/fixed from marginal costs. Derive changed choices from the act
 
 For a requested preregistration, grant or data plan, carry the question, estimand, comparison, accessible sample and inference into that artifact. Distinguish confirmatory/exploratory branches, permitted changes and access/retention authority.
 
-For end-to-end research, connect each candidate's closest literature answer, added mechanism and target to documented source fields, grain, period, keys and identifying variation. Inspect real documentation/data through existing source/data owners. The [design assessment](../scripts/research_design.py) binds original passages, contribution judgment and actual grain/missingness/variation/linkage. Execute the first feasible candidate in the adopted economic order; interpret its consequential result through DECIDE and continue to the requested artifact.
+For end-to-end research, connect each candidate's closest literature answer, added mechanism and target to documented source fields, grain, period, keys and identifying variation. Inspect real documentation/data through existing source/data owners. The [design assessment](../scripts/research_design.py) binds original passages, contribution judgment and actual grain/missingness/variation/linkage. Execute the first feasible candidate in the adopted economic order; interpret its consequential result through the economist's procedure and continue to the requested artifact.
 
 For theoretical/computational work, establish compatible conditions and a feasible derivation/solution within task resources. Preserve supplied candidate IDs, fixed scientific choices and partition/evaluation roles. Repair authorized input defects; retain actual missing fields or permissions for dependent work.
 
 ### Choose among research designs
 
-Compare feasible designs on the same requested object, identifying conditions or proposition, data/computation and delay costs. Judge precision against a decision-relevant threshold; obtain an absent threshold only if it changes selection. DECIDE owns ranking and switching conditions. Keep adoption/status in existing context and scientific reasoning in the artifact.
+Compare feasible designs on the same requested object, identifying conditions or proposition, data/computation and delay costs. Judge precision against a decision-relevant threshold; obtain an absent threshold only if it changes selection. the economist's procedure owns ranking and switching conditions. Keep adoption/status in existing context and scientific reasoning in the artifact.
 
 ## Specialized executable designs
 

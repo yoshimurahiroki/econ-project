@@ -34,7 +34,7 @@ Update producers, consumers and imports together. Remove superseded shapes, dead
 
 ## Compare changed calculations
 
-Trace the affected sample, weights, formula, inference or interface through the adopted definition, official call and saved-result consumers. Keep identification, inference, input validation and original-equation convergence inside the calculation. CORE owns the single integrated review; [reproducible execution](reproducible-workflow.md) owns requested source-data/reference reproduction.
+Trace the affected sample, weights, formula, inference or interface through the adopted definition, official call and saved-result consumers. Keep identification, inference, input validation and original-equation convergence inside the calculation. The economist's procedure owns the single integrated review; [reproducible execution](reproducible-workflow.md) owns requested source-data/reference reproduction.
 
 ## Prediction
 

@@ -38,7 +38,7 @@ For parameter vector θ and fixed covariates xᵢ, `moment_map(theta, x)` define
 
 ## Derivatives, devices and sparse systems
 
-`finite_jacobian(function, theta, step)` adapts the supplied callable to official [`scipy.differentiate.jacobian`](https://docs.scipy.org/doc/scipy-1.17.0/reference/generated/scipy.differentiate.jacobian.html), with `order=2`, the supplied `initial_step` and one stencil evaluation. It retains the existing central-difference step and output shape; the replacement and sequential-game estimators share this adapter. Choose the step and comparison tolerance from that function's scale and precision when a changed derivative requires verification under CORE.
+`finite_jacobian(function, theta, step)` adapts the supplied callable to official [`scipy.differentiate.jacobian`](https://docs.scipy.org/doc/scipy-1.17.0/reference/generated/scipy.differentiate.jacobian.html), with `order=2`, the supplied `initial_step` and one stencil evaluation. It retains the existing central-difference step and output shape; the replacement and sequential-game estimators share this adapter. Choose the step and comparison tolerance from that function's scale and precision when a changed derivative requires verification under the economist's procedure.
 
 `jax_moment_map` supplies the differentiable binary-choice moments. `jax_moment_batch(parameters, x, backend)` applies the same kernel with 64-bit arithmetic, vectorization and JIT on the selected `cpu` or `gpu` device. It returns the synchronized native array. Record the device and effective precision in the producing analysis. A requested GPU execution requires an available GPU device.
 

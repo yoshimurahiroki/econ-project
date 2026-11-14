@@ -6,7 +6,7 @@
 
 Recover the central claim, intended decision and required outcome. Prioritize defects changing that answer, invalidating its economic comparison or blocking delivery. A local review stays with the named passage/result and its determining dependencies.
 
-Editorial review applies PROSE and the selected writing procedure. Claims and derivations use their cited passages, equations and calculations. Code/pipeline review follows adopted definitions through the producer and consumers. Conduct review compares actual operations with authority; plan review applies DECIDE's action comparison and preserves user-required frequencies.
+Editorial review applies WRITING and the selected writing procedure. Claims and derivations use their cited passages, equations and calculations. Code/pipeline review follows adopted definitions through the producer and consumers. Conduct review compares actual operations with authority; plan review applies the economist's procedure's action comparison and preserves user-required frequencies.
 
 ### Locate and repair the cause
 
@@ -37,8 +37,8 @@ Separate sample/measurement/target changes from method changes. Compare subgroup
 ### Deliver the assessment
 
 1. **Finding record → repair owner.** Retain each diagnostic, consequence, source passage/calculation, finding ID and required repair internally. Preserve the adopted criteria and actual inspection result.
-2. **Public finding → user.** Convey the supported repair and its exact target, with the determining quantity or derivation. For findings-only work, this is the requested action. Apply [PROSE Common output](../../../runtime/PROSE.md#common-output) to every public finding and response, down to one-word edits, translations, labels and existing drafts.
-3. **Authorized repair → delivered result.** Revise the producer and affected Abstract, Introduction, Results and Conclusion; inspect the regenerated target. Convey the established result at the exact revised locations. Referee responses connect the substantive question to its evidence and exact revised locations. Apply the same source-first borrowing procedure and PROSE's internal routing and numerical uncertainty to every public finding and response.
+2. **Public finding → user.** Convey the supported repair and its exact target, with the determining quantity or derivation. For findings-only work, this is the requested action. Apply [WRITING](../../../runtime/WRITING.md) to every public finding and response, down to one-word edits, translations, labels and existing drafts.
+3. **Authorized repair → delivered result.** Revise the producer and affected Abstract, Introduction, Results and Conclusion; inspect the regenerated target. Convey the established result at the exact revised locations. Referee responses connect the substantive question to its evidence and exact revised locations. Apply the same source-first borrowing procedure and WRITING's internal routing and numerical uncertainty to every public finding and response.
 
 ## Evaluate specialized calculations and artifacts
 

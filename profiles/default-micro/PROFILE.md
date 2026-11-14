@@ -4,7 +4,7 @@ Profile ID: default-micro. Languages: English and Japanese.
 
 ## Principles
 
-Apply the [borrowing procedure](../../runtime/PROSE.md#common-output) to every element. Japanese output is composed from Japanese originals; English output from English originals.
+Apply the [borrowing procedure](../../runtime/WRITING.md) to every element. Japanese output is composed from Japanese originals; English output from English originals.
 
 ## Select the passage function
 
