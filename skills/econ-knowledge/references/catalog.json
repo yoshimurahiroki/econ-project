@@ -11116,8 +11116,22 @@
         "ja": "観察できない努力と誘因"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "pay for performance",
+          "bonus design",
+          "performance evaluation",
+          "moral hazard"
+        ],
+        "ja": [
+          "成果報酬",
+          "業績連動報酬",
+          "賞与",
+          "ボーナス",
+          "インセンティブ設計",
+          "人事評価",
+          "業績評価",
+          "モラルハザード"
+        ]
       },
       "broader": [
         "C-CH-06"
@@ -11139,8 +11153,17 @@
         "ja": "私的情報と選別"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "hiring",
+          "screening",
+          "self-selection"
+        ],
+        "ja": [
+          "採用",
+          "選抜",
+          "給与メニュー",
+          "スクリーニング"
+        ]
       },
       "broader": [
         "C-CH-06"
@@ -11210,8 +11233,21 @@
         "ja": "関係的契約とチーム"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "team design",
+          "team incentives",
+          "free riding",
+          "discretionary bonus",
+          "subjective evaluation"
+        ],
+        "ja": [
+          "チーム設計",
+          "チーム報酬",
+          "フリーライド",
+          "共同報酬",
+          "裁量的賞与",
+          "主観評価"
+        ]
       },
       "broader": [
         "C-CH-06"
@@ -11234,8 +11270,13 @@
         "ja": "例題：成功ボーナスと参加条件"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "success bonus"
+        ],
+        "ja": [
+          "成功報酬",
+          "ボーナス額"
+        ]
       },
       "broader": [
         "C-CH-06"
@@ -14059,8 +14100,16 @@
         "ja": "技能投資、選別と仕事"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "promotion",
+          "training",
+          "ability signaling"
+        ],
+        "ja": [
+          "昇進",
+          "能力評価",
+          "人材育成"
+        ]
       },
       "broader": [
         "C-CH-22"
@@ -19042,10 +19091,18 @@
       },
       "aliases": {
         "en": [
-          "Multitasking incentives"
+          "Multitasking incentives",
+          "KPI design",
+          "performance measures",
+          "gaming"
         ],
         "ja": [
-          "複数業務の誘因"
+          "複数業務の誘因",
+          "評価指標",
+          "KPI",
+          "数値目標",
+          "査定",
+          "評価の歪み"
         ]
       },
       "broader": [
@@ -19068,8 +19125,16 @@
         "ja": "情報取得と意思決定権"
       },
       "aliases": {
-        "en": [],
-        "ja": []
+        "en": [
+          "delegation",
+          "decision rights"
+        ],
+        "ja": [
+          "権限委譲",
+          "意思決定権",
+          "分権",
+          "裁量"
+        ]
       },
       "broader": [
         "C-CH-06"
@@ -19093,9 +19158,17 @@
       },
       "aliases": {
         "en": [
-          "Specialization and coordination"
+          "Specialization and coordination",
+          "division of labor",
+          "team composition",
+          "job assignment"
         ],
-        "ja": []
+        "ja": [
+          "分業",
+          "役割分担",
+          "チーム編成",
+          "人員配置"
+        ]
       },
       "broader": [
         "C-CH-06"

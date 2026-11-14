@@ -15,7 +15,7 @@
     },
     "core": {
       "path": "runtime/ECONOMIST.md",
-      "sha256": "a3472c384665342e9e077696576164ca369cf840716625f653dec1208b8ca408"
+      "sha256": "f7f662d7a05e7d9aed844a559741d69490381b171ff688b06564e06fd3bd2ffc"
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
@@ -283,7 +283,7 @@
     },
     "resource:hook-wrapper": {
       "path": "hooks/check.py",
-      "sha256": "0508a7bba02eba911da4d26900f732d5c7ad13dbf11b9ef5b61144d0a2abf599"
+      "sha256": "70dc29fb6f39bd68b3a8951c3aacd7c5d19015abda07de8cdf21717b1150bb48"
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",

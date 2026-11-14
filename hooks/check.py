@@ -6,15 +6,19 @@ import sys
 
 sys.dont_write_bytecode = True
 
-POINTER = ('Economics research entry: follow AGENTS.md. Substantive tasks run the economist\'s procedure '
-           '(runtime/ECONOMIST.md) and record each step in work/<topic>.md. Text follows runtime/WRITING.md: argument '
-           'from English originals, Japanese expression from Japanese exemplars (skills/econ-writing/scripts/'
-           'exemplars.py find/style), direct claims, numerical uncertainty only.')
+POINTER = ('Economics research entry: follow AGENTS.md and the economist\'s procedure (runtime/ECONOMIST.md), '
+           'including for questions on bonuses, evaluation, teams, hiring, pricing or other everyday decisions. '
+           'Every answer carries: the actors and their incentives; a small model with the condition that determines '
+           'the choice (knowledge.py search first); its prediction or comparative static; the recommended decision '
+           'with its switching condition. Without data, solve the model over parameter ranges. Text follows '
+           'runtime/WRITING.md: argument from English originals, Japanese expression from Japanese exemplars '
+           '(skills/econ-writing/scripts/exemplars.py find/style), direct claims, numerical uncertainty only.')
 REVIEW = ('Before finishing, reread the answer once against runtime/WRITING.md: section 3 (direct claims, numerical '
           'uncertainty only, no hedges, disclaimers, limitations, ornament or negation contrasts) and, for Japanese, '
-          'section 2 (connectives, endings, vocabulary and rhythm from the Japanese exemplars). Also check that the '
-          'answer follows from the worksheet: question, mechanism, comparison, estimates, decision. Revise the answer '
-          'if any sentence fails; otherwise finish without comment.')
+          'section 2 (connectives, endings, vocabulary and rhythm from the Japanese exemplars). Check that the answer '
+          'carries the economist\'s four elements: actors and incentives, a model with the condition that determines '
+          'the choice, its prediction or comparative static, and the decision with its switching condition. Add any '
+          'missing element and revise any failing sentence; otherwise finish without comment.')
 MIN_REVIEW_CHARS = 200
 
 

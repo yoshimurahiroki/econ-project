@@ -1,6 +1,19 @@
 # The economist's procedure
 
-Every substantive task runs through these seven steps in order. Each step writes its result into the task worksheet `work/<topic>.md` (kept out of git) in the user's language, as short noun phrases, equations and numbers. The next step starts from what the worksheet says. A step that is already settled by the user or by an earlier worksheet is reused as written; the task starts at the first step whose content is missing or changed. Short questions run the same steps mentally and write only what the answer needs.
+Every substantive task runs through these seven steps in order. Each step writes its result into the task worksheet `work/<topic>.md` (kept out of git) in the user's language, as short noun phrases, equations and numbers. The next step starts from what the worksheet says. A step that is already settled by the user or by an earlier worksheet is reused as written; the task starts at the first step whose content is missing or changed. Short questions and questions without data run the same steps. Every answer carries at least four elements: the actors and their incentives, a small model with the condition that determines the choice, the prediction or comparative static it implies, and the recommended decision with the condition under which it switches.
+
+Any question about choices under scarcity, incentives or information is an economic problem, whatever its wording: bonuses, evaluation, team design, hiring, pricing, scheduling, negotiation, organization or a personal decision. Frame it with the matching model before answering:
+
+| Question | Model | Knowledge units |
+| --- | --- | --- |
+| Bonus size and structure | moral hazard, incentive and participation constraints, informativeness of the measure | CONTRACT-01, CONTRACT-06 |
+| Performance evaluation, KPIs, appraisal | multitask incentives and distorted measures | CONTRACT-07 |
+| Team pay and team composition | team production, free riding, complementarity, relational contracts | CONTRACT-05, CONTRACT-09 |
+| Delegation and decision rights | information acquisition and authority | CONTRACT-08 |
+| Hiring, pay menus, promotion | screening, self-selection, signaling | CONTRACT-02, LABOR-02 |
+| Wages and retention | firm labor supply and markdowns, search | LABOR-03, LABOR-04 |
+
+Search the knowledge library with the user's own words (`knowledge.py search --query "人事評価"`) when the table does not cover the question.
 
 The steps reproduce how an economist works: name the decision, turn it into a question about choices and incentives, write the model and its predictions, choose the comparison that separates them, run an established method, read the result against the predictions, and only then write.
 
@@ -55,6 +68,10 @@ Run the selected method through the existing scripts and runners. Write code onl
 
 Every number that later appears in text, tables or slides comes from a saved result file. Check convergence, sample counts and the identifying diagnostics the method requires, and record failures in the worksheet.
 
+## 4–5 without data
+
+When no data are supplied, the model is solved instead of estimated. Write the parameters the decision depends on, give each a range from the user's setting, the knowledge library or published estimates, and solve the model in closed form or with a short calculation (`skills/econ-data/scripts/research_numerics.py` holds solved examples such as `multitask_incentives`). Report the optimal choice over the range, the comparative statics and the parameter value at which the decision switches. Name the one quantity whose measurement would change the decision most and how to measure it.
+
 ## 6. Interpretation
 
 Compare the saved estimate with the predictions of step 3, in the same population, units and period. Write which mechanism the result supports and which it rejects, and why: sign, group difference, timing or magnitude.
@@ -72,6 +89,10 @@ Follow [WRITING](WRITING.md) for argument structure, Japanese expression and for
 ## Sources and literature
 
 When a step needs facts about institutions, prior findings or methods, read the original passage, table or rule, with its population, period and version. A search snippet or an unread citation is a lead. Record the source and the passage location in the worksheet. Literature work runs through [econ-literature](../skills/econ-literature/SKILL.md).
+
+## Selecting an action
+
+Compare candidate actions under the same objective, constraints, population, period and units. Remove infeasible and dominated options, then rank the rest by their contribution to the objective; equal outcomes favor the option using fewer resources. If the same option wins across the admissible range of an unknown, choose it; when the ranking changes inside that range, state the switching condition. Treat collecting information as an action: compare the current best choice with the choices after each attainable signal, net of its cost and delay, and collect only when that raises the objective. Before: "Consider A and B." After: "Choose A for cost c below 3 and B for c between 3 and 8."
 
 ## Choosing what to do next
 
