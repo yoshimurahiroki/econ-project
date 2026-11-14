@@ -269,7 +269,7 @@ Use when the question needs behavior under conditions not observed: demand and c
 ## Inference and interpretation
 
 1. Standard errors, clustering or randomization inference from the design's sampling and assignment variation; effective units, dependence and small-sample corrections stated.
-2. Few clusters: wild cluster bootstrap (`fwildclusterboot::boottest`, `pyfixest` `wildboottest`) on the saved model with the exact null; CR2 tests with Satterthwaite degrees of freedom (`clubSandwich::coef_test`).
+2. Few treated clusters or unequal cluster sizes (no fixed cluster count makes clustered errors valid): report treated and control cluster counts, and the wild cluster bootstrap (`fwildclusterboot::boottest`, `pyfixest` `wildboottest`) on the saved model with the exact null; CR2 tests with Satterthwaite degrees of freedom (`clubSandwich::coef_test`).
 3. Pre-specified outcome families get multiple-testing adjustments; subgroup differences are tested directly.
 4. Sensitivity: choose departures that represent the suspected confounder, find the departure that overturns the conclusion, and express it in outcome units over the evaluated period.
 

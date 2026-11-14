@@ -92,8 +92,9 @@ def flags(d, r):
     clusters = d[r['cluster']].nunique()
     treated_clusters = d.loc[d.treat == 1, r['cluster']].nunique()
     out = []
-    if clusters < 40 or treated_clusters < 10:
-        out.append(f'{clusters} clusters ({treated_clusters} treated): use the wild cluster bootstrap')
+    largest = d[r['cluster']].value_counts(normalize=True).iloc[0]
+    out.append(f'{clusters} clusters ({treated_clusters} treated; largest holds {largest:.1%} of rows): '
+               'with few treated clusters or unequal sizes, report the wild cluster bootstrap and the CR2 test next to the clustered SE')
     if d[r['cohort']].replace(0, np.nan).nunique() > 1:
         out.append('staggered adoption: report the heterogeneity-robust rungs as the estimate; TWFE is rung 1 only')
     return clusters, out

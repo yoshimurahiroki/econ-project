@@ -103,7 +103,7 @@
     },
     "resource:data-empirical": {
       "path": "skills/econ-data/references/empirical.md",
-      "sha256": "5e6588f2571ef35f5bed9505b648b05e3e90773df4c149e4565c9a051d851d5d"
+      "sha256": "0b961f24ff0aed62feec2aa5fe0d0a588c2ea6a55e87b4f01edf1e5b857252e3"
     },
     "resource:data-engine-selection": {
       "path": "skills/econ-data/references/implementation-engines.md",
@@ -111,7 +111,7 @@
     },
     "resource:data-estimate-template": {
       "path": "skills/econ-data/templates/estimate_ladder.py",
-      "sha256": "1242100c052c3cedc7e565bf2d7dbba10baf8e3bf18766364207118f56d9ba5d"
+      "sha256": "2e5bff3b5f4e3f0324403a4b0b52652ef08e6334b574cdc8b775a5cb4a633909"
     },
     "resource:data-implementation": {
       "path": "skills/econ-data/references/implementation.md",
@@ -151,7 +151,7 @@
     },
     "resource:design-methods": {
       "path": "skills/econ-design/references/designs.md",
-      "sha256": "765d61f6b99994c691bcc9cee1bafabc5fca1a73217e2381dcd9afab9e77a0d1"
+      "sha256": "004b36f6fcdf8598c550b16053811b7bb6ec6a3e914bfa162c48cedaf74a72d0"
     },
     "resource:design-modeling": {
       "path": "skills/econ-design/references/modeling.md",
@@ -383,7 +383,7 @@
     },
     "resource:models-causal-rdiv-cards": {
       "path": "skills/econ-design/references/causal-models/rd-iv-experiments.md",
-      "sha256": "e320db104723c8296944212bb9b5a0615da58560fcde6291cfc4a619656c6e1a"
+      "sha256": "2ea4f46f9c7b4bdc6d235498d2091468732c65420e6c255606a093fb29e8547d"
     },
     "resource:models-dsge": {
       "path": "skills/econ-design/references/dsge-models.md",

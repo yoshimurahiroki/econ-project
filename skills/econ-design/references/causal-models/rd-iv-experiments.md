@@ -34,7 +34,7 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Identification.** Conditional potential-outcome functions are continuous at the cutoff. No precise manipulation of the score around c. Predetermined covariates are continuous at c.
 
-**Run.** `method="rdd_sharp"` → `rdrobust` `rdrobust.rdrobust` (2.1.1). The saved estimate, standard error and interval are the robust bias-corrected `Robust` row; `diagnostics` keep the conventional estimate, h and b on each side, and the effective counts.
+**Run.** `method="rdd_sharp"` → `rdrobust` `rdrobust.rdrobust` (2.1.1). Requires `inference={"type":"rdrobust"}` and `regressors` equal to `[running]`. The saved estimate, standard error and interval are the robust bias-corrected `Robust` row; `diagnostics` keep the conventional estimate, h and b on each side, and the effective counts.
 
 **Options.** Required: `bandwidth`, `cutoff`, `running`. Optional: None.
 
@@ -58,7 +58,7 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Identification.** Conditional potential-outcome functions are continuous at the cutoff. Treatment probability changes discontinuously at the cutoff. Monotonicity: crossing the threshold moves no unit out of treatment. Exclusion: the threshold affects the outcome only through treatment.
 
-**Run.** `method="rdd_fuzzy"` → `rdrobust` `rdrobust.rdrobust` (2.1.1). `treatment` must be coded 0/1. The saved estimate is the `Robust` row, as in `rdd_sharp`.
+**Run.** `method="rdd_fuzzy"` → `rdrobust` `rdrobust.rdrobust` (2.1.1). Requires `inference={"type":"rdrobust"}` and `regressors` equal to `[running]`; `treatment` must be coded 0/1. The saved estimate is the `Robust` row, as in `rdd_sharp`.
 
 **Options.** Required: `bandwidth`, `cutoff`, `running`, `treatment`. Optional: None.
 
@@ -82,7 +82,7 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Identification.** Treatment assignment behaves as complete randomization inside the chosen window. Inside the window the outcome does not depend on the score itself, or the dependence is modelled.
 
-**Run.** `method="rdd_localrand"` → `scipy.stats.permutation_test`, `statsmodels.OLS.fit` (scipy 1.17.0; statsmodels 0.14.6). The window is [cutoff − bandwidth, cutoff + bandwidth]; units outside it are saved as excluded. The saved coefficient is the HC1 regression difference in means; the permutation p value is in `diagnostics.randomization_test`.
+**Run.** `method="rdd_localrand"` → `scipy.stats.permutation_test`, `statsmodels.OLS.fit` (scipy 1.17.0; statsmodels 0.14.6). Requires `inference={"type":"randomization"}` and `regressors` equal to `[running]`. The window is [cutoff − bandwidth, cutoff + bandwidth]; units outside it are saved as excluded. The saved coefficient is the HC1 regression difference in means; the permutation p value is in `diagnostics.randomization_test`.
 
 **Options.** Required: `bandwidth`, `cutoff`, `permutations`, `running`, `seed`. Optional: None.
 
@@ -162,7 +162,7 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Returns.** `power.rbc`: Power of robust bias-corrected RD inference; `power.conv`: Power of conventional RD inference; `se.rbc`: Robust bias-corrected standard-error input or estimate.
 
-**Checks before reporting.** Set `tau` to the decision threshold of step E1 and report power at that value. Power below 0.8 at the decision threshold means the design cannot settle the decision; report it before estimating.
+**Checks before reporting.** Set `tau` to the decision threshold of step E1 and report power at that value. Power below the conventional 0.8 at the decision threshold means the design is unlikely to settle the decision; report it before estimating.
 
 **Pitfalls.** Power varies with the specified alternative effect and bandwidth configuration.
 
@@ -180,7 +180,7 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Identification.** Instruments satisfy moment orthogonality with the structural regression disturbance. Relevance: the excluded instruments move the endogenous regressors conditional on the exogenous regressors.
 
-**Run.** `method="iv_gmm"` → `linearmodels` `linearmodels.iv.IVGMM.fit` (7.0). Clustering comes from `inference.cluster`; the saved diagnostics hold the J statistic, its degrees of freedom and the iteration count.
+**Run.** `method="iv_gmm"` → `linearmodels` `linearmodels.iv.IVGMM.fit` (7.0). Clustering comes from `inference={"type":"cluster","cluster":"<column>"}`; otherwise use `{"type":"robust"}`. The saved diagnostics hold the J statistic, its degrees of freedom and the iteration count.
 
 **Options.** Required: None. Optional: None.
 
@@ -191,6 +191,8 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 **Checks before reporting.** Overidentifying restrictions: Report J statistic and reference degrees of freedom when overidentified. First-stage strength for each endogenous regressor (effective F); with weak-identification risk, report the `iv_ar_robust` set next to the estimate. J test with its degrees of freedom; a rejection says the instruments disagree, not which one is invalid. Compare with the 2SLS estimate; a large gap with many instruments points to finite-sample bias.
 
 **Pitfalls.** J test is uninformative when the model is exactly identified.
+
+**Version notes.** 7.0 → 7.1: Kernel-weighted GMM covariance bandwidth defaults changed from nobs-2 to data-driven selection. 7.0 → 7.1: IVGMM now raises ValueError when moment covariance is singular, including insufficient cluster counts.
 
 **Sources.** https://bashtage.github.io/linearmodels/iv/iv/linearmodels.iv.model.IVGMM.html, https://bashtage.github.io/linearmodels/iv/iv/linearmodels.iv.model.IVGMM.fit.html, https://bashtage.github.io/linearmodels/iv/iv/linearmodels.iv.results.IVGMMResults.html.
 
@@ -236,11 +238,11 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Returns.** `Fstat`: Anderson–Rubin test statistic; `ci`: Computed Anderson–Rubin confidence set; `ci.print`: Formatted confidence-set representation; `bounded`: Whether AR confidence set is bounded.
 
-**Checks before reporting.** Robust Anderson–Rubin inference: Report confidence-set topology, including infinite endpoints. Report the effective first-stage F from the saved stages. For a 5% t-test on the 2SLS estimate to be valid the first-stage F must exceed 104.7; below it, report the AR set as the interval.
+**Checks before reporting.** Robust Anderson–Rubin inference: Report confidence-set topology, including infinite endpoints. Report the effective first-stage F from the saved stages. With weak-identification risk the AR set is the reported interval; a first-stage F of 10 is a heuristic, not a validity condition. With one instrument, a 5% t-test on the 2SLS estimate needs a first-stage F above 104.7 (Lee, McCrary, Moreira and Porter 2022).
 
 **Pitfalls.** AR confidence sets may be unbounded under weak identification.
 
-**Sources.** https://www.rdocumentation.org/packages/ivDiag/versions/1.0.8/topics/AR_test, https://doi.org/10.1257/aer.20211063, https://doi.org/10.1257/jep.20251464.
+**Sources.** https://www.rdocumentation.org/packages/ivDiag/versions/1.0.8/topics/AR_test, https://doi.org/10.1257/aer.20211063, https://doi.org/10.1146/annurev-economics-080218-025643.
 
 ## Experiments
 
@@ -254,7 +256,7 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Identification.** Independent treatment assignment follows the declared complete-randomization allocation.
 
-**Run.** `method="rct"` → `scipy.stats.permutation_test`, `statsmodels.OLS.fit` (scipy 1.17.0; statsmodels 0.14.6). `regressors` must be exactly `[treatment]`, coded 0/1. The saved coefficient is the HC1 regression difference in means; the permutation p value for the sharp null is in `diagnostics.randomization_test`.
+**Run.** `method="rct"` → `scipy.stats.permutation_test`, `statsmodels.OLS.fit` (scipy 1.17.0; statsmodels 0.14.6). Requires `inference={"type":"randomization"}`. `regressors` must be exactly `[treatment]`, coded 0/1. The saved coefficient is the HC1 regression difference in means; the permutation p value for the sharp null is in `diagnostics.randomization_test`.
 
 **Options.** Required: `permutations`, `seed`, `treatment`. Optional: None.
 
@@ -282,7 +284,7 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Options.** Required: `experimental_design`, `operation`, `seed`, `treatment`. Optional: `weights`, `estimator`, `contrasts`, `ri`, `simulation`, `receipt`, `confidence_level`, `definitions`, `assignment_result`.
 
-**Native arguments that change the result.** `ra_type` (Choice of random assignment mechanism; default NULL; `experimental_design.ra_type`); `prob` (Marginal treatment assignment probability where applicable; default NULL; `experimental_design`); `blocks` (Blocking variable used to randomize within groups; default NULL; `experimental_design`); `clusters` (Cluster variable randomized jointly; default NULL; `experimental_design`); `weights` (Unit importance weights for robust regression or estimator; default NULL; top-level `weights`); `se_type` (Variance-estimator selection in design-based difference in means; default default; `estimator`).
+**Native arguments that change the result.** `ra_type` (Choice of random assignment mechanism; default NULL; `experimental_design.ra_type`); `prob` (Marginal treatment assignment probability where applicable; default NULL; `experimental_design.prob` for balanced designs; complete designs use `experimental_design.prob_each`); `blocks` (Blocking variable used to randomize within groups; default NULL; `experimental_design.blocks`); `clusters` (Cluster variable randomized jointly; default NULL; `experimental_design.clusters`); `weights` (Unit importance weights for robust regression or estimator; default NULL; top-level `weights` (strictly positive population weights)); `se_type` (Variance-estimator selection in design-based difference in means; default default; set by the runner from `estimator`: youngs for Horvitz–Thompson, default for difference in means, HC2 for lm_robust (CR2 with clusters)).
 
 **Returns.** `Z`: Assigned experimental arm from randomizr::conduct_ra; `estimate`: Design-based treatment-effect point estimate; `std.error`: Estimated uncertainty of treatment contrast.
 
@@ -304,7 +306,7 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Identification.** Shock-based identification follows from quasi-random sector shocks. Share-based identification requires exogeneity of location-sector exposure shares.
 
-**Run.** `method="shift_share"` → `linearmodels` `linearmodels.iv.IV2SLS.fit` (7.0). Shares must be nonnegative and sum to one in every row; each share column pairs with one shock value. Clustering comes from `inference.cluster`.
+**Run.** `method="shift_share"` → `linearmodels` `linearmodels.iv.IV2SLS.fit` (7.0). Shares must be nonnegative and sum to one in every row; each share column pairs with one shock value. Clustering comes from `inference={"type":"cluster","cluster":"<column>"}`; otherwise use `{"type":"robust"}`.
 
 **Options.** Required: `shares`, `shocks`. Optional: None.
 
@@ -328,11 +330,11 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Identification.** For shock-based identification, sector shocks are exogenous conditional on exposure and control variables. Shares basis: baseline shares are exogenous to the outcome changes, conditional on controls. Shocks basis: many shocks, none with a large exposure weight.
 
-**Run.** `method="shift_share_inference"` → `statspai.bartik.shift_share.bartik`, `statspai.bartik.adao_correction.ssaggregate`, `linearmodels.iv.IV2SLS.fit` (StatsPAI git:ddb3b45f2d3fc649ea794aa15f8989bb10f8e543; linearmodels 7.0). Requires one endogenous column, no input instruments, and `definitions` with `baseline_period`, `share_population` and `identifying_variation`. The shocks basis also requires `definitions.shock_dependence="independent"`. Shocks basis saves the AKM estimate, the AKM0 set and its type (bounded, union, real line or empty) and the shock-level BHJ estimate; shares basis saves location-clustered (with `cluster`) or HC1 2SLS.
+**Run.** `method="shift_share_inference"` → `statspai.bartik.shift_share.bartik`, `statspai.bartik.adao_correction.ssaggregate`, `linearmodels.iv.IV2SLS.fit` (StatsPAI git:ddb3b45f2d3fc649ea794aa15f8989bb10f8e543; linearmodels 7.0). Requires `inference={"type":"official"}`, optionally with `confidence_level` or `alpha`. Requires one endogenous column, no input instruments, and `definitions` with `baseline_period`, `share_population` and `identifying_variation`. The shocks basis also requires `definitions.shock_dependence="independent"`. Shocks basis saves the AKM estimate, the AKM0 set and its type (bounded, union, real line or empty) and the shock-level BHJ estimate; shares basis saves location-clustered (with `cluster`) or HC1 2SLS.
 
 **Options.** Required: `definitions`, `identification_basis`, `shares`, `shocks`. Optional: `cluster`, `definitions`, `weights`.
 
-**Native arguments that change the result.** `shares` (Sector exposure share matrix; default none; top-level `shares`); `shocks` (Sector-level shock vector aligned with shares; default None; top-level `shocks`); `controls` (Included exogenous controls; default None; the specification's `regressors`); `cluster` (Grouping variable for shock-level inference; default None; top-level `cluster`); `weights` (Location observation weights; default None; top-level `weights`); `alpha` (Confidence-set test size; default 0.05; from the specification's confidence level); `leave_one_out` (Whether Bartik shock exposure uses leave-one-out adjustment; default None; fixed by the runner at False).
+**Native arguments that change the result.** `shares` (Sector exposure share matrix; default none; top-level `shares`); `shocks` (Sector-level shock vector aligned with shares; default None; top-level `shocks`); `controls` (Included exogenous controls; default None; the specification's `regressors`); `cluster` (Grouping variable for shock-level inference; default None; top-level `cluster`); `weights` (Location observation weights; default None; top-level `weights`); `alpha` (Confidence-set test size; default 0.05; from `inference.confidence_level` or `inference.alpha`); `leave_one_out` (Whether Bartik shock exposure uses leave-one-out adjustment; default None; fixed by the runner at False).
 
 **Returns.** `params`: Shift-share IV point estimate; `std_errors`: AKM-adjusted standard errors when shock-based inference selected; `akm0_ci_type`: Topology of null-imposed AKM0 confidence set; `shock_data`: Sector-level aggregated estimating data; `rotemberg_weights`: Rotemberg weight decomposition from Bartik implementation.
 
@@ -362,11 +364,11 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Returns.** `p_val`: Wild-bootstrap p-value for test restriction; `conf_int`: Inverted wild-bootstrap confidence interval.
 
-**Checks before reporting.** Number of distinct bootstrap sign patterns: For few clusters, compare B with available Rademacher assignments. Report the number of clusters and of treated clusters. With Rademacher weights there are only 2^G sign patterns; with about 12 clusters or fewer, use Webb weights (`type="webb"`). Keep the null imposed (`impose_null=TRUE`). Report the bootstrap p value and interval next to the clustered standard error, and the `club_sandwich` test.
+**Checks before reporting.** Number of distinct bootstrap sign patterns: For few clusters, compare B with available Rademacher assignments. Report the number of clusters and of treated clusters, and the largest cluster's share of observations. With Rademacher weights there are only 2^G sign patterns; when 2^G is small against `B`, use Webb weights (`type="webb"`). Keep the null imposed (`impose_null=TRUE`). Report the bootstrap p value and interval next to the clustered standard error, and the `club_sandwich` test.
 
 **Pitfalls.** Small numbers of clusters limit possible Rademacher resampling patterns.
 
-**Sources.** https://s3alfisc.github.io/fwildclusterboot/reference/boottest.fixest.html, https://doi.org/10.1177/1536867X19830877.
+**Sources.** https://s3alfisc.github.io/fwildclusterboot/reference/boottest.fixest.html, https://doi.org/10.1016/j.jeconom.2022.04.001, https://doi.org/10.1177/1536867X19830877.
 
 ### `club_sandwich`
 
@@ -386,7 +388,7 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Returns.** `beta`: Regression coefficient estimate; `SE`: Cluster-robust standard error; `df_Satt`: Satterthwaite approximate degrees of freedom; `p_Satt`: Satterthwaite-reference p-value.
 
-**Checks before reporting.** Small-sample degrees of freedom: Report parameter-specific Satterthwaite degrees of freedom. Report the Satterthwaite degrees of freedom for each tested coefficient. Degrees of freedom below about 4 mean the test is unreliable even with CR2; say so with the result.
+**Checks before reporting.** Small-sample degrees of freedom: Report parameter-specific Satterthwaite degrees of freedom. Report the Satterthwaite degrees of freedom for each tested coefficient; small degrees of freedom mean the test is imprecise even with CR2, and the result is reported with them.
 
 **Pitfalls.** Residual degrees of freedom can differ substantially from the parameter-specific small-sample cluster approximation.
 
@@ -402,7 +404,7 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Identification.** Covariance is accumulated over spatial dependence within the selected distance cutoff.
 
-**Run.** `method="spatial_conley"` → `statspai.regression.ols.regress`, `statspai.inference.conley.conley` (git:ddb3b45f2d3fc649ea794aa15f8989bb10f8e543). Coordinates are in degrees and `dist_cutoff` in kilometres. A panel needs `time`, `panel_unit` and `lag_cutoff` together.
+**Run.** `method="spatial_conley"` → `statspai.regression.ols.regress`, `statspai.inference.conley.conley` (git:ddb3b45f2d3fc649ea794aa15f8989bb10f8e543). Requires `inference={"type":"official"}`, optionally with `confidence_level` or `alpha`. Coordinates are in degrees and `dist_cutoff` in kilometres. A panel needs `time`, `panel_unit` and `lag_cutoff` together.
 
 **Options.** Required: `dist_cutoff`, `distance`, `kernel`, `lat`, `lon`. Optional: `definitions`, `lag_cutoff`, `lag_cutoff_cross`, `panel_unit`, `time`, `time_kernel`.
 
@@ -426,11 +428,11 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Identification.** Bootstrap resampling reflects dependence among the tested statistics.
 
-**Run.** `method="romano_wolf"` → `StatsPAI` `statspai.mht.romano_wolf.romano_wolf` (git:ddb3b45f2d3fc649ea794aa15f8989bb10f8e543). Numeric `regressors` are common controls; `family` must be declared with `status="prespecified"` for confirmatory claims.
+**Run.** `method="romano_wolf"` → `StatsPAI` `statspai.mht.romano_wolf.romano_wolf` (git:ddb3b45f2d3fc649ea794aa15f8989bb10f8e543). Requires `inference={"type":"official"}`, optionally with `confidence_level` or `alpha`. Numeric `regressors` are common controls; `family` must be declared with `status="prespecified"` for confirmatory claims.
 
 **Options.** Required: `family`, `n_boot`, `outcomes`, `seed`, `treatment`. Optional: `cluster`, `definitions`.
 
-**Native arguments that change the result.** `n_boot` (Number of joint bootstrap draws; default 1000; top-level `n_boot`); `cluster` (Optional resampling-cluster column; default None; top-level `cluster`); `seed` (Random seed for bootstrap draws; default None; top-level `seed`); `alpha` (Nominal family-wise significance level; default 0.05; from the specification's confidence level).
+**Native arguments that change the result.** `n_boot` (Number of joint bootstrap draws; default 1000; top-level `n_boot`); `cluster` (Optional resampling-cluster column; default None; top-level `cluster`); `seed` (Random seed for bootstrap draws; default None; top-level `seed`); `alpha` (Nominal family-wise significance level; default 0.05; from `inference.confidence_level` or `inference.alpha`).
 
 **Returns.** `p_rw`: Romano–Wolf adjusted p-values; `p_value`: Unadjusted p-values; `p_holm`: Holm stepdown adjusted p-values; `coef`: Outcome-specific treatment coefficients; `se`: Outcome-specific coefficient standard errors.
 
@@ -450,11 +452,11 @@ Inference rules that apply to every card: cluster at the level of assignment; wi
 
 **Identification.** Each supplied marginal p-value is valid for its individual null hypothesis.
 
-**Run.** `method="holm"` → `statsmodels` `statsmodels.stats.multitest.multipletests` (0.14.6). `data` is a saved result JSON; `p_values` maps hypothesis names to JSON key paths.
+**Run.** `method="holm"` → `statsmodels` `statsmodels.stats.multitest.multipletests` (0.14.6). Requires `inference={"type":"official"}`, optionally with `confidence_level` or `alpha`. `data` is a saved result JSON; `p_values` maps hypothesis names to JSON key paths.
 
 **Options.** Required: `family`, `p_values`. Optional: `definitions`.
 
-**Native arguments that change the result.** `alpha` (Family-wise test significance level; default 0.05; from the specification's confidence level); `method` (Correction method; default hs; fixed by the runner at holm; the package default hs is Holm–Šidák); `is_sorted` (Input p-values already sorted ascending; default False; fixed by the runner at False).
+**Native arguments that change the result.** `alpha` (Family-wise test significance level; default 0.05; from `inference.confidence_level` or `inference.alpha`); `method` (Correction method; default hs; fixed by the runner at holm; the package default hs is Holm–Šidák); `is_sorted` (Input p-values already sorted ascending; default False; fixed by the runner at False).
 
 **Returns.** `reject`: Corrected multiple-test rejection decisions; `pvals_corrected`: Holm-adjusted p-values; `alphacBonf`: Bonferroni-corrected family significance threshold.
 
