@@ -248,3 +248,4 @@ Generated from the resource and placement registries. Use this catalog only for 
 - models-causal-rdiv-cards: skills/econ-design/references/causal-models/rd-iv-experiments.md
 - models-causal-ml-cards: skills/econ-design/references/causal-models/ml-heterogeneity.md
 - models-causal-outcomes-cards: skills/econ-design/references/causal-models/outcomes-bounds-sensitivity.md
+- models-causal-regression-cards: skills/econ-design/references/causal-models/regression-engines.md

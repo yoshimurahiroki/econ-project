@@ -51,7 +51,7 @@ Inference rules, applied to every row:
 3. Several outcomes testing one hypothesis: name the primary outcome in advance and report family-wise adjusted p values for the family (`romano_wolf`; `holm` for p values from separate saved results).
 4. Leads in an event study are evidence on parallel trends; when they are non-zero, report the sensitivity bounds (HonestDiD) next to the estimate.
 
-Method cards with options, checks and pitfalls: [DiD and synthetic control](../../econ-design/references/causal-models/did.md), [RD, IV, experiments and inference](../../econ-design/references/causal-models/rd-iv-experiments.md), [ML, heterogeneity and policy](../../econ-design/references/causal-models/ml-heterogeneity.md), [outcomes, bounds and sensitivity](../../econ-design/references/causal-models/outcomes-bounds-sensitivity.md). The full list of package calls is the [implementation table](implementation-engines.md).
+Method cards with options, checks and pitfalls: [DiD and synthetic control](../../econ-design/references/causal-models/did.md), [RD, IV, experiments and inference](../../econ-design/references/causal-models/rd-iv-experiments.md), [ML, heterogeneity and policy](../../econ-design/references/causal-models/ml-heterogeneity.md), [outcomes, bounds and sensitivity](../../econ-design/references/causal-models/outcomes-bounds-sensitivity.md), [regression foundations and engines](../../econ-design/references/causal-models/regression-engines.md). The full list of package calls is the [implementation table](implementation-engines.md).
 
 ## Step E5. Specification ladder
 

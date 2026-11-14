@@ -1718,6 +1718,11 @@
       "source_path": "skills/econ-design/references/causal-models/outcomes-bounds-sensitivity.md",
       "resource_kind": "rule",
       "content_version": "0.99.0"
+    },
+    "models-causal-regression-cards": {
+      "source_path": "skills/econ-design/references/causal-models/regression-engines.md",
+      "resource_kind": "rule",
+      "content_version": "0.99.0"
     }
   },
   "sections": {
@@ -3966,6 +3971,11 @@
       }
     },
     "models-causal-outcomes-cards": {
+      "all": {
+        "whole_resource": true
+      }
+    },
+    "models-causal-regression-cards": {
       "all": {
         "whole_resource": true
       }
@@ -7244,6 +7254,10 @@
     "models-causal-outcomes-cards.all": {
       "resource_id": "models-causal-outcomes-cards",
       "section_id": "all"
+    },
+    "models-causal-regression-cards.all": {
+      "resource_id": "models-causal-regression-cards",
+      "section_id": "all"
     }
   },
   "examples": {},
@@ -7539,6 +7553,9 @@
         "all"
       ],
       "models-causal-outcomes-cards": [
+        "all"
+      ],
+      "models-causal-regression-cards": [
         "all"
       ]
     },
@@ -7869,6 +7886,9 @@
         "all"
       ],
       "models-causal-outcomes-cards": [
+        "all"
+      ],
+      "models-causal-regression-cards": [
         "all"
       ]
     },

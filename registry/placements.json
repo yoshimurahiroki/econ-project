@@ -984,6 +984,10 @@
     "models-causal-outcomes-cards": {
       "deployment_path": ".agents/skills/econ-design/references/causal-models/outcomes-bounds-sensitivity.md",
       "export_alias": "MODELS_CAUSAL_OUTCOMES.md"
+    },
+    "models-causal-regression-cards": {
+      "deployment_path": ".agents/skills/econ-design/references/causal-models/regression-engines.md",
+      "export_alias": "MODELS_CAUSAL_REGRESSION.md"
     }
   },
   "source": {
