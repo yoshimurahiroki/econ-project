@@ -15,7 +15,7 @@
     },
     "core": {
       "path": "runtime/ECONOMIST.md",
-      "sha256": "b5b8bc18a814eeb1838fc804348587ef021ba0e5bde6c7d40c65af6a7ff3e40c"
+      "sha256": "e07067dea8b022581d77a0484b225f92d4ac76a898086067473126ee5c55e36b"
     },
     "dictionary": {
       "path": "quality/prose_rules.json",
@@ -39,7 +39,7 @@
     },
     "prose": {
       "path": "runtime/WRITING.md",
-      "sha256": "4e94b1383c7905f1e766916f5f52fdbab95cc17225a664bf3190f97a4aab8833"
+      "sha256": "f71ffb236dd1c370ca6d6da5b40f101d6bad9df57d1eec33ab924780490cdfb2"
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
@@ -63,7 +63,7 @@
     },
     "resource:academic-ja": {
       "path": "profiles/academic-ja/PROFILE.md",
-      "sha256": "0f55616614d0764faef7805fd045aaa1cdb8bc84e849174d94e30c516308005c"
+      "sha256": "1c0c3fb61895fe3543f00f69eb2c0e96576343cdd38d69559f30584797d4ea68"
     },
     "resource:adaptive-research": {
       "path": "skills/econ-design/references/adaptive-research.md",
@@ -227,7 +227,7 @@
     },
     "resource:hook-wrapper": {
       "path": "hooks/check.py",
-      "sha256": "bb3f7e3d3801b4c71e5b9b69b7beef99ed0bee5f0b8aea2bf308f278eaee28b3"
+      "sha256": "5a6fbe07171d5354bb2af402dc5cef4f8e3362a5b57ec76f9cb057d69fb8234d"
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
@@ -267,11 +267,11 @@
     },
     "resource:latex-paper-quarto": {
       "path": "tex/paper/quarto_template.qmd",
-      "sha256": "3080e73afb29480a030a315fdfc3cf5a433defe53bb53c68ef92271a5ff473fa"
+      "sha256": "3062f1e058ebccd670504dabe80d43b32e1087c23dc05b176f8a7b70d6b81306"
     },
     "resource:latex-paper-template": {
       "path": "tex/paper/ecta_template.tex",
-      "sha256": "16e26ac186bbd40efbd3e24093a610aff480be88a10217d4369758ef33f19cee"
+      "sha256": "b4a3fc8ba56f9e3b09ba573ca169ee3e5b4b1228f3538c646c976182459d67e6"
     },
     "resource:latex-quarto-project": {
       "path": "_quarto.yml",
@@ -475,7 +475,7 @@
     },
     "resource:paper-workflow": {
       "path": "skills/econ-writing/references/paper-workflow.md",
-      "sha256": "bd2475f161bd76662746ed0dd3201d3838572f9953eaa8a762825d06434d7023"
+      "sha256": "cbc2986ec1471fa70830078d56a218c04681fad713c3b11145bb8dcad380ea6b"
     },
     "resource:paragraph-schema": {
       "path": "harness/paragraph.schema.json",
@@ -759,7 +759,7 @@
     },
     "resource:top-five-en": {
       "path": "profiles/top-five-en/PROFILE.md",
-      "sha256": "50035e57a374eccc350de232ecccebddb13779da43647c4e647633d75f37084f"
+      "sha256": "edc3937b1725bc6fc44c592049d59fcc158b478210a77eef671e9d383128ca7b"
     },
     "resource:worksheet": {
       "path": "runtime/WORKSHEET.md",
@@ -767,7 +767,7 @@
     },
     "resource:writing-artifacts": {
       "path": "skills/econ-writing/references/artifact-writing.md",
-      "sha256": "89990e87ca42976cc1970faae44ab92b629a673a79c2b8230683b175b41187c8"
+      "sha256": "6432c9abc13e35286fea9cdf948a753a9d6598814b4c068841cc95ac650bd829"
     },
     "resource:writing-compose": {
       "path": "skills/econ-writing/references/compose.md",
@@ -791,7 +791,7 @@
     },
     "resource:writing-proposals": {
       "path": "skills/econ-writing/references/proposals.md",
-      "sha256": "e7a73e1fbe1dd0e9ef378e6d5e95d19c36eccef127342450f403b62255c8f4ef"
+      "sha256": "fda61c7562ee7950bc256b8fa3eadb85bad1069777c71ab1ca716908fe6ff1da"
     },
     "resource:writing-revise": {
       "path": "skills/econ-writing/references/revise.md",

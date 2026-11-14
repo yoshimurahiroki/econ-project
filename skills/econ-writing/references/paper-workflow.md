@@ -69,7 +69,6 @@ Write each section from its plan lines and the checklist below; then read it aga
 3. Why the answer is credible: the variation, measurement or model discipline.
 4. Findings in sequence, each with its mechanism and magnitude.
 5. Contribution against the closest studies on the axis that matters (object, variation, population, margin, restriction, implication), each citation tied to the finding its passage establishes.
-6. Roadmap only when the paper's order is unusual.
 
 **Literature review or survey.** Organize studies by the question and the object compared, explain how their findings relate through their populations and designs, and end with the synthesis the paper uses.
 
@@ -92,7 +91,7 @@ Write each section from its plan lines and the checklist below; then read it aga
 
 **Structural estimation and counterfactuals.** Why the question needs the model's choice and interaction structure; each parameter with the variation, moment or likelihood that informs it; estimated, calibrated and fixed quantities with sources; fit in the data's units. The chain: primitives θ → equilibrium F(y; θ, z) = 0 → observation equation → estimate θ̂ → counterfactual y(θ̂, z′) → welfare from the same θ̂ and each scenario's equilibrium. Elasticities, markups and costs through the demand derivatives, ownership and conduct.
 
-**Results.** One subsection per question the results answer. Each result: the estimate, its interval, the comparison that produces it, and a benchmark (baseline mean, denominator, population, period). Transformations stated with their formula: percent of baseline, percentage points, 100[exp(βΔx) − 1]. Tables explained by the contrast in their columns; figures by the objects compared, axes, reference and pattern. Mechanisms only with the intermediate evidence or derivation that supports them; subgroup claims through direct contrasts.
+**Results.** One subsection per question the results answer. Each result: the estimate, its interval, the comparison that produces it, and a benchmark (baseline mean, denominator, population, period). Transformations (percent of baseline, percentage points) are reported as numbers; their formulas stay in the worksheet. Each exhibit is read in one sentence: its contrast or pattern and the magnitude. Mechanisms only with the intermediate evidence or derivation that supports them; subgroup claims through direct contrasts.
 
 **Discussion and conclusion.** The implication for theory, behavior, allocation or policy, with costs, feasible actions and population; then the answer and its meaning. No repeated coefficients, second literature review or research plans.
 

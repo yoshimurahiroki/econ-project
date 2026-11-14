@@ -30,11 +30,11 @@ POINTER = ('Economics research entry: follow AGENTS.md. Every request, without e
            'skills/econ-data/references/empirical.md. Text follows runtime/WRITING.md.')
 REVIEW = ('Before finishing, reread the answer once against runtime/WRITING.md: section 3 (direct claims, numerical '
           'uncertainty only, no hedges, disclaimers, limitations, ornament or negation contrasts, and no '
-          'assumptions, conditions, threats, diagnostics or justifications of the design) and, for Japanese, '
+          'assumptions, conditions, threats, diagnostics or justifications of the design, and no definitions or '
+          'explanations of standard concepts, methods, estimators or software) and, for Japanese, '
           'section 2 (connectives, endings, vocabulary and rhythm from the Japanese exemplars). Check that the answer '
-          'carries the economist\'s four elements from the worksheet: actors and incentives, a model with the '
-          'condition that determines the choice, its prediction or comparative static, and the decision with its '
-          'switching condition. Add any missing element and revise any failing sentence; otherwise finish without '
+          'contains the requested deliverable and nothing the worksheet holds for internal use (the procedure, '
+          'assumptions, checks, objections). Delete anything else and revise any failing sentence; otherwise finish without '
           'comment.')
 REFEREE = ('Before the writing check, review the answer once as a referee would, using '
            'skills/econ-review/references/review.md (R2 and the R3 checks that apply): is the question consequential '

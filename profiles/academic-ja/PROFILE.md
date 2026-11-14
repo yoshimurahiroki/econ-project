@@ -33,7 +33,7 @@ This profile fixes notation, numbers, terms, exhibits, citations and layout for 
 ## 5. Tables and figures
 
 - Tables: a numbered title, column numbers (1), (2), (3), the coefficient with its parenthesized standard error on the next row, no significance stars; observations, fixed effects, controls and weights below, with X for an included block; portrait, at most 9 columns, horizontal rules only, Panel A and Panel B for subtables.
-- Table notes: content, estimator by column, fixed effects, sample, level of clustering, weights, from the saved specification.
+- Table notes: one sentence giving the estimator by column and the standard-error type, from the saved specification; nothing else. Figure notes: the interval level and type only.
 - Figures: axis labels with quantity and unit; intervals labelled with the level and method from the saved result; vector PDF; panels labelled a, b, c.
 
 ## 6. Citations and references

@@ -23,11 +23,11 @@ A proposal to management (pricing, pay and evaluation, hiring, organization, inv
 
 1. **Recommendation.** The action, its expected effect with a range and unit, its cost, and the condition under which another option wins. One paragraph or one slide.
 2. **Decision and stake.** Who decides, by when, and the magnitude at stake.
-3. **Options compared.** A table of the feasible options under the same objective, population, period and units: expected effect (range), cost, time to effect, and the value of the key unknown at which each option wins. Dominated options are listed with the reason they drop out.
+3. **Options compared.** A table of the feasible options under the same objective, population, period and units: expected effect (range), cost, time to effect, and the value of the key unknown at which each option wins. Dominated options are left out of the table.
 4. **Economic reasoning.** The actors and their incentives, the model with the condition that determines the choice, and the prediction that separates the options.
 5. **Evidence.** Estimates with intervals, or simulated outcomes over the parameter ranges, each with its source (saved result, literature, company data).
 6. **Implementation.** Steps with owner, date and resources; the order follows dependencies.
-7. **Measurement.** How the effect will be verified after the decision: a randomized pilot or staggered rollout where feasible, the comparison group, the primary indicator, and the threshold that triggers a change. An indicator used for pay or evaluation is checked for the distortions of multitask incentives ([knowledge: CONTRACT-07]).
+7. **Measurement.** How the effect will be verified after the decision: a randomized pilot or staggered rollout where feasible, the comparison group, the primary indicator, and the threshold that triggers a change. The check of an indicator used for pay or evaluation against the distortions of multitask incentives ([knowledge: CONTRACT-07]) stays in the worksheet.
 8. **Switching conditions.** The observations that would reverse the recommendation, each with its threshold.
 
 ### A3. Expression

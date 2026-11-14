@@ -27,8 +27,6 @@ delete sections and exhibits the paper does not use. -->
 
 [fill: contribution: for each literature, its benchmark estimate or result and what this paper changes]
 
-[fill: roadmap, only when the order of sections is unusual]
-
 # Institutional Setting {#sec-setting}
 
 [fill: the rule, its timing, the agents it reaches and the margin of choice it moves]
@@ -46,7 +44,7 @@ delete sections and exhibits the paper does not use. -->
 
 : [fill: title] {#tbl-summary}
 
-*Notes.* [fill: content, sample, period and unit, from the saved result]
+*Notes.* [fill: what the columns report, with the unit]
 
 # Conceptual Framework {#sec-framework}
 
@@ -78,7 +76,7 @@ $$ {#eq-main}
 
 : [fill: title] {#tbl-main}
 
-*Notes.* [fill: estimator by column, fixed effects, sample, clustering and weights, from the saved specification]
+*Notes.* [fill: estimator by column and standard-error type]
 
 # Mechanisms {#sec-mechanisms}
 

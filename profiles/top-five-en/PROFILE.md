@@ -31,14 +31,14 @@ This profile fixes notation, numbers, exhibits, citations and layout for English
 - Coefficient and its parenthesized standard error on consecutive rows; no significance stars.
 - Below the coefficients: observations, fixed effects, controls, sample, weights; X marks an included block.
 - Portrait, at most 9 columns including row headings, horizontal rules only, numbers aligned at the decimal point, Panel A and Panel B for subtables, full column headings.
-- Notes: content, estimator by column, fixed effects, sample, level of clustering, weights, each taken from the saved specification; entry notes keyed a, b, c and the source note last.
+- Notes: one sentence giving the estimator by column and the standard-error type, from the saved specification; nothing else.
 
 ## 5. Figures
 
 - A numbered noun-phrase title, axis labels with quantity and unit, the legend in the order of the series.
 - Intervals as whiskers or a band, labelled with the level and method from the saved result.
 - Colour-blind-safe colours paired with distinct markers; vector PDF; panels labelled a, b, c.
-- Notes: content, sample, specification, interval construction.
+- Notes: the interval level and type, from the saved result; nothing else.
 
 ## 6. Citations and references
 

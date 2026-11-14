@@ -16,7 +16,7 @@ Talks not yet in the library come from the user's Drive, authors' homepages, NBE
 Slide <n> (<minutes>):  noun-phrase title → one claim → exhibit or equation (saved result ID) → worksheet item
 ```
 
-The default sequence follows the worksheet: question and stake, answer, mechanism with competing predictions, setting and data, identifying comparison, main result, magnitude and decision, mechanism evidence, conclusion; appendix slides for derivations, extra estimates and definitions. A talk exemplar of the same type takes precedence over this default. Allocate minutes to the slides that carry the answer; quantities are defined before they are used.
+The default sequence follows the worksheet: question and stake, answer, mechanism with competing predictions, setting and data, identifying comparison, main result, magnitude and decision, mechanism evidence, conclusion; appendix slides for derivations and extra estimates. A talk exemplar of the same type takes precedence over this default. Allocate minutes to the slides that carry the answer; quantities are defined before they are used.
 
 ## S2. Compose slides
 

@@ -11,7 +11,7 @@ python3 skills/econ-writing/scripts/exemplars.py add ~/papers ~/lectures
 python3 skills/econ-writing/scripts/exemplars.py list
 ```
 
-The library is a local SQLite file (`$ERS_EXEMPLARS`, or the user data directory). Texts and passages stay on the user's machine and never enter a commit. If no library exists, ask the user once to register their files. Until they are registered, structure follows the [paper procedure](../skills/econ-writing/references/paper-workflow.md) or the [slide procedure](../skills/econ-writing/references/artifact-writing.md), form follows the profile, and the answer states that no exemplars were used.
+The library is a local SQLite file (`$ERS_EXEMPLARS`, or the user data directory). Texts and passages stay on the user's machine and never enter a commit. If no library exists, ask the user once to register their files. Until they are registered, structure follows the [paper procedure](../skills/econ-writing/references/paper-workflow.md) or the [slide procedure](../skills/econ-writing/references/artifact-writing.md), form follows the profile, and the report to the user, outside the deliverable, states that no exemplars were used.
 
 ## 1. Borrow the argument from English originals
 
@@ -39,7 +39,7 @@ Use `--kind slide` for slides. `style` lists the openings and connectives, the s
 2. **Endings** are taken from the `style` list (である, となる, と呼ぶ, ている and the like). Consecutive sentences vary their endings as the passages do.
 3. **Rhythm** follows the quartiles: most sentences fall between the first and third quartile, with short sentences mixed in at the observed share.
 4. **Vocabulary** follows the passages: their technical terms, verbs and the way they introduce symbols (ここで，λは…を表す). A term the passages lack takes its standard Japanese textbook form.
-5. **Explanation order** follows the passages: a statement, then its reason or condition, then the consequence (このような場合は…となる). Each paragraph moves in the order of the English argument from step 1.
+5. **Explanation order** follows the passages: a statement, then its consequence. Each paragraph moves in the order of the English argument from step 1.
 
 After drafting, compare every sentence with the passages: each has a counterpart for its opening, its ending and its length. Rewrite sentences without one. Papers and notes use 「，．」; slides use 「、」 and full sentences or noun phrases as the slide exemplars do.
 
@@ -47,11 +47,11 @@ After drafting, compare every sentence with the passages: each has a counterpart
 
 These apply to every language and format, including tables, labels and captions.
 
-1. **Direct claims.** State definitions, model primitives, mechanisms, estimates with population, period and units, decisions and actions in direct sentences.
+1. **Direct claims, no textbook material.** State the work's own model, mechanisms, estimates and decisions in direct sentences. Define only objects specific to the work: its variables, samples, parameters and model. Standard concepts, methods, estimators, software and notation appear without definition or explanation.
 2. **Numerical uncertainty only.** Uncertainty appears as standard errors, confidence intervals or p values with their levels and units. Significance stars are replaced by these numbers.
 3. **No assumptions or conditions in the text.** The text states the design, the variation it uses, the estimates and the decision. It states no assumptions, identifying or regularity conditions, threats, diagnostics, sample restrictions, caveats or justifications of the design; the user adds any they want. These stay in the worksheet and the result metadata.
 4. **No defensive or ornamental language.** Hedges, disclaimers, reservations, concessions, limitations, ornament, exaggeration and abstract value judgments are removed, in any language. So are negation contrasts ("not A but B", "A rather than B", "A and B must be distinguished"): state A, or B, directly.
-5. **Exact quantities.** Name each quantity with its population and estimand ("the average effect on compliers"). Every number comes from a saved result.
+5. **Exact quantities.** Name each quantity with its population and estimand ("the average effect on compliers") at its first appearance in a section; later mentions use that name. Every number comes from a saved result.
 
 ## 4. Form
 
