@@ -1430,11 +1430,12 @@ def gallery_presentation(presentation, markdown=False):
              '.econ-table thead{border-bottom:1px solid #65717e;}.econ-table tfoot{border-top:1px solid #65717e;}'
              '.econ-table .panel th{font-weight:600;padding-top:14px;border-top:1px solid #aab2ba;}'
              '.econ-table .se td,.econ-table .ci td,.econ-table .p td{padding-top:0;color:#46505c;}'
-             '.econ-table .coefficient td{padding-bottom:2px;}.econ-table.meeting{font-size:28pt;}</style>')
+             '.econ-table .coefficient td{padding-bottom:2px;}.econ-table.meeting,.econ-prose.meeting{font-size:28pt;}'
+             'html[lang|="ja"] .econ-table.meeting,html[lang|="ja"] .econ-prose.meeting{font-size:32pt;}</style>')
     font = presentation.get('font_size')
     font_style = ' style="font-size:' + str(font) + 'pt"' if type(font) in (int, float) else ''
-    prose_style = font_style or (' style="font-size:28pt"' if presentation.get('preset') == 'meeting' else '')
-    prose = ''.join('<p' + prose_style + '>' + html.escape(text) + '</p>' for text in presentation.get('public_text', []))
+    prose_class = ' class="econ-prose ' + presentation.get('preset', 'paper') + '"'
+    prose = ''.join('<p' + prose_class + font_style + '>' + html.escape(text) + '</p>' for text in presentation.get('public_text', []))
     return style + prose + '<table class="econ-table ' + presentation.get('preset', 'paper') + '"' + font_style + '><thead>' + headers + '</thead><tbody>' + ''.join(rows) + '</tbody><tfoot>' + footer + '</tfoot></table>'
 
 
@@ -2132,7 +2133,8 @@ def latex_adapter(source, kind):
         source=replace_once(source,'\\documentclass[unicode, t, 12pt, aspectratio=169, unknownkeysallowed]{beamer}', '\\documentclass[unicode, t, 12pt, unknownkeysallowed$if(babel-lang)$,$babel-lang$$endif$,aspectratio=$if(aspectratio)$$aspectratio$$else$169$endif$]{beamer}')
         source=replace_once(source,'\\usetheme[numbering=fraction]{metropolis}', '$if(theme)$\\usetheme{$theme$}$else$\\usetheme[numbering=fraction]{metropolis}$endif$')
         source=replace_once(source,'\\usepackage{amsmath}\n\\begin{document}', '\\usepackage{amsmath}\n'+common+'\\AtBeginEnvironment{longtable}{\\normalsize\\setlength{\\tabcolsep}{8pt}\\renewcommand{\\arraystretch}{1.25}}\n\\begin{document}')
-        regions={'TITLE':'$if(title)$\\title{$title$}$endif$\n$if(subtitle)$\\subtitle{$subtitle$}$endif$\n\\author{$for(author)$$author$$sep$ \\and $endfor$}\n$if(institute)$\\institute{$institute$}$endif$\n\\date{$if(date)$$date$$else$\\today$endif$}',
+        regions={'LANGUAGE':'\\newif\\ifersjapanese\n$if(japanese)$\\ersjapanesetrue$endif$',
+                 'TITLE':'$if(title)$\\title{$title$}$endif$\n$if(subtitle)$\\subtitle{$subtitle$}$endif$\n\\author{$for(author)$$author$$sep$ \\and $endfor$}\n$if(institute)$\\institute{$institute$}$endif$\n\\date{$if(date)$$date$$else$\\today$endif$}',
                  'BODY':'$body$',
                  'BIBLIOGRAPHY':'$if(bibliography)$\\begin{frame}{References}\n    \\normalsize\n    \\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}\n    % Bibliography style is set to ecta-fullname by the renderer.\n\n    \\nocite{*}\n\\end{frame}$endif$'}
         for name,content in regions.items(): source=replace_region(source,name,content)

@@ -73,6 +73,10 @@ format:
         .reveal .column img { max-height: 430px; }
         .reveal .columns { gap: 1.2em; }
         .reveal .slides section .fragment { opacity: 1; }
+        html[lang|="ja"] .reveal { --r-main-font-size: 32pt; }
+        html[lang|="ja"] .reveal h2 { font-size: 36pt; }
+        html[lang|="ja"] .reveal h1 { font-size: 44pt; }
+        html[lang|="ja"] .reveal .exhibit-note, html[lang|="ja"] .reveal table, html[lang|="ja"] .reveal .econ-table.meeting { font-size: 32pt; }
         </style>
   beamer:
     latex-auto-install: false

@@ -112,6 +112,8 @@ Use i for an observational unit, t for time, j for a group or alternative, β fo
 
 Use Author (Year) when the cited work is the grammatical subject and (Author Year) for supporting attribution. Write both names for 2 authors and the first surname plus et al. for 3 or more. Order grouped citations by year, then surname, separated by semicolons. Alphabetize the bibliography. Article entries contain author → year → quoted title → italic journal → volume (issue) → pages → DOI. Book entries contain author → year → italic title → edition → publisher. Working-paper entries contain author → year → quoted title → series and identifier → institution → version date → URL.
 
+Set tables in portrait orientation with at most 9 columns including row headings. Use horizontal rules and blank space only, with no shading. Spell out column headings in full. Divide a table into Panel A, Panel B. Place a zero before the decimal point (0.357). Report standard errors in parentheses and use no significance asterisks. Key notes on specific entries with lowercase letters (a, b, c) and place the source note after the other notes. Supply figures as vector PDF and label panels a, b, c. Designate appendices A, B, C and number their equations, theorems and propositions (A1), (A2).
+
 ## 10. Paper layout
 
 Set papers in the Econometrica template of tex/paper (econsocart, LuaLaTeX). Place a table title above the table and a figure title below the figure, each exhibit after the paragraph that first cites it. Center page numbers at the foot.
@@ -120,7 +122,7 @@ Set papers in the Econometrica template of tex/paper (econsocart, LuaLaTeX). Pla
 
 Use 13 main slides for 20 minutes, plus 6 backup slides. Allocate time in minutes as follows: title 0.5; motivation 1.5; question and study 1; result preview 1; institution 1.5; data 1.5; model 2; identifying variation and estimation 2; main result 2.5; heterogeneity 1.5; mechanism 1.5; counterfactual and welfare 2; conclusion 1.5.
 
-Use a 16:9 canvas of 960 × 540pt, body text at 28pt, headings at 32pt, and the title at 40pt. Set side margins to 54pt, the top margin to 36pt, and the bottom margin to 30pt. Use the metropolis theme and Waseda colors of tex/slides. Put the page number at the lower right.
+Use a 16:9 canvas of 960 × 540pt, body text at 28pt, headings at 32pt, and the title at 40pt; Japanese decks use 32pt, 36pt and 44pt. Set side margins to 54pt, the top margin to 36pt, and the bottom margin to 30pt. Use the metropolis theme and Waseda colors of tex/slides. Put the page number at the lower right.
 
 Give each slide one main proposition and up to 2 supporting statements. Use a noun-phrase heading of up to 8 words and 52 characters. Keep body text within 6 lines, 11 words per line, and 55 words per slide. Use up to 3 top-level bullets and 2 levels of hierarchy. Use noun phrases for labels and finite clauses for findings, with one grammatical form within a list. Bullets end at their final word. Use “item: content” for parallel measurement or specification entries.
 

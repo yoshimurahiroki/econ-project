@@ -47,7 +47,7 @@
     },
     "prose": {
       "path": "runtime/PROSE.md",
-      "sha256": "64cdf19caa5d19f68f5a2a37c601ec9b57ba55bb012af891ab9f4afe3987bc3a"
+      "sha256": "43cfc3c23f5bad28ac9b9b914836dc0f7fda011d9e4e32c1c498e480ed18c468"
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
@@ -71,7 +71,7 @@
     },
     "resource:academic-ja": {
       "path": "profiles/academic-ja/PROFILE.md",
-      "sha256": "dbe329387a99c496bbb36a5f4cd5f2751ff47a9c58800b3d62828e0d6c3a8500"
+      "sha256": "08d8ed6f8fa4f64e59f8684ac7aba22575c79866f564d663ef2396adb53f6539"
     },
     "resource:adaptive-research": {
       "path": "skills/econ-design/references/adaptive-research.md",
@@ -343,7 +343,7 @@
     },
     "resource:latex-slides-pandoc": {
       "path": "tex/slides/pandoc_template.latex",
-      "sha256": "f895276e65da0ea9791a60dfb32ebb533b6d4c6f092b106c8374957c9a514192"
+      "sha256": "d8c40d57151c77417136810116780b6a5ce8c07168157ad6b12fe9f955c70b1e"
     },
     "resource:latex-slides-quarto": {
       "path": "tex/slides/quarto_template.qmd",
@@ -351,7 +351,7 @@
     },
     "resource:latex-slides-template": {
       "path": "tex/slides/main.tex",
-      "sha256": "83f5658c3ee64b2fc941a87b0905e65b8283dc12bb91ed5645768d52d9788e18"
+      "sha256": "ce41d2da962dc2520b676a0585848caa427ae7a302eabff083cf4bc11d17e598"
     },
     "resource:literature-methods": {
       "path": "skills/econ-literature/references/literature-methods.md",
@@ -363,11 +363,11 @@
     },
     "resource:meeting-materials": {
       "path": "harness/meetings.md",
-      "sha256": "f3aae37a3f5203ff17bc4e936afbae13f55fe6b68ced53338075bc8fdc3348f8"
+      "sha256": "8a06d9c7753924e6f64675e00ea79d68e1aca850f649cd2ea02afda4f7d24c3e"
     },
     "resource:meeting-quarto-template": {
       "path": "tex/slides/meeting_template.qmd",
-      "sha256": "70155a3d07fab5106f41701c3922aa75d41dddc8a0aee04756fd22ddcf418982"
+      "sha256": "5f074b824fabf717075dde0c668c580a7efda7d42cad0fc96cd3e5c7c92a0344"
     },
     "resource:meeting-templates": {
       "path": "tex/slides/meeting_templates.json",
@@ -635,7 +635,7 @@
     },
     "resource:research-artifacts": {
       "path": "harness/research_artifacts.py",
-      "sha256": "2a74bcb183f43e05e5d88a2bf172d0fdec33be87cabdbfb8cb06be37ab503b55"
+      "sha256": "ffe35f41a69e79d41a51f78c4be47a674167e128c277e1864295f0647192720c"
     },
     "resource:research-causal": {
       "path": "skills/econ-data/scripts/research_causal.py",
@@ -731,7 +731,7 @@
     },
     "resource:research-meetings": {
       "path": "harness/research_meetings.py",
-      "sha256": "4132b81efacfb5c9e73b47a6cb55f8d916c855fffec3cf654af18e60a2cf89b9"
+      "sha256": "9bb951537fa83adab35400a9ae312fd421e84c8849ae0900da9cb62287df3a5b"
     },
     "resource:research-numerics": {
       "path": "skills/econ-data/scripts/research_numerics.py",
@@ -799,11 +799,11 @@
     },
     "resource:top-five-en": {
       "path": "profiles/top-five-en/PROFILE.md",
-      "sha256": "1086d9ca84c988043d2de031ec16210fcdc1f7595ea02eb30a4bb89cee4e8a9d"
+      "sha256": "6def7233a14c0b5f06d994e03530984ddda0f7552c2ff29b431a60c5a8072b0c"
     },
     "resource:writing-artifacts": {
       "path": "skills/econ-writing/references/artifact-writing.md",
-      "sha256": "bdb17e20efdecef7c122c3cad4b58f85ea5aeed5d6cbe6c51970a882fda4a0a9"
+      "sha256": "2155a747a17dab84df099f86346bbbe7527eae25554460be9f74c8c2f05c5429"
     },
     "resource:writing-compose": {
       "path": "skills/econ-writing/references/compose.md",

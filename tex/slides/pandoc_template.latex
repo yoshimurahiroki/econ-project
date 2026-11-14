@@ -22,18 +22,29 @@ $if(theme)$\usetheme{$theme$}$else$\usetheme[numbering=fraction]{metropolis}$end
 \setbeamercolor{frametitle}{bg=Waseda}
 \geometry{paperwidth=960bp,paperheight=540bp}
 \setbeamersize{text margin left=54bp,text margin right=54bp}
-\newcommand{\ersbodyfontsize}{28}
+\newif\ifersjapanese
+$if(japanese)$\ersjapanesetrue$endif$
+\ifersjapanese
+  \newcommand{\ersbodyfontsize}{32}\newcommand{\ersbodyleading}{40}
+  \newcommand{\ersframetitlefont}{\fontsize{36}{44}\selectfont}
+  \newcommand{\erstitlefont}{\fontsize{44}{54}\selectfont}
+  \DeclareMathSizes{32}{32}{22}{16}
+\else
+  \newcommand{\ersbodyfontsize}{28}\newcommand{\ersbodyleading}{35}
+  \newcommand{\ersframetitlefont}{\fontsize{32}{40}\selectfont}
+  \newcommand{\erstitlefont}{\fontsize{40}{48}\selectfont}
+  \DeclareMathSizes{28}{28}{20}{14}
+\fi
 \makeatletter
-\renewcommand\normalsize{\@setfontsize\normalsize{\ersbodyfontsize}{35}}
+\renewcommand\normalsize{\@setfontsize\normalsize{\ersbodyfontsize}{\ersbodyleading}}
 \makeatother
-\DeclareMathSizes{28}{28}{20}{14}
 \setbeamerfont{normal text}{size=\normalsize}
 \setbeamerfont{itemize/enumerate body}{size=\normalsize}
 \setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
 \setbeamerfont{itemize/enumerate subsubbody}{size=\normalsize}
-\setbeamerfont{title}{size=\fontsize{40}{48}\selectfont}
-\setbeamerfont{subtitle}{size=\fontsize{28}{35}\selectfont}
-\setbeamerfont{frametitle}{size=\fontsize{32}{40}\selectfont,series=\bfseries}
+\setbeamerfont{title}{size=\erstitlefont}
+\setbeamerfont{subtitle}{size=\normalsize}
+\setbeamerfont{frametitle}{size=\ersframetitlefont,series=\bfseries}
 \setbeamerfont{author}{size=\normalsize}
 \setbeamerfont{institute}{size=\normalsize}
 \setbeamerfont{date}{size=\normalsize}

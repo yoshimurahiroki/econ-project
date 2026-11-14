@@ -4,7 +4,7 @@ Profile family: academic-ja. Language: Japanese.
 
 ## Use
 
-Japanese papers, explanations and slides are composed as Japanese from Japanese originals. Every sentence, heading, sentence ending, term, punctuation mark, table and slide layout is borrowed from the corresponding passage of a real Japanese economics paper, lecture deck or research deck in the user's connected document library and adjusted only for the study's own facts, names, numbers, units and citations. An English draft is never translated into Japanese.
+Japanese output serves as native-language working drafts, notes, explanations, meeting materials and intermediate research products that a reader takes in with low cognitive load. Its form, layout and manners follow the Top Five conventions shared with the English profile; journal-specific submission rules are handled separately. Its sentences are composed as Japanese from Japanese originals: every sentence, heading, sentence ending, term and punctuation mark is borrowed from the corresponding passage of a real Japanese economics paper, lecture deck or research deck in the user's connected document library and adjusted only for the study's own facts, names, numbers, units and citations. An English draft is never translated into Japanese.
 
 1. Select the Japanese original closest to the study in genre (journal article, policy paper, lecture deck, research deck), field and design, then the passage that performs the same function as the passage being written.
 2. Read the passage in the original PDF with its surrounding pages.
@@ -135,6 +135,8 @@ p値は小数3桁とし，0.001未満は p < 0.001 とする．保存値から�
 
 雑誌論文の一覧項目は著者，年，論題，誌名，巻，号，頁，DOIの順とする．書籍は著者，年，書名，出版社，ワーキングペーパーは著者，年，論題，シリーズ，番号，機関，URLの順とする．
 
+表は縦長に組み，見出し列を含めて9列以内とする．罫線は横線だけとし，網掛けは使わない．列見出しは略語を使わずに書く．表の区分は Panel A，Panel B で示す．小数は小数点の前に0を置く（0.357）．推定結果に有意性のアスタリスクは付けず，標準誤差を括弧で示す．特定のセルに付ける注は a，b，c で示し，出所の注は他の注の後に置く．図はベクター形式（PDF）で作り，パネルは a，b，c で区別する．付録は A，B，C とし，付録内の式・定理は (A1)，(A2) と番号を付ける．
+
 ## 10. 論文の版面
 
 論文の版面は tex/paper の Econometrica テンプレート（econsocart，LuaLaTeX，和文は原ノ味フォント）に従う．図表は初回参照の段落の直後に置き，表題・図題，表示内容，説明の順序をそろえる．ページ番号は下中央に置く．
@@ -147,13 +149,13 @@ p値は小数3桁とし，0.001未満は p < 0.001 とする．保存値から�
 
 見出しは体言，20字までとする．一枚には中心命題1行と箇条書き，または図表1点と解釈1行を置く．体言止めと常体は同じ並列内でそろえる．
 
-本文の箇条書きは最大2階層，主項目3個，本文6行，1行30字とする．「項目: 内容」はデータ，変数，手法，作業担当など並列の属性一覧へ用いる．
+本文の箇条書きは最大2階層，主項目3個，本文6行，1行24字とする．「項目: 内容」はデータ，変数，手法，作業担当など並列の属性一覧へ用いる．
 
 図表スライドでは見出しと余白を除いた本文領域を分母とし，図を上部70%，解釈を下部20%，間隔を10%に配分する．単位・母集団は図の近傍へ置く．横並びは二つの比較対象を示す画面へ用い，左右の軸と単位をそろえる．
 
 数式スライドは式→記号の定義→推定対象または計算結果の順に配置する．
 
-判型は16:9，本文28pt，見出し32pt，表題40ptとする．余白は左右6%・上6%・下5%，配色は tex/slides の metropolis テーマと Waseda 色に従う．本文・図表ラベルを同じ28ptで組む．ページ番号は右下に置く．
+判型は16:9，本文32pt，見出し36pt，表題44ptとする．日本語は1字当たりの情報量が英語より多いため，英語スライド（本文28pt）より大きく組む．余白は左右6%・上6%・下5%，配色は tex/slides の metropolis テーマと Waseda 色に従う．本文・図表ラベルを同じ28ptで組む．ページ番号は右下に置く．
 
 ## 12. 追加ジャンル
 
