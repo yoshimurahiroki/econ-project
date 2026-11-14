@@ -39,7 +39,7 @@
     },
     "prose": {
       "path": "runtime/WRITING.md",
-      "sha256": "3d95be4e4ebbfa6b214057c8e682305033e33a8bdb1d77d6d89d413cba8a36c7"
+      "sha256": "4e94b1383c7905f1e766916f5f52fdbab95cc17225a664bf3190f97a4aab8833"
     },
     "prose_guide": {
       "path": "quality/prose_rules.md",
@@ -227,7 +227,7 @@
     },
     "resource:hook-wrapper": {
       "path": "hooks/check.py",
-      "sha256": "d5cbd4e2205d7a0608e98fbc80c56a63dec3ec83e0c741436b3c8c7d32940f62"
+      "sha256": "bb3f7e3d3801b4c71e5b9b69b7beef99ed0bee5f0b8aea2bf308f278eaee28b3"
     },
     "resource:integration": {
       "path": "docs/ai/integration.md",
@@ -267,11 +267,11 @@
     },
     "resource:latex-paper-quarto": {
       "path": "tex/paper/quarto_template.qmd",
-      "sha256": "aedbaf894076ff5ab858ad5e7f9d7d856d292364896718ffecf24c35709634e6"
+      "sha256": "3080e73afb29480a030a315fdfc3cf5a433defe53bb53c68ef92271a5ff473fa"
     },
     "resource:latex-paper-template": {
       "path": "tex/paper/ecta_template.tex",
-      "sha256": "108c86eccf75eead6e485f8557a7e1a4a67525b95adf75ad480a75196ff12d58"
+      "sha256": "16e26ac186bbd40efbd3e24093a610aff480be88a10217d4369758ef33f19cee"
     },
     "resource:latex-quarto-project": {
       "path": "_quarto.yml",
@@ -283,11 +283,11 @@
     },
     "resource:latex-slides-quarto": {
       "path": "tex/slides/quarto_template.qmd",
-      "sha256": "2a5adec014e2e955b96dfdcecb81e68191763623ba138338f972ed1f975ee76d"
+      "sha256": "532e34f2b310c4cadec16af38c960576ce71ab5d1cde40719af95b287ba84a6e"
     },
     "resource:latex-slides-template": {
       "path": "tex/slides/main.tex",
-      "sha256": "863765b1c877fc60b201720885354a2234183f595e277519ca0bb2bd2d866cd5"
+      "sha256": "32ba5b42a4c47c250aa07ed3a8905c555731337d40876eb2ac38b68befd87318"
     },
     "resource:literature-methods": {
       "path": "skills/econ-literature/references/literature-methods.md",
@@ -475,7 +475,7 @@
     },
     "resource:paper-workflow": {
       "path": "skills/econ-writing/references/paper-workflow.md",
-      "sha256": "363ef6b483f05b8556f7178985b520379199bb601dc13465dc4232dc5db1d663"
+      "sha256": "bd2475f161bd76662746ed0dd3201d3838572f9953eaa8a762825d06434d7023"
     },
     "resource:paragraph-schema": {
       "path": "harness/paragraph.schema.json",
@@ -739,7 +739,7 @@
     },
     "resource:review-procedure": {
       "path": "skills/econ-review/references/review.md",
-      "sha256": "daab5b8328257b3a56e892e4a881a7e8e8e640bf4497b99b33243b3fa91f7b16"
+      "sha256": "bb5a7ec3b1c56213fab82a440ecdb6a053ade13ed5803ec11e2c7f5b7a2b6fc0"
     },
     "resource:search-priority": {
       "path": "skills/econ-literature/references/search-priority.md",
@@ -779,7 +779,7 @@
     },
     "resource:writing-explain": {
       "path": "skills/econ-writing/references/explain.md",
-      "sha256": "3b62120a0a92a3706de7b059044e1453434a145245a88103ec854e5c52274afb"
+      "sha256": "e2da3cfc1bc7e775753a459919587cac3247794f1b3bb16fa3d04d783d392e2c"
     },
     "resource:writing-guidance": {
       "path": "skills/econ-writing/references/guidance.md",
@@ -791,7 +791,7 @@
     },
     "resource:writing-proposals": {
       "path": "skills/econ-writing/references/proposals.md",
-      "sha256": "a98ec3319e348e85641dc502ab302725b359a6d01a1538a573ba8a13da885aec"
+      "sha256": "e7a73e1fbe1dd0e9ef378e6d5e95d19c36eccef127342450f403b62255c8f4ef"
     },
     "resource:writing-revise": {
       "path": "skills/econ-writing/references/revise.md",

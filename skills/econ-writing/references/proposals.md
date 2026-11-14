@@ -39,7 +39,7 @@ A proposal to management (pricing, pay and evaluation, hiring, organization, inv
 
 ## B. Pre-analysis plan
 
-A plan that fixes the sample, specification, outcomes, inference and decision rule before the outcome data are seen (an experiment, a rollout, an evaluation of a policy change). Its content is a set of conditions: under rule 3 of [WRITING](../../../runtime/WRITING.md) each enters the text as a proposition of the plan ("The primary outcome is …", "Standard errors are clustered at …").
+A plan that fixes the sample, specification, outcomes, inference and decision rule before the outcome data are seen (an experiment, a rollout, an evaluation of a policy change). Its content is the plan itself (sample, outcomes, specification, inference, decision rule), stated as commitments; it states no assumptions, threats or justifications of the design ([WRITING](../../../runtime/WRITING.md) rule 3).
 
 ### B1. Fill the worksheet first
 
@@ -51,7 +51,7 @@ Sections 1 to 4 as usual. Before outcome data exist, sections 5 and 6 hold the p
 ### B2. Order of the document
 
 1. **Question and hypotheses.** The question (worksheet section 2) and the hypotheses as the predictions of the competing mechanisms (section 3), each with the sign or pattern that would support it.
-2. **Design.** Assignment or source of variation, the comparison group and the estimand (section 4); standard identifying conditions are named by the design, and only case-specific threats are written out; the method card for the chosen method ([which method](../../econ-design/references/causal-models.md#which-method)).
+2. **Design.** Assignment or source of variation, the comparison group and the estimand (section 4); the method card for the chosen method ([which method](../../econ-design/references/causal-models.md#which-method)).
 3. **Population and sample.** Eligibility, unit, period, sample size, exclusion rules written before the data, and the handling of attrition.
 4. **Outcomes.** The primary outcome with its definition and unit; secondary outcomes as a declared family.
 5. **Specification.** The headline specification and the ladder rungs ([empirical procedure](../../econ-data/references/empirical.md), steps E4 and E5), with covariates and fixed effects listed.

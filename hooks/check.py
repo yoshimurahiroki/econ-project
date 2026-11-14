@@ -29,8 +29,8 @@ POINTER = ('Economics research entry: follow AGENTS.md. Every request, without e
            'and solved as a complexity ladder (skills/econ-design/references/modeling.md); empirical work follows '
            'skills/econ-data/references/empirical.md. Text follows runtime/WRITING.md.')
 REVIEW = ('Before finishing, reread the answer once against runtime/WRITING.md: section 3 (direct claims, numerical '
-          'uncertainty only, no hedges, disclaimers, limitations, ornament or negation contrasts, and no standard '
-          'assumptions or textbook identifying conditions that a reader with core PhD training supplies) and, for Japanese, '
+          'uncertainty only, no hedges, disclaimers, limitations, ornament or negation contrasts, and no '
+          'assumptions, conditions, threats, diagnostics or justifications of the design) and, for Japanese, '
           'section 2 (connectives, endings, vocabulary and rhythm from the Japanese exemplars). Check that the answer '
           'carries the economist\'s four elements from the worksheet: actors and incentives, a model with the '
           'condition that determines the choice, its prediction or comparative static, and the decision with its '
@@ -42,8 +42,8 @@ REFEREE = ('Before the writing check, review the answer once as a referee would,
            'plausible against the baseline and prior estimates; what is the strongest alternative mechanism that fits '
            'the same result, and the main threat to identification. Write these objections and their answers (evidence, '
            'a check, or a switching condition) in the worksheet line "Objections and answers:", run any check that '
-           'an objection requires, and revise the answer and the decision where an objection holds; otherwise finish '
-           'without comment.')
+           'an objection requires, and change the claims or the decision where an objection holds. Objections and '
+           'answers stay in the worksheet and add no sentences to the answer; otherwise finish without comment.')
 WORKER_REVIEW = ('Before returning, check the return against runtime/ECONOMIST.md: it states the economic object it '
                  'serves, the model or method used with knowledge unit IDs, the actual commands run and saved files, '
                  'and the result the parent needs. Add what is missing; otherwise return without comment.')

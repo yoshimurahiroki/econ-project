@@ -75,20 +75,20 @@ Write each section from its plan lines and the checklist below; then read it aga
 
 **Institutional background and data.** The rule, timing, eligibility, information or incentive that changes choices or creates the comparison; who assigns, delivers and receives. Then source records, observation unit, measurement, sample, geography and period; the denominator of each rate; descriptive exhibits that show the population and the variation.
 
-**Identification and empirical method.** Write what a reader with core PhD training cannot supply: the setting's source of variation, the comparison, and the case-specific reason it identifies the estimand or could fail here; the textbook conditions of a standard design are omitted (WRITING rule 3). Define the estimand in its population before the estimator. Write the estimating equation, sample, weights and fixed effects, and show which coefficient or aggregation gives the estimand. Keep observation, assignment, analysis and inference units distinct. By design:
+**Identification and empirical method.** The source of variation, the comparison and the estimand in its population, then the estimating equation, sample, weights and fixed effects, and the coefficient or aggregation that gives the estimand; no assumptions, conditions or diagnostics (WRITING rule 3). Keep observation, assignment, analysis and inference units distinct. By design:
 
 | Design | What the section establishes |
 | --- | --- |
-| RCT or encouragement | assigned offer, assignment unit, eligibility; delivered treatment; assignment effect as primary; receipt effect through the first stage; inference matching the randomization |
-| DiD and event study | intervention, comparison group, why the comparison group's path stands in for the treated group's in this setting; group-time effects, anticipation, reference period, weights by horizon; leads with their joint test; the population each aggregate describes |
-| IV | instrument's institutional source, the choice it moves, first stage and reduced form, complier population; strength diagnostics with their null |
-| RD | running variable, cutoff, rule, local population; fuzzy jumps; density and covariate continuity; bandwidth, polynomial, kernel and inference |
-| Synthetic control | treated units, donor pool, fitting period, weights, pre-period fit in outcome units, placebo inference |
-| Shift-share | shares and their reference period, shocks, exposure; identifying variation and exposure-robust inference |
+| RCT or encouragement | assigned offer, assignment unit, eligibility; delivered treatment; assignment effect; receipt effect through the first stage |
+| DiD and event study | intervention, comparison group; group-time effects, reference period, aggregation; the population each aggregate describes |
+| IV | instrument's institutional source, the choice it moves, first stage and reduced form, complier population |
+| RD | running variable, cutoff, rule, local population; fuzzy jumps |
+| Synthetic control | treated units, donor pool, fitting period, weights |
+| Shift-share | shares and their reference period, shocks, exposure |
 | Bunching | choice, incentive change, threshold; excess mass and the counterfactual density; the elasticity under the optimization model |
-| Orthogonal scores, heterogeneity | target, score, cross-fitting; heterogeneity through direct group contrasts or calibration tests; policy value on held-out data |
+| Orthogonal scores, heterogeneity | target and score; heterogeneity through direct group contrasts; policy value on held-out data |
 
-**Theory, model and proof.** Actors, objectives, feasible choices, information, timing; the equilibrium concept. Each proposition: its economic content, formal statement with domain and quantifiers, and the decisive step with the assumption it uses, explained as the payoff, deviation or market response that makes it hold. Comparative statics through every affected choice, price and quantity, with changes in binding constraints. Welfare: objective, population, weights, transfers, costs and horizon, with the reference level named before the change.
+**Theory, model and proof.** Actors, objectives, feasible choices, information, timing; the equilibrium concept. Each proposition: its economic content, its formal statement, and the decisive step explained as the payoff, deviation or market response that makes it hold. Comparative statics through every affected choice, price and quantity, with changes in binding constraints. Welfare: objective, population, weights, transfers, costs and horizon, with the reference level named before the change.
 
 **Structural estimation and counterfactuals.** Why the question needs the model's choice and interaction structure; each parameter with the variation, moment or likelihood that informs it; estimated, calibrated and fixed quantities with sources; fit in the data's units. The chain: primitives θ → equilibrium F(y; θ, z) = 0 → observation equation → estimate θ̂ → counterfactual y(θ̂, z′) → welfare from the same θ̂ and each scenario's equilibrium. Elasticities, markups and costs through the demand derivatives, ownership and conduct.
 

@@ -53,12 +53,12 @@ delete sections and exhibits the paper does not use. -->
 [fill: agents, objectives, choice sets, information and equilibrium; the competing mechanisms and the prediction that separates them (worksheet 3)]
 
 ::: {#prp-main}
-[fill: prediction under the primitive restriction]
+[fill: prediction]
 :::
 
 # Empirical Strategy {#sec-strategy}
 
-[fill: estimand in the framework's terms, the identifying variation and the comparison group (worksheet 4); a condition only when it is nonstandard or its plausibility is specific to this setting]
+[fill: estimand in the framework's terms, the identifying variation and the comparison group (worksheet 4)]
 
 $$
 \text{[fill: estimating equation of the chosen method, as written on its method card]}

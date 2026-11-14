@@ -40,7 +40,7 @@ exhibit and a one-line reading; delete slides the talk does not use. -->
 # [fill: identifying comparison]
 
 - [fill: estimand, the variation that identifies it and the comparison group]
-- [fill: the method; a condition only when it is nonstandard or at issue in this setting]
+- [fill: the method]
 
 # [fill: main result]
 

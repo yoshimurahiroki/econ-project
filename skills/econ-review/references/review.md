@@ -25,7 +25,7 @@ Results (numbers with population, units, table):
 Interpretation and decision:
 ```
 
-A link the artifact does not supply is already a finding.
+A link the artifact does not supply is already a finding. Assumptions, conditions and diagnostics absent from the text are not findings ([WRITING](../../../runtime/WRITING.md) rule 3); they are checked in the worksheet and the saved results.
 
 ## R3. Checks by kind of claim
 
