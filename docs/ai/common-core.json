@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
   "source_repository": "github.com/yoshimurahiroki/econ-project-mini",
-  "source_base_commit": "66d063bfa2d071410d415f70eb260dca9f14b81f",
+  "source_base_commit": "578a50dad61a598e1aa5407bc212019a8a1e6434",
   "source_state": "committed",
-  "common_content_id": "af1670a28e974a1bbdffe115eb537ada7be31c8bfd04f9d1494c5d272338ab82",
+  "common_content_id": "0a011d49f51c7805c043ebf6126b00cc486d5d31b068b3e01436c45840f09a6e",
   "target_repository": "github.com/yoshimurahiroki/econ-project",
   "paths": [
     {
@@ -423,22 +423,6 @@
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
     {
-      "path": "profiles/academic-ja/paper-scm-plant-closure.md",
-      "state": "present",
-      "sha256": "511c286df08fbf3083fff1f44332e3aa9dcf70f6ab6284e925d05c5ffd7ca79b",
-      "git_blob": "2ccd1e150377d2844734c5f94f86b46968545d0d",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "profiles/academic-ja/slides-scm-plant-closure.md",
-      "state": "present",
-      "sha256": "2e1adf74d27bed1f9cd7ae5afb13a8ecd9492e85c4ba49384bc9fb3c0ae69858",
-      "git_blob": "e0468b5a53e26bccd332fd476f2666dfa45d0666",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
       "path": "profiles/default-micro/PROFILE.md",
       "state": "present",
       "sha256": "479d04321762db8d0c770fd4a45b5355c42720af38945fc77ae03ed2cc0bd159",
@@ -563,22 +547,6 @@
       "state": "present",
       "sha256": "9adaf6334278801c380c758828f02bd0e4f618310976eacdf5dc4eac735d120e",
       "git_blob": "95e2dd5fe134356b92ea28581a86a38bbb74c024",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "profiles/top-five-en/paper-plant-closures.md",
-      "state": "present",
-      "sha256": "dde3cc582bcd2ed39485886e393772f681b59c0cb68605a9f3d6b584dc91710b",
-      "git_blob": "83a129fddf373267507c8b99ec16f7cced31f3c5",
-      "mode": "100644",
-      "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
-    },
-    {
-      "path": "profiles/top-five-en/slides-plant-closures.md",
-      "state": "present",
-      "sha256": "a73a187ffac3a9d0ab33e046dc5df681491620a73c3f05a11db46c702733b378",
-      "git_blob": "f91b978d309a9108ffe982a7837da5afed32de85",
       "mode": "100644",
       "source_repository": "github.com/yoshimurahiroki/econ-project-mini"
     },
